@@ -11,7 +11,7 @@ import * as bo from "../../borep/bo/index";
 import { BORepositoryMaterials } from "../../borep/BORepositories";
 import { GoodsIssueEditApp } from "./GoodsIssueEditApp";
 
-/** 选择应用-库存交易-发货 */
+/** 选择应用-库存发货 */
 export class GoodsIssueChooseApp extends ibas.BOChooseService<IGoodsIssueChooseView, bo.GoodsIssue> {
 
     /** 应用标识 */
@@ -79,12 +79,12 @@ export class GoodsIssueChooseApp extends ibas.BOChooseService<IGoodsIssueChooseV
         app.run();
     }
 }
-/** 视图-库存交易-发货 */
+/** 视图-库存发货 */
 export interface IGoodsIssueChooseView extends ibas.IBOChooseView {
     /** 显示数据 */
     showData(datas: bo.GoodsIssue[]): void;
 }
-/** 库存交易-发货选择服务映射 */
+/** 库存发货选择服务映射 */
 export class GoodsIssueChooseServiceMapping extends ibas.BOChooseServiceMapping {
     /** 构造函数 */
     constructor() {

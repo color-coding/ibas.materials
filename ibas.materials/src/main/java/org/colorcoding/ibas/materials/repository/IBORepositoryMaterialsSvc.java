@@ -19,7 +19,7 @@ public interface IBORepositoryMaterialsSvc extends IBORepositorySmartService {
 
     //--------------------------------------------------------------------------------------------//
     /**
-     * 查询-库存交易-发货
+     * 查询-库存发货
      * @param criteria 查询
      * @param token 口令
      * @return 操作结果
@@ -27,7 +27,7 @@ public interface IBORepositoryMaterialsSvc extends IBORepositorySmartService {
     OperationResult<GoodsIssue> fetchGoodsIssue(ICriteria criteria, String token);
 
     /**
-     * 保存-库存交易-发货
+     * 保存-库存发货
      * @param bo 对象实例
      * @param token 口令
      * @return 操作结果

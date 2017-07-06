@@ -10,7 +10,7 @@ import * as ibas from "ibas/index";
 import * as bo from "../../borep/bo/index";
 import { BORepositoryMaterials } from "../../borep/BORepositories";
 
-/** 编辑应用-库存交易-发货 */
+/** 编辑应用-库存发货 */
 export class GoodsIssueEditApp extends ibas.BOEditApplication<IGoodsIssueEditView, bo.GoodsIssue> {
 
     /** 应用标识 */
@@ -168,13 +168,13 @@ export class GoodsIssueEditApp extends ibas.BOEditApplication<IGoodsIssueEditVie
             createData();
         }
     }
-    /** 添加库存交易-发货-行事件 */
+    /** 添加库存发货-行事件 */
     addGoodsIssueLine(): void {
         this.editData.goodsIssueLines.create();
         // 仅显示没有标记删除的
         this.view.showGoodsIssueLines(this.editData.goodsIssueLines.filterDeleted());
     }
-    /** 删除库存交易-发货-行事件 */
+    /** 删除库存发货-行事件 */
     removeGoodsIssueLine(items: bo.GoodsIssueLine[]): void {
         // 非数组，转为数组
         if (!(items instanceof Array)) {
@@ -200,7 +200,7 @@ export class GoodsIssueEditApp extends ibas.BOEditApplication<IGoodsIssueEditVie
     }
 
 }
-/** 视图-库存交易-发货 */
+/** 视图-库存发货 */
 export interface IGoodsIssueEditView extends ibas.IBOEditView {
     /** 显示数据 */
     showGoodsIssue(data: bo.GoodsIssue): void;
@@ -208,9 +208,9 @@ export interface IGoodsIssueEditView extends ibas.IBOEditView {
     deleteDataEvent: Function;
     /** 新建数据事件，参数1：是否克隆 */
     createDataEvent: Function;
-    /** 添加库存交易-发货-行事件 */
+    /** 添加库存发货-行事件 */
     addGoodsIssueLineEvent: Function;
-    /** 删除库存交易-发货-行事件 */
+    /** 删除库存发货-行事件 */
     removeGoodsIssueLineEvent: Function;
     /** 显示数据 */
     showGoodsIssueLines(datas: bo.GoodsIssueLine[]): void;

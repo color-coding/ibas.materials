@@ -12,7 +12,7 @@ import * as bo from "../../../borep/bo/index";
 import { IGoodsIssueViewView } from "../../../bsapp/goodsissue/index";
 
 /**
- * 查看视图-库存交易-发货
+ * 查看视图-库存发货
  */
 export class GoodsIssueViewView extends ibas.BOViewView implements IGoodsIssueViewView {
 

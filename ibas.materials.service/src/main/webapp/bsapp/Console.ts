@@ -7,13 +7,13 @@
  */
 
 import * as ibas from "ibas/index";
-import { GoodsIssueFunc, GoodsIssueChooseServiceMapping, GoodsIssueLinkServiceMapping } from "./goodsissue/index";
-import { GoodsReceiptFunc, GoodsReceiptChooseServiceMapping, GoodsReceiptLinkServiceMapping } from "./goodsreceipt/index";
-import { InventoryTransferFunc, InventoryTransferChooseServiceMapping, InventoryTransferLinkServiceMapping } from "./inventorytransfer/index";
+import { GoodsIssueFunc,} from "./goodsissue/index";
+import { GoodsReceiptFunc, } from "./goodsreceipt/index";
+import { InventoryTransferFunc, } from "./inventorytransfer/index";
+import { MaterialInventoryFunc, } from "./materialinventory/index";
+import { MaterialJournalFunc,  } from "./materialjournal/index";
 import { MaterialFunc, MaterialChooseServiceMapping, MaterialLinkServiceMapping } from "./material/index";
 import { MaterialGroupFunc, MaterialGroupChooseServiceMapping, MaterialGroupLinkServiceMapping } from "./materialgroup/index";
-import { MaterialInventoryFunc, MaterialInventoryChooseServiceMapping, MaterialInventoryLinkServiceMapping } from "./materialinventory/index";
-import { MaterialJournalFunc, MaterialJournalChooseServiceMapping, MaterialJournalLinkServiceMapping } from "./materialjournal/index";
 import { WarehouseFunc, WarehouseChooseServiceMapping, WarehouseLinkServiceMapping } from "./warehouse/index";
 
 /** 模块控制台 */
@@ -36,29 +36,19 @@ export class Console extends ibas.ModuleConsole {
     /** 初始化 */
     protected registers(): void {
         // 注册功能
+        this.register(new MaterialFunc());
+        this.register(new MaterialGroupFunc());
+        this.register(new WarehouseFunc());
         this.register(new GoodsIssueFunc());
         this.register(new GoodsReceiptFunc());
         this.register(new InventoryTransferFunc());
-        this.register(new MaterialFunc());
-        this.register(new MaterialGroupFunc());
         this.register(new MaterialInventoryFunc());
         this.register(new MaterialJournalFunc());
-        this.register(new WarehouseFunc());
         // 注册服务应用
-        this.register(new GoodsIssueChooseServiceMapping());
-        this.register(new GoodsIssueLinkServiceMapping());
-        this.register(new GoodsReceiptChooseServiceMapping());
-        this.register(new GoodsReceiptLinkServiceMapping());
-        this.register(new InventoryTransferChooseServiceMapping());
-        this.register(new InventoryTransferLinkServiceMapping());
         this.register(new MaterialChooseServiceMapping());
         this.register(new MaterialLinkServiceMapping());
         this.register(new MaterialGroupChooseServiceMapping());
         this.register(new MaterialGroupLinkServiceMapping());
-        this.register(new MaterialInventoryChooseServiceMapping());
-        this.register(new MaterialInventoryLinkServiceMapping());
-        this.register(new MaterialJournalChooseServiceMapping());
-        this.register(new MaterialJournalLinkServiceMapping());
         this.register(new WarehouseChooseServiceMapping());
         this.register(new WarehouseLinkServiceMapping());
         // 注册常驻应用

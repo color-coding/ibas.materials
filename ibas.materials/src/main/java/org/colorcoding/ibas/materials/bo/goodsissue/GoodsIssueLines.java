@@ -7,7 +7,7 @@ import org.colorcoding.ibas.bobas.bo.*;
 import org.colorcoding.ibas.materials.MyConsts;
 
 /**
-* 库存交易-发货-行 集合
+* 库存发货-行 集合
 */
 @XmlType(name = GoodsIssueLines.BUSINESS_OBJECT_NAME, namespace = MyConsts.NAMESPACE_BO)
 @XmlSeeAlso({ GoodsIssueLine.class })
@@ -46,9 +46,9 @@ public class GoodsIssueLines extends BusinessObjects<IGoodsIssueLine, IGoodsIssu
     }
 
     /**
-    * 创建库存交易-发货-行
+    * 创建库存发货-行
     * 
-    * @return 库存交易-发货-行
+    * @return 库存发货-行
     */
     public IGoodsIssueLine create() {
         IGoodsIssueLine item = new GoodsIssueLine();

@@ -22,7 +22,7 @@ import org.colorcoding.ibas.materials.MyConfiguration;
 import org.colorcoding.ibas.materials.MyConsts;
 
 /**
- * 获取-库存交易-发货
+ * 获取-库存发货
  * 
  */
 @XmlAccessorType(XmlAccessType.NONE)
@@ -1205,19 +1205,19 @@ public class GoodsIssue extends BusinessObject<GoodsIssue> implements IGoodsIssu
 	}
 
 	/**
-	 * 属性名称-库存交易-发货-行
+	 * 属性名称-库存发货-行
 	 */
 	private static final String PROPERTY_GOODSISSUELINES_NAME = "GoodsIssueLines";
 
 	/**
-	 * 库存交易-发货-行的集合属性
+	 * 库存发货-行的集合属性
 	 * 
 	 */
 	public static final IPropertyInfo<IGoodsIssueLines> PROPERTY_GOODSISSUELINES = registerProperty(
 			PROPERTY_GOODSISSUELINES_NAME, IGoodsIssueLines.class, MY_CLASS);
 
 	/**
-	 * 获取-库存交易-发货-行集合
+	 * 获取-库存发货-行集合
 	 * 
 	 * @return 值
 	 */
@@ -1228,7 +1228,7 @@ public class GoodsIssue extends BusinessObject<GoodsIssue> implements IGoodsIssu
 	}
 
 	/**
-	 * 设置-库存交易-发货-行集合
+	 * 设置-库存发货-行集合
 	 * 
 	 * @param value
 	 *            值

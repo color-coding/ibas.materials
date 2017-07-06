@@ -29,7 +29,7 @@ import {
     emItemType,
 } from "../../api/index";
 
-/** 库存交易-发货 */
+/** 库存发货 */
 export class GoodsIssue extends BODocument<GoodsIssue> implements IGoodsIssue {
 
     /** 业务对象编码 */
@@ -413,13 +413,13 @@ export class GoodsIssue extends BODocument<GoodsIssue> implements IGoodsIssue {
     }
 
 
-    /** 映射的属性名称-库存交易-发货-行集合 */
+    /** 映射的属性名称-库存发货-行集合 */
     static PROPERTY_GOODSISSUELINES_NAME: string = "GoodsIssueLines";
-    /** 获取-库存交易-发货-行集合 */
+    /** 获取-库存发货-行集合 */
     get goodsIssueLines(): GoodsIssueLines {
         return this.getProperty<GoodsIssueLines>(GoodsIssue.PROPERTY_GOODSISSUELINES_NAME);
     }
-    /** 设置-库存交易-发货-行集合 */
+    /** 设置-库存发货-行集合 */
     set goodsIssueLines(value: GoodsIssueLines) {
         this.setProperty(GoodsIssue.PROPERTY_GOODSISSUELINES_NAME, value);
     }
@@ -432,7 +432,7 @@ export class GoodsIssue extends BODocument<GoodsIssue> implements IGoodsIssue {
     }
 }
 
-/** 库存交易-发货-行 集合 */
+/** 库存发货-行 集合 */
 export class GoodsIssueLines extends BusinessObjects<GoodsIssueLine, GoodsIssue> implements IGoodsIssueLines {
 
     /** 创建并添加子项 */
@@ -443,7 +443,7 @@ export class GoodsIssueLines extends BusinessObjects<GoodsIssueLine, GoodsIssue>
     }
 }
 
-/** 库存交易-发货-行 */
+/** 库存发货-行 */
 export class GoodsIssueLine extends BODocumentLine<GoodsIssueLine> implements IGoodsIssueLine {
 
     /** 构造函数 */

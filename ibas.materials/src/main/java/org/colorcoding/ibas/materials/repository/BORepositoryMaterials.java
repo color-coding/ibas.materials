@@ -20,7 +20,7 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication implem
 
     //--------------------------------------------------------------------------------------------//
     /**
-     * 查询-库存交易-发货
+     * 查询-库存发货
      * @param criteria 查询
      * @param token 口令
      * @return 操作结果
@@ -30,7 +30,7 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication implem
     }
 
     /**
-     * 查询-库存交易-发货（提前设置用户口令）
+     * 查询-库存发货（提前设置用户口令）
      * @param criteria 查询
      * @return 操作结果
      */
@@ -39,7 +39,7 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication implem
     }
 
     /**
-     * 保存-库存交易-发货
+     * 保存-库存发货
      * @param bo 对象实例
      * @param token 口令
      * @return 操作结果
@@ -49,7 +49,7 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication implem
     }
 
     /**
-     * 保存-库存交易-发货（提前设置用户口令）
+     * 保存-库存发货（提前设置用户口令）
      * @param bo 对象实例
      * @return 操作结果
      */

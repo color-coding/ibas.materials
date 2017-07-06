@@ -19,7 +19,7 @@ import org.colorcoding.ibas.materials.MyConsts;
 import org.colorcoding.ibas.materials.data.emItemType;
 
 /**
- * 获取-库存交易-发货-行
+ * 获取-库存发货-行
  * 
  */
 @XmlAccessorType(XmlAccessType.NONE)

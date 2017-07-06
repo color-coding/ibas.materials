@@ -16,12 +16,12 @@ import * as bo from "./bo/index"
 export interface IBORepositoryMaterials {
 
     /**
-     * 查询 库存交易-发货
+     * 查询 库存发货
      * @param fetcher 查询者
      */
     fetchGoodsIssue(fetcher: FetchCaller<bo.IGoodsIssue>);
     /**
-     * 保存 库存交易-发货
+     * 保存 库存发货
      * @param saver 保存者
      */
     saveGoodsIssue(saver: SaveCaller<bo.IGoodsIssue>);

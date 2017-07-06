@@ -12,16 +12,16 @@ import * as bo from "../../../borep/bo/index";
 import { IGoodsIssueEditView } from "../../../bsapp/goodsissue/index";
 
 /**
- * 编辑视图-库存交易-发货
+ * 编辑视图-库存发货
  */
 export class GoodsIssueEditView extends ibas.BOEditView implements IGoodsIssueEditView {
     /** 删除数据事件 */
     deleteDataEvent: Function;
     /** 新建数据事件，参数1：是否克隆 */
     createDataEvent: Function;
-    /** 添加库存交易-发货-行事件 */
+    /** 添加库存发货-行事件 */
     addGoodsIssueLineEvent: Function;
-    /** 删除库存交易-发货-行事件 */
+    /** 删除库存发货-行事件 */
     removeGoodsIssueLineEvent: Function;
 
     /** 绘制视图 */

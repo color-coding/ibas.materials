@@ -12,7 +12,7 @@ import {
 
 /** 业务仓库名称 */
 export const BO_REPOSITORY_MATERIALS: string = "BORepositoryMaterials";
-/** 业务对象编码-库存交易-发货 */
+/** 业务对象编码-库存发货 */
 export const BO_CODE_GOODSISSUE: string = "${Company}_MM_GOODSISSUE";
 /** 业务对象编码-库存收货 */
 export const BO_CODE_GOODSRECEIPT: string = "${Company}_MM_GOODSRECEIPT";

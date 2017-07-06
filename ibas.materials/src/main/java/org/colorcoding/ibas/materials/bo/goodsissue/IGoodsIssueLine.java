@@ -5,7 +5,7 @@ import org.colorcoding.ibas.bobas.data.*;
 import org.colorcoding.ibas.materials.data.*;
 
 /**
-* 库存交易-发货-行 接口
+* 库存发货-行 接口
 * 
 */
 public interface IGoodsIssueLine extends IBODocumentLine {

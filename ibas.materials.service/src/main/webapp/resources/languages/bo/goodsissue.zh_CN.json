@@ -1,5 +1,5 @@
 {
-  "bo_goodsissue": "库存交易-发货",
+  "bo_goodsissue": "库存发货",
   "bo_goodsissue_docentry": "凭证编号",
   "bo_goodsissue_docnum": "期间编号",
   "bo_goodsissue_period": "期间",
@@ -34,8 +34,8 @@
   "bo_goodsissue_documenttotal": "单据总计",
   "bo_goodsissue_pricelist": "价格清单",
   "bo_goodsissue_project": "项目代码",
-  "bo_goodsissue_goodsissuelines": "库存交易-发货-行集合",
-  "bo_goodsissueline": "库存交易-发货-行",
+  "bo_goodsissue_goodsissuelines": "库存发货-行集合",
+  "bo_goodsissueline": "库存发货-行",
   "bo_goodsissueline_docentry": "编码",
   "bo_goodsissueline_lineid": "行号",
   "bo_goodsissueline_visorder": "显示顺序",

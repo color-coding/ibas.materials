@@ -24,7 +24,7 @@ import {
     emItemType,
 } from "../Datas";
 
-/** 库存交易-发货 */
+/** 库存发货 */
 export interface IGoodsIssue extends IBODocument {
 
     /** 凭证编号 */
@@ -130,20 +130,20 @@ export interface IGoodsIssue extends IBODocument {
     project: string;
 
 
-    /** 库存交易-发货-行集合 */
+    /** 库存发货-行集合 */
     goodsIssueLines: IGoodsIssueLines;
 
 
 }
 
-/** 库存交易-发货-行 集合 */
+/** 库存发货-行 集合 */
 export interface IGoodsIssueLines extends IBusinessObjects<IGoodsIssueLine, IGoodsIssue> {
 
     /** 创建并添加子项 */
     create(): IGoodsIssueLine;
 }
 
-/** 库存交易-发货-行 */
+/** 库存发货-行 */
 export interface IGoodsIssueLine extends IBODocumentLine {
 
     /** 编码 */

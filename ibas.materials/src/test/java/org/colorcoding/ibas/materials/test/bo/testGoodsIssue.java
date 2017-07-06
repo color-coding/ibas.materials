@@ -9,7 +9,7 @@ import org.colorcoding.ibas.materials.bo.goodsissue.*;
 import org.colorcoding.ibas.materials.repository.*;
 
 /**
-* 库存交易-发货 测试
+* 库存发货 测试
 * 
 */
 public class testGoodsIssue extends TestCase {
@@ -28,7 +28,7 @@ public class testGoodsIssue extends TestCase {
         GoodsIssue bo = new GoodsIssue();
         // 测试属性赋值
 
-        // 测试库存交易-发货-行
+        // 测试库存发货-行
         IGoodsIssueLine goodsissueline = bo.getGoodsIssueLines().create();
         // 测试属性赋值
         

@@ -11,7 +11,7 @@ import * as bo from "../../borep/bo/index";
 import { BORepositoryMaterials } from "../../borep/BORepositories";
 import { GoodsIssueEditApp } from "./GoodsIssueEditApp";
 
-/** 查看应用-库存交易-发货 */
+/** 查看应用-库存发货 */
 export class GoodsIssueViewApp extends ibas.BOViewService<IGoodsIssueViewView> {
 
     /** 应用标识 */
@@ -86,11 +86,11 @@ export class GoodsIssueViewApp extends ibas.BOViewService<IGoodsIssueViewView> {
         return [];
     }
 }
-/** 视图-库存交易-发货 */
+/** 视图-库存发货 */
 export interface IGoodsIssueViewView extends ibas.IBOViewView {
 
 }
-/** 库存交易-发货连接服务映射 */
+/** 库存发货连接服务映射 */
 export class GoodsIssueLinkServiceMapping extends ibas.BOLinkServiceMapping {
     /** 构造函数 */
     constructor() {

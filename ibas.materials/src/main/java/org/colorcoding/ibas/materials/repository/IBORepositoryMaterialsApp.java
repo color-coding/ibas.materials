@@ -18,14 +18,14 @@ public interface IBORepositoryMaterialsApp extends IBORepositoryApplication {
 
     //--------------------------------------------------------------------------------------------//
     /**
-     * 查询-库存交易-发货
+     * 查询-库存发货
      * @param criteria 查询
      * @return 操作结果
      */
     IOperationResult<IGoodsIssue> fetchGoodsIssue(ICriteria criteria);
 
     /**
-     * 保存-库存交易-发货
+     * 保存-库存发货
      * @param bo 对象实例
      * @return 操作结果
      */

@@ -13,7 +13,7 @@ import { DataConverter4mm } from "../../borep/DataConverters";
 import { GoodsIssueViewApp } from "./GoodsIssueViewApp";
 import { GoodsIssueEditApp } from "./GoodsIssueEditApp";
 
-/** 列表应用-库存交易-发货 */
+/** 列表应用-库存发货 */
 export class GoodsIssueListApp extends ibas.BOListApplication<IGoodsIssueListView, bo.GoodsIssue> {
 
     /** 应用标识 */
@@ -177,7 +177,7 @@ export class GoodsIssueListApp extends ibas.BOListApplication<IGoodsIssueListVie
         ];
     }
 }
-/** 视图-库存交易-发货 */
+/** 视图-库存发货 */
 export interface IGoodsIssueListView extends ibas.IBOListView {
     /** 编辑数据事件，参数：编辑对象 */
     editDataEvent: Function;

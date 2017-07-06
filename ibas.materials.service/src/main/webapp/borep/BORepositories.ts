@@ -20,14 +20,14 @@ export class BORepositoryMaterials extends ibas.BORepositoryApplication implemen
     }
 
     /**
-     * 查询 库存交易-发货
+     * 查询 库存发货
      * @param fetcher 查询者
      */
     fetchGoodsIssue(fetcher: ibas.FetchCaller<bo.GoodsIssue>): void {
         super.fetch(bo.GoodsIssue.name, fetcher);
     }
     /**
-     * 保存 库存交易-发货
+     * 保存 库存发货
      * @param saver 保存者
      */
     saveGoodsIssue(saver: ibas.SaveCaller<bo.GoodsIssue>): void {
