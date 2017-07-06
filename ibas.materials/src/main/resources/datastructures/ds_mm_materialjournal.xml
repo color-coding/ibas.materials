@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<Domain Name="Materials" ShortName="MM">
+  <Model Name="MaterialJournal" Description="仓库日记账" ModelType="Simple" Mapped="${Company}_MM_OINM">
+    <Property Name="ItemCode" Description="物料编码" DataType="Alphanumeric" DataSubType="Default" EditSize="30" Mapped="ItemCode"/>
+    <Property Name="ItemName" Description="物料名称" DataType="Alphanumeric" DataSubType="Default" EditSize="100" Mapped="ItemName"/>
+    <Property Name="Warehouse" Description="仓库编号" DataType="Alphanumeric" DataSubType="Default" EditSize="8" Mapped="WhsCode"/>
+    <Property Name="BaseType" Description="基础单据类型" DataType="Alphanumeric" DataSubType="Default" EditSize="30" Mapped="BaseType" UniqueKey="Yes"/>
+    <Property Name="BaseEntry" Description="基础单据号" DataType="Numeric" DataSubType="Default" EditSize="8" Mapped="BaseEntry" UniqueKey="Yes"/>
+    <Property Name="BaseLinNum" Description="基础单据行" DataType="Numeric" DataSubType="Default" EditSize="8" Mapped="BaseLinNum" UniqueKey="Yes"/>
+    <Property Name="Direction" Description="方向" DataType="Alphanumeric" DataSubType="Default" EditSize="1" DeclaredType="emDirection" Mapped="Direction" UniqueKey="Yes"/>
+    <Property Name="Quantity" Description="数量" DataType="Decimal" DataSubType="Quantity" EditSize="8" Mapped="Quantity"/>
+    <Property Name="Price" Description="价格" DataType="Decimal" DataSubType="Price" EditSize="8" Mapped="Price"/>
+    <Property Name="Currency" Description="币种" DataType="Alphanumeric" DataSubType="Default" EditSize="8" Mapped="Currency"/>
+    <Property Name="Rate" Description="汇率" DataType="Decimal" DataSubType="Rate" EditSize="8" Mapped="Rate"/>
+    <Property Name="PostingDate" Description="过账日期" DataType="Date" DataSubType="Default" EditSize="8" Mapped="DocDate"/>
+    <Property Name="DeliveryDate" Description="到期日" DataType="Date" DataSubType="Default" EditSize="8" Mapped="DueDate"/>
+    <Property Name="DocumentDate" Description="凭证日期" DataType="Date" DataSubType="Default" EditSize="8" Mapped="TaxDate"/>
+    <Property Name="ObjectKey" Description="对象编号" DataType="Numeric" DataSubType="Default" EditSize="8" Mapped="ObjectKey" PrimaryKey="Yes"/>
+    <Property Name="ObjectCode" Description="对象类型" DataType="Alphanumeric" DataSubType="Default" EditSize="30" Mapped="ObjectCode"/>
+    <Property Name="CreateDate" Description="创建日期" DataType="Date" DataSubType="Default" EditSize="8" Mapped="CreateDate"/>
+    <Property Name="CreateTime" Description="创建时间" DataType="Date" DataSubType="Time" EditSize="8" Mapped="CreateTime"/>
+    <Property Name="UpdateDate" Description="修改日期" DataType="Date" DataSubType="Default" EditSize="8" Mapped="UpdateDate"/>
+    <Property Name="UpdateTime" Description="修改时间" DataType="Date" DataSubType="Time" EditSize="8" Mapped="UpdateTime"/>
+    <Property Name="LogInst" Description="版本" DataType="Numeric" DataSubType="Default" EditSize="8" Mapped="LogInst"/>
+    <Property Name="Series" Description="服务系列" DataType="Numeric" DataSubType="Default" EditSize="8" Mapped="Series"/>
+    <Property Name="DataSource" Description="数据源" DataType="Alphanumeric" DataSubType="Default" EditSize="8" Mapped="DataSource"/>
+    <Property Name="CreateUserSign" Description="创建用户" DataType="Numeric" DataSubType="Default" EditSize="8" Mapped="Creator"/>
+    <Property Name="UpdateUserSign" Description="修改用户" DataType="Numeric" DataSubType="Default" EditSize="8" Mapped="Updator"/>
+    <Property Name="CreateActionId" Description="创建动作标识" DataType="Alphanumeric" DataSubType="Default" EditSize="36" Mapped="CreateActId"/>
+    <Property Name="UpdateActionId" Description="更新动作标识" DataType="Alphanumeric" DataSubType="Default" EditSize="36" Mapped="UpdateActId"/>
+  </Model>
+  <BusinessObject MappedModel="MaterialJournal" ShortName="${Company}_MM_MATERIALJOURNAL"/>
+</Domain>

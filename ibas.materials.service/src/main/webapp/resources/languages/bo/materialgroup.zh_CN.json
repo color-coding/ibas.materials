@@ -1,0 +1,22 @@
+{
+  "bo_materialgroup": "物料组",
+  "bo_materialgroup_code": "编号",
+  "bo_materialgroup_name": "名称",
+  "bo_materialgroup_activated": "激活",
+  "bo_materialgroup_docentry": "对象编号",
+  "bo_materialgroup_objectcode": "对象类型",
+  "bo_materialgroup_createdate": "创建日期",
+  "bo_materialgroup_createtime": "创建时间",
+  "bo_materialgroup_updatedate": "修改日期",
+  "bo_materialgroup_updatetime": "修改时间",
+  "bo_materialgroup_loginst": "版本",
+  "bo_materialgroup_series": "服务系列",
+  "bo_materialgroup_datasource": "数据源",
+  "bo_materialgroup_createusersign": "创建用户",
+  "bo_materialgroup_updateusersign": "修改用户",
+  "bo_materialgroup_createactionid": "创建动作标识",
+  "bo_materialgroup_updateactionid": "更新动作标识",
+  "bo_materialgroup_dataowner": "数据所有者",
+  "bo_materialgroup_organization": "数据所属组织",
+  "bo_materialgroup_closing_delimiter": "----结束----"
+}

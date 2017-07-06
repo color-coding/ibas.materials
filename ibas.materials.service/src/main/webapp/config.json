@@ -1,0 +1,18 @@
+{
+  "appSettings": {
+    "debug": true,
+    "language": "zh_CN",
+    "offline": false,
+    "offline|BORepositoryShell": true,
+    "disablePlatformView": false,
+    "defaultUser": "admin",
+    "defaultPassword": "1q2w3e",
+    "repositoryAddress|BORepositoryShell": "http://localhost:8080/initialfantasy/services/rest/data",
+    "repositoryAddress|BORepositoryShellOffline": ".../test/repository",
+    "repositoryAddress|BORepositoryMaterialsOffline": ".../test/repository"
+  },
+  "languages": [
+    "zh_CN",
+    "en_US"
+  ]
+}

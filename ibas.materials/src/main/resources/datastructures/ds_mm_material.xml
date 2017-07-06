@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<Domain Name="Materials" ShortName="MM">
+  <Model Name="Material" Description="物料" ModelType="MasterData" Mapped="${Company}_MM_OITM">
+    <Property Name="Code" Description="编号" DataType="Alphanumeric" DataSubType="Default" EditSize="20" Mapped="Code" PrimaryKey="Yes" UniqueKey="Yes"/>
+    <Property Name="Name" Description="名称" DataType="Alphanumeric" DataSubType="Default" EditSize="100" Mapped="Name"/>
+    <Property Name="ForeignName" Description="外文名称" DataType="Alphanumeric" DataSubType="Default" EditSize="200" Mapped="FrgnName"/>
+    <Property Name="Group" Description="物料组" DataType="Alphanumeric" DataSubType="Default" EditSize="8" Mapped="Group"/>
+    <Property Name="BarCode" Description="条形码" DataType="Alphanumeric" DataSubType="Default" EditSize="15" Mapped="BarCode"/>
+    <Property Name="ItemType" Description="物料类型" DataType="Alphanumeric" DataSubType="Default" EditSize="1" DeclaredType="emItemType" Mapped="ItemType"/>
+    <Property Name="PurchaseItem" Description="采购物料" DataType="Alphanumeric" DataSubType="Default" EditSize="1" DeclaredType="emYesNo" Mapped="PrchseItem"/>
+    <Property Name="SalesItem" Description="销售物料" DataType="Alphanumeric" DataSubType="Default" EditSize="1" DeclaredType="emYesNo" Mapped="SalesItem"/>
+    <Property Name="InventoryItem" Description="库存物料" DataType="Alphanumeric" DataSubType="Default" EditSize="1" DeclaredType="emYesNo" Mapped="InvntItem"/>
+    <Property Name="PhantomItem" Description="虚拟物料" DataType="Alphanumeric" DataSubType="Default" EditSize="1" DeclaredType="emYesNo" Mapped="PhantomItem"/>
+    <Property Name="FixedAssets" Description="固定资产" DataType="Alphanumeric" DataSubType="Default" EditSize="1" DeclaredType="emYesNo" Mapped="AssetItem"/>
+    <Property Name="DefaultWarehouse" Description="缺省仓库" DataType="Alphanumeric" DataSubType="Default" EditSize="8" Mapped="DfltWhs"/>
+    <Property Name="PreferredVendor" Description="首选供应商" DataType="Alphanumeric" DataSubType="Default" EditSize="20" Mapped="Vendor"/>
+    <Property Name="InventoryUOM" Description="库存单位" DataType="Alphanumeric" DataSubType="Default" EditSize="8" Mapped="InvntUom"/>
+    <Property Name="AvgPrice" Description="价格" DataType="Decimal" DataSubType="Quantity" EditSize="8" Mapped="AvgPrice"/>
+    <Property Name="OnHand" Description="库存" DataType="Decimal" DataSubType="Quantity" EditSize="8" Mapped="OnHand"/>
+    <Property Name="OnCommited" Description="已承诺" DataType="Decimal" DataSubType="Quantity" EditSize="8" Mapped="OnCommited"/>
+    <Property Name="OnOrdered" Description="已订购" DataType="Decimal" DataSubType="Quantity" EditSize="8" Mapped="OnOrdered"/>
+    <Property Name="MinimumInventory" Description="最低库存量" DataType="Decimal" DataSubType="Quantity" EditSize="8" Mapped="MinInvnt"/>
+    <Property Name="SerialManagement" Description="序号管理" DataType="Alphanumeric" DataSubType="Default" EditSize="1" DeclaredType="emYesNo" Mapped="SerialMgment"/>
+    <Property Name="BatchManagement" Description="批号管理" DataType="Alphanumeric" DataSubType="Default" EditSize="1" DeclaredType="emYesNo" Mapped="BatchMgment"/>
+    <Property Name="ValidDate" Description="生效日期" DataType="Date" DataSubType="Default" EditSize="8" Mapped="ValidDate"/>
+    <Property Name="InvalidDate" Description="失效日期" DataType="Date" DataSubType="Default" EditSize="8" Mapped="InvalidDate"/>
+    <Property Name="Picture" Description="图片" DataType="Alphanumeric" DataSubType="Default" EditSize="250" Mapped="Picture"/>
+    <Property Name="Remarks" Description="备注" DataType="Memo" DataSubType="Default" EditSize="8" Mapped="Remarks"/>
+    <Property Name="Referenced" Description="已引用" DataType="Alphanumeric" DataSubType="Default" EditSize="1" DeclaredType="emYesNo" Mapped="Refed"/>
+    <Property Name="Deleted" Description="已删除" DataType="Alphanumeric" DataSubType="Default" EditSize="1" DeclaredType="emYesNo" Mapped="Deleted"/>
+    <Property Name="DocEntry" Description="对象编号" DataType="Numeric" DataSubType="Default" EditSize="8" Mapped="DocEntry" PrimaryKey="Yes"/>
+    <Property Name="ObjectCode" Description="对象类型" DataType="Alphanumeric" DataSubType="Default" EditSize="30" Mapped="ObjectCode"/>
+    <Property Name="CreateDate" Description="创建日期" DataType="Date" DataSubType="Default" EditSize="8" Mapped="CreateDate"/>
+    <Property Name="CreateTime" Description="创建时间" DataType="Date" DataSubType="Time" EditSize="8" Mapped="CreateTime"/>
+    <Property Name="UpdateDate" Description="修改日期" DataType="Date" DataSubType="Default" EditSize="8" Mapped="UpdateDate"/>
+    <Property Name="UpdateTime" Description="修改时间" DataType="Date" DataSubType="Time" EditSize="8" Mapped="UpdateTime"/>
+    <Property Name="LogInst" Description="版本" DataType="Numeric" DataSubType="Default" EditSize="8" Mapped="LogInst"/>
+    <Property Name="Series" Description="服务系列" DataType="Numeric" DataSubType="Default" EditSize="8" Mapped="Series"/>
+    <Property Name="DataSource" Description="数据源" DataType="Alphanumeric" DataSubType="Default" EditSize="8" Mapped="DataSource"/>
+    <Property Name="CreateUserSign" Description="创建用户" DataType="Numeric" DataSubType="Default" EditSize="8" Mapped="Creator"/>
+    <Property Name="UpdateUserSign" Description="修改用户" DataType="Numeric" DataSubType="Default" EditSize="8" Mapped="Updator"/>
+    <Property Name="CreateActionId" Description="创建动作标识" DataType="Alphanumeric" DataSubType="Default" EditSize="36" Mapped="CreateActId"/>
+    <Property Name="UpdateActionId" Description="更新动作标识" DataType="Alphanumeric" DataSubType="Default" EditSize="36" Mapped="UpdateActId"/>
+    <Property Name="ApprovalStatus" Description="审批状态" DataType="Alphanumeric" DataSubType="Default" EditSize="1" DeclaredType="emApprovalStatus" Mapped="ApvlStatus"/>
+    <Property Name="DataOwner" Description="数据所有者" DataType="Numeric" DataSubType="Default" EditSize="8" Mapped="DataOwner"/>
+    <Property Name="Organization" Description="数据所属组织" DataType="Alphanumeric" DataSubType="Default" EditSize="8" Mapped="OrgCode"/>
+  </Model>
+  <BusinessObject MappedModel="Material" ShortName="${Company}_MM_MATERIAL"/>
+</Domain>
