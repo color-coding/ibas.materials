@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-
+<!DOCTYPE Domain>
 <Domain Name="Materials" ShortName="MM">
   <Model Name="Material" Description="物料" ModelType="MasterData" Mapped="${Company}_MM_OITM">
     <Property Name="Code" Description="编号" DataType="Alphanumeric" DataSubType="Default" EditSize="20" Mapped="Code" PrimaryKey="Yes" UniqueKey="Yes"/>

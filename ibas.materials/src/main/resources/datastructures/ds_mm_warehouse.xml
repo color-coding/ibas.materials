@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-
+<!DOCTYPE Domain>
 <Domain Name="Materials" ShortName="MM">
   <Model Name="Warehouse" Description="仓库" ModelType="MasterData" Mapped="${Company}_MM_OWHS">
     <Property Name="Code" Description="编号" DataType="Alphanumeric" DataSubType="Default" EditSize="8" Mapped="Code" PrimaryKey="Yes" UniqueKey="Yes"/>

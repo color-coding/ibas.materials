@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-
+<!DOCTYPE Domain>
 <Domain Name="Materials" ShortName="MM">
   <Model Name="InventoryTransfer" Description="库存转储" ModelType="Document" Mapped="${Company}_MM_OWTR">
     <Property Name="DocEntry" Description="凭证编号" DataType="Numeric" DataSubType="Default" EditSize="8" Mapped="DocEntry" PrimaryKey="Yes"/>
