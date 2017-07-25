@@ -29,6 +29,10 @@ export const BO_CODE_MATERIALJOURNAL: string = "${Company}_MM_MATERIALJOURNAL";
 /** 业务对象编码-仓库 */
 export const BO_CODE_WAREHOUSE: string = "${Company}_MM_WAREHOUSE";
 
+/** 物料类型 */
 export enum emItemType {
-    
+    /** 物料 */
+    ITEM,
+    /** 服务 */
+    SERVICES,
 }

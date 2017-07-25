@@ -9,4 +9,14 @@ import org.colorcoding.ibas.bobas.mapping.Value;
  *
  */
 public enum emItemType {
+	/**
+	 * 物料
+	 */
+	@Value("I")
+	ITEM,
+	/**
+	 * 服务
+	 */
+	@Value("S")
+	SERVICES,
 }
