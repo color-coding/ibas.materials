@@ -20,7 +20,93 @@ export class WarehouseViewView extends ibas.BOViewView implements IWarehouseView
     darw(): any {
         let that: this = this;
         this.form = new sap.ui.layout.form.SimpleForm("", {
+            editable: true,
+            layout: sap.ui.layout.form.SimpleFormLayout.ResponsiveGridLayout,
+            singleContainerFullSize: false,
+            adjustLabelSpan: false,
+            labelSpanL: 2,
+            labelSpanM: 2,
+            labelSpanS: 12,
+            columnsXL: 2,
+            columnsL: 2,
+            columnsM: 1,
+            columnsS: 1,
             content: [
+                new sap.ui.core.Title("", { text: ibas.i18n.prop("materials_base_information") }),
+                new sap.m.Label("", { text: ibas.i18n.prop("bo_warehouse_code") }),
+                new sap.m.Text("", {
+                }).bindProperty("text", {
+                    path: "/code"
+                }),
+                new sap.m.Label("", { text: ibas.i18n.prop("bo_warehouse_name") }),
+                new sap.m.Text("", {
+                }).bindProperty("text", {
+                    path: "/name"
+                }),
+                new sap.m.Label("", { text: ibas.i18n.prop("bo_warehouse_createdate") }),
+                new sap.m.Text("", {
+                }).bindProperty("text", {
+                    path: "/createDate",
+                    type: 'sap.ui.model.type.Date',
+                    formatOptions: {
+                        style: 'medium'
+                    }
+                }),
+                new sap.m.Label("", { text: ibas.i18n.prop("bo_warehouse_createusersign") }),
+                new sap.m.Text("", {
+                }).bindProperty("text", {
+                    path: "/createUserSign"
+                }),
+                new sap.m.Label("", { text: ibas.i18n.prop("bo_warehouse_updatedate") }),
+                new sap.m.Text("", {
+                }).bindProperty("text", {
+                    path: "/updateDate",
+                    type: 'sap.ui.model.type.Date',
+                    formatOptions: {
+                        style: 'medium'
+                    }
+                }),
+                new sap.m.Label("", { text: ibas.i18n.prop("bo_warehouse_updateusersign") }),
+                new sap.m.Text("", {
+                }).bindProperty("text", {
+                    path: "/updateUserSign"
+                }),
+
+                new sap.ui.core.Title("", { text: ibas.i18n.prop("materials_sys_information") }),
+                new sap.m.Label("", { text: ibas.i18n.prop("bo_warehouse_activated") }),
+                new sap.m.Text("", {
+                }).bindProperty("text", {
+                    path: "/activated",
+                    formatter(data: any): any{
+                        return ibas.enums.describe(ibas.emYesNo,data);
+                    }
+                }),
+                new sap.m.Label("", { text: ibas.i18n.prop("bo_warehouse_loginst") }),
+                new sap.m.Text("", {
+                }).bindProperty("text", {
+                    path: "/logInst"
+                }),
+                new sap.m.Label("", { text: ibas.i18n.prop("bo_warehouse_datasource") }),
+                new sap.m.Text("", {
+                }).bindProperty("text", {
+                    path: "/dataSource"
+                }),
+                new sap.m.Label("", { text: ibas.i18n.prop("bo_warehouse_series") }),
+                new sap.m.Text("", {
+                }).bindProperty("text", {
+                    path: "/series"
+                }),
+                
+                new sap.m.Label("", { text: ibas.i18n.prop("bo_warehouse_dataowner") }),
+                new sap.m.Text("", {
+                }).bindProperty("text", {
+                    path: "/dataOwner"
+                }),
+                new sap.m.Label("", { text: ibas.i18n.prop("bo_warehouse_organization") }),
+                new sap.m.Text("", {
+                }).bindProperty("text", {
+                    path: "/organization"
+                }),
             ]
         });
         this.page = new sap.m.Page("", {

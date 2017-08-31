@@ -8,6 +8,7 @@
 
 import * as ibas from "ibas/index";
 import * as bo from "../../borep/bo/index";
+import { DataConverter4mm } from "../../borep/DataConverters";
 import { BORepositoryMaterials } from "../../borep/BORepositories";
 import { WarehouseEditApp } from "./WarehouseEditApp";
 
@@ -37,6 +38,12 @@ export class WarehouseViewApp extends ibas.BOViewService<IWarehouseViewView> {
     /** 视图显示后 */
     protected viewShowed(): void {
         // 视图加载完成
+        if (ibas.objects.isNull(this.viewData)) {
+            // 创建编辑对象实例
+            this.viewData = new bo.Warehouse();
+            this.proceeding(ibas.emMessageType.WARNING, ibas.i18n.prop("sys_shell_data_created_new"));
+        }
+        this.view.showWarehouse(this.viewData);
     }
     /** 编辑数据，参数：目标数据 */
     protected editData(): void {
@@ -83,12 +90,17 @@ export class WarehouseViewApp extends ibas.BOViewService<IWarehouseViewView> {
     }
     /** 获取服务的契约 */
     protected getServiceProxies(): ibas.IServiceProxy<ibas.IServiceContract>[] {
-        return [];
+        return [
+            new ibas.BOServiceProxy({
+                data: this.viewData,
+                converter: new DataConverter4mm()
+            })
+        ];
     }
 }
 /** 视图-仓库 */
 export interface IWarehouseViewView extends ibas.IBOViewView {
-
+    showWarehouse(data: bo.Warehouse): void;
 }
 /** 仓库连接服务映射 */
 export class WarehouseLinkServiceMapping extends ibas.BOLinkServiceMapping {

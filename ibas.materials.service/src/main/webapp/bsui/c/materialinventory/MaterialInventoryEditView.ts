@@ -20,11 +20,72 @@ export class MaterialInventoryEditView extends ibas.BOEditView implements IMater
     /** 新建数据事件，参数1：是否克隆 */
     createDataEvent: Function;
 
+    chooseMaterialInventoryItemCodeEvent: Function;
+
+    chooseMaterialInventoryWarehouseEvent: Function;
     /** 绘制视图 */
     darw(): any {
         let that: this = this;
         this.form = new sap.ui.layout.form.SimpleForm("", {
+            editable: true,
+            layout: sap.ui.layout.form.SimpleFormLayout.ResponsiveGridLayout,
+            singleContainerFullSize: false,
+            adjustLabelSpan: false,
+            labelSpanL: 2,
+            labelSpanM: 2,
+            labelSpanS: 12,
+            columnsXL: 2,
+            columnsL: 2,
+            columnsM: 1,
+            columnsS: 1,
             content: [
+                new sap.ui.core.Title("", { text: ibas.i18n.prop("materials_base_information") }),
+                new sap.m.Label("", { text: ibas.i18n.prop("bo_materialjournal_itemcode") }),
+                new sap.m.Input("", {
+                    showValueHelp: true,
+                    valueHelpRequest: function (): void {
+                        that.fireViewEvents(that.chooseMaterialInventoryItemCodeEvent);
+                    }
+                }).bindProperty("value", {
+                    path: "/itemCode"
+                }),
+                new sap.m.Label("", { text: ibas.i18n.prop("bo_materialinventory_warehouse") }),
+                new sap.m.Input("", {
+                    showValueHelp: true,
+                    valueHelpRequest: function (): void {
+                        that.fireViewEvents(that.chooseMaterialInventoryWarehouseEvent);
+                    }
+                }).bindProperty("value", {
+                    path: "/warehouse"
+                }),
+                new sap.m.Label("", { text: ibas.i18n.prop("bo_materialinventory_avgprice") }),
+                new sap.m.Input("", {
+                    type: sap.m.InputType.Number,
+                }).bindProperty("value", {
+                    path: "/avgPrice"
+                }),
+                new sap.ui.core.Title("", { text: ibas.i18n.prop("materials_onHand_information") }),
+                new sap.m.Label("", { text: ibas.i18n.prop("bo_materialinventory_onhand") }),
+                new sap.m.Input("", {
+                    type: sap.m.InputType.Number,
+                    editable: false,
+                }).bindProperty("value", {
+                    path: "/onHand"
+                }),
+                new sap.m.Label("", { text: ibas.i18n.prop("bo_materialinventory_oncommited") }),
+                new sap.m.Input("", {
+                    type: sap.m.InputType.Number,
+                    editable: false,
+                }).bindProperty("value", {
+                    path: "/onCommited"
+                }),
+                new sap.m.Label("", { text: ibas.i18n.prop("bo_materialinventory_onordered") }),
+                new sap.m.Input("", {
+                    type: sap.m.InputType.Number,
+                    editable: false,
+                }).bindProperty("value", {
+                    path: "/onOrdered"
+                }),
             ]
         });
         this.page = new sap.m.Page("", {

@@ -33,6 +33,8 @@ export class MaterialInventoryEditApp extends ibas.BOEditApplication<IMaterialIn
         // 其他事件
         this.view.deleteDataEvent = this.deleteData;
         this.view.createDataEvent = this.createData;
+        this.view.chooseMaterialInventoryItemCodeEvent = this.chooseMaterialInventoryItemCode;
+        this.view.chooseMaterialInventoryWarehouseEvent = this.chooseMaterialInventoryWarehouse;
     }
     /** 视图显示后 */
     protected viewShowed(): void {
@@ -165,6 +167,33 @@ export class MaterialInventoryEditApp extends ibas.BOEditApplication<IMaterialIn
             createData();
         }
     }
+    protected chooseMaterialInventoryWarehouse(): void{
+        let that: this = this;
+        ibas.servicesManager.runChooseService<bo.Warehouse>({
+            boCode: bo.Warehouse.BUSINESS_OBJECT_CODE,
+            chooseType: ibas.emChooseType.single,
+            criteria: [
+                new ibas.Condition(bo.Warehouse.PROPERTY_ACTIVATED_NAME, ibas.emConditionOperation.EQUAL, "Y")
+            ],
+            onCompleted(selecteds: ibas.List<bo.Warehouse>): void {
+                that.editData.warehouse = selecteds.firstOrDefault().code;
+            }
+        });
+    }
+
+    protected chooseMaterialInventoryItemCode(): void{
+        let that: this = this;
+        ibas.servicesManager.runChooseService<bo.Material>({
+            boCode: bo.Material.BUSINESS_OBJECT_CODE,
+            chooseType: ibas.emChooseType.single,
+            criteria: [
+                new ibas.Condition(bo.Warehouse.PROPERTY_ACTIVATED_NAME, ibas.emConditionOperation.EQUAL, "Y")
+            ],
+            onCompleted(selecteds: ibas.List<bo.Material>): void {
+                that.editData.itemCode = selecteds.firstOrDefault().code;
+            }
+        });
+    }
 }
 /** 视图-物料库存 */
 export interface IMaterialInventoryEditView extends ibas.IBOEditView {
@@ -174,4 +203,8 @@ export interface IMaterialInventoryEditView extends ibas.IBOEditView {
     deleteDataEvent: Function;
     /** 新建数据事件，参数1：是否克隆 */
     createDataEvent: Function;
+    /** 选择库存物料事件 */
+    chooseMaterialInventoryItemCodeEvent: Function;
+    /** 选择库存仓库事件 */
+    chooseMaterialInventoryWarehouseEvent: Function;
 }
