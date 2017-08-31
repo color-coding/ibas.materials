@@ -33,6 +33,7 @@ export class MaterialEditApp extends ibas.BOEditApplication<IMaterialEditView, b
         // 其他事件
         this.view.deleteDataEvent = this.deleteData;
         this.view.createDataEvent = this.createData;
+        this.view.chooseMaterialWarehouseEvent = this.chooseMaterialWarehouse;
     }
     /** 视图显示后 */
     protected viewShowed(): void {
@@ -165,6 +166,21 @@ export class MaterialEditApp extends ibas.BOEditApplication<IMaterialEditView, b
             createData();
         }
     }
+
+    /** 选择物料缺省仓库事件 */
+    chooseMaterialWarehouse(): void {
+        let that: this = this;
+        ibas.servicesManager.runChooseService<bo.Warehouse>({
+            boCode: bo.Warehouse.BUSINESS_OBJECT_CODE,
+            chooseType: ibas.emChooseType.single,
+            criteria: [
+                new ibas.Condition(bo.Warehouse.PROPERTY_ACTIVATED_NAME, ibas.emConditionOperation.EQUAL, "Y")
+            ],
+            onCompleted(selecteds: ibas.List<bo.Warehouse>): void {
+                that.editData.defaultWarehouse = selecteds.firstOrDefault().code;
+            }
+        });
+    }
 }
 /** 视图-物料 */
 export interface IMaterialEditView extends ibas.IBOEditView {
@@ -174,4 +190,6 @@ export interface IMaterialEditView extends ibas.IBOEditView {
     deleteDataEvent: Function;
     /** 新建数据事件，参数1：是否克隆 */
     createDataEvent: Function;
+    /** 选择物料缺省仓库事件 */
+    chooseMaterialWarehouseEvent: Function;
 }

@@ -20,12 +20,14 @@ export class MaterialListView extends ibas.BOListView implements IMaterialListVi
         return bo.Material;
     }
     /** 编辑数据，参数：目标数据 */
-    editDataEvent: Function;
+    // tslint:disable-next-line:ban-types
+    public editDataEvent: Function;
     /** 删除数据事件，参数：删除对象集合 */
-    deleteDataEvent: Function;
+    // tslint:disable-next-line:ban-types
+    public deleteDataEvent: Function;
     /** 绘制视图 */
-    darw(): any {
-        let that: this = this;
+    public darw(): any {
+        const that: this = this;
         this.form = new sap.ui.layout.form.SimpleForm("");
         this.table = new sap.ui.table.Table("", {
             enableSelectAll: false,
@@ -33,7 +35,84 @@ export class MaterialListView extends ibas.BOListView implements IMaterialListVi
             visibleRowCountMode: sap.ui.table.VisibleRowCountMode.Interactive,
             rows: "{/rows}",
             columns: [
-            ]
+                new sap.ui.table.Column("", {
+                    label: ibas.i18n.prop("bo_material_code"),
+                    template: new sap.m.Link("", {
+                        wrapping: false,
+                        press(event: any): void {
+                            ibas.servicesManager.runLinkService({
+                                boCode: bo.Material.BUSINESS_OBJECT_CODE,
+                                linkValue: event.getSource().getText(),
+                            });
+                        },
+                    }).bindProperty("text", {
+                        path: "code",
+                    }),
+                }),
+                new sap.ui.table.Column("", {
+                    label: ibas.i18n.prop("bo_material_name"),
+                    template: new sap.m.Text("", {
+                        wrapping: false,
+                    }).bindProperty("text", {
+                        path: "name",
+                    }),
+                }),
+                new sap.ui.table.Column("", {
+                    label: ibas.i18n.prop("bo_material_group"),
+                    template: new sap.m.Text("", {
+                        wrapping: false
+                    }).bindProperty("text", {
+                        path: "Group",
+                    }),
+                }),
+                new sap.ui.table.Column("", {
+                    label: ibas.i18n.prop("bo_material_itemtype"),
+                    template: new sap.m.Text("", {
+                        wrapping: false
+                    }).bindProperty("text", {
+                        path: "ItemType",
+                        formatter(data: any): any {
+                            return ibas.enums.describe(ibas.emItemType, data);
+                        }
+                    })
+                }),
+                new sap.ui.table.Column("", {
+                    label: ibas.i18n.prop("bo_material_onhand"),
+                    template: new sap.m.Text("", {
+                        wrapping: false,
+                    }).bindProperty("text", {
+                        path: "OnHand",
+                    }),
+                }),
+                new sap.ui.table.Column("", {
+                    label: ibas.i18n.prop("bo_material_uom"),
+                    template: new sap.m.Text("", {
+                        wrapping: false,
+                    }).bindProperty("text", {
+                        path: "UOM",
+                    }),
+                }),
+                new sap.ui.table.Column("", {
+                    label: ibas.i18n.prop("bo_material_remarks"),
+                    template: new sap.m.Text("", {
+                        wrapping: false,
+                    }).bindProperty("text", {
+                        path: "Remarks",
+                    }),
+                }),
+                new sap.ui.table.Column("", {
+                    label: ibas.i18n.prop("bo_material_createdate"),
+                    template: new sap.m.Text("", {
+                        wrapping: false,
+                    }).bindProperty("text", {
+                        path: "CreateDate",
+                        type: "sap.ui.model.type.Date",
+                        formatOptions: {
+                            style: "short"
+                        }
+                    }),
+                }),
+            ],
         });
         this.form.addContent(this.table);
         this.page = new sap.m.Page("", {
@@ -43,6 +122,7 @@ export class MaterialListView extends ibas.BOListView implements IMaterialListVi
                     new sap.m.Button("", {
                         text: ibas.i18n.prop("sys_shell_data_new"),
                         type: sap.m.ButtonType.Transparent,
+                        // tslint:disable-next-line:object-literal-sort-keys
                         icon: "sap-icon://create",
                         press: function (): void {
                             that.fireViewEvents(that.newDataEvent);
@@ -51,6 +131,7 @@ export class MaterialListView extends ibas.BOListView implements IMaterialListVi
                     new sap.m.Button("", {
                         text: ibas.i18n.prop("sys_shell_data_view"),
                         type: sap.m.ButtonType.Transparent,
+                        // tslint:disable-next-line:object-literal-sort-keys
                         icon: "sap-icon://display",
                         press: function (): void {
                             that.fireViewEvents(that.viewDataEvent,
@@ -161,7 +242,7 @@ export class MaterialListView extends ibas.BOListView implements IMaterialListVi
         }
         if (!done) {
             // 没有显示数据
-            this.table.setModel(new sap.ui.model.json.JSONModel({rows: datas}));
+            this.table.setModel(new sap.ui.model.json.JSONModel({ rows: datas }));
         }
         this.table.setBusy(false);
     }

@@ -19,7 +19,7 @@ import {
     BODocumentLine,
     BOSimple,
     BOSimpleLine,
-    config,
+   config,
 } from "ibas/index";
 import {
     IMaterial,

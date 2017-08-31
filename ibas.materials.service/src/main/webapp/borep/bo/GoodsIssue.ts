@@ -856,9 +856,6 @@ export class GoodsIssueLine extends BODocumentLine<GoodsIssueLine> implements IG
     set project(value: string) {
         this.setProperty(GoodsIssueLine.PROPERTY_PROJECT_NAME, value);
     }
-
-
-
     /** 初始化数据 */
     protected init(): void {
     }

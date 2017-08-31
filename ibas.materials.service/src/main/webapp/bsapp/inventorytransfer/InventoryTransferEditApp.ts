@@ -35,6 +35,8 @@ export class InventoryTransferEditApp extends ibas.BOEditApplication<IInventoryT
         this.view.createDataEvent = this.createData;
         this.view.addInventoryTransferLineEvent = this.addInventoryTransferLine;
         this.view.removeInventoryTransferLineEvent = this.removeInventoryTransferLine;
+        this.view.chooseInventoryTransferLineMaterialEvent = this.chooseInventoryTransferLineMaterial;
+        this.view.chooseInventoryTransferLineWarehouseEvent = this.chooseInventoryTransferLineWarehouse;
     }
     /** 视图显示后 */
     protected viewShowed(): void {
@@ -199,6 +201,69 @@ export class InventoryTransferEditApp extends ibas.BOEditApplication<IInventoryT
         this.view.showInventoryTransferLines(this.editData.inventoryTransferLines.filterDeleted());
     }
 
+    /** 选择库存转储订单行物料事件 */
+    chooseInventoryTransferLineMaterial(caller: bo.InventoryTransferLine): void {
+        let that: this = this;
+        ibas.servicesManager.runChooseService<bo.Material>({
+            caller: caller,
+            boCode: bo.Material.BUSINESS_OBJECT_CODE,
+            criteria: [
+                new ibas.Condition(bo.Material.PROPERTY_DELETED_NAME, ibas.emConditionOperation.EQUAL, "N")
+            ],
+            onCompleted(selecteds: ibas.List<bo.Material>): void {
+                // 获取触发的对象
+                let index: number = that.editData.inventoryTransferLines.indexOf(caller);
+                let item: bo.InventoryTransferLine = that.editData.inventoryTransferLines[index];
+                // 选择返回数量多余触发数量时,自动创建新的项目
+                let created: boolean = false;
+                for (let selected of selecteds) {
+                    if (ibas.objects.isNull(item)) {
+                        item = that.editData.inventoryTransferLines.create();
+                        created = true;
+                    }
+                    item.itemCode = selected.code;
+                    item.itemDescription = selected.name;
+                    item = null;
+                }
+                if (created) {
+                    // 创建了新的行项目
+                    that.view.showInventoryTransferLines(that.editData.inventoryTransferLines.filterDeleted());
+                }
+            }
+        });
+    }
+
+    /** 选择库存转储订单行物料事件 */
+    chooseInventoryTransferLineWarehouse(caller: bo.InventoryTransferLine): void {
+        let that: this = this;
+        ibas.servicesManager.runChooseService<bo.Warehouse>({
+            caller: caller,
+            boCode: bo.Warehouse.BUSINESS_OBJECT_CODE,
+            criteria: [
+                new ibas.Condition(bo.Warehouse.PROPERTY_ACTIVATED_NAME, ibas.emConditionOperation.EQUAL, "Y")
+            ],
+            onCompleted(selecteds: ibas.List<bo.Warehouse>): void {
+                // 获取触发的对象
+                let index: number = that.editData.inventoryTransferLines.indexOf(caller);
+                let item: bo.InventoryTransferLine = that.editData.inventoryTransferLines[index];
+                // 选择返回数量多余触发数量时,自动创建新的项目
+                let created: boolean = false;
+                for (let selected of selecteds) {
+                    if (ibas.objects.isNull(item)) {
+                        item = that.editData.inventoryTransferLines.create();
+                        created = true;
+                    }
+                    item.warehouse = selected.code;
+                    item = null;
+                }
+                if (created) {
+                    // 创建了新的行项目
+                    that.view.showInventoryTransferLines(that.editData.inventoryTransferLines.filterDeleted());
+                }
+            }
+        });
+    }
+
 }
 /** 视图-库存转储 */
 export interface IInventoryTransferEditView extends ibas.IBOEditView {
@@ -214,4 +279,8 @@ export interface IInventoryTransferEditView extends ibas.IBOEditView {
     removeInventoryTransferLineEvent: Function;
     /** 显示数据 */
     showInventoryTransferLines(datas: bo.InventoryTransferLine[]): void;
+    /** 选择库存转储单行物料事件 */
+    chooseInventoryTransferLineMaterialEvent: Function;
+    /** 选择库存转储单行仓库事件 */
+    chooseInventoryTransferLineWarehouseEvent: Function;
 }

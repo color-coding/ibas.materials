@@ -60,6 +60,28 @@ export class WarehouseChooseView extends ibas.BOChooseView implements IWarehouse
             visibleRowCount: ibas.config.get(utils.CONFIG_ITEM_LIST_TABLE_VISIBLE_ROW_COUNT, 15),
             rows: "{/rows}",
             columns: [
+                new sap.ui.table.Column("", {
+                    label: ibas.i18n.prop("bo_warehouse_code"),
+                    template: new sap.m.Link("", {
+                        wrapping: false,
+                        press(event: any): void {
+                            ibas.servicesManager.runLinkService({
+                                boCode: bo.Warehouse.BUSINESS_OBJECT_CODE,
+                                linkValue: event.getSource().getText()
+                            });
+                        }
+                    }).bindProperty("text", {
+                        path: "code"
+                    })
+                }),
+                new sap.ui.table.Column("", {
+                    label: ibas.i18n.prop("bo_warehouse_name"),
+                    template: new sap.m.Text("", {
+                        wrapping: false
+                    }).bindProperty("text", {
+                        path: "name"
+                    })
+                }),
             ]
         });
         this.id = this.table.getId();
@@ -98,7 +120,7 @@ export class WarehouseChooseView extends ibas.BOChooseView implements IWarehouse
         }
         if (!done) {
             // 没有显示数据
-            this.table.setModel(new sap.ui.model.json.JSONModel({rows: datas}));
+            this.table.setModel(new sap.ui.model.json.JSONModel({ rows: datas }));
         }
         this.table.setBusy(false);
     }

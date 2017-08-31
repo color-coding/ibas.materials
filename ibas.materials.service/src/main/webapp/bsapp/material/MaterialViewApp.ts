@@ -37,6 +37,12 @@ export class MaterialViewApp extends ibas.BOViewService<IMaterialViewView> {
     /** 视图显示后 */
     protected viewShowed(): void {
         // 视图加载完成
+        if (ibas.objects.isNull(this.editData)) {
+            // 创建编辑对象实例
+            this.viewData = new bo.Material();
+            this.proceeding(ibas.emMessageType.WARNING, ibas.i18n.prop("sys_shell_data_created_new"));
+        }
+        this.view.showMaterial(this.viewData);
     }
     /** 编辑数据，参数：目标数据 */
     protected editData(): void {
@@ -88,7 +94,8 @@ export class MaterialViewApp extends ibas.BOViewService<IMaterialViewView> {
 }
 /** 视图-物料 */
 export interface IMaterialViewView extends ibas.IBOViewView {
-
+    /** 显示数据 */
+    showMaterial(data: bo.Material): void;
 }
 /** 物料连接服务映射 */
 export class MaterialLinkServiceMapping extends ibas.BOLinkServiceMapping {
