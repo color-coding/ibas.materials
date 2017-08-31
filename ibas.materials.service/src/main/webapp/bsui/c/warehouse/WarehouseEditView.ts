@@ -24,7 +24,48 @@ export class WarehouseEditView extends ibas.BOEditView implements IWarehouseEdit
     darw(): any {
         let that: this = this;
         this.form = new sap.ui.layout.form.SimpleForm("", {
+            editable: true,
+            layout: sap.ui.layout.form.SimpleFormLayout.ResponsiveGridLayout,
+            singleContainerFullSize: false,
+            adjustLabelSpan: false,
+            labelSpanL: 2,
+            labelSpanM: 2,
+            labelSpanS: 12,
+            columnsXL: 2,
+            columnsL: 2,
+            columnsM: 1,
+            columnsS: 1,
             content: [
+                new sap.ui.core.Title("", { text: ibas.i18n.prop("materials_base_information") }),
+                new sap.m.Label("", { text: ibas.i18n.prop("bo_warehouse_code") }),
+                new sap.m.Input("", {
+                }).bindProperty("value", {
+                    path: "/code"
+                }),
+                new sap.m.Label("", { text: ibas.i18n.prop("bo_warehouse_name") }),
+                new sap.m.Input("", {
+                }).bindProperty("value", {
+                    path: "/name"
+                }),
+
+                new sap.ui.core.Title("", { text: ibas.i18n.prop("materials_sys_information") }),
+                new sap.m.Label("", { text: ibas.i18n.prop("bo_warehouse_activated") }),
+                new sap.m.SegmentedButton("",{
+                    width:"30%",
+                    items: [
+                        new sap.m.SegmentedButtonItem("",{
+                            text: ibas.enums.describe(ibas.emYesNo,ibas.emYesNo.YES),
+                            key: ibas.emYesNo.YES
+                        }),
+                        new sap.m.SegmentedButtonItem("",{
+                            text: ibas.enums.describe(ibas.emYesNo,ibas.emYesNo.NO),
+                            key: ibas.emYesNo.NO
+                        })
+                    ]
+                }).bindProperty("selectedKey",{
+                    path: "/activated",
+                    type: "sap.ui.model.type.Integer"
+                }),
             ]
         });
         this.page = new sap.m.Page("", {

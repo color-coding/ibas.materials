@@ -33,6 +33,67 @@ export class MaterialInventoryListView extends ibas.BOListView implements IMater
             visibleRowCountMode: sap.ui.table.VisibleRowCountMode.Interactive,
             rows: "{/rows}",
             columns: [
+                new sap.ui.table.Column("", {
+                    label: ibas.i18n.prop("bo_materialinventory_itemcode"),
+                    template: new sap.m.Link("", {
+                        wrapping: false,
+                        press(event: any): void {
+                            ibas.servicesManager.runLinkService({
+                                boCode: bo.Material.BUSINESS_OBJECT_CODE,
+                                linkValue: event.getSource().getText()
+                            });
+                        }
+                    }).bindProperty("text", {
+                        path: "itemCode"
+                    })
+                }),
+                new sap.ui.table.Column("", {
+                    label: ibas.i18n.prop("bo_materialinventory_warehouse"),
+                    template: new sap.m.Link("", {
+                        wrapping: false,
+                        press(event: any): void {
+                            ibas.servicesManager.runLinkService({
+                                boCode: bo.Warehouse.BUSINESS_OBJECT_CODE,
+                                linkValue: event.getSource().getText()
+                            });
+                        }
+                    }).bindProperty("text", {
+                        path: "warehouse"
+                    })
+                }),
+               
+                new sap.ui.table.Column("", {
+                    label: ibas.i18n.prop("bo_materialinventory_avgprice"),
+                    template: new sap.m.Text("", {
+                        wrapping: false
+                    }).bindProperty("text", {
+                        path: "avgPrice"
+                    })
+                }),
+                new sap.ui.table.Column("", {
+                    label: ibas.i18n.prop("bo_materialinventory_onhand"),
+                    template: new sap.m.Text("", {
+                        wrapping: false
+                    }).bindProperty("text", {
+                        path: "onHand"
+                    })
+                }),
+                new sap.ui.table.Column("", {
+                    label: ibas.i18n.prop("bo_materialinventory_onordered"),
+                    template: new sap.m.Text("", {
+                        wrapping: false
+                    }).bindProperty("text", {
+                        path: "onOrdered"
+                    })
+                }),
+                new sap.ui.table.Column("", {
+                    label: ibas.i18n.prop("bo_materialinventory_oncommited"),
+                    template: new sap.m.Text("", {
+                        wrapping: false
+                    }).bindProperty("text", {
+                        path: "onCommited"
+                    })
+                }),
             ]
         });
         this.form.addContent(this.table);

@@ -37,7 +37,15 @@ export class MaterialJournalViewApp extends ibas.BOViewService<IMaterialJournalV
     /** 视图显示后 */
     protected viewShowed(): void {
         // 视图加载完成
+        if (ibas.objects.isNull(this.viewData)) {
+            // 创建编辑对象实例
+            this.viewData = new bo.MaterialJournal();
+            this.proceeding(ibas.emMessageType.WARNING, ibas.i18n.prop("sys_shell_data_created_new"));
+        }
+        this.view.showMaterialJournal(this.viewData);
     }
+
+    private viewDate: bo.MaterialJournal
     /** 编辑数据，参数：目标数据 */
     protected editData(): void {
         let app: MaterialJournalEditApp = new MaterialJournalEditApp();
@@ -88,7 +96,7 @@ export class MaterialJournalViewApp extends ibas.BOViewService<IMaterialJournalV
 }
 /** 视图-仓库日记账 */
 export interface IMaterialJournalViewView extends ibas.IBOViewView {
-
+    showMaterialJournal(data: bo.MaterialJournal): void;
 }
 /** 仓库日记账连接服务映射 */
 export class MaterialJournalLinkServiceMapping extends ibas.BOLinkServiceMapping {

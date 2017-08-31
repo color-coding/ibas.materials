@@ -20,7 +20,137 @@ export class MaterialJournalViewView extends ibas.BOViewView implements IMateria
     darw(): any {
         let that: this = this;
         this.form = new sap.ui.layout.form.SimpleForm("", {
+            editable: true,
+            layout: sap.ui.layout.form.SimpleFormLayout.ResponsiveGridLayout,
+            singleContainerFullSize: false,
+            adjustLabelSpan: false,
+            labelSpanL: 2,
+            labelSpanM: 2,
+            labelSpanS: 12,
+            columnsXL: 2,
+            columnsL: 2,
+            columnsM: 1,
+            columnsS: 1,
             content: [
+                new sap.ui.core.Title("", { text: ibas.i18n.prop("materials_base_information") }),
+                new sap.m.Label("", { text: ibas.i18n.prop("bo_materialjournal_baseentry") }),
+                new sap.m.Text("", {
+                }).bindProperty("text", {
+                    path: "/baseEntry"
+                }),
+                new sap.m.Label("", { text: ibas.i18n.prop("bo_materialjournal_baselinnum") }),
+                new sap.m.Text("", {
+                    type: sap.m.InputType.Number
+                }).bindProperty("text", {
+                    path: "/baseLinNum"
+                }),
+                new sap.m.Label("", { text: ibas.i18n.prop("bo_materialjournal_itemcode") }),
+                new sap.m.Text("", {
+                }).bindProperty("text", {
+                    path: "/itemCode"
+                }),
+                new sap.m.Label("", { text: ibas.i18n.prop("bo_materialjournal_warehouse") }),
+                new sap.m.Text("", {
+                }).bindProperty("text", {
+                    path: "/warehouse"
+                }),
+                new sap.m.Label("", { text: ibas.i18n.prop("bo_materialjournal_direction") }),
+                new sap.m.Text("", {
+                }).bindProperty("text", {
+                    path: "/direction",
+                    formatter(data: any): any{
+                        return ibas.enums.describe(ibas.emDirection,data);
+                    }
+
+                }),
+                new sap.m.Label("", { text: ibas.i18n.prop("bo_materialjournal_quantity") }),
+                new sap.m.Text("", {
+                }).bindProperty("text", {
+                    path: "/warehouse"
+                }),
+                new sap.m.Label("", { text: ibas.i18n.prop("bo_materialjournal_price") }),
+                new sap.m.Text("", {
+                }).bindProperty("text", {
+                    path: "/price"
+                }),
+                
+                new sap.ui.core.Title("", { text: ibas.i18n.prop("materials_date_information") }),
+                new sap.m.Label("", { text: ibas.i18n.prop("bo_materialjournal_documentdate") }),
+                new sap.m.Text("", {
+                    valueFormat: "yyyy-MM-dd",
+                }).bindProperty("text", {
+                    path: "/documentDate",
+                    type: 'sap.ui.model.type.Date',
+                    formatOptions: {
+                        style: 'medium'
+                    }
+                }),
+                new sap.m.Label("", { text: ibas.i18n.prop("bo_materialjournal_postingdate") }),
+                new sap.m.Text("", {
+                }).bindProperty("text", {
+                    path: "/documentDate",
+                    type: 'sap.ui.model.type.Date',
+                    formatOptions: {
+                        style: 'medium'
+                    }
+                }),
+                new sap.m.Label("", { text: ibas.i18n.prop("bo_materialjournal_deliverydate") }),
+                new sap.m.Text("", {
+                }).bindProperty("text", {
+                    path: "/documentDate",
+                    type: 'sap.ui.model.type.Date',
+                    formatOptions: {
+                        style: 'medium'
+                    }
+                }),
+                
+                new sap.ui.core.Title("", { text: ibas.i18n.prop("materials_forex_information") }),
+                new sap.m.Label("", { text: ibas.i18n.prop("bo_materialjournal_currency") }),
+                new sap.m.Text("", {
+                }).bindProperty("text", {
+                    path: "/currency"
+                }),
+                new sap.m.Label("", { text: ibas.i18n.prop("bo_materialjournal_rate") }),
+                new sap.m.Text("", {
+                    type: sap.m.InputType.Number
+                }).bindProperty("text", {
+                    path: "/rate"
+                }),
+                new sap.ui.core.Title("", { text: ibas.i18n.prop("materials_sys_information") }),
+                new sap.m.Label("", { text: ibas.i18n.prop("bo_warehouse_activated") }),
+                new sap.m.Text("", {
+                }).bindProperty("text", {
+                    path: "/activated",
+                    formatter(data: any): any{
+                        return ibas.enums.describe(ibas.emYesNo,data);
+                    }
+                }),
+                new sap.m.Label("", { text: ibas.i18n.prop("bo_materialgroup_loginst") }),
+                new sap.m.Text("", {
+                }).bindProperty("text", {
+                    path: "/logInst"
+                }),
+                new sap.m.Label("", { text: ibas.i18n.prop("bo_materialgroup_datasource") }),
+                new sap.m.Text("", {
+                }).bindProperty("text", {
+                    path: "/dataSource"
+                }),
+                new sap.m.Label("", { text: ibas.i18n.prop("bo_materialgroup_series") }),
+                new sap.m.Text("", {
+                }).bindProperty("text", {
+                    path: "/series"
+                }),
+                
+                new sap.m.Label("", { text: ibas.i18n.prop("bo_materialgroup_dataowner") }),
+                new sap.m.Text("", {
+                }).bindProperty("text", {
+                    path: "/dataOwner"
+                }),
+                new sap.m.Label("", { text: ibas.i18n.prop("bo_materialgroup_organization") }),
+                new sap.m.Text("", {
+                }).bindProperty("text", {
+                    path: "/organization"
+                }),
             ]
         });
         this.page = new sap.m.Page("", {

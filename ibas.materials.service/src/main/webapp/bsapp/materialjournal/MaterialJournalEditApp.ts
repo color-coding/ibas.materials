@@ -33,6 +33,8 @@ export class MaterialJournalEditApp extends ibas.BOEditApplication<IMaterialJour
         // 其他事件
         this.view.deleteDataEvent = this.deleteData;
         this.view.createDataEvent = this.createData;
+        this.view.chooseMaterialJournalWarehouseEvent = this.chooseMaterialJournalWarehouse;
+        this.view.chooseMaterialJournalItemCodeEvent = this.chooseMaterialJournalItemCode;
     }
     /** 视图显示后 */
     protected viewShowed(): void {
@@ -165,6 +167,35 @@ export class MaterialJournalEditApp extends ibas.BOEditApplication<IMaterialJour
             createData();
         }
     }
+
+    protected chooseMaterialJournalWarehouse(): void{
+        let that: this = this;
+        ibas.servicesManager.runChooseService<bo.Warehouse>({
+            boCode: bo.Warehouse.BUSINESS_OBJECT_CODE,
+            chooseType: ibas.emChooseType.single,
+            criteria: [
+                new ibas.Condition(bo.Warehouse.PROPERTY_ACTIVATED_NAME, ibas.emConditionOperation.EQUAL, "Y")
+            ],
+            onCompleted(selecteds: ibas.List<bo.Warehouse>): void {
+                that.editData.warehouse = selecteds.firstOrDefault().code;
+            }
+        });
+    }
+
+    protected chooseMaterialJournalItemCode(): void{
+        let that: this = this;
+        ibas.servicesManager.runChooseService<bo.Material>({
+            boCode: bo.Material.BUSINESS_OBJECT_CODE,
+            chooseType: ibas.emChooseType.single,
+            criteria: [
+                new ibas.Condition(bo.Warehouse.PROPERTY_ACTIVATED_NAME, ibas.emConditionOperation.EQUAL, "Y")
+            ],
+            onCompleted(selecteds: ibas.List<bo.Material>): void {
+                that.editData.itemCode = selecteds.firstOrDefault().code;
+                that.editData.itemName = selecteds.firstOrDefault().name;
+            }
+        });
+    }
 }
 /** 视图-仓库日记账 */
 export interface IMaterialJournalEditView extends ibas.IBOEditView {
@@ -174,4 +205,8 @@ export interface IMaterialJournalEditView extends ibas.IBOEditView {
     deleteDataEvent: Function;
     /** 新建数据事件，参数1：是否克隆 */
     createDataEvent: Function;
+    /** 选择仓库日记账仓库事件 */
+    chooseMaterialJournalWarehouseEvent: Function;
+    /** 选择仓库日记账物料编码事件 */
+    chooseMaterialJournalItemCodeEvent: Function;
 }
