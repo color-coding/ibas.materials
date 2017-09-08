@@ -33,7 +33,7 @@ export class InventoryTransferViewView extends ibas.BOViewView implements IInven
             columnsM: 1,
             columnsS: 1,
             content: [
-                new sap.ui.core.Title("", { text: ibas.i18n.prop("materials_basis_information") }),
+                new sap.ui.core.Title("", { text: ibas.i18n.prop("materials_base_information") }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_inventorytransfer_docentry") }),
                 new sap.m.Text("", {
                 }).bindProperty("text", {

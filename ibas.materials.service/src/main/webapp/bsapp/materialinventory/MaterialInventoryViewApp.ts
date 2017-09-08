@@ -37,7 +37,15 @@ export class MaterialInventoryViewApp extends ibas.BOViewService<IMaterialInvent
     /** 视图显示后 */
     protected viewShowed(): void {
         // 视图加载完成
+        if (ibas.objects.isNull(this.viewData)) {
+            // 创建编辑对象实例
+            this.viewData = new bo.MaterialInventory();
+            this.proceeding(ibas.emMessageType.WARNING, ibas.i18n.prop("sys_shell_data_created_new"));
+        }
+        this.view.showMaterialInventory(this.viewData);
     }
+
+    private viewData: bo.MaterialInventory;
     /** 编辑数据，参数：目标数据 */
     protected editData(): void {
         let app: MaterialInventoryEditApp = new MaterialInventoryEditApp();
@@ -54,7 +62,7 @@ export class MaterialInventoryViewApp extends ibas.BOViewService<IMaterialInvent
             super.run();
         }
     }
-    private viewData: bo.MaterialInventory;
+    
     /** 查询数据 */
     protected fetchData(criteria: ibas.ICriteria | string): void {
         this.busy(true);
@@ -88,7 +96,7 @@ export class MaterialInventoryViewApp extends ibas.BOViewService<IMaterialInvent
 }
 /** 视图-物料库存 */
 export interface IMaterialInventoryViewView extends ibas.IBOViewView {
-
+    showMaterialInventory(data: bo.MaterialInventory): void;
 }
 /** 物料库存连接服务映射 */
 export class MaterialInventoryLinkServiceMapping extends ibas.BOLinkServiceMapping {

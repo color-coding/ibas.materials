@@ -37,7 +37,7 @@ export class MaterialEditView extends ibas.BOEditView implements IMaterialEditVi
             columnsM: 1,
             columnsS: 1,
             content: [
-                new sap.ui.core.Title("", { text: ibas.i18n.prop("materials_basis_information") }),
+                new sap.ui.core.Title("", { text: ibas.i18n.prop("materials_base_information") }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_material_code") }),
                 new sap.m.Input("", {
                     type: sap.m.InputType.Text,
@@ -148,7 +148,7 @@ export class MaterialEditView extends ibas.BOEditView implements IMaterialEditVi
                 }).bindProperty("value", {
                     path: "UOM",
                 }),
-                new sap.ui.core.Title("", { text: ibas.i18n.prop("materials_stock_information") }),
+                new sap.ui.core.Title("", { text: ibas.i18n.prop("materials_onHand_information") }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_material_minimuminventory") }),
                 new sap.m.Input("", {
                     type: sap.m.InputType.Text,

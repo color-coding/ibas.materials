@@ -33,6 +33,40 @@ export class WarehouseListView extends ibas.BOListView implements IWarehouseList
             visibleRowCountMode: sap.ui.table.VisibleRowCountMode.Interactive,
             rows: "{/rows}",
             columns: [
+                new sap.ui.table.Column("", {
+                    label: ibas.i18n.prop("bo_warehouse_code"),
+                    template: new sap.m.Link("", {
+                        wrapping: false,
+                        press(event: any): void {
+                            ibas.servicesManager.runLinkService({
+                                boCode: bo.Warehouse.BUSINESS_OBJECT_CODE,
+                                linkValue: event.getSource().getText()
+                            });
+                        }
+                    }).bindProperty("text", {
+                        path: "code",
+                    })
+                }),
+                new sap.ui.table.Column("", {
+                    label: ibas.i18n.prop("bo_warehouse_name"),
+                    template: new sap.m.Text("", {
+                        wrapping: false
+                    }).bindProperty("text", {
+                        path: "name",
+                    })
+                }),
+                new sap.ui.table.Column("", {
+                    label: ibas.i18n.prop("bo_warehouse_activated"),
+                    template: new sap.m.Text("", {
+                        wrapping: false
+                    }).bindProperty("text", {
+                        path: "activated",
+                        formatter(data: any): any {
+                            return ibas.enums.describe(ibas.emYesNo, data);
+                        }
+                    })
+                }),
+
             ]
         });
         this.form.addContent(this.table);
@@ -161,7 +195,7 @@ export class WarehouseListView extends ibas.BOListView implements IWarehouseList
         }
         if (!done) {
             // 没有显示数据
-            this.table.setModel(new sap.ui.model.json.JSONModel({rows: datas}));
+            this.table.setModel(new sap.ui.model.json.JSONModel({ rows: datas }));
         }
         this.table.setBusy(false);
     }

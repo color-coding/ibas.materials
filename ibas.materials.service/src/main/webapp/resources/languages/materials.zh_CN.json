@@ -41,11 +41,14 @@
   "materials_app_warehouse_choose": "仓库选择",
   "materials_app_warehouse_view": "仓库查看",
   "materials_app_warehouse_edit": "仓库编辑",
-  "materials_basis_information": "基本信息",
+  "materials_base_information": "基本信息",
   "materials_date_information": "日期信息",
   "materials_type_information": "类型信息",
   "materials_general_information": "常规信息",
-  "materials_stock_information": "库存信息",
+  "materials_onHand_information": "库存信息",
   "materials_technical_information": "技术信息",
+  "materials_sys_information": "系统信息",
+  "materials_other_information": "其它信息",
+  "materials_forex_information": "外汇信息",
   "materials_closing_delimiter": "----结束----"
 }

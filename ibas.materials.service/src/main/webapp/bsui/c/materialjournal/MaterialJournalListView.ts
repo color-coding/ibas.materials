@@ -33,6 +33,93 @@ export class MaterialJournalListView extends ibas.BOListView implements IMateria
             visibleRowCountMode: sap.ui.table.VisibleRowCountMode.Interactive,
             rows: "{/rows}",
             columns: [
+                new sap.ui.table.Column("",{
+                    label: ibas.i18n.prop("bo_materialjournal_baseentry"),
+                    template: new sap.m.Text("",{
+                        wrapping: false
+                    }).bindProperty("text",{
+                        path: "baseEntry",
+                    })
+                }),
+                new sap.ui.table.Column("",{
+                    label: ibas.i18n.prop("bo_materialjournal_baselinnum"),
+                    template: new sap.m.Text("",{
+                        wrapping: false
+                    }).bindProperty("text",{
+                        path: "baseLinNum",
+                    })
+                }),
+                new sap.ui.table.Column("",{
+                    label: ibas.i18n.prop("bo_materialjournal_itemcode"),
+                    template: new sap.m.Link("",{
+                        wrapping: false,
+                        press(event: any): void {
+                            ibas.servicesManager.runLinkService({
+                                boCode: bo.Material.BUSINESS_OBJECT_CODE,
+                                linkValue: event.getSource().getText()
+                            });
+                        }
+                    }).bindProperty("text",{
+                        path: "itemCode",
+                    })
+                }),
+                new sap.ui.table.Column("",{
+                    label: ibas.i18n.prop("bo_materialjournal_warehouse"),
+                    template: new sap.m.Link("",{
+                        wrapping: false,
+                        press(event: any): void {
+                            ibas.servicesManager.runLinkService({
+                                boCode: bo.Warehouse.BUSINESS_OBJECT_CODE,
+                                linkValue: event.getSource().getText()
+                            });
+                        }
+                    }).bindProperty("text",{
+                        path: "warehouse",
+                    })
+                }),
+                new sap.ui.table.Column("",{
+                    label: ibas.i18n.prop("bo_materialjournal_quantity"),
+                    template: new sap.m.Text("",{
+                        wrapping: false
+                    }).bindProperty("text",{
+                        path: "quantity",
+                    })
+                }),
+                new sap.ui.table.Column("",{
+                    label: ibas.i18n.prop("bo_materialjournal_price"),
+                    template: new sap.m.Text("",{
+                        wrapping: false
+                    }).bindProperty("text",{
+                        path: "price",
+                    })
+                }),
+                new sap.ui.table.Column("",{
+                    label: ibas.i18n.prop("bo_materialjournal_currency"),
+                    template: new sap.m.Text("",{
+                        wrapping: false
+                    }).bindProperty("text",{
+                        path: "currency",
+                    })
+                }),
+                new sap.ui.table.Column("",{
+                    label: ibas.i18n.prop("bo_materialjournal_rate"),
+                    template: new sap.m.Text("",{
+                        wrapping: false
+                    }).bindProperty("text",{
+                        path: "rate",
+                    })
+                }),
+                new sap.ui.table.Column("",{
+                    label: ibas.i18n.prop("bo_materialjournal_direction"),
+                    template: new sap.m.Text("",{
+                        wrapping: false
+                    }).bindProperty("text",{
+                        path: "direction",
+                        formatter(data: any): any{
+                            return ibas.enums.describe(ibas.emDirection,data);
+                        }
+                    })
+                }),
             ]
         });
         this.form.addContent(this.table);
