@@ -61,7 +61,6 @@ export class MaterialInventoryListView extends ibas.BOListView implements IMater
                         path: "warehouse"
                     })
                 }),
-               
                 new sap.ui.table.Column("", {
                     label: ibas.i18n.prop("bo_materialinventory_avgprice"),
                     template: new sap.m.Text("", {

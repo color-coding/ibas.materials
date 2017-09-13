@@ -17,7 +17,7 @@ public class testMaterial extends TestCase {
      * 获取连接口令
     */
     String getToken() {
-        return "";
+        return "68fc6bac014d06ad94c5734116487cff";
     }
     
     /**
@@ -27,7 +27,9 @@ public class testMaterial extends TestCase {
     public void testBasicItems() throws Exception {
         Material bo = new Material();
         // 测试属性赋值
-
+        bo.setCode("S1000011");
+        bo.setName("喜之郎果肉果冻");
+        bo.setBarCode("10000011");
 
         // 测试对象的保存和查询
         IOperationResult<?> operationResult = null;

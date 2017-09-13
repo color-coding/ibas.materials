@@ -17,7 +17,7 @@ public class testWarehouse extends TestCase {
      * 获取连接口令
     */
     String getToken() {
-        return "";
+        return "68fc6bac014d06ad94c5734116487cff";
     }
     
     /**
@@ -27,7 +27,8 @@ public class testWarehouse extends TestCase {
     public void testBasicItems() throws Exception {
         Warehouse bo = new Warehouse();
         // 测试属性赋值
-
+        bo.setCode("SHKJ");
+        bo.setName("上海科捷");
 
         // 测试对象的保存和查询
         IOperationResult<?> operationResult = null;

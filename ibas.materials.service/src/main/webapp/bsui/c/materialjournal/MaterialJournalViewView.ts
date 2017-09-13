@@ -15,12 +15,11 @@ import { IMaterialJournalViewView } from "../../../bsapp/materialjournal/index";
  * 查看视图-仓库日记账
  */
 export class MaterialJournalViewView extends ibas.BOViewView implements IMaterialJournalViewView {
-
     /** 绘制视图 */
     darw(): any {
         let that: this = this;
         this.form = new sap.ui.layout.form.SimpleForm("", {
-            editable: true,
+            editable: false,
             layout: sap.ui.layout.form.SimpleFormLayout.ResponsiveGridLayout,
             singleContainerFullSize: false,
             adjustLabelSpan: false,
@@ -58,8 +57,8 @@ export class MaterialJournalViewView extends ibas.BOViewView implements IMateria
                 new sap.m.Text("", {
                 }).bindProperty("text", {
                     path: "/direction",
-                    formatter(data: any): any{
-                        return ibas.enums.describe(ibas.emDirection,data);
+                    formatter(data: any): any {
+                        return ibas.enums.describe(ibas.emDirection, data);
                     }
 
                 }),
@@ -73,37 +72,37 @@ export class MaterialJournalViewView extends ibas.BOViewView implements IMateria
                 }).bindProperty("text", {
                     path: "/price"
                 }),
-                
+
                 new sap.ui.core.Title("", { text: ibas.i18n.prop("materials_date_information") }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_materialjournal_documentdate") }),
                 new sap.m.Text("", {
                     valueFormat: "yyyy-MM-dd",
                 }).bindProperty("text", {
                     path: "/documentDate",
-                    type: 'sap.ui.model.type.Date',
+                    type: "sap.ui.model.type.Date",
                     formatOptions: {
-                        style: 'medium'
+                        style: "medium"
                     }
                 }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_materialjournal_postingdate") }),
                 new sap.m.Text("", {
                 }).bindProperty("text", {
                     path: "/documentDate",
-                    type: 'sap.ui.model.type.Date',
+                    type: "sap.ui.model.type.Date",
                     formatOptions: {
-                        style: 'medium'
+                        style: "medium"
                     }
                 }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_materialjournal_deliverydate") }),
                 new sap.m.Text("", {
                 }).bindProperty("text", {
                     path: "/documentDate",
-                    type: 'sap.ui.model.type.Date',
+                    type: "sap.ui.model.type.Date",
                     formatOptions: {
-                        style: 'medium'
+                        style: "medium"
                     }
                 }),
-                
+
                 new sap.ui.core.Title("", { text: ibas.i18n.prop("materials_forex_information") }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_materialjournal_currency") }),
                 new sap.m.Text("", {
@@ -121,8 +120,8 @@ export class MaterialJournalViewView extends ibas.BOViewView implements IMateria
                 new sap.m.Text("", {
                 }).bindProperty("text", {
                     path: "/activated",
-                    formatter(data: any): any{
-                        return ibas.enums.describe(ibas.emYesNo,data);
+                    formatter(data: any): any {
+                        return ibas.enums.describe(ibas.emYesNo, data);
                     }
                 }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_materialgroup_loginst") }),
@@ -140,7 +139,7 @@ export class MaterialJournalViewView extends ibas.BOViewView implements IMateria
                 }).bindProperty("text", {
                     path: "/series"
                 }),
-                
+
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_materialgroup_dataowner") }),
                 new sap.m.Text("", {
                 }).bindProperty("text", {

@@ -33,9 +33,9 @@ export class MaterialGroupListView extends ibas.BOListView implements IMaterialG
             visibleRowCountMode: sap.ui.table.VisibleRowCountMode.Interactive,
             rows: "{/rows}",
             columns: [
-                new sap.ui.table.Column("",{
+                new sap.ui.table.Column("", {
                     label: ibas.i18n.prop("bo_materialgroup_code"),
-                    template: new sap.m.Link("",{
+                    template: new sap.m.Link("", {
                         wrapping: false,
                         press(event: any): void {
                             ibas.servicesManager.runLinkService({
@@ -43,30 +43,30 @@ export class MaterialGroupListView extends ibas.BOListView implements IMaterialG
                                 linkValue: event.getSource().getText()
                             });
                         }
-                    }).bindProperty("text",{
+                    }).bindProperty("text", {
                         path: "code",
                     })
                 }),
-                new sap.ui.table.Column("",{
+                new sap.ui.table.Column("", {
                     label: ibas.i18n.prop("bo_materialgroup_name"),
-                    template: new sap.m.Text("",{
+                    template: new sap.m.Text("", {
                         wrapping: false
-                    }).bindProperty("text",{
+                    }).bindProperty("text", {
                         path: "name",
                     })
                 }),
-                new sap.ui.table.Column("",{
+                new sap.ui.table.Column("", {
                     label: ibas.i18n.prop("bo_warehouse_activated"),
-                    template: new sap.m.Text("",{
+                    template: new sap.m.Text("", {
                         wrapping: false
-                    }).bindProperty("text",{
+                    }).bindProperty("text", {
                         path: "activated",
-                        formatter(data: any): any{
-                            return ibas.enums.describe(ibas.emYesNo,data);
+                        formatter(data: any): any {
+                            return ibas.enums.describe(ibas.emYesNo, data);
                         }
                     })
                 }),
-                
+
             ]
         });
         this.form.addContent(this.table);
@@ -195,7 +195,7 @@ export class MaterialGroupListView extends ibas.BOListView implements IMaterialG
         }
         if (!done) {
             // 没有显示数据
-            this.table.setModel(new sap.ui.model.json.JSONModel({rows: datas}));
+            this.table.setModel(new sap.ui.model.json.JSONModel({ rows: datas }));
         }
         this.table.setBusy(false);
     }

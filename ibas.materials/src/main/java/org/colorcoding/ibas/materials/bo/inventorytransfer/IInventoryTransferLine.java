@@ -649,5 +649,4 @@ public interface IInventoryTransferLine extends IBODocumentLine {
     void setProject(String value);
 
 
-
 }
