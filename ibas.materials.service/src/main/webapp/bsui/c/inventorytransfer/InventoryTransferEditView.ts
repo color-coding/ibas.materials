@@ -56,7 +56,6 @@ export class InventoryTransferEditView extends ibas.BOEditView implements IInven
                 }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_inventorytransfer_documentstatus") }),
                 new sap.m.Select("", {
-                    showSecondaryValues: true,
                     items: utils.createComboBoxItems(ibas.emDocumentStatus)
                 }).bindProperty("selectedKey", {
                     path: "documentStatus",

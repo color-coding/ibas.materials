@@ -23,7 +23,7 @@ export class MaterialJournalEditView extends ibas.BOEditView implements IMateria
     chooseMaterialJournalWarehouseEvent: Function;
 
     chooseMaterialJournalItemCodeEvent: Function;
-    
+
     /** 绘制视图 */
     darw(): any {
         let that: this = this;
@@ -71,19 +71,19 @@ export class MaterialJournalEditView extends ibas.BOEditView implements IMateria
                     path: "/warehouse"
                 }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_materialjournal_direction") }),
-                new sap.m.SegmentedButton("",{
+                new sap.m.SegmentedButton("", {
                     width: "30%",
                     items: [
-                        new sap.m.SegmentedButtonItem("",{
-                            text: ibas.enums.describe(ibas.emDirection,ibas.emDirection.IN),
+                        new sap.m.SegmentedButtonItem("", {
+                            text: ibas.enums.describe(ibas.emDirection, ibas.emDirection.IN),
                             key: ibas.emDirection.IN
                         }),
-                        new sap.m.SegmentedButtonItem("",{
-                            text: ibas.enums.describe(ibas.emDirection,ibas.emDirection.OUT),
+                        new sap.m.SegmentedButtonItem("", {
+                            text: ibas.enums.describe(ibas.emDirection, ibas.emDirection.OUT),
                             key: ibas.emDirection.OUT
                         })
                     ]
-                }).bindProperty("selectedKey",{
+                }).bindProperty("selectedKey", {
                     path: "/direction",
                     type: "sap.ui.model.type.Integer"
                 }),
@@ -99,7 +99,7 @@ export class MaterialJournalEditView extends ibas.BOEditView implements IMateria
                 }).bindProperty("value", {
                     path: "/price"
                 }),
-                
+
                 new sap.ui.core.Title("", { text: ibas.i18n.prop("materials_date_information") }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_materialjournal_documentdate") }),
                 new sap.m.DatePicker("", {
@@ -119,7 +119,7 @@ export class MaterialJournalEditView extends ibas.BOEditView implements IMateria
                 }).bindProperty("dateValue", {
                     path: "/documentDate"
                 }),
-                
+
                 new sap.ui.core.Title("", { text: ibas.i18n.prop("materials_forex_information") }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_materialjournal_currency") }),
                 new sap.m.Input("", {

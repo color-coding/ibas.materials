@@ -55,7 +55,6 @@ export class GoodsIssueEditView extends ibas.BOEditView implements IGoodsIssueEd
                 }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_goodsissue_documentstatus") }),
                 new sap.m.Select("", {
-                    showSecondaryValues: true,
                     items: utils.createComboBoxItems(ibas.emDocumentStatus)
                 }).bindProperty("selectedKey", {
                     path: "documentStatus",

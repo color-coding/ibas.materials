@@ -41,7 +41,6 @@ export class GoodsIssueViewView extends ibas.BOViewView implements IGoodsIssueVi
                 }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_goodsissue_documentstatus") }),
                 new sap.m.Text("", {
-                    wrapping: false
                 }).bindProperty("text", {
                     path: "documentStatus",
                     formatter(data: any): any {
@@ -170,7 +169,7 @@ export class GoodsIssueViewView extends ibas.BOViewView implements IGoodsIssueVi
             columnsM: 1,
             columnsS: 1,
             content: [
-                new sap.ui.core.Title("", { text: ibas.i18n.prop("bo_inventorytransfer_remarks") }),
+                new sap.ui.core.Title("", { text: ibas.i18n.prop("bo_goodsissue_remarks") }),
                 new sap.m.Text("", {
                 }).bindProperty("text", {
                     path: "/remarks"

@@ -20,7 +20,7 @@ export class MaterialViewView extends ibas.BOViewView implements IMaterialViewVi
     public darw(): any {
         let that: this = this;
         this.form = new sap.ui.layout.form.SimpleForm("", {
-            editable: true,
+            editable: false,
             layout: sap.ui.layout.form.SimpleFormLayout.ResponsiveGridLayout,
             singleContainerFullSize: false,
             adjustLabelSpan: false,

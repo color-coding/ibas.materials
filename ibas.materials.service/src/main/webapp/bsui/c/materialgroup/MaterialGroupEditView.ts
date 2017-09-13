@@ -49,13 +49,11 @@ export class MaterialGroupEditView extends ibas.BOEditView implements IMaterialG
                 }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_materialgroup_activated") }),
                 new sap.m.Select("", {
-                    showSecondaryValues: true,
                     items: utils.createComboBoxItems(ibas.emYesNo)
                 }).bindProperty("selectedKey", {
                     path: "/activated",
                     type: "sap.ui.model.type.Integer"
                 }),
-                
             ]
         });
         this.page = new sap.m.Page("", {

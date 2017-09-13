@@ -45,7 +45,7 @@ export class GoodsReceiptEditView extends ibas.BOEditView implements IGoodsRecei
             columnsM: 1,
             columnsS: 1,
             content: [
-                new sap.ui.core.Title("", { text: ibas.i18n.prop("materials_basis_information") }),
+                new sap.ui.core.Title("", { text: ibas.i18n.prop("materials_base_information") }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_goodsreceipt_docentry") }),
                 new sap.m.Input("", {
                     editable: false,
@@ -55,7 +55,6 @@ export class GoodsReceiptEditView extends ibas.BOEditView implements IGoodsRecei
                 }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_goodsreceipt_documentstatus") }),
                 new sap.m.Select("", {
-                    showSecondaryValues: true,
                     items: utils.createComboBoxItems(ibas.emDocumentStatus)
                 }).bindProperty("selectedKey", {
                     path: "documentStatus",
