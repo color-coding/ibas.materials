@@ -168,11 +168,11 @@ export class MaterialJournalEditApp extends ibas.BOEditApplication<IMaterialJour
         }
     }
 
-    protected chooseMaterialJournalWarehouse(): void{
+    protected chooseMaterialJournalWarehouse(): void {
         let that: this = this;
         ibas.servicesManager.runChooseService<bo.Warehouse>({
             boCode: bo.Warehouse.BUSINESS_OBJECT_CODE,
-            chooseType: ibas.emChooseType.single,
+            chooseType: ibas.emChooseType.SINGLE,
             criteria: [
                 new ibas.Condition(bo.Warehouse.PROPERTY_ACTIVATED_NAME, ibas.emConditionOperation.EQUAL, "Y")
             ],
@@ -182,11 +182,11 @@ export class MaterialJournalEditApp extends ibas.BOEditApplication<IMaterialJour
         });
     }
 
-    protected chooseMaterialJournalItemCode(): void{
+    protected chooseMaterialJournalItemCode(): void {
         let that: this = this;
         ibas.servicesManager.runChooseService<bo.Material>({
             boCode: bo.Material.BUSINESS_OBJECT_CODE,
-            chooseType: ibas.emChooseType.single,
+            chooseType: ibas.emChooseType.SINGLE,
             criteria: [
                 new ibas.Condition(bo.Warehouse.PROPERTY_ACTIVATED_NAME, ibas.emConditionOperation.EQUAL, "Y")
             ],

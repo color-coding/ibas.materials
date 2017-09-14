@@ -15,12 +15,11 @@ import { IMaterialGroupViewView } from "../../../bsapp/materialgroup/index";
  * 查看视图-物料组
  */
 export class MaterialGroupViewView extends ibas.BOViewView implements IMaterialGroupViewView {
-
     /** 绘制视图 */
     darw(): any {
         let that: this = this;
         this.form = new sap.ui.layout.form.SimpleForm("", {
-            editable: true,
+            editable: false,
             layout: sap.ui.layout.form.SimpleFormLayout.ResponsiveGridLayout,
             singleContainerFullSize: false,
             adjustLabelSpan: false,
@@ -47,9 +46,9 @@ export class MaterialGroupViewView extends ibas.BOViewView implements IMaterialG
                 new sap.m.Text("", {
                 }).bindProperty("text", {
                     path: "/createDate",
-                    type: 'sap.ui.model.type.Date',
+                    type: "sap.ui.model.type.Date",
                     formatOptions: {
-                        style: 'medium'
+                        style: "medium"
                     }
                 }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_materialgroup_createusersign") }),
@@ -61,9 +60,9 @@ export class MaterialGroupViewView extends ibas.BOViewView implements IMaterialG
                 new sap.m.Text("", {
                 }).bindProperty("text", {
                     path: "/updateDate",
-                    type: 'sap.ui.model.type.Date',
+                    type: "sap.ui.model.type.Date",
                     formatOptions: {
-                        style: 'medium'
+                        style: "medium"
                     }
                 }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_materialgroup_updateusersign") }),
@@ -76,8 +75,8 @@ export class MaterialGroupViewView extends ibas.BOViewView implements IMaterialG
                 new sap.m.Text("", {
                 }).bindProperty("text", {
                     path: "/activated",
-                    formatter(data: any): any{
-                        return ibas.enums.describe(ibas.emYesNo,data);
+                    formatter(data: any): any {
+                        return ibas.enums.describe(ibas.emYesNo, data);
                     }
                 }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_materialgroup_loginst") }),
@@ -95,7 +94,7 @@ export class MaterialGroupViewView extends ibas.BOViewView implements IMaterialG
                 }).bindProperty("text", {
                     path: "/series"
                 }),
-                
+
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_materialgroup_dataowner") }),
                 new sap.m.Text("", {
                 }).bindProperty("text", {

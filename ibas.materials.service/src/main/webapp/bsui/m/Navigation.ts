@@ -5,7 +5,6 @@
  * Use of this source code is governed by an Apache License, Version 2.0
  * that can be found in the LICENSE file at http://www.apache.org/licenses/LICENSE-2.0
  */
-
 import * as ibas from "ibas/index";
 import * as goodsissueApps from "../../bsapp/goodsissue/index";
 import * as goodsreceiptApps from "../../bsapp/goodsreceipt/index";
@@ -46,12 +45,55 @@ export default class Navigation extends ibas.ViewNavigation {
                 break;
             case goodsissueApps.GoodsIssueListApp.APPLICATION_ID:
                 view = new goodsissueViews.GoodsIssueListView();
+            case materialgroupApps.MaterialGroupListApp.APPLICATION_ID:
+                view = new materialgroupViews.MaterialGroupListView();
+                break;
+            case materialgroupApps.MaterialGroupChooseApp.APPLICATION_ID:
+                view = new materialgroupViews.MaterialGroupChooseView();
+                break;
+            case materialgroupApps.MaterialGroupViewApp.APPLICATION_ID:
+                view = new materialgroupViews.MaterialGroupViewView();
+                break;
+            case materialgroupApps.MaterialGroupEditApp.APPLICATION_ID:
+                view = new materialgroupViews.MaterialGroupEditView();
+                break;
+            case materialinventoryApps.MaterialInventoryListApp.APPLICATION_ID:
+                view = new materialinventoryViews.MaterialInventoryListView();
+                break;
+            case materialinventoryApps.MaterialInventoryChooseApp.APPLICATION_ID:
+                view = new materialinventoryViews.MaterialInventoryChooseView();
+                break;
+            case materialinventoryApps.MaterialInventoryViewApp.APPLICATION_ID:
+                view = new materialinventoryViews.MaterialInventoryViewView();
+                break;
+            case materialinventoryApps.MaterialInventoryEditApp.APPLICATION_ID:
+                view = new materialinventoryViews.MaterialInventoryEditView();
+                break;
+            case materialjournalApps.MaterialJournalListApp.APPLICATION_ID:
+                view = new materialjournalViews.MaterialJournalListView();
+                break;
+            case materialjournalApps.MaterialJournalChooseApp.APPLICATION_ID:
+                view = new materialjournalViews.MaterialJournalChooseView();
+                break;
+            case materialjournalApps.MaterialJournalViewApp.APPLICATION_ID:
+                view = new materialjournalViews.MaterialJournalViewView();
+                break;
+            case materialjournalApps.MaterialJournalEditApp.APPLICATION_ID:
+                view = new materialjournalViews.MaterialJournalEditView();
+                break;
+            case warehouseApps.WarehouseListApp.APPLICATION_ID:
+                view = new warehouseViews.WarehouseListView();
                 break;
             case warehouseApps.WarehouseChooseApp.APPLICATION_ID:
                 view = new warehouseViews.WarehouseChooseView();
                 break;
             case materialApps.MaterialChooseApp.APPLICATION_ID:
                 view = new materialViews.MaterialChooseView();
+            case warehouseApps.WarehouseViewApp.APPLICATION_ID:
+                view = new warehouseViews.WarehouseViewView();
+                break;
+            case warehouseApps.WarehouseEditApp.APPLICATION_ID:
+                view = new warehouseViews.WarehouseEditView();
                 break;
             default:
                 break;

@@ -17,7 +17,7 @@ public class testMaterialJournal extends TestCase {
      * 获取连接口令
     */
     String getToken() {
-        return "";
+        return "68fc6bac014d06ad94c5734116487cff";
     }
     
     /**
@@ -27,7 +27,13 @@ public class testMaterialJournal extends TestCase {
     public void testBasicItems() throws Exception {
         MaterialJournal bo = new MaterialJournal();
         // 测试属性赋值
-
+        bo.setItemCode("S1000011");
+        bo.setWarehouse("BJKJ");
+        bo.setQuantity(100);
+        bo.setDirection(emDirection.IN);
+        bo.setDeliveryDate(DateTime.getToday());
+        bo.setDocumentDate(DateTime.getToday());
+        bo.setBaseEntry(1);
 
         // 测试对象的保存和查询
         IOperationResult<?> operationResult = null;

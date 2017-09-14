@@ -64,7 +64,7 @@ export class MaterialJournalChooseView extends ibas.BOChooseView implements IMat
                     label: ibas.i18n.prop("bo_materialjournal_baseentry"),
                     template: new sap.m.Link("", {
                         wrapping: false,
-                        
+
                     }).bindProperty("text", {
                         path: "baseEntry"
                     })
@@ -131,7 +131,7 @@ export class MaterialJournalChooseView extends ibas.BOChooseView implements IMat
         }
         if (!done) {
             // 没有显示数据
-            this.table.setModel(new sap.ui.model.json.JSONModel({rows: datas}));
+            this.table.setModel(new sap.ui.model.json.JSONModel({ rows: datas }));
         }
         this.table.setBusy(false);
     }

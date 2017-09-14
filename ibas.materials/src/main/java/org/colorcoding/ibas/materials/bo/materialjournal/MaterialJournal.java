@@ -16,6 +16,10 @@ import org.colorcoding.ibas.bobas.mapping.DbField;
 import org.colorcoding.ibas.bobas.mapping.DbFieldType;
 import org.colorcoding.ibas.materials.MyConfiguration;
 import org.colorcoding.ibas.materials.MyConsts;
+import org.colorcoding.ibas.materials.logic.IMaterialInventoryContract;
+import org.colorcoding.ibas.materials.logic.IMaterialIssueContract;
+import org.colorcoding.ibas.materials.logic.IMaterialReceiptContract;
+import org.colorcoding.ibas.materials.logic.IMaterialWarehouseInventoryContract;
 
 /**
  * 获取-仓库日记账
@@ -25,7 +29,7 @@ import org.colorcoding.ibas.materials.MyConsts;
 @XmlType(name = MaterialJournal.BUSINESS_OBJECT_NAME, namespace = MyConsts.NAMESPACE_BO)
 @XmlRootElement(name = MaterialJournal.BUSINESS_OBJECT_NAME, namespace = MyConsts.NAMESPACE_BO)
 @BOCode(MaterialJournal.BUSINESS_OBJECT_CODE)
-public class MaterialJournal extends BusinessObject<MaterialJournal> implements IMaterialJournal {
+public class MaterialJournal extends BusinessObject<MaterialJournal> implements IMaterialJournal,IMaterialInventoryContract,IMaterialWarehouseInventoryContract {
 
 	/**
 	 * 序列化版本标记
@@ -1016,4 +1020,82 @@ public class MaterialJournal extends BusinessObject<MaterialJournal> implements 
 
 	}
 
+	/**
+	 * 根据物料-发货契约对象创建日记账分录
+	 * @param contract
+	 * @return
+	 */
+	public static IMaterialJournal create(IMaterialIssueContract contract){
+		IMaterialJournal bo = new MaterialJournal();
+		bo.setItemCode(contract.getJournal_ItemCode());
+		bo.setItemName(contract.getJournal_ItemName());
+		bo.setWarehouse(contract.getJournal_IssueWarehouseCode());
+		bo.setBaseType(contract.getJournal_BaseDocumentType());
+		bo.setBaseEntry(contract.getJournal_BaseDocumentEntry());
+		bo.setBaseLinNum(contract.getJournal_BaseDocumentLineId());
+		bo.setDirection(emDirection.OUT);
+		bo.setPostingDate(contract.getJournal_PostingDate());
+		bo.setDocumentDate(contract.getJournal_DocumentDate());
+		bo.setDeliveryDate(contract.getJournal_DeliveryDate());
+		return bo;
+	}
+
+	/**
+	 * 根据物料-收货契约对象创建日记账分录
+	 * @param contract
+	 * @return
+	 */
+	public static IMaterialJournal create(IMaterialReceiptContract contract){
+		IMaterialJournal bo = new MaterialJournal();
+		bo.setItemCode(contract.getJournal_ItemCode());
+		bo.setItemName(contract.getJournal_ItemName());
+		bo.setWarehouse(contract.getJournal_ReceiptWarehouseCode());
+		bo.setBaseType(contract.getJournal_BaseDocumentType());
+		bo.setBaseEntry(contract.getJournal_BaseDocumentEntry());
+		bo.setBaseLinNum(contract.getJournal_BaseDocumentLineId());
+		bo.setDirection(emDirection.IN);
+		bo.setPostingDate(contract.getJournal_PostingDate());
+		bo.setDocumentDate(contract.getJournal_DeliveryDate());
+		bo.setDeliveryDate(contract.getJournal_DeliveryDate());
+		return bo;
+	}
+
+	//region	物料库存契约
+	@Override
+	public String getMaterial_ItemCode() {
+		return  this.getProperty(PROPERTY_ITEMCODE);
+	}
+
+	@Override
+	public Decimal getMaterial_Quantity() {
+		return this.getProperty(PROPERTY_QUANTITY);
+	}
+
+	@Override
+	public emDirection getMaterial_Direction() {
+		return this.getProperty(PROPERTY_DIRECTION);
+	}
+
+	//endregion
+	//region 物料对应仓库库存 契约
+	@Override
+	public String getMaterialWarehouse_ItemCode() {
+		return this.getProperty(PROPERTY_ITEMCODE);
+	}
+
+	@Override
+	public String getMaterialWarehouse_Warehouse() {
+		return  this.getProperty(PROPERTY_WAREHOUSE);
+	}
+
+	@Override
+	public Decimal getMaterialWarehouse_Quantity() {
+		return  this.getProperty(PROPERTY_QUANTITY);
+	}
+
+	@Override
+	public emDirection getMaterialWarehouse_Direction() {
+		return  this.getProperty(PROPERTY_DIRECTION);
+	}
+	//endregion
 }
