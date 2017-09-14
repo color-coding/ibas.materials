@@ -1,4 +1,4 @@
-package org.colorcoding.ibas.materials.bo.materialjournal;
+package org.colorcoding.ibas.materials.bo.materialinventory;
 
 import org.colorcoding.ibas.bobas.bo.*;
 import org.colorcoding.ibas.bobas.data.*;
@@ -8,7 +8,7 @@ import org.colorcoding.ibas.materials.data.*;
 * 仓库日记账 接口
 * 
 */
-public interface IMaterialJournal extends IBOSimple {
+public interface IMaterialInventoryJournal extends IBOSimple {
 
     /**
     * 获取-物料编码
@@ -53,51 +53,6 @@ public interface IMaterialJournal extends IBOSimple {
     * @param value 值
     */
     void setWarehouse(String value);
-
-
-    /**
-    * 获取-基础单据类型
-    * 
-    * @return 值
-    */
-    String getBaseType();
-
-    /**
-    * 设置-基础单据类型
-    * 
-    * @param value 值
-    */
-    void setBaseType(String value);
-
-
-    /**
-    * 获取-基础单据号
-    * 
-    * @return 值
-    */
-    Integer getBaseEntry();
-
-    /**
-    * 设置-基础单据号
-    * 
-    * @param value 值
-    */
-    void setBaseEntry(Integer value);
-
-
-    /**
-    * 获取-基础单据行
-    * 
-    * @return 值
-    */
-    Integer getBaseLinNum();
-
-    /**
-    * 设置-基础单据行
-    * 
-    * @param value 值
-    */
-    void setBaseLinNum(Integer value);
 
 
     /**
@@ -281,6 +236,51 @@ public interface IMaterialJournal extends IBOSimple {
     * @param value 值
     */
     void setDocumentDate(DateTime value);
+
+
+    /**
+    * 获取-基于类型
+    * 
+    * @return 值
+    */
+    String getBaseDocumentType();
+
+    /**
+    * 设置-基于类型
+    * 
+    * @param value 值
+    */
+    void setBaseDocumentType(String value);
+
+
+    /**
+    * 获取-基于标识
+    * 
+    * @return 值
+    */
+    Integer getBaseDocumentEntry();
+
+    /**
+    * 设置-基于标识
+    * 
+    * @param value 值
+    */
+    void setBaseDocumentEntry(Integer value);
+
+
+    /**
+    * 获取-基于行号
+    * 
+    * @return 值
+    */
+    Integer getBaseDocumentLineId();
+
+    /**
+    * 设置-基于行号
+    * 
+    * @param value 值
+    */
+    void setBaseDocumentLineId(Integer value);
 
 
     /**

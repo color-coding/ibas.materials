@@ -1,141 +1,274 @@
 package org.colorcoding.ibas.materials.repository;
 
-import org.colorcoding.ibas.bobas.common.*;
-import org.colorcoding.ibas.bobas.repository.*;
-import org.colorcoding.ibas.materials.bo.goodsissue.*;
-import org.colorcoding.ibas.materials.bo.goodsreceipt.*;
-import org.colorcoding.ibas.materials.bo.inventorytransfer.*;
-import org.colorcoding.ibas.materials.bo.material.*;
-import org.colorcoding.ibas.materials.bo.materialgroup.*;
-import org.colorcoding.ibas.materials.bo.materialinventory.*;
-import org.colorcoding.ibas.materials.bo.materialjournal.*;
-import org.colorcoding.ibas.materials.bo.warehouse.*;
+import org.colorcoding.ibas.bobas.common.ICriteria;
+import org.colorcoding.ibas.bobas.common.IOperationResult;
+import org.colorcoding.ibas.bobas.repository.IBORepositoryApplication;
+import org.colorcoding.ibas.materials.bo.goodsissue.IGoodsIssue;
+import org.colorcoding.ibas.materials.bo.goodsreceipt.IGoodsReceipt;
+import org.colorcoding.ibas.materials.bo.inventorytransfer.IInventoryTransfer;
+import org.colorcoding.ibas.materials.bo.material.IMaterial;
+import org.colorcoding.ibas.materials.bo.materialbatch.IMaterialBatch;
+import org.colorcoding.ibas.materials.bo.materialbatch.IMaterialBatchJournal;
+import org.colorcoding.ibas.materials.bo.materialgroup.IMaterialGroup;
+import org.colorcoding.ibas.materials.bo.materialinventory.IMaterialInventory;
+import org.colorcoding.ibas.materials.bo.materialinventory.IMaterialInventoryJournal;
+import org.colorcoding.ibas.materials.bo.materialpricelist.IMaterialPriceList;
+import org.colorcoding.ibas.materials.bo.materialserial.IMaterialSerial;
+import org.colorcoding.ibas.materials.bo.materialserial.IMaterialSerialJournal;
+import org.colorcoding.ibas.materials.bo.warehouse.IWarehouse;
 
 /**
-* Materials仓库应用
-*/
+ * Materials仓库应用
+ */
 public interface IBORepositoryMaterialsApp extends IBORepositoryApplication {
 
-    //--------------------------------------------------------------------------------------------//
-    /**
-     * 查询-库存发货
-     * @param criteria 查询
-     * @return 操作结果
-     */
-    IOperationResult<IGoodsIssue> fetchGoodsIssue(ICriteria criteria);
+	// --------------------------------------------------------------------------------------------//
+	/**
+	 * 查询-库存发货
+	 * 
+	 * @param criteria
+	 *            查询
+	 * @return 操作结果
+	 */
+	IOperationResult<IGoodsIssue> fetchGoodsIssue(ICriteria criteria);
 
-    /**
-     * 保存-库存发货
-     * @param bo 对象实例
-     * @return 操作结果
-     */
-    IOperationResult<IGoodsIssue> saveGoodsIssue(IGoodsIssue bo);
+	/**
+	 * 保存-库存发货
+	 * 
+	 * @param bo
+	 *            对象实例
+	 * @return 操作结果
+	 */
+	IOperationResult<IGoodsIssue> saveGoodsIssue(IGoodsIssue bo);
 
-    //--------------------------------------------------------------------------------------------//
-    /**
-     * 查询-库存收货
-     * @param criteria 查询
-     * @return 操作结果
-     */
-    IOperationResult<IGoodsReceipt> fetchGoodsReceipt(ICriteria criteria);
+	// --------------------------------------------------------------------------------------------//
+	/**
+	 * 查询-库存收货
+	 * 
+	 * @param criteria
+	 *            查询
+	 * @return 操作结果
+	 */
+	IOperationResult<IGoodsReceipt> fetchGoodsReceipt(ICriteria criteria);
 
-    /**
-     * 保存-库存收货
-     * @param bo 对象实例
-     * @return 操作结果
-     */
-    IOperationResult<IGoodsReceipt> saveGoodsReceipt(IGoodsReceipt bo);
+	/**
+	 * 保存-库存收货
+	 * 
+	 * @param bo
+	 *            对象实例
+	 * @return 操作结果
+	 */
+	IOperationResult<IGoodsReceipt> saveGoodsReceipt(IGoodsReceipt bo);
 
-    //--------------------------------------------------------------------------------------------//
-    /**
-     * 查询-库存转储
-     * @param criteria 查询
-     * @return 操作结果
-     */
-    IOperationResult<IInventoryTransfer> fetchInventoryTransfer(ICriteria criteria);
+	// --------------------------------------------------------------------------------------------//
+	/**
+	 * 查询-库存转储
+	 * 
+	 * @param criteria
+	 *            查询
+	 * @return 操作结果
+	 */
+	IOperationResult<IInventoryTransfer> fetchInventoryTransfer(ICriteria criteria);
 
-    /**
-     * 保存-库存转储
-     * @param bo 对象实例
-     * @return 操作结果
-     */
-    IOperationResult<IInventoryTransfer> saveInventoryTransfer(IInventoryTransfer bo);
+	/**
+	 * 保存-库存转储
+	 * 
+	 * @param bo
+	 *            对象实例
+	 * @return 操作结果
+	 */
+	IOperationResult<IInventoryTransfer> saveInventoryTransfer(IInventoryTransfer bo);
 
-    //--------------------------------------------------------------------------------------------//
-    /**
-     * 查询-物料
-     * @param criteria 查询
-     * @return 操作结果
-     */
-    IOperationResult<IMaterial> fetchMaterial(ICriteria criteria);
+	// --------------------------------------------------------------------------------------------//
+	/**
+	 * 查询-物料
+	 * 
+	 * @param criteria
+	 *            查询
+	 * @return 操作结果
+	 */
+	IOperationResult<IMaterial> fetchMaterial(ICriteria criteria);
 
-    /**
-     * 保存-物料
-     * @param bo 对象实例
-     * @return 操作结果
-     */
-    IOperationResult<IMaterial> saveMaterial(IMaterial bo);
+	/**
+	 * 保存-物料
+	 * 
+	 * @param bo
+	 *            对象实例
+	 * @return 操作结果
+	 */
+	IOperationResult<IMaterial> saveMaterial(IMaterial bo);
 
-    //--------------------------------------------------------------------------------------------//
-    /**
-     * 查询-物料组
-     * @param criteria 查询
-     * @return 操作结果
-     */
-    IOperationResult<IMaterialGroup> fetchMaterialGroup(ICriteria criteria);
+	// --------------------------------------------------------------------------------------------//
+	/**
+	 * 查询-物料组
+	 * 
+	 * @param criteria
+	 *            查询
+	 * @return 操作结果
+	 */
+	IOperationResult<IMaterialGroup> fetchMaterialGroup(ICriteria criteria);
 
-    /**
-     * 保存-物料组
-     * @param bo 对象实例
-     * @return 操作结果
-     */
-    IOperationResult<IMaterialGroup> saveMaterialGroup(IMaterialGroup bo);
+	/**
+	 * 保存-物料组
+	 * 
+	 * @param bo
+	 *            对象实例
+	 * @return 操作结果
+	 */
+	IOperationResult<IMaterialGroup> saveMaterialGroup(IMaterialGroup bo);
 
-    //--------------------------------------------------------------------------------------------//
-    /**
-     * 查询-物料库存
-     * @param criteria 查询
-     * @return 操作结果
-     */
-    IOperationResult<IMaterialInventory> fetchMaterialInventory(ICriteria criteria);
+	// --------------------------------------------------------------------------------------------//
+	/**
+	 * 查询-物料库存
+	 * 
+	 * @param criteria
+	 *            查询
+	 * @return 操作结果
+	 */
+	IOperationResult<IMaterialInventory> fetchMaterialInventory(ICriteria criteria);
 
-    /**
-     * 保存-物料库存
-     * @param bo 对象实例
-     * @return 操作结果
-     */
-    IOperationResult<IMaterialInventory> saveMaterialInventory(IMaterialInventory bo);
+	/**
+	 * 保存-物料库存
+	 * 
+	 * @param bo
+	 *            对象实例
+	 * @return 操作结果
+	 */
+	IOperationResult<IMaterialInventory> saveMaterialInventory(IMaterialInventory bo);
 
-    //--------------------------------------------------------------------------------------------//
-    /**
-     * 查询-仓库日记账
-     * @param criteria 查询
-     * @return 操作结果
-     */
-    IOperationResult<IMaterialJournal> fetchMaterialJournal(ICriteria criteria);
+	// --------------------------------------------------------------------------------------------//
+	/**
+	 * 查询-仓库日记账
+	 * 
+	 * @param criteria
+	 *            查询
+	 * @return 操作结果
+	 */
+	IOperationResult<IMaterialInventoryJournal> fetchMaterialInventoryJournal(ICriteria criteria);
 
-    /**
-     * 保存-仓库日记账
-     * @param bo 对象实例
-     * @return 操作结果
-     */
-    IOperationResult<IMaterialJournal> saveMaterialJournal(IMaterialJournal bo);
+	/**
+	 * 保存-仓库日记账
+	 * 
+	 * @param bo
+	 *            对象实例
+	 * @return 操作结果
+	 */
+	IOperationResult<IMaterialInventoryJournal> saveMaterialInventoryJournal(IMaterialInventoryJournal bo);
 
-    //--------------------------------------------------------------------------------------------//
-    /**
-     * 查询-仓库
-     * @param criteria 查询
-     * @return 操作结果
-     */
-    IOperationResult<IWarehouse> fetchWarehouse(ICriteria criteria);
+	// --------------------------------------------------------------------------------------------//
+	/**
+	 * 查询-物料价格清单
+	 * 
+	 * @param criteria
+	 *            查询
+	 * @return 操作结果
+	 */
+	IOperationResult<IMaterialPriceList> fetchMaterialPriceList(ICriteria criteria);
 
-    /**
-     * 保存-仓库
-     * @param bo 对象实例
-     * @return 操作结果
-     */
-    IOperationResult<IWarehouse> saveWarehouse(IWarehouse bo);
+	/**
+	 * 保存-物料价格清单
+	 * 
+	 * @param bo
+	 *            对象实例
+	 * @return 操作结果
+	 */
+	IOperationResult<IMaterialPriceList> saveMaterialPriceList(IMaterialPriceList bo);
 
-    //--------------------------------------------------------------------------------------------//
+	// --------------------------------------------------------------------------------------------//
+	/**
+	 * 查询-物料批次
+	 * 
+	 * @param criteria
+	 *            查询
+	 * @return 操作结果
+	 */
+	IOperationResult<IMaterialBatch> fetchMaterialBatch(ICriteria criteria);
+
+	/**
+	 * 保存-物料批次
+	 * 
+	 * @param bo
+	 *            对象实例
+	 * @return 操作结果
+	 */
+	IOperationResult<IMaterialBatch> saveMaterialBatch(IMaterialBatch bo);
+
+	// --------------------------------------------------------------------------------------------//
+	/**
+	 * 查询-物料批次日记账
+	 * 
+	 * @param criteria
+	 *            查询
+	 * @return 操作结果
+	 */
+	IOperationResult<IMaterialBatchJournal> fetchMaterialBatchJournal(ICriteria criteria);
+
+	/**
+	 * 保存-物料批次日记账
+	 * 
+	 * @param bo
+	 *            对象实例
+	 * @return 操作结果
+	 */
+	IOperationResult<IMaterialBatchJournal> saveMaterialBatchJournal(IMaterialBatchJournal bo);
+
+	// --------------------------------------------------------------------------------------------//
+	/**
+	 * 查询-物料序列号
+	 * 
+	 * @param criteria
+	 *            查询
+	 * @return 操作结果
+	 */
+	IOperationResult<IMaterialSerial> fetchMaterialSerial(ICriteria criteria);
+
+	/**
+	 * 保存-物料序列号
+	 * 
+	 * @param bo
+	 *            对象实例
+	 * @return 操作结果
+	 */
+	IOperationResult<IMaterialSerial> saveMaterialSerial(IMaterialSerial bo);
+
+	// --------------------------------------------------------------------------------------------//
+	/**
+	 * 查询-物料序列号日记账
+	 * 
+	 * @param criteria
+	 *            查询
+	 * @return 操作结果
+	 */
+	IOperationResult<IMaterialSerialJournal> fetchMaterialSerialJournal(ICriteria criteria);
+
+	/**
+	 * 保存-物料序列号日记账
+	 * 
+	 * @param bo
+	 *            对象实例
+	 * @return 操作结果
+	 */
+	IOperationResult<IMaterialSerialJournal> saveMaterialSerialJournal(IMaterialSerialJournal bo);
+
+	// --------------------------------------------------------------------------------------------//
+	/**
+	 * 查询-仓库
+	 * 
+	 * @param criteria
+	 *            查询
+	 * @return 操作结果
+	 */
+	IOperationResult<IWarehouse> fetchWarehouse(ICriteria criteria);
+
+	/**
+	 * 保存-仓库
+	 * 
+	 * @param bo
+	 *            对象实例
+	 * @return 操作结果
+	 */
+	IOperationResult<IWarehouse> saveWarehouse(IWarehouse bo);
+
+	// --------------------------------------------------------------------------------------------//
 
 }

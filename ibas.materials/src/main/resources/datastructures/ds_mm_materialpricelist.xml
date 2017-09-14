@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE Domain>
+<Domain Name="Materials" ShortName="MM">
+  <Model Name="MaterialPriceList" Description="物料价格清单" ModelType="Simple" Mapped="${Company}_MM_OMPL">
+    <Property Name="Name" Description="名称" DataType="Alphanumeric" DataSubType="Default" EditSize="20" Mapped="Name"/>
+    <Property Name="Group" Description="分组" DataType="Alphanumeric" DataSubType="Default" EditSize="8" Mapped="Group"/>
+    <Property Name="Currency" Description="币种" DataType="Alphanumeric" DataSubType="Default" EditSize="8" Mapped="Currency"/>
+    <Property Name="BasedOnList" Description="基于的清单" DataType="Numeric" DataSubType="Default" EditSize="8" Mapped="BasedOn"/>
+    <Property Name="Factor" Description="系数" DataType="Decimal" DataSubType="Percentage" EditSize="8" Mapped="Factor"/>
+    <Property Name="ValidDate" Description="生效日期" DataType="Date" DataSubType="Default" EditSize="8" Mapped="ValidDate"/>
+    <Property Name="InvalidDate" Description="失效日期" DataType="Date" DataSubType="Default" EditSize="8" Mapped="InvalidDate"/>
+    <Property Name="ObjectKey" Description="对象编号" DataType="Numeric" DataSubType="Default" EditSize="8" Mapped="ObjectKey" PrimaryKey="Yes"/>
+    <Property Name="ObjectCode" Description="对象类型" DataType="Alphanumeric" DataSubType="Default" EditSize="30" Mapped="ObjectCode"/>
+    <Property Name="LogInst" Description="实例号" DataType="Numeric" DataSubType="Default" EditSize="8" Mapped="LogInst"/>
+    <Property Name="Series" Description="服务系列" DataType="Numeric" DataSubType="Default" EditSize="8" Mapped="Series"/>
+    <Property Name="DataSource" Description="数据源" DataType="Alphanumeric" DataSubType="Default" EditSize="8" Mapped="DataSource"/>
+    <Property Name="CreateDate" Description="创建日期" DataType="Date" DataSubType="Default" EditSize="8" Mapped="CreateDate"/>
+    <Property Name="CreateTime" Description="创建时间" DataType="Date" DataSubType="Time" EditSize="8" Mapped="CreateTime"/>
+    <Property Name="UpdateDate" Description="更新日期" DataType="Date" DataSubType="Default" EditSize="8" Mapped="UpdateDate"/>
+    <Property Name="UpdateTime" Description="更新时间" DataType="Date" DataSubType="Time" EditSize="8" Mapped="UpdateTime"/>
+    <Property Name="CreateUserSign" Description="创建用户" DataType="Numeric" DataSubType="Default" EditSize="8" Mapped="Creator"/>
+    <Property Name="UpdateUserSign" Description="更新用户" DataType="Numeric" DataSubType="Default" EditSize="8" Mapped="Updator"/>
+    <Property Name="CreateActionId" Description="创建动作标识" DataType="Alphanumeric" DataSubType="Default" EditSize="36" Mapped="CreateActId"/>
+    <Property Name="UpdateActionId" Description="更新动作标识" DataType="Alphanumeric" DataSubType="Default" EditSize="36" Mapped="UpdateActId"/>
+  </Model>
+  <Model Name="MaterialPriceItem" Description="物料价格项目" ModelType="SimpleLine" Mapped="${Company}_MM_MPL1">
+    <Property Name="ItemCode" Description="物料编号" DataType="Alphanumeric" DataSubType="Default" EditSize="30" Mapped="ItemCode" UniqueKey="Yes"/>
+    <Property Name="Price" Description="价格" DataType="Decimal" DataSubType="Price" EditSize="8" Mapped="Price"/>
+    <Property Name="ObjectKey" Description="对象编号" DataType="Numeric" DataSubType="Default" EditSize="8" Mapped="ObjectKey" PrimaryKey="Yes" UniqueKey="Yes"/>
+    <Property Name="LineId" Description="对象行号" DataType="Numeric" DataSubType="Default" EditSize="8" Mapped="LineId" PrimaryKey="Yes"/>
+    <Property Name="ObjectCode" Description="对象类型" DataType="Alphanumeric" DataSubType="Default" EditSize="30" Mapped="ObjectCode"/>
+    <Property Name="LogInst" Description="实例号" DataType="Numeric" DataSubType="Default" EditSize="8" Mapped="LogInst"/>
+    <Property Name="DataSource" Description="数据源" DataType="Alphanumeric" DataSubType="Default" EditSize="8" Mapped="DataSource"/>
+    <Property Name="CreateDate" Description="创建日期" DataType="Date" DataSubType="Default" EditSize="8" Mapped="CreateDate"/>
+    <Property Name="CreateTime" Description="创建时间" DataType="Date" DataSubType="Time" EditSize="8" Mapped="CreateTime"/>
+    <Property Name="UpdateDate" Description="更新日期" DataType="Date" DataSubType="Default" EditSize="8" Mapped="UpdateDate"/>
+    <Property Name="UpdateTime" Description="更新时间" DataType="Date" DataSubType="Time" EditSize="8" Mapped="UpdateTime"/>
+    <Property Name="CreateUserSign" Description="创建用户" DataType="Numeric" DataSubType="Default" EditSize="8" Mapped="Creator"/>
+    <Property Name="UpdateUserSign" Description="更新用户" DataType="Numeric" DataSubType="Default" EditSize="8" Mapped="Updator"/>
+    <Property Name="CreateActionId" Description="创建动作标识" DataType="Alphanumeric" DataSubType="Default" EditSize="36" Mapped="CreateActId"/>
+    <Property Name="UpdateActionId" Description="更新动作标识" DataType="Alphanumeric" DataSubType="Default" EditSize="36" Mapped="UpdateActId"/>
+  </Model>
+  <BusinessObject MappedModel="MaterialPriceList" ShortName="${Company}_MM_PRICELIST">
+    <RelatedBO Relation="OneToMany" MappedModel="MaterialPriceItem"/>
+  </BusinessObject>
+</Domain>

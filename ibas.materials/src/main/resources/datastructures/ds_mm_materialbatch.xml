@@ -29,8 +29,6 @@
     <Property Name="UpdateUserSign" Description="更新用户" DataType="Numeric" DataSubType="Default" EditSize="8" Mapped="Updator"/>
     <Property Name="CreateActionId" Description="创建动作标识" DataType="Alphanumeric" DataSubType="Default" EditSize="36" Mapped="CreateActId"/>
     <Property Name="UpdateActionId" Description="更新动作标识" DataType="Alphanumeric" DataSubType="Default" EditSize="36" Mapped="UpdateActId"/>
-    <Property Name="DataOwner" Description="数据所有者" DataType="Numeric" DataSubType="Default" EditSize="8" Mapped="DataOwner"/>
-    <Property Name="Organization" Description="数据所属组织" DataType="Alphanumeric" DataSubType="Default" EditSize="8" Mapped="OrgCode"/>
   </Model>
   <BusinessObject MappedModel="MaterialBatch" ShortName="${Company}_MM_BATCH"/>
 </Domain>

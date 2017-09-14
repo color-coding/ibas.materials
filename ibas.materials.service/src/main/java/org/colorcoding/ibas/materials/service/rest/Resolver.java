@@ -6,16 +6,22 @@ import javax.ws.rs.ext.Provider;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 
-import org.colorcoding.ibas.bobas.bo.*;
-import org.colorcoding.ibas.bobas.common.*;
-import org.colorcoding.ibas.materials.bo.goodsissue.*;
-import org.colorcoding.ibas.materials.bo.goodsreceipt.*;
-import org.colorcoding.ibas.materials.bo.inventorytransfer.*;
-import org.colorcoding.ibas.materials.bo.material.*;
-import org.colorcoding.ibas.materials.bo.materialgroup.*;
-import org.colorcoding.ibas.materials.bo.materialinventory.*;
-import org.colorcoding.ibas.materials.bo.materialjournal.*;
-import org.colorcoding.ibas.materials.bo.warehouse.*;
+import org.colorcoding.ibas.bobas.bo.UserFieldProxy;
+import org.colorcoding.ibas.bobas.common.Criteria;
+import org.colorcoding.ibas.bobas.common.OperationResult;
+import org.colorcoding.ibas.materials.bo.goodsissue.GoodsIssue;
+import org.colorcoding.ibas.materials.bo.goodsreceipt.GoodsReceipt;
+import org.colorcoding.ibas.materials.bo.inventorytransfer.InventoryTransfer;
+import org.colorcoding.ibas.materials.bo.material.Material;
+import org.colorcoding.ibas.materials.bo.materialbatch.MaterialBatch;
+import org.colorcoding.ibas.materials.bo.materialbatch.MaterialBatchJournal;
+import org.colorcoding.ibas.materials.bo.materialgroup.MaterialGroup;
+import org.colorcoding.ibas.materials.bo.materialinventory.MaterialInventory;
+import org.colorcoding.ibas.materials.bo.materialinventory.MaterialInventoryJournal;
+import org.colorcoding.ibas.materials.bo.materialpricelist.MaterialPriceList;
+import org.colorcoding.ibas.materials.bo.materialserial.MaterialSerial;
+import org.colorcoding.ibas.materials.bo.materialserial.MaterialSerialJournal;
+import org.colorcoding.ibas.materials.bo.warehouse.Warehouse;
 
 /**
  * 序列化解释器
@@ -24,27 +30,21 @@ import org.colorcoding.ibas.materials.bo.warehouse.*;
 @Produces({ "application/json" })
 public class Resolver implements ContextResolver<JAXBContext> {
 
-    private static JAXBContext jaxbContext = null;
+	private static JAXBContext jaxbContext = null;
 
-    public JAXBContext getContext(Class<?> type) {
-        try {
-            if (jaxbContext == null) {
-                jaxbContext = JAXBContext.newInstance(Criteria.class, OperationResult.class
-                    , UserFieldProxy.class
-                    , GoodsIssue.class
-                    , GoodsReceipt.class
-                    , InventoryTransfer.class
-                    , Material.class
-                    , MaterialGroup.class
-                    , MaterialInventory.class
-                    , MaterialJournal.class
-                    , Warehouse.class
-                );
-            }
-        } catch (JAXBException e) {
-            e.printStackTrace();
-        }
-        return jaxbContext;
-    }
+	public JAXBContext getContext(Class<?> type) {
+		try {
+			if (jaxbContext == null) {
+				jaxbContext = JAXBContext.newInstance(Criteria.class, OperationResult.class, UserFieldProxy.class,
+						GoodsIssue.class, GoodsReceipt.class, InventoryTransfer.class, Material.class,
+						MaterialBatch.class, MaterialBatchJournal.class, MaterialGroup.class, MaterialInventory.class,
+						MaterialInventoryJournal.class, MaterialPriceList.class, MaterialSerial.class,
+						MaterialSerialJournal.class, Warehouse.class);
+			}
+		} catch (JAXBException e) {
+			e.printStackTrace();
+		}
+		return jaxbContext;
+	}
 
 }

@@ -1,4 +1,4 @@
-package org.colorcoding.ibas.materials.bo.materialjournal;
+package org.colorcoding.ibas.materials.bo.materialinventory;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -26,20 +26,21 @@ import org.colorcoding.ibas.materials.logic.IMaterialWarehouseInventoryContract;
  * 
  */
 @XmlAccessorType(XmlAccessType.NONE)
-@XmlType(name = MaterialJournal.BUSINESS_OBJECT_NAME, namespace = MyConsts.NAMESPACE_BO)
-@XmlRootElement(name = MaterialJournal.BUSINESS_OBJECT_NAME, namespace = MyConsts.NAMESPACE_BO)
-@BOCode(MaterialJournal.BUSINESS_OBJECT_CODE)
-public class MaterialJournal extends BusinessObject<MaterialJournal> implements IMaterialJournal,IMaterialInventoryContract,IMaterialWarehouseInventoryContract {
+@XmlType(name = MaterialInventoryJournal.BUSINESS_OBJECT_NAME, namespace = MyConsts.NAMESPACE_BO)
+@XmlRootElement(name = MaterialInventoryJournal.BUSINESS_OBJECT_NAME, namespace = MyConsts.NAMESPACE_BO)
+@BOCode(MaterialInventoryJournal.BUSINESS_OBJECT_CODE)
+public class MaterialInventoryJournal extends BusinessObject<MaterialInventoryJournal>
+		implements IMaterialInventoryJournal, IMaterialInventoryContract, IMaterialWarehouseInventoryContract {
 
 	/**
 	 * 序列化版本标记
 	 */
-	private static final long serialVersionUID = 2417343630251400673L;
+	private static final long serialVersionUID = 8519972992473541588L;
 
 	/**
 	 * 当前类型
 	 */
-	private static final Class<?> MY_CLASS = MaterialJournal.class;
+	private static final Class<?> MY_CLASS = MaterialInventoryJournal.class;
 
 	/**
 	 * 数据库表
@@ -49,12 +50,12 @@ public class MaterialJournal extends BusinessObject<MaterialJournal> implements 
 	/**
 	 * 业务对象编码
 	 */
-	public static final String BUSINESS_OBJECT_CODE = "${Company}_MM_MATERIALJOURNAL";
+	public static final String BUSINESS_OBJECT_CODE = "${Company}_MM_INVENTORYJOURNAL";
 
 	/**
 	 * 业务对象名称
 	 */
-	public static final String BUSINESS_OBJECT_NAME = "MaterialJournal";
+	public static final String BUSINESS_OBJECT_NAME = "MaterialInventoryJournal";
 
 	/**
 	 * 属性名称-物料编码
@@ -150,102 +151,6 @@ public class MaterialJournal extends BusinessObject<MaterialJournal> implements 
 	 */
 	public final void setWarehouse(String value) {
 		this.setProperty(PROPERTY_WAREHOUSE, value);
-	}
-
-	/**
-	 * 属性名称-基础单据类型
-	 */
-	private static final String PROPERTY_BASETYPE_NAME = "BaseType";
-
-	/**
-	 * 基础单据类型 属性
-	 */
-	@DbField(name = "BaseType", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME, primaryKey = false)
-	public static final IPropertyInfo<String> PROPERTY_BASETYPE = registerProperty(PROPERTY_BASETYPE_NAME, String.class,
-			MY_CLASS);
-
-	/**
-	 * 获取-基础单据类型
-	 * 
-	 * @return 值
-	 */
-	@XmlElement(name = PROPERTY_BASETYPE_NAME)
-	public final String getBaseType() {
-		return this.getProperty(PROPERTY_BASETYPE);
-	}
-
-	/**
-	 * 设置-基础单据类型
-	 * 
-	 * @param value
-	 *            值
-	 */
-	public final void setBaseType(String value) {
-		this.setProperty(PROPERTY_BASETYPE, value);
-	}
-
-	/**
-	 * 属性名称-基础单据号
-	 */
-	private static final String PROPERTY_BASEENTRY_NAME = "BaseEntry";
-
-	/**
-	 * 基础单据号 属性
-	 */
-	@DbField(name = "BaseEntry", type = DbFieldType.NUMERIC, table = DB_TABLE_NAME, primaryKey = false)
-	public static final IPropertyInfo<Integer> PROPERTY_BASEENTRY = registerProperty(PROPERTY_BASEENTRY_NAME,
-			Integer.class, MY_CLASS);
-
-	/**
-	 * 获取-基础单据号
-	 * 
-	 * @return 值
-	 */
-	@XmlElement(name = PROPERTY_BASEENTRY_NAME)
-	public final Integer getBaseEntry() {
-		return this.getProperty(PROPERTY_BASEENTRY);
-	}
-
-	/**
-	 * 设置-基础单据号
-	 * 
-	 * @param value
-	 *            值
-	 */
-	public final void setBaseEntry(Integer value) {
-		this.setProperty(PROPERTY_BASEENTRY, value);
-	}
-
-	/**
-	 * 属性名称-基础单据行
-	 */
-	private static final String PROPERTY_BASELINNUM_NAME = "BaseLinNum";
-
-	/**
-	 * 基础单据行 属性
-	 */
-	@DbField(name = "BaseLinNum", type = DbFieldType.NUMERIC, table = DB_TABLE_NAME, primaryKey = false)
-	public static final IPropertyInfo<Integer> PROPERTY_BASELINNUM = registerProperty(PROPERTY_BASELINNUM_NAME,
-			Integer.class, MY_CLASS);
-
-	/**
-	 * 获取-基础单据行
-	 * 
-	 * @return 值
-	 */
-	@XmlElement(name = PROPERTY_BASELINNUM_NAME)
-	public final Integer getBaseLinNum() {
-		return this.getProperty(PROPERTY_BASELINNUM);
-	}
-
-	/**
-	 * 设置-基础单据行
-	 * 
-	 * @param value
-	 *            值
-	 */
-	public final void setBaseLinNum(Integer value) {
-		this.setProperty(PROPERTY_BASELINNUM, value);
 	}
 
 	/**
@@ -592,6 +497,102 @@ public class MaterialJournal extends BusinessObject<MaterialJournal> implements 
 	 */
 	public final void setDocumentDate(DateTime value) {
 		this.setProperty(PROPERTY_DOCUMENTDATE, value);
+	}
+
+	/**
+	 * 属性名称-基于类型
+	 */
+	private static final String PROPERTY_BASEDOCUMENTTYPE_NAME = "BaseDocumentType";
+
+	/**
+	 * 基于类型 属性
+	 */
+	@DbField(name = "BaseType", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME, primaryKey = false)
+	public static final IPropertyInfo<String> PROPERTY_BASEDOCUMENTTYPE = registerProperty(
+			PROPERTY_BASEDOCUMENTTYPE_NAME, String.class, MY_CLASS);
+
+	/**
+	 * 获取-基于类型
+	 * 
+	 * @return 值
+	 */
+	@XmlElement(name = PROPERTY_BASEDOCUMENTTYPE_NAME)
+	public final String getBaseDocumentType() {
+		return this.getProperty(PROPERTY_BASEDOCUMENTTYPE);
+	}
+
+	/**
+	 * 设置-基于类型
+	 * 
+	 * @param value
+	 *            值
+	 */
+	public final void setBaseDocumentType(String value) {
+		this.setProperty(PROPERTY_BASEDOCUMENTTYPE, value);
+	}
+
+	/**
+	 * 属性名称-基于标识
+	 */
+	private static final String PROPERTY_BASEDOCUMENTENTRY_NAME = "BaseDocumentEntry";
+
+	/**
+	 * 基于标识 属性
+	 */
+	@DbField(name = "BaseEntry", type = DbFieldType.NUMERIC, table = DB_TABLE_NAME, primaryKey = false)
+	public static final IPropertyInfo<Integer> PROPERTY_BASEDOCUMENTENTRY = registerProperty(
+			PROPERTY_BASEDOCUMENTENTRY_NAME, Integer.class, MY_CLASS);
+
+	/**
+	 * 获取-基于标识
+	 * 
+	 * @return 值
+	 */
+	@XmlElement(name = PROPERTY_BASEDOCUMENTENTRY_NAME)
+	public final Integer getBaseDocumentEntry() {
+		return this.getProperty(PROPERTY_BASEDOCUMENTENTRY);
+	}
+
+	/**
+	 * 设置-基于标识
+	 * 
+	 * @param value
+	 *            值
+	 */
+	public final void setBaseDocumentEntry(Integer value) {
+		this.setProperty(PROPERTY_BASEDOCUMENTENTRY, value);
+	}
+
+	/**
+	 * 属性名称-基于行号
+	 */
+	private static final String PROPERTY_BASEDOCUMENTLINEID_NAME = "BaseDocumentLineId";
+
+	/**
+	 * 基于行号 属性
+	 */
+	@DbField(name = "BaseLine", type = DbFieldType.NUMERIC, table = DB_TABLE_NAME, primaryKey = false)
+	public static final IPropertyInfo<Integer> PROPERTY_BASEDOCUMENTLINEID = registerProperty(
+			PROPERTY_BASEDOCUMENTLINEID_NAME, Integer.class, MY_CLASS);
+
+	/**
+	 * 获取-基于行号
+	 * 
+	 * @return 值
+	 */
+	@XmlElement(name = PROPERTY_BASEDOCUMENTLINEID_NAME)
+	public final Integer getBaseDocumentLineId() {
+		return this.getProperty(PROPERTY_BASEDOCUMENTLINEID);
+	}
+
+	/**
+	 * 设置-基于行号
+	 * 
+	 * @param value
+	 *            值
+	 */
+	public final void setBaseDocumentLineId(Integer value) {
+		this.setProperty(PROPERTY_BASEDOCUMENTLINEID, value);
 	}
 
 	/**
@@ -1022,17 +1023,18 @@ public class MaterialJournal extends BusinessObject<MaterialJournal> implements 
 
 	/**
 	 * 根据物料-发货契约对象创建日记账分录
+	 * 
 	 * @param contract
 	 * @return
 	 */
-	public static IMaterialJournal create(IMaterialIssueContract contract){
-		IMaterialJournal bo = new MaterialJournal();
+	public static IMaterialInventoryJournal create(IMaterialIssueContract contract) {
+		IMaterialInventoryJournal bo = new MaterialInventoryJournal();
 		bo.setItemCode(contract.getJournal_ItemCode());
 		bo.setItemName(contract.getJournal_ItemName());
 		bo.setWarehouse(contract.getJournal_IssueWarehouseCode());
-		bo.setBaseType(contract.getJournal_BaseDocumentType());
-		bo.setBaseEntry(contract.getJournal_BaseDocumentEntry());
-		bo.setBaseLinNum(contract.getJournal_BaseDocumentLineId());
+		bo.setBaseDocumentType(contract.getJournal_BaseDocumentType());
+		bo.setBaseDocumentEntry(contract.getJournal_BaseDocumentEntry());
+		bo.setBaseDocumentLineId(contract.getJournal_BaseDocumentLineId());
 		bo.setDirection(emDirection.OUT);
 		bo.setPostingDate(contract.getJournal_PostingDate());
 		bo.setDocumentDate(contract.getJournal_DocumentDate());
@@ -1042,17 +1044,18 @@ public class MaterialJournal extends BusinessObject<MaterialJournal> implements 
 
 	/**
 	 * 根据物料-收货契约对象创建日记账分录
+	 * 
 	 * @param contract
 	 * @return
 	 */
-	public static IMaterialJournal create(IMaterialReceiptContract contract){
-		IMaterialJournal bo = new MaterialJournal();
+	public static IMaterialInventoryJournal create(IMaterialReceiptContract contract) {
+		IMaterialInventoryJournal bo = new MaterialInventoryJournal();
 		bo.setItemCode(contract.getJournal_ItemCode());
 		bo.setItemName(contract.getJournal_ItemName());
 		bo.setWarehouse(contract.getJournal_ReceiptWarehouseCode());
-		bo.setBaseType(contract.getJournal_BaseDocumentType());
-		bo.setBaseEntry(contract.getJournal_BaseDocumentEntry());
-		bo.setBaseLinNum(contract.getJournal_BaseDocumentLineId());
+		bo.setBaseDocumentType(contract.getJournal_BaseDocumentType());
+		bo.setBaseDocumentEntry(contract.getJournal_BaseDocumentEntry());
+		bo.setBaseDocumentLineId(contract.getJournal_BaseDocumentLineId());
 		bo.setDirection(emDirection.IN);
 		bo.setPostingDate(contract.getJournal_PostingDate());
 		bo.setDocumentDate(contract.getJournal_DeliveryDate());
@@ -1060,10 +1063,10 @@ public class MaterialJournal extends BusinessObject<MaterialJournal> implements 
 		return bo;
 	}
 
-	//region	物料库存契约
+	// region 物料库存契约
 	@Override
 	public String getMaterial_ItemCode() {
-		return  this.getProperty(PROPERTY_ITEMCODE);
+		return this.getProperty(PROPERTY_ITEMCODE);
 	}
 
 	@Override
@@ -1076,8 +1079,8 @@ public class MaterialJournal extends BusinessObject<MaterialJournal> implements 
 		return this.getProperty(PROPERTY_DIRECTION);
 	}
 
-	//endregion
-	//region 物料对应仓库库存 契约
+	// endregion
+	// region 物料对应仓库库存 契约
 	@Override
 	public String getMaterialWarehouse_ItemCode() {
 		return this.getProperty(PROPERTY_ITEMCODE);
@@ -1085,17 +1088,17 @@ public class MaterialJournal extends BusinessObject<MaterialJournal> implements 
 
 	@Override
 	public String getMaterialWarehouse_Warehouse() {
-		return  this.getProperty(PROPERTY_WAREHOUSE);
+		return this.getProperty(PROPERTY_WAREHOUSE);
 	}
 
 	@Override
 	public Decimal getMaterialWarehouse_Quantity() {
-		return  this.getProperty(PROPERTY_QUANTITY);
+		return this.getProperty(PROPERTY_QUANTITY);
 	}
 
 	@Override
 	public emDirection getMaterialWarehouse_Direction() {
-		return  this.getProperty(PROPERTY_DIRECTION);
+		return this.getProperty(PROPERTY_DIRECTION);
 	}
-	//endregion
+	// endregion
 }
