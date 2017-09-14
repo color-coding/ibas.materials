@@ -23,12 +23,75 @@ export class InventoryTransferEditView extends ibas.BOEditView implements IInven
     addInventoryTransferLineEvent: Function;
     /** 删除库存转储-行事件 */
     removeInventoryTransferLineEvent: Function;
+    /** 选择库存转储单行物料事件 */
+    chooseInventoryTransferLineMaterialEvent: Function;
+    /** 选择库存转储单行仓库事件 */
+    chooseInventoryTransferLineWarehouseEvent: Function;
+    private mainLayout: sap.ui.layout.VerticalLayout;
+    private viewBottomForm: sap.ui.layout.form.SimpleForm;
 
     /** 绘制视图 */
     darw(): any {
         let that: this = this;
         this.form = new sap.ui.layout.form.SimpleForm("", {
+            editable: true,
+            layout: sap.ui.layout.form.SimpleFormLayout.ResponsiveGridLayout,
+            singleContainerFullSize: false,
+            adjustLabelSpan: false,
+            labelSpanL: 2,
+            labelSpanM: 2,
+            labelSpanS: 12,
+            columnsXL: 2,
+            columnsL: 2,
+            columnsM: 1,
+            columnsS: 1,
             content: [
+                new sap.ui.core.Title("", { text: ibas.i18n.prop("materials_base_information") }),
+                new sap.m.Label("", { text: ibas.i18n.prop("bo_inventorytransfer_docentry") }),
+                new sap.m.Input("", {
+                    editable: false,
+                    type: sap.m.InputType.Number
+                }).bindProperty("value", {
+                    path: "docEntry",
+                }),
+                new sap.m.Label("", { text: ibas.i18n.prop("bo_inventorytransfer_documentstatus") }),
+                new sap.m.Select("", {
+                    items: utils.createComboBoxItems(ibas.emDocumentStatus)
+                }).bindProperty("selectedKey", {
+                    path: "documentStatus",
+                    type: "sap.ui.model.type.Integer"
+                }),
+                new sap.m.Label("", { text: ibas.i18n.prop("bo_inventorytransfer_reference1") }),
+                new sap.m.Input("", {
+                    type: sap.m.InputType.Text
+                }).bindProperty("value", {
+                    path: "reference1",
+                }),
+                new sap.m.Label("", { text: ibas.i18n.prop("bo_inventorytransfer_reference2") }),
+                new sap.m.Input("", {
+                    type: sap.m.InputType.Text
+                }).bindProperty("value", {
+                    path: "reference2",
+                }),
+                new sap.ui.core.Title("", { text: ibas.i18n.prop("materials_date_information") }),
+                new sap.m.Label("", { text: ibas.i18n.prop("bo_inventorytransfer_postingdate") }),
+                new sap.m.DatePicker("", {
+                    valueFormat: "yyyy-MM-dd",
+                }).bindProperty("dateValue", {
+                    path: "PostingDate"
+                }),
+                new sap.m.Label("", { text: ibas.i18n.prop("bo_inventorytransfer_deliverydate") }),
+                new sap.m.DatePicker("", {
+                    valueFormat: "yyyy-MM-dd",
+                }).bindProperty("dateValue", {
+                    path: "DeliveryDate"
+                }),
+                new sap.m.Label("", { text: ibas.i18n.prop("bo_inventorytransfer_documentdate") }),
+                new sap.m.DatePicker("", {
+                    valueFormat: "yyyy-MM-dd",
+                }).bindProperty("dateValue", {
+                    path: "documentDate"
+                }),
             ]
         });
         this.form.addContent(new sap.ui.core.Title("", { text: ibas.i18n.prop("bo_inventorytransferline") }));
@@ -57,12 +120,103 @@ export class InventoryTransferEditView extends ibas.BOEditView implements IInven
                 ]
             }),
             enableSelectAll: false,
-            visibleRowCount: ibas.config.get(utils.CONFIG_ITEM_LIST_TABLE_VISIBLE_ROW_COUNT, 10),
+            visibleRowCount: ibas.config.get(utils.CONFIG_ITEM_LIST_TABLE_VISIBLE_ROW_COUNT, 5),
             rows: "{/rows}",
             columns: [
+                new sap.ui.table.Column("", {
+                    label: ibas.i18n.prop("bo_inventorytransferline_lineid"),
+                    template: new sap.m.Text("", {
+                        width: "100%",
+                    }).bindProperty("text", {
+                        path: "lineId"
+                    })
+                }),
+                new sap.ui.table.Column("", {
+                    label: ibas.i18n.prop("bo_inventorytransferline_itemcode"),
+                    template: new sap.m.Input("", {
+                        width: "100%",
+                        showValueHelp: true,
+                        valueHelpRequest: function (): void {
+                            that.fireViewEvents(that.chooseInventoryTransferLineMaterialEvent,
+                                // 获取当前对象
+                                this.getBindingContext().getObject()
+                            );
+                        }
+                    }).bindProperty("value", {
+                        path: "itemCode"
+                    })
+                }),
+                new sap.ui.table.Column("", {
+                    label: ibas.i18n.prop("bo_inventorytransferline_itemdescription"),
+                    template: new sap.m.Input("", {
+                        width: "100%",
+                        editable: false,
+                    }).bindProperty("value", {
+                        path: "ItemDescription"
+                    })
+                }),
+                new sap.ui.table.Column("", {
+                    label: ibas.i18n.prop("bo_inventorytransferline_quantity"),
+                    template: new sap.m.Input("", {
+                        width: "100%",
+                        type: sap.m.InputType.Number
+                    }).bindProperty("value", {
+                        path: "quantity"
+                    })
+                }),
+                new sap.ui.table.Column("", {
+                    label: ibas.i18n.prop("bo_inventorytransferline_uom"),
+                    template: new sap.m.Input("", {
+                        width: "100%",
+                        type: sap.m.InputType.Text
+                    }).bindProperty("value", {
+                        path: "UOM"
+                    })
+                }),
+                new sap.ui.table.Column("", {
+                    label: ibas.i18n.prop("bo_inventorytransferline_warehouse"),
+                    template: new sap.m.Input("", {
+                        width: "100%",
+                        showValueHelp: true,
+                        valueHelpRequest: function (): void {
+                            that.fireViewEvents(that.chooseInventoryTransferLineWarehouseEvent,
+                                // 获取当前对象
+                                this.getBindingContext().getObject()
+                            );
+                        }
+                    }).bindProperty("value", {
+                        path: "Warehouse"
+                    })
+                }),
             ]
         });
         this.form.addContent(this.tableInventoryTransferLine);
+        this.viewBottomForm = new sap.ui.layout.form.SimpleForm("", {
+            editable: true,
+            layout: sap.ui.layout.form.SimpleFormLayout.ResponsiveGridLayout,
+            labelSpanL: 2,
+            labelSpanM: 2,
+            labelSpanS: 12,
+            columnsXL: 2,
+            columnsL: 2,
+            columnsM: 1,
+            columnsS: 1,
+            content: [
+                new sap.ui.core.Title("", { text: ibas.i18n.prop("bo_inventorytransfer_remarks") }),
+                new sap.m.TextArea("", {
+                    rows: 5,
+                }).bindProperty("value", {
+                    path: "/remarks"
+                }),
+            ]
+        });
+        this.mainLayout = new sap.ui.layout.VerticalLayout("", {
+            content: [
+                this.form,
+                this.tableInventoryTransferLine,
+                this.viewBottomForm,
+            ]
+        });
         this.page = new sap.m.Page("", {
             showHeader: false,
             subHeader: new sap.m.Toolbar("", {
@@ -120,7 +274,7 @@ export class InventoryTransferEditView extends ibas.BOEditView implements IInven
                     }),
                 ]
             }),
-            content: [this.form]
+            content: [this.mainLayout]
         });
         this.id = this.page.getId();
         return this.page;
@@ -151,7 +305,8 @@ export class InventoryTransferEditView extends ibas.BOEditView implements IInven
 
     /** 显示数据 */
     showInventoryTransfer(data: bo.InventoryTransfer): void {
-        this.form.setModel(new sap.ui.model.json.JSONModel(data));
+        this.mainLayout.setModel(new sap.ui.model.json.JSONModel(data));
+        this.mainLayout.bindObject("/");
         // 监听属性改变，并更新控件
         utils.refreshModelChanged(this.form, data);
         // 改变视图状态
@@ -159,7 +314,7 @@ export class InventoryTransferEditView extends ibas.BOEditView implements IInven
     }
     /** 显示数据 */
     showInventoryTransferLines(datas: bo.InventoryTransferLine[]): void {
-        this.tableInventoryTransferLine.setModel(new sap.ui.model.json.JSONModel({rows: datas}));
+        this.tableInventoryTransferLine.setModel(new sap.ui.model.json.JSONModel({ rows: datas }));
         // 监听属性改变，并更新控件
         utils.refreshModelChanged(this.tableInventoryTransferLine, datas);
     }

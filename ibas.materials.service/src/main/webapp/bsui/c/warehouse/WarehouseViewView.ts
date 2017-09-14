@@ -15,7 +15,6 @@ import { IWarehouseViewView } from "../../../bsapp/warehouse/index";
  * 查看视图-仓库
  */
 export class WarehouseViewView extends ibas.BOViewView implements IWarehouseViewView {
-
     /** 绘制视图 */
     darw(): any {
         let that: this = this;
@@ -47,9 +46,9 @@ export class WarehouseViewView extends ibas.BOViewView implements IWarehouseView
                 new sap.m.Text("", {
                 }).bindProperty("text", {
                     path: "/createDate",
-                    type: 'sap.ui.model.type.Date',
+                    type: "sap.ui.model.type.Date",
                     formatOptions: {
-                        style: 'medium'
+                        style: "medium"
                     }
                 }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_warehouse_createusersign") }),
@@ -61,9 +60,9 @@ export class WarehouseViewView extends ibas.BOViewView implements IWarehouseView
                 new sap.m.Text("", {
                 }).bindProperty("text", {
                     path: "/updateDate",
-                    type: 'sap.ui.model.type.Date',
+                    type: "sap.ui.model.type.Date",
                     formatOptions: {
-                        style: 'medium'
+                        style: "medium"
                     }
                 }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_warehouse_updateusersign") }),
@@ -77,8 +76,8 @@ export class WarehouseViewView extends ibas.BOViewView implements IWarehouseView
                 new sap.m.Text("", {
                 }).bindProperty("text", {
                     path: "/activated",
-                    formatter(data: any): any{
-                        return ibas.enums.describe(ibas.emYesNo,data);
+                    formatter(data: any): any {
+                        return ibas.enums.describe(ibas.emYesNo, data);
                     }
                 }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_warehouse_loginst") }),
@@ -96,7 +95,7 @@ export class WarehouseViewView extends ibas.BOViewView implements IWarehouseView
                 }).bindProperty("text", {
                     path: "/series"
                 }),
-                
+
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_warehouse_dataowner") }),
                 new sap.m.Text("", {
                 }).bindProperty("text", {

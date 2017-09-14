@@ -17,6 +17,8 @@ import org.colorcoding.ibas.bobas.mapping.DbFieldType;
 import org.colorcoding.ibas.materials.MyConfiguration;
 import org.colorcoding.ibas.materials.MyConsts;
 import org.colorcoding.ibas.materials.data.emItemType;
+import org.colorcoding.ibas.materials.logic.IMaterialIssueContract;
+import org.colorcoding.ibas.materials.logic.IMaterialReceiptContract;
 
 /**
  * 获取-库存转储-行
@@ -24,7 +26,7 @@ import org.colorcoding.ibas.materials.data.emItemType;
  */
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlType(name = InventoryTransferLine.BUSINESS_OBJECT_NAME, namespace = MyConsts.NAMESPACE_BO)
-public class InventoryTransferLine extends BusinessObject<InventoryTransferLine> implements IInventoryTransferLine {
+public class InventoryTransferLine extends BusinessObject<InventoryTransferLine> implements IInventoryTransferLine,IMaterialIssueContract,IMaterialReceiptContract {
 
 	/**
 	 * 序列化版本标记
@@ -1362,7 +1364,119 @@ public class InventoryTransferLine extends BusinessObject<InventoryTransferLine>
 	protected void initialize() {
 		super.initialize();// 基类初始化，不可去除
 		this.setObjectCode(MyConfiguration.applyVariables(BUSINESS_OBJECT_CODE));
-
+		// 日期初始化。 需要在前台中添加这三个日期，并实现父类日期发生更改时，子类日期发生相应更改。
+		this.setPostingDate(DateTime.getToday());
+		this.setDeliveryDate(DateTime.getToday());
+		this.setDocumentDate(DateTime.getToday());
 	}
 
+	// region	添加字段，为契约提供值
+	public String FromWarehouse;
+
+	public String getFromWarehouse(){
+		return this.FromWarehouse;
+	}
+
+	public String setFroomWarehouse(String fromWarehouse) {
+		this.FromWarehouse = fromWarehouse;
+		return this.FromWarehouse;
+	}
+
+	private DateTime PostingDate;
+
+	public DateTime getPostingDate() {
+		return this.PostingDate;
+	}
+	public void setPostingDate(DateTime postingDate) {
+		this.PostingDate = postingDate;
+	}
+
+	public DateTime DocumentDate;
+
+	public DateTime getDocumentDate() {
+		return this.DocumentDate;
+	}
+	public void setDocumentDate(DateTime documentDate) {
+		this.DocumentDate = documentDate;
+	}
+
+	public DateTime DeliveryDate;
+
+	public DateTime getDeliveryDate() {
+		return this.DeliveryDate;
+	}
+	public void setDeliveryDate(DateTime deliveryDate) {
+		this.DeliveryDate = deliveryDate;
+	}
+	//endregion
+
+
+	@Override
+	public String getJournal_ItemCode() {
+		return this.getProperty(PROPERTY_ITEMCODE);
+	}
+
+	@Override
+	public String getJournal_ItemName() {
+		return this.getProperty(PROPERTY_ITEMDESCRIPTION);
+	}
+
+	@Override
+	public String getJournal_IssueWarehouseCode() {
+		return this.getFromWarehouse();
+	}
+
+	@Override
+	public String getJournal_ReceiptWarehouseCode() {
+		return this.getProperty(PROPERTY_WAREHOUSE);
+	}
+	@Override
+	public String getJournal_BaseDocumentType() {
+		return this.getProperty(PROPERTY_OBJECTCODE);
+	}
+
+	@Override
+	public Integer getJournal_BaseDocumentEntry() {
+		return this.getProperty(PROPERTY_DOCENTRY);
+	}
+
+	@Override
+	public Integer getJournal_BaseDocumentLineId() {
+		return this.getProperty(PROPERTY_LINEID);
+	}
+
+	@Override
+	public Decimal getJournal_ReceiptQuantity() {
+		return this.getProperty(PROPERTY_QUANTITY);
+	}
+
+	@Override
+	public Decimal getJournal_IssueQuantity() {
+		return this.getProperty(PROPERTY_QUANTITY);
+	}
+
+	@Override
+	public DateTime getJournal_PostingDate() {
+		return this.getPostingDate();
+	}
+
+	@Override
+	public DateTime getJournal_DeliveryDate() {
+		return this.getDeliveryDate();
+	}
+
+	@Override
+	public DateTime getJournal_DocumentDate() {
+		return this.getDocumentDate();
+	}
+
+	@Override
+	public emYesNo getJournal_Canceled() {
+		return this.getProperty(PROPERTY_CANCELED);
+	}
+
+	@Override
+	public emDocumentStatus getJournal_LineStatus() {
+		return this.getProperty(PROPERTY_LINESTATUS);
+	}
 }

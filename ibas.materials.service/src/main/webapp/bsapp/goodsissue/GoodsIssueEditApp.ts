@@ -13,6 +13,8 @@ import { BORepositoryMaterials } from "../../borep/BORepositories";
 /** 编辑应用-库存发货 */
 export class GoodsIssueEditApp extends ibas.BOEditApplication<IGoodsIssueEditView, bo.GoodsIssue> {
 
+
+
     /** 应用标识 */
     static APPLICATION_ID: string = "61acb506-7555-453c-8085-9245d90ed625";
     /** 应用名称 */
@@ -35,6 +37,8 @@ export class GoodsIssueEditApp extends ibas.BOEditApplication<IGoodsIssueEditVie
         this.view.createDataEvent = this.createData;
         this.view.addGoodsIssueLineEvent = this.addGoodsIssueLine;
         this.view.removeGoodsIssueLineEvent = this.removeGoodsIssueLine;
+        this.view.chooseGoodsIssueLineMaterialEvent = this.chooseGoodsIssueLineMaterial;
+        this.view.chooseGoodsIssueLineWarehouseEvent = this.chooseGoodsIssueLineWarehouse;
     }
     /** 视图显示后 */
     protected viewShowed(): void {
@@ -199,7 +203,73 @@ export class GoodsIssueEditApp extends ibas.BOEditApplication<IGoodsIssueEditVie
         this.view.showGoodsIssueLines(this.editData.goodsIssueLines.filterDeleted());
     }
 
+    /** 选择库存发货订单行物料事件 */
+    chooseGoodsIssueLineMaterial(caller: bo.GoodsIssueLine): void {
+        let that: this = this;
+        ibas.servicesManager.runChooseService<bo.Material>({
+            caller: caller,
+            boCode: bo.Material.BUSINESS_OBJECT_CODE,
+            criteria: [
+                new ibas.Condition(bo.Material.PROPERTY_DELETED_NAME, ibas.emConditionOperation.EQUAL, "N")
+            ],
+            onCompleted(selecteds: ibas.List<bo.Material>): void {
+                // 获取触发的对象
+                let index: number = that.editData.goodsIssueLines.indexOf(caller);
+                let item: bo.GoodsIssueLine = that.editData.goodsIssueLines[index];
+                // 选择返回数量多余触发数量时,自动创建新的项目
+                let created: boolean = false;
+                for (let selected of selecteds) {
+                    if (ibas.objects.isNull(item)) {
+                        item = that.editData.goodsIssueLines.create();
+                        created = true;
+                    }
+                    item.itemCode = selected.code;
+                    item.itemDescription = selected.name;
+                    item = null;
+                }
+                if (created) {
+                    // 创建了新的行项目
+                    that.view.showGoodsIssueLines(that.editData.goodsIssueLines.filterDeleted());
+                }
+            }
+        });
+    }
+
+    /** 选择库存发货订单行物料事件 */
+    chooseGoodsIssueLineWarehouse(caller: bo.GoodsIssueLine): void {
+        let that: this = this;
+        ibas.servicesManager.runChooseService<bo.Warehouse>({
+            caller: caller,
+            boCode: bo.Warehouse.BUSINESS_OBJECT_CODE,
+            criteria: [
+                new ibas.Condition(bo.Warehouse.PROPERTY_ACTIVATED_NAME, ibas.emConditionOperation.EQUAL, "Y")
+            ],
+            onCompleted(selecteds: ibas.List<bo.Warehouse>): void {
+                // 获取触发的对象
+                let index: number = that.editData.goodsIssueLines.indexOf(caller);
+                let item: bo.GoodsIssueLine = that.editData.goodsIssueLines[index];
+                // 选择返回数量多余触发数量时,自动创建新的项目
+                let created: boolean = false;
+                for (let selected of selecteds) {
+                    if (ibas.objects.isNull(item)) {
+                        item = that.editData.goodsIssueLines.create();
+                        created = true;
+                    }
+                    item.warehouse = selected.code;
+                    item = null;
+                }
+                if (created) {
+                    // 创建了新的行项目
+                    that.view.showGoodsIssueLines(that.editData.goodsIssueLines.filterDeleted());
+                }
+            }
+        });
+    }
 }
+
+
+
+
 /** 视图-库存发货 */
 export interface IGoodsIssueEditView extends ibas.IBOEditView {
     /** 显示数据 */
@@ -214,4 +284,8 @@ export interface IGoodsIssueEditView extends ibas.IBOEditView {
     removeGoodsIssueLineEvent: Function;
     /** 显示数据 */
     showGoodsIssueLines(datas: bo.GoodsIssueLine[]): void;
+    /** 选择库存发货单行物料事件 */
+    chooseGoodsIssueLineMaterialEvent: Function;
+    /** 选择库存发货单行仓库事件 */
+    chooseGoodsIssueLineWarehouseEvent: Function;
 }

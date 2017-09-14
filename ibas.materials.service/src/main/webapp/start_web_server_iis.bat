@@ -3,10 +3,10 @@ echo ***************************************************************************
 echo      start_web_server_iis.bat
 echo                     by niuren.zhu
 echo                           2017.01.24
-echo  ËµÃ÷£º
-echo     1. Æô¶¯web·þÎñ£¬IIS Express¡£
+echo  Ëµï¿½ï¿½ï¿½ï¿½
+echo     1. ï¿½ï¿½webï¿½ï¿½ï¿½ï¿½IIS Expressï¿½ï¿½
 echo ****************************************************************************
-REM ÉèÖÃ²ÎÊý±äÁ¿
+REM ï¿½ï¿½ï¿½Ã²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 SET WORK_FOLDER=%~dp0
 SET WEB_SERVER="%ProgramFiles%\IIS Express\iisexpress.exe"
 SET WEB_PORT=7788
@@ -14,6 +14,6 @@ SET WEB_PORT=7788
 if exist %WEB_SERVER% (
   call %WEB_SERVER% /path:%WORK_FOLDER% /port:%WEB_PORT%
 ) else (
-  echo ÄúÃ»ÓÐ°²×°IIS Express!
+  echo ï¿½ï¿½Ã»ï¿½Ð°ï¿½×°IIS Express!
   pause
 )

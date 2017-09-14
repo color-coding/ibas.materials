@@ -37,6 +37,13 @@ export class InventoryTransferViewApp extends ibas.BOViewService<IInventoryTrans
     /** 视图显示后 */
     protected viewShowed(): void {
         // 视图加载完成
+        if (ibas.objects.isNull(this.editData)) {
+            // 创建编辑对象实例
+            this.viewData = new bo.InventoryTransfer();
+            this.proceeding(ibas.emMessageType.WARNING, ibas.i18n.prop("sys_shell_data_created_new"));
+        }
+        this.view.showInventoryTransfer(this.viewData);
+        this.view.showInventoryTransferLines(this.viewData.inventoryTransferLines.filterDeleted());
     }
     /** 编辑数据，参数：目标数据 */
     protected editData(): void {
@@ -88,7 +95,10 @@ export class InventoryTransferViewApp extends ibas.BOViewService<IInventoryTrans
 }
 /** 视图-库存转储 */
 export interface IInventoryTransferViewView extends ibas.IBOViewView {
-
+/** 显示数据 */
+showInventoryTransfer(data: bo.InventoryTransfer): void;
+/** 显示数据 */
+showInventoryTransferLines(datas: bo.InventoryTransferLine[]): void;
 }
 /** 库存转储连接服务映射 */
 export class InventoryTransferLinkServiceMapping extends ibas.BOLinkServiceMapping {

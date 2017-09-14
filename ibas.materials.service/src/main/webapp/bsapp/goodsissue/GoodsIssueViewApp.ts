@@ -37,6 +37,13 @@ export class GoodsIssueViewApp extends ibas.BOViewService<IGoodsIssueViewView> {
     /** 视图显示后 */
     protected viewShowed(): void {
         // 视图加载完成
+        if (ibas.objects.isNull(this.editData)) {
+            // 创建编辑对象实例
+            this.viewData = new bo.GoodsIssue();
+            this.proceeding(ibas.emMessageType.WARNING, ibas.i18n.prop("sys_shell_data_created_new"));
+        }
+        this.view.showGoodsIssue(this.viewData);
+        this.view.showGoodsIssueLines(this.viewData.goodsIssueLines.filterDeleted());
     }
     /** 编辑数据，参数：目标数据 */
     protected editData(): void {
@@ -88,7 +95,10 @@ export class GoodsIssueViewApp extends ibas.BOViewService<IGoodsIssueViewView> {
 }
 /** 视图-库存发货 */
 export interface IGoodsIssueViewView extends ibas.IBOViewView {
-
+    /** 显示数据 */
+    showGoodsIssue(data: bo.GoodsIssue): void;
+    /** 显示数据 */
+    showGoodsIssueLines(datas: bo.GoodsIssueLine[]): void;
 }
 /** 库存发货连接服务映射 */
 export class GoodsIssueLinkServiceMapping extends ibas.BOLinkServiceMapping {

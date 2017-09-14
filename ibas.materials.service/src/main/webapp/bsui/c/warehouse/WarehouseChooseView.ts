@@ -120,7 +120,7 @@ export class WarehouseChooseView extends ibas.BOChooseView implements IWarehouse
         }
         if (!done) {
             // 没有显示数据
-            this.table.setModel(new sap.ui.model.json.JSONModel({rows: datas}));
+            this.table.setModel(new sap.ui.model.json.JSONModel({ rows: datas }));
         }
         this.table.setBusy(false);
     }

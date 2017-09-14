@@ -37,6 +37,13 @@ export class GoodsReceiptViewApp extends ibas.BOViewService<IGoodsReceiptViewVie
     /** 视图显示后 */
     protected viewShowed(): void {
         // 视图加载完成
+        if (ibas.objects.isNull(this.editData)) {
+            // 创建编辑对象实例
+            this.viewData = new bo.GoodsReceipt();
+            this.proceeding(ibas.emMessageType.WARNING, ibas.i18n.prop("sys_shell_data_created_new"));
+        }
+        this.view.showGoodsReceipt(this.viewData);
+        this.view.showGoodsReceiptLines(this.viewData.goodsReceiptLines.filterDeleted());
     }
     /** 编辑数据，参数：目标数据 */
     protected editData(): void {
@@ -88,7 +95,10 @@ export class GoodsReceiptViewApp extends ibas.BOViewService<IGoodsReceiptViewVie
 }
 /** 视图-库存收货 */
 export interface IGoodsReceiptViewView extends ibas.IBOViewView {
-
+    /** 显示数据 */
+    showGoodsReceipt(data: bo.GoodsReceipt): void;
+    /** 显示数据 */
+    showGoodsReceiptLines(datas: bo.GoodsReceiptLine[]): void;
 }
 /** 库存收货连接服务映射 */
 export class GoodsReceiptLinkServiceMapping extends ibas.BOLinkServiceMapping {

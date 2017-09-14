@@ -17,7 +17,7 @@ public class testGoodsIssue extends TestCase {
      * 获取连接口令
     */
     String getToken() {
-        return "";
+        return "68fc6bac014d06ad94c5734116487cff";
     }
     
     /**
@@ -31,7 +31,9 @@ public class testGoodsIssue extends TestCase {
         // 测试库存发货-行
         IGoodsIssueLine goodsissueline = bo.getGoodsIssueLines().create();
         // 测试属性赋值
-        
+        goodsissueline.setItemCode("S1000011");
+        goodsissueline.setWarehouse("BJKJ");
+        goodsissueline.setQuantity(0);
 
 
         // 测试对象的保存和查询
@@ -45,7 +47,6 @@ public class testGoodsIssue extends TestCase {
         operationResult = boRepository.saveGoodsIssue(bo);
         assertEquals(operationResult.getMessage(), operationResult.getResultCode(), 0);
         GoodsIssue boSaved = (GoodsIssue)operationResult.getResultObjects().firstOrDefault();
-
 
         // 测试查询
         criteria = boSaved.getCriteria();

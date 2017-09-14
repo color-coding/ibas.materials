@@ -17,7 +17,7 @@ public class testInventoryTransfer extends TestCase {
      * 获取连接口令
     */
     String getToken() {
-        return "";
+        return "68fc6bac014d06ad94c5734116487cff";
     }
     
     /**
@@ -27,11 +27,15 @@ public class testInventoryTransfer extends TestCase {
     public void testBasicItems() throws Exception {
         InventoryTransfer bo = new InventoryTransfer();
         // 测试属性赋值
+        bo.setFromWarehouse("BJKJ");
 
         // 测试库存转储-行
         IInventoryTransferLine inventorytransferline = bo.getInventoryTransferLines().create();
         // 测试属性赋值
-        
+        inventorytransferline.setWarehouse("SHKJ");
+        inventorytransferline.setItemCode("S1000011");
+        inventorytransferline.setQuantity(10000);
+
 
 
         // 测试对象的保存和查询

@@ -17,7 +17,7 @@ public class testGoodsReceipt extends TestCase {
      * 获取连接口令
     */
     String getToken() {
-        return "";
+        return "68fc6bac014d06ad94c5734116487cff";
     }
     
     /**
@@ -31,7 +31,9 @@ public class testGoodsReceipt extends TestCase {
         // 测试库存收货-行
         IGoodsReceiptLine goodsreceiptline = bo.getGoodsReceiptLines().create();
         // 测试属性赋值
-        
+        goodsreceiptline.setItemCode("S1000011");
+        goodsreceiptline.setQuantity(1000);
+        goodsreceiptline.setWarehouse("BJKJ1");
 
 
         // 测试对象的保存和查询

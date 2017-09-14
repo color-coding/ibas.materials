@@ -15,6 +15,7 @@ import org.colorcoding.ibas.bobas.mapping.DbField;
 import org.colorcoding.ibas.bobas.mapping.DbFieldType;
 import org.colorcoding.ibas.materials.MyConfiguration;
 import org.colorcoding.ibas.materials.MyConsts;
+import org.colorcoding.ibas.materials.logic.IMaterialWarehouseInventoryContract;
 
 /**
  * 获取-物料库存
@@ -789,4 +790,10 @@ public class MaterialInventory extends BusinessObject<MaterialInventory> impleme
 
 	}
 
+	public  static IMaterialInventory create(IMaterialWarehouseInventoryContract contract){
+		IMaterialInventory materialInventory = new MaterialInventory();
+		materialInventory.setItemCode(contract.getMaterialWarehouse_ItemCode());;
+		materialInventory.setWarehouse( contract.getMaterialWarehouse_Warehouse());
+		return  materialInventory;
+	}
 }

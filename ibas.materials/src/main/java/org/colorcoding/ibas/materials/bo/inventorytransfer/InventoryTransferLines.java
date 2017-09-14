@@ -62,6 +62,10 @@ public class InventoryTransferLines extends BusinessObjects<IInventoryTransferLi
     protected void afterAddItem(IInventoryTransferLine item) {
         super.afterAddItem(item);
         // TODO 设置关联值
+        ((InventoryTransferLine)item).setFroomWarehouse(this.getParent().getFromWarehouse());
+        ((InventoryTransferLine)item).setDeliveryDate(this.getParent().getDeliveryDate());
+        ((InventoryTransferLine)item).setDocumentDate(this.getParent().getDocumentDate());
+        ((InventoryTransferLine)item).setPostingDate(this.getParent().getPostingDate());
     }
 
     @Override
