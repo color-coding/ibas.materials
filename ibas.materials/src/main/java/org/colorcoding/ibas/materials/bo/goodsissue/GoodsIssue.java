@@ -19,15 +19,14 @@ import org.colorcoding.ibas.bobas.mapping.BOCode;
 import org.colorcoding.ibas.bobas.mapping.DbField;
 import org.colorcoding.ibas.bobas.mapping.DbFieldType;
 import org.colorcoding.ibas.materials.MyConfiguration;
-import org.colorcoding.ibas.materials.MyConsts;
 
 /**
  * 获取-库存发货
  * 
  */
 @XmlAccessorType(XmlAccessType.NONE)
-@XmlType(name = GoodsIssue.BUSINESS_OBJECT_NAME, namespace = MyConsts.NAMESPACE_BO)
-@XmlRootElement(name = GoodsIssue.BUSINESS_OBJECT_NAME, namespace = MyConsts.NAMESPACE_BO)
+@XmlType(name = GoodsIssue.BUSINESS_OBJECT_NAME, namespace = MyConfiguration.NAMESPACE_BO)
+@XmlRootElement(name = GoodsIssue.BUSINESS_OBJECT_NAME, namespace = MyConfiguration.NAMESPACE_BO)
 @BOCode(GoodsIssue.BUSINESS_OBJECT_CODE)
 public class GoodsIssue extends BusinessObject<GoodsIssue> implements IGoodsIssue {
 

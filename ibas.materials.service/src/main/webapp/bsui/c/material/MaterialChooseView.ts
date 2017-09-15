@@ -10,6 +10,7 @@ import * as ibas from "ibas/index";
 import { utils } from "openui5/typings/ibas.utils";
 import * as bo from "../../../borep/bo/index";
 import { IMaterialChooseView } from "../../../bsapp/material/index";
+import { emItemType } from "../../../api/index";
 
 /**
  * 选择视图-物料
@@ -97,7 +98,7 @@ export class MaterialChooseView extends ibas.BOChooseView implements IMaterialCh
                     }).bindProperty("text", {
                         path: "ItemType",
                         formatter(data: any): any {
-                            return ibas.enums.describe(ibas.emItemType, data);
+                            return ibas.enums.describe(emItemType, data);
                         }
                     })
                 }),

@@ -15,15 +15,14 @@ import org.colorcoding.ibas.bobas.mapping.BOCode;
 import org.colorcoding.ibas.bobas.mapping.DbField;
 import org.colorcoding.ibas.bobas.mapping.DbFieldType;
 import org.colorcoding.ibas.materials.MyConfiguration;
-import org.colorcoding.ibas.materials.MyConsts;
 
 /**
  * 获取-物料批次
  * 
  */
 @XmlAccessorType(XmlAccessType.NONE)
-@XmlType(name = MaterialBatch.BUSINESS_OBJECT_NAME, namespace = MyConsts.NAMESPACE_BO)
-@XmlRootElement(name = MaterialBatch.BUSINESS_OBJECT_NAME, namespace = MyConsts.NAMESPACE_BO)
+@XmlType(name = MaterialBatch.BUSINESS_OBJECT_NAME, namespace = MyConfiguration.NAMESPACE_BO)
+@XmlRootElement(name = MaterialBatch.BUSINESS_OBJECT_NAME, namespace = MyConfiguration.NAMESPACE_BO)
 @BOCode(MaterialBatch.BUSINESS_OBJECT_CODE)
 public class MaterialBatch extends BusinessObject<MaterialBatch> implements IMaterialBatch {
 

@@ -10,6 +10,7 @@ import * as ibas from "ibas/index";
 import { utils } from "openui5/typings/ibas.utils";
 import * as bo from "../../../borep/bo/index";
 import { IMaterialEditView } from "../../../bsapp/material/index";
+import { emItemType } from "../../../api/index";
 
 /**
  * 编辑视图-物料
@@ -58,7 +59,7 @@ export class MaterialEditView extends ibas.BOEditView implements IMaterialEditVi
                 }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_material_itemtype") }),
                 new sap.m.Select("", {
-                    items: utils.createComboBoxItems(ibas.emItemType),
+                    items: utils.createComboBoxItems(emItemType),
                 }).bindProperty("selectedKey", {
                     path: "ItemType",
                     type: "sap.ui.model.type.Integer",

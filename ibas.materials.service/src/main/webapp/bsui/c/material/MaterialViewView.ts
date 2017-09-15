@@ -10,6 +10,7 @@ import * as ibas from "ibas/index";
 import { utils } from "openui5/typings/ibas.utils";
 import * as bo from "../../../borep/bo/index";
 import { IMaterialViewView } from "../../../bsapp/material/index";
+import { emItemType } from "../../../api/index";
 
 /**
  * 查看视图-物料
@@ -54,7 +55,7 @@ export class MaterialViewView extends ibas.BOViewView implements IMaterialViewVi
                 }).bindProperty("text", {
                     path: "ItemType",
                     formatter(data: any): any {
-                        return ibas.enums.describe(ibas.emApprovalResult, data);
+                        return ibas.enums.describe(emItemType, data);
                     }
                 }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_material_group") }),

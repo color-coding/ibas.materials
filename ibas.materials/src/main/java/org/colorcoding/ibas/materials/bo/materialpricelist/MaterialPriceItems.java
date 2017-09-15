@@ -4,12 +4,12 @@ import java.beans.PropertyChangeEvent;
 import javax.xml.bind.annotation.*;
 import org.colorcoding.ibas.bobas.common.*;
 import org.colorcoding.ibas.bobas.bo.*;
-import org.colorcoding.ibas.materials.MyConsts;
+import org.colorcoding.ibas.materials.MyConfiguration;
 
 /**
 * 物料价格项目 集合
 */
-@XmlType(name = MaterialPriceItems.BUSINESS_OBJECT_NAME, namespace = MyConsts.NAMESPACE_BO)
+@XmlType(name = MaterialPriceItems.BUSINESS_OBJECT_NAME, namespace = MyConfiguration.NAMESPACE_BO)
 @XmlSeeAlso({ MaterialPriceItem.class })
 public class MaterialPriceItems extends BusinessObjects<IMaterialPriceItem, IMaterialPriceList> implements IMaterialPriceItems {
 

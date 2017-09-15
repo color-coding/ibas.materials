@@ -15,7 +15,6 @@ import org.colorcoding.ibas.bobas.data.emYesNo;
 import org.colorcoding.ibas.bobas.mapping.DbField;
 import org.colorcoding.ibas.bobas.mapping.DbFieldType;
 import org.colorcoding.ibas.materials.MyConfiguration;
-import org.colorcoding.ibas.materials.MyConsts;
 import org.colorcoding.ibas.materials.data.emItemType;
 import org.colorcoding.ibas.materials.logic.IMaterialIssueContract;
 
@@ -24,8 +23,8 @@ import org.colorcoding.ibas.materials.logic.IMaterialIssueContract;
  * 
  */
 @XmlAccessorType(XmlAccessType.NONE)
-@XmlType(name = GoodsIssueLine.BUSINESS_OBJECT_NAME, namespace = MyConsts.NAMESPACE_BO)
-public class GoodsIssueLine extends BusinessObject<GoodsIssueLine> implements IGoodsIssueLine,IMaterialIssueContract {
+@XmlType(name = GoodsIssueLine.BUSINESS_OBJECT_NAME, namespace = MyConfiguration.NAMESPACE_BO)
+public class GoodsIssueLine extends BusinessObject<GoodsIssueLine> implements IGoodsIssueLine, IMaterialIssueContract {
 
 	/**
 	 * 序列化版本标记
@@ -1371,9 +1370,10 @@ public class GoodsIssueLine extends BusinessObject<GoodsIssueLine> implements IG
 
 	public DateTime PostingDate;
 
-	public DateTime getPostingDate(){
-		return  this.PostingDate;
+	public DateTime getPostingDate() {
+		return this.PostingDate;
 	}
+
 	public void setPostingDate(DateTime postingDate) {
 		this.PostingDate = postingDate;
 	}
@@ -1383,6 +1383,7 @@ public class GoodsIssueLine extends BusinessObject<GoodsIssueLine> implements IG
 	public DateTime getDocumentDate() {
 		return this.DocumentDate;
 	}
+
 	public void setDocumentDate(DateTime documentDate) {
 		this.DocumentDate = documentDate;
 	}
@@ -1392,9 +1393,11 @@ public class GoodsIssueLine extends BusinessObject<GoodsIssueLine> implements IG
 	public DateTime getDeliveryDate() {
 		return this.DeliveryDate;
 	}
+
 	public void setDeliveryDate(DateTime deliveryDate) {
 		this.DeliveryDate = deliveryDate;
 	}
+
 	@Override
 	public String getJournal_ItemCode() {
 		return this.getProperty(PROPERTY_ITEMCODE);

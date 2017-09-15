@@ -10,6 +10,7 @@ import * as ibas from "ibas/index";
 import { utils } from "openui5/typings/ibas.utils";
 import * as bo from "../../../borep/bo/index";
 import { IMaterialListView } from "../../../bsapp/material/index";
+import { emItemType } from "../../../api/index";
 
 /**
  * 列表视图-物料
@@ -72,7 +73,7 @@ export class MaterialListView extends ibas.BOListView implements IMaterialListVi
                     }).bindProperty("text", {
                         path: "ItemType",
                         formatter(data: any): any {
-                            return ibas.enums.describe(ibas.emItemType, data);
+                            return ibas.enums.describe(emItemType, data);
                         }
                     })
                 }),
