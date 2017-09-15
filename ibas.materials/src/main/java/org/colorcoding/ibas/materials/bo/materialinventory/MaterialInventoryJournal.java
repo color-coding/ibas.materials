@@ -15,7 +15,6 @@ import org.colorcoding.ibas.bobas.mapping.BOCode;
 import org.colorcoding.ibas.bobas.mapping.DbField;
 import org.colorcoding.ibas.bobas.mapping.DbFieldType;
 import org.colorcoding.ibas.materials.MyConfiguration;
-import org.colorcoding.ibas.materials.MyConsts;
 import org.colorcoding.ibas.materials.logic.IMaterialInventoryContract;
 import org.colorcoding.ibas.materials.logic.IMaterialIssueContract;
 import org.colorcoding.ibas.materials.logic.IMaterialReceiptContract;
@@ -26,8 +25,8 @@ import org.colorcoding.ibas.materials.logic.IMaterialWarehouseInventoryContract;
  * 
  */
 @XmlAccessorType(XmlAccessType.NONE)
-@XmlType(name = MaterialInventoryJournal.BUSINESS_OBJECT_NAME, namespace = MyConsts.NAMESPACE_BO)
-@XmlRootElement(name = MaterialInventoryJournal.BUSINESS_OBJECT_NAME, namespace = MyConsts.NAMESPACE_BO)
+@XmlType(name = MaterialInventoryJournal.BUSINESS_OBJECT_NAME, namespace = MyConfiguration.NAMESPACE_BO)
+@XmlRootElement(name = MaterialInventoryJournal.BUSINESS_OBJECT_NAME, namespace = MyConfiguration.NAMESPACE_BO)
 @BOCode(MaterialInventoryJournal.BUSINESS_OBJECT_CODE)
 public class MaterialInventoryJournal extends BusinessObject<MaterialInventoryJournal>
 		implements IMaterialInventoryJournal, IMaterialInventoryContract, IMaterialWarehouseInventoryContract {

@@ -15,7 +15,6 @@ import org.colorcoding.ibas.bobas.data.emYesNo;
 import org.colorcoding.ibas.bobas.mapping.DbField;
 import org.colorcoding.ibas.bobas.mapping.DbFieldType;
 import org.colorcoding.ibas.materials.MyConfiguration;
-import org.colorcoding.ibas.materials.MyConsts;
 import org.colorcoding.ibas.materials.data.emItemType;
 import org.colorcoding.ibas.materials.logic.IMaterialIssueContract;
 import org.colorcoding.ibas.materials.logic.IMaterialReceiptContract;
@@ -25,8 +24,9 @@ import org.colorcoding.ibas.materials.logic.IMaterialReceiptContract;
  * 
  */
 @XmlAccessorType(XmlAccessType.NONE)
-@XmlType(name = InventoryTransferLine.BUSINESS_OBJECT_NAME, namespace = MyConsts.NAMESPACE_BO)
-public class InventoryTransferLine extends BusinessObject<InventoryTransferLine> implements IInventoryTransferLine,IMaterialIssueContract,IMaterialReceiptContract {
+@XmlType(name = InventoryTransferLine.BUSINESS_OBJECT_NAME, namespace = MyConfiguration.NAMESPACE_BO)
+public class InventoryTransferLine extends BusinessObject<InventoryTransferLine>
+		implements IInventoryTransferLine, IMaterialIssueContract, IMaterialReceiptContract {
 
 	/**
 	 * 序列化版本标记
@@ -1370,10 +1370,10 @@ public class InventoryTransferLine extends BusinessObject<InventoryTransferLine>
 		this.setDocumentDate(DateTime.getToday());
 	}
 
-	// region	添加字段，为契约提供值
+	// region 添加字段，为契约提供值
 	public String FromWarehouse;
 
-	public String getFromWarehouse(){
+	public String getFromWarehouse() {
 		return this.FromWarehouse;
 	}
 
@@ -1387,6 +1387,7 @@ public class InventoryTransferLine extends BusinessObject<InventoryTransferLine>
 	public DateTime getPostingDate() {
 		return this.PostingDate;
 	}
+
 	public void setPostingDate(DateTime postingDate) {
 		this.PostingDate = postingDate;
 	}
@@ -1396,6 +1397,7 @@ public class InventoryTransferLine extends BusinessObject<InventoryTransferLine>
 	public DateTime getDocumentDate() {
 		return this.DocumentDate;
 	}
+
 	public void setDocumentDate(DateTime documentDate) {
 		this.DocumentDate = documentDate;
 	}
@@ -1405,11 +1407,11 @@ public class InventoryTransferLine extends BusinessObject<InventoryTransferLine>
 	public DateTime getDeliveryDate() {
 		return this.DeliveryDate;
 	}
+
 	public void setDeliveryDate(DateTime deliveryDate) {
 		this.DeliveryDate = deliveryDate;
 	}
-	//endregion
-
+	// endregion
 
 	@Override
 	public String getJournal_ItemCode() {
@@ -1430,6 +1432,7 @@ public class InventoryTransferLine extends BusinessObject<InventoryTransferLine>
 	public String getJournal_ReceiptWarehouseCode() {
 		return this.getProperty(PROPERTY_WAREHOUSE);
 	}
+
 	@Override
 	public String getJournal_BaseDocumentType() {
 		return this.getProperty(PROPERTY_OBJECTCODE);

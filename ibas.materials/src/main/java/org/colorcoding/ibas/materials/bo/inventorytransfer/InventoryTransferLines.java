@@ -4,12 +4,12 @@ import java.beans.PropertyChangeEvent;
 import javax.xml.bind.annotation.*;
 import org.colorcoding.ibas.bobas.common.*;
 import org.colorcoding.ibas.bobas.bo.*;
-import org.colorcoding.ibas.materials.MyConsts;
+import org.colorcoding.ibas.materials.MyConfiguration;
 
 /**
 * 库存转储-行 集合
 */
-@XmlType(name = InventoryTransferLines.BUSINESS_OBJECT_NAME, namespace = MyConsts.NAMESPACE_BO)
+@XmlType(name = InventoryTransferLines.BUSINESS_OBJECT_NAME, namespace = MyConfiguration.NAMESPACE_BO)
 @XmlSeeAlso({ InventoryTransferLine.class })
 public class InventoryTransferLines extends BusinessObjects<IInventoryTransferLine, IInventoryTransfer> implements IInventoryTransferLines {
 

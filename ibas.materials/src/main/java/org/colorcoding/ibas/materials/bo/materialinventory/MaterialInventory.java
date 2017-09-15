@@ -14,7 +14,6 @@ import org.colorcoding.ibas.bobas.mapping.BOCode;
 import org.colorcoding.ibas.bobas.mapping.DbField;
 import org.colorcoding.ibas.bobas.mapping.DbFieldType;
 import org.colorcoding.ibas.materials.MyConfiguration;
-import org.colorcoding.ibas.materials.MyConsts;
 import org.colorcoding.ibas.materials.logic.IMaterialWarehouseInventoryContract;
 
 /**
@@ -22,8 +21,8 @@ import org.colorcoding.ibas.materials.logic.IMaterialWarehouseInventoryContract;
  * 
  */
 @XmlAccessorType(XmlAccessType.NONE)
-@XmlType(name = MaterialInventory.BUSINESS_OBJECT_NAME, namespace = MyConsts.NAMESPACE_BO)
-@XmlRootElement(name = MaterialInventory.BUSINESS_OBJECT_NAME, namespace = MyConsts.NAMESPACE_BO)
+@XmlType(name = MaterialInventory.BUSINESS_OBJECT_NAME, namespace = MyConfiguration.NAMESPACE_BO)
+@XmlRootElement(name = MaterialInventory.BUSINESS_OBJECT_NAME, namespace = MyConfiguration.NAMESPACE_BO)
 @BOCode(MaterialInventory.BUSINESS_OBJECT_CODE)
 public class MaterialInventory extends BusinessObject<MaterialInventory> implements IMaterialInventory {
 
@@ -790,10 +789,11 @@ public class MaterialInventory extends BusinessObject<MaterialInventory> impleme
 
 	}
 
-	public  static IMaterialInventory create(IMaterialWarehouseInventoryContract contract){
+	public static IMaterialInventory create(IMaterialWarehouseInventoryContract contract) {
 		IMaterialInventory materialInventory = new MaterialInventory();
-		materialInventory.setItemCode(contract.getMaterialWarehouse_ItemCode());;
-		materialInventory.setWarehouse( contract.getMaterialWarehouse_Warehouse());
-		return  materialInventory;
+		materialInventory.setItemCode(contract.getMaterialWarehouse_ItemCode());
+		;
+		materialInventory.setWarehouse(contract.getMaterialWarehouse_Warehouse());
+		return materialInventory;
 	}
 }

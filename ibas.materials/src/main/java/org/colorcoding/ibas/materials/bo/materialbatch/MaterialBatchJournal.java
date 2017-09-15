@@ -13,14 +13,13 @@ import org.colorcoding.ibas.bobas.data.emDirection;
 import org.colorcoding.ibas.bobas.mapping.DbField;
 import org.colorcoding.ibas.bobas.mapping.DbFieldType;
 import org.colorcoding.ibas.materials.MyConfiguration;
-import org.colorcoding.ibas.materials.MyConsts;
 
 /**
  * 获取-物料批次日记账
  * 
  */
 @XmlAccessorType(XmlAccessType.NONE)
-@XmlType(name = MaterialBatchJournal.BUSINESS_OBJECT_NAME, namespace = MyConsts.NAMESPACE_BO)
+@XmlType(name = MaterialBatchJournal.BUSINESS_OBJECT_NAME, namespace = MyConfiguration.NAMESPACE_BO)
 public class MaterialBatchJournal extends BusinessObject<MaterialBatchJournal> implements IMaterialBatchJournal {
 
 	/**
