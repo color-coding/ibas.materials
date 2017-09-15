@@ -54,7 +54,7 @@ export class MaterialViewView extends ibas.BOViewView implements IMaterialViewVi
                 }).bindProperty("text", {
                     path: "ItemType",
                     formatter(data: any): any {
-                        return ibas.enums.describe(ibas.emItemType, data);
+                        return ibas.enums.describe(ibas.emApprovalResult, data);
                     }
                 }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_material_group") }),
