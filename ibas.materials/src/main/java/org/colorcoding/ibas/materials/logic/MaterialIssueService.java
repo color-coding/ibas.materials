@@ -85,7 +85,7 @@ public class MaterialIssueService extends BusinessLogic<IMaterialIssueContract, 
 	@Override
 	protected void revoke(IMaterialIssueContract contract) {
 		IMaterialInventoryJournal materialJournal = this.getBeAffected();
-		materialJournal.setItemCode((contract.getJournal_IssueWarehouseCode()));
+		materialJournal.setItemCode((contract.getJournal_ItemCode()));
 		materialJournal.setItemName(contract.getJournal_ItemName());
 		materialJournal.setWarehouse(contract.getJournal_IssueWarehouseCode());
 		Decimal issueQuantity = materialJournal.getQuantity();
@@ -122,17 +122,17 @@ public class MaterialIssueService extends BusinessLogic<IMaterialIssueContract, 
 		// region 检查物料
 		if (material == null) {
 			throw new NullPointerException(
-					String.format(i18n.prop("msg_if_item_is_not_exist"), contract.getJournal_ItemCode()));
+					String.format(i18n.prop("msg_if_material_is_not_exist"), contract.getJournal_ItemCode()));
 		}
 		// 虚拟物料，不生成库存记录
 		if (material.getPhantomItem() == emYesNo.YES) {
 			throw new BusinessLogicsException(String.format(
-					i18n.prop("msg_if_item_is_phantom_item_can't_create_journal"), contract.getJournal_ItemCode()));
+					i18n.prop("msg_if_material_is_phantom_item_can't_create_journal"), contract.getJournal_ItemCode()));
 		}
 		// 非库存物料，不生成库存记录
 		if (material.getInventoryItem() != emYesNo.NO) {
 			throw new BusinessLogicsException(
-					String.format(i18n.prop("msg_if_item_is_not_nventory_item_can't_create_journal"),
+					String.format(i18n.prop("msg_if_material_is_not_inventory_item_can't_create_journal"),
 							contract.getJournal_ItemCode()));
 		}
 		// endregion
@@ -154,7 +154,7 @@ public class MaterialIssueService extends BusinessLogic<IMaterialIssueContract, 
 			IWarehouse warehouse = opResult.getResultObjects().firstOrDefault();
 			if (warehouse == null) {
 				throw new NullPointerException(
-						String.format(i18n.prop("msg_if_item_is_phantom_item_can't_create_journal"),
+						String.format(i18n.prop("msg_if_warehouse_is_not_exist"),
 								contract.getJournal_IssueWarehouseCode()));
 			}
 		}
