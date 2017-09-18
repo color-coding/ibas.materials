@@ -3,7 +3,6 @@ package org.colorcoding.ibas.materials.repository;
 import org.colorcoding.ibas.bobas.common.ICriteria;
 import org.colorcoding.ibas.bobas.common.IOperationResult;
 import org.colorcoding.ibas.bobas.common.OperationResult;
-import org.colorcoding.ibas.bobas.ownership.PermissionGroup;
 import org.colorcoding.ibas.bobas.repository.BORepositoryServiceApplication;
 import org.colorcoding.ibas.materials.bo.goodsissue.GoodsIssue;
 import org.colorcoding.ibas.materials.bo.goodsissue.IGoodsIssue;
@@ -35,7 +34,6 @@ import org.colorcoding.ibas.materials.bo.warehouse.Warehouse;
 /**
  * Materials仓库
  */
-@PermissionGroup("Materials")
 public class BORepositoryMaterials extends BORepositoryServiceApplication
 		implements IBORepositoryMaterialsSvc, IBORepositoryMaterialsApp {
 
