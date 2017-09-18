@@ -7,7 +7,8 @@
  */
 
 // 模块索引文件，此文件集中导出类
-export * from "./MaterialJournalListView";
-export * from "./MaterialJournalChooseView";
-export * from "./MaterialJournalViewView";
-export * from "./MaterialJournalEditView";
+export * from "./MaterialInventoryJournalFunc";
+export * from "./MaterialInventoryJournalListApp";
+export * from "./MaterialInventoryJournalChooseApp";
+export * from "./MaterialInventoryJournalViewApp";
+export * from "./MaterialInventoryJournalEditApp";

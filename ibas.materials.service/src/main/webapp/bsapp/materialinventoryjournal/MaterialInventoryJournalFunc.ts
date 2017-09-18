@@ -7,9 +7,9 @@
  */
 
 import * as ibas from "ibas/index";
-import { MaterialJournalListApp } from "./MaterialJournalListApp";
+import { MaterialJournalListApp } from "./MaterialInventoryJournalListApp";
 
-export class MaterialJournalFunc extends ibas.ModuleFunction {
+export class MaterialInventoryJournalFunc extends ibas.ModuleFunction {
 
     /** 功能标识 */
     static FUNCTION_ID = "18aabd78-bb26-4a53-8ce6-e332b15fb852";
@@ -18,8 +18,8 @@ export class MaterialJournalFunc extends ibas.ModuleFunction {
     /** 构造函数 */
     constructor() {
         super();
-        this.id = MaterialJournalFunc.FUNCTION_ID;
-        this.name = MaterialJournalFunc.FUNCTION_NAME;
+        this.id = MaterialInventoryJournalFunc.FUNCTION_ID;
+        this.name = MaterialInventoryJournalFunc.FUNCTION_NAME;
         this.description = ibas.i18n.prop(this.name);
     }
     /** 默认功能 */

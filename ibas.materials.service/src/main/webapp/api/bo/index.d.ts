@@ -13,5 +13,5 @@ export * from "./InventoryTransfer.d";
 export * from "./Material.d";
 export * from "./MaterialGroup.d";
 export * from "./MaterialInventory.d";
-export * from "./MaterialJournal.d";
+export * from "./MaterialInventoryJournal.d";
 export * from "./Warehouse.d";

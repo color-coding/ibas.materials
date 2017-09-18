@@ -10,18 +10,20 @@ import * as ibas from "ibas/index";
 import * as bo from "../../borep/bo/index";
 import { BORepositoryMaterials } from "../../borep/BORepositories";
 import { DataConverter4mm } from "../../borep/DataConverters";
-import { MaterialJournalViewApp } from "./MaterialJournalViewApp";
-import { MaterialJournalEditApp } from "./MaterialJournalEditApp";
+import { MaterialInventoryJournalViewApp } from "./MaterialInventoryJournalViewApp";
+import { MaterialInventoryJournalEditApp } from "./MaterialInventoryJournalEditApp";
 
 /** 列表应用-仓库日记账 */
-export class MaterialJournalListApp extends ibas.BOListApplication<IMaterialJournalListView, bo.MaterialJournal> {
+export class MaterialJournalListApp
+            extends ibas.BOListApplication<IMaterialInventoryJournalListView
+                                        , bo.MaterialInventoryJournal> {
 
     /** 应用标识 */
     static APPLICATION_ID: string = "97139ec9-5930-4476-91d7-260d25ce696b";
     /** 应用名称 */
     static APPLICATION_NAME: string = "materials_app_materialjournal_list";
     /** 业务对象编码 */
-    static BUSINESS_OBJECT_CODE: string = bo.MaterialJournal.BUSINESS_OBJECT_CODE;
+    static BUSINESS_OBJECT_CODE: string = bo.MaterialInventoryJournal.BUSINESS_OBJECT_CODE;
     /** 构造函数 */
     constructor() {
         super();
@@ -46,9 +48,9 @@ export class MaterialJournalListApp extends ibas.BOListApplication<IMaterialJour
         this.busy(true);
         let that: this = this;
         let boRepository: BORepositoryMaterials = new BORepositoryMaterials();
-        boRepository.fetchMaterialJournal({
+        boRepository.fetchMaterialInventoryJournal({
             criteria: criteria,
-            onCompleted(opRslt: ibas.IOperationResult<bo.MaterialJournal>): void {
+            onCompleted(opRslt: ibas.IOperationResult<bo.MaterialInventoryJournal>): void {
                 try {
                     if (opRslt.resultCode !== 0) {
                         throw new Error(opRslt.message);
@@ -64,13 +66,13 @@ export class MaterialJournalListApp extends ibas.BOListApplication<IMaterialJour
     }
     /** 新建数据 */
     protected newData(): void {
-        let app: MaterialJournalEditApp = new MaterialJournalEditApp();
+        let app: MaterialInventoryJournalEditApp = new MaterialInventoryJournalEditApp();
         app.navigation = this.navigation;
         app.viewShower = this.viewShower;
         app.run();
     }
     /** 查看数据，参数：目标数据 */
-    protected viewData(data: bo.MaterialJournal): void {
+    protected viewData(data: bo.MaterialInventoryJournal): void {
         // 检查目标数据
         if (ibas.objects.isNull(data)) {
             this.messages(ibas.emMessageType.WARNING, ibas.i18n.prop("sys_shell_please_chooose_data",
@@ -78,14 +80,14 @@ export class MaterialJournalListApp extends ibas.BOListApplication<IMaterialJour
             ));
             return;
         }
-        let app: MaterialJournalViewApp = new MaterialJournalViewApp();
+        let app: MaterialInventoryJournalViewApp = new MaterialInventoryJournalViewApp();
         app.navigation = this.navigation;
         app.viewShower = this.viewShower;
         app.run(data);
 
     }
     /** 编辑数据，参数：目标数据 */
-    protected editData(data: bo.MaterialJournal): void {
+    protected editData(data: bo.MaterialInventoryJournal): void {
         // 检查目标数据
         if (ibas.objects.isNull(data)) {
             this.messages(ibas.emMessageType.WARNING, ibas.i18n.prop("sys_shell_please_chooose_data",
@@ -93,13 +95,13 @@ export class MaterialJournalListApp extends ibas.BOListApplication<IMaterialJour
             ));
             return;
         }
-        let app: MaterialJournalEditApp = new MaterialJournalEditApp();
+        let app: MaterialInventoryJournalEditApp = new MaterialInventoryJournalEditApp();
         app.navigation = this.navigation;
         app.viewShower = this.viewShower;
         app.run(data);
     }
     /** 删除数据，参数：目标数据集合 */
-    protected deleteData(data: bo.MaterialJournal): void {
+    protected deleteData(data: bo.MaterialInventoryJournal): void {
         // 检查目标数据
         if (ibas.objects.isNull(data)) {
             this.messages(ibas.emMessageType.WARNING, ibas.i18n.prop("sys_shell_please_chooose_data",
@@ -107,10 +109,10 @@ export class MaterialJournalListApp extends ibas.BOListApplication<IMaterialJour
             ));
             return;
         }
-        let beDeleteds:ibas.ArrayList<bo.MaterialJournal> = new ibas.ArrayList<bo.MaterialJournal>();
+        let beDeleteds:ibas.ArrayList<bo.MaterialInventoryJournal> = new ibas.ArrayList<bo.MaterialInventoryJournal>();
         if (data instanceof Array ) {
             for (let item of data) {
-                if (ibas.objects.instanceOf(item, bo.MaterialJournal)) {
+                if (ibas.objects.instanceOf(item, bo.MaterialInventoryJournal)) {
                     item.delete();
                     beDeleteds.add(item);
                 }
@@ -130,10 +132,10 @@ export class MaterialJournalListApp extends ibas.BOListApplication<IMaterialJour
                 if (action === ibas.emMessageAction.YES) {
                     try {
                         let boRepository: BORepositoryMaterials = new BORepositoryMaterials();
-                        let saveMethod: Function = function(beSaved: bo.MaterialJournal):void {
-                            boRepository.saveMaterialJournal({
+                        let saveMethod: Function = function(beSaved: bo.MaterialInventoryJournal):void {
+                            boRepository.saveMaterialInventoryJournal({
                                 beSaved: beSaved,
-                                onCompleted(opRslt: ibas.IOperationResult<bo.MaterialJournal>): void {
+                                onCompleted(opRslt: ibas.IOperationResult<bo.MaterialInventoryJournal>): void {
                                     try {
                                         if (opRslt.resultCode !== 0) {
                                             throw new Error(opRslt.message);
@@ -178,13 +180,13 @@ export class MaterialJournalListApp extends ibas.BOListApplication<IMaterialJour
     }
 }
 /** 视图-仓库日记账 */
-export interface IMaterialJournalListView extends ibas.IBOListView {
+export interface IMaterialInventoryJournalListView extends ibas.IBOListView {
     /** 编辑数据事件，参数：编辑对象 */
     editDataEvent: Function;
     /** 删除数据事件，参数：删除对象集合 */
     deleteDataEvent: Function;
     /** 显示数据 */
-    showData(datas: bo.MaterialJournal[]): void;
+    showData(datas: bo.MaterialInventoryJournal[]): void;
     /** 获取选择的数据 */
-    getSelecteds(): bo.MaterialJournal[];
+    getSelecteds(): bo.MaterialInventoryJournal[];
 }

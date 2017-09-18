@@ -12,7 +12,7 @@ import * as inventorytransferApps from "../../bsapp/inventorytransfer/index";
 import * as materialApps from "../../bsapp/material/index";
 import * as materialgroupApps from "../../bsapp/materialgroup/index";
 import * as materialinventoryApps from "../../bsapp/materialinventory/index";
-import * as materialjournalApps from "../../bsapp/materialjournal/index";
+import * as materialinventoryjournalApps from "../../bsapp/materialinventoryjournal/index";
 import * as warehouseApps from "../../bsapp/warehouse/index";
 import * as goodsissueViews from "./goodsissue/index";
 import * as goodsreceiptViews from "./goodsreceipt/index";
@@ -20,7 +20,7 @@ import * as inventorytransferViews from "./inventorytransfer/index";
 import * as materialViews from "./material/index";
 import * as materialgroupViews from "./materialgroup/index";
 import * as materialinventoryViews from "./materialinventory/index";
-import * as materialjournalViews from "./materialjournal/index";
+import * as materialinventoryjournalViews from "./materialinventoryjournal/index";
 import * as warehouseViews from "./warehouse/index";
 /**
  * 视图导航
@@ -69,17 +69,17 @@ export default class Navigation extends ibas.ViewNavigation {
             case materialinventoryApps.MaterialInventoryEditApp.APPLICATION_ID:
                 view = new materialinventoryViews.MaterialInventoryEditView();
                 break;
-            case materialjournalApps.MaterialJournalListApp.APPLICATION_ID:
-                view = new materialjournalViews.MaterialJournalListView();
+            case materialinventoryjournalApps.MaterialJournalListApp.APPLICATION_ID:
+                view = new materialinventoryjournalViews.MaterialInventoryJournalListView();
                 break;
-            case materialjournalApps.MaterialJournalChooseApp.APPLICATION_ID:
-                view = new materialjournalViews.MaterialJournalChooseView();
+            case materialinventoryjournalApps.MaterialInventoryJournalChooseApp.APPLICATION_ID:
+                view = new materialinventoryjournalViews.MaterialInventoryJournalChooseView();
                 break;
-            case materialjournalApps.MaterialJournalViewApp.APPLICATION_ID:
-                view = new materialjournalViews.MaterialJournalViewView();
+            case materialinventoryjournalApps.MaterialInventoryJournalViewApp.APPLICATION_ID:
+                view = new materialinventoryjournalViews.MaterialInventoryJournalViewView();
                 break;
-            case materialjournalApps.MaterialJournalEditApp.APPLICATION_ID:
-                view = new materialjournalViews.MaterialJournalEditView();
+            case materialinventoryjournalApps.MaterialInventoryJournalEditApp.APPLICATION_ID:
+                view = new materialinventoryjournalViews.MaterialInventoryJournalEditView();
                 break;
             case warehouseApps.WarehouseListApp.APPLICATION_ID:
                 view = new warehouseViews.WarehouseListView();

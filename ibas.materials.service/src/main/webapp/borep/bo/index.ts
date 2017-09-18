@@ -13,7 +13,7 @@ export * from "./InventoryTransfer";
 export * from "./Material";
 export * from "./MaterialGroup";
 export * from "./MaterialInventory";
-export * from "./MaterialJournal";
+export * from "./MaterialInventoryJournal";
 export * from "./Warehouse";
 
 // 注册业务对象到工厂
@@ -30,7 +30,7 @@ import { MaterialGroup } from "./MaterialGroup";
 ibas.boFactory.register(MaterialGroup.BUSINESS_OBJECT_CODE, MaterialGroup);
 import { MaterialInventory } from "./MaterialInventory";
 ibas.boFactory.register(MaterialInventory.BUSINESS_OBJECT_CODE, MaterialInventory);
-import { MaterialJournal } from "./MaterialJournal";
-ibas.boFactory.register(MaterialJournal.BUSINESS_OBJECT_CODE, MaterialJournal);
+import { MaterialInventoryJournal } from "./MaterialInventoryJournal";
+ibas.boFactory.register(MaterialInventoryJournal.BUSINESS_OBJECT_CODE, MaterialInventoryJournal);
 import { Warehouse } from "./Warehouse";
 ibas.boFactory.register(Warehouse.BUSINESS_OBJECT_CODE, Warehouse);

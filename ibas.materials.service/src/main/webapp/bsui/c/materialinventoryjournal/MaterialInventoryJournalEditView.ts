@@ -9,12 +9,12 @@
 import * as ibas from "ibas/index";
 import { utils } from "openui5/typings/ibas.utils";
 import * as bo from "../../../borep/bo/index";
-import { IMaterialJournalEditView } from "../../../bsapp/materialjournal/index";
+import { IMaterialInventoryJournalEditView } from "../../../bsapp/materialinventoryjournal/index";
 
 /**
  * 编辑视图-仓库日记账
  */
-export class MaterialJournalEditView extends ibas.BOEditView implements IMaterialJournalEditView {
+export class MaterialInventoryJournalEditView extends ibas.BOEditView implements IMaterialInventoryJournalEditView {
     /** 删除数据事件 */
     deleteDataEvent: Function;
     /** 新建数据事件，参数1：是否克隆 */
@@ -200,7 +200,7 @@ export class MaterialJournalEditView extends ibas.BOEditView implements IMateria
     private page: sap.m.Page;
     private form: sap.ui.layout.form.SimpleForm;
     /** 改变视图状态 */
-    private changeViewStatus(data: bo.MaterialJournal): void {
+    private changeViewStatus(data: bo.MaterialInventoryJournal): void {
         if (ibas.objects.isNull(data)) {
             return;
         }
@@ -214,7 +214,7 @@ export class MaterialJournalEditView extends ibas.BOEditView implements IMateria
     }
 
     /** 显示数据 */
-    showMaterialJournal(data: bo.MaterialJournal): void {
+    showMaterialJournal(data: bo.MaterialInventoryJournal): void {
         this.form.setModel(new sap.ui.model.json.JSONModel(data));
         // 监听属性改变，并更新控件
         utils.refreshModelChanged(this.form, data);

@@ -9,23 +9,23 @@
 import * as ibas from "ibas/index";
 import * as bo from "../../borep/bo/index";
 import { BORepositoryMaterials } from "../../borep/BORepositories";
-import { MaterialJournalEditApp } from "./MaterialJournalEditApp";
+import { MaterialInventoryJournalEditApp } from "./MaterialInventoryJournalEditApp";
 
 /** 查看应用-仓库日记账 */
-export class MaterialJournalViewApp extends ibas.BOViewService<IMaterialJournalViewView> {
+export class MaterialInventoryJournalViewApp extends ibas.BOViewService<IMaterialInventoryJournalViewView> {
 
     /** 应用标识 */
     static APPLICATION_ID: string = "9d313771-b5d6-497e-9440-930b8b829850";
     /** 应用名称 */
     static APPLICATION_NAME: string = "materials_app_materialjournal_view";
     /** 业务对象编码 */
-    static BUSINESS_OBJECT_CODE: string = bo.MaterialJournal.BUSINESS_OBJECT_CODE;
+    static BUSINESS_OBJECT_CODE: string = bo.MaterialInventoryJournal.BUSINESS_OBJECT_CODE;
     /** 构造函数 */
     constructor() {
         super();
-        this.id = MaterialJournalViewApp.APPLICATION_ID;
-        this.name = MaterialJournalViewApp.APPLICATION_NAME;
-        this.boCode = MaterialJournalViewApp.BUSINESS_OBJECT_CODE;
+        this.id = MaterialInventoryJournalViewApp.APPLICATION_ID;
+        this.name = MaterialInventoryJournalViewApp.APPLICATION_NAME;
+        this.boCode = MaterialInventoryJournalViewApp.BUSINESS_OBJECT_CODE;
         this.description = ibas.i18n.prop(this.name);
     }
     /** 注册视图 */
@@ -39,30 +39,30 @@ export class MaterialJournalViewApp extends ibas.BOViewService<IMaterialJournalV
         // 视图加载完成
         if (ibas.objects.isNull(this.viewData)) {
             // 创建编辑对象实例
-            this.viewData = new bo.MaterialJournal();
+            this.viewData = new bo.MaterialInventoryJournal();
             this.proceeding(ibas.emMessageType.WARNING, ibas.i18n.prop("sys_shell_data_created_new"));
         }
         this.view.showMaterialJournal(this.viewData);
     }
 
-    private viewDate: bo.MaterialJournal
+    private viewDate: bo.MaterialInventoryJournal;
     /** 编辑数据，参数：目标数据 */
     protected editData(): void {
-        let app: MaterialJournalEditApp = new MaterialJournalEditApp();
+        let app: MaterialInventoryJournalEditApp = new MaterialInventoryJournalEditApp();
         app.navigation = this.navigation;
         app.viewShower = this.viewShower;
         app.run(this.viewData);
     }
     /** 运行,覆盖原方法 */
     run(...args: any[]): void {
-        if (arguments[0] instanceof bo.MaterialJournal) {
+        if (arguments[0] instanceof bo.MaterialInventoryJournal) {
             this.viewData = arguments[0];
             this.show();
         } else {
             super.run();
         }
     }
-    private viewData: bo.MaterialJournal;
+    private viewData: bo.MaterialInventoryJournal;
     /** 查询数据 */
     protected fetchData(criteria: ibas.ICriteria | string): void {
         this.busy(true);
@@ -73,9 +73,9 @@ export class MaterialJournalViewApp extends ibas.BOViewService<IMaterialJournalV
 
         }
         let boRepository: BORepositoryMaterials = new BORepositoryMaterials();
-        boRepository.fetchMaterialJournal({
+        boRepository.fetchMaterialInventoryJournal({
             criteria: criteria,
-            onCompleted(opRslt: ibas.IOperationResult<bo.MaterialJournal>): void {
+            onCompleted(opRslt: ibas.IOperationResult<bo.MaterialInventoryJournal>): void {
                 try {
                     if (opRslt.resultCode !== 0) {
                         throw new Error(opRslt.message);
@@ -95,21 +95,21 @@ export class MaterialJournalViewApp extends ibas.BOViewService<IMaterialJournalV
     }
 }
 /** 视图-仓库日记账 */
-export interface IMaterialJournalViewView extends ibas.IBOViewView {
-    showMaterialJournal(data: bo.MaterialJournal): void;
+export interface IMaterialInventoryJournalViewView extends ibas.IBOViewView {
+    showMaterialJournal(data: bo.MaterialInventoryJournal): void;
 }
 /** 仓库日记账连接服务映射 */
-export class MaterialJournalLinkServiceMapping extends ibas.BOLinkServiceMapping {
+export class MaterialInventoryJournalLinkServiceMapping extends ibas.BOLinkServiceMapping {
     /** 构造函数 */
     constructor() {
         super();
-        this.id = MaterialJournalViewApp.APPLICATION_ID;
-        this.name = MaterialJournalViewApp.APPLICATION_NAME;
-        this.boCode = MaterialJournalViewApp.BUSINESS_OBJECT_CODE;
+        this.id = MaterialInventoryJournalViewApp.APPLICATION_ID;
+        this.name = MaterialInventoryJournalViewApp.APPLICATION_NAME;
+        this.boCode = MaterialInventoryJournalViewApp.BUSINESS_OBJECT_CODE;
         this.description = ibas.i18n.prop(this.name);
     }
     /** 创建服务并运行 */
     create(): ibas.IService<ibas.IServiceContract> {
-        return new MaterialJournalViewApp();
+        return new MaterialInventoryJournalViewApp();
     }
 }
