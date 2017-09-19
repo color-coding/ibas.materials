@@ -10,7 +10,7 @@ import org.colorcoding.ibas.bobas.common.ICriteria;
 import org.colorcoding.ibas.bobas.common.IOperationResult;
 import org.colorcoding.ibas.bobas.data.Decimal;
 import org.colorcoding.ibas.bobas.data.emYesNo;
-import org.colorcoding.ibas.bobas.i18n.i18n;
+import org.colorcoding.ibas.bobas.i18n.I18N;
 import org.colorcoding.ibas.bobas.logics.BusinessLogic;
 import org.colorcoding.ibas.bobas.logics.BusinessLogicsException;
 import org.colorcoding.ibas.bobas.mapping.LogicContract;
@@ -100,7 +100,7 @@ public class MaterialIssueService extends BusinessLogic<IMaterialIssueContract, 
 	 */
 	private void checkContractData(IMaterialIssueContract contract) {
 		if (contract.getJournal_IssueQuantity().compareTo(BigDecimal.ZERO) == 0) {
-			throw new BusinessLogicsException(i18n.prop("msg_if_issue_quantity_can't_be_zero"));
+			throw new BusinessLogicsException(I18N.prop("msg_if_issue_quantity_can't_be_zero"));
 		}
 		// region 查询物料
 		ICriteria criteria = Criteria.create();
@@ -122,18 +122,17 @@ public class MaterialIssueService extends BusinessLogic<IMaterialIssueContract, 
 		// region 检查物料
 		if (material == null) {
 			throw new NullPointerException(
-					String.format(i18n.prop("msg_if_material_is_not_exist"), contract.getJournal_ItemCode()));
+					String.format(I18N.prop("msg_if_material_is_not_exist"), contract.getJournal_ItemCode()));
 		}
 		// 虚拟物料，不生成库存记录
 		if (material.getPhantomItem() == emYesNo.YES) {
 			throw new BusinessLogicsException(String.format(
-					i18n.prop("msg_if_material_is_phantom_item_can't_create_journal"), contract.getJournal_ItemCode()));
+					I18N.prop("msg_if_material_is_phantom_item_can't_create_journal"), contract.getJournal_ItemCode()));
 		}
 		// 非库存物料，不生成库存记录
 		if (material.getInventoryItem() != emYesNo.NO) {
-			throw new BusinessLogicsException(
-					String.format(i18n.prop("msg_if_material_is_not_inventory_item_can't_create_journal"),
-							contract.getJournal_ItemCode()));
+			throw new BusinessLogicsException(String.format(I18N.prop("msg_if_material_is_not_inventory_item_can't_create_journal"),
+					contract.getJournal_ItemCode()));
 		}
 		// endregion
 		// region 检查仓库
@@ -153,9 +152,8 @@ public class MaterialIssueService extends BusinessLogic<IMaterialIssueContract, 
 			}
 			IWarehouse warehouse = opResult.getResultObjects().firstOrDefault();
 			if (warehouse == null) {
-				throw new NullPointerException(
-						String.format(i18n.prop("msg_if_warehouse_is_not_exist"),
-								contract.getJournal_IssueWarehouseCode()));
+				throw new NullPointerException(String.format(I18N.prop("msg_if_warehouse_is_not_exist"),
+						contract.getJournal_IssueWarehouseCode()));
 			}
 		}
 		// endregion

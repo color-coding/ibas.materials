@@ -3,7 +3,7 @@ package org.colorcoding.ibas.materials.logic;
 import org.colorcoding.ibas.bobas.common.*;
 import org.colorcoding.ibas.bobas.data.Decimal;
 import org.colorcoding.ibas.bobas.data.emDirection;
-import org.colorcoding.ibas.bobas.i18n.i18n;
+import org.colorcoding.ibas.bobas.i18n.I18N;
 import org.colorcoding.ibas.bobas.logics.BusinessLogic;
 import org.colorcoding.ibas.bobas.logics.BusinessLogicsException;
 import org.colorcoding.ibas.bobas.mapping.LogicContract;
@@ -56,7 +56,7 @@ public class MaterialWarehouseInventoryService extends BusinessLogic<IMaterialWa
         else
             onHand = onHand.add(contract.getMaterialWarehouse_Quantity());
         if(onHand.compareTo(BigDecimal.ZERO)== -1) {
-            throw new BusinessLogicsException(String.format(i18n.prop("msg_if_material_is_not_enough"),
+            throw new BusinessLogicsException(String.format(I18N.prop("msg_if_material_is_not_enough"),
                     contract.getMaterialWarehouse_ItemCode()));
         }
         materialInventory.setOnHand(onHand);
@@ -71,7 +71,7 @@ public class MaterialWarehouseInventoryService extends BusinessLogic<IMaterialWa
         else
             onHand = onHand.subtract(contract.getMaterialWarehouse_Quantity());
         if(onHand.compareTo(BigDecimal.ZERO) == -1){
-            throw new BusinessLogicsException(String.format(i18n.prop("msg_if_material_is_not_enough"),
+            throw new BusinessLogicsException(String.format(I18N.prop("msg_if_material_is_not_enough"),
                     contract.getMaterialWarehouse_ItemCode()));
         }
         materialInventory.setOnHand(onHand);
