@@ -85,12 +85,12 @@ export interface IBORepositoryMaterials {
      * 查询 仓库日记账
      * @param fetcher 查询者
      */
-    fetchMaterialJournal(fetcher: FetchCaller<bo.IMaterialJournal>);
+    fetchMaterialInventoryJournal(fetcher: FetchCaller<bo.IMaterialInventoryJournal>);
     /**
      * 保存 仓库日记账
      * @param saver 保存者
      */
-    saveMaterialJournal(saver: SaveCaller<bo.IMaterialJournal>);
+    saveMaterialInventoryJournal(saver: SaveCaller<bo.IMaterialInventoryJournal>);
 
     /**
      * 查询 仓库

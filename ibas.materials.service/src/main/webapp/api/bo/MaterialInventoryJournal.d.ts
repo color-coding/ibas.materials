@@ -26,7 +26,7 @@ import {
 } from "../Datas";
 
 /** 仓库日记账 */
-export interface IMaterialJournal extends IBOSimple {
+export interface IMaterialInventoryJournal extends IBOSimple {
 
     /** 物料编码 */
     itemCode: string;

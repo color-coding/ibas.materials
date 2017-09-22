@@ -4,6 +4,7 @@ import org.colorcoding.ibas.bobas.common.*;
 import org.colorcoding.ibas.bobas.data.Decimal;
 import org.colorcoding.ibas.bobas.data.emDirection;
 import org.colorcoding.ibas.bobas.data.emYesNo;
+import org.colorcoding.ibas.bobas.i18n.I18N;
 import org.colorcoding.ibas.bobas.logics.BusinessLogic;
 import org.colorcoding.ibas.bobas.logics.BusinessLogicsException;
 import org.colorcoding.ibas.bobas.mapping.LogicContract;
@@ -36,19 +37,19 @@ public class MaterialInventoryService  extends BusinessLogic<IMaterialInventoryC
 
         //region 检查物料
         if(material == null){
-            throw new NullPointerException(String.format("物料：%s不存在",contract.getMaterial_ItemCode()));
+            throw new NullPointerException(String.format(I18N.prop("msg_if_material_is_not_exist"), contract.getMaterial_ItemCode()));
         }
         // 虚拟物料，不生成库存记录
         if(material.getPhantomItem() == emYesNo.YES){
-            throw  new BusinessLogicsException(String.format("该物料为虚拟物料，无库存分录"));
+            throw  new BusinessLogicsException(String.format(I18N.prop("msg_if_material_is_phantom_item_can't_create_journal"), contract.getMaterial_ItemCode()));
         }
         // 非库存物料，不生成库存记录
         if(material.getInventoryItem() != emYesNo.NO){
-            throw  new BusinessLogicsException(String.format("该物料为非库存物料，无库存分录"));
+            throw  new BusinessLogicsException(String.format(I18N.prop("msg_if_material_is_not_inventory_item_can't_create_journal"), contract.getMaterial_ItemCode()));
         }
 
         if(material.getItemType() == emItemType.SERVICES){
-            throw  new BusinessLogicsException(String.format("该物料为服务物料，无库存分录"));
+            throw  new BusinessLogicsException(String.format(I18N.prop("msg_if_material_is_service_item_can't_create_journal"), contract.getMaterial_ItemCode()));
         }
         //endregion
         return material;

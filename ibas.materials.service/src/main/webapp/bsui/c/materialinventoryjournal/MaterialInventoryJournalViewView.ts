@@ -9,12 +9,12 @@
 import * as ibas from "ibas/index";
 import { utils } from "openui5/typings/ibas.utils";
 import * as bo from "../../../borep/bo/index";
-import { IMaterialJournalViewView } from "../../../bsapp/materialjournal/index";
+import { IMaterialInventoryJournalViewView } from "../../../bsapp/materialinventoryjournal/index";
 
 /**
  * 查看视图-仓库日记账
  */
-export class MaterialJournalViewView extends ibas.BOViewView implements IMaterialJournalViewView {
+export class MaterialInventoryJournalViewView extends ibas.BOViewView implements IMaterialInventoryJournalViewView {
     /** 绘制视图 */
     darw(): any {
         let that: this = this;
@@ -207,7 +207,7 @@ export class MaterialJournalViewView extends ibas.BOViewView implements IMateria
     private form: sap.ui.layout.form.SimpleForm;
 
     /** 显示数据 */
-    showMaterialJournal(data: bo.MaterialJournal): void {
+    showMaterialJournal(data: bo.MaterialInventoryJournal): void {
         this.form.setModel(new sap.ui.model.json.JSONModel(data));
     }
 }

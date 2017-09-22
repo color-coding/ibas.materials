@@ -9,15 +9,15 @@
 import * as ibas from "ibas/index";
 import { utils } from "openui5/typings/ibas.utils";
 import * as bo from "../../../borep/bo/index";
-import { IMaterialJournalListView } from "../../../bsapp/materialjournal/index";
+import { IMaterialInventoryJournalListView } from "../../../bsapp/materialinventoryjournal/index";
 
 /**
  * 列表视图-仓库日记账
  */
-export class MaterialJournalListView extends ibas.BOListView implements IMaterialJournalListView {
+export class MaterialInventoryJournalListView extends ibas.BOListView implements IMaterialInventoryJournalListView {
     /** 返回查询的对象 */
     get queryTarget(): any {
-        return bo.MaterialJournal;
+        return bo.MaterialInventoryJournal;
     }
     /** 编辑数据，参数：目标数据 */
     editDataEvent: Function;
@@ -142,7 +142,7 @@ export class MaterialJournalListView extends ibas.BOListView implements IMateria
                         press: function (): void {
                             that.fireViewEvents(that.viewDataEvent,
                                 // 获取表格选中的对象
-                                utils.getTableSelecteds<bo.MaterialJournal>(that.table).firstOrDefault()
+                                utils.getTableSelecteds<bo.MaterialInventoryJournal>(that.table).firstOrDefault()
                             );
                         }
                     }),
@@ -153,7 +153,7 @@ export class MaterialJournalListView extends ibas.BOListView implements IMateria
                         press: function (): void {
                             that.fireViewEvents(that.editDataEvent,
                                 // 获取表格选中的对象
-                                utils.getTableSelecteds<bo.MaterialJournal>(that.table).firstOrDefault()
+                                utils.getTableSelecteds<bo.MaterialInventoryJournal>(that.table).firstOrDefault()
                             );
                         }
                     }),
@@ -165,7 +165,7 @@ export class MaterialJournalListView extends ibas.BOListView implements IMateria
                         press: function (): void {
                             that.fireViewEvents(that.deleteDataEvent,
                                 // 获取表格选中的对象
-                                utils.getTableSelecteds<bo.MaterialJournal>(that.table)
+                                utils.getTableSelecteds<bo.MaterialInventoryJournal>(that.table)
                             );
                         }
                     }),
@@ -232,7 +232,7 @@ export class MaterialJournalListView extends ibas.BOListView implements IMateria
     private form: sap.ui.layout.form.SimpleForm;
     private table: sap.ui.table.Table;
     /** 显示数据 */
-    showData(datas: bo.MaterialJournal[]): void {
+    showData(datas: bo.MaterialInventoryJournal[]): void {
         let done: boolean = false;
         let model: sap.ui.model.Model = this.table.getModel(undefined);
         if (!ibas.objects.isNull(model)) {
@@ -265,7 +265,7 @@ export class MaterialJournalListView extends ibas.BOListView implements IMateria
         }
     }
     /** 获取选择的数据 */
-    getSelecteds(): bo.MaterialJournal[] {
-        return utils.getTableSelecteds<bo.MaterialJournal>(this.table);
+    getSelecteds(): bo.MaterialInventoryJournal[] {
+        return utils.getTableSelecteds<bo.MaterialInventoryJournal>(this.table);
     }
 }

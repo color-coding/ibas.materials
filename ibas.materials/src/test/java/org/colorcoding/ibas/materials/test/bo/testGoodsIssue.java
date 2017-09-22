@@ -31,9 +31,9 @@ public class testGoodsIssue extends TestCase {
         // 测试库存发货-行
         IGoodsIssueLine goodsissueline = bo.getGoodsIssueLines().create();
         // 测试属性赋值
-        goodsissueline.setItemCode("S1000011");
+        goodsissueline.setItemCode("1000001");
         goodsissueline.setWarehouse("BJKJ");
-        goodsissueline.setQuantity(0);
+        goodsissueline.setQuantity(1000);
 
 
         // 测试对象的保存和查询

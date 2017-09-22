@@ -11,20 +11,22 @@ import * as bo from "../../borep/bo/index";
 import { BORepositoryMaterials } from "../../borep/BORepositories";
 
 /** 编辑应用-仓库日记账 */
-export class MaterialJournalEditApp extends ibas.BOEditApplication<IMaterialJournalEditView, bo.MaterialJournal> {
+export class MaterialInventoryJournalEditApp
+            extends ibas.BOEditApplication<IMaterialInventoryJournalEditView
+                                            ,bo.MaterialInventoryJournal> {
 
     /** 应用标识 */
     static APPLICATION_ID: string = "2687f600-932e-484e-9cab-c5e4bfc2758d";
     /** 应用名称 */
     static APPLICATION_NAME: string = "materials_app_materialjournal_edit";
     /** 业务对象编码 */
-    static BUSINESS_OBJECT_CODE: string = bo.MaterialJournal.BUSINESS_OBJECT_CODE;
+    static BUSINESS_OBJECT_CODE: string = bo.MaterialInventoryJournal.BUSINESS_OBJECT_CODE;
     /** 构造函数 */
     constructor() {
         super();
-        this.id = MaterialJournalEditApp.APPLICATION_ID;
-        this.name = MaterialJournalEditApp.APPLICATION_NAME;
-        this.boCode = MaterialJournalEditApp.BUSINESS_OBJECT_CODE;
+        this.id = MaterialInventoryJournalEditApp.APPLICATION_ID;
+        this.name = MaterialInventoryJournalEditApp.APPLICATION_NAME;
+        this.boCode = MaterialInventoryJournalEditApp.BUSINESS_OBJECT_CODE;
         this.description = ibas.i18n.prop(this.name);
     }
     /** 注册视图 */
@@ -41,7 +43,7 @@ export class MaterialJournalEditApp extends ibas.BOEditApplication<IMaterialJour
         // 视图加载完成
         if (ibas.objects.isNull(this.editData)) {
             // 创建编辑对象实例
-            this.editData = new bo.MaterialJournal();
+            this.editData = new bo.MaterialInventoryJournal();
             this.proceeding(ibas.emMessageType.WARNING, ibas.i18n.prop("sys_shell_data_created_new"));
         }
         this.view.showMaterialJournal(this.editData);
@@ -49,20 +51,20 @@ export class MaterialJournalEditApp extends ibas.BOEditApplication<IMaterialJour
     /** 运行,覆盖原方法 */
     run(...args: any[]): void {
         let that: this = this;
-        if (ibas.objects.instanceOf(arguments[0], bo.MaterialJournal)) {
+        if (ibas.objects.instanceOf(arguments[0], bo.MaterialInventoryJournal)) {
             // 尝试重新查询编辑对象
             let criteria: ibas.ICriteria = arguments[0].criteria();
             if (!ibas.objects.isNull(criteria) && criteria.conditions.length > 0) {
                 // 有效的查询对象查询
                 let boRepository: BORepositoryMaterials = new BORepositoryMaterials();
-                boRepository.fetchMaterialJournal({
+                boRepository.fetchMaterialInventoryJournal({
                     criteria: criteria,
-                    onCompleted(opRslt: ibas.IOperationResult<bo.MaterialJournal>): void {
-                        let data: bo.MaterialJournal;
+                    onCompleted(opRslt: ibas.IOperationResult<bo.MaterialInventoryJournal>): void {
+                        let data: bo.MaterialInventoryJournal;
                         if (opRslt.resultCode === 0) {
                             data = opRslt.resultObjects.firstOrDefault();
                         }
-                        if (ibas.objects.instanceOf(data, bo.MaterialJournal)) {
+                        if (ibas.objects.instanceOf(data, bo.MaterialInventoryJournal)) {
                             // 查询到了有效数据
                             that.editData = data;
                             that.show();
@@ -85,14 +87,14 @@ export class MaterialJournalEditApp extends ibas.BOEditApplication<IMaterialJour
         super.run();
     }
     /** 待编辑的数据 */
-    protected editData: bo.MaterialJournal;
+    protected editData: bo.MaterialInventoryJournal;
     /** 保存数据 */
     protected saveData(): void {
         let that: this = this;
         let boRepository: BORepositoryMaterials = new BORepositoryMaterials();
-        boRepository.saveMaterialJournal({
+        boRepository.saveMaterialInventoryJournal({
             beSaved: this.editData,
-            onCompleted(opRslt: ibas.IOperationResult<bo.MaterialJournal>): void {
+            onCompleted(opRslt: ibas.IOperationResult<bo.MaterialInventoryJournal>): void {
                 try {
                     that.busy(false);
                     if (opRslt.resultCode !== 0) {
@@ -146,7 +148,7 @@ export class MaterialJournalEditApp extends ibas.BOEditApplication<IMaterialJour
                 that.viewShowed();
             } else {
                 // 新建对象
-                that.editData = new bo.MaterialJournal();
+                that.editData = new bo.MaterialInventoryJournal();
                 that.proceeding(ibas.emMessageType.WARNING, ibas.i18n.prop("sys_shell_data_created_new"));
                 that.viewShowed();
             }
@@ -198,9 +200,9 @@ export class MaterialJournalEditApp extends ibas.BOEditApplication<IMaterialJour
     }
 }
 /** 视图-仓库日记账 */
-export interface IMaterialJournalEditView extends ibas.IBOEditView {
+export interface IMaterialInventoryJournalEditView extends ibas.IBOEditView {
     /** 显示数据 */
-    showMaterialJournal(data: bo.MaterialJournal): void;
+    showMaterialJournal(data: bo.MaterialInventoryJournal): void;
     /** 删除数据事件 */
     deleteDataEvent: Function;
     /** 新建数据事件，参数1：是否克隆 */

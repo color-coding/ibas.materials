@@ -31,9 +31,9 @@ public class testGoodsReceipt extends TestCase {
         // 测试库存收货-行
         IGoodsReceiptLine goodsreceiptline = bo.getGoodsReceiptLines().create();
         // 测试属性赋值
-        goodsreceiptline.setItemCode("S1000011");
+        goodsreceiptline.setItemCode("1000001");
         goodsreceiptline.setQuantity(1000);
-        goodsreceiptline.setWarehouse("BJKJ1");
+        goodsreceiptline.setWarehouse("BJKJ");
 
 
         // 测试对象的保存和查询

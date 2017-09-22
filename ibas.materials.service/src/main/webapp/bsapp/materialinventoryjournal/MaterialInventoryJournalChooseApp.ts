@@ -9,23 +9,24 @@
 import * as ibas from "ibas/index";
 import * as bo from "../../borep/bo/index";
 import { BORepositoryMaterials } from "../../borep/BORepositories";
-import { MaterialJournalEditApp } from "./MaterialJournalEditApp";
+import { MaterialInventoryJournalEditApp } from "./MaterialInventoryJournalEditApp";
 
 /** 选择应用-仓库日记账 */
-export class MaterialJournalChooseApp extends ibas.BOChooseService<IMaterialJournalChooseView, bo.MaterialJournal> {
+export class MaterialInventoryJournalChooseApp extends ibas.BOChooseService<IMaterialInventoryJournalChooseView,
+ bo.MaterialInventoryJournal> {
 
     /** 应用标识 */
     static APPLICATION_ID: string = "53247541-7280-4507-a9c8-bb416fa470ed";
     /** 应用名称 */
     static APPLICATION_NAME: string = "materials_app_materialjournal_choose";
     /** 业务对象编码 */
-    static BUSINESS_OBJECT_CODE: string = bo.MaterialJournal.BUSINESS_OBJECT_CODE;
+    static BUSINESS_OBJECT_CODE: string = bo.MaterialInventoryJournal.BUSINESS_OBJECT_CODE;
     /** 构造函数 */
     constructor() {
         super();
-        this.id = MaterialJournalChooseApp.APPLICATION_ID;
-        this.name = MaterialJournalChooseApp.APPLICATION_NAME;
-        this.boCode = MaterialJournalChooseApp.BUSINESS_OBJECT_CODE;
+        this.id = MaterialInventoryJournalChooseApp.APPLICATION_ID;
+        this.name = MaterialInventoryJournalChooseApp.APPLICATION_NAME;
+        this.boCode = MaterialInventoryJournalChooseApp.BUSINESS_OBJECT_CODE;
         this.description = ibas.i18n.prop(this.name);
     }
     /** 注册视图 */
@@ -42,9 +43,9 @@ export class MaterialJournalChooseApp extends ibas.BOChooseService<IMaterialJour
         this.busy(true);
         let that: this = this;
         let boRepository: BORepositoryMaterials = new BORepositoryMaterials();
-        boRepository.fetchMaterialJournal({
+        boRepository.fetchMaterialInventoryJournal({
             criteria: criteria,
-            onCompleted(opRslt: ibas.IOperationResult<bo.MaterialJournal>): void {
+            onCompleted(opRslt: ibas.IOperationResult<bo.MaterialInventoryJournal>): void {
                 try {
                     if (opRslt.resultCode !== 0) {
                         throw new Error(opRslt.message);
@@ -73,29 +74,29 @@ export class MaterialJournalChooseApp extends ibas.BOChooseService<IMaterialJour
         // 关闭自身
         this.destroy();
         // 调用编辑应用
-        let app: MaterialJournalEditApp = new MaterialJournalEditApp();
+        let app: MaterialInventoryJournalEditApp = new MaterialInventoryJournalEditApp();
         app.navigation = this.navigation;
         app.viewShower = this.viewShower;
         app.run();
     }
 }
 /** 视图-仓库日记账 */
-export interface IMaterialJournalChooseView extends ibas.IBOChooseView {
+export interface IMaterialInventoryJournalChooseView extends ibas.IBOChooseView {
     /** 显示数据 */
-    showData(datas: bo.MaterialJournal[]): void;
+    showData(datas: bo.MaterialInventoryJournal[]): void;
 }
 /** 仓库日记账选择服务映射 */
-export class MaterialJournalChooseServiceMapping extends ibas.BOChooseServiceMapping {
+export class MaterialInventoryJournalChooseServiceMapping extends ibas.BOChooseServiceMapping {
     /** 构造函数 */
     constructor() {
         super();
-        this.id = MaterialJournalChooseApp.APPLICATION_ID;
-        this.name = MaterialJournalChooseApp.APPLICATION_NAME;
-        this.boCode = MaterialJournalChooseApp.BUSINESS_OBJECT_CODE;
+        this.id = MaterialInventoryJournalChooseApp.APPLICATION_ID;
+        this.name = MaterialInventoryJournalChooseApp.APPLICATION_NAME;
+        this.boCode = MaterialInventoryJournalChooseApp.BUSINESS_OBJECT_CODE;
         this.description = ibas.i18n.prop(this.name);
     }
     /** 创建服务并运行 */
     create(): ibas.IService<ibas.IServiceContract> {
-        return new MaterialJournalChooseApp();
+        return new MaterialInventoryJournalChooseApp();
     }
 }

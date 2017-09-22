@@ -123,11 +123,13 @@ export class GoodsIssueEditView extends ibas.BOEditView implements IGoodsIssueEd
             rows: "{/rows}",
             columns: [
                 new sap.ui.table.Column("", {
-                    label: ibas.i18n.prop("bo_goodsissueline_lineid"),
-                    template: new sap.m.Text("", {
+                    label: ibas.i18n.prop("bo_goodsreceiptline_linestatus"),
+                    template: new sap.m.Select("", {
                         width: "100%",
-                    }).bindProperty("text", {
-                        path: "lineId"
+                        items: utils.createComboBoxItems(ibas.emDocumentStatus),
+                    }).bindProperty("selectedKey", {
+                        path: "lineStatus",
+                        type: "sap.ui.model.type.Integer",
                     })
                 }),
                 new sap.ui.table.Column("", {
