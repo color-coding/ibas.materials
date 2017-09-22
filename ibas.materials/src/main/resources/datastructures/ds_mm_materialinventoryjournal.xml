@@ -5,7 +5,7 @@
     <Property Name="ItemCode" Description="物料编码" DataType="Alphanumeric" DataSubType="Default" EditSize="30" Mapped="ItemCode"/>
     <Property Name="ItemName" Description="物料名称" DataType="Alphanumeric" DataSubType="Default" EditSize="100" Mapped="ItemName"/>
     <Property Name="Warehouse" Description="仓库编号" DataType="Alphanumeric" DataSubType="Default" EditSize="8" Mapped="WhsCode"/>
-    <Property Name="Direction" Description="方向" DataType="Alphanumeric" DataSubType="Default" EditSize="1" DeclaredType="emDirection" Mapped="Direction" />
+    <Property Name="Direction" Description="方向" DataType="Alphanumeric" DataSubType="Default" EditSize="1" DeclaredType="emDirection" Mapped="Direction" UniqueKey="Yes"/>
     <Property Name="Quantity" Description="数量" DataType="Decimal" DataSubType="Quantity" EditSize="8" Mapped="Quantity"/>
     <Property Name="Price" Description="价格" DataType="Decimal" DataSubType="Price" EditSize="8" Mapped="Price"/>
     <Property Name="Currency" Description="币种" DataType="Alphanumeric" DataSubType="Default" EditSize="8" Mapped="Currency"/>
