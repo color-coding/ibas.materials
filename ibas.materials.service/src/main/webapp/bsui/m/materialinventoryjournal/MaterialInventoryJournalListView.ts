@@ -9,11 +9,11 @@
 import * as ibas from "ibas/index";
 import { utils } from "openui5/typings/ibas.utils";
 import * as bo from "../../../borep/bo/index";
-import { IMaterialJournalListView } from "../../../bsapp/materialjournal/index";
-export class MaterialJournalListView extends ibas.BOListView implements IMaterialJournalListView {
+import { IMaterialInventoryJournalListView } from "../../../bsapp/materialinventoryjournal/index";
+export class MaterialInventoryJournalListView extends ibas.BOListView implements IMaterialInventoryJournalListView {
     /** 返回查询的对象 */
     get queryTarget(): any {
-        return bo.MaterialJournal;
+        return bo.MaterialInventoryJournal;
     }
     /** 编辑数据，参数：目标数据 */
     editDataEvent: Function;
@@ -38,7 +38,7 @@ export class MaterialJournalListView extends ibas.BOListView implements IMateria
                         icon: "sap-icon://display",
                         press(oEvent: any): void {
                             let parentControl: any = oEvent.getSource().getParent().getParent();
-                            let selecteds: ibas.List<bo.MaterialJournal> = new ibas.ArrayList<bo.MaterialJournal>();
+                            let selecteds: ibas.List<bo.MaterialInventoryJournal> = new ibas.ArrayList<bo.MaterialInventoryJournal>();
                             selecteds.push(parentControl.getSwipedItem().getBindingContext().getObject());
                             that.fireViewEvents(that.viewDataEvent,
                                 selecteds
@@ -52,7 +52,7 @@ export class MaterialJournalListView extends ibas.BOListView implements IMateria
                         icon: "sap-icon://edit",
                         press(oEvent: any): void {
                             let parentControl: any = oEvent.getSource().getParent().getParent();
-                            var editBo: bo.MaterialJournal = parentControl.getSwipedItem().getBindingContext().getObject();
+                            var editBo: bo.MaterialInventoryJournal = parentControl.getSwipedItem().getBindingContext().getObject();
                             that.fireViewEvents(that.editDataEvent,
                                 editBo
                             );
@@ -65,7 +65,7 @@ export class MaterialJournalListView extends ibas.BOListView implements IMateria
                         icon: "sap-icon://delete",
                         press(oEvent: any): void {
                             let parentControl: any = oEvent.getSource().getParent().getParent();
-                            let selecteds: ibas.List<bo.MaterialJournal> = new ibas.ArrayList<bo.MaterialJournal>();
+                            let selecteds: ibas.List<bo.MaterialInventoryJournal> = new ibas.ArrayList<bo.MaterialInventoryJournal>();
                             selecteds.push(parentControl.getSwipedItem().getBindingContext().getObject());
                             that.fireViewEvents(that.deleteDataEvent,
                                 selecteds
@@ -189,12 +189,12 @@ export class MaterialJournalListView extends ibas.BOListView implements IMateria
     private form: sap.ui.layout.VerticalLayout;
     private table: sap.m.List;
     /** 显示数据 */
-    showData(datas: bo.MaterialJournal[]): void {
+    showData(datas: bo.MaterialInventoryJournal[]): void {
         let done: boolean = false;
         let model: sap.ui.model.Model = this.table.getModel(undefined);
         if (!ibas.objects.isNull(model)) {
             // 已存在绑定数据，添加新的
-            let hDatas: bo.MaterialJournal[] = (<any>model).getData();
+            let hDatas: bo.MaterialInventoryJournal[] = (<any>model).getData();
             if (!ibas.objects.isNull(hDatas) && hDatas instanceof Array) {
                 for (let item of datas) {
                     hDatas.push(item);
@@ -220,7 +220,7 @@ export class MaterialJournalListView extends ibas.BOListView implements IMateria
         this.table.setModel(null);
     }
     /** 获取选择的数据 */
-    getSelecteds(): bo.MaterialJournal[] {
+    getSelecteds(): bo.MaterialInventoryJournal[] {
         return null;
     }
 }

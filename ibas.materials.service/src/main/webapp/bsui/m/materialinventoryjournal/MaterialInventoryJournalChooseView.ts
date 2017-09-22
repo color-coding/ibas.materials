@@ -9,11 +9,11 @@
 import * as ibas from "ibas/index";
 import { utils } from "openui5/typings/ibas.utils";
 import * as bo from "../../../borep/bo/index";
-import { IMaterialJournalChooseView } from "../../../bsapp/materialjournal/index";
-export class MaterialJournalChooseView extends ibas.BOChooseView implements IMaterialJournalChooseView {
+import { IMaterialInventoryJournalChooseView } from "../../../bsapp/materialinventoryjournal/index";
+export class MaterialInventoryJournalChooseView extends ibas.BOChooseView implements IMaterialInventoryJournalChooseView {
     /** 返回查询的对象 */
     get queryTarget(): any {
-        return bo.MaterialJournal;
+        return bo.MaterialInventoryJournal;
     }
     /** 绘制工具条 */
     darwBars(): any {
@@ -34,7 +34,7 @@ export class MaterialJournalChooseView extends ibas.BOChooseView implements IMat
                 press: function (): void {
                     that.fireViewEvents(that.chooseDataEvent,
                         // 获取表格选中的对象
-                        utils.getTableSelecteds<bo.MaterialJournal>(that.table)
+                        utils.getTableSelecteds<bo.MaterialInventoryJournal>(that.table)
                     );
                 }
             }),
@@ -111,7 +111,7 @@ export class MaterialJournalChooseView extends ibas.BOChooseView implements IMat
     }
     private table: sap.ui.table.Table;
     /** 显示数据 */
-    showData(datas: bo.MaterialJournal[]): void {
+    showData(datas: bo.MaterialInventoryJournal[]): void {
         let done: boolean = false;
         let model: sap.ui.model.Model = this.table.getModel(undefined);
         if (!ibas.objects.isNull(model)) {
