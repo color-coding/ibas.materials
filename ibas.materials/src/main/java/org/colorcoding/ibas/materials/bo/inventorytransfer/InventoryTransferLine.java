@@ -12,6 +12,8 @@ import org.colorcoding.ibas.bobas.data.Decimal;
 import org.colorcoding.ibas.bobas.data.emBOStatus;
 import org.colorcoding.ibas.bobas.data.emDocumentStatus;
 import org.colorcoding.ibas.bobas.data.emYesNo;
+import org.colorcoding.ibas.bobas.logics.IBusinessLogicContract;
+import org.colorcoding.ibas.bobas.logics.IBusinessLogicsHost;
 import org.colorcoding.ibas.bobas.mapping.DbField;
 import org.colorcoding.ibas.bobas.mapping.DbFieldType;
 import org.colorcoding.ibas.materials.MyConfiguration;
@@ -26,7 +28,7 @@ import org.colorcoding.ibas.materials.logic.IMaterialReceiptContract;
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlType(name = InventoryTransferLine.BUSINESS_OBJECT_NAME, namespace = MyConfiguration.NAMESPACE_BO)
 public class InventoryTransferLine extends BusinessObject<InventoryTransferLine>
-		implements IInventoryTransferLine, IMaterialIssueContract, IMaterialReceiptContract {
+		implements IInventoryTransferLine, IBusinessLogicsHost{
 
 	/**
 	 * 序列化版本标记
@@ -1411,75 +1413,147 @@ public class InventoryTransferLine extends BusinessObject<InventoryTransferLine>
 	public void setDeliveryDate(DateTime deliveryDate) {
 		this.DeliveryDate = deliveryDate;
 	}
+
+	@Override
+	public IBusinessLogicContract[] getContracts() {
+		return new IBusinessLogicContract[]{
+				new IMaterialIssueContract(){
+
+					@Override
+					public String getIdentifiers() {
+						return InventoryTransferLine.this.getIdentifiers();
+					}
+
+					@Override
+					public String getItemCode() {
+						return InventoryTransferLine.this.getItemCode();
+					}
+
+					@Override
+					public String getItemName() {
+						return InventoryTransferLine.this.getItemDescription();
+					}
+
+					@Override
+					public String getIssueWarehouseCode() {
+						return InventoryTransferLine.this.getWarehouse();
+					}
+
+					@Override
+					public String getBaseDocumentType() {
+						return InventoryTransferLine.this.getBaseDocumentType();
+					}
+
+					@Override
+					public Integer getBaseDocumentEntry() {
+						return InventoryTransferLine.this.getDocEntry();
+					}
+
+					@Override
+					public Integer getBaseDocumentLineId() {
+						return InventoryTransferLine.this.getLineId();
+					}
+
+					@Override
+					public Decimal getIssueQuantity() {
+						return InventoryTransferLine.this.getQuantity();
+					}
+
+					@Override
+					public DateTime getPostingDate() {
+						return InventoryTransferLine.this.getPostingDate();
+					}
+
+					@Override
+					public DateTime getDeliveryDate() {
+						return InventoryTransferLine.this.getDeliveryDate();
+					}
+
+					@Override
+					public DateTime getDocumentDate() {
+						return InventoryTransferLine.this.getDocumentDate();
+					}
+
+					@Override
+					public emYesNo getCanceled() {
+						return InventoryTransferLine.this.getCanceled();
+					}
+
+					@Override
+					public emDocumentStatus getLineStatus() {
+						return InventoryTransferLine.this.getLineStatus();
+					}
+				},
+				new IMaterialReceiptContract(){
+
+					@Override
+					public String getIdentifiers() {
+						return InventoryTransferLine.this.getIdentifiers();
+					}
+
+					@Override
+					public String getItemCode() {
+						return InventoryTransferLine.this.getItemCode();
+					}
+
+					@Override
+					public String getItemName() {
+						return InventoryTransferLine.this.getItemDescription();
+					}
+
+					@Override
+					public String getReceiptWarehouseCode() {
+						return InventoryTransferLine.this.getWarehouse();
+					}
+
+					@Override
+					public String getBaseDocumentType() {
+						return InventoryTransferLine.this.getBaseDocumentType();
+					}
+
+					@Override
+					public Integer getBaseDocumentEntry() {
+						return InventoryTransferLine.this.getDocEntry();
+					}
+
+					@Override
+					public Integer getBaseDocumentLineId() {
+						return InventoryTransferLine.this.getLineId();
+					}
+
+					@Override
+					public Decimal getReceiptQuantity() {
+						return InventoryTransferLine.this.getQuantity();
+					}
+
+					@Override
+					public DateTime getPostingDate() {
+						return InventoryTransferLine.this.getPostingDate();
+					}
+
+					@Override
+					public DateTime getDeliveryDate() {
+						return InventoryTransferLine.this.getDeliveryDate();
+					}
+
+					@Override
+					public DateTime getDocumentDate() {
+						return InventoryTransferLine.this.getDocumentDate();
+					}
+
+					@Override
+					public emYesNo getCanceled() {
+						return InventoryTransferLine.this.getCanceled();
+					}
+
+					@Override
+					public emDocumentStatus getLineStatus() {
+						return InventoryTransferLine.this.getLineStatus();
+					}
+				}
+		};
+	}
 	// endregion
 
-	@Override
-	public String getJournal_ItemCode() {
-		return this.getProperty(PROPERTY_ITEMCODE);
-	}
 
-	@Override
-	public String getJournal_ItemName() {
-		return this.getProperty(PROPERTY_ITEMDESCRIPTION);
-	}
-
-	@Override
-	public String getJournal_IssueWarehouseCode() {
-		return this.getFromWarehouse();
-	}
-
-	@Override
-	public String getJournal_ReceiptWarehouseCode() {
-		return this.getProperty(PROPERTY_WAREHOUSE);
-	}
-
-	@Override
-	public String getJournal_BaseDocumentType() {
-		return this.getProperty(PROPERTY_OBJECTCODE);
-	}
-
-	@Override
-	public Integer getJournal_BaseDocumentEntry() {
-		return this.getProperty(PROPERTY_DOCENTRY);
-	}
-
-	@Override
-	public Integer getJournal_BaseDocumentLineId() {
-		return this.getProperty(PROPERTY_LINEID);
-	}
-
-	@Override
-	public Decimal getJournal_ReceiptQuantity() {
-		return this.getProperty(PROPERTY_QUANTITY);
-	}
-
-	@Override
-	public Decimal getJournal_IssueQuantity() {
-		return this.getProperty(PROPERTY_QUANTITY);
-	}
-
-	@Override
-	public DateTime getJournal_PostingDate() {
-		return this.getPostingDate();
-	}
-
-	@Override
-	public DateTime getJournal_DeliveryDate() {
-		return this.getDeliveryDate();
-	}
-
-	@Override
-	public DateTime getJournal_DocumentDate() {
-		return this.getDocumentDate();
-	}
-
-	@Override
-	public emYesNo getJournal_Canceled() {
-		return this.getProperty(PROPERTY_CANCELED);
-	}
-
-	@Override
-	public emDocumentStatus getJournal_LineStatus() {
-		return this.getProperty(PROPERTY_LINESTATUS);
-	}
 }

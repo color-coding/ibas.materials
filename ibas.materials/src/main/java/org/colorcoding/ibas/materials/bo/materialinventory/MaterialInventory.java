@@ -791,9 +791,8 @@ public class MaterialInventory extends BusinessObject<MaterialInventory> impleme
 
 	public static IMaterialInventory create(IMaterialWarehouseInventoryContract contract) {
 		IMaterialInventory materialInventory = new MaterialInventory();
-		materialInventory.setItemCode(contract.getMaterialWarehouse_ItemCode());
-		;
-		materialInventory.setWarehouse(contract.getMaterialWarehouse_Warehouse());
+		materialInventory.setItemCode(contract.getItemCode());
+		materialInventory.setWarehouse(contract.getItemCode());
 		return materialInventory;
 	}
 }

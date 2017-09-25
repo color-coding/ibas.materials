@@ -11,10 +11,13 @@ import org.colorcoding.ibas.bobas.core.IPropertyInfo;
 import org.colorcoding.ibas.bobas.data.DateTime;
 import org.colorcoding.ibas.bobas.data.Decimal;
 import org.colorcoding.ibas.bobas.data.emDirection;
+import org.colorcoding.ibas.bobas.logics.IBusinessLogicContract;
+import org.colorcoding.ibas.bobas.logics.IBusinessLogicsHost;
 import org.colorcoding.ibas.bobas.mapping.BOCode;
 import org.colorcoding.ibas.bobas.mapping.DbField;
 import org.colorcoding.ibas.bobas.mapping.DbFieldType;
 import org.colorcoding.ibas.materials.MyConfiguration;
+import org.colorcoding.ibas.materials.bo.material.Material;
 import org.colorcoding.ibas.materials.logic.IMaterialInventoryContract;
 import org.colorcoding.ibas.materials.logic.IMaterialIssueContract;
 import org.colorcoding.ibas.materials.logic.IMaterialReceiptContract;
@@ -29,7 +32,7 @@ import org.colorcoding.ibas.materials.logic.IMaterialWarehouseInventoryContract;
 @XmlRootElement(name = MaterialInventoryJournal.BUSINESS_OBJECT_NAME, namespace = MyConfiguration.NAMESPACE_BO)
 @BOCode(MaterialInventoryJournal.BUSINESS_OBJECT_CODE)
 public class MaterialInventoryJournal extends BusinessObject<MaterialInventoryJournal>
-		implements IMaterialInventoryJournal, IMaterialInventoryContract, IMaterialWarehouseInventoryContract {
+		implements IMaterialInventoryJournal, IBusinessLogicsHost {
 
 	/**
 	 * 序列化版本标记
@@ -1028,16 +1031,16 @@ public class MaterialInventoryJournal extends BusinessObject<MaterialInventoryJo
 	 */
 	public static IMaterialInventoryJournal create(IMaterialIssueContract contract) {
 		IMaterialInventoryJournal bo = new MaterialInventoryJournal();
-		bo.setItemCode(contract.getJournal_ItemCode());
-		bo.setItemName(contract.getJournal_ItemName());
-		bo.setWarehouse(contract.getJournal_IssueWarehouseCode());
-		bo.setBaseDocumentType(contract.getJournal_BaseDocumentType());
-		bo.setBaseDocumentEntry(contract.getJournal_BaseDocumentEntry());
-		bo.setBaseDocumentLineId(contract.getJournal_BaseDocumentLineId());
+		bo.setItemCode(contract.getItemCode());
+		bo.setItemName(contract.getItemName());
+		bo.setWarehouse(contract.getIssueWarehouseCode());
+		bo.setBaseDocumentType(contract.getBaseDocumentType());
+		bo.setBaseDocumentEntry(contract.getBaseDocumentEntry());
+		bo.setBaseDocumentLineId(contract.getBaseDocumentLineId());
 		bo.setDirection(emDirection.OUT);
-		bo.setPostingDate(contract.getJournal_PostingDate());
-		bo.setDocumentDate(contract.getJournal_DocumentDate());
-		bo.setDeliveryDate(contract.getJournal_DeliveryDate());
+		bo.setPostingDate(contract.getPostingDate());
+		bo.setDocumentDate(contract.getDocumentDate());
+		bo.setDeliveryDate(contract.getDeliveryDate());
 		return bo;
 	}
 
@@ -1049,55 +1052,70 @@ public class MaterialInventoryJournal extends BusinessObject<MaterialInventoryJo
 	 */
 	public static IMaterialInventoryJournal create(IMaterialReceiptContract contract) {
 		IMaterialInventoryJournal bo = new MaterialInventoryJournal();
-		bo.setItemCode(contract.getJournal_ItemCode());
-		bo.setItemName(contract.getJournal_ItemName());
-		bo.setWarehouse(contract.getJournal_ReceiptWarehouseCode());
-		bo.setBaseDocumentType(contract.getJournal_BaseDocumentType());
-		bo.setBaseDocumentEntry(contract.getJournal_BaseDocumentEntry());
-		bo.setBaseDocumentLineId(contract.getJournal_BaseDocumentLineId());
+		bo.setItemCode(contract.getItemCode());
+		bo.setItemName(contract.getItemName());
+		bo.setWarehouse(contract.getReceiptWarehouseCode());
+		bo.setBaseDocumentType(contract.getBaseDocumentType());
+		bo.setBaseDocumentEntry(contract.getBaseDocumentEntry());
+		bo.setBaseDocumentLineId(contract.getBaseDocumentLineId());
 		bo.setDirection(emDirection.IN);
-		bo.setPostingDate(contract.getJournal_PostingDate());
-		bo.setDocumentDate(contract.getJournal_DeliveryDate());
-		bo.setDeliveryDate(contract.getJournal_DeliveryDate());
+		bo.setPostingDate(contract.getPostingDate());
+		bo.setDocumentDate(contract.getDocumentDate());
+		bo.setDeliveryDate(contract.getDeliveryDate());
 		return bo;
 	}
 
-	// region 物料库存契约
 	@Override
-	public String getMaterial_ItemCode() {
-		return this.getProperty(PROPERTY_ITEMCODE);
-	}
+	public IBusinessLogicContract[] getContracts() {
+		return new IBusinessLogicContract[]{
+				new IMaterialInventoryContract(){
+					@Override
+					public String getIdentifiers() {
+						return MaterialInventoryJournal.this.getIdentifiers();
+					}
 
-	@Override
-	public Decimal getMaterial_Quantity() {
-		return this.getProperty(PROPERTY_QUANTITY);
-	}
+					@Override
+					public String getItemCode() {
+						return MaterialInventoryJournal.this.getItemCode();
+					}
 
-	@Override
-	public emDirection getMaterial_Direction() {
-		return this.getProperty(PROPERTY_DIRECTION);
-	}
+					@Override
+					public Decimal getQuantity() {
+						return MaterialInventoryJournal.this.getQuantity();
+					}
 
-	// endregion
-	// region 物料对应仓库库存 契约
-	@Override
-	public String getMaterialWarehouse_ItemCode() {
-		return this.getProperty(PROPERTY_ITEMCODE);
-	}
+					@Override
+					public emDirection getDirection() {
+						return MaterialInventoryJournal.this.getDirection();
+					}
+				},
+				new IMaterialWarehouseInventoryContract() {
+					@Override
+					public String getIdentifiers() {
+						return MaterialInventoryJournal.this.getIdentifiers();
+					}
 
-	@Override
-	public String getMaterialWarehouse_Warehouse() {
-		return this.getProperty(PROPERTY_WAREHOUSE);
-	}
+					@Override
+					public String getItemCode() {
+						return MaterialInventoryJournal.this	.getItemCode();
+					}
 
-	@Override
-	public Decimal getMaterialWarehouse_Quantity() {
-		return this.getProperty(PROPERTY_QUANTITY);
-	}
+					@Override
+					public String getWarehouse() {
+						return MaterialInventoryJournal.this	.getWarehouse();
+					}
 
-	@Override
-	public emDirection getMaterialWarehouse_Direction() {
-		return this.getProperty(PROPERTY_DIRECTION);
+					@Override
+					public Decimal getQuantity() {
+						return MaterialInventoryJournal.this	.getQuantity();
+					}
+
+					@Override
+					public emDirection getDirection() {
+						return MaterialInventoryJournal.this	.getDirection();
+					}
+				}
+		};
 	}
 	// endregion
 }

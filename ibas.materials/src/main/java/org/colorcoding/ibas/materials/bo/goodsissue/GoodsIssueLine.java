@@ -12,6 +12,8 @@ import org.colorcoding.ibas.bobas.data.Decimal;
 import org.colorcoding.ibas.bobas.data.emBOStatus;
 import org.colorcoding.ibas.bobas.data.emDocumentStatus;
 import org.colorcoding.ibas.bobas.data.emYesNo;
+import org.colorcoding.ibas.bobas.logics.IBusinessLogicContract;
+import org.colorcoding.ibas.bobas.logics.IBusinessLogicsHost;
 import org.colorcoding.ibas.bobas.mapping.DbField;
 import org.colorcoding.ibas.bobas.mapping.DbFieldType;
 import org.colorcoding.ibas.materials.MyConfiguration;
@@ -24,7 +26,7 @@ import org.colorcoding.ibas.materials.logic.IMaterialIssueContract;
  */
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlType(name = GoodsIssueLine.BUSINESS_OBJECT_NAME, namespace = MyConfiguration.NAMESPACE_BO)
-public class GoodsIssueLine extends BusinessObject<GoodsIssueLine> implements IGoodsIssueLine, IMaterialIssueContract {
+public class GoodsIssueLine extends BusinessObject<GoodsIssueLine> implements IGoodsIssueLine, IBusinessLogicsHost {
 
 	/**
 	 * 序列化版本标记
@@ -1398,63 +1400,77 @@ public class GoodsIssueLine extends BusinessObject<GoodsIssueLine> implements IG
 		this.DeliveryDate = deliveryDate;
 	}
 
-	@Override
-	public String getJournal_ItemCode() {
-		return this.getProperty(PROPERTY_ITEMCODE);
-	}
 
 	@Override
-	public String getJournal_ItemName() {
-		return this.getProperty(PROPERTY_ITEMDESCRIPTION);
-	}
+	public IBusinessLogicContract[] getContracts() {
+		return new IBusinessLogicContract[]{
+				new IMaterialIssueContract(){
 
-	@Override
-	public String getJournal_IssueWarehouseCode() {
-		return this.getProperty(PROPERTY_WAREHOUSE);
-	}
+					@Override
+					public String getIdentifiers() {
+						return GoodsIssueLine.this.getIdentifiers();
+					}
 
-	@Override
-	public String getJournal_BaseDocumentType() {
-		return this.getProperty(PROPERTY_OBJECTCODE);
-	}
+					@Override
+					public String getItemCode() {
+						return GoodsIssueLine.this.getItemCode();
+					}
 
-	@Override
-	public Integer getJournal_BaseDocumentEntry() {
-		return this.getProperty(PROPERTY_DOCENTRY);
-	}
+					@Override
+					public String getItemName() {
+						return GoodsIssueLine.this.getItemDescription();
+					}
 
-	@Override
-	public Integer getJournal_BaseDocumentLineId() {
-		return this.getProperty(PROPERTY_LINEID);
-	}
+					@Override
+					public String getIssueWarehouseCode() {
+						return GoodsIssueLine.this.getWarehouse();
+					}
 
-	@Override
-	public Decimal getJournal_IssueQuantity() {
-		return this.getProperty(PROPERTY_QUANTITY);
-	}
+					@Override
+					public String getBaseDocumentType() {
+						return GoodsIssueLine.this.getBaseDocumentType();
+					}
 
-	@Override
-	public DateTime getJournal_PostingDate() {
-		return this.getPostingDate();
-	}
+					@Override
+					public Integer getBaseDocumentEntry() {
+						return GoodsIssueLine.this.getDocEntry();
+					}
 
-	@Override
-	public DateTime getJournal_DeliveryDate() {
-		return this.getDeliveryDate();
-	}
+					@Override
+					public Integer getBaseDocumentLineId() {
+						return GoodsIssueLine.this.getLineId();
+					}
 
-	@Override
-	public DateTime getJournal_DocumentDate() {
-		return this.getDocumentDate();
-	}
+					@Override
+					public Decimal getIssueQuantity() {
+						return GoodsIssueLine.this.getQuantity();
+					}
 
-	@Override
-	public emYesNo getJournal_Canceled() {
-		return this.getProperty(PROPERTY_CANCELED);
-	}
+					@Override
+					public DateTime getPostingDate() {
+						return GoodsIssueLine.this.getPostingDate();
+					}
 
-	@Override
-	public emDocumentStatus getJournal_LineStatus() {
-		return this.getProperty(PROPERTY_LINESTATUS);
+					@Override
+					public DateTime getDeliveryDate() {
+						return GoodsIssueLine.this.getDeliveryDate();
+					}
+
+					@Override
+					public DateTime getDocumentDate() {
+						return GoodsIssueLine.this.getDocumentDate();
+					}
+
+					@Override
+					public emYesNo getCanceled() {
+						return GoodsIssueLine.this.getCanceled();
+					}
+
+					@Override
+					public emDocumentStatus getLineStatus() {
+						return GoodsIssueLine.this.getLineStatus();
+					}
+				}
+		};
 	}
 }

@@ -12,6 +12,8 @@ import org.colorcoding.ibas.bobas.data.Decimal;
 import org.colorcoding.ibas.bobas.data.emBOStatus;
 import org.colorcoding.ibas.bobas.data.emDocumentStatus;
 import org.colorcoding.ibas.bobas.data.emYesNo;
+import org.colorcoding.ibas.bobas.logics.IBusinessLogicContract;
+import org.colorcoding.ibas.bobas.logics.IBusinessLogicsHost;
 import org.colorcoding.ibas.bobas.mapping.DbField;
 import org.colorcoding.ibas.bobas.mapping.DbFieldType;
 import org.colorcoding.ibas.materials.MyConfiguration;
@@ -25,7 +27,7 @@ import org.colorcoding.ibas.materials.logic.IMaterialReceiptContract;
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlType(name = GoodsReceiptLine.BUSINESS_OBJECT_NAME, namespace = MyConfiguration.NAMESPACE_BO)
 public class GoodsReceiptLine extends BusinessObject<GoodsReceiptLine>
-		implements IGoodsReceiptLine, IMaterialReceiptContract {
+		implements IGoodsReceiptLine, IBusinessLogicsHost {
 
 	/**
 	 * 序列化版本标记
@@ -1399,63 +1401,78 @@ public class GoodsReceiptLine extends BusinessObject<GoodsReceiptLine>
 		this.DeliveryDate = deliveryDate;
 	}
 
-	@Override
-	public String getJournal_ItemCode() {
-		return this.getProperty(PROPERTY_ITEMCODE);
-	}
+
 
 	@Override
-	public String getJournal_ItemName() {
-		return this.getProperty(PROPERTY_ITEMDESCRIPTION);
-	}
+	public IBusinessLogicContract[] getContracts() {
+		return new IBusinessLogicContract[]{
+				new IMaterialReceiptContract(){
 
-	@Override
-	public String getJournal_ReceiptWarehouseCode() {
-		return this.getProperty(PROPERTY_WAREHOUSE);
-	}
+					@Override
+					public String getIdentifiers() {
+						return GoodsReceiptLine.this.getIdentifiers();
+					}
 
-	@Override
-	public String getJournal_BaseDocumentType() {
-		return this.getProperty(PROPERTY_OBJECTCODE);
-	}
+					@Override
+					public String getItemCode() {
+						return GoodsReceiptLine.this.getItemCode();
+					}
 
-	@Override
-	public Integer getJournal_BaseDocumentEntry() {
-		return this.getProperty(PROPERTY_DOCENTRY);
-	}
+					@Override
+					public String getItemName() {
+						return GoodsReceiptLine.this.getItemDescription();
+					}
 
-	@Override
-	public Integer getJournal_BaseDocumentLineId() {
-		return this.getProperty(PROPERTY_LINEID);
-	}
+					@Override
+					public String getReceiptWarehouseCode() {
+						return GoodsReceiptLine.this.getWarehouse();
+					}
 
-	@Override
-	public Decimal getJournal_ReceiptQuantity() {
-		return this.getProperty(PROPERTY_QUANTITY);
-	}
+					@Override
+					public String getBaseDocumentType() {
+						return GoodsReceiptLine.this.getBaseDocumentType();
+					}
 
-	@Override
-	public DateTime getJournal_PostingDate() {
-		return this.getPostingDate();
-	}
+					@Override
+					public Integer getBaseDocumentEntry() {
+						return GoodsReceiptLine.this.getDocEntry();
+					}
 
-	@Override
-	public DateTime getJournal_DeliveryDate() {
-		return this.getDeliveryDate();
-	}
+					@Override
+					public Integer getBaseDocumentLineId() {
+						return GoodsReceiptLine.this.getLineId();
+					}
 
-	@Override
-	public DateTime getJournal_DocumentDate() {
-		return this.getDocumentDate();
-	}
+					@Override
+					public Decimal getReceiptQuantity() {
+						return GoodsReceiptLine.this.getQuantity();
+					}
 
-	@Override
-	public emYesNo getJournal_Canceled() {
-		return this.getProperty(PROPERTY_CANCELED);
-	}
+					@Override
+					public DateTime getPostingDate() {
+						return GoodsReceiptLine.this.getPostingDate();
+					}
 
-	@Override
-	public emDocumentStatus getJournal_LineStatus() {
-		return this.getProperty(PROPERTY_LINESTATUS);
+					@Override
+					public DateTime getDeliveryDate() {
+						return GoodsReceiptLine.this.getDeliveryDate();
+					}
+
+					@Override
+					public DateTime getDocumentDate() {
+						return GoodsReceiptLine.this.getDocumentDate();
+					}
+
+					@Override
+					public emYesNo getCanceled() {
+						return GoodsReceiptLine.this.getCanceled();
+					}
+
+					@Override
+					public emDocumentStatus getLineStatus() {
+						return GoodsReceiptLine.this.getLineStatus();
+					}
+				}
+		};
 	}
 }

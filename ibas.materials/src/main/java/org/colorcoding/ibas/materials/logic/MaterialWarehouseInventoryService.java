@@ -22,27 +22,30 @@ public class MaterialWarehouseInventoryService extends BusinessLogic<IMaterialWa
         ICriteria criteria = Criteria.create();
         ICondition condition = criteria.getConditions().create();
         condition.setAlias(MaterialInventory.PROPERTY_ITEMCODE.getName());
-        condition.setValue(contract.getMaterialWarehouse_ItemCode());
+        condition.setValue(contract.getItemCode());
         condition.setOperation(ConditionOperation.EQUAL);
 
         condition = criteria.getConditions().create();
         condition.setAlias(MaterialInventory.PROPERTY_WAREHOUSE.getName());
-        condition.setValue(contract.getMaterialWarehouse_Warehouse());
+        condition.setValue(contract.getWarehouse());
         condition.setOperation(ConditionOperation.EQUAL);
         condition.setRelationship(ConditionRelationship.AND);
         //endregion
-        BORepositoryMaterials app = new BORepositoryMaterials();
-        app.setRepository(super.getRepository());
-        IOperationResult<IMaterialInventory> operationResult = app.fetchMaterialInventory(criteria);
-        if(operationResult.getError() != null) {
-            throw new BusinessLogicException(operationResult.getError());
-        }
-        if(operationResult.getResultCode() != 0){
-            throw new BusinessLogicException(operationResult.getError());
-        }
-        IMaterialInventory materialInventory = operationResult.getResultObjects().firstOrDefault();
-        if(materialInventory == null){
-            materialInventory = MaterialInventory.create(contract);
+        IMaterialInventory materialInventory = this.fetchBeAffected(criteria, IMaterialInventory.class);
+        if (materialInventory == null) {
+            BORepositoryMaterials app = new BORepositoryMaterials();
+            app.setRepository(super.getRepository());
+            IOperationResult<IMaterialInventory> operationResult = app.fetchMaterialInventory(criteria);
+            if (operationResult.getError() != null) {
+                throw new BusinessLogicException(operationResult.getError());
+            }
+            if (operationResult.getResultCode() != 0) {
+                throw new BusinessLogicException(operationResult.getError());
+            }
+            materialInventory = operationResult.getResultObjects().firstOrDefault();
+            if (materialInventory == null) {
+                materialInventory = MaterialInventory.create(contract);
+            }
         }
         return materialInventory;
     }
@@ -51,13 +54,13 @@ public class MaterialWarehouseInventoryService extends BusinessLogic<IMaterialWa
     protected void impact(IMaterialWarehouseInventoryContract contract) {
         IMaterialInventory materialInventory = this.getBeAffected();
         Decimal onHand = materialInventory.getOnHand();
-        if (contract.getMaterialWarehouse_Direction() == emDirection.OUT)
-            onHand = onHand.subtract(contract.getMaterialWarehouse_Quantity());
+        if (contract.getDirection() == emDirection.OUT)
+            onHand = onHand.subtract(contract.getQuantity());
         else
-            onHand = onHand.add(contract.getMaterialWarehouse_Quantity());
+            onHand = onHand.add(contract.getQuantity());
         if(onHand.compareTo(BigDecimal.ZERO)== -1) {
-            throw new BusinessLogicException(String.format(I18N.prop("msg_if_material_is_not_enough"),
-                    contract.getMaterialWarehouse_ItemCode()));
+            throw new BusinessLogicException(String.format(I18N.prop("msg_mm_material_is_not_enough"),
+                    contract.getItemCode()));
         }
         materialInventory.setOnHand(onHand);
     }
@@ -66,13 +69,13 @@ public class MaterialWarehouseInventoryService extends BusinessLogic<IMaterialWa
     protected void revoke(IMaterialWarehouseInventoryContract contract) {
         IMaterialInventory materialInventory = this.getBeAffected();
         Decimal onHand = materialInventory.getOnHand();
-        if(contract.getMaterialWarehouse_Direction() == emDirection.OUT)
-            onHand = onHand.add(contract.getMaterialWarehouse_Quantity());
+        if(contract.getDirection() == emDirection.OUT)
+            onHand = onHand.add(contract.getQuantity());
         else
-            onHand = onHand.subtract(contract.getMaterialWarehouse_Quantity());
+            onHand = onHand.subtract(contract.getQuantity());
         if(onHand.compareTo(BigDecimal.ZERO) == -1){
-            throw new BusinessLogicException(String.format(I18N.prop("msg_if_material_is_not_enough"),
-                    contract.getMaterialWarehouse_ItemCode()));
+            throw new BusinessLogicException(String.format(I18N.prop("msg_mm_material_is_not_enough"),
+                    contract.getItemCode()));
         }
         materialInventory.setOnHand(onHand);
     }

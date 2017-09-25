@@ -12,23 +12,23 @@ public interface IMaterialWarehouseInventoryContract  extends IBusinessLogicCont
      * 物料编码
      * @return
      */
-    String getMaterialWarehouse_ItemCode();
+    String getItemCode();
 
     /**
      * 仓库编码
      * @return
      */
-    String getMaterialWarehouse_Warehouse();
+    String getWarehouse();
 
     /**
      * 收货数量
      * @return
      */
-    Decimal getMaterialWarehouse_Quantity();
+    Decimal getQuantity();
 
     /**
      * 收/发货方向
      * @return
      */
-    emDirection getMaterialWarehouse_Direction();
+    emDirection getDirection();
 }
