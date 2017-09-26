@@ -25,9 +25,9 @@ public class MaterialInventoryService  extends BusinessLogic<IMaterialInventoryC
         condition.setOperation(ConditionOperation.EQUAL);
         IMaterial material = this.fetchBeAffected(criteria, IMaterial.class);
         if (material == null) {
-            BORepositoryMaterials app = new BORepositoryMaterials();
-            app.setRepository(super.getRepository());
-            IOperationResult<IMaterial> operationResult = app.fetchMaterial(criteria);
+            BORepositoryMaterials boRepository = new BORepositoryMaterials();
+            boRepository.setRepository(super.getRepository());
+            IOperationResult<IMaterial> operationResult = boRepository.fetchMaterial(criteria);
             if (operationResult.getError() != null) {
                 throw new BusinessLogicException(operationResult.getError());
             }

@@ -27,7 +27,7 @@ public class testMaterial extends TestCase {
     public void testBasicItems() throws Exception {
         Material bo = new Material();
         // 测试属性赋值
-        bo.setCode("S1000011");
+        bo.setCode(String.format("A%s",DateTime.getNow().toString("yyyyMMddhhmmss")));
         bo.setName("喜之郎果肉果冻");
         bo.setBarCode("10000011");
 

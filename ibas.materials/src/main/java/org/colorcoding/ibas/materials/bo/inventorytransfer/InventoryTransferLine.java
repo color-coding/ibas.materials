@@ -1436,12 +1436,12 @@ public class InventoryTransferLine extends BusinessObject<InventoryTransferLine>
 
 					@Override
 					public String getIssueWarehouseCode() {
-						return InventoryTransferLine.this.getWarehouse();
+						return InventoryTransferLine.this.getFromWarehouse();
 					}
 
 					@Override
 					public String getBaseDocumentType() {
-						return InventoryTransferLine.this.getBaseDocumentType();
+						return InventoryTransferLine.this.getObjectCode();
 					}
 
 					@Override
@@ -1508,7 +1508,7 @@ public class InventoryTransferLine extends BusinessObject<InventoryTransferLine>
 
 					@Override
 					public String getBaseDocumentType() {
-						return InventoryTransferLine.this.getBaseDocumentType();
+						return InventoryTransferLine.this.getObjectCode();
 					}
 
 					@Override

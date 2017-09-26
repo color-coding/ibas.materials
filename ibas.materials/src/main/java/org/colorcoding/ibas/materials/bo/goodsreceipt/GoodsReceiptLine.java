@@ -1430,7 +1430,7 @@ public class GoodsReceiptLine extends BusinessObject<GoodsReceiptLine>
 
 					@Override
 					public String getBaseDocumentType() {
-						return GoodsReceiptLine.this.getBaseDocumentType();
+						return GoodsReceiptLine.this.getObjectCode();
 					}
 
 					@Override

@@ -33,9 +33,9 @@ public class MaterialWarehouseInventoryService extends BusinessLogic<IMaterialWa
         //endregion
         IMaterialInventory materialInventory = this.fetchBeAffected(criteria, IMaterialInventory.class);
         if (materialInventory == null) {
-            BORepositoryMaterials app = new BORepositoryMaterials();
-            app.setRepository(super.getRepository());
-            IOperationResult<IMaterialInventory> operationResult = app.fetchMaterialInventory(criteria);
+            BORepositoryMaterials boRepository = new BORepositoryMaterials();
+            boRepository.setRepository(super.getRepository());
+            IOperationResult<IMaterialInventory> operationResult = boRepository.fetchMaterialInventory(criteria);
             if (operationResult.getError() != null) {
                 throw new BusinessLogicException(operationResult.getError());
             }

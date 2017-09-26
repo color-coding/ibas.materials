@@ -7,6 +7,7 @@ import org.colorcoding.ibas.bobas.common.ICondition;
 import org.colorcoding.ibas.bobas.common.ICriteria;
 import org.colorcoding.ibas.bobas.common.IOperationResult;
 import org.colorcoding.ibas.bobas.data.Decimal;
+import org.colorcoding.ibas.bobas.data.emDirection;
 import org.colorcoding.ibas.bobas.data.emYesNo;
 import org.colorcoding.ibas.bobas.i18n.I18N;
 import org.colorcoding.ibas.bobas.logics.BusinessLogic;
@@ -49,13 +50,19 @@ public class MaterialReceiptService extends BusinessLogic<IMaterialReceiptContra
 			condition.setOperation(ConditionOperation.EQUAL);
 			condition.setRelationship(ConditionRelationship.AND);
 
+			condition = criteria.getConditions().create();
+			condition.setAlias(MaterialInventoryJournal.PROPERTY_DIRECTION.getName());
+			condition.setValue(emDirection.IN);
+			condition.setOperation(ConditionOperation.EQUAL);
+			condition.setRelationship(ConditionRelationship.AND);
+
 			// endregion
 			// region 查询物料日记账
 			IMaterialInventoryJournal materialJournal = this.fetchBeAffected(criteria, IMaterialInventoryJournal.class);
 			if (materialJournal == null) {
-				BORepositoryMaterials app = new BORepositoryMaterials();
-				app.setRepository(super.getRepository());
-				IOperationResult<IMaterialInventoryJournal> operationResult = app.fetchMaterialInventoryJournal(criteria);
+				BORepositoryMaterials boRepository = new BORepositoryMaterials();
+				boRepository.setRepository(super.getRepository());
+				IOperationResult<IMaterialInventoryJournal> operationResult = boRepository.fetchMaterialInventoryJournal(criteria);
 				if (operationResult.getError() != null) {
 					throw new BusinessLogicException(operationResult.getError());
 				}
@@ -77,9 +84,9 @@ public class MaterialReceiptService extends BusinessLogic<IMaterialReceiptContra
 	@Override
 	protected void impact(IMaterialReceiptContract contract) {
 		IMaterialInventoryJournal materialJournal = this.getBeAffected();
-		Decimal issueQuantity = materialJournal.getQuantity();
-		issueQuantity = issueQuantity.add(contract.getReceiptQuantity());
-		materialJournal.setQuantity(issueQuantity);
+		Decimal receiptQuantity = materialJournal.getQuantity();
+		receiptQuantity = receiptQuantity.add(contract.getReceiptQuantity());
+		materialJournal.setQuantity(receiptQuantity);
 	}
 
 	@Override
@@ -88,9 +95,9 @@ public class MaterialReceiptService extends BusinessLogic<IMaterialReceiptContra
 		materialJournal.setItemCode((contract.getItemCode()));
 		materialJournal.setItemName(contract.getItemName());
 		materialJournal.setWarehouse(contract.getReceiptWarehouseCode());
-		Decimal issueQuantity = materialJournal.getQuantity();
-		issueQuantity = issueQuantity.subtract(contract.getReceiptQuantity());
-		materialJournal.setQuantity(issueQuantity);
+		Decimal receiptQuantity = materialJournal.getQuantity();
+		receiptQuantity = receiptQuantity.subtract(contract.getReceiptQuantity());
+		materialJournal.setQuantity(receiptQuantity);
 	}
 
 	/**
@@ -108,9 +115,9 @@ public class MaterialReceiptService extends BusinessLogic<IMaterialReceiptContra
 		condition.setAlias(Material.PROPERTY_CODE.getName());
 		condition.setValue(contract.getItemCode());
 		condition.setOperation(ConditionOperation.EQUAL);
-		BORepositoryMaterials app = new BORepositoryMaterials();
-		app.setRepository(super.getRepository());
-		IOperationResult<IMaterial> operationResult = app.fetchMaterial(criteria);
+		BORepositoryMaterials boRepository = new BORepositoryMaterials();
+		boRepository.setRepository(super.getRepository());
+		IOperationResult<IMaterial> operationResult = boRepository.fetchMaterial(criteria);
 		if (operationResult.getError() != null) {
 			throw new BusinessLogicException(operationResult.getError());
 		}
@@ -144,7 +151,7 @@ public class MaterialReceiptService extends BusinessLogic<IMaterialReceiptContra
 			condition.setAlias(Warehouse.PROPERTY_CODE.getName());
 			condition.setValue(contract.getReceiptWarehouseCode());
 			condition.setOperation(ConditionOperation.EQUAL);
-			IOperationResult<IWarehouse> opResult = app.fetchWarehouse(criteria);
+			IOperationResult<IWarehouse> opResult = boRepository.fetchWarehouse(criteria);
 			if (opResult.getError() != null) {
 				throw new BusinessLogicException(opResult.getError());
 			}

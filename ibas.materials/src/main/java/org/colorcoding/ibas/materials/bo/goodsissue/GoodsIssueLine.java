@@ -1403,9 +1403,9 @@ public class GoodsIssueLine extends BusinessObject<GoodsIssueLine> implements IG
 
 	@Override
 	public IBusinessLogicContract[] getContracts() {
+
 		return new IBusinessLogicContract[]{
 				new IMaterialIssueContract(){
-
 					@Override
 					public String getIdentifiers() {
 						return GoodsIssueLine.this.getIdentifiers();
@@ -1428,7 +1428,7 @@ public class GoodsIssueLine extends BusinessObject<GoodsIssueLine> implements IG
 
 					@Override
 					public String getBaseDocumentType() {
-						return GoodsIssueLine.this.getBaseDocumentType();
+						return GoodsIssueLine.this.getObjectCode();
 					}
 
 					@Override
