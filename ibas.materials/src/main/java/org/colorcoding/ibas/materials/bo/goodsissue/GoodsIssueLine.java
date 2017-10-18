@@ -1,9 +1,6 @@
 package org.colorcoding.ibas.materials.bo.goodsissue;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlType;
+import javax.xml.bind.annotation.*;
 
 import org.colorcoding.ibas.bobas.bo.BusinessObject;
 import org.colorcoding.ibas.bobas.core.IPropertyInfo;
@@ -17,6 +14,8 @@ import org.colorcoding.ibas.bobas.logics.IBusinessLogicsHost;
 import org.colorcoding.ibas.bobas.mapping.DbField;
 import org.colorcoding.ibas.bobas.mapping.DbFieldType;
 import org.colorcoding.ibas.materials.MyConfiguration;
+import org.colorcoding.ibas.materials.bo.materialbatch.IMaterialBatchJournal;
+import org.colorcoding.ibas.materials.bo.materialbatch.MaterialBatchJournal;
 import org.colorcoding.ibas.materials.data.emItemType;
 import org.colorcoding.ibas.materials.logic.IMaterialIssueContract;
 
@@ -1358,11 +1357,46 @@ public class GoodsIssueLine extends BusinessObject<GoodsIssueLine> implements IG
 	}
 
 	/**
+	 * 属性名称-库存发货-物料批次
+	 */
+	private static final String PROPERTY_GOODSISSUEMATERIALBATCHJOURNALS_NAME = "GoodsIssueMaterialBatchJournals";
+
+	/**
+	 * 库存发货-物料批次的集合属性
+	 *
+	 */
+	public static final IPropertyInfo<IGoodsIssueMaterialBatchJournals> PROPERTY_GOODSISSUEMATERIALBATCHJOURNALS = registerProperty(
+			PROPERTY_GOODSISSUEMATERIALBATCHJOURNALS_NAME, IGoodsIssueMaterialBatchJournals.class, MY_CLASS);
+
+	/**
+	 * 获取-库存发货-物料批次集合
+	 *
+	 * @return 值
+	 */
+	@XmlElementWrapper(name = PROPERTY_GOODSISSUEMATERIALBATCHJOURNALS_NAME)
+	@XmlElement(name = MaterialBatchJournal.BUSINESS_OBJECT_NAME, type = MaterialBatchJournal.class)
+	public final IGoodsIssueMaterialBatchJournals getGoodsIssueMaterialBatchJournals() {
+		return this.getProperty(PROPERTY_GOODSISSUEMATERIALBATCHJOURNALS);
+	}
+
+	/**
+	 * 设置-库存发货-物料批次集合
+	 *
+	 * @param value
+	 *            值
+	 */
+	public final void setGoodsIssueMaterialBatchJournals(IGoodsIssueMaterialBatchJournals value) {
+		this.setProperty(PROPERTY_GOODSISSUEMATERIALBATCHJOURNALS, value);
+	}
+
+
+	/**
 	 * 初始化数据
 	 */
 	@Override
 	protected void initialize() {
 		super.initialize();// 基类初始化，不可去除
+		//this.setGoodsIssueMaterialBatchJournals(new GoodsIssueMaterialBatchJournals(this));
 		this.setObjectCode(MyConfiguration.applyVariables(BUSINESS_OBJECT_CODE));
 		// 日期初始化。 需要在前台中添加这三个日期，并实现父类日期发生更改时，子类日期发生相应更改。
 		this.setPostingDate(DateTime.getToday());
@@ -1370,7 +1404,7 @@ public class GoodsIssueLine extends BusinessObject<GoodsIssueLine> implements IG
 		this.setDocumentDate(DateTime.getToday());
 	}
 
-	public DateTime PostingDate;
+	private DateTime PostingDate;
 
 	public DateTime getPostingDate() {
 		return this.PostingDate;
@@ -1380,7 +1414,7 @@ public class GoodsIssueLine extends BusinessObject<GoodsIssueLine> implements IG
 		this.PostingDate = postingDate;
 	}
 
-	public DateTime DocumentDate;
+	private DateTime DocumentDate;
 
 	public DateTime getDocumentDate() {
 		return this.DocumentDate;
@@ -1390,7 +1424,7 @@ public class GoodsIssueLine extends BusinessObject<GoodsIssueLine> implements IG
 		this.DocumentDate = documentDate;
 	}
 
-	public DateTime DeliveryDate;
+	private DateTime DeliveryDate;
 
 	public DateTime getDeliveryDate() {
 		return this.DeliveryDate;

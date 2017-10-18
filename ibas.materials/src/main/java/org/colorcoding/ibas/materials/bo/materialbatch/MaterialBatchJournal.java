@@ -13,6 +13,7 @@ import org.colorcoding.ibas.bobas.data.emDirection;
 import org.colorcoding.ibas.bobas.mapping.DbField;
 import org.colorcoding.ibas.bobas.mapping.DbFieldType;
 import org.colorcoding.ibas.materials.MyConfiguration;
+import org.colorcoding.ibas.materials.logic.IMaterialBatchJournalContract;
 
 /**
  * 获取-物料批次日记账
@@ -758,5 +759,7 @@ public class MaterialBatchJournal extends BusinessObject<MaterialBatchJournal> i
 		this.setObjectCode(MyConfiguration.applyVariables(BUSINESS_OBJECT_CODE));
 
 	}
+
+
 
 }

@@ -27,6 +27,9 @@ export class GoodsIssueEditView extends ibas.BOEditView implements IGoodsIssueEd
     chooseGoodsIssueLineMaterialEvent: Function;
     /** 选择库存发货单行仓库事件 */
     chooseGoodsIssueLineWarehouseEvent: Function;
+    /** 选择物料批次事件 */
+    selectGoodsIssueLineMaterialBatchEvent: Function;
+
     private mainLayout: sap.ui.layout.VerticalLayout;
     private viewBottomForm: sap.ui.layout.form.SimpleForm;
     /** 绘制视图 */
@@ -187,6 +190,21 @@ export class GoodsIssueEditView extends ibas.BOEditView implements IGoodsIssueEd
                         }
                     }).bindProperty("value", {
                         path: "Warehouse"
+                    })
+                }),
+                new sap.ui.table.Column("", {
+                    label: ibas.i18n.prop("bo_goodsissueline_quantity"),
+                    template: new sap.m.Input("", {
+                        width: "100%",
+                        showValueHelp: true,
+                        valueHelpRequest: function (): void {
+                            that.fireViewEvents(that.selectGoodsIssueLineMaterialBatchEvent,
+                                // 获取当前对象
+                                this.getBindingContext().getObject()
+                            );
+                        }
+                    }).bindProperty("value", {
+                        path: "quantity"
                     })
                 }),
             ]

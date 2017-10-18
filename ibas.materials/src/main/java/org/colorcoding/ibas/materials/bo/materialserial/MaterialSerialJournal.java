@@ -12,6 +12,7 @@ import org.colorcoding.ibas.bobas.data.emDirection;
 import org.colorcoding.ibas.bobas.mapping.DbField;
 import org.colorcoding.ibas.bobas.mapping.DbFieldType;
 import org.colorcoding.ibas.materials.MyConfiguration;
+import org.colorcoding.ibas.materials.logic.IMaterialSerialJournalContract;
 
 /**
  * 获取-物料序列号日记账
@@ -694,6 +695,17 @@ public class MaterialSerialJournal extends BusinessObject<MaterialSerialJournal>
 		super.initialize();// 基类初始化，不可去除
 		this.setObjectCode(MyConfiguration.applyVariables(BUSINESS_OBJECT_CODE));
 
+	}
+
+	public static IMaterialSerialJournal create(IMaterialSerialJournalContract contract){
+		IMaterialSerialJournal materialSerialJournal = new MaterialSerialJournal();
+		materialSerialJournal.setItemCode(contract.getItemCode());
+		materialSerialJournal.setWarehouse(contract.getWarehouse());
+		materialSerialJournal.setBaseDocumentType(contract.getBaseDocumentType());
+		materialSerialJournal.setBaseDocumentEntry(contract.getBaseDocumentEntry());
+		materialSerialJournal.setBaseDocumentLineId(contract.getBaseDocumentLineId());
+		materialSerialJournal.setDirection(contract.getDirection());
+		return  materialSerialJournal;
 	}
 
 }

@@ -15,6 +15,9 @@ export * from "./MaterialGroup";
 export * from "./MaterialInventory";
 export * from "./MaterialInventoryJournal";
 export * from "./Warehouse";
+export * from "./MaterialEx";
+export * from "./MaterialBatch";
+export * from "./MaterialSerial";
 
 // 注册业务对象到工厂
 import * as ibas from "ibas/index";
@@ -26,6 +29,8 @@ import { InventoryTransfer } from "./InventoryTransfer";
 ibas.boFactory.register(InventoryTransfer.BUSINESS_OBJECT_CODE, InventoryTransfer);
 import { Material } from "./Material";
 ibas.boFactory.register(Material.BUSINESS_OBJECT_CODE, Material);
+import { MaterialEx } from "./MaterialEx";
+ibas.boFactory.register(MaterialEx.BUSINESS_OBJECT_CODE, MaterialEx);
 import { MaterialGroup } from "./MaterialGroup";
 ibas.boFactory.register(MaterialGroup.BUSINESS_OBJECT_CODE, MaterialGroup);
 import { MaterialInventory } from "./MaterialInventory";
@@ -34,3 +39,7 @@ import { MaterialInventoryJournal } from "./MaterialInventoryJournal";
 ibas.boFactory.register(MaterialInventoryJournal.BUSINESS_OBJECT_CODE, MaterialInventoryJournal);
 import { Warehouse } from "./Warehouse";
 ibas.boFactory.register(Warehouse.BUSINESS_OBJECT_CODE, Warehouse);
+import { MaterialBatch } from "./MaterialBatch";
+ibas.boFactory.register(MaterialBatch.BUSINESS_OBJECT_CODE, MaterialBatch);
+import { MaterialSerial } from "./MaterialSerial";
+ibas.boFactory.register(MaterialSerial.BUSINESS_OBJECT_CODE, MaterialSerial);

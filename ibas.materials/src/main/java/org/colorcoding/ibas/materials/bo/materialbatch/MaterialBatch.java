@@ -15,6 +15,7 @@ import org.colorcoding.ibas.bobas.mapping.BOCode;
 import org.colorcoding.ibas.bobas.mapping.DbField;
 import org.colorcoding.ibas.bobas.mapping.DbFieldType;
 import org.colorcoding.ibas.materials.MyConfiguration;
+import org.colorcoding.ibas.materials.logic.IMaterialBatchJournalContract;
 
 /**
  * 获取-物料批次
@@ -1018,5 +1019,14 @@ public class MaterialBatch extends BusinessObject<MaterialBatch> implements IMat
 		this.setObjectCode(MyConfiguration.applyVariables(BUSINESS_OBJECT_CODE));
 
 	}
-
+	public static IMaterialBatch create(IMaterialBatchJournalContract contract){
+		IMaterialBatch materialBatch = new MaterialBatch();
+		materialBatch.setItemCode(contract.getItemCode());
+		materialBatch.setWarehouse(contract.getWarehouse());
+		materialBatch.setQuantity(contract.getQuantity());
+		materialBatch.setBaseDocumentType(contract.getBaseDocumentType());
+		materialBatch.setBaseDocumentEntry(contract.getBaseDocumentEntry());
+		materialBatch.setBaseDocumentLineId(contract.getBaseDocumentLineId());
+		return  materialBatch;
+	}
 }

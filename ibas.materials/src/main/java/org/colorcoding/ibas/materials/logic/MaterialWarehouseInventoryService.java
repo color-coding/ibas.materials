@@ -14,7 +14,7 @@ import org.colorcoding.ibas.materials.repository.BORepositoryMaterials;
 import java.math.BigDecimal;
 
 @LogicContract(IMaterialWarehouseInventoryContract.class)
-public class MaterialWarehouseInventoryService extends BusinessLogic<IMaterialWarehouseInventoryContract,IMaterialInventory> {
+public class MaterialWarehouseInventoryService extends BusinessLogic<IMaterialWarehouseInventoryContract, IMaterialInventory> {
     @Override
     protected IMaterialInventory fetchBeAffected(IMaterialWarehouseInventoryContract contract) {
 
@@ -58,7 +58,7 @@ public class MaterialWarehouseInventoryService extends BusinessLogic<IMaterialWa
             onHand = onHand.subtract(contract.getQuantity());
         else
             onHand = onHand.add(contract.getQuantity());
-        if(onHand.compareTo(BigDecimal.ZERO)== -1) {
+        if (onHand.compareTo(BigDecimal.ZERO) == -1) {
             throw new BusinessLogicException(String.format(I18N.prop("msg_mm_material_is_not_enough"),
                     contract.getItemCode()));
         }
@@ -69,11 +69,11 @@ public class MaterialWarehouseInventoryService extends BusinessLogic<IMaterialWa
     protected void revoke(IMaterialWarehouseInventoryContract contract) {
         IMaterialInventory materialInventory = this.getBeAffected();
         Decimal onHand = materialInventory.getOnHand();
-        if(contract.getDirection() == emDirection.OUT)
+        if (contract.getDirection() == emDirection.OUT)
             onHand = onHand.add(contract.getQuantity());
         else
             onHand = onHand.subtract(contract.getQuantity());
-        if(onHand.compareTo(BigDecimal.ZERO) == -1){
+        if (onHand.compareTo(BigDecimal.ZERO) == -1) {
             throw new BusinessLogicException(String.format(I18N.prop("msg_mm_material_is_not_enough"),
                     contract.getItemCode()));
         }

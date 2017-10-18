@@ -27,6 +27,8 @@ export class GoodsReceiptEditView extends ibas.BOEditView implements IGoodsRecei
     chooseGoodsReceiptLineMaterialEvent: Function;
     /** 选择库存收货单行仓库事件 */
     chooseGoodsreceiptlineWarehouseEvent: Function;
+    /** 新建物料批次信息 */
+    newGoodsReceiptLineMaterialBatchEvent: Function;
     private mainLayout: sap.ui.layout.VerticalLayout;
     private viewBottomForm: sap.ui.layout.form.SimpleForm;
     /** 绘制视图 */
@@ -189,9 +191,24 @@ export class GoodsReceiptEditView extends ibas.BOEditView implements IGoodsRecei
                         path: "Warehouse"
                     })
                 }),
+                new sap.ui.table.Column("", {
+                    label: ibas.i18n.prop("bo_goodsreceiptline_quantity"),
+                    template: new sap.m.Input("", {
+                        width: "100%",
+                        type: sap.m.InputType.Number,
+                        showValueHelp: true,
+                        valueHelpRequest: function (): void {
+                            that.fireViewEvents(that.newGoodsReceiptLineMaterialBatchEvent,
+                                // 获取当前对象
+                                this.getBindingContext().getObject()
+                            );
+                        }
+                    }).bindProperty("value", {
+                        path: "quantity"
+                    })
+                }),
             ]
         });
-        this.form.addContent(this.tableGoodsReceiptLine);
         this.viewBottomForm = new sap.ui.layout.form.SimpleForm("", {
             editable: true,
             layout: sap.ui.layout.form.SimpleFormLayout.ResponsiveGridLayout,

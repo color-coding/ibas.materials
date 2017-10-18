@@ -1,9 +1,6 @@
 package org.colorcoding.ibas.materials.bo.goodsreceipt;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlType;
+import javax.xml.bind.annotation.*;
 
 import org.colorcoding.ibas.bobas.bo.BusinessObject;
 import org.colorcoding.ibas.bobas.core.IPropertyInfo;
@@ -17,6 +14,7 @@ import org.colorcoding.ibas.bobas.logics.IBusinessLogicsHost;
 import org.colorcoding.ibas.bobas.mapping.DbField;
 import org.colorcoding.ibas.bobas.mapping.DbFieldType;
 import org.colorcoding.ibas.materials.MyConfiguration;
+import org.colorcoding.ibas.materials.bo.materialbatch.MaterialBatchJournal;
 import org.colorcoding.ibas.materials.data.emItemType;
 import org.colorcoding.ibas.materials.logic.IMaterialReceiptContract;
 
@@ -1359,11 +1357,44 @@ public class GoodsReceiptLine extends BusinessObject<GoodsReceiptLine>
 	}
 
 	/**
+	 * 属性名称-库存发货-物料批次
+	 */
+	private static final String PROPERTY_GOODSRECEIPTMATERIALBATCHJOURNALS_NAME = "GoodsReceiptMaterialBatchJournals";
+
+	/**
+	 * 库存发货-物料批次的集合属性
+	 *
+	 */
+	public static final IPropertyInfo<IGoodsReceiptMaterialBatchJournals> PROPERTY_GOODSRECEIPTMATERIALBATCHJOURNALS = registerProperty(
+			PROPERTY_GOODSRECEIPTMATERIALBATCHJOURNALS_NAME, IGoodsReceiptMaterialBatchJournals.class, MY_CLASS);
+
+	/**
+	 * 获取-库存收货-物料批次集合
+	 *
+	 * @return 值
+	 */
+	@XmlElementWrapper(name = PROPERTY_GOODSRECEIPTMATERIALBATCHJOURNALS_NAME)
+	@XmlElement(name = MaterialBatchJournal.BUSINESS_OBJECT_NAME, type = MaterialBatchJournal.class)
+	public final IGoodsReceiptMaterialBatchJournals getGoodsReceiptMaterialBatchJournals() {
+		return this.getProperty(PROPERTY_GOODSRECEIPTMATERIALBATCHJOURNALS);
+	}
+
+	/**
+	 * 设置-库存收货-物料批次集合
+	 *
+	 * @param value
+	 *            值
+	 */
+	public final void setGoodsReceiptMaterialBatchJournals(IGoodsReceiptMaterialBatchJournals value) {
+		this.setProperty(PROPERTY_GOODSRECEIPTMATERIALBATCHJOURNALS, value);
+	}
+	/**
 	 * 初始化数据
 	 */
 	@Override
 	protected void initialize() {
 		super.initialize();// 基类初始化，不可去除
+		this.setGoodsReceiptMaterialBatchJournals(new GoodsReceiptMaterialBatchJournals(this));
 		this.setObjectCode(MyConfiguration.applyVariables(BUSINESS_OBJECT_CODE));
 		// 日期初始化。 需要在前台中添加这三个日期，并实现父类日期发生更改时，子类日期发生相应更改。
 		this.setPostingDate(DateTime.getToday());
@@ -1371,7 +1402,7 @@ public class GoodsReceiptLine extends BusinessObject<GoodsReceiptLine>
 		this.setDocumentDate(DateTime.getToday());
 	}
 
-	public DateTime PostingDate;
+	private DateTime PostingDate;
 
 	public DateTime getPostingDate() {
 		return this.PostingDate;
@@ -1381,7 +1412,7 @@ public class GoodsReceiptLine extends BusinessObject<GoodsReceiptLine>
 		this.PostingDate = postingDate;
 	}
 
-	public DateTime DocumentDate;
+	private DateTime DocumentDate;
 
 	public DateTime getDocumentDate() {
 		return this.DocumentDate;
@@ -1391,7 +1422,7 @@ public class GoodsReceiptLine extends BusinessObject<GoodsReceiptLine>
 		this.DocumentDate = documentDate;
 	}
 
-	public DateTime DeliveryDate;
+	private DateTime DeliveryDate;
 
 	public DateTime getDeliveryDate() {
 		return this.DeliveryDate;

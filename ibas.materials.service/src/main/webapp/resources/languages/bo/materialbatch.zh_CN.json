@@ -1,0 +1,15 @@
+{
+    "bo_materialbatch_batchcode":"批次编号",
+    "bo_materialbatch_quantity":"数量",
+    "bo_materialbatch_quantitycanuse":"可用数量",
+    "bo_materialbatch_quantitychoosed":"已选择数量",
+    "bo_materialbatch_expirationdate":"过期日期",
+    "bo_materialbatch_manufacturingdate":"生产日期",
+    "bo_materialbatch_admissiondate":"准入日期",
+    "bo_materialbatch_warehouse":"仓库",
+    "bo_materialbatch_itemCode":"物料编码",
+    "bo_materialbatch_notes":"备注",
+    "bo_materialbatch_supplierserial":"供应商序号",
+    "bo_materialbatch_internalserial":"内部序号",
+    "bo_materialbatch_locked":"锁定"
+}

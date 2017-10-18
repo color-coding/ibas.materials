@@ -10,18 +10,21 @@ import org.colorcoding.ibas.bobas.logics.IBusinessLogicContract;
 public interface IMaterialInventoryContract extends IBusinessLogicContract {
     /**
      * 物料编码
+     *
      * @return
      */
     String getItemCode();
 
     /**
      * 收货数量
+     *
      * @return
      */
     Decimal getQuantity();
 
     /**
      * 收/发货方向
+     *
      * @return
      */
     emDirection getDirection();

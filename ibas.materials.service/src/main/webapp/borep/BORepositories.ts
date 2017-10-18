@@ -139,6 +139,42 @@ export class BORepositoryMaterials extends ibas.BORepositoryApplication implemen
         super.save(bo.Warehouse.name, saver);
     }
 
+    /**
+     * 查询 物料扩展（仓库库存、价格清单）
+     * @param fetcher 查询者
+     */
+    fetchMaterialEx(fetcher: ibas.FetchCaller<bo.MaterialEx>): void {
+        super.fetch(bo.MaterialEx.name, fetcher);
+    }
+
+    /**
+     *  查询 物料批次
+     * @param fetcher 查询者
+     */
+    fetchMaterialBatch(fetcher: ibas.FetchCaller<bo.MaterialBatch>): void {
+        super.fetch(bo.MaterialBatch.name, fetcher);
+    }
+    /**
+     * 保存 物料批次
+     * @param saver 保存者
+     */
+    saveMaterialBatch(saver: ibas.SaveCaller<bo.MaterialBatch>): void {
+        throw new Error("Method not implemented.");
+    }
+    /**
+     *  查询 物料序列号
+     * @param fetcher 查询者
+     */
+    fetchMaterialSerial(fetcher: ibas.FetchCaller<bo.MaterialSerial>): void {
+        super.fetch(bo.MaterialSerial.name, fetcher);
+    }
+    /**
+     * 保存 物料序列号
+     * @param saver 保存者
+     */
+    saveMaterialSerial(saver: ibas.SaveCaller<bo.MaterialSerial>): void {
+        throw new Error("Method not implemented.");
+    }
 }
 // 注册业务对象仓库到工厂
 ibas.boFactory.register(BO_REPOSITORY_MATERIALS, BORepositoryMaterials);

@@ -15,3 +15,7 @@ export * from "./MaterialGroup.d";
 export * from "./MaterialInventory.d";
 export * from "./MaterialInventoryJournal.d";
 export * from "./Warehouse.d";
+export * from "./MaterialEx.d";
+export * from "./MaterialBase.d";
+export * from "./MaterialBatch.d";
+export * from "./MaterialSerial.d";

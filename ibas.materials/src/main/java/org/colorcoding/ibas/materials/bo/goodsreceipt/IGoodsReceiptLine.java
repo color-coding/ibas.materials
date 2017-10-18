@@ -648,6 +648,18 @@ public interface IGoodsReceiptLine extends IBODocumentLine {
     */
     void setProject(String value);
 
+    /**
+     * 获取-库存收货-物料批次集合
+     *
+     * @return 值
+     */
+    IGoodsReceiptMaterialBatchJournals getGoodsReceiptMaterialBatchJournals();
 
+    /**
+     * 设置-库存收货-物料批次集合
+     *
+     * @param value 值
+     */
+    void setGoodsReceiptMaterialBatchJournals(IGoodsReceiptMaterialBatchJournals value);
 
 }
