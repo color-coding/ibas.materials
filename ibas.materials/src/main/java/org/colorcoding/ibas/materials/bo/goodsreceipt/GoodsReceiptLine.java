@@ -15,6 +15,7 @@ import org.colorcoding.ibas.bobas.mapping.DbField;
 import org.colorcoding.ibas.bobas.mapping.DbFieldType;
 import org.colorcoding.ibas.materials.MyConfiguration;
 import org.colorcoding.ibas.materials.bo.materialbatch.MaterialBatchJournal;
+import org.colorcoding.ibas.materials.bo.materialserial.MaterialSerialJournal;
 import org.colorcoding.ibas.materials.data.emItemType;
 import org.colorcoding.ibas.materials.logic.IMaterialReceiptContract;
 
@@ -1389,12 +1390,46 @@ public class GoodsReceiptLine extends BusinessObject<GoodsReceiptLine>
 		this.setProperty(PROPERTY_GOODSRECEIPTMATERIALBATCHJOURNALS, value);
 	}
 	/**
+	 * 属性名称-库存发货-物料序列
+	 */
+	private static final String PROPERTY_GOODSRECEIPTMATERIALSERIALJOURNALS_NAME = "GoodsReceiptMaterialSerialJournals";
+
+	/**
+	 * 库存发货-物料序列的集合属性
+	 *
+	 */
+	public static final IPropertyInfo<IGoodsReceiptMaterialSerialJournals> PROPERTY_GOODSRECEIPTMATERIALSERIALJOURNALS = registerProperty(
+			PROPERTY_GOODSRECEIPTMATERIALSERIALJOURNALS_NAME, IGoodsReceiptMaterialSerialJournals.class, MY_CLASS);
+
+	/**
+	 * 获取-库存发货-物料序列集合
+	 *
+	 * @return 值
+	 */
+	@XmlElementWrapper(name = PROPERTY_GOODSRECEIPTMATERIALSERIALJOURNALS_NAME)
+	@XmlElement(name = MaterialBatchJournal.BUSINESS_OBJECT_NAME, type = MaterialSerialJournal.class)
+	public final IGoodsReceiptMaterialSerialJournals getGoodsReceiptMaterialSerialJournals() {
+		return this.getProperty(PROPERTY_GOODSRECEIPTMATERIALSERIALJOURNALS);
+	}
+
+	/**
+	 * 设置-库存发货-物料序列集合
+	 *
+	 * @param value
+	 *            值
+	 */
+	public final void setGoodsReceiptMaterialSerialJournals(IGoodsReceiptMaterialSerialJournals value) {
+		this.setProperty(PROPERTY_GOODSRECEIPTMATERIALSERIALJOURNALS, value);
+	}
+
+	/**
 	 * 初始化数据
 	 */
 	@Override
 	protected void initialize() {
 		super.initialize();// 基类初始化，不可去除
 		this.setGoodsReceiptMaterialBatchJournals(new GoodsReceiptMaterialBatchJournals(this));
+		this.setGoodsReceiptMaterialSerialJournals(new GoodsReceiptMaterialSerialJournals(this));
 		this.setObjectCode(MyConfiguration.applyVariables(BUSINESS_OBJECT_CODE));
 		// 日期初始化。 需要在前台中添加这三个日期，并实现父类日期发生更改时，子类日期发生相应更改。
 		this.setPostingDate(DateTime.getToday());

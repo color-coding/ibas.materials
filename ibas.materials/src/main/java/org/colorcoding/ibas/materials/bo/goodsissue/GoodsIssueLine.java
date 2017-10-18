@@ -16,6 +16,8 @@ import org.colorcoding.ibas.bobas.mapping.DbFieldType;
 import org.colorcoding.ibas.materials.MyConfiguration;
 import org.colorcoding.ibas.materials.bo.materialbatch.IMaterialBatchJournal;
 import org.colorcoding.ibas.materials.bo.materialbatch.MaterialBatchJournal;
+import org.colorcoding.ibas.materials.bo.materialserial.MaterialSerial;
+import org.colorcoding.ibas.materials.bo.materialserial.MaterialSerialJournal;
 import org.colorcoding.ibas.materials.data.emItemType;
 import org.colorcoding.ibas.materials.logic.IMaterialIssueContract;
 
@@ -1389,14 +1391,46 @@ public class GoodsIssueLine extends BusinessObject<GoodsIssueLine> implements IG
 		this.setProperty(PROPERTY_GOODSISSUEMATERIALBATCHJOURNALS, value);
 	}
 
+	/**
+	 * 属性名称-库存发货-物料序列
+	 */
+	private static final String PROPERTY_GOODSISSUEMATERIALSERIALJOURNALS_NAME = "GoodsIssueMaterialSerialJournals";
 
+	/**
+	 * 库存发货-物料序列的集合属性
+	 *
+	 */
+	public static final IPropertyInfo<IGoodsIssueMaterialSerialJournals> PROPERTY_GOODSISSUEMATERIALSERIALJOURNALS = registerProperty(
+			PROPERTY_GOODSISSUEMATERIALSERIALJOURNALS_NAME, IGoodsIssueMaterialSerialJournals.class, MY_CLASS);
+
+	/**
+	 * 获取-库存发货-物料序列集合
+	 *
+	 * @return 值
+	 */
+	@XmlElementWrapper(name = PROPERTY_GOODSISSUEMATERIALSERIALJOURNALS_NAME)
+	@XmlElement(name = MaterialBatchJournal.BUSINESS_OBJECT_NAME, type = MaterialSerialJournal.class)
+	public final IGoodsIssueMaterialSerialJournals getGoodsIssueMaterialSerialJournals() {
+		return this.getProperty(PROPERTY_GOODSISSUEMATERIALSERIALJOURNALS);
+	}
+
+	/**
+	 * 设置-库存发货-物料序列集合
+	 *
+	 * @param value
+	 *            值
+	 */
+	public final void setGoodsIssueMaterialSerialJournals(IGoodsIssueMaterialSerialJournals value) {
+		this.setProperty(PROPERTY_GOODSISSUEMATERIALSERIALJOURNALS, value);
+	}
 	/**
 	 * 初始化数据
 	 */
 	@Override
 	protected void initialize() {
 		super.initialize();// 基类初始化，不可去除
-		//this.setGoodsIssueMaterialBatchJournals(new GoodsIssueMaterialBatchJournals(this));
+		this.setGoodsIssueMaterialBatchJournals(new GoodsIssueMaterialBatchJournals(this));
+		this.setGoodsIssueMaterialSerialJournals(new GoodsIssueMaterialSerialJournals(this));
 		this.setObjectCode(MyConfiguration.applyVariables(BUSINESS_OBJECT_CODE));
 		// 日期初始化。 需要在前台中添加这三个日期，并实现父类日期发生更改时，子类日期发生相应更改。
 		this.setPostingDate(DateTime.getToday());

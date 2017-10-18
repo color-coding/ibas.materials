@@ -19,3 +19,5 @@ export * from "./MaterialEx.d";
 export * from "./MaterialBase.d";
 export * from "./MaterialBatch.d";
 export * from "./MaterialSerial.d";
+export * from "./MaterialBatchJournal.d";
+export * from "./MaterialSerialJournal.d";

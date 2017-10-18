@@ -662,4 +662,18 @@ public interface IGoodsIssueLine extends IBODocumentLine {
      * @param value 值
      */
     void setGoodsIssueMaterialBatchJournals(IGoodsIssueMaterialBatchJournals value);
+
+    /**
+     * 获取-库存发货-物料序列集合
+     *
+     * @return 值
+     */
+    IGoodsIssueMaterialSerialJournals getGoodsIssueMaterialSerialJournals();
+
+    /**
+     * 设置-库存发货-物料序列集合
+     *
+     * @param value 值
+     */
+    void setGoodsIssueMaterialSerialJournals(IGoodsIssueMaterialSerialJournals value);
 }

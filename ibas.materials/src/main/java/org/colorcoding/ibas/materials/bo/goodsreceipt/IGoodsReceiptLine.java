@@ -662,4 +662,18 @@ public interface IGoodsReceiptLine extends IBODocumentLine {
      */
     void setGoodsReceiptMaterialBatchJournals(IGoodsReceiptMaterialBatchJournals value);
 
+    /**
+     * 获取-库存收货-物料序列集合
+     *
+     * @return 值
+     */
+    IGoodsReceiptMaterialSerialJournals getGoodsReceiptMaterialSerialJournals();
+
+    /**
+     * 设置-库存收货-物料序列集合
+     *
+     * @param value 值
+     */
+    void setGoodsReceiptMaterialSerialJournals(IGoodsReceiptMaterialSerialJournals value);
+
 }

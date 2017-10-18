@@ -23,7 +23,10 @@ import {
 import {
     emItemType,
 } from "../Datas";
-
+import{
+    IMaterialBatchJournal ,
+    IMaterialSerialJournal
+} from "./index";
 /** 库存收货 */
 export interface IGoodsReceipt extends IBODocument {
 
@@ -141,6 +144,18 @@ export interface IGoodsReceiptLines extends IBusinessObjects<IGoodsReceiptLine, 
 
     /** 创建并添加子项 */
     create(): IGoodsReceiptLine;
+}
+
+/** 库存收货-批次日记账 集合 */
+export interface IGoodsReceiptMaterialBatchJournals extends IBusinessObjects<IMaterialBatchJournal,IGoodsReceiptLine>{
+     /** 创建并添加子项 */
+     create(): IMaterialBatchJournal;
+}
+
+/** 库存收货-序列日记账 集合 */
+export interface IGoodsReceiptMaterialSerialJournals extends IBusinessObjects<IMaterialSerialJournal,IGoodsReceiptLine>{
+    /** 创建并添加子项 */
+    create(): IMaterialSerialJournal;
 }
 
 /** 库存收货-行 */

@@ -18,6 +18,8 @@ export * from "./Warehouse";
 export * from "./MaterialEx";
 export * from "./MaterialBatch";
 export * from "./MaterialSerial";
+export * from "./MaterialBatchJournal";
+export * from "./MaterialSerialJournal";
 
 // 注册业务对象到工厂
 import * as ibas from "ibas/index";
@@ -43,3 +45,7 @@ import { MaterialBatch } from "./MaterialBatch";
 ibas.boFactory.register(MaterialBatch.BUSINESS_OBJECT_CODE, MaterialBatch);
 import { MaterialSerial } from "./MaterialSerial";
 ibas.boFactory.register(MaterialSerial.BUSINESS_OBJECT_CODE, MaterialSerial);
+import { MaterialBatchJournal } from "./MaterialBatchJournal";
+ibas.boFactory.register(MaterialSerial.BUSINESS_OBJECT_CODE, MaterialSerialJournal);
+import { MaterialSerialJournal } from "./MaterialSerialJournal";
+ibas.boFactory.register(MaterialSerialJournal.BUSINESS_OBJECT_CODE, MaterialBatchJournal);

@@ -3,27 +3,30 @@ package org.colorcoding.ibas.materials.bo.goodsreceipt;
 import org.colorcoding.ibas.bobas.bo.BusinessObjects;
 import org.colorcoding.ibas.bobas.common.ICriteria;
 import org.colorcoding.ibas.materials.MyConfiguration;
-import org.colorcoding.ibas.materials.bo.materialbatch.IMaterialBatchJournal;
-import org.colorcoding.ibas.materials.bo.materialbatch.MaterialBatchJournal;
+import org.colorcoding.ibas.materials.bo.materialserial.IMaterialSerialJournal;
+import org.colorcoding.ibas.materials.bo.materialserial.MaterialSerialJournal;
 
 import javax.xml.bind.annotation.XmlSeeAlso;
 import javax.xml.bind.annotation.XmlType;
 import java.beans.PropertyChangeEvent;
 
-@XmlType(name = GoodsReceiptMaterialBatchJournals.BUSINESS_OBJECT_NAME, namespace = MyConfiguration.NAMESPACE_BO)
-@XmlSeeAlso({ MaterialBatchJournal.class })
-public class GoodsReceiptMaterialBatchJournals extends BusinessObjects<IMaterialBatchJournal,IGoodsReceiptLine> implements IGoodsReceiptMaterialBatchJournals {
+/**
+ * 库存收货-序列 集合
+ */
+@XmlType(name = GoodsReceiptMaterialSerialJournals.BUSINESS_OBJECT_NAME, namespace = MyConfiguration.NAMESPACE_BO)
+@XmlSeeAlso({ MaterialSerialJournal.class })
+public class GoodsReceiptMaterialSerialJournals extends BusinessObjects<IMaterialSerialJournal,IGoodsReceiptLine> implements IGoodsReceiptMaterialSerialJournals {
     /**
      * 业务对象名称
      */
-    public static final String BUSINESS_OBJECT_NAME = "GoodsReceiptMaterialBatchJournals";
+    public static final String BUSINESS_OBJECT_NAME = "GoodsReceiptMaterialSerialJournals";
 
     /**
      * 序列化版本标记
      */
-    private static final long serialVersionUID = 7759763557795210318L;
+    private static final long serialVersionUID = 7759763557795210319L;
 
-    public GoodsReceiptMaterialBatchJournals(){
+    public GoodsReceiptMaterialSerialJournals(){
         super();
     }
 
@@ -31,7 +34,7 @@ public class GoodsReceiptMaterialBatchJournals extends BusinessObjects<IMaterial
      * 构造方法
      * @param parent 父项对象
      */
-    public GoodsReceiptMaterialBatchJournals(IGoodsReceiptLine parent) {
+    public GoodsReceiptMaterialSerialJournals(IGoodsReceiptLine parent) {
         super(parent);
     }
 
@@ -39,11 +42,11 @@ public class GoodsReceiptMaterialBatchJournals extends BusinessObjects<IMaterial
      * 元素类型
      */
     public Class<?> getElementType() {
-        return GoodsReceiptMaterialBatchJournals.class;
+        return GoodsReceiptMaterialSerialJournals.class;
     }
 
     @Override
-    protected void afterAddItem(IMaterialBatchJournal item) {
+    protected void afterAddItem(IMaterialSerialJournal item) {
         super.afterAddItem(item);
         // TODO 设置关联值
     }
@@ -62,12 +65,11 @@ public class GoodsReceiptMaterialBatchJournals extends BusinessObjects<IMaterial
     }
 
     @Override
-    public IMaterialBatchJournal create() {
-        IMaterialBatchJournal item = new MaterialBatchJournal();
+    public IMaterialSerialJournal create() {
+        IMaterialSerialJournal item = new MaterialSerialJournal();
         if (this.add(item)) {
             return item;
         }
         return null;
     }
-
 }

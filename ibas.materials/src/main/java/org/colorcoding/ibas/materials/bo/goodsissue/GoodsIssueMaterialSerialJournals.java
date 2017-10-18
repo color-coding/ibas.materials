@@ -3,42 +3,42 @@ package org.colorcoding.ibas.materials.bo.goodsissue;
 import org.colorcoding.ibas.bobas.bo.BusinessObjects;
 import org.colorcoding.ibas.bobas.common.ICriteria;
 import org.colorcoding.ibas.materials.MyConfiguration;
-import org.colorcoding.ibas.materials.bo.materialbatch.IMaterialBatchJournal;
-import org.colorcoding.ibas.materials.bo.materialbatch.MaterialBatchJournal;
+import org.colorcoding.ibas.materials.bo.materialserial.IMaterialSerialJournal;
+import org.colorcoding.ibas.materials.bo.materialserial.MaterialSerialJournal;
 
 import javax.xml.bind.annotation.XmlSeeAlso;
 import javax.xml.bind.annotation.XmlType;
 import java.beans.PropertyChangeEvent;
 
 /**
- * 库存发货-批次 集合
+ * 库存发货-序列 集合
  */
-@XmlType(name = GoodsIssueMaterialBatchJournals.BUSINESS_OBJECT_NAME, namespace = MyConfiguration.NAMESPACE_BO)
-@XmlSeeAlso({ MaterialBatchJournal.class })
-public class GoodsIssueMaterialBatchJournals extends BusinessObjects<IMaterialBatchJournal,IGoodsIssueLine> implements IGoodsIssueMaterialBatchJournals {
+@XmlType(name = GoodsIssueMaterialSerialJournals.BUSINESS_OBJECT_NAME, namespace = MyConfiguration.NAMESPACE_BO)
+@XmlSeeAlso({ MaterialSerialJournal.class })
+public class GoodsIssueMaterialSerialJournals extends BusinessObjects<IMaterialSerialJournal,IGoodsIssueLine> implements IGoodsIssueMaterialSerialJournals {
     /**
      * 业务对象名称
      */
-    public static final String BUSINESS_OBJECT_NAME = "GoodsIssueMaterialBatchJournals";
+    public static final String BUSINESS_OBJECT_NAME = "GoodsIssueMaterialSerialJournals";
 
     /**
      * 序列化版本标记
      */
-    private static final long serialVersionUID = 7759763557795210318L;
+    private static final long serialVersionUID = 7759763557795210418L;
 
-    public GoodsIssueMaterialBatchJournals(){super();}
+    public GoodsIssueMaterialSerialJournals(){super();}
 
     /**
      * 构造方法
      * @param parent 父项对象
      */
-    public GoodsIssueMaterialBatchJournals(IGoodsIssueLine parent) {
+    public GoodsIssueMaterialSerialJournals(IGoodsIssueLine parent) {
         super(parent);
     }
 
     @Override
-    public IMaterialBatchJournal create() {
-        IMaterialBatchJournal item = new MaterialBatchJournal();
+    public IMaterialSerialJournal create() {
+        IMaterialSerialJournal item = new MaterialSerialJournal();
         if (this.add(item)) {
             return item;
         }
@@ -49,11 +49,11 @@ public class GoodsIssueMaterialBatchJournals extends BusinessObjects<IMaterialBa
      * 元素类型
      */
     public Class<?> getElementType() {
-        return GoodsIssueMaterialBatchJournals.class;
+        return GoodsIssueMaterialSerialJournals.class;
     }
 
     @Override
-    protected void afterAddItem(IMaterialBatchJournal item) {
+    protected void afterAddItem(IMaterialSerialJournal item) {
         super.afterAddItem(item);
         // TODO 设置关联值
     }
