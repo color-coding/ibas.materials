@@ -2,6 +2,7 @@ package org.colorcoding.ibas.materials.logic;
 
 import org.colorcoding.ibas.bobas.common.*;
 import org.colorcoding.ibas.bobas.data.Decimal;
+import org.colorcoding.ibas.bobas.data.emDirection;
 import org.colorcoding.ibas.bobas.data.emYesNo;
 import org.colorcoding.ibas.bobas.i18n.I18N;
 import org.colorcoding.ibas.bobas.logics.BusinessLogic;
@@ -72,7 +73,12 @@ public class MaterialBatchJournalSerivce extends BusinessLogic<IMaterialBatchJou
     protected void impact(IMaterialBatchJournalContract contract) {
         IMaterialBatch materialBatch = this.getBeAffected();
         Decimal quantity = materialBatch.getQuantity();
-        quantity = quantity.add(contract.getQuantity());
+        if(contract.getDirection().equals(emDirection.IN)){
+            quantity = quantity.subtract(contract.getQuantity());
+        }
+        else {
+            quantity = quantity.add(contract.getQuantity());
+        }
         materialBatch.setQuantity(quantity);
     }
 
@@ -80,7 +86,12 @@ public class MaterialBatchJournalSerivce extends BusinessLogic<IMaterialBatchJou
     protected void revoke(IMaterialBatchJournalContract contract) {
         IMaterialBatch materialBatch = this.getBeAffected();
         Decimal quantity = materialBatch.getQuantity();
-        quantity = quantity.subtract(contract.getQuantity());
+        if(contract.getDirection().equals(emDirection.IN)){
+            quantity = quantity.add(contract.getQuantity());
+        }
+        else {
+            quantity = quantity.subtract(contract.getQuantity());
+        }
         materialBatch.setQuantity(quantity);
     }
     private void checkContractData(IMaterialBatchJournalContract contract){

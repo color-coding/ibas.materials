@@ -697,15 +697,4 @@ public class MaterialSerialJournal extends BusinessObject<MaterialSerialJournal>
 
 	}
 
-	public static IMaterialSerialJournal create(IMaterialSerialJournalContract contract){
-		IMaterialSerialJournal materialSerialJournal = new MaterialSerialJournal();
-		materialSerialJournal.setItemCode(contract.getItemCode());
-		materialSerialJournal.setWarehouse(contract.getWarehouse());
-		materialSerialJournal.setBaseDocumentType(contract.getBaseDocumentType());
-		materialSerialJournal.setBaseDocumentEntry(contract.getBaseDocumentEntry());
-		materialSerialJournal.setBaseDocumentLineId(contract.getBaseDocumentLineId());
-		materialSerialJournal.setDirection(contract.getDirection());
-		return  materialSerialJournal;
-	}
-
 }

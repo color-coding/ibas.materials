@@ -1,6 +1,8 @@
 package org.colorcoding.ibas.materials.logic;
 
 import org.colorcoding.ibas.bobas.common.*;
+import org.colorcoding.ibas.bobas.data.Decimal;
+import org.colorcoding.ibas.bobas.data.emDirection;
 import org.colorcoding.ibas.bobas.data.emYesNo;
 import org.colorcoding.ibas.bobas.i18n.I18N;
 import org.colorcoding.ibas.bobas.logics.BusinessLogic;
@@ -8,7 +10,9 @@ import org.colorcoding.ibas.bobas.logics.BusinessLogicException;
 import org.colorcoding.ibas.bobas.mapping.LogicContract;
 import org.colorcoding.ibas.materials.bo.material.IMaterial;
 import org.colorcoding.ibas.materials.bo.material.Material;
+import org.colorcoding.ibas.materials.bo.materialserial.IMaterialSerial;
 import org.colorcoding.ibas.materials.bo.materialserial.IMaterialSerialJournal;
+import org.colorcoding.ibas.materials.bo.materialserial.MaterialSerial;
 import org.colorcoding.ibas.materials.bo.materialserial.MaterialSerialJournal;
 import org.colorcoding.ibas.materials.repository.BORepositoryMaterials;
 
@@ -16,10 +20,9 @@ import org.colorcoding.ibas.materials.repository.BORepositoryMaterials;
  * 物料序列号日记账服务  生成一张序列号日记账分录
  */
 @LogicContract(IMaterialSerialJournalContract.class)
-public class MaterialSerialJournalService extends BusinessLogic<IMaterialSerialJournalContract,IMaterialSerialJournal>{
+public class MaterialSerialJournalService extends BusinessLogic<IMaterialSerialJournalContract,IMaterialSerial>{
     @Override
-    protected IMaterialSerialJournal fetchBeAffected(IMaterialSerialJournalContract contract) {
-        try {
+    protected IMaterialSerial fetchBeAffected(IMaterialSerialJournalContract contract) {
             checkContractData(contract);
             // region 定义查询条件
             ICriteria criteria = Criteria.create();
@@ -40,18 +43,13 @@ public class MaterialSerialJournalService extends BusinessLogic<IMaterialSerialJ
             condition.setOperation(ConditionOperation.EQUAL);
             condition.setRelationship(ConditionRelationship.AND);
 
-            condition = criteria.getConditions().create();
-            condition.setAlias(MaterialSerialJournal.PROPERTY_DIRECTION.getName());
-            condition.setValue(contract.getDirection());
-            condition.setOperation(ConditionOperation.EQUAL);
-            condition.setRelationship(ConditionRelationship.AND);
             // endregion
-            IMaterialSerialJournal materialSerialJournal = this.fetchBeAffected(criteria, IMaterialSerialJournal.class);
-            if (materialSerialJournal == null) {
+            IMaterialSerial materialSerial = this.fetchBeAffected(criteria, IMaterialSerial.class);
+            if (materialSerial == null) {
                 // region 查询物料序列号日记账
                 BORepositoryMaterials boRepository = new BORepositoryMaterials();
                 boRepository.setRepository(super.getRepository());
-                IOperationResult<IMaterialSerialJournal> operationResult = boRepository.fetchMaterialSerialJournal(criteria);
+                IOperationResult<IMaterialSerial> operationResult = boRepository.fetchMaterialSerial(criteria);
                 if (operationResult.getError() != null) {
                     throw new BusinessLogicException(operationResult.getError());
                 }
@@ -59,19 +57,17 @@ public class MaterialSerialJournalService extends BusinessLogic<IMaterialSerialJ
                     throw new BusinessLogicException(operationResult.getError());
                 }
                 // endregion
-                materialSerialJournal = operationResult.getResultObjects().firstOrDefault();
-                if (materialSerialJournal == null) {
-                    materialSerialJournal = MaterialSerialJournal.create(contract);
+                materialSerial = operationResult.getResultObjects().firstOrDefault();
+                if (materialSerial == null) {
+                    materialSerial = MaterialSerial.create(contract);
                 }
             }
-            return materialSerialJournal;
-        } catch (Exception ex) {
-            throw ex;
-        }
+            return materialSerial;
     }
 
     @Override
     protected void impact(IMaterialSerialJournalContract contract) {
+        IMaterialSerial materialSerial = this.getBeAffected();
 
     }
 
