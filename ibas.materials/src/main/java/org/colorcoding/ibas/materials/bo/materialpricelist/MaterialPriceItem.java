@@ -13,6 +13,7 @@ import org.colorcoding.ibas.bobas.mapping.DbField;
 import org.colorcoding.ibas.bobas.mapping.DbFieldType;
 import org.colorcoding.ibas.materials.MyConfiguration;
 
+
 /**
  * 获取-物料价格项目
  * 
@@ -565,5 +566,6 @@ public class MaterialPriceItem extends BusinessObject<MaterialPriceItem> impleme
 		this.setObjectCode(MyConfiguration.applyVariables(BUSINESS_OBJECT_CODE));
 
 	}
+
 
 }
