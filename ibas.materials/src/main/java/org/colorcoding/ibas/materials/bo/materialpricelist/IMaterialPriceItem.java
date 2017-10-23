@@ -2,7 +2,6 @@ package org.colorcoding.ibas.materials.bo.materialpricelist;
 
 import org.colorcoding.ibas.bobas.bo.*;
 import org.colorcoding.ibas.bobas.data.*;
-import org.colorcoding.ibas.materials.data.*;
 
 /**
 * 物料价格项目 接口

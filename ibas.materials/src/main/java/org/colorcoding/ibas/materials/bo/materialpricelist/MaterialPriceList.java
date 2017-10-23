@@ -11,10 +11,14 @@ import org.colorcoding.ibas.bobas.bo.BusinessObject;
 import org.colorcoding.ibas.bobas.core.IPropertyInfo;
 import org.colorcoding.ibas.bobas.data.DateTime;
 import org.colorcoding.ibas.bobas.data.Decimal;
+import org.colorcoding.ibas.bobas.data.emDirection;
+import org.colorcoding.ibas.bobas.logics.IBusinessLogicContract;
+import org.colorcoding.ibas.bobas.logics.IBusinessLogicsHost;
 import org.colorcoding.ibas.bobas.mapping.BOCode;
 import org.colorcoding.ibas.bobas.mapping.DbField;
 import org.colorcoding.ibas.bobas.mapping.DbFieldType;
 import org.colorcoding.ibas.materials.MyConfiguration;
+import org.colorcoding.ibas.materials.logic.IMaterialPriceListContract;
 
 /**
  * 获取-物料价格清单
@@ -762,7 +766,19 @@ public class MaterialPriceList extends BusinessObject<MaterialPriceList> impleme
 		super.initialize();// 基类初始化，不可去除
 		this.setMaterialPriceItems(new MaterialPriceItems(this));
 		this.setObjectCode(MyConfiguration.applyVariables(BUSINESS_OBJECT_CODE));
-
 	}
 
+	//region 基于其他BO创建实例
+	public static IMaterialPriceList Create(IMaterialPriceListContract Contract) {
+		MaterialPriceList bo = new MaterialPriceList();
+		bo.setName(Contract.getName());
+		bo.setCurrency(Contract.getCurrency());
+		bo.setCreateDate(DateTime.getNow());
+        IMaterialPriceItem item= bo.getMaterialPriceItems().create();
+        item.setPrice(Contract.getPrice());
+        item.setItemCode(Contract.getItemCode());
+        item.setCreateDate(DateTime.getNow());
+		return bo;
+	}
+	//endregion
 }
