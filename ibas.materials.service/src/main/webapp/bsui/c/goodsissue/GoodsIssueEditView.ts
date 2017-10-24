@@ -27,6 +27,9 @@ export class GoodsIssueEditView extends ibas.BOEditView implements IGoodsIssueEd
     chooseGoodsIssueLineMaterialEvent: Function;
     /** 选择库存发货单行仓库事件 */
     chooseGoodsIssueLineWarehouseEvent: Function;
+    /** 选择物料批次事件 */
+    selectGoodsIssueLineMaterialBatchEvent: Function;
+
     private mainLayout: sap.ui.layout.VerticalLayout;
     private viewBottomForm: sap.ui.layout.form.SimpleForm;
     /** 绘制视图 */
@@ -115,6 +118,22 @@ export class GoodsIssueEditView extends ibas.BOEditView implements IGoodsIssueEd
                                 utils.getTableSelecteds<bo.GoodsIssueLine>(that.tableGoodsIssueLine)
                             );
                         }
+                    }),
+                    new sap.m.MenuButton("",{
+                        text: ibas.i18n.prop("materials_data_batch_serial"),
+                        menu:[
+                            new sap.m.Menu("",{
+                                items: [
+                                    new sap.m.MenuItem("",{
+                                        text: ibas.i18n.prop("materials_app_materialbatchreceipt"),
+                                        press: function(): void {
+                                            that.fireViewEvents(that.selectGoodsIssueLineMaterialBatchEvent,
+                                                that.getMaterialBatchInputData());
+                                        }
+                                    }),
+                                ]
+                            })
+                        ]
                     })
                 ]
             }),
@@ -187,6 +206,21 @@ export class GoodsIssueEditView extends ibas.BOEditView implements IGoodsIssueEd
                         }
                     }).bindProperty("value", {
                         path: "Warehouse"
+                    })
+                }),
+                new sap.ui.table.Column("", {
+                    label: ibas.i18n.prop("bo_goodsissueline_quantity"),
+                    template: new sap.m.Input("", {
+                        width: "100%",
+                        showValueHelp: true,
+                        valueHelpRequest: function (): void {
+                            that.fireViewEvents(that.selectGoodsIssueLineMaterialBatchEvent,
+                                // 获取当前对象
+                                this.getBindingContext().getObject()
+                            );
+                        }
+                    }).bindProperty("value", {
+                        path: "quantity"
                     })
                 }),
             ]
@@ -318,5 +352,21 @@ export class GoodsIssueEditView extends ibas.BOEditView implements IGoodsIssueEd
         this.tableGoodsIssueLine.setModel(new sap.ui.model.json.JSONModel({ rows: datas }));
         // 监听属性改变，并更新控件
         utils.refreshModelChanged(this.tableGoodsIssueLine, datas);
+    }
+    getMaterialBatchInputData(): bo.MaterialBatchInput[] {
+        // 获取行数据
+        let goodIssueLines: bo.GoodsIssueLine[] = this.tableGoodsIssueLine.getBinding("").oList;
+        let inputData: bo.MaterialBatchInput[] = new Array<bo.MaterialBatchInput>();
+        for(let line of goodIssueLines) {
+            let input: bo.MaterialBatchInput = new bo.MaterialBatchInput();
+            input.itemCode = line.itemCode;
+            input.quantity = line.quantity;
+            input.warehouse = line.warehouse;
+            input.direction = ibas.emDirection.OUT;
+            input.needQuantity = line.quantity;
+            input.selectedQuantity = 0;
+            inputData.push(input);
+        }
+        return inputData;
     }
 }

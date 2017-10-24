@@ -102,6 +102,30 @@ export interface IBORepositoryMaterials {
      * @param saver 保存者
      */
     saveWarehouse(saver: SaveCaller<bo.IWarehouse>);
+    /**
+         * 查询 物料扩展
+         * @param fetcher 查询者
+         */
+    fetchMaterialEx(fetcher: FetchCaller<bo.IMaterialEx>);
+    /**
+     * 查询 物料批次
+     * @param fetcher 查询者
+     */
+    fetchMaterialBatch(fetcher: FetchCaller<bo.IMaterialBatch>);
+    /**
+     * 保存 物料批次
+     * @param saver 保存者
+     */
+    saveMaterialBatch(saver: SaveCaller<bo.IMaterialBatch>);
 
-
+    /**
+    * 查询 物料序列号
+    * @param fetcher 查询者
+    */
+    fetchMaterialSerial(fetcher: FetchCaller<bo.IMaterialSerial>);
+    /**
+     * 保存 物料序列号
+     * @param saver 保存者
+     */
+    saveMaterialSerial(saver: SaveCaller<bo.IMaterialSerial>);
 }

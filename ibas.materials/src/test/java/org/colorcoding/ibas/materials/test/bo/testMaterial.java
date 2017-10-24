@@ -27,9 +27,9 @@ public class testMaterial extends TestCase {
     public void testBasicItems() throws Exception {
         Material bo = new Material();
         // 测试属性赋值
-        bo.setCode("S1000011");
+        bo.setCode(String.format("A%s",DateTime.getNow().toString("yyyyMMddhhmmss")));
         bo.setName("喜之郎果肉果冻");
-        bo.setBarCode("10000011");
+        bo.setBarCode("A10000011");
 
         // 测试对象的保存和查询
         IOperationResult<?> operationResult = null;
@@ -47,7 +47,7 @@ public class testMaterial extends TestCase {
         // 测试查询
         criteria = boSaved.getCriteria();
         criteria.setResultCount(10);
-        operationResult = boRepository.fetchMaterial(criteria);
+        operationResult = boRepository.fetchMaterial(null);
         assertEquals(operationResult.getMessage(), operationResult.getResultCode(), 0);
 
 

@@ -12,3 +12,4 @@ export * from "./MaterialListApp";
 export * from "./MaterialChooseApp";
 export * from "./MaterialViewApp";
 export * from "./MaterialEditApp";
+export * from "./MaterialExChooseApp";

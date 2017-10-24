@@ -20,6 +20,16 @@ export const BO_CODE_GOODSRECEIPT: string = "${Company}_MM_GOODSRECEIPT";
 export const BO_CODE_INVENTORYTRANSFER: string = "${Company}_MM_INVENTORYTRANSFER";
 /** 业务对象编码-物料 */
 export const BO_CODE_MATERIAL: string = "${Company}_MM_MATERIAL";
+/** 业务对象编码-物料扩展 */
+export const BO_CODE_MATERIALEX: string = "${Company}_MM_MATERIALEX";
+/** 业务对象编码-物料批次 */
+export const BO_CODE_MATERIALBATCH: string = "${Company}_MM_BATCH";
+/** 业务对象编码-物料批次 */
+export const BO_CODE_RECEIEPT_MATERIALBATCH: string = "${Company}_MM_RECEIEPT_BATCH";
+/** 业务对象编码-物料批次 */
+export const BO_CODE_ISSUE_MATERIALBATCH: string = "${Company}_MM_ISSUE_BATCH";
+/** 业务对象编码-物料序列号 */
+export const BO_CODE_MATERIALSERIAL: string = "${Company}_MM_SERIAL";
 /** 业务对象编码-物料组 */
 export const BO_CODE_MATERIALGROUP: string = "${Company}_MM_MATERIALGROUP";
 /** 业务对象编码-物料库存 */

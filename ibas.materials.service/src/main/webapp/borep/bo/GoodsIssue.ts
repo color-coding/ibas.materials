@@ -25,9 +25,17 @@ import {
     IGoodsIssue,
     IGoodsIssueLines,
     IGoodsIssueLine,
+    IGoodsIssueMaterialBatchJournals,
+    IMaterialBatchJournal,
+    IGoodsIssueMaterialSerialJournals,
+    IMaterialSerialJournal,
     BO_CODE_GOODSISSUE,
     emItemType,
 } from "../../api/index";
+import {
+    MaterialBatchJournal,
+    MaterialSerialJournal
+} from "./index";
 
 /** 库存发货 */
 export class GoodsIssue extends BODocument<GoodsIssue> implements IGoodsIssue {
@@ -440,6 +448,26 @@ export class GoodsIssueLines extends BusinessObjects<GoodsIssueLine, GoodsIssue>
         let item: GoodsIssueLine = new GoodsIssueLine();
         this.add(item);
         return item;
+    }
+}
+/** 库存发货-批次日记账 集合 */
+export class GoodsIssueMaterialBatchJournals extends BusinessObjects<MaterialBatchJournal,GoodsIssueLine>
+                                             implements IGoodsIssueMaterialBatchJournals {
+    /** 创建并添加子项 */
+    create(): MaterialBatchJournal {
+        let item: MaterialBatchJournal = new MaterialBatchJournal();
+        this.add(item);
+        return item;
+    }
+}
+/** 库存发货-序列日记账 集合 */
+export class GoodsIssueMaterialSerialJournals extends BusinessObjects<MaterialSerialJournal,GoodsIssueLine>
+                                              implements IGoodsIssueMaterialSerialJournals {
+    /** 创建并添加子项 */
+    create(): MaterialSerialJournal {
+    let item: MaterialSerialJournal = new MaterialSerialJournal();
+    this.add(item);
+    return item;
     }
 }
 
@@ -858,6 +886,7 @@ export class GoodsIssueLine extends BODocumentLine<GoodsIssueLine> implements IG
     }
     /** 初始化数据 */
     protected init(): void {
+        this.objectCode = config.applyVariables(GoodsIssue.BUSINESS_OBJECT_CODE);
     }
 }
 

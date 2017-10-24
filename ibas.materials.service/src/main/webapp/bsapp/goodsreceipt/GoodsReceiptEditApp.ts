@@ -37,6 +37,7 @@ export class GoodsReceiptEditApp extends ibas.BOEditApplication<IGoodsReceiptEdi
         this.view.removeGoodsReceiptLineEvent = this.removeGoodsReceiptLine;
         this.view.chooseGoodsReceiptLineMaterialEvent = this.chooseGoodsReceiptLineMaterial;
         this.view.chooseGoodsreceiptlineWarehouseEvent = this.chooseGoodsreceiptlineWarehouse;
+        this.view.newGoodsReceiptLineMaterialBatchEvent = this.newGoodsReceiptLineMaterialBatch;
     }
     /** 视图显示后 */
     protected viewShowed(): void {
@@ -263,6 +264,34 @@ export class GoodsReceiptEditApp extends ibas.BOEditApplication<IGoodsReceiptEdi
             }
         });
     }
+    /** 新建物料批次信息 */
+    newGoodsReceiptLineMaterialBatch(caller: bo.GoodsReceiptLine): void {
+        let that: this = this;
+        ibas.servicesManager.runChooseService<bo.MaterialBatch>({
+            caller: caller,
+            boCode: bo.MaterialBatch.BUSINESS_OBJECT_RECEIEPT_CODE,
+            criteria: [
+            ],
+            onCompleted(selecteds: ibas.List<bo.MaterialBatch>): void {
+                // 获取触发的对象
+                let index: number = that.editData.goodsReceiptLines.indexOf(caller);
+                let item: bo.GoodsReceiptLine = that.editData.goodsReceiptLines[index];
+                // 选择返回数量多余触发数量时,自动创建新的项目
+                let created: boolean = false;
+                for (let selected of selecteds) {
+                    if (ibas.objects.isNull(item)) {
+                        item = that.editData.goodsReceiptLines.create();
+                        created = true;
+                    }
+                    item = null;
+                }
+                if (created) {
+                    // 创建了新的行项目
+                    that.view.showGoodsReceiptLines(that.editData.goodsReceiptLines.filterDeleted());
+                }
+            }
+        });
+    }
 
 }
 /** 视图-库存收货 */
@@ -283,4 +312,6 @@ export interface IGoodsReceiptEditView extends ibas.IBOEditView {
     chooseGoodsReceiptLineMaterialEvent: Function;
     /** 选择库存收货单行仓库事件 */
     chooseGoodsreceiptlineWarehouseEvent: Function;
+    /** 批次管理物料新建批次 */
+    newGoodsReceiptLineMaterialBatchEvent: Function;
 }

@@ -872,6 +872,7 @@ export class InventoryTransferLine extends BODocumentLine<InventoryTransferLine>
 
     /** 初始化数据 */
     protected init(): void {
+        this.objectCode = config.applyVariables(InventoryTransfer.BUSINESS_OBJECT_CODE);
     }
 }
 

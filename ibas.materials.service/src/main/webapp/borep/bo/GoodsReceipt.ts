@@ -25,10 +25,17 @@ import {
     IGoodsReceipt,
     IGoodsReceiptLines,
     IGoodsReceiptLine,
+    IGoodsReceiptMaterialBatchJournals,
+    IMaterialBatchJournal,
+    IGoodsReceiptMaterialSerialJournals,
+    IMaterialSerialJournal,
     BO_CODE_GOODSRECEIPT,
     emItemType,
 } from "../../api/index";
-
+import {
+    MaterialBatchJournal,
+    MaterialSerialJournal
+} from "./index";
 /** 库存收货 */
 export class GoodsReceipt extends BODocument<GoodsReceipt> implements IGoodsReceipt {
 
@@ -442,7 +449,26 @@ export class GoodsReceiptLines extends BusinessObjects<GoodsReceiptLine, GoodsRe
         return item;
     }
 }
-
+/** 库存收货-批次日记账 集合 */
+export class GoodsReceiptMaterialBatchJournals extends BusinessObjects<MaterialBatchJournal,GoodsReceiptLine>
+                                               implements IGoodsReceiptMaterialBatchJournals {
+    /** 创建并添加子项 */
+    create(): MaterialBatchJournal {
+    let item: MaterialBatchJournal = new MaterialBatchJournal();
+    this.add(item);
+    return item;
+    }
+}
+/** 库存库存收货发货-序列日记账 集合 */
+export class GoodsReceiptMaterialSerialJournals extends BusinessObjects<MaterialSerialJournal,GoodsReceiptLine>
+                                                implements IGoodsReceiptMaterialSerialJournals {
+    /** 创建并添加子项 */
+    create(): MaterialSerialJournal {
+    let item: MaterialSerialJournal = new MaterialSerialJournal();
+    this.add(item);
+    return item;
+    }
+}
 /** 库存收货-行 */
 export class GoodsReceiptLine extends BODocumentLine<GoodsReceiptLine> implements IGoodsReceiptLine {
 
@@ -861,6 +887,7 @@ export class GoodsReceiptLine extends BODocumentLine<GoodsReceiptLine> implement
 
     /** 初始化数据 */
     protected init(): void {
+        this.objectCode = config.applyVariables(GoodsReceipt.BUSINESS_OBJECT_CODE);
     }
 }
 

@@ -13,8 +13,6 @@ import { BORepositoryMaterials } from "../../borep/BORepositories";
 /** 编辑应用-库存发货 */
 export class GoodsIssueEditApp extends ibas.BOEditApplication<IGoodsIssueEditView, bo.GoodsIssue> {
 
-
-
     /** 应用标识 */
     static APPLICATION_ID: string = "61acb506-7555-453c-8085-9245d90ed625";
     /** 应用名称 */
@@ -39,6 +37,7 @@ export class GoodsIssueEditApp extends ibas.BOEditApplication<IGoodsIssueEditVie
         this.view.removeGoodsIssueLineEvent = this.removeGoodsIssueLine;
         this.view.chooseGoodsIssueLineMaterialEvent = this.chooseGoodsIssueLineMaterial;
         this.view.chooseGoodsIssueLineWarehouseEvent = this.chooseGoodsIssueLineWarehouse;
+        this.view.selectGoodsIssueLineMaterialBatchEvent = this.selectGoodsIssueLineMaterialBatch;
     }
     /** 视图显示后 */
     protected viewShowed(): void {
@@ -206,17 +205,17 @@ export class GoodsIssueEditApp extends ibas.BOEditApplication<IGoodsIssueEditVie
     /** 选择库存发货订单行物料事件 */
     chooseGoodsIssueLineMaterial(caller: bo.GoodsIssueLine): void {
         let that: this = this;
-        ibas.servicesManager.runChooseService<bo.Material>({
+        ibas.servicesManager.runChooseService<bo.MaterialEx>({
             caller: caller,
-            boCode: bo.Material.BUSINESS_OBJECT_CODE,
+            boCode: bo.MaterialEx.BUSINESS_OBJECT_CODE,
             criteria: [
-                new ibas.Condition(bo.Material.PROPERTY_DELETED_NAME, ibas.emConditionOperation.EQUAL, "N")
+                 new ibas.Condition(bo.MaterialEx.PROPERTY_DELETED_NAME, ibas.emConditionOperation.EQUAL, "N")
             ],
-            onCompleted(selecteds: ibas.List<bo.Material>): void {
+            onCompleted(selecteds: ibas.List<bo.MaterialEx>): void {
                 // 获取触发的对象
                 let index: number = that.editData.goodsIssueLines.indexOf(caller);
                 let item: bo.GoodsIssueLine = that.editData.goodsIssueLines[index];
-                // 选择返回数量多余触发数量时,自动创建新的项目
+                // 选择返回数量多于触发数量时,自动创建新的项目
                 let created: boolean = false;
                 for (let selected of selecteds) {
                     if (ibas.objects.isNull(item)) {
@@ -225,6 +224,8 @@ export class GoodsIssueEditApp extends ibas.BOEditApplication<IGoodsIssueEditVie
                     }
                     item.itemCode = selected.code;
                     item.itemDescription = selected.name;
+                    item.warehouse = selected.warehouseCode;
+                    item.quantity = 1;
                     item = null;
                 }
                 if (created) {
@@ -235,7 +236,7 @@ export class GoodsIssueEditApp extends ibas.BOEditApplication<IGoodsIssueEditVie
         });
     }
 
-    /** 选择库存发货订单行物料事件 */
+    /** 选择库存发货订单行仓库事件 */
     chooseGoodsIssueLineWarehouse(caller: bo.GoodsIssueLine): void {
         let that: this = this;
         ibas.servicesManager.runChooseService<bo.Warehouse>({
@@ -265,6 +266,20 @@ export class GoodsIssueEditApp extends ibas.BOEditApplication<IGoodsIssueEditVie
             }
         });
     }
+    selectGoodsIssueLineMaterialBatch(caller: ibas.List<bo.GoodsIssueLine>): void {
+        if (ibas.objects.isNull(caller) || caller.length === 0) {
+            this.messages(ibas.emMessageType.WARNING, ibas.i18n.prop("sys_shell_please_chooose_data",
+                ibas.i18n.prop("sys_shell_data_edit")
+            ));
+            return;
+        }
+        let that: this = this;
+        ibas.servicesManager.runSelectService<bo.MaterialBatchJournal>({
+            caller: caller,
+            boCode: bo.MaterialBatchJournal.BUSINESS_OBJECT_ISSUE_CODE,
+            inputData: caller
+            });
+    }
 }
 
 
@@ -288,4 +303,6 @@ export interface IGoodsIssueEditView extends ibas.IBOEditView {
     chooseGoodsIssueLineMaterialEvent: Function;
     /** 选择库存发货单行仓库事件 */
     chooseGoodsIssueLineWarehouseEvent: Function;
+    /** 选择库存发货单行物料批次事件 */
+    selectGoodsIssueLineMaterialBatchEvent: Function;
 }

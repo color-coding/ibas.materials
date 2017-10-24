@@ -1,9 +1,6 @@
 package org.colorcoding.ibas.materials.bo.goodsissue;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlType;
+import javax.xml.bind.annotation.*;
 
 import org.colorcoding.ibas.bobas.bo.BusinessObject;
 import org.colorcoding.ibas.bobas.core.IPropertyInfo;
@@ -12,9 +9,15 @@ import org.colorcoding.ibas.bobas.data.Decimal;
 import org.colorcoding.ibas.bobas.data.emBOStatus;
 import org.colorcoding.ibas.bobas.data.emDocumentStatus;
 import org.colorcoding.ibas.bobas.data.emYesNo;
+import org.colorcoding.ibas.bobas.logics.IBusinessLogicContract;
+import org.colorcoding.ibas.bobas.logics.IBusinessLogicsHost;
 import org.colorcoding.ibas.bobas.mapping.DbField;
 import org.colorcoding.ibas.bobas.mapping.DbFieldType;
 import org.colorcoding.ibas.materials.MyConfiguration;
+import org.colorcoding.ibas.materials.bo.materialbatch.IMaterialBatchJournal;
+import org.colorcoding.ibas.materials.bo.materialbatch.MaterialBatchJournal;
+import org.colorcoding.ibas.materials.bo.materialserial.MaterialSerial;
+import org.colorcoding.ibas.materials.bo.materialserial.MaterialSerialJournal;
 import org.colorcoding.ibas.materials.data.emItemType;
 import org.colorcoding.ibas.materials.logic.IMaterialIssueContract;
 
@@ -24,7 +27,7 @@ import org.colorcoding.ibas.materials.logic.IMaterialIssueContract;
  */
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlType(name = GoodsIssueLine.BUSINESS_OBJECT_NAME, namespace = MyConfiguration.NAMESPACE_BO)
-public class GoodsIssueLine extends BusinessObject<GoodsIssueLine> implements IGoodsIssueLine, IMaterialIssueContract {
+public class GoodsIssueLine extends BusinessObject<GoodsIssueLine> implements IGoodsIssueLine, IBusinessLogicsHost {
 
 	/**
 	 * 序列化版本标记
@@ -1356,11 +1359,78 @@ public class GoodsIssueLine extends BusinessObject<GoodsIssueLine> implements IG
 	}
 
 	/**
+	 * 属性名称-库存发货-物料批次
+	 */
+	private static final String PROPERTY_GOODSISSUEMATERIALBATCHJOURNALS_NAME = "GoodsIssueMaterialBatchJournals";
+
+	/**
+	 * 库存发货-物料批次的集合属性
+	 *
+	 */
+	public static final IPropertyInfo<IGoodsIssueMaterialBatchJournals> PROPERTY_GOODSISSUEMATERIALBATCHJOURNALS = registerProperty(
+			PROPERTY_GOODSISSUEMATERIALBATCHJOURNALS_NAME, IGoodsIssueMaterialBatchJournals.class, MY_CLASS);
+
+	/**
+	 * 获取-库存发货-物料批次集合
+	 *
+	 * @return 值
+	 */
+	@XmlElementWrapper(name = PROPERTY_GOODSISSUEMATERIALBATCHJOURNALS_NAME)
+	@XmlElement(name = MaterialBatchJournal.BUSINESS_OBJECT_NAME, type = MaterialBatchJournal.class)
+	public final IGoodsIssueMaterialBatchJournals getGoodsIssueMaterialBatchJournals() {
+		return this.getProperty(PROPERTY_GOODSISSUEMATERIALBATCHJOURNALS);
+	}
+
+	/**
+	 * 设置-库存发货-物料批次集合
+	 *
+	 * @param value
+	 *            值
+	 */
+	public final void setGoodsIssueMaterialBatchJournals(IGoodsIssueMaterialBatchJournals value) {
+		this.setProperty(PROPERTY_GOODSISSUEMATERIALBATCHJOURNALS, value);
+	}
+
+	/**
+	 * 属性名称-库存发货-物料序列
+	 */
+	private static final String PROPERTY_GOODSISSUEMATERIALSERIALJOURNALS_NAME = "GoodsIssueMaterialSerialJournals";
+
+	/**
+	 * 库存发货-物料序列的集合属性
+	 *
+	 */
+	public static final IPropertyInfo<IGoodsIssueMaterialSerialJournals> PROPERTY_GOODSISSUEMATERIALSERIALJOURNALS = registerProperty(
+			PROPERTY_GOODSISSUEMATERIALSERIALJOURNALS_NAME, IGoodsIssueMaterialSerialJournals.class, MY_CLASS);
+
+	/**
+	 * 获取-库存发货-物料序列集合
+	 *
+	 * @return 值
+	 */
+	@XmlElementWrapper(name = PROPERTY_GOODSISSUEMATERIALSERIALJOURNALS_NAME)
+	@XmlElement(name = MaterialBatchJournal.BUSINESS_OBJECT_NAME, type = MaterialSerialJournal.class)
+	public final IGoodsIssueMaterialSerialJournals getGoodsIssueMaterialSerialJournals() {
+		return this.getProperty(PROPERTY_GOODSISSUEMATERIALSERIALJOURNALS);
+	}
+
+	/**
+	 * 设置-库存发货-物料序列集合
+	 *
+	 * @param value
+	 *            值
+	 */
+	public final void setGoodsIssueMaterialSerialJournals(IGoodsIssueMaterialSerialJournals value) {
+		this.setProperty(PROPERTY_GOODSISSUEMATERIALSERIALJOURNALS, value);
+	}
+	/**
 	 * 初始化数据
 	 */
 	@Override
 	protected void initialize() {
 		super.initialize();// 基类初始化，不可去除
+		this.setGoodsIssueMaterialBatchJournals(new GoodsIssueMaterialBatchJournals(this));
+		this.setGoodsIssueMaterialSerialJournals(new GoodsIssueMaterialSerialJournals(this));
 		this.setObjectCode(MyConfiguration.applyVariables(BUSINESS_OBJECT_CODE));
 		// 日期初始化。 需要在前台中添加这三个日期，并实现父类日期发生更改时，子类日期发生相应更改。
 		this.setPostingDate(DateTime.getToday());
@@ -1368,7 +1438,7 @@ public class GoodsIssueLine extends BusinessObject<GoodsIssueLine> implements IG
 		this.setDocumentDate(DateTime.getToday());
 	}
 
-	public DateTime PostingDate;
+	private DateTime PostingDate;
 
 	public DateTime getPostingDate() {
 		return this.PostingDate;
@@ -1378,7 +1448,7 @@ public class GoodsIssueLine extends BusinessObject<GoodsIssueLine> implements IG
 		this.PostingDate = postingDate;
 	}
 
-	public DateTime DocumentDate;
+	private DateTime DocumentDate;
 
 	public DateTime getDocumentDate() {
 		return this.DocumentDate;
@@ -1388,7 +1458,7 @@ public class GoodsIssueLine extends BusinessObject<GoodsIssueLine> implements IG
 		this.DocumentDate = documentDate;
 	}
 
-	public DateTime DeliveryDate;
+	private DateTime DeliveryDate;
 
 	public DateTime getDeliveryDate() {
 		return this.DeliveryDate;
@@ -1398,63 +1468,77 @@ public class GoodsIssueLine extends BusinessObject<GoodsIssueLine> implements IG
 		this.DeliveryDate = deliveryDate;
 	}
 
-	@Override
-	public String getJournal_ItemCode() {
-		return this.getProperty(PROPERTY_ITEMCODE);
-	}
 
 	@Override
-	public String getJournal_ItemName() {
-		return this.getProperty(PROPERTY_ITEMDESCRIPTION);
-	}
+	public IBusinessLogicContract[] getContracts() {
 
-	@Override
-	public String getJournal_IssueWarehouseCode() {
-		return this.getProperty(PROPERTY_WAREHOUSE);
-	}
+		return new IBusinessLogicContract[]{
+				new IMaterialIssueContract(){
+					@Override
+					public String getIdentifiers() {
+						return GoodsIssueLine.this.getIdentifiers();
+					}
 
-	@Override
-	public String getJournal_BaseDocumentType() {
-		return this.getProperty(PROPERTY_OBJECTCODE);
-	}
+					@Override
+					public String getItemCode() {
+						return GoodsIssueLine.this.getItemCode();
+					}
 
-	@Override
-	public Integer getJournal_BaseDocumentEntry() {
-		return this.getProperty(PROPERTY_DOCENTRY);
-	}
+					@Override
+					public String getItemName() {
+						return GoodsIssueLine.this.getItemDescription();
+					}
 
-	@Override
-	public Integer getJournal_BaseDocumentLineId() {
-		return this.getProperty(PROPERTY_LINEID);
-	}
+					@Override
+					public String getIssueWarehouseCode() {
+						return GoodsIssueLine.this.getWarehouse();
+					}
 
-	@Override
-	public Decimal getJournal_IssueQuantity() {
-		return this.getProperty(PROPERTY_QUANTITY);
-	}
+					@Override
+					public String getBaseDocumentType() {
+						return GoodsIssueLine.this.getObjectCode();
+					}
 
-	@Override
-	public DateTime getJournal_PostingDate() {
-		return this.getPostingDate();
-	}
+					@Override
+					public Integer getBaseDocumentEntry() {
+						return GoodsIssueLine.this.getDocEntry();
+					}
 
-	@Override
-	public DateTime getJournal_DeliveryDate() {
-		return this.getDeliveryDate();
-	}
+					@Override
+					public Integer getBaseDocumentLineId() {
+						return GoodsIssueLine.this.getLineId();
+					}
 
-	@Override
-	public DateTime getJournal_DocumentDate() {
-		return this.getDocumentDate();
-	}
+					@Override
+					public Decimal getIssueQuantity() {
+						return GoodsIssueLine.this.getQuantity();
+					}
 
-	@Override
-	public emYesNo getJournal_Canceled() {
-		return this.getProperty(PROPERTY_CANCELED);
-	}
+					@Override
+					public DateTime getPostingDate() {
+						return GoodsIssueLine.this.getPostingDate();
+					}
 
-	@Override
-	public emDocumentStatus getJournal_LineStatus() {
-		return this.getProperty(PROPERTY_LINESTATUS);
+					@Override
+					public DateTime getDeliveryDate() {
+						return GoodsIssueLine.this.getDeliveryDate();
+					}
+
+					@Override
+					public DateTime getDocumentDate() {
+						return GoodsIssueLine.this.getDocumentDate();
+					}
+
+					@Override
+					public emYesNo getCanceled() {
+						return GoodsIssueLine.this.getCanceled();
+					}
+
+					@Override
+					public emDocumentStatus getLineStatus() {
+						return GoodsIssueLine.this.getLineStatus();
+					}
+				}
+		};
 	}
 }

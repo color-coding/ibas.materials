@@ -12,6 +12,7 @@ import org.colorcoding.ibas.bobas.data.emDirection;
 import org.colorcoding.ibas.bobas.mapping.DbField;
 import org.colorcoding.ibas.bobas.mapping.DbFieldType;
 import org.colorcoding.ibas.materials.MyConfiguration;
+import org.colorcoding.ibas.materials.logic.IMaterialSerialJournalContract;
 
 /**
  * 获取-物料序列号日记账

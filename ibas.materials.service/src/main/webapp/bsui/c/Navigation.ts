@@ -23,6 +23,10 @@ import * as materialgroupViews from "./materialgroup/index";
 import * as materialinventoryViews from "./materialinventory/index";
 import * as materialinventoryjournalViews from "./materialinventoryjournal/index";
 import * as warehouseViews from "./warehouse/index";
+import * as materialbatchApps from "../../bsapp/materialbatch/index";
+import * as materialserialApps from "../../bsapp/materialserial/index";
+import * as materialbatchViews from "./materialbatch/index";
+// import * as materialserialViews from "./materialserial/index";
 
 /**
  * 视图导航
@@ -131,6 +135,15 @@ export default class Navigation extends ibas.ViewNavigation {
                 break;
             case warehouseApps.WarehouseEditApp.APPLICATION_ID:
                 view = new warehouseViews.WarehouseEditView();
+                break;
+            case materialApps.MaterialExChooseApp.APPLICATION_ID:
+                view = new materialViews.MaterialExChooseView();
+                break;
+            case materialbatchApps.MaterialBatchReceiptApp.APPLICATION_ID:
+                view = new materialbatchViews.MaterialBatchReceiptView();
+                break;
+            case materialbatchApps.MaterialBatchIssueApp.APPLICATION_ID:
+                view = new materialbatchViews.MaterialBatchIssueView();
                 break;
             default:
                 break;
