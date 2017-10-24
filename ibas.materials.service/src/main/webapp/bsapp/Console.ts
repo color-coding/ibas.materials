@@ -15,7 +15,7 @@ import { MaterialInventoryJournalFunc, } from "./materialinventoryjournal/index"
 import { MaterialFunc, MaterialChooseServiceMapping, MaterialLinkServiceMapping ,MaterialExChooseServiceMapping} from "./material/index";
 import { MaterialGroupFunc, MaterialGroupChooseServiceMapping, MaterialGroupLinkServiceMapping } from "./materialgroup/index";
 import { WarehouseFunc, WarehouseChooseServiceMapping, WarehouseLinkServiceMapping } from "./warehouse/index";
-import { MaterialBatchFunc,MaterialBatchReceipServiceMapping,MaterialBatchIssueServiceMapping} from "./materialbatch/index";
+import { MaterialBatchReceipServiceMapping,MaterialBatchIssueServiceMapping} from "./materialbatch/index";
 
 /** 模块控制台 */
 export class Console extends ibas.ModuleConsole {
@@ -73,6 +73,8 @@ export class Console extends ibas.ModuleConsole {
         ibas.i18n.load(this.rootUrl + "resources/languages/bo/materialex.json");
         ibas.i18n.load(this.rootUrl + "resources/languages/bo/materialbatch.json");
         ibas.i18n.load(this.rootUrl + "resources/languages/bo/materialserial.json");
+        ibas.i18n.load(this.rootUrl + "resources/languages/bo/materialbatchjournal.json");
+        ibas.i18n.load(this.rootUrl + "resources/languages/bo/materialserialjournal.json");
         // 设置资源属性
         this.description = ibas.i18n.prop(this.name.toLowerCase());
         this.icon = ibas.i18n.prop(this.name.toLowerCase() + "_icon");

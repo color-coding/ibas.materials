@@ -13,8 +13,6 @@ import { BORepositoryMaterials } from "../../borep/BORepositories";
 /** 编辑应用-库存发货 */
 export class GoodsIssueEditApp extends ibas.BOEditApplication<IGoodsIssueEditView, bo.GoodsIssue> {
 
-
-
     /** 应用标识 */
     static APPLICATION_ID: string = "61acb506-7555-453c-8085-9245d90ed625";
     /** 应用名称 */
@@ -227,6 +225,7 @@ export class GoodsIssueEditApp extends ibas.BOEditApplication<IGoodsIssueEditVie
                     item.itemCode = selected.code;
                     item.itemDescription = selected.name;
                     item.warehouse = selected.warehouseCode;
+                    item.quantity = 1;
                     item = null;
                 }
                 if (created) {
@@ -237,7 +236,7 @@ export class GoodsIssueEditApp extends ibas.BOEditApplication<IGoodsIssueEditVie
         });
     }
 
-    /** 选择库存发货订单行物料事件 */
+    /** 选择库存发货订单行仓库事件 */
     chooseGoodsIssueLineWarehouse(caller: bo.GoodsIssueLine): void {
         let that: this = this;
         ibas.servicesManager.runChooseService<bo.Warehouse>({
@@ -267,32 +266,19 @@ export class GoodsIssueEditApp extends ibas.BOEditApplication<IGoodsIssueEditVie
             }
         });
     }
-    selectGoodsIssueLineMaterialBatch(caller: bo.GoodsIssueLine): void {
+    selectGoodsIssueLineMaterialBatch(caller: ibas.List<bo.GoodsIssueLine>): void {
+        if (ibas.objects.isNull(caller) || caller.length === 0) {
+            this.messages(ibas.emMessageType.WARNING, ibas.i18n.prop("sys_shell_please_chooose_data",
+                ibas.i18n.prop("sys_shell_data_edit")
+            ));
+            return;
+        }
         let that: this = this;
-        ibas.servicesManager.runChooseService<bo.MaterialBatch>({
+        ibas.servicesManager.runSelectService<bo.MaterialBatchJournal>({
             caller: caller,
-            boCode: bo.MaterialBatch.BUSINESS_OBJECT_ISSUE_CODE,
-            criteria: [
-                // new ibas.Condition(bo.Warehouse.PROPERTY_ACTIVATED_NAME, ibas.emConditionOperation.EQUAL, "Y")
-            ],
-            onCompleted(selecteds: ibas.List<bo.MaterialBatch>): void {
-                // 获取触发的对象
-                let index: number = that.editData.goodsIssueLines.indexOf(caller);
-                let item: bo.GoodsIssueLine = that.editData.goodsIssueLines[index];
-                // 选择返回数量多余触发数量时,自动创建新的项目
-                let created: boolean = false;
-                for (let selected of selecteds) {
-                    if (ibas.objects.isNull(item)) {
-                        item = that.editData.goodsIssueLines.create();
-                        created = true;
-                    }
-                }
-                if (created) {
-                    // 创建了新的行项目
-                    that.view.showGoodsIssueLines(that.editData.goodsIssueLines.filterDeleted());
-                }
-            }
-        });
+            boCode: bo.MaterialBatchJournal.BUSINESS_OBJECT_ISSUE_CODE,
+            inputData: caller
+            });
     }
 }
 

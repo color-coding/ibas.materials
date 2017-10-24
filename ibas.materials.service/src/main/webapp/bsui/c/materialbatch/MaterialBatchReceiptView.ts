@@ -124,7 +124,7 @@ export class MaterialBatchReceiptView extends ibas.BOChooseView implements IMate
     }
     private table: sap.ui.table.Table;
     /** 显示数据 */
-    showData(datas: bo.MaterialBatch[]): void {
+    showData(datas: bo.MaterialBatchJournal[]): void {
         this.table.setModel(new sap.ui.model.json.JSONModel({ rows: datas }));
         // this.table.bindObject("/");
         // 监听属性改变，并更新控件

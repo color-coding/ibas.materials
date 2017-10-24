@@ -21,3 +21,4 @@ export * from "./MaterialBatch.d";
 export * from "./MaterialSerial.d";
 export * from "./MaterialBatchJournal.d";
 export * from "./MaterialSerialJournal.d";
+export * from "./MaterialBatchInput.d";

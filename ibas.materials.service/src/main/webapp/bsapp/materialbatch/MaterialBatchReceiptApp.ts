@@ -9,13 +9,13 @@ import * as ibas from "ibas/index";
 import * as bo from "../../borep/bo/index";
 import { BORepositoryMaterials } from "../../borep/BORepositories";
 
-export class MaterialBatchReceiptApp extends ibas.BOChooseService<IMaterialBatchReceiptView, bo.MaterialBatch> {
+export class MaterialBatchReceiptApp extends ibas.BOChooseService<IMaterialBatchReceiptView, bo.MaterialBatchJournal> {
     /** 应用标识 */
     static APPLICATION_ID: string = "f4448871-b03a-48f5-bf6d-9418259fab9d";
     /** 应用名称 */
     static APPLICATION_NAME: string = "materials_app_materialbatchreceipt";
     /** 业务对象编码 */
-    static BUSINESS_OBJECT_CODE: string = bo.MaterialBatch.BUSINESS_OBJECT_RECEIEPT_CODE;
+    static BUSINESS_OBJECT_CODE: string = bo.MaterialBatchJournal.BUSINESS_OBJECT_RECEIEPT_CODE;
     /** 构造函数 */
     constructor() {
         super();
@@ -26,7 +26,7 @@ export class MaterialBatchReceiptApp extends ibas.BOChooseService<IMaterialBatch
     }
 
     /** 待编辑的数据 */
-    protected editData: bo.MaterialBatch[];
+    protected editData: bo.MaterialBatchJournal[];
     /** 注册视图 */
     protected registerView(): void {
         super.registerView();
@@ -39,12 +39,12 @@ export class MaterialBatchReceiptApp extends ibas.BOChooseService<IMaterialBatch
         if(this.editData == null || this.editData === undefined) {
             this.editData = [];
         }
-        let materialBatch: bo.MaterialBatch = new bo.MaterialBatch();
+        let materialBatch: bo.MaterialBatchJournal = new bo.MaterialBatchJournal();
         this.editData.push(materialBatch);
         // 仅显示没有标记删除的
         this.view.showData(this.editData);
     }
-    protected  removeBatch(items: bo.MaterialBatch[]): void {
+    protected  removeBatch(items: bo.MaterialBatchJournal[]): void {
         // 非数组，转为数组
         if (!(items instanceof Array)) {
             items = [items];
@@ -83,7 +83,7 @@ export class MaterialBatchReceiptApp extends ibas.BOChooseService<IMaterialBatch
 /** 视图-新建批次 */
 export interface IMaterialBatchReceiptView extends ibas.IBOChooseView {
     /** 显示数据 */
-    showData(datas: bo.MaterialBatch[]): void;
+    showData(datas: bo.MaterialBatchJournal[]): void;
     /** 添加批次事件 */
     addBatchEvent: Function;
     /** 移除批次事件 */

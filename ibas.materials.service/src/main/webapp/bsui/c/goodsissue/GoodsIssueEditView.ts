@@ -118,6 +118,22 @@ export class GoodsIssueEditView extends ibas.BOEditView implements IGoodsIssueEd
                                 utils.getTableSelecteds<bo.GoodsIssueLine>(that.tableGoodsIssueLine)
                             );
                         }
+                    }),
+                    new sap.m.MenuButton("",{
+                        text: ibas.i18n.prop("materials_data_batch_serial"),
+                        menu:[
+                            new sap.m.Menu("",{
+                                items: [
+                                    new sap.m.MenuItem("",{
+                                        text: ibas.i18n.prop("materials_app_materialbatchreceipt"),
+                                        press: function(): void {
+                                            that.fireViewEvents(that.selectGoodsIssueLineMaterialBatchEvent,
+                                                that.getMaterialBatchInputData());
+                                        }
+                                    }),
+                                ]
+                            })
+                        ]
                     })
                 ]
             }),
@@ -336,5 +352,21 @@ export class GoodsIssueEditView extends ibas.BOEditView implements IGoodsIssueEd
         this.tableGoodsIssueLine.setModel(new sap.ui.model.json.JSONModel({ rows: datas }));
         // 监听属性改变，并更新控件
         utils.refreshModelChanged(this.tableGoodsIssueLine, datas);
+    }
+    getMaterialBatchInputData(): bo.MaterialBatchInput[] {
+        // 获取行数据
+        let goodIssueLines: bo.GoodsIssueLine[] = this.tableGoodsIssueLine.getBinding("").oList;
+        let inputData: bo.MaterialBatchInput[] = new Array<bo.MaterialBatchInput>();
+        for(let line of goodIssueLines) {
+            let input: bo.MaterialBatchInput = new bo.MaterialBatchInput();
+            input.itemCode = line.itemCode;
+            input.quantity = line.quantity;
+            input.warehouse = line.warehouse;
+            input.direction = ibas.emDirection.OUT;
+            input.needQuantity = line.quantity;
+            input.selectedQuantity = 0;
+            inputData.push(input);
+        }
+        return inputData;
     }
 }

@@ -159,7 +159,22 @@ export class BORepositoryMaterials extends ibas.BORepositoryApplication implemen
      * @param saver 保存者
      */
     saveMaterialBatch(saver: ibas.SaveCaller<bo.MaterialBatch>): void {
-        throw new Error("Method not implemented.");
+        super.save(bo.MaterialBatch.name,saver);
+    }
+
+    /**
+     *  查询 物料批次日记账
+     * @param fetcher 查询者
+     */
+    fetchMaterialBatchJournal(fetcher: ibas.FetchCaller<bo.MaterialBatchJournal>): void {
+        super.fetch(bo.MaterialBatch.name, fetcher);
+    }
+    /**
+     * 保存 物料批次日记账
+     * @param saver 保存者
+     */
+    saveMaterialBatchJournal(saver: ibas.SaveCaller<bo.MaterialBatchJournal>): void {
+        super.save(bo.MaterialBatchJournal.name,saver);
     }
     /**
      *  查询 物料序列号
@@ -173,7 +188,21 @@ export class BORepositoryMaterials extends ibas.BORepositoryApplication implemen
      * @param saver 保存者
      */
     saveMaterialSerial(saver: ibas.SaveCaller<bo.MaterialSerial>): void {
-        throw new Error("Method not implemented.");
+        super.save(bo.MaterialSerial.name,saver);
+    }
+    /**
+     *  查询 物料序列号日记账
+     * @param fetcher 查询者
+     */
+    fetchMaterialSerialJournal(fetcher: ibas.FetchCaller<bo.MaterialSerialJournal>): void {
+        super.fetch(bo.MaterialSerial.name, fetcher);
+    }
+    /**
+     * 保存 物料序列号日记账
+     * @param saver 保存者
+     */
+    saveMaterialSerialJournal(saver: ibas.SaveCaller<bo.MaterialSerialJournal>): void {
+        super.save(bo.MaterialSerialJournal.name,saver);
     }
 }
 // 注册业务对象仓库到工厂

@@ -117,6 +117,21 @@ export class GoodsReceiptEditView extends ibas.BOEditView implements IGoodsRecei
                                 utils.getTableSelecteds<bo.GoodsReceiptLine>(that.tableGoodsReceiptLine)
                             );
                         }
+                    }),
+                    new sap.m.MenuButton("",{
+                        text: ibas.i18n.prop("materials_data_batch_serial"),
+                        menu:[
+                            new sap.m.Menu("",{
+                                items: [
+                                    new sap.m.MenuItem("",{
+                                        text: ibas.i18n.prop("materials_app_materialbatchreceipt"),
+                                        press: function(): void {
+                                            that.fireViewEvents(that.newGoodsReceiptLineMaterialBatchEvent);
+                                        }
+                                    }),
+                                ]
+                            })
+                        ]
                     })
                 ]
             }),
