@@ -205,13 +205,13 @@ export class GoodsReceiptEditApp extends ibas.BOEditApplication<IGoodsReceiptEdi
     /** 选择库存收货订单行物料事件 */
     chooseGoodsReceiptLineMaterial(caller: bo.GoodsReceiptLine): void {
         let that: this = this;
-        ibas.servicesManager.runChooseService<bo.Material>({
+        ibas.servicesManager.runChooseService<bo.MaterialEx>({
             caller: caller,
-            boCode: bo.Material.BUSINESS_OBJECT_CODE,
+            boCode: bo.MaterialEx.BUSINESS_OBJECT_CODE,
             criteria: [
                 new ibas.Condition(bo.Material.PROPERTY_DELETED_NAME, ibas.emConditionOperation.EQUAL, "N")
             ],
-            onCompleted(selecteds: ibas.List<bo.Material>): void {
+            onCompleted(selecteds: ibas.List<bo.MaterialEx>): void {
                 // 获取触发的对象
                 let index: number = that.editData.goodsReceiptLines.indexOf(caller);
                 let item: bo.GoodsReceiptLine = that.editData.goodsReceiptLines[index];
@@ -224,6 +224,8 @@ export class GoodsReceiptEditApp extends ibas.BOEditApplication<IGoodsReceiptEdi
                     }
                     item.itemCode = selected.code;
                     item.itemDescription = selected.name;
+                    item.warehouse = selected.warehouseCode;
+                    item.quantity = 1;
                     item = null;
                 }
                 if (created) {
@@ -265,30 +267,36 @@ export class GoodsReceiptEditApp extends ibas.BOEditApplication<IGoodsReceiptEdi
         });
     }
     /** 新建物料批次信息 */
-    newGoodsReceiptLineMaterialBatch(caller: bo.GoodsReceiptLine): void {
+    newGoodsReceiptLineMaterialBatch(caller: ibas.List<bo.GoodsReceiptLine>): void {
+        if (ibas.objects.isNull(caller) || caller.length === 0) {
+            this.messages(ibas.emMessageType.WARNING, ibas.i18n.prop("sys_shell_please_chooose_data",
+                ibas.i18n.prop("sys_shell_data_edit")
+            ));
+            return;
+        }
         let that: this = this;
-        ibas.servicesManager.runChooseService<bo.MaterialBatch>({
+        ibas.servicesManager.runChooseService<bo.MaterialBatchJournal>({
             caller: caller,
             boCode: bo.MaterialBatch.BUSINESS_OBJECT_RECEIEPT_CODE,
             criteria: [
             ],
-            onCompleted(selecteds: ibas.List<bo.MaterialBatch>): void {
+            onCompleted(selecteds: ibas.List<bo.MaterialBatchJournal>): void {
                 // 获取触发的对象
-                let index: number = that.editData.goodsReceiptLines.indexOf(caller);
-                let item: bo.GoodsReceiptLine = that.editData.goodsReceiptLines[index];
-                // 选择返回数量多余触发数量时,自动创建新的项目
-                let created: boolean = false;
-                for (let selected of selecteds) {
-                    if (ibas.objects.isNull(item)) {
-                        item = that.editData.goodsReceiptLines.create();
-                        created = true;
-                    }
-                    item = null;
-                }
-                if (created) {
-                    // 创建了新的行项目
-                    that.view.showGoodsReceiptLines(that.editData.goodsReceiptLines.filterDeleted());
-                }
+                // let index: number = that.editData.goodsReceiptLines.indexOf(caller);
+                // let item: bo.GoodsReceiptLine = that.editData.goodsReceiptLines[index];
+                // // 选择返回数量多余触发数量时,自动创建新的项目
+                // let created: boolean = false;
+                // for (let selected of selecteds) {
+                //     if (ibas.objects.isNull(item)) {
+                //         item = that.editData.goodsReceiptLines.create();
+                //         created = true;
+                //     }
+                //     item = null;
+                // }
+                // if (created) {
+                //     // 创建了新的行项目
+                //     that.view.showGoodsReceiptLines(that.editData.goodsReceiptLines.filterDeleted());
+                // }
             }
         });
     }

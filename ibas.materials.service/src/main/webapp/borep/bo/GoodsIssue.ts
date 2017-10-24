@@ -888,5 +888,26 @@ export class GoodsIssueLine extends BODocumentLine<GoodsIssueLine> implements IG
     protected init(): void {
         this.objectCode = config.applyVariables(GoodsIssue.BUSINESS_OBJECT_CODE);
     }
+    /** 映射的属性名称-库存发货-行-序列号集合 */
+    static PROPERTY_GOODSISSUEMATERIALSERIALJOURNALS_NAME: string = "GoodsIssueMaterialSerialJournals";
+    /** 获取-库存发货-行-序列号集合 */
+    get goodsIssueMaterialSerialJournals(): GoodsIssueMaterialSerialJournals {
+        return this.getProperty<GoodsIssueMaterialSerialJournals>(GoodsIssueLine.PROPERTY_GOODSISSUEMATERIALSERIALJOURNALS_NAME);
+    }
+    /** 设置-库存发货-行-序列号集合 */
+    set goodsIssueMaterialSerialJournals(value: GoodsIssueMaterialSerialJournals) {
+        this.setProperty(GoodsIssueLine.PROPERTY_GOODSISSUEMATERIALSERIALJOURNALS_NAME, value);
+    }
+    /** 映射的属性名称-库存发货-行-批次集合 */
+    static PROPERTY_GOODSISSUEMATERIALBATCHJOURNALS_NAME: string = "GoodsIssueMaterialBatchJournals";
+    /** 获取-库存发货-行-序列号集合 */
+    get goodsIssueMaterialBatchJournals(): GoodsIssueMaterialBatchJournals {
+        return this.getProperty<GoodsIssueMaterialBatchJournals>(GoodsIssueLine.PROPERTY_GOODSISSUEMATERIALBATCHJOURNALS_NAME);
+    }
+    /** 设置-库存发货-行-序列号集合 */
+    set goodsIssueMaterialBatchJournals(value: GoodsIssueMaterialBatchJournals) {
+        this.setProperty(GoodsIssueLine.PROPERTY_GOODSISSUEMATERIALBATCHJOURNALS_NAME, value);
+    }
+
 }
 

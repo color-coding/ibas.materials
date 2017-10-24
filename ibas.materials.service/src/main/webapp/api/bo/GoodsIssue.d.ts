@@ -271,6 +271,11 @@ export interface IGoodsIssueLine extends IBODocumentLine {
     /** 项目代码 */
     project: string;
 
+    /** 库存发货-行-序列号集合 */
+    goodsIssueMaterialSerialJournals: IGoodsIssueMaterialSerialJournals;
+
+    /** 库存发货-行-批次集合 */
+    goodsIssueMaterialBatchJournals: IGoodsIssueMaterialBatchJournals
 
 }
 

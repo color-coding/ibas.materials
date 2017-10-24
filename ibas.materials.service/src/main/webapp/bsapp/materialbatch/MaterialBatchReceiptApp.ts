@@ -9,7 +9,7 @@ import * as ibas from "ibas/index";
 import * as bo from "../../borep/bo/index";
 import { BORepositoryMaterials } from "../../borep/BORepositories";
 
-export class MaterialBatchReceiptApp extends ibas.BOChooseService<IMaterialBatchReceiptView, bo.MaterialBatchJournal> {
+export class MaterialBatchReceiptApp extends ibas.BOApplication<IMaterialBatchReceiptView> {
     /** 应用标识 */
     static APPLICATION_ID: string = "f4448871-b03a-48f5-bf6d-9418259fab9d";
     /** 应用名称 */
@@ -20,11 +20,13 @@ export class MaterialBatchReceiptApp extends ibas.BOChooseService<IMaterialBatch
     constructor() {
         super();
         this.id = MaterialBatchReceiptApp.APPLICATION_ID;
-        this.name = MaterialBatchReceiptApp.BUSINESS_OBJECT_CODE;
+        this.name = MaterialBatchReceiptApp.APPLICATION_NAME;
         this.boCode = MaterialBatchReceiptApp.BUSINESS_OBJECT_CODE;
         this.description = ibas.i18n.prop(this.name);
     }
 
+    /** 服务输入数据 */
+    protected inputData: bo.MaterialBatchInput[];
     /** 待编辑的数据 */
     protected editData: bo.MaterialBatchJournal[];
     /** 注册视图 */
@@ -34,9 +36,15 @@ export class MaterialBatchReceiptApp extends ibas.BOChooseService<IMaterialBatch
         this.view.addBatchEvent = this.addBatch;
         this.view.removeBatchEvent = this.removeBatch;
     }
-    protected  addBatch(): void {
-        // this.editData..create();
-        if(this.editData == null || this.editData === undefined) {
+    protected addBatch(select: bo.MaterialBatchInput): void {
+        // 确认选择了凭证信息
+        if (ibas.objects.isNull(select)) {
+            this.messages(ibas.emMessageType.WARNING, ibas.i18n.prop("sys_shell_please_chooose_data",
+                ibas.i18n.prop("materials_app_batch_serial_choose_journal")
+            ));
+            return;
+        }
+        if (ibas.objects.isNull(this.editData)) {
             this.editData = [];
         }
         let materialBatch: bo.MaterialBatchJournal = new bo.MaterialBatchJournal();
@@ -44,7 +52,7 @@ export class MaterialBatchReceiptApp extends ibas.BOChooseService<IMaterialBatch
         // 仅显示没有标记删除的
         this.view.showData(this.editData);
     }
-    protected  removeBatch(items: bo.MaterialBatchJournal[]): void {
+    protected removeBatch(items: bo.MaterialBatchJournal[]): void {
         // 非数组，转为数组
         if (!(items instanceof Array)) {
             items = [items];
@@ -67,9 +75,19 @@ export class MaterialBatchReceiptApp extends ibas.BOChooseService<IMaterialBatch
         // 仅显示没有标记删除的
         this.view.showData(this.editData);
     }
+    /** 运行,覆盖原方法 */
+    run(...args: any[]): void {
+        let that: this = this;
+        // if (ibas.objects.instanceOf(arguments[0].caller.firstOrDefault, bo.MaterialBatchInput)) {
+        if (arguments[0].caller.length >= 1) {
+            that.inputData = arguments[0].caller;
+        }
+        super.run();
+    }
     /** 视图显示后 */
     protected viewShowed(): void {
         // 视图加载完成
+        this.view.showJournalLineData(this.inputData);
     }
     protected newData(): void {
         throw new Error("Method not implemented.");
@@ -81,9 +99,10 @@ export class MaterialBatchReceiptApp extends ibas.BOChooseService<IMaterialBatch
 
 
 /** 视图-新建批次 */
-export interface IMaterialBatchReceiptView extends ibas.IBOChooseView {
+export interface IMaterialBatchReceiptView extends ibas.IBOView {
     /** 显示数据 */
     showData(datas: bo.MaterialBatchJournal[]): void;
+    showJournalLineData(datas: bo.MaterialBatchInput[]): void;
     /** 添加批次事件 */
     addBatchEvent: Function;
     /** 移除批次事件 */
@@ -91,17 +110,18 @@ export interface IMaterialBatchReceiptView extends ibas.IBOChooseView {
 }
 
 /** 新建批次服务映射 */
-export class MaterialBatchReceipServiceMapping extends ibas.BOChooseServiceMapping {
+export class MaterialBatchReceipServiceMapping extends ibas.ServiceMapping {
     /** 构造函数 */
     constructor() {
         super();
         this.id = MaterialBatchReceiptApp.APPLICATION_ID;
         this.name = MaterialBatchReceiptApp.APPLICATION_NAME;
-        this.boCode = MaterialBatchReceiptApp.BUSINESS_OBJECT_CODE;
+        this.category = MaterialBatchReceiptApp.BUSINESS_OBJECT_CODE;
         this.description = ibas.i18n.prop(this.name);
+        this.proxy = ibas.BOChooseServiceProxy;
     }
     /** 创建服务并运行 */
-    create(): ibas.IService<ibas.IServiceContract> {
+    create(): ibas.IService<ibas.IBOChooseServiceContract> {
         return new MaterialBatchReceiptApp();
     }
 }

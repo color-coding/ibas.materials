@@ -37,7 +37,7 @@ export class MaterialBatchIssueApp extends ibas.BOApplication<IMaterialBatchIssu
     protected registerView(): void {
         super.registerView();
         // 其他事件
-        this.view.selectMaterialBatchJournalLineEvent  = this.selectMaterialBatchJournalLine;
+        this.view.selectMaterialBatchJournalLineEvent = this.selectMaterialBatchJournalLine;
         this.view.autoSelectMaterialBatchEvent = this.autoSelectMaterialBatch;
         this.view.addBatchMaterialBatchEvent = this.addBatchMaterialBatch;
         this.view.removeBatchMaterialBatchEvent = this.removeBatchMaterialBatch;
@@ -134,9 +134,10 @@ export class MaterialBatchIssueApp extends ibas.BOApplication<IMaterialBatchIssu
     run(...args: any[]): void {
         let that: this = this;
         // if (ibas.objects.instanceOf(arguments[0].caller.firstOrDefault, bo.MaterialBatchInput)) {
-            if(arguments[0].caller.length >= 1) {
-                that.inputData = arguments[0].caller;
-            }
+        if (arguments[0].caller.length >= 1) {
+            // 需要加判断条件，过滤掉非批次管理的物料
+            that.inputData = arguments[0].caller;
+        }
         super.run();
     }
 }
@@ -166,10 +167,10 @@ export class MaterialBatchIssueServiceMapping extends ibas.ServiceMapping {
         this.name = MaterialBatchIssueApp.APPLICATION_NAME;
         this.category = MaterialBatchIssueApp.BUSINESS_OBJECT_CODE;
         this.description = ibas.i18n.prop(this.name);
-        this.proxy = ibas.BOSelectServiceProxy;
+        this.proxy = ibas.BOChooseServiceProxy;
     }
     /** 创建服务并运行 */
-    create(): ibas.IService<ibas.IBOSelectServiceContract> {
+    create(): ibas.IService<ibas.IBOChooseServiceContract> {
         return new MaterialBatchIssueApp();
     }
 }

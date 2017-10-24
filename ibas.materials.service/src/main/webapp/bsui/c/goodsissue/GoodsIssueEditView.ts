@@ -125,7 +125,7 @@ export class GoodsIssueEditView extends ibas.BOEditView implements IGoodsIssueEd
                             new sap.m.Menu("",{
                                 items: [
                                     new sap.m.MenuItem("",{
-                                        text: ibas.i18n.prop("materials_app_materialbatchreceipt"),
+                                        text: ibas.i18n.prop("materials_app_materialbatchissue"),
                                         press: function(): void {
                                             that.fireViewEvents(that.selectGoodsIssueLineMaterialBatchEvent,
                                                 that.getMaterialBatchInputData());

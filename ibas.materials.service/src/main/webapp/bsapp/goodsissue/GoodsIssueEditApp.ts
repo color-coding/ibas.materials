@@ -209,7 +209,7 @@ export class GoodsIssueEditApp extends ibas.BOEditApplication<IGoodsIssueEditVie
             caller: caller,
             boCode: bo.MaterialEx.BUSINESS_OBJECT_CODE,
             criteria: [
-                 new ibas.Condition(bo.MaterialEx.PROPERTY_DELETED_NAME, ibas.emConditionOperation.EQUAL, "N")
+                new ibas.Condition(bo.MaterialEx.PROPERTY_DELETED_NAME, ibas.emConditionOperation.EQUAL, "N")
             ],
             onCompleted(selecteds: ibas.List<bo.MaterialEx>): void {
                 // 获取触发的对象
@@ -274,11 +274,15 @@ export class GoodsIssueEditApp extends ibas.BOEditApplication<IGoodsIssueEditVie
             return;
         }
         let that: this = this;
-        ibas.servicesManager.runSelectService<bo.MaterialBatchJournal>({
+        ibas.servicesManager.runChooseService<bo.MaterialBatchJournal>({
             caller: caller,
             boCode: bo.MaterialBatchJournal.BUSINESS_OBJECT_ISSUE_CODE,
-            inputData: caller
-            });
+            criteria: [
+            ],
+            onCompleted(selecteds: ibas.List<bo.MaterialBatchJournal>): void {
+                //
+            }
+        });
     }
 }
 

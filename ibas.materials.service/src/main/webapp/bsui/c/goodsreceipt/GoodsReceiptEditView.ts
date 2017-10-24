@@ -126,7 +126,8 @@ export class GoodsReceiptEditView extends ibas.BOEditView implements IGoodsRecei
                                     new sap.m.MenuItem("",{
                                         text: ibas.i18n.prop("materials_app_materialbatchreceipt"),
                                         press: function(): void {
-                                            that.fireViewEvents(that.newGoodsReceiptLineMaterialBatchEvent);
+                                            that.fireViewEvents(that.newGoodsReceiptLineMaterialBatchEvent
+                                                ,that.getMaterialBatchInputData());
                                         }
                                     }),
                                 ]
@@ -350,5 +351,21 @@ export class GoodsReceiptEditView extends ibas.BOEditView implements IGoodsRecei
         this.tableGoodsReceiptLine.setModel(new sap.ui.model.json.JSONModel({ rows: datas }));
         // 监听属性改变，并更新控件
         utils.refreshModelChanged(this.tableGoodsReceiptLine, datas);
+    }
+    getMaterialBatchInputData(): bo.MaterialBatchInput[] {
+        // 获取行数据
+        let goodReceiptLines: bo.GoodsReceiptLine[] = this.tableGoodsReceiptLine.getBinding("").oList;
+        let inputData: bo.MaterialBatchInput[] = new Array<bo.MaterialBatchInput>();
+        for(let line of goodReceiptLines) {
+            let input: bo.MaterialBatchInput = new bo.MaterialBatchInput();
+            input.itemCode = line.itemCode;
+            input.quantity = line.quantity;
+            input.warehouse = line.warehouse;
+            input.direction = ibas.emDirection.OUT;
+            input.needQuantity = line.quantity;
+            input.selectedQuantity = 0;
+            inputData.push(input);
+        }
+        return inputData;
     }
 }

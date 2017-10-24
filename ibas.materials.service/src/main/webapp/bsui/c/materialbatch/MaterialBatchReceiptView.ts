@@ -10,15 +10,13 @@ import { utils } from "openui5/typings/ibas.utils";
 import * as bo from "../../../borep/bo/index";
 import { IMaterialBatchReceiptView } from "../../../bsapp/materialbatch/index";
 
-export class MaterialBatchReceiptView extends ibas.BOChooseView implements IMaterialBatchReceiptView {
-     /** 添加批次事件 */
-     addBatchEvent: Function;
-     /** 移除批次事件 */
-     removeBatchEvent: Function;
-    /** 返回查询的对象 */
-    get queryTarget(): any {
-        return bo.MaterialBatch;
-    }
+export class MaterialBatchReceiptView extends ibas.BODialogView implements IMaterialBatchReceiptView {
+    /** 添加批次事件 */
+    addBatchEvent: Function;
+    /** 移除批次事件 */
+    removeBatchEvent: Function;
+    private mainLayout: sap.ui.layout.VerticalLayout;
+    private journalLineTable: sap.ui.table.Table;
     /** 绘制工具条 */
     darwBars(): any {
         let that: this = this;
@@ -28,10 +26,10 @@ export class MaterialBatchReceiptView extends ibas.BOChooseView implements IMate
                 type: sap.m.ButtonType.Transparent,
                 // icon: "sap-icon://accept",
                 press: function (): void {
-                    that.fireViewEvents(that.chooseDataEvent,
-                        // 获取表格选中的对象
-                        utils.getTableSelecteds<bo.MaterialBatch>(that.table)
-                    );
+                    // that.fireViewEvents(that.chooseDataEvent,
+                    //     // 获取表格选中的对象
+                    //     utils.getTableSelecteds<bo.MaterialBatch>(that.table)
+                    // );
                 }
             }),
             new sap.m.Button("", {
@@ -55,7 +53,8 @@ export class MaterialBatchReceiptView extends ibas.BOChooseView implements IMate
                         type: sap.m.ButtonType.Transparent,
                         icon: "sap-icon://add",
                         press: function (): void {
-                            that.fireViewEvents(that.addBatchEvent);
+                            that.fireViewEvents(that.addBatchEvent,
+                                utils.getTableSelecteds<bo.MaterialBatchInput>(that.journalLineTable).firstOrDefault());
                         }
                     }),
                     new sap.m.Button("", {
@@ -118,9 +117,74 @@ export class MaterialBatchReceiptView extends ibas.BOChooseView implements IMate
                 }),
             ]
         });
-        this.id = this.table.getId();
-
-        return this.table;
+        this.journalLineTable = new sap.ui.table.Table("",{
+            enableSelectAll: false,
+            visibleRowCount: ibas.config.get(utils.CONFIG_ITEM_LIST_TABLE_VISIBLE_ROW_COUNT, 8),
+            visibleRowCountMode: sap.ui.table.VisibleRowCountMode.Interactive,
+            // press:
+            rows: "{/journallinedata}",
+            columns: [
+                new sap.ui.table.Column("", {
+                    label: ibas.i18n.prop("bo_materialbatchjournal_itemCode"),
+                    template: new sap.m.Text("", {
+                        wrapping: false,
+                    }).bindProperty("text", {
+                        path: "ItemCode",
+                    }),
+                }),
+                new sap.ui.table.Column("", {
+                    label: ibas.i18n.prop("bo_materialbatchjournal_warehousecode"),
+                    template: new sap.m.Text("", {
+                        wrapping: false,
+                    }).bindProperty("text", {
+                        path: "warehouse",
+                    }),
+                }),
+                new sap.ui.table.Column("", {
+                    label: ibas.i18n.prop("bo_materialbatchjournal_quantity"),
+                    template: new sap.m.Text("", {
+                        wrapping: false,
+                    }).bindProperty("text", {
+                        path: "quantity",
+                    }),
+                }),
+                new sap.ui.table.Column("", {
+                    label: ibas.i18n.prop("bo_materialbatchjournal_needquantity"),
+                    template: new sap.m.Text("", {
+                        wrapping: false,
+                    }).bindProperty("text", {
+                        path: "needQuantity",
+                    }),
+                }),
+                new sap.ui.table.Column("", {
+                    label: ibas.i18n.prop("bo_materialbatchjournal_selectedquantity"),
+                    template: new sap.m.Text("", {
+                        wrapping: false,
+                    }).bindProperty("text", {
+                        path: "selectedQuantity",
+                    }),
+                }),
+                new sap.ui.table.Column("", {
+                    label: ibas.i18n.prop("bo_materialbatchjournal_direction"),
+                    template: new sap.m.Text("", {
+                        wrapping: false,
+                    }).bindProperty("text", {
+                        path: "direction",
+                        formatter(data: any): any {
+                            return ibas.enums.describe(ibas.emDirection, data);
+                        }
+                    }),
+                }),
+            ]
+        });
+        this.mainLayout = new sap.ui.layout.VerticalLayout("",{
+            content: [
+                this.journalLineTable,
+                this.table
+            ]
+        });
+        this.id = this.mainLayout.getId();
+        return this.mainLayout;
     }
     private table: sap.ui.table.Table;
     /** 显示数据 */
@@ -130,16 +194,10 @@ export class MaterialBatchReceiptView extends ibas.BOChooseView implements IMate
         // 监听属性改变，并更新控件
         utils.refreshModelChanged(this.table, datas);
     }
-    private lastCriteria: ibas.ICriteria;
-    /** 记录上次查询条件，表格滚动时自动触发 */
-    query(criteria: ibas.ICriteria): void {
-        super.query(criteria);
-        this.lastCriteria = criteria;
-        // 清除历史数据
-        if (this.isDisplayed) {
-            this.table.setBusy(true);
-            this.table.setFirstVisibleRow(0);
-            this.table.setModel(null);
-        }
+    showJournalLineData(datas: bo.MaterialBatchInput[]): void {
+        this.journalLineTable.setModel(new sap.ui.model.json.JSONModel({journallinedata: datas}));
+        utils.refreshModelChanged(this.journalLineTable,datas);
     }
+    private lastCriteria: ibas.ICriteria;
+
 }
