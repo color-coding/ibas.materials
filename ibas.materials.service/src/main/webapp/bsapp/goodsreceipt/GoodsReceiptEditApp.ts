@@ -90,6 +90,8 @@ export class GoodsReceiptEditApp extends ibas.BOEditApplication<IGoodsReceiptEdi
     }
     /** 待编辑的数据 */
     protected editData: bo.GoodsReceipt;
+    /** 批次序列数据 */
+    protected batchSerialData: bo.MaterialBatchInput[];
     /** 保存数据 */
     protected saveData(): void {
         let that: this = this;
@@ -267,7 +269,7 @@ export class GoodsReceiptEditApp extends ibas.BOEditApplication<IGoodsReceiptEdi
         });
     }
     /** 新建物料批次信息 */
-    newGoodsReceiptLineMaterialBatch(caller: ibas.List<bo.MaterialBatchJournal>): void {
+    newGoodsReceiptLineMaterialBatch(caller: ibas.List<bo.MaterialBatchInput>): void {
         if (ibas.objects.isNull(caller) || caller.length === 0) {
             this.messages(ibas.emMessageType.WARNING, ibas.i18n.prop("sys_shell_please_chooose_data",
                 ibas.i18n.prop("sys_shell_data_edit")
@@ -275,30 +277,27 @@ export class GoodsReceiptEditApp extends ibas.BOEditApplication<IGoodsReceiptEdi
             return;
         }
         let that: this = this;
-        ibas.servicesManager.runChooseService<bo.MaterialBatchJournal>({
+        ibas.servicesManager.runChooseService<bo.MaterialBatchInput>({
             caller: caller,
             boCode: bo.MaterialBatch.BUSINESS_OBJECT_RECEIEPT_CODE,
             criteria: [
             ],
-            onCompleted(callbackData: ibas.List<bo.MaterialBatchJournal>): void {
+            onCompleted(callbackData: ibas.List<bo.MaterialBatchInput>): void {
+                that.batchSerialData = callbackData;
                 // 获取触发的对象
-                // for(let )
-                // let index: number = that.editData.goodsReceiptLines.indexOf(caller);
-                // let item: bo.GoodsReceiptLine = that.editData.goodsReceiptLines[index];
-                // // 选择返回数量多余触发数量时,自动创建新的项目
-                // let created: boolean = false;
-                // for (let selected of selecteds) {
-                //     if (ibas.objects.isNull(item)) {
-                //         item = that.editData.goodsReceiptLines.create();
-                //         created = true;
-                //     }
-                //
-                //     item = null;
-                // }
-                // if (created) {
-                //     // 创建了新的行项目
-                //     that.view.showGoodsReceiptLines(that.editData.goodsReceiptLines.filterDeleted());
-                // }
+                for (let line of callbackData) {
+                    let item: bo.GoodsReceiptLine = that.editData.goodsReceiptLines[line.index];
+                    // 待处理： 更新时如何处理原来的数据
+                    for (let batch of line.materialBatchInputBatchJournals.filterDeleted()) {
+                        let batchLine:bo.MaterialBatchJournal = item.goodsReceiptMaterialBatchJournals.create();
+                        batchLine.itemCode = batch.itemCode;
+                        batchLine.warehouse= batch.warehouse;
+                        batchLine.quantity = batch.quantity;
+                        batchLine.admissionDate = batch.admissionDate;
+                        batchLine.expirationDate = batch.expirationDate;
+                        batchLine.manufacturingDate = batch.manufacturingDate;
+                    }
+                }
             }
         });
     }

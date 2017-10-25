@@ -363,7 +363,7 @@ export class GoodsReceiptEditView extends ibas.BOEditView implements IGoodsRecei
             input.itemCode = line.itemCode;
             input.quantity = line.quantity;
             input.warehouse = line.warehouse;
-            input.direction = ibas.emDirection.OUT;
+            input.direction = ibas.emDirection.IN;
             input.needQuantity = line.quantity;
             input.selectedQuantity = 0;
             inputData.push(input);

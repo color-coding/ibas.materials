@@ -17,6 +17,7 @@ export class MaterialBatchReceiptView extends ibas.BODialogView implements IMate
     removeBatchEvent: Function;
     /** 自动创建批次事件 */
     autoCreateBatchEvent: Function;
+    callBackDataEvent: Function;
 
     private mainLayout: sap.ui.layout.VerticalLayout;
     private journalLineTable: sap.ui.table.Table;
@@ -30,6 +31,7 @@ export class MaterialBatchReceiptView extends ibas.BODialogView implements IMate
                 // icon: "sap-icon://inspect-down",
                 press: function (): void {
                     that.fireViewEvents(that.autoCreateBatchEvent,
+                        utils.getTableSelecteds<bo.MaterialBatchInput>(that.journalLineTable).firstOrDefault()
                     );
                 }
             }),
@@ -38,10 +40,10 @@ export class MaterialBatchReceiptView extends ibas.BODialogView implements IMate
                 type: sap.m.ButtonType.Transparent,
                 // icon: "sap-icon://accept",
                 press: function (): void {
-                    // that.fireViewEvents(that.chooseDataEvent,
+                     that.fireViewEvents(that.callBackDataEvent
                     //     // 获取表格选中的对象
                     //     utils.getTableSelecteds<bo.MaterialBatch>(that.table)
-                    // );
+                    );
                 }
             }),
             new sap.m.Button("", {

@@ -19,7 +19,9 @@ import {
     BODocumentLine,
     BOSimple,
     BOSimpleLine,
+    strings,
     config,
+    objects,
 } from "ibas/index";
 import {
     IMaterialBatchInput,
@@ -162,8 +164,37 @@ export class MaterialBatchInputBatchJournals extends BusinessObjects<MaterialBat
     /** 创建并添加子项 */
     create(): MaterialBatchJournal {
         let item: MaterialBatchJournal = new MaterialBatchJournal();
+        item.quantity = 0;
         this.add(item);
         return item;
+    }
+    /** 监听子项属性改变 */
+    protected onChildPropertyChanged(item: MaterialBatchJournal, name: string): void {
+        super.onChildPropertyChanged(item, name);
+        if (strings.equalsIgnoreCase(name, MaterialBatchJournal.PROPERTY_QUANTITY_NAME)) {
+            let totalQuantity: number = 0;
+            for (let batchJournalLine of this.filterDeleted()) {
+                if (objects.isNull(batchJournalLine.quantity)) {
+                    batchJournalLine.quantity = 0;
+                }
+                totalQuantity = Number(totalQuantity) + Number(batchJournalLine.quantity);
+            }
+            this.parent.selectedQuantity = totalQuantity;
+            this.parent.needQuantity = Number(this.parent.quantity) - Number(totalQuantity);
+        }
+    }
+    /** 移除子项 */
+    protected afterRemove(item: MaterialBatchJournal): void {
+        super.afterRemove(item);
+        if (this.parent.materialBatchInputBatchJournals.length === 0) {
+            this.parent.needQuantity = this.parent.quantity;
+            this.parent.selectedQuantity = 0;
+        } else {
+            if (!isNaN(item.quantity)) {
+                this.parent.selectedQuantity = Number(this.parent.selectedQuantity) - Number(item.quantity);
+                this.parent.needQuantity = Number(this.parent.needQuantity) + Number(item.quantity);
+            }
+        }
     }
 }
 /** 序列日记账 集合 */
