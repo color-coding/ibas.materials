@@ -56,7 +56,8 @@
   "materials_app_materialserialissue": "序列号选择",
   "materials_app_materialerialreceipt": "序列号设置",
   "materials_closing_delimiter": "----结束----",
-  "sys_shell_data_autoselect":"自动选择",
+  "materials_sys_autoselect":"自动选择",
+  "materials_sys_autocreate":"自动创建",
   "materials_data_batch_serial": "批次/序列",
   "materials_app_batch_serial_choose_journal": "请选择凭证行"
 }

@@ -33,7 +33,7 @@ export class MaterialBatchIssueView extends ibas.BODialogView implements IMateri
         let that: this = this;
         return [
             new sap.m.Button("", {
-                text: ibas.i18n.prop("sys_shell_data_autoselect"),
+                text: ibas.i18n.prop("materials_sys_autoselect"),
                 type: sap.m.ButtonType.Transparent,
                 press: function (): void {
                     that.fireViewEvents(that.closeEvent

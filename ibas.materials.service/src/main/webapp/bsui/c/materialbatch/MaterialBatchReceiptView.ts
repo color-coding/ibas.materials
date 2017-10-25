@@ -15,12 +15,24 @@ export class MaterialBatchReceiptView extends ibas.BODialogView implements IMate
     addBatchEvent: Function;
     /** 移除批次事件 */
     removeBatchEvent: Function;
+    /** 自动创建批次事件 */
+    autoCreateBatchEvent: Function;
+
     private mainLayout: sap.ui.layout.VerticalLayout;
     private journalLineTable: sap.ui.table.Table;
     /** 绘制工具条 */
     darwBars(): any {
         let that: this = this;
         return [
+            new sap.m.Button("", {
+                text: ibas.i18n.prop("materials_sys_autocreate"),
+                type: sap.m.ButtonType.Transparent,
+                // icon: "sap-icon://inspect-down",
+                press: function (): void {
+                    that.fireViewEvents(that.autoCreateBatchEvent,
+                    );
+                }
+            }),
             new sap.m.Button("", {
                 text: ibas.i18n.prop("sys_shell_data_save"),
                 type: sap.m.ButtonType.Transparent,
@@ -37,7 +49,9 @@ export class MaterialBatchReceiptView extends ibas.BODialogView implements IMate
                 type: sap.m.ButtonType.Transparent,
                 // icon: "sap-icon://inspect-down",
                 press: function (): void {
-                    that.fireViewEvents(that.closeEvent);
+                    that.fireViewEvents(that.closeEvent,
+                        utils.getTableSelecteds<bo.MaterialBatchInput>(that.journalLineTable).firstOrDefault()
+                    );
                 }
             }),
         ];
@@ -45,7 +59,7 @@ export class MaterialBatchReceiptView extends ibas.BODialogView implements IMate
     /** 绘制视图 */
     darw(): any {
         let that: this = this;
-        this.table =  new sap.ui.table.Table("", {
+        this.table = new sap.ui.table.Table("", {
             extension: new sap.m.Toolbar("", {
                 content: [
                     new sap.m.Button("", {
@@ -63,7 +77,7 @@ export class MaterialBatchReceiptView extends ibas.BODialogView implements IMate
                         icon: "sap-icon://less",
                         press: function (): void {
                             that.fireViewEvents(that.removeBatchEvent,
-                                // 获取表格选中的对象
+                                utils.getTableSelecteds<bo.MaterialBatchInput>(that.journalLineTable).firstOrDefault(),
                                 utils.getTableSelecteds<bo.MaterialBatch>(that.table)
                             );
                         }
@@ -117,7 +131,7 @@ export class MaterialBatchReceiptView extends ibas.BODialogView implements IMate
                 }),
             ]
         });
-        this.journalLineTable = new sap.ui.table.Table("",{
+        this.journalLineTable = new sap.ui.table.Table("", {
             enableSelectAll: false,
             visibleRowCount: ibas.config.get(utils.CONFIG_ITEM_LIST_TABLE_VISIBLE_ROW_COUNT, 8),
             visibleRowCountMode: sap.ui.table.VisibleRowCountMode.Interactive,
@@ -177,7 +191,7 @@ export class MaterialBatchReceiptView extends ibas.BODialogView implements IMate
                 }),
             ]
         });
-        this.mainLayout = new sap.ui.layout.VerticalLayout("",{
+        this.mainLayout = new sap.ui.layout.VerticalLayout("", {
             content: [
                 this.journalLineTable,
                 this.table
@@ -195,8 +209,12 @@ export class MaterialBatchReceiptView extends ibas.BODialogView implements IMate
         utils.refreshModelChanged(this.table, datas);
     }
     showJournalLineData(datas: bo.MaterialBatchInput[]): void {
-        this.journalLineTable.setModel(new sap.ui.model.json.JSONModel({journallinedata: datas}));
-        utils.refreshModelChanged(this.journalLineTable,datas);
+        this.journalLineTable.setModel(new sap.ui.model.json.JSONModel({ journallinedata: datas }));
+        utils.refreshModelChanged(this.journalLineTable, datas);
+    }
+    getSelectedRemoveData(): bo.MaterialBatchInput {
+        let batch: bo.MaterialBatchInput = utils.getTableSelecteds<bo.MaterialBatchInput>(this.journalLineTable).firstOrDefault();
+        return batch;
     }
     private lastCriteria: ibas.ICriteria;
 

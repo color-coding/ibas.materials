@@ -27,14 +27,14 @@ export class MaterialBatchReceiptApp extends ibas.BOApplication<IMaterialBatchRe
 
     /** 服务输入数据 */
     protected inputData: bo.MaterialBatchInput[];
-    /** 待编辑的数据 */
-    protected editData: bo.MaterialBatchJournal[];
+
     /** 注册视图 */
     protected registerView(): void {
         super.registerView();
         // 其他事件
         this.view.addBatchEvent = this.addBatch;
         this.view.removeBatchEvent = this.removeBatch;
+        this.view.autoCreateBatchEvent = this.autoCreateBatch;
     }
     protected addBatch(select: bo.MaterialBatchInput): void {
         // 确认选择了凭证信息
@@ -46,15 +46,13 @@ export class MaterialBatchReceiptApp extends ibas.BOApplication<IMaterialBatchRe
         }
         // 找到输入数据的批次集合
         let item: bo.MaterialBatchInput = this.inputData.find(c => c.index === select.index);
-        // if (!ibas.objects.isNull(item.materialBatchInputBatchJournals) ||
-        //     item.materialBatchInputBatchJournals === undefined) {
-        //     item.materialBatchInputBatchJournals = new ibas.ArrayList<bo.MaterialBatchJournal>();
-        // }
         item.materialBatchInputBatchJournals.create();
         // 仅显示没有标记删除的
-        this.view.showData(item.materialBatchInputBatchJournals);
+        this.view.showData(item.materialBatchInputBatchJournals.filterDeleted());
     }
-    protected removeBatch(items: bo.MaterialBatchJournal[]): void {
+
+    protected removeBatch(batch: bo.MaterialBatchInput,items: bo.MaterialBatchJournal[]): void {
+
         // 非数组，转为数组
         if (!(items instanceof Array)) {
             items = [items];
@@ -62,12 +60,14 @@ export class MaterialBatchReceiptApp extends ibas.BOApplication<IMaterialBatchRe
         if (items.length === 0) {
             return;
         }
+        // 找到输入数据的批次集合
+        let batchData: bo.MaterialBatchInput = this.inputData.find(c => c.index === batch.index);
         // 移除项目
         for (let item of items) {
-            if (this.editData.indexOf(item) >= 0) {
+            if (batchData.materialBatchInputBatchJournals.indexOf(item) >= 0) {
                 if (item.isNew) {
                     // 新建的移除集合
-                    // this.editData.remove(item);
+                      batchData.materialBatchInputBatchJournals.remove(item);
                 } else {
                     // 非新建标记删除
                     item.delete();
@@ -75,7 +75,23 @@ export class MaterialBatchReceiptApp extends ibas.BOApplication<IMaterialBatchRe
             }
         }
         // 仅显示没有标记删除的
-        this.view.showData(this.editData);
+        this.view.showData(batchData.materialBatchInputBatchJournals);
+    }
+
+    protected autoCreateBatch(item: bo.MaterialBatchInput): void {
+        let batchLine: bo.MaterialBatchJournal = item.materialBatchInputBatchJournals.create();
+        let allcationQuantity: number = 0;
+        // 如果该凭证已经开始创建批次
+        if (item.materialBatchInputBatchJournals.length !== 0) {
+            for (let batch of item.materialBatchInputBatchJournals) {
+                allcationQuantity = allcationQuantity + batch.quantity;
+            }
+            batchLine.quantity = item.needQuantity - allcationQuantity;
+        } else {
+            batchLine.quantity = item.needQuantity;
+        }
+        // this.editData
+        this.view.showData(item.materialBatchInputBatchJournals);
     }
     /** 运行,覆盖原方法 */
     run(...args: any[]): void {
@@ -109,6 +125,8 @@ export interface IMaterialBatchReceiptView extends ibas.IBOView {
     addBatchEvent: Function;
     /** 移除批次事件 */
     removeBatchEvent: Function;
+    /** 自动创建批次事件 */
+    autoCreateBatchEvent: Function;
 }
 
 /** 新建批次服务映射 */
