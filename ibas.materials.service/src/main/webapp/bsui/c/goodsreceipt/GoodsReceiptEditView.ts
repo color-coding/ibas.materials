@@ -358,6 +358,8 @@ export class GoodsReceiptEditView extends ibas.BOEditView implements IGoodsRecei
         let inputData: bo.MaterialBatchInput[] = new Array<bo.MaterialBatchInput>();
         for(let line of goodReceiptLines) {
             let input: bo.MaterialBatchInput = new bo.MaterialBatchInput();
+            let goodReceipts: bo.GoodsReceipt = new bo.GoodsReceipt();
+            input.index = goodReceiptLines.indexOf(line);
             input.itemCode = line.itemCode;
             input.quantity = line.quantity;
             input.warehouse = line.warehouse;

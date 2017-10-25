@@ -129,10 +129,6 @@ export class MaterialBatchInput extends BOSimple<MaterialBatchInput> implements 
         this.setProperty(MaterialBatchInput.PROPERTY_OBJECTKEY_NAME, value);
     }
 
-    /** 初始化数据 */
-    protected init(): void {
-        // this.objectCode = config.applyVariables(MaterialBatchInput.BUSINESS_OBJECT_CODE);
-    }
     /** 映射的属性名称-库存发货-行-序列号集合 */
     static PROPERTY_MATERIALBATCHINPUTBATCHJOURNALS_NAME: string = "MaterialBatchInputBatchJournals";
     /** 获取-库存发货-行-序列号集合 */
@@ -146,32 +142,37 @@ export class MaterialBatchInput extends BOSimple<MaterialBatchInput> implements 
     /** 映射的属性名称-行-批次集合 */
     static PROPERTY_MATERIALBATCHINPUTSERIALJOURNALS_NAME: string = "MaterialBatchInputSerialJournals";
     /** 获取-行-序列号集合 */
-    get goodsIssueMaterialBatchJournals(): MaterialBatchInputSerialJournals {
+    get materialBatchInputSerialJournals(): MaterialBatchInputSerialJournals {
         return this.getProperty<MaterialBatchInputSerialJournals>(MaterialBatchInput.PROPERTY_MATERIALBATCHINPUTSERIALJOURNALS_NAME);
     }
     /** 设置-行-序列号集合 */
     set materialBatchInputSerialJournals(value: MaterialBatchInputSerialJournals) {
         this.setProperty(MaterialBatchInput.PROPERTY_MATERIALBATCHINPUTSERIALJOURNALS_NAME, value);
     }
+    /** 初始化数据 */
+    protected init(): void {
+        this.materialBatchInputBatchJournals = new MaterialBatchInputBatchJournals(this);
+        this.materialBatchInputSerialJournals = new MaterialBatchInputSerialJournals(this);
+    }
 }
 
 /** 批次日记账 集合 */
-export class MaterialBatchInputBatchJournals extends BusinessObjects<MaterialBatchJournal,MaterialBatchInput>
-                                             implements IMaterialBatchInputBatchJournals {
+export class MaterialBatchInputBatchJournals extends BusinessObjects<MaterialBatchJournal, MaterialBatchInput>
+    implements IMaterialBatchInputBatchJournals {
     /** 创建并添加子项 */
     create(): MaterialBatchJournal {
-    let item: MaterialBatchJournal = new MaterialBatchJournal();
-    this.add(item);
-    return item;
+        let item: MaterialBatchJournal = new MaterialBatchJournal();
+        this.add(item);
+        return item;
     }
 }
 /** 序列日记账 集合 */
-export class MaterialBatchInputSerialJournals extends BusinessObjects<MaterialSerialJournal,MaterialBatchInput>
-                                              implements IMaterialBatchInputSerialJournals {
+export class MaterialBatchInputSerialJournals extends BusinessObjects<MaterialSerialJournal, MaterialBatchInput>
+    implements IMaterialBatchInputSerialJournals {
     /** 创建并添加子项 */
     create(): MaterialSerialJournal {
-    let item: MaterialSerialJournal = new MaterialSerialJournal();
-    this.add(item);
-    return item;
+        let item: MaterialSerialJournal = new MaterialSerialJournal();
+        this.add(item);
+        return item;
     }
 }

@@ -266,7 +266,7 @@ export class GoodsIssueEditApp extends ibas.BOEditApplication<IGoodsIssueEditVie
             }
         });
     }
-    selectGoodsIssueLineMaterialBatch(caller: ibas.List<bo.GoodsIssueLine>): void {
+    selectGoodsIssueLineMaterialBatch(caller: ibas.List<bo.MaterialBatchInput>): void {
         if (ibas.objects.isNull(caller) || caller.length === 0) {
             this.messages(ibas.emMessageType.WARNING, ibas.i18n.prop("sys_shell_please_chooose_data",
                 ibas.i18n.prop("sys_shell_data_edit")
@@ -279,7 +279,7 @@ export class GoodsIssueEditApp extends ibas.BOEditApplication<IGoodsIssueEditVie
             boCode: bo.MaterialBatchJournal.BUSINESS_OBJECT_ISSUE_CODE,
             criteria: [
             ],
-            onCompleted(selecteds: ibas.List<bo.MaterialBatchJournal>): void {
+            onCompleted(callbackData: ibas.List<bo.MaterialBatchJournal>): void {
                 //
             }
         });

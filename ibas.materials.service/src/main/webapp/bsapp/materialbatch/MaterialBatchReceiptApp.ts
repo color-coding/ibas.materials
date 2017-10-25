@@ -44,13 +44,15 @@ export class MaterialBatchReceiptApp extends ibas.BOApplication<IMaterialBatchRe
             ));
             return;
         }
-        if (ibas.objects.isNull(this.editData)) {
-            this.editData = [];
-        }
-        let materialBatch: bo.MaterialBatchJournal = new bo.MaterialBatchJournal();
-        this.editData.push(materialBatch);
+        // 找到输入数据的批次集合
+        let item: bo.MaterialBatchInput = this.inputData.find(c => c.index === select.index);
+        // if (!ibas.objects.isNull(item.materialBatchInputBatchJournals) ||
+        //     item.materialBatchInputBatchJournals === undefined) {
+        //     item.materialBatchInputBatchJournals = new ibas.ArrayList<bo.MaterialBatchJournal>();
+        // }
+        item.materialBatchInputBatchJournals.create();
         // 仅显示没有标记删除的
-        this.view.showData(this.editData);
+        this.view.showData(item.materialBatchInputBatchJournals);
     }
     protected removeBatch(items: bo.MaterialBatchJournal[]): void {
         // 非数组，转为数组

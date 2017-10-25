@@ -884,10 +884,6 @@ export class GoodsIssueLine extends BODocumentLine<GoodsIssueLine> implements IG
     set project(value: string) {
         this.setProperty(GoodsIssueLine.PROPERTY_PROJECT_NAME, value);
     }
-    /** 初始化数据 */
-    protected init(): void {
-        this.objectCode = config.applyVariables(GoodsIssue.BUSINESS_OBJECT_CODE);
-    }
     /** 映射的属性名称-库存发货-行-序列号集合 */
     static PROPERTY_GOODSISSUEMATERIALSERIALJOURNALS_NAME: string = "GoodsIssueMaterialSerialJournals";
     /** 获取-库存发货-行-序列号集合 */
@@ -908,6 +904,11 @@ export class GoodsIssueLine extends BODocumentLine<GoodsIssueLine> implements IG
     set goodsIssueMaterialBatchJournals(value: GoodsIssueMaterialBatchJournals) {
         this.setProperty(GoodsIssueLine.PROPERTY_GOODSISSUEMATERIALBATCHJOURNALS_NAME, value);
     }
-
+    /** 初始化数据 */
+    protected init(): void {
+        this.goodsIssueMaterialBatchJournals = new GoodsIssueMaterialBatchJournals(this);
+        this.goodsIssueMaterialSerialJournals = new GoodsIssueMaterialSerialJournals(this);
+        this.objectCode = config.applyVariables(GoodsIssue.BUSINESS_OBJECT_CODE);
+    }
 }
 

@@ -267,7 +267,7 @@ export class GoodsReceiptEditApp extends ibas.BOEditApplication<IGoodsReceiptEdi
         });
     }
     /** 新建物料批次信息 */
-    newGoodsReceiptLineMaterialBatch(caller: ibas.List<bo.GoodsReceiptLine>): void {
+    newGoodsReceiptLineMaterialBatch(caller: ibas.List<bo.MaterialBatchJournal>): void {
         if (ibas.objects.isNull(caller) || caller.length === 0) {
             this.messages(ibas.emMessageType.WARNING, ibas.i18n.prop("sys_shell_please_chooose_data",
                 ibas.i18n.prop("sys_shell_data_edit")
@@ -280,8 +280,9 @@ export class GoodsReceiptEditApp extends ibas.BOEditApplication<IGoodsReceiptEdi
             boCode: bo.MaterialBatch.BUSINESS_OBJECT_RECEIEPT_CODE,
             criteria: [
             ],
-            onCompleted(selecteds: ibas.List<bo.MaterialBatchJournal>): void {
+            onCompleted(callbackData: ibas.List<bo.MaterialBatchJournal>): void {
                 // 获取触发的对象
+                // for(let )
                 // let index: number = that.editData.goodsReceiptLines.indexOf(caller);
                 // let item: bo.GoodsReceiptLine = that.editData.goodsReceiptLines[index];
                 // // 选择返回数量多余触发数量时,自动创建新的项目
@@ -291,6 +292,7 @@ export class GoodsReceiptEditApp extends ibas.BOEditApplication<IGoodsReceiptEdi
                 //         item = that.editData.goodsReceiptLines.create();
                 //         created = true;
                 //     }
+                //
                 //     item = null;
                 // }
                 // if (created) {
