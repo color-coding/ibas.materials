@@ -277,8 +277,14 @@ export class GoodsReceiptEditApp extends ibas.BOEditApplication<IGoodsReceiptEdi
             return;
         }
         let that: this = this;
+        // caller 与 batchSerialData 比较，更新batchSerialData的值
+        if (!ibas.objects.isNull(that.batchSerialData)) {
+            that.batchSerialData = that.updateBatchSerialData(caller);
+        } else {
+            that.batchSerialData = caller;
+        }
         ibas.servicesManager.runChooseService<bo.MaterialBatchInput>({
-            caller: caller,
+            caller: that.batchSerialData,
             boCode: bo.MaterialBatch.BUSINESS_OBJECT_RECEIEPT_CODE,
             criteria: [
             ],
@@ -289,9 +295,9 @@ export class GoodsReceiptEditApp extends ibas.BOEditApplication<IGoodsReceiptEdi
                     let item: bo.GoodsReceiptLine = that.editData.goodsReceiptLines[line.index];
                     // 待处理： 更新时如何处理原来的数据
                     for (let batch of line.materialBatchInputBatchJournals.filterDeleted()) {
-                        let batchLine:bo.MaterialBatchJournal = item.goodsReceiptMaterialBatchJournals.create();
+                        let batchLine: bo.MaterialBatchJournal = item.goodsReceiptMaterialBatchJournals.create();
                         batchLine.itemCode = batch.itemCode;
-                        batchLine.warehouse= batch.warehouse;
+                        batchLine.warehouse = batch.warehouse;
                         batchLine.quantity = batch.quantity;
                         batchLine.admissionDate = batch.admissionDate;
                         batchLine.expirationDate = batch.expirationDate;
@@ -300,6 +306,21 @@ export class GoodsReceiptEditApp extends ibas.BOEditApplication<IGoodsReceiptEdi
                 }
             }
         });
+    }
+
+    updateBatchSerialData(data: bo.MaterialBatchInput[]): bo.MaterialBatchInput[] {
+        for (let newItem of data) {
+            let item: bo.MaterialBatchInput = this.batchSerialData[newItem.index];
+            if (!ibas.objects.isNull(item)) {
+                // 更新数量、总需求
+                let changeData: number = newItem.quantity - item.quantity;
+                item.needQuantity += changeData;
+                item.quantity += changeData;
+            } else {
+                this.batchSerialData.push(newItem);
+            }
+        }
+        return this.batchSerialData;
     }
 
 }

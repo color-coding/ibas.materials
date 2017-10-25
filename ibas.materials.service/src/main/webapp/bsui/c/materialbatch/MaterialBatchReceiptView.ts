@@ -173,7 +173,7 @@ export class MaterialBatchReceiptView extends ibas.BODialogView implements IMate
                     }),
                 }),
                 new sap.ui.table.Column("", {
-                    label: ibas.i18n.prop("bo_materialbatchjournal_selectedquantity"),
+                    label: ibas.i18n.prop("bo_materialbatchjournal_createdquantity"),
                     template: new sap.m.Text("", {
                         wrapping: false,
                     }).bindProperty("text", {
