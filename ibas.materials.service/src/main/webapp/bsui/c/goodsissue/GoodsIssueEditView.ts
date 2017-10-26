@@ -359,10 +359,12 @@ export class GoodsIssueEditView extends ibas.BOEditView implements IGoodsIssueEd
         let inputData: bo.MaterialBatchInput[] = new Array<bo.MaterialBatchInput>();
         for(let line of goodIssueLines) {
             let input: bo.MaterialBatchInput = new bo.MaterialBatchInput();
+            let goodReceipts: bo.GoodsReceipt = new bo.GoodsReceipt();
+            input.index = goodIssueLines.indexOf(line);
             input.itemCode = line.itemCode;
             input.quantity = line.quantity;
             input.warehouse = line.warehouse;
-            input.direction = ibas.emDirection.OUT;
+            input.direction = ibas.emDirection.IN;
             input.needQuantity = line.quantity;
             input.selectedQuantity = 0;
             inputData.push(input);

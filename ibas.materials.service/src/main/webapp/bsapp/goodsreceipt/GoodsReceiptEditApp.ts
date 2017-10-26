@@ -285,7 +285,7 @@ export class GoodsReceiptEditApp extends ibas.BOEditApplication<IGoodsReceiptEdi
         }
         ibas.servicesManager.runChooseService<bo.MaterialBatchInput>({
             caller: that.batchSerialData,
-            boCode: bo.MaterialBatch.BUSINESS_OBJECT_RECEIEPT_CODE,
+            boCode: bo.MaterialBatchJournal.BUSINESS_OBJECT_RECEIEPT_CODE,
             criteria: [
             ],
             onCompleted(callbackData: ibas.List<bo.MaterialBatchInput>): void {
@@ -296,6 +296,7 @@ export class GoodsReceiptEditApp extends ibas.BOEditApplication<IGoodsReceiptEdi
                     // 待处理： 更新时如何处理原来的数据
                     for (let batch of line.materialBatchInputBatchJournals.filterDeleted()) {
                         let batchLine: bo.MaterialBatchJournal = item.goodsReceiptMaterialBatchJournals.create();
+                        batchLine.batchCode = batch.batchCode;
                         batchLine.itemCode = batch.itemCode;
                         batchLine.warehouse = batch.warehouse;
                         batchLine.quantity = batch.quantity;
@@ -307,15 +308,15 @@ export class GoodsReceiptEditApp extends ibas.BOEditApplication<IGoodsReceiptEdi
             }
         });
     }
-
+    /** 更新数量信息 */
     updateBatchSerialData(data: bo.MaterialBatchInput[]): bo.MaterialBatchInput[] {
         for (let newItem of data) {
             let item: bo.MaterialBatchInput = this.batchSerialData[newItem.index];
             if (!ibas.objects.isNull(item)) {
                 // 更新数量、总需求
-                let changeData: number = newItem.quantity - item.quantity;
-                item.needQuantity += changeData;
-                item.quantity += changeData;
+                let changeData: number = Number(newItem.quantity) - Number(item.quantity);
+                item.needQuantity = Number(item.needQuantity) + Number(changeData);
+                item.quantity = Number(item.quantity) + Number(changeData);
             } else {
                 this.batchSerialData.push(newItem);
             }

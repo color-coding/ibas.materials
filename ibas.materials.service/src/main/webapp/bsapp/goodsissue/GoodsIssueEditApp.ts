@@ -88,6 +88,8 @@ export class GoodsIssueEditApp extends ibas.BOEditApplication<IGoodsIssueEditVie
         }
         super.run();
     }
+    /** 批次序列输入输出数据 */
+    protected batchSerialData: bo.MaterialBatchInput[];
     /** 待编辑的数据 */
     protected editData: bo.GoodsIssue;
     /** 保存数据 */
@@ -274,15 +276,52 @@ export class GoodsIssueEditApp extends ibas.BOEditApplication<IGoodsIssueEditVie
             return;
         }
         let that: this = this;
-        ibas.servicesManager.runChooseService<bo.MaterialBatchJournal>({
+         // caller 与 batchSerialData 比较，更新batchSerialData的值
+         if (!ibas.objects.isNull(that.batchSerialData)) {
+            that.batchSerialData = that.updateBatchSerialData(caller);
+        } else {
+            that.batchSerialData = caller;
+        }
+        ibas.servicesManager.runChooseService<bo.MaterialBatchInput>({
             caller: caller,
             boCode: bo.MaterialBatchJournal.BUSINESS_OBJECT_ISSUE_CODE,
             criteria: [
             ],
-            onCompleted(callbackData: ibas.List<bo.MaterialBatchJournal>): void {
-                //
+            onCompleted(callbackData: ibas.List<bo.MaterialBatchInput>): void {
+                // that.batchSerialData = callbackData;
+                // 获取触发的对象
+                for (let line of callbackData) {
+                    let item: bo.GoodsIssueLine = that.editData.goodsIssueLines[line.index];
+                    // 待处理： 更新时如何处理原来的数据
+                    for (let batch of line.materialBatchInputBatchJournals.filterDeleted()) {
+                        let batchLine: bo.MaterialBatchJournal = item.goodsIssueMaterialBatchJournals.create();
+                        batchLine.batchCode = batch.batchCode;
+                        batchLine.itemCode = batch.itemCode;
+                        batchLine.warehouse = batch.warehouse;
+                        batchLine.quantity = batch.quantity;
+                        batchLine.admissionDate = batch.admissionDate;
+                        batchLine.expirationDate = batch.expirationDate;
+                        batchLine.manufacturingDate = batch.manufacturingDate;
+                    }
+                }
             }
         });
+    }
+
+    /** 更新数量信息 */
+    updateBatchSerialData(data: bo.MaterialBatchInput[]): bo.MaterialBatchInput[] {
+        for (let newItem of data) {
+            let item: bo.MaterialBatchInput = this.batchSerialData[newItem.index];
+            if (!ibas.objects.isNull(item)) {
+                // 更新数量、总需求
+                let changeData: number = Number(newItem.quantity) - Number(item.quantity);
+                item.needQuantity = Number(item.needQuantity)+ Number(changeData);
+                item.quantity = Number(item.quantity) + Number(changeData);
+            } else {
+                this.batchSerialData.push(newItem);
+            }
+        }
+        return this.batchSerialData;
     }
 }
 

@@ -36,7 +36,7 @@ export class MaterialBatchReceiptApp extends ibas.BOApplication<IMaterialBatchRe
         this.view.addBatchEvent = this.addBatch;
         this.view.removeBatchEvent = this.removeBatch;
         this.view.autoCreateBatchEvent = this.autoCreateBatch;
-        this.view.callBackDataEvent = this.callBackData;
+        this.view.saveDataEvent = this.saveData;
     }
     protected addBatch(select: bo.MaterialBatchInput): void {
         // 确认选择了凭证信息
@@ -129,7 +129,7 @@ export class MaterialBatchReceiptApp extends ibas.BOApplication<IMaterialBatchRe
         if (arguments[0].caller.length >= 1) {
             that.inputData = arguments[0].caller;
         }
-         this.onCompleted = arguments[0].onCompleted;
+        this.onCompleted = arguments[0].onCompleted;
         super.run();
     }
     /** 视图显示后 */
@@ -138,7 +138,7 @@ export class MaterialBatchReceiptApp extends ibas.BOApplication<IMaterialBatchRe
         this.view.showJournalLineData(this.inputData);
     }
 
-    protected callBackData(): void {
+    protected saveData(): void {
         this.fireCompleted(this.inputData);
     }
     /** 触发完成事件 */
@@ -186,7 +186,7 @@ export interface IMaterialBatchReceiptView extends ibas.IBOView {
     /** 自动创建批次事件 */
     autoCreateBatchEvent: Function;
     /** 返回数据 */
-    callBackDataEvent: Function;
+    saveDataEvent: Function;
 }
 
 /** 新建批次服务映射 */

@@ -19,6 +19,8 @@ export class MaterialBatchIssueView extends ibas.BODialogView implements IMateri
     addBatchMaterialBatchEvent: Function;
     /** 移除选择的批次事件 */
     removeBatchMaterialBatchEvent: Function;
+    /** 保存回调 */
+    saveDataEvent: Function;
     // 控件
     private mainLayout: sap.ui.layout.VerticalLayout;
     private journalLineTable: sap.ui.table.Table;
@@ -36,9 +38,9 @@ export class MaterialBatchIssueView extends ibas.BODialogView implements IMateri
                 text: ibas.i18n.prop("materials_sys_autoselect"),
                 type: sap.m.ButtonType.Transparent,
                 press: function (): void {
-                    that.fireViewEvents(that.closeEvent
+                    that.fireViewEvents(that.autoSelectMaterialBatchEvent,
                         // 获取表格选中的对象
-                        // utils.getTableSelecteds<bo.MaterialBatch>(that.table)
+                         utils.getTableSelecteds<bo.MaterialBatchInput>(that.journalLineTable).firstOrDefault()
                     );
                 }
             }),
@@ -47,10 +49,10 @@ export class MaterialBatchIssueView extends ibas.BODialogView implements IMateri
                 type: sap.m.ButtonType.Transparent,
                 // icon: "sap-icon://accept",
                 press: function (): void {
-                    // that.fireViewEvents(that.chooseDataEvent,
-                    //     // 获取表格选中的对象
-                    //     // utils.getTableSelecteds<bo.MaterialBatch>(that.table)
-                    // );
+                    that.fireViewEvents(that.saveDataEvent,
+                        // 获取表格选中的对象
+                        // utils.getTableSelecteds<bo.MaterialBatch>(that.table)
+                    );
                 }
             }),
             new sap.m.Button("", {
@@ -133,18 +135,18 @@ export class MaterialBatchIssueView extends ibas.BODialogView implements IMateri
             columns: [
                 new sap.ui.table.Column("", {
                     label: ibas.i18n.prop("bo_materialbatchjournal_batchcode"),
-                    template: new sap.m.Input("", {
-                        width: "100%",
-                    }).bindProperty("value", {
+                    template: new sap.m.Text("", {
+                        wrapping: false,
+                    }).bindProperty("text", {
                         path: "BatchCode"
                     })
                 }),
                 new sap.ui.table.Column("", {
                     label: ibas.i18n.prop("bo_materialbatchjournal_quantitycanuse"),
-                    template: new sap.m.Input("", {
-                        width: "100%",
+                    template: new sap.m.Text("", {
+                        wrapping: false,
                         type: sap.m.InputType.Number
-                    }).bindProperty("value", {
+                    }).bindProperty("text", {
                         path: "quantity"
                     })
                 }),
@@ -157,18 +159,18 @@ export class MaterialBatchIssueView extends ibas.BODialogView implements IMateri
             columns: [
                 new sap.ui.table.Column("", {
                     label: ibas.i18n.prop("bo_materialbatchjournal_batchcode"),
-                    template: new sap.m.Input("", {
-                        width: "100%",
-                    }).bindProperty("value", {
+                    template: new sap.m.Text("", {
+                        wrapping: false,
+                    }).bindProperty("text", {
                         path: "BatchCode"
                     })
                 }),
                 new sap.ui.table.Column("", {
                     label: ibas.i18n.prop("bo_materialbatchjournal_quantitychoosed"),
-                    template: new sap.m.Input("", {
-                        width: "100%",
+                    template: new sap.m.Text("", {
+                        wrapping: false,
                         type: sap.m.InputType.Number
-                    }).bindProperty("value", {
+                    }).bindProperty("text", {
                         path: "quantity"
                     })
                 }),
@@ -177,10 +179,24 @@ export class MaterialBatchIssueView extends ibas.BODialogView implements IMateri
         this.actionLayout = new sap.ui.layout.form.SimpleForm("",{
             content: [
                 new sap.m.Button("",{
-                    text: "<"
+                    text: "<",
+                    press: function (): void {
+                        that.fireViewEvents(that.removeBatchMaterialBatchEvent,
+                            // 获取表格选中的对象
+                             utils.getTableSelecteds<bo.MaterialBatchInput>(that.journalLineTable).firstOrDefault(),
+                             utils.getTableSelecteds<bo.MaterialBatchJournal>(that.rightTable),
+                        );
+                    }
                 }),
                 new sap.m.Button("",{
-                    text: ">"
+                    text: ">",
+                    press: function (): void {
+                        that.fireViewEvents(that.addBatchMaterialBatchEvent,
+                            // 获取表格选中的对象
+                             utils.getTableSelecteds<bo.MaterialBatchInput>(that.journalLineTable).firstOrDefault(),
+                             utils.getTableSelecteds<bo.MaterialBatch>(that.leftTable),
+                        );
+                    }
                 })
             ]
         });
@@ -240,15 +256,13 @@ export class MaterialBatchIssueView extends ibas.BODialogView implements IMateri
         this.journalLineTable.setModel(new sap.ui.model.json.JSONModel({journallinedata: datas}));
         utils.refreshModelChanged(this.journalLineTable,datas);
     }
-    showLeftData(datas: bo.MaterialBatchJournal[]): void {
+    showLeftData(datas: bo.MaterialBatch[]): void {
         this.leftTable.setModel(new sap.ui.model.json.JSONModel({ leftrows: datas }));
-        // this.table.bindObject("/");
         // 监听属性改变，并更新控件
         utils.refreshModelChanged(this.leftTable, datas);
     }
     showRightData(datas: bo.MaterialBatchJournal[]): void {
         this.rightTable.setModel(new sap.ui.model.json.JSONModel({ rightrows: datas }));
-        // this.table.bindObject("/");
         // 监听属性改变，并更新控件
         utils.refreshModelChanged(this.rightTable, datas);
     }
