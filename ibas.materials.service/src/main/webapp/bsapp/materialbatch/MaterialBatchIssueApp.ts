@@ -52,6 +52,9 @@ export class MaterialBatchIssueApp extends ibas.BOApplication<IMaterialBatchIssu
     }
     /** 选择凭证行事件 -更新可用批次 */
     protected selectMaterialBatchJournalLine(selected: bo.MaterialBatchInput): void {
+        if (ibas.objects.isNull(selected)) {
+            return;
+        }
         let that: this = this;
         // 根据物料查询可用批次
         let criteria: ibas.ICriteria = new ibas.Criteria();
@@ -61,6 +64,7 @@ export class MaterialBatchIssueApp extends ibas.BOApplication<IMaterialBatchIssu
         condition = new ibas.Condition(bo.MaterialBatch.PROPERTY_WAREHOUSE_NAME, ibas.emConditionOperation.EQUAL, selected.warehouse);
         condition.relationship = ibas.emConditionRelationship.AND;
         that.fetchBatchData(criteria, selected);
+        that.view.showRightData(selected.materialBatchInputBatchJournals);
     }
     protected autoSelectMaterialBatch(selected: bo.MaterialBatchInput): void {
         // 未选择凭证行

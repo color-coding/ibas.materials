@@ -40,9 +40,9 @@ export class MaterialBatchReceiptView extends ibas.BODialogView implements IMate
                 type: sap.m.ButtonType.Transparent,
                 // icon: "sap-icon://accept",
                 press: function (): void {
-                     that.fireViewEvents(that.saveDataEvent
-                    //     // 获取表格选中的对象
-                    //     utils.getTableSelecteds<bo.MaterialBatch>(that.table)
+                    that.fireViewEvents(that.saveDataEvent
+                        //     // 获取表格选中的对象
+                        //     utils.getTableSelecteds<bo.MaterialBatch>(that.table)
                     );
                 }
             }),
@@ -134,9 +134,9 @@ export class MaterialBatchReceiptView extends ibas.BODialogView implements IMate
         });
         this.journalLineTable = new sap.ui.table.Table("", {
             enableSelectAll: false,
+            selectionMode: sap.ui.table.SelectionMode.Single,
             visibleRowCount: ibas.config.get(utils.CONFIG_ITEM_LIST_TABLE_VISIBLE_ROW_COUNT, 8),
             visibleRowCountMode: sap.ui.table.VisibleRowCountMode.Interactive,
-            // press:
             rows: "{/journallinedata}",
             columns: [
                 new sap.ui.table.Column("", {

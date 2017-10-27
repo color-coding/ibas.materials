@@ -11,7 +11,6 @@ import { utils } from "openui5/typings/ibas.utils";
 import * as bo from "../../../borep/bo/index";
 import { IGoodsIssueEditView } from "../../../bsapp/goodsissue/index";
 export class GoodsIssueEditView extends ibas.BOEditView implements IGoodsIssueEditView {
-
     private page: sap.m.Page;
     private mainLayout: sap.ui.layout.VerticalLayout;
     private viewTopForm: sap.ui.layout.form.SimpleForm;
@@ -31,6 +30,7 @@ export class GoodsIssueEditView extends ibas.BOEditView implements IGoodsIssueEd
     /** 选择库存发货单行仓库事件 */
     chooseGoodsIssueLineWarehouseEvent: Function;
     selectGoodsIssueLineMaterialBatchEvent: Function;
+    selectGoodsIssueLineMaterialSerialEvent: Function;
     /** 绘制视图 */
     darw(): any {
         let that: this = this;

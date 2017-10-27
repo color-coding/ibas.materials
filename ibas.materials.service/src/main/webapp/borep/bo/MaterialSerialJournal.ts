@@ -24,10 +24,14 @@ import {
 import {
     IMaterialSerialJournal,
     BO_CODE_MATERIALSERIAL,
+    BO_CODE_RECEIEPT_MATERIALSERIAL,
+    BO_CODE_ISSUE_MATERIALSERIAL
 } from "../../api/index";
 export class MaterialSerialJournal extends BOSimple<MaterialSerialJournal> implements IMaterialSerialJournal {
-/** 业务对象编码 */
+    /** 业务对象编码 */
     static BUSINESS_OBJECT_CODE: string = BO_CODE_MATERIALSERIAL;
+    static BUSINESS_OBJECT_RECEIEPT_CODE: string = BO_CODE_RECEIEPT_MATERIALSERIAL;
+    static BUSINESS_OBJECT_ISSUE_CODE: string = BO_CODE_ISSUE_MATERIALSERIAL;
     /** 构造函数 */
     constructor() {
         super();
@@ -42,7 +46,7 @@ export class MaterialSerialJournal extends BOSimple<MaterialSerialJournal> imple
     set itemCode(value: string) {
         this.setProperty(MaterialSerialJournal.PROPERTY_ITEMCODE_NAME, value);
     }
-/** 映射的属性名称-方向 */
+    /** 映射的属性名称-方向 */
     static PROPERTY_DIRECTION_NAME: string = "Direction";
     /** 获取-仓库编号 */
     get direction(): emDirection {
