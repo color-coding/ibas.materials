@@ -1,7 +1,7 @@
 package org.colorcoding.ibas.materials.logic;
 
 import org.colorcoding.ibas.bobas.data.Decimal;
-import org.colorcoding.ibas.bobas.logics.IBusinessLogicContract;
+import org.colorcoding.ibas.bobas.logic.IBusinessLogicContract;
 
 /**
  * 获取生成物料价格清单的契约
