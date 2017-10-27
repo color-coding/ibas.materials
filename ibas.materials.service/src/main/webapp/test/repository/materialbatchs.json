@@ -1,0 +1,20 @@
+[
+    {
+        "ItemCode": "P10002",
+        "Warehouse":"BJKJ",
+        "Quantity":1,
+        "BatchCode":"20171026001"
+    },
+    {
+        "ItemCode": "P10002",
+        "Warehouse":"BJKJ",
+        "Quantity":5,
+        "BatchCode":"20171026002"
+    },
+    {
+        "ItemCode": "P10002",
+        "Warehouse":"BJKJ",
+        "Quantity":30,
+        "BatchCode":"20171026003"
+    }
+]
