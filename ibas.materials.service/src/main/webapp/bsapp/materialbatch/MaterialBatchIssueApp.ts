@@ -166,10 +166,10 @@ export class MaterialBatchIssueServiceMapping extends ibas.ServiceMapping {
         this.name = MaterialBatchIssueApp.APPLICATION_NAME;
         this.category = MaterialBatchIssueApp.BUSINESS_OBJECT_CODE;
         this.description = ibas.i18n.prop(this.name);
-        this.proxy = ibas.BOSelectServiceProxy;
+        this.proxy = ibas.BOChooseServiceProxy;
     }
     /** 创建服务并运行 */
-    create(): ibas.IService<ibas.IBOSelectServiceContract> {
+    create(): ibas.IService<ibas.IBOChooseServiceContract> {
         return new MaterialBatchIssueApp();
     }
 }

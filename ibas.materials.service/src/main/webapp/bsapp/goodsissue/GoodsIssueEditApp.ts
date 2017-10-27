@@ -274,11 +274,16 @@ export class GoodsIssueEditApp extends ibas.BOEditApplication<IGoodsIssueEditVie
             return;
         }
         let that: this = this;
-        ibas.servicesManager.runSelectService<bo.MaterialBatchJournal>({
+        ibas.servicesManager.runChooseService<bo.MaterialBatchJournal>({
             caller: caller,
             boCode: bo.MaterialBatchJournal.BUSINESS_OBJECT_ISSUE_CODE,
-            inputData: caller
-            });
+            criteria: [
+            ],
+            onCompleted(selecteds: ibas.List<bo.MaterialBatchJournal>): void {
+                //
+            }
+        });
+
     }
 }
 

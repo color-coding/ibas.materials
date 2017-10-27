@@ -44,7 +44,7 @@ public class MaterialPriceListContract extends BusinessLogic<IMaterialPriceListC
         //region 子表查询条件
         IChildCriteria childCriteria= criteria.getChildCriterias().create();
         childCriteria.setPropertyPath(MaterialPriceList.PROPERTY_MATERIALPRICEITEMS.getName());
-        childCriteria.setOnlyHasChilds(false);
+        childCriteria.setOnlyHasChilds(false);//只有查到子表有值的时候才有返回结果
         //子表-物料编码
         ICondition childCondition = childCriteria.getConditions().create();
         childCondition.setAlias(MaterialPriceItem.PROPERTY_ITEMCODE.getName());

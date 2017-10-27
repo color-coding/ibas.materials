@@ -65,8 +65,10 @@ export class MaterialBatchIssueView extends ibas.BODialogView implements IMateri
     }
     darw(): any {
         let that: this = this;
-        this.journalLineTable = new sap.ui.table.Table("",{
+        this.journalLineTable = new sap.ui.table.Table("", {
             enableSelectAll: false,
+            selectionMode: sap.ui.table.SelectionMode.Single,
+            // columnSelect: this.selectMaterialBatchJournalLineEvent,
             visibleRowCount: ibas.config.get(utils.CONFIG_ITEM_LIST_TABLE_VISIBLE_ROW_COUNT, 8),
             visibleRowCountMode: sap.ui.table.VisibleRowCountMode.Interactive,
             // press:
@@ -78,6 +80,9 @@ export class MaterialBatchIssueView extends ibas.BODialogView implements IMateri
                         wrapping: false,
                     }).bindProperty("text", {
                         path: "ItemCode",
+                        press: function (): void {
+                            that.fireViewEvents(that.selectMaterialBatchJournalLineEvent);
+                        }
                     }),
                 }),
                 new sap.ui.table.Column("", {
@@ -125,7 +130,7 @@ export class MaterialBatchIssueView extends ibas.BODialogView implements IMateri
                 }),
             ]
         });
-        this.leftTable = new sap.ui.table.Table("",{
+        this.leftTable = new sap.ui.table.Table("", {
             enableSelectAll: false,
             wrapping: true,
             visibleRowCount: ibas.config.get(utils.CONFIG_ITEM_LIST_TABLE_VISIBLE_ROW_COUNT, 5),
@@ -150,7 +155,7 @@ export class MaterialBatchIssueView extends ibas.BODialogView implements IMateri
                 }),
             ]
         });
-        this.rightTable = new sap.ui.table.Table("",{
+        this.rightTable = new sap.ui.table.Table("", {
             enableSelectAll: false,
             visibleRowCount: ibas.config.get(utils.CONFIG_ITEM_LIST_TABLE_VISIBLE_ROW_COUNT, 5),
             rows: "{/rightrows}",
@@ -174,17 +179,25 @@ export class MaterialBatchIssueView extends ibas.BODialogView implements IMateri
                 }),
             ]
         });
-        this.actionLayout = new sap.ui.layout.form.SimpleForm("",{
+        this.actionLayout = new sap.ui.layout.form.SimpleForm("", {
             content: [
-                new sap.m.Button("",{
-                    text: "<"
+                new sap.m.Button("", {
+                    text: ">",
+                    width: "90%",
+                    // tslint:disable-next-line:no-empty
+                    press: function (): void {
+                    }
                 }),
-                new sap.m.Button("",{
-                    text: ">"
+                new sap.m.Button("", {
+                    text: "<",
+                    width: "90%",
+                    // tslint:disable-next-line:no-empty
+                    press: function (): void {
+                    }
                 })
             ]
         });
-        this.chooseLayout = new sap.ui.layout.HorizontalLayout("",{
+        this.chooseLayout = new sap.ui.layout.HorizontalLayout("", {
             allowWrapping: false,
             width: "100%",
             content: [
@@ -193,19 +206,19 @@ export class MaterialBatchIssueView extends ibas.BODialogView implements IMateri
                 this.rightTable
             ]
         });
-        this.mainBlockLayout = new sap.ui.layout.BlockLayout("",{
+        this.mainBlockLayout = new sap.ui.layout.BlockLayout("", {
             content: [
-                new sap.ui.layout.BlockLayoutRow("",{
+                new sap.ui.layout.BlockLayoutRow("", {
                     content: [
-                        new sap.ui.layout.BlockLayoutCell("",{
+                        new sap.ui.layout.BlockLayoutCell("", {
                             width: 5,
                             content: [this.leftTable]
                         }),
-                        new sap.ui.layout.BlockLayoutCell("",{
-                            width: 2,
+                        new sap.ui.layout.BlockLayoutCell("", {
+                            width: 4,
                             content: [this.actionLayout]
                         }),
-                        new sap.ui.layout.BlockLayoutCell("",{
+                        new sap.ui.layout.BlockLayoutCell("", {
                             width: 5,
                             content: [this.rightTable]
                         })
@@ -217,8 +230,8 @@ export class MaterialBatchIssueView extends ibas.BODialogView implements IMateri
         this.mainLayout = new sap.ui.layout.VerticalLayout("", {
             wrapping: false,
             content: [
-                 this.journalLineTable,
-                 this.mainBlockLayout
+                this.journalLineTable,
+                this.mainBlockLayout
             ]
         });
         this.id = this.mainLayout.getId();
@@ -237,8 +250,8 @@ export class MaterialBatchIssueView extends ibas.BODialogView implements IMateri
         // }
     }
     showJournalLineData(datas: bo.MaterialBatchInput[]): void {
-        this.journalLineTable.setModel(new sap.ui.model.json.JSONModel({journallinedata: datas}));
-        utils.refreshModelChanged(this.journalLineTable,datas);
+        this.journalLineTable.setModel(new sap.ui.model.json.JSONModel({ journallinedata: datas }));
+        utils.refreshModelChanged(this.journalLineTable, datas);
     }
     showLeftData(datas: bo.MaterialBatchJournal[]): void {
         this.leftTable.setModel(new sap.ui.model.json.JSONModel({ leftrows: datas }));
