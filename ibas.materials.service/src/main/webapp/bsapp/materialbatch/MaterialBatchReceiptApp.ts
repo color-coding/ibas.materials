@@ -48,7 +48,7 @@ export class MaterialBatchReceiptApp extends ibas.BOApplication<IMaterialBatchRe
         }
         // 找到输入数据的批次集合
         let item: bo.MaterialBatchInput = this.inputData.find(c => c.index === select.index);
-        if (item.needQuantity === 0) {
+        if (item.needBatchQuantity === 0) {
             return;
         }
         item.materialBatchInputBatchJournals.create();
@@ -99,7 +99,7 @@ export class MaterialBatchReceiptApp extends ibas.BOApplication<IMaterialBatchRe
         }
         let batchItem: bo.MaterialBatchInput = this.inputData.find(c => c.index === item.index);
         // 不需要创建批次了
-        if (batchItem.needQuantity === 0) {
+        if (batchItem.needBatchQuantity === 0) {
             this.view.showData(batchItem.materialBatchInputBatchJournals.filterDeleted());
             return;
         }
@@ -118,7 +118,7 @@ export class MaterialBatchReceiptApp extends ibas.BOApplication<IMaterialBatchRe
             batchLine.quantity = batchItem.quantity - Number(allcationQuantity);
         } else {
             batchLine = batchItem.materialBatchInputBatchJournals.create();
-            batchLine.quantity = batchItem.needQuantity;
+            batchLine.quantity = batchItem.needBatchQuantity;
         }
         this.view.showData(batchItem.materialBatchInputBatchJournals.filterDeleted());
     }

@@ -31,11 +31,17 @@ export interface IMaterialBatchInput extends IBOSimple {
     /**数量 */
     quantity: number;
 
-    /**总需求 */
-    needQuantity: number;
+    /**总批次需求 */
+    needBatchQuantity: number;
 
-    /**已批次 */
-    selectedQuantity: number;
+    /**已选择批次 */
+    selectedBatchQuantity: number;
+
+    /**总批次需求 */
+    needSerialQuantity: number;
+
+    /**已选择批次 */
+    selectedSerialQuantity: number;
 
     /**方向 */
     direction: emDirection;

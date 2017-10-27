@@ -103,7 +103,7 @@ export class MaterialBatchIssueView extends ibas.BODialogView implements IMateri
                     template: new sap.m.Text("", {
                         wrapping: false,
                     }).bindProperty("text", {
-                        path: "needQuantity",
+                        path: "needBatchQuantity",
                     }),
                 }),
                 new sap.ui.table.Column("", {
@@ -111,7 +111,7 @@ export class MaterialBatchIssueView extends ibas.BODialogView implements IMateri
                     template: new sap.m.Text("", {
                         wrapping: false,
                     }).bindProperty("text", {
-                        path: "selectedQuantity",
+                        path: "selectedBatchQuantity",
                     }),
                 }),
                 new sap.ui.table.Column("", {

@@ -72,7 +72,7 @@ export class MaterialBatchIssueApp extends ibas.BOApplication<IMaterialBatchIssu
         }
         let batchItem: bo.MaterialBatchInput = this.inputData.find(c => c.index === selected.index);
         // 不需要选择批次了
-        if (batchItem.needQuantity === 0) {
+        if (batchItem.needBatchQuantity === 0) {
             this.view.showRightData(batchItem.materialBatchInputBatchJournals.filterDeleted());
             return;
         }
@@ -104,18 +104,18 @@ export class MaterialBatchIssueApp extends ibas.BOApplication<IMaterialBatchIssu
         let line: bo.MaterialBatchInput = this.inputData.find(c => c.index === journal.index);
         for (let item of this.batchData) {
             // 已分配数量
-            if (line.needQuantity === 0) {
+            if (line.needBatchQuantity === 0) {
                 return;
             }
             let batchLine: bo.MaterialBatchJournal = line.materialBatchInputBatchJournals.create();
             batchLine.itemCode = item.itemCode;
             batchLine.warehouse = item.warehouse;
             batchLine.batchCode = item.batchCode;
-            if (item.quantity <= line.needQuantity) {
+            if (item.quantity <= line.needBatchQuantity) {
                 batchLine.quantity = item.quantity;
                 item.delete();
             } else {
-                batchLine.quantity = line.needQuantity;
+                batchLine.quantity = line.needBatchQuantity;
                 item.quantity -= batchLine.quantity;
                 newBatchData.push(item);
             }
@@ -135,7 +135,7 @@ export class MaterialBatchIssueApp extends ibas.BOApplication<IMaterialBatchIssu
         let allocateQuantity: number = 0;
         for (let item of items) {
             // 不需要选择批次了
-            if (journalItem.needQuantity === 0) {
+            if (journalItem.needBatchQuantity === 0) {
                 this.view.showRightData(journalItem.materialBatchInputBatchJournals.filterDeleted());
                 return;
             }
@@ -144,11 +144,11 @@ export class MaterialBatchIssueApp extends ibas.BOApplication<IMaterialBatchIssu
             line.batchCode = item.batchCode;
             line.itemCode = item.itemCode;
             line.warehouse = item.warehouse;
-            if (item.quantity <= journalItem.needQuantity) {
+            if (item.quantity <= journalItem.needBatchQuantity) {
                 line.quantity = item.quantity;
                 item.delete();
             } else {
-                line.quantity = journalItem.needQuantity;
+                line.quantity = journalItem.needBatchQuantity;
                 item.quantity -= line.quantity;
             }
         }
@@ -287,6 +287,7 @@ export class MaterialBatchIssueApp extends ibas.BOApplication<IMaterialBatchIssu
             this.messages(error);
         }
     }
+
 }
 
 /** 视图-批次新建 */

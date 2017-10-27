@@ -168,7 +168,7 @@ export class MaterialBatchReceiptView extends ibas.BODialogView implements IMate
                     template: new sap.m.Text("", {
                         wrapping: false,
                     }).bindProperty("text", {
-                        path: "needQuantity",
+                        path: "needBatchQuantity",
                     }),
                 }),
                 new sap.ui.table.Column("", {
@@ -176,7 +176,7 @@ export class MaterialBatchReceiptView extends ibas.BODialogView implements IMate
                     template: new sap.m.Text("", {
                         wrapping: false,
                     }).bindProperty("text", {
-                        path: "selectedQuantity",
+                        path: "selectedBatchQuantity",
                     }),
                 }),
                 new sap.ui.table.Column("", {

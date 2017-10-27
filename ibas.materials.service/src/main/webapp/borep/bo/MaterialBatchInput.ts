@@ -100,25 +100,46 @@ export class MaterialBatchInput extends BOSimple<MaterialBatchInput> implements 
     }
 
     /** 映射的属性名称-总需求 */
-    static PROPERTY_NEEDQUANTITY_NAME: string = "NeedQuantity";
+    static PROPERTY_NEEDBATCHQUANTITY_NAME: string = "NeedBatchQuantity";
     /** 获取-总需求 */
-    get needQuantity(): number {
-        return this.getProperty<number>(MaterialBatchInput.PROPERTY_NEEDQUANTITY_NAME);
+    get needBatchQuantity(): number {
+        return this.getProperty<number>(MaterialBatchInput.PROPERTY_NEEDBATCHQUANTITY_NAME);
     }
-    /** 设置-总需求 */
-    set needQuantity(value: number) {
-        this.setProperty(MaterialBatchInput.PROPERTY_NEEDQUANTITY_NAME, value);
+    /** 设置-批次总需求 */
+    set needBatchQuantity(value: number) {
+        this.setProperty(MaterialBatchInput.PROPERTY_NEEDBATCHQUANTITY_NAME, value);
     }
 
-    /** 映射的属性名称-总需求 */
-    static PROPERTY_SELECTEDQUANTITY_NAME: string = "SelectedQuantity";
-    /** 获取-总需求 */
-    get selectedQuantity(): number {
-        return this.getProperty<number>(MaterialBatchInput.PROPERTY_SELECTEDQUANTITY_NAME);
+    /** 映射的属性名称-批次总批次 */
+    static PROPERTY_SELECTEDBATCHQUANTITY_NAME: string = "SelectedBatchQuantity";
+    /** 获取-批次总批次 */
+    get selectedBatchQuantity(): number {
+        return this.getProperty<number>(MaterialBatchInput.PROPERTY_SELECTEDBATCHQUANTITY_NAME);
     }
-    /** 设置-总需求 */
-    set selectedQuantity(value: number) {
-        this.setProperty(MaterialBatchInput.PROPERTY_SELECTEDQUANTITY_NAME, value);
+    /** 设置-总批次 */
+    set selectedBatchQuantity(value: number) {
+        this.setProperty(MaterialBatchInput.PROPERTY_SELECTEDBATCHQUANTITY_NAME, value);
+    }
+    /** 映射的属性名称-总序列号需求 */
+    static PROPERTY_NEEDSERIALQUANTITY_NAME: string = "NeedSerialQuantity";
+    /** 获取-总需求 */
+    get needSerialQuantity(): number {
+        return this.getProperty<number>(MaterialBatchInput.PROPERTY_NEEDSERIALQUANTITY_NAME);
+    }
+    /** 设置-序列号总需求 */
+    set needSerialQuantity(value: number) {
+        this.setProperty(MaterialBatchInput.PROPERTY_NEEDSERIALQUANTITY_NAME, value);
+    }
+
+    /** 映射的属性名称-总序列 */
+    static PROPERTY_SELECTEDSERIALQUANTITY_NAME: string = "SelectedSerialQuantity";
+    /** 获取-总序列 */
+    get selectedSerialQuantity(): number {
+        return this.getProperty<number>(MaterialBatchInput.PROPERTY_SELECTEDSERIALQUANTITY_NAME);
+    }
+    /** 设置-总序列 */
+    set selectedSerialQuantity(value: number) {
+        this.setProperty(MaterialBatchInput.PROPERTY_SELECTEDSERIALQUANTITY_NAME, value);
     }
     /** 映射的属性名称-对象编号 */
     static PROPERTY_OBJECTKEY_NAME: string = "ObjectKey";
@@ -179,20 +200,20 @@ export class MaterialBatchInputBatchJournals extends BusinessObjects<MaterialBat
                 }
                 totalQuantity = Number(totalQuantity) + Number(batchJournalLine.quantity);
             }
-            this.parent.selectedQuantity = totalQuantity;
-            this.parent.needQuantity = Number(this.parent.quantity) - Number(totalQuantity);
+            this.parent.selectedBatchQuantity = totalQuantity;
+            this.parent.needBatchQuantity = Number(this.parent.quantity) - Number(totalQuantity);
         }
     }
     /** 移除子项 */
     protected afterRemove(item: MaterialBatchJournal): void {
         super.afterRemove(item);
         if (this.parent.materialBatchInputBatchJournals.length === 0) {
-            this.parent.needQuantity = this.parent.quantity;
-            this.parent.selectedQuantity = 0;
+            this.parent.needBatchQuantity = this.parent.quantity;
+            this.parent.selectedBatchQuantity = 0;
         } else {
             if (!isNaN(item.quantity)) {
-                this.parent.selectedQuantity = Number(this.parent.selectedQuantity) - Number(item.quantity);
-                this.parent.needQuantity = Number(this.parent.needQuantity) + Number(item.quantity);
+                this.parent.selectedBatchQuantity = Number(this.parent.selectedBatchQuantity) - Number(item.quantity);
+                this.parent.needBatchQuantity = Number(this.parent.needBatchQuantity) + Number(item.quantity);
             }
         }
     }
