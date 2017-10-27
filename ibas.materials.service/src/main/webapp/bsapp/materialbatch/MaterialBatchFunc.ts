@@ -7,8 +7,8 @@
  */
 
 import * as ibas from "ibas/index";
-import {MaterialBatchReceiptApp} from "./MaterialBatchReceiptApp";
-import {MaterialBatchIssueApp} from "./MaterialBatchIssueApp";
+import { MaterialBatchReceiptApp } from "./MaterialBatchReceiptApp";
+import { MaterialBatchIssueApp } from "./MaterialBatchIssueApp";
 // export class MaterialBatchFunc extends ibas.ModuleFunction {
 
 //     /** 功能标识 */
