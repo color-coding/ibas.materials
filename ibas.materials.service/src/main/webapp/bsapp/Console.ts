@@ -11,7 +11,7 @@ import { GoodsIssueFunc,} from "./goodsissue/index";
 import { GoodsReceiptFunc, } from "./goodsreceipt/index";
 import { InventoryTransferFunc, } from "./inventorytransfer/index";
 import { MaterialInventoryFunc, } from "./materialinventory/index";
-import { MaterialInventoryJournalFunc,  } from "./materialInventoryjournal/index";
+import { MaterialInventoryJournalFunc,  } from "./materialinventoryjournal/index";
 import { MaterialFunc, MaterialChooseServiceMapping, MaterialLinkServiceMapping } from "./material/index";
 import { MaterialGroupFunc, MaterialGroupChooseServiceMapping, MaterialGroupLinkServiceMapping } from "./materialgroup/index";
 import { WarehouseFunc, WarehouseChooseServiceMapping, WarehouseLinkServiceMapping } from "./warehouse/index";
