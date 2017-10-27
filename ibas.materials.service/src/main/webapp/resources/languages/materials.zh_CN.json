@@ -52,10 +52,13 @@
   "materials_other_information": "其它信息",
   "materials_forex_information": "外汇信息",
   "materials_app_materialbatchissue": "批次选择",
+  "materials_app_materialserialhissue": "序列号选择",
   "materials_app_materialbatchreceipt": "批次设置",
   "materials_app_materialserialissue": "序列号选择",
   "materials_app_materialerialreceipt": "序列号设置",
   "materials_closing_delimiter": "----结束----",
-  "sys_shell_data_autoselect":"自动选择",
-  "materials_data_batch_serial": "批次/序列设置"
+  "materials_sys_autoselect": "自动选择",
+  "materials_sys_autocreate": "自动创建",
+  "materials_data_batch_serial": "批次/序列",
+  "materials_app_batch_serial_choose_journal": "请选择凭证行"
 }
