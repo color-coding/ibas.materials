@@ -23,11 +23,17 @@ import {
 } from "ibas/index";
 import {
     IInventoryTransfer,
+    IInventoryTransferMaterialBatchJournals,
+    IInventoryTransferMaterialSerialJournals,
     IInventoryTransferLines,
     IInventoryTransferLine,
     BO_CODE_INVENTORYTRANSFER,
     emItemType,
 } from "../../api/index";
+import {
+    MaterialBatchJournal,
+    MaterialSerialJournal
+} from "./index";
 
 /** 库存转储 */
 export class InventoryTransfer extends BODocument<InventoryTransfer> implements IInventoryTransfer {
@@ -443,6 +449,26 @@ export class InventoryTransfer extends BODocument<InventoryTransfer> implements 
     }
 }
 
+/** 库存转储-批次日记账 集合 */
+export class InventoryTransferMaterialBatchJournals extends BusinessObjects<MaterialBatchJournal,InventoryTransferLine>
+implements IInventoryTransferMaterialBatchJournals {
+/** 创建并添加子项 */
+create(): MaterialBatchJournal {
+let item: MaterialBatchJournal = new MaterialBatchJournal();
+this.add(item);
+return item;
+}
+}
+/** 库存转储-序列日记账 集合 */
+export class InventoryTransferMaterialSerialJournals extends BusinessObjects<MaterialSerialJournal,InventoryTransferLine>
+ implements IInventoryTransferMaterialSerialJournals {
+/** 创建并添加子项 */
+create(): MaterialSerialJournal {
+let item: MaterialSerialJournal = new MaterialSerialJournal();
+this.add(item);
+return item;
+}
+}
 /** 库存转储-行 集合 */
 export class InventoryTransferLines extends BusinessObjects<InventoryTransferLine, InventoryTransfer> implements IInventoryTransferLines {
 
@@ -867,11 +893,32 @@ export class InventoryTransferLine extends BODocumentLine<InventoryTransferLine>
     set project(value: string) {
         this.setProperty(InventoryTransferLine.PROPERTY_PROJECT_NAME, value);
     }
-
+/** 映射的属性名称-库存发货-行-序列号集合 */
+static PROPERTY_INVENTORYTRANSFERMATERIALSERIALJOURNALS_NAME: string = "InventoryTransferMaterialSerialJournals";
+/** 获取-库存发货-行-序列号集合 */
+get inventoryTransferMaterialSerialJournals(): InventoryTransferMaterialSerialJournals {
+    return this.getProperty<InventoryTransferMaterialSerialJournals>(InventoryTransferLine.PROPERTY_INVENTORYTRANSFERMATERIALSERIALJOURNALS_NAME);
+}
+/** 设置-库存发货-行-序列号集合 */
+set inventoryTransferMaterialSerialJournals(value: InventoryTransferMaterialSerialJournals) {
+    this.setProperty(InventoryTransferLine.PROPERTY_INVENTORYTRANSFERMATERIALSERIALJOURNALS_NAME, value);
+}
+/** 映射的属性名称-库存发货-行-批次集合 */
+static PROPERTY_INVENTORYTRANSFERMATERIALBATCHJOURNALS_NAME: string = "InventoryTransferMaterialBatchJournals";
+/** 获取-库存发货-行-序列号集合 */
+get inventoryTransferMaterialBatchJournals(): InventoryTransferMaterialBatchJournals {
+    return this.getProperty<InventoryTransferMaterialBatchJournals>(InventoryTransferLine.PROPERTY_INVENTORYTRANSFERMATERIALBATCHJOURNALS_NAME);
+}
+/** 设置-库存发货-行-序列号集合 */
+set inventoryTransferMaterialBatchJournals(value: InventoryTransferMaterialBatchJournals) {
+    this.setProperty(InventoryTransferLine.PROPERTY_INVENTORYTRANSFERMATERIALBATCHJOURNALS_NAME, value);
+}
 
 
     /** 初始化数据 */
     protected init(): void {
+        this.inventoryTransferMaterialBatchJournals = new InventoryTransferMaterialBatchJournals(this);
+        this.inventoryTransferMaterialSerialJournals = new InventoryTransferMaterialSerialJournals(this);
         this.objectCode = config.applyVariables(InventoryTransfer.BUSINESS_OBJECT_CODE);
     }
 }

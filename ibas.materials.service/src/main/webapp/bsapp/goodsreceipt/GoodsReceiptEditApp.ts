@@ -286,15 +286,22 @@ export class GoodsReceiptEditApp extends ibas.BOEditApplication<IGoodsReceiptEdi
                 for (let line of callbackData) {
                     let item: bo.GoodsReceiptLine = that.editData.goodsReceiptLines[line.index];
                     // 待处理： 更新时如何处理原来的数据
-                    for (let batch of line.materialBatchInputBatchJournals.filterDeleted()) {
-                        let batchLine: bo.MaterialBatchJournal = item.goodsReceiptMaterialBatchJournals.create();
-                        batchLine.batchCode = batch.batchCode;
-                        batchLine.itemCode = batch.itemCode;
-                        batchLine.warehouse = batch.warehouse;
-                        batchLine.quantity = batch.quantity;
-                        batchLine.admissionDate = batch.admissionDate;
-                        batchLine.expirationDate = batch.expirationDate;
-                        batchLine.manufacturingDate = batch.manufacturingDate;
+                    for (let batchJournal of line.materialBatchInputBatchJournals.filterDeleted()) {
+                        // 如果批次号为空 不处理
+                        if (ibas.objects.isNull(batchJournal.batchCode)) {
+                            continue;
+                        }
+                        let batchLine: bo.MaterialBatchJournal = item.goodsReceiptMaterialBatchJournals.find(c => c.batchCode === batchJournal.batchCode);
+                        if (ibas.objects.isNull(batchLine)) {
+                            batchLine = item.goodsReceiptMaterialBatchJournals.create();
+                        }
+                        batchLine.batchCode = batchJournal.batchCode;
+                        batchLine.itemCode = batchJournal.itemCode;
+                        batchLine.warehouse = batchJournal.warehouse;
+                        batchLine.quantity = batchJournal.quantity;
+                        batchLine.admissionDate = batchJournal.admissionDate;
+                        batchLine.expirationDate = batchJournal.expirationDate;
+                        batchLine.manufacturingDate = batchJournal.manufacturingDate;
                     }
                 }
             }
@@ -340,7 +347,7 @@ export class GoodsReceiptEditApp extends ibas.BOEditApplication<IGoodsReceiptEdi
             }
             inputData.push(input);
         }
-         return inputData;
+        return inputData;
     }
 
 }

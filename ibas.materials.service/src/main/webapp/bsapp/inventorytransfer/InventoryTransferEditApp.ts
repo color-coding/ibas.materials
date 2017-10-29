@@ -37,6 +37,7 @@ export class InventoryTransferEditApp extends ibas.BOEditApplication<IInventoryT
         this.view.removeInventoryTransferLineEvent = this.removeInventoryTransferLine;
         this.view.chooseInventoryTransferLineMaterialEvent = this.chooseInventoryTransferLineMaterial;
         this.view.chooseInventoryTransferLineWarehouseEvent = this.chooseInventoryTransferLineWarehouse;
+        this.view.chooseInventoryTransferLineMaterialBatchEvent = this.chooseInventoryTransferLineMaterialBatch;
     }
     /** 视图显示后 */
     protected viewShowed(): void {
@@ -264,6 +265,101 @@ export class InventoryTransferEditApp extends ibas.BOEditApplication<IInventoryT
         });
     }
 
+    chooseInventoryTransferLineMaterialBatch(): void {
+        let that: this = this;
+        let caller: bo.MaterialBatchInput[] = that.getBatchSerialData();
+        if (ibas.objects.isNull(caller) || caller.length === 0) {
+            this.messages(ibas.emMessageType.WARNING, ibas.i18n.prop("sys_shell_please_chooose_data",
+                ibas.i18n.prop("sys_shell_data_edit")
+            ));
+            return;
+        }
+        ibas.servicesManager.runChooseService<bo.MaterialBatchInput>({
+            caller: caller,
+            boCode: bo.MaterialBatchJournal.BUSINESS_OBJECT_ISSUE_CODE,
+            criteria: [
+            ],
+            onCompleted(callbackData: ibas.List<bo.MaterialBatchInput>): void {
+                // 获取触发的对象
+                for (let line of callbackData) {
+                    let item: bo.InventoryTransferLine = that.editData.inventoryTransferLines[line.index];
+                    for (let batchJournal of line.materialBatchInputBatchJournals.filterDeleted()) {
+                        // 出仓库需要选择批次
+                        let batchOutLine: bo.MaterialBatchJournal = item.inventoryTransferMaterialBatchJournals
+                        .find(c => c.batchCode === batchJournal.batchCode && c.warehouse === that.editData.fromWarehouse);
+                        if (ibas.objects.isNull(batchOutLine)) {
+                            batchOutLine = item.inventoryTransferMaterialBatchJournals.create();
+                        }
+                        batchOutLine.batchCode = batchJournal.batchCode;
+                        batchOutLine.quantity = batchJournal.quantity;
+                        batchOutLine.itemCode = batchJournal.itemCode;
+                        batchOutLine.warehouse =that.editData.fromWarehouse;
+                        batchOutLine.quantity = batchJournal.quantity;
+                        batchOutLine.admissionDate = batchJournal.admissionDate;
+                        batchOutLine.expirationDate = batchJournal.expirationDate;
+                        batchOutLine.manufacturingDate = batchJournal.manufacturingDate;
+                        // 入库需要新建批次
+                        let batchInLine: bo.MaterialBatchJournal = item.inventoryTransferMaterialBatchJournals
+                        .find(c => c.batchCode === batchJournal.batchCode && c.warehouse === line.warehouse);
+                        if (ibas.objects.isNull(batchInLine)) {
+                            batchInLine = item.inventoryTransferMaterialBatchJournals.create();
+                        }
+                        batchInLine.batchCode = batchJournal.batchCode;
+                        batchInLine.quantity = batchJournal.quantity;
+                        batchInLine.itemCode = batchJournal.itemCode;
+                        batchInLine.warehouse =line.warehouse;
+                        batchInLine.quantity = batchJournal.quantity;
+                        batchInLine.admissionDate = batchJournal.admissionDate;
+                        batchInLine.expirationDate = batchJournal.expirationDate;
+                        batchInLine.manufacturingDate = batchJournal.manufacturingDate;
+                    }
+                }
+            }
+        });
+    }
+
+    /** 获取行-批次序列信息 */
+    getBatchSerialData(): bo.MaterialBatchInput[] {
+        // 获取行数据
+        let goodIssueLines: bo.InventoryTransferLine[] = this.editData.inventoryTransferLines;
+        let inputData: bo.MaterialBatchInput[] = new Array<bo.MaterialBatchInput>();
+        for (let line of goodIssueLines) {
+            let input: bo.MaterialBatchInput = new bo.MaterialBatchInput();
+            input.index = goodIssueLines.indexOf(line);
+            input.itemCode = line.itemCode;
+            input.quantity = line.quantity;
+            input.warehouse = line.warehouse;
+            input.direction = ibas.emDirection.OUT;
+            if (line.inventoryTransferMaterialBatchJournals.length === 0) {
+                input.needBatchQuantity = line.quantity;
+                input.selectedBatchQuantity = 0;
+            } else {
+                for (let item of line.inventoryTransferMaterialBatchJournals) {
+                    let batchLine: bo.MaterialBatchJournal = input.materialBatchInputBatchJournals.create();
+                    batchLine.batchCode = item.batchCode;
+                    batchLine.itemCode = item.itemCode;
+                    batchLine.warehouse = item.warehouse;
+                    batchLine.quantity = item.quantity;
+                    batchLine.direction = ibas.emDirection.OUT;
+                }
+            }
+            if (line.inventoryTransferMaterialSerialJournals.length === 0) {
+                input.needSerialQuantity = line.quantity;
+                input.selectedSerialQuantity = 0;
+            } else {
+                for (let item of line.inventoryTransferMaterialSerialJournals) {
+                    let serialLine: bo.MaterialSerialJournal = input.materialBatchInputSerialJournals.create();
+                    serialLine.serialCode = item.serialCode;
+                    serialLine.itemCode = item.itemCode;
+                    serialLine.warehouse = item.warehouse;
+                    serialLine.direction = ibas.emDirection.OUT;
+                }
+            }
+            inputData.push(input);
+        }
+         return inputData;
+    }
+
 }
 /** 视图-库存转储 */
 export interface IInventoryTransferEditView extends ibas.IBOEditView {
@@ -283,4 +379,6 @@ export interface IInventoryTransferEditView extends ibas.IBOEditView {
     chooseInventoryTransferLineMaterialEvent: Function;
     /** 选择库存转储单行仓库事件 */
     chooseInventoryTransferLineWarehouseEvent: Function;
+    /** 选择库存转储单行物料批次事件 */
+    chooseInventoryTransferLineMaterialBatchEvent: Function;
 }

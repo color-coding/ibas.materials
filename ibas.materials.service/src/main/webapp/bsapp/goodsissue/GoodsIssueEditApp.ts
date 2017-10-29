@@ -284,16 +284,22 @@ export class GoodsIssueEditApp extends ibas.BOEditApplication<IGoodsIssueEditVie
                 // 获取触发的对象
                 for (let line of callbackData) {
                     let item: bo.GoodsIssueLine = that.editData.goodsIssueLines[line.index];
-                    // 待处理： 更新时如何处理原来的数据
-                    for (let batch of line.materialBatchInputBatchJournals.filterDeleted()) {
-                        let batchLine: bo.MaterialBatchJournal = item.goodsIssueMaterialBatchJournals.create();
-                        batchLine.batchCode = batch.batchCode;
-                        batchLine.itemCode = batch.itemCode;
-                        batchLine.warehouse = batch.warehouse;
-                        batchLine.quantity = batch.quantity;
-                        batchLine.admissionDate = batch.admissionDate;
-                        batchLine.expirationDate = batch.expirationDate;
-                        batchLine.manufacturingDate = batch.manufacturingDate;
+                    for (let batchJournal of line.materialBatchInputBatchJournals.filterDeleted()) {
+                        // 如果批次号为空 不处理
+                        if (ibas.objects.isNull(batchJournal.batchCode)) {
+                            continue;
+                        }
+                        let batchLine: bo.MaterialBatchJournal = item.goodsIssueMaterialBatchJournals.find(c => c.batchCode === batchJournal.batchCode);
+                        if (ibas.objects.isNull(batchLine)) {
+                            batchLine = item.goodsIssueMaterialBatchJournals.create();
+                        }
+                        batchLine.batchCode = batchJournal.batchCode;
+                        batchLine.itemCode = batchJournal.itemCode;
+                        batchLine.warehouse = batchJournal.warehouse;
+                        batchLine.quantity = batchJournal.quantity;
+                        batchLine.admissionDate = batchJournal.admissionDate;
+                        batchLine.expirationDate = batchJournal.expirationDate;
+                        batchLine.manufacturingDate = batchJournal.manufacturingDate;
                     }
                 }
             }
@@ -341,9 +347,6 @@ export class GoodsIssueEditApp extends ibas.BOEditApplication<IGoodsIssueEditVie
          return inputData;
     }
 }
-
-
-
 
 /** 视图-库存发货 */
 export interface IGoodsIssueEditView extends ibas.IBOEditView {
