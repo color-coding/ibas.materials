@@ -16,6 +16,7 @@ export class MaterialSerialIssueApp extends ibas.BOApplication<IMaterialSerialIs
     static APPLICATION_NAME: string = "materials_app_materialSerialissue";
     /** 业务对象编码 */
     static BUSINESS_OBJECT_CODE: string = bo.MaterialSerialJournal.BUSINESS_OBJECT_ISSUE_CODE;
+
     /** 构造函数 */
     constructor() {
         super();
