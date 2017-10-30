@@ -139,6 +139,13 @@ export class MaterialBatchReceiptApp extends ibas.BOApplication<IMaterialBatchRe
     }
 
     protected saveData(): void {
+        //批次数量错误
+        for (let batchJournalLine of this.inputData) {
+            if (batchJournalLine.needBatchQuantity !== 0) {
+                this.messages(ibas.emMessageType.WARNING, ibas.i18n.prop("materials_app_batch_quantity_create_error"));
+                return;
+            }
+        }
         this.fireCompleted(this.inputData);
     }
     /** 触发完成事件 */

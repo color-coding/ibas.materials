@@ -27,6 +27,8 @@ export class InventoryTransferEditView extends ibas.BOEditView implements IInven
     chooseInventoryTransferLineMaterialEvent: Function;
     /** 选择库存转储单行仓库事件 */
     chooseInventoryTransferLineWarehouseEvent: Function;
+    /** 选择库存转储单行物料批次事件 */
+    chooseInventoryTransferLineMaterialBatchEvent: Function;
     private mainLayout: sap.ui.layout.VerticalLayout;
     private viewBottomForm: sap.ui.layout.form.SimpleForm;
 
@@ -116,6 +118,21 @@ export class InventoryTransferEditView extends ibas.BOEditView implements IInven
                                 utils.getTableSelecteds<bo.InventoryTransferLine>(that.tableInventoryTransferLine)
                             );
                         }
+                    }),
+                    new sap.m.MenuButton("", {
+                        text: ibas.i18n.prop("materials_data_batch_serial"),
+                        menu: [
+                            new sap.m.Menu("", {
+                                items: [
+                                    new sap.m.MenuItem("", {
+                                        text: ibas.i18n.prop("materials_app_materialbatchissue"),
+                                        press: function (): void {
+                                            that.fireViewEvents(that.chooseInventoryTransferLineMaterialBatchEvent);
+                                        }
+                                    }),
+                                ]
+                            })
+                        ]
                     })
                 ]
             }),
