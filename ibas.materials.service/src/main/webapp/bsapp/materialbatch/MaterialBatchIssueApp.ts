@@ -104,26 +104,38 @@ export class MaterialBatchIssueApp extends ibas.BOApplication<IMaterialBatchIssu
     protected allocateBatch(journal: bo.MaterialBatchInput, rule: string): void {
         // 按照一定规则排序
         this.batchData.sort();
-        let newBatchData: bo.MaterialBatch[] = new Array<bo.MaterialBatch>();
+        // let newBatchData: bo.MaterialBatch[] = new Array<bo.MaterialBatch>();
         let line: bo.MaterialBatchInput = this.inputData.find(c => c.index === journal.index);
         for (let item of this.batchData) {
             // 已分配数量
             if (line.needBatchQuantity === 0) {
                 return;
             }
-            let batchLine: bo.MaterialBatchJournal = line.materialBatchInputBatchJournals.create();
+            let batchLine: bo.MaterialBatchJournal = line.materialBatchInputBatchJournals.find(c => c.batchCode === item.batchCode);
+            if (ibas.objects.isNull(batchLine)) {
+                batchLine = line.materialBatchInputBatchJournals.create();
+                if (item.quantity <= line.needBatchQuantity) {
+                    batchLine.quantity = item.quantity;
+                    item.delete();
+                } else {
+                    batchLine.quantity = line.needBatchQuantity;
+                    item.quantity = Number(item.quantity) - Number(batchLine.quantity);
+                    // newBatchData.push(item);
+                }
+            } else {
+                if (item.quantity <= line.needBatchQuantity) {
+                    batchLine.quantity = Number(batchLine.quantity) + Number(item.quantity);
+                    item.delete();
+                } else {
+                    let changeQuantity: number = line.needBatchQuantity;
+                    batchLine.quantity = Number(batchLine.quantity) + Number(line.needBatchQuantity);
+                    item.quantity = Number(item.quantity) - Number(changeQuantity);
+                    // newBatchData.push(item);
+                }
+            }
             batchLine.itemCode = item.itemCode;
             batchLine.warehouse = item.warehouse;
             batchLine.batchCode = item.batchCode;
-            if (item.quantity <= line.needBatchQuantity) {
-                batchLine.quantity = item.quantity;
-                item.delete();
-            } else {
-                batchLine.quantity = line.needBatchQuantity;
-                item.quantity -= batchLine.quantity;
-                newBatchData.push(item);
-            }
-
         }
     }
     /** 添加选择的批次事件 */
@@ -135,6 +147,10 @@ export class MaterialBatchIssueApp extends ibas.BOApplication<IMaterialBatchIssu
             ));
             return;
         }
+        if (items.length === 0) {
+            return;
+        }
+
         let journalItem: bo.MaterialBatchInput = this.inputData.find(c => c.index === selected.index);
         let allocateQuantity: number = 0;
         for (let item of items) {
@@ -144,17 +160,29 @@ export class MaterialBatchIssueApp extends ibas.BOApplication<IMaterialBatchIssu
                 return;
             }
             // let batchItem:bo.MaterialBatch = this.batchData.find(c=>c.batchCode === item.batchCode);
-            let line: bo.MaterialBatchJournal = journalItem.materialBatchInputBatchJournals.create();
-            line.batchCode = item.batchCode;
-            line.itemCode = item.itemCode;
-            line.warehouse = item.warehouse;
-            if (item.quantity <= journalItem.needBatchQuantity) {
-                line.quantity = item.quantity;
-                item.delete();
+            let batchline: bo.MaterialBatchJournal = journalItem.materialBatchInputBatchJournals.find(c => c.batchCode === item.batchCode);
+            if (ibas.objects.isNull(batchline)) {
+                batchline = journalItem.materialBatchInputBatchJournals.create();
+                if (item.quantity <= journalItem.needBatchQuantity) {
+                    batchline.quantity = item.quantity;
+                    item.delete();
+                } else {
+                    batchline.quantity = journalItem.needBatchQuantity;
+                    item.quantity = Number(item.quantity) - Number(batchline.quantity);
+                }
             } else {
-                line.quantity = journalItem.needBatchQuantity;
-                item.quantity -= line.quantity;
+                if (item.quantity <= journalItem.needBatchQuantity) {
+                    batchline.quantity = Number(batchline.quantity) + Number(item.quantity);
+                    item.delete();
+                } else {
+                    batchline.quantity += journalItem.needBatchQuantity;
+                    item.quantity -= batchline.quantity;
+                }
             }
+            batchline.batchCode = item.batchCode;
+            batchline.itemCode = item.itemCode;
+            batchline.warehouse = item.warehouse;
+
         }
         this.view.showLeftData(this.batchData.filter(c => c.isDeleted === false));
         this.view.showRightData(journalItem.materialBatchInputBatchJournals);
@@ -188,7 +216,7 @@ export class MaterialBatchIssueApp extends ibas.BOApplication<IMaterialBatchIssu
                 }
                 let batchItem: bo.MaterialBatch = this.batchData.find(c => c.batchCode === item.batchCode && c.isDeleted === false);
                 if (!ibas.objects.isNull(batchItem)) {
-                    batchItem.quantity += item.quantity;
+                    batchItem.quantity = Number(batchItem.quantity) + Number(item.quantity);
                 } else {
                     batchItem = new bo.MaterialBatch();
                     batchItem.batchCode = item.batchCode;
@@ -259,7 +287,7 @@ export class MaterialBatchIssueApp extends ibas.BOApplication<IMaterialBatchIssu
         super.run();
     }
     protected saveData(): void {
-        //批次数量错误
+        // 批次数量错误
         for (let batchJournalLine of this.inputData) {
             if (batchJournalLine.needBatchQuantity !== 0) {
                 this.messages(ibas.emMessageType.WARNING, ibas.i18n.prop("materials_app_batch_quantity_create_error"));

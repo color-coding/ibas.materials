@@ -37,6 +37,7 @@ export class MaterialBatchReceiptApp extends ibas.BOApplication<IMaterialBatchRe
         this.view.removeBatchEvent = this.removeBatch;
         this.view.autoCreateBatchEvent = this.autoCreateBatch;
         this.view.saveDataEvent = this.saveData;
+        this.view.selectMaterialBatchJournalLineEvent = this.selectMaterialBatchJournalLine;
     }
     protected addBatch(select: bo.MaterialBatchInput): void {
         // 确认选择了凭证信息
@@ -122,6 +123,17 @@ export class MaterialBatchReceiptApp extends ibas.BOApplication<IMaterialBatchRe
         }
         this.view.showData(batchItem.materialBatchInputBatchJournals.filterDeleted());
     }
+    /** 选择凭证行事件 */
+    protected selectMaterialBatchJournalLine(selected: bo.MaterialBatchInput): void {
+        if(ibas.objects.isNull(selected)){
+            return;
+        }
+        let batchJournal: bo.MaterialBatchInput = this.inputData
+            .find(c => c.itemCode === selected.itemCode && c.warehouse === selected.warehouse);
+        if (!ibas.objects.isNull(batchJournal)) {
+            this.view.showData(batchJournal.materialBatchInputBatchJournals);
+        }
+    }
     /** 运行,覆盖原方法 */
     run(...args: any[]): void {
         let that: this = this;
@@ -139,7 +151,7 @@ export class MaterialBatchReceiptApp extends ibas.BOApplication<IMaterialBatchRe
     }
 
     protected saveData(): void {
-        //批次数量错误
+        // 批次数量错误
         for (let batchJournalLine of this.inputData) {
             if (batchJournalLine.needBatchQuantity !== 0) {
                 this.messages(ibas.emMessageType.WARNING, ibas.i18n.prop("materials_app_batch_quantity_create_error"));
@@ -194,6 +206,8 @@ export interface IMaterialBatchReceiptView extends ibas.IBOView {
     autoCreateBatchEvent: Function;
     /** 返回数据 */
     saveDataEvent: Function;
+    /** 选中凭证行事件 */
+    selectMaterialBatchJournalLineEvent: Function;
 }
 
 /** 新建批次服务映射 */

@@ -106,7 +106,7 @@ export class MaterialSerialIssueView extends ibas.BODialogView implements IMater
                     template: new sap.m.Text("", {
                         wrapping: false,
                     }).bindProperty("text", {
-                        path: "needBatchQuantity",
+                        path: "needSerialQuantity",
                     }),
                 }),
                 new sap.ui.table.Column("", {
@@ -114,7 +114,7 @@ export class MaterialSerialIssueView extends ibas.BODialogView implements IMater
                     template: new sap.m.Text("", {
                         wrapping: false,
                     }).bindProperty("text", {
-                        path: "selectedBatchQuantity",
+                        path: "selectedSerialQuantity",
                     }),
                 }),
                 new sap.ui.table.Column("", {
@@ -144,15 +144,6 @@ export class MaterialSerialIssueView extends ibas.BODialogView implements IMater
                         path: "SerialCode"
                     })
                 }),
-                new sap.ui.table.Column("", {
-                    label: ibas.i18n.prop("bo_materialserialjournal_quantitycanuse"),
-                    template: new sap.m.Text("", {
-                        wrapping: false,
-                        type: sap.m.InputType.Number
-                    }).bindProperty("text", {
-                        path: "quantity"
-                    })
-                }),
             ]
         });
         this.rightTable = new sap.ui.table.Table("", {
@@ -166,15 +157,6 @@ export class MaterialSerialIssueView extends ibas.BODialogView implements IMater
                         wrapping: false,
                     }).bindProperty("text", {
                         path: "SerialCode"
-                    })
-                }),
-                new sap.ui.table.Column("", {
-                    label: ibas.i18n.prop("bo_materialSerialjournal_quantitychoosed"),
-                    template: new sap.m.Text("", {
-                        wrapping: false,
-                        type: sap.m.InputType.Number
-                    }).bindProperty("text", {
-                        path: "quantity"
                     })
                 }),
             ]
@@ -244,17 +226,7 @@ export class MaterialSerialIssueView extends ibas.BODialogView implements IMater
         return this.mainLayout;
     }
     private lastCriteria: ibas.ICriteria;
-    /** 记录上次查询条件，表格滚动时自动触发 */
-    query(criteria: ibas.ICriteria): void {
-        // super.query(criteria);
-        this.lastCriteria = criteria;
-        // 清除历史数据
-        // if (this.isDisplayed) {
-        //     this.table.setBusy(true);
-        //     this.table.setFirstVisibleRow(0);
-        //     this.table.setModel(null);
-        // }
-    }
+
     showJournalLineData(datas: bo.MaterialBatchInput[]): void {
         this.journalLineTable.setModel(new sap.ui.model.json.JSONModel({ journallinedata: datas }));
         utils.refreshModelChanged(this.journalLineTable, datas);

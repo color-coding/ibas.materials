@@ -37,7 +37,8 @@ export class GoodsReceiptEditApp extends ibas.BOEditApplication<IGoodsReceiptEdi
         this.view.removeGoodsReceiptLineEvent = this.removeGoodsReceiptLine;
         this.view.chooseGoodsReceiptLineMaterialEvent = this.chooseGoodsReceiptLineMaterial;
         this.view.chooseGoodsreceiptlineWarehouseEvent = this.chooseGoodsreceiptlineWarehouse;
-        this.view.newGoodsReceiptLineMaterialBatchEvent = this.newGoodsReceiptLineMaterialBatch;
+        this.view.createGoodsReceiptLineMaterialBatchEvent = this.createGoodsReceiptLineMaterialBatch;
+        this.view.createGoodsReceiptLineMaterialSerialEvent = this.createGoodsReceiptLineMaterialSerial;
     }
     /** 视图显示后 */
     protected viewShowed(): void {
@@ -267,7 +268,7 @@ export class GoodsReceiptEditApp extends ibas.BOEditApplication<IGoodsReceiptEdi
         });
     }
     /** 新建物料批次信息 */
-    newGoodsReceiptLineMaterialBatch(): void {
+    createGoodsReceiptLineMaterialBatch(): void {
         let that: this = this;
         let caller: bo.MaterialBatchInput[] = that.getBatchSerialData();
         if (ibas.objects.isNull(caller) || caller.length === 0) {
@@ -285,16 +286,15 @@ export class GoodsReceiptEditApp extends ibas.BOEditApplication<IGoodsReceiptEdi
                 // 获取触发的对象
                 for (let line of callbackData) {
                     let item: bo.GoodsReceiptLine = that.editData.goodsReceiptLines[line.index];
-                    // 待处理： 更新时如何处理原来的数据
+                    for(let batchLine of item.goodsReceiptMaterialBatchJournals){
+                        batchLine.delete();
+                    }
                     for (let batchJournal of line.materialBatchInputBatchJournals.filterDeleted()) {
                         // 如果批次号为空 不处理
                         if (ibas.objects.isNull(batchJournal.batchCode)) {
                             continue;
                         }
-                        let batchLine: bo.MaterialBatchJournal = item.goodsReceiptMaterialBatchJournals.find(c => c.batchCode === batchJournal.batchCode);
-                        if (ibas.objects.isNull(batchLine)) {
-                            batchLine = item.goodsReceiptMaterialBatchJournals.create();
-                        }
+                        let batchLine: bo.MaterialBatchJournal = item.goodsReceiptMaterialBatchJournals.create();
                         batchLine.batchCode = batchJournal.batchCode;
                         batchLine.itemCode = batchJournal.itemCode;
                         batchLine.warehouse = batchJournal.warehouse;
@@ -302,6 +302,46 @@ export class GoodsReceiptEditApp extends ibas.BOEditApplication<IGoodsReceiptEdi
                         batchLine.admissionDate = batchJournal.admissionDate;
                         batchLine.expirationDate = batchJournal.expirationDate;
                         batchLine.manufacturingDate = batchJournal.manufacturingDate;
+                    }
+                }
+            }
+        });
+    }
+    /** 新建物料序列信息 */
+    createGoodsReceiptLineMaterialSerial(): void {
+        let that: this = this;
+        let caller: bo.MaterialBatchInput[] = that.getBatchSerialData();
+        if (ibas.objects.isNull(caller) || caller.length === 0) {
+            this.messages(ibas.emMessageType.WARNING, ibas.i18n.prop("sys_shell_please_chooose_data",
+                ibas.i18n.prop("sys_shell_data_edit")
+            ));
+            return;
+        }
+        ibas.servicesManager.runChooseService<bo.MaterialBatchInput>({
+            caller: caller,
+            boCode: bo.MaterialSerialJournal.BUSINESS_OBJECT_RECEIPT_CODE,
+            criteria: [
+            ],
+            onCompleted(callbackData: ibas.List<bo.MaterialBatchInput>): void {
+                // 获取触发的对象
+                for (let line of callbackData) {
+                    let item: bo.GoodsReceiptLine = that.editData.goodsReceiptLines[line.index];
+                    for(let serialLine of item.goodsReceiptMaterialSerialJournals){
+                        serialLine.delete();
+                    }
+                    for (let serialJournal of line.materialBatchInputSerialJournals.filterDeleted()) {
+                        // 如果序列号为空 不处理
+                        if (ibas.objects.isNull(serialJournal.serialCode)) {
+                            continue;
+                        }
+                        let serialLine: bo.MaterialSerialJournal = item.goodsReceiptMaterialSerialJournals.create();
+                        serialLine.supplierSerial = serialJournal.supplierSerial;
+                        serialLine.serialCode = serialJournal.serialCode;
+                        serialLine.itemCode = serialJournal.itemCode;
+                        serialLine.warehouse = serialJournal.warehouse;
+                        serialLine.admissionDate = serialJournal.admissionDate;
+                        serialLine.expirationDate = serialJournal.expirationDate;
+                        serialLine.manufacturingDate = serialJournal.manufacturingDate;
                     }
                 }
             }
@@ -330,6 +370,9 @@ export class GoodsReceiptEditApp extends ibas.BOEditApplication<IGoodsReceiptEdi
                     batchLine.itemCode = item.itemCode;
                     batchLine.warehouse = item.warehouse;
                     batchLine.quantity = item.quantity;
+                    batchLine.expirationDate = item.expirationDate;
+                    batchLine.admissionDate = item.admissionDate;
+                    batchLine.manufacturingDate = item.manufacturingDate;
                     batchLine.direction = ibas.emDirection.OUT;
                 }
             }
@@ -339,6 +382,14 @@ export class GoodsReceiptEditApp extends ibas.BOEditApplication<IGoodsReceiptEdi
             } else {
                 for (let item of line.goodsReceiptMaterialSerialJournals) {
                     let serialLine: bo.MaterialSerialJournal = input.materialBatchInputSerialJournals.create();
+                    serialLine.supplierSerial = item.supplierSerial;
+                    serialLine.batchSerial = item.batchSerial;
+                    serialLine.expirationDate = item.expirationDate;
+                    serialLine.warrantyStartDate = item.warrantyStartDate;
+                    serialLine.warrantyEndDate = item.warrantyEndDate;
+                    serialLine.expirationDate = item.expirationDate;
+                    serialLine.admissionDate = item.admissionDate;
+                    serialLine.manufacturingDate = item.manufacturingDate;
                     serialLine.serialCode = item.serialCode;
                     serialLine.itemCode = item.itemCode;
                     serialLine.warehouse = item.warehouse;
@@ -370,5 +421,7 @@ export interface IGoodsReceiptEditView extends ibas.IBOEditView {
     /** 选择库存收货单行仓库事件 */
     chooseGoodsreceiptlineWarehouseEvent: Function;
     /** 批次管理物料新建批次 */
-    newGoodsReceiptLineMaterialBatchEvent: Function;
+    createGoodsReceiptLineMaterialBatchEvent: Function;
+    /** 批次管理物料新建序列 */
+    createGoodsReceiptLineMaterialSerialEvent: Function;
 }

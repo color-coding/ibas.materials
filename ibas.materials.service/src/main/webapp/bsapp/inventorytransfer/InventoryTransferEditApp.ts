@@ -35,9 +35,11 @@ export class InventoryTransferEditApp extends ibas.BOEditApplication<IInventoryT
         this.view.createDataEvent = this.createData;
         this.view.addInventoryTransferLineEvent = this.addInventoryTransferLine;
         this.view.removeInventoryTransferLineEvent = this.removeInventoryTransferLine;
+        this.view.chooseInventoryTransferWarehouseEvent = this.chooseInventoryTransferWarehouse;
         this.view.chooseInventoryTransferLineMaterialEvent = this.chooseInventoryTransferLineMaterial;
         this.view.chooseInventoryTransferLineWarehouseEvent = this.chooseInventoryTransferLineWarehouse;
         this.view.chooseInventoryTransferLineMaterialBatchEvent = this.chooseInventoryTransferLineMaterialBatch;
+        this.view.chooseInventoryTransferLineMaterialSerialEvent = this.chooseInventoryTransferLineMaterialSerial;
     }
     /** 视图显示后 */
     protected viewShowed(): void {
@@ -201,17 +203,31 @@ export class InventoryTransferEditApp extends ibas.BOEditApplication<IInventoryT
         // 仅显示没有标记删除的
         this.view.showInventoryTransferLines(this.editData.inventoryTransferLines.filterDeleted());
     }
-
+    /** 选择库存转储订单行物料事件 */
+    chooseInventoryTransferWarehouse(): void {
+        let that: this = this;
+        ibas.servicesManager.runChooseService<bo.Warehouse>({
+            caller: that.editData,
+            boCode: bo.Warehouse.BUSINESS_OBJECT_CODE,
+            criteria: [
+                new ibas.Condition(bo.Warehouse.PROPERTY_DELETED_NAME, ibas.emConditionOperation.EQUAL, "N")
+            ],
+            onCompleted(selecteds: ibas.List<bo.Warehouse>): void {
+                // 获取触发的对象
+                that.editData.fromWarehouse = selecteds.firstOrDefault().code;
+            }
+        });
+    }
     /** 选择库存转储订单行物料事件 */
     chooseInventoryTransferLineMaterial(caller: bo.InventoryTransferLine): void {
         let that: this = this;
-        ibas.servicesManager.runChooseService<bo.Material>({
+        ibas.servicesManager.runChooseService<bo.MaterialEx>({
             caller: caller,
-            boCode: bo.Material.BUSINESS_OBJECT_CODE,
+            boCode: bo.MaterialEx.BUSINESS_OBJECT_CODE,
             criteria: [
-                new ibas.Condition(bo.Material.PROPERTY_DELETED_NAME, ibas.emConditionOperation.EQUAL, "N")
+                new ibas.Condition(bo.MaterialEx.PROPERTY_DELETED_NAME, ibas.emConditionOperation.EQUAL, "N")
             ],
-            onCompleted(selecteds: ibas.List<bo.Material>): void {
+            onCompleted(selecteds: ibas.List<bo.MaterialEx>): void {
                 // 获取触发的对象
                 let index: number = that.editData.inventoryTransferLines.indexOf(caller);
                 let item: bo.InventoryTransferLine = that.editData.inventoryTransferLines[index];
@@ -224,6 +240,7 @@ export class InventoryTransferEditApp extends ibas.BOEditApplication<IInventoryT
                     }
                     item.itemCode = selected.code;
                     item.itemDescription = selected.name;
+                    item.quantity = 1;
                     item = null;
                 }
                 if (created) {
@@ -286,29 +303,70 @@ export class InventoryTransferEditApp extends ibas.BOEditApplication<IInventoryT
                     for (let batchJournal of line.materialBatchInputBatchJournals.filterDeleted()) {
                         // 出仓库需要选择批次
                         let batchOutLine: bo.MaterialBatchJournal = item.inventoryTransferMaterialBatchJournals
-                        .find(c => c.batchCode === batchJournal.batchCode && c.warehouse === that.editData.fromWarehouse);
+                            .find(c => c.batchCode === batchJournal.batchCode && c.warehouse === that.editData.fromWarehouse);
                         if (ibas.objects.isNull(batchOutLine)) {
                             batchOutLine = item.inventoryTransferMaterialBatchJournals.create();
                         }
                         batchOutLine.batchCode = batchJournal.batchCode;
                         batchOutLine.quantity = batchJournal.quantity;
                         batchOutLine.itemCode = batchJournal.itemCode;
-                        batchOutLine.warehouse =that.editData.fromWarehouse;
-                        batchOutLine.quantity = batchJournal.quantity;
+                        batchOutLine.warehouse = that.editData.fromWarehouse;
                         batchOutLine.admissionDate = batchJournal.admissionDate;
                         batchOutLine.expirationDate = batchJournal.expirationDate;
                         batchOutLine.manufacturingDate = batchJournal.manufacturingDate;
                         // 入库需要新建批次
                         let batchInLine: bo.MaterialBatchJournal = item.inventoryTransferMaterialBatchJournals
-                        .find(c => c.batchCode === batchJournal.batchCode && c.warehouse === line.warehouse);
+                            .find(c => c.batchCode === batchJournal.batchCode && c.warehouse === line.warehouse);
                         if (ibas.objects.isNull(batchInLine)) {
                             batchInLine = item.inventoryTransferMaterialBatchJournals.create();
                         }
                         batchInLine.batchCode = batchJournal.batchCode;
                         batchInLine.quantity = batchJournal.quantity;
                         batchInLine.itemCode = batchJournal.itemCode;
-                        batchInLine.warehouse =line.warehouse;
-                        batchInLine.quantity = batchJournal.quantity;
+                        batchInLine.warehouse = line.warehouse;
+                        batchInLine.admissionDate = batchJournal.admissionDate;
+                        batchInLine.expirationDate = batchJournal.expirationDate;
+                        batchInLine.manufacturingDate = batchJournal.manufacturingDate;
+                    }
+                }
+            }
+        });
+    }
+    chooseInventoryTransferLineMaterialSerial(): void {
+        let that: this = this;
+        let caller: bo.MaterialBatchInput[] = that.getBatchSerialData();
+        if (ibas.objects.isNull(caller) || caller.length === 0) {
+            this.messages(ibas.emMessageType.WARNING, ibas.i18n.prop("sys_shell_please_chooose_data",
+                ibas.i18n.prop("sys_shell_data_edit")
+            ));
+            return;
+        }
+        ibas.servicesManager.runChooseService<bo.MaterialBatchInput>({
+            caller: caller,
+            boCode: bo.MaterialSerialJournal.BUSINESS_OBJECT_ISSUE_CODE,
+            criteria: [
+            ],
+            onCompleted(callbackData: ibas.List<bo.MaterialBatchInput>): void {
+                // 获取触发的对象
+                for (let line of callbackData) {
+                    let item: bo.InventoryTransferLine = that.editData.inventoryTransferLines[line.index];
+                    for (let batchLine of item.inventoryTransferMaterialBatchJournals) {
+                        batchLine.delete();
+                    }
+                    for (let batchJournal of line.materialBatchInputSerialJournals.filterDeleted()) {
+                        // 出仓库需要选择批次
+                        let batchOutLine: bo.MaterialBatchJournal = item.inventoryTransferMaterialBatchJournals.create();
+                        batchOutLine.batchCode = batchJournal.serialCode;
+                        batchOutLine.itemCode = batchJournal.itemCode;
+                        batchOutLine.warehouse = that.editData.fromWarehouse;
+                        batchOutLine.admissionDate = batchJournal.admissionDate;
+                        batchOutLine.expirationDate = batchJournal.expirationDate;
+                        batchOutLine.manufacturingDate = batchJournal.manufacturingDate;
+                        // 入库需要新建批次
+                        let batchInLine: bo.MaterialBatchJournal = item.inventoryTransferMaterialBatchJournals.create();
+                        batchInLine.batchCode = batchJournal.serialCode;
+                        batchInLine.itemCode = batchJournal.itemCode;
+                        batchInLine.warehouse = line.warehouse;
                         batchInLine.admissionDate = batchJournal.admissionDate;
                         batchInLine.expirationDate = batchJournal.expirationDate;
                         batchInLine.manufacturingDate = batchJournal.manufacturingDate;
@@ -328,7 +386,7 @@ export class InventoryTransferEditApp extends ibas.BOEditApplication<IInventoryT
             input.index = goodIssueLines.indexOf(line);
             input.itemCode = line.itemCode;
             input.quantity = line.quantity;
-            input.warehouse = line.warehouse;
+            input.warehouse = this.editData.fromWarehouse;
             input.direction = ibas.emDirection.OUT;
             if (line.inventoryTransferMaterialBatchJournals.length === 0) {
                 input.needBatchQuantity = line.quantity;
@@ -357,7 +415,7 @@ export class InventoryTransferEditApp extends ibas.BOEditApplication<IInventoryT
             }
             inputData.push(input);
         }
-         return inputData;
+        return inputData;
     }
 
 }
@@ -369,6 +427,8 @@ export interface IInventoryTransferEditView extends ibas.IBOEditView {
     deleteDataEvent: Function;
     /** 新建数据事件，参数1：是否克隆 */
     createDataEvent: Function;
+    /** 选择库存转储单从仓库事件 */
+    chooseInventoryTransferWarehouseEvent: Function;
     /** 添加库存转储-行事件 */
     addInventoryTransferLineEvent: Function;
     /** 删除库存转储-行事件 */
@@ -381,4 +441,6 @@ export interface IInventoryTransferEditView extends ibas.IBOEditView {
     chooseInventoryTransferLineWarehouseEvent: Function;
     /** 选择库存转储单行物料批次事件 */
     chooseInventoryTransferLineMaterialBatchEvent: Function;
+    /** 选择库存转储单行物料序列事件 */
+    chooseInventoryTransferLineMaterialSerialEvent: Function;
 }

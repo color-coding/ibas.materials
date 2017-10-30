@@ -29,8 +29,8 @@ export class GoodsIssueEditView extends ibas.BOEditView implements IGoodsIssueEd
     chooseGoodsIssueLineMaterialEvent: Function;
     /** 选择库存发货单行仓库事件 */
     chooseGoodsIssueLineWarehouseEvent: Function;
-    selectGoodsIssueLineMaterialBatchEvent: Function;
-    selectGoodsIssueLineMaterialSerialEvent: Function;
+    chooseGoodsIssueLineMaterialBatchEvent: Function;
+    chooseGoodsIssueLineMaterialSerialEvent: Function;
     /** 绘制视图 */
     darw(): any {
         let that: this = this;

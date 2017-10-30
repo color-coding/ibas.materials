@@ -16,6 +16,7 @@ import { MaterialFunc, MaterialChooseServiceMapping, MaterialLinkServiceMapping 
 import { MaterialGroupFunc, MaterialGroupChooseServiceMapping, MaterialGroupLinkServiceMapping } from "./materialgroup/index";
 import { WarehouseFunc, WarehouseChooseServiceMapping, WarehouseLinkServiceMapping } from "./warehouse/index";
 import { MaterialBatchReceipServiceMapping,MaterialBatchIssueServiceMapping} from "./materialbatch/index";
+import { MaterialSerialReceipServiceMapping,MaterialSerialIssueServiceMapping} from "./materialserial/index";
 
 /** 模块控制台 */
 export class Console extends ibas.ModuleConsole {
@@ -55,6 +56,8 @@ export class Console extends ibas.ModuleConsole {
         this.register(new MaterialExChooseServiceMapping());
         this.register(new MaterialBatchReceipServiceMapping);
         this.register(new MaterialBatchIssueServiceMapping);
+        this.register(new MaterialSerialReceipServiceMapping);
+        this.register(new MaterialSerialIssueServiceMapping);
         // 注册常驻应用
 
     }

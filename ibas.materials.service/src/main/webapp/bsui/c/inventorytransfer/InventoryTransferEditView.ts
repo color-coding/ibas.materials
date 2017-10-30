@@ -19,6 +19,8 @@ export class InventoryTransferEditView extends ibas.BOEditView implements IInven
     deleteDataEvent: Function;
     /** 新建数据事件，参数1：是否克隆 */
     createDataEvent: Function;
+    /** 选择库存转储单从仓库事件 */
+    chooseInventoryTransferWarehouseEvent: Function;
     /** 添加库存转储-行事件 */
     addInventoryTransferLineEvent: Function;
     /** 删除库存转储-行事件 */
@@ -29,6 +31,8 @@ export class InventoryTransferEditView extends ibas.BOEditView implements IInven
     chooseInventoryTransferLineWarehouseEvent: Function;
     /** 选择库存转储单行物料批次事件 */
     chooseInventoryTransferLineMaterialBatchEvent: Function;
+    /** 选择库存转储单行物料序列事件 */
+    chooseInventoryTransferLineMaterialSerialEvent: Function;
     private mainLayout: sap.ui.layout.VerticalLayout;
     private viewBottomForm: sap.ui.layout.form.SimpleForm;
 
@@ -49,13 +53,6 @@ export class InventoryTransferEditView extends ibas.BOEditView implements IInven
             columnsS: 1,
             content: [
                 new sap.ui.core.Title("", { text: ibas.i18n.prop("materials_base_information") }),
-                new sap.m.Label("", { text: ibas.i18n.prop("bo_inventorytransfer_docentry") }),
-                new sap.m.Input("", {
-                    editable: false,
-                    type: sap.m.InputType.Number
-                }).bindProperty("value", {
-                    path: "docEntry",
-                }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_inventorytransfer_documentstatus") }),
                 new sap.m.Select("", {
                     items: utils.createComboBoxItems(ibas.emDocumentStatus)
@@ -74,6 +71,16 @@ export class InventoryTransferEditView extends ibas.BOEditView implements IInven
                     type: sap.m.InputType.Text
                 }).bindProperty("value", {
                     path: "reference2",
+                }),
+                new sap.m.Label("", { text: ibas.i18n.prop("bo_inventorytransfer_fromwarehouse") }),
+                new sap.m.Input("", {
+                    type: sap.m.InputType.Text,
+                    showValueHelp: true,
+                    valueHelpRequest: function (): void {
+                        that.fireViewEvents(that.chooseInventoryTransferWarehouseEvent);
+                    }
+                }).bindProperty("value", {
+                    path: "FromWarehouse",
                 }),
                 new sap.ui.core.Title("", { text: ibas.i18n.prop("materials_date_information") }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_inventorytransfer_postingdate") }),
@@ -130,6 +137,12 @@ export class InventoryTransferEditView extends ibas.BOEditView implements IInven
                                             that.fireViewEvents(that.chooseInventoryTransferLineMaterialBatchEvent);
                                         }
                                     }),
+                                    new sap.m.MenuItem("", {
+                                        text: ibas.i18n.prop("materials_app_materialserialissue"),
+                                        press: function (): void {
+                                            that.fireViewEvents(that.chooseInventoryTransferLineMaterialSerialEvent);
+                                        }
+                                    }),
                                 ]
                             })
                         ]
@@ -140,14 +153,6 @@ export class InventoryTransferEditView extends ibas.BOEditView implements IInven
             visibleRowCount: ibas.config.get(utils.CONFIG_ITEM_LIST_TABLE_VISIBLE_ROW_COUNT, 5),
             rows: "{/rows}",
             columns: [
-                new sap.ui.table.Column("", {
-                    label: ibas.i18n.prop("bo_inventorytransferline_lineid"),
-                    template: new sap.m.Text("", {
-                        width: "100%",
-                    }).bindProperty("text", {
-                        path: "lineId"
-                    })
-                }),
                 new sap.ui.table.Column("", {
                     label: ibas.i18n.prop("bo_inventorytransferline_itemcode"),
                     template: new sap.m.Input("", {

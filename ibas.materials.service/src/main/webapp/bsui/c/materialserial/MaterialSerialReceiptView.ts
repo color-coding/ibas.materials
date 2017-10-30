@@ -14,11 +14,12 @@ export class MaterialSerialReceiptView extends ibas.BODialogView implements IMat
     /** 添加批次事件 */
     addSerialEvent: Function;
     /** 移除批次事件 */
+    saveDataEvent: Function;
     removeSerialEvent: Function;
     /** 自动创建批次事件 */
     autoCreateSerialEvent: Function;
-    saveDataEvent: Function;
-
+    /** 选中凭证行事件 */
+    selectMaterialSerialJournalLineEvent: Function;
     private mainLayout: sap.ui.layout.VerticalLayout;
     private journalLineTable: sap.ui.table.Table;
     /** 绘制工具条 */
@@ -90,20 +91,17 @@ export class MaterialSerialReceiptView extends ibas.BODialogView implements IMat
             rows: "{/rows}",
             columns: [
                 new sap.ui.table.Column("", {
-                    label: ibas.i18n.prop("bo_materialserial_serialcode"),
+                    label: ibas.i18n.prop("bo_materialserial_supplierserial"),
                     template: new sap.m.Input("", {
-                        width: "100%",
                     }).bindProperty("value", {
-                        path: "SerialCode"
+                        path: "supplierserial"
                     })
                 }),
                 new sap.ui.table.Column("", {
-                    label: ibas.i18n.prop("bo_materialserial_quantity"),
+                    label: ibas.i18n.prop("bo_materialserial_serialcode"),
                     template: new sap.m.Input("", {
-                        width: "100%",
-                        type: sap.m.InputType.Number
                     }).bindProperty("value", {
-                        path: "quantity"
+                        path: "SerialCode"
                     })
                 }),
                 new sap.ui.table.Column("", {
@@ -134,13 +132,17 @@ export class MaterialSerialReceiptView extends ibas.BODialogView implements IMat
         });
         this.journalLineTable = new sap.ui.table.Table("", {
             enableSelectAll: false,
+            selectionMode: sap.ui.table.SelectionMode.Single,
             visibleRowCount: ibas.config.get(utils.CONFIG_ITEM_LIST_TABLE_VISIBLE_ROW_COUNT, 8),
             visibleRowCountMode: sap.ui.table.VisibleRowCountMode.Interactive,
-            // press:
+            rowSelectionChange: function (): void {
+                that.fireViewEvents(that.selectMaterialSerialJournalLineEvent,
+                    utils.getTableSelecteds<bo.MaterialBatchInput>(that.journalLineTable).firstOrDefault(), );
+            },
             rows: "{/journallinedata}",
             columns: [
                 new sap.ui.table.Column("", {
-                    label: ibas.i18n.prop("bo_materialbatchjournal_itemCode"),
+                    label: ibas.i18n.prop("bo_materialserialjournal_itemCode"),
                     template: new sap.m.Text("", {
                         wrapping: false,
                     }).bindProperty("text", {
@@ -148,7 +150,7 @@ export class MaterialSerialReceiptView extends ibas.BODialogView implements IMat
                     }),
                 }),
                 new sap.ui.table.Column("", {
-                    label: ibas.i18n.prop("bo_materialbatchjournal_warehousecode"),
+                    label: ibas.i18n.prop("bo_materialserialjournal_warehousecode"),
                     template: new sap.m.Text("", {
                         wrapping: false,
                     }).bindProperty("text", {
@@ -156,7 +158,7 @@ export class MaterialSerialReceiptView extends ibas.BODialogView implements IMat
                     }),
                 }),
                 new sap.ui.table.Column("", {
-                    label: ibas.i18n.prop("bo_materialbatchjournal_quantity"),
+                    label: ibas.i18n.prop("bo_materialserialjournal_quantity"),
                     template: new sap.m.Text("", {
                         wrapping: false,
                     }).bindProperty("text", {
@@ -164,7 +166,7 @@ export class MaterialSerialReceiptView extends ibas.BODialogView implements IMat
                     }),
                 }),
                 new sap.ui.table.Column("", {
-                    label: ibas.i18n.prop("bo_materialbatchjournal_needquantity"),
+                    label: ibas.i18n.prop("bo_materialserialjournal_needquantity"),
                     template: new sap.m.Text("", {
                         wrapping: false,
                     }).bindProperty("text", {
@@ -172,7 +174,7 @@ export class MaterialSerialReceiptView extends ibas.BODialogView implements IMat
                     }),
                 }),
                 new sap.ui.table.Column("", {
-                    label: ibas.i18n.prop("bo_materialbatchjournal_createdquantity"),
+                    label: ibas.i18n.prop("bo_materialserialjournal_createdquantity"),
                     template: new sap.m.Text("", {
                         wrapping: false,
                     }).bindProperty("text", {
@@ -180,7 +182,7 @@ export class MaterialSerialReceiptView extends ibas.BODialogView implements IMat
                     }),
                 }),
                 new sap.ui.table.Column("", {
-                    label: ibas.i18n.prop("bo_materialbatchjournal_direction"),
+                    label: ibas.i18n.prop("bo_materialserialjournal_direction"),
                     template: new sap.m.Text("", {
                         wrapping: false,
                     }).bindProperty("text", {
@@ -205,17 +207,11 @@ export class MaterialSerialReceiptView extends ibas.BODialogView implements IMat
     /** 显示数据 */
     showData(datas: bo.MaterialSerialJournal[]): void {
         this.table.setModel(new sap.ui.model.json.JSONModel({ rows: datas }));
-        // this.table.bindObject("/");
-        // 监听属性改变，并更新控件
         utils.refreshModelChanged(this.table, datas);
     }
     showJournalLineData(datas: bo.MaterialBatchInput[]): void {
         this.journalLineTable.setModel(new sap.ui.model.json.JSONModel({ journallinedata: datas }));
         utils.refreshModelChanged(this.journalLineTable, datas);
-    }
-    getSelectedRemoveData(): bo.MaterialBatchInput {
-        let batch: bo.MaterialBatchInput = utils.getTableSelecteds<bo.MaterialBatchInput>(this.journalLineTable).firstOrDefault();
-        return batch;
     }
     private lastCriteria: ibas.ICriteria;
 

@@ -28,9 +28,9 @@ export class GoodsIssueEditView extends ibas.BOEditView implements IGoodsIssueEd
     /** 选择库存发货单行仓库事件 */
     chooseGoodsIssueLineWarehouseEvent: Function;
     /** 选择物料批次事件 */
-    selectGoodsIssueLineMaterialBatchEvent: Function;
+    chooseGoodsIssueLineMaterialBatchEvent: Function;
     /** 选择库存发货单行物料序列号事件 */
-    selectGoodsIssueLineMaterialSerialEvent: Function;
+    chooseGoodsIssueLineMaterialSerialEvent: Function;
 
     private mainLayout: sap.ui.layout.VerticalLayout;
     private viewBottomForm: sap.ui.layout.form.SimpleForm;
@@ -51,13 +51,6 @@ export class GoodsIssueEditView extends ibas.BOEditView implements IGoodsIssueEd
             columnsS: 1,
             content: [
                 new sap.ui.core.Title("", { text: ibas.i18n.prop("materials_base_information") }),
-                new sap.m.Label("", { text: ibas.i18n.prop("bo_goodsissue_docentry") }),
-                new sap.m.Input("", {
-                    editable: false,
-                    type: sap.m.InputType.Number
-                }).bindProperty("value", {
-                    path: "docEntry",
-                }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_goodsissue_documentstatus") }),
                 new sap.m.Select("", {
                     items: utils.createComboBoxItems(ibas.emDocumentStatus)
@@ -129,13 +122,13 @@ export class GoodsIssueEditView extends ibas.BOEditView implements IGoodsIssueEd
                                     new sap.m.MenuItem("", {
                                         text: ibas.i18n.prop("materials_app_materialbatchissue"),
                                         press: function (): void {
-                                            that.fireViewEvents(that.selectGoodsIssueLineMaterialBatchEvent);
+                                            that.fireViewEvents(that.chooseGoodsIssueLineMaterialBatchEvent);
                                         }
                                     }),
                                     new sap.m.MenuItem("", {
                                         text: ibas.i18n.prop("materials_app_materialserialhissue"),
                                         press: function (): void {
-                                            that.fireViewEvents(that.selectGoodsIssueLineMaterialSerialEvent);
+                                            that.fireViewEvents(that.chooseGoodsIssueLineMaterialSerialEvent);
                                         }
                                     }),
                                 ]
@@ -221,7 +214,7 @@ export class GoodsIssueEditView extends ibas.BOEditView implements IGoodsIssueEd
                         width: "100%",
                         showValueHelp: true,
                         valueHelpRequest: function (): void {
-                            that.fireViewEvents(that.selectGoodsIssueLineMaterialBatchEvent,
+                            that.fireViewEvents(that.chooseGoodsIssueLineMaterialBatchEvent,
                                 // 获取当前对象
                                 this.getBindingContext().getObject()
                             );

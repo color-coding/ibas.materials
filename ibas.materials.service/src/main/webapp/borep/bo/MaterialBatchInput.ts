@@ -227,4 +227,26 @@ export class MaterialBatchInputSerialJournals extends BusinessObjects<MaterialSe
         this.add(item);
         return item;
     }
+    /** 移除子项 */
+    protected afterRemove(item: MaterialSerialJournal): void {
+        super.afterRemove(item);
+        if (this.parent.materialBatchInputSerialJournals.length === 0) {
+            this.parent.needSerialQuantity = this.parent.quantity;
+            this.parent.selectedSerialQuantity = 0;
+        } else {
+            this.parent.selectedSerialQuantity = this.parent.materialBatchInputSerialJournals.length;
+            this.parent.needSerialQuantity = Number(this.parent.quantity) - Number(this.parent.selectedSerialQuantity);
+        }
+    }
+
+    protected afterAdd(item: MaterialSerialJournal): void {
+        super.afterRemove(item);
+        if (this.parent.materialBatchInputSerialJournals.length === 0) {
+            this.parent.needSerialQuantity = this.parent.quantity;
+            this.parent.selectedSerialQuantity = 0;
+        } else {
+            this.parent.selectedSerialQuantity = this.parent.materialBatchInputSerialJournals.length;
+            this.parent.needSerialQuantity = Number(this.parent.quantity) - Number(this.parent.selectedSerialQuantity);
+        }
+    }
 }

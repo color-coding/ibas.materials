@@ -13,12 +13,14 @@ import { IMaterialBatchReceiptView } from "../../../bsapp/materialbatch/index";
 export class MaterialBatchReceiptView extends ibas.BODialogView implements IMaterialBatchReceiptView {
     /** 添加批次事件 */
     addBatchEvent: Function;
+    /** 保存事件 */
+    saveDataEvent: Function;
     /** 移除批次事件 */
     removeBatchEvent: Function;
     /** 自动创建批次事件 */
     autoCreateBatchEvent: Function;
-    saveDataEvent: Function;
-
+    /** 选中凭证行事件 */
+    selectMaterialBatchJournalLineEvent: Function;
     private mainLayout: sap.ui.layout.VerticalLayout;
     private journalLineTable: sap.ui.table.Table;
     /** 绘制工具条 */
@@ -137,6 +139,10 @@ export class MaterialBatchReceiptView extends ibas.BODialogView implements IMate
             selectionMode: sap.ui.table.SelectionMode.Single,
             visibleRowCount: ibas.config.get(utils.CONFIG_ITEM_LIST_TABLE_VISIBLE_ROW_COUNT, 8),
             visibleRowCountMode: sap.ui.table.VisibleRowCountMode.Interactive,
+            rowSelectionChange: function (): void {
+                that.fireViewEvents(that.selectMaterialBatchJournalLineEvent,
+                    utils.getTableSelecteds<bo.MaterialBatchInput>(that.journalLineTable).firstOrDefault(), );
+            },
             rows: "{/journallinedata}",
             columns: [
                 new sap.ui.table.Column("", {

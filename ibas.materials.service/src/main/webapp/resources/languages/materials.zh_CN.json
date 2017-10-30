@@ -55,7 +55,7 @@
   "materials_app_materialserialhissue": "序列号选择",
   "materials_app_materialbatchreceipt": "批次设置",
   "materials_app_materialserialissue": "序列号选择",
-  "materials_app_materialerialreceipt": "序列号设置",
+  "materials_app_materialserialreceipt": "序列号设置",
   "materials_closing_delimiter": "----结束----",
   "materials_sys_autoselect": "自动选择",
   "materials_sys_autocreate": "自动创建",

@@ -7,3 +7,4 @@
  */
 // export * from "./MaterialSerialReceiptView";
 export * from "./MaterialSerialIssueView";
+export * from "./MaterialSerialReceiptView";

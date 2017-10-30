@@ -27,8 +27,10 @@ export class GoodsReceiptEditView extends ibas.BOEditView implements IGoodsRecei
     chooseGoodsReceiptLineMaterialEvent: Function;
     /** 选择库存收货单行仓库事件 */
     chooseGoodsreceiptlineWarehouseEvent: Function;
-    /** 新建物料批次信息 */
-    newGoodsReceiptLineMaterialBatchEvent: Function;
+    /** 新建库存收货单行物料序列事件 */
+    createGoodsReceiptLineMaterialSerialEvent: Function;
+    /** 新建库存收货单行物料批次事件 */
+    createGoodsReceiptLineMaterialBatchEvent: Function;
     private mainLayout: sap.ui.layout.VerticalLayout;
     private viewBottomForm: sap.ui.layout.form.SimpleForm;
     /** 绘制视图 */
@@ -126,7 +128,13 @@ export class GoodsReceiptEditView extends ibas.BOEditView implements IGoodsRecei
                                     new sap.m.MenuItem("",{
                                         text: ibas.i18n.prop("materials_app_materialbatchreceipt"),
                                         press: function(): void {
-                                            that.fireViewEvents(that.newGoodsReceiptLineMaterialBatchEvent);
+                                            that.fireViewEvents(that.createGoodsReceiptLineMaterialBatchEvent);
+                                        }
+                                    }),
+                                    new sap.m.MenuItem("", {
+                                        text: ibas.i18n.prop("materials_app_materialserialhissue"),
+                                        press: function (): void {
+                                            that.fireViewEvents(that.createGoodsReceiptLineMaterialSerialEvent);
                                         }
                                     }),
                                 ]
@@ -213,7 +221,7 @@ export class GoodsReceiptEditView extends ibas.BOEditView implements IGoodsRecei
                         type: sap.m.InputType.Number,
                         showValueHelp: true,
                         valueHelpRequest: function (): void {
-                            that.fireViewEvents(that.newGoodsReceiptLineMaterialBatchEvent,
+                            that.fireViewEvents(that.createGoodsReceiptLineMaterialBatchEvent,
                                 // 获取当前对象
                                 this.getBindingContext().getObject()
                             );
