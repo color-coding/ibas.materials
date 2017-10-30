@@ -28,6 +28,7 @@ import {
 export class MaterialSerialJournal extends BOSimple<MaterialSerialJournal> implements IMaterialSerialJournal {
 /** 业务对象编码 */
     static BUSINESS_OBJECT_CODE: string = BO_CODE_MATERIALSERIAL;
+    static BUSINESS_OBJECT_RECEIPT_CODE: string = BO_CODE_MATERIALSERIAL;
     /** 构造函数 */
     constructor() {
         super();
