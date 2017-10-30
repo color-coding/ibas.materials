@@ -30,6 +30,10 @@ export const BO_CODE_RECEIEPT_MATERIALBATCH: string = "${Company}_MM_RECEIEPT_BA
 export const BO_CODE_ISSUE_MATERIALBATCH: string = "${Company}_MM_ISSUE_BATCH";
 /** 业务对象编码-物料序列号 */
 export const BO_CODE_MATERIALSERIAL: string = "${Company}_MM_SERIAL";
+/** 业务对象编码-物料序列号 */
+export const BO_CODE_RECEIEPT_MATERIALSERIAL: string = "${Company}_MM_RECEIEPT_SERIAL";
+/** 业务对象编码-物料序列号 */
+export const BO_CODE_ISSUE_MATERIALSERIAL: string = "${Company}_MM_ISSUE_SERIAL";
 /** 业务对象编码-物料组 */
 export const BO_CODE_MATERIALGROUP: string = "${Company}_MM_MATERIALGROUP";
 /** 业务对象编码-物料库存 */

@@ -52,6 +52,7 @@
   "materials_other_information": "其它信息",
   "materials_forex_information": "外汇信息",
   "materials_app_materialbatchissue": "批次选择",
+  "materials_app_materialserialhissue": "序列号选择",
   "materials_app_materialbatchreceipt": "批次设置",
   "materials_app_materialserialissue": "序列号选择",
   "materials_app_materialerialreceipt": "序列号设置",

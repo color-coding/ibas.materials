@@ -26,6 +26,7 @@ import * as warehouseViews from "./warehouse/index";
 import * as materialbatchApps from "../../bsapp/materialbatch/index";
 import * as materialserialApps from "../../bsapp/materialserial/index";
 import * as materialbatchViews from "./materialbatch/index";
+import * as materialserialViews from "./materialserial/index";
 // import * as materialserialViews from "./materialserial/index";
 
 /**
@@ -144,6 +145,9 @@ export default class Navigation extends ibas.ViewNavigation {
                 break;
             case materialbatchApps.MaterialBatchIssueApp.APPLICATION_ID:
                 view = new materialbatchViews.MaterialBatchIssueView();
+                break;
+            case materialserialApps.MaterialSerialIssueApp.APPLICATION_ID:
+                view = new materialserialViews.MaterialSerialIssueView();
                 break;
             default:
                 break;

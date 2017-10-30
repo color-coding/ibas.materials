@@ -29,6 +29,8 @@ export class GoodsIssueEditView extends ibas.BOEditView implements IGoodsIssueEd
     chooseGoodsIssueLineWarehouseEvent: Function;
     /** 选择物料批次事件 */
     selectGoodsIssueLineMaterialBatchEvent: Function;
+    /** 选择库存发货单行物料序列号事件 */
+    selectGoodsIssueLineMaterialSerialEvent: Function;
 
     private mainLayout: sap.ui.layout.VerticalLayout;
     private viewBottomForm: sap.ui.layout.form.SimpleForm;
@@ -119,15 +121,21 @@ export class GoodsIssueEditView extends ibas.BOEditView implements IGoodsIssueEd
                             );
                         }
                     }),
-                    new sap.m.MenuButton("",{
+                    new sap.m.MenuButton("", {
                         text: ibas.i18n.prop("materials_data_batch_serial"),
-                        menu:[
-                            new sap.m.Menu("",{
+                        menu: [
+                            new sap.m.Menu("", {
                                 items: [
-                                    new sap.m.MenuItem("",{
+                                    new sap.m.MenuItem("", {
                                         text: ibas.i18n.prop("materials_app_materialbatchissue"),
-                                        press: function(): void {
+                                        press: function (): void {
                                             that.fireViewEvents(that.selectGoodsIssueLineMaterialBatchEvent);
+                                        }
+                                    }),
+                                    new sap.m.MenuItem("", {
+                                        text: ibas.i18n.prop("materials_app_materialserialhissue"),
+                                        press: function (): void {
+                                            that.fireViewEvents(that.selectGoodsIssueLineMaterialSerialEvent);
                                         }
                                     }),
                                 ]
