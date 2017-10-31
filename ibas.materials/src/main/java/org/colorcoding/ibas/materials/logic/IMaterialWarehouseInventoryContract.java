@@ -2,7 +2,7 @@ package org.colorcoding.ibas.materials.logic;
 
 import org.colorcoding.ibas.bobas.data.Decimal;
 import org.colorcoding.ibas.bobas.data.emDirection;
-import org.colorcoding.ibas.bobas.logics.IBusinessLogicContract;
+import org.colorcoding.ibas.bobas.logic.IBusinessLogicContract;
 
 /**
  * 仓库库存契约 影响物料对应仓库库存（日记账继承此契约）

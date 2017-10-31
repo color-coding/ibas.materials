@@ -4,7 +4,7 @@ import junit.framework.TestCase;
 import org.colorcoding.ibas.bobas.data.*;
 import org.colorcoding.ibas.bobas.common.*;
 import org.colorcoding.ibas.bobas.repository.*;
-import org.colorcoding.ibas.initialfantasy.bo.shells.User;
+import org.colorcoding.ibas.initialfantasy.bo.shell.User;
 import org.colorcoding.ibas.initialfantasy.repository.BORepositoryInitialFantasyShell;
 import org.colorcoding.ibas.materials.bo.goodsreceipt.GoodsReceipt;
 import org.colorcoding.ibas.materials.bo.goodsreceipt.IGoodsReceiptLine;

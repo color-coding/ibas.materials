@@ -2,9 +2,9 @@ package org.colorcoding.ibas.materials.repository;
 
 import org.colorcoding.ibas.bobas.common.*;
 import org.colorcoding.ibas.bobas.data.Decimal;
-import org.colorcoding.ibas.bobas.logics.BusinessLogicException;
+import org.colorcoding.ibas.bobas.logic.BusinessLogicException;
 import org.colorcoding.ibas.bobas.repository.BORepositoryServiceApplication;
-import org.colorcoding.ibas.bobas.util.ArrayList;
+import org.colorcoding.ibas.bobas.data.ArrayList;
 import org.colorcoding.ibas.materials.bo.goodsissue.GoodsIssue;
 import org.colorcoding.ibas.materials.bo.goodsissue.IGoodsIssue;
 import org.colorcoding.ibas.materials.bo.goodsreceipt.GoodsReceipt;
@@ -637,10 +637,10 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
      * @return 操作结果
      */
     public OperationResult<MaterialEx> fetchMaterialEx(ICriteria criteria, String token) {
-        //check the conditions of criteria,filter it if it contains warehouseCode or priceListName
-        //1: search the material
-        //2: search the inventory
-        //3: search the pricelist
+        //检查条件,找出条件中包含仓库和物料的condition
+        //第一步: 查询物料
+        //第二步: 查询库存
+        //第三步: 查询价格清单
         OperationResult<MaterialEx> operationResultMaterialExpand = new OperationResult<MaterialEx>();
         OperationResult<?> operationResult = null;
         ArrayList<Material> materials = new ArrayList<Material>();
@@ -696,7 +696,7 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
             //endregion
         }
         try {
-            //region search the material and create MaterialEx object.
+            //region 查询物料，创建MaterialEx对象
             operationResult = this.fetchMaterial(criteria, token);
             if (operationResult.getResultCode() == 0) {
                 materials = (ArrayList<Material>) operationResult.getResultObjects();
@@ -705,8 +705,8 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
             }
             materialExs = MaterialEx.create(materials);
             //endregion
-            // region search the inventory by warehouse.
-            operationResultMaterialExpand.setResultObjects(materialExs);
+            // region 通过拆分的仓库条件查询库存
+            operationResultMaterialExpand.addResultObjects(materialExs);
             operationResult = this.fetchMaterialInventoryOfMaterialEx(operationResultMaterialExpand, criInventory, token);
             if (operationResult.getError() != null) {
                 throw new BusinessLogicException(operationResult.getError());
@@ -717,7 +717,7 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
             materialExs = (ArrayList<MaterialEx>) operationResult.getResultObjects();
             //endregion..
             //region search the price list by price list name.
-            operationResultMaterialExpand.setResultObjects(materialExs);
+            operationResultMaterialExpand.addResultObjects(materialExs);
             operationResult = this.fetchMaterialPriceListOfMaterialEx(operationResultMaterialExpand, criPriceList, token);
             if (operationResult.getError() != null) {
                 throw new BusinessLogicException(operationResult.getError());
@@ -770,7 +770,7 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
                     }
                 }
             }
-            operationRt.setResultObjects(newMaterialExs);
+            operationRt.addResultObjects(newMaterialExs);
         } catch (Exception e) {
             operationRt.setError(e);
         }

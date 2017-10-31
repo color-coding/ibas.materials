@@ -2,7 +2,7 @@ package org.colorcoding.ibas.materials.logic;
 
 import org.colorcoding.ibas.bobas.data.Decimal;
 import org.colorcoding.ibas.bobas.data.emDirection;
-import org.colorcoding.ibas.bobas.logics.IBusinessLogicContract;
+import org.colorcoding.ibas.bobas.logic.IBusinessLogicContract;
 
 public interface IMaterialSerialJournalContract extends IBusinessLogicContract{
     /**
