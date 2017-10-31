@@ -300,13 +300,12 @@ export class InventoryTransferEditApp extends ibas.BOEditApplication<IInventoryT
                 // 获取触发的对象
                 for (let line of callbackData) {
                     let item: bo.InventoryTransferLine = that.editData.inventoryTransferLines[line.index];
+                    for (let batchLine of item.inventoryTransferMaterialBatchJournals) {
+                        batchLine.delete();
+                    }
                     for (let batchJournal of line.materialBatchInputBatchJournals.filterDeleted()) {
                         // 出仓库需要选择批次
-                        let batchOutLine: bo.MaterialBatchJournal = item.inventoryTransferMaterialBatchJournals
-                            .find(c => c.batchCode === batchJournal.batchCode && c.warehouse === that.editData.fromWarehouse);
-                        if (ibas.objects.isNull(batchOutLine)) {
-                            batchOutLine = item.inventoryTransferMaterialBatchJournals.create();
-                        }
+                        let batchOutLine: bo.MaterialBatchJournal = item.inventoryTransferMaterialBatchJournals.create();
                         batchOutLine.batchCode = batchJournal.batchCode;
                         batchOutLine.quantity = batchJournal.quantity;
                         batchOutLine.itemCode = batchJournal.itemCode;
@@ -315,15 +314,11 @@ export class InventoryTransferEditApp extends ibas.BOEditApplication<IInventoryT
                         batchOutLine.expirationDate = batchJournal.expirationDate;
                         batchOutLine.manufacturingDate = batchJournal.manufacturingDate;
                         // 入库需要新建批次
-                        let batchInLine: bo.MaterialBatchJournal = item.inventoryTransferMaterialBatchJournals
-                            .find(c => c.batchCode === batchJournal.batchCode && c.warehouse === line.warehouse);
-                        if (ibas.objects.isNull(batchInLine)) {
-                            batchInLine = item.inventoryTransferMaterialBatchJournals.create();
-                        }
+                        let batchInLine: bo.MaterialBatchJournal = item.inventoryTransferMaterialBatchJournals.create();
                         batchInLine.batchCode = batchJournal.batchCode;
                         batchInLine.quantity = batchJournal.quantity;
                         batchInLine.itemCode = batchJournal.itemCode;
-                        batchInLine.warehouse = line.warehouse;
+                        batchInLine.warehouse = item.warehouse;
                         batchInLine.admissionDate = batchJournal.admissionDate;
                         batchInLine.expirationDate = batchJournal.expirationDate;
                         batchInLine.manufacturingDate = batchJournal.manufacturingDate;
@@ -341,6 +336,14 @@ export class InventoryTransferEditApp extends ibas.BOEditApplication<IInventoryT
             ));
             return;
         }
+        if (ibas.objects.isNull(that.editData.fromWarehouse)) {
+            return;
+        }
+        for (let inventoryTransferLine of that.editData.inventoryTransferLines) {
+            if (ibas.objects.isNull(inventoryTransferLine.warehouse) || ibas.objects.isNull(inventoryTransferLine.itemCode)) {
+                return;
+            }
+        }
         ibas.servicesManager.runChooseService<bo.MaterialBatchInput>({
             caller: caller,
             boCode: bo.MaterialSerialJournal.BUSINESS_OBJECT_ISSUE_CODE,
@@ -350,26 +353,32 @@ export class InventoryTransferEditApp extends ibas.BOEditApplication<IInventoryT
                 // 获取触发的对象
                 for (let line of callbackData) {
                     let item: bo.InventoryTransferLine = that.editData.inventoryTransferLines[line.index];
-                    for (let batchLine of item.inventoryTransferMaterialBatchJournals) {
-                        batchLine.delete();
+                    for (let serialLine of item.inventoryTransferMaterialSerialJournals) {
+                        serialLine.delete();
                     }
-                    for (let batchJournal of line.materialBatchInputSerialJournals.filterDeleted()) {
-                        // 出仓库需要选择批次
-                        let batchOutLine: bo.MaterialBatchJournal = item.inventoryTransferMaterialBatchJournals.create();
-                        batchOutLine.batchCode = batchJournal.serialCode;
-                        batchOutLine.itemCode = batchJournal.itemCode;
-                        batchOutLine.warehouse = that.editData.fromWarehouse;
-                        batchOutLine.admissionDate = batchJournal.admissionDate;
-                        batchOutLine.expirationDate = batchJournal.expirationDate;
-                        batchOutLine.manufacturingDate = batchJournal.manufacturingDate;
-                        // 入库需要新建批次
-                        let batchInLine: bo.MaterialBatchJournal = item.inventoryTransferMaterialBatchJournals.create();
-                        batchInLine.batchCode = batchJournal.serialCode;
-                        batchInLine.itemCode = batchJournal.itemCode;
-                        batchInLine.warehouse = line.warehouse;
-                        batchInLine.admissionDate = batchJournal.admissionDate;
-                        batchInLine.expirationDate = batchJournal.expirationDate;
-                        batchInLine.manufacturingDate = batchJournal.manufacturingDate;
+                    for (let serialJournal of line.materialBatchInputSerialJournals.filterDeleted()) {
+                        // 出仓库需要选择序列
+                        let serialOutLine: bo.MaterialSerialJournal = item.inventoryTransferMaterialSerialJournals.create();
+                        serialOutLine.serialCode = serialJournal.serialCode;
+                        serialOutLine.supplierSerial = serialJournal.supplierSerial;
+                        serialOutLine.batchSerial = serialJournal.batchSerial;
+                        serialOutLine.itemCode = serialJournal.itemCode;
+                        serialOutLine.warehouse = that.editData.fromWarehouse;
+                        serialOutLine.admissionDate = serialJournal.admissionDate;
+                        serialOutLine.expirationDate = serialJournal.expirationDate;
+                        serialOutLine.manufacturingDate = serialJournal.manufacturingDate;
+                        serialOutLine.direction = ibas.emDirection.OUT;
+                        // 入库需要新建序列
+                        let serialInLine: bo.MaterialSerialJournal = item.inventoryTransferMaterialSerialJournals.create();
+                        serialInLine.serialCode = serialJournal.serialCode;
+                        serialInLine.supplierSerial = serialJournal.supplierSerial;
+                        serialInLine.batchSerial = serialJournal.batchSerial;
+                        serialInLine.itemCode = serialJournal.itemCode;
+                        serialInLine.warehouse = item.warehouse;
+                        serialInLine.admissionDate = serialJournal.admissionDate;
+                        serialInLine.expirationDate = serialJournal.expirationDate;
+                        serialInLine.manufacturingDate = serialJournal.manufacturingDate;
+                        serialInLine.direction = ibas.emDirection.IN;
                     }
                 }
             }
@@ -392,7 +401,8 @@ export class InventoryTransferEditApp extends ibas.BOEditApplication<IInventoryT
                 input.needBatchQuantity = line.quantity;
                 input.selectedBatchQuantity = 0;
             } else {
-                for (let item of line.inventoryTransferMaterialBatchJournals) {
+                for (let item of line.inventoryTransferMaterialBatchJournals
+                    .filter(c => c.warehouse === this.editData.fromWarehouse && c.isDeleted === false)) {
                     let batchLine: bo.MaterialBatchJournal = input.materialBatchInputBatchJournals.create();
                     batchLine.batchCode = item.batchCode;
                     batchLine.itemCode = item.itemCode;
@@ -405,7 +415,8 @@ export class InventoryTransferEditApp extends ibas.BOEditApplication<IInventoryT
                 input.needSerialQuantity = line.quantity;
                 input.selectedSerialQuantity = 0;
             } else {
-                for (let item of line.inventoryTransferMaterialSerialJournals) {
+                for (let item of line.inventoryTransferMaterialSerialJournals
+                    .filter(c => c.warehouse === this.editData.fromWarehouse && c.isDeleted === false)) {
                     let serialLine: bo.MaterialSerialJournal = input.materialBatchInputSerialJournals.create();
                     serialLine.serialCode = item.serialCode;
                     serialLine.itemCode = item.itemCode;
