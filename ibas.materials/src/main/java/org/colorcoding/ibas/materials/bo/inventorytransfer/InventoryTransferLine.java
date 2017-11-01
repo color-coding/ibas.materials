@@ -1,9 +1,6 @@
 package org.colorcoding.ibas.materials.bo.inventorytransfer;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlType;
+import javax.xml.bind.annotation.*;
 
 import org.colorcoding.ibas.bobas.bo.BusinessObject;
 import org.colorcoding.ibas.bobas.core.IPropertyInfo;
@@ -17,6 +14,8 @@ import org.colorcoding.ibas.bobas.logic.IBusinessLogicsHost;
 import org.colorcoding.ibas.bobas.mapping.DbField;
 import org.colorcoding.ibas.bobas.mapping.DbFieldType;
 import org.colorcoding.ibas.materials.MyConfiguration;
+import org.colorcoding.ibas.materials.bo.materialbatch.MaterialBatchJournal;
+import org.colorcoding.ibas.materials.bo.materialserial.MaterialSerialJournal;
 import org.colorcoding.ibas.materials.data.emItemType;
 import org.colorcoding.ibas.materials.logic.IMaterialIssueContract;
 import org.colorcoding.ibas.materials.logic.IMaterialReceiptContract;
@@ -1310,11 +1309,77 @@ public class InventoryTransferLine extends BusinessObject<InventoryTransferLine>
     }
 
     /**
+     * 属性名称-库存转储-物料批次
+     */
+    private static final String PROPERTY_INVENTORYTRANSFERMATERIALBATCHJOURNALS_NAME = "InventoryTransferMaterialBatchJournals";
+
+    /**
+     * 库存转储-物料批次的集合属性
+     *
+     */
+    public static final IPropertyInfo<IInventoryTransferMaterialBatchJournals> PROPERTY_INVENTORYTRANSFERMATERIALBATCHJOURNALS = registerProperty(
+            PROPERTY_INVENTORYTRANSFERMATERIALBATCHJOURNALS_NAME, IInventoryTransferMaterialBatchJournals.class, MY_CLASS);
+
+    /**
+     * 获取-库存转储-物料批次集合
+     *
+     * @return 值
+     */
+    @XmlElementWrapper(name = PROPERTY_INVENTORYTRANSFERMATERIALBATCHJOURNALS_NAME)
+    @XmlElement(name = MaterialBatchJournal.BUSINESS_OBJECT_NAME, type = MaterialBatchJournal.class)
+    public final IInventoryTransferMaterialBatchJournals getInventoryTransferMaterialBatchJournals() {
+        return this.getProperty(PROPERTY_INVENTORYTRANSFERMATERIALBATCHJOURNALS);
+    }
+
+    /**
+     * 设置-库存转储-物料批次集合
+     *
+     * @param value
+     *            值
+     */
+    public final void setInventoryTransferMaterialBatchJournals(IInventoryTransferMaterialBatchJournals value) {
+        this.setProperty(PROPERTY_INVENTORYTRANSFERMATERIALBATCHJOURNALS, value);
+    }
+    /**
+     * 属性名称-库存转储-物料序列
+     */
+    private static final String PROPERTY_INVENTORYTRANSFERMATERIALSERIALJOURNALS_NAME = "InventoryTransferMaterialSerialJournals";
+
+    /**
+     * 库存转储-物料序列的集合属性
+     *
+     */
+    public static final IPropertyInfo<IInventoryTransferMaterialSerialJournals> PROPERTY_INVENTORYTRANSFERMATERIALSERIALJOURNALS = registerProperty(
+            PROPERTY_INVENTORYTRANSFERMATERIALSERIALJOURNALS_NAME, IInventoryTransferMaterialSerialJournals.class, MY_CLASS);
+
+    /**
+     * 获取-库存转储-物料序列集合
+     *
+     * @return 值
+     */
+    @XmlElementWrapper(name = PROPERTY_INVENTORYTRANSFERMATERIALSERIALJOURNALS_NAME)
+    @XmlElement(name = MaterialSerialJournal.BUSINESS_OBJECT_NAME, type = MaterialSerialJournal.class)
+    public final IInventoryTransferMaterialSerialJournals getInventoryTransferMaterialSerialJournals() {
+        return this.getProperty(PROPERTY_INVENTORYTRANSFERMATERIALSERIALJOURNALS);
+    }
+
+    /**
+     * 设置-库存发货-物料序列集合
+     *
+     * @param value
+     *            值
+     */
+    public final void setInventoryTransferMaterialSerialJournals(IInventoryTransferMaterialSerialJournals value) {
+        this.setProperty(PROPERTY_INVENTORYTRANSFERMATERIALSERIALJOURNALS, value);
+    }
+    /**
      * 初始化数据
      */
     @Override
     protected void initialize() {
         super.initialize();// 基类初始化，不可去除
+        this.setInventoryTransferMaterialBatchJournals(new InventoryTransferMaterialBatchJournals(this));
+        this.setInventoryTransferMaterialSerialJournals(new InventoryTransferMaterialSerialJournals(this));
         this.setObjectCode(MyConfiguration.applyVariables(BUSINESS_OBJECT_CODE));
         // 日期初始化。 需要在前台中添加这三个日期，并实现父类日期发生更改时，子类日期发生相应更改。
         this.setPostingDate(DateTime.getToday());

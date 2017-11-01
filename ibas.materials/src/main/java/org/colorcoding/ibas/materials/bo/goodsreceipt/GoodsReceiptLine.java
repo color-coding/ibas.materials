@@ -1407,7 +1407,7 @@ public class GoodsReceiptLine extends BusinessObject<GoodsReceiptLine>
 	 * @return 值
 	 */
 	@XmlElementWrapper(name = PROPERTY_GOODSRECEIPTMATERIALSERIALJOURNALS_NAME)
-	@XmlElement(name = MaterialBatchJournal.BUSINESS_OBJECT_NAME, type = MaterialSerialJournal.class)
+	@XmlElement(name = MaterialSerialJournal.BUSINESS_OBJECT_NAME, type = MaterialSerialJournal.class)
 	public final IGoodsReceiptMaterialSerialJournals getGoodsReceiptMaterialSerialJournals() {
 		return this.getProperty(PROPERTY_GOODSRECEIPTMATERIALSERIALJOURNALS);
 	}

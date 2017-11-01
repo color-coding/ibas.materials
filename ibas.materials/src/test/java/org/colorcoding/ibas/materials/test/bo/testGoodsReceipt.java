@@ -10,6 +10,7 @@ import org.colorcoding.ibas.materials.bo.material.Material;
 import org.colorcoding.ibas.materials.bo.materialbatch.IMaterialBatchJournal;
 import org.colorcoding.ibas.materials.bo.materialinventory.MaterialInventory;
 import org.colorcoding.ibas.materials.bo.materialinventory.MaterialInventoryJournal;
+import org.colorcoding.ibas.materials.bo.materialserial.IMaterialSerialJournal;
 import org.colorcoding.ibas.materials.bo.warehouse.Warehouse;
 import org.colorcoding.ibas.materials.data.*;
 import org.colorcoding.ibas.materials.bo.goodsreceipt.*;
@@ -47,6 +48,12 @@ public class testGoodsReceipt extends TestCase {
         goodsreceiptBatch.setQuantity(10);
         goodsreceiptBatch.setItemCode("A0001");
         goodsreceiptBatch.setWarehouse("BJKJ");
+        IMaterialSerialJournal goodsreceiptlineSerial = goodsreceiptline.getGoodsReceiptMaterialSerialJournals().create();
+        goodsreceiptlineSerial.setSerialCode("10001");
+        goodsreceiptlineSerial.setItemCode("A0002");
+        goodsreceiptlineSerial.setWarehouse("BJKJ");
+
+
 
         // 测试对象的保存和查询
         IOperationResult<?> operationResult = null;

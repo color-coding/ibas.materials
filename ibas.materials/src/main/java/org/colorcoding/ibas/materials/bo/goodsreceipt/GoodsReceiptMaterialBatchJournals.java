@@ -46,6 +46,9 @@ public class GoodsReceiptMaterialBatchJournals extends BusinessObjects<IMaterial
     protected void afterAddItem(IMaterialBatchJournal item) {
         super.afterAddItem(item);
         // TODO 设置关联值
+        item.setBaseDocumentType(this.getParent().getObjectCode());
+        item.setBaseDocumentEntry(this.getParent().getDocEntry());
+        item.setBaseDocumentLineId(this.getParent().getLineId());
     }
 
     @Override
@@ -59,6 +62,13 @@ public class GoodsReceiptMaterialBatchJournals extends BusinessObjects<IMaterial
     public void onParentPropertyChanged(PropertyChangeEvent evt) {
         super.onParentPropertyChanged(evt);
         // TODO 设置关联值
+        if(evt.getPropertyName().equalsIgnoreCase(GoodsReceiptLine.MASTER_PRIMARY_KEY_NAME)){
+            for(IMaterialBatchJournal item: this){
+                item.setBaseDocumentType(this.getParent().getObjectCode());
+                item.setBaseDocumentEntry(this.getParent().getDocEntry());
+                item.setBaseDocumentLineId(this.getParent().getLineId());
+            }
+        }
     }
 
     @Override

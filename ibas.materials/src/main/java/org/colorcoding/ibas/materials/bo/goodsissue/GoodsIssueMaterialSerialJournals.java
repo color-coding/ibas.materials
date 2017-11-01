@@ -3,6 +3,7 @@ package org.colorcoding.ibas.materials.bo.goodsissue;
 import org.colorcoding.ibas.bobas.bo.BusinessObjects;
 import org.colorcoding.ibas.bobas.common.ICriteria;
 import org.colorcoding.ibas.materials.MyConfiguration;
+import org.colorcoding.ibas.materials.bo.goodsreceipt.GoodsReceiptLine;
 import org.colorcoding.ibas.materials.bo.materialserial.IMaterialSerialJournal;
 import org.colorcoding.ibas.materials.bo.materialserial.MaterialSerialJournal;
 
@@ -69,5 +70,12 @@ public class GoodsIssueMaterialSerialJournals extends BusinessObjects<IMaterialS
     public void onParentPropertyChanged(PropertyChangeEvent evt) {
         super.onParentPropertyChanged(evt);
         // TODO 设置关联值
+        if(evt.getPropertyName().equalsIgnoreCase(GoodsReceiptLine.MASTER_PRIMARY_KEY_NAME)){
+            for(IMaterialSerialJournal item: this){
+                item.setBaseDocumentType(this.getParent().getObjectCode());
+                item.setBaseDocumentEntry(this.getParent().getDocEntry());
+                item.setBaseDocumentLineId(this.getParent().getLineId());
+            }
+        }
     }
 }
