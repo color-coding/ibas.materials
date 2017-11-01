@@ -1,7 +1,7 @@
 package org.colorcoding.ibas.materials.bo.goodsreceipt;
 
 import org.colorcoding.ibas.bobas.bo.BusinessObjects;
-import org.colorcoding.ibas.bobas.common.ICriteria;
+import org.colorcoding.ibas.bobas.common.*;
 import org.colorcoding.ibas.materials.MyConfiguration;
 import org.colorcoding.ibas.materials.bo.materialbatch.IMaterialBatchJournal;
 import org.colorcoding.ibas.materials.bo.materialserial.IMaterialSerialJournal;
@@ -43,7 +43,7 @@ public class GoodsReceiptMaterialSerialJournals extends BusinessObjects<IMateria
      * 元素类型
      */
     public Class<?> getElementType() {
-        return GoodsReceiptMaterialSerialJournals.class;
+        return MaterialSerialJournal.class;
     }
 
     @Override
@@ -58,8 +58,19 @@ public class GoodsReceiptMaterialSerialJournals extends BusinessObjects<IMateria
 
     @Override
     public ICriteria getElementCriteria() {
-        ICriteria criteria = super.getElementCriteria();
+        // ICriteria criteria = super.getElementCriteria();
         // TODO 添加关联查询条件
+        ICriteria criteria = new Criteria();
+        ICondition condition = criteria.getConditions().create();
+        condition.setAlias("BaseType");
+        condition.setOperation(ConditionOperation.EQUAL);
+        condition.setValue(this.getParent().getObjectCode());
+        condition = criteria.getConditions().create();
+        condition.setAlias("BaseEntry");
+        condition.setOperation(ConditionOperation.EQUAL);
+        condition.setValue(this.getParent().getDocEntry());
+        condition.setRelationship(ConditionRelationship.AND);
+
         return criteria;
     }
 

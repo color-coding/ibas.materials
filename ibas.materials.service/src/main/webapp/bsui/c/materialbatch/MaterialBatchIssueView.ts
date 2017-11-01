@@ -40,7 +40,7 @@ export class MaterialBatchIssueView extends ibas.BODialogView implements IMateri
                 press: function (): void {
                     that.fireViewEvents(that.autoSelectMaterialBatchEvent,
                         // 获取表格选中的对象
-                        utils.getTableSelecteds<bo.MaterialBatchInput>(that.journalLineTable).firstOrDefault()
+                        utils.getTableSelecteds<bo.MaterialBatchSerialInOutData>(that.journalLineTable).firstOrDefault()
                     );
                 }
             }),
@@ -74,7 +74,7 @@ export class MaterialBatchIssueView extends ibas.BODialogView implements IMateri
             visibleRowCountMode: sap.ui.table.VisibleRowCountMode.Interactive,
             rowSelectionChange: function (): void {
                 that.fireViewEvents(that.selectMaterialBatchJournalLineEvent,
-                    utils.getTableSelecteds<bo.MaterialBatchInput>(that.journalLineTable).firstOrDefault(), );
+                    utils.getTableSelecteds<bo.MaterialBatchSerialInOutData>(that.journalLineTable).firstOrDefault(), );
             },
             rows: "{/journallinedata}",
             columns: [
@@ -187,7 +187,7 @@ export class MaterialBatchIssueView extends ibas.BODialogView implements IMateri
                     press: function (): void {
                         that.fireViewEvents(that.removeBatchMaterialBatchEvent,
                             // 获取表格选中的对象
-                            utils.getTableSelecteds<bo.MaterialBatchInput>(that.journalLineTable).firstOrDefault(),
+                            utils.getTableSelecteds<bo.MaterialBatchSerialInOutData>(that.journalLineTable).firstOrDefault(),
                             utils.getTableSelecteds<bo.MaterialBatchJournal>(that.rightTable),
                         );
                     }
@@ -197,7 +197,7 @@ export class MaterialBatchIssueView extends ibas.BODialogView implements IMateri
                     press: function (): void {
                         that.fireViewEvents(that.addBatchMaterialBatchEvent,
                             // 获取表格选中的对象
-                            utils.getTableSelecteds<bo.MaterialBatchInput>(that.journalLineTable).firstOrDefault(),
+                            utils.getTableSelecteds<bo.MaterialBatchSerialInOutData>(that.journalLineTable).firstOrDefault(),
                             utils.getTableSelecteds<bo.MaterialBatch>(that.leftTable),
                         );
                     }
@@ -256,7 +256,7 @@ export class MaterialBatchIssueView extends ibas.BODialogView implements IMateri
         //     this.table.setModel(null);
         // }
     }
-    showJournalLineData(datas: bo.MaterialBatchInput[]): void {
+    showJournalLineData(datas: bo.MaterialBatchSerialInOutData[]): void {
         this.journalLineTable.setModel(new sap.ui.model.json.JSONModel({ journallinedata: datas }));
         utils.refreshModelChanged(this.journalLineTable, datas);
     }

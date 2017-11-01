@@ -6,6 +6,11 @@ import org.colorcoding.ibas.bobas.logic.IBusinessLogicContract;
 
 public interface IMaterialBatchJournalContract extends IBusinessLogicContract {
     /**
+     * 批次编号
+     * @return
+     */
+    String getBatchCode();
+    /**
      * 物料编码
      *
      * @return

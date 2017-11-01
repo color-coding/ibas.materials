@@ -32,7 +32,7 @@ export class MaterialSerialReceiptView extends ibas.BODialogView implements IMat
                 // icon: "sap-icon://inspect-down",
                 press: function (): void {
                     that.fireViewEvents(that.autoCreateSerialEvent,
-                        utils.getTableSelecteds<bo.MaterialBatchInput>(that.journalLineTable).firstOrDefault()
+                        utils.getTableSelecteds<bo.MaterialBatchSerialInOutData>(that.journalLineTable).firstOrDefault()
                     );
                 }
             }),
@@ -70,7 +70,7 @@ export class MaterialSerialReceiptView extends ibas.BODialogView implements IMat
                         icon: "sap-icon://add",
                         press: function (): void {
                             that.fireViewEvents(that.addSerialEvent,
-                                utils.getTableSelecteds<bo.MaterialBatchInput>(that.journalLineTable).firstOrDefault());
+                                utils.getTableSelecteds<bo.MaterialBatchSerialInOutData>(that.journalLineTable).firstOrDefault());
                         }
                     }),
                     new sap.m.Button("", {
@@ -79,7 +79,7 @@ export class MaterialSerialReceiptView extends ibas.BODialogView implements IMat
                         icon: "sap-icon://less",
                         press: function (): void {
                             that.fireViewEvents(that.removeSerialEvent,
-                                utils.getTableSelecteds<bo.MaterialBatchInput>(that.journalLineTable).firstOrDefault(),
+                                utils.getTableSelecteds<bo.MaterialBatchSerialInOutData>(that.journalLineTable).firstOrDefault(),
                                 utils.getTableSelecteds<bo.MaterialBatch>(that.table)
                             );
                         }
@@ -94,7 +94,7 @@ export class MaterialSerialReceiptView extends ibas.BODialogView implements IMat
                     label: ibas.i18n.prop("bo_materialserial_supplierserial"),
                     template: new sap.m.Input("", {
                     }).bindProperty("value", {
-                        path: "supplierserial"
+                        path: "SupplierSerial"
                     })
                 }),
                 new sap.ui.table.Column("", {
@@ -137,7 +137,7 @@ export class MaterialSerialReceiptView extends ibas.BODialogView implements IMat
             visibleRowCountMode: sap.ui.table.VisibleRowCountMode.Interactive,
             rowSelectionChange: function (): void {
                 that.fireViewEvents(that.selectMaterialSerialJournalLineEvent,
-                    utils.getTableSelecteds<bo.MaterialBatchInput>(that.journalLineTable).firstOrDefault(), );
+                    utils.getTableSelecteds<bo.MaterialBatchSerialInOutData>(that.journalLineTable).firstOrDefault(), );
             },
             rows: "{/journallinedata}",
             columns: [
@@ -209,7 +209,7 @@ export class MaterialSerialReceiptView extends ibas.BODialogView implements IMat
         this.table.setModel(new sap.ui.model.json.JSONModel({ rows: datas }));
         utils.refreshModelChanged(this.table, datas);
     }
-    showJournalLineData(datas: bo.MaterialBatchInput[]): void {
+    showJournalLineData(datas: bo.MaterialBatchSerialInOutData[]): void {
         this.journalLineTable.setModel(new sap.ui.model.json.JSONModel({ journallinedata: datas }));
         utils.refreshModelChanged(this.journalLineTable, datas);
     }

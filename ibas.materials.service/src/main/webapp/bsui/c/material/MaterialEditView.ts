@@ -178,14 +178,14 @@ export class MaterialEditView extends ibas.BOEditView implements IMaterialEditVi
                 new sap.m.Select("", {
                     items: utils.createComboBoxItems(ibas.emYesNo),
                 }).bindProperty("selectedKey", {
-                    path: "SerialManagement",
+                    path: "serialManagement",
                     type: "sap.ui.model.type.Integer",
                 }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_material_batchmanagement") }),
                 new sap.m.Select("", {
                     items: utils.createComboBoxItems(ibas.emYesNo),
                 }).bindProperty("selectedKey", {
-                    path: "BatchManagement",
+                    path: "batchManagement",
                     type: "sap.ui.model.type.Integer",
                 }),
                 // new sap.ui.core.Title("", { text: ibas.i18n.prop("materials_technical_information") }),

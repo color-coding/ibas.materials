@@ -33,7 +33,7 @@ export class MaterialBatchReceiptView extends ibas.BODialogView implements IMate
                 // icon: "sap-icon://inspect-down",
                 press: function (): void {
                     that.fireViewEvents(that.autoCreateBatchEvent,
-                        utils.getTableSelecteds<bo.MaterialBatchInput>(that.journalLineTable).firstOrDefault()
+                        utils.getTableSelecteds<bo.MaterialBatchSerialInOutData>(that.journalLineTable).firstOrDefault()
                     );
                 }
             }),
@@ -71,7 +71,7 @@ export class MaterialBatchReceiptView extends ibas.BODialogView implements IMate
                         icon: "sap-icon://add",
                         press: function (): void {
                             that.fireViewEvents(that.addBatchEvent,
-                                utils.getTableSelecteds<bo.MaterialBatchInput>(that.journalLineTable).firstOrDefault());
+                                utils.getTableSelecteds<bo.MaterialBatchSerialInOutData>(that.journalLineTable).firstOrDefault());
                         }
                     }),
                     new sap.m.Button("", {
@@ -80,7 +80,7 @@ export class MaterialBatchReceiptView extends ibas.BODialogView implements IMate
                         icon: "sap-icon://less",
                         press: function (): void {
                             that.fireViewEvents(that.removeBatchEvent,
-                                utils.getTableSelecteds<bo.MaterialBatchInput>(that.journalLineTable).firstOrDefault(),
+                                utils.getTableSelecteds<bo.MaterialBatchSerialInOutData>(that.journalLineTable).firstOrDefault(),
                                 utils.getTableSelecteds<bo.MaterialBatch>(that.table)
                             );
                         }
@@ -141,7 +141,7 @@ export class MaterialBatchReceiptView extends ibas.BODialogView implements IMate
             visibleRowCountMode: sap.ui.table.VisibleRowCountMode.Interactive,
             rowSelectionChange: function (): void {
                 that.fireViewEvents(that.selectMaterialBatchJournalLineEvent,
-                    utils.getTableSelecteds<bo.MaterialBatchInput>(that.journalLineTable).firstOrDefault(), );
+                    utils.getTableSelecteds<bo.MaterialBatchSerialInOutData>(that.journalLineTable).firstOrDefault(), );
             },
             rows: "{/journallinedata}",
             columns: [
@@ -215,12 +215,12 @@ export class MaterialBatchReceiptView extends ibas.BODialogView implements IMate
         // 监听属性改变，并更新控件
         utils.refreshModelChanged(this.table, datas);
     }
-    showJournalLineData(datas: bo.MaterialBatchInput[]): void {
+    showJournalLineData(datas: bo.MaterialBatchSerialInOutData[]): void {
         this.journalLineTable.setModel(new sap.ui.model.json.JSONModel({ journallinedata: datas }));
         utils.refreshModelChanged(this.journalLineTable, datas);
     }
-    getSelectedRemoveData(): bo.MaterialBatchInput {
-        let batch: bo.MaterialBatchInput = utils.getTableSelecteds<bo.MaterialBatchInput>(this.journalLineTable).firstOrDefault();
+    getSelectedRemoveData(): bo.MaterialBatchSerialInOutData {
+        let batch: bo.MaterialBatchSerialInOutData = utils.getTableSelecteds<bo.MaterialBatchSerialInOutData>(this.journalLineTable).firstOrDefault();
         return batch;
     }
     private lastCriteria: ibas.ICriteria;

@@ -270,26 +270,26 @@ export class GoodsReceiptEditApp extends ibas.BOEditApplication<IGoodsReceiptEdi
     /** 新建物料批次信息 */
     createGoodsReceiptLineMaterialBatch(): void {
         let that: this = this;
-        let caller: bo.MaterialBatchInput[] = that.getBatchSerialData();
+        let caller: bo.MaterialBatchSerialInOutData[] = that.getBatchSerialData();
         if (ibas.objects.isNull(caller) || caller.length === 0) {
             this.messages(ibas.emMessageType.WARNING, ibas.i18n.prop("sys_shell_please_chooose_data",
                 ibas.i18n.prop("sys_shell_data_edit")
             ));
             return;
         }
-        ibas.servicesManager.runChooseService<bo.MaterialBatchInput>({
+        ibas.servicesManager.runChooseService<bo.MaterialBatchSerialInOutData>({
             caller: caller,
             boCode: bo.MaterialBatchJournal.BUSINESS_OBJECT_RECEIEPT_CODE,
             criteria: [
             ],
-            onCompleted(callbackData: ibas.List<bo.MaterialBatchInput>): void {
+            onCompleted(callbackData: ibas.List<bo.MaterialBatchSerialInOutData>): void {
                 // 获取触发的对象
                 for (let line of callbackData) {
                     let item: bo.GoodsReceiptLine = that.editData.goodsReceiptLines[line.index];
                     for(let batchLine of item.goodsReceiptMaterialBatchJournals){
                         batchLine.delete();
                     }
-                    for (let batchJournal of line.materialBatchInputBatchJournals.filterDeleted()) {
+                    for (let batchJournal of line.materialBatchSerialInOutDataBatchJournals.filterDeleted()) {
                         // 如果批次号为空 不处理
                         if (ibas.objects.isNull(batchJournal.batchCode)) {
                             continue;
@@ -299,6 +299,7 @@ export class GoodsReceiptEditApp extends ibas.BOEditApplication<IGoodsReceiptEdi
                         batchLine.itemCode = batchJournal.itemCode;
                         batchLine.warehouse = batchJournal.warehouse;
                         batchLine.quantity = batchJournal.quantity;
+                        batchLine.direction = batchJournal.direction;
                         batchLine.admissionDate = batchJournal.admissionDate;
                         batchLine.expirationDate = batchJournal.expirationDate;
                         batchLine.manufacturingDate = batchJournal.manufacturingDate;
@@ -310,26 +311,26 @@ export class GoodsReceiptEditApp extends ibas.BOEditApplication<IGoodsReceiptEdi
     /** 新建物料序列信息 */
     createGoodsReceiptLineMaterialSerial(): void {
         let that: this = this;
-        let caller: bo.MaterialBatchInput[] = that.getBatchSerialData();
+        let caller: bo.MaterialBatchSerialInOutData[] = that.getBatchSerialData();
         if (ibas.objects.isNull(caller) || caller.length === 0) {
             this.messages(ibas.emMessageType.WARNING, ibas.i18n.prop("sys_shell_please_chooose_data",
                 ibas.i18n.prop("sys_shell_data_edit")
             ));
             return;
         }
-        ibas.servicesManager.runChooseService<bo.MaterialBatchInput>({
+        ibas.servicesManager.runChooseService<bo.MaterialBatchSerialInOutData>({
             caller: caller,
             boCode: bo.MaterialSerialJournal.BUSINESS_OBJECT_RECEIPT_CODE,
             criteria: [
             ],
-            onCompleted(callbackData: ibas.List<bo.MaterialBatchInput>): void {
+            onCompleted(callbackData: ibas.List<bo.MaterialBatchSerialInOutData>): void {
                 // 获取触发的对象
                 for (let line of callbackData) {
                     let item: bo.GoodsReceiptLine = that.editData.goodsReceiptLines[line.index];
                     for(let serialLine of item.goodsReceiptMaterialSerialJournals){
                         serialLine.delete();
                     }
-                    for (let serialJournal of line.materialBatchInputSerialJournals.filterDeleted()) {
+                    for (let serialJournal of line.materialBatchSerialInOutDataSerialJournals.filterDeleted()) {
                         // 如果序列号为空 不处理
                         if (ibas.objects.isNull(serialJournal.serialCode)) {
                             continue;
@@ -349,12 +350,12 @@ export class GoodsReceiptEditApp extends ibas.BOEditApplication<IGoodsReceiptEdi
     }
 
     /** 获取行-批次序列信息 */
-    getBatchSerialData(): bo.MaterialBatchInput[] {
+    getBatchSerialData(): bo.MaterialBatchSerialInOutData[] {
         // 获取行数据
         let goodReceiptLines: bo.GoodsReceiptLine[] = this.editData.goodsReceiptLines;
-        let inputData: bo.MaterialBatchInput[] = new Array<bo.MaterialBatchInput>();
+        let inputData: bo.MaterialBatchSerialInOutData[] = new Array<bo.MaterialBatchSerialInOutData>();
         for (let line of goodReceiptLines) {
-            let input: bo.MaterialBatchInput = new bo.MaterialBatchInput();
+            let input: bo.MaterialBatchSerialInOutData = new bo.MaterialBatchSerialInOutData();
             input.index = goodReceiptLines.indexOf(line);
             input.itemCode = line.itemCode;
             input.quantity = line.quantity;
@@ -365,7 +366,7 @@ export class GoodsReceiptEditApp extends ibas.BOEditApplication<IGoodsReceiptEdi
                 input.selectedBatchQuantity = 0;
             } else {
                 for (let item of line.goodsReceiptMaterialBatchJournals) {
-                    let batchLine: bo.MaterialBatchJournal = input.materialBatchInputBatchJournals.create();
+                    let batchLine: bo.MaterialBatchJournal = input.materialBatchSerialInOutDataBatchJournals.create();
                     batchLine.batchCode = item.batchCode;
                     batchLine.itemCode = item.itemCode;
                     batchLine.warehouse = item.warehouse;
@@ -381,7 +382,7 @@ export class GoodsReceiptEditApp extends ibas.BOEditApplication<IGoodsReceiptEdi
                 input.selectedSerialQuantity = 0;
             } else {
                 for (let item of line.goodsReceiptMaterialSerialJournals) {
-                    let serialLine: bo.MaterialSerialJournal = input.materialBatchInputSerialJournals.create();
+                    let serialLine: bo.MaterialSerialJournal = input.materialBatchSerialInOutDataSerialJournals.create();
                     serialLine.supplierSerial = item.supplierSerial;
                     serialLine.batchSerial = item.batchSerial;
                     serialLine.expirationDate = item.expirationDate;

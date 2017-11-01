@@ -990,6 +990,7 @@ public class MaterialSerial extends BusinessObject<MaterialSerial> implements IM
 
 	public static IMaterialSerial create(IMaterialSerialJournalContract contract){
 		IMaterialSerial materialSerial = new MaterialSerial();
+		materialSerial.setSerialCode(contract.getSerialCode());
 		materialSerial.setItemCode(contract.getItemCode());
 		materialSerial.setWarehouse(contract.getWarehouse());
 		materialSerial.setBaseDocumentType(contract.getBaseDocumentType());

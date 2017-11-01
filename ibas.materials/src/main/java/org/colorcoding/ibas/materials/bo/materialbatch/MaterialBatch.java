@@ -1021,6 +1021,7 @@ public class MaterialBatch extends BusinessObject<MaterialBatch> implements IMat
 	}
 	public static IMaterialBatch create(IMaterialBatchJournalContract contract){
 		IMaterialBatch materialBatch = new MaterialBatch();
+		materialBatch.setBatchCode(contract.getBatchCode());
 		materialBatch.setItemCode(contract.getItemCode());
 		materialBatch.setWarehouse(contract.getWarehouse());
 		materialBatch.setBaseDocumentType(contract.getBaseDocumentType());

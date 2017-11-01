@@ -6,6 +6,11 @@ import org.colorcoding.ibas.bobas.logic.IBusinessLogicContract;
 
 public interface IMaterialSerialJournalContract extends IBusinessLogicContract{
     /**
+     * 序列编号
+     * @return
+     */
+    String getSerialCode();
+    /**
      * 物料编码
      *
      * @return

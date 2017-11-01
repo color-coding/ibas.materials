@@ -9,6 +9,8 @@ import org.colorcoding.ibas.bobas.bo.BusinessObject;
 import org.colorcoding.ibas.bobas.core.IPropertyInfo;
 import org.colorcoding.ibas.bobas.data.DateTime;
 import org.colorcoding.ibas.bobas.data.emDirection;
+import org.colorcoding.ibas.bobas.logic.IBusinessLogicContract;
+import org.colorcoding.ibas.bobas.logic.IBusinessLogicsHost;
 import org.colorcoding.ibas.bobas.mapping.DbField;
 import org.colorcoding.ibas.bobas.mapping.DbFieldType;
 import org.colorcoding.ibas.materials.MyConfiguration;
@@ -20,7 +22,7 @@ import org.colorcoding.ibas.materials.logic.IMaterialSerialJournalContract;
  */
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlType(name = MaterialSerialJournal.BUSINESS_OBJECT_NAME, namespace = MyConfiguration.NAMESPACE_BO)
-public class MaterialSerialJournal extends BusinessObject<MaterialSerialJournal> implements IMaterialSerialJournal {
+public class MaterialSerialJournal extends BusinessObject<MaterialSerialJournal> implements IMaterialSerialJournal,IBusinessLogicsHost {
 
 	/**
 	 * 序列化版本标记
@@ -697,4 +699,51 @@ public class MaterialSerialJournal extends BusinessObject<MaterialSerialJournal>
 
 	}
 
+	@Override
+	public IBusinessLogicContract[] getContracts() {
+		return new IBusinessLogicContract[]{
+				new IMaterialSerialJournalContract(){
+
+					@Override
+					public String getIdentifiers() {
+						return MaterialSerialJournal.this.getIdentifiers();
+					}
+
+					@Override
+					public String getSerialCode() {
+						return MaterialSerialJournal.this.getSerialCode();
+					}
+
+					@Override
+					public String getItemCode() {
+						return MaterialSerialJournal.this.getItemCode();
+					}
+
+					@Override
+					public String getWarehouse() {
+						return MaterialSerialJournal.this.getWarehouse();
+					}
+
+					@Override
+					public emDirection getDirection() {
+						return MaterialSerialJournal.this.getDirection();
+					}
+
+					@Override
+					public String getBaseDocumentType() {
+						return MaterialSerialJournal.this.getBaseDocumentType();
+					}
+
+					@Override
+					public Integer getBaseDocumentEntry() {
+						return MaterialSerialJournal.this.getBaseDocumentEntry();
+					}
+
+					@Override
+					public Integer getBaseDocumentLineId() {
+						return MaterialSerialJournal.this.getBaseDocumentLineId();
+					}
+				}
+		};
+	}
 }

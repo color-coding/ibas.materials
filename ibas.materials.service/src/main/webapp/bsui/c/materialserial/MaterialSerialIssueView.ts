@@ -39,7 +39,7 @@ export class MaterialSerialIssueView extends ibas.BODialogView implements IMater
                 press: function (): void {
                     that.fireViewEvents(that.autoSelectMaterialSerialEvent,
                         // 获取表格选中的对象
-                        utils.getTableSelecteds<bo.MaterialBatchInput>(that.journalLineTable).firstOrDefault()
+                        utils.getTableSelecteds<bo.MaterialBatchSerialInOutData>(that.journalLineTable).firstOrDefault()
                     );
                 }
             }),
@@ -73,7 +73,7 @@ export class MaterialSerialIssueView extends ibas.BODialogView implements IMater
             visibleRowCountMode: sap.ui.table.VisibleRowCountMode.Interactive,
             rowSelectionChange: function (): void {
                 that.fireViewEvents(that.selectMaterialSerialJournalLineEvent,
-                    utils.getTableSelecteds<bo.MaterialBatchInput>(that.journalLineTable).firstOrDefault(), );
+                    utils.getTableSelecteds<bo.MaterialBatchSerialInOutData>(that.journalLineTable).firstOrDefault(), );
             },
             rows: "{/journallinedata}",
             columns: [
@@ -168,7 +168,7 @@ export class MaterialSerialIssueView extends ibas.BODialogView implements IMater
                     press: function (): void {
                         that.fireViewEvents(that.removeSerialMaterialSerialEvent,
                             // 获取表格选中的对象
-                            utils.getTableSelecteds<bo.MaterialBatchInput>(that.journalLineTable).firstOrDefault(),
+                            utils.getTableSelecteds<bo.MaterialBatchSerialInOutData>(that.journalLineTable).firstOrDefault(),
                             utils.getTableSelecteds<bo.MaterialBatchJournal>(that.rightTable),
                         );
                     }
@@ -178,7 +178,7 @@ export class MaterialSerialIssueView extends ibas.BODialogView implements IMater
                     press: function (): void {
                         that.fireViewEvents(that.addSerialMaterialSerialEvent,
                             // 获取表格选中的对象
-                            utils.getTableSelecteds<bo.MaterialBatchInput>(that.journalLineTable).firstOrDefault(),
+                            utils.getTableSelecteds<bo.MaterialBatchSerialInOutData>(that.journalLineTable).firstOrDefault(),
                             utils.getTableSelecteds<bo.MaterialBatch>(that.leftTable),
                         );
                     }
@@ -227,7 +227,7 @@ export class MaterialSerialIssueView extends ibas.BODialogView implements IMater
     }
     private lastCriteria: ibas.ICriteria;
 
-    showJournalLineData(datas: bo.MaterialBatchInput[]): void {
+    showJournalLineData(datas: bo.MaterialBatchSerialInOutData[]): void {
         this.journalLineTable.setModel(new sap.ui.model.json.JSONModel({ journallinedata: datas }));
         utils.refreshModelChanged(this.journalLineTable, datas);
     }

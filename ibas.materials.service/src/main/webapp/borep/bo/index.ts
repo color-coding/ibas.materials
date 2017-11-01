@@ -20,7 +20,7 @@ export * from "./MaterialBatch";
 export * from "./MaterialSerial";
 export * from "./MaterialBatchJournal";
 export * from "./MaterialSerialJournal";
-export * from "./MaterialBatchInput";
+export * from "./MaterialBatchSerialInOutData";
 
 // 注册业务对象到工厂
 import * as ibas from "ibas/index";
