@@ -117,15 +117,6 @@ export class MaterialSerialIssueApp extends ibas.BOApplication<IMaterialSerialIs
             SerialLine.itemCode = item.itemCode;
             SerialLine.warehouse = item.warehouse;
             SerialLine.serialCode = item.serialCode;
-            // if (item.quantity <= line.needSerialQuantity) {
-            //     serialLine.quantity = item.quantity;
-            //     item.delete();
-            // } else {
-            //     serialLine.quantity = line.needSerialQuantity;
-            //     item.quantity -= SerialLine.quantity;
-            //     newSerialData.push(item);
-            // }
-
         }
     }
     /** 添加选择的序列号事件 */

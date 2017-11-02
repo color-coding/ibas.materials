@@ -228,6 +228,7 @@ export class GoodsIssueEditApp extends ibas.BOEditApplication<IGoodsIssueEditVie
                     item.warehouse = selected.warehouseCode;
                     item.serialManagement = selected.serialManagement;
                     item.batchManagement = selected.batchManagement;
+                    item.price = selected.price;
                     item.quantity = 1;
                     item = null;
                 }
@@ -366,7 +367,7 @@ export class GoodsIssueEditApp extends ibas.BOEditApplication<IGoodsIssueEditVie
             input.quantity = line.quantity;
             input.warehouse = line.warehouse;
             input.direction = ibas.emDirection.OUT;
-            if (line.goodsIssueMaterialBatchJournals.length === 0) {
+            if (line.goodsIssueMaterialBatchJournals.filterDeleted().length === 0) {
                 input.needBatchQuantity = line.quantity;
                 input.selectedBatchQuantity = 0;
             } else {
@@ -398,7 +399,7 @@ export class GoodsIssueEditApp extends ibas.BOEditApplication<IGoodsIssueEditVie
             input.quantity = line.quantity;
             input.warehouse = line.warehouse;
             input.direction = ibas.emDirection.OUT;
-            if (line.goodsIssueMaterialSerialJournals.length === 0) {
+            if (line.goodsIssueMaterialSerialJournals.filterDeleted().length === 0) {
                 input.needSerialQuantity = line.quantity;
                 input.selectedSerialQuantity = 0;
             } else {

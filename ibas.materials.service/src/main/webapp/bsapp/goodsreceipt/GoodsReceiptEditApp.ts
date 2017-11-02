@@ -228,6 +228,7 @@ export class GoodsReceiptEditApp extends ibas.BOEditApplication<IGoodsReceiptEdi
                     item.warehouse = selected.warehouseCode;
                     item.serialManagement = selected.serialManagement;
                     item.batchManagement = selected.batchManagement;
+                    item.price = selected.price;
                     item.quantity = 1;
                     item = null;
                 }
@@ -366,11 +367,11 @@ export class GoodsReceiptEditApp extends ibas.BOEditApplication<IGoodsReceiptEdi
             input.quantity = line.quantity;
             input.warehouse = line.warehouse;
             input.direction = ibas.emDirection.IN;
-            if (line.goodsReceiptMaterialBatchJournals.length === 0) {
+            if (line.goodsReceiptMaterialBatchJournals.filterDeleted().length === 0) {
                 input.needBatchQuantity = line.quantity;
                 input.selectedBatchQuantity = 0;
             } else {
-                for (let item of line.goodsReceiptMaterialBatchJournals) {
+                for (let item of line.goodsReceiptMaterialBatchJournals.filterDeleted()) {
                     let batchLine: bo.MaterialBatchJournal = input.materialBatchSerialInOutDataBatchJournals.create();
                     batchLine.batchCode = item.batchCode;
                     batchLine.itemCode = item.itemCode;
@@ -401,11 +402,11 @@ export class GoodsReceiptEditApp extends ibas.BOEditApplication<IGoodsReceiptEdi
             input.quantity = line.quantity;
             input.warehouse = line.warehouse;
             input.direction = ibas.emDirection.IN;
-            if (line.goodsReceiptMaterialSerialJournals.length === 0) {
+            if (line.goodsReceiptMaterialSerialJournals.filterDeleted().length === 0) {
                 input.needSerialQuantity = line.quantity;
                 input.selectedSerialQuantity = 0;
             } else {
-                for (let item of line.goodsReceiptMaterialSerialJournals) {
+                for (let item of line.goodsReceiptMaterialSerialJournals.filterDeleted()) {
                     let serialLine: bo.MaterialSerialJournal = input.materialBatchSerialInOutDataSerialJournals.create();
                     serialLine.supplierSerial = item.supplierSerial;
                     serialLine.batchSerial = item.batchSerial;

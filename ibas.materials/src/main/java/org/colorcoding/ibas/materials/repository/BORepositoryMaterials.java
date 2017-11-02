@@ -835,11 +835,11 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
                 continue;
             }
             // if found the price list,caculate the price list that you want to .
-            if (materialPriceItems.get(i).getPrice().compareTo(BigDecimal.ZERO) ==-1) {
+            if (materialPriceItems.get(i).getPrice().compareTo(BigDecimal.ZERO) != 0) {
                 mapPriceList.put(itemCode, priceList);
                 isNeedFetchChild = Boolean.TRUE;
             } else {
-                if (factor.compareTo(BigDecimal.ZERO) == -1) {
+                if (factor.compareTo(BigDecimal.ZERO) != 0) {
                     priceList = priceList.multiply(factor);
                 }
                 mapPriceList.put(itemCode, priceList);

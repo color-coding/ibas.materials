@@ -191,6 +191,16 @@ export class GoodsReceiptEditView extends ibas.BOEditView implements IGoodsRecei
                     })
                 }),
                 new sap.ui.table.Column("", {
+                    label: ibas.i18n.prop("bo_goodsreceiptline_price"),
+                    template: new sap.m.Input("", {
+                        width: "100%",
+                        type: sap.m.InputType.Number,
+                        showValueHelp: true,
+                    }).bindProperty("value", {
+                        path: "price"
+                    })
+                }),
+                new sap.ui.table.Column("", {
                     label: ibas.i18n.prop("bo_goodsreceiptline_uom"),
                     template: new sap.m.Input("", {
                         width: "100%",
@@ -212,22 +222,6 @@ export class GoodsReceiptEditView extends ibas.BOEditView implements IGoodsRecei
                         }
                     }).bindProperty("value", {
                         path: "Warehouse"
-                    })
-                }),
-                new sap.ui.table.Column("", {
-                    label: ibas.i18n.prop("bo_goodsreceiptline_quantity"),
-                    template: new sap.m.Input("", {
-                        width: "100%",
-                        type: sap.m.InputType.Number,
-                        showValueHelp: true,
-                        valueHelpRequest: function (): void {
-                            that.fireViewEvents(that.createGoodsReceiptLineMaterialBatchEvent,
-                                // 获取当前对象
-                                this.getBindingContext().getObject()
-                            );
-                        }
-                    }).bindProperty("value", {
-                        path: "quantity"
                     })
                 }),
             ]

@@ -242,6 +242,7 @@ export class InventoryTransferEditApp extends ibas.BOEditApplication<IInventoryT
                     item.itemDescription = selected.name;
                     item.serialManagement = selected.serialManagement;
                     item.batchManagement = selected.batchManagement;
+                    item.price = selected.price;
                     item.quantity = 1;
                     item = null;
                 }
@@ -404,7 +405,7 @@ export class InventoryTransferEditApp extends ibas.BOEditApplication<IInventoryT
             input.quantity = line.quantity;
             input.warehouse = this.editData.fromWarehouse;
             input.direction = ibas.emDirection.OUT;
-            if (line.inventoryTransferMaterialBatchJournals.length === 0) {
+            if (line.inventoryTransferMaterialBatchJournals.filterDeleted().length === 0) {
                 input.needBatchQuantity = line.quantity;
                 input.selectedBatchQuantity = 0;
             } else {
@@ -437,7 +438,7 @@ export class InventoryTransferEditApp extends ibas.BOEditApplication<IInventoryT
             input.quantity = line.quantity;
             input.warehouse = this.editData.fromWarehouse;
             input.direction = ibas.emDirection.OUT;
-            if (line.inventoryTransferMaterialSerialJournals.length === 0) {
+            if (line.inventoryTransferMaterialSerialJournals.filterDeleted().length === 0) {
                 input.needSerialQuantity = line.quantity;
                 input.selectedSerialQuantity = 0;
             } else {
