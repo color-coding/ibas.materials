@@ -54,7 +54,7 @@ public class MaterialIssueService extends BusinessLogic<IMaterialIssueContract, 
 
             condition = criteria.getConditions().create();
             condition.setAlias(MaterialInventoryJournal.PROPERTY_DIRECTION.getName());
-            condition.setValue(emDirection.IN);
+            condition.setValue(emDirection.OUT);
             condition.setOperation(ConditionOperation.EQUAL);
             condition.setRelationship(ConditionRelationship.AND);
             // endregion

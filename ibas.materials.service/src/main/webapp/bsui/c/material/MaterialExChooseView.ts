@@ -84,14 +84,6 @@ export class MaterialExChooseView extends ibas.BOChooseView implements IMaterial
                     }),
                 }),
                 new sap.ui.table.Column("", {
-                    label: ibas.i18n.prop("bo_materialex_group"),
-                    template: new sap.m.Text("", {
-                        wrapping: false
-                    }).bindProperty("text", {
-                        path: "group",
-                    }),
-                }),
-                new sap.ui.table.Column("", {
                     label: ibas.i18n.prop("bo_materialex_warehousecode"),
                     template: new sap.m.Text("", {
                         wrapping: false

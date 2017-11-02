@@ -27,19 +27,19 @@ public class MaterialSerialJournalService extends BusinessLogic<IMaterialSerialJ
             // region 定义查询条件
             ICriteria criteria = Criteria.create();
             ICondition condition = criteria.getConditions().create();
-            condition.setAlias(MaterialSerialJournal.PROPERTY_BASEDOCUMENTTYPE.getName());
-            condition.setValue(contract.getBaseDocumentType());
+            condition.setAlias(MaterialSerial.PROPERTY_SERIALCODE.getName());
+            condition.setValue(contract.getSerialCode());
             condition.setOperation(ConditionOperation.EQUAL);
 
             condition = criteria.getConditions().create();
-            condition.setAlias(MaterialSerialJournal.PROPERTY_BASEDOCUMENTENTRY.getName());
-            condition.setValue(contract.getBaseDocumentEntry());
+            condition.setAlias(MaterialSerial.PROPERTY_ITEMCODE.getName());
+            condition.setValue(contract.getItemCode());
             condition.setOperation(ConditionOperation.EQUAL);
             condition.setRelationship(ConditionRelationship.AND);
 
             condition = criteria.getConditions().create();
-            condition.setAlias(MaterialSerialJournal.PROPERTY_BASEDOCUMENTLINEID.getName());
-            condition.setValue(contract.getBaseDocumentLineId());
+            condition.setAlias(MaterialSerial.PROPERTY_WAREHOUSE.getName());
+            condition.setValue(contract.getWarehouse());
             condition.setOperation(ConditionOperation.EQUAL);
             condition.setRelationship(ConditionRelationship.AND);
 
@@ -68,12 +68,13 @@ public class MaterialSerialJournalService extends BusinessLogic<IMaterialSerialJ
     @Override
     protected void impact(IMaterialSerialJournalContract contract) {
         IMaterialSerial materialSerial = this.getBeAffected();
-
+        materialSerial.undelete();
     }
 
     @Override
     protected void revoke(IMaterialSerialJournalContract contract) {
-
+        IMaterialSerial materialSerial = this.getBeAffected();
+        materialSerial.delete();
     }
 
     private void checkContractData(IMaterialSerialJournalContract contract){

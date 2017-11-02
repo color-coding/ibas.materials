@@ -226,6 +226,8 @@ export class GoodsReceiptEditApp extends ibas.BOEditApplication<IGoodsReceiptEdi
                     item.itemCode = selected.code;
                     item.itemDescription = selected.name;
                     item.warehouse = selected.warehouseCode;
+                    item.serialManagement = selected.serialManagement;
+                    item.batchManagement = selected.batchManagement;
                     item.quantity = 1;
                     item = null;
                 }
@@ -270,7 +272,7 @@ export class GoodsReceiptEditApp extends ibas.BOEditApplication<IGoodsReceiptEdi
     /** 新建物料批次信息 */
     createGoodsReceiptLineMaterialBatch(): void {
         let that: this = this;
-        let caller: bo.MaterialBatchSerialInOutData[] = that.getBatchSerialData();
+        let caller: bo.MaterialBatchSerialInOutData[] = that.getBatchData();
         if (ibas.objects.isNull(caller) || caller.length === 0) {
             this.messages(ibas.emMessageType.WARNING, ibas.i18n.prop("sys_shell_please_chooose_data",
                 ibas.i18n.prop("sys_shell_data_edit")
@@ -286,7 +288,7 @@ export class GoodsReceiptEditApp extends ibas.BOEditApplication<IGoodsReceiptEdi
                 // 获取触发的对象
                 for (let line of callbackData) {
                     let item: bo.GoodsReceiptLine = that.editData.goodsReceiptLines[line.index];
-                    for(let batchLine of item.goodsReceiptMaterialBatchJournals){
+                    for (let batchLine of item.goodsReceiptMaterialBatchJournals) {
                         batchLine.delete();
                     }
                     for (let batchJournal of line.materialBatchSerialInOutDataBatchJournals.filterDeleted()) {
@@ -311,7 +313,7 @@ export class GoodsReceiptEditApp extends ibas.BOEditApplication<IGoodsReceiptEdi
     /** 新建物料序列信息 */
     createGoodsReceiptLineMaterialSerial(): void {
         let that: this = this;
-        let caller: bo.MaterialBatchSerialInOutData[] = that.getBatchSerialData();
+        let caller: bo.MaterialBatchSerialInOutData[] = that.getSerialData();
         if (ibas.objects.isNull(caller) || caller.length === 0) {
             this.messages(ibas.emMessageType.WARNING, ibas.i18n.prop("sys_shell_please_chooose_data",
                 ibas.i18n.prop("sys_shell_data_edit")
@@ -327,7 +329,7 @@ export class GoodsReceiptEditApp extends ibas.BOEditApplication<IGoodsReceiptEdi
                 // 获取触发的对象
                 for (let line of callbackData) {
                     let item: bo.GoodsReceiptLine = that.editData.goodsReceiptLines[line.index];
-                    for(let serialLine of item.goodsReceiptMaterialSerialJournals){
+                    for (let serialLine of item.goodsReceiptMaterialSerialJournals) {
                         serialLine.delete();
                     }
                     for (let serialJournal of line.materialBatchSerialInOutDataSerialJournals.filterDeleted()) {
@@ -349,18 +351,21 @@ export class GoodsReceiptEditApp extends ibas.BOEditApplication<IGoodsReceiptEdi
         });
     }
 
-    /** 获取行-批次序列信息 */
-    getBatchSerialData(): bo.MaterialBatchSerialInOutData[] {
+    /** 获取行-批次信息 */
+    getBatchData(): bo.MaterialBatchSerialInOutData[] {
         // 获取行数据
         let goodReceiptLines: bo.GoodsReceiptLine[] = this.editData.goodsReceiptLines;
         let inputData: bo.MaterialBatchSerialInOutData[] = new Array<bo.MaterialBatchSerialInOutData>();
         for (let line of goodReceiptLines) {
+            if (line.batchManagement.toString() === ibas.enums.toString(ibas.emYesNo, ibas.emYesNo.NO)) {
+                continue;
+            }
             let input: bo.MaterialBatchSerialInOutData = new bo.MaterialBatchSerialInOutData();
             input.index = goodReceiptLines.indexOf(line);
             input.itemCode = line.itemCode;
             input.quantity = line.quantity;
             input.warehouse = line.warehouse;
-            input.direction = ibas.emDirection.OUT;
+            input.direction = ibas.emDirection.IN;
             if (line.goodsReceiptMaterialBatchJournals.length === 0) {
                 input.needBatchQuantity = line.quantity;
                 input.selectedBatchQuantity = 0;
@@ -374,9 +379,28 @@ export class GoodsReceiptEditApp extends ibas.BOEditApplication<IGoodsReceiptEdi
                     batchLine.expirationDate = item.expirationDate;
                     batchLine.admissionDate = item.admissionDate;
                     batchLine.manufacturingDate = item.manufacturingDate;
-                    batchLine.direction = ibas.emDirection.OUT;
+                    batchLine.direction = ibas.emDirection.IN;
                 }
             }
+            inputData.push(input);
+        }
+        return inputData;
+    }
+    /** 获取行-序列信息 */
+    getSerialData(): bo.MaterialBatchSerialInOutData[] {
+        // 获取行数据
+        let goodReceiptLines: bo.GoodsReceiptLine[] = this.editData.goodsReceiptLines;
+        let inputData: bo.MaterialBatchSerialInOutData[] = new Array<bo.MaterialBatchSerialInOutData>();
+        for (let line of goodReceiptLines) {
+            if (line.serialManagement.toString() === ibas.enums.toString(ibas.emYesNo, ibas.emYesNo.NO)) {
+                continue;
+            }
+            let input: bo.MaterialBatchSerialInOutData = new bo.MaterialBatchSerialInOutData();
+            input.index = goodReceiptLines.indexOf(line);
+            input.itemCode = line.itemCode;
+            input.quantity = line.quantity;
+            input.warehouse = line.warehouse;
+            input.direction = ibas.emDirection.IN;
             if (line.goodsReceiptMaterialSerialJournals.length === 0) {
                 input.needSerialQuantity = line.quantity;
                 input.selectedSerialQuantity = 0;
@@ -394,7 +418,7 @@ export class GoodsReceiptEditApp extends ibas.BOEditApplication<IGoodsReceiptEdi
                     serialLine.serialCode = item.serialCode;
                     serialLine.itemCode = item.itemCode;
                     serialLine.warehouse = item.warehouse;
-                    serialLine.direction = ibas.emDirection.OUT;
+                    serialLine.direction = ibas.emDirection.IN;
                 }
             }
             inputData.push(input);

@@ -85,11 +85,12 @@ export class MaterialBatchIssueApp extends ibas.BOApplication<IMaterialBatchIssu
         if (ibas.objects.isNull(this.batchData)) {
             // 查询可用批次信息
             let criteria: ibas.ICriteria = new ibas.Criteria();
-            let condition: ibas.ICondition = criteria.conditions.create();
+            let condition: ibas.ICondition;
             condition = new ibas.Condition(bo.MaterialBatch.PROPERTY_ITEMCODE_NAME, ibas.emConditionOperation.EQUAL, selected.itemCode);
-            condition = criteria.conditions.create();
+            criteria.conditions.add(condition);
             condition = new ibas.Condition(bo.MaterialBatch.PROPERTY_WAREHOUSE_NAME, ibas.emConditionOperation.EQUAL, selected.warehouse);
             condition.relationship = ibas.emConditionRelationship.AND;
+            criteria.conditions.add(condition);
             this.fetchBatchData(criteria, selected);
             return;
         }
@@ -112,7 +113,8 @@ export class MaterialBatchIssueApp extends ibas.BOApplication<IMaterialBatchIssu
             if (line.needBatchQuantity === 0) {
                 return;
             }
-            let batchLine: bo.MaterialBatchJournal = line.materialBatchSerialInOutDataBatchJournals.find(c => c.batchCode === item.batchCode);
+            let batchLine: bo.MaterialBatchJournal = line.materialBatchSerialInOutDataBatchJournals
+                .find(c => c.batchCode === item.batchCode);
             if (ibas.objects.isNull(batchLine)) {
                 batchLine = line.materialBatchSerialInOutDataBatchJournals.create();
                 if (item.quantity <= line.needBatchQuantity) {
@@ -161,7 +163,8 @@ export class MaterialBatchIssueApp extends ibas.BOApplication<IMaterialBatchIssu
                 return;
             }
             // let batchItem:bo.MaterialBatch = this.batchData.find(c=>c.batchCode === item.batchCode);
-            let batchline: bo.MaterialBatchJournal = journalItem.materialBatchSerialInOutDataBatchJournals.find(c => c.batchCode === item.batchCode);
+            let batchline: bo.MaterialBatchJournal = journalItem.materialBatchSerialInOutDataBatchJournals
+                .find(c => c.batchCode === item.batchCode);
             if (ibas.objects.isNull(batchline)) {
                 batchline = journalItem.materialBatchSerialInOutDataBatchJournals.create();
                 if (item.quantity <= journalItem.needBatchQuantity) {

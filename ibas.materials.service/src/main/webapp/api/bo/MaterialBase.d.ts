@@ -68,9 +68,13 @@ export interface IMaterialBase extends IBOMasterData {
 
     /** 库存单位 */
     inventoryUOM: string;
+    /** 序号管理 */
+    serialManagement: emYesNo;
 
-   /** 已删除 */
-   deleted: emYesNo;
+    /** 批号管理 */
+    batchManagement: emYesNo;
+    /** 已删除 */
+    deleted: emYesNo;
 
 
 }

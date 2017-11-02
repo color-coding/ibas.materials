@@ -58,11 +58,12 @@ export class MaterialSerialIssueApp extends ibas.BOApplication<IMaterialSerialIs
         let that: this = this;
         // 根据物料查询可用序列号
         let criteria: ibas.ICriteria = new ibas.Criteria();
-        let condition: ibas.ICondition = criteria.conditions.create();
-        condition = new ibas.Condition(bo.MaterialSerial.PROPERTY_ITEMCODE_NAME, ibas.emConditionOperation.EQUAL, selected.itemCode);
-        condition = criteria.conditions.create();
-        condition = new ibas.Condition(bo.MaterialSerial.PROPERTY_WAREHOUSE_NAME, ibas.emConditionOperation.EQUAL, selected.warehouse);
+        let condition: ibas.ICondition;
+        condition = new ibas.Condition(bo.MaterialBatch.PROPERTY_ITEMCODE_NAME, ibas.emConditionOperation.EQUAL, selected.itemCode);
+        criteria.conditions.add(condition);
+        condition = new ibas.Condition(bo.MaterialBatch.PROPERTY_WAREHOUSE_NAME, ibas.emConditionOperation.EQUAL, selected.warehouse);
         condition.relationship = ibas.emConditionRelationship.AND;
+        criteria.conditions.add(condition);
         that.fetchSerialData(criteria, selected);
         that.view.showRightData(selected.materialBatchSerialInOutDataSerialJournals);
     }
@@ -84,11 +85,12 @@ export class MaterialSerialIssueApp extends ibas.BOApplication<IMaterialSerialIs
         if (ibas.objects.isNull(this.serialData)) {
             // 查询可用序列号信息
             let criteria: ibas.ICriteria = new ibas.Criteria();
-            let condition: ibas.ICondition = criteria.conditions.create();
-            condition = new ibas.Condition(bo.MaterialSerial.PROPERTY_ITEMCODE_NAME, ibas.emConditionOperation.EQUAL, selected.itemCode);
-            condition = criteria.conditions.create();
-            condition = new ibas.Condition(bo.MaterialSerial.PROPERTY_WAREHOUSE_NAME, ibas.emConditionOperation.EQUAL, selected.warehouse);
+            let condition: ibas.ICondition;
+            condition = new ibas.Condition(bo.MaterialBatch.PROPERTY_ITEMCODE_NAME, ibas.emConditionOperation.EQUAL, selected.itemCode);
+            criteria.conditions.add(condition);
+            condition = new ibas.Condition(bo.MaterialBatch.PROPERTY_WAREHOUSE_NAME, ibas.emConditionOperation.EQUAL, selected.warehouse);
             condition.relationship = ibas.emConditionRelationship.AND;
+            criteria.conditions.add(condition);
             this.fetchSerialData(criteria, selected);
             return;
         }

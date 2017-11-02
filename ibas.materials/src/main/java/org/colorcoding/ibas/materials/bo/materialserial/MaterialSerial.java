@@ -993,9 +993,6 @@ public class MaterialSerial extends BusinessObject<MaterialSerial> implements IM
 		materialSerial.setSerialCode(contract.getSerialCode());
 		materialSerial.setItemCode(contract.getItemCode());
 		materialSerial.setWarehouse(contract.getWarehouse());
-		materialSerial.setBaseDocumentType(contract.getBaseDocumentType());
-		materialSerial.setBaseDocumentEntry(contract.getBaseDocumentEntry());
-		materialSerial.setBaseDocumentLineId(contract.getBaseDocumentLineId());
 		return  materialSerial;
 	}
 }

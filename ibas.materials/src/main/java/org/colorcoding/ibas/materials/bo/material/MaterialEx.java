@@ -230,6 +230,8 @@ public class MaterialEx extends MaterialBase<MaterialEx> implements IMaterialEx 
         materialEx.setCode(material.getCode());
         materialEx.setName(material.getName());
         materialEx.setGroup(material.getGroup());
+        materialEx.setSerialManagement(material.getSerialManagement());
+        materialEx.setBatchManagement(material.getBatchManagement());
         materialEx.setBarCode(material.getBarCode());
         materialEx.setItemType(material.getItemType());
         materialEx.setPrice(material.getAvgPrice());
@@ -237,6 +239,26 @@ public class MaterialEx extends MaterialBase<MaterialEx> implements IMaterialEx 
         return materialEx;
     }
 
+    /**
+     * 创建MaterialExpand
+     *
+     * @param material
+     * @return
+     */
+    public static MaterialEx create(MaterialEx material) {
+        MaterialEx materialEx = new MaterialEx();
+        materialEx.setCode(material.getCode());
+        materialEx.setName(material.getName());
+        materialEx.setGroup(material.getGroup());
+        materialEx.setSerialManagement(material.getSerialManagement());
+        materialEx.setBatchManagement(material.getBatchManagement());
+        materialEx.setBarCode(material.getBarCode());
+        materialEx.setItemType(material.getItemType());
+        materialEx.setPrice(material.getPrice());
+        materialEx.setWarehouseCode(material.getWarehouseCode());
+        materialEx.setWarehouseOnHand(material.getWarehouseOnHand());
+        return materialEx;
+    }
     /**
      * 创建MaterialExpand对象集合
      *

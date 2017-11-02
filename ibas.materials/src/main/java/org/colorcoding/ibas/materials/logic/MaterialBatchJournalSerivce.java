@@ -30,19 +30,19 @@ public class MaterialBatchJournalSerivce extends BusinessLogic<IMaterialBatchJou
             // region 定义查询条件
             ICriteria criteria = Criteria.create();
             ICondition condition = criteria.getConditions().create();
-            condition.setAlias(MaterialBatch.PROPERTY_BASEDOCUMENTTYPE.getName());
-            condition.setValue(contract.getBaseDocumentType());
+            condition.setAlias(MaterialBatch.PROPERTY_BATCHCODE.getName());
+            condition.setValue(contract.getBatchCode());
             condition.setOperation(ConditionOperation.EQUAL);
 
             condition = criteria.getConditions().create();
-            condition.setAlias(MaterialBatch.PROPERTY_BASEDOCUMENTENTRY.getName());
-            condition.setValue(contract.getBaseDocumentEntry());
+            condition.setAlias(MaterialBatch.PROPERTY_ITEMCODE.getName());
+            condition.setValue(contract.getItemCode());
             condition.setOperation(ConditionOperation.EQUAL);
             condition.setRelationship(ConditionRelationship.AND);
 
             condition = criteria.getConditions().create();
-            condition.setAlias(MaterialBatch.PROPERTY_BASEDOCUMENTLINEID.getName());
-            condition.setValue(contract.getBaseDocumentLineId());
+            condition.setAlias(MaterialBatch.PROPERTY_WAREHOUSE.getName());
+            condition.setValue(contract.getWarehouse());
             condition.setOperation(ConditionOperation.EQUAL);
             condition.setRelationship(ConditionRelationship.AND);
 
@@ -74,10 +74,10 @@ public class MaterialBatchJournalSerivce extends BusinessLogic<IMaterialBatchJou
         IMaterialBatch materialBatch = this.getBeAffected();
         Decimal quantity = materialBatch.getQuantity();
         if(contract.getDirection().equals(emDirection.IN)){
-            quantity = quantity.subtract(contract.getQuantity());
+            quantity = quantity.add(contract.getQuantity());
         }
         else {
-            quantity = quantity.add(contract.getQuantity());
+            quantity = quantity.subtract(contract.getQuantity());
         }
         materialBatch.setQuantity(quantity);
     }
@@ -87,10 +87,10 @@ public class MaterialBatchJournalSerivce extends BusinessLogic<IMaterialBatchJou
         IMaterialBatch materialBatch = this.getBeAffected();
         Decimal quantity = materialBatch.getQuantity();
         if(contract.getDirection().equals(emDirection.IN)){
-            quantity = quantity.add(contract.getQuantity());
+            quantity = quantity.subtract(contract.getQuantity());
         }
         else {
-            quantity = quantity.subtract(contract.getQuantity());
+            quantity = quantity.add(contract.getQuantity());
         }
         materialBatch.setQuantity(quantity);
     }

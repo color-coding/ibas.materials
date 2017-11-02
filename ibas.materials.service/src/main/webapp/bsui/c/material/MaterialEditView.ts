@@ -175,75 +175,17 @@ export class MaterialEditView extends ibas.BOEditView implements IMaterialEditVi
                     type: "sap.ui.model.type.Integer",
                 }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_material_serialmanagement") }),
-                new sap.m.Select("", {
-                    items: utils.createComboBoxItems(ibas.emYesNo),
+                new sap.m.SegmentedButton("", {
+                    items: utils.createSegmentedButtonItems(ibas.emYesNo),
                 }).bindProperty("selectedKey", {
                     path: "serialManagement",
-                    type: "sap.ui.model.type.Integer",
                 }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_material_batchmanagement") }),
                 new sap.m.Select("", {
                     items: utils.createComboBoxItems(ibas.emYesNo),
                 }).bindProperty("selectedKey", {
-                    path: "batchManagement",
-                    type: "sap.ui.model.type.Integer",
+                    path: "/batchManagement",
                 }),
-                // new sap.ui.core.Title("", { text: ibas.i18n.prop("materials_technical_information") }),
-                // new sap.m.Label("", { text: ibas.i18n.prop("bo_material_createdate") }),
-                // new sap.m.DatePicker("", {
-                //     valueFormat: "yyyy-MM-dd",
-                // }).bindProperty("dateValue", {
-                //     path: "CreateDate"
-                // }),
-                // new sap.m.Label("", { text: ibas.i18n.prop("bo_material_createusersign") }),
-                // new sap.m.Input("", {
-                //     type: sap.m.InputType.Text,
-                // }).bindProperty("value", {
-                //     path: "CreateUserSign",
-                // }),
-                // new sap.m.Label("", { text: ibas.i18n.prop("bo_material_updatedate") }),
-                // new sap.m.DatePicker("", {
-                //     valueFormat: "yyyy-MM-dd",
-                // }).bindProperty("dateValue", {
-                //     path: "UpdateDate"
-                // }),
-                // new sap.m.Label("", { text: ibas.i18n.prop("bo_material_updateusersign") }),
-                // new sap.m.Input("", {
-                //     type: sap.m.InputType.Text,
-                // }).bindProperty("value", {
-                //     path: "UpdateUserSign",
-                // }),
-                // new sap.m.Label("", { text: ibas.i18n.prop("bo_material_objectcode") }),
-                // new sap.m.Input("", {
-                //     type: sap.m.InputType.Text,
-                // }).bindProperty("value", {
-                //     path: "ObjectCode",
-                // }),
-                // new sap.m.Label("", { text: ibas.i18n.prop("bo_material_docentry") }),
-                // new sap.m.Input("", {
-                //     editable: false,
-                //     type: sap.m.InputType.Text,
-                // }).bindProperty("value", {
-                //     path: "DocEntry",
-                // }),
-                // new sap.m.Label("", { text: ibas.i18n.prop("bo_material_loginst") }),
-                // new sap.m.Input("", {
-                //     type: sap.m.InputType.Text,
-                // }).bindProperty("value", {
-                //     path: "LogInst",
-                // }),
-                // new sap.m.Label("", { text: ibas.i18n.prop("bo_material_createactionid") }),
-                // new sap.m.Input("", {
-                //     type: sap.m.InputType.Text,
-                // }).bindProperty("value", {
-                //     path: "CreateActionId",
-                // }),
-                // new sap.m.Label("", { text: ibas.i18n.prop("bo_material_updateactionid") }),
-                // new sap.m.Input("", {
-                //     type: sap.m.InputType.Text,
-                // }).bindProperty("value", {
-                //     path: "UpdateActionId",
-                // }),
             ],
         });
         this.page = new sap.m.Page("", {

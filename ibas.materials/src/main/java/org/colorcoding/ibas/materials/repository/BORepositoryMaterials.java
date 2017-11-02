@@ -673,7 +673,7 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
                     condition.setRelationship(con.getRelationship());
                     continue;
                 }
-                if (con.getAlias().equalsIgnoreCase(MaterialInventory.PROPERTY_WAREHOUSE.getName())) {
+                if (con.getAlias().equalsIgnoreCase(MaterialEx.PROPERTY_WAREHOUSE.getName())) {
                     condition = criInventory.getConditions().create();
                     condition.setAlias(MaterialInventory.PROPERTY_WAREHOUSE.getName());
                     condition.setOperation(con.getOperation());
@@ -681,7 +681,7 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
                     condition.setRelationship(con.getRelationship());
                     continue;
                 }
-                if (con.getAlias().equalsIgnoreCase(MaterialPriceList.PROPERTY_NAME.getName())) {
+                if (con.getAlias().equalsIgnoreCase(MaterialEx.PROPERTY_PRICELISTNAME.getName())) {
                     condition = criPriceList.getConditions().create();
                     condition.setAlias(MaterialPriceList.PROPERTY_NAME.getName());
                     condition.setOperation(con.getOperation());
@@ -717,6 +717,7 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
             materialExs = (ArrayList<MaterialEx>) operationResult.getResultObjects();
             //endregion..
             //region search the price list by price list name.
+             operationResultMaterialExpand.getResultObjects().clear();
             operationResultMaterialExpand.addResultObjects(materialExs);
             operationResult = this.fetchMaterialPriceListOfMaterialEx(operationResultMaterialExpand, criPriceList, token);
             if (operationResult.getError() != null) {
@@ -762,8 +763,7 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
             for (int i = 0; i < materialExs.size(); i++) {
                 for (int j = 0; j < materialInventories.size(); j++) {
                     if (materialExs.get(i).getCode().equals(materialInventories.get(j).getItemCode())) {
-                        materialEx = new MaterialEx();
-                        materialEx = materialExs.get(i);
+                        materialEx = MaterialEx.create(materialExs.get(i));
                         materialEx.setWarehouseCode(materialInventories.get(j).getWarehouse());
                         materialEx.setWarehouseOnHand(materialInventories.get(j).getOnHand());
                         newMaterialExs.add(materialEx);
@@ -826,7 +826,7 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
         newBaseOnList = operationResult.getResultObjects().firstOrDefault().getBasedOnList();
         materialPriceItems = operationResult.getResultObjects().firstOrDefault().getMaterialPriceItems();
 
-        for (int i = 0; i <= materialPriceItems.size(); i++) {
+        for (int i = 0; i < materialPriceItems.size(); i++) {
             itemCode = materialPriceItems.get(i).getItemCode();
             priceList = materialPriceItems.get(i).getPrice();
 
@@ -835,11 +835,11 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
                 continue;
             }
             // if found the price list,caculate the price list that you want to .
-            if (materialPriceItems.get(i).getPrice().equals(0)) {
+            if (materialPriceItems.get(i).getPrice().compareTo(BigDecimal.ZERO) ==-1) {
                 mapPriceList.put(itemCode, priceList);
                 isNeedFetchChild = Boolean.TRUE;
             } else {
-                if (!factor.equals(0)) {
+                if (factor.compareTo(BigDecimal.ZERO) == -1) {
                     priceList = priceList.multiply(factor);
                 }
                 mapPriceList.put(itemCode, priceList);

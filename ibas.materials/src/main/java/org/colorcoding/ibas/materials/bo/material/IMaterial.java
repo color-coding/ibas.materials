@@ -190,35 +190,6 @@ public interface IMaterial extends IMaterialBase {
      */
     void setMinimumInventory(double value);
 
-    /**
-     * 获取-序号管理
-     *
-     * @return 值
-     */
-    emYesNo getSerialManagement();
-
-    /**
-     * 设置-序号管理
-     *
-     * @param value 值
-     */
-    void setSerialManagement(emYesNo value);
-
-
-    /**
-     * 获取-批号管理
-     *
-     * @return 值
-     */
-    emYesNo getBatchManagement();
-
-    /**
-     * 设置-批号管理
-     *
-     * @param value 值
-     */
-    void setBatchManagement(emYesNo value);
-
 
     /**
      * 获取-生效日期

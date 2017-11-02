@@ -1024,9 +1024,6 @@ public class MaterialBatch extends BusinessObject<MaterialBatch> implements IMat
 		materialBatch.setBatchCode(contract.getBatchCode());
 		materialBatch.setItemCode(contract.getItemCode());
 		materialBatch.setWarehouse(contract.getWarehouse());
-		materialBatch.setBaseDocumentType(contract.getBaseDocumentType());
-		materialBatch.setBaseDocumentEntry(contract.getBaseDocumentEntry());
-		materialBatch.setBaseDocumentLineId(contract.getBaseDocumentLineId());
 		return  materialBatch;
 	}
 }

@@ -193,6 +193,27 @@ export  abstract class MaterialBase<T extends IMaterialBase> extends BOMasterDat
     set inventoryUOM(value: string) {
         this.setProperty(MaterialBase.PROPERTY_INVENTORYUOM_NAME, value);
     }
+    /** 映射的属性名称-序号管理 */
+    static PROPERTY_SERIALMANAGEMENT_NAME: string = "SerialManagement";
+    /** 获取-序号管理 */
+    get serialManagement(): emYesNo {
+        return this.getProperty<emYesNo>(MaterialBase.PROPERTY_SERIALMANAGEMENT_NAME);
+    }
+    /** 设置-序号管理 */
+    set serialManagement(value: emYesNo) {
+        this.setProperty(MaterialBase.PROPERTY_SERIALMANAGEMENT_NAME, value);
+    }
+
+    /** 映射的属性名称-批号管理 */
+    static PROPERTY_BATCHMANAGEMENT_NAME: string = "BatchManagement";
+    /** 获取-批号管理 */
+    get batchManagement(): emYesNo {
+        return this.getProperty<emYesNo>(MaterialBase.PROPERTY_BATCHMANAGEMENT_NAME);
+    }
+    /** 设置-批号管理 */
+    set batchManagement(value: emYesNo) {
+        this.setProperty(MaterialBase.PROPERTY_BATCHMANAGEMENT_NAME, value);
+    }
     /** 映射的属性名称-对象编号 */
     static PROPERTY_DOCENTRY_NAME: string = "DocEntry";
     /** 获取-对象编号 */

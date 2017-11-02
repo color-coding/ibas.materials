@@ -226,6 +226,8 @@ export class GoodsIssueEditApp extends ibas.BOEditApplication<IGoodsIssueEditVie
                     item.itemCode = selected.code;
                     item.itemDescription = selected.name;
                     item.warehouse = selected.warehouseCode;
+                    item.serialManagement = selected.serialManagement;
+                    item.batchManagement = selected.batchManagement;
                     item.quantity = 1;
                     item = null;
                 }
@@ -270,7 +272,7 @@ export class GoodsIssueEditApp extends ibas.BOEditApplication<IGoodsIssueEditVie
 
     chooseGoodsIssueLineMaterialBatch(): void {
         let that: this = this;
-        let caller: bo.MaterialBatchSerialInOutData[] = that.getBatchSerialData();
+        let caller: bo.MaterialBatchSerialInOutData[] = that.getBatchData();
         if (ibas.objects.isNull(caller) || caller.length === 0) {
             this.messages(ibas.emMessageType.WARNING, ibas.i18n.prop("sys_shell_please_chooose_data",
                 ibas.i18n.prop("sys_shell_data_edit")
@@ -303,6 +305,7 @@ export class GoodsIssueEditApp extends ibas.BOEditApplication<IGoodsIssueEditVie
                         batchLine.itemCode = batchJournal.itemCode;
                         batchLine.warehouse = batchJournal.warehouse;
                         batchLine.quantity = batchJournal.quantity;
+                        batchLine.direction = batchJournal.direction;
                         batchLine.admissionDate = batchJournal.admissionDate;
                         batchLine.expirationDate = batchJournal.expirationDate;
                         batchLine.manufacturingDate = batchJournal.manufacturingDate;
@@ -311,51 +314,10 @@ export class GoodsIssueEditApp extends ibas.BOEditApplication<IGoodsIssueEditVie
             }
         });
     }
-    /** 获取行-批次序列信息 */
-    getBatchSerialData(): bo.MaterialBatchSerialInOutData[] {
-        // 获取行数据
-        let goodIssueLines: bo.GoodsIssueLine[] = this.editData.goodsIssueLines;
-        let inputData: bo.MaterialBatchSerialInOutData[] = new Array<bo.MaterialBatchSerialInOutData>();
-        for (let line of goodIssueLines) {
-            let input: bo.MaterialBatchSerialInOutData = new bo.MaterialBatchSerialInOutData();
-            input.index = goodIssueLines.indexOf(line);
-            input.itemCode = line.itemCode;
-            input.quantity = line.quantity;
-            input.warehouse = line.warehouse;
-            input.direction = ibas.emDirection.OUT;
-            if (line.goodsIssueMaterialBatchJournals.length === 0) {
-                input.needBatchQuantity = line.quantity;
-                input.selectedBatchQuantity = 0;
-            } else {
-                for (let item of line.goodsIssueMaterialBatchJournals.filterDeleted()) {
-                    let batchLine: bo.MaterialBatchJournal = input.materialBatchSerialInOutDataBatchJournals.create();
-                    batchLine.batchCode = item.batchCode;
-                    batchLine.itemCode = item.itemCode;
-                    batchLine.warehouse = item.warehouse;
-                    batchLine.quantity = item.quantity;
-                    batchLine.direction = ibas.emDirection.OUT;
-                }
-            }
-            if (line.goodsIssueMaterialSerialJournals.length === 0) {
-                input.needSerialQuantity = line.quantity;
-                input.selectedSerialQuantity = 0;
-            } else {
-                for (let item of line.goodsIssueMaterialSerialJournals.filterDeleted()) {
-                    let serialLine: bo.MaterialSerialJournal = input.materialBatchSerialInOutDataSerialJournals.create();
-                    serialLine.serialCode = item.serialCode;
-                    serialLine.itemCode = item.itemCode;
-                    serialLine.warehouse = item.warehouse;
-                    serialLine.direction = ibas.emDirection.OUT;
-                }
-            }
-            inputData.push(input);
-        }
-        return inputData;
-    }
 
     chooseGoodsIssueLineMaterialSerial(): void {
         let that: this = this;
-        let caller: bo.MaterialBatchSerialInOutData[] = that.getBatchSerialData();
+        let caller: bo.MaterialBatchSerialInOutData[] = that.getSerialData();
         if (ibas.objects.isNull(caller) || caller.length === 0) {
             this.messages(ibas.emMessageType.WARNING, ibas.i18n.prop("sys_shell_please_chooose_data",
                 ibas.i18n.prop("sys_shell_data_edit")
@@ -378,6 +340,7 @@ export class GoodsIssueEditApp extends ibas.BOEditApplication<IGoodsIssueEditVie
                         let serialLine: bo.MaterialSerialJournal = item.goodsIssueMaterialSerialJournals.create();
                         serialLine.serialCode = serial.serialCode;
                         serialLine.itemCode = serial.itemCode;
+                        serialLine.direction = serial.direction;
                         serialLine.warehouse = serial.warehouse;
                         serialLine.admissionDate = serial.admissionDate;
                         serialLine.expirationDate = serial.expirationDate;
@@ -386,6 +349,70 @@ export class GoodsIssueEditApp extends ibas.BOEditApplication<IGoodsIssueEditVie
                 }
             }
         });
+    }
+
+    /** 获取行-批次序列信息 */
+    getBatchData(): bo.MaterialBatchSerialInOutData[] {
+        // 获取行数据
+        let goodIssueLines: bo.GoodsIssueLine[] = this.editData.goodsIssueLines;
+        let inputData: bo.MaterialBatchSerialInOutData[] = new Array<bo.MaterialBatchSerialInOutData>();
+        for (let line of goodIssueLines) {
+            if (line.batchManagement.toString() === ibas.enums.toString(ibas.emYesNo, ibas.emYesNo.NO)) {
+                continue;
+            }
+            let input: bo.MaterialBatchSerialInOutData = new bo.MaterialBatchSerialInOutData();
+            input.index = goodIssueLines.indexOf(line);
+            input.itemCode = line.itemCode;
+            input.quantity = line.quantity;
+            input.warehouse = line.warehouse;
+            input.direction = ibas.emDirection.OUT;
+            if (line.goodsIssueMaterialBatchJournals.length === 0) {
+                input.needBatchQuantity = line.quantity;
+                input.selectedBatchQuantity = 0;
+            } else {
+                for (let item of line.goodsIssueMaterialBatchJournals.filterDeleted()) {
+                    let batchLine: bo.MaterialBatchJournal = input.materialBatchSerialInOutDataBatchJournals.create();
+                    batchLine.batchCode = item.batchCode;
+                    batchLine.itemCode = item.itemCode;
+                    batchLine.warehouse = item.warehouse;
+                    batchLine.quantity = item.quantity;
+                    batchLine.direction = ibas.emDirection.OUT;
+                }
+            }
+            inputData.push(input);
+        }
+        return inputData;
+    }
+    /** 获取行-序列信息 */
+    getSerialData(): bo.MaterialBatchSerialInOutData[] {
+        // 获取行数据
+        let goodIssueLines: bo.GoodsIssueLine[] = this.editData.goodsIssueLines;
+        let inputData: bo.MaterialBatchSerialInOutData[] = new Array<bo.MaterialBatchSerialInOutData>();
+        for (let line of goodIssueLines) {
+            if (line.serialManagement.toString() === ibas.enums.toString(ibas.emYesNo, ibas.emYesNo.NO)) {
+                continue;
+            }
+            let input: bo.MaterialBatchSerialInOutData = new bo.MaterialBatchSerialInOutData();
+            input.index = goodIssueLines.indexOf(line);
+            input.itemCode = line.itemCode;
+            input.quantity = line.quantity;
+            input.warehouse = line.warehouse;
+            input.direction = ibas.emDirection.OUT;
+            if (line.goodsIssueMaterialSerialJournals.length === 0) {
+                input.needSerialQuantity = line.quantity;
+                input.selectedSerialQuantity = 0;
+            } else {
+                for (let item of line.goodsIssueMaterialSerialJournals.filterDeleted()) {
+                    let serialLine: bo.MaterialSerialJournal = input.materialBatchSerialInOutDataSerialJournals.create();
+                    serialLine.serialCode = item.serialCode;
+                    serialLine.itemCode = item.itemCode;
+                    serialLine.warehouse = item.warehouse;
+                    serialLine.direction = ibas.emDirection.OUT;
+                }
+            }
+            inputData.push(input);
+        }
+        return inputData;
     }
 }
 

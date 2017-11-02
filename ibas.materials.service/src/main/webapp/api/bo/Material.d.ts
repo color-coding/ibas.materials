@@ -86,12 +86,6 @@ export interface IMaterial extends IMaterialBase {
     /** 最低库存量 */
     minimumInventory: number;
 
-    /** 序号管理 */
-    serialManagement: emYesNo;
-
-    /** 批号管理 */
-    batchManagement: emYesNo;
-
     /** 生效日期 */
     validDate: Date;
 

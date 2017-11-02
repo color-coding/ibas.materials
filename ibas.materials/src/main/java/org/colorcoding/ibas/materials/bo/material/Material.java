@@ -332,67 +332,6 @@ public class Material extends MaterialBase<Material> implements IMaterial {
         this.setMinimumInventory(new Decimal(value));
     }
 
-    /**
-     * 属性名称-序号管理
-     */
-    private static final String PROPERTY_SERIALMANAGEMENT_NAME = "SerialManagement";
-
-    /**
-     * 序号管理 属性
-     */
-    @DbField(name = "SerialMgment", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME, primaryKey = false)
-    public static final IPropertyInfo<emYesNo> PROPERTY_SERIALMANAGEMENT = registerProperty(
-            PROPERTY_SERIALMANAGEMENT_NAME, emYesNo.class, MY_CLASS);
-
-    /**
-     * 获取-序号管理
-     *
-     * @return 值
-     */
-    @XmlElement(name = PROPERTY_SERIALMANAGEMENT_NAME)
-    public final emYesNo getSerialManagement() {
-        return this.getProperty(PROPERTY_SERIALMANAGEMENT);
-    }
-
-    /**
-     * 设置-序号管理
-     *
-     * @param value 值
-     */
-    public final void setSerialManagement(emYesNo value) {
-        this.setProperty(PROPERTY_SERIALMANAGEMENT, value);
-    }
-
-    /**
-     * 属性名称-批号管理
-     */
-    private static final String PROPERTY_BATCHMANAGEMENT_NAME = "BatchManagement";
-
-    /**
-     * 批号管理 属性
-     */
-    @DbField(name = "BatchMgment", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME, primaryKey = false)
-    public static final IPropertyInfo<emYesNo> PROPERTY_BATCHMANAGEMENT = registerProperty(
-            PROPERTY_BATCHMANAGEMENT_NAME, emYesNo.class, MY_CLASS);
-
-    /**
-     * 获取-批号管理
-     *
-     * @return 值
-     */
-    @XmlElement(name = PROPERTY_BATCHMANAGEMENT_NAME)
-    public final emYesNo getBatchManagement() {
-        return this.getProperty(PROPERTY_BATCHMANAGEMENT);
-    }
-
-    /**
-     * 设置-批号管理
-     *
-     * @param value 值
-     */
-    public final void setBatchManagement(emYesNo value) {
-        this.setProperty(PROPERTY_BATCHMANAGEMENT, value);
-    }
 
     /**
      * 属性名称-生效日期

@@ -240,6 +240,8 @@ export class InventoryTransferEditApp extends ibas.BOEditApplication<IInventoryT
                     }
                     item.itemCode = selected.code;
                     item.itemDescription = selected.name;
+                    item.serialManagement = selected.serialManagement;
+                    item.batchManagement = selected.batchManagement;
                     item.quantity = 1;
                     item = null;
                 }
@@ -284,7 +286,7 @@ export class InventoryTransferEditApp extends ibas.BOEditApplication<IInventoryT
 
     chooseInventoryTransferLineMaterialBatch(): void {
         let that: this = this;
-        let caller: bo.MaterialBatchSerialInOutData[] = that.getBatchSerialData();
+        let caller: bo.MaterialBatchSerialInOutData[] = that.getBatchData();
         if (ibas.objects.isNull(caller) || caller.length === 0) {
             this.messages(ibas.emMessageType.WARNING, ibas.i18n.prop("sys_shell_please_chooose_data",
                 ibas.i18n.prop("sys_shell_data_edit")
@@ -313,6 +315,7 @@ export class InventoryTransferEditApp extends ibas.BOEditApplication<IInventoryT
                         batchOutLine.admissionDate = batchJournal.admissionDate;
                         batchOutLine.expirationDate = batchJournal.expirationDate;
                         batchOutLine.manufacturingDate = batchJournal.manufacturingDate;
+                        batchOutLine.direction = ibas.emDirection.OUT;
                         // 入库需要新建批次
                         let batchInLine: bo.MaterialBatchJournal = item.inventoryTransferMaterialBatchJournals.create();
                         batchInLine.batchCode = batchJournal.batchCode;
@@ -322,6 +325,7 @@ export class InventoryTransferEditApp extends ibas.BOEditApplication<IInventoryT
                         batchInLine.admissionDate = batchJournal.admissionDate;
                         batchInLine.expirationDate = batchJournal.expirationDate;
                         batchInLine.manufacturingDate = batchJournal.manufacturingDate;
+                        batchInLine.direction = ibas.emDirection.IN;
                     }
                 }
             }
@@ -329,7 +333,7 @@ export class InventoryTransferEditApp extends ibas.BOEditApplication<IInventoryT
     }
     chooseInventoryTransferLineMaterialSerial(): void {
         let that: this = this;
-        let caller: bo.MaterialBatchSerialInOutData[] = that.getBatchSerialData();
+        let caller: bo.MaterialBatchSerialInOutData[] = that.getSerialData();
         if (ibas.objects.isNull(caller) || caller.length === 0) {
             this.messages(ibas.emMessageType.WARNING, ibas.i18n.prop("sys_shell_please_chooose_data",
                 ibas.i18n.prop("sys_shell_data_edit")
@@ -385,12 +389,15 @@ export class InventoryTransferEditApp extends ibas.BOEditApplication<IInventoryT
         });
     }
 
-    /** 获取行-批次序列信息 */
-    getBatchSerialData(): bo.MaterialBatchSerialInOutData[] {
+    /** 获取行-批次信息 */
+    getBatchData(): bo.MaterialBatchSerialInOutData[] {
         // 获取行数据
         let goodIssueLines: bo.InventoryTransferLine[] = this.editData.inventoryTransferLines;
         let inputData: bo.MaterialBatchSerialInOutData[] = new Array<bo.MaterialBatchSerialInOutData>();
         for (let line of goodIssueLines) {
+            if (line.batchManagement.toString() === ibas.enums.toString(ibas.emYesNo, ibas.emYesNo.NO)) {
+                continue;
+            }
             let input: bo.MaterialBatchSerialInOutData = new bo.MaterialBatchSerialInOutData();
             input.index = goodIssueLines.indexOf(line);
             input.itemCode = line.itemCode;
@@ -411,6 +418,25 @@ export class InventoryTransferEditApp extends ibas.BOEditApplication<IInventoryT
                     batchLine.direction = ibas.emDirection.OUT;
                 }
             }
+            inputData.push(input);
+        }
+        return inputData;
+    }
+    /** 获取行-序列信息 */
+    getSerialData(): bo.MaterialBatchSerialInOutData[] {
+        // 获取行数据
+        let goodIssueLines: bo.InventoryTransferLine[] = this.editData.inventoryTransferLines;
+        let inputData: bo.MaterialBatchSerialInOutData[] = new Array<bo.MaterialBatchSerialInOutData>();
+        for (let line of goodIssueLines) {
+            if (line.serialManagement.toString() === ibas.enums.toString(ibas.emYesNo, ibas.emYesNo.NO)) {
+                continue;
+            }
+            let input: bo.MaterialBatchSerialInOutData = new bo.MaterialBatchSerialInOutData();
+            input.index = goodIssueLines.indexOf(line);
+            input.itemCode = line.itemCode;
+            input.quantity = line.quantity;
+            input.warehouse = this.editData.fromWarehouse;
+            input.direction = ibas.emDirection.OUT;
             if (line.inventoryTransferMaterialSerialJournals.length === 0) {
                 input.needSerialQuantity = line.quantity;
                 input.selectedSerialQuantity = 0;

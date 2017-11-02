@@ -166,7 +166,8 @@ export class MaterialBatchSerialInOutData extends BOSimple<MaterialBatchSerialIn
     static PROPERTY_MATERIALBATCHINPUTSERIALJOURNALS_NAME: string = "MaterialBatchSerialInOutDataSerialJournals";
     /** 获取-行-序列号集合 */
     get materialBatchSerialInOutDataSerialJournals(): MaterialBatchSerialInOutDataSerialJournals {
-        return this.getProperty<MaterialBatchSerialInOutDataSerialJournals>(MaterialBatchSerialInOutData.PROPERTY_MATERIALBATCHINPUTSERIALJOURNALS_NAME);
+        return this.getProperty<MaterialBatchSerialInOutDataSerialJournals>
+            (MaterialBatchSerialInOutData.PROPERTY_MATERIALBATCHINPUTSERIALJOURNALS_NAME);
     }
     /** 设置-行-序列号集合 */
     set materialBatchSerialInOutDataSerialJournals(value: MaterialBatchSerialInOutDataSerialJournals) {
@@ -184,6 +185,16 @@ export class MaterialBatchSerialInOutDataBatchJournals extends BusinessObjects<M
     implements IMaterialBatchSerialInOutDataBatchJournals {
     /** 创建并添加子项 */
     create(): MaterialBatchJournal {
+        let item: MaterialBatchJournal = new MaterialBatchJournal();
+        item.quantity = 0;
+        item.itemCode = this.parent.itemCode;
+        item.warehouse = this.parent.warehouse;
+        item.direction = this.parent.direction;
+        this.add(item);
+        return item;
+    }
+    /** 创建并添加子项 */
+    createBatchJournal(journal: MaterialBatchJournal): MaterialBatchJournal {
         let item: MaterialBatchJournal = new MaterialBatchJournal();
         item.quantity = 0;
         item.itemCode = this.parent.itemCode;
