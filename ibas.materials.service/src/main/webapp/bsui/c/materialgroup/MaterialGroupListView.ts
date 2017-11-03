@@ -199,11 +199,11 @@ export class MaterialGroupListView extends ibas.BOListView implements IMaterialG
         }
         this.table.setBusy(false);
     }
-    private lastCriteria: ibas.ICriteria;
+
     /** 记录上次查询条件，表格滚动时自动触发 */
     query(criteria: ibas.ICriteria): void {
         super.query(criteria);
-        this.lastCriteria = criteria;
+
         // 清除历史数据
         if (this.isDisplayed) {
             this.table.setBusy(true);
