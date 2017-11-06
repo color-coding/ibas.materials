@@ -246,7 +246,7 @@ export class MaterialBatchIssueApp extends ibas.BOApplication<IMaterialBatchIssu
                     if (opRslt.resultCode !== 0) {
                         throw new Error(opRslt.message);
                     }
-                    that.filterSelected(opRslt.resultObjects, selected);
+                    that.filterSelected(opRslt.resultObjects.filter(c=>c.quantity>0), selected);
                     that.view.showLeftData(that.batchData);
                     that.busy(false);
                     // that.batchData = ;

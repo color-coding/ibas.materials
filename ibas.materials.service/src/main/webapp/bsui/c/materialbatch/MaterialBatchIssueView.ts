@@ -29,7 +29,7 @@ export class MaterialBatchIssueView extends ibas.BODialogView implements IMateri
     private rightTable: sap.ui.table.Table;
     private actionLayout: sap.ui.layout.form.SimpleForm;
     private mainBlockLayout: sap.ui.layout.BlockLayout;
-
+    private splitter: sap.ui.layout.Splitter;
     /** 绘制工具条 */
     darwBars(): any {
         let that: this = this;
@@ -213,32 +213,44 @@ export class MaterialBatchIssueView extends ibas.BODialogView implements IMateri
                 this.rightTable
             ]
         });
-        this.mainBlockLayout = new sap.ui.layout.BlockLayout("", {
-            content: [
-                new sap.ui.layout.BlockLayoutRow("", {
-                    content: [
-                        new sap.ui.layout.BlockLayoutCell("", {
-                            width: 5,
-                            content: [this.leftTable]
-                        }),
-                        new sap.ui.layout.BlockLayoutCell("", {
-                            width: 4,
-                            content: [this.actionLayout]
-                        }),
-                        new sap.ui.layout.BlockLayoutCell("", {
-                            width: 5,
-                            content: [this.rightTable]
-                        })
+        this.splitter = new sap.ui.layout.Splitter("",{
+            orientation: sap.ui.core.Orientation.Horizontal,
+            contentAreas:[
+                new sap.ui.layout.Splitter("", {
+                    layoutData: new sap.ui.layout.SplitterLayoutData("", {
+                        resizable: false,
+                        size: "42%",
+                    }),
+                    contentAreas:[
+                        this.leftTable
                     ]
-                })
+                }),
+                new sap.ui.layout.Splitter("", {
+                    layoutData: new sap.ui.layout.SplitterLayoutData("", {
+                        resizable: false,
+                        size: "auto",
+                    }),
+                    contentAreas:[
+                        this.actionLayout
+                    ]
+                }),
+                new sap.ui.layout.Splitter("", {
+                    layoutData: new sap.ui.layout.SplitterLayoutData("", {
+                        resizable: false,
+                        size: "42%",
+                    }),
+                    contentAreas:[
+                        this.rightTable
+                    ]
+                }),
             ]
         });
-        this.mainBlockLayout.removeStyleClass("sapUiBlockCellContent");
+
         this.mainLayout = new sap.ui.layout.VerticalLayout("", {
             wrapping: false,
             content: [
                 this.journalLineTable,
-                this.mainBlockLayout
+                this.splitter
             ]
         });
         this.id = this.mainLayout.getId();

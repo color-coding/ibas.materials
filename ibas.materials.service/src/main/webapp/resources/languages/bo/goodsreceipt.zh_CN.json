@@ -27,6 +27,7 @@
   "bo_goodsreceipt_documentdate": "凭证日期",
   "bo_goodsreceipt_reference1": "参考1",
   "bo_goodsreceipt_reference2": "参考2",
+  "bo_goodsissue_pricelistname":"价格清单",
   "bo_goodsreceipt_referenced": "已引用",
   "bo_goodsreceipt_remarks": "备注",
   "bo_goodsreceipt_documentcurrency": "单据货币",

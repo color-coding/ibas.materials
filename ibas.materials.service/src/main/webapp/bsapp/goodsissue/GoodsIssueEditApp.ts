@@ -275,9 +275,7 @@ export class GoodsIssueEditApp extends ibas.BOEditApplication<IGoodsIssueEditVie
         let that: this = this;
         let caller: bo.MaterialBatchSerialInOutData[] = that.getBatchData();
         if (ibas.objects.isNull(caller) || caller.length === 0) {
-            this.messages(ibas.emMessageType.WARNING, ibas.i18n.prop("sys_shell_please_chooose_data",
-                ibas.i18n.prop("sys_shell_data_edit")
-            ));
+            this.messages(ibas.emMessageType.WARNING, ibas.i18n.prop("materials_app_no_batchmanaged"));
             return;
         }
         ibas.servicesManager.runChooseService<bo.MaterialBatchSerialInOutData>({
@@ -320,9 +318,7 @@ export class GoodsIssueEditApp extends ibas.BOEditApplication<IGoodsIssueEditVie
         let that: this = this;
         let caller: bo.MaterialBatchSerialInOutData[] = that.getSerialData();
         if (ibas.objects.isNull(caller) || caller.length === 0) {
-            this.messages(ibas.emMessageType.WARNING, ibas.i18n.prop("sys_shell_please_chooose_data",
-                ibas.i18n.prop("sys_shell_data_edit")
-            ));
+            this.messages(ibas.emMessageType.WARNING, ibas.i18n.prop("materials_app_no_serialmanaged"));
             return;
         }
         ibas.servicesManager.runChooseService<bo.MaterialBatchSerialInOutData>({
@@ -358,7 +354,8 @@ export class GoodsIssueEditApp extends ibas.BOEditApplication<IGoodsIssueEditVie
         let goodIssueLines: bo.GoodsIssueLine[] = this.editData.goodsIssueLines;
         let inputData: bo.MaterialBatchSerialInOutData[] = new Array<bo.MaterialBatchSerialInOutData>();
         for (let line of goodIssueLines) {
-            if (line.batchManagement.toString() === ibas.enums.toString(ibas.emYesNo, ibas.emYesNo.NO)) {
+            if (!ibas.objects.isNull(line.batchManagement) &&
+                line.batchManagement.toString() === ibas.enums.toString(ibas.emYesNo, ibas.emYesNo.NO)) {
                 continue;
             }
             let input: bo.MaterialBatchSerialInOutData = new bo.MaterialBatchSerialInOutData();
@@ -390,7 +387,8 @@ export class GoodsIssueEditApp extends ibas.BOEditApplication<IGoodsIssueEditVie
         let goodIssueLines: bo.GoodsIssueLine[] = this.editData.goodsIssueLines;
         let inputData: bo.MaterialBatchSerialInOutData[] = new Array<bo.MaterialBatchSerialInOutData>();
         for (let line of goodIssueLines) {
-            if (line.serialManagement.toString() === ibas.enums.toString(ibas.emYesNo, ibas.emYesNo.NO)) {
+            if (!ibas.objects.isNull(line.serialManagement) &&
+                line.serialManagement.toString() === ibas.enums.toString(ibas.emYesNo, ibas.emYesNo.NO)) {
                 continue;
             }
             let input: bo.MaterialBatchSerialInOutData = new bo.MaterialBatchSerialInOutData();

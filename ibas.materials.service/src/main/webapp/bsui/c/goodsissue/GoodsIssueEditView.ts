@@ -70,6 +70,13 @@ export class GoodsIssueEditView extends ibas.BOEditView implements IGoodsIssueEd
                 }).bindProperty("value", {
                     path: "reference2",
                 }),
+                new sap.m.Label("", { text: ibas.i18n.prop("bo_goodsissue_pricelistname") }),
+                new sap.m.Select("", {
+                    items: utils.createComboBoxItems(ibas.emDocumentStatus)
+                }).bindProperty("selectedKey", {
+                     path: "pricelist",
+                    // type: "sap.ui.model.type.Integer"
+                }),
                 new sap.ui.core.Title("", { text: ibas.i18n.prop("materials_date_information") }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_goodsissue_postingdate") }),
                 new sap.m.DatePicker("", {
@@ -185,11 +192,10 @@ export class GoodsIssueEditView extends ibas.BOEditView implements IGoodsIssueEd
                     })
                 }),
                 new sap.ui.table.Column("", {
-                    label: ibas.i18n.prop("bo_goodsreceiptline_price"),
+                    label: ibas.i18n.prop("bo_goodsissueline_price"),
                     template: new sap.m.Input("", {
                         width: "100%",
                         type: sap.m.InputType.Number,
-                        showValueHelp: true,
                     }).bindProperty("value", {
                         path: "price"
                     })
@@ -333,6 +339,7 @@ export class GoodsIssueEditView extends ibas.BOEditView implements IGoodsIssueEd
     }
     private tableGoodsIssueLine: sap.ui.table.Table;
 
+    // createComboBoxItems
     /** 显示数据 */
     showGoodsIssue(data: bo.GoodsIssue): void {
         this.mainLayout.setModel(new sap.ui.model.json.JSONModel(data));

@@ -103,14 +103,6 @@ export class MaterialExChooseView extends ibas.BOChooseView implements IMaterial
                     }),
                 }),
                 new sap.ui.table.Column("", {
-                    label: ibas.i18n.prop("bo_materialex_pricelistname"),
-                    template: new sap.m.Text("", {
-                        wrapping: false,
-                    }).bindProperty("text", {
-                        path: "priceListName",
-                    }),
-                }),
-                new sap.ui.table.Column("", {
                     label: ibas.i18n.prop("bo_materialex_price"),
                     template: new sap.m.Text("", {
                         wrapping: false,
@@ -160,11 +152,9 @@ export class MaterialExChooseView extends ibas.BOChooseView implements IMaterial
         }
         this.table.setBusy(false);
     }
-    private lastCriteria: ibas.ICriteria;
     /** 记录上次查询条件，表格滚动时自动触发 */
     query(criteria: ibas.ICriteria): void {
         super.query(criteria);
-        this.lastCriteria = criteria;
         // 清除历史数据
         if (this.isDisplayed) {
             this.table.setBusy(true);

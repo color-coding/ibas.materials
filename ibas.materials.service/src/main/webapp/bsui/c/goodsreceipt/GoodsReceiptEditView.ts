@@ -195,7 +195,6 @@ export class GoodsReceiptEditView extends ibas.BOEditView implements IGoodsRecei
                     template: new sap.m.Input("", {
                         width: "100%",
                         type: sap.m.InputType.Number,
-                        showValueHelp: true,
                     }).bindProperty("value", {
                         path: "price"
                     })

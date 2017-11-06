@@ -36,7 +36,7 @@ export class MaterialEx extends MaterialBase<MaterialEx> implements IMaterialEx 
     }
 
     /** 映射的属性名称-仓库 */
-    static PROPERTY_WAREHOUSECODE_NAME: string = "WarehouseCode";
+    static PROPERTY_WAREHOUSECODE_NAME: string = "Warehouse";
     /** 获取-仓库 */
     get warehouseCode(): string {
         return this.getProperty<string>(MaterialEx.PROPERTY_WAREHOUSECODE_NAME);
@@ -47,7 +47,7 @@ export class MaterialEx extends MaterialBase<MaterialEx> implements IMaterialEx 
     }
 
     /** 映射的属性名称-仓库库存 */
-    static PROPERTY_ONHAND_NAME: string = "WarehouseOnHand";
+    static PROPERTY_ONHAND_NAME: string = "OnHand";
     /** 获取-仓库库存 */
     get warehouseOnHand(): number {
         return this.getProperty<number>(MaterialEx.PROPERTY_ONHAND_NAME);

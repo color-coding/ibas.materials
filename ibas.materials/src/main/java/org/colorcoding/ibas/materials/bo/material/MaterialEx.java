@@ -34,6 +34,8 @@ public class MaterialEx extends MaterialBase<MaterialEx> implements IMaterialEx 
      */
     private static final Class<?> MY_CLASS = MaterialEx.class;
 
+    private static final String DB_OITW_TABLE_NAME ="${Company}_MM_OITM";
+    private static final String DB_PRICELIST_TABLE_NAME ="${Company}_MM_MPL1";
 
     @Override
     protected void initialize() {
@@ -46,11 +48,12 @@ public class MaterialEx extends MaterialBase<MaterialEx> implements IMaterialEx 
     /**
      * 属性名称-仓库编号
      */
-    private static final String PROPERTY_WAREHOUSE_NAME = "WarehouseCode";
+    private static final String PROPERTY_WAREHOUSE_NAME = "Warehouse";
 
     /**
      * 仓库编号 属性
      */
+    @DbField(name = "WhsCode", type = DbFieldType.DECIMAL, table = DB_OITW_TABLE_NAME, primaryKey = false)
     public static final IPropertyInfo<String> PROPERTY_WAREHOUSE = registerProperty(PROPERTY_WAREHOUSE_NAME,
             String.class, MY_CLASS);
 
@@ -77,11 +80,12 @@ public class MaterialEx extends MaterialBase<MaterialEx> implements IMaterialEx 
     /**
      * 属性名称-库存
      */
-    private static final String PROPERTY_ONHAND_NAME = "WarehouseOnHand";
+    private static final String PROPERTY_ONHAND_NAME = "OnHand";
 
     /**
      * 库存 属性
      */
+    @DbField(name = "OnHand", type = DbFieldType.DECIMAL, table = DB_OITW_TABLE_NAME, primaryKey = false)
     public static final IPropertyInfo<Decimal> PROPERTY_ONHAND = registerProperty(PROPERTY_ONHAND_NAME, Decimal.class,
             MY_CLASS);
 

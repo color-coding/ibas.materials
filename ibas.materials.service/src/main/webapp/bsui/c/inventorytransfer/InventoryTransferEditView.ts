@@ -187,6 +187,15 @@ export class InventoryTransferEditView extends ibas.BOEditView implements IInven
                     })
                 }),
                 new sap.ui.table.Column("", {
+                    label: ibas.i18n.prop("bo_inventorytransferline_price"),
+                    template: new sap.m.Input("", {
+                        width: "100%",
+                        type: sap.m.InputType.Number
+                    }).bindProperty("value", {
+                        path: "price"
+                    })
+                }),
+                new sap.ui.table.Column("", {
                     label: ibas.i18n.prop("bo_inventorytransferline_uom"),
                     template: new sap.m.Input("", {
                         width: "100%",

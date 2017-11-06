@@ -649,6 +649,7 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
         Criteria criInventory = new Criteria();
         Criteria criPriceList = new Criteria();
         ICondition condition;
+        IChildCriteria childCriteria;
         if (criteria != null) {
             //region check the conditions
             for (ICondition con : criteria.getConditions()
@@ -660,7 +661,11 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
                     condition.setValue(con.getValue());
                     condition.setRelationship(con.getRelationship());
 
-                    condition = criPriceList.getChildCriterias().create().getConditions().create();
+                    childCriteria = criPriceList.getChildCriterias().create();
+                    childCriteria.setPropertyPath(MaterialPriceList.PROPERTY_MATERIALPRICEITEMS.getName());
+                    childCriteria.setOnlyHasChilds(false);
+
+                    condition = childCriteria.getConditions().create();
                     condition.setAlias(MaterialPriceItem.PROPERTY_ITEMCODE.getName());
                     condition.setOperation(con.getOperation());
                     condition.setValue(con.getValue());
@@ -690,14 +695,17 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
                     continue;
                 } else {
                     condition = criMaterial.getConditions().create();
-                    condition = con;
+                    condition.setAlias(con.getAlias());
+                    condition.setOperation(con.getOperation());
+                    condition.setValue(con.getValue());
+                    condition .setRelationship(con.getRelationship());
                 }
             }
             //endregion
         }
         try {
             //region 查询物料，创建MaterialEx对象
-            operationResult = this.fetchMaterial(criteria, token);
+            operationResult = this.fetchMaterial(criMaterial, token);
             if (operationResult.getResultCode() == 0) {
                 materials = (ArrayList<Material>) operationResult.getResultObjects();
             } else {
@@ -841,8 +849,8 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
             } else {
                 if (factor.compareTo(BigDecimal.ZERO) != 0) {
                     priceList = priceList.multiply(factor);
+                    mapPriceList.put(itemCode, priceList);
                 }
-                mapPriceList.put(itemCode, priceList);
             }
         }
         //region caculate the value of factor

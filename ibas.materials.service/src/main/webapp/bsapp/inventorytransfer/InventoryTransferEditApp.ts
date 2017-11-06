@@ -289,9 +289,7 @@ export class InventoryTransferEditApp extends ibas.BOEditApplication<IInventoryT
         let that: this = this;
         let caller: bo.MaterialBatchSerialInOutData[] = that.getBatchData();
         if (ibas.objects.isNull(caller) || caller.length === 0) {
-            this.messages(ibas.emMessageType.WARNING, ibas.i18n.prop("sys_shell_please_chooose_data",
-                ibas.i18n.prop("sys_shell_data_edit")
-            ));
+            this.messages(ibas.emMessageType.WARNING, ibas.i18n.prop("materials_app_no_batchmanaged"));
             return;
         }
         ibas.servicesManager.runChooseService<bo.MaterialBatchSerialInOutData>({
@@ -336,9 +334,7 @@ export class InventoryTransferEditApp extends ibas.BOEditApplication<IInventoryT
         let that: this = this;
         let caller: bo.MaterialBatchSerialInOutData[] = that.getSerialData();
         if (ibas.objects.isNull(caller) || caller.length === 0) {
-            this.messages(ibas.emMessageType.WARNING, ibas.i18n.prop("sys_shell_please_chooose_data",
-                ibas.i18n.prop("sys_shell_data_edit")
-            ));
+            this.messages(ibas.emMessageType.WARNING, ibas.i18n.prop("materials_app_no_serialmanaged"));
             return;
         }
         if (ibas.objects.isNull(that.editData.fromWarehouse)) {
