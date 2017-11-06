@@ -167,7 +167,7 @@ export class BORepositoryMaterials extends ibas.BORepositoryApplication implemen
      * @param fetcher 查询者
      */
     fetchMaterialBatchJournal(fetcher: ibas.FetchCaller<bo.MaterialBatchJournal>): void {
-        super.fetch(bo.MaterialBatch.name, fetcher);
+        super.fetch(bo.MaterialBatchJournal.name, fetcher);
     }
     /**
      * 保存 物料批次日记账
@@ -195,7 +195,7 @@ export class BORepositoryMaterials extends ibas.BORepositoryApplication implemen
      * @param fetcher 查询者
      */
     fetchMaterialSerialJournal(fetcher: ibas.FetchCaller<bo.MaterialSerialJournal>): void {
-        super.fetch(bo.MaterialSerial.name, fetcher);
+        super.fetch(bo.MaterialSerialJournal.name, fetcher);
     }
     /**
      * 保存 物料序列号日记账
@@ -203,6 +203,20 @@ export class BORepositoryMaterials extends ibas.BORepositoryApplication implemen
      */
     saveMaterialSerialJournal(saver: ibas.SaveCaller<bo.MaterialSerialJournal>): void {
         super.save(bo.MaterialSerialJournal.name,saver);
+    }
+    /**
+     *  查询 物料价格清单
+     * @param fetcher 查询者
+     */
+    fetchMaterialPriceList(fetcher: ibas.FetchCaller<bo.MaterialPriceList>): void {
+        super.fetch(bo.MaterialPriceList.name, fetcher);
+    }
+    /**
+     * 保存 物料价格清单
+     * @param saver 保存者
+     */
+    saveMaterialPriceList(saver: ibas.SaveCaller<bo.MaterialPriceList>): void {
+        super.save(bo.MaterialPriceList.name,saver);
     }
 }
 // 注册业务对象仓库到工厂

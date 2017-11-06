@@ -21,6 +21,7 @@ export * from "./MaterialSerial";
 export * from "./MaterialBatchJournal";
 export * from "./MaterialSerialJournal";
 export * from "./MaterialBatchSerialInOutData";
+export * from "./MaterialPriceList";
 
 // 注册业务对象到工厂
 import * as ibas from "ibas/index";

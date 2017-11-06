@@ -24,8 +24,8 @@ import {
 
 } from "../Datas";
 export interface IMaterialSerialJournal extends IBOSimple {
-/**物料编号 */
-itemCode: string;
+    /**物料编号 */
+    itemCode: string;
 
     /**序列编号 */
     serialCode: string;

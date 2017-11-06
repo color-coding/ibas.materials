@@ -46,6 +46,8 @@ export const BO_CODE_MATERIALINVENTORY: string = "${Company}_MM_MATERIALINVENTOR
 export const BO_CODE_MATERIALJOURNAL: string = "${Company}_MM_MATERIALJOURNAL";
 /** 业务对象编码-仓库 */
 export const BO_CODE_WAREHOUSE: string = "${Company}_MM_WAREHOUSE";
+/** 业务对象编码-价格清单 */
+export const BO_CODE_MATERIALPRICELIST: string = "${Company}_MM_PRICELIST";
 
 /** 物料类型 */
 export enum emItemType {

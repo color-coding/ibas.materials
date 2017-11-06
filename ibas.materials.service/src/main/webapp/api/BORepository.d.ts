@@ -128,4 +128,15 @@ export interface IBORepositoryMaterials {
      * @param saver 保存者
      */
     saveMaterialSerial(saver: SaveCaller<bo.IMaterialSerial>);
+
+    /**
+    * 查询 物料价格清单
+    * @param fetcher 查询者
+    */
+    fetchMaterialPriceList(fetcher: FetchCaller<bo.IMaterialPriceList>);
+    /**
+     * 保存 物料价格清单
+     * @param saver 保存者
+     */
+    saveMaterialPriceList(saver: SaveCaller<bo.IMaterialPriceList>);
 }
