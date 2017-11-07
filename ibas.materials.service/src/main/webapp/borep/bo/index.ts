@@ -51,3 +51,5 @@ import { MaterialBatchJournal } from "./MaterialBatchJournal";
 ibas.boFactory.register(MaterialSerial.BUSINESS_OBJECT_CODE, MaterialSerialJournal);
 import { MaterialSerialJournal } from "./MaterialSerialJournal";
 ibas.boFactory.register(MaterialSerialJournal.BUSINESS_OBJECT_CODE, MaterialBatchJournal);
+import { MaterialPriceList } from "./MaterialPriceList";
+ibas.boFactory.register(MaterialPriceList.BUSINESS_OBJECT_CODE, MaterialPriceList);

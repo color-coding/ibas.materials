@@ -74,6 +74,7 @@ export class Console extends ibas.ModuleConsole {
         ibas.i18n.load(this.rootUrl + "resources/languages/bo/materialjournal.json");
         ibas.i18n.load(this.rootUrl + "resources/languages/bo/warehouse.json");
         ibas.i18n.load(this.rootUrl + "resources/languages/bo/materialex.json");
+        ibas.i18n.load(this.rootUrl + "resources/languages/bo/materialpricelist.json");
         ibas.i18n.load(this.rootUrl + "resources/languages/bo/materialbatch.json");
         ibas.i18n.load(this.rootUrl + "resources/languages/bo/materialserial.json");
         ibas.i18n.load(this.rootUrl + "resources/languages/bo/materialbatchjournal.json");

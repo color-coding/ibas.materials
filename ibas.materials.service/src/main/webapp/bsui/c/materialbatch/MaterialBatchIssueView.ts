@@ -8,6 +8,7 @@
 import * as ibas from "ibas/index";
 import { utils } from "openui5/typings/ibas.utils";
 import * as bo from "../../../borep/bo/index";
+import { emAutoSelectBatchSerialRules } from "../../../api/Datas";
 import { IMaterialBatchIssueView } from "../../../bsapp/materialbatch/index";
 export class MaterialBatchIssueView extends ibas.BODialogView implements IMaterialBatchIssueView {
 
@@ -35,24 +36,11 @@ export class MaterialBatchIssueView extends ibas.BODialogView implements IMateri
         let that: this = this;
         return [
             new sap.m.Button("", {
-                text: ibas.i18n.prop("materials_sys_autoselect"),
-                type: sap.m.ButtonType.Transparent,
-                press: function (): void {
-                    that.fireViewEvents(that.autoSelectMaterialBatchEvent,
-                        // 获取表格选中的对象
-                        utils.getTableSelecteds<bo.MaterialBatchSerialInOutData>(that.journalLineTable).firstOrDefault()
-                    );
-                }
-            }),
-            new sap.m.Button("", {
                 text: ibas.i18n.prop("sys_shell_data_save"),
-                type: sap.m.ButtonType.Transparent,
+                // type: sap.m.ButtonType.Transparent,
                 // icon: "sap-icon://accept",
                 press: function (): void {
-                    that.fireViewEvents(that.saveDataEvent,
-                        // 获取表格选中的对象
-                        // utils.getTableSelecteds<bo.MaterialBatch>(that.table)
-                    );
+                    that.fireViewEvents(that.saveDataEvent);
                 }
             }),
             new sap.m.Button("", {
@@ -182,6 +170,33 @@ export class MaterialBatchIssueView extends ibas.BODialogView implements IMateri
         });
         this.actionLayout = new sap.ui.layout.form.SimpleForm("", {
             content: [
+                new sap.m.MenuButton("", {
+                    text: ibas.i18n.prop("materials_sys_autoselect"),
+                    menu: [
+                        new sap.m.Menu("", {
+                            items: [
+                                new sap.m.MenuItem("", {
+                                    text: ibas.i18n.prop("materials_app_autoselectbatch_by_firstinfirstout"),
+                                    press: function (): void {
+                                        that.fireViewEvents(that.autoSelectMaterialBatchEvent
+                                            , utils.getTableSelecteds<bo.MaterialBatchSerialInOutData>
+                                                (that.journalLineTable).firstOrDefault()
+                                            , emAutoSelectBatchSerialRules.FIRSTINFIRSTOUT);
+                                    }
+                                }),
+                                new sap.m.MenuItem("", {
+                                    text: ibas.i18n.prop("materials_app_autoselectbatch_by_batchno"),
+                                    press: function (): void {
+                                        that.fireViewEvents(that.autoSelectMaterialBatchEvent
+                                            , utils.getTableSelecteds<bo.MaterialBatchSerialInOutData>
+                                                (that.journalLineTable).firstOrDefault()
+                                            , emAutoSelectBatchSerialRules.ORDERBYCODE);
+                                    }
+                                }),
+                            ]
+                        })
+                    ]
+                }),
                 new sap.m.Button("", {
                     text: "<",
                     press: function (): void {
@@ -213,15 +228,15 @@ export class MaterialBatchIssueView extends ibas.BODialogView implements IMateri
                 this.rightTable
             ]
         });
-        this.splitter = new sap.ui.layout.Splitter("",{
+        this.splitter = new sap.ui.layout.Splitter("", {
             orientation: sap.ui.core.Orientation.Horizontal,
-            contentAreas:[
+            contentAreas: [
                 new sap.ui.layout.Splitter("", {
                     layoutData: new sap.ui.layout.SplitterLayoutData("", {
                         resizable: false,
                         size: "42%",
                     }),
-                    contentAreas:[
+                    contentAreas: [
                         this.leftTable
                     ]
                 }),
@@ -230,7 +245,7 @@ export class MaterialBatchIssueView extends ibas.BODialogView implements IMateri
                         resizable: false,
                         size: "auto",
                     }),
-                    contentAreas:[
+                    contentAreas: [
                         this.actionLayout
                     ]
                 }),
@@ -239,7 +254,7 @@ export class MaterialBatchIssueView extends ibas.BODialogView implements IMateri
                         resizable: false,
                         size: "42%",
                     }),
-                    contentAreas:[
+                    contentAreas: [
                         this.rightTable
                     ]
                 }),

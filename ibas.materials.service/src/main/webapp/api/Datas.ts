@@ -56,3 +56,13 @@ export enum emItemType {
     /** 服务 */
     SERVICES,
 }
+
+/** 排序规则 */
+export enum emAutoSelectBatchSerialRules {
+    /** 先进先出 */
+    FIRSTINFIRSTOUT,
+    /** 先进后出 */
+    FIRSTINLASTOUT,
+    /** 编码排序 */
+    ORDERBYCODE,
+}

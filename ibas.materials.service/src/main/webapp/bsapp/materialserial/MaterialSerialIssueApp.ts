@@ -7,6 +7,9 @@
  */
 import * as ibas from "ibas/index";
 import * as bo from "../../borep/bo/index";
+import {
+    emAutoSelectBatchSerialRules,
+} from "../../api/Datas";
 import { BORepositoryMaterials } from "../../borep/BORepositories";
 export class MaterialSerialIssueApp extends ibas.BOApplication<IMaterialSerialIssueView> {
 
@@ -67,7 +70,7 @@ export class MaterialSerialIssueApp extends ibas.BOApplication<IMaterialSerialIs
         that.fetchSerialData(criteria, selected);
         that.view.showRightData(selected.materialBatchSerialInOutDataSerialJournals);
     }
-    protected autoSelectMaterialSerial(selected: bo.MaterialBatchSerialInOutData): void {
+    protected autoSelectMaterialSerial(selected: bo.MaterialBatchSerialInOutData,rules: emAutoSelectBatchSerialRules): void {
         // 未选择凭证行
         if (ibas.objects.isNull(selected)) {
             this.messages(ibas.emMessageType.WARNING, ibas.i18n.prop("sys_shell_please_chooose_data",
@@ -94,17 +97,26 @@ export class MaterialSerialIssueApp extends ibas.BOApplication<IMaterialSerialIs
             this.fetchSerialData(criteria, selected);
             return;
         }
-        this.allocateSerial(selected, "");
+        this.allocateSerial(selected, rules);
         let line: bo.MaterialBatchSerialInOutData = this.inputData.find(c => c.index === selected.index);
         this.view.showLeftData(this.serialData.filter(c => c.isDeleted === false));
         this.view.showRightData(line.materialBatchSerialInOutDataSerialJournals.filterDeleted());
-        /** 按照一定规则自动选择序列号信息 */
-        // 获取规则
-        // 假设按照创建时间顺序自动选择
 
     }
-    protected allocateSerial(journal: bo.MaterialBatchSerialInOutData, rule: string): void {
+    protected allocateSerial(journal: bo.MaterialBatchSerialInOutData, rule: emAutoSelectBatchSerialRules): void {
         // 按照一定规则排序
+        if (rule === emAutoSelectBatchSerialRules.FIRSTINFIRSTOUT) {
+            this.serialData.sort((serial1, serial2) => serial1.createDate < serial2.createDate ? -1
+                : (serial1.createDate > serial2.createDate ? 1 : (serial1.createTime < serial2.createTime ? -1
+                    : (serial1.createTime > serial2.createTime ? 1 : 0))));
+        } else if (rule === emAutoSelectBatchSerialRules.FIRSTINLASTOUT) {
+            this.serialData.sort((serial1, serial2) => serial1.createDate > serial2.createDate ? -1
+                : (serial1.createDate < serial2.createDate ? 1 : (serial1.createTime > serial2.createTime ? -1
+                    : (serial1.createTime < serial2.createTime ? 1 : 0))));
+        } else if (rule === emAutoSelectBatchSerialRules.ORDERBYCODE) {
+            this.serialData.sort((serial1, serial2) => serial1.serialCode < serial2.serialCode ? -1
+                : serial1.serialCode > serial2.serialCode ? 1 : 0);
+        }
         this.serialData.sort();
         let newSerialData: bo.MaterialSerial[] = new Array<bo.MaterialSerial>();
         let line: bo.MaterialBatchSerialInOutData = this.inputData.find(c => c.index === journal.index);

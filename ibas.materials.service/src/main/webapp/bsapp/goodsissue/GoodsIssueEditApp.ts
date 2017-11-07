@@ -48,18 +48,33 @@ export class GoodsIssueEditApp extends ibas.BOEditApplication<IGoodsIssueEditVie
             this.editData = new bo.GoodsIssue();
             this.proceeding(ibas.emMessageType.WARNING, ibas.i18n.prop("sys_shell_data_created_new"));
         }
+        this.view.showPriceListSelect(this.priceListData);
         this.view.showGoodsIssue(this.editData);
         this.view.showGoodsIssueLines(this.editData.goodsIssueLines.filterDeleted());
     }
     /** 运行,覆盖原方法 */
     run(...args: any[]): void {
         let that: this = this;
+        let boRepository: BORepositoryMaterials = new BORepositoryMaterials();
+         // 查询价格清单
+        boRepository.fetchMaterialPriceList({
+            criteria: [],
+            onCompleted(opRslt: ibas.IOperationResult<bo.MaterialPriceList>): void {
+                let data: bo.MaterialPriceList;
+                if (opRslt.resultCode === 0) {
+                    data = opRslt.resultObjects.firstOrDefault();
+                }
+                if (ibas.objects.instanceOf(data, bo.MaterialPriceList)) {
+                    that.priceListData = opRslt.resultObjects;
+                    that.show();
+                }
+            }
+        });
         if (ibas.objects.instanceOf(arguments[0], bo.GoodsIssue)) {
             // 尝试重新查询编辑对象
             let criteria: ibas.ICriteria = arguments[0].criteria();
             if (!ibas.objects.isNull(criteria) && criteria.conditions.length > 0) {
                 // 有效的查询对象查询
-                let boRepository: BORepositoryMaterials = new BORepositoryMaterials();
                 boRepository.fetchGoodsIssue({
                     criteria: criteria,
                     onCompleted(opRslt: ibas.IOperationResult<bo.GoodsIssue>): void {
@@ -89,6 +104,8 @@ export class GoodsIssueEditApp extends ibas.BOEditApplication<IGoodsIssueEditVie
         }
         super.run();
     }
+
+    protected priceListData: bo.MaterialPriceList[];
     /** 待编辑的数据 */
     protected editData: bo.GoodsIssue;
     /** 保存数据 */
@@ -429,6 +446,8 @@ export interface IGoodsIssueEditView extends ibas.IBOEditView {
     removeGoodsIssueLineEvent: Function;
     /** 显示数据 */
     showGoodsIssueLines(datas: bo.GoodsIssueLine[]): void;
+    /** 显示价格清单 */
+    showPriceListSelect(datas: bo.MaterialPriceList[]): void;
     /** 选择库存发货单行物料事件 */
     chooseGoodsIssueLineMaterialEvent: Function;
     /** 选择库存发货单行仓库事件 */

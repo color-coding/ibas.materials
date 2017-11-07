@@ -35,16 +35,6 @@ export class MaterialPriceList extends BOSimple<MaterialPriceList> implements IM
     constructor() {
         super();
     }
-    /** 映射的属性名称-编号 */
-    static PROPERTY_CODE_NAME: string = "Code";
-    /** 获取-编号 */
-    get code(): string {
-        return this.getProperty<string>(MaterialPriceList.PROPERTY_CODE_NAME);
-    }
-    /** 设置-编号 */
-    set code(value: string) {
-        this.setProperty(MaterialPriceList.PROPERTY_CODE_NAME, value);
-    }
 
     /** 映射的属性名称-名称 */
     static PROPERTY_NAME_NAME: string = "Name";

@@ -7,6 +7,9 @@
  */
 import * as ibas from "ibas/index";
 import * as bo from "../../borep/bo/index";
+import {
+    emAutoSelectBatchSerialRules,
+} from "../../api/Datas";
 import { BORepositoryMaterials } from "../../borep/BORepositories";
 
 export class MaterialBatchIssueApp extends ibas.BOApplication<IMaterialBatchIssueView> {
@@ -67,7 +70,7 @@ export class MaterialBatchIssueApp extends ibas.BOApplication<IMaterialBatchIssu
         that.fetchBatchData(criteria, selected);
         that.view.showRightData(selected.materialBatchSerialInOutDataBatchJournals);
     }
-    protected autoSelectMaterialBatch(selected: bo.MaterialBatchSerialInOutData): void {
+    protected autoSelectMaterialBatch(selected: bo.MaterialBatchSerialInOutData, rules: emAutoSelectBatchSerialRules): void {
         // 未选择凭证行
         if (ibas.objects.isNull(selected)) {
             this.messages(ibas.emMessageType.WARNING, ibas.i18n.prop("sys_shell_please_chooose_data",
@@ -94,18 +97,26 @@ export class MaterialBatchIssueApp extends ibas.BOApplication<IMaterialBatchIssu
             this.fetchBatchData(criteria, selected);
             return;
         }
-        this.allocateBatch(selected, "");
+        this.allocateBatch(selected, rules);
         let line: bo.MaterialBatchSerialInOutData = this.inputData.find(c => c.index === selected.index);
         this.view.showLeftData(this.batchData.filter(c => c.isDeleted === false));
         this.view.showRightData(line.materialBatchSerialInOutDataBatchJournals.filterDeleted());
-        /** 按照一定规则自动选择批次信息 */
-        // 获取规则
-        // 假设按照创建时间顺序自动选择
-
     }
-    protected allocateBatch(journal: bo.MaterialBatchSerialInOutData, rule: string): void {
+    protected allocateBatch(journal: bo.MaterialBatchSerialInOutData, rules: emAutoSelectBatchSerialRules): void {
         // 按照一定规则排序
-        this.batchData.sort();
+        if (rules === emAutoSelectBatchSerialRules.FIRSTINFIRSTOUT) {
+            this.batchData.sort((batch1, batch2) => batch1.createDate < batch2.createDate ? -1
+                : (batch1.createDate > batch2.createDate ? 1 : (batch1.createTime < batch2.createTime ? -1
+                    : (batch1.createTime > batch2.createTime ? 1 : 0))));
+        } else if (rules === emAutoSelectBatchSerialRules.FIRSTINLASTOUT) {
+            this.batchData.sort((batch1, batch2) => batch1.createDate > batch2.createDate ? -1
+                : (batch1.createDate < batch2.createDate ? 1 : (batch1.createTime > batch2.createTime ? -1
+                    : (batch1.createTime < batch2.createTime ? 1 : 0))));
+        } else if (rules === emAutoSelectBatchSerialRules.ORDERBYCODE) {
+            this.batchData.sort((batch1, batch2) => batch1.batchCode < batch2.batchCode ? -1
+                : batch1.batchCode > batch2.batchCode ? 1 : 0);
+        }
+
         // let newBatchData: bo.MaterialBatch[] = new Array<bo.MaterialBatch>();
         let line: bo.MaterialBatchSerialInOutData = this.inputData.find(c => c.index === journal.index);
         for (let item of this.batchData) {
@@ -123,7 +134,6 @@ export class MaterialBatchIssueApp extends ibas.BOApplication<IMaterialBatchIssu
                 } else {
                     batchLine.quantity = line.needBatchQuantity;
                     item.quantity = Number(item.quantity) - Number(batchLine.quantity);
-                    // newBatchData.push(item);
                 }
             } else {
                 if (item.quantity <= line.needBatchQuantity) {
@@ -133,7 +143,6 @@ export class MaterialBatchIssueApp extends ibas.BOApplication<IMaterialBatchIssu
                     let changeQuantity: number = line.needBatchQuantity;
                     batchLine.quantity = Number(batchLine.quantity) + Number(line.needBatchQuantity);
                     item.quantity = Number(item.quantity) - Number(changeQuantity);
-                    // newBatchData.push(item);
                 }
             }
             batchLine.itemCode = item.itemCode;
@@ -246,7 +255,7 @@ export class MaterialBatchIssueApp extends ibas.BOApplication<IMaterialBatchIssu
                     if (opRslt.resultCode !== 0) {
                         throw new Error(opRslt.message);
                     }
-                    that.filterSelected(opRslt.resultObjects.filter(c=>c.quantity>0), selected);
+                    that.filterSelected(opRslt.resultObjects.filter(c => c.quantity > 0), selected);
                     that.view.showLeftData(that.batchData);
                     that.busy(false);
                     // that.batchData = ;

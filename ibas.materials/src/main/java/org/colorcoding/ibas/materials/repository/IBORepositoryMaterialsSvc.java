@@ -336,4 +336,14 @@ public interface IBORepositoryMaterialsSvc extends IBORepositorySmartService {
 	OperationResult<MaterialEx> fetchMaterialEx(ICriteria criteria, String token);
 	// --------------------------------------------------------------------------------------------//
 
+	/**
+	 * 查询-物料价格清单（最终价）
+	 * @param criteria
+	 * 				查询
+	 * @param token
+	 * 				口令
+	 * @return
+	 */
+	OperationResult<MaterialPriceList> fetchMaterialPriceListFinal(ICriteria criteria, String token);
+	// --------------------------------------------------------------------------------------------//
 }

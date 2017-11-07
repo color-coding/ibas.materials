@@ -63,5 +63,7 @@
   "materials_app_batch_serial_choose_journal": "请选择凭证行",
   "materials_app_batch_quantity_create_error": "批次数量错误",
   "materials_app_no_serialmanaged":"无序列管理物料",
-  "materials_app_no_batchmanaged":"无批次管理物料"
+  "materials_app_no_batchmanaged":"无批次管理物料",
+  "materials_app_autoselectbatch_by_firstinfirstout":"先进先出",
+  "materials_app_autoselectbatch_by_batchno":"编号排序"
 }

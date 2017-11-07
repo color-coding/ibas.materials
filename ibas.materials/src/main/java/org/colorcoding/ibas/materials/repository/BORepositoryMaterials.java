@@ -755,7 +755,7 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
      * @param token
      * @return
      */
-    public OperationResult<MaterialEx> fetchMaterialInventoryOfMaterialEx(OperationResult<?> operationResult, ICriteria criteria, String token) {
+    private OperationResult<MaterialEx> fetchMaterialInventoryOfMaterialEx(OperationResult<?> operationResult, ICriteria criteria, String token) {
         OperationResult<MaterialEx> operationRt = new OperationResult<MaterialEx>();
         ArrayList<MaterialEx> newMaterialExs = new ArrayList<MaterialEx>();
         ArrayList<MaterialEx> materialExs = new ArrayList<MaterialEx>();
@@ -793,7 +793,7 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
      * @param token
      * @return
      */
-    public OperationResult<MaterialEx> fetchMaterialPriceListOfMaterialEx(OperationResult<MaterialEx> operationResult, ICriteria criteria, String token) {
+    private OperationResult<MaterialEx> fetchMaterialPriceListOfMaterialEx(OperationResult<MaterialEx> operationResult, ICriteria criteria, String token) {
         ArrayList<MaterialEx> materialExs = new ArrayList<MaterialEx>();
         Map<String, Decimal> mapPriceList = new HashMap<String, Decimal>();
         MaterialPriceList materialPriceList = new MaterialPriceList();
@@ -817,10 +817,10 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
         return (OperationResult<MaterialEx>) operationResult;
     }
 
-    public Map<String, Decimal> fetchMaterialPriceListFinal(Map<String, Decimal> mapPriceList, Decimal factor, ICriteria criteria, String token) {
+    private Map<String, Decimal> fetchMaterialPriceListFinal(Map<String, Decimal> mapPriceList, Decimal factor, ICriteria criteria, String token) {
         IMaterialPriceItems materialPriceItems = new MaterialPriceItems();
-        Boolean isNeedFetchChild = false;
-        Integer newBaseOnList;
+        boolean isNeedFetchChild = false;
+        int newBaseOnList;
         String itemCode;
         Decimal priceList;
 
@@ -862,7 +862,7 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
         //endregion
 
         // if price is zero ,search the children's price
-        if (isNeedFetchChild == Boolean.TRUE && !newBaseOnList.equals(0)) {
+        if (isNeedFetchChild == Boolean.TRUE && newBaseOnList != 0) {
             criteria.getConditions().removeAll(criteria.getConditions());
             ICondition condition = criteria.getConditions().create();
             condition.setAlias(MaterialPriceList.PROPERTY_BASEDONLIST.getName());
@@ -873,5 +873,78 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
         return mapPriceList;
     }
 
+    private MaterialPriceList  fetchMaterialPriceList(MaterialPriceList priceList,Decimal factor,ICriteria criteria,String token) {
+        boolean isNeedToSearchAgin = false;
+        int newBaseOnList = 0;
+        MaterialPriceList childPriceList = new MaterialPriceList();
+        // 先查询价格清单
+        OperationResult<MaterialPriceList> operationResult = new OperationResult<MaterialPriceList>();
+        operationResult = this.fetchMaterialPriceList(criteria, token);
+        if (operationResult.getResultCode() != 0) {
+            throw new BusinessLogicException(operationResult.getError());
+        }
+        if (operationResult.getResultObjects().size() == 0)
+            return priceList;
+        childPriceList = operationResult.getResultObjects().firstOrDefault();
+        if (priceList == null) {
+            priceList = childPriceList;
+        }
+        // 更新baseOnList值
+        newBaseOnList = childPriceList.getBasedOnList();
+        for (int index = 0; index < priceList.getMaterialPriceItems().size(); index++) {
+            // 已经有了价格，不用再计算，跳过。
+            if (priceList.getMaterialPriceItems().get(index).getPrice().compareTo(BigDecimal.ZERO) != 0) {
+                continue;
+            } else {
+                if (newBaseOnList == 0) {
+                    priceList.getMaterialPriceItems().get(index).setPrice(factor.multiply(childPriceList.getMaterialPriceItems().get(index).getPrice()));
+                }
+            }
+
+        }
+        // 计算factor的值
+        if (factor.compareTo(BigDecimal.ZERO) == 0) {
+            factor = priceList.getFactor();
+        } else {
+            factor = factor.multiply(priceList.getFactor());
+        }
+
+        if (isNeedToSearchAgin) {
+            criteria.getConditions().removeAll(criteria.getConditions());
+            ICondition condition = criteria.getConditions().create();
+            condition = criteria.getConditions().create();
+            condition.setAlias(MaterialPriceList.PROPERTY_BASEDONLIST.getName());
+            condition.setValue(newBaseOnList);
+            condition.setOperation(ConditionOperation.EQUAL);
+            fetchMaterialPriceList(priceList, factor, criteria, token);
+        }
+        return priceList;
+    }
+    // --------------------------------------------------------------------------------------------//
+    @Override
+    public IOperationResult<IMaterialPriceList> fetchMaterialPriceListFinal(ICriteria criteria) {
+        return new OperationResult<IMaterialPriceList>(this.fetchMaterialPriceListFinal(criteria, this.getUserToken()));
+    }
+
+    /**
+     *
+     * @param criteria
+     * 				查询并计算 价格清单最终价
+     * @param token
+     * 				口令
+     * @return
+     */
+    public OperationResult<MaterialPriceList> fetchMaterialPriceListFinal(ICriteria criteria, String token){
+        MaterialPriceList priceList = new MaterialPriceList();
+        OperationResult<MaterialPriceList> opRst = new OperationResult<MaterialPriceList>();
+        try{
+            priceList = this.fetchMaterialPriceList(priceList,null,criteria,token);
+            opRst.addResultObjects(priceList);
+            opRst.setResultCode(0);
+        }catch (Exception ex){
+            opRst.setError(ex);
+        }
+        return opRst;
+    }
     // --------------------------------------------------------------------------------------------//
 }

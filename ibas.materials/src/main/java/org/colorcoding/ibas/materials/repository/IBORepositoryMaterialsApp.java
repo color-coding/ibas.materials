@@ -280,4 +280,13 @@ public interface IBORepositoryMaterialsApp extends IBORepositoryApplication {
 	 */
 	IOperationResult<IMaterialEx> fetchMaterialEx(ICriteria criteria);
 	// --------------------------------------------------------------------------------------------//
+
+	/**
+	 * 查询-物料价格清单（最终价）
+	 * @param criteria
+	 * 				查询
+	 * @return 操作结果
+	 */
+	IOperationResult<IMaterialPriceList> fetchMaterialPriceListFinal(ICriteria criteria);
+	// --------------------------------------------------------------------------------------------//
 }

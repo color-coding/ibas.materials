@@ -8,6 +8,7 @@
 import * as ibas from "ibas/index";
 import { utils } from "openui5/typings/ibas.utils";
 import * as bo from "../../../borep/bo/index";
+import { emAutoSelectBatchSerialRules } from "../../../api/Datas";
 import { IMaterialSerialIssueView } from "../../../bsapp/materialserial/index";
 export class MaterialSerialIssueView extends ibas.BODialogView implements IMaterialSerialIssueView {
     /** 选择序列号凭证行信息事件 */
@@ -33,16 +34,6 @@ export class MaterialSerialIssueView extends ibas.BODialogView implements IMater
     darwBars(): any {
         let that: this = this;
         return [
-            new sap.m.Button("", {
-                text: ibas.i18n.prop("materials_sys_autoselect"),
-                type: sap.m.ButtonType.Transparent,
-                press: function (): void {
-                    that.fireViewEvents(that.autoSelectMaterialSerialEvent,
-                        // 获取表格选中的对象
-                        utils.getTableSelecteds<bo.MaterialBatchSerialInOutData>(that.journalLineTable).firstOrDefault()
-                    );
-                }
-            }),
             new sap.m.Button("", {
                 text: ibas.i18n.prop("sys_shell_data_save"),
                 type: sap.m.ButtonType.Transparent,
@@ -163,6 +154,33 @@ export class MaterialSerialIssueView extends ibas.BODialogView implements IMater
         });
         this.actionLayout = new sap.ui.layout.form.SimpleForm("", {
             content: [
+                new sap.m.MenuButton("", {
+                    text: ibas.i18n.prop("materials_sys_autoselect"),
+                    menu: [
+                        new sap.m.Menu("", {
+                            items: [
+                                new sap.m.MenuItem("", {
+                                    text: ibas.i18n.prop("materials_app_autoselectbatch_by_firstinfirstout"),
+                                    press: function (): void {
+                                        that.fireViewEvents(that.autoSelectMaterialSerialEvent
+                                            , utils.getTableSelecteds<bo.MaterialBatchSerialInOutData>
+                                                (that.journalLineTable).firstOrDefault()
+                                            , emAutoSelectBatchSerialRules.FIRSTINFIRSTOUT);
+                                    }
+                                }),
+                                new sap.m.MenuItem("", {
+                                    text: ibas.i18n.prop("materials_app_autoselectbatch_by_batchno"),
+                                    press: function (): void {
+                                        that.fireViewEvents(that.autoSelectMaterialSerialEvent
+                                            , utils.getTableSelecteds<bo.MaterialBatchSerialInOutData>
+                                                (that.journalLineTable).firstOrDefault()
+                                            , emAutoSelectBatchSerialRules.ORDERBYCODE);
+                                    }
+                                }),
+                            ]
+                        })
+                    ]
+                }),
                 new sap.m.Button("", {
                     text: "<",
                     press: function (): void {

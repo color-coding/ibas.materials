@@ -17,6 +17,7 @@ export class GoodsIssueEditView extends ibas.BOEditView implements IGoodsIssueEd
     private viewBottomForm: sap.ui.layout.form.SimpleForm;
     private tableGoodsIssueLine: sap.m.List;
     private childEditForm: sap.ui.layout.form.SimpleForm;
+    private priceListSelect: sap.m.Select;
     /** 删除数据事件 */
     deleteDataEvent: Function;
     /** 新建数据事件，参数1：是否克隆 */
@@ -34,6 +35,10 @@ export class GoodsIssueEditView extends ibas.BOEditView implements IGoodsIssueEd
     /** 绘制视图 */
     darw(): any {
         let that: this = this;
+        this.priceListSelect = new sap.m.Select("", {
+            rows: "{/priceList}",
+            items:""// that.createComboBoxItems(null)
+        });
         this.viewTopForm = new sap.ui.layout.form.SimpleForm("", {
             editable: true,
             layout: sap.ui.layout.form.SimpleFormLayout.ResponsiveGridLayout,
@@ -48,13 +53,6 @@ export class GoodsIssueEditView extends ibas.BOEditView implements IGoodsIssueEd
             columnsS: 1,
             content: [
                 // new sap.ui.core.Title("", { text: ibas.i18n.prop("materials_base_information") }),
-                new sap.m.Label("", { text: ibas.i18n.prop("bo_goodsissue_docentry") }),
-                new sap.m.Input("", {
-                    editable: false,
-                    type: sap.m.InputType.Number
-                }).bindProperty("value", {
-                    path: "docEntry",
-                }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_goodsissue_documentstatus") }),
                 new sap.m.Select("", {
                     showSecondaryValues: false,
@@ -75,6 +73,8 @@ export class GoodsIssueEditView extends ibas.BOEditView implements IGoodsIssueEd
                 }).bindProperty("value", {
                     path: "reference2",
                 }),
+                new sap.m.Label("", { text: ibas.i18n.prop("bo_goodsissue_pricelistname") }),
+                this.priceListSelect,
                 // new sap.ui.core.Title("", { text: ibas.i18n.prop("materials_date_information") }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_goodsissue_postingdate") }),
                 new sap.m.DatePicker("", {
@@ -418,6 +418,12 @@ export class GoodsIssueEditView extends ibas.BOEditView implements IGoodsIssueEd
     /** 显示数据 */
     showGoodsIssueLines(datas: bo.GoodsIssueLine[]): void {
         this.tableGoodsIssueLine.setModel(new sap.ui.model.json.JSONModel({ rows: datas }));
+        // 监听属性改变，并更新控件
+        utils.refreshModelChanged(this.tableGoodsIssueLine, datas);
+    }
+    /** 显示物料价格清单数据 */
+    showPriceListSelect(datas: bo.MaterialPriceList[]): void {
+        this.priceListSelect.setModel(new sap.ui.model.json.JSONModel({ priceList: datas }));
         // 监听属性改变，并更新控件
         utils.refreshModelChanged(this.tableGoodsIssueLine, datas);
     }
