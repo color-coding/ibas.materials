@@ -25,7 +25,6 @@ export class MaterialBatchIssueView extends ibas.BODialogView implements IMateri
     // 控件
     private mainLayout: sap.ui.layout.VerticalLayout;
     private journalLineTable: sap.ui.table.Table;
-    private chooseLayout: sap.ui.layout.HorizontalLayout;
     private leftTable: sap.ui.table.Table;
     private rightTable: sap.ui.table.Table;
     private actionLayout: sap.ui.layout.form.SimpleForm;
@@ -219,15 +218,6 @@ export class MaterialBatchIssueView extends ibas.BODialogView implements IMateri
                 })
             ]
         });
-        this.chooseLayout = new sap.ui.layout.HorizontalLayout("", {
-            allowWrapping: false,
-            width: "100%",
-            content: [
-                this.leftTable,
-                this.actionLayout,
-                this.rightTable
-            ]
-        });
         this.splitter = new sap.ui.layout.Splitter("", {
             orientation: sap.ui.core.Orientation.Horizontal,
             contentAreas: [
@@ -243,7 +233,7 @@ export class MaterialBatchIssueView extends ibas.BODialogView implements IMateri
                 new sap.ui.layout.Splitter("", {
                     layoutData: new sap.ui.layout.SplitterLayoutData("", {
                         resizable: false,
-                        size: "auto",
+                        size: "130px",
                     }),
                     contentAreas: [
                         this.actionLayout
@@ -262,6 +252,7 @@ export class MaterialBatchIssueView extends ibas.BODialogView implements IMateri
         });
 
         this.mainLayout = new sap.ui.layout.VerticalLayout("", {
+            width:"750px",
             wrapping: false,
             content: [
                 this.journalLineTable,
