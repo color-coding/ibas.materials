@@ -156,7 +156,8 @@ export class MaterialBatchSerialInOutData extends BOSimple<MaterialBatchSerialIn
     static PROPERTY_MATERIALBATCHINPUTBATCHJOURNALS_NAME: string = "MaterialBatchSerialInOutDataBatchJournals";
     /** 获取-库存发货-行-序列号集合 */
     get materialBatchSerialInOutDataBatchJournals(): MaterialBatchSerialInOutDataBatchJournals {
-        return this.getProperty<MaterialBatchSerialInOutDataBatchJournals>(MaterialBatchSerialInOutData.PROPERTY_MATERIALBATCHINPUTBATCHJOURNALS_NAME);
+        return this.getProperty<MaterialBatchSerialInOutDataBatchJournals>
+        (MaterialBatchSerialInOutData.PROPERTY_MATERIALBATCHINPUTBATCHJOURNALS_NAME);
     }
     /** 设置-库存发货-行-序列号集合 */
     set materialBatchSerialInOutDataBatchJournals(value: MaterialBatchSerialInOutDataBatchJournals) {

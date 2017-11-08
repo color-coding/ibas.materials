@@ -209,9 +209,11 @@ export class WarehouseListView extends ibas.BOListView implements IWarehouseList
         }
         this.table.setBusy(false);
     }
+
     /** 记录上次查询条件，表格滚动时自动触发 */
     query(criteria: ibas.ICriteria): void {
         super.query(criteria);
+
         // 清除历史数据
         this.table.setBusy(true);
         this.table.setSelectedItemById("0", true);
