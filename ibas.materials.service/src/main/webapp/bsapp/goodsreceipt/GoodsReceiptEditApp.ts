@@ -8,6 +8,11 @@
 
 import * as ibas from "ibas/index";
 import * as bo from "../../borep/bo/index";
+import {
+    IMaterialBatchSerialInOutData,
+    IMaterialBatchSerialInOutDataBatchJournals,
+    IMaterialBatchSerialInOutDataSerialJournals,
+} from "../../api/bo/index";
 import { BORepositoryMaterials } from "../../borep/BORepositories";
 
 /** 编辑应用-库存收货 */
@@ -273,17 +278,17 @@ export class GoodsReceiptEditApp extends ibas.BOEditApplication<IGoodsReceiptEdi
     /** 新建物料批次信息 */
     createGoodsReceiptLineMaterialBatch(): void {
         let that: this = this;
-        let caller: bo.MaterialBatchSerialInOutData[] = that.getBatchData();
+        let caller: IMaterialBatchSerialInOutData[] = that.getBatchData();
         if (ibas.objects.isNull(caller) || caller.length === 0) {
             this.messages(ibas.emMessageType.WARNING, ibas.i18n.prop("materials_app_no_batchmanaged"));
             return;
         }
-        ibas.servicesManager.runChooseService<bo.MaterialBatchSerialInOutData>({
+        ibas.servicesManager.runChooseService<IMaterialBatchSerialInOutData>({
             caller: caller,
             boCode: bo.MaterialBatchJournal.BUSINESS_OBJECT_RECEIEPT_CODE,
             criteria: [
             ],
-            onCompleted(callbackData: ibas.List<bo.MaterialBatchSerialInOutData>): void {
+            onCompleted(callbackData: ibas.List<IMaterialBatchSerialInOutData>): void {
                 // 获取触发的对象
                 for (let line of callbackData) {
                     let item: bo.GoodsReceiptLine = that.editData.goodsReceiptLines[line.index];
@@ -312,17 +317,17 @@ export class GoodsReceiptEditApp extends ibas.BOEditApplication<IGoodsReceiptEdi
     /** 新建物料序列信息 */
     createGoodsReceiptLineMaterialSerial(): void {
         let that: this = this;
-        let caller: bo.MaterialBatchSerialInOutData[] = that.getSerialData();
+        let caller: IMaterialBatchSerialInOutData[] = that.getSerialData();
         if (ibas.objects.isNull(caller) || caller.length === 0) {
             this.messages(ibas.emMessageType.WARNING, ibas.i18n.prop("materials_app_no_serialmanaged"));
             return;
         }
-        ibas.servicesManager.runChooseService<bo.MaterialBatchSerialInOutData>({
+        ibas.servicesManager.runChooseService<IMaterialBatchSerialInOutData>({
             caller: caller,
             boCode: bo.MaterialSerialJournal.BUSINESS_OBJECT_RECEIPT_CODE,
             criteria: [
             ],
-            onCompleted(callbackData: ibas.List<bo.MaterialBatchSerialInOutData>): void {
+            onCompleted(callbackData: ibas.List<IMaterialBatchSerialInOutData>): void {
                 // 获取触发的对象
                 for (let line of callbackData) {
                     let item: bo.GoodsReceiptLine = that.editData.goodsReceiptLines[line.index];
@@ -349,10 +354,10 @@ export class GoodsReceiptEditApp extends ibas.BOEditApplication<IGoodsReceiptEdi
     }
 
     /** 获取行-批次信息 */
-    getBatchData(): bo.MaterialBatchSerialInOutData[] {
+    getBatchData(): IMaterialBatchSerialInOutData[] {
         // 获取行数据
         let goodReceiptLines: bo.GoodsReceiptLine[] = this.editData.goodsReceiptLines;
-        let inputData: bo.MaterialBatchSerialInOutData[] = new Array<bo.MaterialBatchSerialInOutData>();
+        let inputData: IMaterialBatchSerialInOutData[] = new Array<bo.MaterialBatchSerialInOutData>();
         for (let line of goodReceiptLines) {
             if (!ibas.objects.isNull(line.batchManagement) &&
                 line.batchManagement.toString() === ibas.enums.toString(ibas.emYesNo, ibas.emYesNo.NO)) {
@@ -385,10 +390,10 @@ export class GoodsReceiptEditApp extends ibas.BOEditApplication<IGoodsReceiptEdi
         return inputData;
     }
     /** 获取行-序列信息 */
-    getSerialData(): bo.MaterialBatchSerialInOutData[] {
+    getSerialData(): IMaterialBatchSerialInOutData[] {
         // 获取行数据
         let goodReceiptLines: bo.GoodsReceiptLine[] = this.editData.goodsReceiptLines;
-        let inputData: bo.MaterialBatchSerialInOutData[] = new Array<bo.MaterialBatchSerialInOutData>();
+        let inputData: IMaterialBatchSerialInOutData[] = new Array<bo.MaterialBatchSerialInOutData>();
         for (let line of goodReceiptLines) {
             if (!ibas.objects.isNull(line.serialManagement) &&
                 line.serialManagement.toString() === ibas.enums.toString(ibas.emYesNo, ibas.emYesNo.NO)) {

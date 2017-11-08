@@ -8,6 +8,11 @@
 
 import * as ibas from "ibas/index";
 import * as bo from "../../borep/bo/index";
+import {
+    IMaterialBatchSerialInOutData,
+    IMaterialBatchSerialInOutDataBatchJournals,
+    IMaterialBatchSerialInOutDataSerialJournals,
+} from "../../api/bo/index";
 import { BORepositoryMaterials } from "../../borep/BORepositories";
 
 /** 编辑应用-库存转储 */
@@ -287,17 +292,17 @@ export class InventoryTransferEditApp extends ibas.BOEditApplication<IInventoryT
 
     chooseInventoryTransferLineMaterialBatch(): void {
         let that: this = this;
-        let caller: bo.MaterialBatchSerialInOutData[] = that.getBatchData();
+        let caller: IMaterialBatchSerialInOutData[] = that.getBatchData();
         if (ibas.objects.isNull(caller) || caller.length === 0) {
             this.messages(ibas.emMessageType.WARNING, ibas.i18n.prop("materials_app_no_batchmanaged"));
             return;
         }
-        ibas.servicesManager.runChooseService<bo.MaterialBatchSerialInOutData>({
+        ibas.servicesManager.runChooseService<IMaterialBatchSerialInOutData>({
             caller: caller,
             boCode: bo.MaterialBatchJournal.BUSINESS_OBJECT_ISSUE_CODE,
             criteria: [
             ],
-            onCompleted(callbackData: ibas.List<bo.MaterialBatchSerialInOutData>): void {
+            onCompleted(callbackData: ibas.List<IMaterialBatchSerialInOutData>): void {
                 // 获取触发的对象
                 for (let line of callbackData) {
                     let item: bo.InventoryTransferLine = that.editData.inventoryTransferLines[line.index];
@@ -332,7 +337,7 @@ export class InventoryTransferEditApp extends ibas.BOEditApplication<IInventoryT
     }
     chooseInventoryTransferLineMaterialSerial(): void {
         let that: this = this;
-        let caller: bo.MaterialBatchSerialInOutData[] = that.getSerialData();
+        let caller: IMaterialBatchSerialInOutData[] = that.getSerialData();
         if (ibas.objects.isNull(caller) || caller.length === 0) {
             this.messages(ibas.emMessageType.WARNING, ibas.i18n.prop("materials_app_no_serialmanaged"));
             return;
@@ -345,7 +350,7 @@ export class InventoryTransferEditApp extends ibas.BOEditApplication<IInventoryT
                 return;
             }
         }
-        ibas.servicesManager.runChooseService<bo.MaterialBatchSerialInOutData>({
+        ibas.servicesManager.runChooseService<IMaterialBatchSerialInOutData>({
             caller: caller,
             boCode: bo.MaterialSerialJournal.BUSINESS_OBJECT_ISSUE_CODE,
             criteria: [
@@ -387,10 +392,10 @@ export class InventoryTransferEditApp extends ibas.BOEditApplication<IInventoryT
     }
 
     /** 获取行-批次信息 */
-    getBatchData(): bo.MaterialBatchSerialInOutData[] {
+    getBatchData(): IMaterialBatchSerialInOutData[] {
         // 获取行数据
         let goodIssueLines: bo.InventoryTransferLine[] = this.editData.inventoryTransferLines;
-        let inputData: bo.MaterialBatchSerialInOutData[] = new Array<bo.MaterialBatchSerialInOutData>();
+        let inputData:IMaterialBatchSerialInOutData[] = new Array<bo.MaterialBatchSerialInOutData>();
         for (let line of goodIssueLines) {
             if (line.batchManagement.toString() === ibas.enums.toString(ibas.emYesNo, ibas.emYesNo.NO)) {
                 continue;
@@ -420,10 +425,10 @@ export class InventoryTransferEditApp extends ibas.BOEditApplication<IInventoryT
         return inputData;
     }
     /** 获取行-序列信息 */
-    getSerialData(): bo.MaterialBatchSerialInOutData[] {
+    getSerialData(): IMaterialBatchSerialInOutData[] {
         // 获取行数据
         let goodIssueLines: bo.InventoryTransferLine[] = this.editData.inventoryTransferLines;
-        let inputData: bo.MaterialBatchSerialInOutData[] = new Array<bo.MaterialBatchSerialInOutData>();
+        let inputData: IMaterialBatchSerialInOutData[] = new Array<bo.MaterialBatchSerialInOutData>();
         for (let line of goodIssueLines) {
             if (line.serialManagement.toString() === ibas.enums.toString(ibas.emYesNo, ibas.emYesNo.NO)) {
                 continue;

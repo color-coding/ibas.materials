@@ -104,7 +104,7 @@ export class GoodsIssueEditView extends ibas.BOEditView implements IGoodsIssueEd
                 new sap.m.DatePicker("", {
                     valueFormat: "yyyy-MM-dd",
                 }).bindProperty("dateValue", {
-                    path: "/deliveryDate"
+                    path: "deliveryDate"
                 }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_goodsissue_documentdate") }),
                 new sap.m.DatePicker("", {
@@ -265,7 +265,6 @@ export class GoodsIssueEditView extends ibas.BOEditView implements IGoodsIssueEd
         this.mainLayout = new sap.ui.layout.VerticalLayout("", {
             content: [
                 this.form,
-                this.priceListSelect,
                 this.tableGoodsIssueLine,
                 this.viewBottomForm,
             ]

@@ -27,16 +27,6 @@ export class MaterialSerialReceiptView extends ibas.BODialogView implements IMat
         let that: this = this;
         return [
             new sap.m.Button("", {
-                text: ibas.i18n.prop("materials_sys_autocreate"),
-                type: sap.m.ButtonType.Transparent,
-                // icon: "sap-icon://inspect-down",
-                press: function (): void {
-                    that.fireViewEvents(that.autoCreateSerialEvent,
-                        utils.getTableSelecteds<bo.MaterialBatchSerialInOutData>(that.journalLineTable).firstOrDefault()
-                    );
-                }
-            }),
-            new sap.m.Button("", {
                 text: ibas.i18n.prop("sys_shell_data_save"),
                 type: sap.m.ButtonType.Transparent,
                 // icon: "sap-icon://accept",
@@ -65,6 +55,15 @@ export class MaterialSerialReceiptView extends ibas.BODialogView implements IMat
             extension: new sap.m.Toolbar("", {
                 content: [
                     new sap.m.Button("", {
+                        text: ibas.i18n.prop("materials_sys_autocreate"),
+                        type: sap.m.ButtonType.Transparent,
+                        press: function (): void {
+                            that.fireViewEvents(that.autoCreateSerialEvent,
+                                utils.getTableSelecteds<bo.MaterialBatchSerialInOutData>(that.journalLineTable).firstOrDefault()
+                            );
+                        }
+                    }),
+                    new sap.m.Button("", {
                         text: ibas.i18n.prop("sys_shell_data_add"),
                         type: sap.m.ButtonType.Transparent,
                         icon: "sap-icon://add",
@@ -83,7 +82,7 @@ export class MaterialSerialReceiptView extends ibas.BODialogView implements IMat
                                 utils.getTableSelecteds<bo.MaterialBatch>(that.table)
                             );
                         }
-                    })
+                    }),
                 ]
             }),
             enableSelectAll: false,

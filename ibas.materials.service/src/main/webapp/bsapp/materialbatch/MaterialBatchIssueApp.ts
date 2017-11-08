@@ -74,7 +74,7 @@ export class MaterialBatchIssueApp extends ibas.BOApplication<IMaterialBatchIssu
         // 未选择凭证行
         if (ibas.objects.isNull(selected)) {
             this.messages(ibas.emMessageType.WARNING, ibas.i18n.prop("sys_shell_please_chooose_data",
-                ibas.i18n.prop("materials_app_batch_serial_choose_journal")
+                ibas.i18n.prop("materials_app_batch_serial_choose_journalline")
             ));
             return;
         }
@@ -155,7 +155,7 @@ export class MaterialBatchIssueApp extends ibas.BOApplication<IMaterialBatchIssu
         // 未选择凭证行
         if (ibas.objects.isNull(selected)) {
             this.messages(ibas.emMessageType.WARNING, ibas.i18n.prop("sys_shell_please_chooose_data",
-                ibas.i18n.prop("materials_app_batch_serial_choose_journal")
+                ibas.i18n.prop("materials_app_batch_serial_choose_journalline")
             ));
             return;
         }
@@ -205,7 +205,7 @@ export class MaterialBatchIssueApp extends ibas.BOApplication<IMaterialBatchIssu
         // 未选择凭证行
         if (ibas.objects.isNull(selected)) {
             this.messages(ibas.emMessageType.WARNING, ibas.i18n.prop("sys_shell_please_chooose_data",
-                ibas.i18n.prop("materials_app_batch_serial_choose_journal")
+                ibas.i18n.prop("materials_app_batch_serial_choose_journalline")
             ));
             return;
         }

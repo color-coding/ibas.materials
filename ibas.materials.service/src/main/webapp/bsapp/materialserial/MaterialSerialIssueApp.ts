@@ -70,11 +70,11 @@ export class MaterialSerialIssueApp extends ibas.BOApplication<IMaterialSerialIs
         that.fetchSerialData(criteria, selected);
         that.view.showRightData(selected.materialBatchSerialInOutDataSerialJournals);
     }
-    protected autoSelectMaterialSerial(selected: bo.MaterialBatchSerialInOutData,rules: emAutoSelectBatchSerialRules): void {
+    protected autoSelectMaterialSerial(selected: bo.MaterialBatchSerialInOutData, rules: emAutoSelectBatchSerialRules): void {
         // 未选择凭证行
         if (ibas.objects.isNull(selected)) {
             this.messages(ibas.emMessageType.WARNING, ibas.i18n.prop("sys_shell_please_chooose_data",
-                ibas.i18n.prop("materials_app_Serial_serial_choose_journal")
+            ibas.i18n.prop("materials_app_batch_serial_choose_journalline")
             ));
             return;
         }
@@ -136,7 +136,7 @@ export class MaterialSerialIssueApp extends ibas.BOApplication<IMaterialSerialIs
         // 未选择凭证行
         if (ibas.objects.isNull(selected)) {
             this.messages(ibas.emMessageType.WARNING, ibas.i18n.prop("sys_shell_please_chooose_data",
-                ibas.i18n.prop("materials_app_Serial_serial_choose_journal")
+                ibas.i18n.prop("materials_app_batch_serial_choose_journalline")
             ));
             return;
         }
@@ -161,7 +161,7 @@ export class MaterialSerialIssueApp extends ibas.BOApplication<IMaterialSerialIs
         // 未选择凭证行
         if (ibas.objects.isNull(selected)) {
             this.messages(ibas.emMessageType.WARNING, ibas.i18n.prop("sys_shell_please_chooose_data",
-                ibas.i18n.prop("materials_app_Serial_serial_choose_journal")
+                ibas.i18n.prop("materials_app_batch_serial_choose_journalline")
             ));
             return;
         }
