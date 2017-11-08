@@ -15,7 +15,7 @@ export class MaterialBatchReceiptApp extends ibas.BOApplication<IMaterialBatchRe
     /** 应用名称 */
     static APPLICATION_NAME: string = "materials_app_materialbatchreceipt";
     /** 业务对象编码 */
-    static BUSINESS_OBJECT_CODE: string = bo.MaterialBatchJournal.BUSINESS_OBJECT_RECEIEPT_CODE;
+    static BUSINESS_OBJECT_CODE: string = bo.MaterialBatchJournal.BUSINESS_OBJECT_RECEIPT_CODE;
     /** 构造函数 */
     constructor() {
         super();

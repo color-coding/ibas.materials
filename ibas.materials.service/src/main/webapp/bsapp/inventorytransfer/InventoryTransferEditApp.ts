@@ -9,6 +9,8 @@
 import * as ibas from "ibas/index";
 import * as bo from "../../borep/bo/index";
 import {
+    IMaterialBatchJournal,
+    IMaterialSerialJournal,
     IMaterialBatchSerialInOutData,
     IMaterialBatchSerialInOutDataBatchJournals,
     IMaterialBatchSerialInOutDataSerialJournals,
@@ -395,12 +397,12 @@ export class InventoryTransferEditApp extends ibas.BOEditApplication<IInventoryT
     getBatchData(): IMaterialBatchSerialInOutData[] {
         // 获取行数据
         let goodIssueLines: bo.InventoryTransferLine[] = this.editData.inventoryTransferLines;
-        let inputData:IMaterialBatchSerialInOutData[] = new Array<bo.MaterialBatchSerialInOutData>();
+        let inputData: IMaterialBatchSerialInOutData[] = new Array<bo.MaterialBatchSerialInOutData>();
         for (let line of goodIssueLines) {
             if (line.batchManagement.toString() === ibas.enums.toString(ibas.emYesNo, ibas.emYesNo.NO)) {
                 continue;
             }
-            let input: bo.MaterialBatchSerialInOutData = new bo.MaterialBatchSerialInOutData();
+            let input: IMaterialBatchSerialInOutData = new bo.MaterialBatchSerialInOutData();
             input.index = goodIssueLines.indexOf(line);
             input.itemCode = line.itemCode;
             input.quantity = line.quantity;
@@ -412,7 +414,7 @@ export class InventoryTransferEditApp extends ibas.BOEditApplication<IInventoryT
             } else {
                 for (let item of line.inventoryTransferMaterialBatchJournals
                     .filter(c => c.warehouse === this.editData.fromWarehouse && c.isDeleted === false)) {
-                    let batchLine: bo.MaterialBatchJournal = input.materialBatchSerialInOutDataBatchJournals.create();
+                    let batchLine: IMaterialBatchJournal = input.materialBatchSerialInOutDataBatchJournals.create();
                     batchLine.batchCode = item.batchCode;
                     batchLine.itemCode = item.itemCode;
                     batchLine.warehouse = item.warehouse;
@@ -433,7 +435,7 @@ export class InventoryTransferEditApp extends ibas.BOEditApplication<IInventoryT
             if (line.serialManagement.toString() === ibas.enums.toString(ibas.emYesNo, ibas.emYesNo.NO)) {
                 continue;
             }
-            let input: bo.MaterialBatchSerialInOutData = new bo.MaterialBatchSerialInOutData();
+            let input: IMaterialBatchSerialInOutData = new bo.MaterialBatchSerialInOutData();
             input.index = goodIssueLines.indexOf(line);
             input.itemCode = line.itemCode;
             input.quantity = line.quantity;
@@ -445,7 +447,7 @@ export class InventoryTransferEditApp extends ibas.BOEditApplication<IInventoryT
             } else {
                 for (let item of line.inventoryTransferMaterialSerialJournals
                     .filter(c => c.warehouse === this.editData.fromWarehouse && c.isDeleted === false)) {
-                    let serialLine: bo.MaterialSerialJournal = input.materialBatchSerialInOutDataSerialJournals.create();
+                    let serialLine: IMaterialSerialJournal = input.materialBatchSerialInOutDataSerialJournals.create();
                     serialLine.serialCode = item.serialCode;
                     serialLine.itemCode = item.itemCode;
                     serialLine.warehouse = item.warehouse;

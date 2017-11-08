@@ -27,7 +27,7 @@ export const BO_CODE_MATERIALBATCH: string = "${Company}_MM_BATCH";
 /** 业务对象编码-物料批次凭证 */
 export const BO_CODE_MATERIALBATCHJOURNAL: string = "${Company}_MM_BATCHJOURNAL";
 /** 业务对象编码-物料批次-入 */
-export const BO_CODE_RECEIEPT_MATERIALBATCH: string = "${Company}_MM_RECEIEPT_BATCH";
+export const BO_CODE_RECEIPT_MATERIALBATCH: string = "${Company}_MM_RECEIEPT_BATCH";
 /** 业务对象编码-物料批次-出 */
 export const BO_CODE_ISSUE_MATERIALBATCH: string = "${Company}_MM_ISSUE_BATCH";
 /** 业务对象编码-物料序列号 */
@@ -35,7 +35,7 @@ export const BO_CODE_MATERIALSERIAL: string = "${Company}_MM_SERIAL";
 /** 业务对象编码-物料序列号凭证 */
 export const BO_CODE_MATERIALSERIALJOURNAL: string = "${Company}_MM_SERIALJOURNAL";
 /** 业务对象编码-物料序列号-入 */
-export const BO_CODE_RECEIEPT_MATERIALSERIAL: string = "${Company}_MM_RECEIEPT_SERIAL";
+export const BO_CODE_RECEIPT_MATERIALSERIAL: string = "${Company}_MM_RECEIEPT_SERIAL";
 /** 业务对象编码-物料序列号-出 */
 export const BO_CODE_ISSUE_MATERIALSERIAL: string = "${Company}_MM_ISSUE_SERIAL";
 /** 业务对象编码-物料组 */

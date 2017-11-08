@@ -1409,7 +1409,7 @@ public class GoodsIssueLine extends BusinessObject<GoodsIssueLine> implements IG
 	 * @return 值
 	 */
 	@XmlElementWrapper(name = PROPERTY_GOODSISSUEMATERIALSERIALJOURNALS_NAME)
-	@XmlElement(name = MaterialBatchJournal.BUSINESS_OBJECT_NAME, type = MaterialSerialJournal.class)
+	@XmlElement(name = MaterialSerialJournal.BUSINESS_OBJECT_NAME, type = MaterialSerialJournal.class)
 	public final IGoodsIssueMaterialSerialJournals getGoodsIssueMaterialSerialJournals() {
 		return this.getProperty(PROPERTY_GOODSISSUEMATERIALSERIALJOURNALS);
 	}

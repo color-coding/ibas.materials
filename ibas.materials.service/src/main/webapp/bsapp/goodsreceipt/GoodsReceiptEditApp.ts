@@ -9,6 +9,8 @@
 import * as ibas from "ibas/index";
 import * as bo from "../../borep/bo/index";
 import {
+    IMaterialBatchJournal,
+    IMaterialSerialJournal,
     IMaterialBatchSerialInOutData,
     IMaterialBatchSerialInOutDataBatchJournals,
     IMaterialBatchSerialInOutDataSerialJournals,
@@ -285,7 +287,7 @@ export class GoodsReceiptEditApp extends ibas.BOEditApplication<IGoodsReceiptEdi
         }
         ibas.servicesManager.runChooseService<IMaterialBatchSerialInOutData>({
             caller: caller,
-            boCode: bo.MaterialBatchJournal.BUSINESS_OBJECT_RECEIEPT_CODE,
+            boCode: bo.MaterialBatchJournal.BUSINESS_OBJECT_RECEIPT_CODE,
             criteria: [
             ],
             onCompleted(callbackData: ibas.List<IMaterialBatchSerialInOutData>): void {
@@ -363,7 +365,7 @@ export class GoodsReceiptEditApp extends ibas.BOEditApplication<IGoodsReceiptEdi
                 line.batchManagement.toString() === ibas.enums.toString(ibas.emYesNo, ibas.emYesNo.NO)) {
                 continue;
             }
-            let input: bo.MaterialBatchSerialInOutData = new bo.MaterialBatchSerialInOutData();
+            let input: IMaterialBatchSerialInOutData = new bo.MaterialBatchSerialInOutData();
             input.index = goodReceiptLines.indexOf(line);
             input.itemCode = line.itemCode;
             input.quantity = line.quantity;
@@ -374,7 +376,7 @@ export class GoodsReceiptEditApp extends ibas.BOEditApplication<IGoodsReceiptEdi
                 input.selectedBatchQuantity = 0;
             } else {
                 for (let item of line.goodsReceiptMaterialBatchJournals.filterDeleted()) {
-                    let batchLine: bo.MaterialBatchJournal = input.materialBatchSerialInOutDataBatchJournals.create();
+                    let batchLine: IMaterialBatchJournal = input.materialBatchSerialInOutDataBatchJournals.create();
                     batchLine.batchCode = item.batchCode;
                     batchLine.itemCode = item.itemCode;
                     batchLine.warehouse = item.warehouse;
@@ -399,7 +401,7 @@ export class GoodsReceiptEditApp extends ibas.BOEditApplication<IGoodsReceiptEdi
                 line.serialManagement.toString() === ibas.enums.toString(ibas.emYesNo, ibas.emYesNo.NO)) {
                 continue;
             }
-            let input: bo.MaterialBatchSerialInOutData = new bo.MaterialBatchSerialInOutData();
+            let input: IMaterialBatchSerialInOutData = new bo.MaterialBatchSerialInOutData();
             input.index = goodReceiptLines.indexOf(line);
             input.itemCode = line.itemCode;
             input.quantity = line.quantity;
@@ -410,7 +412,7 @@ export class GoodsReceiptEditApp extends ibas.BOEditApplication<IGoodsReceiptEdi
                 input.selectedSerialQuantity = 0;
             } else {
                 for (let item of line.goodsReceiptMaterialSerialJournals.filterDeleted()) {
-                    let serialLine: bo.MaterialSerialJournal = input.materialBatchSerialInOutDataSerialJournals.create();
+                    let serialLine: IMaterialSerialJournal = input.materialBatchSerialInOutDataSerialJournals.create();
                     serialLine.supplierSerial = item.supplierSerial;
                     serialLine.batchSerial = item.batchSerial;
                     serialLine.expirationDate = item.expirationDate;
