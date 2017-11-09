@@ -71,26 +71,26 @@ export class GoodsIssueEditView extends ibas.BOEditView implements IGoodsIssueEd
                 new sap.m.Select("", {
                     items: utils.createComboBoxItems(ibas.emDocumentStatus)
                 }).bindProperty("selectedKey", {
-                    path: "/documentStatus",
+                    path: "documentStatus",
                     type: "sap.ui.model.type.Integer"
                 }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_goodsissue_reference1") }),
                 new sap.m.Input("", {
                     type: sap.m.InputType.Text
                 }).bindProperty("value", {
-                    path: "/reference1",
+                    path: "reference1",
                 }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_goodsissue_reference2") }),
                 new sap.m.Input("", {
                     type: sap.m.InputType.Text
                 }).bindProperty("value", {
-                    path: "/reference2",
+                    path: "reference2",
                 }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_goodsissue_pricelistname") }),
                 new sap.m.Select("", {
                     items: this.createSelectedItems(),
                 }).bindProperty("selectedKey", {
-                    path: "/priceList",
+                    path: "priceList",
                     type: "sap.ui.model.type.Integer"
                 }),
                 new sap.ui.core.Title("", { text: ibas.i18n.prop("materials_date_information") }),
@@ -98,7 +98,7 @@ export class GoodsIssueEditView extends ibas.BOEditView implements IGoodsIssueEd
                 new sap.m.DatePicker("", {
                     valueFormat: "yyyy-MM-dd",
                 }).bindProperty("dateValue", {
-                    path: "/postingDate"
+                    path: "postingDate"
                 }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_goodsissue_deliverydate") }),
                 new sap.m.DatePicker("", {
@@ -110,7 +110,7 @@ export class GoodsIssueEditView extends ibas.BOEditView implements IGoodsIssueEd
                 new sap.m.DatePicker("", {
                     valueFormat: "yyyy-MM-dd",
                 }).bindProperty("dateValue", {
-                    path: "/documentDate"
+                    path: "documentDate"
                 }),
             ]
         });
@@ -258,7 +258,7 @@ export class GoodsIssueEditView extends ibas.BOEditView implements IGoodsIssueEd
                 new sap.m.TextArea("", {
                     rows: 5,
                 }).bindProperty("value", {
-                    path: "/remarks"
+                    path: "remarks"
                 }),
             ]
         });
@@ -370,7 +370,7 @@ export class GoodsIssueEditView extends ibas.BOEditView implements IGoodsIssueEd
     /** 显示数据 */
     showGoodsIssue(data: bo.GoodsIssue): void {
         this.mainLayout.setModel(new sap.ui.model.json.JSONModel(data));
-        this.mainLayout.bindObject("/");
+        this.mainLayout.bindContext("/");
         // 监听属性改变，并更新控件
         utils.refreshModelChanged(this.form, data);
         // 改变视图状态

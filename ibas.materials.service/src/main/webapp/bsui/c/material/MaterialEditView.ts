@@ -43,73 +43,73 @@ export class MaterialEditView extends ibas.BOEditView implements IMaterialEditVi
                 new sap.m.Input("", {
                     type: sap.m.InputType.Text,
                 }).bindProperty("value", {
-                    path: "/code",
+                    path: "code",
                 }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_material_name") }),
                 new sap.m.Input("", {
                     type: sap.m.InputType.Text,
                 }).bindProperty("value", {
-                    path: "/name",
+                    path: "name",
                 }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_material_foreignname") }),
                 new sap.m.Input("", {
                     type: sap.m.InputType.Text,
                 }).bindProperty("value", {
-                    path: "/foreignName",
+                    path: "foreignName",
                 }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_material_itemtype") }),
                 new sap.m.Select("", {
                     items: utils.createComboBoxItems(emItemType),
                 }).bindProperty("selectedKey", {
-                    path: "/itemType",
+                    path: "itemType",
                     type: "sap.ui.model.type.Integer",
                 }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_material_group") }),
                 new sap.m.Input("", {
                     type: sap.m.InputType.Text,
                 }).bindProperty("value", {
-                    path: "/group",
+                    path: "group",
                 }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_material_barcode") }),
                 new sap.m.Input("", {
                     type: sap.m.InputType.Text,
                 }).bindProperty("value", {
-                    path: "/barCode",
+                    path: "barCode",
                 }),
                 new sap.ui.core.Title("", { text: ibas.i18n.prop("materials_type_information") }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_material_activated") }),
                 new sap.m.Select("", {
                     items: utils.createComboBoxItems(ibas.emYesNo),
                 }).bindProperty("selectedKey", {
-                    path: "/activated",
+                    path: "activated",
                     type: "sap.ui.model.type.Integer",
                 }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_material_purchaseitem") }),
                 new sap.m.Select("", {
                     items: utils.createComboBoxItems(ibas.emYesNo),
                 }).bindProperty("selectedKey", {
-                    path: "/purchaseItem",
+                    path: "purchaseItem",
                     type: "sap.ui.model.type.Integer",
                 }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_material_salesitem") }),
                 new sap.m.Select("", {
                     items: utils.createComboBoxItems(ibas.emYesNo),
                 }).bindProperty("selectedKey", {
-                    path: "/salesItem",
+                    path: "salesItem",
                     type: "sap.ui.model.type.Integer",
                 }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_material_inventoryitem") }),
                 new sap.m.Select("", {
                     items: utils.createComboBoxItems(ibas.emYesNo),
                 }).bindProperty("selectedKey", {
-                    path: "/inventoryItem",
+                    path: "inventoryItem",
                     type: "sap.ui.model.type.Integer",
                 }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_material_fixedassets") }),
                 new sap.m.Select("", {
                     items: utils.createComboBoxItems(ibas.emYesNo),
                 }).bindProperty("selectedKey", {
-                    path: "/fixedAssets",
+                    path: "fixedAssets",
                     type: "sap.ui.model.type.Integer",
                 }),
                 new sap.ui.core.Title("", { text: ibas.i18n.prop("materials_general_information") }),
@@ -117,44 +117,44 @@ export class MaterialEditView extends ibas.BOEditView implements IMaterialEditVi
                 new sap.m.Input("", {
                     type: sap.m.InputType.Text,
                 }).bindProperty("value", {
-                    path: "/remarks",
+                    path: "remarks",
                 }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_material_picture") }),
                 new sap.m.Input("", {
                     type: sap.m.InputType.Text,
                 }).bindProperty("value", {
-                    path: "/picture",
+                    path: "picture",
                 }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_material_oncommited") }),
                 new sap.m.Input("", {
                     type: sap.m.InputType.Number,
                 }).bindProperty("value", {
-                    path: "/onCommited",
+                    path: "onCommited",
                 }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_material_onhand") }),
                 new sap.m.Input("", {
                     type: sap.m.InputType.Number,
                 }).bindProperty("value", {
-                    path: "/onHand",
+                    path: "onHand",
                 }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_material_onorder") }),
                 new sap.m.Input("", {
                     type: sap.m.InputType.Number,
                 }).bindProperty("value", {
-                    path: "/onOrder",
+                    path: "onOrder",
                 }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_material_uom") }),
                 new sap.m.Input("", {
                     type: sap.m.InputType.Text,
                 }).bindProperty("value", {
-                    path: "/uOM",
+                    path: "uOM",
                 }),
                 new sap.ui.core.Title("", { text: ibas.i18n.prop("materials_onHand_information") }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_material_minimuminventory") }),
                 new sap.m.Input("", {
                     type: sap.m.InputType.Text,
                 }).bindProperty("value", {
-                    path: "/minimumInventory",
+                    path: "minimumInventory",
                 }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_material_defaultwarehouse") }),
                 new sap.m.Input("", {
@@ -165,26 +165,26 @@ export class MaterialEditView extends ibas.BOEditView implements IMaterialEditVi
                         that.fireViewEvents(that.chooseMaterialWarehouseEvent);
                     }
                 }).bindProperty("value", {
-                    path: "/defaultWarehouse"
+                    path: "defaultWarehouse"
                 }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_material_phantomitem") }),
                 new sap.m.Select("", {
                     items: utils.createComboBoxItems(ibas.emYesNo),
                 }).bindProperty("selectedKey", {
-                    path: "/phantomItem",
+                    path: "phantomItem",
                     type: "sap.ui.model.type.Integer",
                 }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_material_serialmanagement") }),
                 new sap.m.SegmentedButton("", {
                     items: utils.createSegmentedButtonItems(ibas.emYesNo),
                 }).bindProperty("selectedKey", {
-                    path: "/serialManagement",
+                    path: "serialManagement",
                 }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_material_batchmanagement") }),
                 new sap.m.Select("", {
                     items: utils.createComboBoxItems(ibas.emYesNo),
                 }).bindProperty("selectedKey", {
-                    path: "/batchManagement",
+                    path: "batchManagement",
                 }),
             ],
         });
@@ -276,7 +276,7 @@ export class MaterialEditView extends ibas.BOEditView implements IMaterialEditVi
     /** 显示数据 */
     showMaterial(data: bo.Material): void {
         this.form.setModel(new sap.ui.model.json.JSONModel(data));
-        this.form.bindObject("/");
+        this.form.bindContext("/");
         // 监听属性改变，并更新控件
         utils.refreshModelChanged(this.form, data);
         // 改变视图状态
