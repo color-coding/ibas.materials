@@ -25,6 +25,8 @@ import {
 } from "ibas/index";
 import {
     IMaterialBatchSerialInOutData,
+    IMaterialBatchSerialInOutDatas,
+    IMaterialBatchSerialServiceData,
     IMaterialBatchSerialInOutDataBatchJournals,
     IMaterialBatchSerialInOutDataSerialJournals,
     BO_CODE_MATERIALBATCH,
@@ -35,7 +37,44 @@ import {
     MaterialBatchJournal,
     MaterialSerialJournal
 } from "./index";
-export class MaterialBatchSerialInOutData extends BOSimple<MaterialBatchSerialInOutData> implements IMaterialBatchSerialInOutData {
+
+export class MaterialBatchSerialServiceData extends BOSimple<MaterialBatchSerialServiceData> implements IMaterialBatchSerialServiceData {
+
+    /** 业务对象编码 */
+    static BUSINESS_OBJECT_CODE: string = BO_CODE_MATERIALBATCH;
+    static BUSINESS_OBJECT_RECEIEPT_CODE: string = BO_CODE_RECEIPT_MATERIALBATCH;
+    static BUSINESS_OBJECT_ISSUE_CODE: string = BO_CODE_ISSUE_MATERIALBATCH;
+    /** 构造函数 */
+    constructor() {
+        super();
+    }
+    /** 映射的属性名称-对象编号 */
+    static PROPERTY_OBJECTKEY_NAME: string = "ObjectKey";
+    /** 获取-对象编号 */
+    get objectKey(): number {
+        return this.getProperty<number>(MaterialBatchSerialServiceData.PROPERTY_OBJECTKEY_NAME);
+    }
+    /** 设置-对象编号 */
+    set objectKey(value: number) {
+        this.setProperty(MaterialBatchSerialServiceData.PROPERTY_OBJECTKEY_NAME, value);
+    }
+    /** 映射的属性名称-行-集合 */
+    static PROPERTY_MATERIALBATCHSERIALINOUTDATAS_NAME: string = "MaterialBatchSerialInOutDatas";
+    /** 获取-行-序列号集合 */
+    get materialBatchSerialInOutDatas(): MaterialBatchSerialInOutDatas {
+        return this.getProperty<MaterialBatchSerialInOutDatas>
+            (MaterialBatchSerialServiceData.PROPERTY_MATERIALBATCHSERIALINOUTDATAS_NAME);
+    }
+    /** 设置-行-集合 */
+    set materialBatchSerialInOutDatas(value: MaterialBatchSerialInOutDatas) {
+        this.setProperty(MaterialBatchSerialServiceData.PROPERTY_MATERIALBATCHSERIALINOUTDATAS_NAME, value);
+    }
+    protected init(): void {
+        this.materialBatchSerialInOutDatas = new MaterialBatchSerialInOutDatas(this);
+    }
+}
+
+export class MaterialBatchSerialInOutData extends BOSimpleLine<MaterialBatchSerialInOutData> implements IMaterialBatchSerialInOutData {
     /** 业务对象编码 */
     static BUSINESS_OBJECT_CODE: string = BO_CODE_MATERIALBATCH;
     static BUSINESS_OBJECT_RECEIEPT_CODE: string = BO_CODE_RECEIPT_MATERIALBATCH;
@@ -54,6 +93,17 @@ export class MaterialBatchSerialInOutData extends BOSimple<MaterialBatchSerialIn
     /** 设置-行索引 */
     set index(value: number) {
         this.setProperty(MaterialBatchSerialInOutData.PROPERTY_INDEX_NAME, value);
+    }
+
+    /** 映射的属性名称-行 */
+    static PROPERTY_LINEID_NAME: string = "LineId";
+    /** 获取-行索引 */
+    get lineId(): number {
+        return this.getProperty<number>(MaterialBatchSerialInOutData.PROPERTY_LINEID_NAME);
+    }
+    /** 设置-行索引 */
+    set lineId(value: number) {
+        this.setProperty(MaterialBatchSerialInOutData.PROPERTY_LINEID_NAME, value);
     }
     /** 映射的属性名称-物料编号 */
     static PROPERTY_ITEMCODE_NAME: string = "ItemCode";
@@ -157,7 +207,7 @@ export class MaterialBatchSerialInOutData extends BOSimple<MaterialBatchSerialIn
     /** 获取-库存发货-行-序列号集合 */
     get materialBatchSerialInOutDataBatchJournals(): MaterialBatchSerialInOutDataBatchJournals {
         return this.getProperty<MaterialBatchSerialInOutDataBatchJournals>
-        (MaterialBatchSerialInOutData.PROPERTY_MATERIALBATCHINPUTBATCHJOURNALS_NAME);
+            (MaterialBatchSerialInOutData.PROPERTY_MATERIALBATCHINPUTBATCHJOURNALS_NAME);
     }
     /** 设置-库存发货-行-序列号集合 */
     set materialBatchSerialInOutDataBatchJournals(value: MaterialBatchSerialInOutDataBatchJournals) {
@@ -179,6 +229,16 @@ export class MaterialBatchSerialInOutData extends BOSimple<MaterialBatchSerialIn
         this.materialBatchSerialInOutDataBatchJournals = new MaterialBatchSerialInOutDataBatchJournals(this);
         this.materialBatchSerialInOutDataSerialJournals = new MaterialBatchSerialInOutDataSerialJournals(this);
     }
+}
+
+export class MaterialBatchSerialInOutDatas extends BusinessObjects<MaterialBatchSerialInOutData, MaterialBatchSerialServiceData>
+    implements IMaterialBatchSerialInOutDatas {
+    create(): MaterialBatchSerialInOutData {
+        let item: MaterialBatchSerialInOutData = new MaterialBatchSerialInOutData();
+        this.add(item);
+        return item;
+    }
+
 }
 
 /** 批次日记账 集合 */

@@ -125,7 +125,7 @@ export class MaterialBatchReceiptApp extends ibas.BOApplication<IMaterialBatchRe
     }
     /** 选择凭证行事件 */
     protected selectMaterialBatchJournalLine(selected: bo.MaterialBatchSerialInOutData): void {
-        if(ibas.objects.isNull(selected)){
+        if (ibas.objects.isNull(selected)) {
             return;
         }
         let batchJournal: bo.MaterialBatchSerialInOutData = this.inputData

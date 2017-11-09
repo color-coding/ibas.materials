@@ -85,7 +85,7 @@ export class MaterialBatchIssueApp extends ibas.BOApplication<IMaterialBatchIssu
             return;
         }
         // 无批次可用
-        if (ibas.objects.isNull(this.batchData)) {
+        if (ibas.objects.isNull(this.batchData.filter(c=>c.isDeleted === false))) {
             // 查询可用批次信息
             let criteria: ibas.ICriteria = new ibas.Criteria();
             let condition: ibas.ICondition;
@@ -119,7 +119,7 @@ export class MaterialBatchIssueApp extends ibas.BOApplication<IMaterialBatchIssu
 
         // let newBatchData: bo.MaterialBatch[] = new Array<bo.MaterialBatch>();
         let line: bo.MaterialBatchSerialInOutData = this.inputData.find(c => c.index === journal.index);
-        for (let item of this.batchData) {
+        for (let item of this.batchData.filter(c=>c.isDeleted === false)) {
             // 已分配数量
             if (line.needBatchQuantity === 0) {
                 return;

@@ -15,9 +15,6 @@
     <Property Name="WarrantyStartDate" Description="保修开始日期" DataType="Date" DataSubType="Default" EditSize="8" Mapped="WntyStart"/>
     <Property Name="WarrantyEndDate" Description="保修结束日期" DataType="Date" DataSubType="Default" EditSize="8" Mapped="WntyEnd"/>
     <Property Name="Notes" Description="备注" DataType="Alphanumeric" DataSubType="Default" EditSize="30" Mapped="Notes"/>
-    <Property Name="BaseDocumentType" Description="基于类型" DataType="Alphanumeric" DataSubType="Default" EditSize="30" Mapped="BaseType"/>
-    <Property Name="BaseDocumentEntry" Description="基于标识" DataType="Numeric" DataSubType="Default" EditSize="8" Mapped="BaseEntry"/>
-    <Property Name="BaseDocumentLineId" Description="基于行号" DataType="Numeric" DataSubType="Default" EditSize="8" Mapped="BaseLine"/>
     <Property Name="ObjectKey" Description="对象编号" DataType="Numeric" DataSubType="Default" EditSize="8" Mapped="ObjectKey" PrimaryKey="Yes"/>
     <Property Name="ObjectCode" Description="对象类型" DataType="Alphanumeric" DataSubType="Default" EditSize="30" Mapped="ObjectCode"/>
     <Property Name="LogInst" Description="实例号" DataType="Numeric" DataSubType="Default" EditSize="8" Mapped="LogInst"/>

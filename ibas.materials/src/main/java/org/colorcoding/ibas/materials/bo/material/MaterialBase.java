@@ -968,4 +968,36 @@ public abstract class MaterialBase<T extends IMaterialBase> extends BusinessObje
     public final void setDeleted(emYesNo value) {
         this.setProperty(PROPERTY_DELETED, value);
     }
+
+    /**
+     * 属性名称-激活
+     */
+    private static final String PROPERTY_ACTIVATED_NAME = "Activated";
+
+    /**
+     * 激活 属性
+     */
+    @DbField(name = "Activated", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME, primaryKey = false)
+    public static final IPropertyInfo<emYesNo> PROPERTY_ACTIVATED = registerProperty(PROPERTY_ACTIVATED_NAME,
+            emYesNo.class, MY_CLASS);
+
+    /**
+     * 获取-激活
+     *
+     * @return 值
+     */
+    @XmlElement(name = PROPERTY_ACTIVATED_NAME)
+    public final emYesNo getActivated() {
+        return this.getProperty(PROPERTY_ACTIVATED);
+    }
+
+    /**
+     * 设置-激活
+     *
+     * @param value
+     *            值
+     */
+    public final void setActivated(emYesNo value) {
+        this.setProperty(PROPERTY_ACTIVATED, value);
+    }
 }

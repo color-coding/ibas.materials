@@ -728,11 +728,11 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
                 throw new BusinessLogicException(operationResult.getError());
             }
             materialExs = (ArrayList<MaterialEx>) operationResult.getResultObjects();
+            operationResultMaterialExpand.getResultObjects().clear();
+            operationResultMaterialExpand.addResultObjects(materialExs);
             //endregion..
             if(isNeedtoFetchPriceList){
                 //region 查询价格清单
-                operationResultMaterialExpand.getResultObjects().clear();
-                operationResultMaterialExpand.addResultObjects(materialExs);
                 operationResult = this.fetchMaterialPriceListOfMaterialEx(operationResultMaterialExpand, criPriceList, token);
                 if (operationResult.getError() != null) {
                     throw new BusinessLogicException(operationResult.getError());
@@ -740,6 +740,9 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
                 if (operationResult.getResultCode() != 0) {
                     throw new BusinessLogicException(operationResult.getError());
                 }
+                materialExs = (ArrayList<MaterialEx>) operationResult.getResultObjects();
+                operationResultMaterialExpand.getResultObjects().clear();
+                operationResultMaterialExpand.addResultObjects(materialExs);
                 //endregion
             }
         } catch (Exception e) {

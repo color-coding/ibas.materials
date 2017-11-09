@@ -13,12 +13,19 @@ import {
     IBOMasterData,
     IBOMasterDataLine,
     IBOSimple,
+    IBOSimpleLine,
 } from "ibas/index";
 import {
     IMaterialBatchJournal,
     IMaterialSerialJournal
 } from "./index";
-export interface IMaterialBatchSerialInOutData extends IBOSimple {
+
+
+export interface IMaterialBatchSerialServiceData extends IBOSimple {
+    objectKey: number;
+    materialBatchSerialInOutDatas: IMaterialBatchSerialInOutDatas;
+}
+export interface IMaterialBatchSerialInOutData extends IBOSimpleLine {
     /** table 行index索引 */
     index: number;
 
@@ -51,6 +58,11 @@ export interface IMaterialBatchSerialInOutData extends IBOSimple {
     materialBatchSerialInOutDataBatchJournals: IMaterialBatchSerialInOutDataBatchJournals;
     /** 物料批次分录集合 */
     materialBatchSerialInOutDataSerialJournals: IMaterialBatchSerialInOutDataSerialJournals;
+}
+
+export interface IMaterialBatchSerialInOutDatas extends IBusinessObjects<IMaterialBatchSerialInOutData, IMaterialBatchSerialServiceData> {
+    /** 创建并添加子项 */
+    create(): IMaterialBatchSerialInOutData;
 }
 
 /** 库存发货-批次日记账 集合 */

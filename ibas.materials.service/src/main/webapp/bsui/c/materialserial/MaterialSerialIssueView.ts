@@ -28,31 +28,6 @@ export class MaterialSerialIssueView extends ibas.BODialogView implements IMater
     private rightTable: sap.ui.table.Table;
     private actionLayout: sap.ui.layout.form.SimpleForm;
     private splitter: sap.ui.layout.Splitter;
-    /** 绘制工具条 */
-    darwBars(): any {
-        let that: this = this;
-        return [
-            new sap.m.Button("", {
-                text: ibas.i18n.prop("sys_shell_data_save"),
-                type: sap.m.ButtonType.Transparent,
-                // icon: "sap-icon://accept",
-                press: function (): void {
-                    that.fireViewEvents(that.saveDataEvent,
-                        // 获取表格选中的对象
-                        // utils.getTableSelecteds<bo.MaterialBatch>(that.table)
-                    );
-                }
-            }),
-            new sap.m.Button("", {
-                text: ibas.i18n.prop("sys_shell_exit"),
-                type: sap.m.ButtonType.Transparent,
-                // icon: "sap-icon://inspect-down",
-                press: function (): void {
-                    that.fireViewEvents(that.closeEvent);
-                }
-            }),
-        ];
-    }
     darw(): any {
         let that: this = this;
         this.journalLineTable = new sap.ui.table.Table("", {
@@ -242,7 +217,31 @@ export class MaterialSerialIssueView extends ibas.BODialogView implements IMater
             ]
         });
         this.id = this.mainLayout.getId();
-        return this.mainLayout;
+        return new sap.m.Dialog("", {
+            title: this.title,
+            type: sap.m.DialogType.Standard,
+            state: sap.ui.core.ValueState.None,
+            stretchOnPhone: true,
+            horizontalScrolling: true,
+            verticalScrolling: true,
+            content: [this.mainLayout],
+            buttons: [
+                new sap.m.Button("", {
+                    text: ibas.i18n.prop("sys_shell_data_save"),
+                    type: sap.m.ButtonType.Transparent,
+                    press: function (): void {
+                        that.fireViewEvents(that.saveDataEvent);
+                    }
+                }),
+                new sap.m.Button("", {
+                    text: ibas.i18n.prop("sys_shell_exit"),
+                    type: sap.m.ButtonType.Transparent,
+                    press: function (): void {
+                        that.fireViewEvents(that.closeEvent);
+                    }
+                }),
+            ]
+        });
     }
     private lastCriteria: ibas.ICriteria;
 

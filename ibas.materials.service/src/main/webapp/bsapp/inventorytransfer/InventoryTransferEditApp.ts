@@ -396,7 +396,7 @@ export class InventoryTransferEditApp extends ibas.BOEditApplication<IInventoryT
     /** 获取行-批次信息 */
     getBatchData(): IMaterialBatchSerialInOutData[] {
         // 获取行数据
-        let goodIssueLines: bo.InventoryTransferLine[] = this.editData.inventoryTransferLines;
+        let goodIssueLines: bo.InventoryTransferLine[] = this.editData.inventoryTransferLines.filterDeleted();
         let inputData: IMaterialBatchSerialInOutData[] = new Array<bo.MaterialBatchSerialInOutData>();
         for (let line of goodIssueLines) {
             if (line.batchManagement.toString() === ibas.enums.toString(ibas.emYesNo, ibas.emYesNo.NO)) {
@@ -429,7 +429,7 @@ export class InventoryTransferEditApp extends ibas.BOEditApplication<IInventoryT
     /** 获取行-序列信息 */
     getSerialData(): IMaterialBatchSerialInOutData[] {
         // 获取行数据
-        let goodIssueLines: bo.InventoryTransferLine[] = this.editData.inventoryTransferLines;
+        let goodIssueLines: bo.InventoryTransferLine[] = this.editData.inventoryTransferLines.filterDeleted();
         let inputData: IMaterialBatchSerialInOutData[] = new Array<bo.MaterialBatchSerialInOutData>();
         for (let line of goodIssueLines) {
             if (line.serialManagement.toString() === ibas.enums.toString(ibas.emYesNo, ibas.emYesNo.NO)) {

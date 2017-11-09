@@ -247,6 +247,11 @@ export class GoodsIssueEditApp extends ibas.BOEditApplication<IGoodsIssueEditVie
                         item = that.editData.goodsIssueLines.create();
                         created = true;
                     }
+                    // 如果物料、仓库发生变更 删除批次、序列集合
+                    if(item.itemCode !== selected.code || item.warehouse !== selected.warehouseCode){
+                        item.goodsIssueMaterialBatchJournals.clear();
+                        item.goodsIssueMaterialSerialJournals.clear();
+                    }
                     item.itemCode = selected.code;
                     item.itemDescription = selected.name;
                     item.warehouse = selected.warehouseCode;
@@ -283,6 +288,10 @@ export class GoodsIssueEditApp extends ibas.BOEditApplication<IGoodsIssueEditVie
                     if (ibas.objects.isNull(item)) {
                         item = that.editData.goodsIssueLines.create();
                         created = true;
+                    }
+                    if(item.warehouse !==selected.code){
+                        item.goodsIssueMaterialBatchJournals.clear();
+                        item.goodsIssueMaterialSerialJournals.clear();
                     }
                     item.warehouse = selected.code;
                     item = null;
@@ -373,7 +382,7 @@ export class GoodsIssueEditApp extends ibas.BOEditApplication<IGoodsIssueEditVie
     /** 获取行-批次序列信息 */
     getBatchData(): IMaterialBatchSerialInOutData[] {
         // 获取行数据
-        let goodIssueLines: bo.GoodsIssueLine[] = this.editData.goodsIssueLines;
+        let goodIssueLines: bo.GoodsIssueLine[] = this.editData.goodsIssueLines.filterDeleted();
         // let batchJournal: bo.Material
         let inputData: IMaterialBatchSerialInOutData[] = new Array<bo.MaterialBatchSerialInOutData>();
         for (let line of goodIssueLines) {
@@ -407,7 +416,7 @@ export class GoodsIssueEditApp extends ibas.BOEditApplication<IGoodsIssueEditVie
     /** 获取行-序列信息 */
     getSerialData(): IMaterialBatchSerialInOutData[] {
         // 获取行数据
-        let goodIssueLines: bo.GoodsIssueLine[] = this.editData.goodsIssueLines;
+        let goodIssueLines: bo.GoodsIssueLine[] = this.editData.goodsIssueLines.filterDeleted();
         let inputData: IMaterialBatchSerialInOutData[] = new Array<bo.MaterialBatchSerialInOutData>();
         for (let line of goodIssueLines) {
             if (!ibas.objects.isNull(line.serialManagement) &&

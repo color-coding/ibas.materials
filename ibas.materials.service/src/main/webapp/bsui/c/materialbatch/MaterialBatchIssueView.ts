@@ -30,28 +30,7 @@ export class MaterialBatchIssueView extends ibas.BODialogView implements IMateri
     private actionLayout: sap.ui.layout.form.SimpleForm;
     private mainBlockLayout: sap.ui.layout.BlockLayout;
     private splitter: sap.ui.layout.Splitter;
-    /** 绘制工具条 */
-    darwBars(): any {
-        let that: this = this;
-        return [
-            new sap.m.Button("", {
-                text: ibas.i18n.prop("sys_shell_data_save"),
-                // type: sap.m.ButtonType.Transparent,
-                // icon: "sap-icon://accept",
-                press: function (): void {
-                    that.fireViewEvents(that.saveDataEvent);
-                }
-            }),
-            new sap.m.Button("", {
-                text: ibas.i18n.prop("sys_shell_exit"),
-                type: sap.m.ButtonType.Transparent,
-                // icon: "sap-icon://inspect-down",
-                press: function (): void {
-                    that.fireViewEvents(that.closeEvent);
-                }
-            }),
-        ];
-    }
+
     darw(): any {
         let that: this = this;
         this.journalLineTable = new sap.ui.table.Table("", {
@@ -250,7 +229,6 @@ export class MaterialBatchIssueView extends ibas.BODialogView implements IMateri
                 }),
             ]
         });
-
         this.mainLayout = new sap.ui.layout.VerticalLayout("", {
             width:"750px",
             wrapping: false,
@@ -260,19 +238,31 @@ export class MaterialBatchIssueView extends ibas.BODialogView implements IMateri
             ]
         });
         this.id = this.mainLayout.getId();
-        return this.mainLayout;
-    }
-    private lastCriteria: ibas.ICriteria;
-    /** 记录上次查询条件，表格滚动时自动触发 */
-    query(criteria: ibas.ICriteria): void {
-        // super.query(criteria);
-        this.lastCriteria = criteria;
-        // 清除历史数据
-        // if (this.isDisplayed) {
-        //     this.table.setBusy(true);
-        //     this.table.setFirstVisibleRow(0);
-        //     this.table.setModel(null);
-        // }
+        return new sap.m.Dialog("", {
+            title: this.title,
+            type: sap.m.DialogType.Standard,
+            state: sap.ui.core.ValueState.None,
+            stretchOnPhone: true,
+            horizontalScrolling: true,
+            verticalScrolling: true,
+            content: [this.mainLayout],
+            buttons: [
+                new sap.m.Button("", {
+                    text: ibas.i18n.prop("sys_shell_data_save"),
+                    type: sap.m.ButtonType.Transparent,
+                    press: function (): void {
+                        that.fireViewEvents(that.saveDataEvent);
+                    }
+                }),
+                new sap.m.Button("", {
+                    text: ibas.i18n.prop("sys_shell_exit"),
+                    type: sap.m.ButtonType.Transparent,
+                    press: function (): void {
+                        that.fireViewEvents(that.closeEvent);
+                    }
+                }),
+            ]
+        });
     }
     showJournalLineData(datas: bo.MaterialBatchSerialInOutData[]): void {
         this.journalLineTable.setModel(new sap.ui.model.json.JSONModel({ journallinedata: datas }));

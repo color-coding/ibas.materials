@@ -234,4 +234,14 @@ export  abstract class MaterialBase<T extends IMaterialBase> extends BOMasterDat
     set deleted(value: emYesNo) {
         this.setProperty(MaterialBase.PROPERTY_DELETED_NAME, value);
     }
+    /** 映射的属性名称-激活 */
+    static PROPERTY_ACTIVATED_NAME: string = "Activated";
+    /** 获取-激活 */
+    get activated(): emYesNo {
+        return this.getProperty<emYesNo>(MaterialBase.PROPERTY_ACTIVATED_NAME);
+    }
+    /** 设置-激活 */
+    set activated(value: emYesNo) {
+        this.setProperty(MaterialBase.PROPERTY_ACTIVATED_NAME, value);
+    }
 }
