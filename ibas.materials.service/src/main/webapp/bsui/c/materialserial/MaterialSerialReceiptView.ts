@@ -6,7 +6,7 @@
  * that can be found in the LICENSE file at http://www.apache.org/licenses/LICENSE-2.0
  */
 import * as ibas from "ibas/index";
-import { utils } from "openui5/typings/ibas.utils";
+import * as openui5 from "openui5/index";
 import * as bo from "../../../borep/bo/index";
 import { IMaterialSerialReceiptView } from "../../../bsapp/materialserial/index";
 
@@ -34,7 +34,7 @@ export class MaterialSerialReceiptView extends ibas.BODialogView implements IMat
                         type: sap.m.ButtonType.Transparent,
                         press: function (): void {
                             that.fireViewEvents(that.autoCreateSerialEvent,
-                                utils.getTableSelecteds<bo.MaterialBatchSerialInOutData>(that.journalLineTable).firstOrDefault()
+                                openui5.utils.getTableSelecteds<bo.MaterialBatchSerialInOutData>(that.journalLineTable).firstOrDefault()
                             );
                         }
                     }),
@@ -44,7 +44,7 @@ export class MaterialSerialReceiptView extends ibas.BODialogView implements IMat
                         icon: "sap-icon://add",
                         press: function (): void {
                             that.fireViewEvents(that.addSerialEvent,
-                                utils.getTableSelecteds<bo.MaterialBatchSerialInOutData>(that.journalLineTable).firstOrDefault());
+                                openui5.utils.getTableSelecteds<bo.MaterialBatchSerialInOutData>(that.journalLineTable).firstOrDefault());
                         }
                     }),
                     new sap.m.Button("", {
@@ -53,15 +53,15 @@ export class MaterialSerialReceiptView extends ibas.BODialogView implements IMat
                         icon: "sap-icon://less",
                         press: function (): void {
                             that.fireViewEvents(that.removeSerialEvent,
-                                utils.getTableSelecteds<bo.MaterialBatchSerialInOutData>(that.journalLineTable).firstOrDefault(),
-                                utils.getTableSelecteds<bo.MaterialBatch>(that.table)
+                                openui5.utils.getTableSelecteds<bo.MaterialBatchSerialInOutData>(that.journalLineTable).firstOrDefault(),
+                                openui5.utils.getTableSelecteds<bo.MaterialBatch>(that.table)
                             );
                         }
                     }),
                 ]
             }),
             enableSelectAll: false,
-            visibleRowCount: ibas.config.get(utils.CONFIG_ITEM_LIST_TABLE_VISIBLE_ROW_COUNT, 5),
+            visibleRowCount: ibas.config.get(openui5.utils.CONFIG_ITEM_LIST_TABLE_VISIBLE_ROW_COUNT, 5),
             rows: "{/rows}",
             columns: [
                 new sap.ui.table.Column("", {
@@ -107,11 +107,11 @@ export class MaterialSerialReceiptView extends ibas.BODialogView implements IMat
         this.journalLineTable = new sap.ui.table.Table("", {
             enableSelectAll: false,
             selectionMode: sap.ui.table.SelectionMode.Single,
-            visibleRowCount: ibas.config.get(utils.CONFIG_ITEM_LIST_TABLE_VISIBLE_ROW_COUNT, 8),
+            visibleRowCount: ibas.config.get(openui5.utils.CONFIG_ITEM_LIST_TABLE_VISIBLE_ROW_COUNT, 8),
             visibleRowCountMode: sap.ui.table.VisibleRowCountMode.Interactive,
             rowSelectionChange: function (): void {
                 that.fireViewEvents(that.selectMaterialSerialJournalLineEvent,
-                    utils.getTableSelecteds<bo.MaterialBatchSerialInOutData>(that.journalLineTable).firstOrDefault(), );
+                    openui5.utils.getTableSelecteds<bo.MaterialBatchSerialInOutData>(that.journalLineTable).firstOrDefault(), );
             },
             rows: "{/journallinedata}",
             columns: [
@@ -205,11 +205,11 @@ export class MaterialSerialReceiptView extends ibas.BODialogView implements IMat
     /** 显示数据 */
     showData(datas: bo.MaterialSerialJournal[]): void {
         this.table.setModel(new sap.ui.model.json.JSONModel({ rows: datas }));
-        utils.refreshModelChanged(this.table, datas);
+        openui5.utils.refreshModelChanged(this.table, datas);
     }
     showJournalLineData(datas: bo.MaterialBatchSerialInOutData[]): void {
         this.journalLineTable.setModel(new sap.ui.model.json.JSONModel({ journallinedata: datas }));
-        utils.refreshModelChanged(this.journalLineTable, datas);
+        openui5.utils.refreshModelChanged(this.journalLineTable, datas);
     }
     private lastCriteria: ibas.ICriteria;
 

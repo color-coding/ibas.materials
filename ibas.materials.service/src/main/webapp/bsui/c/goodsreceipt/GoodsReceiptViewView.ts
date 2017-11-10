@@ -7,7 +7,7 @@
  */
 
 import * as ibas from "ibas/index";
-import { utils } from "openui5/typings/ibas.utils";
+import * as openui5 from "openui5/index";
 import * as bo from "../../../borep/bo/index";
 import { IGoodsReceiptViewView } from "../../../bsapp/goodsreceipt/index";
 
@@ -86,7 +86,7 @@ export class GoodsReceiptViewView extends ibas.BOViewView implements IGoodsRecei
         this.tableGoodsReceiptLine = new sap.ui.table.Table("", {
             enableSelectAll: false,
             selectionBehavior: sap.ui.table.SelectionBehavior.RowOnly,
-            visibleRowCount: ibas.config.get(utils.CONFIG_ITEM_LIST_TABLE_VISIBLE_ROW_COUNT, 5),
+            visibleRowCount: ibas.config.get(openui5.utils.CONFIG_ITEM_LIST_TABLE_VISIBLE_ROW_COUNT, 5),
             rows: "{/rows}",
             columns: [
                 new sap.ui.table.Column("", {
