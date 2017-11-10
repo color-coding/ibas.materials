@@ -40,13 +40,22 @@ class BOConverter4mm extends ibas.BOConverter {
      * @returns 转换的值
      */
     protected convertData(boName: string, property: string, value: any): any {
-        if (typeof value === "string") {
-            if (property === "Direction") {
+        if (boName === bo.MaterialBatchJournal.name) {
+            if (property === bo.MaterialBatchJournal.PROPERTY_DIRECTION_NAME) {
                 return ibas.enums.toString(ibas.emDirection, value);
-            } else if (property === "SerialManagement" || property === "FixedAssets"
-                || property === "BatchManagement" || property === "SalesItem"
-                || property === "PurchaseItem" || property === "PhantomItem"
-                || property === "InventoryItem") {
+            }
+        } else if (boName === bo.MaterialSerialJournal.name) {
+            if (property === bo.MaterialSerialJournal.PROPERTY_DIRECTION_NAME) {
+                return ibas.enums.toString(ibas.emDirection, value);
+            }
+        } else if (boName === bo.Material.name) {
+            if (property === bo.Material.PROPERTY_SERIALMANAGEMENT_NAME
+                || property === bo.Material.PROPERTY_FIXEDASSETS_NAME
+                || property === bo.Material.PROPERTY_BATCHMANAGEMENT_NAME
+                || property === bo.Material.PROPERTY_SALESITEM_NAME
+                || property === bo.Material.PROPERTY_PURCHASEITEM_NAME
+                || property === bo.Material.PROPERTY_INVENTORYITEM_NAME
+                || property === bo.Material.PROPERTY_PHANTOMITEM_NAME) {
                 return ibas.enums.toString(ibas.emYesNo, value);
             }
         }
@@ -61,13 +70,22 @@ class BOConverter4mm extends ibas.BOConverter {
      * @returns 解析的值
      */
     protected parsingData(boName: string, property: string, value: any): any {
-        if (typeof value === "string") {
-            if (property === "Direction") {
+        if (boName === bo.MaterialBatchJournal.name) {
+            if (property === bo.MaterialBatchJournal.PROPERTY_DIRECTION_NAME) {
                 return ibas.enums.valueOf(ibas.emDirection, value);
-            } else if (property === "SerialManagement" || property === "FixedAssets"
-                || property === "BatchManagement" || property === "SalesItem"
-                || property === "PurchaseItem" || property === "PhantomItem"
-                || property === "InventoryItem") {
+            }
+        } else if (boName === bo.MaterialSerialJournal.name) {
+            if (property === bo.MaterialSerialJournal.PROPERTY_DIRECTION_NAME) {
+                return ibas.enums.valueOf(ibas.emDirection, value);
+            }
+        } else if (boName === bo.Material.name) {
+            if (property === bo.Material.PROPERTY_SERIALMANAGEMENT_NAME
+                || property === bo.Material.PROPERTY_FIXEDASSETS_NAME
+                || property === bo.Material.PROPERTY_BATCHMANAGEMENT_NAME
+                || property === bo.Material.PROPERTY_SALESITEM_NAME
+                || property === bo.Material.PROPERTY_PURCHASEITEM_NAME
+                || property === bo.Material.PROPERTY_INVENTORYITEM_NAME
+                || property === bo.Material.PROPERTY_PHANTOMITEM_NAME) {
                 return ibas.enums.valueOf(ibas.emYesNo, value);
             }
         }
