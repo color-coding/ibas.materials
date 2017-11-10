@@ -26,6 +26,8 @@ export const BO_CODE_MATERIALEX: string = "${Company}_MM_MATERIALEX";
 export const BO_CODE_MATERIALBATCH: string = "${Company}_MM_BATCH";
 /** 业务对象编码-物料批次凭证 */
 export const BO_CODE_MATERIALBATCHJOURNAL: string = "${Company}_MM_BATCHJOURNAL";
+/**  业务对象编码-物料批次接口 */
+export const BO_CODE_MATERIALBATCHSERIALDATA: string = "${Company}_MM_BATCHJOURNAL";
 /** 业务对象编码-物料批次-入 */
 export const BO_CODE_RECEIPT_MATERIALBATCH: string = "${Company}_MM_RECEIEPT_BATCH";
 /** 业务对象编码-物料批次-出 */
