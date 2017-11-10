@@ -40,6 +40,16 @@ class BOConverter4mm extends ibas.BOConverter {
      * @returns 转换的值
      */
     protected convertData(boName: string, property: string, value: any): any {
+        if (typeof value === "string") {
+            if (property === "Direction") {
+                return ibas.enums.toString(ibas.emDirection, value);
+            } else if (property === "SerialManagement" || property === "FixedAssets"
+                || property === "BatchManagement" || property === "SalesItem"
+                || property === "PurchaseItem" || property === "PhantomItem"
+                || property === "InventoryItem") {
+                return ibas.enums.toString(ibas.emYesNo, value);
+            }
+        }
         return super.convertData(boName, property, value);
     }
 
@@ -51,6 +61,16 @@ class BOConverter4mm extends ibas.BOConverter {
      * @returns 解析的值
      */
     protected parsingData(boName: string, property: string, value: any): any {
+        if (typeof value === "string") {
+            if (property === "Direction") {
+                return ibas.enums.valueOf(ibas.emDirection, value);
+            } else if (property === "SerialManagement" || property === "FixedAssets"
+                || property === "BatchManagement" || property === "SalesItem"
+                || property === "PurchaseItem" || property === "PhantomItem"
+                || property === "InventoryItem") {
+                return ibas.enums.valueOf(ibas.emYesNo, value);
+            }
+        }
         return super.parsingData(boName, property, value);
     }
 }
