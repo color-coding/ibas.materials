@@ -11,6 +11,7 @@ import org.colorcoding.ibas.materials.bo.goodsissue.GoodsIssue;
 import org.colorcoding.ibas.materials.bo.goodsreceipt.GoodsReceipt;
 import org.colorcoding.ibas.materials.bo.inventorytransfer.InventoryTransfer;
 import org.colorcoding.ibas.materials.bo.material.Material;
+import org.colorcoding.ibas.materials.bo.material.MaterialEx;
 import org.colorcoding.ibas.materials.bo.materialbatch.MaterialBatch;
 import org.colorcoding.ibas.materials.bo.materialbatch.MaterialBatchJournal;
 import org.colorcoding.ibas.materials.bo.materialgroup.MaterialGroup;
@@ -431,7 +432,21 @@ public class DataService extends BORepositoryMaterials {
 			@WebParam(name = "token") String token) {
 		return super.saveWarehouse(bo, token);
 	}
-
+	// --------------------------------------------------------------------------------------------//
+	/**
+	 * 查询-物料扩展（仓库库存、单价）
+	 *
+	 * @param criteria
+	 *            查询
+	 * @param token
+	 *            口令
+	 * @return 操作结果
+	 */
+	@WebMethod
+	public OperationResult<MaterialEx> fetchMaterialEx(
+			@WebParam(name = "criteria") Criteria criteria, @WebParam(name = "token") String token) {
+		return super.fetchMaterialEx(criteria, token);
+	}
 	// --------------------------------------------------------------------------------------------//
 
 }

@@ -27,11 +27,32 @@ export class GoodsIssueEditView extends ibas.BOEditView implements IGoodsIssueEd
     chooseGoodsIssueLineMaterialEvent: Function;
     /** 选择库存发货单行仓库事件 */
     chooseGoodsIssueLineWarehouseEvent: Function;
+    /** 选择物料批次事件 */
+    chooseGoodsIssueLineMaterialBatchEvent: Function;
+    /** 选择库存发货单行物料序列号事件 */
+    chooseGoodsIssueLineMaterialSerialEvent: Function;
+
+    private page: sap.m.Page;
+    private form: sap.ui.layout.form.SimpleForm;
     private mainLayout: sap.ui.layout.VerticalLayout;
     private viewBottomForm: sap.ui.layout.form.SimpleForm;
+    private selectDatas: bo.MaterialPriceList[];
+    private priceListSelect: sap.m.Select;
+
     /** 绘制视图 */
     darw(): any {
         let that: this = this;
+        this.priceListSelect = new sap.m.Select("", {
+            rows: "{/priceList}",
+            addAriaLabelledBy:"",
+            items: [
+                new sap.ui.core.ListItem("", {
+                    key: 0,
+                    value: "dakehu",
+                    additionalText: 0,
+                })
+            ]
+        });
         this.form = new sap.ui.layout.form.SimpleForm("", {
             editable: true,
             layout: sap.ui.layout.form.SimpleFormLayout.ResponsiveGridLayout,
@@ -46,13 +67,6 @@ export class GoodsIssueEditView extends ibas.BOEditView implements IGoodsIssueEd
             columnsS: 1,
             content: [
                 new sap.ui.core.Title("", { text: ibas.i18n.prop("materials_base_information") }),
-                new sap.m.Label("", { text: ibas.i18n.prop("bo_goodsissue_docentry") }),
-                new sap.m.Input("", {
-                    editable: false,
-                    type: sap.m.InputType.Number
-                }).bindProperty("value", {
-                    path: "docEntry",
-                }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_goodsissue_documentstatus") }),
                 new sap.m.Select("", {
                     items: utils.createComboBoxItems(ibas.emDocumentStatus)
@@ -72,18 +86,25 @@ export class GoodsIssueEditView extends ibas.BOEditView implements IGoodsIssueEd
                 }).bindProperty("value", {
                     path: "reference2",
                 }),
+                new sap.m.Label("", { text: ibas.i18n.prop("bo_goodsissue_pricelistname") }),
+                new sap.m.Select("", {
+                    items: this.createSelectedItems(),
+                }).bindProperty("selectedKey", {
+                    path: "priceList",
+                    type: "sap.ui.model.type.Integer"
+                }),
                 new sap.ui.core.Title("", { text: ibas.i18n.prop("materials_date_information") }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_goodsissue_postingdate") }),
                 new sap.m.DatePicker("", {
                     valueFormat: "yyyy-MM-dd",
                 }).bindProperty("dateValue", {
-                    path: "PostingDate"
+                    path: "postingDate"
                 }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_goodsissue_deliverydate") }),
                 new sap.m.DatePicker("", {
                     valueFormat: "yyyy-MM-dd",
                 }).bindProperty("dateValue", {
-                    path: "DeliveryDate"
+                    path: "deliveryDate"
                 }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_goodsissue_documentdate") }),
                 new sap.m.DatePicker("", {
@@ -115,6 +136,27 @@ export class GoodsIssueEditView extends ibas.BOEditView implements IGoodsIssueEd
                                 utils.getTableSelecteds<bo.GoodsIssueLine>(that.tableGoodsIssueLine)
                             );
                         }
+                    }),
+                    new sap.m.MenuButton("", {
+                        text: ibas.i18n.prop("materials_data_batch_serial"),
+                        menu: [
+                            new sap.m.Menu("", {
+                                items: [
+                                    new sap.m.MenuItem("", {
+                                        text: ibas.i18n.prop("materials_app_materialbatchissue"),
+                                        press: function (): void {
+                                            that.fireViewEvents(that.chooseGoodsIssueLineMaterialBatchEvent);
+                                        }
+                                    }),
+                                    new sap.m.MenuItem("", {
+                                        text: ibas.i18n.prop("materials_app_materialserialhissue"),
+                                        press: function (): void {
+                                            that.fireViewEvents(that.chooseGoodsIssueLineMaterialSerialEvent);
+                                        }
+                                    }),
+                                ]
+                            })
+                        ]
                     })
                 ]
             }),
@@ -166,6 +208,15 @@ export class GoodsIssueEditView extends ibas.BOEditView implements IGoodsIssueEd
                     })
                 }),
                 new sap.ui.table.Column("", {
+                    label: ibas.i18n.prop("bo_goodsissueline_price"),
+                    template: new sap.m.Input("", {
+                        width: "100%",
+                        type: sap.m.InputType.Number,
+                    }).bindProperty("value", {
+                        path: "price"
+                    })
+                }),
+                new sap.ui.table.Column("", {
                     label: ibas.i18n.prop("bo_goodsissueline_uom"),
                     template: new sap.m.Input("", {
                         width: "100%",
@@ -207,7 +258,7 @@ export class GoodsIssueEditView extends ibas.BOEditView implements IGoodsIssueEd
                 new sap.m.TextArea("", {
                     rows: 5,
                 }).bindProperty("value", {
-                    path: "/remarks"
+                    path: "remarks"
                 }),
             ]
         });
@@ -280,8 +331,6 @@ export class GoodsIssueEditView extends ibas.BOEditView implements IGoodsIssueEd
         this.id = this.page.getId();
         return this.page;
     }
-    private page: sap.m.Page;
-    private form: sap.ui.layout.form.SimpleForm;
     /** 改变视图状态 */
     private changeViewStatus(data: bo.GoodsIssue): void {
         if (ibas.objects.isNull(data)) {
@@ -304,10 +353,24 @@ export class GoodsIssueEditView extends ibas.BOEditView implements IGoodsIssueEd
     }
     private tableGoodsIssueLine: sap.ui.table.Table;
 
+    createSelectedItems(): sap.ui.core.ListItem[] {
+        let items: Array<sap.ui.core.ListItem> = new Array<sap.ui.core.ListItem>();
+        if (!ibas.objects.isNull(this.selectDatas)) {
+            for (let item of this.selectDatas) {
+                let key: any = item.objectKey;
+                items.push(new sap.ui.core.ListItem("", {
+                    key: key,
+                    text: item.name,
+                    additionalText: key
+                }));
+            }
+        }
+        return items;
+    }
     /** 显示数据 */
     showGoodsIssue(data: bo.GoodsIssue): void {
         this.mainLayout.setModel(new sap.ui.model.json.JSONModel(data));
-        this.mainLayout.bindObject("/");
+        this.mainLayout.bindContext("/");
         // 监听属性改变，并更新控件
         utils.refreshModelChanged(this.form, data);
         // 改变视图状态
@@ -318,5 +381,11 @@ export class GoodsIssueEditView extends ibas.BOEditView implements IGoodsIssueEd
         this.tableGoodsIssueLine.setModel(new sap.ui.model.json.JSONModel({ rows: datas }));
         // 监听属性改变，并更新控件
         utils.refreshModelChanged(this.tableGoodsIssueLine, datas);
+    }
+    showPriceListSelect(datas: bo.MaterialPriceList[]): void {
+        this.selectDatas = datas;
+        this.priceListSelect.setModel(new sap.ui.model.json.JSONModel({ priceList: datas }));
+        // 监听属性改变，并更新控件
+        // utils.refreshModelChanged(this.priceListSelect, datas);
     }
 }

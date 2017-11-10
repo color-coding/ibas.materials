@@ -9,77 +9,89 @@ import org.colorcoding.ibas.bobas.logic.IBusinessLogicContract;
 /**
  * 物料-发货契约  影响发货单对应的 日记账单生成(发货、转储BO对象继承此契约)
  */
-public interface IMaterialIssueContract extends IBusinessLogicContract{
+public interface IMaterialIssueContract extends IBusinessLogicContract {
 
     /**
      * 物料编码
+     *
      * @return
      */
-    String getJournal_ItemCode();
+    String getItemCode();
 
     /**
      * 物料名称
+     *
      * @return
      */
-    String getJournal_ItemName();
+    String getItemName();
 
     /**
      * 仓库编码
+     *
      * @return
      */
-    String getJournal_IssueWarehouseCode();
+    String getIssueWarehouseCode();
 
     /**
      * 基础单据类型
+     *
      * @return
      */
-    String getJournal_BaseDocumentType();
+    String getBaseDocumentType();
 
     /**
      * 基础单据号
+     *
      * @return
      */
-    Integer getJournal_BaseDocumentEntry();
+    Integer getBaseDocumentEntry();
 
     /**
      * 基础单据行号
+     *
      * @return
      */
-    Integer getJournal_BaseDocumentLineId();
+    Integer getBaseDocumentLineId();
 
     /**
      * 发货数量
+     *
      * @return
      */
-    Decimal getJournal_IssueQuantity();
+    Decimal getIssueQuantity();
 
     /**
      * 过账日期
+     *
      * @return
      */
-    DateTime getJournal_PostingDate();
+    DateTime getPostingDate();
 
     /**
      * 到期日
+     *
      * @return
      */
-    DateTime getJournal_DeliveryDate();
+    DateTime getDeliveryDate();
 
     /**
      * 凭证日期
+     *
      * @return
      */
-    DateTime getJournal_DocumentDate();
+    DateTime getDocumentDate();
 
     /**
      * 取消
+     *
      * @return
      */
-    emYesNo getJournal_Canceled();
+    emYesNo getCanceled();
 
     /**
      * 单据状态
+     *
      * @return
      */
-    emDocumentStatus getJournal_LineStatus();
+    emDocumentStatus getLineStatus();
 }

@@ -19,6 +19,7 @@
   "materials_func_material": "物料",
   "materials_app_material_list": "物料列表",
   "materials_app_material_choose": "物料选择",
+  "materialexs_app_material_choose": "物料库存选择",
   "materials_app_material_view": "物料查看",
   "materials_app_material_edit": "物料编辑",
   "materials_func_materialgroup": "物料组",
@@ -50,5 +51,19 @@
   "materials_sys_information": "系统信息",
   "materials_other_information": "其它信息",
   "materials_forex_information": "外汇信息",
-  "materials_closing_delimiter": "----结束----"
+  "materials_app_materialbatchissue": "批次选择",
+  "materials_app_materialserialhissue": "序列号选择",
+  "materials_app_materialbatchreceipt": "批次设置",
+  "materials_app_materialserialissue": "序列号选择",
+  "materials_app_materialserialreceipt": "序列号设置",
+  "materials_closing_delimiter": "----结束----",
+  "materials_sys_autoselect": "自动选择",
+  "materials_sys_autocreate": "自动创建",
+  "materials_data_batch_serial": "批次/序列",
+  "materials_app_batch_serial_choose_journalline": "凭证行",
+  "materials_app_batch_quantity_create_error": "批次数量错误",
+  "materials_app_no_serialmanaged":"无序列管理物料",
+  "materials_app_no_batchmanaged":"无批次管理物料",
+  "materials_app_autoselectbatch_by_firstinfirstout":"先进先出",
+  "materials_app_autoselectbatch_by_batchno":"编号排序"
 }

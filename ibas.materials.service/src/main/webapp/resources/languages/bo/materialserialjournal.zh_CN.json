@@ -1,0 +1,21 @@
+{
+    "bo_materialserialjournal_itemcode":"物料编号",
+    "bo_materialserialjournal_warehousecode":"仓库",
+    "bo_materialserialjournal_serialcode":"序列编号",
+    "bo_materialserialjournal_quantity":"数量",
+    "bo_materialserialjournal_needquantity":"总需求",
+    "bo_materialserialjournal_createdquantity":"已创建序列",
+    "bo_materialserialjournal_selectedquantity":"已选择序列",
+    "bo_materialserialjournal_quantitycanuse":"可用数量",
+    "bo_materialserialjournal_quantitychoosed":"已选择数量",
+    "bo_materialserialjournal_direction":"方向",
+    "bo_materialserialjournal_expirationdate":"过期日期",
+    "bo_materialserialjournal_manufacturingdate":"生产日期",
+    "bo_materialserialjournal_admissiondate":"准入日期",
+    "bo_materialserialjournal_warehouse":"仓库",
+    "bo_materialserialjournal_itemCode":"物料编码",
+    "bo_materialserialjournal_notes":"备注",
+    "bo_materialserialjournal_supplierserial":"供应商序号",
+    "bo_materialserialjournal_internalserial":"内部序号",
+    "bo_materialserialjournal_locked":"锁定"
+}

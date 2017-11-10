@@ -52,16 +52,7 @@ export class WarehouseEditView extends ibas.BOEditView implements IWarehouseEdit
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_warehouse_activated") }),
                 new sap.m.SegmentedButton("",{
                     width:"30%",
-                    items: [
-                        new sap.m.SegmentedButtonItem("",{
-                            text: ibas.enums.describe(ibas.emYesNo,ibas.emYesNo.YES),
-                            key: ibas.emYesNo.YES
-                        }),
-                        new sap.m.SegmentedButtonItem("",{
-                            text: ibas.enums.describe(ibas.emYesNo,ibas.emYesNo.NO),
-                            key: ibas.emYesNo.NO
-                        })
-                    ]
+                    items: utils.createSegmentedButtonItems(ibas.emYesNo),
                 }).bindProperty("selectedKey",{
                     path: "/activated",
                     type: "sap.ui.model.type.Integer"

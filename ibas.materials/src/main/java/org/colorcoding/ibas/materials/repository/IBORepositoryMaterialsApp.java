@@ -7,6 +7,7 @@ import org.colorcoding.ibas.materials.bo.goodsissue.IGoodsIssue;
 import org.colorcoding.ibas.materials.bo.goodsreceipt.IGoodsReceipt;
 import org.colorcoding.ibas.materials.bo.inventorytransfer.IInventoryTransfer;
 import org.colorcoding.ibas.materials.bo.material.IMaterial;
+import org.colorcoding.ibas.materials.bo.material.IMaterialEx;
 import org.colorcoding.ibas.materials.bo.materialbatch.IMaterialBatch;
 import org.colorcoding.ibas.materials.bo.materialbatch.IMaterialBatchJournal;
 import org.colorcoding.ibas.materials.bo.materialgroup.IMaterialGroup;
@@ -271,4 +272,21 @@ public interface IBORepositoryMaterialsApp extends IBORepositoryApplication {
 
 	// --------------------------------------------------------------------------------------------//
 
+	/**
+	 * 查询-物料扩展（仓库库存，价格清单）
+	 * @param criteria
+	 * 				查询
+	 * @return 操作结果
+	 */
+	IOperationResult<IMaterialEx> fetchMaterialEx(ICriteria criteria);
+	// --------------------------------------------------------------------------------------------//
+
+	/**
+	 * 查询-物料价格清单（最终价）
+	 * @param criteria
+	 * 				查询
+	 * @return 操作结果
+	 */
+	IOperationResult<IMaterialPriceList> fetchMaterialPriceListFinal(ICriteria criteria);
+	// --------------------------------------------------------------------------------------------//
 }

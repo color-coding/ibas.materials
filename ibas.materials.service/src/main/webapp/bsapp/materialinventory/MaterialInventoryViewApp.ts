@@ -62,7 +62,7 @@ export class MaterialInventoryViewApp extends ibas.BOViewService<IMaterialInvent
             super.run();
         }
     }
-    
+
     /** 查询数据 */
     protected fetchData(criteria: ibas.ICriteria | string): void {
         this.busy(true);

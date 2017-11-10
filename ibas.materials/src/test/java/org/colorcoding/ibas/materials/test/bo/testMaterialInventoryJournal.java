@@ -19,7 +19,7 @@ public class testMaterialInventoryJournal extends TestCase {
 	 * 获取连接口令
 	 */
 	String getToken() {
-		return "68fc6bac014d06ad94c5734116487cff";
+		return "";
 	}
 
 	/**

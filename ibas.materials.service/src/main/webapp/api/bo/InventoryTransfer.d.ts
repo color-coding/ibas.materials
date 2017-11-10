@@ -23,6 +23,10 @@ import {
 import {
     emItemType,
 } from "../Datas";
+import {
+    IMaterialBatchJournal,
+    IMaterialSerialJournal
+} from "./index";
 
 /** 库存转储 */
 export interface IInventoryTransfer extends IBODocument {
@@ -138,7 +142,16 @@ export interface IInventoryTransfer extends IBODocument {
 
 
 }
-
+/** 库存转储-批次日记账 集合 */
+export interface IInventoryTransferMaterialBatchJournals extends IBusinessObjects<IMaterialBatchJournal,IInventoryTransferLine>{
+    /** 创建并添加子项 */
+    create(): IMaterialBatchJournal;
+}
+/**  库存转储-序列号日记账  */
+export interface IInventoryTransferMaterialSerialJournals extends IBusinessObjects<IMaterialSerialJournal,IInventoryTransferLine>{
+    /** 创建并添加子项 */
+    create(): IMaterialSerialJournal;
+}
 /** 库存转储-行 集合 */
 export interface IInventoryTransferLines extends IBusinessObjects<IInventoryTransferLine, IInventoryTransfer> {
 

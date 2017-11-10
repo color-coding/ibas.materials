@@ -648,5 +648,31 @@ public interface IInventoryTransferLine extends IBODocumentLine {
     */
     void setProject(String value);
 
+    /**
+     * 获取-库存转储-物料批次集合
+     *
+     * @return 值
+     */
+    IInventoryTransferMaterialBatchJournals getInventoryTransferMaterialBatchJournals();
 
+    /**
+     * 设置-库存转储-物料批次集合
+     *
+     * @param value 值
+     */
+    void setInventoryTransferMaterialBatchJournals(IInventoryTransferMaterialBatchJournals value);
+
+    /**
+     * 获取-库存转储-物料序列集合
+     *
+     * @return 值
+     */
+    IInventoryTransferMaterialSerialJournals getInventoryTransferMaterialSerialJournals();
+
+    /**
+     * 设置-库存转储-物料序列集合
+     *
+     * @param value 值
+     */
+    void setInventoryTransferMaterialSerialJournals(IInventoryTransferMaterialSerialJournals value);
 }

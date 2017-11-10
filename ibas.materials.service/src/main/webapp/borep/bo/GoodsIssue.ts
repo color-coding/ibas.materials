@@ -25,9 +25,17 @@ import {
     IGoodsIssue,
     IGoodsIssueLines,
     IGoodsIssueLine,
+    IGoodsIssueMaterialBatchJournals,
+    IMaterialBatchJournal,
+    IGoodsIssueMaterialSerialJournals,
+    IMaterialSerialJournal,
     BO_CODE_GOODSISSUE,
     emItemType,
 } from "../../api/index";
+import {
+    MaterialBatchJournal,
+    MaterialSerialJournal
+} from "./index";
 
 /** 库存发货 */
 export class GoodsIssue extends BODocument<GoodsIssue> implements IGoodsIssue {
@@ -440,6 +448,26 @@ export class GoodsIssueLines extends BusinessObjects<GoodsIssueLine, GoodsIssue>
         let item: GoodsIssueLine = new GoodsIssueLine();
         this.add(item);
         return item;
+    }
+}
+/** 库存发货-批次日记账 集合 */
+export class GoodsIssueMaterialBatchJournals extends BusinessObjects<MaterialBatchJournal,GoodsIssueLine>
+                                             implements IGoodsIssueMaterialBatchJournals {
+    /** 创建并添加子项 */
+    create(): MaterialBatchJournal {
+        let item: MaterialBatchJournal = new MaterialBatchJournal();
+        this.add(item);
+        return item;
+    }
+}
+/** 库存发货-序列日记账 集合 */
+export class GoodsIssueMaterialSerialJournals extends BusinessObjects<MaterialSerialJournal,GoodsIssueLine>
+                                              implements IGoodsIssueMaterialSerialJournals {
+    /** 创建并添加子项 */
+    create(): MaterialSerialJournal {
+    let item: MaterialSerialJournal = new MaterialSerialJournal();
+    this.add(item);
+    return item;
     }
 }
 
@@ -856,8 +884,31 @@ export class GoodsIssueLine extends BODocumentLine<GoodsIssueLine> implements IG
     set project(value: string) {
         this.setProperty(GoodsIssueLine.PROPERTY_PROJECT_NAME, value);
     }
+    /** 映射的属性名称-库存发货-行-序列号集合 */
+    static PROPERTY_GOODSISSUEMATERIALSERIALJOURNALS_NAME: string = "GoodsIssueMaterialSerialJournals";
+    /** 获取-库存发货-行-序列号集合 */
+    get goodsIssueMaterialSerialJournals(): GoodsIssueMaterialSerialJournals {
+        return this.getProperty<GoodsIssueMaterialSerialJournals>(GoodsIssueLine.PROPERTY_GOODSISSUEMATERIALSERIALJOURNALS_NAME);
+    }
+    /** 设置-库存发货-行-序列号集合 */
+    set goodsIssueMaterialSerialJournals(value: GoodsIssueMaterialSerialJournals) {
+        this.setProperty(GoodsIssueLine.PROPERTY_GOODSISSUEMATERIALSERIALJOURNALS_NAME, value);
+    }
+    /** 映射的属性名称-库存发货-行-批次集合 */
+    static PROPERTY_GOODSISSUEMATERIALBATCHJOURNALS_NAME: string = "GoodsIssueMaterialBatchJournals";
+    /** 获取-库存发货-行-序列号集合 */
+    get goodsIssueMaterialBatchJournals(): GoodsIssueMaterialBatchJournals {
+        return this.getProperty<GoodsIssueMaterialBatchJournals>(GoodsIssueLine.PROPERTY_GOODSISSUEMATERIALBATCHJOURNALS_NAME);
+    }
+    /** 设置-库存发货-行-序列号集合 */
+    set goodsIssueMaterialBatchJournals(value: GoodsIssueMaterialBatchJournals) {
+        this.setProperty(GoodsIssueLine.PROPERTY_GOODSISSUEMATERIALBATCHJOURNALS_NAME, value);
+    }
     /** 初始化数据 */
     protected init(): void {
+        this.goodsIssueMaterialBatchJournals = new GoodsIssueMaterialBatchJournals(this);
+        this.goodsIssueMaterialSerialJournals = new GoodsIssueMaterialSerialJournals(this);
+        this.objectCode = config.applyVariables(GoodsIssue.BUSINESS_OBJECT_CODE);
     }
 }
 

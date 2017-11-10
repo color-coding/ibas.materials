@@ -1,9 +1,6 @@
 package org.colorcoding.ibas.materials.bo.goodsreceipt;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlType;
+import javax.xml.bind.annotation.*;
 
 import org.colorcoding.ibas.bobas.bo.BusinessObject;
 import org.colorcoding.ibas.bobas.core.IPropertyInfo;
@@ -12,9 +9,13 @@ import org.colorcoding.ibas.bobas.data.Decimal;
 import org.colorcoding.ibas.bobas.data.emBOStatus;
 import org.colorcoding.ibas.bobas.data.emDocumentStatus;
 import org.colorcoding.ibas.bobas.data.emYesNo;
+import org.colorcoding.ibas.bobas.logic.IBusinessLogicContract;
+import org.colorcoding.ibas.bobas.logic.IBusinessLogicsHost;
 import org.colorcoding.ibas.bobas.mapping.DbField;
 import org.colorcoding.ibas.bobas.mapping.DbFieldType;
 import org.colorcoding.ibas.materials.MyConfiguration;
+import org.colorcoding.ibas.materials.bo.materialbatch.MaterialBatchJournal;
+import org.colorcoding.ibas.materials.bo.materialserial.MaterialSerialJournal;
 import org.colorcoding.ibas.materials.data.emItemType;
 import org.colorcoding.ibas.materials.logic.IMaterialReceiptContract;
 
@@ -25,7 +26,7 @@ import org.colorcoding.ibas.materials.logic.IMaterialReceiptContract;
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlType(name = GoodsReceiptLine.BUSINESS_OBJECT_NAME, namespace = MyConfiguration.NAMESPACE_BO)
 public class GoodsReceiptLine extends BusinessObject<GoodsReceiptLine>
-		implements IGoodsReceiptLine, IMaterialReceiptContract {
+		implements IGoodsReceiptLine, IBusinessLogicsHost {
 
 	/**
 	 * 序列化版本标记
@@ -1357,11 +1358,78 @@ public class GoodsReceiptLine extends BusinessObject<GoodsReceiptLine>
 	}
 
 	/**
+	 * 属性名称-库存发货-物料批次
+	 */
+	private static final String PROPERTY_GOODSRECEIPTMATERIALBATCHJOURNALS_NAME = "GoodsReceiptMaterialBatchJournals";
+
+	/**
+	 * 库存发货-物料批次的集合属性
+	 *
+	 */
+	public static final IPropertyInfo<IGoodsReceiptMaterialBatchJournals> PROPERTY_GOODSRECEIPTMATERIALBATCHJOURNALS = registerProperty(
+			PROPERTY_GOODSRECEIPTMATERIALBATCHJOURNALS_NAME, IGoodsReceiptMaterialBatchJournals.class, MY_CLASS);
+
+	/**
+	 * 获取-库存收货-物料批次集合
+	 *
+	 * @return 值
+	 */
+	@XmlElementWrapper(name = PROPERTY_GOODSRECEIPTMATERIALBATCHJOURNALS_NAME)
+	@XmlElement(name = MaterialBatchJournal.BUSINESS_OBJECT_NAME, type = MaterialBatchJournal.class)
+	public final IGoodsReceiptMaterialBatchJournals getGoodsReceiptMaterialBatchJournals() {
+		return this.getProperty(PROPERTY_GOODSRECEIPTMATERIALBATCHJOURNALS);
+	}
+
+	/**
+	 * 设置-库存收货-物料批次集合
+	 *
+	 * @param value
+	 *            值
+	 */
+	public final void setGoodsReceiptMaterialBatchJournals(IGoodsReceiptMaterialBatchJournals value) {
+		this.setProperty(PROPERTY_GOODSRECEIPTMATERIALBATCHJOURNALS, value);
+	}
+	/**
+	 * 属性名称-库存发货-物料序列
+	 */
+	private static final String PROPERTY_GOODSRECEIPTMATERIALSERIALJOURNALS_NAME = "GoodsReceiptMaterialSerialJournals";
+
+	/**
+	 * 库存发货-物料序列的集合属性
+	 *
+	 */
+	public static final IPropertyInfo<IGoodsReceiptMaterialSerialJournals> PROPERTY_GOODSRECEIPTMATERIALSERIALJOURNALS = registerProperty(
+			PROPERTY_GOODSRECEIPTMATERIALSERIALJOURNALS_NAME, IGoodsReceiptMaterialSerialJournals.class, MY_CLASS);
+
+	/**
+	 * 获取-库存发货-物料序列集合
+	 *
+	 * @return 值
+	 */
+	@XmlElementWrapper(name = PROPERTY_GOODSRECEIPTMATERIALSERIALJOURNALS_NAME)
+	@XmlElement(name = MaterialSerialJournal.BUSINESS_OBJECT_NAME, type = MaterialSerialJournal.class)
+	public final IGoodsReceiptMaterialSerialJournals getGoodsReceiptMaterialSerialJournals() {
+		return this.getProperty(PROPERTY_GOODSRECEIPTMATERIALSERIALJOURNALS);
+	}
+
+	/**
+	 * 设置-库存发货-物料序列集合
+	 *
+	 * @param value
+	 *            值
+	 */
+	public final void setGoodsReceiptMaterialSerialJournals(IGoodsReceiptMaterialSerialJournals value) {
+		this.setProperty(PROPERTY_GOODSRECEIPTMATERIALSERIALJOURNALS, value);
+	}
+
+	/**
 	 * 初始化数据
 	 */
 	@Override
 	protected void initialize() {
 		super.initialize();// 基类初始化，不可去除
+		this.setGoodsReceiptMaterialBatchJournals(new GoodsReceiptMaterialBatchJournals(this));
+		this.setGoodsReceiptMaterialSerialJournals(new GoodsReceiptMaterialSerialJournals(this));
 		this.setObjectCode(MyConfiguration.applyVariables(BUSINESS_OBJECT_CODE));
 		// 日期初始化。 需要在前台中添加这三个日期，并实现父类日期发生更改时，子类日期发生相应更改。
 		this.setPostingDate(DateTime.getToday());
@@ -1369,7 +1437,7 @@ public class GoodsReceiptLine extends BusinessObject<GoodsReceiptLine>
 		this.setDocumentDate(DateTime.getToday());
 	}
 
-	public DateTime PostingDate;
+	private DateTime PostingDate;
 
 	public DateTime getPostingDate() {
 		return this.PostingDate;
@@ -1379,7 +1447,7 @@ public class GoodsReceiptLine extends BusinessObject<GoodsReceiptLine>
 		this.PostingDate = postingDate;
 	}
 
-	public DateTime DocumentDate;
+	private DateTime DocumentDate;
 
 	public DateTime getDocumentDate() {
 		return this.DocumentDate;
@@ -1389,7 +1457,7 @@ public class GoodsReceiptLine extends BusinessObject<GoodsReceiptLine>
 		this.DocumentDate = documentDate;
 	}
 
-	public DateTime DeliveryDate;
+	private DateTime DeliveryDate;
 
 	public DateTime getDeliveryDate() {
 		return this.DeliveryDate;
@@ -1399,63 +1467,78 @@ public class GoodsReceiptLine extends BusinessObject<GoodsReceiptLine>
 		this.DeliveryDate = deliveryDate;
 	}
 
-	@Override
-	public String getJournal_ItemCode() {
-		return this.getProperty(PROPERTY_ITEMCODE);
-	}
+
 
 	@Override
-	public String getJournal_ItemName() {
-		return this.getProperty(PROPERTY_ITEMDESCRIPTION);
-	}
+	public IBusinessLogicContract[] getContracts() {
+		return new IBusinessLogicContract[]{
+				new IMaterialReceiptContract(){
 
-	@Override
-	public String getJournal_ReceiptWarehouseCode() {
-		return this.getProperty(PROPERTY_WAREHOUSE);
-	}
+					@Override
+					public String getIdentifiers() {
+						return GoodsReceiptLine.this.getIdentifiers();
+					}
 
-	@Override
-	public String getJournal_BaseDocumentType() {
-		return this.getProperty(PROPERTY_OBJECTCODE);
-	}
+					@Override
+					public String getItemCode() {
+						return GoodsReceiptLine.this.getItemCode();
+					}
 
-	@Override
-	public Integer getJournal_BaseDocumentEntry() {
-		return this.getProperty(PROPERTY_DOCENTRY);
-	}
+					@Override
+					public String getItemName() {
+						return GoodsReceiptLine.this.getItemDescription();
+					}
 
-	@Override
-	public Integer getJournal_BaseDocumentLineId() {
-		return this.getProperty(PROPERTY_LINEID);
-	}
+					@Override
+					public String getReceiptWarehouseCode() {
+						return GoodsReceiptLine.this.getWarehouse();
+					}
 
-	@Override
-	public Decimal getJournal_ReceiptQuantity() {
-		return this.getProperty(PROPERTY_QUANTITY);
-	}
+					@Override
+					public String getBaseDocumentType() {
+						return GoodsReceiptLine.this.getObjectCode();
+					}
 
-	@Override
-	public DateTime getJournal_PostingDate() {
-		return this.getPostingDate();
-	}
+					@Override
+					public Integer getBaseDocumentEntry() {
+						return GoodsReceiptLine.this.getDocEntry();
+					}
 
-	@Override
-	public DateTime getJournal_DeliveryDate() {
-		return this.getDeliveryDate();
-	}
+					@Override
+					public Integer getBaseDocumentLineId() {
+						return GoodsReceiptLine.this.getLineId();
+					}
 
-	@Override
-	public DateTime getJournal_DocumentDate() {
-		return this.getDocumentDate();
-	}
+					@Override
+					public Decimal getReceiptQuantity() {
+						return GoodsReceiptLine.this.getQuantity();
+					}
 
-	@Override
-	public emYesNo getJournal_Canceled() {
-		return this.getProperty(PROPERTY_CANCELED);
-	}
+					@Override
+					public DateTime getPostingDate() {
+						return GoodsReceiptLine.this.getPostingDate();
+					}
 
-	@Override
-	public emDocumentStatus getJournal_LineStatus() {
-		return this.getProperty(PROPERTY_LINESTATUS);
+					@Override
+					public DateTime getDeliveryDate() {
+						return GoodsReceiptLine.this.getDeliveryDate();
+					}
+
+					@Override
+					public DateTime getDocumentDate() {
+						return GoodsReceiptLine.this.getDocumentDate();
+					}
+
+					@Override
+					public emYesNo getCanceled() {
+						return GoodsReceiptLine.this.getCanceled();
+					}
+
+					@Override
+					public emDocumentStatus getLineStatus() {
+						return GoodsReceiptLine.this.getLineStatus();
+					}
+				}
+		};
 	}
 }

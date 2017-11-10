@@ -1,0 +1,21 @@
+{
+    "bo_materialbatchjournal_itemcode":"物料编号",
+    "bo_materialbatchjournal_warehousecode":"仓库",
+    "bo_materialbatchjournal_batchcode":"批次编号",
+    "bo_materialbatchjournal_quantity":"数量",
+    "bo_materialbatchjournal_needquantity":"总需求",
+    "bo_materialbatchjournal_createdquantity":"已创建批次",
+    "bo_materialbatchjournal_selectedquantity":"已选择批次",
+    "bo_materialbatchjournal_quantitycanuse":"可用数量",
+    "bo_materialbatchjournal_quantitychoosed":"已选择数量",
+    "bo_materialbatchjournal_direction":"方向",
+    "bo_materialbatchjournal_expirationdate":"过期日期",
+    "bo_materialbatchjournal_manufacturingdate":"生产日期",
+    "bo_materialbatchjournal_admissiondate":"准入日期",
+    "bo_materialbatchjournal_warehouse":"仓库",
+    "bo_materialbatchjournal_itemCode":"物料编码",
+    "bo_materialbatchjournal_notes":"备注",
+    "bo_materialbatchjournal_supplierserial":"供应商序号",
+    "bo_materialbatchjournal_internalserial":"内部序号",
+    "bo_materialbatchjournal_locked":"锁定"
+}

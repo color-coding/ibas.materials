@@ -10,9 +10,12 @@ import org.colorcoding.ibas.bobas.core.IPropertyInfo;
 import org.colorcoding.ibas.bobas.data.DateTime;
 import org.colorcoding.ibas.bobas.data.Decimal;
 import org.colorcoding.ibas.bobas.data.emDirection;
+import org.colorcoding.ibas.bobas.logic.IBusinessLogicContract;
+import org.colorcoding.ibas.bobas.logic.IBusinessLogicsHost;
 import org.colorcoding.ibas.bobas.mapping.DbField;
 import org.colorcoding.ibas.bobas.mapping.DbFieldType;
 import org.colorcoding.ibas.materials.MyConfiguration;
+import org.colorcoding.ibas.materials.logic.IMaterialBatchJournalContract;
 
 /**
  * 获取-物料批次日记账
@@ -20,7 +23,7 @@ import org.colorcoding.ibas.materials.MyConfiguration;
  */
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlType(name = MaterialBatchJournal.BUSINESS_OBJECT_NAME, namespace = MyConfiguration.NAMESPACE_BO)
-public class MaterialBatchJournal extends BusinessObject<MaterialBatchJournal> implements IMaterialBatchJournal {
+public class MaterialBatchJournal extends BusinessObject<MaterialBatchJournal> implements IMaterialBatchJournal,IBusinessLogicsHost {
 
 	/**
 	 * 序列化版本标记
@@ -759,4 +762,57 @@ public class MaterialBatchJournal extends BusinessObject<MaterialBatchJournal> i
 
 	}
 
+
+	@Override
+	public IBusinessLogicContract[] getContracts() {
+		return new IBusinessLogicContract[]{
+				new IMaterialBatchJournalContract(){
+
+					@Override
+					public String getIdentifiers() {
+						return MaterialBatchJournal.this.getIdentifiers();
+					}
+
+					@Override
+					public String getBatchCode() {
+						return MaterialBatchJournal.this.getBatchCode();
+					}
+
+					@Override
+					public String getItemCode() {
+						return MaterialBatchJournal.this.getItemCode();
+					}
+
+					@Override
+					public String getWarehouse() {
+						return MaterialBatchJournal.this.getWarehouse();
+					}
+
+					@Override
+					public Decimal getQuantity() {
+						return MaterialBatchJournal.this.getQuantity();
+					}
+
+					@Override
+					public emDirection getDirection() {
+						return MaterialBatchJournal.this.getDirection();
+					}
+
+					@Override
+					public String getBaseDocumentType() {
+						return MaterialBatchJournal.this.getBaseDocumentType();
+					}
+
+					@Override
+					public Integer getBaseDocumentEntry() {
+						return MaterialBatchJournal.this.getBaseDocumentEntry();
+					}
+
+					@Override
+					public Integer getBaseDocumentLineId() {
+						return MaterialBatchJournal.this.getBaseDocumentLineId();
+					}
+				}
+		};
+	}
 }
