@@ -7,7 +7,7 @@
  */
 
 import * as ibas from "ibas/index";
-import { utils } from "openui5/typings/ibas.utils";
+import * as openui5 from "openui5/index";
 import * as bo from "../../../borep/bo/index";
 import { IWarehouseEditView } from "../../../bsapp/warehouse/index";
 
@@ -52,7 +52,7 @@ export class WarehouseEditView extends ibas.BOEditView implements IWarehouseEdit
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_warehouse_activated") }),
                 new sap.m.SegmentedButton("",{
                     width:"30%",
-                    items: utils.createSegmentedButtonItems(ibas.emYesNo),
+                    items: openui5.utils.createSegmentedButtonItems(ibas.emYesNo),
                 }).bindProperty("selectedKey",{
                     path: "/activated",
                     type: "sap.ui.model.type.Integer"
@@ -131,16 +131,16 @@ export class WarehouseEditView extends ibas.BOEditView implements IWarehouseEdit
         // 新建时：禁用删除，
         if (data.isNew) {
             if (this.page.getSubHeader() instanceof sap.m.Toolbar) {
-                utils.changeToolbarDeletable(<sap.m.Toolbar>this.page.getSubHeader(), false);
+                openui5.utils.changeToolbarDeletable(<sap.m.Toolbar>this.page.getSubHeader(), false);
             }
         }
         // 不可编辑：已批准，
         if (data.approvalStatus === ibas.emApprovalStatus.APPROVED) {
             if (this.page.getSubHeader() instanceof sap.m.Toolbar) {
-                utils.changeToolbarSavable(<sap.m.Toolbar>this.page.getSubHeader(), false);
-                utils.changeToolbarDeletable(<sap.m.Toolbar>this.page.getSubHeader(), false);
+                openui5.utils.changeToolbarSavable(<sap.m.Toolbar>this.page.getSubHeader(), false);
+                openui5.utils.changeToolbarDeletable(<sap.m.Toolbar>this.page.getSubHeader(), false);
             }
-            utils.changeFormEditable(this.form, false);
+            openui5.utils.changeFormEditable(this.form, false);
         }
     }
 
@@ -148,7 +148,7 @@ export class WarehouseEditView extends ibas.BOEditView implements IWarehouseEdit
     showWarehouse(data: bo.Warehouse): void {
         this.form.setModel(new sap.ui.model.json.JSONModel(data));
         // 监听属性改变，并更新控件
-        utils.refreshModelChanged(this.form, data);
+        openui5.utils.refreshModelChanged(this.form, data);
         // 改变视图状态
         this.changeViewStatus(data);
     }

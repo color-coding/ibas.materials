@@ -6,7 +6,7 @@
  * that can be found in the LICENSE file at http://www.apache.org/licenses/LICENSE-2.0
  */
 import * as ibas from "ibas/index";
-import { utils } from "openui5/typings/ibas.utils";
+import * as openui5 from "openui5/index";
 import * as bo from "../../../borep/bo/index";
 import { emAutoSelectBatchSerialRules } from "../../../api/Datas";
 import { IMaterialBatchIssueView } from "../../../bsapp/materialbatch/index";
@@ -36,11 +36,11 @@ export class MaterialBatchIssueView extends ibas.BODialogView implements IMateri
         this.journalLineTable = new sap.ui.table.Table("", {
             enableSelectAll: false,
             selectionMode: sap.ui.table.SelectionMode.Single,
-            visibleRowCount: ibas.config.get(utils.CONFIG_ITEM_LIST_TABLE_VISIBLE_ROW_COUNT, 8),
+            visibleRowCount: ibas.config.get(openui5.utils.CONFIG_ITEM_LIST_TABLE_VISIBLE_ROW_COUNT, 8),
             visibleRowCountMode: sap.ui.table.VisibleRowCountMode.Interactive,
             rowSelectionChange: function (): void {
                 that.fireViewEvents(that.selectMaterialBatchJournalLineEvent,
-                    utils.getTableSelecteds<bo.MaterialBatchSerialInOutData>(that.journalLineTable).firstOrDefault(), );
+                    openui5.utils.getTableSelecteds<bo.MaterialBatchSerialInOutData>(that.journalLineTable).firstOrDefault(), );
             },
             rows: "{/journallinedata}",
             columns: [
@@ -100,7 +100,7 @@ export class MaterialBatchIssueView extends ibas.BODialogView implements IMateri
         this.leftTable = new sap.ui.table.Table("", {
             enableSelectAll: false,
             wrapping: true,
-            visibleRowCount: ibas.config.get(utils.CONFIG_ITEM_LIST_TABLE_VISIBLE_ROW_COUNT, 5),
+            visibleRowCount: ibas.config.get(openui5.utils.CONFIG_ITEM_LIST_TABLE_VISIBLE_ROW_COUNT, 5),
             rows: "{/leftrows}",
             columns: [
                 new sap.ui.table.Column("", {
@@ -124,7 +124,7 @@ export class MaterialBatchIssueView extends ibas.BODialogView implements IMateri
         });
         this.rightTable = new sap.ui.table.Table("", {
             enableSelectAll: false,
-            visibleRowCount: ibas.config.get(utils.CONFIG_ITEM_LIST_TABLE_VISIBLE_ROW_COUNT, 5),
+            visibleRowCount: ibas.config.get(openui5.utils.CONFIG_ITEM_LIST_TABLE_VISIBLE_ROW_COUNT, 5),
             rows: "{/rightrows}",
             columns: [
                 new sap.ui.table.Column("", {
@@ -157,7 +157,7 @@ export class MaterialBatchIssueView extends ibas.BODialogView implements IMateri
                                     text: ibas.i18n.prop("materials_app_autoselectbatch_by_firstinfirstout"),
                                     press: function (): void {
                                         that.fireViewEvents(that.autoSelectMaterialBatchEvent
-                                            , utils.getTableSelecteds<bo.MaterialBatchSerialInOutData>
+                                            , openui5.utils.getTableSelecteds<bo.MaterialBatchSerialInOutData>
                                                 (that.journalLineTable).firstOrDefault()
                                             , emAutoSelectBatchSerialRules.FIRSTINFIRSTOUT);
                                     }
@@ -166,7 +166,7 @@ export class MaterialBatchIssueView extends ibas.BODialogView implements IMateri
                                     text: ibas.i18n.prop("materials_app_autoselectbatch_by_batchno"),
                                     press: function (): void {
                                         that.fireViewEvents(that.autoSelectMaterialBatchEvent
-                                            , utils.getTableSelecteds<bo.MaterialBatchSerialInOutData>
+                                            , openui5.utils.getTableSelecteds<bo.MaterialBatchSerialInOutData>
                                                 (that.journalLineTable).firstOrDefault()
                                             , emAutoSelectBatchSerialRules.ORDERBYCODE);
                                     }
@@ -180,8 +180,8 @@ export class MaterialBatchIssueView extends ibas.BODialogView implements IMateri
                     press: function (): void {
                         that.fireViewEvents(that.removeBatchMaterialBatchEvent,
                             // 获取表格选中的对象
-                            utils.getTableSelecteds<bo.MaterialBatchSerialInOutData>(that.journalLineTable).firstOrDefault(),
-                            utils.getTableSelecteds<bo.MaterialBatchJournal>(that.rightTable),
+                            openui5.utils.getTableSelecteds<bo.MaterialBatchSerialInOutData>(that.journalLineTable).firstOrDefault(),
+                            openui5.utils.getTableSelecteds<bo.MaterialBatchJournal>(that.rightTable),
                         );
                     }
                 }),
@@ -190,8 +190,8 @@ export class MaterialBatchIssueView extends ibas.BODialogView implements IMateri
                     press: function (): void {
                         that.fireViewEvents(that.addBatchMaterialBatchEvent,
                             // 获取表格选中的对象
-                            utils.getTableSelecteds<bo.MaterialBatchSerialInOutData>(that.journalLineTable).firstOrDefault(),
-                            utils.getTableSelecteds<bo.MaterialBatch>(that.leftTable),
+                            openui5.utils.getTableSelecteds<bo.MaterialBatchSerialInOutData>(that.journalLineTable).firstOrDefault(),
+                            openui5.utils.getTableSelecteds<bo.MaterialBatch>(that.leftTable),
                         );
                     }
                 })
@@ -266,17 +266,17 @@ export class MaterialBatchIssueView extends ibas.BODialogView implements IMateri
     }
     showJournalLineData(datas: bo.MaterialBatchSerialInOutData[]): void {
         this.journalLineTable.setModel(new sap.ui.model.json.JSONModel({ journallinedata: datas }));
-        utils.refreshModelChanged(this.journalLineTable, datas);
+        openui5.utils.refreshModelChanged(this.journalLineTable, datas);
     }
     showLeftData(datas: bo.MaterialBatch[]): void {
         this.leftTable.setModel(new sap.ui.model.json.JSONModel({ leftrows: datas }));
         // 监听属性改变，并更新控件
-        utils.refreshModelChanged(this.leftTable, datas);
+        openui5.utils.refreshModelChanged(this.leftTable, datas);
     }
     showRightData(datas: bo.MaterialBatchJournal[]): void {
         this.rightTable.setModel(new sap.ui.model.json.JSONModel({ rightrows: datas }));
         // 监听属性改变，并更新控件
-        utils.refreshModelChanged(this.rightTable, datas);
+        openui5.utils.refreshModelChanged(this.rightTable, datas);
     }
 
 }

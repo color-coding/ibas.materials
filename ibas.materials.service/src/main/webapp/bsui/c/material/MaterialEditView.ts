@@ -7,7 +7,7 @@
  */
 
 import * as ibas from "ibas/index";
-import { utils } from "openui5/typings/ibas.utils";
+import * as openui5 from "openui5/index";
 import * as bo from "../../../borep/bo/index";
 import { IMaterialEditView } from "../../../bsapp/material/index";
 import { emItemType } from "../../../api/index";
@@ -59,7 +59,7 @@ export class MaterialEditView extends ibas.BOEditView implements IMaterialEditVi
                 }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_material_itemtype") }),
                 new sap.m.Select("", {
-                    items: utils.createComboBoxItems(emItemType),
+                    items: openui5.utils.createComboBoxItems(emItemType),
                 }).bindProperty("selectedKey", {
                     path: "itemType",
                     type: "sap.ui.model.type.Integer",
@@ -79,35 +79,35 @@ export class MaterialEditView extends ibas.BOEditView implements IMaterialEditVi
                 new sap.ui.core.Title("", { text: ibas.i18n.prop("materials_type_information") }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_material_activated") }),
                 new sap.m.Select("", {
-                    items: utils.createComboBoxItems(ibas.emYesNo),
+                    items: openui5.utils.createComboBoxItems(ibas.emYesNo),
                 }).bindProperty("selectedKey", {
                     path: "activated",
                     type: "sap.ui.model.type.Integer",
                 }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_material_purchaseitem") }),
                 new sap.m.Select("", {
-                    items: utils.createComboBoxItems(ibas.emYesNo),
+                    items: openui5.utils.createComboBoxItems(ibas.emYesNo),
                 }).bindProperty("selectedKey", {
                     path: "purchaseItem",
                     type: "sap.ui.model.type.Integer",
                 }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_material_salesitem") }),
                 new sap.m.Select("", {
-                    items: utils.createComboBoxItems(ibas.emYesNo),
+                    items: openui5.utils.createComboBoxItems(ibas.emYesNo),
                 }).bindProperty("selectedKey", {
                     path: "salesItem",
                     type: "sap.ui.model.type.Integer",
                 }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_material_inventoryitem") }),
                 new sap.m.Select("", {
-                    items: utils.createComboBoxItems(ibas.emYesNo),
+                    items: openui5.utils.createComboBoxItems(ibas.emYesNo),
                 }).bindProperty("selectedKey", {
                     path: "inventoryItem",
                     type: "sap.ui.model.type.Integer",
                 }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_material_fixedassets") }),
                 new sap.m.Select("", {
-                    items: utils.createComboBoxItems(ibas.emYesNo),
+                    items: openui5.utils.createComboBoxItems(ibas.emYesNo),
                 }).bindProperty("selectedKey", {
                     path: "fixedAssets",
                     type: "sap.ui.model.type.Integer",
@@ -169,21 +169,21 @@ export class MaterialEditView extends ibas.BOEditView implements IMaterialEditVi
                 }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_material_phantomitem") }),
                 new sap.m.Select("", {
-                    items: utils.createComboBoxItems(ibas.emYesNo),
+                    items: openui5.utils.createComboBoxItems(ibas.emYesNo),
                 }).bindProperty("selectedKey", {
                     path: "phantomItem",
                     type: "sap.ui.model.type.Integer",
                 }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_material_serialmanagement") }),
                 new sap.m.SegmentedButton("", {
-                    items: utils.createSegmentedButtonItems(ibas.emYesNo),
+                    items: openui5.utils.createSegmentedButtonItems(ibas.emYesNo),
                 }).bindProperty("selectedKey", {
                     path: "serialManagement",
                     type: "sap.ui.model.type.Integer",
                 }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_material_batchmanagement") }),
                 new sap.m.Select("", {
-                    items: utils.createComboBoxItems(ibas.emYesNo),
+                    items: openui5.utils.createComboBoxItems(ibas.emYesNo),
                 }).bindProperty("selectedKey", {
                     path: "batchManagement",
                     type: "sap.ui.model.type.Integer",
@@ -262,16 +262,16 @@ export class MaterialEditView extends ibas.BOEditView implements IMaterialEditVi
         // 新建时：禁用删除，
         if (data.isNew) {
             if (this.page.getSubHeader() instanceof sap.m.Toolbar) {
-                utils.changeToolbarDeletable(<sap.m.Toolbar>this.page.getSubHeader(), false);
+                openui5.utils.changeToolbarDeletable(<sap.m.Toolbar>this.page.getSubHeader(), false);
             }
         }
         // 不可编辑：已批准，
         if (data.approvalStatus === ibas.emApprovalStatus.APPROVED) {
             if (this.page.getSubHeader() instanceof sap.m.Toolbar) {
-                utils.changeToolbarSavable(<sap.m.Toolbar>this.page.getSubHeader(), false);
-                utils.changeToolbarDeletable(<sap.m.Toolbar>this.page.getSubHeader(), false);
+                openui5.utils.changeToolbarSavable(<sap.m.Toolbar>this.page.getSubHeader(), false);
+                openui5.utils.changeToolbarDeletable(<sap.m.Toolbar>this.page.getSubHeader(), false);
             }
-            utils.changeFormEditable(this.form, false);
+            openui5.utils.changeFormEditable(this.form, false);
         }
     }
 
@@ -280,7 +280,7 @@ export class MaterialEditView extends ibas.BOEditView implements IMaterialEditVi
         this.form.setModel(new sap.ui.model.json.JSONModel(data));
         this.form.bindContext("/");
         // 监听属性改变，并更新控件
-        utils.refreshModelChanged(this.form, data);
+        openui5.utils.refreshModelChanged(this.form, data);
         // 改变视图状态
         this.changeViewStatus(data);
     }

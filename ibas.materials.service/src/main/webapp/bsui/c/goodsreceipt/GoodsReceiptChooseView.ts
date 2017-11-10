@@ -7,7 +7,7 @@
  */
 
 import * as ibas from "ibas/index";
-import { utils } from "openui5/typings/ibas.utils";
+import * as openui5 from "openui5/index";
 import * as bo from "../../../borep/bo/index";
 import { IGoodsReceiptChooseView } from "../../../bsapp/goodsreceipt/index";
 
@@ -38,7 +38,7 @@ export class GoodsReceiptChooseView extends ibas.BOChooseView implements IGoodsR
                 press: function (): void {
                     that.fireViewEvents(that.chooseDataEvent,
                         // 获取表格选中的对象
-                        utils.getTableSelecteds<bo.GoodsReceipt>(that.table)
+                        openui5.utils.getTableSelecteds<bo.GoodsReceipt>(that.table)
                     );
                 }
             }),
@@ -57,7 +57,7 @@ export class GoodsReceiptChooseView extends ibas.BOChooseView implements IGoodsR
         let that: this = this;
         this.table = new sap.ui.table.Table("", {
             enableSelectAll: false,
-            visibleRowCount: ibas.config.get(utils.CONFIG_ITEM_LIST_TABLE_VISIBLE_ROW_COUNT, 15),
+            visibleRowCount: ibas.config.get(openui5.utils.CONFIG_ITEM_LIST_TABLE_VISIBLE_ROW_COUNT, 15),
             rows: "{/rows}",
             columns: [
                 new sap.ui.table.Column("", {
@@ -72,7 +72,7 @@ export class GoodsReceiptChooseView extends ibas.BOChooseView implements IGoodsR
                     label: ibas.i18n.prop("bo_goodsreceipt_documentstatus"),
                     template: new sap.m.Select("", {
                         enabled: false,
-                        items: utils.createComboBoxItems(ibas.emDocumentStatus),
+                        items: openui5.utils.createComboBoxItems(ibas.emDocumentStatus),
                     }).bindProperty("selectedKey", {
                         path: "documentstatus",
                         type: "sap.ui.model.type.Integer",
@@ -82,7 +82,7 @@ export class GoodsReceiptChooseView extends ibas.BOChooseView implements IGoodsR
                     label: ibas.i18n.prop("bo_goodsreceipt_approvalstatus"),
                     template: new sap.m.Select("", {
                         enabled: false,
-                        items: utils.createComboBoxItems(ibas.emApprovalStatus),
+                        items: openui5.utils.createComboBoxItems(ibas.emApprovalStatus),
                     }).bindProperty("selectedKey", {
                         path: "approvalstatus",
                         type: "sap.ui.model.type.Integer",
@@ -132,7 +132,7 @@ export class GoodsReceiptChooseView extends ibas.BOChooseView implements IGoodsR
         });
         this.id = this.table.getId();
         // 添加列表自动查询事件
-        utils.triggerNextResults({
+        openui5.utils.triggerNextResults({
             listener: this.table,
             next(data: any): void {
                 if (ibas.objects.isNull(that.lastCriteria)) {
