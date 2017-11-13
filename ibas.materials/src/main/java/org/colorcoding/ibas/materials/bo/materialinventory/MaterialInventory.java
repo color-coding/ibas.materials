@@ -55,6 +55,12 @@ public class MaterialInventory extends BusinessObject<MaterialInventory> impleme
      */
     private static final String PROPERTY_ITEMCODE_NAME = "ItemCode";
 
+    public static IMaterialInventory create(IMaterialWarehouseInventoryContract contract) {
+        IMaterialInventory materialInventory = new MaterialInventory();
+        materialInventory.setItemCode(contract.getItemCode());
+        materialInventory.setWarehouse(contract.getWarehouse());
+        return materialInventory;
+    }
     /**
      * 物料编码 属性
      */
@@ -756,10 +762,5 @@ public class MaterialInventory extends BusinessObject<MaterialInventory> impleme
         this.setObjectCode(MyConfiguration.applyVariables(BUSINESS_OBJECT_CODE));
     }
 
-    public static IMaterialInventory create(IMaterialWarehouseInventoryContract contract) {
-        IMaterialInventory materialInventory = new MaterialInventory();
-        materialInventory.setItemCode(contract.getItemCode());
-        materialInventory.setWarehouse(contract.getWarehouse());
-        return materialInventory;
-    }
+
 }

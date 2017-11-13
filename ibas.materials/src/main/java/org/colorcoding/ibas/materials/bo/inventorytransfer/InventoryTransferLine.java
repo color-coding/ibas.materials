@@ -1433,7 +1433,6 @@ public class InventoryTransferLine extends BusinessObject<InventoryTransferLine>
     public IBusinessLogicContract[] getContracts() {
         return new IBusinessLogicContract[]{
                 new IMaterialIssueContract() {
-
                     @Override
                     public String getIdentifiers() {
                         return InventoryTransferLine.this.getIdentifiers();
@@ -1450,7 +1449,7 @@ public class InventoryTransferLine extends BusinessObject<InventoryTransferLine>
                     }
 
                     @Override
-                    public String getIssueWarehouseCode() {
+                    public String getWarehouse() {
                         return InventoryTransferLine.this.getFromWarehouse();
                     }
 
@@ -1470,7 +1469,7 @@ public class InventoryTransferLine extends BusinessObject<InventoryTransferLine>
                     }
 
                     @Override
-                    public Decimal getIssueQuantity() {
+                    public Decimal getQuantity() {
                         return InventoryTransferLine.this.getQuantity();
                     }
 
@@ -1495,12 +1494,11 @@ public class InventoryTransferLine extends BusinessObject<InventoryTransferLine>
                     }
 
                     @Override
-                    public emDocumentStatus getLineStatus() {
+                    public emDocumentStatus getStatus() {
                         return InventoryTransferLine.this.getLineStatus();
                     }
                 },
                 new IMaterialReceiptContract() {
-
                     @Override
                     public String getIdentifiers() {
                         return InventoryTransferLine.this.getIdentifiers();
@@ -1517,7 +1515,7 @@ public class InventoryTransferLine extends BusinessObject<InventoryTransferLine>
                     }
 
                     @Override
-                    public String getReceiptWarehouseCode() {
+                    public String getWarehouse() {
                         return InventoryTransferLine.this.getWarehouse();
                     }
 
@@ -1537,7 +1535,7 @@ public class InventoryTransferLine extends BusinessObject<InventoryTransferLine>
                     }
 
                     @Override
-                    public Decimal getReceiptQuantity() {
+                    public Decimal getQuantity() {
                         return InventoryTransferLine.this.getQuantity();
                     }
 
@@ -1562,13 +1560,12 @@ public class InventoryTransferLine extends BusinessObject<InventoryTransferLine>
                     }
 
                     @Override
-                    public emDocumentStatus getLineStatus() {
+                    public emDocumentStatus getStatus() {
                         return InventoryTransferLine.this.getLineStatus();
                     }
                 }
         };
     }
     // endregion
-
 
 }

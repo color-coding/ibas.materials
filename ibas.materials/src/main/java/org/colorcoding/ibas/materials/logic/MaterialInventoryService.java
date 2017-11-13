@@ -29,17 +29,14 @@ public class MaterialInventoryService extends BusinessLogic<IMaterialInventoryCo
             boRepository.setRepository(super.getRepository());
             IOperationResult<IMaterial> operationResult = boRepository.fetchMaterial(criteria);
             if (operationResult.getError() != null) {
-                throw new BusinessLogicException(operationResult.getError());
-            }
-            if (operationResult.getResultCode() != 0) {
-                throw new BusinessLogicException(operationResult.getError());
+                throw new BusinessLogicException(operationResult.getMessage());
             }
             material = operationResult.getResultObjects().firstOrDefault();
             // endregion
         }
         //region 检查物料
         if (material == null) {
-            throw new NullPointerException(String.format(I18N.prop("msg_mm_material_is_not_exist"), contract.getItemCode()));
+            throw new BusinessLogicException(String.format(I18N.prop("msg_mm_material_is_not_exist"), contract.getItemCode()));
         }
         // 虚拟物料，不生成库存记录
         if (material.getPhantomItem() == emYesNo.YES) {

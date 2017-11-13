@@ -31,27 +31,21 @@ export class GoodsIssueEditView extends ibas.BOEditView implements IGoodsIssueEd
     chooseGoodsIssueLineMaterialBatchEvent: Function;
     /** 选择库存发货单行物料序列号事件 */
     chooseGoodsIssueLineMaterialSerialEvent: Function;
+    /** 查询价格清单 */
+    searchPriceListEvent: Function;
 
     private page: sap.m.Page;
     private form: sap.ui.layout.form.SimpleForm;
     private mainLayout: sap.ui.layout.VerticalLayout;
     private viewBottomForm: sap.ui.layout.form.SimpleForm;
-    private selectDatas: bo.MaterialPriceList[];
+    private priceLists: bo.MaterialPriceList[];
     private priceListSelect: sap.m.Select;
-
     /** 绘制视图 */
     darw(): any {
         let that: this = this;
         this.priceListSelect = new sap.m.Select("", {
-            rows: "{/priceList}",
-            addAriaLabelledBy:"",
-            items: [
-                new sap.ui.core.ListItem("", {
-                    key: 0,
-                    value: "dakehu",
-                    additionalText: 0,
-                })
-            ]
+            // rows: "{/priceList}",
+            addAriaLabelledBy: "",
         });
         this.form = new sap.ui.layout.form.SimpleForm("", {
             editable: true,
@@ -88,9 +82,9 @@ export class GoodsIssueEditView extends ibas.BOEditView implements IGoodsIssueEd
                 }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_goodsissue_pricelistname") }),
                 new sap.m.Select("", {
-                    items: this.createSelectedItems(),
+                    items: that.getPriceListItems()
                 }).bindProperty("selectedKey", {
-                    path: "priceList",
+                    path: "documentStatus",
                     type: "sap.ui.model.type.Integer"
                 }),
                 new sap.ui.core.Title("", { text: ibas.i18n.prop("materials_date_information") }),
@@ -355,8 +349,8 @@ export class GoodsIssueEditView extends ibas.BOEditView implements IGoodsIssueEd
 
     createSelectedItems(): sap.ui.core.ListItem[] {
         let items: Array<sap.ui.core.ListItem> = new Array<sap.ui.core.ListItem>();
-        if (!ibas.objects.isNull(this.selectDatas)) {
-            for (let item of this.selectDatas) {
+        if (!ibas.objects.isNull(this.priceLists)) {
+            for (let item of this.priceLists) {
                 let key: any = item.objectKey;
                 items.push(new sap.ui.core.ListItem("", {
                     key: key,
@@ -383,9 +377,21 @@ export class GoodsIssueEditView extends ibas.BOEditView implements IGoodsIssueEd
         openui5.utils.refreshModelChanged(this.tableGoodsIssueLine, datas);
     }
     showPriceListSelect(datas: bo.MaterialPriceList[]): void {
-        this.selectDatas = datas;
-        this.priceListSelect.setModel(new sap.ui.model.json.JSONModel({ priceList: datas }));
-        // 监听属性改变，并更新控件
-        // openui5.utils.refreshModelChanged(this.priceListSelect, datas);
+        this.priceLists = datas;
+    }
+
+    getPriceListItems(): sap.ui.core.ListItem[] {
+        let items: Array<sap.ui.core.ListItem> = new Array<sap.ui.core.ListItem>();
+        if (!ibas.objects.isNull(this.priceLists)) {
+            for (let item of this.priceLists) {
+                let key: any = item.objectKey;
+                items.push(new sap.ui.core.ListItem("", {
+                    key: key,
+                    text: item.name,
+                    additionalText: key
+                }));
+            }
+        }
+        return items;
     }
 }

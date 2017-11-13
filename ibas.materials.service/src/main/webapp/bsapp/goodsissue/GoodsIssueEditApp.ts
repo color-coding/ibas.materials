@@ -62,26 +62,12 @@ export class GoodsIssueEditApp extends ibas.BOEditApplication<IGoodsIssueEditVie
     /** 运行,覆盖原方法 */
     run(...args: any[]): void {
         let that: this = this;
-        let boRepository: BORepositoryMaterials = new BORepositoryMaterials();
-        // 查询价格清单
-        // boRepository.fetchMaterialPriceList({
-        //     criteria: [],
-        //     onCompleted(opRslt: ibas.IOperationResult<bo.MaterialPriceList>): void {
-        //         let data: bo.MaterialPriceList;
-        //         if (opRslt.resultCode === 0) {
-        //             data = opRslt.resultObjects.firstOrDefault();
-        //         }
-        //         if (ibas.objects.instanceOf(data, bo.MaterialPriceList)) {
-        //             that.priceListData = opRslt.resultObjects;
-        //             that.show();
-        //         }
-        //     }
-        // });
         if (ibas.objects.instanceOf(arguments[0], bo.GoodsIssue)) {
             // 尝试重新查询编辑对象
             let criteria: ibas.ICriteria = arguments[0].criteria();
             if (!ibas.objects.isNull(criteria) && criteria.conditions.length > 0) {
                 // 有效的查询对象查询
+                let boRepository: BORepositoryMaterials = new BORepositoryMaterials();
                 boRepository.fetchGoodsIssue({
                     criteria: criteria,
                     onCompleted(opRslt: ibas.IOperationResult<bo.GoodsIssue>): void {
@@ -248,7 +234,7 @@ export class GoodsIssueEditApp extends ibas.BOEditApplication<IGoodsIssueEditVie
                         created = true;
                     }
                     // 如果物料、仓库发生变更 删除批次、序列集合
-                    if(item.itemCode !== selected.code || item.warehouse !== selected.warehouseCode){
+                    if (item.itemCode !== selected.code || item.warehouse !== selected.warehouseCode) {
                         item.goodsIssueMaterialBatchJournals.clear();
                         item.goodsIssueMaterialSerialJournals.clear();
                     }
@@ -289,7 +275,7 @@ export class GoodsIssueEditApp extends ibas.BOEditApplication<IGoodsIssueEditVie
                         item = that.editData.goodsIssueLines.create();
                         created = true;
                     }
-                    if(item.warehouse !==selected.code){
+                    if (item.warehouse !== selected.code) {
                         item.goodsIssueMaterialBatchJournals.clear();
                         item.goodsIssueMaterialSerialJournals.clear();
                     }
@@ -445,6 +431,25 @@ export class GoodsIssueEditApp extends ibas.BOEditApplication<IGoodsIssueEditVie
         }
         return inputData;
     }
+
+    searchPriceList(): void {
+        // 查询价格清单
+        let that:this = this;
+        let boRepository: BORepositoryMaterials = new BORepositoryMaterials();
+        boRepository.fetchMaterialPriceList({
+            criteria: [],
+            onCompleted(opRslt: ibas.IOperationResult<bo.MaterialPriceList>): void {
+                let data: bo.MaterialPriceList;
+                if (opRslt.resultCode === 0) {
+                    data = opRslt.resultObjects.firstOrDefault();
+                }
+                if (ibas.objects.instanceOf(data, bo.MaterialPriceList)) {
+                    that.priceListData = opRslt.resultObjects;
+                    that.view.showPriceListSelect(that.priceListData);
+                }
+            }
+        });
+    }
 }
 
 /** 视图-库存发货 */
@@ -471,4 +476,6 @@ export interface IGoodsIssueEditView extends ibas.IBOEditView {
     chooseGoodsIssueLineMaterialBatchEvent: Function;
     /** 选择库存发货单行物料序列号事件 */
     chooseGoodsIssueLineMaterialSerialEvent: Function;
+    /** 查询价格清单 */
+    searchPriceListEvent: Function;
 }

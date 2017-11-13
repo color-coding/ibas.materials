@@ -29,7 +29,7 @@ public interface IMaterialReceiptContract extends IBusinessLogicContract {
      *
      * @return
      */
-    String getReceiptWarehouseCode();
+    String getWarehouse();
 
     /**
      * 基础单据类型
@@ -57,7 +57,7 @@ public interface IMaterialReceiptContract extends IBusinessLogicContract {
      *
      * @return
      */
-    Decimal getReceiptQuantity();
+    Decimal getQuantity();
 
     /**
      * 过账日期
@@ -92,5 +92,5 @@ public interface IMaterialReceiptContract extends IBusinessLogicContract {
      *
      * @return
      */
-    emDocumentStatus getLineStatus();
+    emDocumentStatus getStatus();
 }

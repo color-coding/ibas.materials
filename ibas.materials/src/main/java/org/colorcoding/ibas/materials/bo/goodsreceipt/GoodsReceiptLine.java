@@ -1468,7 +1468,6 @@ public class GoodsReceiptLine extends BusinessObject<GoodsReceiptLine>
 	}
 
 
-
 	@Override
 	public IBusinessLogicContract[] getContracts() {
 		return new IBusinessLogicContract[]{
@@ -1490,7 +1489,7 @@ public class GoodsReceiptLine extends BusinessObject<GoodsReceiptLine>
 					}
 
 					@Override
-					public String getReceiptWarehouseCode() {
+					public String getWarehouse() {
 						return GoodsReceiptLine.this.getWarehouse();
 					}
 
@@ -1510,7 +1509,7 @@ public class GoodsReceiptLine extends BusinessObject<GoodsReceiptLine>
 					}
 
 					@Override
-					public Decimal getReceiptQuantity() {
+					public Decimal getQuantity() {
 						return GoodsReceiptLine.this.getQuantity();
 					}
 
@@ -1535,7 +1534,7 @@ public class GoodsReceiptLine extends BusinessObject<GoodsReceiptLine>
 					}
 
 					@Override
-					public emDocumentStatus getLineStatus() {
+					public emDocumentStatus getStatus() {
 						return GoodsReceiptLine.this.getLineStatus();
 					}
 				}

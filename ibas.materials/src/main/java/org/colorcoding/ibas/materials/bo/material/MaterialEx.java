@@ -37,6 +37,61 @@ public class MaterialEx extends MaterialBase<MaterialEx> implements IMaterialEx 
     private static final String DB_OITW_TABLE_NAME ="${Company}_MM_OITM";
     private static final String DB_PRICELIST_TABLE_NAME ="${Company}_MM_MPL1";
 
+    /**
+     * 创建MaterialExpand
+     *
+     * @param material
+     * @return
+     */
+    public static MaterialEx create(Material material) {
+        MaterialEx materialEx = new MaterialEx();
+        materialEx.setCode(material.getCode());
+        materialEx.setName(material.getName());
+        materialEx.setGroup(material.getGroup());
+        materialEx.setSerialManagement(material.getSerialManagement());
+        materialEx.setBatchManagement(material.getBatchManagement());
+        materialEx.setBarCode(material.getBarCode());
+        materialEx.setItemType(material.getItemType());
+        materialEx.setPrice(material.getAvgPrice());
+        materialEx.setWarehouseOnHand(material.getOnHand());
+        return materialEx;
+    }
+
+    /**
+     * 创建MaterialExpand
+     *
+     * @param material
+     * @return
+     */
+    public static MaterialEx create(MaterialEx material) {
+        MaterialEx materialEx = new MaterialEx();
+        materialEx.setCode(material.getCode());
+        materialEx.setName(material.getName());
+        materialEx.setGroup(material.getGroup());
+        materialEx.setSerialManagement(material.getSerialManagement());
+        materialEx.setBatchManagement(material.getBatchManagement());
+        materialEx.setBarCode(material.getBarCode());
+        materialEx.setItemType(material.getItemType());
+        materialEx.setPrice(material.getPrice());
+        materialEx.setWarehouseCode(material.getWarehouseCode());
+        materialEx.setWarehouseOnHand(material.getWarehouseOnHand());
+        return materialEx;
+    }
+    /**
+     * 创建MaterialExpand对象集合
+     *
+     * @param materials 物料对象集合
+     * @return
+     */
+    public static ArrayList<MaterialEx> create(ArrayList<Material> materials) {
+        ArrayList<MaterialEx> materialExs = new ArrayList<MaterialEx>();
+        for (Material material : materials
+                ) {
+            materialExs.add(create(material));
+        }
+        return materialExs;
+    }
+
     @Override
     protected void initialize() {
         super.initialize();// 基类初始化，不可去除
@@ -223,60 +278,7 @@ public class MaterialEx extends MaterialBase<MaterialEx> implements IMaterialEx 
         this.setPrice(new Decimal(value));
     }
 
-    /**
-     * 创建MaterialExpand
-     *
-     * @param material
-     * @return
-     */
-    public static MaterialEx create(Material material) {
-        MaterialEx materialEx = new MaterialEx();
-        materialEx.setCode(material.getCode());
-        materialEx.setName(material.getName());
-        materialEx.setGroup(material.getGroup());
-        materialEx.setSerialManagement(material.getSerialManagement());
-        materialEx.setBatchManagement(material.getBatchManagement());
-        materialEx.setBarCode(material.getBarCode());
-        materialEx.setItemType(material.getItemType());
-        materialEx.setPrice(material.getAvgPrice());
-        materialEx.setWarehouseOnHand(material.getOnHand());
-        return materialEx;
-    }
 
-    /**
-     * 创建MaterialExpand
-     *
-     * @param material
-     * @return
-     */
-    public static MaterialEx create(MaterialEx material) {
-        MaterialEx materialEx = new MaterialEx();
-        materialEx.setCode(material.getCode());
-        materialEx.setName(material.getName());
-        materialEx.setGroup(material.getGroup());
-        materialEx.setSerialManagement(material.getSerialManagement());
-        materialEx.setBatchManagement(material.getBatchManagement());
-        materialEx.setBarCode(material.getBarCode());
-        materialEx.setItemType(material.getItemType());
-        materialEx.setPrice(material.getPrice());
-        materialEx.setWarehouseCode(material.getWarehouseCode());
-        materialEx.setWarehouseOnHand(material.getWarehouseOnHand());
-        return materialEx;
-    }
-    /**
-     * 创建MaterialExpand对象集合
-     *
-     * @param materials 物料对象集合
-     * @return
-     */
-    public static ArrayList<MaterialEx> create(ArrayList<Material> materials) {
-        ArrayList<MaterialEx> materialExs = new ArrayList<MaterialEx>();
-        for (Material material : materials
-                ) {
-            materialExs.add(create(material));
-        }
-        return materialExs;
-    }
 
 
 }

@@ -32,6 +32,8 @@ export class GoodsIssueEditView extends ibas.BOEditView implements IGoodsIssueEd
     chooseGoodsIssueLineWarehouseEvent: Function;
     chooseGoodsIssueLineMaterialBatchEvent: Function;
     chooseGoodsIssueLineMaterialSerialEvent: Function;
+     /** 查询价格清单 */
+     searchPriceListEvent: Function;
     /** 绘制视图 */
     darw(): any {
         let that: this = this;

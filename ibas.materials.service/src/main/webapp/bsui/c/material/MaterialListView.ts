@@ -86,14 +86,6 @@ export class MaterialListView extends ibas.BOListView implements IMaterialListVi
                     }),
                 }),
                 new sap.ui.table.Column("", {
-                    label: ibas.i18n.prop("bo_material_uom"),
-                    template: new sap.m.Text("", {
-                        wrapping: false,
-                    }).bindProperty("text", {
-                        path: "UOM",
-                    }),
-                }),
-                new sap.ui.table.Column("", {
                     label: ibas.i18n.prop("bo_material_remarks"),
                     template: new sap.m.Text("", {
                         wrapping: false,

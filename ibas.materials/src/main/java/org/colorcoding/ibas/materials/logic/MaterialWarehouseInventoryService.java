@@ -37,10 +37,7 @@ public class MaterialWarehouseInventoryService extends BusinessLogic<IMaterialWa
             boRepository.setRepository(super.getRepository());
             IOperationResult<IMaterialInventory> operationResult = boRepository.fetchMaterialInventory(criteria);
             if (operationResult.getError() != null) {
-                throw new BusinessLogicException(operationResult.getError());
-            }
-            if (operationResult.getResultCode() != 0) {
-                throw new BusinessLogicException(operationResult.getError());
+                throw new BusinessLogicException(operationResult.getMessage());
             }
             materialInventory = operationResult.getResultObjects().firstOrDefault();
             if (materialInventory == null) {

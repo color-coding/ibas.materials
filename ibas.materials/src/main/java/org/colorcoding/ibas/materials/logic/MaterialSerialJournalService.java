@@ -23,7 +23,7 @@ import org.colorcoding.ibas.materials.repository.BORepositoryMaterials;
 public class MaterialSerialJournalService extends BusinessLogic<IMaterialSerialJournalContract,IMaterialSerial>{
     @Override
     protected IMaterialSerial fetchBeAffected(IMaterialSerialJournalContract contract) {
-            checkContractData(contract);
+            this.checkContractData(contract);
             // region 定义查询条件
             ICriteria criteria = Criteria.create();
             ICondition condition = criteria.getConditions().create();
@@ -51,10 +51,7 @@ public class MaterialSerialJournalService extends BusinessLogic<IMaterialSerialJ
                 boRepository.setRepository(super.getRepository());
                 IOperationResult<IMaterialSerial> operationResult = boRepository.fetchMaterialSerial(criteria);
                 if (operationResult.getError() != null) {
-                    throw new BusinessLogicException(operationResult.getError());
-                }
-                if (operationResult.getResultCode() != 0) {
-                    throw new BusinessLogicException(operationResult.getError());
+                    throw new BusinessLogicException(operationResult.getMessage());
                 }
                 // endregion
                 materialSerial = operationResult.getResultObjects().firstOrDefault();
@@ -68,13 +65,13 @@ public class MaterialSerialJournalService extends BusinessLogic<IMaterialSerialJ
     @Override
     protected void impact(IMaterialSerialJournalContract contract) {
         IMaterialSerial materialSerial = this.getBeAffected();
-        materialSerial.undelete();
+        materialSerial.setInStock(emYesNo.YES);
     }
 
     @Override
     protected void revoke(IMaterialSerialJournalContract contract) {
         IMaterialSerial materialSerial = this.getBeAffected();
-        materialSerial.delete();
+        materialSerial.setInStock(emYesNo.NO);
     }
 
     private void checkContractData(IMaterialSerialJournalContract contract){
@@ -87,14 +84,11 @@ public class MaterialSerialJournalService extends BusinessLogic<IMaterialSerialJ
         boRepository.setRepository(super.getRepository());
         IOperationResult<IMaterial> operationResult = boRepository.fetchMaterial(criteria);
         if (operationResult.getError() != null) {
-            throw new BusinessLogicException(operationResult.getError());
-        }
-        if (operationResult.getResultCode() != 0) {
-            throw new BusinessLogicException(operationResult.getError());
+            throw new BusinessLogicException(operationResult.getMessage());
         }
         IMaterial material = operationResult.getResultObjects().firstOrDefault();
         if (material == null) {
-            throw new NullPointerException(
+            throw new BusinessLogicException(
                     String.format(I18N.prop("msg_mm_material_is_not_exist"), contract.getItemCode()));
         }
         // 虚拟物料
@@ -103,7 +97,7 @@ public class MaterialSerialJournalService extends BusinessLogic<IMaterialSerialJ
                     I18N.prop("msg_mm_material_is_phantom_item_can't_create_journal"), contract.getItemCode()));
         }
         // 非序列号管理物料
-        if(material.getSerialManagement().compareTo(emYesNo.YES) != 0){
+        if(material.getSerialManagement() == emYesNo.NO){
             throw new BusinessLogicException(
                     String.format(I18N.prop("msg_mm_material_is_not_serialmanagement"), contract.getItemCode()));
         }

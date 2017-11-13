@@ -31,8 +31,7 @@ import org.colorcoding.ibas.materials.repository.BORepositoryMaterials;
 public class MaterialIssueService extends BusinessLogic<IMaterialIssueContract, IMaterialInventoryJournal> {
     @Override
     protected IMaterialInventoryJournal fetchBeAffected(IMaterialIssueContract contract) {
-        try {
-            checkContractData(contract);
+            this.checkContractData(contract);
             // region 定义查询条件
             ICriteria criteria = Criteria.create();
             ICondition condition = criteria.getConditions().create();
@@ -65,10 +64,7 @@ public class MaterialIssueService extends BusinessLogic<IMaterialIssueContract, 
                 boRepository.setRepository(super.getRepository());
                 IOperationResult<IMaterialInventoryJournal> operationResult = boRepository.fetchMaterialInventoryJournal(criteria);
                 if (operationResult.getError() != null) {
-                    throw new BusinessLogicException(operationResult.getError());
-                }
-                if (operationResult.getResultCode() != 0) {
-                    throw new BusinessLogicException(operationResult.getError());
+                    throw new BusinessLogicException(operationResult.getMessage());
                 }
                 // endregion
                 materialJournal = operationResult.getResultObjects().firstOrDefault();
@@ -77,16 +73,13 @@ public class MaterialIssueService extends BusinessLogic<IMaterialIssueContract, 
                 }
             }
             return materialJournal;
-        } catch (Exception ex) {
-            throw ex;
-        }
     }
 
     @Override
     protected void impact(IMaterialIssueContract contract) {
         IMaterialInventoryJournal materialJournal = this.getBeAffected();
         Decimal issueQuantity = materialJournal.getQuantity();
-        issueQuantity = issueQuantity.add(contract.getIssueQuantity());
+        issueQuantity = issueQuantity.add(contract.getQuantity());
         materialJournal.setQuantity(issueQuantity);
 
     }
@@ -96,9 +89,9 @@ public class MaterialIssueService extends BusinessLogic<IMaterialIssueContract, 
         IMaterialInventoryJournal materialJournal = this.getBeAffected();
         materialJournal.setItemCode((contract.getItemCode()));
         materialJournal.setItemName(contract.getItemName());
-        materialJournal.setWarehouse(contract.getIssueWarehouseCode());
+        materialJournal.setWarehouse(contract.getWarehouse());
         Decimal issueQuantity = materialJournal.getQuantity();
-        issueQuantity = issueQuantity.subtract(contract.getIssueQuantity());
+        issueQuantity = issueQuantity.subtract(contract.getQuantity());
         materialJournal.setQuantity(issueQuantity);
     }
 
@@ -108,7 +101,7 @@ public class MaterialIssueService extends BusinessLogic<IMaterialIssueContract, 
      * @return
      */
     private void checkContractData(IMaterialIssueContract contract) {
-        if (contract.getIssueQuantity().compareTo(BigDecimal.ZERO) == 0) {
+        if (contract.getQuantity().compareTo(BigDecimal.ZERO) == 0) {
             throw new BusinessLogicException(I18N.prop("msg_mm_issue_quantity_can't_be_zero"));
         }
         // region 查询物料
@@ -121,10 +114,7 @@ public class MaterialIssueService extends BusinessLogic<IMaterialIssueContract, 
         boRepository.setRepository(super.getRepository());
         IOperationResult<IMaterial> operationResult = boRepository.fetchMaterial(criteria);
         if (operationResult.getError() != null) {
-            throw new BusinessLogicException(operationResult.getError());
-        }
-        if (operationResult.getResultCode() != 0) {
-            throw new BusinessLogicException(operationResult.getError());
+            throw new BusinessLogicException(operationResult.getMessage());
         }
         IMaterial material = operationResult.getResultObjects().firstOrDefault();
         // endregion
@@ -150,19 +140,16 @@ public class MaterialIssueService extends BusinessLogic<IMaterialIssueContract, 
             criteria = Criteria.create();
             condition = criteria.getConditions().create();
             condition.setAlias(Warehouse.PROPERTY_CODE.getName());
-            condition.setValue(contract.getIssueWarehouseCode());
+            condition.setValue(contract.getWarehouse());
             condition.setOperation(ConditionOperation.EQUAL);
             IOperationResult<IWarehouse> opResult = boRepository.fetchWarehouse(criteria);
             if (opResult.getError() != null) {
-                throw new BusinessLogicException(opResult.getError());
-            }
-            if (opResult.getResultCode() != 0) {
-                throw new BusinessLogicException(opResult.getError());
+                throw new BusinessLogicException(opResult.getMessage());
             }
             IWarehouse warehouse = opResult.getResultObjects().firstOrDefault();
             if (warehouse == null) {
-                throw new NullPointerException(String.format(I18N.prop("msg_mm_warehouse_is_not_exist"),
-                        contract.getIssueWarehouseCode()));
+                throw new BusinessLogicException(String.format(I18N.prop("msg_mm_warehouse_is_not_exist"),
+                        contract.getWarehouse()));
             }
         }
         // endregion

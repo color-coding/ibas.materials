@@ -1,10 +1,10 @@
 package org.colorcoding.ibas.materials.repository;
 
 import org.colorcoding.ibas.bobas.common.*;
+import org.colorcoding.ibas.bobas.data.ArrayList;
 import org.colorcoding.ibas.bobas.data.Decimal;
 import org.colorcoding.ibas.bobas.logic.BusinessLogicException;
 import org.colorcoding.ibas.bobas.repository.BORepositoryServiceApplication;
-import org.colorcoding.ibas.bobas.data.ArrayList;
 import org.colorcoding.ibas.materials.bo.goodsissue.GoodsIssue;
 import org.colorcoding.ibas.materials.bo.goodsissue.IGoodsIssue;
 import org.colorcoding.ibas.materials.bo.goodsreceipt.GoodsReceipt;
@@ -25,7 +25,10 @@ import org.colorcoding.ibas.materials.bo.materialinventory.IMaterialInventory;
 import org.colorcoding.ibas.materials.bo.materialinventory.IMaterialInventoryJournal;
 import org.colorcoding.ibas.materials.bo.materialinventory.MaterialInventory;
 import org.colorcoding.ibas.materials.bo.materialinventory.MaterialInventoryJournal;
-import org.colorcoding.ibas.materials.bo.materialpricelist.*;
+import org.colorcoding.ibas.materials.bo.materialpricelist.IMaterialPriceItem;
+import org.colorcoding.ibas.materials.bo.materialpricelist.IMaterialPriceList;
+import org.colorcoding.ibas.materials.bo.materialpricelist.MaterialPriceItem;
+import org.colorcoding.ibas.materials.bo.materialpricelist.MaterialPriceList;
 import org.colorcoding.ibas.materials.bo.materialserial.IMaterialSerial;
 import org.colorcoding.ibas.materials.bo.materialserial.IMaterialSerialJournal;
 import org.colorcoding.ibas.materials.bo.materialserial.MaterialSerial;
@@ -37,7 +40,6 @@ import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 /**
  * Materials仓库
@@ -703,7 +705,7 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
                     condition.setAlias(con.getAlias());
                     condition.setOperation(con.getOperation());
                     condition.setValue(con.getValue());
-                    condition .setRelationship(con.getRelationship());
+                    condition.setRelationship(con.getRelationship());
                 }
             }
             //endregion
@@ -722,23 +724,17 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
             operationResultMaterialExpand.addResultObjects(materialExs);
             operationResult = this.fetchMaterialInventoryOfMaterialEx(operationResultMaterialExpand, criInventory, token);
             if (operationResult.getError() != null) {
-                throw new BusinessLogicException(operationResult.getError());
-            }
-            if (operationResult.getResultCode() != 0) {
-                throw new BusinessLogicException(operationResult.getError());
+                throw new BusinessLogicException(operationResult.getMessage());
             }
             materialExs = (ArrayList<MaterialEx>) operationResult.getResultObjects();
             operationResultMaterialExpand.getResultObjects().clear();
             operationResultMaterialExpand.addResultObjects(materialExs);
             //endregion..
-            if(isNeedtoFetchPriceList){
+            if (isNeedtoFetchPriceList) {
                 //region 查询价格清单
                 operationResult = this.fetchMaterialPriceListOfMaterialEx(operationResultMaterialExpand, criPriceList, token);
                 if (operationResult.getError() != null) {
-                    throw new BusinessLogicException(operationResult.getError());
-                }
-                if (operationResult.getResultCode() != 0) {
-                    throw new BusinessLogicException(operationResult.getError());
+                    throw new BusinessLogicException(operationResult.getMessage());
                 }
                 materialExs = (ArrayList<MaterialEx>) operationResult.getResultObjects();
                 operationResultMaterialExpand.getResultObjects().clear();
@@ -773,11 +769,12 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
         try {
             materialExs = (ArrayList<MaterialEx>) operationResult.getResultObjects();
             operationResult = this.fetchMaterialInventory(criteria, token);
-            if (operationResult.getResultCode() == 0) {
+            if (operationResult.getError() != null) {
                 materialInventories = (ArrayList<MaterialInventory>) operationResult.getResultObjects();
             }
             // matterialExs inner join materialInventories
-            for (int i = 0; i < materialExs.size(); i++) {
+            for (int i = 0; i < materialExs.size(); i++
+                    ) {
                 for (int j = 0; j < materialInventories.size(); j++) {
                     if (materialExs.get(i).getCode().equals(materialInventories.get(j).getItemCode())) {
                         materialEx = MaterialEx.create(materialExs.get(i));
@@ -810,16 +807,16 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
         String itemCode;
         materialExs = operationResult.getResultObjects();
         try {
-            materialPriceList = this.fetchMaterialPriceList(null,Decimal.ZERO,criteria,token);
+            materialPriceList = this.fetchMaterialPriceList(null, Decimal.ZERO, criteria, token);
             if (materialPriceList == null) {
                 return (OperationResult<MaterialEx>) operationResult;
             }
             for (int i = 0; i < materialExs.size(); i++) {
                 itemCode = materialExs.get(i).getCode();
                 materialExs.get(i).setPriceListName(materialPriceList.getName());
-                for (IMaterialPriceItem item:materialPriceList.getMaterialPriceItems()){
+                for (IMaterialPriceItem item : materialPriceList.getMaterialPriceItems()) {
                     // 价格清单不为0，才覆盖物料价格
-                    if(item.getItemCode() == itemCode && item.getPrice().compareTo(BigDecimal.ZERO)!=0) {
+                    if (item.getItemCode() == itemCode && item.getPrice().compareTo(BigDecimal.ZERO) != 0) {
                         materialExs.get(i).setPrice(item.getPrice());
                         break;
                     }
@@ -834,23 +831,24 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 
     /**
      * 递归查询物料价格清单 最终值
+     *
      * @param priceList
      * @param factor
      * @param criteria
      * @param token
      * @return
      */
-    private MaterialPriceList  fetchMaterialPriceList(MaterialPriceList priceList,Decimal factor,ICriteria criteria,String token) {
+    private MaterialPriceList fetchMaterialPriceList(MaterialPriceList priceList, Decimal factor, ICriteria criteria, String token) {
         boolean isNeedToSearchAgin = false;
         int newBaseOnList = 0;
         MaterialPriceList childPriceList = new MaterialPriceList();
         // 先查询价格清单
         OperationResult<MaterialPriceList> operationResult = new OperationResult<MaterialPriceList>();
         operationResult = this.fetchMaterialPriceList(criteria, token);
-        if (operationResult.getResultCode() != 0) {
-            throw new BusinessLogicException(operationResult.getError());
+        if (operationResult.getError() != null) {
+            throw new BusinessLogicException(operationResult.getMessage());
         }
-        if (operationResult.getResultObjects().size() == 0)
+        if (operationResult.getResultObjects().isEmpty())
             return priceList;
         childPriceList = operationResult.getResultObjects().firstOrDefault();
         // 更新baseOnList值
@@ -858,32 +856,32 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
         if (priceList == null) {
             //region 第一次查询处理
             priceList = childPriceList;
-            for (IMaterialPriceItem priceItem : priceList.getMaterialPriceItems()){
-                if(priceItem.getPrice().compareTo(BigDecimal.ZERO)!= 0){
+            for (IMaterialPriceItem priceItem : priceList.getMaterialPriceItems()) {
+                if (priceItem.getPrice().compareTo(BigDecimal.ZERO) != 0) {
                     continue;
-                }else {
+                } else {
                     // 有价格为0，若factor和BaseOnList都不为0，需要继续查询来计算物料的价格清单
-                    if(priceList.getFactor().compareTo(BigDecimal.ZERO)!=0 &&
-                            newBaseOnList != 0){
+                    if (priceList.getFactor().compareTo(BigDecimal.ZERO) != 0 &&
+                            newBaseOnList != 0) {
                         isNeedToSearchAgin = true;
                         break;
                     }
                 }
             }
             //endregion
-        }else {
+        } else {
             //region 递归查询处理
-            for (IMaterialPriceItem priceItem : priceList.getMaterialPriceItems()){
+            for (IMaterialPriceItem priceItem : priceList.getMaterialPriceItems()) {
                 //IMaterialPriceItem priceItem = priceList.getMaterialPriceItems().get(index);
                 // 已经有了价格，不用再计算，跳过。
-                if(priceItem.getPrice().compareTo(BigDecimal.ZERO)!= 0){
+                if (priceItem.getPrice().compareTo(BigDecimal.ZERO) != 0) {
                     continue;
-                }else {
+                } else {
                     // 如果价格为0 需要计算价格
                     //否则在新查询的结果中找到该物料的价格  判断是否为0 ，
                     //  为0 ：{ 需要判断newBaseOnList是否为0，为0：跳过；不为0：需要再次查询；}
                     //  不为0：计算价格
-                    Optional<IMaterialPriceItem> item = childPriceList.getMaterialPriceItems().stream().filter(c -> c.getItemCode().equals(priceItem.getItemCode()) ).findFirst();
+                    Optional<IMaterialPriceItem> item = childPriceList.getMaterialPriceItems().stream().filter(c -> c.getItemCode().equals(priceItem.getItemCode())).findFirst();
                     if (item.get().getPrice().compareTo(BigDecimal.ZERO) != 0) {
                         priceItem.setPrice(item.get().getPrice().multiply(factor));
                     } else {
@@ -910,10 +908,11 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
             condition.setAlias(MaterialPriceList.PROPERTY_OBJECTKEY.getName());
             condition.setValue(newBaseOnList);
             condition.setOperation(ConditionOperation.EQUAL);
-            fetchMaterialPriceList(priceList, factor, criteria, token);
+            this.fetchMaterialPriceList(priceList, factor, criteria, token);
         }
         return priceList;
     }
+
     // --------------------------------------------------------------------------------------------//
     @Override
     public IOperationResult<IMaterialPriceList> fetchMaterialPriceListFinal(ICriteria criteria) {
@@ -921,21 +920,18 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
     }
 
     /**
-     *
-     * @param criteria
-     * 				查询并计算 价格清单最终价(价格清单为0的不会被物料价格覆盖)
-     * @param token
-     * 				口令
+     * @param criteria 查询并计算 价格清单最终价(价格清单为0的不会被物料价格覆盖)
+     * @param token    口令
      * @return
      */
-    public OperationResult<MaterialPriceList> fetchMaterialPriceListFinal(ICriteria criteria, String token){
+    public OperationResult<MaterialPriceList> fetchMaterialPriceListFinal(ICriteria criteria, String token) {
         MaterialPriceList priceList = new MaterialPriceList();
         OperationResult<MaterialPriceList> opRst = new OperationResult<MaterialPriceList>();
-        try{
-            priceList = this.fetchMaterialPriceList(null,Decimal.ZERO,criteria,token);
+        try {
+            priceList = this.fetchMaterialPriceList(null, Decimal.ZERO, criteria, token);
             opRst.addResultObjects(priceList);
             opRst.setResultCode(0);
-        }catch (Exception ex){
+        } catch (Exception ex) {
             opRst.setError(ex);
         }
         return opRst;

@@ -25,8 +25,7 @@ import org.colorcoding.ibas.materials.repository.BORepositoryMaterials;
 public class MaterialBatchJournalSerivce extends BusinessLogic<IMaterialBatchJournalContract,IMaterialBatch>{
     @Override
     protected IMaterialBatch fetchBeAffected(IMaterialBatchJournalContract contract) {
-
-            checkContractData(contract);
+            this.checkContractData(contract);
             // region 定义查询条件
             ICriteria criteria = Criteria.create();
             ICondition condition = criteria.getConditions().create();
@@ -45,8 +44,6 @@ public class MaterialBatchJournalSerivce extends BusinessLogic<IMaterialBatchJou
             condition.setValue(contract.getWarehouse());
             condition.setOperation(ConditionOperation.EQUAL);
             condition.setRelationship(ConditionRelationship.AND);
-
-
             // endregion
             IMaterialBatch materialBatch = this.fetchBeAffected(criteria, IMaterialBatch.class);
             if (materialBatch == null) {
@@ -55,10 +52,7 @@ public class MaterialBatchJournalSerivce extends BusinessLogic<IMaterialBatchJou
                 boRepository.setRepository(super.getRepository());
                 IOperationResult<IMaterialBatch> operationResult = boRepository.fetchMaterialBatch(criteria);
                 if (operationResult.getError() != null) {
-                    throw new BusinessLogicException(operationResult.getError());
-                }
-                if (operationResult.getResultCode() != 0) {
-                    throw new BusinessLogicException(operationResult.getError());
+                    throw new BusinessLogicException(operationResult.getMessage());
                 }
                 // endregion
                 materialBatch = operationResult.getResultObjects().firstOrDefault();
@@ -104,14 +98,11 @@ public class MaterialBatchJournalSerivce extends BusinessLogic<IMaterialBatchJou
         boRepository.setRepository(super.getRepository());
         IOperationResult<IMaterial> operationResult = boRepository.fetchMaterial(criteria);
         if (operationResult.getError() != null) {
-            throw new BusinessLogicException(operationResult.getError());
-        }
-        if (operationResult.getResultCode() != 0) {
-            throw new BusinessLogicException(operationResult.getError());
+            throw new BusinessLogicException(operationResult.getMessage());
         }
         IMaterial material = operationResult.getResultObjects().firstOrDefault();
         if (material == null) {
-            throw new NullPointerException(
+            throw new BusinessLogicException(
                     String.format(I18N.prop("msg_mm_material_is_not_exist"), contract.getItemCode()));
         }
         // 虚拟物料
@@ -121,7 +112,7 @@ public class MaterialBatchJournalSerivce extends BusinessLogic<IMaterialBatchJou
         }
         // 非批次管理物料
         if(material.getBatchManagement().compareTo(emYesNo.YES) != 0){
-            throw new NullPointerException(
+            throw new BusinessLogicException(
                     String.format(I18N.prop("msg_mm_material_is_not_batchmanagement"), contract.getItemCode()));
         }
     }

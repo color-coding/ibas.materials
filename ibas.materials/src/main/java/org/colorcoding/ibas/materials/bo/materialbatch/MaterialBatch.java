@@ -57,6 +57,13 @@ public class MaterialBatch extends BusinessObject<MaterialBatch> implements IMat
 	 */
 	private static final String PROPERTY_ITEMCODE_NAME = "ItemCode";
 
+	public static IMaterialBatch create(IMaterialBatchJournalContract contract){
+		IMaterialBatch materialBatch = new MaterialBatch();
+		materialBatch.setBatchCode(contract.getBatchCode());
+		materialBatch.setItemCode(contract.getItemCode());
+		materialBatch.setWarehouse(contract.getWarehouse());
+		return  materialBatch;
+	}
 	/**
 	 * 物料编码 属性
 	 */
@@ -925,11 +932,5 @@ public class MaterialBatch extends BusinessObject<MaterialBatch> implements IMat
 		this.setObjectCode(MyConfiguration.applyVariables(BUSINESS_OBJECT_CODE));
 
 	}
-	public static IMaterialBatch create(IMaterialBatchJournalContract contract){
-		IMaterialBatch materialBatch = new MaterialBatch();
-		materialBatch.setBatchCode(contract.getBatchCode());
-		materialBatch.setItemCode(contract.getItemCode());
-		materialBatch.setWarehouse(contract.getWarehouse());
-		return  materialBatch;
-	}
+
 }
