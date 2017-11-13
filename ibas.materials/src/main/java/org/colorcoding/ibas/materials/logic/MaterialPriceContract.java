@@ -11,7 +11,6 @@ import org.colorcoding.ibas.bobas.logic.BusinessLogic;
 import org.colorcoding.ibas.bobas.logic.BusinessLogicException;
 import org.colorcoding.ibas.bobas.mapping.LogicContract;
 import org.colorcoding.ibas.materials.bo.materialpricelist.IMaterialPriceItem;
-import org.colorcoding.ibas.materials.bo.materialpricelist.IMaterialPriceItems;
 import org.colorcoding.ibas.materials.bo.materialpricelist.IMaterialPriceList;
 import org.colorcoding.ibas.materials.bo.materialpricelist.MaterialPriceItem;
 import org.colorcoding.ibas.materials.bo.materialpricelist.MaterialPriceList;
@@ -23,8 +22,8 @@ import org.colorcoding.ibas.materials.repository.BORepositoryMaterials;
  * @author Allen.Zhang
  *
  */
-@LogicContract(IMaterialPriceListContract.class)
-public class MaterialPriceListContract extends BusinessLogic<IMaterialPriceListContract, IMaterialPriceList> {
+@LogicContract(IMaterialPriceContract.class)
+public class MaterialPriceContract extends BusinessLogic<IMaterialPriceContract, IMaterialPriceList> {
 	/**
 	 * 查找被影响的物料价格清单 目前规则：若不存在此价格清单就添加,否则就更新
 	 * 实际规则：若不存在此价格清单就报错，否则更新（实际业务场景中，第一张价格清单是手工新建的）
@@ -32,21 +31,13 @@ public class MaterialPriceListContract extends BusinessLogic<IMaterialPriceListC
 	 * @return
 	 */
 	@Override
-	protected IMaterialPriceList fetchBeAffected(IMaterialPriceListContract Contract) {
+	protected IMaterialPriceList fetchBeAffected(IMaterialPriceContract Contract) {
 		// region 主表查询条件
-		ICriteria criteria = Criteria.create();
-		// 主表-价格清单编码
+		ICriteria criteria = new Criteria();
 		ICondition condition = criteria.getConditions().create();
 		condition.setAlias(MaterialPriceList.PROPERTY_OBJECTKEY.getName());
 		condition.setValue(Contract.getPriceList());
 		condition.setOperation(ConditionOperation.EQUAL);
-
-		// 主表-价格清单名称
-		// ICondition condition=criteria.getConditions().create();
-		// condition.setAlias(MaterialPriceList.PROPERTY_NAME.getName());
-		// condition.setValue(Contract.getName());
-		// condition.setOperation(ConditionOperation.EQUAL);
-		// endregion
 
 		// region 子表查询条件
 		IChildCriteria childCriteria = criteria.getChildCriterias().create();
@@ -68,40 +59,39 @@ public class MaterialPriceListContract extends BusinessLogic<IMaterialPriceListC
 			if (operationResult.getError() != null) {
 				throw new BusinessLogicException(operationResult.getError());
 			}
-			if (operationResult.getResultCode() != 0) {
-				throw new BusinessLogicException(operationResult.getError());
-			}
 			materialPriceList = operationResult.getResultObjects().firstOrDefault();
 			if (materialPriceList == null) {
 				materialPriceList = MaterialPriceList.Create(Contract);
-				// throw new BusinessLogicException("不存在此价格清单，请核对后保存！");//实际业务场景中，若不存在次价格清单则报错
 			} else {
+				// 不更新已经存在价格清单
 				BusinessObject<?> bo = (BusinessObject<?>) materialPriceList;
-				bo.unsavable();// 不保存主表
-				IMaterialPriceItems materialPriceItems = materialPriceList.getMaterialPriceItems();
-				if (materialPriceItems.size() == 0) {
-					materialPriceList.getMaterialPriceItems().create();
-				} else {
-					materialPriceList.getMaterialPriceItems().firstOrDefault();
-				}
+				bo.unsavable();
 			}
 		}
 		return materialPriceList;
 	}
 
 	@Override
-	protected void impact(IMaterialPriceListContract Contract) {
+	protected void impact(IMaterialPriceContract contract) {
 		IMaterialPriceList materialPriceList = this.getBeAffected();
-		IMaterialPriceItem materialPriceItem = materialPriceList.getMaterialPriceItems().firstOrDefault();
-		materialPriceItem.setItemCode(Contract.getItemCode());
-		materialPriceItem.setPrice(Contract.getPrice());
+		IMaterialPriceItem materialPriceItem = materialPriceList.getMaterialPriceItems()
+				.firstOrDefault(c -> c.getItemCode().equals(contract.getItemCode()));
+		if (materialPriceItem == null) {
+			materialPriceItem = materialPriceList.getMaterialPriceItems().create();
+		}
+		materialPriceItem.setItemCode(contract.getItemCode());
+		materialPriceItem.setPrice(contract.getPrice());
 	}
 
 	@Override
-	protected void revoke(IMaterialPriceListContract Contract) {
+	protected void revoke(IMaterialPriceContract contract) {
 		IMaterialPriceList materialPriceList = this.getBeAffected();
-		IMaterialPriceItem materialPriceItem = materialPriceList.getMaterialPriceItems().firstOrDefault();
-		materialPriceItem.setItemCode(Contract.getItemCode());
+		IMaterialPriceItem materialPriceItem = materialPriceList.getMaterialPriceItems()
+				.firstOrDefault(c -> c.getItemCode().equals(contract.getItemCode()));
+		if (materialPriceItem == null) {
+			materialPriceItem = materialPriceList.getMaterialPriceItems().create();
+		}
+		materialPriceItem.setItemCode(contract.getItemCode());
 		materialPriceItem.setPrice(0);
 	}
 }
