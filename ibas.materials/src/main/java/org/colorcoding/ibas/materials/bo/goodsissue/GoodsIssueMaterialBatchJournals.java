@@ -5,6 +5,8 @@ import org.colorcoding.ibas.bobas.common.*;
 import org.colorcoding.ibas.materials.MyConfiguration;
 import org.colorcoding.ibas.materials.bo.materialbatch.IMaterialBatchJournal;
 import org.colorcoding.ibas.materials.bo.materialbatch.MaterialBatchJournal;
+import org.colorcoding.ibas.materials.bo.materialserial.MaterialSerialJournal;
+
 import javax.xml.bind.annotation.XmlSeeAlso;
 import javax.xml.bind.annotation.XmlType;
 import java.beans.PropertyChangeEvent;
@@ -61,14 +63,18 @@ public class GoodsIssueMaterialBatchJournals extends BusinessObjects<IMaterialBa
     public ICriteria getElementCriteria() {
         ICriteria criteria = new Criteria();
         ICondition condition = criteria.getConditions().create();
-        condition.setAlias("BaseType");
+        condition.setAlias(MaterialSerialJournal.PROPERTY_BASEDOCUMENTTYPE.getName());
         condition.setOperation(ConditionOperation.EQUAL);
         condition.setValue(this.getParent().getObjectCode());
         condition = criteria.getConditions().create();
-        condition.setAlias("BaseEntry");
+        condition.setAlias(MaterialSerialJournal.PROPERTY_BASEDOCUMENTENTRY.getName());
         condition.setOperation(ConditionOperation.EQUAL);
         condition.setValue(this.getParent().getDocEntry());
         condition.setRelationship(ConditionRelationship.AND);
+        condition.setAlias(MaterialSerialJournal.PROPERTY_BASEDOCUMENTLINEID.getName());
+        condition.setOperation(ConditionOperation.EQUAL);
+        condition.setValue(this.getParent().getLineId());
+        condition.setRelationship(ConditionRelationship.AND);;
         // TODO 添加关联查询条件
         return criteria;
     }

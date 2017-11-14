@@ -23,13 +23,13 @@ import {
 } from "ibas/index";
 import {
     IProduct,
-    BO_CODE_MATERIALEX,
+    BO_CODE_PRODUCT,
     emItemType,
 } from "../../api/index";
 import { MaterialBase } from "./MaterialBase";
 export class Product extends MaterialBase<Product> implements IProduct {
     /** 业务对象编码 */
-    static BUSINESS_OBJECT_CODE: string = BO_CODE_MATERIALEX;
+    static BUSINESS_OBJECT_CODE: string = BO_CODE_PRODUCT;
     /** 构造函数 */
     constructor() {
         super();

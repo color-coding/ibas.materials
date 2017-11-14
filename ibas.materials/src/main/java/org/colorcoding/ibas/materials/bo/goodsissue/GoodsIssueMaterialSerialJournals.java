@@ -62,13 +62,17 @@ public class GoodsIssueMaterialSerialJournals extends BusinessObjects<IMaterialS
     public ICriteria getElementCriteria() {
         ICriteria criteria = new Criteria();
         ICondition condition = criteria.getConditions().create();
-        condition.setAlias("BaseType");
+        condition.setAlias(MaterialSerialJournal.PROPERTY_BASEDOCUMENTTYPE.getName());
         condition.setOperation(ConditionOperation.EQUAL);
         condition.setValue(this.getParent().getObjectCode());
         condition = criteria.getConditions().create();
-        condition.setAlias("BaseEntry");
+        condition.setAlias(MaterialSerialJournal.PROPERTY_BASEDOCUMENTENTRY.getName());
         condition.setOperation(ConditionOperation.EQUAL);
         condition.setValue(this.getParent().getDocEntry());
+        condition.setRelationship(ConditionRelationship.AND);
+        condition.setAlias(MaterialSerialJournal.PROPERTY_BASEDOCUMENTLINEID.getName());
+        condition.setOperation(ConditionOperation.EQUAL);
+        condition.setValue(this.getParent().getLineId());
         condition.setRelationship(ConditionRelationship.AND);
         return criteria;
     }

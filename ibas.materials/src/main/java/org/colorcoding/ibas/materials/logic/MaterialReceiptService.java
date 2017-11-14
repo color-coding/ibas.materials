@@ -31,49 +31,49 @@ import java.math.BigDecimal;
 public class MaterialReceiptService extends BusinessLogic<IMaterialReceiptContract, IMaterialInventoryJournal> {
     @Override
     protected IMaterialInventoryJournal fetchBeAffected(IMaterialReceiptContract contract) {
-            this.checkContractData(contract);
-            // region 定义查询条件
-            ICriteria criteria = Criteria.create();
-            ICondition condition = criteria.getConditions().create();
-            condition.setAlias(MaterialInventoryJournal.PROPERTY_BASEDOCUMENTTYPE.getName());
-            condition.setValue(contract.getBaseDocumentType());
-            condition.setOperation(ConditionOperation.EQUAL);
+        this.checkContractData(contract);
+        // region 定义查询条件
+        ICriteria criteria = Criteria.create();
+        ICondition condition = criteria.getConditions().create();
+        condition.setAlias(MaterialInventoryJournal.PROPERTY_BASEDOCUMENTTYPE.getName());
+        condition.setValue(contract.getBaseDocumentType());
+        condition.setOperation(ConditionOperation.EQUAL);
 
-            condition = criteria.getConditions().create();
-            condition.setAlias(MaterialInventoryJournal.PROPERTY_BASEDOCUMENTENTRY.getName());
-            condition.setValue(contract.getBaseDocumentEntry());
-            condition.setOperation(ConditionOperation.EQUAL);
-            condition.setRelationship(ConditionRelationship.AND);
+        condition = criteria.getConditions().create();
+        condition.setAlias(MaterialInventoryJournal.PROPERTY_BASEDOCUMENTENTRY.getName());
+        condition.setValue(contract.getBaseDocumentEntry());
+        condition.setOperation(ConditionOperation.EQUAL);
+        condition.setRelationship(ConditionRelationship.AND);
 
-            condition = criteria.getConditions().create();
-            condition.setAlias(MaterialInventoryJournal.PROPERTY_BASEDOCUMENTLINEID.getName());
-            condition.setValue(contract.getBaseDocumentLineId());
-            condition.setOperation(ConditionOperation.EQUAL);
-            condition.setRelationship(ConditionRelationship.AND);
+        condition = criteria.getConditions().create();
+        condition.setAlias(MaterialInventoryJournal.PROPERTY_BASEDOCUMENTLINEID.getName());
+        condition.setValue(contract.getBaseDocumentLineId());
+        condition.setOperation(ConditionOperation.EQUAL);
+        condition.setRelationship(ConditionRelationship.AND);
 
-            condition = criteria.getConditions().create();
-            condition.setAlias(MaterialInventoryJournal.PROPERTY_DIRECTION.getName());
-            condition.setValue(emDirection.IN);
-            condition.setOperation(ConditionOperation.EQUAL);
-            condition.setRelationship(ConditionRelationship.AND);
+        condition = criteria.getConditions().create();
+        condition.setAlias(MaterialInventoryJournal.PROPERTY_DIRECTION.getName());
+        condition.setValue(emDirection.IN);
+        condition.setOperation(ConditionOperation.EQUAL);
+        condition.setRelationship(ConditionRelationship.AND);
 
-            // endregion
-            // region 查询物料日记账
-            IMaterialInventoryJournal materialJournal = this.fetchBeAffected(criteria, IMaterialInventoryJournal.class);
-            if (materialJournal == null) {
-                BORepositoryMaterials boRepository = new BORepositoryMaterials();
-                boRepository.setRepository(super.getRepository());
-                IOperationResult<IMaterialInventoryJournal> operationResult = boRepository.fetchMaterialInventoryJournal(criteria);
-                if (operationResult.getError() != null) {
-                    throw new BusinessLogicException(operationResult.getMessage());
-                }
-                // endregion
-                materialJournal = operationResult.getResultObjects().firstOrDefault();
-                if (materialJournal == null) {
-                    materialJournal = MaterialInventoryJournal.create(contract);
-                }
+        // endregion
+        // region 查询物料日记账
+        IMaterialInventoryJournal materialJournal = this.fetchBeAffected(criteria, IMaterialInventoryJournal.class);
+        if (materialJournal == null) {
+            BORepositoryMaterials boRepository = new BORepositoryMaterials();
+            boRepository.setRepository(super.getRepository());
+            IOperationResult<IMaterialInventoryJournal> operationResult = boRepository.fetchMaterialInventoryJournal(criteria);
+            if (operationResult.getError() != null) {
+                throw new BusinessLogicException(operationResult.getMessage());
             }
-            return materialJournal;
+            // endregion
+            materialJournal = operationResult.getResultObjects().firstOrDefault();
+            if (materialJournal == null) {
+                materialJournal = MaterialInventoryJournal.create(contract);
+            }
+        }
+        return materialJournal;
     }
 
     @Override

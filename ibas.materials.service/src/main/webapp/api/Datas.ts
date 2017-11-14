@@ -21,13 +21,13 @@ export const BO_CODE_INVENTORYTRANSFER: string = "${Company}_MM_INVENTORYTRANSFE
 /** 业务对象编码-物料 */
 export const BO_CODE_MATERIAL: string = "${Company}_MM_MATERIAL";
 /** 业务对象编码-物料扩展 */
-export const BO_CODE_MATERIALEX: string = "${Company}_MM_MATERIALEX";
+export const BO_CODE_PRODUCT: string = "${Company}_MM_PRODUCT";
 /** 业务对象编码-物料批次 */
 export const BO_CODE_MATERIALBATCH: string = "${Company}_MM_BATCH";
 /** 业务对象编码-物料批次凭证 */
 export const BO_CODE_MATERIALBATCHJOURNAL: string = "${Company}_MM_BATCHJOURNAL";
-/**  业务对象编码-物料批次接口 */
-export const BO_CODE_MATERIALBATCHSERIALDATA: string = "${Company}_MM_BATCHJOURNAL";
+/**  业务对象编码-物料批次服务 */
+export const BO_CODE_MATERIALBATCHSERVICE: string = "${Company}_MM_BATCHJOURNAL";
 /** 业务对象编码-物料批次-入 */
 export const BO_CODE_RECEIPT_MATERIALBATCH: string = "${Company}_MM_RECEIEPT_BATCH";
 /** 业务对象编码-物料批次-出 */
@@ -36,6 +36,8 @@ export const BO_CODE_ISSUE_MATERIALBATCH: string = "${Company}_MM_ISSUE_BATCH";
 export const BO_CODE_MATERIALSERIAL: string = "${Company}_MM_SERIAL";
 /** 业务对象编码-物料序列号凭证 */
 export const BO_CODE_MATERIALSERIALJOURNAL: string = "${Company}_MM_SERIALJOURNAL";
+/** 业务对象编码-物料序列凭证 */
+export const BO_CODE_MATERIALSERIALSERVICE: string = "${Company}_MM_SERIALJOURNAL";
 /** 业务对象编码-物料序列号-入 */
 export const BO_CODE_RECEIPT_MATERIALSERIAL: string = "${Company}_MM_RECEIEPT_SERIAL";
 /** 业务对象编码-物料序列号-出 */

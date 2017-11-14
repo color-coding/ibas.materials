@@ -34,8 +34,9 @@ export interface IMaterialSerialJournal extends IBOSimple {
     warehouse: string;
     /**方向 */
     direction: emDirection;
+    
     /**在仓库 */
-    inStock: string;
+    inStock: emYesNo;
 
     /**锁定 */
     locked: emYesNo;

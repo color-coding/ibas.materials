@@ -20,6 +20,7 @@ import {
     BOSimple,
     BOSimpleLine,
     config,
+    objects,
 } from "ibas/index";
 import {
     IGoodsIssue,
@@ -451,23 +452,53 @@ export class GoodsIssueLines extends BusinessObjects<GoodsIssueLine, GoodsIssue>
     }
 }
 /** 库存发货-批次日记账 集合 */
-export class GoodsIssueMaterialBatchJournals extends BusinessObjects<MaterialBatchJournal,GoodsIssueLine>
-                                             implements IGoodsIssueMaterialBatchJournals {
+export class GoodsIssueMaterialBatchJournals extends BusinessObjects<MaterialBatchJournal, GoodsIssueLine>
+    implements IGoodsIssueMaterialBatchJournals {
     /** 创建并添加子项 */
     create(): MaterialBatchJournal {
         let item: MaterialBatchJournal = new MaterialBatchJournal();
         this.add(item);
         return item;
     }
+    createBatchJournal(data:IMaterialBatchJournal): MaterialBatchJournal {
+        let item: MaterialBatchJournal = new MaterialBatchJournal();
+        if (objects.instanceOf(data, MaterialBatchJournal)) {
+            item.batchCode = data.batchCode;
+            item.itemCode = data.itemCode;
+            item.warehouse = data.warehouse;
+            item.quantity = data.quantity;
+            item.direction = data.direction;
+            item.admissionDate = data.admissionDate;
+            item.expirationDate = data.expirationDate;
+            item.manufacturingDate = data.manufacturingDate;
+            this.add(item);
+        }
+        return item;
+    }
 }
 /** 库存发货-序列日记账 集合 */
-export class GoodsIssueMaterialSerialJournals extends BusinessObjects<MaterialSerialJournal,GoodsIssueLine>
-                                              implements IGoodsIssueMaterialSerialJournals {
+export class GoodsIssueMaterialSerialJournals extends BusinessObjects<MaterialSerialJournal, GoodsIssueLine>
+    implements IGoodsIssueMaterialSerialJournals {
     /** 创建并添加子项 */
     create(): MaterialSerialJournal {
-    let item: MaterialSerialJournal = new MaterialSerialJournal();
-    this.add(item);
-    return item;
+        let item: MaterialSerialJournal = new MaterialSerialJournal();
+        this.add(item);
+        return item;
+    }
+    createSerialJournal(data: IMaterialSerialJournal): MaterialSerialJournal {
+        let item: MaterialSerialJournal = new MaterialSerialJournal();
+        if (objects.instanceOf(data, MaterialSerialJournal)) {
+            item.supplierSerial = data.supplierSerial;
+            item.serialCode = data.serialCode;
+            item.itemCode = data.itemCode;
+            item.direction = data.direction;
+            item.warehouse = data.warehouse;
+            item.admissionDate = data.admissionDate;
+            item.expirationDate = data.expirationDate;
+            item.manufacturingDate = data.manufacturingDate;
+            this.add(item);
+        }
+        return item;
     }
 }
 

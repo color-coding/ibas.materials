@@ -20,8 +20,11 @@ import {
     BOSimple,
     BOSimpleLine,
     config,
+    objects,
 } from "ibas/index";
 import {
+    IMaterialBatchJournal,
+    IMaterialSerialJournal,
     IInventoryTransfer,
     IInventoryTransferMaterialBatchJournals,
     IInventoryTransferMaterialSerialJournals,
@@ -458,6 +461,21 @@ export class InventoryTransferMaterialBatchJournals extends BusinessObjects<Mate
         this.add(item);
         return item;
     }
+    createBatchJournal(data: IMaterialBatchJournal): MaterialBatchJournal {
+        let item: MaterialBatchJournal = new MaterialBatchJournal();
+        if (objects.instanceOf(data, MaterialBatchJournal)) {
+            item.batchCode = data.batchCode;
+            item.itemCode = data.itemCode;
+            item.warehouse = data.warehouse;
+            item.quantity = data.quantity;
+            item.admissionDate = data.admissionDate;
+            item.expirationDate = data.expirationDate;
+            item.manufacturingDate = data.manufacturingDate;
+            this.add(item);
+        }
+        return item;
+    }
+
 }
 /** 库存转储-序列日记账 集合 */
 export class InventoryTransferMaterialSerialJournals extends BusinessObjects<MaterialSerialJournal, InventoryTransferLine>
@@ -466,6 +484,20 @@ export class InventoryTransferMaterialSerialJournals extends BusinessObjects<Mat
     create(): MaterialSerialJournal {
         let item: MaterialSerialJournal = new MaterialSerialJournal();
         this.add(item);
+        return item;
+    }
+    createSerialJournal(data: IMaterialSerialJournal): MaterialSerialJournal {
+        let item: MaterialSerialJournal = new MaterialSerialJournal();
+        if (objects.instanceOf(data, MaterialSerialJournal)) {
+            item.supplierSerial = data.supplierSerial;
+            item.serialCode = data.serialCode;
+            item.itemCode = data.itemCode;
+            item.warehouse = data.warehouse;
+            item.admissionDate = data.admissionDate;
+            item.expirationDate = data.expirationDate;
+            item.manufacturingDate = data.manufacturingDate;
+            this.add(item);
+        }
         return item;
     }
 }

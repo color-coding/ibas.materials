@@ -37,7 +37,7 @@ export class MaterialSerialIssueView extends ibas.BODialogView implements IMater
             visibleRowCountMode: sap.ui.table.VisibleRowCountMode.Interactive,
             rowSelectionChange: function (): void {
                 that.fireViewEvents(that.selectMaterialSerialJournalLineEvent,
-                    openui5.utils.getTableSelecteds<bo.MaterialBatchSerialInOutData>(that.journalLineTable).firstOrDefault(), );
+                    openui5.utils.getTableSelecteds<bo.MaterialSerialService>(that.journalLineTable).firstOrDefault(), );
             },
             rows: "{/journallinedata}",
             columns: [
@@ -136,7 +136,7 @@ export class MaterialSerialIssueView extends ibas.BODialogView implements IMater
                                     text: ibas.i18n.prop("materials_app_autoselectbatch_by_firstinfirstout"),
                                     press: function (): void {
                                         that.fireViewEvents(that.autoSelectMaterialSerialEvent
-                                            , openui5.utils.getTableSelecteds<bo.MaterialBatchSerialInOutData>
+                                            , openui5.utils.getTableSelecteds<bo.MaterialSerialService>
                                                 (that.journalLineTable).firstOrDefault()
                                             , emAutoSelectBatchSerialRules.FIRSTINFIRSTOUT);
                                     }
@@ -145,7 +145,7 @@ export class MaterialSerialIssueView extends ibas.BODialogView implements IMater
                                     text: ibas.i18n.prop("materials_app_autoselectbatch_by_batchno"),
                                     press: function (): void {
                                         that.fireViewEvents(that.autoSelectMaterialSerialEvent
-                                            , openui5.utils.getTableSelecteds<bo.MaterialBatchSerialInOutData>
+                                            , openui5.utils.getTableSelecteds<bo.MaterialSerialService>
                                                 (that.journalLineTable).firstOrDefault()
                                             , emAutoSelectBatchSerialRules.ORDERBYCODE);
                                     }
@@ -159,7 +159,7 @@ export class MaterialSerialIssueView extends ibas.BODialogView implements IMater
                     press: function (): void {
                         that.fireViewEvents(that.removeSerialMaterialSerialEvent,
                             // 获取表格选中的对象
-                            openui5.utils.getTableSelecteds<bo.MaterialBatchSerialInOutData>(that.journalLineTable).firstOrDefault(),
+                            openui5.utils.getTableSelecteds<bo.MaterialSerialService>(that.journalLineTable).firstOrDefault(),
                             openui5.utils.getTableSelecteds<bo.MaterialBatchJournal>(that.rightTable),
                         );
                     }
@@ -169,7 +169,7 @@ export class MaterialSerialIssueView extends ibas.BODialogView implements IMater
                     press: function (): void {
                         that.fireViewEvents(that.addSerialMaterialSerialEvent,
                             // 获取表格选中的对象
-                            openui5.utils.getTableSelecteds<bo.MaterialBatchSerialInOutData>(that.journalLineTable).firstOrDefault(),
+                            openui5.utils.getTableSelecteds<bo.MaterialSerialService>(that.journalLineTable).firstOrDefault(),
                             openui5.utils.getTableSelecteds<bo.MaterialBatch>(that.leftTable),
                         );
                     }
@@ -245,7 +245,7 @@ export class MaterialSerialIssueView extends ibas.BODialogView implements IMater
     }
     private lastCriteria: ibas.ICriteria;
 
-    showJournalLineData(datas: bo.MaterialBatchSerialInOutData[]): void {
+    showJournalLineData(datas: bo.MaterialSerialService[]): void {
         this.journalLineTable.setModel(new sap.ui.model.json.JSONModel({ journallinedata: datas }));
         openui5.utils.refreshModelChanged(this.journalLineTable, datas);
     }
