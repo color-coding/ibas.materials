@@ -9,6 +9,6 @@
 // 模块索引文件，此文件集中导出类
 export * from "./MaterialListView";
 export * from "./MaterialChooseView";
-export * from "./MaterialExChooseView";
+export * from "./ProductChooseView";
 export * from "./MaterialViewView";
 export * from "./MaterialEditView";

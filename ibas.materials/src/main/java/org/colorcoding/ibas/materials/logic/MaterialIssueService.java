@@ -1,13 +1,6 @@
 package org.colorcoding.ibas.materials.logic;
 
-import java.math.BigDecimal;
-
-import org.colorcoding.ibas.bobas.common.ConditionOperation;
-import org.colorcoding.ibas.bobas.common.ConditionRelationship;
-import org.colorcoding.ibas.bobas.common.Criteria;
-import org.colorcoding.ibas.bobas.common.ICondition;
-import org.colorcoding.ibas.bobas.common.ICriteria;
-import org.colorcoding.ibas.bobas.common.IOperationResult;
+import org.colorcoding.ibas.bobas.common.*;
 import org.colorcoding.ibas.bobas.data.Decimal;
 import org.colorcoding.ibas.bobas.data.emDirection;
 import org.colorcoding.ibas.bobas.data.emYesNo;
@@ -23,6 +16,8 @@ import org.colorcoding.ibas.materials.bo.warehouse.IWarehouse;
 import org.colorcoding.ibas.materials.bo.warehouse.Warehouse;
 import org.colorcoding.ibas.materials.data.emItemType;
 import org.colorcoding.ibas.materials.repository.BORepositoryMaterials;
+
+import java.math.BigDecimal;
 
 @LogicContract(IMaterialIssueContract.class)
 /**
@@ -81,7 +76,6 @@ public class MaterialIssueService extends BusinessLogic<IMaterialIssueContract, 
         Decimal issueQuantity = materialJournal.getQuantity();
         issueQuantity = issueQuantity.add(contract.getQuantity());
         materialJournal.setQuantity(issueQuantity);
-
     }
 
     @Override

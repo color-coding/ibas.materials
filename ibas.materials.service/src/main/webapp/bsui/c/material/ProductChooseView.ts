@@ -9,16 +9,16 @@
 import * as ibas from "ibas/index";
 import * as openui5 from "openui5/index";
 import * as bo from "../../../borep/bo/index";
-import { IMaterialExChooseView } from "../../../bsapp/material/index";
+import { IProductChooseView } from "../../../bsapp/material/index";
 import { emItemType } from "../../../api/index";
 
 /**
  * 选择视图-物料
  */
-export class MaterialExChooseView extends ibas.BOChooseView implements IMaterialExChooseView {
+export class ProductChooseView extends ibas.BOChooseView implements IProductChooseView {
     /** 返回查询的对象 */
     get queryTarget(): any {
-        return bo.MaterialEx;
+        return bo.Product;
     }
     /** 绘制工具条 */
     darwBars(): any {
@@ -39,7 +39,7 @@ export class MaterialExChooseView extends ibas.BOChooseView implements IMaterial
                 press: function (): void {
                     that.fireViewEvents(that.chooseDataEvent,
                         // 获取表格选中的对象
-                        openui5.utils.getTableSelecteds<bo.MaterialEx>(that.table)
+                        openui5.utils.getTableSelecteds<bo.Product>(that.table)
                     );
                 }
             }),
@@ -84,22 +84,11 @@ export class MaterialExChooseView extends ibas.BOChooseView implements IMaterial
                     }),
                 }),
                 new sap.ui.table.Column("", {
-                    label: ibas.i18n.prop("bo_materialex_warehousecode"),
-                    template: new sap.m.Text("", {
-                        wrapping: false
-                    }).bindProperty("text", {
-                        path: "warehouseCode",
-                        formatter(data: any): any {
-                            return ibas.enums.describe(emItemType, data);
-                        }
-                    })
-                }),
-                new sap.ui.table.Column("", {
                     label: ibas.i18n.prop("bo_materialex_onhand"),
                     template: new sap.m.Text("", {
                         wrapping: false,
                     }).bindProperty("text", {
-                        path: "warehouseOnHand",
+                        path: "onHand",
                     }),
                 }),
                 new sap.ui.table.Column("", {
@@ -152,7 +141,7 @@ export class MaterialExChooseView extends ibas.BOChooseView implements IMaterial
                     press: function (): void {
                         that.fireViewEvents(that.chooseDataEvent,
                             // 获取表格选中的对象
-                            openui5.utils.getTableSelecteds<bo.MaterialEx>(that.table)
+                            openui5.utils.getTableSelecteds<bo.Product>(that.table)
                         );
                     }
                 }),
@@ -169,7 +158,7 @@ export class MaterialExChooseView extends ibas.BOChooseView implements IMaterial
     }
     private table: sap.ui.table.Table;
     /** 显示数据 */
-    showData(datas: bo.MaterialEx[]): void {
+    showData(datas: bo.Product[]): void {
         let done: boolean = false;
         let model: sap.ui.model.Model = this.table.getModel(undefined);
         if (!ibas.objects.isNull(model)) {

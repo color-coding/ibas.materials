@@ -213,13 +213,11 @@ export class GoodsReceiptEditApp extends ibas.BOEditApplication<IGoodsReceiptEdi
     /** 选择库存收货订单行物料事件 */
     chooseGoodsReceiptLineMaterial(caller: bo.GoodsReceiptLine): void {
         let that: this = this;
-        ibas.servicesManager.runChooseService<bo.MaterialEx>({
+        ibas.servicesManager.runChooseService<bo.Product>({
             caller: caller,
-            boCode: bo.MaterialEx.BUSINESS_OBJECT_CODE,
-            criteria: [
-                new ibas.Condition(bo.Material.PROPERTY_DELETED_NAME, ibas.emConditionOperation.EQUAL, "N")
-            ],
-            onCompleted(selecteds: ibas.List<bo.MaterialEx>): void {
+            boCode: bo.Product.BUSINESS_OBJECT_CODE,
+            criteria: that.getConditions(),
+            onCompleted(selecteds: ibas.List<bo.Product>): void {
                 // 获取触发的对象
                 let index: number = that.editData.goodsReceiptLines.indexOf(caller);
                 let item: bo.GoodsReceiptLine = that.editData.goodsReceiptLines[index];
@@ -231,13 +229,12 @@ export class GoodsReceiptEditApp extends ibas.BOEditApplication<IGoodsReceiptEdi
                         created = true;
                     }
                     // 如果物料或仓库发生更改，删除批次、序列集合
-                    if (item.itemCode !== selected.code || item.warehouse !== selected.warehouseCode) {
+                    if (item.itemCode !== selected.code) {
                         item.goodsReceiptMaterialBatchJournals.clear();
                         item.goodsReceiptMaterialSerialJournals.clear();
                     }
                     item.itemCode = selected.code;
                     item.itemDescription = selected.name;
-                    item.warehouse = selected.warehouseCode;
                     item.serialManagement = selected.serialManagement;
                     item.batchManagement = selected.batchManagement;
                     item.price = selected.price;
@@ -439,6 +436,18 @@ export class GoodsReceiptEditApp extends ibas.BOEditApplication<IGoodsReceiptEdi
             inputData.push(input);
         }
         return inputData;
+    }
+
+    getConditions(): ibas.Condition[] {
+        let conditions: ibas.Condition[] = new Array<ibas.Condition>();
+        conditions.push(new ibas.Condition(bo.Material.PROPERTY_DELETED_NAME, ibas.emConditionOperation.EQUAL, "N"));
+        if (ibas.objects.isNull(this.editData.priceList)) {
+            conditions.push(new ibas.Condition(
+                bo.MaterialPriceList.PROPERTY_OBJECTKEY_NAME
+                , ibas.emConditionOperation.EQUAL
+                , this.editData.priceList));
+        }
+        return conditions;
     }
 
 }

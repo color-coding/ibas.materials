@@ -12,7 +12,7 @@ import org.colorcoding.ibas.materials.bo.goodsissue.GoodsIssue;
 import org.colorcoding.ibas.materials.bo.goodsreceipt.GoodsReceipt;
 import org.colorcoding.ibas.materials.bo.inventorytransfer.InventoryTransfer;
 import org.colorcoding.ibas.materials.bo.material.Material;
-import org.colorcoding.ibas.materials.bo.material.MaterialEx;
+import org.colorcoding.ibas.materials.bo.material.Product;
 import org.colorcoding.ibas.materials.bo.materialbatch.MaterialBatch;
 import org.colorcoding.ibas.materials.bo.materialbatch.MaterialBatchJournal;
 import org.colorcoding.ibas.materials.bo.materialgroup.MaterialGroup;
@@ -514,9 +514,9 @@ public class DataService extends BORepositoryMaterials {
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
-	@Path("fetchMaterialEx")
-	public OperationResult<MaterialEx> fetchMaterialEx(Criteria criteria, @QueryParam("token") String token) {
-		return super.fetchMaterialEx(criteria, token);
+	@Path("fetchProduct")
+	public OperationResult<Product> fetchProduct(Criteria criteria, @QueryParam("token") String token) {
+		return super.fetchProduct(criteria, token);
 	}
 
 	// --------------------------------------------------------------------------------------------//

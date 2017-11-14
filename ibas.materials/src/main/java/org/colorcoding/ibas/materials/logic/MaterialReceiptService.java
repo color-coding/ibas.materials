@@ -129,7 +129,7 @@ public class MaterialReceiptService extends BusinessLogic<IMaterialReceiptContra
                     I18N.prop("msg_mm_material_is_phantom_item_can't_create_journal"), contract.getItemCode()));
         }
         // 非库存物料，不生成库存记录
-        if (material.getInventoryItem() != emYesNo.NO) {
+        if (material.getInventoryItem() == emYesNo.NO) {
             throw new BusinessLogicException(
                     String.format(I18N.prop("msg_mm_material_is_not_inventory_item_can't_create_journal"),
                             contract.getItemCode()));

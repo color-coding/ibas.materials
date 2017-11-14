@@ -228,13 +228,13 @@ export class InventoryTransferEditApp extends ibas.BOEditApplication<IInventoryT
     /** 选择库存转储订单行物料事件 */
     chooseInventoryTransferLineMaterial(caller: bo.InventoryTransferLine): void {
         let that: this = this;
-        ibas.servicesManager.runChooseService<bo.MaterialEx>({
+        ibas.servicesManager.runChooseService<bo.Product>({
             caller: caller,
-            boCode: bo.MaterialEx.BUSINESS_OBJECT_CODE,
+            boCode: bo.Product.BUSINESS_OBJECT_CODE,
             criteria: [
-                new ibas.Condition(bo.MaterialEx.PROPERTY_DELETED_NAME, ibas.emConditionOperation.EQUAL, "N")
+                new ibas.Condition(bo.Product.PROPERTY_DELETED_NAME, ibas.emConditionOperation.EQUAL, "N")
             ],
-            onCompleted(selecteds: ibas.List<bo.MaterialEx>): void {
+            onCompleted(selecteds: ibas.List<bo.Product>): void {
                 // 获取触发的对象
                 let index: number = that.editData.inventoryTransferLines.indexOf(caller);
                 let item: bo.InventoryTransferLine = that.editData.inventoryTransferLines[index];
