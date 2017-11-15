@@ -63,6 +63,7 @@ export class GoodsIssueEditApp extends ibas.BOEditApplication<IGoodsIssueEditVie
     /** 运行,覆盖原方法 */
     run(...args: any[]): void {
         let that: this = this;
+        that.searchPriceList();
         if (ibas.objects.instanceOf(arguments[0], bo.GoodsIssue)) {
             // 尝试重新查询编辑对象
             let criteria: ibas.ICriteria = arguments[0].criteria();
@@ -410,7 +411,7 @@ export class GoodsIssueEditApp extends ibas.BOEditApplication<IGoodsIssueEditVie
         }
         return inputData;
     }
-
+    /** 查询价格清单 */
     searchPriceList(): void {
         // 查询价格清单
         let that: this = this;
@@ -433,7 +434,7 @@ export class GoodsIssueEditApp extends ibas.BOEditApplication<IGoodsIssueEditVie
     getConditions(): ibas.ICondition[] {
         let conditions: ibas.ICondition[] = new Array<ibas.ICondition>();
         conditions.push(new ibas.Condition(bo.Material.PROPERTY_DELETED_NAME, ibas.emConditionOperation.EQUAL, "N"));
-        if (ibas.objects.isNull(this.editData.priceList)) {
+        if (!ibas.objects.isNull(this.editData.priceList)) {
             conditions.push(new ibas.Condition(
                 bo.MaterialPriceList.PROPERTY_OBJECTKEY_NAME
                 , ibas.emConditionOperation.EQUAL
@@ -467,6 +468,4 @@ export interface IGoodsIssueEditView extends ibas.IBOEditView {
     chooseGoodsIssueLineMaterialBatchEvent: Function;
     /** 选择库存发货单行物料序列号事件 */
     chooseGoodsIssueLineMaterialSerialEvent: Function;
-    /** 查询价格清单 */
-    searchPriceListEvent: Function;
 }

@@ -62,6 +62,7 @@ export class GoodsReceiptEditApp extends ibas.BOEditApplication<IGoodsReceiptEdi
     /** 运行,覆盖原方法 */
     run(...args: any[]): void {
         let that: this = this;
+        that.searchPriceList();
         if (ibas.objects.instanceOf(arguments[0], bo.GoodsReceipt)) {
             // 尝试重新查询编辑对象
             let criteria: ibas.ICriteria = arguments[0].criteria();
@@ -420,12 +421,29 @@ export class GoodsReceiptEditApp extends ibas.BOEditApplication<IGoodsReceiptEdi
         }
         return inputData;
     }
-
+    /** 查询价格清单 */
+    searchPriceList(): void {
+        // 查询价格清单
+        let that: this = this;
+        let boRepository: BORepositoryMaterials = new BORepositoryMaterials();
+        boRepository.fetchMaterialPriceList({
+            criteria: [],
+            onCompleted(opRslt: ibas.IOperationResult<bo.MaterialPriceList>): void {
+                let data: bo.MaterialPriceList;
+                if (opRslt.resultCode === 0) {
+                    data = opRslt.resultObjects.firstOrDefault();
+                }
+                if (ibas.objects.instanceOf(data, bo.MaterialPriceList)) {
+                    that.view.showPriceListSelect(opRslt.resultObjects);
+                }
+            }
+        });
+    }
     /** 获取物料增量查询条件 */
     getConditions(): ibas.ICondition[] {
         let conditions: ibas.ICondition[] = new Array<ibas.ICondition>();
         conditions.push(new ibas.Condition(bo.Material.PROPERTY_DELETED_NAME, ibas.emConditionOperation.EQUAL, "N"));
-        if (ibas.objects.isNull(this.editData.priceList)) {
+        if (!ibas.objects.isNull(this.editData.priceList)) {
             conditions.push(new ibas.Condition(
                 bo.MaterialPriceList.PROPERTY_OBJECTKEY_NAME
                 , ibas.emConditionOperation.EQUAL
@@ -438,6 +456,8 @@ export class GoodsReceiptEditApp extends ibas.BOEditApplication<IGoodsReceiptEdi
 export interface IGoodsReceiptEditView extends ibas.IBOEditView {
     /** 显示数据 */
     showGoodsReceipt(data: bo.GoodsReceipt): void;
+    /** 显示价格清单 */
+    showPriceListSelect(datas: bo.MaterialPriceList[]): void;
     /** 删除数据事件 */
     deleteDataEvent: Function;
     /** 新建数据事件，参数1：是否克隆 */

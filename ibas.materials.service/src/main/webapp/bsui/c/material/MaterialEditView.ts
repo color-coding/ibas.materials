@@ -272,4 +272,5 @@ export class MaterialEditView extends ibas.BOEditView implements IMaterialEditVi
         // 改变视图状态
         this.changeViewStatus(data);
     }
+
 }
