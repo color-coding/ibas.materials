@@ -460,7 +460,7 @@ export class GoodsIssueMaterialBatchJournals extends BusinessObjects<MaterialBat
         this.add(item);
         return item;
     }
-    createBatchJournal(data:IMaterialBatchJournal): MaterialBatchJournal {
+    createBatchJournal(data: IMaterialBatchJournal): MaterialBatchJournal {
         let item: MaterialBatchJournal = new MaterialBatchJournal();
         if (objects.instanceOf(data, MaterialBatchJournal)) {
             item.batchCode = data.batchCode;
@@ -474,6 +474,12 @@ export class GoodsIssueMaterialBatchJournals extends BusinessObjects<MaterialBat
             this.add(item);
         }
         return item;
+    }
+    /** 该行的批次日记账集合标记为删除 */
+    deleteAll(): void {
+        for (let item of this) {
+            item.delete();
+        }
     }
 }
 /** 库存发货-序列日记账 集合 */
@@ -499,6 +505,12 @@ export class GoodsIssueMaterialSerialJournals extends BusinessObjects<MaterialSe
             this.add(item);
         }
         return item;
+    }
+    /** 该行的序列日记账集合标记为删除 */
+    deleteAll(): void {
+        for (let item of this) {
+            item.delete();
+        }
     }
 }
 

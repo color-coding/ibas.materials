@@ -234,8 +234,8 @@ export class GoodsIssueEditApp extends ibas.BOEditApplication<IGoodsIssueEditVie
                     }
                     // 如果物料、仓库发生变更 删除批次、序列集合
                     if (item.itemCode !== selected.code) {
-                        item.goodsIssueMaterialBatchJournals.clear();
-                        item.goodsIssueMaterialSerialJournals.clear();
+                        item.goodsIssueMaterialBatchJournals.deleteAll();
+                        item.goodsIssueMaterialSerialJournals.deleteAll();
                     }
                     item.itemCode = selected.code;
                     item.itemDescription = selected.name;
@@ -274,8 +274,8 @@ export class GoodsIssueEditApp extends ibas.BOEditApplication<IGoodsIssueEditVie
                         created = true;
                     }
                     if (item.warehouse !== selected.code) {
-                        item.goodsIssueMaterialBatchJournals.clear();
-                        item.goodsIssueMaterialSerialJournals.clear();
+                        item.goodsIssueMaterialBatchJournals.deleteAll();
+                        item.goodsIssueMaterialSerialJournals.deleteAll();
                     }
                     item.warehouse = selected.code;
                     item = null;
@@ -304,9 +304,7 @@ export class GoodsIssueEditApp extends ibas.BOEditApplication<IGoodsIssueEditVie
                 // 获取触发的对象
                 for (let line of callbackData) {
                     let item: bo.GoodsIssueLine = that.editData.goodsIssueLines[line.index];
-                    for (let journalLine of item.goodsIssueMaterialBatchJournals) {
-                        journalLine.delete();
-                    }
+                    item.goodsIssueMaterialBatchJournals.deleteAll();
                     for (let batchJournal of line.materialBatchServiceJournals.filterDeleted()) {
                         // 如果批次号为空 不处理
                         if (ibas.objects.isNull(batchJournal.batchCode)) {
@@ -333,9 +331,7 @@ export class GoodsIssueEditApp extends ibas.BOEditApplication<IGoodsIssueEditVie
                 // 获取触发的对象
                 for (let line of callbackData) {
                     let item: bo.GoodsIssueLine = that.editData.goodsIssueLines[line.index];
-                    for (let journalLine of item.goodsIssueMaterialSerialJournals) {
-                        journalLine.delete();
-                    }
+                    item.goodsIssueMaterialSerialJournals.deleteAll();
                     for (let serialJournal of line.materialSerialServiceJournals.filterDeleted()) {
                         // 序列号为空，不处理
                         if (ibas.objects.isNull(serialJournal.serialCode)) {

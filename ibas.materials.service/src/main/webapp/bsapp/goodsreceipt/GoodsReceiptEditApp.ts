@@ -271,8 +271,8 @@ export class GoodsReceiptEditApp extends ibas.BOEditApplication<IGoodsReceiptEdi
                         created = true;
                     }
                     if (item.warehouse !== selected.code) {
-                        item.goodsReceiptMaterialBatchJournals.clear();
-                        item.goodsReceiptMaterialSerialJournals.clear();
+                        item.goodsReceiptMaterialBatchJournals.deleteAll();
+                        item.goodsReceiptMaterialSerialJournals.deleteAll();
                     }
                     item.warehouse = selected.code;
                     item = null;
@@ -301,9 +301,7 @@ export class GoodsReceiptEditApp extends ibas.BOEditApplication<IGoodsReceiptEdi
                 // 获取触发的对象
                 for (let line of callbackData) {
                     let item: bo.GoodsReceiptLine = that.editData.goodsReceiptLines[line.index];
-                    for (let batchLine of item.goodsReceiptMaterialBatchJournals) {
-                        batchLine.delete();
-                    }
+                    item.goodsReceiptMaterialBatchJournals.deleteAll();
                     for (let batchJournal of line.materialBatchServiceJournals.filterDeleted()) {
                         // 如果批次号为空 不处理
                         if (ibas.objects.isNull(batchJournal.batchCode)) {
@@ -332,9 +330,7 @@ export class GoodsReceiptEditApp extends ibas.BOEditApplication<IGoodsReceiptEdi
                 // 获取触发的对象
                 for (let line of callbackData) {
                     let item: bo.GoodsReceiptLine = that.editData.goodsReceiptLines[line.index];
-                    for (let serialLine of item.goodsReceiptMaterialSerialJournals) {
-                        serialLine.delete();
-                    }
+                    item.goodsReceiptMaterialSerialJournals.deleteAll();
                     for (let serialJournal of line.materialSerialServiceJournals.filterDeleted()) {
                         // 如果序列号为空 不处理
                         if (ibas.objects.isNull(serialJournal.serialCode)) {

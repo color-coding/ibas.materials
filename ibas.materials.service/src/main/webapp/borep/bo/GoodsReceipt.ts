@@ -474,7 +474,12 @@ export class GoodsReceiptMaterialBatchJournals extends BusinessObjects<MaterialB
         }
         return item;
     }
-
+    /** 该行的批次日记账集合标记为删除 */
+    deleteAll(): void {
+        for (let item of this) {
+            item.delete();
+        }
+    }
 }
 /** 库存库存收货发货-序列日记账 集合 */
 export class GoodsReceiptMaterialSerialJournals extends BusinessObjects<MaterialSerialJournal, GoodsReceiptLine>
@@ -499,6 +504,12 @@ export class GoodsReceiptMaterialSerialJournals extends BusinessObjects<Material
             this.add(item);
         }
         return item;
+    }
+    /** 该行的序列日记账集合标记为删除 */
+    deleteAll(): void {
+        for (let item of this) {
+            item.delete();
+        }
     }
 }
 /** 库存收货-行 */
