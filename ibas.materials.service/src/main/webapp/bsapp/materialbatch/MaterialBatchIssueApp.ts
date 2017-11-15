@@ -124,6 +124,10 @@ export class MaterialBatchIssueApp extends ibas.BOApplication<IMaterialBatchIssu
             if (line.needBatchQuantity === 0) {
                 return;
             }
+            if (item.quantity === 0) {
+                item.delete();
+                continue;
+            }
             let batchLine: bo.MaterialBatchJournal = line.materialBatchServiceJournals
                 .find(c => c.batchCode === item.batchCode);
             if (ibas.objects.isNull(batchLine)) {

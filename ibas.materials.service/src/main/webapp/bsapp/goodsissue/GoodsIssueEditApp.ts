@@ -304,7 +304,9 @@ export class GoodsIssueEditApp extends ibas.BOEditApplication<IGoodsIssueEditVie
                 // 获取触发的对象
                 for (let line of callbackData) {
                     let item: bo.GoodsIssueLine = that.editData.goodsIssueLines[line.index];
-                    item.goodsIssueMaterialBatchJournals.clear();
+                    for (let journalLine of item.goodsIssueMaterialBatchJournals) {
+                        journalLine.delete();
+                    }
                     for (let batchJournal of line.materialBatchServiceJournals.filterDeleted()) {
                         // 如果批次号为空 不处理
                         if (ibas.objects.isNull(batchJournal.batchCode)) {
@@ -331,7 +333,9 @@ export class GoodsIssueEditApp extends ibas.BOEditApplication<IGoodsIssueEditVie
                 // 获取触发的对象
                 for (let line of callbackData) {
                     let item: bo.GoodsIssueLine = that.editData.goodsIssueLines[line.index];
-                    item.goodsIssueMaterialSerialJournals.clear();
+                    for (let journalLine of item.goodsIssueMaterialSerialJournals) {
+                        journalLine.delete();
+                    }
                     for (let serialJournal of line.materialSerialServiceJournals.filterDeleted()) {
                         // 序列号为空，不处理
                         if (ibas.objects.isNull(serialJournal.serialCode)) {
@@ -429,7 +433,7 @@ export class GoodsIssueEditApp extends ibas.BOEditApplication<IGoodsIssueEditVie
             }
         });
     }
-
+    /** 获取物料增量查询条件 */
     getConditions(): ibas.ICondition[] {
         let conditions: ibas.ICondition[] = new Array<ibas.ICondition>();
         conditions.push(new ibas.Condition(bo.Material.PROPERTY_DELETED_NAME, ibas.emConditionOperation.EQUAL, "N"));

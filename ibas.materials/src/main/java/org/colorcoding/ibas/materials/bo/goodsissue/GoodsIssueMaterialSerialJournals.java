@@ -70,6 +70,7 @@ public class GoodsIssueMaterialSerialJournals extends BusinessObjects<IMaterialS
         condition.setOperation(ConditionOperation.EQUAL);
         condition.setValue(this.getParent().getDocEntry());
         condition.setRelationship(ConditionRelationship.AND);
+        condition = criteria.getConditions().create();
         condition.setAlias(MaterialSerialJournal.PROPERTY_BASEDOCUMENTLINEID.getName());
         condition.setOperation(ConditionOperation.EQUAL);
         condition.setValue(this.getParent().getLineId());
