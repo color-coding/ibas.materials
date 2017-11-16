@@ -1,22 +1,21 @@
 package org.colorcoding.ibas.materials.test.bo;
 
 import junit.framework.TestCase;
-import org.colorcoding.ibas.bobas.data.*;
 import org.colorcoding.ibas.bobas.common.*;
-import org.colorcoding.ibas.bobas.repository.*;
-import org.colorcoding.ibas.materials.bo.goodsissue.GoodsIssue;
-import org.colorcoding.ibas.materials.bo.goodsissue.IGoodsIssueLine;
+import org.colorcoding.ibas.bobas.data.DateTime;
+import org.colorcoding.ibas.bobas.data.emDirection;
+import org.colorcoding.ibas.bobas.data.emDocumentStatus;
+import org.colorcoding.ibas.bobas.data.emYesNo;
+import org.colorcoding.ibas.materials.bo.goodsreceipt.GoodsReceipt;
+import org.colorcoding.ibas.materials.bo.goodsreceipt.IGoodsReceiptLine;
 import org.colorcoding.ibas.materials.bo.material.Material;
 import org.colorcoding.ibas.materials.bo.materialbatch.IMaterialBatchJournal;
 import org.colorcoding.ibas.materials.bo.materialinventory.MaterialInventory;
 import org.colorcoding.ibas.materials.bo.materialinventory.MaterialInventoryJournal;
 import org.colorcoding.ibas.materials.bo.materialserial.IMaterialSerialJournal;
 import org.colorcoding.ibas.materials.bo.warehouse.Warehouse;
-import org.colorcoding.ibas.materials.data.*;
-import org.colorcoding.ibas.materials.bo.goodsreceipt.*;
-import org.colorcoding.ibas.materials.repository.*;
-
-import java.math.BigDecimal;
+import org.colorcoding.ibas.materials.repository.BORepositoryMaterials;
+import org.colorcoding.ibas.materials.repository.IBORepositoryMaterialsApp;
 
 /**
 * 库存收货 测试
@@ -82,7 +81,6 @@ public class testGoodsReceipt extends TestCase {
 
         // 测试对象的保存和查询
         IOperationResult<?> operationResult = null;
-        ICriteria criteria = null;
         IBORepositoryMaterialsApp boRepository = new BORepositoryMaterials();
         //设置用户口令
         boRepository.setUserToken(this.getToken());

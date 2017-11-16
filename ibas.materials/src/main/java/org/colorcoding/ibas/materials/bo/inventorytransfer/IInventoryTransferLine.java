@@ -1,6 +1,6 @@
 package org.colorcoding.ibas.materials.bo.inventorytransfer;
 
-import org.colorcoding.ibas.bobas.bo.*;
+import org.colorcoding.ibas.bobas.bo.IBODocumentLine;
 import org.colorcoding.ibas.bobas.data.*;
 import org.colorcoding.ibas.materials.data.*;
 

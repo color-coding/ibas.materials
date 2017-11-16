@@ -1,8 +1,8 @@
 package org.colorcoding.ibas.materials.bo.materialserial;
 
-import org.colorcoding.ibas.bobas.bo.*;
-import org.colorcoding.ibas.bobas.data.*;
-import org.colorcoding.ibas.materials.data.*;
+import org.colorcoding.ibas.bobas.bo.IBOSimpleLine;
+import org.colorcoding.ibas.bobas.data.DateTime;
+import org.colorcoding.ibas.bobas.data.emDirection;
 
 /**
 * 物料序列号日记账 接口

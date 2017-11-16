@@ -1,20 +1,21 @@
 package org.colorcoding.ibas.materials.test.bo;
 
 import junit.framework.TestCase;
-import org.colorcoding.ibas.bobas.data.*;
 import org.colorcoding.ibas.bobas.common.*;
-import org.colorcoding.ibas.bobas.repository.*;
-import org.colorcoding.ibas.materials.bo.goodsissue.GoodsIssue;
-import org.colorcoding.ibas.materials.bo.goodsissue.IGoodsIssueLine;
+import org.colorcoding.ibas.bobas.data.DateTime;
+import org.colorcoding.ibas.bobas.data.emDirection;
+import org.colorcoding.ibas.bobas.data.emDocumentStatus;
+import org.colorcoding.ibas.bobas.data.emYesNo;
 import org.colorcoding.ibas.materials.bo.goodsreceipt.GoodsReceipt;
 import org.colorcoding.ibas.materials.bo.goodsreceipt.IGoodsReceiptLine;
+import org.colorcoding.ibas.materials.bo.inventorytransfer.IInventoryTransferLine;
+import org.colorcoding.ibas.materials.bo.inventorytransfer.InventoryTransfer;
 import org.colorcoding.ibas.materials.bo.material.Material;
 import org.colorcoding.ibas.materials.bo.materialinventory.MaterialInventory;
 import org.colorcoding.ibas.materials.bo.materialinventory.MaterialInventoryJournal;
 import org.colorcoding.ibas.materials.bo.warehouse.Warehouse;
-import org.colorcoding.ibas.materials.data.*;
-import org.colorcoding.ibas.materials.bo.inventorytransfer.*;
-import org.colorcoding.ibas.materials.repository.*;
+import org.colorcoding.ibas.materials.repository.BORepositoryMaterials;
+import org.colorcoding.ibas.materials.repository.IBORepositoryMaterialsApp;
 
 /**
 * 库存转储 测试
@@ -38,7 +39,7 @@ public class testInventoryTransfer extends TestCase {
 
 
         // 测试库存转储-行
-        IInventoryTransferLine inventorytransferline = bo.getInventoryTransferLines().create();
+        
         // 测试属性赋值
 
 
@@ -68,7 +69,6 @@ public class testInventoryTransfer extends TestCase {
 
     public void testLogic() throws Exception{
         IOperationResult<?> operationResult = null;
-        ICriteria criteria = null;
         IBORepositoryMaterialsApp boRepository = new BORepositoryMaterials();
         //设置用户口令
         boRepository.setUserToken(this.getToken());
