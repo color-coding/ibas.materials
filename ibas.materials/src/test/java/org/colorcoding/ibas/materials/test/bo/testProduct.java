@@ -1,23 +1,19 @@
 package org.colorcoding.ibas.materials.test.bo;
 
+import org.colorcoding.ibas.bobas.common.Criteria;
 import org.colorcoding.ibas.bobas.common.ICriteria;
 import org.colorcoding.ibas.bobas.common.IOperationResult;
-import org.colorcoding.ibas.materials.bo.materialgroup.MaterialGroup;
 import org.colorcoding.ibas.materials.repository.BORepositoryMaterials;
 import org.colorcoding.ibas.materials.repository.IBORepositoryMaterialsApp;
 
 import junit.framework.TestCase;
 
-/**
- * 物料组 测试
- * 
- */
-public class testMaterialGroup extends TestCase {
+public class testProduct extends TestCase {
 	/**
 	 * 获取连接口令
 	 */
 	String getToken() {
-		return "";
+		return "68fc6bac014d06ad94c5734116487cff";
 	}
 
 	/**
@@ -26,27 +22,19 @@ public class testMaterialGroup extends TestCase {
 	 * @throws Exception
 	 */
 	public void testBasicItems() throws Exception {
-		MaterialGroup bo = new MaterialGroup();
-		// 测试属性赋值
 
 		// 测试对象的保存和查询
 		IOperationResult<?> operationResult = null;
-		ICriteria criteria = null;
+		ICriteria criteria = new Criteria();
 		IBORepositoryMaterialsApp boRepository = new BORepositoryMaterials();
 		// 设置用户口令
 		boRepository.setUserToken(this.getToken());
 
-		// 测试保存
-		operationResult = boRepository.saveMaterialGroup(bo);
-		assertEquals(operationResult.getMessage(), operationResult.getResultCode(), 0);
-		MaterialGroup boSaved = (MaterialGroup) operationResult.getResultObjects().firstOrDefault();
-
 		// 测试查询
-		criteria = boSaved.getCriteria();
-		criteria.setResultCount(10);
-		operationResult = boRepository.fetchMaterialGroup(criteria);
+		// ICondition condition = criteria.getConditions().create();
+
+		operationResult = boRepository.fetchProduct(criteria);
 		assertEquals(operationResult.getMessage(), operationResult.getResultCode(), 0);
 
 	}
-
 }
