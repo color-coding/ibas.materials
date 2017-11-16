@@ -177,7 +177,7 @@ export class InventoryTransferChooseView extends ibas.BOChooseView implements II
                 for (let item of datas) {
                     hDatas.rows.push(item);
                 }
-                model.refresh(false);
+                model.refresh(false);                done = true;
 
             }
         }
