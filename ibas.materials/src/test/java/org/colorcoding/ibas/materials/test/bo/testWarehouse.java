@@ -1,12 +1,11 @@
 package org.colorcoding.ibas.materials.test.bo;
 
 import junit.framework.TestCase;
-import org.colorcoding.ibas.bobas.data.*;
-import org.colorcoding.ibas.bobas.common.*;
-import org.colorcoding.ibas.bobas.repository.*;
-import org.colorcoding.ibas.materials.data.*;
-import org.colorcoding.ibas.materials.bo.warehouse.*;
-import org.colorcoding.ibas.materials.repository.*;
+import org.colorcoding.ibas.bobas.common.ICriteria;
+import org.colorcoding.ibas.bobas.common.IOperationResult;
+import org.colorcoding.ibas.materials.bo.warehouse.Warehouse;
+import org.colorcoding.ibas.materials.repository.BORepositoryMaterials;
+import org.colorcoding.ibas.materials.repository.IBORepositoryMaterialsApp;
 
 /**
 * 仓库 测试

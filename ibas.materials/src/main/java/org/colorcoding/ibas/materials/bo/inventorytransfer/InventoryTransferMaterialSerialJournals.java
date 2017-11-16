@@ -1,7 +1,6 @@
 package org.colorcoding.ibas.materials.bo.inventorytransfer;
 
 import org.colorcoding.ibas.bobas.bo.BusinessObjects;
-import org.colorcoding.ibas.bobas.bo.IBusinessObjects;
 import org.colorcoding.ibas.bobas.common.*;
 import org.colorcoding.ibas.materials.MyConfiguration;
 import org.colorcoding.ibas.materials.bo.materialbatch.MaterialBatchJournal;

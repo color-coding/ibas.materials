@@ -1,8 +1,7 @@
 package org.colorcoding.ibas.materials.bo.goodsissue;
 
-import org.colorcoding.ibas.bobas.bo.*;
+import org.colorcoding.ibas.bobas.bo.IBODocument;
 import org.colorcoding.ibas.bobas.data.*;
-import org.colorcoding.ibas.materials.data.*;
 
 /**
 * 库存发货 接口

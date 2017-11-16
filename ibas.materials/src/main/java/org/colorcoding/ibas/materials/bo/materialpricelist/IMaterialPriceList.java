@@ -1,8 +1,8 @@
 package org.colorcoding.ibas.materials.bo.materialpricelist;
 
-import org.colorcoding.ibas.bobas.bo.*;
-import org.colorcoding.ibas.bobas.data.*;
-import org.colorcoding.ibas.materials.data.*;
+import org.colorcoding.ibas.bobas.bo.IBOSimple;
+import org.colorcoding.ibas.bobas.data.DateTime;
+import org.colorcoding.ibas.bobas.data.Decimal;
 
 /**
 * 物料价格清单 接口
