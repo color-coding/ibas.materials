@@ -765,6 +765,7 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
         try {
             ICriteria criteria = new Criteria();
             MaterialPrice materialPrice = new MaterialPrice();
+            materialPrice.setItemCode(itemCode);
             IChildCriteria childCriteria;
             ICondition condition;
             // region 价格清单查询条件
@@ -786,14 +787,20 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
             if (opRstPriceList.getError() != null) {
                 throw opRstPriceList.getError();
             }
+            if (opRstPriceList.getResultObjects().isEmpty()) {
+                return materialPrice;
+            }
             IMaterialPriceList materialPriceList = opRstPriceList.getResultObjects().firstOrDefault();
-            if (materialPriceList != null && materialPriceList.getMaterialPriceItems().firstOrDefault().getPrice().compareTo(BigDecimal.ZERO) == 0) {
+            // 该价格清单下找不到物料的记录
+            if (materialPriceList.getMaterialPriceItems().isEmpty()) {
+                return materialPrice;
+            }
+            if (materialPriceList.getMaterialPriceItems().firstOrDefault().getPrice().compareTo(BigDecimal.ZERO) == 0) {
                 materialPriceList = this.fetchMaterialPrice(materialPriceList, criteria);
                 // 赋值MaterialPrice对象
-                materialPrice.setItemCode(itemCode);
-                materialPrice.setPrice(materialPriceList.getMaterialPriceItems().firstOrDefault().getPrice());
-                materialPrice.setCurrency(materialPriceList.getCurrency());
             }
+            materialPrice.setPrice(materialPriceList.getMaterialPriceItems().firstOrDefault().getPrice());
+            materialPrice.setCurrency(materialPriceList.getCurrency());
             return materialPrice;
         } catch (Exception e) {
             throw new BusinessLogicException(String.format(I18N.prop("msg_mm_found_material_price_list_error"), itemCode, e.getMessage()));

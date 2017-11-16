@@ -1,16 +1,12 @@
 package org.colorcoding.ibas.materials.bo.material;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlType;
-
 import org.colorcoding.ibas.bobas.core.IPropertyInfo;
 import org.colorcoding.ibas.bobas.data.ArrayList;
 import org.colorcoding.ibas.bobas.data.Decimal;
 import org.colorcoding.ibas.bobas.mapping.BOCode;
 import org.colorcoding.ibas.materials.MyConfiguration;
+
+import javax.xml.bind.annotation.*;
 
 /**
  * 获取-物料(包含仓库库存，价格清单)
@@ -40,7 +36,7 @@ public class Product extends MaterialBase<Product> implements IProduct {
 	// private static final String DB_PRICELIST_TABLE_NAME ="${Company}_MM_MPL1";
 
 	/**
-	 * 创建MaterialExpand
+	 * 创建Product
 	 *
 	 * @param material
 	 * @return
@@ -60,7 +56,7 @@ public class Product extends MaterialBase<Product> implements IProduct {
 	}
 
 	/**
-	 * 创建MaterialExpand
+	 * 创建Product
 	 *
 	 * @param material
 	 * @return
@@ -80,14 +76,14 @@ public class Product extends MaterialBase<Product> implements IProduct {
 	}
 
 	/**
-	 * 创建MaterialExpand对象集合
+	 * 创建Product对象集合
 	 *
 	 * @param materials
 	 *            物料对象集合
 	 * @return
 	 */
 	public static ArrayList<Product> create(ArrayList<Material> materials) {
-		ArrayList<Product> products = new ArrayList<Product>();
+		ArrayList<Product> products = new ArrayList<>();
 		for (Material material : materials) {
 			products.add(create(material));
 		}

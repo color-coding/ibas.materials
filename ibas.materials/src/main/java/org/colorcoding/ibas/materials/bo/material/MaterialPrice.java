@@ -1,13 +1,9 @@
 package org.colorcoding.ibas.materials.bo.material;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlType;
-
 import org.colorcoding.ibas.bobas.data.Decimal;
 import org.colorcoding.ibas.materials.MyConfiguration;
+
+import javax.xml.bind.annotation.*;
 
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlType(name = "MaterialPrice", namespace = MyConfiguration.NAMESPACE_BO)
@@ -35,7 +31,13 @@ public class MaterialPrice {
 	public final void setPrice(Decimal price) {
 		this.price = price;
 	}
+	public final void setPrice(int value) {
+		this.setPrice(new Decimal(value));
+	}
 
+	public final void setPrice(double value) {
+		this.setPrice(new Decimal(value));
+	}
 	@XmlElement(name = "Currency")
 	private String currency;
 
