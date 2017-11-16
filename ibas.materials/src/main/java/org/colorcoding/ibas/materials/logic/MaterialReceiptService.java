@@ -22,6 +22,8 @@ import org.colorcoding.ibas.materials.bo.warehouse.Warehouse;
 import org.colorcoding.ibas.materials.data.emItemType;
 import org.colorcoding.ibas.materials.repository.BORepositoryMaterials;
 
+import java.math.BigDecimal;
+
 @LogicContract(IMaterialReceiptContract.class)
 /**
  * 物料 - 收货服务 生成一张日记账
@@ -29,63 +31,56 @@ import org.colorcoding.ibas.materials.repository.BORepositoryMaterials;
 public class MaterialReceiptService extends BusinessLogic<IMaterialReceiptContract, IMaterialInventoryJournal> {
     @Override
     protected IMaterialInventoryJournal fetchBeAffected(IMaterialReceiptContract contract) {
-        try {
-            checkContractData(contract);
-            // region 定义查询条件
-            ICriteria criteria = Criteria.create();
-            ICondition condition = criteria.getConditions().create();
-            condition.setAlias(MaterialInventoryJournal.PROPERTY_BASEDOCUMENTTYPE.getName());
-            condition.setValue(contract.getBaseDocumentType());
-            condition.setOperation(ConditionOperation.EQUAL);
+        this.checkContractData(contract);
+        // region 定义查询条件
+        ICriteria criteria = Criteria.create();
+        ICondition condition = criteria.getConditions().create();
+        condition.setAlias(MaterialInventoryJournal.PROPERTY_BASEDOCUMENTTYPE.getName());
+        condition.setValue(contract.getBaseDocumentType());
+        condition.setOperation(ConditionOperation.EQUAL);
 
-            condition = criteria.getConditions().create();
-            condition.setAlias(MaterialInventoryJournal.PROPERTY_BASEDOCUMENTENTRY.getName());
-            condition.setValue(contract.getBaseDocumentEntry());
-            condition.setOperation(ConditionOperation.EQUAL);
-            condition.setRelationship(ConditionRelationship.AND);
+        condition = criteria.getConditions().create();
+        condition.setAlias(MaterialInventoryJournal.PROPERTY_BASEDOCUMENTENTRY.getName());
+        condition.setValue(contract.getBaseDocumentEntry());
+        condition.setOperation(ConditionOperation.EQUAL);
+        condition.setRelationship(ConditionRelationship.AND);
 
-            condition = criteria.getConditions().create();
-            condition.setAlias(MaterialInventoryJournal.PROPERTY_BASEDOCUMENTLINEID.getName());
-            condition.setValue(contract.getBaseDocumentLineId());
-            condition.setOperation(ConditionOperation.EQUAL);
-            condition.setRelationship(ConditionRelationship.AND);
+        condition = criteria.getConditions().create();
+        condition.setAlias(MaterialInventoryJournal.PROPERTY_BASEDOCUMENTLINEID.getName());
+        condition.setValue(contract.getBaseDocumentLineId());
+        condition.setOperation(ConditionOperation.EQUAL);
+        condition.setRelationship(ConditionRelationship.AND);
 
-            condition = criteria.getConditions().create();
-            condition.setAlias(MaterialInventoryJournal.PROPERTY_DIRECTION.getName());
-            condition.setValue(emDirection.IN);
-            condition.setOperation(ConditionOperation.EQUAL);
-            condition.setRelationship(ConditionRelationship.AND);
+        condition = criteria.getConditions().create();
+        condition.setAlias(MaterialInventoryJournal.PROPERTY_DIRECTION.getName());
+        condition.setValue(emDirection.IN);
+        condition.setOperation(ConditionOperation.EQUAL);
+        condition.setRelationship(ConditionRelationship.AND);
 
-            // endregion
-            // region 查询物料日记账
-            IMaterialInventoryJournal materialJournal = this.fetchBeAffected(criteria, IMaterialInventoryJournal.class);
-            if (materialJournal == null) {
-                BORepositoryMaterials boRepository = new BORepositoryMaterials();
-                boRepository.setRepository(super.getRepository());
-                IOperationResult<IMaterialInventoryJournal> operationResult = boRepository.fetchMaterialInventoryJournal(criteria);
-                if (operationResult.getError() != null) {
-                    throw new BusinessLogicException(operationResult.getError());
-                }
-                if (operationResult.getResultCode() != 0) {
-                    throw new BusinessLogicException(operationResult.getError());
-                }
-                // endregion
-                materialJournal = operationResult.getResultObjects().firstOrDefault();
-                if (materialJournal == null) {
-                    materialJournal = MaterialInventoryJournal.create(contract);
-                }
+        // endregion
+        // region 查询物料日记账
+        IMaterialInventoryJournal materialJournal = this.fetchBeAffected(criteria, IMaterialInventoryJournal.class);
+        if (materialJournal == null) {
+            BORepositoryMaterials boRepository = new BORepositoryMaterials();
+            boRepository.setRepository(super.getRepository());
+            IOperationResult<IMaterialInventoryJournal> operationResult = boRepository.fetchMaterialInventoryJournal(criteria);
+            if (operationResult.getError() != null) {
+                throw new BusinessLogicException(operationResult.getMessage());
             }
-            return materialJournal;
-        } catch (Exception ex) {
-            throw ex;
+            // endregion
+            materialJournal = operationResult.getResultObjects().firstOrDefault();
+            if (materialJournal == null) {
+                materialJournal = MaterialInventoryJournal.create(contract);
+            }
         }
+        return materialJournal;
     }
 
     @Override
     protected void impact(IMaterialReceiptContract contract) {
         IMaterialInventoryJournal materialJournal = this.getBeAffected();
         Decimal receiptQuantity = materialJournal.getQuantity();
-        receiptQuantity = receiptQuantity.add(contract.getReceiptQuantity());
+        receiptQuantity = receiptQuantity.add(contract.getQuantity());
         materialJournal.setQuantity(receiptQuantity);
     }
 
@@ -94,9 +89,9 @@ public class MaterialReceiptService extends BusinessLogic<IMaterialReceiptContra
         IMaterialInventoryJournal materialJournal = this.getBeAffected();
         materialJournal.setItemCode((contract.getItemCode()));
         materialJournal.setItemName(contract.getItemName());
-        materialJournal.setWarehouse(contract.getReceiptWarehouseCode());
+        materialJournal.setWarehouse(contract.getWarehouse());
         Decimal receiptQuantity = materialJournal.getQuantity();
-        receiptQuantity = receiptQuantity.subtract(contract.getReceiptQuantity());
+        receiptQuantity = receiptQuantity.subtract(contract.getQuantity());
         materialJournal.setQuantity(receiptQuantity);
     }
 
@@ -106,7 +101,7 @@ public class MaterialReceiptService extends BusinessLogic<IMaterialReceiptContra
      * @return
      */
     private void checkContractData(IMaterialReceiptContract contract) {
-        if (contract.getReceiptQuantity().equals(0)) {
+        if (contract.getQuantity().compareTo(BigDecimal.ZERO) == 0) {
             throw new BusinessLogicException(I18N.prop("msg_mm_receipt_quantity_can't_be_zero"));
         }
         // region 查询物料
@@ -119,16 +114,13 @@ public class MaterialReceiptService extends BusinessLogic<IMaterialReceiptContra
         boRepository.setRepository(super.getRepository());
         IOperationResult<IMaterial> operationResult = boRepository.fetchMaterial(criteria);
         if (operationResult.getError() != null) {
-            throw new BusinessLogicException(operationResult.getError());
-        }
-        if (operationResult.getResultCode() != 0) {
-            throw new BusinessLogicException(operationResult.getError());
+            throw new BusinessLogicException(operationResult.getMessage());
         }
         IMaterial material = operationResult.getResultObjects().firstOrDefault();
         // endregion
         // region 检查物料
         if (material == null) {
-            throw new NullPointerException(
+            throw new BusinessLogicException(
                     String.format(I18N.prop("msg_mm_material_is_not_exist"), contract.getItemCode()));
         }
         // 虚拟物料，不生成库存记录
@@ -137,7 +129,7 @@ public class MaterialReceiptService extends BusinessLogic<IMaterialReceiptContra
                     I18N.prop("msg_mm_material_is_phantom_item_can't_create_journal"), contract.getItemCode()));
         }
         // 非库存物料，不生成库存记录
-        if (material.getInventoryItem() != emYesNo.NO) {
+        if (material.getInventoryItem() == emYesNo.NO) {
             throw new BusinessLogicException(
                     String.format(I18N.prop("msg_mm_material_is_not_inventory_item_can't_create_journal"),
                             contract.getItemCode()));
@@ -149,20 +141,17 @@ public class MaterialReceiptService extends BusinessLogic<IMaterialReceiptContra
             criteria = Criteria.create();
             condition = criteria.getConditions().create();
             condition.setAlias(Warehouse.PROPERTY_CODE.getName());
-            condition.setValue(contract.getReceiptWarehouseCode());
+            condition.setValue(contract.getWarehouse());
             condition.setOperation(ConditionOperation.EQUAL);
             IOperationResult<IWarehouse> opResult = boRepository.fetchWarehouse(criteria);
             if (opResult.getError() != null) {
-                throw new BusinessLogicException(opResult.getError());
-            }
-            if (opResult.getResultCode() != 0) {
-                throw new BusinessLogicException(opResult.getError());
+                throw new BusinessLogicException(opResult.getMessage());
             }
             IWarehouse warehouse = opResult.getResultObjects().firstOrDefault();
             if (warehouse == null) {
-                throw new NullPointerException(
+                throw new BusinessLogicException(
                         String.format(I18N.prop("msg_mm_warehouse_is_not_exist"),
-                                contract.getReceiptWarehouseCode()));
+                                contract.getWarehouse()));
             }
         }
         // endregion

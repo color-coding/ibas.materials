@@ -29,24 +29,21 @@ public class MaterialInventoryService extends BusinessLogic<IMaterialInventoryCo
             boRepository.setRepository(super.getRepository());
             IOperationResult<IMaterial> operationResult = boRepository.fetchMaterial(criteria);
             if (operationResult.getError() != null) {
-                throw new BusinessLogicException(operationResult.getError());
-            }
-            if (operationResult.getResultCode() != 0) {
-                throw new BusinessLogicException(operationResult.getError());
+                throw new BusinessLogicException(operationResult.getMessage());
             }
             material = operationResult.getResultObjects().firstOrDefault();
             // endregion
         }
         //region 检查物料
         if (material == null) {
-            throw new NullPointerException(String.format(I18N.prop("msg_mm_material_is_not_exist"), contract.getItemCode()));
+            throw new BusinessLogicException(String.format(I18N.prop("msg_mm_material_is_not_exist"), contract.getItemCode()));
         }
         // 虚拟物料，不生成库存记录
         if (material.getPhantomItem() == emYesNo.YES) {
             throw new BusinessLogicException(String.format(I18N.prop("msg_mm_material_is_phantom_item_can't_create_journal"), contract.getItemCode()));
         }
         // 非库存物料，不生成库存记录
-        if (material.getInventoryItem() != emYesNo.NO) {
+        if (material.getInventoryItem() == emYesNo.NO) {
             throw new BusinessLogicException(String.format(I18N.prop("msg_mm_material_is_not_inventory_item_can't_create_journal"), contract.getItemCode()));
         }
 
@@ -61,10 +58,12 @@ public class MaterialInventoryService extends BusinessLogic<IMaterialInventoryCo
     protected void impact(IMaterialInventoryContract contract) {
         IMaterial material = this.getBeAffected();
         Decimal onHand = material.getOnHand();
-        if (contract.getDirection() == emDirection.OUT)
+        if (contract.getDirection() == emDirection.OUT){
             onHand = onHand.subtract(contract.getQuantity());
-        else
+        }
+        else{
             onHand = onHand.add(contract.getQuantity());
+        }
         material.setOnHand(onHand);
     }
 
@@ -72,10 +71,12 @@ public class MaterialInventoryService extends BusinessLogic<IMaterialInventoryCo
     protected void revoke(IMaterialInventoryContract contract) {
         IMaterial material = this.getBeAffected();
         Decimal onHand = material.getOnHand();
-        if (contract.getDirection() == emDirection.OUT)
+        if (contract.getDirection() == emDirection.OUT){
             onHand = onHand.add(contract.getQuantity());
-        else
+        }
+        else{
             onHand = onHand.subtract(contract.getQuantity());
+        }
         material.setOnHand(onHand);
     }
 }

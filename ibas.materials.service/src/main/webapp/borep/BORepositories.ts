@@ -143,8 +143,8 @@ export class BORepositoryMaterials extends ibas.BORepositoryApplication implemen
      * 查询 物料扩展（仓库库存、价格清单）
      * @param fetcher 查询者
      */
-    fetchMaterialEx(fetcher: ibas.FetchCaller<bo.MaterialEx>): void {
-        super.fetch(bo.MaterialEx.name, fetcher);
+    fetchProduct(fetcher: ibas.FetchCaller<bo.Product>): void {
+        super.fetch(bo.Product.name, fetcher);
     }
 
     /**

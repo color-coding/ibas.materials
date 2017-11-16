@@ -1,12 +1,5 @@
 package org.colorcoding.ibas.materials.bo.material;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlType;
-
-import org.colorcoding.ibas.bobas.bo.BusinessObject;
 import org.colorcoding.ibas.bobas.core.IPropertyInfo;
 import org.colorcoding.ibas.bobas.data.DateTime;
 import org.colorcoding.ibas.bobas.data.Decimal;
@@ -16,7 +9,8 @@ import org.colorcoding.ibas.bobas.mapping.BOCode;
 import org.colorcoding.ibas.bobas.mapping.DbField;
 import org.colorcoding.ibas.bobas.mapping.DbFieldType;
 import org.colorcoding.ibas.materials.MyConfiguration;
-import org.colorcoding.ibas.materials.data.emItemType;
+
+import javax.xml.bind.annotation.*;
 
 /**
  * 获取-物料
@@ -100,63 +94,7 @@ public class Material extends MaterialBase<Material> implements IMaterial {
         this.setAvgPrice(new Decimal(value));
     }
 
-    /**
-     * 属性名称-库存
-     */
-    private static final String PROPERTY_ONHAND_NAME = "OnHand";
 
-    /**
-     * 库存 属性
-     */
-    @DbField(name = "OnHand", type = DbFieldType.DECIMAL, table = DB_TABLE_NAME, primaryKey = false)
-    public static final IPropertyInfo<Decimal> PROPERTY_ONHAND = registerProperty(PROPERTY_ONHAND_NAME, Decimal.class,
-            MY_CLASS);
-
-    /**
-     * 获取-库存
-     *
-     * @return 值
-     */
-    @XmlElement(name = PROPERTY_ONHAND_NAME)
-    public final Decimal getOnHand() {
-        return this.getProperty(PROPERTY_ONHAND);
-    }
-
-    /**
-     * 设置-库存
-     *
-     * @param value 值
-     */
-    public final void setOnHand(Decimal value) {
-        this.setProperty(PROPERTY_ONHAND, value);
-    }
-
-    /**
-     * 设置-库存
-     *
-     * @param value 值
-     */
-    public final void setOnHand(String value) {
-        this.setOnHand(new Decimal(value));
-    }
-
-    /**
-     * 设置-库存
-     *
-     * @param value 值
-     */
-    public final void setOnHand(int value) {
-        this.setOnHand(new Decimal(value));
-    }
-
-    /**
-     * 设置-库存
-     *
-     * @param value 值
-     */
-    public final void setOnHand(double value) {
-        this.setOnHand(new Decimal(value));
-    }
 
     /**
      * 属性名称-已承诺

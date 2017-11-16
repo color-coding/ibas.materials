@@ -1,7 +1,6 @@
 package org.colorcoding.ibas.materials.bo.goodsissue;
 
 import javax.xml.bind.annotation.*;
-
 import org.colorcoding.ibas.bobas.bo.BusinessObject;
 import org.colorcoding.ibas.bobas.core.IPropertyInfo;
 import org.colorcoding.ibas.bobas.data.DateTime;
@@ -1468,10 +1467,8 @@ public class GoodsIssueLine extends BusinessObject<GoodsIssueLine> implements IG
 		this.DeliveryDate = deliveryDate;
 	}
 
-
 	@Override
 	public IBusinessLogicContract[] getContracts() {
-
 		return new IBusinessLogicContract[]{
 				new IMaterialIssueContract(){
 					@Override
@@ -1490,7 +1487,7 @@ public class GoodsIssueLine extends BusinessObject<GoodsIssueLine> implements IG
 					}
 
 					@Override
-					public String getIssueWarehouseCode() {
+					public String getWarehouse() {
 						return GoodsIssueLine.this.getWarehouse();
 					}
 
@@ -1510,7 +1507,7 @@ public class GoodsIssueLine extends BusinessObject<GoodsIssueLine> implements IG
 					}
 
 					@Override
-					public Decimal getIssueQuantity() {
+					public Decimal getQuantity() {
 						return GoodsIssueLine.this.getQuantity();
 					}
 
@@ -1535,7 +1532,7 @@ public class GoodsIssueLine extends BusinessObject<GoodsIssueLine> implements IG
 					}
 
 					@Override
-					public emDocumentStatus getLineStatus() {
+					public emDocumentStatus getStatus() {
 						return GoodsIssueLine.this.getLineStatus();
 					}
 				}

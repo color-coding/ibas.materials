@@ -12,7 +12,7 @@ import { GoodsReceiptFunc, } from "./goodsreceipt/index";
 import { InventoryTransferFunc, } from "./inventorytransfer/index";
 import { MaterialInventoryFunc, } from "./materialinventory/index";
 import { MaterialInventoryJournalFunc,  } from "./materialinventoryjournal/index";
-import { MaterialFunc, MaterialChooseServiceMapping, MaterialLinkServiceMapping,MaterialExChooseServiceMapping } from "./material/index";
+import { MaterialFunc, MaterialChooseServiceMapping, MaterialLinkServiceMapping,ProductChooseServiceMapping } from "./material/index";
 import { MaterialGroupFunc, MaterialGroupChooseServiceMapping, MaterialGroupLinkServiceMapping } from "./materialgroup/index";
 import { WarehouseFunc, WarehouseChooseServiceMapping, WarehouseLinkServiceMapping } from "./warehouse/index";
 import { MaterialBatchReceipServiceMapping,MaterialBatchIssueServiceMapping} from "./materialbatch/index";
@@ -53,7 +53,7 @@ export class Console extends ibas.ModuleConsole {
         this.register(new MaterialGroupLinkServiceMapping());
         this.register(new WarehouseChooseServiceMapping());
         this.register(new WarehouseLinkServiceMapping());
-        this.register(new MaterialExChooseServiceMapping());
+        this.register(new ProductChooseServiceMapping());
         this.register(new MaterialBatchReceipServiceMapping);
         this.register(new MaterialBatchIssueServiceMapping);
         this.register(new MaterialSerialReceipServiceMapping);

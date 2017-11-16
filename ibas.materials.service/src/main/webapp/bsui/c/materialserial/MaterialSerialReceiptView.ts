@@ -34,7 +34,7 @@ export class MaterialSerialReceiptView extends ibas.BODialogView implements IMat
                         type: sap.m.ButtonType.Transparent,
                         press: function (): void {
                             that.fireViewEvents(that.autoCreateSerialEvent,
-                                openui5.utils.getTableSelecteds<bo.MaterialBatchSerialInOutData>(that.journalLineTable).firstOrDefault()
+                                openui5.utils.getTableSelecteds<bo.MaterialSerialService>(that.journalLineTable).firstOrDefault()
                             );
                         }
                     }),
@@ -44,7 +44,7 @@ export class MaterialSerialReceiptView extends ibas.BODialogView implements IMat
                         icon: "sap-icon://add",
                         press: function (): void {
                             that.fireViewEvents(that.addSerialEvent,
-                                openui5.utils.getTableSelecteds<bo.MaterialBatchSerialInOutData>(that.journalLineTable).firstOrDefault());
+                                openui5.utils.getTableSelecteds<bo.MaterialSerialService>(that.journalLineTable).firstOrDefault());
                         }
                     }),
                     new sap.m.Button("", {
@@ -53,7 +53,7 @@ export class MaterialSerialReceiptView extends ibas.BODialogView implements IMat
                         icon: "sap-icon://less",
                         press: function (): void {
                             that.fireViewEvents(that.removeSerialEvent,
-                                openui5.utils.getTableSelecteds<bo.MaterialBatchSerialInOutData>(that.journalLineTable).firstOrDefault(),
+                                openui5.utils.getTableSelecteds<bo.MaterialSerialService>(that.journalLineTable).firstOrDefault(),
                                 openui5.utils.getTableSelecteds<bo.MaterialBatch>(that.table)
                             );
                         }
@@ -111,7 +111,7 @@ export class MaterialSerialReceiptView extends ibas.BODialogView implements IMat
             visibleRowCountMode: sap.ui.table.VisibleRowCountMode.Interactive,
             rowSelectionChange: function (): void {
                 that.fireViewEvents(that.selectMaterialSerialJournalLineEvent,
-                    openui5.utils.getTableSelecteds<bo.MaterialBatchSerialInOutData>(that.journalLineTable).firstOrDefault(), );
+                    openui5.utils.getTableSelecteds<bo.MaterialSerialService>(that.journalLineTable).firstOrDefault(), );
             },
             rows: "{/journallinedata}",
             columns: [
@@ -207,7 +207,7 @@ export class MaterialSerialReceiptView extends ibas.BODialogView implements IMat
         this.table.setModel(new sap.ui.model.json.JSONModel({ rows: datas }));
         openui5.utils.refreshModelChanged(this.table, datas);
     }
-    showJournalLineData(datas: bo.MaterialBatchSerialInOutData[]): void {
+    showJournalLineData(datas: bo.MaterialSerialService[]): void {
         this.journalLineTable.setModel(new sap.ui.model.json.JSONModel({ journallinedata: datas }));
         openui5.utils.refreshModelChanged(this.journalLineTable, datas);
     }

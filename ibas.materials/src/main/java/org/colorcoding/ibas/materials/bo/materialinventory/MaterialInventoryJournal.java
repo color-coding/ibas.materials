@@ -64,6 +64,48 @@ public class MaterialInventoryJournal extends BusinessObject<MaterialInventoryJo
     private static final String PROPERTY_ITEMCODE_NAME = "ItemCode";
 
     /**
+     * 根据物料-发货契约对象创建日记账分录
+     *
+     * @param contract
+     * @return
+     */
+    public static IMaterialInventoryJournal create(IMaterialIssueContract contract) {
+        IMaterialInventoryJournal bo = new MaterialInventoryJournal();
+        bo.setItemCode(contract.getItemCode());
+        bo.setItemName(contract.getItemName());
+        bo.setWarehouse(contract.getWarehouse());
+        bo.setBaseDocumentType(contract.getBaseDocumentType());
+        bo.setBaseDocumentEntry(contract.getBaseDocumentEntry());
+        bo.setBaseDocumentLineId(contract.getBaseDocumentLineId());
+        bo.setDirection(emDirection.OUT);
+        bo.setPostingDate(contract.getPostingDate());
+        bo.setDocumentDate(contract.getDocumentDate());
+        bo.setDeliveryDate(contract.getDeliveryDate());
+        return bo;
+    }
+
+    /**
+     * 根据物料-收货契约对象创建日记账分录
+     *
+     * @param contract
+     * @return
+     */
+    public static IMaterialInventoryJournal create(IMaterialReceiptContract contract) {
+        IMaterialInventoryJournal bo = new MaterialInventoryJournal();
+        bo.setItemCode(contract.getItemCode());
+        bo.setItemName(contract.getItemName());
+        bo.setWarehouse(contract.getWarehouse());
+        bo.setBaseDocumentType(contract.getBaseDocumentType());
+        bo.setBaseDocumentEntry(contract.getBaseDocumentEntry());
+        bo.setBaseDocumentLineId(contract.getBaseDocumentLineId());
+        bo.setDirection(emDirection.IN);
+        bo.setPostingDate(contract.getPostingDate());
+        bo.setDocumentDate(contract.getDocumentDate());
+        bo.setDeliveryDate(contract.getDeliveryDate());
+        return bo;
+    }
+
+    /**
      * 物料编码 属性
      */
     @DbField(name = "ItemCode", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME, primaryKey = false)
@@ -986,47 +1028,6 @@ public class MaterialInventoryJournal extends BusinessObject<MaterialInventoryJo
 
     }
 
-    /**
-     * 根据物料-发货契约对象创建日记账分录
-     *
-     * @param contract
-     * @return
-     */
-    public static IMaterialInventoryJournal create(IMaterialIssueContract contract) {
-        IMaterialInventoryJournal bo = new MaterialInventoryJournal();
-        bo.setItemCode(contract.getItemCode());
-        bo.setItemName(contract.getItemName());
-        bo.setWarehouse(contract.getIssueWarehouseCode());
-        bo.setBaseDocumentType(contract.getBaseDocumentType());
-        bo.setBaseDocumentEntry(contract.getBaseDocumentEntry());
-        bo.setBaseDocumentLineId(contract.getBaseDocumentLineId());
-        bo.setDirection(emDirection.OUT);
-        bo.setPostingDate(contract.getPostingDate());
-        bo.setDocumentDate(contract.getDocumentDate());
-        bo.setDeliveryDate(contract.getDeliveryDate());
-        return bo;
-    }
-
-    /**
-     * 根据物料-收货契约对象创建日记账分录
-     *
-     * @param contract
-     * @return
-     */
-    public static IMaterialInventoryJournal create(IMaterialReceiptContract contract) {
-        IMaterialInventoryJournal bo = new MaterialInventoryJournal();
-        bo.setItemCode(contract.getItemCode());
-        bo.setItemName(contract.getItemName());
-        bo.setWarehouse(contract.getReceiptWarehouseCode());
-        bo.setBaseDocumentType(contract.getBaseDocumentType());
-        bo.setBaseDocumentEntry(contract.getBaseDocumentEntry());
-        bo.setBaseDocumentLineId(contract.getBaseDocumentLineId());
-        bo.setDirection(emDirection.IN);
-        bo.setPostingDate(contract.getPostingDate());
-        bo.setDocumentDate(contract.getDocumentDate());
-        bo.setDeliveryDate(contract.getDeliveryDate());
-        return bo;
-    }
 
     @Override
     public IBusinessLogicContract[] getContracts() {

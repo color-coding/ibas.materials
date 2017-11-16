@@ -131,18 +131,6 @@ export class MaterialEditView extends ibas.BOEditView implements IMaterialEditVi
                 }).bindProperty("value", {
                     path: "onCommited",
                 }),
-                new sap.m.Label("", { text: ibas.i18n.prop("bo_material_onhand") }),
-                new sap.m.Input("", {
-                    type: sap.m.InputType.Number,
-                }).bindProperty("value", {
-                    path: "onHand",
-                }),
-                new sap.m.Label("", { text: ibas.i18n.prop("bo_material_onorder") }),
-                new sap.m.Input("", {
-                    type: sap.m.InputType.Number,
-                }).bindProperty("value", {
-                    path: "onOrder",
-                }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_material_uom") }),
                 new sap.m.Input("", {
                     type: sap.m.InputType.Text,
@@ -284,4 +272,5 @@ export class MaterialEditView extends ibas.BOEditView implements IMaterialEditVi
         // 改变视图状态
         this.changeViewStatus(data);
     }
+
 }

@@ -106,7 +106,7 @@ export interface IBORepositoryMaterials {
          * 查询 物料扩展
          * @param fetcher 查询者
          */
-    fetchMaterialEx(fetcher: FetchCaller<bo.IMaterialEx>);
+    fetchProduct(fetcher: FetchCaller<bo.IProduct>);
     /**
      * 查询 物料批次
      * @param fetcher 查询者

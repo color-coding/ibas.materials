@@ -12,20 +12,20 @@ import { BORepositoryMaterials } from "../../borep/BORepositories";
 import { MaterialEditApp } from "./MaterialEditApp";
 
 /** 选择应用-物料 */
-export class MaterialExChooseApp extends ibas.BOChooseService<IMaterialExChooseView, bo.MaterialEx> {
+export class ProductChooseApp extends ibas.BOChooseService<IProductChooseView, bo.Product> {
 
     /** 应用标识 */
     static APPLICATION_ID: string = "8df26811-dd1f-4bbd-bb86-0560d2b04e51";
     /** 应用名称 */
     static APPLICATION_NAME: string = "materialexs_app_material_choose";
     /** 业务对象编码 */
-    static BUSINESS_OBJECT_CODE: string = bo.MaterialEx.BUSINESS_OBJECT_CODE;
+    static BUSINESS_OBJECT_CODE: string = bo.Product.BUSINESS_OBJECT_CODE;
     /** 构造函数 */
     constructor() {
         super();
-        this.id = MaterialExChooseApp.APPLICATION_ID;
-        this.name = MaterialExChooseApp.APPLICATION_NAME;
-        this.boCode = MaterialExChooseApp.BUSINESS_OBJECT_CODE;
+        this.id = ProductChooseApp.APPLICATION_ID;
+        this.name = ProductChooseApp.APPLICATION_NAME;
+        this.boCode = ProductChooseApp.BUSINESS_OBJECT_CODE;
         this.description = ibas.i18n.prop(this.name);
     }
     /** 注册视图 */
@@ -42,9 +42,9 @@ export class MaterialExChooseApp extends ibas.BOChooseService<IMaterialExChooseV
         this.busy(true);
         let that: this = this;
         let boRepository: BORepositoryMaterials = new BORepositoryMaterials();
-        boRepository.fetchMaterialEx({
+        boRepository.fetchProduct({
             criteria: criteria,
-            onCompleted(opRslt: ibas.IOperationResult<bo.MaterialEx>): void {
+            onCompleted(opRslt: ibas.IOperationResult<bo.Product>): void {
                 try {
                     if (opRslt.resultCode !== 0) {
                         throw new Error(opRslt.message);
@@ -80,22 +80,22 @@ export class MaterialExChooseApp extends ibas.BOChooseService<IMaterialExChooseV
     }
 }
 /** 视图-物料 */
-export interface IMaterialExChooseView extends ibas.IBOChooseView {
+export interface IProductChooseView extends ibas.IBOChooseView {
     /** 显示数据 */
-    showData(datas: bo.MaterialEx[]): void;
+    showData(datas: bo.Product[]): void;
 }
 /** 物料选择服务映射 */
-export class MaterialExChooseServiceMapping extends ibas.BOChooseServiceMapping {
+export class ProductChooseServiceMapping extends ibas.BOChooseServiceMapping {
     /** 构造函数 */
     constructor() {
         super();
-        this.id = MaterialExChooseApp.APPLICATION_ID;
-        this.name = MaterialExChooseApp.APPLICATION_NAME;
-        this.boCode = MaterialExChooseApp.BUSINESS_OBJECT_CODE;
+        this.id = ProductChooseApp.APPLICATION_ID;
+        this.name = ProductChooseApp.APPLICATION_NAME;
+        this.boCode = ProductChooseApp.BUSINESS_OBJECT_CODE;
         this.description = ibas.i18n.prop(this.name);
     }
     /** 创建服务并运行 */
     create(): ibas.IService<ibas.IServiceContract> {
-        return new MaterialExChooseApp();
+        return new ProductChooseApp();
     }
 }

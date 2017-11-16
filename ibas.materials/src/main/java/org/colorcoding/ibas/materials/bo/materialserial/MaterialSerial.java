@@ -56,6 +56,14 @@ public class MaterialSerial extends BusinessObject<MaterialSerial> implements IM
 	 */
 	private static final String PROPERTY_ITEMCODE_NAME = "ItemCode";
 
+
+	public static IMaterialSerial create(IMaterialSerialJournalContract contract){
+		IMaterialSerial materialSerial = new MaterialSerial();
+		materialSerial.setSerialCode(contract.getSerialCode());
+		materialSerial.setItemCode(contract.getItemCode());
+		materialSerial.setWarehouse(contract.getWarehouse());
+		return  materialSerial;
+	}
 	/**
 	 * 物料编码 属性
 	 */
@@ -894,11 +902,4 @@ public class MaterialSerial extends BusinessObject<MaterialSerial> implements IM
 		this.setObjectCode(MyConfiguration.applyVariables(BUSINESS_OBJECT_CODE));
 	}
 
-	public static IMaterialSerial create(IMaterialSerialJournalContract contract){
-		IMaterialSerial materialSerial = new MaterialSerial();
-		materialSerial.setSerialCode(contract.getSerialCode());
-		materialSerial.setItemCode(contract.getItemCode());
-		materialSerial.setWarehouse(contract.getWarehouse());
-		return  materialSerial;
-	}
 }

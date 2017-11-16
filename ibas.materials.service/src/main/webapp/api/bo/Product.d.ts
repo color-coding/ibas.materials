@@ -25,7 +25,7 @@ import {
 import {
     IMaterialBase
 } from "./index";
-export interface IMaterialEx extends IMaterialBase {
+export interface IProduct extends IMaterialBase {
     /** 编号 */
     code: string;
 
@@ -71,14 +71,8 @@ export interface IMaterialEx extends IMaterialBase {
     /** 对象编号 */
     docEntry: number;
 
-    /** 仓库编码 */
-    warehouseCode: string;
-
     /** 仓库库存 */
-    warehouseOnHand: number;
-
-    /**价格清单名称 */
-    priceListName: string;
+    onHand: number;
     
     /** 价格清单 */
     price: number;

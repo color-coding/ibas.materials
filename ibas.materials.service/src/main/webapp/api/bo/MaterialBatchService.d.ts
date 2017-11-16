@@ -19,8 +19,7 @@ import {
     IMaterialBatchJournal,
     IMaterialSerialJournal
 } from "./index";
-
-export interface IMaterialBatchSerialInOutData extends IBOSimple {
+export interface IMaterialBatchService extends IBOSimple {
     /** table 行index索引 */
     index: number;
 
@@ -39,29 +38,16 @@ export interface IMaterialBatchSerialInOutData extends IBOSimple {
     /**已选择批次 */
     selectedBatchQuantity: number;
 
-    /**总序列号需求 */
-    needSerialQuantity: number;
-
-    /**已选择序列号 */
-    selectedSerialQuantity: number;
-
     /**方向 */
     direction: emDirection;
 
     objectKey: number;
     /** 物料批次分录集合 */
-    materialBatchSerialInOutDataBatchJournals: IMaterialBatchSerialInOutDataBatchJournals;
-    /** 物料批次分录集合 */
-    materialBatchSerialInOutDataSerialJournals: IMaterialBatchSerialInOutDataSerialJournals;
+    materialBatchServiceJournals: IMaterialBatchServiceJournals;
 }
 
 /** 库存发货-批次日记账 集合 */
-export interface IMaterialBatchSerialInOutDataBatchJournals extends IBusinessObjects<IMaterialBatchJournal, IMaterialBatchSerialInOutData> {
+export interface IMaterialBatchServiceJournals extends IBusinessObjects<IMaterialBatchJournal, IMaterialBatchService> {
     /** 创建并添加子项 */
     create(): IMaterialBatchJournal;
-}
-/**  库存发货-序列号日记账  */
-export interface IMaterialBatchSerialInOutDataSerialJournals extends IBusinessObjects<IMaterialSerialJournal, IMaterialBatchSerialInOutData> {
-    /** 创建并添加子项 */
-    create(): IMaterialSerialJournal;
 }

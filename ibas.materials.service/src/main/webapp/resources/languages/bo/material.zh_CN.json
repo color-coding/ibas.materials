@@ -25,6 +25,7 @@
   "bo_material_invaliddate": "失效日期",
   "bo_material_picture": "图片",
   "bo_material_remarks": "备注",
+  "bo_material_activated":"激活",
   "bo_material_referenced": "已引用",
   "bo_material_deleted": "已删除",
   "bo_material_docentry": "对象编号",

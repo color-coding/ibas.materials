@@ -37,10 +37,7 @@ public class MaterialWarehouseInventoryService extends BusinessLogic<IMaterialWa
             boRepository.setRepository(super.getRepository());
             IOperationResult<IMaterialInventory> operationResult = boRepository.fetchMaterialInventory(criteria);
             if (operationResult.getError() != null) {
-                throw new BusinessLogicException(operationResult.getError());
-            }
-            if (operationResult.getResultCode() != 0) {
-                throw new BusinessLogicException(operationResult.getError());
+                throw new BusinessLogicException(operationResult.getMessage());
             }
             materialInventory = operationResult.getResultObjects().firstOrDefault();
             if (materialInventory == null) {
@@ -54,13 +51,10 @@ public class MaterialWarehouseInventoryService extends BusinessLogic<IMaterialWa
     protected void impact(IMaterialWarehouseInventoryContract contract) {
         IMaterialInventory materialInventory = this.getBeAffected();
         Decimal onHand = materialInventory.getOnHand();
-        if (contract.getDirection() == emDirection.OUT)
+        if (contract.getDirection() == emDirection.OUT) {
             onHand = onHand.subtract(contract.getQuantity());
-        else
+        } else {
             onHand = onHand.add(contract.getQuantity());
-        if (onHand.compareTo(BigDecimal.ZERO) == -1) {
-            throw new BusinessLogicException(String.format(I18N.prop("msg_mm_material_is_not_enough"),
-                    contract.getItemCode()));
         }
         materialInventory.setOnHand(onHand);
     }
@@ -69,10 +63,11 @@ public class MaterialWarehouseInventoryService extends BusinessLogic<IMaterialWa
     protected void revoke(IMaterialWarehouseInventoryContract contract) {
         IMaterialInventory materialInventory = this.getBeAffected();
         Decimal onHand = materialInventory.getOnHand();
-        if (contract.getDirection() == emDirection.OUT)
+        if (contract.getDirection() == emDirection.OUT) {
             onHand = onHand.add(contract.getQuantity());
-        else
+        } else {
             onHand = onHand.subtract(contract.getQuantity());
+        }
         if (onHand.compareTo(BigDecimal.ZERO) == -1) {
             throw new BusinessLogicException(String.format(I18N.prop("msg_mm_material_is_not_enough"),
                     contract.getItemCode()));

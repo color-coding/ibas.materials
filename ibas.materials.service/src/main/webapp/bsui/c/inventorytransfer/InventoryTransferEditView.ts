@@ -35,10 +35,12 @@ export class InventoryTransferEditView extends ibas.BOEditView implements IInven
     chooseInventoryTransferLineMaterialSerialEvent: Function;
     private mainLayout: sap.ui.layout.VerticalLayout;
     private viewBottomForm: sap.ui.layout.form.SimpleForm;
-
+    private priceListSelect: sap.m.Select;
     /** 绘制视图 */
     darw(): any {
         let that: this = this;
+        this.priceListSelect = new sap.m.Select("", {
+        });
         this.form = new sap.ui.layout.form.SimpleForm("", {
             editable: true,
             layout: sap.ui.layout.form.SimpleFormLayout.ResponsiveGridLayout,
@@ -81,6 +83,11 @@ export class InventoryTransferEditView extends ibas.BOEditView implements IInven
                     }
                 }).bindProperty("value", {
                     path: "FromWarehouse",
+                }),
+                new sap.m.Label("", { text: ibas.i18n.prop("bo_inventorytransfer_pricelist") }),
+                that.priceListSelect.bindProperty("selectedKey",{
+                    path: "priceList",
+                    type: "sap.ui.model.type.Integer"
                 }),
                 new sap.ui.core.Title("", { text: ibas.i18n.prop("materials_date_information") }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_inventorytransfer_postingdate") }),
@@ -348,5 +355,17 @@ export class InventoryTransferEditView extends ibas.BOEditView implements IInven
         this.tableInventoryTransferLine.setModel(new sap.ui.model.json.JSONModel({ rows: datas }));
         // 监听属性改变，并更新控件
         openui5.utils.refreshModelChanged(this.tableInventoryTransferLine, datas);
+    }
+    /** 添加价格清单List */
+    showPriceListSelect(datas: bo.MaterialPriceList[]): void {
+        if (!ibas.objects.isNull(datas)) {
+            for (let item of datas) {
+                this.priceListSelect.addItem(new sap.ui.core.ListItem("", {
+                    key: item.objectKey,
+                    text: item.name,
+                    additionalText: item.objectKey
+                }));
+            }
+        }
     }
 }

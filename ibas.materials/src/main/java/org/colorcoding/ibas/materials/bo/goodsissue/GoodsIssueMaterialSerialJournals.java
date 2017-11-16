@@ -6,7 +6,6 @@ import org.colorcoding.ibas.materials.MyConfiguration;
 import org.colorcoding.ibas.materials.bo.goodsreceipt.GoodsReceiptLine;
 import org.colorcoding.ibas.materials.bo.materialserial.IMaterialSerialJournal;
 import org.colorcoding.ibas.materials.bo.materialserial.MaterialSerialJournal;
-
 import javax.xml.bind.annotation.XmlSeeAlso;
 import javax.xml.bind.annotation.XmlType;
 import java.beans.PropertyChangeEvent;
@@ -63,13 +62,18 @@ public class GoodsIssueMaterialSerialJournals extends BusinessObjects<IMaterialS
     public ICriteria getElementCriteria() {
         ICriteria criteria = new Criteria();
         ICondition condition = criteria.getConditions().create();
-        condition.setAlias("BaseType");
+        condition.setAlias(MaterialSerialJournal.PROPERTY_BASEDOCUMENTTYPE.getName());
         condition.setOperation(ConditionOperation.EQUAL);
         condition.setValue(this.getParent().getObjectCode());
         condition = criteria.getConditions().create();
-        condition.setAlias("BaseEntry");
+        condition.setAlias(MaterialSerialJournal.PROPERTY_BASEDOCUMENTENTRY.getName());
         condition.setOperation(ConditionOperation.EQUAL);
         condition.setValue(this.getParent().getDocEntry());
+        condition.setRelationship(ConditionRelationship.AND);
+        condition = criteria.getConditions().create();
+        condition.setAlias(MaterialSerialJournal.PROPERTY_BASEDOCUMENTLINEID.getName());
+        condition.setOperation(ConditionOperation.EQUAL);
+        condition.setValue(this.getParent().getLineId());
         condition.setRelationship(ConditionRelationship.AND);
         return criteria;
     }

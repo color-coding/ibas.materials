@@ -20,6 +20,7 @@ import {
     BOSimple,
     BOSimpleLine,
     config,
+    objects,
 } from "ibas/index";
 import {
     IGoodsReceipt,
@@ -458,6 +459,27 @@ export class GoodsReceiptMaterialBatchJournals extends BusinessObjects<MaterialB
         this.add(item);
         return item;
     }
+    createBatchJournal(data: IMaterialBatchJournal): MaterialBatchJournal {
+        let item: MaterialBatchJournal = new MaterialBatchJournal();
+        if (objects.instanceOf(data, MaterialBatchJournal)) {
+            item.batchCode = data.batchCode;
+            item.itemCode = data.itemCode;
+            item.warehouse = data.warehouse;
+            item.quantity = data.quantity;
+            item.direction = data.direction;
+            item.admissionDate = data.admissionDate;
+            item.expirationDate = data.expirationDate;
+            item.manufacturingDate = data.manufacturingDate;
+            this.add(item);
+        }
+        return item;
+    }
+    /** 该行的批次日记账集合标记为删除 */
+    deleteAll(): void {
+        for (let item of this) {
+            item.delete();
+        }
+    }
 }
 /** 库存库存收货发货-序列日记账 集合 */
 export class GoodsReceiptMaterialSerialJournals extends BusinessObjects<MaterialSerialJournal, GoodsReceiptLine>
@@ -467,6 +489,27 @@ export class GoodsReceiptMaterialSerialJournals extends BusinessObjects<Material
         let item: MaterialSerialJournal = new MaterialSerialJournal();
         this.add(item);
         return item;
+    }
+    createSerialJournal(data: IMaterialSerialJournal): MaterialSerialJournal {
+        let item: MaterialSerialJournal = new MaterialSerialJournal();
+        if (objects.instanceOf(data, MaterialSerialJournal)) {
+            item.supplierSerial = data.supplierSerial;
+            item.serialCode = data.serialCode;
+            item.itemCode = data.itemCode;
+            item.direction = data.direction;
+            item.warehouse = data.warehouse;
+            item.admissionDate = data.admissionDate;
+            item.expirationDate = data.expirationDate;
+            item.manufacturingDate = data.manufacturingDate;
+            this.add(item);
+        }
+        return item;
+    }
+    /** 该行的序列日记账集合标记为删除 */
+    deleteAll(): void {
+        for (let item of this) {
+            item.delete();
+        }
     }
 }
 /** 库存收货-行 */

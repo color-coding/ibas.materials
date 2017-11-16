@@ -1,9 +1,5 @@
 package org.colorcoding.ibas.materials.service.soap;
 
-import javax.jws.WebMethod;
-import javax.jws.WebParam;
-import javax.jws.WebService;
-
 import org.colorcoding.ibas.bobas.common.Criteria;
 import org.colorcoding.ibas.bobas.common.OperationResult;
 import org.colorcoding.ibas.bobas.cxf.WebServicePath;
@@ -11,7 +7,7 @@ import org.colorcoding.ibas.materials.bo.goodsissue.GoodsIssue;
 import org.colorcoding.ibas.materials.bo.goodsreceipt.GoodsReceipt;
 import org.colorcoding.ibas.materials.bo.inventorytransfer.InventoryTransfer;
 import org.colorcoding.ibas.materials.bo.material.Material;
-import org.colorcoding.ibas.materials.bo.material.MaterialEx;
+import org.colorcoding.ibas.materials.bo.material.Product;
 import org.colorcoding.ibas.materials.bo.materialbatch.MaterialBatch;
 import org.colorcoding.ibas.materials.bo.materialbatch.MaterialBatchJournal;
 import org.colorcoding.ibas.materials.bo.materialgroup.MaterialGroup;
@@ -22,6 +18,10 @@ import org.colorcoding.ibas.materials.bo.materialserial.MaterialSerial;
 import org.colorcoding.ibas.materials.bo.materialserial.MaterialSerialJournal;
 import org.colorcoding.ibas.materials.bo.warehouse.Warehouse;
 import org.colorcoding.ibas.materials.repository.BORepositoryMaterials;
+
+import javax.jws.WebMethod;
+import javax.jws.WebParam;
+import javax.jws.WebService;
 
 /**
  * Materials 数据服务JSON
@@ -443,9 +443,9 @@ public class DataService extends BORepositoryMaterials {
 	 * @return 操作结果
 	 */
 	@WebMethod
-	public OperationResult<MaterialEx> fetchMaterialEx(
+	public OperationResult<Product> fetchProduct(
 			@WebParam(name = "criteria") Criteria criteria, @WebParam(name = "token") String token) {
-		return super.fetchMaterialEx(criteria, token);
+		return super.fetchProduct(criteria, token);
 	}
 	// --------------------------------------------------------------------------------------------//
 

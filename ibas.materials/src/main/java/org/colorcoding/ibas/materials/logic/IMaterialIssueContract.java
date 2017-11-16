@@ -30,7 +30,7 @@ public interface IMaterialIssueContract extends IBusinessLogicContract {
      *
      * @return
      */
-    String getIssueWarehouseCode();
+    String getWarehouse();
 
     /**
      * 基础单据类型
@@ -58,7 +58,7 @@ public interface IMaterialIssueContract extends IBusinessLogicContract {
      *
      * @return
      */
-    Decimal getIssueQuantity();
+    Decimal getQuantity();
 
     /**
      * 过账日期
@@ -93,5 +93,5 @@ public interface IMaterialIssueContract extends IBusinessLogicContract {
      *
      * @return
      */
-    emDocumentStatus getLineStatus();
+    emDocumentStatus getStatus();
 }
