@@ -1,6 +1,7 @@
 package org.colorcoding.ibas.materials.bo.material;
 
 import org.colorcoding.ibas.bobas.bo.IBOMasterData;
+import org.colorcoding.ibas.bobas.data.Decimal;
 import org.colorcoding.ibas.bobas.data.emYesNo;
 import org.colorcoding.ibas.materials.data.emItemType;
 
@@ -34,6 +35,41 @@ public interface IMaterialBase extends IBOMasterData {
      */
     void setName(String value);
 
+    /**
+     * 获取-库存
+     *
+     * @return 值
+     */
+    Decimal getOnHand();
+
+    /**
+     * 设置-库存
+     *
+     * @param value 值
+     */
+    void setOnHand(Decimal value);
+
+
+    /**
+     * 设置-库存
+     *
+     * @param value 值
+     */
+    void setOnHand(String value);
+
+    /**
+     * 设置-库存
+     *
+     * @param value 值
+     */
+    void setOnHand(int value);
+
+    /**
+     * 设置-库存
+     *
+     * @param value 值
+     */
+    void setOnHand(double value);
 
     /**
      * 获取-外文名称
@@ -168,6 +204,7 @@ public interface IMaterialBase extends IBOMasterData {
      * @param value 值
      */
     void setFixedAssets(emYesNo value);
+
     /**
      * 获取-序号管理
      *
@@ -225,9 +262,6 @@ public interface IMaterialBase extends IBOMasterData {
      * @param value 值
      */
     void setPreferredVendor(String value);
-
-
-
 
 
     /**

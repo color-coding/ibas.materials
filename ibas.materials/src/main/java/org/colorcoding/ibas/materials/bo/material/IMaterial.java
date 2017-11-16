@@ -47,41 +47,6 @@ public interface IMaterial extends IMaterialBase {
      */
     void setAvgPrice(double value);
 
-    /**
-     * 获取-库存
-     *
-     * @return 值
-     */
-    Decimal getOnHand();
-
-    /**
-     * 设置-库存
-     *
-     * @param value 值
-     */
-    void setOnHand(Decimal value);
-
-
-    /**
-     * 设置-库存
-     *
-     * @param value 值
-     */
-    void setOnHand(String value);
-
-    /**
-     * 设置-库存
-     *
-     * @param value 值
-     */
-    void setOnHand(int value);
-
-    /**
-     * 设置-库存
-     *
-     * @param value 值
-     */
-    void setOnHand(double value);
 
     /**
      * 获取-已承诺

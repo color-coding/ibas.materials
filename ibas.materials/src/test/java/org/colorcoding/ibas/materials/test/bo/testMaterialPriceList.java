@@ -30,8 +30,6 @@ public class testMaterialPriceList extends TestCase {
         IMaterialPriceItem priceItem = bo.getMaterialPriceItems().create();
         priceItem.setItemCode(itemCode);
         priceItem.setPrice(12);
-
-
         // 测试对象的保存和查询
         IOperationResult<?> operationResult = null;
         ICriteria criteria = null;
@@ -67,6 +65,6 @@ public class testMaterialPriceList extends TestCase {
     }
 
     public  void testChildFetchPriceList() throws  Exception{
-        
+        // 添加
     }
 }

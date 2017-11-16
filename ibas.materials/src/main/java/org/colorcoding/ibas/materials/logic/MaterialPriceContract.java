@@ -61,7 +61,7 @@ public class MaterialPriceContract extends BusinessLogic<IMaterialPriceContract,
 			}
 			materialPriceList = operationResult.getResultObjects().firstOrDefault();
 			if (materialPriceList == null) {
-				materialPriceList = MaterialPriceList.Create(Contract);
+				materialPriceList = MaterialPriceList.create(Contract);
 			} else {
 				// 不更新已经存在价格清单
 				BusinessObject<?> bo = (BusinessObject<?>) materialPriceList;

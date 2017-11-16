@@ -21,6 +21,7 @@ import java.math.BigDecimal;
 
 @LogicContract(IMaterialIssueContract.class)
 /**
+ * @author fancy
  * 物料-发货服务 生成一张日记账
  */
 public class MaterialIssueService extends BusinessLogic<IMaterialIssueContract, IMaterialInventoryJournal> {
