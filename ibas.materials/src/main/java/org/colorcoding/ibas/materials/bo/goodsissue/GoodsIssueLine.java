@@ -1,5 +1,11 @@
 package org.colorcoding.ibas.materials.bo.goodsissue;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElementWrapper;
+import javax.xml.bind.annotation.XmlType;
+
 import org.colorcoding.ibas.bobas.bo.BusinessObject;
 import org.colorcoding.ibas.bobas.core.IPropertyInfo;
 import org.colorcoding.ibas.bobas.data.*;
@@ -1417,6 +1423,7 @@ public class GoodsIssueLine extends BusinessObject<GoodsIssueLine> implements IG
 	public final void setGoodsIssueMaterialSerialJournals(IGoodsIssueMaterialSerialJournals value) {
 		this.setProperty(PROPERTY_GOODSISSUEMATERIALSERIALJOURNALS, value);
 	}
+
 	/**
 	 * 初始化数据
 	 */
@@ -1464,73 +1471,71 @@ public class GoodsIssueLine extends BusinessObject<GoodsIssueLine> implements IG
 
 	@Override
 	public IBusinessLogicContract[] getContracts() {
-		return new IBusinessLogicContract[]{
-				new IMaterialIssueContract(){
-					@Override
-					public String getIdentifiers() {
-						return GoodsIssueLine.this.getIdentifiers();
-					}
+		return new IBusinessLogicContract[] { new IMaterialIssueContract() {
+			@Override
+			public String getIdentifiers() {
+				return GoodsIssueLine.this.getIdentifiers();
+			}
 
-					@Override
-					public String getItemCode() {
-						return GoodsIssueLine.this.getItemCode();
-					}
+			@Override
+			public String getItemCode() {
+				return GoodsIssueLine.this.getItemCode();
+			}
 
-					@Override
-					public String getItemName() {
-						return GoodsIssueLine.this.getItemDescription();
-					}
+			@Override
+			public String getItemName() {
+				return GoodsIssueLine.this.getItemDescription();
+			}
 
-					@Override
-					public String getWarehouse() {
-						return GoodsIssueLine.this.getWarehouse();
-					}
+			@Override
+			public String getWarehouse() {
+				return GoodsIssueLine.this.getWarehouse();
+			}
 
-					@Override
-					public String getBaseDocumentType() {
-						return GoodsIssueLine.this.getObjectCode();
-					}
+			@Override
+			public String getBaseDocumentType() {
+				return GoodsIssueLine.this.getObjectCode();
+			}
 
-					@Override
-					public Integer getBaseDocumentEntry() {
-						return GoodsIssueLine.this.getDocEntry();
-					}
+			@Override
+			public Integer getBaseDocumentEntry() {
+				return GoodsIssueLine.this.getDocEntry();
+			}
 
-					@Override
-					public Integer getBaseDocumentLineId() {
-						return GoodsIssueLine.this.getLineId();
-					}
+			@Override
+			public Integer getBaseDocumentLineId() {
+				return GoodsIssueLine.this.getLineId();
+			}
 
-					@Override
-					public Decimal getQuantity() {
-						return GoodsIssueLine.this.getQuantity();
-					}
+			@Override
+			public Decimal getQuantity() {
+				return GoodsIssueLine.this.getQuantity();
+			}
 
-					@Override
-					public DateTime getPostingDate() {
-						return GoodsIssueLine.this.getPostingDate();
-					}
+			@Override
+			public DateTime getPostingDate() {
+				return GoodsIssueLine.this.getPostingDate();
+			}
 
-					@Override
-					public DateTime getDeliveryDate() {
-						return GoodsIssueLine.this.getDeliveryDate();
-					}
+			@Override
+			public DateTime getDeliveryDate() {
+				return GoodsIssueLine.this.getDeliveryDate();
+			}
 
-					@Override
-					public DateTime getDocumentDate() {
-						return GoodsIssueLine.this.getDocumentDate();
-					}
+			@Override
+			public DateTime getDocumentDate() {
+				return GoodsIssueLine.this.getDocumentDate();
+			}
 
-					@Override
-					public emYesNo getCanceled() {
-						return GoodsIssueLine.this.getCanceled();
-					}
+			@Override
+			public emYesNo getCanceled() {
+				return GoodsIssueLine.this.getCanceled();
+			}
 
-					@Override
-					public emDocumentStatus getStatus() {
-						return GoodsIssueLine.this.getLineStatus();
-					}
-				}
-		};
+			@Override
+			public emDocumentStatus getStatus() {
+				return GoodsIssueLine.this.getLineStatus();
+			}
+		} };
 	}
 }
