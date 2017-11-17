@@ -2,6 +2,7 @@ package org.colorcoding.ibas.materials.test.bo;
 
 import junit.framework.TestCase;
 import org.colorcoding.ibas.bobas.common.*;
+import org.colorcoding.ibas.bobas.organization.OrganizationFactory;
 import org.colorcoding.ibas.materials.bo.materialpricelist.IMaterialPriceItem;
 import org.colorcoding.ibas.materials.bo.materialpricelist.MaterialPriceItem;
 import org.colorcoding.ibas.materials.bo.materialpricelist.MaterialPriceList;
@@ -13,7 +14,7 @@ public class testMaterialPriceList extends TestCase {
      * 获取连接口令
      */
     String getToken() {
-        return "68fc6bac014d06ad94c5734116487cff";
+        return OrganizationFactory.SYSTEM_USER.getToken();
     }
     String itemCode = "A100001";
 
