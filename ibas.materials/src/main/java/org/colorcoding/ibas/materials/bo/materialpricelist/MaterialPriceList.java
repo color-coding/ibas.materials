@@ -1,12 +1,5 @@
 package org.colorcoding.ibas.materials.bo.materialpricelist;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlElementWrapper;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlType;
-
 import org.colorcoding.ibas.bobas.bo.BusinessObject;
 import org.colorcoding.ibas.bobas.core.IPropertyInfo;
 import org.colorcoding.ibas.bobas.data.DateTime;
@@ -16,6 +9,8 @@ import org.colorcoding.ibas.bobas.mapping.DbField;
 import org.colorcoding.ibas.bobas.mapping.DbFieldType;
 import org.colorcoding.ibas.materials.MyConfiguration;
 import org.colorcoding.ibas.materials.logic.IMaterialPriceContract;
+
+import javax.xml.bind.annotation.*;
 
 /**
  * 获取-物料价格清单
@@ -765,7 +760,7 @@ public class MaterialPriceList extends BusinessObject<MaterialPriceList> impleme
 		this.setObjectCode(MyConfiguration.applyVariables(BUSINESS_OBJECT_CODE));
 	}
 
-	public static IMaterialPriceList Create(IMaterialPriceContract Contract) {
+	public static IMaterialPriceList create(IMaterialPriceContract Contract) {
 		MaterialPriceList priceList = new MaterialPriceList();
 		IMaterialPriceItem item = priceList.getMaterialPriceItems().create();
 		item.setItemCode(Contract.getItemCode());

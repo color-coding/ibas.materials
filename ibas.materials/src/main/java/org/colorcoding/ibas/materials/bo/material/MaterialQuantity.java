@@ -56,7 +56,13 @@ public class MaterialQuantity {
     public final void setOnHand(Decimal onHand) {
         this.onHand = onHand;
     }
+    public final void setOnHand(int value) {
+        this.setOnHand(new Decimal(value));
+    }
 
+    public final void setOnHand(double value) {
+        this.setOnHand(new Decimal(value));
+    }
     @XmlElement(name = "UOM")
     private String uom;
 

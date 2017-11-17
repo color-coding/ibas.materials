@@ -656,7 +656,7 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
                     .firstOrDefault(c -> c.getAlias().equalsIgnoreCase(MaterialPriceList.PROPERTY_OBJECTKEY.getName()));
             // 从查询中找到仓库
             ICondition conditionWarehouse = criteria.getConditions()
-                    .firstOrDefault(c -> c.getAlias().equalsIgnoreCase(Warehouse.PROPERTY_CODE.getName()));
+                    .firstOrDefault(c -> c.getAlias().equalsIgnoreCase(MaterialInventory.PROPERTY_WAREHOUSE.getName()));
             // 移出价格清单查询和仓库查询
             criteria.getConditions().remove(conditionPriceList);
             criteria.getConditions().remove(conditionWarehouse);
@@ -679,9 +679,9 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
             //endregion
             // region 3、遍历Product 查询价格清单
             if (conditionPriceList != null) {
-                int priceList = Integer.valueOf(conditionPriceList.getValue());
+                int priceList = Integer.parseInt(conditionPriceList.getValue());
                 for (Product item : opRsltProduct.getResultObjects()) {
-                    MaterialPrice materialPrice = this.fetchMaterialPrice(item.getCode(),priceList);
+                    MaterialPrice materialPrice = this.fetchMaterialPrice(item.getCode(), priceList);
                     item.setPrice(materialPrice.getPrice());
                 }
             }
@@ -741,7 +741,7 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
                 throw opRsltMaterial.getError();
             }
             // 循环物料查价格
-            int priceList = Integer.valueOf(conditionPriceList.getValue());
+            int priceList = Integer.parseInt(conditionPriceList.getValue());
             for (IMaterial item : opRsltMaterial.getResultObjects()) {
                 MaterialPrice materialPrice = this.fetchMaterialPrice(item.getCode(), priceList);
                 if (materialPrice != null) {
@@ -765,6 +765,7 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
         try {
             ICriteria criteria = new Criteria();
             MaterialPrice materialPrice = new MaterialPrice();
+            materialPrice.setItemCode(itemCode);
             IChildCriteria childCriteria;
             ICondition condition;
             // region 价格清单查询条件
@@ -786,11 +787,18 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
             if (opRstPriceList.getError() != null) {
                 throw opRstPriceList.getError();
             }
-            IMaterialPriceList materialPriceList = opRstPriceList.getResultObjects().firstOrDefault();
-            if (materialPriceList != null && materialPriceList.getMaterialPriceItems().firstOrDefault().getPrice().compareTo(BigDecimal.ZERO) == 0) {
-                materialPriceList = this.fetchMaterialPrice(materialPriceList, criteria);
+            if (opRstPriceList.getResultObjects().isEmpty()) {
+                return materialPrice;
             }
-            materialPrice.setItemCode(itemCode);
+            IMaterialPriceList materialPriceList = opRstPriceList.getResultObjects().firstOrDefault();
+            // 该价格清单下找不到物料的记录
+            if (materialPriceList.getMaterialPriceItems().isEmpty()) {
+                return materialPrice;
+            }
+            if (materialPriceList.getMaterialPriceItems().firstOrDefault().getPrice().compareTo(BigDecimal.ZERO) == 0) {
+                materialPriceList = this.fetchMaterialPrice(materialPriceList, criteria);
+                // 赋值MaterialPrice对象
+            }
             materialPrice.setPrice(materialPriceList.getMaterialPriceItems().firstOrDefault().getPrice());
             materialPrice.setCurrency(materialPriceList.getCurrency());
             return materialPrice;
@@ -866,7 +874,7 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
             OperationResult<MaterialQuantity> operationResult = new OperationResult<MaterialQuantity>();
             // 从查询中找到仓库
             ICondition conditionWarehouse = criteria.getConditions()
-                    .firstOrDefault(c -> c.getAlias().equalsIgnoreCase(Warehouse.PROPERTY_CODE.getName()));
+                    .firstOrDefault(c -> c.getAlias().equalsIgnoreCase(MaterialInventory.PROPERTY_WAREHOUSE.getName()));
 
             // 移出仓库
             criteria.getConditions().remove(conditionWarehouse);
@@ -919,8 +927,11 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
                 throw opRstInventry.getError();
             }
             materialQuantity.setItemCode(itemCode);
+            materialQuantity.setOnHand(0);
             for (IMaterialInventory item : opRstInventry.getResultObjects()) {
-                materialQuantity.setOnHand(materialQuantity.getOnHand().add(item.getOnHand()));
+                Decimal onHand = materialQuantity.getOnHand();
+                onHand = onHand.add(item.getOnHand());
+                materialQuantity.setOnHand(onHand);
             }
             return materialQuantity;
         } catch (Exception e) {
