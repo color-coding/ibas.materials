@@ -30,7 +30,7 @@ public class Product extends MaterialBase<Product> implements IProduct {
     /**
      * 仓库查询条件
      */
-    public static final String WAREHOUSE_NAME = "Warehouse";
+    public static final String WAREHOUSE_NAME = "WhsCode";
 
     /**
      * 价格清单查询条件

@@ -16,7 +16,7 @@ public class MaterialQuantity implements IMaterialQuantity {
     /**
      * 查询条件字段-仓库
      */
-    public static final String WAREHOUSE_NAME = "Warehouse";
+    public static final String WAREHOUSE_NAME = "WhsCode";
 
     /**
      * 查询条件字段-物料
@@ -42,31 +42,30 @@ public class MaterialQuantity implements IMaterialQuantity {
      * @param material
      * @return
      */
-    public static IMaterialQuantity create(IMaterial material) {
+    public static IMaterialQuantity create(IMaterial material, boolean needQuantity) {
         MaterialQuantity materialQuantity = new MaterialQuantity();
         materialQuantity.setItemCode(material.getCode());
-        materialQuantity.setOnHand(material.getOnHand());
         materialQuantity.setUOM(material.getInventoryUOM());
+        if (needQuantity) {
+            materialQuantity.setOnHand(material.getOnHand());
+        } else {
+            materialQuantity.setOnHand(0);
+        }
         return materialQuantity;
     }
 
-    public static ArrayList<IMaterialQuantity> create(ArrayList<IMaterial> materials) {
+    public static ArrayList<IMaterialQuantity> create(ArrayList<IMaterial> materials, boolean needQuantity) {
         ArrayList<IMaterialQuantity> materialQuantities = new ArrayList<>();
         if (!materials.isEmpty()) {
             for (IMaterial item : materials) {
-                materialQuantities.add(create(item));
+                materialQuantities.add(create(item, needQuantity));
             }
         }
         return materialQuantities;
     }
 
 
-    /**
-     * 属性名称-物料编码
-     */
-    private static final String PROPERTY_ITEMCODE_NAME = "ItemCode";
-
-    @XmlElement(name = "PROPERTY_ITEMCODE_NAME")
+    @XmlElement(name = "ItemCode")
     private String itemCode;
 
     @Override

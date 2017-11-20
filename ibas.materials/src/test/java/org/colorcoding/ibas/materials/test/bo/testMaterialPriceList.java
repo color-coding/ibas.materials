@@ -2,6 +2,7 @@ package org.colorcoding.ibas.materials.test.bo;
 
 import junit.framework.TestCase;
 import org.colorcoding.ibas.bobas.common.*;
+import org.colorcoding.ibas.bobas.data.DateTime;
 import org.colorcoding.ibas.bobas.organization.OrganizationFactory;
 import org.colorcoding.ibas.materials.bo.materialpricelist.IMaterialPriceItem;
 import org.colorcoding.ibas.materials.bo.materialpricelist.MaterialPriceItem;
@@ -16,18 +17,20 @@ public class testMaterialPriceList extends TestCase {
     String getToken() {
         return OrganizationFactory.SYSTEM_USER.getToken();
     }
-    String itemCode = "A100001";
+
+    String itemCode = String.format("A%s", DateTime.getNow().toString("ddmmss"));
 
     /**
      * 基本项目测试
+     *
      * @throws Exception
      */
     public void testBasicItems() throws Exception {
 
         MaterialPriceList bo = new MaterialPriceList();
         // 测试属性赋值
-        bo.setName("促销价");
-        bo.setFactor(0.8);
+        bo.setName(String.format("双十一促销价%s", DateTime.getNow().toString("ddmmss")));
+        bo.setFactor(1.1);
         IMaterialPriceItem priceItem = bo.getMaterialPriceItems().create();
         priceItem.setItemCode(itemCode);
         priceItem.setPrice(12);
@@ -41,10 +44,16 @@ public class testMaterialPriceList extends TestCase {
         // 测试保存
         operationResult = boRepository.saveMaterialPriceList(bo);
         assertEquals(operationResult.getMessage(), operationResult.getResultCode(), 0);
-        MaterialPriceList boSaved = (MaterialPriceList)operationResult.getResultObjects().firstOrDefault();
+        MaterialPriceList boSaved = (MaterialPriceList) operationResult.getResultObjects().firstOrDefault();
 
 
         // 测试查询
+
+        criteria = boSaved.getCriteria();
+        criteria.setResultCount(10);
+        operationResult = boRepository.fetchMaterialPriceList(criteria);
+        assertEquals(operationResult.getMessage(), operationResult.getResultCode(), 0);
+
         IChildCriteria childCriteria;
         ICondition condition;
         criteria = boSaved.getCriteria();
@@ -58,14 +67,8 @@ public class testMaterialPriceList extends TestCase {
         condition.setValue(itemCode);
 
         criteria.setResultCount(10);
-        // operationResult = boRepository.fetchMaterialPriceListFinal(criteria);
+        operationResult = boRepository.fetchMaterialPriceList(criteria);
         assertEquals(operationResult.getMessage(), operationResult.getResultCode(), 0);
-        assertEquals(operationResult.getMessage(), ((MaterialPriceList) operationResult.getResultObjects().firstOrDefault()).getMaterialPriceItems().firstOrDefault().getPrice().intValue(), 12);
-
-
-    }
-
-    public  void testChildFetchPriceList() throws  Exception{
-        // 添加
+        assertEquals(operationResult.getMessage(), 12, ((MaterialPriceList) operationResult.getResultObjects().firstOrDefault()).getMaterialPriceItems().firstOrDefault().getPrice().intValue());
     }
 }
