@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 echo '*****************************************************************'
 echo '              deploy_packages.sh                                 '
 echo '                    by niuren.zhu                                '
@@ -20,7 +20,7 @@ ROOT_URL=http://maven.colorcoding.org/repository/
 # 仓库名称
 REPOSITORY=$1
 # 设置默认仓库名称
-if [ "${REPOSITORY}" == "" ];then REPOSITORY=maven-releases; fi;
+if [ "${REPOSITORY}" = "" ];then REPOSITORY=maven-releases; fi;
 # 使用的仓库信息
 REPOSITORY_ID=ibas-maven
 REPOSITORY_URL=${ROOT_URL}${REPOSITORY}

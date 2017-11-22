@@ -91,6 +91,7 @@ public class MaterialQuantity implements IMaterialQuantity {
         this.onHand = onHand;
     }
 
+
     @Override
     public final void setOnHand(int value) {
         this.setOnHand(new Decimal(value));

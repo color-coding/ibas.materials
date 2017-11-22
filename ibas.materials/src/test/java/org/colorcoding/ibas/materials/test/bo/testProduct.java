@@ -34,7 +34,7 @@ public class testProduct extends TestCase {
      *
      * @throws Exception
      */
-    public void testMaterialPriceList() throws Exception {
+    public void testFetchMaterialPriceList() throws Exception {
         // 测试对象的保存和查询
         IBORepositoryMaterialsApp boRepository = new BORepositoryMaterials();
         String materialGroupName = String.format("G%s", DateTime.getNow().toString("ddmmss"));
@@ -379,8 +379,7 @@ public class testProduct extends TestCase {
      *
      * @throws Exception
      */
-    @SuppressWarnings("SpellCheckingInspection")
-    public void testMaterialPrice() throws Exception {
+    public void testFetchMaterialPrice() throws Exception {
         // 测试对象的保存和查询
         IBORepositoryMaterialsApp boRepository = new BORepositoryMaterials();
         String itemCode1 = String.format("A%s", DateTime.getNow().toString("ddmmss"));
@@ -625,7 +624,7 @@ public class testProduct extends TestCase {
      *
      * @throws Exception
      */
-    public void testMaterialQuantity() throws Exception {
+    public void testFetchMaterialQuantity() throws Exception {
         // 测试对象的保存和查询
         IBORepositoryMaterialsApp boRepository = new BORepositoryMaterials();
         String materialGroupName = String.format("G%s", DateTime.getNow().toString("ddmmss"));
@@ -912,7 +911,7 @@ public class testProduct extends TestCase {
 
     }
 
-    public void testMaterialPriceException() throws Exception{
+    public void testFetchMaterialPriceException() throws Exception{
         IBORepositoryMaterialsApp boRepository = new BORepositoryMaterials();
         ICriteria criteria1 = new Criteria();
         ICondition condition1 = criteria1.getConditions().create();
