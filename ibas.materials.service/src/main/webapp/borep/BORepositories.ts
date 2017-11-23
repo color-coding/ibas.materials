@@ -20,6 +20,30 @@ export class BORepositoryMaterials extends ibas.BORepositoryApplication implemen
     }
 
     /**
+     * 上传文件
+     * @param caller 调用者
+     */
+    upload(caller: ibas.UploadFileCaller<ibas.FileData>): void {
+        if (!this.address.endsWith("/")) { this.address += "/"; }
+        let fileRepository: ibas.FileRepositoryUploadAjax = new ibas.FileRepositoryUploadAjax();
+        fileRepository.address = this.address.replace("/services/rest/data/", "/services/rest/file/");
+        fileRepository.token = this.token;
+        fileRepository.converter = this.createConverter();
+        fileRepository.upload("upload", caller);
+    }
+    /**
+     * 下载文件
+     * @param caller 调用者
+     */
+    download(caller: ibas.DownloadFileCaller<Blob>): void {
+        if (!this.address.endsWith("/")) { this.address += "/"; }
+        let fileRepository: ibas.FileRepositoryDownloadAjax = new ibas.FileRepositoryDownloadAjax();
+        fileRepository.address = this.address.replace("/services/rest/data/", "/services/rest/file/");
+        fileRepository.token = this.token;
+        fileRepository.converter = this.createConverter();
+        fileRepository.download("download", caller);
+    }
+    /**
      * 查询 库存发货
      * @param fetcher 查询者
      */
@@ -159,7 +183,7 @@ export class BORepositoryMaterials extends ibas.BORepositoryApplication implemen
      * @param saver 保存者
      */
     saveMaterialBatch(saver: ibas.SaveCaller<bo.MaterialBatch>): void {
-        super.save(bo.MaterialBatch.name,saver);
+        super.save(bo.MaterialBatch.name, saver);
     }
 
     /**
@@ -174,7 +198,7 @@ export class BORepositoryMaterials extends ibas.BORepositoryApplication implemen
      * @param saver 保存者
      */
     saveMaterialBatchJournal(saver: ibas.SaveCaller<bo.MaterialBatchJournal>): void {
-        super.save(bo.MaterialBatchJournal.name,saver);
+        super.save(bo.MaterialBatchJournal.name, saver);
     }
     /**
      *  查询 物料序列号
@@ -188,7 +212,7 @@ export class BORepositoryMaterials extends ibas.BORepositoryApplication implemen
      * @param saver 保存者
      */
     saveMaterialSerial(saver: ibas.SaveCaller<bo.MaterialSerial>): void {
-        super.save(bo.MaterialSerial.name,saver);
+        super.save(bo.MaterialSerial.name, saver);
     }
     /**
      *  查询 物料序列号日记账
@@ -202,7 +226,7 @@ export class BORepositoryMaterials extends ibas.BORepositoryApplication implemen
      * @param saver 保存者
      */
     saveMaterialSerialJournal(saver: ibas.SaveCaller<bo.MaterialSerialJournal>): void {
-        super.save(bo.MaterialSerialJournal.name,saver);
+        super.save(bo.MaterialSerialJournal.name, saver);
     }
     /**
      *  查询 物料价格清单
@@ -216,7 +240,7 @@ export class BORepositoryMaterials extends ibas.BORepositoryApplication implemen
      * @param saver 保存者
      */
     saveMaterialPriceList(saver: ibas.SaveCaller<bo.MaterialPriceList>): void {
-        super.save(bo.MaterialPriceList.name,saver);
+        super.save(bo.MaterialPriceList.name, saver);
     }
 }
 // 注册业务对象仓库到工厂
