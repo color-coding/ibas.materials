@@ -385,7 +385,6 @@ export class MaterialBatchIssueApp extends ibas.BOApplication<IMaterialBatchIssu
             this.messages(error);
         }
     }
-
 }
 
 /** 视图-批次新建 */

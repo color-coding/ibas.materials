@@ -19,6 +19,7 @@ import {
     BODocumentLine,
     BOSimple,
     BOSimpleLine,
+    strings,
     config,
     objects,
     emDirection,
@@ -453,6 +454,15 @@ export class GoodsIssueLines extends BusinessObjects<GoodsIssueLine, GoodsIssue>
         this.add(item);
         return item;
     }
+    /** 监听父项属性改变 */
+    protected onParentPropertyChanged(name: string): void {
+        super.onParentPropertyChanged(name);
+        if (strings.equalsIgnoreCase(name, GoodsIssue.PROPERTY_DOCUMENTSTATUS_NAME)) {
+            for (let item of this.filterDeleted()) {
+                item.lineStatus = this.parent.documentStatus;
+            }
+        }
+    }
 }
 /** 库存发货-批次日记账 集合 */
 export class GoodsIssueMaterialBatchJournals extends BusinessObjects<MaterialBatchJournal, GoodsIssueLine>
@@ -470,6 +480,7 @@ export class GoodsIssueMaterialBatchJournals extends BusinessObjects<MaterialBat
         item.warehouse = data.warehouse;
         item.quantity = data.quantity;
         item.direction = emDirection.OUT;
+        item.lineStatus = this.parent.lineStatus;
         // item.admissionDate = data.admissionDate;
         // item.expirationDate = data.expirationDate;
         // item.manufacturingDate = data.manufacturingDate;
@@ -480,6 +491,15 @@ export class GoodsIssueMaterialBatchJournals extends BusinessObjects<MaterialBat
     deleteAll(): void {
         for (let item of this) {
             item.delete();
+        }
+    }
+     /** 监听父项属性改变 */
+     protected onParentPropertyChanged(name: string): void {
+        super.onParentPropertyChanged(name);
+        if (strings.equalsIgnoreCase(name, GoodsIssueLine.PROPERTY_LINESTATUS_NAME)) {
+            for (let item of this.filterDeleted()) {
+                item.lineStatus = this.parent.lineStatus;
+            }
         }
     }
 }
@@ -498,6 +518,7 @@ export class GoodsIssueMaterialSerialJournals extends BusinessObjects<MaterialSe
         item.itemCode = data.itemCode;
         item.direction = emDirection.OUT;
         item.warehouse = data.warehouse;
+        item.lineStatus = this.parent.lineStatus;
         this.add(item);
         return item;
     }
@@ -505,6 +526,15 @@ export class GoodsIssueMaterialSerialJournals extends BusinessObjects<MaterialSe
     deleteAll(): void {
         for (let item of this) {
             item.delete();
+        }
+    }
+    /** 监听父项属性改变 */
+    protected onParentPropertyChanged(name: string): void {
+        super.onParentPropertyChanged(name);
+        if (strings.equalsIgnoreCase(name, GoodsIssueLine.PROPERTY_LINESTATUS_NAME)) {
+            for (let item of this.filterDeleted()) {
+                item.lineStatus = this.parent.lineStatus;
+            }
         }
     }
 }

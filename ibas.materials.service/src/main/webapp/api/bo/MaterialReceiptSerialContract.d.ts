@@ -26,7 +26,12 @@ export interface IMaterialReceiptSerialContract {
 }
 
 export interface IMaterialReceiptSerialContractLine extends IMaterialBaseContract {
-
+    /** 单据号 */
+    docEntry?: number;
+    /** 单据行号 */
+    lineId?: number;
+    /** 单据类型 */
+    objectType?: string;
 }
 
 /** 物料出库行序列信息 */

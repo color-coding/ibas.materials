@@ -1,8 +1,15 @@
 package org.colorcoding.ibas.materials.logic;
 
-import org.colorcoding.ibas.bobas.common.*;
+import org.colorcoding.ibas.bobas.bo.IBOSimpleLine;
+import org.colorcoding.ibas.bobas.common.ConditionOperation;
+import org.colorcoding.ibas.bobas.common.ConditionRelationship;
+import org.colorcoding.ibas.bobas.common.Criteria;
+import org.colorcoding.ibas.bobas.common.ICondition;
+import org.colorcoding.ibas.bobas.common.ICriteria;
+import org.colorcoding.ibas.bobas.common.IOperationResult;
 import org.colorcoding.ibas.bobas.data.Decimal;
 import org.colorcoding.ibas.bobas.data.emDirection;
+import org.colorcoding.ibas.bobas.data.emDocumentStatus;
 import org.colorcoding.ibas.bobas.data.emYesNo;
 import org.colorcoding.ibas.bobas.i18n.I18N;
 import org.colorcoding.ibas.bobas.logic.BusinessLogic;
@@ -12,6 +19,7 @@ import org.colorcoding.ibas.materials.bo.material.IMaterial;
 import org.colorcoding.ibas.materials.bo.material.Material;
 import org.colorcoding.ibas.materials.bo.materialbatch.IMaterialBatch;
 import org.colorcoding.ibas.materials.bo.materialbatch.MaterialBatch;
+import org.colorcoding.ibas.materials.bo.materialserial.IMaterialSerialJournal;
 import org.colorcoding.ibas.materials.repository.BORepositoryMaterials;
 
 
@@ -84,6 +92,17 @@ public class MaterialBatchJournalSerivce extends BusinessLogic<IMaterialBatchJou
         materialBatch.setQuantity(quantity);
     }
 
+    @Override
+    protected boolean checkDataStatus(Object data) {
+        super.checkDataStatus(data);
+        if(data instanceof IBOSimpleLine){
+            IMaterialSerialJournal journal = (IMaterialSerialJournal) data;
+            if (journal.getLineStatus() == emDocumentStatus.PLANNED) {
+                return false;
+            }
+        }
+        return true;
+    }
     private void checkContractData(IMaterialBatchJournalContract contract) {
         ICriteria criteria = Criteria.create();
         ICondition condition = criteria.getConditions().create();

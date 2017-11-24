@@ -26,7 +26,12 @@ export interface IMaterialIssueBatchContract {
 }
 
 export interface IMaterialIssueBatchContractLine extends IMaterialBaseContract {
-
+    /** 单据号 */
+    docEntry?: number;
+    /** 单据行号 */
+    lineId?: number;
+    /** 单据类型 */
+    objectType?: string;
 }
 
 /** 物料出库行批次信息 */

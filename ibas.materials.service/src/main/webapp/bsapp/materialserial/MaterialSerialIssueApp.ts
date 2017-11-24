@@ -75,6 +75,8 @@ export class MaterialSerialIssueApp extends ibas.BOApplication<IMaterialSerialIs
         criteria.conditions.add(condition);
         condition = new ibas.Condition(bo.MaterialSerial.PROPERTY_WAREHOUSE_NAME, ibas.emConditionOperation.EQUAL, selected.warehouse);
         criteria.conditions.add(condition);
+        condition = new ibas.Condition(bo.MaterialSerial.PROPERTY_INSTOCK_NAME, ibas.emConditionOperation.EQUAL, "Y");
+        criteria.conditions.add(condition);
         that.fetchSerialData(criteria, selected);
         that.view.showRightData(selected.materialSerialServiceJournals);
     }

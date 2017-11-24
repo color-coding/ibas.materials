@@ -27,6 +27,12 @@ export interface IMaterialReceiptBatchContract {
 
 export interface IMaterialReceiptBatchContractLine extends IMaterialBaseContract {
 
+    /** 单据号 */
+    docEntry?:number;
+    /** 单据行号 */
+    lineId?:number;
+    /** 单据类型 */
+    objectType?:string;
 }
 
 
