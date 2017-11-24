@@ -51,7 +51,7 @@ export class MaterialBatchReceiptApp extends ibas.BOApplication<IMaterialBatchRe
     protected addBatch(select: bo.MaterialBatchService): void {
         // 确认选择了凭证信息
         if (ibas.objects.isNull(select)) {
-            this.messages(ibas.emMessageType.WARNING, ibas.i18n.prop("sys_shell_please_chooose_data",
+            this.messages(ibas.emMessageType.WARNING, ibas.i18n.prop("shell_please_chooose_data",
                 ibas.i18n.prop("materials_app_batch_serial_choose_journalline")
             ));
             return;
@@ -69,7 +69,7 @@ export class MaterialBatchReceiptApp extends ibas.BOApplication<IMaterialBatchRe
     protected removeBatch(batch: bo.MaterialBatchService, items: bo.MaterialBatchJournal[]): void {
         // 未选择凭证行
         if (ibas.objects.isNull(batch)) {
-            this.messages(ibas.emMessageType.WARNING, ibas.i18n.prop("sys_shell_please_chooose_data",
+            this.messages(ibas.emMessageType.WARNING, ibas.i18n.prop("shell_please_chooose_data",
                 ibas.i18n.prop("materials_app_batch_serial_choose_journalline")
             ));
             return;
@@ -102,7 +102,7 @@ export class MaterialBatchReceiptApp extends ibas.BOApplication<IMaterialBatchRe
     protected autoCreateBatch(item: bo.MaterialBatchService): void {
         // 未选择凭证行
         if (ibas.objects.isNull(item)) {
-            this.messages(ibas.emMessageType.WARNING, ibas.i18n.prop("sys_shell_please_chooose_data",
+            this.messages(ibas.emMessageType.WARNING, ibas.i18n.prop("shell_please_chooose_data",
                 ibas.i18n.prop("materials_app_batch_serial_choose_journalline")
             ));
             return;

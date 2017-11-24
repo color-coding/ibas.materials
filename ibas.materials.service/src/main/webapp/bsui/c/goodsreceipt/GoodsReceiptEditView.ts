@@ -110,7 +110,7 @@ export class GoodsReceiptEditView extends ibas.BOEditView implements IGoodsRecei
             extension: new sap.m.Toolbar("", {
                 content: [
                     new sap.m.Button("", {
-                        text: ibas.i18n.prop("sys_shell_data_add"),
+                        text: ibas.i18n.prop("shell_data_add"),
                         type: sap.m.ButtonType.Transparent,
                         icon: "sap-icon://add",
                         press: function (): void {
@@ -118,7 +118,7 @@ export class GoodsReceiptEditView extends ibas.BOEditView implements IGoodsRecei
                         }
                     }),
                     new sap.m.Button("", {
-                        text: ibas.i18n.prop("sys_shell_data_remove"),
+                        text: ibas.i18n.prop("shell_data_remove"),
                         type: sap.m.ButtonType.Transparent,
                         icon: "sap-icon://less",
                         press: function (): void {
@@ -264,7 +264,7 @@ export class GoodsReceiptEditView extends ibas.BOEditView implements IGoodsRecei
             subHeader: new sap.m.Toolbar("", {
                 content: [
                     new sap.m.Button("", {
-                        text: ibas.i18n.prop("sys_shell_data_save"),
+                        text: ibas.i18n.prop("shell_data_save"),
                         type: sap.m.ButtonType.Transparent,
                         icon: "sap-icon://save",
                         press: function (): void {
@@ -272,7 +272,7 @@ export class GoodsReceiptEditView extends ibas.BOEditView implements IGoodsRecei
                         }
                     }),
                     new sap.m.Button("", {
-                        text: ibas.i18n.prop("sys_shell_data_delete"),
+                        text: ibas.i18n.prop("shell_data_delete"),
                         type: sap.m.ButtonType.Transparent,
                         icon: "sap-icon://delete",
                         press: function (): void {
@@ -281,7 +281,7 @@ export class GoodsReceiptEditView extends ibas.BOEditView implements IGoodsRecei
                     }),
                     new sap.m.ToolbarSeparator(""),
                     new sap.m.MenuButton("", {
-                        text: ibas.i18n.prop("sys_shell_data_new"),
+                        text: ibas.i18n.prop("shell_data_new"),
                         type: sap.m.ButtonType.Transparent,
                         icon: "sap-icon://create",
                         buttonMode: sap.m.MenuButtonMode.Split,
@@ -292,11 +292,11 @@ export class GoodsReceiptEditView extends ibas.BOEditView implements IGoodsRecei
                         menu: new sap.m.Menu("", {
                             items: [
                                 new sap.m.MenuItem("", {
-                                    text: ibas.i18n.prop("sys_shell_data_new"),
+                                    text: ibas.i18n.prop("shell_data_new"),
                                     icon: "sap-icon://create"
                                 }),
                                 new sap.m.MenuItem("", {
-                                    text: ibas.i18n.prop("sys_shell_data_clone"),
+                                    text: ibas.i18n.prop("shell_data_clone"),
                                     icon: "sap-icon://copy"
                                 }),
                             ],

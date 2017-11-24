@@ -40,7 +40,7 @@ export class GoodsIssueViewApp extends ibas.BOViewService<IGoodsIssueViewView> {
         if (ibas.objects.isNull(this.editData)) {
             // 创建编辑对象实例
             this.viewData = new bo.GoodsIssue();
-            this.proceeding(ibas.emMessageType.WARNING, ibas.i18n.prop("sys_shell_data_created_new"));
+            this.proceeding(ibas.emMessageType.WARNING, ibas.i18n.prop("shell_data_created_new"));
         }
         this.view.showGoodsIssue(this.viewData);
         this.view.showGoodsIssueLines(this.viewData.goodsIssueLines.filterDeleted());
@@ -86,7 +86,7 @@ export class GoodsIssueViewApp extends ibas.BOViewService<IGoodsIssueViewView> {
                 }
             }
         });
-        this.proceeding(ibas.emMessageType.INFORMATION, ibas.i18n.prop("sys_shell_fetching_data"));
+        this.proceeding(ibas.emMessageType.INFORMATION, ibas.i18n.prop("shell_fetching_data"));
     }
     /** 获取服务的契约 */
     protected getServiceProxies(): ibas.IServiceProxy<ibas.IServiceContract>[] {

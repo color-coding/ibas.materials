@@ -81,7 +81,7 @@ export class MaterialSerialIssueApp extends ibas.BOApplication<IMaterialSerialIs
     protected autoSelectMaterialSerial(selected: bo.MaterialSerialService, rules: emAutoSelectBatchSerialRules): void {
         // 未选择凭证行
         if (ibas.objects.isNull(selected)) {
-            this.messages(ibas.emMessageType.WARNING, ibas.i18n.prop("sys_shell_please_chooose_data",
+            this.messages(ibas.emMessageType.WARNING, ibas.i18n.prop("shell_please_chooose_data",
                 ibas.i18n.prop("materials_app_batch_serial_choose_journalline")
             ));
             return;
@@ -144,7 +144,7 @@ export class MaterialSerialIssueApp extends ibas.BOApplication<IMaterialSerialIs
     protected addSerialMaterialSerial(selected: bo.MaterialSerialService, items: bo.MaterialSerial[]): void {
         // 未选择凭证行
         if (ibas.objects.isNull(selected)) {
-            this.messages(ibas.emMessageType.WARNING, ibas.i18n.prop("sys_shell_please_chooose_data",
+            this.messages(ibas.emMessageType.WARNING, ibas.i18n.prop("shell_please_chooose_data",
                 ibas.i18n.prop("materials_app_batch_serial_choose_journalline")
             ));
             return;
@@ -166,7 +166,7 @@ export class MaterialSerialIssueApp extends ibas.BOApplication<IMaterialSerialIs
     protected removeSerialMaterialSerial(selected: bo.MaterialSerialService, items: bo.MaterialSerialJournal[]): void {
         // 未选择凭证行
         if (ibas.objects.isNull(selected)) {
-            this.messages(ibas.emMessageType.WARNING, ibas.i18n.prop("sys_shell_please_chooose_data",
+            this.messages(ibas.emMessageType.WARNING, ibas.i18n.prop("shell_please_chooose_data",
                 ibas.i18n.prop("materials_app_batch_serial_choose_journalline")
             ));
             return;
@@ -216,7 +216,7 @@ export class MaterialSerialIssueApp extends ibas.BOApplication<IMaterialSerialIs
                 }
             }
         });
-        this.proceeding(ibas.emMessageType.INFORMATION, ibas.i18n.prop("sys_shell_fetching_data"));
+        this.proceeding(ibas.emMessageType.INFORMATION, ibas.i18n.prop("shell_fetching_data"));
     }
     /** 绑定服务数据 */
     bindSerialServiceData(contract: IMaterialIssueSerialContract): void {

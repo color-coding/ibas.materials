@@ -7,16 +7,16 @@
  */
 
 import * as ibas from "ibas/index";
-import { GoodsIssueFunc,} from "./goodsissue/index";
+import { GoodsIssueFunc, } from "./goodsissue/index";
 import { GoodsReceiptFunc, } from "./goodsreceipt/index";
 import { InventoryTransferFunc, } from "./inventorytransfer/index";
 import { MaterialInventoryFunc, } from "./materialinventory/index";
-import { MaterialInventoryJournalFunc,  } from "./materialinventoryjournal/index";
-import { MaterialFunc, MaterialChooseServiceMapping, MaterialLinkServiceMapping,ProductChooseServiceMapping } from "./material/index";
+import { MaterialInventoryJournalFunc, } from "./materialinventoryjournal/index";
+import { MaterialFunc, MaterialChooseServiceMapping, MaterialLinkServiceMapping, ProductChooseServiceMapping } from "./material/index";
 import { MaterialGroupFunc, MaterialGroupChooseServiceMapping, MaterialGroupLinkServiceMapping } from "./materialgroup/index";
 import { WarehouseFunc, WarehouseChooseServiceMapping, WarehouseLinkServiceMapping } from "./warehouse/index";
-import { MaterialBatchReceipServiceMapping,MaterialBatchIssueServiceMapping} from "./materialbatch/index";
-import { MaterialSerialReceipServiceMapping,MaterialSerialIssueServiceMapping} from "./materialserial/index";
+import { MaterialBatchReceipServiceMapping, MaterialBatchIssueServiceMapping } from "./materialbatch/index";
+import { MaterialSerialReceipServiceMapping, MaterialSerialIssueServiceMapping } from "./materialserial/index";
 
 /** 模块控制台 */
 export class Console extends ibas.ModuleConsole {
@@ -24,11 +24,15 @@ export class Console extends ibas.ModuleConsole {
     static CONSOLE_ID: string = "bad47859-3d74-4b2b-975a-48c635406be4";
     /** 模块-名称 */
     static CONSOLE_NAME: string = "Materials";
+    /** 模块-版本 */
+    static CONSOLE_VERSION: string = "0.1.0";
     /** 构造函数 */
     constructor() {
         super();
         this.id = Console.CONSOLE_ID;
         this.name = Console.CONSOLE_NAME;
+        this.version = Console.CONSOLE_VERSION;
+        this.copyright = ibas.i18n.prop("shell_license");
     }
     private _navigation: ibas.IViewNavigation;
     /** 创建视图导航 */

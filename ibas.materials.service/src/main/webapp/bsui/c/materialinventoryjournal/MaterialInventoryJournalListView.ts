@@ -128,7 +128,7 @@ export class MaterialInventoryJournalListView extends ibas.BOListView implements
             subHeader: new sap.m.Bar("", {
                 contentLeft: [
                     new sap.m.Button("", {
-                        text: ibas.i18n.prop("sys_shell_data_new"),
+                        text: ibas.i18n.prop("shell_data_new"),
                         type: sap.m.ButtonType.Transparent,
                         icon: "sap-icon://create",
                         press: function (): void {
@@ -136,7 +136,7 @@ export class MaterialInventoryJournalListView extends ibas.BOListView implements
                         }
                     }),
                     new sap.m.Button("", {
-                        text: ibas.i18n.prop("sys_shell_data_view"),
+                        text: ibas.i18n.prop("shell_data_view"),
                         type: sap.m.ButtonType.Transparent,
                         icon: "sap-icon://display",
                         press: function (): void {
@@ -147,7 +147,7 @@ export class MaterialInventoryJournalListView extends ibas.BOListView implements
                         }
                     }),
                     new sap.m.Button("", {
-                        text: ibas.i18n.prop("sys_shell_data_edit"),
+                        text: ibas.i18n.prop("shell_data_edit"),
                         type: sap.m.ButtonType.Transparent,
                         icon: "sap-icon://edit",
                         press: function (): void {
@@ -159,7 +159,7 @@ export class MaterialInventoryJournalListView extends ibas.BOListView implements
                     }),
                     // new sap.m.ToolbarSeparator(""),// 加了后面不显示？
                     new sap.m.Button("", {
-                        text: ibas.i18n.prop("sys_shell_data_delete"),
+                        text: ibas.i18n.prop("shell_data_delete"),
                         type: sap.m.ButtonType.Transparent,
                         icon: "sap-icon://delete",
                         press: function (): void {
