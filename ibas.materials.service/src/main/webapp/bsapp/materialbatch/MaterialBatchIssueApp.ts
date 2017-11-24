@@ -73,7 +73,7 @@ export class MaterialBatchIssueApp extends ibas.BOApplication<IMaterialBatchIssu
     protected autoSelectMaterialBatch(selected: bo.MaterialBatchService, rules: emAutoSelectBatchSerialRules): void {
         // 未选择凭证行
         if (ibas.objects.isNull(selected)) {
-            this.messages(ibas.emMessageType.WARNING, ibas.i18n.prop("sys_shell_please_chooose_data",
+            this.messages(ibas.emMessageType.WARNING, ibas.i18n.prop("shell_please_chooose_data",
                 ibas.i18n.prop("materials_app_batch_serial_choose_journalline")
             ));
             return;
@@ -155,7 +155,7 @@ export class MaterialBatchIssueApp extends ibas.BOApplication<IMaterialBatchIssu
     protected addBatchMaterialBatch(selected: bo.MaterialBatchService, items: bo.MaterialBatch[]): void {
         // 未选择凭证行
         if (ibas.objects.isNull(selected)) {
-            this.messages(ibas.emMessageType.WARNING, ibas.i18n.prop("sys_shell_please_chooose_data",
+            this.messages(ibas.emMessageType.WARNING, ibas.i18n.prop("shell_please_chooose_data",
                 ibas.i18n.prop("materials_app_batch_serial_choose_journalline")
             ));
             return;
@@ -206,7 +206,7 @@ export class MaterialBatchIssueApp extends ibas.BOApplication<IMaterialBatchIssu
     protected removeBatchMaterialBatch(selected: bo.MaterialBatchService, items: bo.MaterialBatchJournal[]): void {
         // 未选择凭证行
         if (ibas.objects.isNull(selected)) {
-            this.messages(ibas.emMessageType.WARNING, ibas.i18n.prop("sys_shell_please_chooose_data",
+            this.messages(ibas.emMessageType.WARNING, ibas.i18n.prop("shell_please_chooose_data",
                 ibas.i18n.prop("materials_app_batch_serial_choose_journalline")
             ));
             return;
@@ -258,7 +258,7 @@ export class MaterialBatchIssueApp extends ibas.BOApplication<IMaterialBatchIssu
                 }
             }
         });
-        this.proceeding(ibas.emMessageType.INFORMATION, ibas.i18n.prop("sys_shell_fetching_data"));
+        this.proceeding(ibas.emMessageType.INFORMATION, ibas.i18n.prop("shell_fetching_data"));
     }
 
     protected filterSelected(fetchData: bo.MaterialBatch[], selected: bo.MaterialBatchService): bo.MaterialBatch[] {

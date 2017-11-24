@@ -41,7 +41,7 @@ export class WarehouseViewApp extends ibas.BOViewService<IWarehouseViewView> {
         if (ibas.objects.isNull(this.viewData)) {
             // 创建编辑对象实例
             this.viewData = new bo.Warehouse();
-            this.proceeding(ibas.emMessageType.WARNING, ibas.i18n.prop("sys_shell_data_created_new"));
+            this.proceeding(ibas.emMessageType.WARNING, ibas.i18n.prop("shell_data_created_new"));
         }
         this.view.showWarehouse(this.viewData);
     }
@@ -86,7 +86,7 @@ export class WarehouseViewApp extends ibas.BOViewService<IWarehouseViewView> {
                 }
             }
         });
-        this.proceeding(ibas.emMessageType.INFORMATION, ibas.i18n.prop("sys_shell_fetching_data"));
+        this.proceeding(ibas.emMessageType.INFORMATION, ibas.i18n.prop("shell_fetching_data"));
     }
     /** 获取服务的契约 */
     protected getServiceProxies(): ibas.IServiceProxy<ibas.IServiceContract>[] {

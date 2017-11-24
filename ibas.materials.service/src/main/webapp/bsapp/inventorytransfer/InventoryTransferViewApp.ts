@@ -40,7 +40,7 @@ export class InventoryTransferViewApp extends ibas.BOViewService<IInventoryTrans
         if (ibas.objects.isNull(this.editData)) {
             // 创建编辑对象实例
             this.viewData = new bo.InventoryTransfer();
-            this.proceeding(ibas.emMessageType.WARNING, ibas.i18n.prop("sys_shell_data_created_new"));
+            this.proceeding(ibas.emMessageType.WARNING, ibas.i18n.prop("shell_data_created_new"));
         }
         this.view.showInventoryTransfer(this.viewData);
         this.view.showInventoryTransferLines(this.viewData.inventoryTransferLines.filterDeleted());
@@ -86,7 +86,7 @@ export class InventoryTransferViewApp extends ibas.BOViewService<IInventoryTrans
                 }
             }
         });
-        this.proceeding(ibas.emMessageType.INFORMATION, ibas.i18n.prop("sys_shell_fetching_data"));
+        this.proceeding(ibas.emMessageType.INFORMATION, ibas.i18n.prop("shell_fetching_data"));
     }
     /** 获取服务的契约 */
     protected getServiceProxies(): ibas.IServiceProxy<ibas.IServiceContract>[] {

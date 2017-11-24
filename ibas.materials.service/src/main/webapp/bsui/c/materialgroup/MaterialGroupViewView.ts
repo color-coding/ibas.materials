@@ -112,7 +112,7 @@ export class MaterialGroupViewView extends ibas.BOViewView implements IMaterialG
             subHeader: new sap.m.Bar("", {
                 contentLeft: [
                     new sap.m.Button("", {
-                        text: ibas.i18n.prop("sys_shell_data_edit"),
+                        text: ibas.i18n.prop("shell_data_edit"),
                         type: sap.m.ButtonType.Transparent,
                         icon: "sap-icon://edit",
                         press: function (): void {

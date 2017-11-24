@@ -39,7 +39,7 @@ export class MaterialGroupViewApp extends ibas.BOViewService<IMaterialGroupViewV
         // 视图加载完成
         if(ibas.objects.isNull(this.viewData)){
             this.viewData = new bo.MaterialGroup;
-            this.proceeding(ibas.emMessageType.WARNING, ibas.i18n.prop("sys_shell_data_created_new"));
+            this.proceeding(ibas.emMessageType.WARNING, ibas.i18n.prop("shell_data_created_new"));
         }
         this.view.showMaterialGroup(this.viewData);
     }
@@ -84,7 +84,7 @@ export class MaterialGroupViewApp extends ibas.BOViewService<IMaterialGroupViewV
                 }
             }
         });
-        this.proceeding(ibas.emMessageType.INFORMATION, ibas.i18n.prop("sys_shell_fetching_data"));
+        this.proceeding(ibas.emMessageType.INFORMATION, ibas.i18n.prop("shell_fetching_data"));
     }
     /** 获取服务的契约 */
     protected getServiceProxies(): ibas.IServiceProxy<ibas.IServiceContract>[] {

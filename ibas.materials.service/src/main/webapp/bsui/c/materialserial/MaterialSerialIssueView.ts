@@ -227,14 +227,14 @@ export class MaterialSerialIssueView extends ibas.BODialogView implements IMater
             content: [this.mainLayout],
             buttons: [
                 new sap.m.Button("", {
-                    text: ibas.i18n.prop("sys_shell_data_save"),
+                    text: ibas.i18n.prop("shell_data_save"),
                     type: sap.m.ButtonType.Transparent,
                     press: function (): void {
                         that.fireViewEvents(that.saveDataEvent);
                     }
                 }),
                 new sap.m.Button("", {
-                    text: ibas.i18n.prop("sys_shell_exit"),
+                    text: ibas.i18n.prop("shell_exit"),
                     type: sap.m.ButtonType.Transparent,
                     press: function (): void {
                         that.fireViewEvents(that.closeEvent);

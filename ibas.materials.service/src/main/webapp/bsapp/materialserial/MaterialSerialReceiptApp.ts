@@ -42,7 +42,7 @@ export class MaterialSerialReceiptApp extends ibas.BOApplication<IMaterialSerial
     protected addSerial(select: bo.MaterialSerialService): void {
         // 确认选择了凭证信息
         if (ibas.objects.isNull(select)) {
-            this.messages(ibas.emMessageType.WARNING, ibas.i18n.prop("sys_shell_please_chooose_data",
+            this.messages(ibas.emMessageType.WARNING, ibas.i18n.prop("shell_please_chooose_data",
                 ibas.i18n.prop("materials_app_batch_serial_choose_journalline")
             ));
             return;
@@ -60,7 +60,7 @@ export class MaterialSerialReceiptApp extends ibas.BOApplication<IMaterialSerial
     protected removeSerial(serial: bo.MaterialSerialService, items: bo.MaterialSerialJournal[]): void {
         // 未选择凭证行
         if (ibas.objects.isNull(serial)) {
-            this.messages(ibas.emMessageType.WARNING, ibas.i18n.prop("sys_shell_please_chooose_data",
+            this.messages(ibas.emMessageType.WARNING, ibas.i18n.prop("shell_please_chooose_data",
                 ibas.i18n.prop("materials_app_batch_serial_choose_journalline")
             ));
             return;
@@ -93,7 +93,7 @@ export class MaterialSerialReceiptApp extends ibas.BOApplication<IMaterialSerial
     protected autoCreateSerial(item: bo.MaterialSerialService): void {
         // 未选择凭证行
         if (ibas.objects.isNull(item)) {
-            this.messages(ibas.emMessageType.WARNING, ibas.i18n.prop("sys_shell_please_chooose_data",
+            this.messages(ibas.emMessageType.WARNING, ibas.i18n.prop("shell_please_chooose_data",
                 ibas.i18n.prop("materials_app_batch_serial_choose_journalline")
             ));
             return;
