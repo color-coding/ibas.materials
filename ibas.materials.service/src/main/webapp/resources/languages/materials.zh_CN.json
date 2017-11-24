@@ -65,5 +65,6 @@
   "materials_app_no_serialmanaged":"无序列管理物料",
   "materials_app_no_batchmanaged":"无批次管理物料",
   "materials_app_autoselectbatch_by_firstinfirstout":"先进先出",
-  "materials_app_autoselectbatch_by_batchno":"编号排序"
+  "materials_app_autoselectbatch_by_batchno":"编号排序",
+  "materials_app_no_item":"没有填写行数据"
 }

@@ -17,9 +17,10 @@ import {
 } from "ibas/index";
 import {
     IMaterialSerial,
-    IMaterialSerialJournal
+    IMaterialSerialJournal,
+    IMaterialSerialServiceJournals
 } from "./index";
-export interface IMaterialSerialService extends IBOSimple {
+export interface IMaterialSerialService extends IBusinessObject {
     /** table 行index索引 */
     index: number;
 
@@ -41,12 +42,9 @@ export interface IMaterialSerialService extends IBOSimple {
     /**方向 */
     direction: emDirection;
 
-    objectKey: number;
-
     /** 物料序列分录集合 */
     materialSerialServiceJournals: IMaterialSerialServiceJournals;
 }
-
 /**  物料序列服务-序列号日记账集合  */
 export interface IMaterialSerialServiceJournals extends IBusinessObjects<IMaterialSerialJournal, IMaterialSerialService> {
     /** 创建并添加子项 */

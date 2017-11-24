@@ -179,8 +179,8 @@ export class MaterialChooseView extends ibas.BOChooseView implements IMaterialCh
                 for (let item of datas) {
                     hDatas.rows.push(item);
                 }
-                model.refresh(false);                done = true;
-
+                model.refresh(false);
+                done = true;
             }
         }
         if (!done) {
@@ -193,7 +193,6 @@ export class MaterialChooseView extends ibas.BOChooseView implements IMaterialCh
     /** 记录上次查询条件，表格滚动时自动触发 */
     query(criteria: ibas.ICriteria): void {
         super.query(criteria);
-
         // 清除历史数据
         if (this.isDisplayed) {
             this.table.setBusy(true);

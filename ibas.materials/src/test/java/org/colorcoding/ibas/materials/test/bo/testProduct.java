@@ -372,6 +372,27 @@ public class testProduct extends TestCase {
         assertEquals("库存查询错误", 30300, opRstProduct.getResultObjects().firstOrDefault(c -> c.getCode().equals(itemCode3)).getOnHand().intValue());
 
         // endregion
+        // region 前台条件 带括号问题
+        ICriteria criteria6 = new Criteria();
+        ICondition condition6 = criteria6.getConditions().create();
+        condition6.setAlias(Material.PROPERTY_DELETED.getName());
+        condition6.setValue("N");
+        condition6.setOperation(ConditionOperation.EQUAL);
+        condition6 = criteria6.getConditions().create();
+        condition6.setAlias(Product.PRICELIST_NAME);
+        condition6.setValue(15);
+        condition6.setOperation(ConditionOperation.EQUAL);
+        condition6.setRelationship(ConditionRelationship.AND);
+        condition6.setBracketOpen(1);
+        condition6 = criteria6.getConditions().create();
+        condition6.setAlias(Material.PROPERTY_DOCENTRY.getName());
+        condition6.setValue(162);
+        condition6.setOperation(ConditionOperation.LESS_EQUAL);
+        condition6.setRelationship(ConditionRelationship.AND);
+        condition6.setBracketClose(1);
+        opRstProduct = boRepository.fetchProduct(criteria6);
+        assertEquals(opRstProduct.getMessage(), 0, opRstProduct.getResultCode());
+        // endregion
     }
 
     /**

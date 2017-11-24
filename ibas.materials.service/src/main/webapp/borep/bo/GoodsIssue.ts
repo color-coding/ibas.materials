@@ -21,6 +21,7 @@ import {
     BOSimpleLine,
     config,
     objects,
+    emDirection,
 } from "ibas/index";
 import {
     IGoodsIssue,
@@ -30,6 +31,8 @@ import {
     IMaterialBatchJournal,
     IGoodsIssueMaterialSerialJournals,
     IMaterialSerialJournal,
+    IMaterialIssueSerialLine,
+    IMaterialIssueBatchLine,
     BO_CODE_GOODSISSUE,
     emItemType,
 } from "../../api/index";
@@ -460,19 +463,17 @@ export class GoodsIssueMaterialBatchJournals extends BusinessObjects<MaterialBat
         this.add(item);
         return item;
     }
-    createBatchJournal(data: IMaterialBatchJournal): MaterialBatchJournal {
+    createBatchJournal(data: IMaterialIssueBatchLine): MaterialBatchJournal {
         let item: MaterialBatchJournal = new MaterialBatchJournal();
-        if (objects.instanceOf(data, MaterialBatchJournal)) {
-            item.batchCode = data.batchCode;
-            item.itemCode = data.itemCode;
-            item.warehouse = data.warehouse;
-            item.quantity = data.quantity;
-            item.direction = data.direction;
-            item.admissionDate = data.admissionDate;
-            item.expirationDate = data.expirationDate;
-            item.manufacturingDate = data.manufacturingDate;
-            this.add(item);
-        }
+        item.batchCode = data.batchCode;
+        item.itemCode = data.itemCode;
+        item.warehouse = data.warehouse;
+        item.quantity = data.quantity;
+        item.direction = emDirection.OUT;
+        // item.admissionDate = data.admissionDate;
+        // item.expirationDate = data.expirationDate;
+        // item.manufacturingDate = data.manufacturingDate;
+        this.add(item);
         return item;
     }
     /** 该行的批次日记账集合标记为删除 */
@@ -491,19 +492,13 @@ export class GoodsIssueMaterialSerialJournals extends BusinessObjects<MaterialSe
         this.add(item);
         return item;
     }
-    createSerialJournal(data: IMaterialSerialJournal): MaterialSerialJournal {
+    createSerialJournal(data: IMaterialIssueSerialLine): MaterialSerialJournal {
         let item: MaterialSerialJournal = new MaterialSerialJournal();
-        if (objects.instanceOf(data, MaterialSerialJournal)) {
-            item.supplierSerial = data.supplierSerial;
-            item.serialCode = data.serialCode;
-            item.itemCode = data.itemCode;
-            item.direction = data.direction;
-            item.warehouse = data.warehouse;
-            item.admissionDate = data.admissionDate;
-            item.expirationDate = data.expirationDate;
-            item.manufacturingDate = data.manufacturingDate;
-            this.add(item);
-        }
+        item.serialCode = data.serialCode;
+        item.itemCode = data.itemCode;
+        item.direction = emDirection.OUT;
+        item.warehouse = data.warehouse;
+        this.add(item);
         return item;
     }
     /** 该行的序列日记账集合标记为删除 */

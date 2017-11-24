@@ -707,7 +707,7 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
      * 查询-产品信息（提前设置用户口令）
      *
      * @param criteria 查询
-     * @return
+     * @return 产品信息
      */
     @Override
     public IOperationResult<IProduct> fetchProduct(ICriteria criteria) {
@@ -720,7 +720,7 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
      * 查询-物料价格（提前设置用户口令）
      *
      * @param criteria 查询
-     * @return
+     * @return 操作结果
      */
     @Override
     public IOperationResult<MaterialPrice> fetchMaterialPrice(ICriteria criteria) {
@@ -732,12 +732,12 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
      *
      * @param criteria 查询
      * @param token    口令
-     * @return
+     * @return 物料价格
      */
     @Override
     public OperationResult<MaterialPrice> fetchMaterialPrice(ICriteria criteria, String token) {
         try {
-            OperationResult<MaterialPrice> operationResult = new OperationResult<MaterialPrice>();
+            OperationResult<MaterialPrice> operationResult = new OperationResult<>();
             // 从查询中找到价格清单
             ICondition conditionPriceList = criteria.getConditions()
                     .firstOrDefault(c -> c.getAlias().equalsIgnoreCase(MaterialPriceList.PROPERTY_OBJECTKEY.getName()));
@@ -774,7 +774,7 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
      * @param itemCode  物料
      * @param priceList 价格清单
      * @param factory   价格清单系数
-     * @return
+     * @return 物料价格清单
      */
     private MaterialPrice fetchMaterialPrice(String itemCode, int priceList, Decimal factory) {
         try {
@@ -839,7 +839,7 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
      * 查询-物料库存数量（提前设置用户口令）
      *
      * @param criteria 查询
-     * @return
+     * @return 操作结果
      */
     @Override
     public IOperationResult<MaterialQuantity> fetchMaterialQuantity(ICriteria criteria) {
@@ -852,12 +852,12 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
      *
      * @param criteria 查询 Material属性+MaterialQuantity常量
      * @param token    口令
-     * @return
+     * @return 物料库存数量
      */
     @Override
     public OperationResult<MaterialQuantity> fetchMaterialQuantity(ICriteria criteria, String token) {
         try {
-            OperationResult<MaterialQuantity> operationResult = new OperationResult<MaterialQuantity>();
+            OperationResult<MaterialQuantity> operationResult = new OperationResult<>();
             // 从查询中找到所有的仓库
             ArrayList<ICondition> conditions = new ArrayList<>();
             for (ICondition item : criteria.getConditions()) {
@@ -894,7 +894,6 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
                     }
                 }
                 operationResult.addResultObjects(materialQuantities);
-
             }
             return operationResult;
         } catch (Exception e) {
