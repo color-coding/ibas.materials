@@ -17,9 +17,9 @@ import {
 } from "ibas/index";
 import {
     IMaterialBatchJournal,
-    IMaterialSerialJournal
+    IMaterialBatchServiceJournals,
 } from "./index";
-export interface IMaterialBatchService extends IBOSimple {
+export interface IMaterialBatchService extends IBusinessObject {
     /** table 行index索引 */
     index: number;
 
@@ -40,12 +40,9 @@ export interface IMaterialBatchService extends IBOSimple {
 
     /**方向 */
     direction: emDirection;
-
-    objectKey: number;
     /** 物料批次分录集合 */
     materialBatchServiceJournals: IMaterialBatchServiceJournals;
 }
-
 /** 库存发货-批次日记账 集合 */
 export interface IMaterialBatchServiceJournals extends IBusinessObjects<IMaterialBatchJournal, IMaterialBatchService> {
     /** 创建并添加子项 */

@@ -11,6 +11,7 @@ import {
     emBOStatus,
     emDirection,
     emApprovalStatus,
+    BusinessObjectBase,
     BusinessObject,
     BusinessObjects,
     BOMasterData,
@@ -24,7 +25,10 @@ import {
     objects,
 } from "ibas/index";
 import {
+    IMaterialIssueBatchContractLine,
+    IMaterialIssueBatchLine,
     IMaterialBatch,
+    IMaterialBatchJournal,
     IMaterialBatchService,
     IMaterialBatchServiceJournals,
     BO_CODE_MATERIALBATCHSERVICE,
@@ -32,10 +36,11 @@ import {
     BO_CODE_ISSUE_MATERIALBATCH
 } from "../../api/index";
 import {
+    MaterialBatch,
     MaterialBatchJournal,
     MaterialSerialJournal
 } from "./index";
-export class MaterialBatchService extends BOSimple<MaterialBatchService> implements IMaterialBatchService {
+export class MaterialBatchService extends BusinessObjectBase<MaterialBatchService> implements IMaterialBatchService {
     /** 业务对象编码 */
     static BUSINESS_OBJECT_CODE: string = BO_CODE_MATERIALBATCHSERVICE;
     static BUSINESS_OBJECT_RECEIEPT_CODE: string = BO_CODE_RECEIPT_MATERIALBATCH;
@@ -43,6 +48,16 @@ export class MaterialBatchService extends BOSimple<MaterialBatchService> impleme
     /** 构造函数 */
     constructor() {
         super();
+    }
+
+    public static create(data: IMaterialIssueBatchContractLine): MaterialBatchService {
+        let batchServiceData: MaterialBatchService = new MaterialBatchService();
+        batchServiceData.index = data.index;
+        batchServiceData.itemCode = data.itemCode;
+        batchServiceData.warehouse = data.warehouse;
+        batchServiceData.quantity = data.quantity;
+        batchServiceData.needBatchQuantity = data.quantity;
+        return batchServiceData;
     }
 
     /** 映射的属性名称-行索引 */
@@ -132,25 +147,15 @@ export class MaterialBatchService extends BOSimple<MaterialBatchService> impleme
         this.setProperty(MaterialBatchService.PROPERTY_SELECTEDBATCHQUANTITY_NAME, value);
     }
 
-    /** 映射的属性名称-对象编号 */
-    static PROPERTY_OBJECTKEY_NAME: string = "ObjectKey";
-    /** 获取-对象编号 */
-    get objectKey(): number {
-        return this.getProperty<number>(MaterialBatchService.PROPERTY_OBJECTKEY_NAME);
-    }
-    /** 设置-对象编号 */
-    set objectKey(value: number) {
-        this.setProperty(MaterialBatchService.PROPERTY_OBJECTKEY_NAME, value);
-    }
 
-    /** 映射的属性名称-库存发货-行-批次集合 */
+    /** 映射的属性名称-行-批次集合 */
     static PROPERTY_MATERIALBATCHSERVICEJOURNALS_NAME: string = "MaterialBatchServiceJournals";
-    /** 获取-库存发货-行-批次集合 */
+    /** 获取-行-批次集合 */
     get materialBatchServiceJournals(): MaterialBatchServiceJournals {
         return this.getProperty<MaterialBatchServiceJournals>
             (MaterialBatchService.PROPERTY_MATERIALBATCHSERVICEJOURNALS_NAME);
     }
-    /** 设置-库存发货-行-批次集合 */
+    /** 设置-行-批次集合 */
     set materialBatchServiceJournals(value: MaterialBatchServiceJournals) {
         this.setProperty(MaterialBatchService.PROPERTY_MATERIALBATCHSERVICEJOURNALS_NAME, value);
     }
@@ -177,17 +182,34 @@ export class MaterialBatchServiceJournals extends BusinessObjects<MaterialBatchJ
     /** 创建并添加子项 */
     createJournal(data: IMaterialBatch): MaterialBatchJournal {
         let item: MaterialBatchJournal = new MaterialBatchJournal();
-        item.quantity = 0;
-        item.batchCode = data.batchCode;
-        item.itemCode = this.parent.itemCode;
-        item.warehouse = this.parent.warehouse;
-        item.direction = this.parent.direction;
-        item.expirationDate = data.expirationDate;
-        item.admissionDate = data.admissionDate;
-        item.manufacturingDate = data.manufacturingDate;
-        this.add(item);
+        if (objects.instanceOf(data, MaterialBatch)) {
+            item.quantity = 0;
+            item.batchCode = data.batchCode;
+            item.itemCode = this.parent.itemCode;
+            item.warehouse = this.parent.warehouse;
+            item.direction = this.parent.direction;
+            item.expirationDate = data.expirationDate;
+            item.admissionDate = data.admissionDate;
+            item.manufacturingDate = data.manufacturingDate;
+            this.add(item);
+        }
         return item;
     }
+    /** 创建并添加子项集合 */
+    createJournals(data: IMaterialIssueBatchLine[]): IMaterialBatchJournal[] {
+        let batchJournals: IMaterialBatchJournal[] = [];
+        for (let item of data) {
+            let JournalItem: MaterialBatchJournal = this.create();
+            JournalItem.quantity = item.quantity;
+            JournalItem.batchCode = item.batchCode;
+            JournalItem.itemCode = this.parent.itemCode;
+            JournalItem.warehouse = this.parent.warehouse;
+            JournalItem.direction = this.parent.direction;
+            batchJournals.push(JournalItem);
+        }
+        return batchJournals;
+    }
+
     /** 监听子项属性改变 */
     protected onChildPropertyChanged(item: MaterialBatchJournal, name: string): void {
         super.onChildPropertyChanged(item, name);

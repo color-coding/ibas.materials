@@ -148,8 +148,6 @@ export interface IMaterial extends IMaterialBase {
 
     /** 数据所属组织 */
     organization: string;
-
-
 }
 
 

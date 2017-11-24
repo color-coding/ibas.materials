@@ -19,8 +19,10 @@ import {
     BODocumentLine,
     BOSimple,
     BOSimpleLine,
+    strings,
     config,
     objects,
+    emDirection,
 } from "ibas/index";
 import {
     IGoodsIssue,
@@ -30,6 +32,8 @@ import {
     IMaterialBatchJournal,
     IGoodsIssueMaterialSerialJournals,
     IMaterialSerialJournal,
+    IMaterialIssueSerialLine,
+    IMaterialIssueBatchLine,
     BO_CODE_GOODSISSUE,
     emItemType,
 } from "../../api/index";
@@ -450,6 +454,15 @@ export class GoodsIssueLines extends BusinessObjects<GoodsIssueLine, GoodsIssue>
         this.add(item);
         return item;
     }
+    /** 监听父项属性改变 */
+    protected onParentPropertyChanged(name: string): void {
+        super.onParentPropertyChanged(name);
+        if (strings.equalsIgnoreCase(name, GoodsIssue.PROPERTY_DOCUMENTSTATUS_NAME)) {
+            for (let item of this.filterDeleted()) {
+                item.lineStatus = this.parent.documentStatus;
+            }
+        }
+    }
 }
 /** 库存发货-批次日记账 集合 */
 export class GoodsIssueMaterialBatchJournals extends BusinessObjects<MaterialBatchJournal, GoodsIssueLine>
@@ -460,25 +473,33 @@ export class GoodsIssueMaterialBatchJournals extends BusinessObjects<MaterialBat
         this.add(item);
         return item;
     }
-    createBatchJournal(data: IMaterialBatchJournal): MaterialBatchJournal {
+    createBatchJournal(data: IMaterialIssueBatchLine): MaterialBatchJournal {
         let item: MaterialBatchJournal = new MaterialBatchJournal();
-        if (objects.instanceOf(data, MaterialBatchJournal)) {
-            item.batchCode = data.batchCode;
-            item.itemCode = data.itemCode;
-            item.warehouse = data.warehouse;
-            item.quantity = data.quantity;
-            item.direction = data.direction;
-            item.admissionDate = data.admissionDate;
-            item.expirationDate = data.expirationDate;
-            item.manufacturingDate = data.manufacturingDate;
-            this.add(item);
-        }
+        item.batchCode = data.batchCode;
+        item.itemCode = data.itemCode;
+        item.warehouse = data.warehouse;
+        item.quantity = data.quantity;
+        item.direction = emDirection.OUT;
+        item.lineStatus = this.parent.lineStatus;
+        // item.admissionDate = data.admissionDate;
+        // item.expirationDate = data.expirationDate;
+        // item.manufacturingDate = data.manufacturingDate;
+        this.add(item);
         return item;
     }
     /** 该行的批次日记账集合标记为删除 */
     deleteAll(): void {
         for (let item of this) {
             item.delete();
+        }
+    }
+     /** 监听父项属性改变 */
+     protected onParentPropertyChanged(name: string): void {
+        super.onParentPropertyChanged(name);
+        if (strings.equalsIgnoreCase(name, GoodsIssueLine.PROPERTY_LINESTATUS_NAME)) {
+            for (let item of this.filterDeleted()) {
+                item.lineStatus = this.parent.lineStatus;
+            }
         }
     }
 }
@@ -491,25 +512,29 @@ export class GoodsIssueMaterialSerialJournals extends BusinessObjects<MaterialSe
         this.add(item);
         return item;
     }
-    createSerialJournal(data: IMaterialSerialJournal): MaterialSerialJournal {
+    createSerialJournal(data: IMaterialIssueSerialLine): MaterialSerialJournal {
         let item: MaterialSerialJournal = new MaterialSerialJournal();
-        if (objects.instanceOf(data, MaterialSerialJournal)) {
-            item.supplierSerial = data.supplierSerial;
-            item.serialCode = data.serialCode;
-            item.itemCode = data.itemCode;
-            item.direction = data.direction;
-            item.warehouse = data.warehouse;
-            item.admissionDate = data.admissionDate;
-            item.expirationDate = data.expirationDate;
-            item.manufacturingDate = data.manufacturingDate;
-            this.add(item);
-        }
+        item.serialCode = data.serialCode;
+        item.itemCode = data.itemCode;
+        item.direction = emDirection.OUT;
+        item.warehouse = data.warehouse;
+        item.lineStatus = this.parent.lineStatus;
+        this.add(item);
         return item;
     }
     /** 该行的序列日记账集合标记为删除 */
     deleteAll(): void {
         for (let item of this) {
             item.delete();
+        }
+    }
+    /** 监听父项属性改变 */
+    protected onParentPropertyChanged(name: string): void {
+        super.onParentPropertyChanged(name);
+        if (strings.equalsIgnoreCase(name, GoodsIssueLine.PROPERTY_LINESTATUS_NAME)) {
+            for (let item of this.filterDeleted()) {
+                item.lineStatus = this.parent.lineStatus;
+            }
         }
     }
 }

@@ -8,6 +8,7 @@
 
 import {
     emYesNo,
+    emDirection,
     emDocumentStatus,
     emBOStatus,
     emApprovalStatus,
@@ -20,14 +21,17 @@ import {
     BOSimple,
     BOSimpleLine,
     config,
+    strings,
     objects,
 } from "ibas/index";
 import {
     IGoodsReceipt,
+    IMaterialReceiptSerialLine,
     IGoodsReceiptLines,
     IGoodsReceiptLine,
     IGoodsReceiptMaterialBatchJournals,
     IMaterialBatchJournal,
+    IMaterialReceiptBatchLine,
     IGoodsReceiptMaterialSerialJournals,
     IMaterialSerialJournal,
     BO_CODE_GOODSRECEIPT,
@@ -442,12 +446,20 @@ export class GoodsReceipt extends BODocument<GoodsReceipt> implements IGoodsRece
 
 /** 库存收货-行 集合 */
 export class GoodsReceiptLines extends BusinessObjects<GoodsReceiptLine, GoodsReceipt> implements IGoodsReceiptLines {
-
     /** 创建并添加子项 */
     create(): GoodsReceiptLine {
         let item: GoodsReceiptLine = new GoodsReceiptLine();
         this.add(item);
         return item;
+    }
+    /** 监听父项属性改变 */
+    protected onParentPropertyChanged(name: string): void {
+        super.onParentPropertyChanged(name);
+        if (strings.equalsIgnoreCase(name, GoodsReceipt.PROPERTY_DOCUMENTSTATUS_NAME)) {
+            for (let item of this.filterDeleted()) {
+                item.lineStatus = this.parent.documentStatus;
+            }
+        }
     }
 }
 /** 库存收货-批次日记账 集合 */
@@ -459,25 +471,33 @@ export class GoodsReceiptMaterialBatchJournals extends BusinessObjects<MaterialB
         this.add(item);
         return item;
     }
-    createBatchJournal(data: IMaterialBatchJournal): MaterialBatchJournal {
+    createBatchJournal(data: IMaterialReceiptBatchLine): MaterialBatchJournal {
         let item: MaterialBatchJournal = new MaterialBatchJournal();
-        if (objects.instanceOf(data, MaterialBatchJournal)) {
-            item.batchCode = data.batchCode;
-            item.itemCode = data.itemCode;
-            item.warehouse = data.warehouse;
-            item.quantity = data.quantity;
-            item.direction = data.direction;
-            item.admissionDate = data.admissionDate;
-            item.expirationDate = data.expirationDate;
-            item.manufacturingDate = data.manufacturingDate;
-            this.add(item);
-        }
+        item.batchCode = data.batchCode;
+        item.itemCode = data.itemCode;
+        item.warehouse = data.warehouse;
+        item.quantity = data.quantity;
+        item.direction = data.direction;
+        item.lineStatus = this.parent.lineStatus;
+        // item.admissionDate = data.admissionDate;
+        // item.expirationDate = data.expirationDate;
+        // item.manufacturingDate = data.manufacturingDate;
+        this.add(item);
         return item;
     }
     /** 该行的批次日记账集合标记为删除 */
     deleteAll(): void {
         for (let item of this) {
             item.delete();
+        }
+    }
+    /** 监听父项属性改变 */
+    protected onParentPropertyChanged(name: string): void {
+        super.onParentPropertyChanged(name);
+        if (strings.equalsIgnoreCase(name, GoodsReceiptLine.PROPERTY_LINESTATUS_NAME)) {
+            for (let item of this.filterDeleted()) {
+                item.lineStatus = this.parent.lineStatus;
+            }
         }
     }
 }
@@ -490,25 +510,30 @@ export class GoodsReceiptMaterialSerialJournals extends BusinessObjects<Material
         this.add(item);
         return item;
     }
-    createSerialJournal(data: IMaterialSerialJournal): MaterialSerialJournal {
+    createSerialJournal(data: IMaterialReceiptSerialLine): MaterialSerialJournal {
         let item: MaterialSerialJournal = new MaterialSerialJournal();
-        if (objects.instanceOf(data, MaterialSerialJournal)) {
-            item.supplierSerial = data.supplierSerial;
-            item.serialCode = data.serialCode;
-            item.itemCode = data.itemCode;
-            item.direction = data.direction;
-            item.warehouse = data.warehouse;
-            item.admissionDate = data.admissionDate;
-            item.expirationDate = data.expirationDate;
-            item.manufacturingDate = data.manufacturingDate;
-            this.add(item);
-        }
+        item.serialCode = data.serialCode;
+        item.itemCode = data.itemCode;
+        item.direction = data.direction;
+        item.warehouse = data.warehouse;
+        item.direction = emDirection.IN;
+        item.lineStatus = this.parent.lineStatus;
+        this.add(item);
         return item;
     }
     /** 该行的序列日记账集合标记为删除 */
     deleteAll(): void {
         for (let item of this) {
             item.delete();
+        }
+    }
+    /** 监听父项属性改变 */
+    protected onParentPropertyChanged(name: string): void {
+        super.onParentPropertyChanged(name);
+        if (strings.equalsIgnoreCase(name, GoodsReceiptLine.PROPERTY_LINESTATUS_NAME)) {
+            for (let item of this.filterDeleted()) {
+                item.lineStatus = this.parent.lineStatus;
+            }
         }
     }
 }

@@ -1,12 +1,12 @@
 package org.colorcoding.ibas.materials.test.bo;
 
+import junit.framework.TestCase;
 import org.colorcoding.ibas.bobas.common.ICriteria;
 import org.colorcoding.ibas.bobas.common.IOperationResult;
+import org.colorcoding.ibas.bobas.organization.OrganizationFactory;
 import org.colorcoding.ibas.materials.bo.materialgroup.MaterialGroup;
 import org.colorcoding.ibas.materials.repository.BORepositoryMaterials;
 import org.colorcoding.ibas.materials.repository.IBORepositoryMaterialsApp;
-
-import junit.framework.TestCase;
 
 /**
  * 物料组 测试
@@ -17,7 +17,7 @@ public class testMaterialGroup extends TestCase {
 	 * 获取连接口令
 	 */
 	String getToken() {
-		return "";
+		return OrganizationFactory.SYSTEM_USER.getToken();
 	}
 
 	/**
