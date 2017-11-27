@@ -1,3 +1,9 @@
+/*
+ * @Author: fancy
+ * @Date: 2017-11-27 16:29:14
+ * @Last Modified by:   fancy
+ * @Last Modified time: 2017-11-27 16:29:14
+ */
 /**
  * @license
  * Copyright color-coding studio. All Rights Reserved.
@@ -263,10 +269,33 @@ export class MaterialBatchIssueApp extends ibas.BOApplication<IMaterialBatchIssu
                     if (opRslt.resultCode !== 0) {
                         throw new Error(opRslt.message);
                     }
+                    // if(that.batchData)
                     that.filterSelected(opRslt.resultObjects, selected);
                     that.view.showLeftData(that.batchData.filter(c => c.quantity > 0));
                     that.busy(false);
-                    // that.batchData = ;
+                } catch (error) {
+                    that.messages(error);
+                }
+            }
+        });
+        this.proceeding(ibas.emMessageType.INFORMATION, ibas.i18n.prop("shell_fetching_data"));
+    }
+
+    /** 查询批次日记账 */
+    protected fetchBatchJournal(criteria: ibas.ICriteria): void {
+        this.busy(true);
+        let that: this = this;
+        let boRepository: BORepositoryMaterials = new BORepositoryMaterials();
+        boRepository.fetchMaterialBatchJournal({
+            criteria: criteria,
+            onCompleted(opRslt: ibas.IOperationResult<bo.MaterialBatchJournal>): void {
+                try {
+                    if (opRslt.resultCode !== 0) {
+                        throw new Error(opRslt.message);
+                    }
+                    // that.filterSelected(opRslt.resultObjects, selected);
+                    // that.view.showLeftData(that.batchData.filter(c => c.quantity > 0));
+                    that.busy(false);
                 } catch (error) {
                     that.messages(error);
                 }

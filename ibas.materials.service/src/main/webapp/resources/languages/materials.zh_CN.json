@@ -66,5 +66,11 @@
   "materials_app_no_batchmanaged":"无批次管理物料",
   "materials_app_autoselectbatch_by_firstinfirstout":"先进先出",
   "materials_app_autoselectbatch_by_batchno":"编号排序",
-  "materials_app_no_item":"没有填写行数据"
+  "materials_app_no_item":"没有填写行数据",
+  "materials_func_materialbatch":"批次",
+  "materials_func_materialserial":"序列号",
+  "materials_app_materialbatch_list": "批次列表",
+  "materials_app_materialbatch_view": "批次查看",
+  "materials_app_materialserial_list": "序列列表",
+  "materials_app_materialserial_view": "序列查看"
 }

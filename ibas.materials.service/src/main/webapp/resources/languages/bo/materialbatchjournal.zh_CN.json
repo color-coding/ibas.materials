@@ -15,7 +15,10 @@
     "bo_materialbatchjournal_warehouse":"仓库",
     "bo_materialbatchjournal_itemCode":"物料编码",
     "bo_materialbatchjournal_notes":"备注",
-    "bo_materialbatchjournal_supplierserial":"供应商序号",
-    "bo_materialbatchjournal_internalserial":"内部序号",
-    "bo_materialbatchjournal_locked":"锁定"
+    "bo_materialbatchjournal_supplierbatch":"供应商序号",
+    "bo_materialbatchjournal_internalbatch":"内部序号",
+    "bo_materialbatchjournal_locked":"锁定",
+    "bo_materialbatchjournal_basedocumenttype":"单据类型",
+    "bo_materialbatchjournal_basedocumententry":"单据类型",
+    "bo_materialbatchjournal_basedocumentlineid":"单据类型"
 }

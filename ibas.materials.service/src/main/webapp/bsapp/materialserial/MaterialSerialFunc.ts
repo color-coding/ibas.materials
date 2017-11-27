@@ -1,8 +1,8 @@
 /*
  * @Author: fancy
- * @Date: 2017-11-27 16:26:03
- * @Last Modified by: fancy
- * @Last Modified time: 2017-11-27 16:26:24
+ * @Date: 2017-11-27 16:39:49
+ * @Last Modified by:   fancy
+ * @Last Modified time: 2017-11-27 16:39:49
  */
 /**
  * @license
@@ -13,23 +13,23 @@
  */
 
 import * as ibas from "ibas/index";
-import { MaterialBatchListApp } from "./MaterialBatchListApp";
-export class MaterialBatchFunc extends ibas.ModuleFunction {
+import { MaterialSerialListApp } from "./MaterialSerialListApp";
+export class MaterialSerialFunc extends ibas.ModuleFunction {
 
     /** 功能标识 */
-    static FUNCTION_ID = "f45481e1-58a3-43b3-ab91-d0fe9d43e544";
+    static FUNCTION_ID = "a52a9f68-29b7-47c7-878a-d1aade5d4bdd";
     /** 功能名称 */
-    static FUNCTION_NAME = "materials_func_materialbatch";
+    static FUNCTION_NAME = "materials_func_materialserial";
     /** 构造函数 */
     constructor() {
         super();
-        this.id = MaterialBatchFunc.FUNCTION_ID;
-        this.name = MaterialBatchFunc.FUNCTION_NAME;
+        this.id = MaterialSerialFunc.FUNCTION_ID;
+        this.name = MaterialSerialFunc.FUNCTION_NAME;
         this.description = ibas.i18n.prop(this.name);
     }
     /** 默认功能 */
     default(): ibas.IApplication<ibas.IView> {
-        let app: MaterialBatchListApp = new MaterialBatchListApp();
+        let app: MaterialSerialListApp = new MaterialSerialListApp();
         app.navigation = this.navigation;
         return app;
     }

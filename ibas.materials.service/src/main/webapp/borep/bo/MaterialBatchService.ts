@@ -57,6 +57,13 @@ export class MaterialBatchService extends BusinessObjectBase<MaterialBatchServic
         batchServiceData.warehouse = data.warehouse;
         batchServiceData.quantity = data.quantity;
         batchServiceData.needBatchQuantity = data.quantity;
+        if (!objects.isNull(batchServiceData.docType)) {
+            batchServiceData.docType = data.docType;
+        }if (!objects.isNull(batchServiceData.docEntry)) {
+            batchServiceData.docEntry = data.docEntry;
+        }if (!objects.isNull(batchServiceData.lineNum)) {
+            batchServiceData.lineNum = data.lineNum;
+        }
         return batchServiceData;
     }
 
@@ -71,16 +78,39 @@ export class MaterialBatchService extends BusinessObjectBase<MaterialBatchServic
         this.setProperty(MaterialBatchService.PROPERTY_INDEX_NAME, value);
     }
 
-    /** 映射的属性名称-行 */
-    static PROPERTY_LINEID_NAME: string = "LineId";
-    /** 获取-行索引 */
-    get lineId(): number {
-        return this.getProperty<number>(MaterialBatchService.PROPERTY_LINEID_NAME);
+    /** 映射的属性名称-单据类型 */
+    static PROPERTY_DOCTYPE_NAME: string = "DocType";
+    /** 获取-单据类型 */
+    get docType(): string {
+        return this.getProperty<string>(MaterialBatchService.PROPERTY_DOCTYPE_NAME);
     }
-    /** 设置-行索引 */
-    set lineId(value: number) {
-        this.setProperty(MaterialBatchService.PROPERTY_LINEID_NAME, value);
+    /** 设置-单据类型 */
+    set docType(value: string) {
+        this.setProperty(MaterialBatchService.PROPERTY_DOCTYPE_NAME, value);
     }
+
+    /** 映射的属性名称-单据号 */
+    static PROPERTY_DOCENTRY_NAME: string = "DocEntry";
+    /** 获取-单据号 */
+    get docEntry(): number {
+        return this.getProperty<number>(MaterialBatchService.PROPERTY_DOCENTRY_NAME);
+    }
+    /** 设置-单据号 */
+    set docEntry(value: number) {
+        this.setProperty(MaterialBatchService.PROPERTY_DOCENTRY_NAME, value);
+    }
+
+    /** 映射的属性名称-单据行号 */
+    static PROPERTY_LINENUM_NAME: string = "LineNum";
+    /** 获取-单据行号 */
+    get lineNum(): number {
+        return this.getProperty<number>(MaterialBatchService.PROPERTY_LINENUM_NAME);
+    }
+    /** 设置-单据行号 */
+    set lineNum(value: number) {
+        this.setProperty(MaterialBatchService.PROPERTY_LINENUM_NAME, value);
+    }
+
     /** 映射的属性名称-物料编号 */
     static PROPERTY_ITEMCODE_NAME: string = "ItemCode";
     /** 获取-物料编号 */

@@ -23,6 +23,15 @@ export interface IMaterialBatchService extends IBusinessObject {
     /** table 行index索引 */
     index: number;
 
+    /** 单据类型 */
+    docType: string;
+
+    /** 单据编号 */
+    docEntry: number;
+
+    /** 单据行号 */
+    lineNum: number
+
     /**物料编号 */
     itemCode: string;
 
@@ -40,6 +49,7 @@ export interface IMaterialBatchService extends IBusinessObject {
 
     /**方向 */
     direction: emDirection;
+
     /** 物料批次分录集合 */
     materialBatchServiceJournals: IMaterialBatchServiceJournals;
 }
