@@ -7,6 +7,7 @@
  */
 
 import * as ibas from "ibas/index";
+import { CONSOLE_ID, CONSOLE_NAME, CONSOLE_VERSION } from "../api/index";
 import { GoodsIssueFunc, } from "./goodsissue/index";
 import { GoodsReceiptFunc, } from "./goodsreceipt/index";
 import { InventoryTransferFunc, } from "./inventorytransfer/index";
@@ -20,18 +21,12 @@ import { MaterialSerialReceipServiceMapping, MaterialSerialIssueServiceMapping }
 
 /** 模块控制台 */
 export class Console extends ibas.ModuleConsole {
-    /** 模块-标识 */
-    static CONSOLE_ID: string = "bad47859-3d74-4b2b-975a-48c635406be4";
-    /** 模块-名称 */
-    static CONSOLE_NAME: string = "Materials";
-    /** 模块-版本 */
-    static CONSOLE_VERSION: string = "0.1.0";
     /** 构造函数 */
     constructor() {
         super();
-        this.id = Console.CONSOLE_ID;
-        this.name = Console.CONSOLE_NAME;
-        this.version = Console.CONSOLE_VERSION;
+        this.id = CONSOLE_ID;
+        this.name = CONSOLE_NAME;
+        this.version = CONSOLE_VERSION;
         this.copyright = ibas.i18n.prop("shell_license");
     }
     private _navigation: ibas.IViewNavigation;
