@@ -57,11 +57,11 @@ export class MaterialBatchService extends BusinessObjectBase<MaterialBatchServic
         batchServiceData.warehouse = data.warehouse;
         batchServiceData.quantity = data.quantity;
         batchServiceData.needBatchQuantity = data.quantity;
-        if (!objects.isNull(batchServiceData.docType)) {
+        if (!objects.isNull(data.docType)) {
             batchServiceData.docType = data.docType;
-        }if (!objects.isNull(batchServiceData.docEntry)) {
+        }if (!objects.isNull(data.docEntry)) {
             batchServiceData.docEntry = data.docEntry;
-        }if (!objects.isNull(batchServiceData.lineNum)) {
+        }if (!objects.isNull(data.lineNum)) {
             batchServiceData.lineNum = data.lineNum;
         }
         return batchServiceData;

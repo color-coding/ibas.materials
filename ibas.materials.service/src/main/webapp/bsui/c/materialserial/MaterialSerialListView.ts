@@ -57,6 +57,9 @@ export class MaterialSerialListView extends ibas.BOListView implements IMaterial
                         wrapping: false
                     }).bindProperty("text", {
                         path: "inStock",
+                        formatter(data: any): any {
+                            return ibas.enums.describe(ibas.emYesNo, data);
+                        }
                     }),
                 }),
                 new sap.ui.table.Column("", {

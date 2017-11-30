@@ -1,8 +1,8 @@
 /*
  * @Author: fancy
  * @Date: 2017-11-27 16:40:53
- * @Last Modified by:   fancy
- * @Last Modified time: 2017-11-27 16:40:53
+ * @Last Modified by: fancy
+ * @Last Modified time: 2017-11-28 11:19:46
  */
 
 /**
@@ -279,11 +279,7 @@ export class MaterialSerialIssueApp extends ibas.BOApplication<IMaterialSerialIs
         }
         for (let item of selected.materialSerialServiceJournals) {
             let serialItem: bo.MaterialSerial = fetchData.find(c => c.serialCode === item.serialCode);
-            if (ibas.objects.isNull(serialItem)) {
-                // 移除已选择的序列号  因为不存在
-                item.delete();
-            } else {
-                // 移除该序列，因为已经被选中
+            if (!ibas.objects.isNull(serialItem)) {
                 serialItem.delete();
             }
         }

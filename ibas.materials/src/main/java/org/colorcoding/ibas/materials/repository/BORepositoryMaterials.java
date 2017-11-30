@@ -1,6 +1,13 @@
 package org.colorcoding.ibas.materials.repository;
 
-import org.colorcoding.ibas.bobas.common.*;
+import org.colorcoding.ibas.bobas.common.ConditionOperation;
+import org.colorcoding.ibas.bobas.common.ConditionRelationship;
+import org.colorcoding.ibas.bobas.common.Criteria;
+import org.colorcoding.ibas.bobas.common.IChildCriteria;
+import org.colorcoding.ibas.bobas.common.ICondition;
+import org.colorcoding.ibas.bobas.common.ICriteria;
+import org.colorcoding.ibas.bobas.common.IOperationResult;
+import org.colorcoding.ibas.bobas.common.OperationResult;
 import org.colorcoding.ibas.bobas.data.ArrayList;
 import org.colorcoding.ibas.bobas.data.Decimal;
 import org.colorcoding.ibas.bobas.i18n.I18N;
@@ -11,7 +18,13 @@ import org.colorcoding.ibas.materials.bo.goodsreceipt.GoodsReceipt;
 import org.colorcoding.ibas.materials.bo.goodsreceipt.IGoodsReceipt;
 import org.colorcoding.ibas.materials.bo.inventorytransfer.IInventoryTransfer;
 import org.colorcoding.ibas.materials.bo.inventorytransfer.InventoryTransfer;
-import org.colorcoding.ibas.materials.bo.material.*;
+import org.colorcoding.ibas.materials.bo.material.IMaterial;
+import org.colorcoding.ibas.materials.bo.material.IMaterialQuantity;
+import org.colorcoding.ibas.materials.bo.material.IProduct;
+import org.colorcoding.ibas.materials.bo.material.Material;
+import org.colorcoding.ibas.materials.bo.material.MaterialPrice;
+import org.colorcoding.ibas.materials.bo.material.MaterialQuantity;
+import org.colorcoding.ibas.materials.bo.material.Product;
 import org.colorcoding.ibas.materials.bo.materialbatch.IMaterialBatch;
 import org.colorcoding.ibas.materials.bo.materialbatch.IMaterialBatchJournal;
 import org.colorcoding.ibas.materials.bo.materialbatch.MaterialBatch;
@@ -659,19 +672,19 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
                     conditionWarehouse.add(c);
                 }
             });
-
-            // 移出价格清单查询和仓库查询
-            criteria.getConditions().remove(conditionPriceList);
-            conditionWarehouse.forEach(c -> criteria.getConditions().remove(c));
+            ArrayList<String> filterConditons = new ArrayList<>();
+            filterConditons.add(Product.PRICELIST_NAME);
+            filterConditons.add(Product.WAREHOUSE_NAME);
             // 查产品信息
-            OperationResult<Product> opRstProduct = super.fetch(criteria, token, Product.class);
+            OperationResult<Product> opRstProduct = super.fetch(this.filterCondition(criteria, filterConditons), token, Product.class);
             if (opRstProduct.getError() != null) {
                 throw opRstProduct.getError();
             }
+            // 移出价格清单查询和仓库查询
+            criteria.getConditions().remove(conditionPriceList);
             //endregion
             //region 2、含有仓库条件 调用库存查询
             if (!conditionWarehouse.isEmpty()) {
-                conditionWarehouse.forEach(c -> criteria.getConditions().add(c));
                 IOperationResult<MaterialQuantity> opRstMaterialQuantity = this.fetchMaterialQuantity(criteria);
                 if (opRstMaterialQuantity.getError() != null) {
                     throw opRstMaterialQuantity.getError();
@@ -701,6 +714,62 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
         } catch (Exception e) {
             return new OperationResult<>(e);
         }
+    }
+
+    /**
+     * 处理查询条件 处理括号
+     *
+     * @param criteria   查询条件
+     * @param conditions 过滤的条件
+     * @return
+     */
+    private ICriteria filterCondition(ICriteria criteria, ArrayList<String> conditions) {
+        // 浅拷贝，不能影响criteria的值
+        ICriteria criteria1Material = new Criteria();
+        criteria.getConditions().forEach(c -> criteria1Material.getConditions().add(c));
+        criteria.getSorts().forEach(c -> criteria1Material.getSorts().add(c));
+        criteria1Material.setResultCount(criteria.getResultCount());
+
+        for (int index = 0; index < criteria1Material.getConditions().size(); index++) {
+            String aliensValue = criteria1Material.getConditions().get(index).getAlias();
+            if (conditions.firstOrDefault(c -> c.equalsIgnoreCase(aliensValue)) != null) {
+                int bracketOpenCount = criteria1Material.getConditions().get(index).getBracketOpen();
+                int bracketCloseCount = criteria1Material.getConditions().get(index).getBracketClose();
+                // 自身开括号与闭括号不相等才处理，相等情况忽略
+                if (bracketCloseCount != bracketOpenCount) {
+                    //region 去掉自身双括号
+                    if (bracketOpenCount != 0 && bracketCloseCount != 0) {
+                        int bracketCount = Math.abs(bracketOpenCount - bracketCloseCount);
+                        bracketOpenCount = bracketOpenCount - bracketCount;
+                        bracketCloseCount = bracketCloseCount - bracketCount;
+                        criteria1Material.getConditions().get(index).setBracketOpen(bracketOpenCount);
+                        criteria1Material.getConditions().get(index).setBracketOpen(bracketCloseCount);
+                    }
+                    //endregion
+                    //region 处理开括号
+                    if (bracketOpenCount != 0) {
+                        if (index + 1 < criteria1Material.getConditions().size()) {
+                            int nextBracketOpenCount = criteria1Material.getConditions().get(index + 1).getBracketOpen();
+                            nextBracketOpenCount = nextBracketOpenCount + bracketOpenCount;
+                            criteria1Material.getConditions().get(index + 1).setBracketOpen(nextBracketOpenCount);
+                        }
+                    }
+                    //endregion
+                    //region 处理闭括号
+                    if (bracketCloseCount != 0) {
+                        if (index - 1 >= 0) {
+                            int preBracketCloseCount = criteria1Material.getConditions().get(index - 1).getBracketClose();
+                            preBracketCloseCount = preBracketCloseCount + bracketOpenCount;
+                            criteria1Material.getConditions().get(index - 1).setBracketClose(preBracketCloseCount);
+                        }
+                    }
+                    //endregion
+                }
+                criteria1Material.getConditions().remove(index);
+                index--;
+            }
+        }
+        return criteria1Material;
     }
 
     /**
@@ -744,10 +813,10 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
             if (conditionPriceList == null) {
                 throw new Exception(I18N.prop("msg_mm_not_found_price_list"));
             }
-            // 移出价格清单查询
-            criteria.getConditions().remove(conditionPriceList);
+            ArrayList<String> filterConditons = new ArrayList<>();
+            filterConditons.add(MaterialPrice.PRICELIST_NAME);
             // 查物料
-            IOperationResult<IMaterial> opRstMaterial = this.fetchMaterial(criteria);
+            IOperationResult<IMaterial> opRstMaterial = this.fetchMaterial(this.filterCondition(criteria, filterConditons));
             if (opRstMaterial.getError() != null) {
                 throw opRstMaterial.getError();
             }
@@ -776,6 +845,7 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
      * @param factory   价格清单系数
      * @return 物料价格清单
      */
+
     private MaterialPrice fetchMaterialPrice(String itemCode, int priceList, Decimal factory) {
         try {
             ICriteria criteria = new Criteria();
@@ -865,9 +935,9 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
                     conditions.add(item);
                 }
             }
-            // 移除仓库条件 查询物料
-            conditions.forEach(c -> criteria.getConditions().remove(c));
-            IOperationResult<IMaterial> opRstMaterial = this.fetchMaterial(criteria);
+            ArrayList<String> filterConditons = new ArrayList<>();
+            filterConditons.add(MaterialQuantity.WAREHOUSE_NAME);
+            IOperationResult<IMaterial> opRstMaterial = this.fetchMaterial(this.filterCondition(criteria, filterConditons));
             if (opRstMaterial.getError() != null) {
                 throw opRstMaterial.getError();
             }

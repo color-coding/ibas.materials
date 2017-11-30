@@ -45,7 +45,10 @@ export class MaterialSerialViewView extends ibas.BOViewView implements IMaterial
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_materialserial_instock") }),
                 new sap.m.Text("", {
                 }).bindProperty("text", {
-                    path: "inStock"
+                    path: "inStock",
+                    formatter(data: any): any {
+                        return ibas.enums.describe(ibas.emYesNo, data);
+                    }
                 }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_materialserial_expirationdate") }),
                 new sap.m.Text("", {
@@ -81,7 +84,6 @@ export class MaterialSerialViewView extends ibas.BOViewView implements IMaterial
         });
         this.rightTable = new sap.ui.table.Table("", {
             enableSelectAll: false,
-            selectionBehavior: sap.ui.table.SelectionBehavior.RowOnly,
             visibleRowCount: ibas.config.get(openui5.utils.CONFIG_ITEM_LIST_TABLE_VISIBLE_ROW_COUNT, 5),
             rows: "{/rows}",
             columns: [
@@ -114,7 +116,7 @@ export class MaterialSerialViewView extends ibas.BOViewView implements IMaterial
                     template: new sap.m.Text("", {
                         width: "100%",
                     }).bindProperty("text", {
-                        path: "itemcode"
+                        path: "itemCode"
                     })
                 }),
                 new sap.ui.table.Column("", {
@@ -122,15 +124,7 @@ export class MaterialSerialViewView extends ibas.BOViewView implements IMaterial
                     template: new sap.m.Text("", {
                         width: "100%",
                     }).bindProperty("text", {
-                        path: "warehousecode"
-                    })
-                }),
-                new sap.ui.table.Column("", {
-                    label: ibas.i18n.prop("bo_materialserialjournal_quantity"),
-                    template: new sap.m.Text("", {
-                        width: "100%",
-                    }).bindProperty("text", {
-                        path: "quantity"
+                        path: "warehouse"
                     })
                 }),
                 new sap.ui.table.Column("", {
@@ -138,7 +132,10 @@ export class MaterialSerialViewView extends ibas.BOViewView implements IMaterial
                     template: new sap.m.Text("", {
                         width: "100%",
                     }).bindProperty("text", {
-                        path: "direction"
+                        path: "direction",
+                        formatter(data: any): any {
+                            return ibas.enums.describe(ibas.emDirection, data);
+                        }
                     })
                 })
             ]
@@ -220,7 +217,7 @@ export class MaterialSerialViewView extends ibas.BOViewView implements IMaterial
     }
 
     public showMaterialSerialJournal(data: bo.MaterialSerialJournal[]): void {
-        this.form.setModel(new sap.ui.model.json.JSONModel({ rows: data }));
+        this.rightTable.setModel(new sap.ui.model.json.JSONModel({ rows: data }));
         this.form.bindObject("/");
     }
 }

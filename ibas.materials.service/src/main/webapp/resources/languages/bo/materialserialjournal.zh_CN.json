@@ -20,6 +20,6 @@
     "bo_materialserialjournal_locked":"锁定",
     "bo_materialserialjournal_instock":"在仓库",
     "bo_materialserialjournal_basedocumenttype":"单据类型",
-    "bo_materialserialjournal_basedocumententry":"单据类型",
-    "bo_materialserialjournal_basedocumentlineid":"单据类型"
+    "bo_materialserialjournal_basedocumententry":"单据号",
+    "bo_materialserialjournal_basedocumentlineid":"单据行号"
 }

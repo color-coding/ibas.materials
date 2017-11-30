@@ -65,6 +65,9 @@ public class MaterialSerialJournalService extends BusinessLogic<IMaterialSerialJ
     @Override
     protected void impact(IMaterialSerialJournalContract contract) {
         IMaterialSerial materialSerial = this.getBeAffected();
+        // 状态是计划 先锁定
+        if(materialSerial.getLocked() == emYesNo.YES)
+
         if (contract.getDirection() == emDirection.IN) {
             materialSerial.setInStock(emYesNo.YES);
         } else {

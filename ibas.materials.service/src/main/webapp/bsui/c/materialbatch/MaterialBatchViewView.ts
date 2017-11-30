@@ -93,7 +93,6 @@ export class MaterialBatchViewView extends ibas.BOViewView implements IMaterialB
         });
         this.rightTable = new sap.ui.table.Table("", {
             enableSelectAll: false,
-            selectionBehavior: sap.ui.table.SelectionBehavior.RowOnly,
             visibleRowCount: ibas.config.get(openui5.utils.CONFIG_ITEM_LIST_TABLE_VISIBLE_ROW_COUNT, 5),
             rows: "{/rows}",
             columns: [
@@ -126,7 +125,7 @@ export class MaterialBatchViewView extends ibas.BOViewView implements IMaterialB
                     template: new sap.m.Text("", {
                         width: "100%",
                     }).bindProperty("text", {
-                        path: "itemcode"
+                        path: "itemCode"
                     })
                 }),
                 new sap.ui.table.Column("", {
@@ -134,7 +133,7 @@ export class MaterialBatchViewView extends ibas.BOViewView implements IMaterialB
                     template: new sap.m.Text("", {
                         width: "100%",
                     }).bindProperty("text", {
-                        path: "warehousecode"
+                        path: "warehouse"
                     })
                 }),
                 new sap.ui.table.Column("", {
@@ -150,7 +149,10 @@ export class MaterialBatchViewView extends ibas.BOViewView implements IMaterialB
                     template: new sap.m.Text("", {
                         width: "100%",
                     }).bindProperty("text", {
-                        path: "direction"
+                        path: "direction",
+                        formatter(data: any): any {
+                            return ibas.enums.describe(ibas.emDirection, data);
+                        }
                     })
                 })
             ]
@@ -232,7 +234,7 @@ export class MaterialBatchViewView extends ibas.BOViewView implements IMaterialB
     }
 
     public showMaterialBatchJournal(data: bo.MaterialBatchJournal[]): void {
-        this.form.setModel(new sap.ui.model.json.JSONModel({ rows: data }));
+        this.rightTable.setModel(new sap.ui.model.json.JSONModel({ rows: data }));
         this.form.bindObject("/");
     }
 }

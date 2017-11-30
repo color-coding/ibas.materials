@@ -19,11 +19,6 @@ public class MaterialQuantity implements IMaterialQuantity {
     public static final String WAREHOUSE_NAME = "WhsCode";
 
     /**
-     * 查询条件字段-物料
-     */
-    public static final String ITEMCODE_NAME = "ItemCode";
-
-    /**
      * 创建物料库存
      *
      * @param material

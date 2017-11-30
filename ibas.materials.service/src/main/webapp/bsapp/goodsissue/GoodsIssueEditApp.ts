@@ -376,6 +376,9 @@ export class GoodsIssueEditApp extends ibas.BOEditApplication<IGoodsIssueEditVie
                 itemCode: item.itemCode,
                 warehouse: item.warehouse,
                 quantity: item.quantity,
+                docType: item.objectCode,
+                docEntry: item.docEntry,
+                lineNum: item.lineId
             };
             contracts.push(batchContractLine);
         }
@@ -395,7 +398,7 @@ export class GoodsIssueEditApp extends ibas.BOEditApplication<IGoodsIssueEditVie
                 let batchInfo: IMaterialIssueBatchLine = {
                     batchCode: line.batchCode,
                     quantity: line.quantity,
-                    direction:ibas.emDirection.OUT
+                    direction: ibas.emDirection.OUT
                 };
                 batchInfos.materialIssueBatchLines.push(batchInfo);
             }

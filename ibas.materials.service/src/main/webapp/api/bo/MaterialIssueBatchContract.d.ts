@@ -32,8 +32,6 @@ export interface IMaterialIssueBatchContractLine extends IMaterialBaseContract {
     docEntry?: number;
     /** 单据行号 */
     lineNum?: number;
-    /** 单据行号 */
-    lineId?: number;
     /** 单据类型 */
     objectType?: string;
 }

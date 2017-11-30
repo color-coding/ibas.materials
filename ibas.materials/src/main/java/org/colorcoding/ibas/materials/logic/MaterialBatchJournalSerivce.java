@@ -1,12 +1,7 @@
 package org.colorcoding.ibas.materials.logic;
 
 import org.colorcoding.ibas.bobas.bo.IBOSimpleLine;
-import org.colorcoding.ibas.bobas.common.ConditionOperation;
-import org.colorcoding.ibas.bobas.common.ConditionRelationship;
-import org.colorcoding.ibas.bobas.common.Criteria;
-import org.colorcoding.ibas.bobas.common.ICondition;
-import org.colorcoding.ibas.bobas.common.ICriteria;
-import org.colorcoding.ibas.bobas.common.IOperationResult;
+import org.colorcoding.ibas.bobas.common.*;
 import org.colorcoding.ibas.bobas.data.Decimal;
 import org.colorcoding.ibas.bobas.data.emDirection;
 import org.colorcoding.ibas.bobas.data.emDocumentStatus;
@@ -18,9 +13,11 @@ import org.colorcoding.ibas.bobas.mapping.LogicContract;
 import org.colorcoding.ibas.materials.bo.material.IMaterial;
 import org.colorcoding.ibas.materials.bo.material.Material;
 import org.colorcoding.ibas.materials.bo.materialbatch.IMaterialBatch;
+import org.colorcoding.ibas.materials.bo.materialbatch.IMaterialBatchJournal;
 import org.colorcoding.ibas.materials.bo.materialbatch.MaterialBatch;
-import org.colorcoding.ibas.materials.bo.materialserial.IMaterialSerialJournal;
 import org.colorcoding.ibas.materials.repository.BORepositoryMaterials;
+
+import java.math.BigDecimal;
 
 
 /**
@@ -77,6 +74,10 @@ public class MaterialBatchJournalSerivce extends BusinessLogic<IMaterialBatchJou
         } else {
             quantity = quantity.subtract(contract.getQuantity());
         }
+        if(quantity.compareTo(BigDecimal.ZERO)== -1){
+            throw new BusinessLogicException(String.format(I18N.prop("msg_mm_batch_is_not_enough"),
+                    contract.getBatchCode()));
+        }
         materialBatch.setQuantity(quantity);
     }
 
@@ -89,6 +90,10 @@ public class MaterialBatchJournalSerivce extends BusinessLogic<IMaterialBatchJou
         } else {
             quantity = quantity.add(contract.getQuantity());
         }
+        if(quantity.compareTo(BigDecimal.ZERO)== -1){
+            throw new BusinessLogicException(String.format(I18N.prop("msg_mm_batch_is_not_enough"),
+                    contract.getBatchCode()));
+        }
         materialBatch.setQuantity(quantity);
     }
 
@@ -96,7 +101,7 @@ public class MaterialBatchJournalSerivce extends BusinessLogic<IMaterialBatchJou
     protected boolean checkDataStatus(Object data) {
         super.checkDataStatus(data);
         if(data instanceof IBOSimpleLine){
-            IMaterialSerialJournal journal = (IMaterialSerialJournal) data;
+            IMaterialBatchJournal journal = (IMaterialBatchJournal) data;
             if (journal.getLineStatus() == emDocumentStatus.PLANNED) {
                 return false;
             }

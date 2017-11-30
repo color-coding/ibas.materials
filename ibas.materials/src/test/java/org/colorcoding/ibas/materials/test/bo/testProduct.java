@@ -34,7 +34,7 @@ public class testProduct extends TestCase {
      *
      * @throws Exception
      */
-    public void testFetchMaterialPriceList() throws Exception {
+    public void testFetchProduct() throws Exception {
         // 测试对象的保存和查询
         IBORepositoryMaterialsApp boRepository = new BORepositoryMaterials();
         String materialGroupName = String.format("G%s", DateTime.getNow().toString("ddmmss"));
@@ -372,28 +372,57 @@ public class testProduct extends TestCase {
         assertEquals("库存查询错误", 30300, opRstProduct.getResultObjects().firstOrDefault(c -> c.getCode().equals(itemCode3)).getOnHand().intValue());
 
         // endregion
-        // region 前台条件 带括号问题
+        //region 带括号查询
+        // region 前台条件 带括号问题 移除左括号
         ICriteria criteria6 = new Criteria();
         ICondition condition6 = criteria6.getConditions().create();
-        condition6.setAlias(Material.PROPERTY_DELETED.getName());
-        condition6.setValue("N");
-        condition6.setOperation(ConditionOperation.EQUAL);
-        condition6 = criteria6.getConditions().create();
         condition6.setAlias(Product.PRICELIST_NAME);
         condition6.setValue(15);
         condition6.setOperation(ConditionOperation.EQUAL);
-        condition6.setRelationship(ConditionRelationship.AND);
         condition6.setBracketOpen(1);
+        condition6 = criteria6.getConditions().create();
+        condition6.setAlias(Material.PROPERTY_DELETED.getName());
+        condition6.setValue("N");
+        condition6.setOperation(ConditionOperation.EQUAL);
+        condition6.setRelationship(ConditionRelationship.AND);
+        condition6.setBracketClose(1);
         condition6 = criteria6.getConditions().create();
         condition6.setAlias(Material.PROPERTY_DOCENTRY.getName());
         condition6.setValue(162);
         condition6.setOperation(ConditionOperation.LESS_EQUAL);
         condition6.setRelationship(ConditionRelationship.AND);
+        condition6.setBracketOpen(1);
         condition6.setBracketClose(1);
         opRstProduct = boRepository.fetchProduct(criteria6);
         assertEquals(opRstProduct.getMessage(), 0, opRstProduct.getResultCode());
         // endregion
+        // region 移除右括号
+        ICriteria criteria7 = new Criteria();
+        ICondition condition7 = criteria6.getConditions().create();
+        condition7.setAlias(Material.PROPERTY_DELETED.getName());
+        condition7.setValue("N");
+        condition7.setOperation(ConditionOperation.EQUAL);
+        condition7.setBracketOpen(1);
+        condition7 = criteria7.getConditions().create();
+        condition7.setAlias(Product.PRICELIST_NAME);
+        condition7.setValue(15);
+        condition7.setOperation(ConditionOperation.EQUAL);
+        condition7.setRelationship(ConditionRelationship.AND);
+        condition7.setBracketClose(1);
+        condition7 = criteria7.getConditions().create();
+        condition7.setAlias(Material.PROPERTY_DOCENTRY.getName());
+        condition7.setValue(162);
+        condition7.setOperation(ConditionOperation.LESS_EQUAL);
+        condition7.setRelationship(ConditionRelationship.AND);
+        condition7.setBracketOpen(1);
+        condition7.setBracketClose(1);
+        opRstProduct = boRepository.fetchProduct(criteria7);
+        assertEquals(opRstProduct.getMessage(), 0, opRstProduct.getResultCode());
+        // endregion
+        //endregion
+
     }
+
 
     /**
      * 测试物料价格

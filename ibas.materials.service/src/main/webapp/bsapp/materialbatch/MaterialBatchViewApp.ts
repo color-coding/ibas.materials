@@ -40,17 +40,31 @@ export class MaterialBatchViewApp extends ibas.BOViewService<IMaterialBatchViewV
     /** 视图显示后 */
     protected viewShowed(): void {
         this.view.showMaterialBatch(this.viewData);
+         this.view.showMaterialBatchJournal(this.journalData);
     }
     /** 运行,覆盖原方法 */
     run(...args: any[]): void {
         if (arguments[0] instanceof bo.MaterialBatch) {
             this.viewData = arguments[0];
+            let criteria: ibas.ICriteria = new ibas.Criteria();
+            let condition: ibas.ICondition;
+            condition = new ibas.Condition(bo.MaterialBatchJournal.PROPERTY_ITEMCODE_NAME
+                , ibas.emConditionOperation.EQUAL
+                , this.viewData.itemCode);
+            criteria.conditions.add(condition);
+            condition = new ibas.Condition(bo.MaterialBatchJournal.PROPERTY_WAREHOUSE_NAME
+                , ibas.emConditionOperation.EQUAL
+                , this.viewData.warehouse);
+            condition.relationship = ibas.emConditionRelationship.AND;
+            criteria.conditions.add(condition);
+            this.fetchJournalData(criteria);
             this.show();
         } else {
             super.run();
         }
     }
     private viewData: bo.MaterialBatch;
+    private journalData: bo.MaterialBatchJournal[];
     /** 查询数据 */
     protected fetchData(criteria: ibas.ICriteria | string): void {
         this.busy(true);
@@ -67,6 +81,27 @@ export class MaterialBatchViewApp extends ibas.BOViewService<IMaterialBatchViewV
                         throw new Error(opRslt.message);
                     }
                     that.viewData = opRslt.resultObjects.firstOrDefault();
+                    that.viewShowed();
+                } catch (error) {
+                    that.messages(error);
+                }
+            }
+        });
+        this.proceeding(ibas.emMessageType.INFORMATION, ibas.i18n.prop("shell_fetching_data"));
+    }
+
+    protected fetchJournalData(criteria: ibas.ICriteria): void {
+        this.busy(true);
+        let that: this = this;
+        let boRepository: BORepositoryMaterials = new BORepositoryMaterials();
+        boRepository.fetchMaterialBatchJournal({
+            criteria: criteria,
+            onCompleted(opRslt: ibas.IOperationResult<bo.MaterialBatchJournal>): void {
+                try {
+                    if (opRslt.resultCode !== 0) {
+                        throw new Error(opRslt.message);
+                    }
+                    that.journalData = opRslt.resultObjects;
                     that.viewShowed();
                 } catch (error) {
                     that.messages(error);
