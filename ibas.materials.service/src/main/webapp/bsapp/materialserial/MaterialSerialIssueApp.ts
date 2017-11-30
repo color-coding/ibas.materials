@@ -298,7 +298,7 @@ export class MaterialSerialIssueApp extends ibas.BOApplication<IMaterialSerialIs
             that.bindSerialServiceDataLine(arguments[0].handleData);
         }
         this.onCompleted = arguments[0].onCompleted;
-        super.run();
+        super.run.apply(this, args);
     }
     protected saveData(): void {
         this.fireCompleted({ materialIssueLineSerials: this.getCallBackData() });

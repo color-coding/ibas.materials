@@ -37,7 +37,7 @@ export class MaterialGroupViewApp extends ibas.BOViewService<IMaterialGroupViewV
     /** 视图显示后 */
     protected viewShowed(): void {
         // 视图加载完成
-        if(ibas.objects.isNull(this.viewData)){
+        if(ibas.objects.isNull(this.viewData)) {
             this.viewData = new bo.MaterialGroup;
             this.proceeding(ibas.emMessageType.WARNING, ibas.i18n.prop("shell_data_created_new"));
         }
@@ -56,7 +56,7 @@ export class MaterialGroupViewApp extends ibas.BOViewService<IMaterialGroupViewV
             this.viewData = arguments[0];
             this.show();
         } else {
-            super.run();
+            super.run.apply(this, args);
         }
     }
     private viewData: bo.MaterialGroup;

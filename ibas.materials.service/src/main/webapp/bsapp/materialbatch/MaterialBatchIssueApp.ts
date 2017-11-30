@@ -366,7 +366,7 @@ export class MaterialBatchIssueApp extends ibas.BOApplication<IMaterialBatchIssu
             that.bindBatchServiceDataLine(arguments[0].handleData);
         }
         this.onCompleted = arguments[0].onCompleted;
-        super.run();
+        super.run.apply(this, args);
     }
     /** 绑定服务数据 */
     bindBatchServiceData(contract: IMaterialIssueBatchContract): void {

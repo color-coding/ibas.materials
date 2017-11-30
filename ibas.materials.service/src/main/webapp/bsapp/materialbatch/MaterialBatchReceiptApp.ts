@@ -208,7 +208,7 @@ export class MaterialBatchReceiptApp extends ibas.BOApplication<IMaterialBatchRe
             that.bindBatchServiceDataLine(arguments[0].handleData);
         }
         this.onCompleted = arguments[0].onCompleted;
-        super.run();
+        super.run.apply(this, args);
     }
     /** 视图显示后 */
     protected viewShowed(): void {

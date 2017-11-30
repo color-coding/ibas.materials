@@ -107,7 +107,7 @@ export class GoodsIssueEditApp extends ibas.BOEditApplication<IGoodsIssueEditVie
                 return;
             }
         }
-        super.run();
+        super.run.apply(this,args);
     }
 
     protected priceListData: bo.MaterialPriceList[];
