@@ -142,7 +142,7 @@ export class MaterialBatchReceiptApp extends ibas.BOApplication<IMaterialBatchRe
             that.inputData = arguments[0].caller;
         }
         this.onCompleted = arguments[0].onCompleted;
-        super.run();
+        super.run.apply(this, args);
     }
     /** 视图显示后 */
     protected viewShowed(): void {

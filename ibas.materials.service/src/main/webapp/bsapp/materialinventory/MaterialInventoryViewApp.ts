@@ -59,7 +59,7 @@ export class MaterialInventoryViewApp extends ibas.BOViewService<IMaterialInvent
             this.viewData = arguments[0];
             this.show();
         } else {
-            super.run();
+            super.run.apply(this, args);
         }
     }
 

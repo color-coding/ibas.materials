@@ -237,7 +237,7 @@ export class MaterialSerialIssueApp extends ibas.BOApplication<IMaterialSerialIs
             that.inputData = arguments[0].caller;
         }
         this.onCompleted = arguments[0].onCompleted;
-        super.run();
+        super.run.apply(this, args);
     }
     protected saveData(): void {
         this.fireCompleted(this.inputData);

@@ -289,7 +289,7 @@ export class MaterialBatchIssueApp extends ibas.BOApplication<IMaterialBatchIssu
             that.inputData = arguments[0].caller;
         }
         this.onCompleted = arguments[0].onCompleted;
-        super.run();
+        super.run.apply(this, args);
     }
     protected saveData(): void {
         // 批次数量错误

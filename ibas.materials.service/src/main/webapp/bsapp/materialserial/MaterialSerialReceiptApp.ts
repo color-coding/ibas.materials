@@ -128,7 +128,7 @@ export class MaterialSerialReceiptApp extends ibas.BOApplication<IMaterialSerial
             that.inputData = arguments[0].caller;
         }
         this.onCompleted = arguments[0].onCompleted;
-        super.run();
+        super.run.apply(this, args);
     }
     /** 视图显示后 */
     protected viewShowed(): void {
