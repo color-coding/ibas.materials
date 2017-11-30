@@ -10,12 +10,9 @@ import * as ibas from "ibas/index";
 import * as bo from "../../borep/bo/index";
 import {
     IMaterialReceiptSerialLine,
-
     IMaterialBatchJournal,
     IMaterialSerialJournal,
     IMaterialReceiptLineSerial,
-    IMaterialBatchService,
-    IMaterialSerialService,
     IMaterialReceiptBatchs,
     IMaterialReceiptSerials,
     IMaterialReceiptSerialContractLine,
@@ -299,13 +296,9 @@ export class GoodsReceiptEditApp extends ibas.BOEditApplication<IGoodsReceiptEdi
     /** 新建物料批次信息 */
     createGoodsReceiptLineMaterialBatch(): void {
         let that: this = this;
-        // 过滤删除标记的和非批次管理的数据
-        let goodReceiptLines: bo.GoodsReceiptLine[] = this.editData.goodsReceiptLines.filter(
-            c => c.batchManagement !== undefined &&
-                c.batchManagement.toString() === ibas.enums.toString(ibas.emYesNo, ibas.emYesNo.YES)
-                && c.isDeleted === false);
+        let goodReceiptLines: bo.GoodsReceiptLine[] = that.editData.goodsReceiptLines.filterBatchLine();
         if (ibas.objects.isNull(goodReceiptLines) || goodReceiptLines.length === 0) {
-            this.messages(ibas.emMessageType.WARNING, ibas.i18n.prop("materials_app_no_batchmanaged"));
+            this.messages(ibas.emMessageType.INFORMATION, ibas.i18n.prop("materials_app_no_matched_documentline_to_create_batch"));
             return;
         }
         ibas.servicesManager.runLineHandleService<IMaterialReceiptBatchContract, IMaterialReceiptBatchs>({
@@ -320,11 +313,9 @@ export class GoodsReceiptEditApp extends ibas.BOEditApplication<IGoodsReceiptEdi
                         item.goodsReceiptMaterialBatchJournals.deleteAll();
                         for (let batchJournal of line.materialReceiptBatchLines) {
                             // 如果批次号为空 不处理
-                            if (ibas.objects.isNull(batchJournal.batchCode)) {
-                                continue;
+                            if (!ibas.strings.isEmpty(batchJournal.batchCode)) {
+                                item.goodsReceiptMaterialBatchJournals.createBatchJournal(batchJournal);
                             }
-                            let batchLine: bo.MaterialBatchJournal = item.goodsReceiptMaterialBatchJournals
-                            .createBatchJournal(batchJournal);
                         }
                     }
                 }
@@ -334,16 +325,12 @@ export class GoodsReceiptEditApp extends ibas.BOEditApplication<IGoodsReceiptEdi
     /** 新建物料序列信息 */
     createGoodsReceiptLineMaterialSerial(): void {
         let that: this = this;
-        // 过滤删除标记的和非批次管理的数据
-        let goodReceiptLines: bo.GoodsReceiptLine[] = this.editData.goodsReceiptLines.filter(
-            c => c.serialManagement !== undefined &&
-                c.serialManagement.toString() === ibas.enums.toString(ibas.emYesNo, ibas.emYesNo.YES)
-                && c.isDeleted === false);
+        let goodReceiptLines: bo.GoodsReceiptLine[] = that.editData.goodsReceiptLines.filterSerialLine();
         if (ibas.objects.isNull(goodReceiptLines) || goodReceiptLines.length === 0) {
-            this.messages(ibas.emMessageType.WARNING, ibas.i18n.prop("materials_app_no_serialmanaged"));
+            this.messages(ibas.emMessageType.INFORMATION, ibas.i18n.prop("materials_app_no_matched_documentline_to_create_serial"));
             return;
         }
-        ibas.servicesManager.runLineHandleService<IMaterialReceiptSerialContract,IMaterialReceiptSerials>({
+        ibas.servicesManager.runLineHandleService<IMaterialReceiptSerialContract, IMaterialReceiptSerials>({
             caller: that.getSerialContract(goodReceiptLines),
             handleData: that.getSerialInfo(goodReceiptLines),
             boCode: bo.MaterialSerialJournal.BUSINESS_OBJECT_RECEIPT_CODE,
@@ -354,11 +341,9 @@ export class GoodsReceiptEditApp extends ibas.BOEditApplication<IGoodsReceiptEdi
                     item.goodsReceiptMaterialSerialJournals.deleteAll();
                     for (let serialJournal of line.materialReceiptSerialLines) {
                         // 如果序列号为空 不处理
-                        if (ibas.objects.isNull(serialJournal.serialCode)) {
-                            continue;
+                        if (!ibas.strings.isEmpty(serialJournal.serialCode)) {
+                            item.goodsReceiptMaterialSerialJournals.createSerialJournal(serialJournal);
                         }
-                        let serialLine: bo.MaterialSerialJournal = item.goodsReceiptMaterialSerialJournals
-                            .createSerialJournal(serialJournal);
                     }
                 }
             }

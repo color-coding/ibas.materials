@@ -107,7 +107,7 @@ export class GoodsIssueEditApp extends ibas.BOEditApplication<IGoodsIssueEditVie
                 return;
             }
         }
-        super.run.apply(this,args);
+        super.run.apply(this, args);
     }
 
     protected priceListData: bo.MaterialPriceList[];
@@ -303,15 +303,12 @@ export class GoodsIssueEditApp extends ibas.BOEditApplication<IGoodsIssueEditVie
     /** 选择库存发货行批次事件 */
     chooseGoodsIssueLineMaterialBatch(): void {
         let that: this = this;
-        // 过滤删除标记的和非批次管理的数据
-        let goodIssueLines: bo.GoodsIssueLine[] = this.editData.goodsIssueLines.filter(
-            c => c.batchManagement !== undefined &&
-                c.batchManagement.toString() === ibas.enums.toString(ibas.emYesNo, ibas.emYesNo.YES)
-                && c.isDeleted === false);
+        let goodIssueLines: bo.GoodsIssueLine[] = this.editData.goodsIssueLines.filterBatchLine();
         if (ibas.objects.isNull(goodIssueLines) || goodIssueLines.length === 0) {
-            this.messages(ibas.emMessageType.WARNING, ibas.i18n.prop("materials_app_no_batchmanaged"));
+            this.messages(ibas.emMessageType.INFORMATION, ibas.i18n.prop("materials_app_no_matched_documentline_to_choose_batch"));
             return;
         }
+        // 调用批次选择服务
         ibas.servicesManager.runLineHandleService<IMaterialIssueBatchContract, IMaterialIssueBatchs>({
             caller: that.getBatchContract(goodIssueLines),
             handleData: that.getBatchInfo(goodIssueLines),
@@ -324,11 +321,9 @@ export class GoodsIssueEditApp extends ibas.BOEditApplication<IGoodsIssueEditVie
                         item.goodsIssueMaterialBatchJournals.deleteAll();
                         for (let batchJournal of line.materialIssueBatchLines) {
                             // 如果批次号为空 不处理
-                            if (ibas.objects.isNull(batchJournal.batchCode)) {
-                                continue;
+                            if (!ibas.strings.isEmpty(batchJournal.batchCode)) {
+                                item.goodsIssueMaterialBatchJournals.createBatchJournal(batchJournal);
                             }
-                            let batchLine: bo.MaterialBatchJournal = item.goodsIssueMaterialBatchJournals
-                                .createBatchJournal(batchJournal);
                         }
                     }
                 }
@@ -338,14 +333,12 @@ export class GoodsIssueEditApp extends ibas.BOEditApplication<IGoodsIssueEditVie
     /** 选择库存发货序列事件 */
     chooseGoodsIssueLineMaterialSerial(): void {
         let that: this = this;
-        let goodIssueLines: bo.GoodsIssueLine[] = this.editData.goodsIssueLines.filter(
-            c => c.serialManagement !== undefined &&
-                c.serialManagement.toString() === ibas.enums.toString(ibas.emYesNo, ibas.emYesNo.YES)
-                && c.isDeleted === false);
+        let goodIssueLines: bo.GoodsIssueLine[] = this.editData.goodsIssueLines.filterSerialLine();
         if (ibas.objects.isNull(goodIssueLines) || goodIssueLines.length === 0) {
-            this.messages(ibas.emMessageType.WARNING, ibas.i18n.prop("materials_app_no_batchmanaged"));
+            this.messages(ibas.emMessageType.INFORMATION, ibas.i18n.prop("materials_app_no_matched_documentline_to_choose_serial"));
             return;
         }
+        // 调用序列选择服务
         ibas.servicesManager.runLineHandleService<IMaterialIssueSerialContract, IMaterialIssueSerials>({
             caller: that.getSerialContract(goodIssueLines),
             handleData: that.getSerialInfo(goodIssueLines),
@@ -357,10 +350,9 @@ export class GoodsIssueEditApp extends ibas.BOEditApplication<IGoodsIssueEditVie
                     item.goodsIssueMaterialSerialJournals.deleteAll();
                     for (let serialJournal of line.materialIssueSerialLines) {
                         // 序列号为空，不处理
-                        if (ibas.objects.isNull(serialJournal.serialCode)) {
-                            continue;
+                        if (!ibas.strings.isEmpty(serialJournal.serialCode)) {
+                            item.goodsIssueMaterialSerialJournals.createSerialJournal(serialJournal);
                         }
-                        let serialLine: bo.MaterialSerialJournal = item.goodsIssueMaterialSerialJournals.createSerialJournal(serialJournal);
                     }
                 }
             }

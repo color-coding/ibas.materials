@@ -22,6 +22,7 @@ import {
     strings,
     config,
     objects,
+    enums,
     emDirection,
 } from "ibas/index";
 import {
@@ -454,6 +455,31 @@ export class GoodsIssueLines extends BusinessObjects<GoodsIssueLine, GoodsIssue>
         this.add(item);
         return item;
     }
+    /** 取出需要添加批次的行 */
+    filterBatchLine(): GoodsIssueLine[] {
+        let goodIssueLines: GoodsIssueLine[] = this.filter(
+            c => c.isDeleted === false
+                && !objects.isNull(c.lineStatus)
+                && c.lineStatus !== emDocumentStatus.PLANNED
+                && c.batchManagement !== undefined
+                && c.batchManagement.toString() === enums.toString(emYesNo, emYesNo.YES)
+                && !strings.isEmpty(c.itemCode)
+                && !strings.isEmpty(c.warehouse));
+        return goodIssueLines;
+    }
+
+    /** 取出需要添加序列的行 */
+    filterSerialLine(): GoodsIssueLine[] {
+        let goodIssueLines: GoodsIssueLine[] = this.filter(
+            c => c.isDeleted === false
+                && !objects.isNull(c.lineStatus)
+                && c.lineStatus !== emDocumentStatus.PLANNED
+                && c.serialManagement !== undefined
+                && c.serialManagement.toString() === enums.toString(emYesNo, emYesNo.YES)
+                && !strings.isEmpty(c.itemCode)
+                && !strings.isEmpty(c.warehouse));
+        return goodIssueLines;
+    }
     /** 监听父项属性改变 */
     protected onParentPropertyChanged(name: string): void {
         super.onParentPropertyChanged(name);
@@ -493,8 +519,8 @@ export class GoodsIssueMaterialBatchJournals extends BusinessObjects<MaterialBat
             item.delete();
         }
     }
-     /** 监听父项属性改变 */
-     protected onParentPropertyChanged(name: string): void {
+    /** 监听父项属性改变 */
+    protected onParentPropertyChanged(name: string): void {
         super.onParentPropertyChanged(name);
         if (strings.equalsIgnoreCase(name, GoodsIssueLine.PROPERTY_LINESTATUS_NAME)) {
             for (let item of this.filterDeleted()) {

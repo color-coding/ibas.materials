@@ -23,6 +23,7 @@ import {
     config,
     strings,
     objects,
+    enums,
 } from "ibas/index";
 import {
     IGoodsReceipt,
@@ -451,6 +452,30 @@ export class GoodsReceiptLines extends BusinessObjects<GoodsReceiptLine, GoodsRe
         let item: GoodsReceiptLine = new GoodsReceiptLine();
         this.add(item);
         return item;
+    }
+    /** 取出需要创建批次的行集合 */
+    filterBatchLine(): GoodsReceiptLine[] {
+        let goodReceiptLines: GoodsReceiptLine[] = this.filter(
+            c => c.isDeleted === false
+                && !objects.isNull(c.lineStatus)
+                && c.lineStatus !== emDocumentStatus.PLANNED
+                && c.batchManagement !== undefined
+                && c.batchManagement.toString() === enums.toString(emYesNo, emYesNo.YES)
+                && !strings.isEmpty(c.itemCode)
+                && !strings.isEmpty(c.warehouse));
+        return goodReceiptLines;
+    }
+    /** 取出需要创建序列的行集合 */
+    filterSerialLine(): GoodsReceiptLine[] {
+        let goodReceiptLines: GoodsReceiptLine[] = this.filter(
+            c => c.isDeleted === false
+                && !objects.isNull(c.lineStatus)
+                && c.lineStatus !== emDocumentStatus.PLANNED
+                && c.serialManagement !== undefined
+                && c.serialManagement.toString() === enums.toString(emYesNo, emYesNo.YES)
+                && !strings.isEmpty(c.itemCode)
+                && !strings.isEmpty(c.warehouse));
+        return goodReceiptLines;
     }
     /** 监听父项属性改变 */
     protected onParentPropertyChanged(name: string): void {

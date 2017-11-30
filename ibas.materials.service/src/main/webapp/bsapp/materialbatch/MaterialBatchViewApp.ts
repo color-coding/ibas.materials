@@ -57,6 +57,7 @@ export class MaterialBatchViewApp extends ibas.BOViewService<IMaterialBatchViewV
                 , this.viewData.warehouse);
             condition.relationship = ibas.emConditionRelationship.AND;
             criteria.conditions.add(condition);
+            // 查询日记账
             this.fetchJournalData(criteria);
             this.show();
         } else {

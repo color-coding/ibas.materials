@@ -57,6 +57,7 @@ export class MaterialSerialViewApp extends ibas.BOViewService<IMaterialSerialVie
                 , this.viewData.warehouse);
             condition.relationship = ibas.emConditionRelationship.AND;
             criteria.conditions.add(condition);
+            // 查询日记账
             this.fetchJournalData(criteria);
             this.show();
         } else {
