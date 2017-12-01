@@ -11,5 +11,7 @@
     "bo_materialbatch_notes":"备注",
     "bo_materialbatch_supplierserial":"供应商序号",
     "bo_materialbatch_internalserial":"内部序号",
-    "bo_materialbatch_locked":"锁定"
+    "bo_materialbatch_locked":"锁定",
+    "bo_materialbatch_batchcode_is_empty":"批次编号为空",
+    "bo_materialbatch_batchcode_is_exist":"批次编号已存在"
 }

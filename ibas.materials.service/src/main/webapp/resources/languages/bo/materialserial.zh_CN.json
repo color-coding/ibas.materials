@@ -15,5 +15,7 @@
     "bo_materialserial_internalserial":"内部序号",
     "bo_materialserial_locked":"锁定",
     "bo_materialserial_warrantystartdate":"保修开始日期",
-    "bo_materialserial_warrantyenddate":"保修结束日期"
+    "bo_materialserial_warrantyenddate":"保修结束日期",
+    "bo_materialserial_serialcode_is_empty":"批次号不能为空",
+    "bo_materialserial_serialcode_is_exist":"批次号已存在"
 }

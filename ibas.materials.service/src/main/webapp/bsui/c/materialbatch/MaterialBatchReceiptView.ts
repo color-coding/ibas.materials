@@ -2,7 +2,7 @@
  * @Author: fancy
  * @Date: 2017-11-27 16:44:31
  * @Last Modified by: fancy
- * @Last Modified time: 2017-11-27 16:45:05
+ * @Last Modified time: 2017-12-01 16:44:15
  * @license
  * Copyright color-coding studio. All Rights Reserved.
  *
@@ -27,7 +27,6 @@ export class MaterialBatchReceiptView extends ibas.BODialogView implements IMate
     selectMaterialBatchJournalLineEvent: Function;
     private mainLayout: sap.ui.layout.VerticalLayout;
     private journalLineTable: sap.ui.table.Table;
-
     /** 绘制视图 */
     darw(): any {
         let that: this = this;
@@ -74,7 +73,23 @@ export class MaterialBatchReceiptView extends ibas.BODialogView implements IMate
                     template: new sap.m.Input("", {
                         width: "100%",
                     }).bindProperty("value", {
-                        path: "BatchCode"
+                        path: "BatchCode",
+                        type: new openui5.datatype.Alphanumeric({
+                            description: ibas.i18n.prop("bo_materialbatch_batchcode"),
+                            validate(oValue: string): openui5.datatype.ValidateResult {
+                                let result: openui5.datatype.ValidateResult = new openui5.datatype.ValidateResult();
+                                result.status = true;
+                                let bo: bo.MaterialBatchJournal[] = that.table.getModel().getOriginalProperty("/rows");
+                                if (ibas.strings.isEmpty(oValue)) {
+                                    result.status = false;
+                                    result.message = ibas.i18n.prop("bo_materialbatch_batchcode_is_empty");
+                                } else if (bo.filter(c => c.batchCode === oValue).length > 0) {
+                                    result.status = false;
+                                    result.message = ibas.i18n.prop("bo_materialbatch_batchcode_is_exist");
+                                }
+                                return result;
+                            }
+                        })
                     })
                 }),
                 new sap.ui.table.Column("", {
@@ -115,6 +130,7 @@ export class MaterialBatchReceiptView extends ibas.BODialogView implements IMate
         this.journalLineTable = new sap.ui.table.Table("", {
             enableSelectAll: false,
             selectionMode: sap.ui.table.SelectionMode.Single,
+            selectionBehavior: sap.ui.table.SelectionBehavior.RowOnly,
             visibleRowCount: ibas.config.get(openui5.utils.CONFIG_ITEM_LIST_TABLE_VISIBLE_ROW_COUNT, 8),
             visibleRowCountMode: sap.ui.table.VisibleRowCountMode.Interactive,
             rowSelectionChange: function (): void {
