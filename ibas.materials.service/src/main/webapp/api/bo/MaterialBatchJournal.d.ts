@@ -27,16 +27,16 @@ import {
 export interface IMaterialBatchJournal extends IBOSimple {
     /**物料编号 */
     itemCode: string;
-    
+
     /**批次编号 */
     batchCode: string;
 
     /**仓库编码 */
     warehouse: string;
-    
+
     /**数量 */
     quantity: number;
-    
+
     /**方向 */
     direction: emDirection;
 
@@ -60,6 +60,9 @@ export interface IMaterialBatchJournal extends IBOSimple {
 
     /**备注 */
     notes: string;
+
+    /** 单据状态 */
+    lineStatus: emDocumentStatus;
 
     /**基于类型 */
     baseDocumentType: string;

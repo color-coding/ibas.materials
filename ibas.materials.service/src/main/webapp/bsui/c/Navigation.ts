@@ -148,8 +148,20 @@ export default class Navigation extends ibas.ViewNavigation {
             case materialserialApps.MaterialSerialIssueApp.APPLICATION_ID:
                 view = new materialserialViews.MaterialSerialIssueView();
                 break;
-                case materialserialApps.MaterialSerialReceiptApp.APPLICATION_ID:
+            case materialserialApps.MaterialSerialReceiptApp.APPLICATION_ID:
                 view = new materialserialViews.MaterialSerialReceiptView();
+                break;
+            case materialserialApps.MaterialSerialListApp.APPLICATION_ID:
+                view = new materialserialViews.MaterialSerialListView();
+                break;
+            case materialserialApps.MaterialSerialViewApp.APPLICATION_ID:
+                view = new materialserialViews.MaterialSerialViewView();
+                break;
+            case materialbatchApps.MaterialBatchListApp.APPLICATION_ID:
+                view = new materialbatchViews.MaterialBatchListView();
+                break;
+            case materialbatchApps.MaterialBatchViewApp.APPLICATION_ID:
+                view = new materialbatchViews.MaterialBatchViewView();
                 break;
             default:
                 break;

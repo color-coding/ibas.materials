@@ -1,20 +1,21 @@
 package org.colorcoding.ibas.materials.bo.materialserial;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlType;
-
 import org.colorcoding.ibas.bobas.bo.BusinessObject;
 import org.colorcoding.ibas.bobas.core.IPropertyInfo;
 import org.colorcoding.ibas.bobas.data.DateTime;
 import org.colorcoding.ibas.bobas.data.emDirection;
+import org.colorcoding.ibas.bobas.data.emDocumentStatus;
 import org.colorcoding.ibas.bobas.logic.IBusinessLogicContract;
 import org.colorcoding.ibas.bobas.logic.IBusinessLogicsHost;
 import org.colorcoding.ibas.bobas.mapping.DbField;
 import org.colorcoding.ibas.bobas.mapping.DbFieldType;
 import org.colorcoding.ibas.materials.MyConfiguration;
 import org.colorcoding.ibas.materials.logic.IMaterialSerialJournalContract;
+
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlType;
 
 /**
  * 获取-物料序列号日记账
@@ -143,6 +144,37 @@ public class MaterialSerialJournal extends BusinessObject<MaterialSerialJournal>
 	 */
 	public final void setWarehouse(String value) {
 		this.setProperty(PROPERTY_WAREHOUSE, value);
+	}
+
+	/**
+	 * 属性名称-单据状态
+	 */
+	private static final String PROPERTY_LINESTATUS_NAME = "LineStatus";
+
+	/**
+	 * 单据状态 属性
+	 */
+	@DbField(name = "LineStatus", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME, primaryKey = false)
+	public static final IPropertyInfo<emDocumentStatus> PROPERTY_LINESTATUS = registerProperty(PROPERTY_LINESTATUS_NAME,
+			emDocumentStatus.class, MY_CLASS);
+
+	/**
+	 * 获取-单据状态
+	 *
+	 * @return 值
+	 */
+	@XmlElement(name = PROPERTY_LINESTATUS_NAME)
+	public final emDocumentStatus getLineStatus() {
+		return this.getProperty(PROPERTY_LINESTATUS);
+	}
+
+	/**
+	 * 设置-单据状态
+	 *
+	 * @param value 值
+	 */
+	public final void setLineStatus(emDocumentStatus value) {
+		this.setProperty(PROPERTY_LINESTATUS, value);
 	}
 
 	/**

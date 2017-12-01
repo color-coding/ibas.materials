@@ -1,15 +1,12 @@
 package org.colorcoding.ibas.materials.test.bo;
 
-import org.colorcoding.ibas.bobas.common.ConditionOperation;
-import org.colorcoding.ibas.bobas.common.ConditionRelationship;
-import org.colorcoding.ibas.bobas.common.Criteria;
-import org.colorcoding.ibas.bobas.common.ICondition;
-import org.colorcoding.ibas.bobas.common.ICriteria;
-import org.colorcoding.ibas.bobas.common.IOperationResult;
+import junit.framework.TestCase;
+import org.colorcoding.ibas.bobas.common.*;
 import org.colorcoding.ibas.bobas.data.DateTime;
 import org.colorcoding.ibas.bobas.data.emDirection;
 import org.colorcoding.ibas.bobas.data.emDocumentStatus;
 import org.colorcoding.ibas.bobas.data.emYesNo;
+import org.colorcoding.ibas.bobas.organization.OrganizationFactory;
 import org.colorcoding.ibas.materials.bo.goodsreceipt.GoodsReceipt;
 import org.colorcoding.ibas.materials.bo.goodsreceipt.IGoodsReceiptLine;
 import org.colorcoding.ibas.materials.bo.inventorytransfer.IInventoryTransferLine;
@@ -21,8 +18,6 @@ import org.colorcoding.ibas.materials.bo.warehouse.Warehouse;
 import org.colorcoding.ibas.materials.repository.BORepositoryMaterials;
 import org.colorcoding.ibas.materials.repository.IBORepositoryMaterialsApp;
 
-import junit.framework.TestCase;
-
 /**
  * 库存转储 测试
  * 
@@ -32,7 +27,7 @@ public class testInventoryTransfer extends TestCase {
 	 * 获取连接口令
 	 */
 	String getToken() {
-		return "68fc6bac014d06ad94c5734116487cff";
+		return OrganizationFactory.SYSTEM_USER.getToken();
 	}
 
 	/**

@@ -56,6 +56,10 @@ public class MaterialWarehouseInventoryService extends BusinessLogic<IMaterialWa
         } else {
             onHand = onHand.add(contract.getQuantity());
         }
+        if (onHand.compareTo(BigDecimal.ZERO) == -1) {
+            throw new BusinessLogicException(String.format(I18N.prop("msg_mm_material_is_not_enough"),
+                    contract.getItemCode()));
+        }
         materialInventory.setOnHand(onHand);
     }
 

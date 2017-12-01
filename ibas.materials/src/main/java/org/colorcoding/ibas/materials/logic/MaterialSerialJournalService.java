@@ -1,7 +1,9 @@
 package org.colorcoding.ibas.materials.logic;
 
+import org.colorcoding.ibas.bobas.bo.IBOSimpleLine;
 import org.colorcoding.ibas.bobas.common.*;
 import org.colorcoding.ibas.bobas.data.emDirection;
+import org.colorcoding.ibas.bobas.data.emDocumentStatus;
 import org.colorcoding.ibas.bobas.data.emYesNo;
 import org.colorcoding.ibas.bobas.i18n.I18N;
 import org.colorcoding.ibas.bobas.logic.BusinessLogic;
@@ -10,6 +12,7 @@ import org.colorcoding.ibas.bobas.mapping.LogicContract;
 import org.colorcoding.ibas.materials.bo.material.IMaterial;
 import org.colorcoding.ibas.materials.bo.material.Material;
 import org.colorcoding.ibas.materials.bo.materialserial.IMaterialSerial;
+import org.colorcoding.ibas.materials.bo.materialserial.IMaterialSerialJournal;
 import org.colorcoding.ibas.materials.bo.materialserial.MaterialSerial;
 import org.colorcoding.ibas.materials.repository.BORepositoryMaterials;
 
@@ -62,6 +65,9 @@ public class MaterialSerialJournalService extends BusinessLogic<IMaterialSerialJ
     @Override
     protected void impact(IMaterialSerialJournalContract contract) {
         IMaterialSerial materialSerial = this.getBeAffected();
+        // 状态是计划 先锁定
+        if(materialSerial.getLocked() == emYesNo.YES)
+
         if (contract.getDirection() == emDirection.IN) {
             materialSerial.setInStock(emYesNo.YES);
         } else {
@@ -78,6 +84,18 @@ public class MaterialSerialJournalService extends BusinessLogic<IMaterialSerialJ
         } else {
             materialSerial.setInStock(emYesNo.YES);
         }
+    }
+
+    @Override
+    protected boolean checkDataStatus(Object data) {
+        super.checkDataStatus(data);
+        if(data instanceof IBOSimpleLine){
+            IMaterialSerialJournal journal = (IMaterialSerialJournal) data;
+            if (journal.getLineStatus() == emDocumentStatus.PLANNED) {
+                return false;
+            }
+        }
+        return true;
     }
 
     private void checkContractData(IMaterialSerialJournalContract contract) {

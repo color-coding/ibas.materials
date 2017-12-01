@@ -18,7 +18,7 @@ import org.colorcoding.ibas.materials.logic.IMaterialSerialJournalContract;
 
 /**
  * 获取-物料序列号
- * 
+ *
  */
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlType(name = MaterialSerial.BUSINESS_OBJECT_NAME, namespace = MyConfiguration.NAMESPACE_BO)
@@ -73,7 +73,7 @@ public class MaterialSerial extends BusinessObject<MaterialSerial> implements IM
 
 	/**
 	 * 获取-物料编码
-	 * 
+	 *
 	 * @return 值
 	 */
 	@XmlElement(name = PROPERTY_ITEMCODE_NAME)
@@ -83,7 +83,7 @@ public class MaterialSerial extends BusinessObject<MaterialSerial> implements IM
 
 	/**
 	 * 设置-物料编码
-	 * 
+	 *
 	 * @param value
 	 *            值
 	 */
@@ -105,7 +105,7 @@ public class MaterialSerial extends BusinessObject<MaterialSerial> implements IM
 
 	/**
 	 * 获取-序列编码
-	 * 
+	 *
 	 * @return 值
 	 */
 	@XmlElement(name = PROPERTY_SERIALCODE_NAME)
@@ -115,7 +115,7 @@ public class MaterialSerial extends BusinessObject<MaterialSerial> implements IM
 
 	/**
 	 * 设置-序列编码
-	 * 
+	 *
 	 * @param value
 	 *            值
 	 */
@@ -137,7 +137,7 @@ public class MaterialSerial extends BusinessObject<MaterialSerial> implements IM
 
 	/**
 	 * 获取-仓库编码
-	 * 
+	 *
 	 * @return 值
 	 */
 	@XmlElement(name = PROPERTY_WAREHOUSE_NAME)
@@ -147,7 +147,7 @@ public class MaterialSerial extends BusinessObject<MaterialSerial> implements IM
 
 	/**
 	 * 设置-仓库编码
-	 * 
+	 *
 	 * @param value
 	 *            值
 	 */
@@ -169,7 +169,7 @@ public class MaterialSerial extends BusinessObject<MaterialSerial> implements IM
 
 	/**
 	 * 获取-在仓库
-	 * 
+	 *
 	 * @return 值
 	 */
 	@XmlElement(name = PROPERTY_INSTOCK_NAME)
@@ -179,7 +179,7 @@ public class MaterialSerial extends BusinessObject<MaterialSerial> implements IM
 
 	/**
 	 * 设置-在仓库
-	 * 
+	 *
 	 * @param value
 	 *            值
 	 */
@@ -201,7 +201,7 @@ public class MaterialSerial extends BusinessObject<MaterialSerial> implements IM
 
 	/**
 	 * 获取-锁定
-	 * 
+	 *
 	 * @return 值
 	 */
 	@XmlElement(name = PROPERTY_LOCKED_NAME)
@@ -211,7 +211,7 @@ public class MaterialSerial extends BusinessObject<MaterialSerial> implements IM
 
 	/**
 	 * 设置-锁定
-	 * 
+	 *
 	 * @param value
 	 *            值
 	 */
@@ -233,7 +233,7 @@ public class MaterialSerial extends BusinessObject<MaterialSerial> implements IM
 
 	/**
 	 * 获取-供应商序号
-	 * 
+	 *
 	 * @return 值
 	 */
 	@XmlElement(name = PROPERTY_SUPPLIERSERIAL_NAME)
@@ -243,7 +243,7 @@ public class MaterialSerial extends BusinessObject<MaterialSerial> implements IM
 
 	/**
 	 * 设置-供应商序号
-	 * 
+	 *
 	 * @param value
 	 *            值
 	 */
@@ -265,7 +265,7 @@ public class MaterialSerial extends BusinessObject<MaterialSerial> implements IM
 
 	/**
 	 * 获取-批次序号
-	 * 
+	 *
 	 * @return 值
 	 */
 	@XmlElement(name = PROPERTY_BATCHSERIAL_NAME)
@@ -275,7 +275,7 @@ public class MaterialSerial extends BusinessObject<MaterialSerial> implements IM
 
 	/**
 	 * 设置-批次序号
-	 * 
+	 *
 	 * @param value
 	 *            值
 	 */
@@ -297,7 +297,7 @@ public class MaterialSerial extends BusinessObject<MaterialSerial> implements IM
 
 	/**
 	 * 获取-过期日期
-	 * 
+	 *
 	 * @return 值
 	 */
 	@XmlElement(name = PROPERTY_EXPIRATIONDATE_NAME)
@@ -307,7 +307,7 @@ public class MaterialSerial extends BusinessObject<MaterialSerial> implements IM
 
 	/**
 	 * 设置-过期日期
-	 * 
+	 *
 	 * @param value
 	 *            值
 	 */
@@ -329,7 +329,7 @@ public class MaterialSerial extends BusinessObject<MaterialSerial> implements IM
 
 	/**
 	 * 获取-生产日期
-	 * 
+	 *
 	 * @return 值
 	 */
 	@XmlElement(name = PROPERTY_MANUFACTURINGDATE_NAME)
@@ -339,7 +339,7 @@ public class MaterialSerial extends BusinessObject<MaterialSerial> implements IM
 
 	/**
 	 * 设置-生产日期
-	 * 
+	 *
 	 * @param value
 	 *            值
 	 */
@@ -361,7 +361,7 @@ public class MaterialSerial extends BusinessObject<MaterialSerial> implements IM
 
 	/**
 	 * 获取-准入日期
-	 * 
+	 *
 	 * @return 值
 	 */
 	@XmlElement(name = PROPERTY_ADMISSIONDATE_NAME)
@@ -371,7 +371,7 @@ public class MaterialSerial extends BusinessObject<MaterialSerial> implements IM
 
 	/**
 	 * 设置-准入日期
-	 * 
+	 *
 	 * @param value
 	 *            值
 	 */
@@ -393,7 +393,7 @@ public class MaterialSerial extends BusinessObject<MaterialSerial> implements IM
 
 	/**
 	 * 获取-保修开始日期
-	 * 
+	 *
 	 * @return 值
 	 */
 	@XmlElement(name = PROPERTY_WARRANTYSTARTDATE_NAME)
@@ -403,7 +403,7 @@ public class MaterialSerial extends BusinessObject<MaterialSerial> implements IM
 
 	/**
 	 * 设置-保修开始日期
-	 * 
+	 *
 	 * @param value
 	 *            值
 	 */
@@ -425,7 +425,7 @@ public class MaterialSerial extends BusinessObject<MaterialSerial> implements IM
 
 	/**
 	 * 获取-保修结束日期
-	 * 
+	 *
 	 * @return 值
 	 */
 	@XmlElement(name = PROPERTY_WARRANTYENDDATE_NAME)
@@ -435,7 +435,7 @@ public class MaterialSerial extends BusinessObject<MaterialSerial> implements IM
 
 	/**
 	 * 设置-保修结束日期
-	 * 
+	 *
 	 * @param value
 	 *            值
 	 */
@@ -457,7 +457,7 @@ public class MaterialSerial extends BusinessObject<MaterialSerial> implements IM
 
 	/**
 	 * 获取-备注
-	 * 
+	 *
 	 * @return 值
 	 */
 	@XmlElement(name = PROPERTY_NOTES_NAME)
@@ -467,7 +467,7 @@ public class MaterialSerial extends BusinessObject<MaterialSerial> implements IM
 
 	/**
 	 * 设置-备注
-	 * 
+	 *
 	 * @param value
 	 *            值
 	 */
@@ -491,7 +491,7 @@ public class MaterialSerial extends BusinessObject<MaterialSerial> implements IM
 
 	/**
 	 * 获取-对象编号
-	 * 
+	 *
 	 * @return 值
 	 */
 	@XmlElement(name = PROPERTY_OBJECTKEY_NAME)
@@ -501,7 +501,7 @@ public class MaterialSerial extends BusinessObject<MaterialSerial> implements IM
 
 	/**
 	 * 设置-对象编号
-	 * 
+	 *
 	 * @param value
 	 *            值
 	 */
@@ -523,7 +523,7 @@ public class MaterialSerial extends BusinessObject<MaterialSerial> implements IM
 
 	/**
 	 * 获取-对象类型
-	 * 
+	 *
 	 * @return 值
 	 */
 	@XmlElement(name = PROPERTY_OBJECTCODE_NAME)
@@ -533,7 +533,7 @@ public class MaterialSerial extends BusinessObject<MaterialSerial> implements IM
 
 	/**
 	 * 设置-对象类型
-	 * 
+	 *
 	 * @param value
 	 *            值
 	 */
@@ -555,7 +555,7 @@ public class MaterialSerial extends BusinessObject<MaterialSerial> implements IM
 
 	/**
 	 * 获取-实例号
-	 * 
+	 *
 	 * @return 值
 	 */
 	@XmlElement(name = PROPERTY_LOGINST_NAME)
@@ -565,7 +565,7 @@ public class MaterialSerial extends BusinessObject<MaterialSerial> implements IM
 
 	/**
 	 * 设置-实例号
-	 * 
+	 *
 	 * @param value
 	 *            值
 	 */
@@ -587,7 +587,7 @@ public class MaterialSerial extends BusinessObject<MaterialSerial> implements IM
 
 	/**
 	 * 获取-服务系列
-	 * 
+	 *
 	 * @return 值
 	 */
 	@XmlElement(name = PROPERTY_SERIES_NAME)
@@ -597,7 +597,7 @@ public class MaterialSerial extends BusinessObject<MaterialSerial> implements IM
 
 	/**
 	 * 设置-服务系列
-	 * 
+	 *
 	 * @param value
 	 *            值
 	 */
@@ -619,7 +619,7 @@ public class MaterialSerial extends BusinessObject<MaterialSerial> implements IM
 
 	/**
 	 * 获取-数据源
-	 * 
+	 *
 	 * @return 值
 	 */
 	@XmlElement(name = PROPERTY_DATASOURCE_NAME)
@@ -629,7 +629,7 @@ public class MaterialSerial extends BusinessObject<MaterialSerial> implements IM
 
 	/**
 	 * 设置-数据源
-	 * 
+	 *
 	 * @param value
 	 *            值
 	 */
@@ -651,7 +651,7 @@ public class MaterialSerial extends BusinessObject<MaterialSerial> implements IM
 
 	/**
 	 * 获取-创建日期
-	 * 
+	 *
 	 * @return 值
 	 */
 	@XmlElement(name = PROPERTY_CREATEDATE_NAME)
@@ -661,7 +661,7 @@ public class MaterialSerial extends BusinessObject<MaterialSerial> implements IM
 
 	/**
 	 * 设置-创建日期
-	 * 
+	 *
 	 * @param value
 	 *            值
 	 */
@@ -683,7 +683,7 @@ public class MaterialSerial extends BusinessObject<MaterialSerial> implements IM
 
 	/**
 	 * 获取-创建时间
-	 * 
+	 *
 	 * @return 值
 	 */
 	@XmlElement(name = PROPERTY_CREATETIME_NAME)
@@ -693,7 +693,7 @@ public class MaterialSerial extends BusinessObject<MaterialSerial> implements IM
 
 	/**
 	 * 设置-创建时间
-	 * 
+	 *
 	 * @param value
 	 *            值
 	 */
@@ -715,7 +715,7 @@ public class MaterialSerial extends BusinessObject<MaterialSerial> implements IM
 
 	/**
 	 * 获取-更新日期
-	 * 
+	 *
 	 * @return 值
 	 */
 	@XmlElement(name = PROPERTY_UPDATEDATE_NAME)
@@ -725,7 +725,7 @@ public class MaterialSerial extends BusinessObject<MaterialSerial> implements IM
 
 	/**
 	 * 设置-更新日期
-	 * 
+	 *
 	 * @param value
 	 *            值
 	 */
@@ -747,7 +747,7 @@ public class MaterialSerial extends BusinessObject<MaterialSerial> implements IM
 
 	/**
 	 * 获取-更新时间
-	 * 
+	 *
 	 * @return 值
 	 */
 	@XmlElement(name = PROPERTY_UPDATETIME_NAME)
@@ -757,7 +757,7 @@ public class MaterialSerial extends BusinessObject<MaterialSerial> implements IM
 
 	/**
 	 * 设置-更新时间
-	 * 
+	 *
 	 * @param value
 	 *            值
 	 */
@@ -779,7 +779,7 @@ public class MaterialSerial extends BusinessObject<MaterialSerial> implements IM
 
 	/**
 	 * 获取-创建用户
-	 * 
+	 *
 	 * @return 值
 	 */
 	@XmlElement(name = PROPERTY_CREATEUSERSIGN_NAME)
@@ -789,7 +789,7 @@ public class MaterialSerial extends BusinessObject<MaterialSerial> implements IM
 
 	/**
 	 * 设置-创建用户
-	 * 
+	 *
 	 * @param value
 	 *            值
 	 */
@@ -811,7 +811,7 @@ public class MaterialSerial extends BusinessObject<MaterialSerial> implements IM
 
 	/**
 	 * 获取-更新用户
-	 * 
+	 *
 	 * @return 值
 	 */
 	@XmlElement(name = PROPERTY_UPDATEUSERSIGN_NAME)
@@ -821,7 +821,7 @@ public class MaterialSerial extends BusinessObject<MaterialSerial> implements IM
 
 	/**
 	 * 设置-更新用户
-	 * 
+	 *
 	 * @param value
 	 *            值
 	 */
@@ -843,7 +843,7 @@ public class MaterialSerial extends BusinessObject<MaterialSerial> implements IM
 
 	/**
 	 * 获取-创建动作标识
-	 * 
+	 *
 	 * @return 值
 	 */
 	@XmlElement(name = PROPERTY_CREATEACTIONID_NAME)
@@ -853,7 +853,7 @@ public class MaterialSerial extends BusinessObject<MaterialSerial> implements IM
 
 	/**
 	 * 设置-创建动作标识
-	 * 
+	 *
 	 * @param value
 	 *            值
 	 */
@@ -875,7 +875,7 @@ public class MaterialSerial extends BusinessObject<MaterialSerial> implements IM
 
 	/**
 	 * 获取-更新动作标识
-	 * 
+	 *
 	 * @return 值
 	 */
 	@XmlElement(name = PROPERTY_UPDATEACTIONID_NAME)
@@ -885,7 +885,7 @@ public class MaterialSerial extends BusinessObject<MaterialSerial> implements IM
 
 	/**
 	 * 设置-更新动作标识
-	 * 
+	 *
 	 * @param value
 	 *            值
 	 */

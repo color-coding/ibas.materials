@@ -1,9 +1,16 @@
 package org.colorcoding.ibas.materials.repository;
 
-import org.colorcoding.ibas.bobas.common.*;
+import org.colorcoding.ibas.bobas.common.ConditionOperation;
+import org.colorcoding.ibas.bobas.common.ConditionRelationship;
+import org.colorcoding.ibas.bobas.common.Criteria;
+import org.colorcoding.ibas.bobas.common.IChildCriteria;
+import org.colorcoding.ibas.bobas.common.ICondition;
+import org.colorcoding.ibas.bobas.common.ICriteria;
+import org.colorcoding.ibas.bobas.common.IOperationResult;
+import org.colorcoding.ibas.bobas.common.OperationResult;
+import org.colorcoding.ibas.bobas.data.ArrayList;
 import org.colorcoding.ibas.bobas.data.Decimal;
 import org.colorcoding.ibas.bobas.i18n.I18N;
-import org.colorcoding.ibas.bobas.logic.BusinessLogicException;
 import org.colorcoding.ibas.bobas.repository.BORepositoryServiceApplication;
 import org.colorcoding.ibas.materials.bo.goodsissue.GoodsIssue;
 import org.colorcoding.ibas.materials.bo.goodsissue.IGoodsIssue;
@@ -11,7 +18,13 @@ import org.colorcoding.ibas.materials.bo.goodsreceipt.GoodsReceipt;
 import org.colorcoding.ibas.materials.bo.goodsreceipt.IGoodsReceipt;
 import org.colorcoding.ibas.materials.bo.inventorytransfer.IInventoryTransfer;
 import org.colorcoding.ibas.materials.bo.inventorytransfer.InventoryTransfer;
-import org.colorcoding.ibas.materials.bo.material.*;
+import org.colorcoding.ibas.materials.bo.material.IMaterial;
+import org.colorcoding.ibas.materials.bo.material.IMaterialQuantity;
+import org.colorcoding.ibas.materials.bo.material.IProduct;
+import org.colorcoding.ibas.materials.bo.material.Material;
+import org.colorcoding.ibas.materials.bo.material.MaterialPrice;
+import org.colorcoding.ibas.materials.bo.material.MaterialQuantity;
+import org.colorcoding.ibas.materials.bo.material.Product;
 import org.colorcoding.ibas.materials.bo.materialbatch.IMaterialBatch;
 import org.colorcoding.ibas.materials.bo.materialbatch.IMaterialBatchJournal;
 import org.colorcoding.ibas.materials.bo.materialbatch.MaterialBatch;
@@ -31,8 +44,6 @@ import org.colorcoding.ibas.materials.bo.materialserial.MaterialSerial;
 import org.colorcoding.ibas.materials.bo.materialserial.MaterialSerialJournal;
 import org.colorcoding.ibas.materials.bo.warehouse.IWarehouse;
 import org.colorcoding.ibas.materials.bo.warehouse.Warehouse;
-
-import java.math.BigDecimal;
 
 /**
  * Materials仓库
@@ -653,50 +664,119 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
             //region  1、查询物料
             // 从查询中找到价格清单
             ICondition conditionPriceList = criteria.getConditions()
-                    .firstOrDefault(c -> c.getAlias().equalsIgnoreCase(MaterialPriceList.PROPERTY_OBJECTKEY.getName()));
+                    .firstOrDefault(c -> c.getAlias().equalsIgnoreCase(Product.PRICELIST_NAME));
             // 从查询中找到仓库
-            ICondition conditionWarehouse = criteria.getConditions()
-                    .firstOrDefault(c -> c.getAlias().equalsIgnoreCase(MaterialInventory.PROPERTY_WAREHOUSE.getName()));
+            ArrayList<ICondition> conditionWarehouse = new ArrayList<>();
+            criteria.getConditions().forEach(c -> {
+                if (c.getAlias().equalsIgnoreCase(Product.WAREHOUSE_NAME)) {
+                    conditionWarehouse.add(c);
+                }
+            });
+            ArrayList<String> filterConditons = new ArrayList<>();
+            filterConditons.add(Product.PRICELIST_NAME);
+            filterConditons.add(Product.WAREHOUSE_NAME);
+            // 查产品信息
+            OperationResult<Product> opRstProduct = super.fetch(this.filterCondition(criteria, filterConditons), token, Product.class);
+            if (opRstProduct.getError() != null) {
+                throw opRstProduct.getError();
+            }
             // 移出价格清单查询和仓库查询
             criteria.getConditions().remove(conditionPriceList);
-            criteria.getConditions().remove(conditionWarehouse);
-            // 查产品信息
-            OperationResult<Product> opRsltProduct = super.fetch(criteria, token, Product.class);
-            if (opRsltProduct.getError() != null) {
-                throw opRsltProduct.getError();
-            }
             //endregion
-            //region 2、遍历Product 查询库存数量
-            if (conditionWarehouse != null) {
-                // 清除所有条件，只添加仓库的查询条件
-                criteria.getConditions().clear();
-                criteria.getConditions().add(conditionWarehouse);
-                for (Product item : opRsltProduct.getResultObjects()) {
-                    MaterialQuantity materialQuantity = this.fetchMaterialQuantity(item.getCode(), criteria);
-                    item.setOnHand(materialQuantity.getOnHand());
+            //region 2、含有仓库条件 调用库存查询
+            if (!conditionWarehouse.isEmpty()) {
+                IOperationResult<MaterialQuantity> opRstMaterialQuantity = this.fetchMaterialQuantity(criteria);
+                if (opRstMaterialQuantity.getError() != null) {
+                    throw opRstMaterialQuantity.getError();
+                }
+                if (!opRstMaterialQuantity.getResultObjects().isEmpty()) {
+                    for (Product item : opRstProduct.getResultObjects()) {
+                        MaterialQuantity materialQuantity = opRstMaterialQuantity.getResultObjects().firstOrDefault(c -> c.getItemCode().equals(item.getCode()));
+                        if (materialQuantity != null && materialQuantity.getOnHand() != null) {
+                            item.setOnHand(materialQuantity.getOnHand());
+                        }
+                    }
                 }
             }
             //endregion
             // region 3、遍历Product 查询价格清单
             if (conditionPriceList != null) {
                 int priceList = Integer.parseInt(conditionPriceList.getValue());
-                for (Product item : opRsltProduct.getResultObjects()) {
-                    MaterialPrice materialPrice = this.fetchMaterialPrice(item.getCode(), priceList);
-                    item.setPrice(materialPrice.getPrice());
+                for (Product item : opRstProduct.getResultObjects()) {
+                    MaterialPrice materialPrice = this.fetchMaterialPrice(item.getCode(), priceList, null);
+                    if (materialPrice != null && materialPrice.getPrice() != null) {
+                        item.setPrice(materialPrice.getPrice());
+                    }
                 }
             }
             //endregion
-            return opRsltProduct;
+            return opRstProduct;
         } catch (Exception e) {
             return new OperationResult<>(e);
         }
     }
 
     /**
+     * 处理查询条件 处理括号
+     *
+     * @param criteria   查询条件
+     * @param conditions 过滤的条件
+     * @return
+     */
+    private ICriteria filterCondition(ICriteria criteria, ArrayList<String> conditions) {
+        // 浅拷贝，不能影响criteria的值
+        ICriteria criteria1Material = new Criteria();
+        criteria.getConditions().forEach(c -> criteria1Material.getConditions().add(c));
+        criteria.getSorts().forEach(c -> criteria1Material.getSorts().add(c));
+        criteria1Material.setResultCount(criteria.getResultCount());
+
+        for (int index = 0; index < criteria1Material.getConditions().size(); index++) {
+            String aliensValue = criteria1Material.getConditions().get(index).getAlias();
+            if (conditions.firstOrDefault(c -> c.equalsIgnoreCase(aliensValue)) != null) {
+                int bracketOpenCount = criteria1Material.getConditions().get(index).getBracketOpen();
+                int bracketCloseCount = criteria1Material.getConditions().get(index).getBracketClose();
+                // 自身开括号与闭括号不相等才处理，相等情况忽略
+                if (bracketCloseCount != bracketOpenCount) {
+                    //region 去掉自身双括号
+                    if (bracketOpenCount != 0 && bracketCloseCount != 0) {
+                        int bracketCount = Math.abs(bracketOpenCount - bracketCloseCount);
+                        bracketOpenCount = bracketOpenCount - bracketCount;
+                        bracketCloseCount = bracketCloseCount - bracketCount;
+                        criteria1Material.getConditions().get(index).setBracketOpen(bracketOpenCount);
+                        criteria1Material.getConditions().get(index).setBracketOpen(bracketCloseCount);
+                    }
+                    //endregion
+                    //region 处理开括号
+                    if (bracketOpenCount != 0) {
+                        if (index + 1 < criteria1Material.getConditions().size()) {
+                            int nextBracketOpenCount = criteria1Material.getConditions().get(index + 1).getBracketOpen();
+                            nextBracketOpenCount = nextBracketOpenCount + bracketOpenCount;
+                            criteria1Material.getConditions().get(index + 1).setBracketOpen(nextBracketOpenCount);
+                        }
+                    }
+                    //endregion
+                    //region 处理闭括号
+                    if (bracketCloseCount != 0) {
+                        if (index - 1 >= 0) {
+                            int preBracketCloseCount = criteria1Material.getConditions().get(index - 1).getBracketClose();
+                            preBracketCloseCount = preBracketCloseCount + bracketOpenCount;
+                            criteria1Material.getConditions().get(index - 1).setBracketClose(preBracketCloseCount);
+                        }
+                    }
+                    //endregion
+                }
+                criteria1Material.getConditions().remove(index);
+                index--;
+            }
+        }
+        return criteria1Material;
+    }
+
+    /**
      * 查询-产品信息（提前设置用户口令）
      *
      * @param criteria 查询
-     * @return
+     * @return 产品信息
      */
     @Override
     public IOperationResult<IProduct> fetchProduct(ICriteria criteria) {
@@ -709,7 +789,7 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
      * 查询-物料价格（提前设置用户口令）
      *
      * @param criteria 查询
-     * @return
+     * @return 操作结果
      */
     @Override
     public IOperationResult<MaterialPrice> fetchMaterialPrice(ICriteria criteria) {
@@ -721,30 +801,33 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
      *
      * @param criteria 查询
      * @param token    口令
-     * @return
+     * @return 物料价格
      */
     @Override
     public OperationResult<MaterialPrice> fetchMaterialPrice(ICriteria criteria, String token) {
         try {
-            OperationResult<MaterialPrice> operationResult = new OperationResult<MaterialPrice>();
+            OperationResult<MaterialPrice> operationResult = new OperationResult<>();
             // 从查询中找到价格清单
             ICondition conditionPriceList = criteria.getConditions()
-                    .firstOrDefault(c -> c.getAlias().equalsIgnoreCase(Product.PROPERTY_OBJECTCODE.getName()));
+                    .firstOrDefault(c -> c.getAlias().equalsIgnoreCase(MaterialPriceList.PROPERTY_OBJECTKEY.getName()));
             if (conditionPriceList == null) {
                 throw new Exception(I18N.prop("msg_mm_not_found_price_list"));
             }
-            // 移出价格清单查询
-            criteria.getConditions().remove(conditionPriceList);
+            ArrayList<String> filterConditons = new ArrayList<>();
+            filterConditons.add(MaterialPrice.PRICELIST_NAME);
             // 查物料
-            IOperationResult<IMaterial> opRsltMaterial = this.fetchMaterial(criteria);
-            if (opRsltMaterial.getError() != null) {
-                throw opRsltMaterial.getError();
+            IOperationResult<IMaterial> opRstMaterial = this.fetchMaterial(this.filterCondition(criteria, filterConditons));
+            if (opRstMaterial.getError() != null) {
+                throw opRstMaterial.getError();
             }
             // 循环物料查价格
             int priceList = Integer.parseInt(conditionPriceList.getValue());
-            for (IMaterial item : opRsltMaterial.getResultObjects()) {
-                MaterialPrice materialPrice = this.fetchMaterialPrice(item.getCode(), priceList);
+            for (IMaterial item : opRstMaterial.getResultObjects()) {
+                MaterialPrice materialPrice = this.fetchMaterialPrice(item.getCode(), priceList, null);
                 if (materialPrice != null) {
+                    if (materialPrice.getPrice() == null) {
+                        materialPrice.setPrice(item.getAvgPrice());
+                    }
                     operationResult.addResultObjects(materialPrice);
                 }
             }
@@ -757,18 +840,20 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
     /**
      * 查询物料对应价格清单的价格
      *
-     * @param itemCode
-     * @param priceList
-     * @return
+     * @param itemCode  物料
+     * @param priceList 价格清单
+     * @param factory   价格清单系数
+     * @return 物料价格清单
      */
-    private MaterialPrice fetchMaterialPrice(String itemCode, int priceList) {
+
+    private MaterialPrice fetchMaterialPrice(String itemCode, int priceList, Decimal factory) {
         try {
             ICriteria criteria = new Criteria();
             MaterialPrice materialPrice = new MaterialPrice();
             materialPrice.setItemCode(itemCode);
+            // region 价格清单查询条件
             IChildCriteria childCriteria;
             ICondition condition;
-            // region 价格清单查询条件
             condition = criteria.getConditions().create();
             condition.setAlias(MaterialPriceList.PROPERTY_OBJECTKEY.getName());
             condition.setValue(priceList);
@@ -787,64 +872,34 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
             if (opRstPriceList.getError() != null) {
                 throw opRstPriceList.getError();
             }
+            // 价格清单主表不存在
             if (opRstPriceList.getResultObjects().isEmpty()) {
                 return materialPrice;
             }
             IMaterialPriceList materialPriceList = opRstPriceList.getResultObjects().firstOrDefault();
-            // 该价格清单下找不到物料的记录
-            if (materialPriceList.getMaterialPriceItems().isEmpty()) {
+            // 主子表都有记录
+            if (materialPriceList != null && !materialPriceList.getMaterialPriceItems().isEmpty()) {
+                // 价格清单中找到该物料，计算价格
+                materialPrice.setCurrency(materialPriceList.getCurrency());
+                if (factory == null) {
+                    materialPrice.setPrice(materialPriceList.getMaterialPriceItems().firstOrDefault().getPrice());
+                } else {
+                    materialPrice.setPrice(materialPriceList.getMaterialPriceItems().firstOrDefault().getPrice().multiply(factory));
+                }
+                return materialPrice;
+            } else if (materialPriceList != null) {
+                // 只有主表有记录
+                if (factory == null) {
+                    factory = materialPriceList.getFactor();
+                } else {
+                    factory = materialPriceList.getFactor().multiply(factory);
+                }
+                return this.fetchMaterialPrice(itemCode, materialPriceList.getBasedOnList(), factory);
+            } else {
                 return materialPrice;
             }
-            if (materialPriceList.getMaterialPriceItems().firstOrDefault().getPrice().compareTo(BigDecimal.ZERO) == 0) {
-                materialPriceList = this.fetchMaterialPrice(materialPriceList, criteria);
-                // 赋值MaterialPrice对象
-            }
-            materialPrice.setPrice(materialPriceList.getMaterialPriceItems().firstOrDefault().getPrice());
-            materialPrice.setCurrency(materialPriceList.getCurrency());
-            return materialPrice;
         } catch (Exception e) {
-            throw new BusinessLogicException(String.format(I18N.prop("msg_mm_found_material_price_list_error"), itemCode, e.getMessage()));
-        }
-    }
-
-    /**
-     * 递归查询物料价格
-     *
-     * @param materialPriceList
-     * @param criteria
-     * @return
-     */
-    private IMaterialPriceList fetchMaterialPrice(IMaterialPriceList materialPriceList, ICriteria criteria) {
-        try {
-            // region 获取（最新的）价格清单基于单据号
-            int baseOnList = materialPriceList.getBasedOnList();
-            // 找到价格清单的条件
-            ICondition conditionPriceList = criteria.getConditions()
-                    .firstOrDefault(c -> c.getAlias().equalsIgnoreCase(MaterialPriceList.PROPERTY_OBJECTKEY.getName()));
-
-            // 价格清单重新赋值
-            conditionPriceList.setValue(baseOnList);
-            IOperationResult<IMaterialPriceList> opRstMaterialPriceList = this.fetchMaterialPriceList(criteria);
-            if (opRstMaterialPriceList.getError() != null) {
-                throw opRstMaterialPriceList.getError();
-            }
-            // endregion
-            // 查询出的价格
-            Decimal price = opRstMaterialPriceList.getResultObjects().firstOrDefault().getMaterialPriceItems().firstOrDefault().getPrice();
-            // 价格不为0，计算价格后返回
-            if (price.compareTo(BigDecimal.ZERO) != 0) {
-                materialPriceList.getMaterialPriceItems().firstOrDefault().setPrice(price.multiply(materialPriceList.getFactor()));
-            } else {
-                // 价格为0，更新factor和baseOnList的值，继续查询
-                materialPriceList.setFactor(opRstMaterialPriceList.getResultObjects().firstOrDefault().getFactor().multiply(materialPriceList.getFactor()));
-                materialPriceList.setBasedOnList(opRstMaterialPriceList.getResultObjects().firstOrDefault().getBasedOnList());
-                this.fetchMaterialPrice(materialPriceList, criteria);
-            }
-            return materialPriceList;
-        } catch (Exception e) {
-            throw new BusinessLogicException(String.format(I18N.prop("msg_mm_found_material_price_list_error")
-                    , materialPriceList.getMaterialPriceItems().firstOrDefault().getItemCode()
-                    , e.getMessage()));
+            throw new RuntimeException(e);
         }
     }
 
@@ -854,92 +909,65 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
      * 查询-物料库存数量（提前设置用户口令）
      *
      * @param criteria 查询
-     * @return
+     * @return 操作结果
      */
     @Override
     public IOperationResult<MaterialQuantity> fetchMaterialQuantity(ICriteria criteria) {
         return this.fetchMaterialQuantity(criteria, this.getUserToken());
     }
 
+
     /**
      * 查询-物料库存数量
      *
-     * @param criteria 查询
+     * @param criteria 查询 Material属性+MaterialQuantity常量
      * @param token    口令
-     * @return
+     * @return 物料库存数量
      */
     @Override
     public OperationResult<MaterialQuantity> fetchMaterialQuantity(ICriteria criteria, String token) {
         try {
-            OperationResult<MaterialQuantity> operationResult = new OperationResult<MaterialQuantity>();
-            // 从查询中找到仓库
-            ICondition conditionWarehouse = criteria.getConditions()
-                    .firstOrDefault(c -> c.getAlias().equalsIgnoreCase(MaterialInventory.PROPERTY_WAREHOUSE.getName()));
-
-            // 移出仓库
-            criteria.getConditions().remove(conditionWarehouse);
-            // 查物料
-            IOperationResult<IMaterial> opRsltMaterial = this.fetchMaterial(criteria);
-            if (opRsltMaterial.getError() != null) {
-                throw opRsltMaterial.getError();
+            OperationResult<MaterialQuantity> operationResult = new OperationResult<>();
+            // 从查询中找到所有的仓库
+            ArrayList<ICondition> conditions = new ArrayList<>();
+            for (ICondition item : criteria.getConditions()) {
+                if (item.getAlias().equals(MaterialQuantity.WAREHOUSE_NAME)) {
+                    conditions.add(item);
+                }
             }
-            // 没有仓库条件 查询所有库存
-            if (conditionWarehouse == null) {
-                // 查找所有仓库的库存 即物料对象的onHand值
-                operationResult.addResultObjects(MaterialQuantity.create(opRsltMaterial.getResultObjects()));
+            ArrayList<String> filterConditons = new ArrayList<>();
+            filterConditons.add(MaterialQuantity.WAREHOUSE_NAME);
+            IOperationResult<IMaterial> opRstMaterial = this.fetchMaterial(this.filterCondition(criteria, filterConditons));
+            if (opRstMaterial.getError() != null) {
+                throw opRstMaterial.getError();
+            }
+            // 如果仓库条件为空，返回物料库存；仓库条件不为空，以仓库作为条件查询库存
+            if (conditions.isEmpty()) {
+                operationResult.addResultObjects(MaterialQuantity.create(opRstMaterial.getResultObjects(), true));
             } else {
-                // 循环物料查询条件
+                // 去除仓库之外所有条件 查询库存
                 criteria.getConditions().clear();
-                criteria.getConditions().add(conditionWarehouse);
-                for (IMaterial item : opRsltMaterial.getResultObjects()) {
-                    MaterialQuantity materialQuantity = this.fetchMaterialQuantity(item.getCode(), criteria);
+                conditions.forEach(c -> criteria.getConditions().add(c));
+                IOperationResult<IMaterialInventory> opRstInventry = this.fetchMaterialInventory(criteria);
+                if (opRstInventry.getError() != null) {
+                    throw opRstInventry.getError();
+                }
+                // 创建物料库存集合，库存初始值为0
+                ArrayList<IMaterialQuantity> materialQuantities = MaterialQuantity.create(opRstMaterial.getResultObjects(), false);
+                for (IMaterialInventory item : opRstInventry.getResultObjects()) {
+                    IMaterialQuantity materialQuantity = materialQuantities.firstOrDefault(c -> c.getItemCode().equals(item.getItemCode()));
                     if (materialQuantity != null) {
-                        materialQuantity.setUOM(item.getInventoryUOM());
-                        operationResult.addResultObjects(materialQuantity);
+                        // 更新物料库存集合中物料的库存
+                        Decimal onHand = materialQuantity.getOnHand();
+                        onHand = onHand.add(item.getOnHand());
+                        materialQuantity.setOnHand(onHand);
                     }
                 }
+                operationResult.addResultObjects(materialQuantities);
             }
             return operationResult;
         } catch (Exception e) {
             return new OperationResult<>(e);
-        }
-    }
-
-    /**
-     * 查询物料对应仓库下的所有库存
-     *
-     * @param itemCode
-     * @param criteria 只包含仓库条件
-     * @return
-     */
-    private MaterialQuantity fetchMaterialQuantity(String itemCode, ICriteria criteria) {
-        try {
-            MaterialQuantity materialQuantity = new MaterialQuantity();
-            // region 定义新的查询条件 添加物料信息
-            ICondition condition = criteria.getConditions().create();
-            condition.setAlias(MaterialInventory.PROPERTY_ITEMCODE.getName());
-            condition.setValue(itemCode);
-            condition.setOperation(ConditionOperation.EQUAL);
-            condition.setRelationship(ConditionRelationship.AND);
-            // endregion
-            IOperationResult<IMaterialInventory> opRstInventry = this.fetchMaterialInventory(criteria);
-            if (opRstInventry.getError() != null) {
-                throw opRstInventry.getError();
-            }
-            materialQuantity.setItemCode(itemCode);
-            materialQuantity.setOnHand(0);
-            for (IMaterialInventory item : opRstInventry.getResultObjects()) {
-                Decimal onHand = materialQuantity.getOnHand();
-                onHand = onHand.add(item.getOnHand());
-                materialQuantity.setOnHand(onHand);
-            }
-            return materialQuantity;
-        } catch (Exception e) {
-            throw new BusinessLogicException(
-                    String.format(I18N.prop("msg_mm_found_material_inventory_error")
-                            , itemCode
-                            , e.getMessage())
-            );
         }
     }
 }

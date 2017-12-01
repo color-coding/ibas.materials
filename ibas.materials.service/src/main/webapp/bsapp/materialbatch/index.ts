@@ -7,4 +7,6 @@
  */
 export * from "./MaterialBatchIssueApp";
 export * from "./MaterialBatchReceiptApp";
+export * from "./MaterialBatchListApp";
+export * from "./MaterialBatchViewApp";
 export * from "./MaterialBatchFunc";

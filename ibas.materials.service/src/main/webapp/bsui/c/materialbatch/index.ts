@@ -7,3 +7,5 @@
  */
 export * from "./MaterialBatchReceiptView";
 export * from "./MaterialBatchIssueView";
+export * from "./MaterialBatchListView";
+export * from "./MaterialBatchViewView";

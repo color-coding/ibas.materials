@@ -62,8 +62,17 @@
   "materials_data_batch_serial": "批次/序列",
   "materials_app_batch_serial_choose_journalline": "凭证行",
   "materials_app_batch_quantity_create_error": "批次数量错误",
-  "materials_app_no_serialmanaged":"无序列管理物料",
-  "materials_app_no_batchmanaged":"无批次管理物料",
-  "materials_app_autoselectbatch_by_firstinfirstout":"先进先出",
-  "materials_app_autoselectbatch_by_batchno":"编号排序"
+  "materials_app_no_matched_documentline_to_choose_serial": "没有匹配的行需要选择序列",
+  "materials_app_no_matched_documentline_to_choose_batch": "没有匹配的行需要选择批次",
+  "materials_app_no_matched_documentline_to_create_serial": "没有匹配的行需要创建序列",
+  "materials_app_no_matched_documentline_to_create_batch": "没有匹配的行需要创建批次",
+  "materials_app_autoselectbatch_by_firstinfirstout": "先进先出",
+  "materials_app_autoselectbatch_by_batchno": "编号排序",
+  "materials_app_no_item": "没有填写行数据",
+  "materials_func_materialbatch": "批次",
+  "materials_func_materialserial": "序列号",
+  "materials_app_materialbatch_list": "批次列表",
+  "materials_app_materialbatch_view": "批次查看",
+  "materials_app_materialserial_list": "序列列表",
+  "materials_app_materialserial_view": "序列查看"
 }
