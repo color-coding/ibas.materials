@@ -125,5 +125,21 @@ public class MaterialSerialJournalService extends BusinessLogic<IMaterialSerialJ
             throw new BusinessLogicException(
                     String.format(I18N.prop("msg_mm_material_is_not_serialmanagement"), contract.getItemCode()));
         }
+        // 新建序列校验序列号是否存在
+        if(contract.getDirection() == emDirection.IN){
+            criteria.getConditions().remove(condition);
+            condition = criteria.getConditions().create();
+            condition.setAlias(MaterialSerial.PROPERTY_SERIALCODE.getName());
+            condition.setValue(contract.getSerialCode());
+            condition.setOperation(ConditionOperation.EQUAL);
+            IOperationResult<IMaterialSerial> opRstSerial = boRepository.fetchMaterialSerial(criteria);
+            if (opRstSerial.getError() != null) {
+                throw new BusinessLogicException(operationResult.getMessage());
+            }
+            if(opRstSerial.getResultObjects().size() != 0){
+                throw new BusinessLogicException(
+                        String.format(I18N.prop("msg_mm_material_serialcode_has_existed"), contract.getSerialCode()));
+            }
+        }
     }
 }

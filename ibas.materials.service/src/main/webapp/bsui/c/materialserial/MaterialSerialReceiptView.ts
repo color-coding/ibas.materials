@@ -81,22 +81,6 @@ export class MaterialSerialReceiptView extends ibas.BODialogView implements IMat
                     template: new sap.m.Input("", {
                     }).bindProperty("value", {
                         path: "SerialCode",
-                        type: new openui5.datatype.Alphanumeric({
-                            description: ibas.i18n.prop("bo_materialserial_serialcode"),
-                            validate(oValue: string): openui5.datatype.ValidateResult {
-                                let result: openui5.datatype.ValidateResult = new openui5.datatype.ValidateResult();
-                                result.status = true;
-                                let bo: bo.MaterialBatchJournal[] = that.table.getModel().getOriginalProperty("/rows");
-                                if (ibas.strings.isEmpty(oValue)) {
-                                    result.status = false;
-                                    result.message = ibas.i18n.prop("bo_materialserial_serialcode_is_empty");
-                                } else if (bo.filter(c => c.batchCode === oValue).length > 0) {
-                                    result.status = false;
-                                    result.message = ibas.i18n.prop("bo_materialserial_serialcode_is_exist");
-                                }
-                                return result;
-                            }
-                        })
                     })
                 }),
                 new sap.ui.table.Column("", {

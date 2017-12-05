@@ -26,6 +26,10 @@ import {
     IMaterialIssueBatchContractLine,
     IMaterialIssueSerialContractLine,
 } from "../../api/bo/index";
+import {
+    MaterialBatchIssueServiceProxy,
+    MaterialSerialIssueServiceProxy,
+} from "../../api/Datas";
 import { BORepositoryMaterials } from "../../borep/BORepositories";
 
 /** 编辑应用-库存发货 */
@@ -309,10 +313,9 @@ export class GoodsIssueEditApp extends ibas.BOEditApplication<IGoodsIssueEditVie
             return;
         }
         // 调用批次选择服务
-        ibas.servicesManager.runLineHandleService<IMaterialIssueBatchContract, IMaterialIssueBatchs>({
+        ibas.servicesManager.runApplicationService<IMaterialIssueBatchContract, IMaterialIssueBatchs>({
             caller: that.getBatchContract(goodIssueLines),
-            handleData: that.getBatchInfo(goodIssueLines),
-            boCode: bo.MaterialBatchJournal.BUSINESS_OBJECT_ISSUE_CODE,
+            proxy: MaterialBatchIssueServiceProxy,
             onCompleted(callbackData: IMaterialIssueBatchs): void {
                 // 获取触发的对象
                 if (!ibas.objects.isNull(callbackData)) {
@@ -339,10 +342,9 @@ export class GoodsIssueEditApp extends ibas.BOEditApplication<IGoodsIssueEditVie
             return;
         }
         // 调用序列选择服务
-        ibas.servicesManager.runLineHandleService<IMaterialIssueSerialContract, IMaterialIssueSerials>({
+        ibas.servicesManager.runApplicationService<IMaterialIssueSerialContract, IMaterialIssueSerials>({
             caller: that.getSerialContract(goodIssueLines),
-            handleData: that.getSerialInfo(goodIssueLines),
-            boCode: bo.MaterialSerialJournal.BUSINESS_OBJECT_ISSUE_CODE,
+            proxy: MaterialSerialIssueServiceProxy,
             onCompleted(callbackData: IMaterialIssueSerials): void {
                 // 获取触发的对象
                 for (let line of callbackData.materialIssueLineSerials) {

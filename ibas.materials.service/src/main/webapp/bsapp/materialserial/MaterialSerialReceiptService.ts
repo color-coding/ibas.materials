@@ -1,8 +1,8 @@
 /*
  * @Author: fancy
  * @Date: 2017-11-27 16:41:05
- * @Last Modified by:   fancy
- * @Last Modified time: 2017-11-27 16:41:05
+ * @Last Modified by: fancy
+ * @Last Modified time: 2017-12-05 14:58:45
  */
 
 /**
@@ -14,6 +14,9 @@
  */
 import * as ibas from "ibas/index";
 import * as bo from "../../borep/bo/index";
+import {
+    MaterialSerialReceiptServiceProxy,
+} from "../../api/Datas";
 import { BORepositoryMaterials } from "../../borep/BORepositories";
 import {
     IMaterialReceiptSerials,
@@ -23,7 +26,7 @@ import {
     IMaterialReceiptSerialContractLine,
 } from "../../api/bo/index";
 
-export class MaterialSerialReceiptApp extends ibas.BOApplication<IMaterialSerialReceiptView> {
+export class MaterialSerialReceiptService extends ibas.BOApplication<IMaterialSerialReceiptView> {
     /** 应用标识 */
     static APPLICATION_ID: string = "3533e07e-0c13-44cf-9543-adacb49dade2";
     /** 应用名称 */
@@ -33,9 +36,9 @@ export class MaterialSerialReceiptApp extends ibas.BOApplication<IMaterialSerial
     /** 构造函数 */
     constructor() {
         super();
-        this.id = MaterialSerialReceiptApp.APPLICATION_ID;
-        this.name = MaterialSerialReceiptApp.APPLICATION_NAME;
-        this.boCode = MaterialSerialReceiptApp.BUSINESS_OBJECT_CODE;
+        this.id = MaterialSerialReceiptService.APPLICATION_ID;
+        this.name = MaterialSerialReceiptService.APPLICATION_NAME;
+        this.boCode = MaterialSerialReceiptService.BUSINESS_OBJECT_CODE;
         this.description = ibas.i18n.prop(this.name);
     }
     /** 完成 */
@@ -258,14 +261,14 @@ export class MaterialSerialReceipServiceMapping extends ibas.ServiceMapping {
     /** 构造函数 */
     constructor() {
         super();
-        this.id = MaterialSerialReceiptApp.APPLICATION_ID;
-        this.name = MaterialSerialReceiptApp.APPLICATION_NAME;
-        this.category = MaterialSerialReceiptApp.BUSINESS_OBJECT_CODE;
+        this.id = MaterialSerialReceiptService.APPLICATION_ID;
+        this.name = MaterialSerialReceiptService.APPLICATION_NAME;
+        this.category = MaterialSerialReceiptService.BUSINESS_OBJECT_CODE;
         this.description = ibas.i18n.prop(this.name);
-        this.proxy = ibas.BOLineHandleServiceProxy;
+        this.proxy = MaterialSerialReceiptServiceProxy;
     }
     /** 创建服务并运行 */
-    create(): ibas.IService<ibas.IBOLineHandleServiceContract> {
-        return new MaterialSerialReceiptApp();
+    create(): ibas.IService<ibas.IApplicationServiceContract> {
+        return new MaterialSerialReceiptService();
     }
 }

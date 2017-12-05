@@ -16,7 +16,9 @@ import {
     IBOSimpleLine,
 } from "ibas/index";
 import {
+    IMaterialBatch,
     IMaterialBatchJournal,
+    IMaterialIssueBatchLine,
     IMaterialBatchServiceJournals,
 } from "./index";
 export interface IMaterialBatchService extends IBusinessObject {
@@ -57,4 +59,8 @@ export interface IMaterialBatchService extends IBusinessObject {
 export interface IMaterialBatchServiceJournals extends IBusinessObjects<IMaterialBatchJournal, IMaterialBatchService> {
     /** 创建并添加子项 */
     create(): IMaterialBatchJournal;
+
+    createJournal(data: IMaterialBatch): IMaterialBatchJournal;
+
+    createJournals(data: IMaterialIssueBatchLine[]): IMaterialBatchJournal[];
 }

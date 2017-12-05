@@ -60,4 +60,3 @@ export interface IMaterialIssueBatchLine extends IMaterialBatchBaseLine {
 
     warehouse?: string;
 }
-

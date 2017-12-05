@@ -2,7 +2,7 @@
  * @Author: fancy
  * @Date: 2017-11-27 16:40:53
  * @Last Modified by: fancy
- * @Last Modified time: 2017-11-28 11:19:46
+ * @Last Modified time: 2017-12-05 14:58:44
  */
 
 /**
@@ -16,6 +16,7 @@ import * as ibas from "ibas/index";
 import * as bo from "../../borep/bo/index";
 import {
     emAutoSelectBatchSerialRules,
+    MaterialSerialIssueServiceProxy,
 } from "../../api/Datas";
 import { BORepositoryMaterials } from "../../borep/BORepositories";
 import {
@@ -25,7 +26,7 @@ import {
     IMaterialIssueSerialContract,
     IMaterialIssueSerialContractLine,
 } from "../../api/bo/index";
-export class MaterialSerialIssueApp extends ibas.BOApplication<IMaterialSerialIssueView> {
+export class MaterialSerialIssueService extends ibas.BOApplication<IMaterialSerialIssueView> {
 
     /** 应用标识 */
     static APPLICATION_ID: string = "bdd08ed9-5d6b-4058-b8e5-f8fc6975a637";
@@ -37,9 +38,9 @@ export class MaterialSerialIssueApp extends ibas.BOApplication<IMaterialSerialIs
     /** 构造函数 */
     constructor() {
         super();
-        this.id = MaterialSerialIssueApp.APPLICATION_ID;
-        this.name = MaterialSerialIssueApp.APPLICATION_NAME;
-        this.boCode = MaterialSerialIssueApp.BUSINESS_OBJECT_CODE;
+        this.id = MaterialSerialIssueService.APPLICATION_ID;
+        this.name = MaterialSerialIssueService.APPLICATION_NAME;
+        this.boCode = MaterialSerialIssueService.BUSINESS_OBJECT_CODE;
         this.description = ibas.i18n.prop(this.name);
     }
     /** 完成 */
@@ -87,6 +88,11 @@ export class MaterialSerialIssueApp extends ibas.BOApplication<IMaterialSerialIs
         that.fetchSerialData(criteria, selected);
         that.view.showRightData(selected.materialSerialServiceJournals);
     }
+    /*
+    *  自动选择物料序列
+    *  selected  选中的凭证行
+    *  rules  自动选择序列规则
+    */
     protected autoSelectMaterialSerial(selected: bo.MaterialSerialService, rules: emAutoSelectBatchSerialRules): void {
         // 未选择凭证行
         if (ibas.objects.isNull(selected)) {
@@ -351,14 +357,14 @@ export class MaterialSerialIssueServiceMapping extends ibas.ServiceMapping {
     /** 构造函数 */
     constructor() {
         super();
-        this.id = MaterialSerialIssueApp.APPLICATION_ID;
-        this.name = MaterialSerialIssueApp.APPLICATION_NAME;
-        this.category = MaterialSerialIssueApp.BUSINESS_OBJECT_CODE;
+        this.id = MaterialSerialIssueService.APPLICATION_ID;
+        this.name = MaterialSerialIssueService.APPLICATION_NAME;
+        this.category = MaterialSerialIssueService.BUSINESS_OBJECT_CODE;
         this.description = ibas.i18n.prop(this.name);
-        this.proxy = ibas.BOLineHandleServiceProxy;
+        this.proxy = MaterialSerialIssueServiceProxy;
     }
     /** 创建服务并运行 */
-    create(): ibas.IService<ibas.IBOLineHandleServiceContract> {
-        return new MaterialSerialIssueApp();
+    create(): ibas.IService<ibas.IApplicationServiceContract> {
+        return new MaterialSerialIssueService();
     }
 }

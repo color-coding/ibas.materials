@@ -5,8 +5,8 @@
  * that can be found in the LICENSE file at http://www.apache.org/licenses/LICENSE-2.0
  * @Author: fancy
  * @Date: 2017-11-30 17:59:05
- * @Last Modified by:   fancy
- * @Last Modified time: 2017-11-30 17:59:05
+ * @Last Modified by: fancy
+ * @Last Modified time: 2017-12-05 14:58:08
  */
 
 import * as ibas from "ibas/index";
@@ -19,7 +19,10 @@ import {
     IMaterialReceiptBatchContract,
     IMaterialReceiptBatchContractLine,
 } from "../../api/bo/index";
-export class MaterialBatchReceiptApp extends ibas.BOApplication<IMaterialBatchReceiptView> {
+import {
+    MaterialBatchReceiptServiceProxy,
+} from "../../api/Datas";
+export class MaterialBatchReceiptService extends ibas.BOApplication<IMaterialBatchReceiptView> {
     /** 应用标识 */
     static APPLICATION_ID: string = "f4448871-b03a-48f5-bf6d-9418259fab9d";
     /** 应用名称 */
@@ -29,9 +32,9 @@ export class MaterialBatchReceiptApp extends ibas.BOApplication<IMaterialBatchRe
     /** 构造函数 */
     constructor() {
         super();
-        this.id = MaterialBatchReceiptApp.APPLICATION_ID;
-        this.name = MaterialBatchReceiptApp.APPLICATION_NAME;
-        this.boCode = MaterialBatchReceiptApp.BUSINESS_OBJECT_CODE;
+        this.id = MaterialBatchReceiptService.APPLICATION_ID;
+        this.name = MaterialBatchReceiptService.APPLICATION_NAME;
+        this.boCode = MaterialBatchReceiptService.BUSINESS_OBJECT_CODE;
         this.description = ibas.i18n.prop(this.name);
     }
     /** 完成 */
@@ -267,14 +270,14 @@ export class MaterialBatchReceipServiceMapping extends ibas.ServiceMapping {
     /** 构造函数 */
     constructor() {
         super();
-        this.id = MaterialBatchReceiptApp.APPLICATION_ID;
-        this.name = MaterialBatchReceiptApp.APPLICATION_NAME;
-        this.category = MaterialBatchReceiptApp.BUSINESS_OBJECT_CODE;
+        this.id = MaterialBatchReceiptService.APPLICATION_ID;
+        this.name = MaterialBatchReceiptService.APPLICATION_NAME;
+        this.category = MaterialBatchReceiptService.BUSINESS_OBJECT_CODE;
         this.description = ibas.i18n.prop(this.name);
-        this.proxy = ibas.BOLineHandleServiceProxy;
+        this.proxy = MaterialBatchReceiptServiceProxy;
     }
     /** 创建服务并运行 */
-    create(): ibas.IService<ibas.IBOLineHandleServiceContract> {
-        return new MaterialBatchReceiptApp();
+    create(): ibas.IService<ibas.IApplicationServiceContract> {
+        return new MaterialBatchReceiptService();
     }
 }

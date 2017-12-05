@@ -24,6 +24,10 @@ import {
     IMaterialReceiptBatchContract,
     IMaterialReceiptSerialContract,
 } from "../../api/bo/index";
+import {
+    MaterialBatchReceiptServiceProxy,
+    MaterialSerialReceiptServiceProxy,
+} from "../../api/Datas";
 import { BORepositoryMaterials } from "../../borep/BORepositories";
 
 /** 编辑应用-库存收货 */
@@ -301,10 +305,10 @@ export class GoodsReceiptEditApp extends ibas.BOEditApplication<IGoodsReceiptEdi
             this.messages(ibas.emMessageType.INFORMATION, ibas.i18n.prop("materials_app_no_matched_documentline_to_create_batch"));
             return;
         }
-        ibas.servicesManager.runLineHandleService<IMaterialReceiptBatchContract, IMaterialReceiptBatchs>({
+        ibas.servicesManager.runApplicationService<IMaterialReceiptBatchContract, IMaterialReceiptBatchs>({
             caller: that.getBatchContract(goodReceiptLines),
-            handleData: that.getBatchInfo(goodReceiptLines),
-            boCode: bo.MaterialBatchJournal.BUSINESS_OBJECT_RECEIPT_CODE,
+            // handleData: that.getBatchInfo(goodReceiptLines),
+            proxy: MaterialBatchReceiptServiceProxy,
             onCompleted(callbackData: IMaterialReceiptBatchs): void {
                 if (!ibas.objects.isNull(callbackData)) {
                     // 获取触发的对象
@@ -330,10 +334,10 @@ export class GoodsReceiptEditApp extends ibas.BOEditApplication<IGoodsReceiptEdi
             this.messages(ibas.emMessageType.INFORMATION, ibas.i18n.prop("materials_app_no_matched_documentline_to_create_serial"));
             return;
         }
-        ibas.servicesManager.runLineHandleService<IMaterialReceiptSerialContract, IMaterialReceiptSerials>({
+        ibas.servicesManager.runApplicationService<IMaterialReceiptSerialContract, IMaterialReceiptSerials>({
             caller: that.getSerialContract(goodReceiptLines),
-            handleData: that.getSerialInfo(goodReceiptLines),
-            boCode: bo.MaterialSerialJournal.BUSINESS_OBJECT_RECEIPT_CODE,
+            // handleData: that.getSerialInfo(goodReceiptLines),
+            proxy: MaterialSerialReceiptServiceProxy,
             onCompleted(callbackData: IMaterialReceiptSerials): void {
                 // 获取触发的对象
                 for (let line of callbackData.materialReceiptLineSerials) {

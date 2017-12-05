@@ -2,7 +2,7 @@
  * @Author: fancy
  * @Date: 2017-11-27 16:29:14
  * @Last Modified by: fancy
- * @Last Modified time: 2017-11-27 18:03:07
+ * @Last Modified time: 2017-12-05 14:57:42
  */
 /**
  * @license
@@ -13,7 +13,7 @@
  */
 import * as ibas from "ibas/index";
 import * as bo from "../../borep/bo/index";
-import { emAutoSelectBatchSerialRules } from "../../api/Datas";
+import { emAutoSelectBatchSerialRules,MaterialBatchIssueServiceProxy } from "../../api/Datas";
 import { BORepositoryMaterials } from "../../borep/BORepositories";
 import {
     IMaterialIssueBatchs,
@@ -23,7 +23,7 @@ import {
     IMaterialIssueBatchContractLine,
 } from "../../api/bo/index";
 
-export class MaterialBatchIssueApp extends ibas.BOApplication<IMaterialBatchIssueView> {
+export class MaterialBatchIssueService extends ibas.BOApplication<IMaterialBatchIssueView> {
 
     /** 应用标识 */
     static APPLICATION_ID: string = "141e2a0f-3120-40a3-9bb4-f8b61672ed9c";
@@ -34,9 +34,9 @@ export class MaterialBatchIssueApp extends ibas.BOApplication<IMaterialBatchIssu
     /** 构造函数 */
     constructor() {
         super();
-        this.id = MaterialBatchIssueApp.APPLICATION_ID;
-        this.name = MaterialBatchIssueApp.APPLICATION_NAME;
-        this.boCode = MaterialBatchIssueApp.BUSINESS_OBJECT_CODE;
+        this.id = MaterialBatchIssueService.APPLICATION_ID;
+        this.name = MaterialBatchIssueService.APPLICATION_NAME;
+        this.boCode = MaterialBatchIssueService.BUSINESS_OBJECT_CODE;
         this.description = ibas.i18n.prop(this.name);
     }
     /** 完成 */
@@ -471,14 +471,14 @@ export class MaterialBatchIssueServiceMapping extends ibas.ServiceMapping {
     /** 构造函数 */
     constructor() {
         super();
-        this.id = MaterialBatchIssueApp.APPLICATION_ID;
-        this.name = MaterialBatchIssueApp.APPLICATION_NAME;
-        this.category = MaterialBatchIssueApp.BUSINESS_OBJECT_CODE;
+        this.id = MaterialBatchIssueService.APPLICATION_ID;
+        this.name = MaterialBatchIssueService.APPLICATION_NAME;
+        this.category = MaterialBatchIssueService.BUSINESS_OBJECT_CODE;
         this.description = ibas.i18n.prop(this.name);
-        this.proxy = ibas.BOLineHandleServiceProxy;
+        this.proxy = MaterialBatchIssueServiceProxy;
     }
     /** 创建服务并运行 */
-    create(): ibas.IService<ibas.IBOLineHandleServiceContract> {
-        return new MaterialBatchIssueApp();
+    create(): ibas.IService<ibas.IApplicationServiceContract> {
+        return new MaterialBatchIssueService();
     }
 }
