@@ -34,6 +34,8 @@ export interface IMaterialIssueBatchContractLine extends IMaterialBaseContract {
     lineNum?: number;
     /** 单据类型 */
     objectType?: string;
+    /** 选择的批次 */
+    materialIssueLineBatch?: IMaterialIssueLineBatch;
 }
 
 /** 物料出库行批次信息 */

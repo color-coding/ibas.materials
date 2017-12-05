@@ -33,8 +33,8 @@ export interface IMaterialIssueSerialContractLine extends IMaterialBaseContract 
     /** 单据类型 */
     objectType?: string;
 
-    /** 物料序列 */
-    materialIssueSerials?:IMaterialIssueSerials;
+    /** 选择的序列 */
+    materialIssueLineSerial?:IMaterialIssueLineSerial;
 }
 
 /** 物料出库行序列信息 */

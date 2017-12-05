@@ -2,7 +2,7 @@
  * @Author: fancy
  * @Date: 2017-11-27 16:29:14
  * @Last Modified by: fancy
- * @Last Modified time: 2017-12-05 14:57:42
+ * @Last Modified time: 2017-12-05 16:11:09
  */
 /**
  * @license
@@ -13,7 +13,7 @@
  */
 import * as ibas from "ibas/index";
 import * as bo from "../../borep/bo/index";
-import { emAutoSelectBatchSerialRules,MaterialBatchIssueServiceProxy } from "../../api/Datas";
+import { emAutoSelectBatchSerialRules, MaterialBatchIssueServiceProxy } from "../../api/Datas";
 import { BORepositoryMaterials } from "../../borep/BORepositories";
 import {
     IMaterialIssueBatchs,
@@ -360,11 +360,6 @@ export class MaterialBatchIssueService extends ibas.BOApplication<IMaterialBatch
         if (arguments[0].caller.materialIssueBatchContractLines.length >= 1) {
             that.bindBatchServiceData(arguments[0].caller);
         }
-        // 选择的批次
-        if (!ibas.objects.isNull(arguments[0].handleData)
-            && arguments[0].handleData.materialIssueLineBatchs.length >= 1) {
-            that.bindBatchServiceDataLine(arguments[0].handleData);
-        }
         this.onCompleted = arguments[0].onCompleted;
         super.run.apply(this, args);
     }
@@ -374,6 +369,11 @@ export class MaterialBatchIssueService extends ibas.BOApplication<IMaterialBatch
         for (let item of contract.materialIssueBatchContractLines) {
             let batchServiceData: bo.MaterialBatchService = bo.MaterialBatchService.create(item);
             batchServiceData.direction = ibas.emDirection.OUT;
+            if (!ibas.objects.isNull(item.materialIssueLineBatch)) {
+                if (!ibas.objects.isNull(item.materialIssueLineBatch.materialIssueBatchLines)) {
+                    batchServiceData.materialBatchServiceJournals.createJournals(item.materialIssueLineBatch.materialIssueBatchLines);
+                }
+            }
             batchServiceDatas.push(batchServiceData);
         }
         this.batchServiceDatas = batchServiceDatas;
@@ -391,8 +391,8 @@ export class MaterialBatchIssueService extends ibas.BOApplication<IMaterialBatch
         }
     }
     /** 获取回传信息 */
-    getCallBackData(): IMaterialIssueLineBatch[] {
-        let callBack: IMaterialIssueLineBatch[] = [];
+    getResultData(): IMaterialIssueLineBatch[] {
+        let resultData: IMaterialIssueLineBatch[] = [];
         for (let item of this.batchServiceDatas) {
             let batchContract: IMaterialIssueLineBatch = {
                 index: item.index,
@@ -410,9 +410,9 @@ export class MaterialBatchIssueService extends ibas.BOApplication<IMaterialBatch
                     batchContract.materialIssueBatchLines.push(batchLine);
                 }
             }
-            callBack.push(batchContract);
+            resultData.push(batchContract);
         }
-        return callBack;
+        return resultData;
     }
     protected saveData(): void {
         // 批次数量错误
@@ -422,7 +422,7 @@ export class MaterialBatchIssueService extends ibas.BOApplication<IMaterialBatch
                 return;
             }
         }
-        this.fireCompleted({ materialIssueLineBatchs: this.getCallBackData() });
+        this.fireCompleted({ materialIssueLineBatchs: this.getResultData() });
     }
     /** 触发完成事件 */
     private fireCompleted(selecteds: IMaterialIssueBatchs): void {

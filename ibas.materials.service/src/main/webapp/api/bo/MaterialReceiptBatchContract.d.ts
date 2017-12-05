@@ -34,8 +34,8 @@ export interface IMaterialReceiptBatchContractLine extends IMaterialBaseContract
     /** 单据类型 */
     objectType?: string;
 
-    /** 物料批次 */
-    materialReceiptBatchs?: IMaterialReceiptBatchs
+    /** 创建的物料批次 */
+    materialReceiptLineBatch?: IMaterialReceiptLineBatch
 }
 
 

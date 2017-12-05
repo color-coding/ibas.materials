@@ -135,21 +135,5 @@ public class MaterialBatchJournalSerivce extends BusinessLogic<IMaterialBatchJou
             throw new BusinessLogicException(
                     String.format(I18N.prop("msg_mm_material_is_not_batchmanagement"), contract.getItemCode()));
         }
-        // 新建批次，校验批次是否存
-        if(contract.getDirection() == emDirection.IN){
-            criteria.getConditions().remove(condition);
-            condition = criteria.getConditions().create();
-            condition.setAlias(MaterialBatch.PROPERTY_BATCHCODE.getName());
-            condition.setValue(contract.getBatchCode());
-            condition.setOperation(ConditionOperation.EQUAL);
-            IOperationResult<IMaterialBatch> opRstBatch = boRepository.fetchMaterialBatch(criteria);
-            if (opRstBatch.getError() != null) {
-                throw new BusinessLogicException(opRstBatch.getMessage());
-            }
-            if(opRstBatch.getResultObjects().size() !=0){
-                throw new BusinessLogicException(
-                        String.format(I18N.prop("msg_mm_material_batchcode_has_existed"), contract.getBatchCode()));
-            }
-        }
     }
 }

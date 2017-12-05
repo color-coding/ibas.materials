@@ -2,7 +2,7 @@
  * @Author: fancy
  * @Date: 2017-11-27 16:41:05
  * @Last Modified by: fancy
- * @Last Modified time: 2017-12-05 14:58:45
+ * @Last Modified time: 2017-12-05 16:14:31
  */
 
 /**
@@ -145,25 +145,19 @@ export class MaterialSerialReceiptService extends ibas.BOApplication<IMaterialSe
         for (let item of contract.materialReceiptSerialContractLines) {
             let serialServiceData: bo.MaterialSerialService = bo.MaterialSerialService.create(item);
             serialServiceData.direction = ibas.emDirection.OUT;
+            if (!ibas.objects.isNull(item.materialReceiptLineSerial)
+                && !ibas.objects.isNull(item.materialReceiptLineSerial.materialReceiptSerialLines)) {
+                serialServiceData.materialSerialServiceJournals.createJournals(
+                    item.materialReceiptLineSerial.materialReceiptSerialLines
+                );
+            }
             serialServiceDatas.push(serialServiceData);
         }
         this.serialServiceDatas = serialServiceDatas;
     }
-    /** 绑定服务行数据 */
-    bindSerialServiceDataLine(editData: IMaterialReceiptSerials): void {
-        if (!ibas.objects.isNull(this.serialServiceDatas)) {
-            for (let item of editData.materialReceiptLineSerials) {
-                let serialLine: bo.MaterialSerialService = this.serialServiceDatas[item.index];
-                if (!ibas.objects.isNull(serialLine)
-                    && item.materialReceiptSerialLines.length > 0) {
-                    serialLine.materialSerialServiceJournals.createJournals(item.materialReceiptSerialLines);
-                }
-            }
-        }
-    }
     /** 获取回传信息 */
-    getCallBackData(): IMaterialReceiptLineSerial[] {
-        let callBack: IMaterialReceiptLineSerial[] = [];
+    getResultData(): IMaterialReceiptLineSerial[] {
+        let resultData: IMaterialReceiptLineSerial[] = [];
         for (let item of this.serialServiceDatas) {
             let batchContract: IMaterialReceiptLineSerial = {
                 index: item.index,
@@ -180,20 +174,15 @@ export class MaterialSerialReceiptService extends ibas.BOApplication<IMaterialSe
                     batchContract.materialReceiptSerialLines.push(batchLine);
                 }
             }
-            callBack.push(batchContract);
+            resultData.push(batchContract);
         }
-        return callBack;
+        return resultData;
     }
     /** 运行,覆盖原方法 */
     run(...args: any[]): void {
         let that: this = this;
         if (arguments[0].caller.materialReceiptSerialContractLines.length >= 1) {
             that.bindSerialServiceData(arguments[0].caller);
-        }
-        // 选择的序列
-        if (!ibas.objects.isNull(arguments[0].handleData)
-            && arguments[0].handleData.materialReceiptLineSerials.length >= 1) {
-            that.bindSerialServiceDataLine(arguments[0].handleData);
         }
         this.onCompleted = arguments[0].onCompleted;
         super.run.apply(this, args);
@@ -212,7 +201,7 @@ export class MaterialSerialReceiptService extends ibas.BOApplication<IMaterialSe
                 return;
             }
         }
-        this.fireCompleted({ materialReceiptLineSerials: this.getCallBackData() });
+        this.fireCompleted({ materialReceiptLineSerials: this.getResultData() });
     }
     /** 触发完成事件 */
     private fireCompleted(createds: IMaterialReceiptSerials): void {

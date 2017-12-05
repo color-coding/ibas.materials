@@ -513,10 +513,10 @@ export class GoodsIssueMaterialBatchJournals extends BusinessObjects<MaterialBat
         this.add(item);
         return item;
     }
-    /** 该行的批次日记账集合标记为删除 */
-    deleteAll(): void {
+    /** 移除批次日记账集合 */
+    removeAll(): void {
         for (let item of this) {
-            item.delete();
+            this.remove(item);
         }
     }
     /** 监听父项属性改变 */
@@ -548,10 +548,10 @@ export class GoodsIssueMaterialSerialJournals extends BusinessObjects<MaterialSe
         this.add(item);
         return item;
     }
-    /** 该行的序列日记账集合标记为删除 */
-    deleteAll(): void {
+    /** 移除序列日记账集合 */
+    removeAll(): void {
         for (let item of this) {
-            item.delete();
+            this.remove(item);
         }
     }
     /** 监听父项属性改变 */

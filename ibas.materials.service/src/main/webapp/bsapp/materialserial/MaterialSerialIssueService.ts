@@ -2,7 +2,7 @@
  * @Author: fancy
  * @Date: 2017-11-27 16:40:53
  * @Last Modified by: fancy
- * @Last Modified time: 2017-12-05 14:58:44
+ * @Last Modified time: 2017-12-05 16:15:34
  */
 
 /**
@@ -239,25 +239,19 @@ export class MaterialSerialIssueService extends ibas.BOApplication<IMaterialSeri
         for (let item of contract.materialIssueSerialContractLines) {
             let serialServiceData: bo.MaterialSerialService = bo.MaterialSerialService.create(item);
             serialServiceData.direction = ibas.emDirection.OUT;
+            if (!ibas.objects.isNull(item.materialIssueLineSerial)
+                && !ibas.objects.isNull(item.materialIssueLineSerial.materialIssueSerialLines)) {
+                serialServiceData.materialSerialServiceJournals.createJournals(
+                    item.materialIssueLineSerial.materialIssueSerialLines
+                );
+            }
             serialServiceDatas.push(serialServiceData);
         }
         this.serialServiceDatas = serialServiceDatas;
     }
-    /** 绑定服务行数据 */
-    bindSerialServiceDataLine(editData: IMaterialIssueSerials): void {
-        if (!ibas.objects.isNull(this.serialServiceDatas)) {
-            for (let item of editData.materialIssueLineSerials) {
-                let serialLine: bo.MaterialSerialService = this.serialServiceDatas[item.index];
-                if (!ibas.objects.isNull(serialLine)
-                    && item.materialIssueSerialLines.length > 0) {
-                    serialLine.materialSerialServiceJournals.createJournals(item.materialIssueSerialLines);
-                }
-            }
-        }
-    }
     /** 获取回传信息 */
-    getCallBackData(): IMaterialIssueLineSerial[] {
-        let callBack: IMaterialIssueLineSerial[] = [];
+    getResultData(): IMaterialIssueLineSerial[] {
+        let resultData: IMaterialIssueLineSerial[] = [];
         for (let item of this.serialServiceDatas) {
             let batchContract: IMaterialIssueLineSerial = {
                 index: item.index,
@@ -274,9 +268,9 @@ export class MaterialSerialIssueService extends ibas.BOApplication<IMaterialSeri
                     batchContract.materialIssueSerialLines.push(batchLine);
                 }
             }
-            callBack.push(batchContract);
+            resultData.push(batchContract);
         }
-        return callBack;
+        return resultData;
     }
     protected filterSelected(fetchData: bo.MaterialSerial[], selected: bo.MaterialSerialService): bo.MaterialSerial[] {
         if (selected.materialSerialServiceJournals.length === 0) {
@@ -298,16 +292,11 @@ export class MaterialSerialIssueService extends ibas.BOApplication<IMaterialSeri
         if (arguments[0].caller.materialIssueSerialContractLines.length >= 1) {
             that.bindSerialServiceData(arguments[0].caller);
         }
-        // 选择的批次
-        if (!ibas.objects.isNull(arguments[0].handleData)
-            && arguments[0].handleData.materialIssueLineSerials.length >= 1) {
-            that.bindSerialServiceDataLine(arguments[0].handleData);
-        }
         this.onCompleted = arguments[0].onCompleted;
         super.run.apply(this, args);
     }
     protected saveData(): void {
-        this.fireCompleted({ materialIssueLineSerials: this.getCallBackData() });
+        this.fireCompleted({ materialIssueLineSerials: this.getResultData() });
     }
     /** 触发完成事件 */
     private fireCompleted(selecteds: IMaterialIssueSerials): void {
