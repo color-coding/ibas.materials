@@ -11,6 +11,7 @@ import {
     emBOStatus,
     emDirection,
     emApprovalStatus,
+    BusinessObjectBase,
     BusinessObject,
     BusinessObjects,
     BOMasterData,
@@ -27,6 +28,9 @@ import {
     IMaterialSerial,
     IMaterialSerialService,
     IMaterialSerialServiceJournals,
+    IMaterialIssueSerialLine,
+    IMaterialSerialJournal,
+    IMaterialIssueSerialContractLine,
     BO_CODE_MATERIALSERIALSERVICE,
     BO_CODE_RECEIPT_MATERIALBATCH,
     BO_CODE_ISSUE_MATERIALBATCH
@@ -37,7 +41,7 @@ import {
 } from "./index";
 
 
-export class MaterialSerialService extends BOSimple<MaterialSerialService> implements IMaterialSerialService {
+export class MaterialSerialService extends BusinessObjectBase<MaterialSerialService> implements IMaterialSerialService {
     /** 业务对象编码 */
     static BUSINESS_OBJECT_CODE: string = BO_CODE_MATERIALSERIALSERVICE;
     static BUSINESS_OBJECT_RECEIEPT_CODE: string = BO_CODE_RECEIPT_MATERIALBATCH;
@@ -46,7 +50,15 @@ export class MaterialSerialService extends BOSimple<MaterialSerialService> imple
     constructor() {
         super();
     }
-
+    public static create(data: IMaterialIssueSerialContractLine): MaterialSerialService {
+        let serialServiceData: MaterialSerialService = new MaterialSerialService();
+        serialServiceData.index = data.index;
+        serialServiceData.itemCode = data.itemCode;
+        serialServiceData.warehouse = data.warehouse;
+        serialServiceData.quantity = data.quantity;
+        serialServiceData.needSerialQuantity = data.quantity;
+        return serialServiceData;
+    }
     /** 映射的属性名称-行索引 */
     static PROPERTY_INDEX_NAME: string = "Index";
     /** 获取-行索引 */
@@ -122,16 +134,6 @@ export class MaterialSerialService extends BOSimple<MaterialSerialService> imple
     set selectedSerialQuantity(value: number) {
         this.setProperty(MaterialSerialService.PROPERTY_SELECTEDSERIALQUANTITY_NAME, value);
     }
-    /** 映射的属性名称-对象编号 */
-    static PROPERTY_OBJECTKEY_NAME: string = "ObjectKey";
-    /** 获取-对象编号 */
-    get objectKey(): number {
-        return this.getProperty<number>(MaterialSerialService.PROPERTY_OBJECTKEY_NAME);
-    }
-    /** 设置-对象编号 */
-    set objectKey(value: number) {
-        this.setProperty(MaterialSerialService.PROPERTY_OBJECTKEY_NAME, value);
-    }
 
     /** 映射的属性名称-数量 */
     static PROPERTY_QUANTITY_NAME: string = "Quantity";
@@ -180,6 +182,19 @@ export class MaterialSerialServiceJournals extends BusinessObjects<MaterialSeria
         item.direction = this.parent.direction;
         this.add(item);
         return item;
+    }
+    /** 创建并添加子项集合 */
+    createJournals(data: IMaterialIssueSerialLine[]): IMaterialSerialJournal[] {
+        let serialJournals: IMaterialSerialJournal[] = [];
+        for (let item of data) {
+            let JournalItem: MaterialSerialJournal = this.create();
+            JournalItem.serialCode = item.serialCode;
+            JournalItem.itemCode = this.parent.itemCode;
+            JournalItem.warehouse = this.parent.warehouse;
+            JournalItem.direction = this.parent.direction;
+            serialJournals.push(JournalItem);
+        }
+        return serialJournals;
     }
     /** 移除子项 */
     protected afterRemove(item: MaterialSerialJournal): void {

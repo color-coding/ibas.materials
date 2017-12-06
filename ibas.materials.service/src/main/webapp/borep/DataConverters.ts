@@ -80,7 +80,7 @@ class BOConverter4mm extends ibas.BOConverter {
             if (property === bo.MaterialSerialJournal.PROPERTY_DIRECTION_NAME) {
                 return ibas.enums.valueOf(ibas.emDirection, value);
             } else if (property === bo.MaterialSerialJournal.PROPERTY_INSTOCK_NAME) {
-                return ibas.enums.valueOf(ibas.emDirection, value);
+                return ibas.enums.valueOf(ibas.emYesNo, value);
             }
         } else if (boName === bo.Material.name) {
             if (property === bo.Material.PROPERTY_SERIALMANAGEMENT_NAME

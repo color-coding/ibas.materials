@@ -8,6 +8,8 @@
 
 // 共享的数据
 import {
+    ServiceProxy,
+    IApplicationServiceContract,
     strings,
     MODULE_REPOSITORY_NAME_TEMPLATE,
 } from "ibas/index";
@@ -77,4 +79,21 @@ export enum emAutoSelectBatchSerialRules {
     FIRSTINLASTOUT,
     /** 编码排序 */
     ORDERBYCODE,
+}
+
+/** 物料批次创建服务代理 */
+export class MaterialBatchReceiptServiceProxy extends ServiceProxy<IApplicationServiceContract> {
+
+}
+/** 物料批次选择服务代理 */
+export class MaterialBatchIssueServiceProxy extends ServiceProxy<IApplicationServiceContract> {
+
+}
+/** 物料序列创建服务代理 */
+export class MaterialSerialReceiptServiceProxy extends ServiceProxy<IApplicationServiceContract> {
+
+}
+/** 物料序列选择服务代理 */
+export class MaterialSerialIssueServiceProxy extends ServiceProxy<IApplicationServiceContract> {
+
 }

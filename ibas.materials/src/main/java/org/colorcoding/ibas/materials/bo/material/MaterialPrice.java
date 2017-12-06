@@ -2,51 +2,98 @@ package org.colorcoding.ibas.materials.bo.material;
 
 import org.colorcoding.ibas.bobas.data.Decimal;
 import org.colorcoding.ibas.materials.MyConfiguration;
+import org.colorcoding.ibas.materials.bo.materialpricelist.IMaterialPriceItem;
 
-import javax.xml.bind.annotation.*;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlType;
 
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlType(name = "MaterialPrice", namespace = MyConfiguration.NAMESPACE_BO)
 @XmlRootElement(name = "MaterialPrice", namespace = MyConfiguration.NAMESPACE_BO)
-public class MaterialPrice {
+public class MaterialPrice implements IMaterialPrice {
 
-	@XmlElement(name = "ItemCode")
-	private String itemCode;
 
-	public final String getItemCode() {
-		return itemCode;
-	}
+    /**
+     * 创建物料价格清单
+     *
+     * @param material 物料
+     * @return
+     */
+    public static IMaterialPrice create(IMaterial material) {
+        IMaterialPrice materialPrice = new MaterialPrice();
+        materialPrice.setItemCode(material.getCode());
+        materialPrice.setPrice(material.getAvgPrice());
+        return materialPrice;
+    }
 
-	public final void setItemCode(String itemCode) {
-		this.itemCode = itemCode;
-	}
+    /**
+     * 创建物料价格清单
+     *
+     * @param priceItem 物料价格清单
+     * @return
+     */
+    public static IMaterialPrice create(IMaterialPriceItem priceItem) {
+        IMaterialPrice materialPrice = new MaterialPrice();
+        materialPrice.setItemCode(priceItem.getItemCode());
+        materialPrice.setPrice(priceItem.getPrice());
+        return materialPrice;
+    }
 
-	@XmlElement(name = "Price")
-	private Decimal price;
+    /**
+     * 价格清单查询
+     */
+    public static final String PRICELIST_NAME = "ObjectKey";
 
-	public final Decimal getPrice() {
-		return price;
-	}
+    @XmlElement(name = "ItemCode")
+    private String itemCode;
 
-	public final void setPrice(Decimal price) {
-		this.price = price;
-	}
-	public final void setPrice(int value) {
-		this.setPrice(new Decimal(value));
-	}
+    @Override
+    public final String getItemCode() {
+        return itemCode;
+    }
 
-	public final void setPrice(double value) {
-		this.setPrice(new Decimal(value));
-	}
-	@XmlElement(name = "Currency")
-	private String currency;
+    @Override
+    public final void setItemCode(String itemCode) {
+        this.itemCode = itemCode;
+    }
 
-	public final String getCurrency() {
-		return currency;
-	}
+    @XmlElement(name = "Price")
+    private Decimal price;
 
-	public final void setCurrency(String currency) {
-		this.currency = currency;
-	}
+    @Override
+    public final Decimal getPrice() {
+        return price;
+    }
+
+    @Override
+    public final void setPrice(Decimal price) {
+        this.price = price;
+    }
+
+    @Override
+    public final void setPrice(int value) {
+        this.setPrice(new Decimal(value));
+    }
+
+    @Override
+    public final void setPrice(double value) {
+        this.setPrice(new Decimal(value));
+    }
+
+    @XmlElement(name = "Currency")
+    private String currency;
+
+    @Override
+    public final String getCurrency() {
+        return currency;
+    }
+
+    @Override
+    public final void setCurrency(String currency) {
+        this.currency = currency;
+    }
 
 }

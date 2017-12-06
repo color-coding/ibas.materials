@@ -69,6 +69,17 @@ export class MaterialBatchJournal extends BOSimple<MaterialBatchJournal> impleme
         this.setProperty(MaterialBatchJournal.PROPERTY_WAREHOUSE_NAME, value);
     }
 
+    /** 映射的属性名称-单据状态 */
+    static PROPERTY_LINESTATUS_NAME: string = "LineStatus";
+    /** 获取-单据状态 */
+    get lineStatus(): emDocumentStatus {
+        return this.getProperty<emDocumentStatus>(MaterialBatchJournal.PROPERTY_LINESTATUS_NAME);
+    }
+    /** 设置-单据状态 */
+    set lineStatus(value: emDocumentStatus) {
+        this.setProperty(MaterialBatchJournal.PROPERTY_LINESTATUS_NAME, value);
+    }
+
     /** 映射的属性名称-方向 */
     static PROPERTY_DIRECTION_NAME: string = "Direction";
     /** 获取-仓库编号 */
@@ -134,16 +145,16 @@ export class MaterialBatchJournal extends BOSimple<MaterialBatchJournal> impleme
     set expirationDate(value: Date) {
         this.setProperty(MaterialBatchJournal.PROPERTY_EXPIRATIONDATE_NAME, value);
     }
-     /** 映射的属性名称-生产日期 */
-     static PROPERTY_MANUFACTURINGDATE_NAME: string = "ManufacturingDate";
-     /** 获取-生产日期 */
-     get manufacturingDate(): Date {
-         return this.getProperty<Date>(MaterialBatchJournal.PROPERTY_MANUFACTURINGDATE_NAME);
-     }
-     /** 设置-生产日期 */
-     set manufacturingDate(value: Date) {
-         this.setProperty(MaterialBatchJournal.PROPERTY_MANUFACTURINGDATE_NAME, value);
-     }
+    /** 映射的属性名称-生产日期 */
+    static PROPERTY_MANUFACTURINGDATE_NAME: string = "ManufacturingDate";
+    /** 获取-生产日期 */
+    get manufacturingDate(): Date {
+        return this.getProperty<Date>(MaterialBatchJournal.PROPERTY_MANUFACTURINGDATE_NAME);
+    }
+    /** 设置-生产日期 */
+    set manufacturingDate(value: Date) {
+        this.setProperty(MaterialBatchJournal.PROPERTY_MANUFACTURINGDATE_NAME, value);
+    }
     /** 映射的属性名称-准入日期 */
     static PROPERTY_ADMISSIONDATE_NAME: string = "AdmissionDate";
     /** 获取-准入日期 */

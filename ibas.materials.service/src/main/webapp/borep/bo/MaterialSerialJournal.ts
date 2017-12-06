@@ -89,6 +89,17 @@ export class MaterialSerialJournal extends BOSimple<MaterialSerialJournal> imple
         this.setProperty(MaterialSerialJournal.PROPERTY_INSTOCK_NAME, value);
     }
 
+    /** 映射的属性名称-单据状态 */
+    static PROPERTY_LINESTATUS_NAME: string = "LineStatus";
+    /** 获取-单据状态 */
+    get lineStatus(): emDocumentStatus {
+        return this.getProperty<emDocumentStatus>(MaterialSerialJournal.PROPERTY_LINESTATUS_NAME);
+    }
+    /** 设置-单据状态 */
+    set lineStatus(value: emDocumentStatus) {
+        this.setProperty(MaterialSerialJournal.PROPERTY_LINESTATUS_NAME, value);
+    }
+
     /** 映射的属性名称-锁定 */
     static PROPERTY_LOCKED_NAME: string = "Locked";
     /** 获取-锁定 */

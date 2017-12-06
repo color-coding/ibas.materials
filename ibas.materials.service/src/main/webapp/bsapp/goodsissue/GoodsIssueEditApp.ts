@@ -9,13 +9,27 @@
 import * as ibas from "ibas/index";
 import * as bo from "../../borep/bo/index";
 import {
+    IMaterialIssueLineBatch,
+    IMaterialIssueBatchs,
+    IMaterialIssueSerials,
+    IMaterialIssueLineSerial,
+    IMaterialIssueBatchLine,
+    IMaterialIssueSerialLine,
+    IMaterialIssueBatchContract,
+    IMaterialIssueSerialContract,
     IMaterialSerialJournal,
     IMaterialBatchJournal,
     IMaterialBatchService,
     IMaterialSerialService,
     IMaterialBatchServiceJournals,
     IMaterialSerialServiceJournals,
+    IMaterialIssueBatchContractLine,
+    IMaterialIssueSerialContractLine,
 } from "../../api/bo/index";
+import {
+    MaterialBatchIssueServiceProxy,
+    MaterialSerialIssueServiceProxy,
+} from "../../api/Datas";
 import { BORepositoryMaterials } from "../../borep/BORepositories";
 
 /** 编辑应用-库存发货 */
@@ -101,6 +115,8 @@ export class GoodsIssueEditApp extends ibas.BOEditApplication<IGoodsIssueEditVie
     }
 
     protected priceListData: bo.MaterialPriceList[];
+    /** 出库行批次集合 */
+    protected goodsIssueLineBatchs: IMaterialIssueBatchs;
     /** 待编辑的数据 */
     protected editData: bo.GoodsIssue;
     /** 保存数据 */
@@ -235,8 +251,8 @@ export class GoodsIssueEditApp extends ibas.BOEditApplication<IGoodsIssueEditVie
                     }
                     // 如果物料、仓库发生变更 删除批次、序列集合
                     if (item.itemCode !== selected.code) {
-                        item.goodsIssueMaterialBatchJournals.deleteAll();
-                        item.goodsIssueMaterialSerialJournals.deleteAll();
+                        item.goodsIssueMaterialBatchJournals.removeAll();
+                        item.goodsIssueMaterialSerialJournals.removeAll();
                     }
                     item.itemCode = selected.code;
                     item.itemDescription = selected.name;
@@ -275,8 +291,8 @@ export class GoodsIssueEditApp extends ibas.BOEditApplication<IGoodsIssueEditVie
                         created = true;
                     }
                     if (item.warehouse !== selected.code) {
-                        item.goodsIssueMaterialBatchJournals.deleteAll();
-                        item.goodsIssueMaterialSerialJournals.deleteAll();
+                        item.goodsIssueMaterialBatchJournals.removeAll();
+                        item.goodsIssueMaterialSerialJournals.removeAll();
                     }
                     item.warehouse = selected.code;
                     item = null;
@@ -291,27 +307,27 @@ export class GoodsIssueEditApp extends ibas.BOEditApplication<IGoodsIssueEditVie
     /** 选择库存发货行批次事件 */
     chooseGoodsIssueLineMaterialBatch(): void {
         let that: this = this;
-        let caller: IMaterialBatchService[] = that.getBatchData();
-        if (ibas.objects.isNull(caller) || caller.length === 0) {
-            this.messages(ibas.emMessageType.WARNING, ibas.i18n.prop("materials_app_no_batchmanaged"));
+        let goodIssueLines: bo.GoodsIssueLine[] = this.editData.goodsIssueLines.filterBatchLine();
+        if (ibas.objects.isNull(goodIssueLines) || goodIssueLines.length === 0) {
+            this.messages(ibas.emMessageType.INFORMATION, ibas.i18n.prop("materials_app_no_matched_documentline_to_choose_batch"));
             return;
         }
-        ibas.servicesManager.runChooseService<IMaterialBatchService>({
-            caller: caller,
-            boCode: bo.MaterialBatchJournal.BUSINESS_OBJECT_ISSUE_CODE,
-            criteria: [
-            ],
-            onCompleted(callbackData: ibas.List<IMaterialBatchService>): void {
+        // 调用批次选择服务
+        ibas.servicesManager.runApplicationService<IMaterialIssueBatchContract, IMaterialIssueBatchs>({
+            caller: that.getBatchContract(goodIssueLines),
+            proxy: MaterialBatchIssueServiceProxy,
+            onCompleted(resultData: IMaterialIssueBatchs): void {
                 // 获取触发的对象
-                for (let line of callbackData) {
-                    let item: bo.GoodsIssueLine = that.editData.goodsIssueLines[line.index];
-                    item.goodsIssueMaterialBatchJournals.deleteAll();
-                    for (let batchJournal of line.materialBatchServiceJournals.filterDeleted()) {
-                        // 如果批次号为空 不处理
-                        if (ibas.objects.isNull(batchJournal.batchCode)) {
-                            continue;
+                if (!ibas.objects.isNull(resultData)) {
+                    for (let line of resultData.materialIssueLineBatchs) {
+                        let item: bo.GoodsIssueLine = that.editData.goodsIssueLines[line.index];
+                        item.goodsIssueMaterialBatchJournals.removeAll();
+                        for (let batchJournal of line.materialIssueBatchLines) {
+                            // 如果批次号为空 不处理
+                            if (!ibas.strings.isEmpty(batchJournal.batchCode)) {
+                                item.goodsIssueMaterialBatchJournals.createBatchJournal(batchJournal);
+                            }
                         }
-                        let batchLine: bo.MaterialBatchJournal = item.goodsIssueMaterialBatchJournals.createBatchJournal(batchJournal);
                     }
                 }
             }
@@ -320,97 +336,93 @@ export class GoodsIssueEditApp extends ibas.BOEditApplication<IGoodsIssueEditVie
     /** 选择库存发货序列事件 */
     chooseGoodsIssueLineMaterialSerial(): void {
         let that: this = this;
-        let caller: IMaterialSerialService[] = that.getSerialData();
-        if (ibas.objects.isNull(caller) || caller.length === 0) {
-            this.messages(ibas.emMessageType.WARNING, ibas.i18n.prop("materials_app_no_serialmanaged"));
+        let goodIssueLines: bo.GoodsIssueLine[] = this.editData.goodsIssueLines.filterSerialLine();
+        if (ibas.objects.isNull(goodIssueLines) || goodIssueLines.length === 0) {
+            this.messages(ibas.emMessageType.INFORMATION, ibas.i18n.prop("materials_app_no_matched_documentline_to_choose_serial"));
             return;
         }
-        ibas.servicesManager.runChooseService<IMaterialSerialService>({
-            caller: caller,
-            boCode: bo.MaterialSerialJournal.BUSINESS_OBJECT_ISSUE_CODE,
-            onCompleted(callbackData: ibas.List<IMaterialSerialService>): void {
+        // 调用序列选择服务
+        ibas.servicesManager.runApplicationService<IMaterialIssueSerialContract, IMaterialIssueSerials>({
+            caller: that.getSerialContract(goodIssueLines),
+            proxy: MaterialSerialIssueServiceProxy,
+            onCompleted(resultData: IMaterialIssueSerials): void {
                 // 获取触发的对象
-                for (let line of callbackData) {
+                for (let line of resultData.materialIssueLineSerials) {
                     let item: bo.GoodsIssueLine = that.editData.goodsIssueLines[line.index];
-                    item.goodsIssueMaterialSerialJournals.deleteAll();
-                    for (let serialJournal of line.materialSerialServiceJournals.filterDeleted()) {
+                    item.goodsIssueMaterialSerialJournals.removeAll();
+                    for (let serialJournal of line.materialIssueSerialLines) {
                         // 序列号为空，不处理
-                        if (ibas.objects.isNull(serialJournal.serialCode)) {
-                            continue;
+                        if (!ibas.strings.isEmpty(serialJournal.serialCode)) {
+                            item.goodsIssueMaterialSerialJournals.createSerialJournal(serialJournal);
                         }
-                        let serialLine: bo.MaterialSerialJournal = item.goodsIssueMaterialSerialJournals.createSerialJournal(serialJournal);
                     }
                 }
             }
         });
     }
 
-    /** 获取行-批次序列信息 */
-    getBatchData(): IMaterialBatchService[] {
-        // 获取行数据
-        let goodIssueLines: bo.GoodsIssueLine[] = this.editData.goodsIssueLines.filterDeleted();
-        // let batchJournal: bo.Material
-        let inputData: IMaterialBatchService[] = new Array<bo.MaterialBatchService>();
-        for (let line of goodIssueLines) {
-            if (!ibas.objects.isNull(line.batchManagement) &&
-                line.batchManagement.toString() === ibas.enums.toString(ibas.emYesNo, ibas.emYesNo.NO)) {
-                continue;
+    /** 获取行-批次服务契约信息 */
+    getBatchContract(goodIssueLines: bo.GoodsIssueLine[]): IMaterialIssueBatchContract {
+        let contracts: IMaterialIssueBatchContractLine[] = [];
+        for (let item of goodIssueLines) {
+            let batchInfos: IMaterialIssueLineBatch = {
+                index: goodIssueLines.indexOf(item),
+                materialIssueBatchLines: []
+            };
+            // 遍历行中的批次信息
+            for (let line of item.goodsIssueMaterialBatchJournals.filterDeleted()) {
+                let batchInfo: IMaterialIssueBatchLine = {
+                    batchCode: line.batchCode,
+                    quantity: line.quantity,
+                    direction: ibas.emDirection.OUT
+                };
+                batchInfos.materialIssueBatchLines.push(batchInfo);
             }
-            let input: IMaterialBatchService = new bo.MaterialBatchService();
-            input.index = goodIssueLines.indexOf(line);
-            input.itemCode = line.itemCode;
-            input.quantity = line.quantity;
-            input.warehouse = line.warehouse;
-            input.direction = ibas.emDirection.OUT;
-            if (line.goodsIssueMaterialBatchJournals.filterDeleted().length === 0) {
-                input.needBatchQuantity = line.quantity;
-                input.selectedBatchQuantity = 0;
-            } else {
-                for (let item of line.goodsIssueMaterialBatchJournals.filterDeleted()) {
-                    let batchLine: IMaterialBatchJournal = input.materialBatchServiceJournals.create();
-                    batchLine.batchCode = item.batchCode;
-                    batchLine.itemCode = item.itemCode;
-                    batchLine.warehouse = item.warehouse;
-                    batchLine.quantity = item.quantity;
-                    batchLine.direction = ibas.emDirection.OUT;
-                }
-            }
-            inputData.push(input);
+            let batchContractLine: IMaterialIssueBatchContractLine = {
+                index: goodIssueLines.indexOf(item),
+                itemCode: item.itemCode,
+                warehouse: item.warehouse,
+                quantity: item.quantity,
+                docType: item.objectCode,
+                docEntry: item.docEntry,
+                lineNum: item.lineId,
+                materialIssueLineBatch: batchInfos
+            };
+            contracts.push(batchContractLine);
         }
-        return inputData;
+        return { materialIssueBatchContractLines: contracts };
     }
-    /** 获取行-序列信息 */
-    getSerialData(): IMaterialSerialService[] {
-        // 获取行数据
-        let goodIssueLines: bo.GoodsIssueLine[] = this.editData.goodsIssueLines.filterDeleted();
-        let inputData: IMaterialSerialService[] = new Array<bo.MaterialSerialService>();
-        for (let line of goodIssueLines) {
-            if (!ibas.objects.isNull(line.serialManagement) &&
-                line.serialManagement.toString() === ibas.enums.toString(ibas.emYesNo, ibas.emYesNo.NO)) {
-                continue;
+
+    /** 获取行-批次服务契约信息 */
+    getSerialContract(goodIssueLines: bo.GoodsIssueLine[]): IMaterialIssueSerialContract {
+        let contracts: IMaterialIssueSerialContractLine[] = [];
+        for (let item of goodIssueLines) {
+            // 赋值索引
+            let serialInfos: IMaterialIssueLineSerial = {
+                index: goodIssueLines.indexOf(item),
+                materialIssueSerialLines: []
+            };
+            // 遍历行中的序列信息
+            for (let line of item.goodsIssueMaterialSerialJournals.filterDeleted()) {
+                let serialInfo: IMaterialIssueSerialLine = {
+                    serialCode: line.serialCode,
+                    direction: ibas.emDirection.OUT
+                };
+                serialInfos.materialIssueSerialLines.push(serialInfo);
             }
-            let input: IMaterialSerialService = new bo.MaterialSerialService();
-            input.index = goodIssueLines.indexOf(line);
-            input.itemCode = line.itemCode;
-            input.quantity = line.quantity;
-            input.warehouse = line.warehouse;
-            input.direction = ibas.emDirection.OUT;
-            if (line.goodsIssueMaterialSerialJournals.filterDeleted().length === 0) {
-                input.needSerialQuantity = line.quantity;
-                input.selectedSerialQuantity = 0;
-            } else {
-                for (let item of line.goodsIssueMaterialSerialJournals.filterDeleted()) {
-                    let serialLine: IMaterialSerialJournal = input.materialSerialServiceJournals.create();
-                    serialLine.serialCode = item.serialCode;
-                    serialLine.itemCode = item.itemCode;
-                    serialLine.warehouse = item.warehouse;
-                    serialLine.direction = ibas.emDirection.OUT;
-                }
-            }
-            inputData.push(input);
+            let serialContractLine: IMaterialIssueSerialContractLine = {
+                index: goodIssueLines.indexOf(item),
+                itemCode: item.itemCode,
+                warehouse: item.warehouse,
+                quantity: item.quantity,
+                materialIssueLineSerial: serialInfos
+            };
+            contracts.push(serialContractLine);
         }
-        return inputData;
+        return { materialIssueSerialContractLines: contracts };
     }
+
+
     /** 查询价格清单 */
     searchPriceList(): void {
         // 查询价格清单
@@ -433,13 +445,13 @@ export class GoodsIssueEditApp extends ibas.BOEditApplication<IGoodsIssueEditVie
     /** 获取物料增量查询条件 */
     getConditions(): ibas.ICondition[] {
         let conditions: ibas.ICondition[] = new Array<ibas.ICondition>();
-        conditions.push(new ibas.Condition(bo.Material.PROPERTY_DELETED_NAME, ibas.emConditionOperation.EQUAL, "N"));
         if (!ibas.objects.isNull(this.editData.priceList)) {
             conditions.push(new ibas.Condition(
                 bo.MaterialPriceList.PROPERTY_OBJECTKEY_NAME
                 , ibas.emConditionOperation.EQUAL
                 , this.editData.priceList));
         }
+        conditions.push(new ibas.Condition(bo.Material.PROPERTY_DELETED_NAME, ibas.emConditionOperation.EQUAL, "N"));
         return conditions;
     }
 }

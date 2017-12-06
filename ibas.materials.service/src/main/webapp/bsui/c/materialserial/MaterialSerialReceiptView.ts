@@ -1,10 +1,15 @@
 /**
  * @license
  * Copyright color-coding studio. All Rights Reserved.
- *
  * Use of this source code is governed by an Apache License, Version 2.0
  * that can be found in the LICENSE file at http://www.apache.org/licenses/LICENSE-2.0
+ * @Author: fancy
+ * @Date: 2017-11-30 17:55:41
+ * @Last Modified by: fancy
+ * @Last Modified time: 2017-12-01 13:51:41
  */
+
+
 import * as ibas from "ibas/index";
 import * as openui5 from "openui5/index";
 import * as bo from "../../../borep/bo/index";
@@ -75,7 +80,7 @@ export class MaterialSerialReceiptView extends ibas.BODialogView implements IMat
                     label: ibas.i18n.prop("bo_materialserial_serialcode"),
                     template: new sap.m.Input("", {
                     }).bindProperty("value", {
-                        path: "SerialCode"
+                        path: "SerialCode",
                     })
                 }),
                 new sap.ui.table.Column("", {
@@ -107,6 +112,7 @@ export class MaterialSerialReceiptView extends ibas.BODialogView implements IMat
         this.journalLineTable = new sap.ui.table.Table("", {
             enableSelectAll: false,
             selectionMode: sap.ui.table.SelectionMode.Single,
+            selectionBehavior: sap.ui.table.SelectionBehavior.RowOnly,
             visibleRowCount: ibas.config.get(openui5.utils.CONFIG_ITEM_LIST_TABLE_VISIBLE_ROW_COUNT, 8),
             visibleRowCountMode: sap.ui.table.VisibleRowCountMode.Interactive,
             rowSelectionChange: function (): void {

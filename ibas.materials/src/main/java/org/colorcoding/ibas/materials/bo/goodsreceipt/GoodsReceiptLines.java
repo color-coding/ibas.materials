@@ -1,10 +1,12 @@
 package org.colorcoding.ibas.materials.bo.goodsreceipt;
 
-import java.beans.PropertyChangeEvent;
-import javax.xml.bind.annotation.*;
-import org.colorcoding.ibas.bobas.common.*;
-import org.colorcoding.ibas.bobas.bo.*;
+import org.colorcoding.ibas.bobas.bo.BusinessObjects;
+import org.colorcoding.ibas.bobas.common.ICriteria;
 import org.colorcoding.ibas.materials.MyConfiguration;
+
+import javax.xml.bind.annotation.XmlSeeAlso;
+import javax.xml.bind.annotation.XmlType;
+import java.beans.PropertyChangeEvent;
 
 /**
 * 库存收货-行 集合
@@ -13,9 +15,9 @@ import org.colorcoding.ibas.materials.MyConfiguration;
 @XmlSeeAlso({ GoodsReceiptLine.class })
 public class GoodsReceiptLines extends BusinessObjects<IGoodsReceiptLine, IGoodsReceipt> implements IGoodsReceiptLines {
 
-    /**
-    * 业务对象名称
-    */
+       /**
+     * 业务对象名称
+     */
     public static final String BUSINESS_OBJECT_NAME = "GoodsReceiptLines";
 
     /**

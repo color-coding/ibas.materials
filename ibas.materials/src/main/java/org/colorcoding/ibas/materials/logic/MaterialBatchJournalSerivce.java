@@ -1,8 +1,10 @@
 package org.colorcoding.ibas.materials.logic;
 
+import org.colorcoding.ibas.bobas.bo.IBOSimpleLine;
 import org.colorcoding.ibas.bobas.common.*;
 import org.colorcoding.ibas.bobas.data.Decimal;
 import org.colorcoding.ibas.bobas.data.emDirection;
+import org.colorcoding.ibas.bobas.data.emDocumentStatus;
 import org.colorcoding.ibas.bobas.data.emYesNo;
 import org.colorcoding.ibas.bobas.i18n.I18N;
 import org.colorcoding.ibas.bobas.logic.BusinessLogic;
@@ -11,8 +13,11 @@ import org.colorcoding.ibas.bobas.mapping.LogicContract;
 import org.colorcoding.ibas.materials.bo.material.IMaterial;
 import org.colorcoding.ibas.materials.bo.material.Material;
 import org.colorcoding.ibas.materials.bo.materialbatch.IMaterialBatch;
+import org.colorcoding.ibas.materials.bo.materialbatch.IMaterialBatchJournal;
 import org.colorcoding.ibas.materials.bo.materialbatch.MaterialBatch;
 import org.colorcoding.ibas.materials.repository.BORepositoryMaterials;
+
+import java.math.BigDecimal;
 
 
 /**
@@ -69,6 +74,10 @@ public class MaterialBatchJournalSerivce extends BusinessLogic<IMaterialBatchJou
         } else {
             quantity = quantity.subtract(contract.getQuantity());
         }
+        if(quantity.compareTo(BigDecimal.ZERO)== -1){
+            throw new BusinessLogicException(String.format(I18N.prop("msg_mm_batch_is_not_enough"),
+                    contract.getBatchCode()));
+        }
         materialBatch.setQuantity(quantity);
     }
 
@@ -81,9 +90,24 @@ public class MaterialBatchJournalSerivce extends BusinessLogic<IMaterialBatchJou
         } else {
             quantity = quantity.add(contract.getQuantity());
         }
+        if(quantity.compareTo(BigDecimal.ZERO)== -1){
+            throw new BusinessLogicException(String.format(I18N.prop("msg_mm_batch_is_not_enough"),
+                    contract.getBatchCode()));
+        }
         materialBatch.setQuantity(quantity);
     }
 
+    @Override
+    protected boolean checkDataStatus(Object data) {
+        super.checkDataStatus(data);
+        if(data instanceof IBOSimpleLine){
+            IMaterialBatchJournal journal = (IMaterialBatchJournal) data;
+            if (journal.getLineStatus() == emDocumentStatus.PLANNED) {
+                return false;
+            }
+        }
+        return true;
+    }
     private void checkContractData(IMaterialBatchJournalContract contract) {
         ICriteria criteria = Criteria.create();
         ICondition condition = criteria.getConditions().create();

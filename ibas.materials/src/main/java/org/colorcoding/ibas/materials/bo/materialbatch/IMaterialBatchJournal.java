@@ -4,6 +4,7 @@ import org.colorcoding.ibas.bobas.bo.IBOSimpleLine;
 import org.colorcoding.ibas.bobas.data.DateTime;
 import org.colorcoding.ibas.bobas.data.Decimal;
 import org.colorcoding.ibas.bobas.data.emDirection;
+import org.colorcoding.ibas.bobas.data.emDocumentStatus;
 
 /**
  * 物料批次日记账 接口
@@ -56,6 +57,19 @@ public interface IMaterialBatchJournal extends IBOSimpleLine {
 	 */
 	void setWarehouse(String value);
 
+	/**
+	 * 获取-单据状态
+	 *
+	 * @return 值
+	 */
+	emDocumentStatus getLineStatus();
+
+	/**
+	 * 设置-单据状态
+	 *
+	 * @param value 值
+	 */
+	void setLineStatus(emDocumentStatus value);
 	/**
 	 * 获取-数量
 	 * 
