@@ -74,11 +74,11 @@ export enum emItemType {
 /** 排序规则 */
 export enum emAutoSelectBatchSerialRules {
     /** 先进先出 */
-    FIRSTINFIRSTOUT,
+    FIRST_IN_FIRST_OUT,
     /** 先进后出 */
-    FIRSTINLASTOUT,
+    FIRST_IN_LAST_OUT,
     /** 编码排序 */
-    ORDERBYCODE,
+    ORDER_BY_CODE,
 }
 
 /** 物料批次创建服务代理 */

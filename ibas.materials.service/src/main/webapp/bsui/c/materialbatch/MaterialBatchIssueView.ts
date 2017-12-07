@@ -164,7 +164,7 @@ export class MaterialBatchIssueView extends ibas.BODialogView implements IMateri
                                         that.fireViewEvents(that.autoSelectMaterialBatchEvent
                                             , openui5.utils.getTableSelecteds<bo.MaterialBatchService>
                                                 (that.journalLineTable).firstOrDefault()
-                                            , emAutoSelectBatchSerialRules.FIRSTINFIRSTOUT);
+                                            , emAutoSelectBatchSerialRules.FIRST_IN_FIRST_OUT);
                                     }
                                 }),
                                 new sap.m.MenuItem("", {
@@ -173,7 +173,7 @@ export class MaterialBatchIssueView extends ibas.BODialogView implements IMateri
                                         that.fireViewEvents(that.autoSelectMaterialBatchEvent
                                             , openui5.utils.getTableSelecteds<bo.MaterialBatchService>
                                                 (that.journalLineTable).firstOrDefault()
-                                            , emAutoSelectBatchSerialRules.ORDERBYCODE);
+                                            , emAutoSelectBatchSerialRules.ORDER_BY_CODE);
                                     }
                                 }),
                             ]

@@ -131,15 +131,15 @@ export class MaterialSerialIssueService extends ibas.BOApplication<IMaterialSeri
     }
     protected allocateSerial(journal: bo.MaterialSerialService, rule: emAutoSelectBatchSerialRules): void {
         // 按照一定规则排序
-        if (rule === emAutoSelectBatchSerialRules.FIRSTINFIRSTOUT) {
+        if (rule === emAutoSelectBatchSerialRules.FIRST_IN_FIRST_OUT) {
             this.serialData.sort((serial1, serial2) => serial1.createDate < serial2.createDate ? -1
                 : (serial1.createDate > serial2.createDate ? 1 : (serial1.createTime < serial2.createTime ? -1
                     : (serial1.createTime > serial2.createTime ? 1 : 0))));
-        } else if (rule === emAutoSelectBatchSerialRules.FIRSTINLASTOUT) {
+        } else if (rule === emAutoSelectBatchSerialRules.FIRST_IN_LAST_OUT) {
             this.serialData.sort((serial1, serial2) => serial1.createDate > serial2.createDate ? -1
                 : (serial1.createDate < serial2.createDate ? 1 : (serial1.createTime > serial2.createTime ? -1
                     : (serial1.createTime < serial2.createTime ? 1 : 0))));
-        } else if (rule === emAutoSelectBatchSerialRules.ORDERBYCODE) {
+        } else if (rule === emAutoSelectBatchSerialRules.ORDER_BY_CODE) {
             this.serialData.sort((serial1, serial2) => serial1.serialCode < serial2.serialCode ? -1
                 : serial1.serialCode > serial2.serialCode ? 1 : 0);
         }

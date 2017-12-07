@@ -106,15 +106,15 @@ export class MaterialBatchIssueService extends ibas.BOApplication<IMaterialBatch
     /** 分配物料批次 */
     protected allocateBatch(journal: bo.MaterialBatchService, rules: emAutoSelectBatchSerialRules): void {
         // 按照一定规则排序
-        if (rules === emAutoSelectBatchSerialRules.FIRSTINFIRSTOUT) {
+        if (rules === emAutoSelectBatchSerialRules.FIRST_IN_FIRST_OUT) {
             this.batchData.sort((batch1, batch2) => batch1.createDate < batch2.createDate ? -1
                 : (batch1.createDate > batch2.createDate ? 1 : (batch1.createTime < batch2.createTime ? -1
                     : (batch1.createTime > batch2.createTime ? 1 : 0))));
-        } else if (rules === emAutoSelectBatchSerialRules.FIRSTINLASTOUT) {
+        } else if (rules === emAutoSelectBatchSerialRules.FIRST_IN_LAST_OUT) {
             this.batchData.sort((batch1, batch2) => batch1.createDate > batch2.createDate ? -1
                 : (batch1.createDate < batch2.createDate ? 1 : (batch1.createTime > batch2.createTime ? -1
                     : (batch1.createTime < batch2.createTime ? 1 : 0))));
-        } else if (rules === emAutoSelectBatchSerialRules.ORDERBYCODE) {
+        } else if (rules === emAutoSelectBatchSerialRules.ORDER_BY_CODE) {
             this.batchData.sort((batch1, batch2) => batch1.batchCode < batch2.batchCode ? -1
                 : batch1.batchCode > batch2.batchCode ? 1 : 0);
         }

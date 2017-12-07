@@ -143,7 +143,7 @@ export class MaterialSerialIssueView extends ibas.BODialogView implements IMater
                                         that.fireViewEvents(that.autoSelectMaterialSerialEvent
                                             , openui5.utils.getTableSelecteds<bo.MaterialSerialService>
                                                 (that.journalLineTable).firstOrDefault()
-                                            , emAutoSelectBatchSerialRules.FIRSTINFIRSTOUT);
+                                            , emAutoSelectBatchSerialRules.FIRST_IN_FIRST_OUT);
                                     }
                                 }),
                                 new sap.m.MenuItem("", {
@@ -152,7 +152,7 @@ export class MaterialSerialIssueView extends ibas.BODialogView implements IMater
                                         that.fireViewEvents(that.autoSelectMaterialSerialEvent
                                             , openui5.utils.getTableSelecteds<bo.MaterialSerialService>
                                                 (that.journalLineTable).firstOrDefault()
-                                            , emAutoSelectBatchSerialRules.ORDERBYCODE);
+                                            , emAutoSelectBatchSerialRules.ORDER_BY_CODE);
                                     }
                                 }),
                             ]
