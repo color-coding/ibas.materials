@@ -99,7 +99,7 @@ export class MaterialInventoryListApp extends ibas.BOListApplication<IMaterialIn
         app.run(data);
     }
     /** 删除数据，参数：目标数据集合 */
-    protected deleteData(data: bo.MaterialInventory): void {
+    protected deleteData(data: bo.MaterialInventory | bo.MaterialInventory[]): void {
         // 检查目标数据
         if (ibas.objects.isNull(data)) {
             this.messages(ibas.emMessageType.WARNING, ibas.i18n.prop("shell_please_chooose_data",
@@ -107,14 +107,15 @@ export class MaterialInventoryListApp extends ibas.BOListApplication<IMaterialIn
             ));
             return;
         }
-        let beDeleteds:ibas.ArrayList<bo.MaterialInventory> = new ibas.ArrayList<bo.MaterialInventory>();
-        if (data instanceof Array ) {
+        let beDeleteds: ibas.ArrayList<bo.MaterialInventory> = new ibas.ArrayList<bo.MaterialInventory>();
+        if (data instanceof Array) {
             for (let item of data) {
-                if (ibas.objects.instanceOf(item, bo.MaterialInventory)) {
-                    item.delete();
-                    beDeleteds.add(item);
-                }
+                item.delete();
+                beDeleteds.add(item);
             }
+        } else {
+            data.delete();
+            beDeleteds.add(data);
         }
         // 没有选择删除的对象
         if (beDeleteds.length === 0) {
@@ -130,7 +131,7 @@ export class MaterialInventoryListApp extends ibas.BOListApplication<IMaterialIn
                 if (action === ibas.emMessageAction.YES) {
                     try {
                         let boRepository: BORepositoryMaterials = new BORepositoryMaterials();
-                        let saveMethod: Function = function(beSaved: bo.MaterialInventory):void {
+                        let saveMethod: Function = function (beSaved: bo.MaterialInventory): void {
                             boRepository.saveMaterialInventory({
                                 beSaved: beSaved,
                                 onCompleted(opRslt: ibas.IOperationResult<bo.MaterialInventory>): void {
@@ -146,7 +147,7 @@ export class MaterialInventoryListApp extends ibas.BOListApplication<IMaterialIn
                                             // 处理完成
                                             that.busy(false);
                                             that.messages(ibas.emMessageType.SUCCESS,
-                                            ibas.i18n.prop("shell_data_delete") + ibas.i18n.prop("shell_sucessful"));
+                                                ibas.i18n.prop("shell_data_delete") + ibas.i18n.prop("shell_sucessful"));
                                         }
                                     } catch (error) {
                                         that.messages(ibas.emMessageType.ERROR,
