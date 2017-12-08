@@ -82,6 +82,9 @@ export interface IMaterialPriceList extends IBOSimple {
 
     /**更新动作标识 */
     updateActionId: string
+
+    /** 价格清单-行集合 */
+    materialPriceItems: IMaterialPriceItems;
 }
 export interface IMaterialPriceItems extends IBusinessObjects<IMaterialPriceItem, IMaterialPriceList> {
     /** 创建并添加子项 */
