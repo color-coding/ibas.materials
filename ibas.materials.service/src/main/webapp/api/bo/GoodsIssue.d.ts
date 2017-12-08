@@ -24,6 +24,9 @@ import {
     emItemType,
 } from "../Datas";
 import {
+    IMaterialBatch,
+    IMaterialIssueBatchs,
+    IMaterialIssueBatchContractLine,
     IMaterialBatchJournal,
     IMaterialSerialJournal
 } from "./index";
@@ -158,7 +161,7 @@ export interface IGoodsIssueMaterialSerialJournals extends IBusinessObjects<IMat
 }
 
 /** 库存发货-行 */
-export interface IGoodsIssueLine extends IBODocumentLine {
+export interface IGoodsIssueLine extends IBODocumentLine, IMaterialIssueBatchContractLine {
 
     /** 编码 */
     docEntry: number;

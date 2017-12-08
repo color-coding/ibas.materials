@@ -494,21 +494,20 @@ export class GoodsReceiptMaterialBatchJournals extends BusinessObjects<MaterialB
     create(): MaterialBatchJournal {
         let item: MaterialBatchJournal = new MaterialBatchJournal();
         this.add(item);
+        item.lineStatus = this.parent.lineStatus;
         return item;
     }
-    createBatchJournal(data: IMaterialReceiptBatchLine): MaterialBatchJournal {
-        let item: MaterialBatchJournal = new MaterialBatchJournal();
-        item.batchCode = data.batchCode;
-        item.itemCode = data.itemCode;
-        item.warehouse = data.warehouse;
-        item.quantity = data.quantity;
-        item.direction = data.direction;
-        item.lineStatus = this.parent.lineStatus;
-        // item.admissionDate = data.admissionDate;
-        // item.expirationDate = data.expirationDate;
-        // item.manufacturingDate = data.manufacturingDate;
-        this.add(item);
-        return item;
+
+    createBatchJournal(data: IMaterialBatchJournal): MaterialBatchJournal {
+        if (!objects.isNull(data)) {
+            let batchJournal: MaterialBatchJournal = this.create();
+            batchJournal.batchCode = data.batchCode;
+            batchJournal.itemCode = data.itemCode;
+            batchJournal.warehouse = data.warehouse;
+            batchJournal.direction = data.direction;
+            batchJournal.quantity = data.quantity;
+            return batchJournal;
+        }
     }
     /** 移除批次行 */
     removeAll(): void {
@@ -533,6 +532,7 @@ export class GoodsReceiptMaterialSerialJournals extends BusinessObjects<Material
     create(): MaterialSerialJournal {
         let item: MaterialSerialJournal = new MaterialSerialJournal();
         this.add(item);
+        item.lineStatus = this.parent.lineStatus;
         return item;
     }
     createSerialJournal(data: IMaterialReceiptSerialLine): MaterialSerialJournal {

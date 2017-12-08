@@ -18,7 +18,7 @@ import {
 /** 物料批次序列基础契约 */
 export interface IMaterialBaseContract {
     /** 行索引 */
-    index: number;
+    index?: number;
 
     /**物料编号 */
     itemCode: string;

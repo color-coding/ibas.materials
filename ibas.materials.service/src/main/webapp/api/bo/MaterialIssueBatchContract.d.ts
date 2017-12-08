@@ -16,6 +16,7 @@ import {
     IBOSimpleLine,
 } from "ibas/index";
 import {
+    IMaterialBatch,
     IMaterialBaseContract,
     IMaterialBatchBaseLine,
 } from "./index";
@@ -32,26 +33,21 @@ export interface IMaterialIssueBatchContractLine extends IMaterialBaseContract {
     docEntry?: number;
     /** 单据行号 */
     lineNum?: number;
-    /** 单据类型 */
-    objectType?: string;
     /** 选择的批次 */
-    materialIssueLineBatch?: IMaterialIssueLineBatch;
+    materialIssueBatchs?: IMaterialIssueBatchs;
 }
 
 /** 物料出库行批次信息 */
 export interface IMaterialIssueBatchs {
     /** 物料出库行批次信息 */
-    materialIssueLineBatchs: IMaterialIssueLineBatch[];
+    materialIssueLineBatchs?: IMaterialIssueBatchLine[];
+    /** 创建批次记账 */
+    createBatchJournal(data: IMaterialBatchBaseLine): void;
+    /** 删除批次记账 */
+    deleteBatchJournal(data: IMaterialBatchBaseLine): void;
+    /** 修改批次记账 */
+    updateBatchJournal(data: IMaterialBatchBaseLine): void;
 }
-
-/** 物料出库行批次信息 */
-export interface IMaterialIssueLineBatch {
-    /** 行索引 */
-    index: number;
-    /** 物料批次 选择/新建 集合 */
-    materialIssueBatchLines?: IMaterialIssueBatchLine[];
-}
-
 
 /** 物料出库批次服务行-选择 */
 export interface IMaterialIssueBatchLine extends IMaterialBatchBaseLine {

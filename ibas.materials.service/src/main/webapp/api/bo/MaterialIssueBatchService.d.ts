@@ -19,9 +19,9 @@ import {
     IMaterialBatch,
     IMaterialBatchJournal,
     IMaterialIssueBatchLine,
-    IMaterialBatchServiceJournals,
+    IMaterialIssueBatchJournals,
 } from "./index";
-export interface IMaterialBatchService extends IBusinessObject {
+export interface IMaterialIssueBatchService extends IBusinessObject {
     /** table 行index索引 */
     index: number;
 
@@ -53,14 +53,10 @@ export interface IMaterialBatchService extends IBusinessObject {
     direction: emDirection;
 
     /** 物料批次分录集合 */
-    materialBatchServiceJournals: IMaterialBatchServiceJournals;
+    materialBatchJournals: IMaterialIssueBatchJournals;
 }
 /** 库存发货-批次日记账 集合 */
-export interface IMaterialBatchServiceJournals extends IBusinessObjects<IMaterialBatchJournal, IMaterialBatchService> {
+export interface IMaterialIssueBatchJournals extends IBusinessObjects<IMaterialBatchJournal, IMaterialIssueBatchService> {
     /** 创建并添加子项 */
     create(): IMaterialBatchJournal;
-
-    createJournal(data: IMaterialBatch): IMaterialBatchJournal;
-
-    createJournals(data: IMaterialIssueBatchLine[]): IMaterialBatchJournal[];
 }

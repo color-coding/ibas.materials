@@ -2,7 +2,7 @@
  * @Author: fancy
  * @Date: 2017-11-27 16:44:31
  * @Last Modified by: fancy
- * @Last Modified time: 2017-12-01 16:44:15
+ * @Last Modified time: 2017-12-08 13:41:41
  * @license
  * Copyright color-coding studio. All Rights Reserved.
  *
@@ -38,7 +38,7 @@ export class MaterialBatchReceiptView extends ibas.BODialogView implements IMate
                         type: sap.m.ButtonType.Transparent,
                         press: function (): void {
                             that.fireViewEvents(that.autoCreateBatchEvent,
-                                openui5.utils.getTableSelecteds<bo.MaterialBatchService>(that.journalLineTable).firstOrDefault()
+                                openui5.utils.getTableSelecteds<bo.MaterialReceiptBatchService>(that.journalLineTable).firstOrDefault()
                             );
                         }
                     }),
@@ -48,7 +48,7 @@ export class MaterialBatchReceiptView extends ibas.BODialogView implements IMate
                         icon: "sap-icon://add",
                         press: function (): void {
                             that.fireViewEvents(that.addBatchEvent,
-                                openui5.utils.getTableSelecteds<bo.MaterialBatchService>(that.journalLineTable).firstOrDefault());
+                                openui5.utils.getTableSelecteds<bo.MaterialReceiptBatchService>(that.journalLineTable).firstOrDefault());
                         }
                     }),
                     new sap.m.Button("", {
@@ -57,7 +57,7 @@ export class MaterialBatchReceiptView extends ibas.BODialogView implements IMate
                         icon: "sap-icon://less",
                         press: function (): void {
                             that.fireViewEvents(that.removeBatchEvent,
-                                openui5.utils.getTableSelecteds<bo.MaterialBatchService>(that.journalLineTable).firstOrDefault(),
+                                openui5.utils.getTableSelecteds<bo.MaterialReceiptBatchService>(that.journalLineTable).firstOrDefault(),
                                 openui5.utils.getTableSelecteds<bo.MaterialBatch>(that.table)
                             );
                         }
@@ -119,7 +119,7 @@ export class MaterialBatchReceiptView extends ibas.BODialogView implements IMate
             visibleRowCountMode: sap.ui.table.VisibleRowCountMode.Interactive,
             rowSelectionChange: function (): void {
                 that.fireViewEvents(that.selectMaterialBatchJournalLineEvent,
-                    openui5.utils.getTableSelecteds<bo.MaterialBatchService>(that.journalLineTable).firstOrDefault(), );
+                    openui5.utils.getTableSelecteds<bo.MaterialReceiptBatchService>(that.journalLineTable).firstOrDefault(), );
             },
             rows: "{/journallinedata}",
             columns: [
@@ -200,7 +200,7 @@ export class MaterialBatchReceiptView extends ibas.BODialogView implements IMate
                     }
                 }),
                 new sap.m.Button("", {
-                    text: ibas.i18n.prop("shell_exit"),
+                    text: ibas.i18n.prop("shell_data_cancel"),
                     type: sap.m.ButtonType.Transparent,
                     press: function (): void {
                         that.fireViewEvents(that.closeEvent);
@@ -217,7 +217,7 @@ export class MaterialBatchReceiptView extends ibas.BODialogView implements IMate
         // 监听属性改变，并更新控件
         openui5.utils.refreshModelChanged(this.table, datas);
     }
-    showJournalLineData(datas: bo.MaterialBatchService[]): void {
+    showJournalLineData(datas: bo.MaterialReceiptBatchService[]): void {
         this.journalLineTable.setModel(new sap.ui.model.json.JSONModel({ journallinedata: datas }));
         openui5.utils.refreshModelChanged(this.journalLineTable, datas);
     }

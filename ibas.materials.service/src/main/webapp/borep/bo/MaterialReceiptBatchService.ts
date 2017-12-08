@@ -23,14 +23,15 @@ import {
     strings,
     config,
     objects,
+    BusinessObjectListBase,
 } from "ibas/index";
 import {
-    IMaterialIssueBatchContractLine,
-    IMaterialIssueBatchLine,
+    IMaterialReceiptBatchContractLine,
+    IMaterialReceiptBatchLine,
     IMaterialBatch,
     IMaterialBatchJournal,
-    IMaterialBatchService,
-    IMaterialBatchServiceJournals,
+    IMaterialReceiptBatchService,
+    IMaterialReceiptBatchJournals,
     BO_CODE_MATERIALBATCHSERVICE,
     BO_CODE_RECEIPT_MATERIALBATCH,
     BO_CODE_ISSUE_MATERIALBATCH
@@ -40,204 +41,206 @@ import {
     MaterialBatchJournal,
     MaterialSerialJournal
 } from "./index";
-export class MaterialBatchService extends BusinessObjectBase<MaterialBatchService> implements IMaterialBatchService {
+export class MaterialReceiptBatchService extends BusinessObjectBase<MaterialReceiptBatchService> implements IMaterialReceiptBatchService {
     /** 业务对象编码 */
     static BUSINESS_OBJECT_CODE: string = BO_CODE_MATERIALBATCHSERVICE;
     static BUSINESS_OBJECT_RECEIEPT_CODE: string = BO_CODE_RECEIPT_MATERIALBATCH;
     static BUSINESS_OBJECT_ISSUE_CODE: string = BO_CODE_ISSUE_MATERIALBATCH;
+    public contract: IMaterialReceiptBatchContractLine;
     /** 构造函数 */
-    constructor() {
+    constructor(contract: IMaterialReceiptBatchContractLine) {
         super();
-    }
-
-    public static create(data: IMaterialIssueBatchContractLine): MaterialBatchService {
-        let batchServiceData: MaterialBatchService = new MaterialBatchService();
-        batchServiceData.index = data.index;
-        batchServiceData.itemCode = data.itemCode;
-        batchServiceData.warehouse = data.warehouse;
-        batchServiceData.quantity = data.quantity;
-        batchServiceData.needBatchQuantity = data.quantity;
-        if (!objects.isNull(data.docType)) {
-            batchServiceData.docType = data.docType;
-        }if (!objects.isNull(data.docEntry)) {
-            batchServiceData.docEntry = data.docEntry;
-        }if (!objects.isNull(data.lineNum)) {
-            batchServiceData.lineNum = data.lineNum;
+        this.contract = contract;
+        this.index = contract.index;
+        this.itemCode = contract.itemCode;
+        this.warehouse = contract.warehouse;
+        this.quantity = contract.quantity;
+        this.needBatchQuantity = contract.quantity;
+        if (!objects.isNull(contract.docType)) {
+            this.docType = contract.docType;
+        } if (!objects.isNull(contract.docEntry)) {
+            this.docEntry = contract.docEntry;
+        } if (!objects.isNull(contract.lineNum)) {
+            this.lineNum = contract.lineNum;
         }
-        return batchServiceData;
+        if (!objects.isNull(contract.materialReceiptBatchs)) {
+            for (let contractLine of contract.materialReceiptBatchs.materialReceiptLineBatchs) {
+                this.materialBatchJournals.create(contractLine);
+            }
+        }
     }
 
     /** 映射的属性名称-行索引 */
     static PROPERTY_INDEX_NAME: string = "Index";
     /** 获取-行索引 */
     get index(): number {
-        return this.getProperty<number>(MaterialBatchService.PROPERTY_INDEX_NAME);
+        return this.getProperty<number>(MaterialReceiptBatchService.PROPERTY_INDEX_NAME);
     }
     /** 设置-行索引 */
     set index(value: number) {
-        this.setProperty(MaterialBatchService.PROPERTY_INDEX_NAME, value);
+        this.setProperty(MaterialReceiptBatchService.PROPERTY_INDEX_NAME, value);
     }
 
     /** 映射的属性名称-单据类型 */
     static PROPERTY_DOCTYPE_NAME: string = "DocType";
     /** 获取-单据类型 */
     get docType(): string {
-        return this.getProperty<string>(MaterialBatchService.PROPERTY_DOCTYPE_NAME);
+        return this.getProperty<string>(MaterialReceiptBatchService.PROPERTY_DOCTYPE_NAME);
     }
     /** 设置-单据类型 */
     set docType(value: string) {
-        this.setProperty(MaterialBatchService.PROPERTY_DOCTYPE_NAME, value);
+        this.setProperty(MaterialReceiptBatchService.PROPERTY_DOCTYPE_NAME, value);
     }
 
     /** 映射的属性名称-单据号 */
     static PROPERTY_DOCENTRY_NAME: string = "DocEntry";
     /** 获取-单据号 */
     get docEntry(): number {
-        return this.getProperty<number>(MaterialBatchService.PROPERTY_DOCENTRY_NAME);
+        return this.getProperty<number>(MaterialReceiptBatchService.PROPERTY_DOCENTRY_NAME);
     }
     /** 设置-单据号 */
     set docEntry(value: number) {
-        this.setProperty(MaterialBatchService.PROPERTY_DOCENTRY_NAME, value);
+        this.setProperty(MaterialReceiptBatchService.PROPERTY_DOCENTRY_NAME, value);
     }
 
     /** 映射的属性名称-单据行号 */
     static PROPERTY_LINENUM_NAME: string = "LineNum";
     /** 获取-单据行号 */
     get lineNum(): number {
-        return this.getProperty<number>(MaterialBatchService.PROPERTY_LINENUM_NAME);
+        return this.getProperty<number>(MaterialReceiptBatchService.PROPERTY_LINENUM_NAME);
     }
     /** 设置-单据行号 */
     set lineNum(value: number) {
-        this.setProperty(MaterialBatchService.PROPERTY_LINENUM_NAME, value);
+        this.setProperty(MaterialReceiptBatchService.PROPERTY_LINENUM_NAME, value);
     }
 
     /** 映射的属性名称-物料编号 */
     static PROPERTY_ITEMCODE_NAME: string = "ItemCode";
     /** 获取-物料编号 */
     get itemCode(): string {
-        return this.getProperty<string>(MaterialBatchService.PROPERTY_ITEMCODE_NAME);
+        return this.getProperty<string>(MaterialReceiptBatchService.PROPERTY_ITEMCODE_NAME);
     }
     /** 设置-物料编号 */
     set itemCode(value: string) {
-        this.setProperty(MaterialBatchService.PROPERTY_ITEMCODE_NAME, value);
+        this.setProperty(MaterialReceiptBatchService.PROPERTY_ITEMCODE_NAME, value);
     }
 
     /** 映射的属性名称-仓库编号 */
     static PROPERTY_WAREHOUSE_NAME: string = "Warehouse";
     /** 获取-仓库编号 */
     get warehouse(): string {
-        return this.getProperty<string>(MaterialBatchService.PROPERTY_WAREHOUSE_NAME);
+        return this.getProperty<string>(MaterialReceiptBatchService.PROPERTY_WAREHOUSE_NAME);
     }
     /** 设置-仓库编号 */
     set warehouse(value: string) {
-        this.setProperty(MaterialBatchService.PROPERTY_WAREHOUSE_NAME, value);
+        this.setProperty(MaterialReceiptBatchService.PROPERTY_WAREHOUSE_NAME, value);
     }
 
     /** 映射的属性名称-方向 */
     static PROPERTY_DIRECTION_NAME: string = "Direction";
     /** 获取-仓库编号 */
     get direction(): emDirection {
-        return this.getProperty<emDirection>(MaterialBatchService.PROPERTY_DIRECTION_NAME);
+        return this.getProperty<emDirection>(MaterialReceiptBatchService.PROPERTY_DIRECTION_NAME);
     }
     /** 设置-仓库编号 */
     set direction(value: emDirection) {
-        this.setProperty(MaterialBatchService.PROPERTY_DIRECTION_NAME, value);
+        this.setProperty(MaterialReceiptBatchService.PROPERTY_DIRECTION_NAME, value);
     }
 
     /** 映射的属性名称-数量 */
     static PROPERTY_QUANTITY_NAME: string = "Quantity";
     /** 获取-数量 */
     get quantity(): number {
-        return this.getProperty<number>(MaterialBatchService.PROPERTY_QUANTITY_NAME);
+        return this.getProperty<number>(MaterialReceiptBatchService.PROPERTY_QUANTITY_NAME);
     }
     /** 设置-数量 */
     set quantity(value: number) {
-        this.setProperty(MaterialBatchService.PROPERTY_QUANTITY_NAME, value);
+        this.setProperty(MaterialReceiptBatchService.PROPERTY_QUANTITY_NAME, value);
     }
 
     /** 映射的属性名称-总需求 */
     static PROPERTY_NEEDBATCHQUANTITY_NAME: string = "NeedBatchQuantity";
     /** 获取-总需求 */
     get needBatchQuantity(): number {
-        return this.getProperty<number>(MaterialBatchService.PROPERTY_NEEDBATCHQUANTITY_NAME);
+        return this.getProperty<number>(MaterialReceiptBatchService.PROPERTY_NEEDBATCHQUANTITY_NAME);
     }
     /** 设置-批次总需求 */
     set needBatchQuantity(value: number) {
-        this.setProperty(MaterialBatchService.PROPERTY_NEEDBATCHQUANTITY_NAME, value);
+        this.setProperty(MaterialReceiptBatchService.PROPERTY_NEEDBATCHQUANTITY_NAME, value);
     }
 
     /** 映射的属性名称-批次总批次 */
     static PROPERTY_SELECTEDBATCHQUANTITY_NAME: string = "SelectedBatchQuantity";
     /** 获取-批次总批次 */
     get selectedBatchQuantity(): number {
-        return this.getProperty<number>(MaterialBatchService.PROPERTY_SELECTEDBATCHQUANTITY_NAME);
+        return this.getProperty<number>(MaterialReceiptBatchService.PROPERTY_SELECTEDBATCHQUANTITY_NAME);
     }
     /** 设置-总批次 */
     set selectedBatchQuantity(value: number) {
-        this.setProperty(MaterialBatchService.PROPERTY_SELECTEDBATCHQUANTITY_NAME, value);
+        this.setProperty(MaterialReceiptBatchService.PROPERTY_SELECTEDBATCHQUANTITY_NAME, value);
     }
 
 
     /** 映射的属性名称-行-批次集合 */
-    static PROPERTY_MATERIALBATCHSERVICEJOURNALS_NAME: string = "MaterialBatchServiceJournals";
+    static PROPERTY_MATERIALBATCHJOURNALS_NAME: string = "MaterialReceiptBatchJournals";
     /** 获取-行-批次集合 */
-    get materialBatchServiceJournals(): MaterialBatchServiceJournals {
-        return this.getProperty<MaterialBatchServiceJournals>
-            (MaterialBatchService.PROPERTY_MATERIALBATCHSERVICEJOURNALS_NAME);
+    get materialBatchJournals(): MaterialReceiptBatchJournals {
+        return this.getProperty<MaterialReceiptBatchJournals>
+            (MaterialReceiptBatchService.PROPERTY_MATERIALBATCHJOURNALS_NAME);
     }
     /** 设置-行-批次集合 */
-    set materialBatchServiceJournals(value: MaterialBatchServiceJournals) {
-        this.setProperty(MaterialBatchService.PROPERTY_MATERIALBATCHSERVICEJOURNALS_NAME, value);
+    set materialBatchJournals(value: MaterialReceiptBatchJournals) {
+        this.setProperty(MaterialReceiptBatchService.PROPERTY_MATERIALBATCHJOURNALS_NAME, value);
     }
 
     /** 初始化数据 */
     protected init(): void {
-        this.materialBatchServiceJournals = new MaterialBatchServiceJournals(this);
+        this.materialBatchJournals = new MaterialReceiptBatchJournals(this);
     }
 }
 
 /** 批次日记账 集合 */
-export class MaterialBatchServiceJournals extends BusinessObjects<MaterialBatchJournal, MaterialBatchService>
-    implements IMaterialBatchServiceJournals {
+export class MaterialReceiptBatchJournals extends BusinessObjects<MaterialBatchJournal, MaterialReceiptBatchService>
+    implements IMaterialReceiptBatchJournals {
+
     /** 创建并添加子项 */
-    create(): MaterialBatchJournal {
+    create(data?: IMaterialReceiptBatchLine): MaterialBatchJournal {
         let item: MaterialBatchJournal = new MaterialBatchJournal();
-        item.quantity = 0;
+        this.add(item);
         item.itemCode = this.parent.itemCode;
         item.warehouse = this.parent.warehouse;
         item.direction = this.parent.direction;
-        this.add(item);
+        if (!objects.isNull(data)) {
+            item.batchCode = data.batchCode;
+            item.quantity = data.quantity;
+        }
         return item;
     }
     /** 创建并添加子项 */
-    createJournal(data: IMaterialBatch): MaterialBatchJournal {
-        let item: MaterialBatchJournal = new MaterialBatchJournal();
-        if (objects.instanceOf(data, MaterialBatch)) {
-            item.quantity = 0;
-            item.batchCode = data.batchCode;
+    createBatchJournal(data: MaterialBatchJournal): MaterialBatchJournal {
+        this.parent.contract.materialReceiptBatchs.createBatchJournal(data);
+        if (objects.instanceOf(data, MaterialBatchJournal)) {
+            return this.create(data);
+        }
+    }
+    /** 删除批次日记账 */
+    deleteBatchJournal(data: IMaterialBatchJournal): void {
+        this.parent.contract.materialReceiptBatchs.deleteBatchJournal(data);
+        let item: MaterialBatchJournal = this.find(c => c.batchCode === data.batchCode);
+        if (!objects.isNull(item)) {
+            this.remove(item);
+        }
+    }
+    /** 修改批次日记账 */
+    updateBatchJournal(data: IMaterialBatchJournal): void {
+        this.parent.contract.materialReceiptBatchs.updateBatchJournal(data);
+        let item: MaterialBatchJournal = this.find(c => c.batchCode === data.batchCode);
+        if (!objects.isNull(item)) {
             item.itemCode = this.parent.itemCode;
             item.warehouse = this.parent.warehouse;
             item.direction = this.parent.direction;
-            item.expirationDate = data.expirationDate;
-            item.admissionDate = data.admissionDate;
-            item.manufacturingDate = data.manufacturingDate;
-            this.add(item);
+            item.quantity = data.quantity;
         }
-        return item;
-    }
-    /** 创建并添加子项集合 */
-    createJournals(data: IMaterialIssueBatchLine[]): IMaterialBatchJournal[] {
-        let batchJournals: IMaterialBatchJournal[] = [];
-        for (let item of data) {
-            let JournalItem: MaterialBatchJournal = this.create();
-            JournalItem.quantity = item.quantity;
-            JournalItem.batchCode = item.batchCode;
-            JournalItem.itemCode = this.parent.itemCode;
-            JournalItem.warehouse = this.parent.warehouse;
-            JournalItem.direction = this.parent.direction;
-            batchJournals.push(JournalItem);
-        }
-        return batchJournals;
     }
 
     /** 监听子项属性改变 */
@@ -258,7 +261,7 @@ export class MaterialBatchServiceJournals extends BusinessObjects<MaterialBatchJ
     /** 移除子项 */
     protected afterRemove(item: MaterialBatchJournal): void {
         super.afterRemove(item);
-        if (this.parent.materialBatchServiceJournals.length === 0) {
+        if (this.parent.materialBatchJournals.length === 0) {
             this.parent.needBatchQuantity = this.parent.quantity;
             this.parent.selectedBatchQuantity = 0;
         } else {

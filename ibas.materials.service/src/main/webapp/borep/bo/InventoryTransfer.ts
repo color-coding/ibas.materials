@@ -459,6 +459,7 @@ export class InventoryTransferMaterialBatchJournals extends BusinessObjects<Mate
     create(): MaterialBatchJournal {
         let item: MaterialBatchJournal = new MaterialBatchJournal();
         this.add(item);
+        item.lineStatus = this.parent.lineStatus;
         return item;
     }
     createBatchJournal(data: IMaterialBatchJournal): MaterialBatchJournal {
@@ -484,6 +485,7 @@ export class InventoryTransferMaterialSerialJournals extends BusinessObjects<Mat
     create(): MaterialSerialJournal {
         let item: MaterialSerialJournal = new MaterialSerialJournal();
         this.add(item);
+        item.lineStatus = this.parent.lineStatus;
         return item;
     }
     createSerialJournal(data: IMaterialSerialJournal): MaterialSerialJournal {

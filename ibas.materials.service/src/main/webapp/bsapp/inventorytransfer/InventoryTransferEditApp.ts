@@ -11,10 +11,10 @@ import * as bo from "../../borep/bo/index";
 import {
     IMaterialBatchJournal,
     IMaterialSerialJournal,
-    IMaterialBatchService,
-    IMaterialSerialService,
-    IMaterialBatchServiceJournals,
-    IMaterialSerialServiceJournals,
+    IMaterialIssueBatchService,
+    IMaterialIssueSerialService,
+    IMaterialIssueBatchJournals,
+    IMaterialIssueSerialJournals,
 } from "../../api/bo/index";
 import { BORepositoryMaterials } from "../../borep/BORepositories";
 
@@ -294,22 +294,22 @@ export class InventoryTransferEditApp extends ibas.BOEditApplication<IInventoryT
 
     chooseInventoryTransferLineMaterialBatch(): void {
         let that: this = this;
-        let caller: IMaterialBatchService[] = that.getBatchData();
+        let caller: IMaterialIssueBatchService[] = that.getBatchData();
         if (ibas.objects.isNull(caller) || caller.length === 0) {
             this.messages(ibas.emMessageType.WARNING, ibas.i18n.prop("materials_app_no_batchmanaged"));
             return;
         }
-        ibas.servicesManager.runChooseService<IMaterialBatchService>({
+        ibas.servicesManager.runChooseService<IMaterialIssueBatchService>({
             caller: caller,
             boCode: bo.MaterialBatchJournal.BUSINESS_OBJECT_ISSUE_CODE,
             criteria: [
             ],
-            onCompleted(callbackData: ibas.List<IMaterialBatchService>): void {
+            onCompleted(callbackData: ibas.List<IMaterialIssueBatchService>): void {
                 // 获取触发的对象
                 for (let line of callbackData) {
                     let item: bo.InventoryTransferLine = that.editData.inventoryTransferLines[line.index];
                     item.inventoryTransferMaterialBatchJournals.clear();
-                    for (let batchJournal of line.materialBatchServiceJournals.filterDeleted()) {
+                    for (let batchJournal of line.materialBatchJournals.filterDeleted()) {
                         // 出仓库需要选择批次
                         let batchOutLine: bo.MaterialBatchJournal = item.inventoryTransferMaterialBatchJournals
                             .createBatchJournal(batchJournal);
@@ -325,7 +325,7 @@ export class InventoryTransferEditApp extends ibas.BOEditApplication<IInventoryT
     }
     chooseInventoryTransferLineMaterialSerial(): void {
         let that: this = this;
-        let caller: IMaterialSerialService[] = that.getSerialData();
+        let caller: IMaterialIssueSerialService[] = that.getSerialData();
         if (ibas.objects.isNull(caller) || caller.length === 0) {
             this.messages(ibas.emMessageType.WARNING, ibas.i18n.prop("materials_app_no_serialmanaged"));
             return;
@@ -338,19 +338,19 @@ export class InventoryTransferEditApp extends ibas.BOEditApplication<IInventoryT
                 return;
             }
         }
-        ibas.servicesManager.runChooseService<IMaterialSerialService>({
+        ibas.servicesManager.runChooseService<IMaterialIssueSerialService>({
             caller: caller,
             boCode: bo.MaterialSerialJournal.BUSINESS_OBJECT_ISSUE_CODE,
             criteria: [
             ],
-            onCompleted(callbackData: ibas.List<IMaterialSerialService>): void {
+            onCompleted(callbackData: ibas.List<IMaterialIssueSerialService>): void {
                 // 获取触发的对象
                 for (let line of callbackData) {
                     let item: bo.InventoryTransferLine = that.editData.inventoryTransferLines[line.index];
                     for (let serialLine of item.inventoryTransferMaterialSerialJournals) {
                         serialLine.delete();
                     }
-                    for (let serialJournal of line.materialSerialServiceJournals.filterDeleted()) {
+                    for (let serialJournal of line.materialSerialJournals.filterDeleted()) {
                         // 出仓库需要选择序列
                         let serialOutLine: IMaterialSerialJournal = item.inventoryTransferMaterialSerialJournals
                             .createSerialJournal(serialJournal);
@@ -366,67 +366,67 @@ export class InventoryTransferEditApp extends ibas.BOEditApplication<IInventoryT
     }
 
     /** 获取行-批次信息 */
-    getBatchData(): IMaterialBatchService[] {
+    getBatchData(): IMaterialIssueBatchService[] {
         // 获取行数据
         let goodIssueLines: bo.InventoryTransferLine[] = this.editData.inventoryTransferLines.filterDeleted();
-        let inputData: IMaterialBatchService[] = new Array<bo.MaterialBatchService>();
+        let inputData: IMaterialIssueBatchService[] = new Array<bo.MaterialIssueBatchService>();
         for (let line of goodIssueLines) {
             if (line.batchManagement.toString() === ibas.enums.toString(ibas.emYesNo, ibas.emYesNo.NO)) {
                 continue;
             }
-            let input: IMaterialBatchService = new bo.MaterialBatchService();
-            input.index = goodIssueLines.indexOf(line);
-            input.itemCode = line.itemCode;
-            input.quantity = line.quantity;
-            input.warehouse = this.editData.fromWarehouse;
-            input.direction = ibas.emDirection.OUT;
-            if (line.inventoryTransferMaterialBatchJournals.filterDeleted().length === 0) {
-                input.needBatchQuantity = line.quantity;
-                input.selectedBatchQuantity = 0;
-            } else {
-                for (let item of line.inventoryTransferMaterialBatchJournals
-                    .filter(c => c.warehouse === this.editData.fromWarehouse && c.isDeleted === false)) {
-                    let batchLine: IMaterialBatchJournal = input.materialBatchServiceJournals.create();
-                    batchLine.batchCode = item.batchCode;
-                    batchLine.itemCode = item.itemCode;
-                    batchLine.warehouse = item.warehouse;
-                    batchLine.quantity = item.quantity;
-                    batchLine.direction = ibas.emDirection.OUT;
-                }
-            }
-            inputData.push(input);
+            // let input: IMaterialBatchService = new bo.MaterialBatchService();
+            // input.index = goodIssueLines.indexOf(line);
+            // input.itemCode = line.itemCode;
+            // input.quantity = line.quantity;
+            // input.warehouse = this.editData.fromWarehouse;
+            // input.direction = ibas.emDirection.OUT;
+            // if (line.inventoryTransferMaterialBatchJournals.filterDeleted().length === 0) {
+            //     input.needBatchQuantity = line.quantity;
+            //     input.selectedBatchQuantity = 0;
+            // } else {
+            //     for (let item of line.inventoryTransferMaterialBatchJournals
+            //         .filter(c => c.warehouse === this.editData.fromWarehouse && c.isDeleted === false)) {
+            //         let batchLine: IMaterialBatchJournal = input.materialBatchServiceJournals.create();
+            //         batchLine.batchCode = item.batchCode;
+            //         batchLine.itemCode = item.itemCode;
+            //         batchLine.warehouse = item.warehouse;
+            //         batchLine.quantity = item.quantity;
+            //         batchLine.direction = ibas.emDirection.OUT;
+            //     }
+            // }
+            // inputData.push(input);
         }
         return inputData;
     }
     /** 获取行-序列信息 */
-    getSerialData(): IMaterialSerialService[] {
+    getSerialData(): IMaterialIssueSerialService[] {
         // 获取行数据
         let goodIssueLines: bo.InventoryTransferLine[] = this.editData.inventoryTransferLines.filterDeleted();
-        let inputData: IMaterialSerialService[] = new Array<bo.MaterialSerialService>();
+        let inputData: IMaterialIssueSerialService[] = new Array<bo.MaterialIssueSerialService>();
         for (let line of goodIssueLines) {
             if (line.serialManagement.toString() === ibas.enums.toString(ibas.emYesNo, ibas.emYesNo.NO)) {
                 continue;
             }
-            let input: IMaterialSerialService = new bo.MaterialSerialService();
-            input.index = goodIssueLines.indexOf(line);
-            input.itemCode = line.itemCode;
-            input.quantity = line.quantity;
-            input.warehouse = this.editData.fromWarehouse;
-            input.direction = ibas.emDirection.OUT;
-            if (line.inventoryTransferMaterialSerialJournals.filterDeleted().length === 0) {
-                input.needSerialQuantity = line.quantity;
-                input.selectedSerialQuantity = 0;
-            } else {
-                for (let item of line.inventoryTransferMaterialSerialJournals
-                    .filter(c => c.warehouse === this.editData.fromWarehouse && c.isDeleted === false)) {
-                    let serialLine: IMaterialSerialJournal = input.materialSerialServiceJournals.create();
-                    serialLine.serialCode = item.serialCode;
-                    serialLine.itemCode = item.itemCode;
-                    serialLine.warehouse = item.warehouse;
-                    serialLine.direction = ibas.emDirection.OUT;
-                }
-            }
-            inputData.push(input);
+            // let input: IMaterialIssueSerialService = new bo.MaterialIssueSerialService();
+            // input.index = goodIssueLines.indexOf(line);
+            // input.itemCode = line.itemCode;
+            // input.quantity = line.quantity;
+            // input.warehouse = this.editData.fromWarehouse;
+            // input.direction = ibas.emDirection.OUT;
+            // if (line.inventoryTransferMaterialSerialJournals.filterDeleted().length === 0) {
+            //     input.needSerialQuantity = line.quantity;
+            //     input.selectedSerialQuantity = 0;
+            // } else {
+            //     for (let item of line.inventoryTransferMaterialSerialJournals
+            //         .filter(c => c.warehouse === this.editData.fromWarehouse && c.isDeleted === false)) {
+            //         let serialLine: IMaterialSerialJournal = input.materialSerialServiceJournals.create();
+            //         serialLine.serialCode = item.serialCode;
+            //         serialLine.itemCode = item.itemCode;
+            //         serialLine.warehouse = item.warehouse;
+            //         serialLine.direction = ibas.emDirection.OUT;
+            //     }
+            // }
+            // inputData.push(input);
         }
         return inputData;
     }

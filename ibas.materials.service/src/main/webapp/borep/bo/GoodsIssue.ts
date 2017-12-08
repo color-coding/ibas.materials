@@ -39,6 +39,7 @@ import {
     emItemType,
 } from "../../api/index";
 import {
+    MaterialBatch,
     MaterialBatchJournal,
     MaterialSerialJournal
 } from "./index";
@@ -497,22 +498,10 @@ export class GoodsIssueMaterialBatchJournals extends BusinessObjects<MaterialBat
     create(): MaterialBatchJournal {
         let item: MaterialBatchJournal = new MaterialBatchJournal();
         this.add(item);
-        return item;
-    }
-    createBatchJournal(data: IMaterialIssueBatchLine): MaterialBatchJournal {
-        let item: MaterialBatchJournal = new MaterialBatchJournal();
-        item.batchCode = data.batchCode;
-        item.itemCode = data.itemCode;
-        item.warehouse = data.warehouse;
-        item.quantity = data.quantity;
-        item.direction = emDirection.OUT;
         item.lineStatus = this.parent.lineStatus;
-        // item.admissionDate = data.admissionDate;
-        // item.expirationDate = data.expirationDate;
-        // item.manufacturingDate = data.manufacturingDate;
-        this.add(item);
         return item;
     }
+
     /** 移除批次日记账集合 */
     removeAll(): void {
         for (let item of this) {

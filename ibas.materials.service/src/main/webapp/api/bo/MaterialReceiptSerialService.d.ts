@@ -18,9 +18,9 @@ import {
 import {
     IMaterialSerial,
     IMaterialSerialJournal,
-    IMaterialSerialServiceJournals
+    IMaterialReceiptSerialJournals
 } from "./index";
-export interface IMaterialSerialService extends IBusinessObject {
+export interface IMaterialReceiptSerialService extends IBusinessObject {
     /** table 行index索引 */
     index: number;
 
@@ -38,15 +38,15 @@ export interface IMaterialSerialService extends IBusinessObject {
 
     /** 数量 */
     quantity: number;
-    
+
     /**方向 */
     direction: emDirection;
 
     /** 物料序列分录集合 */
-    materialSerialServiceJournals: IMaterialSerialServiceJournals;
+    materialSerialJournals: IMaterialReceiptSerialJournals;
 }
 /**  物料序列服务-序列号日记账集合  */
-export interface IMaterialSerialServiceJournals extends IBusinessObjects<IMaterialSerialJournal, IMaterialSerialService> {
+export interface IMaterialReceiptSerialJournals extends IBusinessObjects<IMaterialSerialJournal, IMaterialReceiptSerialService> {
     /** 创建并添加子项 */
     create(): IMaterialSerialJournal;
 }
