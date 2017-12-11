@@ -136,8 +136,8 @@ export class InventoryTransferListView extends ibas.BOListView implements IInven
         this.form.addContent(this.table);
         this.page = new sap.m.Page("", {
             showHeader: false,
-            subHeader: new sap.m.Bar("", {
-                contentLeft: [
+            subHeader: new sap.m.Toolbar("", {
+                content: [
                     new sap.m.Button("", {
                         text: ibas.i18n.prop("shell_data_new"),
                         type: sap.m.ButtonType.Transparent,
@@ -168,7 +168,7 @@ export class InventoryTransferListView extends ibas.BOListView implements IInven
                             );
                         }
                     }),
-                    // new sap.m.ToolbarSeparator(""),// 加了后面不显示？
+                    new sap.m.ToolbarSeparator(""),
                     new sap.m.Button("", {
                         text: ibas.i18n.prop("shell_data_delete"),
                         type: sap.m.ButtonType.Transparent,

@@ -107,8 +107,8 @@ export class MaterialSerialListView extends ibas.BOListView implements IMaterial
         this.form.addContent(this.table);
         this.page = new sap.m.Page("", {
             showHeader: false,
-            subHeader: new sap.m.Bar("", {
-                contentLeft: [
+            subHeader: new sap.m.Toolbar("", {
+                content: [
                     new sap.m.Button("", {
                         text: ibas.i18n.prop("shell_data_view"),
                         type: sap.m.ButtonType.Transparent,
