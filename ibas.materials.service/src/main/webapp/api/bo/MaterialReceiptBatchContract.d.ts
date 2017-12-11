@@ -27,12 +27,12 @@ export interface IMaterialReceiptBatchContract {
 
 export interface IMaterialReceiptBatchContractLine extends IMaterialBaseContract {
 
-     /** 单据类型 */
-     docType?: string;
-     /** 单据号 */
-     docEntry?: number;
-     /** 单据行号 */
-     lineNum?: number;
+    /** 单据类型 */
+    docType?: string;
+    /** 单据号 */
+    docEntry?: number;
+    /** 单据行号 */
+    lineNum?: number;
 
     /** 创建的物料批次 */
     materialReceiptBatchs?: IMaterialReceiptBatchs
@@ -53,6 +53,7 @@ export interface IMaterialReceiptBatchs {
 
 /** 物料入库批次服务行-新建 */
 export interface IMaterialReceiptBatchLine extends IMaterialBatchBaseLine {
+    index?: number;
     /** 方向 */
     direction: emDirection;
 

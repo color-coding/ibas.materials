@@ -6,14 +6,16 @@
  * @Author: fancy
  * @Date: 2017-11-30 17:55:41
  * @Last Modified by: fancy
- * @Last Modified time: 2017-12-08 18:08:17
+ * @Last Modified time: 2017-12-11 17:48:01
  */
 
 
 import * as ibas from "ibas/index";
 import * as openui5 from "openui5/index";
 import * as bo from "../../../borep/bo/index";
-import { IMaterialSerialReceiptView } from "../../../bsapp/materialserial/index";
+import { IMaterialSerialReceiptView,
+     MaterialReceiptSerialJournal,
+    MaterialReceiptSerialInfo } from "../../../bsapp/materialserial/index";
 
 export class MaterialSerialReceiptView extends ibas.BODialogView implements IMaterialSerialReceiptView {
     /** 添加批次事件 */
@@ -39,7 +41,7 @@ export class MaterialSerialReceiptView extends ibas.BODialogView implements IMat
                         type: sap.m.ButtonType.Transparent,
                         press: function (): void {
                             that.fireViewEvents(that.autoCreateSerialEvent,
-                                openui5.utils.getTableSelecteds<bo.MaterialIssueSerialService>(that.journalLineTable).firstOrDefault()
+                                openui5.utils.getTableSelecteds<MaterialReceiptSerialJournal>(that.journalLineTable).firstOrDefault()
                             );
                         }
                     }),
@@ -49,7 +51,7 @@ export class MaterialSerialReceiptView extends ibas.BODialogView implements IMat
                         icon: "sap-icon://add",
                         press: function (): void {
                             that.fireViewEvents(that.addSerialEvent,
-                                openui5.utils.getTableSelecteds<bo.MaterialIssueSerialService>(that.journalLineTable).firstOrDefault());
+                                openui5.utils.getTableSelecteds<MaterialReceiptSerialJournal>(that.journalLineTable).firstOrDefault());
                         }
                     }),
                     new sap.m.Button("", {
@@ -58,7 +60,7 @@ export class MaterialSerialReceiptView extends ibas.BODialogView implements IMat
                         icon: "sap-icon://less",
                         press: function (): void {
                             that.fireViewEvents(that.removeSerialEvent,
-                                openui5.utils.getTableSelecteds<bo.MaterialIssueSerialService>(that.journalLineTable).firstOrDefault(),
+                                openui5.utils.getTableSelecteds<MaterialReceiptSerialJournal>(that.journalLineTable).firstOrDefault(),
                                 openui5.utils.getTableSelecteds<bo.MaterialBatch>(that.table)
                             );
                         }
@@ -73,14 +75,14 @@ export class MaterialSerialReceiptView extends ibas.BODialogView implements IMat
                     label: ibas.i18n.prop("bo_materialserial_supplierserial"),
                     template: new sap.m.Input("", {
                     }).bindProperty("value", {
-                        path: "SupplierSerial"
+                        path: "supplierSerial"
                     })
                 }),
                 new sap.ui.table.Column("", {
                     label: ibas.i18n.prop("bo_materialserial_serialcode"),
                     template: new sap.m.Input("", {
                     }).bindProperty("value", {
-                        path: "SerialCode",
+                        path: "serialCode",
                     })
                 }),
                 new sap.ui.table.Column("", {
@@ -117,7 +119,7 @@ export class MaterialSerialReceiptView extends ibas.BODialogView implements IMat
             visibleRowCountMode: sap.ui.table.VisibleRowCountMode.Interactive,
             rowSelectionChange: function (): void {
                 that.fireViewEvents(that.selectMaterialSerialJournalLineEvent,
-                    openui5.utils.getTableSelecteds<bo.MaterialIssueSerialService>(that.journalLineTable).firstOrDefault(), );
+                    openui5.utils.getTableSelecteds<MaterialReceiptSerialJournal>(that.journalLineTable).firstOrDefault(), );
             },
             rows: "{/journallinedata}",
             columns: [
@@ -209,11 +211,11 @@ export class MaterialSerialReceiptView extends ibas.BODialogView implements IMat
     }
     private table: sap.ui.table.Table;
     /** 显示数据 */
-    showData(datas: bo.MaterialSerialJournal[]): void {
+    showData(datas: MaterialReceiptSerialInfo[]): void {
         this.table.setModel(new sap.ui.model.json.JSONModel({ rows: datas }));
         openui5.utils.refreshModelChanged(this.table, datas);
     }
-    showJournalLineData(datas: bo.MaterialReceiptSerialService[]): void {
+    showJournalLineData(datas: MaterialReceiptSerialJournal[]): void {
         this.journalLineTable.setModel(new sap.ui.model.json.JSONModel({ journallinedata: datas }));
         openui5.utils.refreshModelChanged(this.journalLineTable, datas);
     }

@@ -18,7 +18,9 @@ import {
     BODocument,
     BODocumentLine,
     BOSimple,
+    enums,
     BOSimpleLine,
+    strings,
     config,
     objects,
 } from "ibas/index";
@@ -511,6 +513,29 @@ export class InventoryTransferLines extends BusinessObjects<InventoryTransferLin
         let item: InventoryTransferLine = new InventoryTransferLine();
         this.add(item);
         return item;
+    }
+    /** 取出需要添加批次的行 */
+    filterBatchLine(): InventoryTransferLine[] {
+        let lines: InventoryTransferLine[] = this.filter(
+            c => c.isDeleted === false
+                && !objects.isNull(c.lineStatus)
+                && c.lineStatus !== emDocumentStatus.PLANNED
+                && c.batchManagement !== undefined
+                && c.batchManagement.toString() === enums.toString(emYesNo, emYesNo.YES)
+                && !strings.isEmpty(c.itemCode)
+                && !strings.isEmpty(c.warehouse));
+        return lines;
+    } /** 取出需要添加批次的行 */
+    filterSerialLine(): InventoryTransferLine[] {
+        let lines: InventoryTransferLine[] = this.filter(
+            c => c.isDeleted === false
+                && !objects.isNull(c.lineStatus)
+                && c.lineStatus !== emDocumentStatus.PLANNED
+                && c.serialManagement !== undefined
+                && c.serialManagement.toString() === enums.toString(emYesNo, emYesNo.YES)
+                && !strings.isEmpty(c.itemCode)
+                && !strings.isEmpty(c.warehouse));
+        return lines;
     }
 }
 

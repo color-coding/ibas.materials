@@ -6,14 +6,18 @@
  * @Author: fancy
  * @Date: 2017-11-30 17:45:55
  * @Last Modified by: fancy
- * @Last Modified time: 2017-12-08 18:06:01
+ * @Last Modified time: 2017-12-11 16:54:45
  */
 
 import * as ibas from "ibas/index";
 import * as openui5 from "openui5/index";
 import * as bo from "../../../borep/bo/index";
 import { emAutoSelectBatchSerialRules } from "../../../api/Datas";
-import { IMaterialSerialIssueView } from "../../../bsapp/materialserial/index";
+import {
+    IMaterialSerialIssueView,
+    MaterialIssueSerialInfo,
+    MaterialIssueSerialJournal
+} from "../../../bsapp/materialserial/index";
 export class MaterialSerialIssueView extends ibas.BODialogView implements IMaterialSerialIssueView {
     /** 选择序列号凭证行信息事件 */
     selectMaterialSerialJournalLineEvent: Function;
@@ -42,7 +46,7 @@ export class MaterialSerialIssueView extends ibas.BODialogView implements IMater
             visibleRowCountMode: sap.ui.table.VisibleRowCountMode.Interactive,
             rowSelectionChange: function (): void {
                 that.fireViewEvents(that.selectMaterialSerialJournalLineEvent,
-                    openui5.utils.getTableSelecteds<bo.MaterialIssueSerialService>(that.journalLineTable).firstOrDefault(), );
+                    openui5.utils.getTableSelecteds<MaterialIssueSerialJournal>(that.journalLineTable).firstOrDefault(), );
             },
             rows: "{/journallinedata}",
             columns: [
@@ -141,7 +145,7 @@ export class MaterialSerialIssueView extends ibas.BODialogView implements IMater
                                     text: ibas.i18n.prop("materials_app_autoselectbatch_by_firstinfirstout"),
                                     press: function (): void {
                                         that.fireViewEvents(that.autoSelectMaterialSerialEvent
-                                            , openui5.utils.getTableSelecteds<bo.MaterialIssueSerialService>
+                                            , openui5.utils.getTableSelecteds<MaterialIssueSerialJournal>
                                                 (that.journalLineTable).firstOrDefault()
                                             , emAutoSelectBatchSerialRules.FIRST_IN_FIRST_OUT);
                                     }
@@ -150,7 +154,7 @@ export class MaterialSerialIssueView extends ibas.BODialogView implements IMater
                                     text: ibas.i18n.prop("materials_app_autoselectbatch_by_batchno"),
                                     press: function (): void {
                                         that.fireViewEvents(that.autoSelectMaterialSerialEvent
-                                            , openui5.utils.getTableSelecteds<bo.MaterialIssueSerialService>
+                                            , openui5.utils.getTableSelecteds<MaterialIssueSerialJournal>
                                                 (that.journalLineTable).firstOrDefault()
                                             , emAutoSelectBatchSerialRules.ORDER_BY_CODE);
                                     }
@@ -164,7 +168,7 @@ export class MaterialSerialIssueView extends ibas.BODialogView implements IMater
                     press: function (): void {
                         that.fireViewEvents(that.removeSerialMaterialSerialEvent,
                             // 获取表格选中的对象
-                            openui5.utils.getTableSelecteds<bo.MaterialIssueSerialService>(that.journalLineTable).firstOrDefault(),
+                            openui5.utils.getTableSelecteds<MaterialIssueSerialJournal>(that.journalLineTable).firstOrDefault(),
                             openui5.utils.getTableSelecteds<bo.MaterialBatchJournal>(that.rightTable),
                         );
                     }
@@ -174,7 +178,7 @@ export class MaterialSerialIssueView extends ibas.BODialogView implements IMater
                     press: function (): void {
                         that.fireViewEvents(that.addSerialMaterialSerialEvent,
                             // 获取表格选中的对象
-                            openui5.utils.getTableSelecteds<bo.MaterialIssueSerialService>(that.journalLineTable).firstOrDefault(),
+                            openui5.utils.getTableSelecteds<MaterialIssueSerialJournal>(that.journalLineTable).firstOrDefault(),
                             openui5.utils.getTableSelecteds<bo.MaterialBatch>(that.leftTable),
                         );
                     }
@@ -250,7 +254,7 @@ export class MaterialSerialIssueView extends ibas.BODialogView implements IMater
     }
     private lastCriteria: ibas.ICriteria;
 
-    showJournalLineData(datas: bo.MaterialIssueSerialService[]): void {
+    showJournalLineData(datas: MaterialIssueSerialJournal[]): void {
         this.journalLineTable.setModel(new sap.ui.model.json.JSONModel({ journallinedata: datas }));
         openui5.utils.refreshModelChanged(this.journalLineTable, datas);
     }
@@ -259,7 +263,7 @@ export class MaterialSerialIssueView extends ibas.BODialogView implements IMater
         // 监听属性改变，并更新控件
         openui5.utils.refreshModelChanged(this.leftTable, datas);
     }
-    showRightData(datas: bo.MaterialSerialJournal[]): void {
+    showRightData(datas: MaterialIssueSerialInfo[]): void {
         this.rightTable.setModel(new sap.ui.model.json.JSONModel({ rightrows: datas }));
         // 监听属性改变，并更新控件
         openui5.utils.refreshModelChanged(this.rightTable, datas);

@@ -21,14 +21,9 @@ export * from "./MaterialBatch.d";
 export * from "./MaterialSerial.d";
 export * from "./MaterialBatchJournal.d";
 export * from "./MaterialSerialJournal.d";
-export * from "./MaterialIssueBatchService.d";
-export * from "./MaterialIssueSerialService.d";
-export * from "./MaterialReceiptSerialService.d";
 export * from "./MaterialPriceList.d";
 export * from "./MaterialIssueSerialContract.d";
 export * from "./MaterialReceiptSerialContract.d";
 export * from "./MaterialIssueBatchContract.d";
 export * from "./MaterialReceiptBatchContract.d";
 export * from "./MaterialBaseContract.d";
-export * from "./MaterialReceiptBatchService.d";
-

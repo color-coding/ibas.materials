@@ -498,7 +498,7 @@ export class GoodsReceiptMaterialBatchJournals extends BusinessObjects<MaterialB
         return item;
     }
 
-    createBatchJournal(data: IMaterialBatchJournal): MaterialBatchJournal {
+    createBatchJournal(data: IMaterialReceiptBatchLine): MaterialBatchJournal {
         if (!objects.isNull(data)) {
             let batchJournal: MaterialBatchJournal = this.create();
             batchJournal.batchCode = data.batchCode;

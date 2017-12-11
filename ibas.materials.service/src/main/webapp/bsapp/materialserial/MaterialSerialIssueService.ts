@@ -2,7 +2,7 @@
  * @Author: fancy
  * @Date: 2017-11-27 16:40:53
  * @Last Modified by: fancy
- * @Last Modified time: 2017-12-08 18:08:30
+ * @Last Modified time: 2017-12-11 16:23:01
  */
 
 /**
@@ -25,6 +25,10 @@ import {
     IMaterialIssueSerialContract,
     IMaterialIssueSerialContractLine,
 } from "../../api/bo/index";
+import {
+    MaterialIssueSerialJournal,
+    MaterialIssueSerialInfo
+} from "./index";
 export class MaterialSerialIssueService extends ibas.BOApplication<IMaterialSerialIssueView> {
 
     /** 应用标识 */
@@ -47,7 +51,7 @@ export class MaterialSerialIssueService extends ibas.BOApplication<IMaterialSeri
     /** 服务契约 */
     private contract: IMaterialIssueSerialContract;
     /** 序列服务数据 */
-    protected serialServiceDatas: bo.MaterialIssueSerialService[];
+    protected serialServiceDatas: MaterialIssueSerialJournal[];
     /** 可选序列号信息 */
     protected serialData: bo.MaterialSerial[];
 
@@ -70,7 +74,7 @@ export class MaterialSerialIssueService extends ibas.BOApplication<IMaterialSeri
         throw new Error("Method not implemented.");
     }
     /** 选择凭证行事件 -更新可用序列号 */
-    protected selectMaterialSerialJournalLine(selected: bo.MaterialIssueSerialService): void {
+    protected selectMaterialSerialJournalLine(selected: MaterialIssueSerialJournal): void {
         if (ibas.objects.isNull(selected)) {
             return;
         }
@@ -85,14 +89,14 @@ export class MaterialSerialIssueService extends ibas.BOApplication<IMaterialSeri
         condition = new ibas.Condition(bo.MaterialSerial.PROPERTY_INSTOCK_NAME, ibas.emConditionOperation.EQUAL, "Y");
         criteria.conditions.add(condition);
         that.fetchSerialData(criteria, selected);
-        that.view.showRightData(selected.materialSerialJournals);
+        that.view.showRightData(selected.materialSerialInfos);
     }
     /*
     *  自动选择物料序列
     *  selected  选中的凭证行
     *  rules  自动选择序列规则
     */
-    protected autoSelectMaterialSerial(selected: bo.MaterialIssueSerialService, rules: emAutoSelectBatchSerialRules): void {
+    protected autoSelectMaterialSerial(selected: MaterialIssueSerialJournal, rules: emAutoSelectBatchSerialRules): void {
         // 未选择凭证行
         if (ibas.objects.isNull(selected)) {
             this.messages(ibas.emMessageType.WARNING, ibas.i18n.prop("shell_please_chooose_data",
@@ -100,10 +104,10 @@ export class MaterialSerialIssueService extends ibas.BOApplication<IMaterialSeri
             ));
             return;
         }
-        let SerialItem: bo.MaterialIssueSerialService = this.serialServiceDatas.find(c => c.index === selected.index);
+        // let SerialItem: MaterialIssueSerialJournal = this.serialServiceDatas.find(c => c.index === selected.index);
         // 不需要选择序列号了
-        if (SerialItem.needSerialQuantity === 0) {
-            this.view.showRightData(SerialItem.materialSerialJournals.filterDeleted());
+        if (selected.needSerialQuantity === 0) {
+            this.view.showRightData(selected.materialSerialInfos.filterDeleted());
             return;
         }
         // 无序列号可用
@@ -123,12 +127,12 @@ export class MaterialSerialIssueService extends ibas.BOApplication<IMaterialSeri
             return;
         }
         this.allocateSerial(selected, rules);
-        let line: bo.MaterialIssueSerialService = this.serialServiceDatas.find(c => c.index === selected.index);
+        // let line: MaterialIssueSerialJournal = this.serialServiceDatas.find(c => c.index === selected.index);
         this.view.showLeftData(this.serialData.filter(c => c.isDeleted === false));
-        this.view.showRightData(line.materialSerialJournals.filterDeleted());
+        this.view.showRightData(selected.materialSerialInfos.filterDeleted());
 
     }
-    protected allocateSerial(journal: bo.MaterialIssueSerialService, rule: emAutoSelectBatchSerialRules): void {
+    protected allocateSerial(journal: MaterialIssueSerialJournal, rule: emAutoSelectBatchSerialRules): void {
         // 按照一定规则排序
         if (rule === emAutoSelectBatchSerialRules.FIRST_IN_FIRST_OUT) {
             this.serialData.sort((serial1, serial2) => serial1.createDate < serial2.createDate ? -1
@@ -144,18 +148,18 @@ export class MaterialSerialIssueService extends ibas.BOApplication<IMaterialSeri
         }
 
         let newSerialData: bo.MaterialSerial[] = new Array<bo.MaterialSerial>();
-        let line: bo.MaterialIssueSerialService = this.serialServiceDatas.find(c => c.index === journal.index);
+        // let line: MaterialIssueSerialJournal = this.serialServiceDatas.find(c => c.index === journal.index);
         for (let item of this.serialData.filter(c => c.isDeleted === false)) {
             // 已分配数量
-            if (line.needSerialQuantity === 0) {
+            if (journal.needSerialQuantity === 0) {
                 return;
             }
             // item.delete();
-            // let serialLine: bo.MaterialSerialJournal = line. materialSerialJournals.createSerialJournal(item);
+            // let serialLine: bo.MaterialSerialJournal = line. materialSerialInfos.createSerialJournal(item);
         }
     }
     /** 添加选择的序列号事件 */
-    protected addSerialMaterialSerial(selected: bo.MaterialIssueSerialService, items: bo.MaterialSerial[]): void {
+    protected addSerialMaterialSerial(selected: MaterialIssueSerialJournal, items: bo.MaterialSerial[]): void {
         // 未选择凭证行
         if (ibas.objects.isNull(selected)) {
             this.messages(ibas.emMessageType.WARNING, ibas.i18n.prop("shell_please_chooose_data",
@@ -163,21 +167,21 @@ export class MaterialSerialIssueService extends ibas.BOApplication<IMaterialSeri
             ));
             return;
         }
-        let journalItem: bo.MaterialIssueSerialService = this.serialServiceDatas.find(c => c.index === selected.index);
+        // let journalItem: MaterialIssueSerialJournal = this.serialServiceDatas.find(c => c.index === selected.index);
         for (let item of items) {
             // 不需要选择序列号
-            if (journalItem.needSerialQuantity === 0) {
+            if (selected.needSerialQuantity === 0) {
                 // this.view.showRightData(journalItem.materialBatchSerialInOutDataSerialJournals.filterDeleted());
                 return;
             }
-            // let line: bo.MaterialSerialJournal = journalItem. materialSerialJournals.createSerialJournal(item);
+            // let line: bo.MaterialSerialJournal = journalItem. materialSerialInfos.createSerialJournal(item);
             // item.delete();
         }
         this.view.showLeftData(this.serialData.filter(c => c.isDeleted === false));
-        this.view.showRightData(journalItem.materialSerialJournals);
+        this.view.showRightData(selected.materialSerialInfos);
     }
     /** 移除选择的序列号事件 */
-    protected removeSerialMaterialSerial(selected: bo.MaterialIssueSerialService, items: bo.MaterialSerialJournal[]): void {
+    protected removeSerialMaterialSerial(selected: MaterialIssueSerialJournal, items: MaterialIssueSerialInfo[]): void {
         // 未选择凭证行
         if (ibas.objects.isNull(selected)) {
             this.messages(ibas.emMessageType.WARNING, ibas.i18n.prop("shell_please_chooose_data",
@@ -192,26 +196,27 @@ export class MaterialSerialIssueService extends ibas.BOApplication<IMaterialSeri
         if (items.length === 0) {
             return;
         }
-        let line: bo.MaterialIssueSerialService = this.serialServiceDatas.find(c => c.index === selected.index);
+        // let line: MaterialIssueSerialJournal = this.serialServiceDatas.find(c => c.index === selected.index);
         // 移除项目
         for (let item of items) {
-            if (line.materialSerialJournals.indexOf(item) >= 0) {
+            if (selected.materialSerialInfos.indexOf(item) >= 0) {
                 if (item.isNew) {
                     // 新建的移除集合
-                    line.materialSerialJournals.remove(item);
+                    selected.materialSerialInfos.remove(item);
                 } else {
                     // 非新建标记删除
-                    item.delete();
+                    // item.delete();
+                    item.markDeleted(true);
                 }
                 let serialItem: bo.MaterialSerial = this.serialData.find(c => c.serialCode === item.serialCode);
                 serialItem.markNew(true);
             }
         }
         this.view.showLeftData(this.serialData.filter(c => c.isDeleted === false));
-        this.view.showRightData(line.materialSerialJournals.filterDeleted());
+        this.view.showRightData(selected.materialSerialInfos.filterDeleted());
     }
     /** 查询数据 */
-    protected fetchSerialData(criteria: ibas.ICriteria, selected: bo.MaterialIssueSerialService): void {
+    protected fetchSerialData(criteria: ibas.ICriteria, selected: MaterialIssueSerialJournal): void {
         this.busy(true);
         let that: this = this;
         let boRepository: BORepositoryMaterials = new BORepositoryMaterials();
@@ -234,21 +239,21 @@ export class MaterialSerialIssueService extends ibas.BOApplication<IMaterialSeri
     }
     /** 绑定服务数据 */
     bindSerialServiceData(contract: IMaterialIssueSerialContract): void {
-        let serialServiceDatas: bo.MaterialIssueSerialService[] = Array<bo.MaterialIssueSerialService>();
+        let serialServiceDatas: MaterialIssueSerialJournal[] = Array<MaterialIssueSerialJournal>();
         for (let item of contract.materialIssueSerialContractLines) {
-            let serialServiceData: bo.MaterialIssueSerialService = new bo.MaterialIssueSerialService(item);
+            let serialServiceData: MaterialIssueSerialJournal = new MaterialIssueSerialJournal(item);
             serialServiceData.direction = ibas.emDirection.OUT;
             serialServiceDatas.push(serialServiceData);
         }
         this.serialServiceDatas = serialServiceDatas;
     }
 
-    protected filterSelected(fetchData: bo.MaterialSerial[], selected: bo.MaterialIssueSerialService): bo.MaterialSerial[] {
-        if (selected.materialSerialJournals.length === 0) {
+    protected filterSelected(fetchData: bo.MaterialSerial[], selected: MaterialIssueSerialJournal): bo.MaterialSerial[] {
+        if (selected.materialSerialInfos.length === 0) {
             this.serialData = fetchData;
             return fetchData;
         }
-        for (let item of selected.materialSerialJournals) {
+        for (let item of selected.materialSerialInfos) {
             let serialItem: bo.MaterialSerial = fetchData.find(c => c.serialCode === item.serialCode);
             if (!ibas.objects.isNull(serialItem)) {
                 serialItem.delete();
@@ -275,8 +280,8 @@ export class MaterialSerialIssueService extends ibas.BOApplication<IMaterialSeri
 export interface IMaterialSerialIssueView extends ibas.IBOView {
     /** 显示数据 */
     showLeftData(datas: bo.MaterialSerial[]): void;
-    showRightData(datas: bo.MaterialSerialJournal[]): void;
-    showJournalLineData(datas: bo.MaterialIssueSerialService[]): void;
+    showRightData(datas: MaterialIssueSerialInfo[]): void;
+    showJournalLineData(datas: MaterialIssueSerialJournal[]): void;
     /** 选择设置序列号中凭证行信息事件 */
     selectMaterialSerialJournalLineEvent: Function;
     /** 自动选择事件 */

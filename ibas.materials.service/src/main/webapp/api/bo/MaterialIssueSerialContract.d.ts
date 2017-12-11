@@ -29,24 +29,24 @@ export interface IMaterialIssueSerialContractLine extends IMaterialBaseContract 
     /** 单据号 */
     docEntry?: number;
     /** 单据行号 */
-    lineId?: number;
+    lineNum?: number;
     /** 单据类型 */
     docType?: string;
 
     /** 选择的序列 */
-    materialLineSerials?:IMaterialIssueSerials;
+    materialLineSerials?: IMaterialIssueSerials;
 }
 
 /** 物料出库行序列信息 */
 export interface IMaterialIssueSerials {
     /** 物料出库行批次信息 */
     materialIssueLineSerials: IMaterialIssueSerialLine[];
-     /** 创建序列记账 */
-     createSerialJournal(data: IMaterialSerialBaseLine): void;
-     /** 删除序列记账 */
-     deleteSerialJournal(data: IMaterialSerialBaseLine): void;
-     /** 修改序列记账 */
-     updateSerialJournal(data: IMaterialSerialBaseLine): void;
+    /** 创建序列记账 */
+    createSerialJournal(data: IMaterialSerialBaseLine): void;
+    /** 删除序列记账 */
+    deleteSerialJournal(data: IMaterialSerialBaseLine): void;
+    /** 修改序列记账 */
+    updateSerialJournal(data: IMaterialSerialBaseLine): void;
 }
 
 

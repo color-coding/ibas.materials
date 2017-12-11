@@ -29,9 +29,9 @@ export interface IMaterialReceiptSerialContractLine extends IMaterialBaseContrac
     /** 单据号 */
     docEntry?: number;
     /** 单据行号 */
-    lineId?: number;
+    lineNum?: number;
     /** 单据类型 */
-    objectType?: string;
+    docType?: string;
     /** 创建的序列 */
     materialLineSerials?: IMaterialReceiptSerials;
 }
@@ -51,11 +51,14 @@ export interface IMaterialReceiptSerials {
 
 /** 物料出库序列服务行-新建 */
 export interface IMaterialReceiptSerialLine extends IMaterialSerialBaseLine {
+    index?: number;
     /** 方向 */
     direction: emDirection;
 
     itemCode?: string;
 
     warehouse?: string;
+
+    supplierSerial?:string;
 }
 
