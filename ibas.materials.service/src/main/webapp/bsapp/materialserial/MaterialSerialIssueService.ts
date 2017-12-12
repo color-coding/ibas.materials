@@ -46,8 +46,7 @@ export class MaterialSerialIssueService extends ibas.BOApplication<IMaterialSeri
         this.boCode = MaterialSerialIssueService.BUSINESS_OBJECT_CODE;
         this.description = ibas.i18n.prop(this.name);
     }
-    /** 完成 */
-    private onCompleted: Function;
+
     /** 服务契约 */
     private contract: IMaterialIssueSerialContract;
     /** 序列服务数据 */
@@ -268,7 +267,6 @@ export class MaterialSerialIssueService extends ibas.BOApplication<IMaterialSeri
         if (arguments[0].caller.materialIssueSerialContractLines.length >= 1) {
             that.bindSerialServiceData(arguments[0].caller);
         }
-        this.onCompleted = arguments[0].onCompleted;
         super.run.apply(this, args);
     }
     protected saveData(): void {

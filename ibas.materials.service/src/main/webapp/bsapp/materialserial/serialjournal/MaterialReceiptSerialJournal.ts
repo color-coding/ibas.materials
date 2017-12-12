@@ -7,7 +7,7 @@
  * @Author: fancy
  * @Date: 2017-12-10 17:58:50
  * @Last Modified by: fancy
- * @Last Modified time: 2017-12-11 17:58:01
+ * @Last Modified time: 2017-12-12 10:43:42
  */
 import * as ibas from "ibas/index";
 import {
@@ -167,6 +167,7 @@ export class MaterialReceiptSerialInfos extends ibas.BusinessObjects<MaterialRec
         item.direction = this.parent.direction;
         if (!ibas.objects.isNull(data)) {
             item.serialCode = data.serialCode;
+            item.supplierSerial = data.supplierSerial;
         }
         return item;
     }
@@ -182,6 +183,7 @@ export class MaterialReceiptSerialInfos extends ibas.BusinessObjects<MaterialRec
     deleteSerialJournal(data: MaterialReceiptSerialInfo): void {
         data.index = this.indexOf(data);
         this.parent.contract.materialLineSerials.deleteSerialJournal(data);
+        this.remove(data);
     }
     /** 修改序列日记账 */
     updateSerialJournal(data: MaterialReceiptSerialInfo): void {
@@ -198,6 +200,9 @@ export class MaterialReceiptSerialInfos extends ibas.BusinessObjects<MaterialRec
     protected onChildPropertyChanged(item: MaterialReceiptSerialInfo, name: string): void {
         super.onChildPropertyChanged(item, name);
         this.updateSerialJournal(item);
+        if (ibas.strings.equalsIgnoreCase(name, MaterialReceiptSerialInfo.PROPERTY_SERIALCODE_NAME)) {
+           //
+        }
     }
     /** 移除子项 */
     protected afterRemove(item: MaterialReceiptSerialInfo): void {
@@ -247,11 +252,11 @@ export class MaterialReceiptSerialInfo extends ibas.BusinessObjectBase<MaterialR
 
     /** 映射的属性名称-批次编号 */
     static PROPERTY_SERIALCODE_NAME: string = "SerialCode";
-    /** 获取-批次编号 */
+    /** 获取-序列编号 */
     get serialCode(): string {
         return this.getProperty<string>(MaterialReceiptSerialInfo.PROPERTY_SERIALCODE_NAME);
     }
-    /** 设置-批次编号 */
+    /** 设置-序列编号 */
     set serialCode(value: string) {
         this.setProperty(MaterialReceiptSerialInfo.PROPERTY_SERIALCODE_NAME, value);
     }

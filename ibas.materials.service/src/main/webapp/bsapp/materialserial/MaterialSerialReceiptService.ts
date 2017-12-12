@@ -43,8 +43,6 @@ export class MaterialSerialReceiptService extends ibas.BOApplication<IMaterialSe
         this.boCode = MaterialSerialReceiptService.BUSINESS_OBJECT_CODE;
         this.description = ibas.i18n.prop(this.name);
     }
-    /** 完成 */
-    private onCompleted: Function;
     /** 服务契约 */
     private contract: IMaterialReceiptSerialContract;
     /** 服务输入数据 */
@@ -151,7 +149,7 @@ export class MaterialSerialReceiptService extends ibas.BOApplication<IMaterialSe
         let serialServiceDatas: MaterialReceiptSerialJournal[] = Array<MaterialReceiptSerialJournal>();
         for (let item of contract.materialReceiptSerialContractLines) {
             let serialServiceData: MaterialReceiptSerialJournal = new MaterialReceiptSerialJournal(item);
-            serialServiceData.direction = ibas.emDirection.OUT;
+            serialServiceData.direction = ibas.emDirection.IN;
             serialServiceDatas.push(serialServiceData);
         }
         this.serialServiceDatas = serialServiceDatas;
@@ -163,7 +161,6 @@ export class MaterialSerialReceiptService extends ibas.BOApplication<IMaterialSe
         if (arguments[0].caller.materialReceiptSerialContractLines.length >= 1) {
             that.bindSerialServiceData(arguments[0].caller);
         }
-        this.onCompleted = arguments[0].onCompleted;
         super.run.apply(this, args);
     }
     /** 视图显示后 */
