@@ -87,7 +87,7 @@ export class MaterialSerialViewView extends ibas.BOViewView implements IMaterial
         });
         this.rightTable = new sap.ui.table.Table("", {
             enableSelectAll: false,
-            selectionBehavior: sap.ui.table.SelectionBehavior.RowOnly,
+            selectionBehavior: sap.ui.table.SelectionBehavior.Row,
             visibleRowCount: ibas.config.get(openui5.utils.CONFIG_ITEM_LIST_TABLE_VISIBLE_ROW_COUNT, 10),
             rows: "{/rows}",
             columns: [

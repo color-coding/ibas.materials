@@ -23,8 +23,8 @@ import { IMaterialBatchViewView } from "../../../bsapp/materialbatch/index";
  */
 export class MaterialBatchViewView extends ibas.BOViewView implements IMaterialBatchViewView {
 
-     /** 绘制视图 */
-     public darw(): any {
+    /** 绘制视图 */
+    public darw(): any {
         let that: this = this;
         this.form = new sap.ui.layout.form.SimpleForm("", {
             editable: false,
@@ -93,7 +93,7 @@ export class MaterialBatchViewView extends ibas.BOViewView implements IMaterialB
         });
         this.rightTable = new sap.ui.table.Table("", {
             enableSelectAll: false,
-            selectionBehavior: sap.ui.table.SelectionBehavior.RowOnly,
+            selectionBehavior: sap.ui.table.SelectionBehavior.Row,
             visibleRowCount: ibas.config.get(openui5.utils.CONFIG_ITEM_LIST_TABLE_VISIBLE_ROW_COUNT, 5),
             rows: "{/rows}",
             columns: [
