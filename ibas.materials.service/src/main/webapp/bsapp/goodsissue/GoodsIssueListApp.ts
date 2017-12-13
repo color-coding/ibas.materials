@@ -99,7 +99,7 @@ export class GoodsIssueListApp extends ibas.BOListApplication<IGoodsIssueListVie
         app.run(data);
     }
     /** 删除数据，参数：目标数据集合 */
-    protected deleteData(data: bo.GoodsIssue): void {
+    protected deleteData(data: bo.GoodsIssue | bo.GoodsIssue[]): void {
         // 检查目标数据
         if (ibas.objects.isNull(data)) {
             this.messages(ibas.emMessageType.WARNING, ibas.i18n.prop("shell_please_chooose_data",
@@ -107,14 +107,15 @@ export class GoodsIssueListApp extends ibas.BOListApplication<IGoodsIssueListVie
             ));
             return;
         }
-        let beDeleteds:ibas.ArrayList<bo.GoodsIssue> = new ibas.ArrayList<bo.GoodsIssue>();
-        if (data instanceof Array ) {
+        let beDeleteds: ibas.ArrayList<bo.GoodsIssue> = new ibas.ArrayList<bo.GoodsIssue>();
+        if (data instanceof Array) {
             for (let item of data) {
-                if (ibas.objects.instanceOf(item, bo.GoodsIssue)) {
-                    item.delete();
-                    beDeleteds.add(item);
-                }
+                item.delete();
+                beDeleteds.add(item);
             }
+        } else {
+            data.delete();
+            beDeleteds.add(data);
         }
         // 没有选择删除的对象
         if (beDeleteds.length === 0) {
@@ -130,7 +131,7 @@ export class GoodsIssueListApp extends ibas.BOListApplication<IGoodsIssueListVie
                 if (action === ibas.emMessageAction.YES) {
                     try {
                         let boRepository: BORepositoryMaterials = new BORepositoryMaterials();
-                        let saveMethod: Function = function(beSaved: bo.GoodsIssue):void {
+                        let saveMethod: Function = function (beSaved: bo.GoodsIssue): void {
                             boRepository.saveGoodsIssue({
                                 beSaved: beSaved,
                                 onCompleted(opRslt: ibas.IOperationResult<bo.GoodsIssue>): void {
@@ -146,7 +147,7 @@ export class GoodsIssueListApp extends ibas.BOListApplication<IGoodsIssueListVie
                                             // 处理完成
                                             that.busy(false);
                                             that.messages(ibas.emMessageType.SUCCESS,
-                                            ibas.i18n.prop("shell_data_delete") + ibas.i18n.prop("shell_sucessful"));
+                                                ibas.i18n.prop("shell_data_delete") + ibas.i18n.prop("shell_sucessful"));
                                         }
                                     } catch (error) {
                                         that.messages(ibas.emMessageType.ERROR,

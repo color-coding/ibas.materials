@@ -99,7 +99,7 @@ export class GoodsReceiptListApp extends ibas.BOListApplication<IGoodsReceiptLis
         app.run(data);
     }
     /** 删除数据，参数：目标数据集合 */
-    protected deleteData(data: bo.GoodsReceipt): void {
+    protected deleteData(data: bo.GoodsReceipt | bo.GoodsReceipt[]): void {
         // 检查目标数据
         if (ibas.objects.isNull(data)) {
             this.messages(ibas.emMessageType.WARNING, ibas.i18n.prop("shell_please_chooose_data",
@@ -107,14 +107,15 @@ export class GoodsReceiptListApp extends ibas.BOListApplication<IGoodsReceiptLis
             ));
             return;
         }
-        let beDeleteds:ibas.ArrayList<bo.GoodsReceipt> = new ibas.ArrayList<bo.GoodsReceipt>();
-        if (data instanceof Array ) {
+        let beDeleteds: ibas.ArrayList<bo.GoodsReceipt> = new ibas.ArrayList<bo.GoodsReceipt>();
+        if (data instanceof Array) {
             for (let item of data) {
-                if (ibas.objects.instanceOf(item, bo.GoodsReceipt)) {
-                    item.delete();
-                    beDeleteds.add(item);
-                }
+                item.delete();
+                beDeleteds.add(item);
             }
+        } else {
+            data.delete();
+            beDeleteds.add(data);
         }
         // 没有选择删除的对象
         if (beDeleteds.length === 0) {
@@ -130,7 +131,7 @@ export class GoodsReceiptListApp extends ibas.BOListApplication<IGoodsReceiptLis
                 if (action === ibas.emMessageAction.YES) {
                     try {
                         let boRepository: BORepositoryMaterials = new BORepositoryMaterials();
-                        let saveMethod: Function = function(beSaved: bo.GoodsReceipt):void {
+                        let saveMethod: Function = function (beSaved: bo.GoodsReceipt): void {
                             boRepository.saveGoodsReceipt({
                                 beSaved: beSaved,
                                 onCompleted(opRslt: ibas.IOperationResult<bo.GoodsReceipt>): void {
@@ -146,7 +147,7 @@ export class GoodsReceiptListApp extends ibas.BOListApplication<IGoodsReceiptLis
                                             // 处理完成
                                             that.busy(false);
                                             that.messages(ibas.emMessageType.SUCCESS,
-                                            ibas.i18n.prop("shell_data_delete") + ibas.i18n.prop("shell_sucessful"));
+                                                ibas.i18n.prop("shell_data_delete") + ibas.i18n.prop("shell_sucessful"));
                                         }
                                     } catch (error) {
                                         that.messages(ibas.emMessageType.ERROR,
