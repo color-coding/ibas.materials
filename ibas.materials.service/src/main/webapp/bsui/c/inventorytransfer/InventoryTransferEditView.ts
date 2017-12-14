@@ -112,7 +112,7 @@ export class InventoryTransferEditView extends ibas.BOEditView implements IInven
         });
         this.form.addContent(new sap.ui.core.Title("", { text: ibas.i18n.prop("bo_inventorytransferline") }));
         this.tableInventoryTransferLine = new sap.ui.table.Table("", {
-            extension: new sap.m.Toolbar("", {
+            toolbar: new sap.m.Toolbar("", {
                 content: [
                     new sap.m.Button("", {
                         text: ibas.i18n.prop("shell_data_add"),
@@ -157,6 +157,7 @@ export class InventoryTransferEditView extends ibas.BOEditView implements IInven
                 ]
             }),
             enableSelectAll: false,
+            selectionBehavior: sap.ui.table.SelectionBehavior.Row,
             visibleRowCount: ibas.config.get(openui5.utils.CONFIG_ITEM_LIST_TABLE_VISIBLE_ROW_COUNT, 5),
             rows: "{/rows}",
             columns: [

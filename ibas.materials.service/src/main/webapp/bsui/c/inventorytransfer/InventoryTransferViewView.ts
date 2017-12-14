@@ -91,8 +91,8 @@ export class InventoryTransferViewView extends ibas.BOViewView implements IInven
         this.form.addContent(new sap.ui.core.Title("", { text: ibas.i18n.prop("bo_inventorytransferline") }));
         this.tableInventoryTransferLine = new sap.ui.table.Table("", {
             enableSelectAll: false,
+            selectionBehavior: sap.ui.table.SelectionBehavior.Row,
             visibleRowCount: ibas.config.get(openui5.utils.CONFIG_ITEM_LIST_TABLE_VISIBLE_ROW_COUNT, 5),
-            selectionBehavior: sap.ui.table.SelectionBehavior.RowOnly,
             rows: "{/rows}",
             columns: [
                 new sap.ui.table.Column("", {

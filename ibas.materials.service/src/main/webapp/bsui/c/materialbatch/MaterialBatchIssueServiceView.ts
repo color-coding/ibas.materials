@@ -39,8 +39,8 @@ export class MaterialBatchIssueView extends ibas.BODialogView implements IMateri
         let that: this = this;
         this.journalLineTable = new sap.ui.table.Table("", {
             enableSelectAll: false,
+            selectionBehavior: sap.ui.table.SelectionBehavior.Row,
             selectionMode: sap.ui.table.SelectionMode.Single,
-            selectionBehavior: sap.ui.table.SelectionBehavior.RowOnly,
             visibleRowCount: ibas.config.get(openui5.utils.CONFIG_ITEM_LIST_TABLE_VISIBLE_ROW_COUNT, 8),
             visibleRowCountMode: sap.ui.table.VisibleRowCountMode.Interactive,
             rowSelectionChange: function (): void {
@@ -104,6 +104,7 @@ export class MaterialBatchIssueView extends ibas.BODialogView implements IMateri
         });
         this.leftTable = new sap.ui.table.Table("", {
             enableSelectAll: false,
+            selectionBehavior: sap.ui.table.SelectionBehavior.Row,
             wrapping: true,
             visibleRowCount: ibas.config.get(openui5.utils.CONFIG_ITEM_LIST_TABLE_VISIBLE_ROW_COUNT, 5),
             rows: "{/leftrows}",
@@ -129,6 +130,7 @@ export class MaterialBatchIssueView extends ibas.BODialogView implements IMateri
         });
         this.rightTable = new sap.ui.table.Table("", {
             enableSelectAll: false,
+            selectionBehavior: sap.ui.table.SelectionBehavior.Row,
             visibleRowCount: ibas.config.get(openui5.utils.CONFIG_ITEM_LIST_TABLE_VISIBLE_ROW_COUNT, 5),
             rows: "{/rightrows}",
             columns: [
@@ -235,7 +237,7 @@ export class MaterialBatchIssueView extends ibas.BODialogView implements IMateri
             ]
         });
         this.mainLayout = new sap.ui.layout.VerticalLayout("", {
-            width:"750px",
+            width: "750px",
             wrapping: false,
             content: [
                 this.journalLineTable,
