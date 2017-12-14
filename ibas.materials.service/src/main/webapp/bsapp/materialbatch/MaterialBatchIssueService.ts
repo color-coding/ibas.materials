@@ -236,14 +236,7 @@ export class MaterialBatchIssueService extends ibas.BOApplication<IMaterialBatch
         // 移除项目
         for (let item of items) {
             if (selected.materialBatchInfos.indexOf(item) >= 0) {
-                if (item.isNew) {
-                    // 新建的移除集合
-                    selected.materialBatchInfos.deleteBatchJournal(item);
-                } else {
-                    // 非新建标记删除
-                    // item.delete();
-                    item.markDeleted(true);
-                }
+                selected.materialBatchInfos.deleteBatchJournal(item);
                 let batchItem: bo.MaterialBatch = this.batchData.find(c => c.batchCode === item.batchCode);
                 if (!ibas.objects.isNull(batchItem)) {
                     batchItem.quantity = Number(batchItem.quantity) + Number(item.quantity);

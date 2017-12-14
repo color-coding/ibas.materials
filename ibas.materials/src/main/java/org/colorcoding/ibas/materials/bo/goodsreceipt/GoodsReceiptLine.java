@@ -1,14 +1,8 @@
 package org.colorcoding.ibas.materials.bo.goodsreceipt;
 
-import javax.xml.bind.annotation.*;
-
 import org.colorcoding.ibas.bobas.bo.BusinessObject;
 import org.colorcoding.ibas.bobas.core.IPropertyInfo;
-import org.colorcoding.ibas.bobas.data.DateTime;
-import org.colorcoding.ibas.bobas.data.Decimal;
-import org.colorcoding.ibas.bobas.data.emBOStatus;
-import org.colorcoding.ibas.bobas.data.emDocumentStatus;
-import org.colorcoding.ibas.bobas.data.emYesNo;
+import org.colorcoding.ibas.bobas.data.*;
 import org.colorcoding.ibas.bobas.logic.IBusinessLogicContract;
 import org.colorcoding.ibas.bobas.logic.IBusinessLogicsHost;
 import org.colorcoding.ibas.bobas.mapping.DbField;
@@ -18,6 +12,8 @@ import org.colorcoding.ibas.materials.bo.materialbatch.MaterialBatchJournal;
 import org.colorcoding.ibas.materials.bo.materialserial.MaterialSerialJournal;
 import org.colorcoding.ibas.materials.data.emItemType;
 import org.colorcoding.ibas.materials.logic.IMaterialReceiptContract;
+
+import javax.xml.bind.annotation.*;
 
 /**
  * 获取-库存收货-行
@@ -1360,24 +1356,24 @@ public class GoodsReceiptLine extends BusinessObject<GoodsReceiptLine>
 	/**
 	 * 属性名称-库存发货-物料批次
 	 */
-	private static final String PROPERTY_GOODSRECEIPTMATERIALBATCHJOURNALS_NAME = "GoodsReceiptMaterialBatchJournals";
+	private static final String PROPERTY_GOODSRECEIPTLINEMATERIALBATCHJOURNALS_NAME = "GoodsReceiptLineMaterialBatchJournals";
 
 	/**
 	 * 库存发货-物料批次的集合属性
 	 *
 	 */
-	public static final IPropertyInfo<IGoodsReceiptMaterialBatchJournals> PROPERTY_GOODSRECEIPTMATERIALBATCHJOURNALS = registerProperty(
-			PROPERTY_GOODSRECEIPTMATERIALBATCHJOURNALS_NAME, IGoodsReceiptMaterialBatchJournals.class, MY_CLASS);
+	public static final IPropertyInfo<IGoodsReceiptLineMaterialBatchJournals> PROPERTY_GOODSRECEIPTLINEMATERIALBATCHJOURNALS = registerProperty(
+			PROPERTY_GOODSRECEIPTLINEMATERIALBATCHJOURNALS_NAME, IGoodsReceiptLineMaterialBatchJournals.class, MY_CLASS);
 
 	/**
 	 * 获取-库存收货-物料批次集合
 	 *
 	 * @return 值
 	 */
-	@XmlElementWrapper(name = PROPERTY_GOODSRECEIPTMATERIALBATCHJOURNALS_NAME)
+	@XmlElementWrapper(name = PROPERTY_GOODSRECEIPTLINEMATERIALBATCHJOURNALS_NAME)
 	@XmlElement(name = MaterialBatchJournal.BUSINESS_OBJECT_NAME, type = MaterialBatchJournal.class)
-	public final IGoodsReceiptMaterialBatchJournals getGoodsReceiptMaterialBatchJournals() {
-		return this.getProperty(PROPERTY_GOODSRECEIPTMATERIALBATCHJOURNALS);
+	public final IGoodsReceiptLineMaterialBatchJournals getMaterialBatchJournals() {
+		return this.getProperty(PROPERTY_GOODSRECEIPTLINEMATERIALBATCHJOURNALS);
 	}
 
 	/**
@@ -1386,30 +1382,30 @@ public class GoodsReceiptLine extends BusinessObject<GoodsReceiptLine>
 	 * @param value
 	 *            值
 	 */
-	public final void setGoodsReceiptMaterialBatchJournals(IGoodsReceiptMaterialBatchJournals value) {
-		this.setProperty(PROPERTY_GOODSRECEIPTMATERIALBATCHJOURNALS, value);
+	public final void setMaterialBatchJournals(IGoodsReceiptLineMaterialBatchJournals value) {
+		this.setProperty(PROPERTY_GOODSRECEIPTLINEMATERIALBATCHJOURNALS, value);
 	}
 	/**
 	 * 属性名称-库存发货-物料序列
 	 */
-	private static final String PROPERTY_GOODSRECEIPTMATERIALSERIALJOURNALS_NAME = "GoodsReceiptMaterialSerialJournals";
+	private static final String PROPERTY_GOODSRECEIPTLINEMATERIALSERIALJOURNALS_NAME = "GoodsReceiptLineMaterialSerialJournals";
 
 	/**
 	 * 库存发货-物料序列的集合属性
 	 *
 	 */
-	public static final IPropertyInfo<IGoodsReceiptMaterialSerialJournals> PROPERTY_GOODSRECEIPTMATERIALSERIALJOURNALS = registerProperty(
-			PROPERTY_GOODSRECEIPTMATERIALSERIALJOURNALS_NAME, IGoodsReceiptMaterialSerialJournals.class, MY_CLASS);
+	public static final IPropertyInfo<IGoodsReceiptLineMaterialSerialJournals> PROPERTY_GOODSRECEIPTLINEMATERIALSERIALJOURNALS = registerProperty(
+			PROPERTY_GOODSRECEIPTLINEMATERIALSERIALJOURNALS_NAME, IGoodsReceiptLineMaterialSerialJournals.class, MY_CLASS);
 
 	/**
 	 * 获取-库存发货-物料序列集合
 	 *
 	 * @return 值
 	 */
-	@XmlElementWrapper(name = PROPERTY_GOODSRECEIPTMATERIALSERIALJOURNALS_NAME)
+	@XmlElementWrapper(name = PROPERTY_GOODSRECEIPTLINEMATERIALSERIALJOURNALS_NAME)
 	@XmlElement(name = MaterialSerialJournal.BUSINESS_OBJECT_NAME, type = MaterialSerialJournal.class)
-	public final IGoodsReceiptMaterialSerialJournals getGoodsReceiptMaterialSerialJournals() {
-		return this.getProperty(PROPERTY_GOODSRECEIPTMATERIALSERIALJOURNALS);
+	public final IGoodsReceiptLineMaterialSerialJournals getMaterialSerialJournals() {
+		return this.getProperty(PROPERTY_GOODSRECEIPTLINEMATERIALSERIALJOURNALS);
 	}
 
 	/**
@@ -1418,8 +1414,8 @@ public class GoodsReceiptLine extends BusinessObject<GoodsReceiptLine>
 	 * @param value
 	 *            值
 	 */
-	public final void setGoodsReceiptMaterialSerialJournals(IGoodsReceiptMaterialSerialJournals value) {
-		this.setProperty(PROPERTY_GOODSRECEIPTMATERIALSERIALJOURNALS, value);
+	public final void setMaterialSerialJournals(IGoodsReceiptLineMaterialSerialJournals value) {
+		this.setProperty(PROPERTY_GOODSRECEIPTLINEMATERIALSERIALJOURNALS, value);
 	}
 
 	/**
@@ -1428,8 +1424,8 @@ public class GoodsReceiptLine extends BusinessObject<GoodsReceiptLine>
 	@Override
 	protected void initialize() {
 		super.initialize();// 基类初始化，不可去除
-		this.setGoodsReceiptMaterialBatchJournals(new GoodsReceiptMaterialBatchJournals(this));
-		this.setGoodsReceiptMaterialSerialJournals(new GoodsReceiptMaterialSerialJournals(this));
+		this.setMaterialBatchJournals(new GoodsReceiptLineMaterialBatchJournals(this));
+		this.setMaterialSerialJournals(new GoodsReceiptLineMaterialSerialJournals(this));
 		this.setObjectCode(MyConfiguration.applyVariables(BUSINESS_OBJECT_CODE));
 		// 日期初始化。 需要在前台中添加这三个日期，并实现父类日期发生更改时，子类日期发生相应更改。
 		this.setPostingDate(DateTime.getToday());

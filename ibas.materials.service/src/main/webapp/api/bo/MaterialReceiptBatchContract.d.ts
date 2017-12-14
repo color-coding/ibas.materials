@@ -43,17 +43,20 @@ export interface IMaterialReceiptBatchContractLine extends IMaterialBaseContract
 export interface IMaterialReceiptBatchs {
     /** 物料出库行批次信息 */
     materialReceiptLineBatchs: IMaterialReceiptBatchLine[];
-    /** 创建批次记账 */
-    createBatchJournal(data: IMaterialBatchBaseLine): void;
-    /** 删除批次记账 */
-    deleteBatchJournal(data: IMaterialBatchBaseLine): void;
+    /**
+     * 创建批次日记账  返回调用者
+     */
+    createBatchJournal(data: IMaterialBatchBaseLine): any;
+    /**
+     * 删除批次记账 返回更新者
+     */
+    deleteBatchJournal(data: IMaterialBatchBaseLine): any;
     /** 修改批次记账 */
     updateBatchJournal(data: IMaterialBatchBaseLine): void;
 }
 
 /** 物料入库批次服务行-新建 */
 export interface IMaterialReceiptBatchLine extends IMaterialBatchBaseLine {
-    index?: number;
     /** 方向 */
     direction: emDirection;
 

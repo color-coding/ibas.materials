@@ -16,11 +16,11 @@ import org.colorcoding.ibas.materials.bo.materialbatch.MaterialBatchJournal;
 import org.colorcoding.ibas.materials.bo.materialserial.IMaterialSerialJournal;
 import org.colorcoding.ibas.materials.bo.materialserial.MaterialSerialJournal;
 
-@XmlType(name = InventoryTransferMaterialSerialJournals.BUSINESS_OBJECT_NAME, namespace = MyConfiguration.NAMESPACE_BO)
+@XmlType(name = InventoryTransferLineMaterialSerialJournals.BUSINESS_OBJECT_NAME, namespace = MyConfiguration.NAMESPACE_BO)
 @XmlSeeAlso({ MaterialBatchJournal.class })
-public class InventoryTransferMaterialSerialJournals
+public class InventoryTransferLineMaterialSerialJournals
 		extends BusinessObjects<IMaterialSerialJournal, IInventoryTransferLine>
-		implements IInventoryTransferMaterialSerialJournals {
+		implements IInventoryTransferLineMaterialSerialJournals {
 	/**
 	 * 业务对象名称
 	 */
@@ -31,7 +31,7 @@ public class InventoryTransferMaterialSerialJournals
 	 */
 	private static final long serialVersionUID = 7759763557795210318L;
 
-	public InventoryTransferMaterialSerialJournals() {
+	public InventoryTransferLineMaterialSerialJournals() {
 		super();
 	}
 
@@ -41,7 +41,7 @@ public class InventoryTransferMaterialSerialJournals
 	 * @param parent
 	 *            父项对象
 	 */
-	public InventoryTransferMaterialSerialJournals(IInventoryTransferLine parent) {
+	public InventoryTransferLineMaterialSerialJournals(IInventoryTransferLine parent) {
 		super(parent);
 	}
 

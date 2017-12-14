@@ -7,7 +7,7 @@
  * @Author: fancy
  * @Date: 2017-12-10 15:28:50
  * @Last Modified by: fancy
- * @Last Modified time: 2017-12-11 18:00:10
+ * @Last Modified time: 2017-12-12 18:17:12
  */
 import * as ibas from "ibas/index";
 import {
@@ -167,7 +167,7 @@ export class MaterialIssueBatchInfos extends ibas.BusinessObjects<MaterialIssueB
         if (!ibas.objects.isNull(data)) {
             item.batchCode = data.batchCode;
             item.quantity = data.quantity;
-            // item.index = data.index;
+            item.caller = data.caller;
         }
         return item;
     }
@@ -175,19 +175,23 @@ export class MaterialIssueBatchInfos extends ibas.BusinessObjects<MaterialIssueB
     createBatchJournal(data: MaterialIssueBatchInfo): MaterialIssueBatchInfo {
         if (ibas.objects.instanceOf(data, MaterialIssueBatchInfo)) {
             data = this.create(data);
-            this.parent.contract.materialIssueBatchs.createBatchJournal(data);
+            let caller: any = this.parent.contract.materialIssueBatchs.createBatchJournal(data);
+            data.caller = caller;
             return data;
         }
     }
     /** 删除批次日记账 */
     deleteBatchJournal(data: MaterialIssueBatchInfo): void {
-        data.index = this.indexOf(data);
         this.parent.contract.materialIssueBatchs.deleteBatchJournal(data);
-        this.remove(data);
+        if (data.isNew) {
+            this.remove(data);
+        } else {
+            data.markDeleted(true);
+        }
+
     }
     /** 修改批次日记账 */
     updateBatchJournal(data: MaterialIssueBatchInfo): void {
-        data.index = this.indexOf(data);
         this.parent.contract.materialIssueBatchs.updateBatchJournal(data);
     }
 
@@ -223,6 +227,16 @@ export class MaterialIssueBatchInfos extends ibas.BusinessObjects<MaterialIssueB
 }
 
 export class MaterialIssueBatchInfo extends ibas.BusinessObjectBase<MaterialIssueBatchInfo> {
+
+    private _caller: any;
+
+    public get caller(): any {
+        return this._caller;
+    }
+
+    public set caller(value: any) {
+        this._caller = value;
+    }
     /** 索引-数量 */
     static PROPERTY_INDEX_NAME: string = "Index";
     /** 获取-数量 */

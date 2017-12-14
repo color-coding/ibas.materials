@@ -45,11 +45,11 @@ public class testGoodsReceipt extends TestCase {
 		goodsreceiptline.setItemCode("1000001");
 		goodsreceiptline.setQuantity(1000);
 		goodsreceiptline.setWarehouse("BJKJ");
-		IMaterialBatchJournal goodsreceiptBatch = goodsreceiptline.getGoodsReceiptMaterialBatchJournals().create();
+		IMaterialBatchJournal goodsreceiptBatch = goodsreceiptline.getMaterialBatchJournals().create();
 		goodsreceiptBatch.setQuantity(10);
 		goodsreceiptBatch.setItemCode("A0001");
 		goodsreceiptBatch.setWarehouse("BJKJ");
-		IMaterialSerialJournal goodsreceiptlineSerial = goodsreceiptline.getGoodsReceiptMaterialSerialJournals()
+		IMaterialSerialJournal goodsreceiptlineSerial = goodsreceiptline.getMaterialSerialJournals()
 				.create();
 		goodsreceiptlineSerial.setSerialCode("10001");
 		goodsreceiptlineSerial.setItemCode("A0002");

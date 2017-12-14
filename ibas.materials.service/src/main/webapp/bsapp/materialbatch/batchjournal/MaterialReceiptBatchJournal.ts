@@ -7,7 +7,7 @@
  * @Author: fancy
  * @Date: 2017-12-10 12:05:50
  * @Last Modified by: fancy
- * @Last Modified time: 2017-12-11 16:40:09
+ * @Last Modified time: 2017-12-12 18:15:50
  */
 import * as ibas from "ibas/index";
 import {
@@ -20,14 +20,13 @@ export class MaterialReceiptBatchJournal extends ibas.BusinessObjectBase<Materia
     constructor(contract: IMaterialReceiptBatchContractLine) {
         super();
         this.contract = contract;
-        this.contract = contract;
         // this.index = contract.index;
         this.itemCode = contract.itemCode;
         this.warehouse = contract.warehouse;
         this.quantity = contract.quantity;
         this.needBatchQuantity = contract.quantity;
         if (!ibas.objects.isNull(contract.docType)) {
-            // this.docType = contract.docType;
+            this.docType = contract.docType;
         } if (!ibas.objects.isNull(contract.docEntry)) {
             this.docEntry = contract.docEntry;
         } if (!ibas.objects.isNull(contract.lineNum)) {
@@ -38,6 +37,16 @@ export class MaterialReceiptBatchJournal extends ibas.BusinessObjectBase<Materia
                 this.materialBatchInfos.create(contractLine);
             }
         }
+    }
+    /** 映射的属性名称-单据类型 */
+    static PROPERTY_DOCTYPE_NAME: string = "DocType";
+    /** 获取-单据类型 */
+    get docType(): string {
+        return this.getProperty<string>(MaterialReceiptBatchJournal.PROPERTY_DOCTYPE_NAME);
+    }
+    /** 设置-单据类型 */
+    set docType(value: string) {
+        this.setProperty(MaterialReceiptBatchJournal.PROPERTY_DOCTYPE_NAME, value);
     }
     /** 映射的属性名称-单据号 */
     static PROPERTY_DOCENTRY_NAME: string = "DocEntry";
@@ -158,7 +167,7 @@ export class MaterialReceiptBatchInfos extends ibas.BusinessObjects<MaterialRece
         if (!ibas.objects.isNull(data)) {
             item.batchCode = data.batchCode;
             item.quantity = data.quantity;
-            item.index = data.index;
+            item.caller = data.caller;
         }
         return item;
     }
@@ -166,7 +175,8 @@ export class MaterialReceiptBatchInfos extends ibas.BusinessObjects<MaterialRece
     createBatchJournal(data: MaterialReceiptBatchInfo): MaterialReceiptBatchInfo {
         if (ibas.objects.instanceOf(data, MaterialReceiptBatchInfo)) {
             data = this.create(data);
-            this.parent.contract.materialReceiptBatchs.createBatchJournal(data);
+            let caller: any = this.parent.contract.materialReceiptBatchs.createBatchJournal(data);
+            data.caller = caller;
             return data;
         }
     }
@@ -174,7 +184,11 @@ export class MaterialReceiptBatchInfos extends ibas.BusinessObjects<MaterialRece
     deleteBatchJournal(data: MaterialReceiptBatchInfo): void {
         data.index = this.indexOf(data);
         this.parent.contract.materialReceiptBatchs.deleteBatchJournal(data);
-        this.remove(data);
+        if (data.isNew) {
+            this.remove(data);
+        } else {
+            data.markDeleted(true);
+        }
     }
     /** 修改批次日记账 */
     updateBatchJournal(data: MaterialReceiptBatchInfo): void {
@@ -214,6 +228,17 @@ export class MaterialReceiptBatchInfos extends ibas.BusinessObjects<MaterialRece
 }
 
 export class MaterialReceiptBatchInfo extends ibas.BusinessObjectBase<MaterialReceiptBatchInfo> {
+
+    private _caller: any;
+
+    public get caller(): any {
+        return this._caller;
+    }
+
+    public set caller(value: any) {
+        this._caller = value;
+    }
+
     /** 索引-数量 */
     static PROPERTY_INDEX_NAME: string = "Index";
     /** 获取-数量 */

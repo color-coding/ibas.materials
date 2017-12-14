@@ -1317,8 +1317,8 @@ public class InventoryTransferLine extends BusinessObject<InventoryTransferLine>
      * 库存转储-物料批次的集合属性
      *
      */
-    public static final IPropertyInfo<IInventoryTransferMaterialBatchJournals> PROPERTY_INVENTORYTRANSFERMATERIALBATCHJOURNALS = registerProperty(
-            PROPERTY_INVENTORYTRANSFERMATERIALBATCHJOURNALS_NAME, IInventoryTransferMaterialBatchJournals.class, MY_CLASS);
+    public static final IPropertyInfo<IInventoryTransferLineMaterialBatchJournals> PROPERTY_INVENTORYTRANSFERMATERIALBATCHJOURNALS = registerProperty(
+            PROPERTY_INVENTORYTRANSFERMATERIALBATCHJOURNALS_NAME, IInventoryTransferLineMaterialBatchJournals.class, MY_CLASS);
 
     /**
      * 获取-库存转储-物料批次集合
@@ -1327,7 +1327,7 @@ public class InventoryTransferLine extends BusinessObject<InventoryTransferLine>
      */
     @XmlElementWrapper(name = PROPERTY_INVENTORYTRANSFERMATERIALBATCHJOURNALS_NAME)
     @XmlElement(name = MaterialBatchJournal.BUSINESS_OBJECT_NAME, type = MaterialBatchJournal.class)
-    public final IInventoryTransferMaterialBatchJournals getInventoryTransferMaterialBatchJournals() {
+    public final IInventoryTransferLineMaterialBatchJournals getInventoryTransferMaterialBatchJournals() {
         return this.getProperty(PROPERTY_INVENTORYTRANSFERMATERIALBATCHJOURNALS);
     }
 
@@ -1337,7 +1337,7 @@ public class InventoryTransferLine extends BusinessObject<InventoryTransferLine>
      * @param value
      *            值
      */
-    public final void setInventoryTransferMaterialBatchJournals(IInventoryTransferMaterialBatchJournals value) {
+    public final void setInventoryTransferMaterialBatchJournals(IInventoryTransferLineMaterialBatchJournals value) {
         this.setProperty(PROPERTY_INVENTORYTRANSFERMATERIALBATCHJOURNALS, value);
     }
     /**
@@ -1349,8 +1349,8 @@ public class InventoryTransferLine extends BusinessObject<InventoryTransferLine>
      * 库存转储-物料序列的集合属性
      *
      */
-    public static final IPropertyInfo<IInventoryTransferMaterialSerialJournals> PROPERTY_INVENTORYTRANSFERMATERIALSERIALJOURNALS = registerProperty(
-            PROPERTY_INVENTORYTRANSFERMATERIALSERIALJOURNALS_NAME, IInventoryTransferMaterialSerialJournals.class, MY_CLASS);
+    public static final IPropertyInfo<IInventoryTransferLineMaterialSerialJournals> PROPERTY_INVENTORYTRANSFERMATERIALSERIALJOURNALS = registerProperty(
+            PROPERTY_INVENTORYTRANSFERMATERIALSERIALJOURNALS_NAME, IInventoryTransferLineMaterialSerialJournals.class, MY_CLASS);
 
     /**
      * 获取-库存转储-物料序列集合
@@ -1359,7 +1359,7 @@ public class InventoryTransferLine extends BusinessObject<InventoryTransferLine>
      */
     @XmlElementWrapper(name = PROPERTY_INVENTORYTRANSFERMATERIALSERIALJOURNALS_NAME)
     @XmlElement(name = MaterialSerialJournal.BUSINESS_OBJECT_NAME, type = MaterialSerialJournal.class)
-    public final IInventoryTransferMaterialSerialJournals getInventoryTransferMaterialSerialJournals() {
+    public final IInventoryTransferLineMaterialSerialJournals getInventoryTransferMaterialSerialJournals() {
         return this.getProperty(PROPERTY_INVENTORYTRANSFERMATERIALSERIALJOURNALS);
     }
 
@@ -1369,7 +1369,7 @@ public class InventoryTransferLine extends BusinessObject<InventoryTransferLine>
      * @param value
      *            值
      */
-    public final void setInventoryTransferMaterialSerialJournals(IInventoryTransferMaterialSerialJournals value) {
+    public final void setInventoryTransferMaterialSerialJournals(IInventoryTransferLineMaterialSerialJournals value) {
         this.setProperty(PROPERTY_INVENTORYTRANSFERMATERIALSERIALJOURNALS, value);
     }
     /**
@@ -1378,8 +1378,8 @@ public class InventoryTransferLine extends BusinessObject<InventoryTransferLine>
     @Override
     protected void initialize() {
         super.initialize();// 基类初始化，不可去除
-        this.setInventoryTransferMaterialBatchJournals(new InventoryTransferMaterialBatchJournals(this));
-        this.setInventoryTransferMaterialSerialJournals(new InventoryTransferMaterialSerialJournals(this));
+        this.setInventoryTransferMaterialBatchJournals(new InventoryTransferLineMaterialBatchJournals(this));
+        this.setInventoryTransferMaterialSerialJournals(new InventoryTransferLineMaterialSerialJournals(this));
         this.setObjectCode(MyConfiguration.applyVariables(BUSINESS_OBJECT_CODE));
         // 日期初始化。 需要在前台中添加这三个日期，并实现父类日期发生更改时，子类日期发生相应更改。
         this.setPostingDate(DateTime.getToday());

@@ -7,7 +7,7 @@
  * @Author: fancy
  * @Date: 2017-12-10 17:58:50
  * @Last Modified by: fancy
- * @Last Modified time: 2017-12-12 10:43:42
+ * @Last Modified time: 2017-12-12 18:19:56
  */
 import * as ibas from "ibas/index";
 import {
@@ -127,26 +127,26 @@ export class MaterialReceiptSerialJournal extends ibas.BusinessObjectBase<Materi
     }
 
     /** 映射的属性名称-选择总批次 */
-    static PROPERTY_SELECTEDSerialQUANTITY_NAME: string = "SelectedSerialQuantity";
+    static PROPERTY_SELECTEDSERIALQUANTITY_NAME: string = "SelectedSerialQuantity";
     /** 获取-批次总批次 */
     get selectedSerialQuantity(): number {
-        return this.getProperty<number>(MaterialReceiptSerialJournal.PROPERTY_SELECTEDSerialQUANTITY_NAME);
+        return this.getProperty<number>(MaterialReceiptSerialJournal.PROPERTY_SELECTEDSERIALQUANTITY_NAME);
     }
     /** 设置-总批次 */
     set selectedSerialQuantity(value: number) {
-        this.setProperty(MaterialReceiptSerialJournal.PROPERTY_SELECTEDSerialQUANTITY_NAME, value);
+        this.setProperty(MaterialReceiptSerialJournal.PROPERTY_SELECTEDSERIALQUANTITY_NAME, value);
     }
 
     /** 映射的属性名称-行-批次集合 */
-    static PROPERTY_MATERIALSerialINFOS_NAME: string = "MaterialReceiptSerialInfos";
+    static PROPERTY_MATERIALSERIALINFOS_NAME: string = "MaterialReceiptSerialInfos";
     /** 获取-行-批次集合 */
     get materialSerialInfos(): MaterialReceiptSerialInfos {
         return this.getProperty<MaterialReceiptSerialInfos>
-            (MaterialReceiptSerialJournal.PROPERTY_MATERIALSerialINFOS_NAME);
+            (MaterialReceiptSerialJournal.PROPERTY_MATERIALSERIALINFOS_NAME);
     }
     /** 设置-行-批次集合 */
     set materialSerialInfos(value: MaterialReceiptSerialInfos) {
-        this.setProperty(MaterialReceiptSerialJournal.PROPERTY_MATERIALSerialINFOS_NAME, value);
+        this.setProperty(MaterialReceiptSerialJournal.PROPERTY_MATERIALSERIALINFOS_NAME, value);
     }
     /** 初始化数据 */
     protected init(): void {
@@ -156,7 +156,6 @@ export class MaterialReceiptSerialJournal extends ibas.BusinessObjectBase<Materi
 
 export class MaterialReceiptSerialInfos extends ibas.BusinessObjects<MaterialReceiptSerialInfo, MaterialReceiptSerialJournal>
     implements IMaterialReceiptSerials {
-
     materialReceiptLineSerials = this;
     /** 创建并添加子项 */
     create(data?: IMaterialReceiptSerialLine): MaterialReceiptSerialInfo {
@@ -164,10 +163,11 @@ export class MaterialReceiptSerialInfos extends ibas.BusinessObjects<MaterialRec
         this.add(item);
         item.itemCode = this.parent.itemCode;
         item.warehouse = this.parent.warehouse;
-        item.direction = this.parent.direction;
+        item.direction = ibas.emDirection.IN;
         if (!ibas.objects.isNull(data)) {
             item.serialCode = data.serialCode;
             item.supplierSerial = data.supplierSerial;
+            item.caller = data.caller;
         }
         return item;
     }
@@ -175,7 +175,8 @@ export class MaterialReceiptSerialInfos extends ibas.BusinessObjects<MaterialRec
     createSerialJournal(data: MaterialReceiptSerialInfo): MaterialReceiptSerialInfo {
         if (ibas.objects.instanceOf(data, MaterialReceiptSerialInfo)) {
             data = this.create(data);
-            this.parent.contract.materialLineSerials.createSerialJournal(data);
+            let caller: any = this.parent.contract.materialLineSerials.createSerialJournal(data);
+            data.caller = caller;
             return data;
         }
     }
@@ -183,26 +184,20 @@ export class MaterialReceiptSerialInfos extends ibas.BusinessObjects<MaterialRec
     deleteSerialJournal(data: MaterialReceiptSerialInfo): void {
         data.index = this.indexOf(data);
         this.parent.contract.materialLineSerials.deleteSerialJournal(data);
-        this.remove(data);
+        if (data.isNew) {
+            this.remove(data);
+        } else {
+            data.markDeleted(true);
+        }
     }
     /** 修改序列日记账 */
     updateSerialJournal(data: MaterialReceiptSerialInfo): void {
-        data.index = this.indexOf(data);
         this.parent.contract.materialLineSerials.updateSerialJournal(data);
-        let item: MaterialReceiptSerialInfo = this.find(c => c.serialCode === data.serialCode);
-        if (!ibas.objects.isNull(item)) {
-            item.itemCode = this.parent.itemCode;
-            item.warehouse = this.parent.warehouse;
-            item.direction = this.parent.direction;
-        }
     }
     /** 监听子项属性改变 */
     protected onChildPropertyChanged(item: MaterialReceiptSerialInfo, name: string): void {
         super.onChildPropertyChanged(item, name);
         this.updateSerialJournal(item);
-        if (ibas.strings.equalsIgnoreCase(name, MaterialReceiptSerialInfo.PROPERTY_SERIALCODE_NAME)) {
-           //
-        }
     }
     /** 移除子项 */
     protected afterRemove(item: MaterialReceiptSerialInfo): void {
@@ -217,7 +212,7 @@ export class MaterialReceiptSerialInfos extends ibas.BusinessObjects<MaterialRec
     }
 
     protected afterAdd(item: MaterialReceiptSerialInfo): void {
-        super.afterRemove(item);
+        super.afterAdd(item);
         if (this.parent.materialSerialInfos.length === 0) {
             this.parent.needSerialQuantity = this.parent.quantity;
             this.parent.selectedSerialQuantity = 0;
@@ -229,6 +224,17 @@ export class MaterialReceiptSerialInfos extends ibas.BusinessObjects<MaterialRec
 }
 
 export class MaterialReceiptSerialInfo extends ibas.BusinessObjectBase<MaterialReceiptSerialInfo> {
+
+
+    private _caller: any;
+
+    public get caller(): any {
+        return this._caller;
+    }
+
+    public set caller(value: any) {
+        this._caller = value;
+    }
     /** 索引-数量 */
     static PROPERTY_INDEX_NAME: string = "Index";
     /** 获取-数量 */

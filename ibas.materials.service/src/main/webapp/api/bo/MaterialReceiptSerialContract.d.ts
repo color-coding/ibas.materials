@@ -40,10 +40,14 @@ export interface IMaterialReceiptSerialContractLine extends IMaterialBaseContrac
 export interface IMaterialReceiptSerials {
     /** 物料出库行批次信息 */
     materialReceiptLineSerials: IMaterialReceiptSerialLine[];
-    /** 创建序列记账 */
-    createSerialJournal(data: IMaterialSerialBaseLine): void;
-    /** 删除序列记账 */
-    deleteSerialJournal(data: IMaterialSerialBaseLine): void;
+    /**
+     * 创建序列记账 返回创建者
+     */
+    createSerialJournal(data: IMaterialSerialBaseLine): any;
+    /**
+     * 删除序列记账 返回更新者
+     */
+    deleteSerialJournal(data: IMaterialSerialBaseLine): any;
     /** 修改序列记账 */
     updateSerialJournal(data: IMaterialSerialBaseLine): void;
 }
@@ -51,7 +55,6 @@ export interface IMaterialReceiptSerials {
 
 /** 物料出库序列服务行-新建 */
 export interface IMaterialReceiptSerialLine extends IMaterialSerialBaseLine {
-    index?: number;
     /** 方向 */
     direction: emDirection;
 

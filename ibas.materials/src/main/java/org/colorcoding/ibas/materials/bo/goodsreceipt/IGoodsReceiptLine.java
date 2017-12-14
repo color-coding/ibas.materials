@@ -653,27 +653,27 @@ public interface IGoodsReceiptLine extends IBODocumentLine {
      *
      * @return 值
      */
-    IGoodsReceiptMaterialBatchJournals getGoodsReceiptMaterialBatchJournals();
+    IGoodsReceiptLineMaterialBatchJournals getMaterialBatchJournals();
 
     /**
      * 设置-库存收货-物料批次集合
      *
      * @param value 值
      */
-    void setGoodsReceiptMaterialBatchJournals(IGoodsReceiptMaterialBatchJournals value);
+    void setMaterialBatchJournals(IGoodsReceiptLineMaterialBatchJournals value);
 
     /**
      * 获取-库存收货-物料序列集合
      *
      * @return 值
      */
-    IGoodsReceiptMaterialSerialJournals getGoodsReceiptMaterialSerialJournals();
+    IGoodsReceiptLineMaterialSerialJournals getMaterialSerialJournals();
 
     /**
      * 设置-库存收货-物料序列集合
      *
      * @param value 值
      */
-    void setGoodsReceiptMaterialSerialJournals(IGoodsReceiptMaterialSerialJournals value);
+    void setMaterialSerialJournals(IGoodsReceiptLineMaterialSerialJournals value);
 
 }

@@ -7,7 +7,7 @@
  * @Author: fancy
  * @Date: 2017-12-10 17:57:47
  * @Last Modified by: fancy
- * @Last Modified time: 2017-12-11 16:50:49
+ * @Last Modified time: 2017-12-12 18:19:07
  */
 import * as ibas from "ibas/index";
 import {
@@ -168,6 +168,7 @@ export class MaterialIssueSerialInfos extends ibas.BusinessObjects<MaterialIssue
         item.direction = this.parent.direction;
         if (!ibas.objects.isNull(data)) {
             item.serialCode = data.serialCode;
+            item.caller = data.caller;
         }
         return item;
     }
@@ -175,7 +176,8 @@ export class MaterialIssueSerialInfos extends ibas.BusinessObjects<MaterialIssue
     createSerialJournal(data: MaterialIssueSerialInfo): MaterialIssueSerialInfo {
         if (ibas.objects.instanceOf(data, MaterialIssueSerialInfo)) {
             data = this.create(data);
-            this.parent.contract.materialLineSerials.createSerialJournal(data);
+            let caller: any = this.parent.contract.materialLineSerials.createSerialJournal(data);
+            data.caller = caller;
             return data;
         }
     }
@@ -184,7 +186,11 @@ export class MaterialIssueSerialInfos extends ibas.BusinessObjects<MaterialIssue
         this.parent.contract.materialLineSerials.deleteSerialJournal(data);
         let item: MaterialIssueSerialInfo = this.find(c => c.serialCode === data.serialCode);
         if (!ibas.objects.isNull(item)) {
-            this.remove(item);
+            if (item.isNew) {
+                this.remove(item);
+            } else {
+                item.markDeleted(true);
+            }
         }
     }
     /** 修改序列日记账 */
@@ -222,6 +228,16 @@ export class MaterialIssueSerialInfos extends ibas.BusinessObjects<MaterialIssue
 }
 
 export class MaterialIssueSerialInfo extends ibas.BusinessObjectBase<MaterialIssueSerialInfo> {
+
+    private _caller: any;
+
+    public get caller(): any {
+        return this._caller;
+    }
+
+    public set caller(value: any) {
+        this._caller = value;
+    }
     /** 索引-数量 */
     static PROPERTY_INDEX_NAME: string = "Index";
     /** 获取-数量 */
@@ -275,7 +291,16 @@ export class MaterialIssueSerialInfo extends ibas.BusinessObjectBase<MaterialIss
     set direction(value: ibas.emDirection) {
         this.setProperty(MaterialIssueSerialInfo.PROPERTY_DIRECTION_NAME, value);
     }
-
+    /** 映射的属性名称-供应商序号 */
+    static PROPERTY_SUPPLIERSERIAL_NAME: string = "SupplierSerial";
+    /** 获取-供应商序号 */
+    get supplierSerial(): string {
+        return this.getProperty<string>(MaterialIssueSerialInfo.PROPERTY_SUPPLIERSERIAL_NAME);
+    }
+    /** 设置-供应商序号 */
+    set supplierSerial(value: string) {
+        this.setProperty(MaterialIssueSerialInfo.PROPERTY_SUPPLIERSERIAL_NAME, value);
+    }
     /** 初始化数据 */
     protected init(): void {
         // this.objectCode = config.applyVariables(MaterialIssueSerialJournal.BUSINESS_OBJECT_CODE);

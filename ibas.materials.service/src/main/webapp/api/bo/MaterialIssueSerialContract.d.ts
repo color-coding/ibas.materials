@@ -42,21 +42,24 @@ export interface IMaterialIssueSerials {
     /** 物料出库行批次信息 */
     materialIssueLineSerials: IMaterialIssueSerialLine[];
     /** 创建序列记账 */
-    createSerialJournal(data: IMaterialSerialBaseLine): void;
+    createSerialJournal(data: IMaterialIssueSerialLine): any;
     /** 删除序列记账 */
-    deleteSerialJournal(data: IMaterialSerialBaseLine): void;
+    deleteSerialJournal(data: IMaterialIssueSerialLine): any;
     /** 修改序列记账 */
-    updateSerialJournal(data: IMaterialSerialBaseLine): void;
+    updateSerialJournal(data: IMaterialIssueSerialLine): void;
 }
 
 
 
 /** 物料出库序列服务行-选择 */
 export interface IMaterialIssueSerialLine extends IMaterialSerialBaseLine {
+
     /** 方向 */
     direction: emDirection;
 
     itemCode?: string;
 
     warehouse?: string;
+
+    supplierSerial:string;
 }

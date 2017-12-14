@@ -6,7 +6,7 @@
  * @Author: fancy
  * @Date: 2017-11-30 17:59:05
  * @Last Modified by: fancy
- * @Last Modified time: 2017-12-11 14:41:56
+ * @Last Modified time: 2017-12-12 15:07:44
  */
 
 import * as ibas from "ibas/index";
@@ -151,8 +151,10 @@ export class MaterialBatchReceiptService extends ibas.BOApplication<IMaterialBat
         if (ibas.objects.isNull(selected)) {
             return;
         }
-        let batchJournal: batch.MaterialReceiptBatchJournal = this.batchServiceDatas
-            .find(c => c.itemCode === selected.itemCode && c.warehouse === selected.warehouse);
+        let index:number =this.batchServiceDatas.indexOf(selected);
+        let batchJournal: batch.MaterialReceiptBatchJournal = this.batchServiceDatas[index];
+        // let batchJournal: batch.MaterialReceiptBatchJournal = this.batchServiceDatas
+        //     .find(c => c.itemCode === selected.itemCode && c.warehouse === selected.warehouse);
         if (!ibas.objects.isNull(batchJournal)) {
             this.view.showData(batchJournal.materialBatchInfos);
         }

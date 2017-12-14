@@ -2,7 +2,7 @@
  * @Author: fancy
  * @Date: 2017-11-27 16:41:05
  * @Last Modified by: fancy
- * @Last Modified time: 2017-12-11 18:07:26
+ * @Last Modified time: 2017-12-12 15:11:21
  */
 
 /**
@@ -69,13 +69,13 @@ export class MaterialSerialReceiptService extends ibas.BOApplication<IMaterialSe
         // 找到输入数据的序列集合
         let index: number = this.serialServiceDatas.indexOf(select);
         let item: MaterialReceiptSerialJournal = this.serialServiceDatas[index];
-        if (select.needSerialQuantity === 0) {
+        if (item.needSerialQuantity === 0) {
             return;
         }
         let serialLine: MaterialReceiptSerialInfo = new MaterialReceiptSerialInfo();
-        select.materialSerialInfos.createSerialJournal(serialLine);
+        item.materialSerialInfos.createSerialJournal(serialLine);
         // 仅显示没有标记删除的
-        this.view.showData(select.materialSerialInfos.filterDeleted());
+        this.view.showData(item.materialSerialInfos.filterDeleted());
     }
 
     protected removeSerial(serial: MaterialReceiptSerialJournal, items: MaterialReceiptSerialInfo[]): void {
@@ -99,13 +99,7 @@ export class MaterialSerialReceiptService extends ibas.BOApplication<IMaterialSe
         // 移除项目
         for (let item of items) {
             if (serialData.materialSerialInfos.indexOf(item) >= 0) {
-                if (item.isNew) {
-                    // 新建的移除集合
-                    serialData.materialSerialInfos.deleteSerialJournal(item);
-                } else {
-                    // 非新建标记删除
-                    item.markDeleted(true);
-                }
+                serialData.materialSerialInfos.deleteSerialJournal(item);
             }
         }
         // 仅显示没有标记删除的
@@ -133,15 +127,15 @@ export class MaterialSerialReceiptService extends ibas.BOApplication<IMaterialSe
         } while (serialItem.needSerialQuantity !== 0);
         this.view.showData(serialItem.materialSerialInfos.filterDeleted());
     }
-    /** 选择凭证行事件 -更新可用批次 */
+    /** 选择凭证行事件  */
     protected selectMaterialSerialJournalLine(selected: MaterialReceiptSerialJournal): void {
         if (ibas.objects.isNull(selected)) {
             return;
         }
-        let serialJournal: MaterialReceiptSerialJournal = this.serialServiceDatas
-            .find(c => c.itemCode === selected.itemCode && c.warehouse === selected.warehouse);
+        let index: number = this.serialServiceDatas.indexOf(selected);
+        let serialJournal: MaterialReceiptSerialJournal = this.serialServiceDatas[index];
         if (!ibas.objects.isNull(serialJournal)) {
-            this.view.showData(serialJournal.materialSerialInfos);
+            this.view.showData(serialJournal.materialSerialInfos.filterDeleted());
         }
     }
     /** 绑定服务数据 */
