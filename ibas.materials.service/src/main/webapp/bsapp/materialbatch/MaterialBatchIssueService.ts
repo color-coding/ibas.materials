@@ -25,7 +25,7 @@ import { MaterialIssueBatchJournal, MaterialIssueBatchInfo } from "./index";
 import { MaterialBatchJournal } from "../../borep/bo/index";
 import { emDirection } from "ibas/index";
 
-export class MaterialBatchIssueService extends ibas.BOApplication<IMaterialBatchIssueView> {
+export class MaterialBatchIssueService extends ibas.ServiceApplication<IMaterialBatchIssueView, IMaterialIssueBatchContract>{
 
     /** 应用标识 */
     static APPLICATION_ID: string = "141e2a0f-3120-40a3-9bb4-f8b61672ed9c";
@@ -360,14 +360,13 @@ export class MaterialBatchIssueService extends ibas.BOApplication<IMaterialBatch
             }
         }
     }
-    /** 运行,覆盖原方法 */
-    run(): void {
-        let that: this = this;
+    /** 运行服务 */
+    runService(contract: IMaterialIssueBatchContract): void {
         // 行数据
-        if (arguments[0].caller.materialIssueBatchContractLines.length >= 1) {
-            that.bindBatchServiceData(arguments[0].caller);
+        if (contract.materialIssueBatchContractLines.length >= 1) {
+            this.bindBatchServiceData(contract);
         }
-        super.run.apply(this, arguments);
+        super.show();
     }
     /** 绑定服务数据 */
     bindBatchServiceData(contract: IMaterialIssueBatchContract): void {
@@ -419,8 +418,8 @@ export class MaterialBatchIssueServiceMapping extends ibas.ServiceMapping {
         this.description = ibas.i18n.prop(this.name);
         this.proxy = MaterialBatchIssueServiceProxy;
     }
-    /** 创建服务并运行 */
-    create(): ibas.IService<ibas.IApplicationServiceContract> {
+    /** 创建服务实例 */
+    create(): ibas.IService<ibas.IServiceCaller<ibas.IServiceContract>> {
         return new MaterialBatchIssueService();
     }
 }

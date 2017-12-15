@@ -30,7 +30,7 @@ import {
     MaterialIssueSerialInfo
 } from "./index";
 import { MaterialSerial } from "../../borep/bo/index";
-export class MaterialSerialIssueService extends ibas.BOApplication<IMaterialSerialIssueView> {
+export class MaterialSerialIssueService extends ibas.ServiceApplication<IMaterialSerialIssueView, IMaterialIssueSerialContract> {
 
     /** 应用标识 */
     static APPLICATION_ID: string = "bdd08ed9-5d6b-4058-b8e5-f8fc6975a637";
@@ -263,13 +263,13 @@ export class MaterialSerialIssueService extends ibas.BOApplication<IMaterialSeri
         this.serialData = fetchData;
 
     }
-    /** 运行,覆盖原方法 */
-    run(): void {
-        let that: this = this;
-        if (arguments[0].caller.materialIssueSerialContractLines.length >= 1) {
-            that.bindSerialServiceData(arguments[0].caller);
+    /** 运行服务 */
+    runService(contract: IMaterialIssueSerialContract): void {
+        // 行数据
+        if (contract.materialIssueSerialContractLines.length >= 1) {
+            this.bindSerialServiceData(contract);
         }
-        super.run.apply(this, arguments);
+        super.show();
     }
     protected saveData(): void {
         this.close();
@@ -304,8 +304,8 @@ export class MaterialSerialIssueServiceMapping extends ibas.ServiceMapping {
         this.description = ibas.i18n.prop(this.name);
         this.proxy = MaterialSerialIssueServiceProxy;
     }
-    /** 创建服务并运行 */
-    create(): ibas.IService<ibas.IApplicationServiceContract> {
+    /** 创建服务实例 */
+    create(): ibas.IService<ibas.IServiceCaller<ibas.IServiceContract>> {
         return new MaterialSerialIssueService();
     }
 }

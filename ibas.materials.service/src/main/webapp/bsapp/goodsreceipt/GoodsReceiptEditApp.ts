@@ -302,8 +302,7 @@ export class GoodsReceiptEditApp extends ibas.BOEditApplication<IGoodsReceiptEdi
             return;
         }
         ibas.servicesManager.runApplicationService<IMaterialReceiptBatchContract>({
-            caller: that.getBatchContract(goodReceiptLines),
-            proxy: MaterialBatchReceiptServiceProxy,
+            proxy: new MaterialBatchReceiptServiceProxy(that.getBatchContract(goodReceiptLines))
         });
     }
     /** 新建物料序列信息 */
@@ -315,8 +314,7 @@ export class GoodsReceiptEditApp extends ibas.BOEditApplication<IGoodsReceiptEdi
             return;
         }
         ibas.servicesManager.runApplicationService<IMaterialReceiptSerialContract>({
-            caller: that.getSerialContract(goodReceiptLines),
-            proxy: MaterialSerialReceiptServiceProxy,
+            proxy: new MaterialSerialReceiptServiceProxy(that.getSerialContract(goodReceiptLines))
         });
     }
 

@@ -56,7 +56,7 @@ export class InventoryTransferViewApp extends ibas.BOViewService<IInventoryTrans
     run(): void;
     run(data: bo.InventoryTransfer): void;
     run(): void {
-        if (!(arguments[0] instanceof bo.InventoryTransfer)) {
+        if (ibas.objects.instanceOf(arguments[0], bo.InventoryTransfer)) {
             this.viewData = arguments[0];
             this.show();
         } else {
@@ -112,7 +112,7 @@ export class InventoryTransferLinkServiceMapping extends ibas.BOLinkServiceMappi
         this.boCode = InventoryTransferViewApp.BUSINESS_OBJECT_CODE;
         this.description = ibas.i18n.prop(this.name);
     }
-    /** 创建服务并运行 */
+    /** 创建服务实例 */
     create(): ibas.IService<ibas.IBOLinkServiceCaller> {
         return new InventoryTransferViewApp();
     }

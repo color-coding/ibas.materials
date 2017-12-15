@@ -28,7 +28,8 @@ import {
     MaterialReceiptSerialJournal,
     MaterialReceiptSerialInfo
 } from "./index";
-export class MaterialSerialReceiptService extends ibas.BOApplication<IMaterialSerialReceiptView> {
+export class MaterialSerialReceiptService extends ibas.ServiceApplication<IMaterialSerialReceiptView, IMaterialReceiptSerialContract> {
+
     /** 应用标识 */
     static APPLICATION_ID: string = "3533e07e-0c13-44cf-9543-adacb49dade2";
     /** 应用名称 */
@@ -148,14 +149,13 @@ export class MaterialSerialReceiptService extends ibas.BOApplication<IMaterialSe
         }
         this.serialServiceDatas = serialServiceDatas;
     }
-
-    /** 运行,覆盖原方法 */
-    run(): void {
-        let that: this = this;
-        if (arguments[0].caller.materialReceiptSerialContractLines.length >= 1) {
-            that.bindSerialServiceData(arguments[0].caller);
+    /** 运行服务 */
+    runService(contract: IMaterialReceiptSerialContract): void {
+        // 行数据
+        if (contract.materialReceiptSerialContractLines.length >= 1) {
+            this.bindSerialServiceData(contract);
         }
-        super.run.apply(this, arguments);
+        super.show();
     }
     /** 视图显示后 */
     protected viewShowed(): void {
@@ -203,8 +203,8 @@ export class MaterialSerialReceipServiceMapping extends ibas.ServiceMapping {
         this.description = ibas.i18n.prop(this.name);
         this.proxy = MaterialSerialReceiptServiceProxy;
     }
-    /** 创建服务并运行 */
-    create(): ibas.IService<ibas.IApplicationServiceContract> {
+    /** 创建服务实例 */
+    create(): ibas.IService<ibas.IServiceCaller<ibas.IServiceContract>> {
         return new MaterialSerialReceiptService();
     }
 }

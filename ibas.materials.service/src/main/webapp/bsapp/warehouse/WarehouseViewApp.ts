@@ -56,7 +56,7 @@ export class WarehouseViewApp extends ibas.BOViewService<IWarehouseViewView> {
     run(): void;
     run(data: bo.Warehouse): void;
     run(): void {
-        if (!(arguments[0] instanceof bo.Warehouse)) {
+        if (ibas.objects.instanceOf(arguments[0], bo.Warehouse)) {
             this.viewData = arguments[0];
             this.show();
         } else {
@@ -114,7 +114,7 @@ export class WarehouseLinkServiceMapping extends ibas.BOLinkServiceMapping {
         this.boCode = WarehouseViewApp.BUSINESS_OBJECT_CODE;
         this.description = ibas.i18n.prop(this.name);
     }
-    /** 创建服务并运行 */
+    /** 创建服务实例 */
     create(): ibas.IService<ibas.IBOLinkServiceCaller> {
         return new WarehouseViewApp();
     }

@@ -57,7 +57,7 @@ export class MaterialInventoryViewApp extends ibas.BOViewService<IMaterialInvent
     run(): void;
     run(data: bo.MaterialInventory): void;
     run(): void {
-        if (!(arguments[0] instanceof bo.MaterialInventory)) {
+        if (ibas.objects.instanceOf(arguments[0], bo.MaterialInventory)) {
             this.viewData = arguments[0];
             this.show();
         } else {
@@ -110,7 +110,7 @@ export class MaterialInventoryLinkServiceMapping extends ibas.BOLinkServiceMappi
         this.boCode = MaterialInventoryViewApp.BUSINESS_OBJECT_CODE;
         this.description = ibas.i18n.prop(this.name);
     }
-    /** 创建服务并运行 */
+    /** 创建服务实例 */
     create(): ibas.IService<ibas.IBOLinkServiceCaller> {
         return new MaterialInventoryViewApp();
     }

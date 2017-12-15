@@ -45,7 +45,7 @@ export class MaterialBatchViewApp extends ibas.BOViewService<IMaterialBatchViewV
     run(): void;
     run(data: bo.MaterialBatch): void;
     run(): void {
-        if (!(arguments[0] instanceof bo.MaterialBatch)) {
+        if (ibas.objects.instanceOf(arguments[0], bo.MaterialBatch)) {
             this.viewData = arguments[0];
             let criteria: ibas.ICriteria = new ibas.Criteria();
             let condition: ibas.ICondition;
