@@ -20,7 +20,7 @@ public class Product extends MaterialBase<Product> implements IProduct {
     /**
      * 序列化版本标记
      */
-    private static final long serialVersionUID = 8078764747253121173L;
+    private static final long serialVersionUID = 9204264205266866873L;
 
     /**
      * 业务对象名称

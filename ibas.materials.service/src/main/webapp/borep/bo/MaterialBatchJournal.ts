@@ -24,14 +24,10 @@ import {
 import {
     IMaterialBatchJournal,
     BO_CODE_MATERIALBATCHJOURNAL,
-    BO_CODE_RECEIPT_MATERIALBATCH,
-    BO_CODE_ISSUE_MATERIALBATCH
 } from "../../api/index";
 export class MaterialBatchJournal extends BOSimple<MaterialBatchJournal> implements IMaterialBatchJournal {
     /** 业务对象编码 */
     static BUSINESS_OBJECT_CODE: string = BO_CODE_MATERIALBATCHJOURNAL;
-    static BUSINESS_OBJECT_RECEIPT_CODE: string = BO_CODE_RECEIPT_MATERIALBATCH;
-    static BUSINESS_OBJECT_ISSUE_CODE: string = BO_CODE_ISSUE_MATERIALBATCH;
     /** 构造函数 */
     constructor() {
         super();

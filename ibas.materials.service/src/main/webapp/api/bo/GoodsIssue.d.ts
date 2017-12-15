@@ -24,6 +24,9 @@ import {
     emItemType,
 } from "../Datas";
 import {
+    IMaterialBatch,
+    IMaterialIssueBatchs,
+    IMaterialIssueBatchContractLine,
     IMaterialBatchJournal,
     IMaterialSerialJournal
 } from "./index";
@@ -147,18 +150,18 @@ export interface IGoodsIssueLines extends IBusinessObjects<IGoodsIssueLine, IGoo
     create(): IGoodsIssueLine;
 }
 /** 库存发货-批次日记账 集合 */
-export interface IGoodsIssueMaterialBatchJournals extends IBusinessObjects<IMaterialBatchJournal, IGoodsIssueLine> {
+export interface IGoodsIssueLineMaterialBatchJournals extends IBusinessObjects<IMaterialBatchJournal, IGoodsIssueLine> {
     /** 创建并添加子项 */
     create(): IMaterialBatchJournal;
 }
 /**  库存发货-序列号日记账  */
-export interface IGoodsIssueMaterialSerialJournals extends IBusinessObjects<IMaterialSerialJournal, IGoodsIssueLine> {
+export interface IGoodsIssueLineMaterialSerialJournals extends IBusinessObjects<IMaterialSerialJournal, IGoodsIssueLine> {
     /** 创建并添加子项 */
     create(): IMaterialSerialJournal;
 }
 
 /** 库存发货-行 */
-export interface IGoodsIssueLine extends IBODocumentLine {
+export interface IGoodsIssueLine extends IBODocumentLine, IMaterialIssueBatchContractLine {
 
     /** 编码 */
     docEntry: number;
@@ -272,10 +275,10 @@ export interface IGoodsIssueLine extends IBODocumentLine {
     project: string;
 
     /** 库存发货-行-序列号集合 */
-    goodsIssueMaterialSerialJournals: IGoodsIssueMaterialSerialJournals;
+    materialSerialJournals: IGoodsIssueLineMaterialSerialJournals;
 
     /** 库存发货-行-批次集合 */
-    goodsIssueMaterialBatchJournals: IGoodsIssueMaterialBatchJournals
+    materialBatchJournals: IGoodsIssueLineMaterialBatchJournals
 
 }
 

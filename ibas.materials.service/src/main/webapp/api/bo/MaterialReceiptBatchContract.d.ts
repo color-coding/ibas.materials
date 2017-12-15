@@ -27,30 +27,32 @@ export interface IMaterialReceiptBatchContract {
 
 export interface IMaterialReceiptBatchContractLine extends IMaterialBaseContract {
 
+    /** 单据类型 */
+    docType?: string;
     /** 单据号 */
     docEntry?: number;
     /** 单据行号 */
-    lineId?: number;
-    /** 单据类型 */
-    objectType?: string;
+    lineNum?: number;
 
     /** 创建的物料批次 */
-    materialReceiptLineBatch?: IMaterialReceiptLineBatch
+    materialReceiptBatchs?: IMaterialReceiptBatchs
 }
 
 
 /** 物料入库行批次信息 */
 export interface IMaterialReceiptBatchs {
     /** 物料出库行批次信息 */
-    materialReceiptLineBatchs: IMaterialReceiptLineBatch[];
-}
-
-/** 物料入库库行批次信息 */
-export interface IMaterialReceiptLineBatch {
-    /** 行索引 */
-    index: number;
-    /** 物料批次 选择/新建 集合 */
-    materialReceiptBatchLines?: IMaterialReceiptBatchLine[];
+    materialReceiptLineBatchs: IMaterialReceiptBatchLine[];
+    /**
+     * 创建批次日记账  返回调用者
+     */
+    createBatchJournal(data: IMaterialBatchBaseLine): any;
+    /**
+     * 删除批次记账 返回更新者
+     */
+    deleteBatchJournal(data: IMaterialBatchBaseLine): any;
+    /** 修改批次记账 */
+    updateBatchJournal(data: IMaterialBatchBaseLine): void;
 }
 
 /** 物料入库批次服务行-新建 */

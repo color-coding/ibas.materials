@@ -143,12 +143,12 @@ export interface IInventoryTransfer extends IBODocument {
 
 }
 /** 库存转储-批次日记账 集合 */
-export interface IInventoryTransferMaterialBatchJournals extends IBusinessObjects<IMaterialBatchJournal,IInventoryTransferLine>{
+export interface IInventoryTransferLineMaterialBatchJournals extends IBusinessObjects<IMaterialBatchJournal, IInventoryTransferLine> {
     /** 创建并添加子项 */
     create(): IMaterialBatchJournal;
 }
 /**  库存转储-序列号日记账  */
-export interface IInventoryTransferMaterialSerialJournals extends IBusinessObjects<IMaterialSerialJournal,IInventoryTransferLine>{
+export interface IInventoryTransferLineMaterialSerialJournals extends IBusinessObjects<IMaterialSerialJournal, IInventoryTransferLine> {
     /** 创建并添加子项 */
     create(): IMaterialSerialJournal;
 }
@@ -273,7 +273,11 @@ export interface IInventoryTransferLine extends IBODocumentLine {
     /** 项目代码 */
     project: string;
 
+    /** 库存发货-行-序列号集合 */
+    materialSerialJournals: IInventoryTransferLineMaterialSerialJournals;
 
+    /** 库存发货-行-批次集合 */
+    materialBatchJournals: IInventoryTransferLineMaterialBatchJournals
 }
 
 

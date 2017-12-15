@@ -398,7 +398,7 @@ public class testProduct extends TestCase {
         // endregion
         // region 移除右括号
         ICriteria criteria7 = new Criteria();
-        ICondition condition7 = criteria6.getConditions().create();
+        ICondition condition7 = criteria7.getConditions().create();
         condition7.setAlias(Material.PROPERTY_DELETED.getName());
         condition7.setValue("N");
         condition7.setOperation(ConditionOperation.EQUAL);
@@ -420,6 +420,21 @@ public class testProduct extends TestCase {
         assertEquals(opRstProduct.getMessage(), 0, opRstProduct.getResultCode());
         // endregion
         //endregion
+        // region
+//        ICriteria criteria8 = new Criteria();
+//        criteria8.setResultCount(30);
+//        ICondition condition8 = criteria8.getConditions().create();
+//        condition8.setAlias(Material.PROPERTY_DELETED.getName());
+//        condition8.setValue("N");
+//        condition8.setOperation(ConditionOperation.EQUAL);
+//        condition8 = criteria8.getConditions().create();
+//        condition8.setAlias(Product.PRICELIST_NAME);
+//        condition8.setValue(16);
+//        condition8.setOperation(ConditionOperation.EQUAL);
+//        condition8.setRelationship(ConditionRelationship.AND);
+//        opRstProduct = boRepository.fetchProduct(criteria8);
+//        assertEquals(opRstProduct.getMessage(), 0, opRstProduct.getResultCode());
+        // endregion
 
     }
 
@@ -929,6 +944,7 @@ public class testProduct extends TestCase {
         // endregion
         // region 多个物料 多个仓库
         ICriteria criteria8 = new Criteria();
+        criteria8.setResultCount(30);
         ICondition condition8 = criteria8.getConditions().create();
         condition8.setAlias(Material.PROPERTY_CODE.getName());
         condition8.setValue(itemCode1);
@@ -973,7 +989,7 @@ public class testProduct extends TestCase {
         condition1.setValue("SC");
         condition1.setOperation(ConditionOperation.EQUAL);
         condition1.setRelationship(ConditionRelationship.AND);
-         IOperationResult<MaterialPrice> opRstMaterialPrice = boRepository.fetchMaterialPrice(criteria1);
+        IOperationResult<MaterialPrice> opRstMaterialPrice = boRepository.fetchMaterialPrice(criteria1);
         assertEquals(opRstMaterialPrice.getMessage(), -1, opRstMaterialPrice.getResultCode());
     }
 }

@@ -10,3 +10,5 @@ export * from "./MaterialBatchReceiptService";
 export * from "./MaterialBatchListApp";
 export * from "./MaterialBatchViewApp";
 export * from "./MaterialBatchFunc";
+export * from "./batchjournal/MaterialReceiptBatchJournal";
+export * from "./batchjournal/MaterialIssueBatchJournal";

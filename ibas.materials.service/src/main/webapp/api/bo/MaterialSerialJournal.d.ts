@@ -23,6 +23,9 @@ import {
 import {
 
 } from "../Datas";
+import{
+    IMaterialBatchBaseLine,
+} from "./index";
 export interface IMaterialSerialJournal extends IBOSimple {
     /**物料编号 */
     itemCode: string;

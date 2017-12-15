@@ -1,32 +1,35 @@
-/*
- * @Author: fancy
- * @Date: 2017-11-27 16:44:31
- * @Last Modified by: fancy
- * @Last Modified time: 2017-12-01 16:44:15
+/**
  * @license
  * Copyright color-coding studio. All Rights Reserved.
- *
  * Use of this source code is governed by an Apache License, Version 2.0
  * that can be found in the LICENSE file at http://www.apache.org/licenses/LICENSE-2.0
+ * @Author: fancy
+ * @Date: 2017-11-30 17:55:41
+ * @Last Modified by: fancy
+ * @Last Modified time: 2017-12-11 17:48:01
  */
+
+
 import * as ibas from "ibas/index";
 import * as openui5 from "openui5/index";
 import * as bo from "../../../borep/bo/index";
-import { IMaterialBatchReceiptView } from "../../../bsapp/materialbatch/index";
+import { IMaterialSerialReceiptView,
+     MaterialReceiptSerialJournal,
+    MaterialReceiptSerialInfo } from "../../../bsapp/materialserial/index";
 
-export class MaterialBatchReceiptView extends ibas.BODialogView implements IMaterialBatchReceiptView {
+export class MaterialSerialReceiptView extends ibas.BODialogView implements IMaterialSerialReceiptView {
     /** 添加批次事件 */
-    addBatchEvent: Function;
-    /** 保存事件 */
-    saveDataEvent: Function;
+    addSerialEvent: Function;
     /** 移除批次事件 */
-    removeBatchEvent: Function;
+    saveDataEvent: Function;
+    removeSerialEvent: Function;
     /** 自动创建批次事件 */
-    autoCreateBatchEvent: Function;
+    autoCreateSerialEvent: Function;
     /** 选中凭证行事件 */
-    selectMaterialBatchJournalLineEvent: Function;
+    selectMaterialSerialJournalLineEvent: Function;
     private mainLayout: sap.ui.layout.VerticalLayout;
     private journalLineTable: sap.ui.table.Table;
+
     /** 绘制视图 */
     darw(): any {
         let that: this = this;
@@ -37,8 +40,8 @@ export class MaterialBatchReceiptView extends ibas.BODialogView implements IMate
                         text: ibas.i18n.prop("materials_sys_autocreate"),
                         type: sap.m.ButtonType.Transparent,
                         press: function (): void {
-                            that.fireViewEvents(that.autoCreateBatchEvent,
-                                openui5.utils.getTableSelecteds<bo.MaterialBatchService>(that.journalLineTable).firstOrDefault()
+                            that.fireViewEvents(that.autoCreateSerialEvent,
+                                openui5.utils.getTableSelecteds<MaterialReceiptSerialJournal>(that.journalLineTable).firstOrDefault()
                             );
                         }
                     }),
@@ -47,8 +50,8 @@ export class MaterialBatchReceiptView extends ibas.BODialogView implements IMate
                         type: sap.m.ButtonType.Transparent,
                         icon: "sap-icon://add",
                         press: function (): void {
-                            that.fireViewEvents(that.addBatchEvent,
-                                openui5.utils.getTableSelecteds<bo.MaterialBatchService>(that.journalLineTable).firstOrDefault());
+                            that.fireViewEvents(that.addSerialEvent,
+                                openui5.utils.getTableSelecteds<MaterialReceiptSerialJournal>(that.journalLineTable).firstOrDefault());
                         }
                     }),
                     new sap.m.Button("", {
@@ -56,8 +59,8 @@ export class MaterialBatchReceiptView extends ibas.BODialogView implements IMate
                         type: sap.m.ButtonType.Transparent,
                         icon: "sap-icon://less",
                         press: function (): void {
-                            that.fireViewEvents(that.removeBatchEvent,
-                                openui5.utils.getTableSelecteds<bo.MaterialBatchService>(that.journalLineTable).firstOrDefault(),
+                            that.fireViewEvents(that.removeSerialEvent,
+                                openui5.utils.getTableSelecteds<MaterialReceiptSerialJournal>(that.journalLineTable).firstOrDefault(),
                                 openui5.utils.getTableSelecteds<bo.MaterialBatch>(that.table)
                             );
                         }
@@ -70,24 +73,21 @@ export class MaterialBatchReceiptView extends ibas.BODialogView implements IMate
             rows: "{/rows}",
             columns: [
                 new sap.ui.table.Column("", {
-                    label: ibas.i18n.prop("bo_materialbatch_batchcode"),
+                    label: ibas.i18n.prop("bo_materialserial_supplierserial"),
                     template: new sap.m.Input("", {
-                        width: "100%",
                     }).bindProperty("value", {
-                        path: "BatchCode",
+                        path: "supplierSerial"
                     })
                 }),
                 new sap.ui.table.Column("", {
-                    label: ibas.i18n.prop("bo_materialbatch_quantity"),
+                    label: ibas.i18n.prop("bo_materialserial_serialcode"),
                     template: new sap.m.Input("", {
-                        width: "100%",
-                        type: sap.m.InputType.Number
                     }).bindProperty("value", {
-                        path: "quantity"
+                        path: "serialCode",
                     })
                 }),
                 new sap.ui.table.Column("", {
-                    label: ibas.i18n.prop("bo_materialbatch_expirationdate"),
+                    label: ibas.i18n.prop("bo_materialserial_expirationdate"),
                     template: new sap.m.DatePicker("", {
                         valueFormat: "yyyy-MM-dd",
                     }).bindProperty("dateValue", {
@@ -95,7 +95,7 @@ export class MaterialBatchReceiptView extends ibas.BODialogView implements IMate
                     })
                 }),
                 new sap.ui.table.Column("", {
-                    label: ibas.i18n.prop("bo_materialbatch_manufacturingdate"),
+                    label: ibas.i18n.prop("bo_materialserial_manufacturingdate"),
                     template: new sap.m.DatePicker("", {
                         valueFormat: "yyyy-MM-dd",
                     }).bindProperty("dateValue", {
@@ -103,7 +103,7 @@ export class MaterialBatchReceiptView extends ibas.BODialogView implements IMate
                     })
                 }),
                 new sap.ui.table.Column("", {
-                    label: ibas.i18n.prop("bo_materialbatch_admissiondate"),
+                    label: ibas.i18n.prop("bo_materialserial_admissiondate"),
                     template: new sap.m.DatePicker("", {
                         valueFormat: "yyyy-MM-dd",
                     }).bindProperty("dateValue", {
@@ -119,13 +119,13 @@ export class MaterialBatchReceiptView extends ibas.BODialogView implements IMate
             visibleRowCount: ibas.config.get(openui5.utils.CONFIG_ITEM_LIST_TABLE_VISIBLE_ROW_COUNT, 8),
             visibleRowCountMode: sap.ui.table.VisibleRowCountMode.Interactive,
             rowSelectionChange: function (): void {
-                that.fireViewEvents(that.selectMaterialBatchJournalLineEvent,
-                    openui5.utils.getTableSelecteds<bo.MaterialBatchService>(that.journalLineTable).firstOrDefault(), );
+                that.fireViewEvents(that.selectMaterialSerialJournalLineEvent,
+                    openui5.utils.getTableSelecteds<MaterialReceiptSerialJournal>(that.journalLineTable).firstOrDefault(), );
             },
             rows: "{/journallinedata}",
             columns: [
                 new sap.ui.table.Column("", {
-                    label: ibas.i18n.prop("bo_materialbatchjournal_itemCode"),
+                    label: ibas.i18n.prop("bo_materialserialjournal_itemCode"),
                     template: new sap.m.Text("", {
                         wrapping: false,
                     }).bindProperty("text", {
@@ -133,7 +133,7 @@ export class MaterialBatchReceiptView extends ibas.BODialogView implements IMate
                     }),
                 }),
                 new sap.ui.table.Column("", {
-                    label: ibas.i18n.prop("bo_materialbatchjournal_warehousecode"),
+                    label: ibas.i18n.prop("bo_materialserialjournal_warehousecode"),
                     template: new sap.m.Text("", {
                         wrapping: false,
                     }).bindProperty("text", {
@@ -141,7 +141,7 @@ export class MaterialBatchReceiptView extends ibas.BODialogView implements IMate
                     }),
                 }),
                 new sap.ui.table.Column("", {
-                    label: ibas.i18n.prop("bo_materialbatchjournal_quantity"),
+                    label: ibas.i18n.prop("bo_materialserialjournal_quantity"),
                     template: new sap.m.Text("", {
                         wrapping: false,
                     }).bindProperty("text", {
@@ -149,23 +149,23 @@ export class MaterialBatchReceiptView extends ibas.BODialogView implements IMate
                     }),
                 }),
                 new sap.ui.table.Column("", {
-                    label: ibas.i18n.prop("bo_materialbatchjournal_needquantity"),
+                    label: ibas.i18n.prop("bo_materialserialjournal_needquantity"),
                     template: new sap.m.Text("", {
                         wrapping: false,
                     }).bindProperty("text", {
-                        path: "needBatchQuantity",
+                        path: "needSerialQuantity",
                     }),
                 }),
                 new sap.ui.table.Column("", {
-                    label: ibas.i18n.prop("bo_materialbatchjournal_createdquantity"),
+                    label: ibas.i18n.prop("bo_materialserialjournal_createdquantity"),
                     template: new sap.m.Text("", {
                         wrapping: false,
                     }).bindProperty("text", {
-                        path: "selectedBatchQuantity",
+                        path: "selectedSerialQuantity",
                     }),
                 }),
                 new sap.ui.table.Column("", {
-                    label: ibas.i18n.prop("bo_materialbatchjournal_direction"),
+                    label: ibas.i18n.prop("bo_materialserialjournal_direction"),
                     template: new sap.m.Text("", {
                         wrapping: false,
                     }).bindProperty("text", {
@@ -212,15 +212,14 @@ export class MaterialBatchReceiptView extends ibas.BODialogView implements IMate
     }
     private table: sap.ui.table.Table;
     /** 显示数据 */
-    showData(datas: bo.MaterialBatchJournal[]): void {
+    showData(datas: MaterialReceiptSerialInfo[]): void {
         this.table.setModel(new sap.ui.model.json.JSONModel({ rows: datas }));
-        // this.table.bindObject("/");
-        // 监听属性改变，并更新控件
         openui5.utils.refreshModelChanged(this.table, datas);
     }
-    showJournalLineData(datas: bo.MaterialBatchService[]): void {
+    showJournalLineData(datas: MaterialReceiptSerialJournal[]): void {
         this.journalLineTable.setModel(new sap.ui.model.json.JSONModel({ journallinedata: datas }));
         openui5.utils.refreshModelChanged(this.journalLineTable, datas);
     }
+    private lastCriteria: ibas.ICriteria;
 
 }

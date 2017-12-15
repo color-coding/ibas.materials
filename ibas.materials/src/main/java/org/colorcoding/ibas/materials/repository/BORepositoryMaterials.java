@@ -724,12 +724,8 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
      * @return
      */
     private ICriteria filterCondition(ICriteria criteria, ArrayList<String> conditions) {
-        // 浅拷贝，不能影响criteria的值
         ICriteria criteria1Material = new Criteria();
-        criteria.getConditions().forEach(c -> criteria1Material.getConditions().add(c));
-        criteria.getSorts().forEach(c -> criteria1Material.getSorts().add(c));
-        criteria1Material.setResultCount(criteria.getResultCount());
-
+        criteria1Material = criteria.clone();
         for (int index = 0; index < criteria1Material.getConditions().size(); index++) {
             String aliensValue = criteria1Material.getConditions().get(index).getAlias();
             if (conditions.firstOrDefault(c -> c.equalsIgnoreCase(aliensValue)) != null) {
@@ -759,7 +755,7 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
                     if (bracketCloseCount != 0) {
                         if (index - 1 >= 0) {
                             int preBracketCloseCount = criteria1Material.getConditions().get(index - 1).getBracketClose();
-                            preBracketCloseCount = preBracketCloseCount + bracketOpenCount;
+                            preBracketCloseCount = preBracketCloseCount + bracketCloseCount;
                             criteria1Material.getConditions().get(index - 1).setBracketClose(preBracketCloseCount);
                         }
                     }

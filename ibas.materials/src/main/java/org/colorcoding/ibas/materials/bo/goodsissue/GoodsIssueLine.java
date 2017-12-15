@@ -1362,24 +1362,24 @@ public class GoodsIssueLine extends BusinessObject<GoodsIssueLine> implements IG
 	/**
 	 * 属性名称-库存发货-物料批次
 	 */
-	private static final String PROPERTY_GOODSISSUEMATERIALBATCHJOURNALS_NAME = "GoodsIssueMaterialBatchJournals";
+	private static final String PROPERTY_GOODSISSUELINEMATERIALBATCHJOURNALS_NAME = "GoodsIssueLineMaterialBatchJournals";
 
 	/**
 	 * 库存发货-物料批次的集合属性
 	 *
 	 */
-	public static final IPropertyInfo<IGoodsIssueMaterialBatchJournals> PROPERTY_GOODSISSUEMATERIALBATCHJOURNALS = registerProperty(
-			PROPERTY_GOODSISSUEMATERIALBATCHJOURNALS_NAME, IGoodsIssueMaterialBatchJournals.class, MY_CLASS);
+	public static final IPropertyInfo<IGoodsIssueLineMaterialBatchJournals> PROPERTY_GOODSISSUELINEMATERIALBATCHJOURNALS = registerProperty(
+			PROPERTY_GOODSISSUELINEMATERIALBATCHJOURNALS_NAME, IGoodsIssueLineMaterialBatchJournals.class, MY_CLASS);
 
 	/**
 	 * 获取-库存发货-物料批次集合
 	 *
 	 * @return 值
 	 */
-	@XmlElementWrapper(name = PROPERTY_GOODSISSUEMATERIALBATCHJOURNALS_NAME)
+	@XmlElementWrapper(name = PROPERTY_GOODSISSUELINEMATERIALBATCHJOURNALS_NAME)
 	@XmlElement(name = MaterialBatchJournal.BUSINESS_OBJECT_NAME, type = MaterialBatchJournal.class)
-	public final IGoodsIssueMaterialBatchJournals getGoodsIssueMaterialBatchJournals() {
-		return this.getProperty(PROPERTY_GOODSISSUEMATERIALBATCHJOURNALS);
+	public final IGoodsIssueLineMaterialBatchJournals getMaterialBatchJournals() {
+		return this.getProperty(PROPERTY_GOODSISSUELINEMATERIALBATCHJOURNALS);
 	}
 
 	/**
@@ -1388,31 +1388,31 @@ public class GoodsIssueLine extends BusinessObject<GoodsIssueLine> implements IG
 	 * @param value
 	 *            值
 	 */
-	public final void setGoodsIssueMaterialBatchJournals(IGoodsIssueMaterialBatchJournals value) {
-		this.setProperty(PROPERTY_GOODSISSUEMATERIALBATCHJOURNALS, value);
+	public final void setMaterialBatchJournals(IGoodsIssueLineMaterialBatchJournals value) {
+		this.setProperty(PROPERTY_GOODSISSUELINEMATERIALBATCHJOURNALS, value);
 	}
 
 	/**
 	 * 属性名称-库存发货-物料序列
 	 */
-	private static final String PROPERTY_GOODSISSUEMATERIALSERIALJOURNALS_NAME = "GoodsIssueMaterialSerialJournals";
+	private static final String PROPERTY_GOODSISSUELINEMATERIALSERIALJOURNALS_NAME = "GoodsIssueLineMaterialSerialJournals";
 
 	/**
 	 * 库存发货-物料序列的集合属性
 	 *
 	 */
-	public static final IPropertyInfo<IGoodsIssueMaterialSerialJournals> PROPERTY_GOODSISSUEMATERIALSERIALJOURNALS = registerProperty(
-			PROPERTY_GOODSISSUEMATERIALSERIALJOURNALS_NAME, IGoodsIssueMaterialSerialJournals.class, MY_CLASS);
+	public static final IPropertyInfo<IGoodsIssueLineMaterialSerialJournals> PROPERTY_GOODSISSUELINEMATERIALSERIALJOURNALS = registerProperty(
+			PROPERTY_GOODSISSUELINEMATERIALSERIALJOURNALS_NAME, IGoodsIssueLineMaterialSerialJournals.class, MY_CLASS);
 
 	/**
 	 * 获取-库存发货-物料序列集合
 	 *
 	 * @return 值
 	 */
-	@XmlElementWrapper(name = PROPERTY_GOODSISSUEMATERIALSERIALJOURNALS_NAME)
+	@XmlElementWrapper(name = PROPERTY_GOODSISSUELINEMATERIALSERIALJOURNALS_NAME)
 	@XmlElement(name = MaterialSerialJournal.BUSINESS_OBJECT_NAME, type = MaterialSerialJournal.class)
-	public final IGoodsIssueMaterialSerialJournals getGoodsIssueMaterialSerialJournals() {
-		return this.getProperty(PROPERTY_GOODSISSUEMATERIALSERIALJOURNALS);
+	public final IGoodsIssueLineMaterialSerialJournals getMaterialSerialJournals() {
+		return this.getProperty(PROPERTY_GOODSISSUELINEMATERIALSERIALJOURNALS);
 	}
 
 	/**
@@ -1421,8 +1421,8 @@ public class GoodsIssueLine extends BusinessObject<GoodsIssueLine> implements IG
 	 * @param value
 	 *            值
 	 */
-	public final void setGoodsIssueMaterialSerialJournals(IGoodsIssueMaterialSerialJournals value) {
-		this.setProperty(PROPERTY_GOODSISSUEMATERIALSERIALJOURNALS, value);
+	public final void setMaterialSerialJournals(IGoodsIssueLineMaterialSerialJournals value) {
+		this.setProperty(PROPERTY_GOODSISSUELINEMATERIALSERIALJOURNALS, value);
 	}
 
 	/**
@@ -1431,8 +1431,8 @@ public class GoodsIssueLine extends BusinessObject<GoodsIssueLine> implements IG
 	@Override
 	protected void initialize() {
 		super.initialize();// 基类初始化，不可去除
-		this.setGoodsIssueMaterialBatchJournals(new GoodsIssueMaterialBatchJournals(this));
-		this.setGoodsIssueMaterialSerialJournals(new GoodsIssueMaterialSerialJournals(this));
+		this.setMaterialBatchJournals(new GoodsIssueLineMaterialBatchJournals(this));
+		this.setMaterialSerialJournals(new GoodsIssueLineMaterialSerialJournals(this));
 		this.setObjectCode(MyConfiguration.applyVariables(BUSINESS_OBJECT_CODE));
 		// 日期初始化。 需要在前台中添加这三个日期，并实现父类日期发生更改时，子类日期发生相应更改。
 		this.setPostingDate(DateTime.getToday());

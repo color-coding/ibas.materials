@@ -2,6 +2,7 @@ package org.colorcoding.ibas.materials.bo.material;
 
 import org.colorcoding.ibas.bobas.data.ArrayList;
 import org.colorcoding.ibas.bobas.data.Decimal;
+import org.colorcoding.ibas.bobas.serialization.Serializable;
 import org.colorcoding.ibas.materials.MyConfiguration;
 import org.colorcoding.ibas.materials.bo.materialinventory.IMaterialInventory;
 
@@ -10,13 +11,14 @@ import javax.xml.bind.annotation.*;
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlType(name = "MaterialPrice", namespace = MyConfiguration.NAMESPACE_BO)
 @XmlRootElement(name = "MaterialPrice", namespace = MyConfiguration.NAMESPACE_BO)
-public class MaterialQuantity implements IMaterialQuantity {
+public class MaterialQuantity extends Serializable implements IMaterialQuantity {
 
 
     /**
      * 查询条件字段-仓库
      */
     public static final String WAREHOUSE_NAME = "WhsCode";
+    private static final long serialVersionUID = 9065321638987133730L;
 
     /**
      * 创建物料库存

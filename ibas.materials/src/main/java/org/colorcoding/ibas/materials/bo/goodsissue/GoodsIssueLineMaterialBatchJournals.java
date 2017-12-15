@@ -13,26 +13,26 @@ import java.beans.PropertyChangeEvent;
 /**
  * 库存发货-批次 集合
  */
-@XmlType(name = GoodsIssueMaterialBatchJournals.BUSINESS_OBJECT_NAME, namespace = MyConfiguration.NAMESPACE_BO)
+@XmlType(name = GoodsIssueLineMaterialBatchJournals.BUSINESS_OBJECT_NAME, namespace = MyConfiguration.NAMESPACE_BO)
 @XmlSeeAlso({ MaterialBatchJournal.class })
-public class GoodsIssueMaterialBatchJournals extends BusinessObjects<IMaterialBatchJournal,IGoodsIssueLine> implements IGoodsIssueMaterialBatchJournals {
+public class GoodsIssueLineMaterialBatchJournals extends BusinessObjects<IMaterialBatchJournal,IGoodsIssueLine> implements IGoodsIssueLineMaterialBatchJournals {
     /**
      * 业务对象名称
      */
-    public static final String BUSINESS_OBJECT_NAME = "GoodsIssueMaterialBatchJournals";
+    public static final String BUSINESS_OBJECT_NAME = "GoodsIssueLineMaterialBatchJournals";
 
     /**
      * 序列化版本标记
      */
     private static final long serialVersionUID = 7759763557795210318L;
 
-    public GoodsIssueMaterialBatchJournals(){super();}
+    public GoodsIssueLineMaterialBatchJournals(){super();}
 
     /**
      * 构造方法
      * @param parent 父项对象
      */
-    public GoodsIssueMaterialBatchJournals(IGoodsIssueLine parent) {
+    public GoodsIssueLineMaterialBatchJournals(IGoodsIssueLine parent) {
         super(parent);
     }
 

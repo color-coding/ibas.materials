@@ -30,10 +30,10 @@ import {
     IMaterialReceiptSerialLine,
     IGoodsReceiptLines,
     IGoodsReceiptLine,
-    IGoodsReceiptMaterialBatchJournals,
+    IGoodsReceiptLineMaterialBatchJournals,
     IMaterialBatchJournal,
     IMaterialReceiptBatchLine,
-    IGoodsReceiptMaterialSerialJournals,
+    IGoodsReceiptLineMaterialSerialJournals,
     IMaterialSerialJournal,
     BO_CODE_GOODSRECEIPT,
     emItemType,
@@ -488,27 +488,26 @@ export class GoodsReceiptLines extends BusinessObjects<GoodsReceiptLine, GoodsRe
     }
 }
 /** 库存收货-批次日记账 集合 */
-export class GoodsReceiptMaterialBatchJournals extends BusinessObjects<MaterialBatchJournal, GoodsReceiptLine>
-    implements IGoodsReceiptMaterialBatchJournals {
+export class GoodsReceiptLineMaterialBatchJournals extends BusinessObjects<MaterialBatchJournal, GoodsReceiptLine>
+    implements IGoodsReceiptLineMaterialBatchJournals {
     /** 创建并添加子项 */
     create(): MaterialBatchJournal {
         let item: MaterialBatchJournal = new MaterialBatchJournal();
         this.add(item);
+        item.lineStatus = this.parent.lineStatus;
         return item;
     }
+
     createBatchJournal(data: IMaterialReceiptBatchLine): MaterialBatchJournal {
-        let item: MaterialBatchJournal = new MaterialBatchJournal();
-        item.batchCode = data.batchCode;
-        item.itemCode = data.itemCode;
-        item.warehouse = data.warehouse;
-        item.quantity = data.quantity;
-        item.direction = data.direction;
-        item.lineStatus = this.parent.lineStatus;
-        // item.admissionDate = data.admissionDate;
-        // item.expirationDate = data.expirationDate;
-        // item.manufacturingDate = data.manufacturingDate;
-        this.add(item);
-        return item;
+        if (!objects.isNull(data)) {
+            let batchJournal: MaterialBatchJournal = this.create();
+            batchJournal.batchCode = data.batchCode;
+            batchJournal.itemCode = data.itemCode;
+            batchJournal.warehouse = data.warehouse;
+            batchJournal.direction = data.direction;
+            batchJournal.quantity = data.quantity;
+            return batchJournal;
+        }
     }
     /** 移除批次行 */
     removeAll(): void {
@@ -527,23 +526,24 @@ export class GoodsReceiptMaterialBatchJournals extends BusinessObjects<MaterialB
     }
 }
 /** 库存库存收货发货-序列日记账 集合 */
-export class GoodsReceiptMaterialSerialJournals extends BusinessObjects<MaterialSerialJournal, GoodsReceiptLine>
-    implements IGoodsReceiptMaterialSerialJournals {
+export class GoodsReceiptLineMaterialSerialJournals extends BusinessObjects<MaterialSerialJournal, GoodsReceiptLine>
+    implements IGoodsReceiptLineMaterialSerialJournals {
     /** 创建并添加子项 */
     create(): MaterialSerialJournal {
         let item: MaterialSerialJournal = new MaterialSerialJournal();
         this.add(item);
+        item.lineStatus = this.parent.lineStatus;
         return item;
     }
     createSerialJournal(data: IMaterialReceiptSerialLine): MaterialSerialJournal {
-        let item: MaterialSerialJournal = new MaterialSerialJournal();
+        let item: MaterialSerialJournal = this.create();
         item.serialCode = data.serialCode;
+        item.supplierSerial = data.supplierSerial;
         item.itemCode = data.itemCode;
         item.direction = data.direction;
         item.warehouse = data.warehouse;
         item.direction = emDirection.IN;
         item.lineStatus = this.parent.lineStatus;
-        this.add(item);
         return item;
     }
     /** 移除序列日记账集合 */
@@ -977,30 +977,30 @@ export class GoodsReceiptLine extends BODocumentLine<GoodsReceiptLine> implement
     }
 
     /** 映射的属性名称-库存收货-行-序列号集合 */
-    static PROPERTY_GOODSRECEIPTMATERIALSERIALJOURNALS_NAME: string = "GoodsReceiptMaterialSerialJournals";
+    static PROPERTY_GOODSRECEIPTMATERIALSERIALJOURNALS_NAME: string = "GoodsReceiptLineMaterialSerialJournals";
     /** 获取-库存发货-行-序列号集合 */
-    get goodsReceiptMaterialSerialJournals(): GoodsReceiptMaterialSerialJournals {
-        return this.getProperty<GoodsReceiptMaterialSerialJournals>(GoodsReceiptLine.PROPERTY_GOODSRECEIPTMATERIALSERIALJOURNALS_NAME);
+    get materialSerialJournals(): GoodsReceiptLineMaterialSerialJournals {
+        return this.getProperty<GoodsReceiptLineMaterialSerialJournals>(GoodsReceiptLine.PROPERTY_GOODSRECEIPTMATERIALSERIALJOURNALS_NAME);
     }
     /** 设置-库存收货-行-序列号集合 */
-    set goodsReceiptMaterialSerialJournals(value: GoodsReceiptMaterialSerialJournals) {
+    set materialSerialJournals(value: GoodsReceiptLineMaterialSerialJournals) {
         this.setProperty(GoodsReceiptLine.PROPERTY_GOODSRECEIPTMATERIALSERIALJOURNALS_NAME, value);
     }
     /** 映射的属性名称-库存收货-行-批次集合 */
-    static PROPERTY_GOODSRECEIPTMATERIALBATCHJOURNALS_NAME: string = "GoodsReceiptMaterialBatchJournals";
+    static PROPERTY_GOODSRECEIPTMATERIALBATCHJOURNALS_NAME: string = "GoodsReceiptLineMaterialBatchJournals";
     /** 获取-库存发货-行-序列号集合 */
-    get goodsReceiptMaterialBatchJournals(): GoodsReceiptMaterialBatchJournals {
-        return this.getProperty<GoodsReceiptMaterialBatchJournals>(GoodsReceiptLine.PROPERTY_GOODSRECEIPTMATERIALBATCHJOURNALS_NAME);
+    get materialBatchJournals(): GoodsReceiptLineMaterialBatchJournals {
+        return this.getProperty<GoodsReceiptLineMaterialBatchJournals>(GoodsReceiptLine.PROPERTY_GOODSRECEIPTMATERIALBATCHJOURNALS_NAME);
     }
     /** 设置-库存收货-行-序列号集合 */
-    set goodsReceiptMaterialBatchJournals(value: GoodsReceiptMaterialBatchJournals) {
+    set materialBatchJournals(value: GoodsReceiptLineMaterialBatchJournals) {
         this.setProperty(GoodsReceiptLine.PROPERTY_GOODSRECEIPTMATERIALBATCHJOURNALS_NAME, value);
     }
 
     /** 初始化数据 */
     protected init(): void {
-        this.goodsReceiptMaterialBatchJournals = new GoodsReceiptMaterialBatchJournals(this);
-        this.goodsReceiptMaterialSerialJournals = new GoodsReceiptMaterialSerialJournals(this);
+        this.materialBatchJournals = new GoodsReceiptLineMaterialBatchJournals(this);
+        this.materialSerialJournals = new GoodsReceiptLineMaterialSerialJournals(this);
         this.objectCode = config.applyVariables(GoodsReceipt.BUSINESS_OBJECT_CODE);
     }
 }

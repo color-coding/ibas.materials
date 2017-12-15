@@ -13,11 +13,7 @@ import javax.xml.bind.annotation.XmlElement;
 
 public abstract class MaterialBase<T extends IMaterialBase> extends BusinessObject<T> implements IMaterialBase {
 
-	/**
-	 * 序列化版本标记
-	 */
-	private static final long serialVersionUID = 8078764747253121172L;
-
+	private static final long serialVersionUID = 958775403743981796L;
 	/**
 	 * 当前类型
 	 */
@@ -44,6 +40,7 @@ public abstract class MaterialBase<T extends IMaterialBase> extends BusinessObje
 	@DbField(name = "Code", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME, primaryKey = true)
 	public static final IPropertyInfo<String> PROPERTY_CODE = registerProperty(PROPERTY_CODE_NAME, String.class,
 			MY_CLASS);
+
 
 	/**
 	 * 获取-编号

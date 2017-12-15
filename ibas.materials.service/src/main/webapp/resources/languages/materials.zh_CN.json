@@ -66,6 +66,7 @@
   "materials_app_no_matched_documentline_to_choose_batch": "没有匹配的行需要选择批次",
   "materials_app_no_matched_documentline_to_create_serial": "没有匹配的行需要创建序列",
   "materials_app_no_matched_documentline_to_create_batch": "没有匹配的行需要创建批次",
+  "materials_app_batchcode_is_empty":"批次号不能为空",
   "materials_app_autoselectbatch_by_firstinfirstout": "先进先出",
   "materials_app_autoselectbatch_by_batchno": "编号排序",
   "materials_app_no_item": "没有填写行数据",

@@ -29,34 +29,37 @@ export interface IMaterialIssueSerialContractLine extends IMaterialBaseContract 
     /** 单据号 */
     docEntry?: number;
     /** 单据行号 */
-    lineId?: number;
+    lineNum?: number;
     /** 单据类型 */
-    objectType?: string;
+    docType?: string;
 
     /** 选择的序列 */
-    materialIssueLineSerial?:IMaterialIssueLineSerial;
+    materialLineSerials?: IMaterialIssueSerials;
 }
 
 /** 物料出库行序列信息 */
 export interface IMaterialIssueSerials {
     /** 物料出库行批次信息 */
-    materialIssueLineSerials: IMaterialIssueLineSerial[];
+    materialIssueLineSerials: IMaterialIssueSerialLine[];
+    /** 创建序列记账 */
+    createSerialJournal(data: IMaterialIssueSerialLine): any;
+    /** 删除序列记账 */
+    deleteSerialJournal(data: IMaterialIssueSerialLine): any;
+    /** 修改序列记账 */
+    updateSerialJournal(data: IMaterialIssueSerialLine): void;
 }
 
-/** 物料出库行序列信息 */
-export interface IMaterialIssueLineSerial {
-    /** 行索引 */
-    index: number;
-    /** 物料批次 选择/新建 集合 */
-    materialIssueSerialLines?: IMaterialIssueSerialLine[];
-}
+
 
 /** 物料出库序列服务行-选择 */
 export interface IMaterialIssueSerialLine extends IMaterialSerialBaseLine {
+
     /** 方向 */
     direction: emDirection;
 
     itemCode?: string;
 
     warehouse?: string;
+
+    supplierSerial:string;
 }

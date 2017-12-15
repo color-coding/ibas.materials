@@ -1,28 +1,29 @@
-/**
+/*
+ * @Author: fancy
+ * @Date: 2017-11-27 16:41:55
+ * @Last Modified by: fancy
+ * @Last Modified time: 2017-12-11 15:57:13
  * @license
  * Copyright color-coding studio. All Rights Reserved.
+ *
  * Use of this source code is governed by an Apache License, Version 2.0
  * that can be found in the LICENSE file at http://www.apache.org/licenses/LICENSE-2.0
- * @Author: fancy
- * @Date: 2017-11-30 17:45:55
- * @Last Modified by: fancy
- * @Last Modified time: 2017-11-30 17:47:59
  */
-
 import * as ibas from "ibas/index";
 import * as openui5 from "openui5/index";
 import * as bo from "../../../borep/bo/index";
 import { emAutoSelectBatchSerialRules } from "../../../api/Datas";
-import { IMaterialSerialIssueView } from "../../../bsapp/materialserial/index";
-export class MaterialSerialIssueView extends ibas.BODialogView implements IMaterialSerialIssueView {
-    /** 选择序列号凭证行信息事件 */
-    selectMaterialSerialJournalLineEvent: Function;
-    /** 自动选择序列号信息事件 */
-    autoSelectMaterialSerialEvent: Function;
-    /** 添加选择的序列号事件 */
-    addSerialMaterialSerialEvent: Function;
-    /** 移除选择的序列号事件 */
-    removeSerialMaterialSerialEvent: Function;
+import { IMaterialBatchIssueView,MaterialIssueBatchJournal,MaterialIssueBatchInfo } from "../../../bsapp/materialbatch/index";
+export class MaterialBatchIssueView extends ibas.BODialogView implements IMaterialBatchIssueView {
+
+    /** 选择批次凭证行信息事件 */
+    selectMaterialBatchJournalLineEvent: Function;
+    /** 自动选择批次信息事件 */
+    autoSelectMaterialBatchEvent: Function;
+    /** 添加选择的批次事件 */
+    addBatchMaterialBatchEvent: Function;
+    /** 移除选择的批次事件 */
+    removeBatchMaterialBatchEvent: Function;
     /** 保存回调 */
     saveDataEvent: Function;
     // 控件
@@ -31,7 +32,9 @@ export class MaterialSerialIssueView extends ibas.BODialogView implements IMater
     private leftTable: sap.ui.table.Table;
     private rightTable: sap.ui.table.Table;
     private actionLayout: sap.ui.layout.form.SimpleForm;
+    private mainBlockLayout: sap.ui.layout.BlockLayout;
     private splitter: sap.ui.layout.Splitter;
+
     darw(): any {
         let that: this = this;
         this.journalLineTable = new sap.ui.table.Table("", {
@@ -41,13 +44,13 @@ export class MaterialSerialIssueView extends ibas.BODialogView implements IMater
             visibleRowCount: ibas.config.get(openui5.utils.CONFIG_ITEM_LIST_TABLE_VISIBLE_ROW_COUNT, 8),
             visibleRowCountMode: sap.ui.table.VisibleRowCountMode.Interactive,
             rowSelectionChange: function (): void {
-                that.fireViewEvents(that.selectMaterialSerialJournalLineEvent,
-                    openui5.utils.getTableSelecteds<bo.MaterialSerialService>(that.journalLineTable).firstOrDefault(), );
+                that.fireViewEvents(that.selectMaterialBatchJournalLineEvent,
+                    openui5.utils.getTableSelecteds<MaterialIssueBatchJournal>(that.journalLineTable).firstOrDefault(), );
             },
             rows: "{/journallinedata}",
             columns: [
                 new sap.ui.table.Column("", {
-                    label: ibas.i18n.prop("bo_materialserialjournal_itemCode"),
+                    label: ibas.i18n.prop("bo_materialbatchjournal_itemCode"),
                     template: new sap.m.Text("", {
                         wrapping: false,
                     }).bindProperty("text", {
@@ -55,7 +58,7 @@ export class MaterialSerialIssueView extends ibas.BODialogView implements IMater
                     }),
                 }),
                 new sap.ui.table.Column("", {
-                    label: ibas.i18n.prop("bo_materialserialjournal_warehousecode"),
+                    label: ibas.i18n.prop("bo_materialbatchjournal_warehousecode"),
                     template: new sap.m.Text("", {
                         wrapping: false,
                     }).bindProperty("text", {
@@ -63,7 +66,7 @@ export class MaterialSerialIssueView extends ibas.BODialogView implements IMater
                     }),
                 }),
                 new sap.ui.table.Column("", {
-                    label: ibas.i18n.prop("bo_materialserialjournal_quantity"),
+                    label: ibas.i18n.prop("bo_materialbatchjournal_quantity"),
                     template: new sap.m.Text("", {
                         wrapping: false,
                     }).bindProperty("text", {
@@ -71,23 +74,23 @@ export class MaterialSerialIssueView extends ibas.BODialogView implements IMater
                     }),
                 }),
                 new sap.ui.table.Column("", {
-                    label: ibas.i18n.prop("bo_materialserialjournal_needquantity"),
+                    label: ibas.i18n.prop("bo_materialbatchjournal_needquantity"),
                     template: new sap.m.Text("", {
                         wrapping: false,
                     }).bindProperty("text", {
-                        path: "needSerialQuantity",
+                        path: "needBatchQuantity",
                     }),
                 }),
                 new sap.ui.table.Column("", {
-                    label: ibas.i18n.prop("bo_materialserialjournal_selectedquantity"),
+                    label: ibas.i18n.prop("bo_materialbatchjournal_selectedquantity"),
                     template: new sap.m.Text("", {
                         wrapping: false,
                     }).bindProperty("text", {
-                        path: "selectedSerialQuantity",
+                        path: "selectedBatchQuantity",
                     }),
                 }),
                 new sap.ui.table.Column("", {
-                    label: ibas.i18n.prop("bo_materialserialjournal_direction"),
+                    label: ibas.i18n.prop("bo_materialbatchjournal_direction"),
                     template: new sap.m.Text("", {
                         wrapping: false,
                     }).bindProperty("text", {
@@ -107,11 +110,20 @@ export class MaterialSerialIssueView extends ibas.BODialogView implements IMater
             rows: "{/leftrows}",
             columns: [
                 new sap.ui.table.Column("", {
-                    label: ibas.i18n.prop("bo_materialserialjournal_serialcode"),
+                    label: ibas.i18n.prop("bo_materialbatchjournal_batchcode"),
                     template: new sap.m.Text("", {
                         wrapping: false,
                     }).bindProperty("text", {
-                        path: "SerialCode"
+                        path: "BatchCode"
+                    })
+                }),
+                new sap.ui.table.Column("", {
+                    label: ibas.i18n.prop("bo_materialbatchjournal_quantitycanuse"),
+                    template: new sap.m.Text("", {
+                        wrapping: false,
+                        type: sap.m.InputType.Number
+                    }).bindProperty("text", {
+                        path: "quantity"
                     })
                 }),
             ]
@@ -123,11 +135,20 @@ export class MaterialSerialIssueView extends ibas.BODialogView implements IMater
             rows: "{/rightrows}",
             columns: [
                 new sap.ui.table.Column("", {
-                    label: ibas.i18n.prop("bo_materialserialjournal_serialcode"),
+                    label: ibas.i18n.prop("bo_materialbatchjournal_batchcode"),
                     template: new sap.m.Text("", {
                         wrapping: false,
                     }).bindProperty("text", {
-                        path: "SerialCode"
+                        path: "BatchCode"
+                    })
+                }),
+                new sap.ui.table.Column("", {
+                    label: ibas.i18n.prop("bo_materialbatchjournal_quantitychoosed"),
+                    template: new sap.m.Text("", {
+                        wrapping: false,
+                        type: sap.m.InputType.Number
+                    }).bindProperty("text", {
+                        path: "quantity"
                     })
                 }),
             ]
@@ -142,19 +163,19 @@ export class MaterialSerialIssueView extends ibas.BODialogView implements IMater
                                 new sap.m.MenuItem("", {
                                     text: ibas.i18n.prop("materials_app_autoselectbatch_by_firstinfirstout"),
                                     press: function (): void {
-                                        that.fireViewEvents(that.autoSelectMaterialSerialEvent
-                                            , openui5.utils.getTableSelecteds<bo.MaterialSerialService>
+                                        that.fireViewEvents(that.autoSelectMaterialBatchEvent
+                                            , openui5.utils.getTableSelecteds<MaterialIssueBatchJournal>
                                                 (that.journalLineTable).firstOrDefault()
-                                            , emAutoSelectBatchSerialRules.FIRSTINFIRSTOUT);
+                                            , emAutoSelectBatchSerialRules.FIRST_IN_FIRST_OUT);
                                     }
                                 }),
                                 new sap.m.MenuItem("", {
                                     text: ibas.i18n.prop("materials_app_autoselectbatch_by_batchno"),
                                     press: function (): void {
-                                        that.fireViewEvents(that.autoSelectMaterialSerialEvent
-                                            , openui5.utils.getTableSelecteds<bo.MaterialSerialService>
+                                        that.fireViewEvents(that.autoSelectMaterialBatchEvent
+                                            , openui5.utils.getTableSelecteds<MaterialIssueBatchJournal>
                                                 (that.journalLineTable).firstOrDefault()
-                                            , emAutoSelectBatchSerialRules.ORDERBYCODE);
+                                            , emAutoSelectBatchSerialRules.ORDER_BY_CODE);
                                     }
                                 }),
                             ]
@@ -164,9 +185,9 @@ export class MaterialSerialIssueView extends ibas.BODialogView implements IMater
                 new sap.m.Button("", {
                     text: "<",
                     press: function (): void {
-                        that.fireViewEvents(that.removeSerialMaterialSerialEvent,
+                        that.fireViewEvents(that.removeBatchMaterialBatchEvent,
                             // 获取表格选中的对象
-                            openui5.utils.getTableSelecteds<bo.MaterialSerialService>(that.journalLineTable).firstOrDefault(),
+                            openui5.utils.getTableSelecteds<MaterialIssueBatchJournal>(that.journalLineTable).firstOrDefault(),
                             openui5.utils.getTableSelecteds<bo.MaterialBatchJournal>(that.rightTable),
                         );
                     }
@@ -174,9 +195,9 @@ export class MaterialSerialIssueView extends ibas.BODialogView implements IMater
                 new sap.m.Button("", {
                     text: ">",
                     press: function (): void {
-                        that.fireViewEvents(that.addSerialMaterialSerialEvent,
+                        that.fireViewEvents(that.addBatchMaterialBatchEvent,
                             // 获取表格选中的对象
-                            openui5.utils.getTableSelecteds<bo.MaterialSerialService>(that.journalLineTable).firstOrDefault(),
+                            openui5.utils.getTableSelecteds<MaterialIssueBatchJournal>(that.journalLineTable).firstOrDefault(),
                             openui5.utils.getTableSelecteds<bo.MaterialBatch>(that.leftTable),
                         );
                     }
@@ -189,7 +210,7 @@ export class MaterialSerialIssueView extends ibas.BODialogView implements IMater
                 new sap.ui.layout.Splitter("", {
                     layoutData: new sap.ui.layout.SplitterLayoutData("", {
                         resizable: false,
-                        size: "41%",
+                        size: "42%",
                     }),
                     contentAreas: [
                         this.leftTable
@@ -207,7 +228,7 @@ export class MaterialSerialIssueView extends ibas.BODialogView implements IMater
                 new sap.ui.layout.Splitter("", {
                     layoutData: new sap.ui.layout.SplitterLayoutData("", {
                         resizable: false,
-                        size: "41%",
+                        size: "42%",
                     }),
                     contentAreas: [
                         this.rightTable
@@ -234,14 +255,14 @@ export class MaterialSerialIssueView extends ibas.BODialogView implements IMater
             content: [this.mainLayout],
             buttons: [
                 new sap.m.Button("", {
-                    text: ibas.i18n.prop("shell_data_save"),
+                    text: ibas.i18n.prop("shell_confirm"),
                     type: sap.m.ButtonType.Transparent,
                     press: function (): void {
                         that.fireViewEvents(that.saveDataEvent);
                     }
                 }),
                 new sap.m.Button("", {
-                    text: ibas.i18n.prop("shell_exit"),
+                    text: ibas.i18n.prop("shell_data_close"),
                     type: sap.m.ButtonType.Transparent,
                     press: function (): void {
                         that.fireViewEvents(that.closeEvent);
@@ -250,18 +271,16 @@ export class MaterialSerialIssueView extends ibas.BODialogView implements IMater
             ]
         });
     }
-    private lastCriteria: ibas.ICriteria;
-
-    showJournalLineData(datas: bo.MaterialSerialService[]): void {
+    showJournalLineData(datas: MaterialIssueBatchJournal[]): void {
         this.journalLineTable.setModel(new sap.ui.model.json.JSONModel({ journallinedata: datas }));
         openui5.utils.refreshModelChanged(this.journalLineTable, datas);
     }
-    showLeftData(datas: bo.MaterialSerial[]): void {
+    showLeftData(datas: bo.MaterialBatch[]): void {
         this.leftTable.setModel(new sap.ui.model.json.JSONModel({ leftrows: datas }));
         // 监听属性改变，并更新控件
         openui5.utils.refreshModelChanged(this.leftTable, datas);
     }
-    showRightData(datas: bo.MaterialSerialJournal[]): void {
+    showRightData(datas: MaterialIssueBatchInfo[]): void {
         this.rightTable.setModel(new sap.ui.model.json.JSONModel({ rightrows: datas }));
         // 监听属性改变，并更新控件
         openui5.utils.refreshModelChanged(this.rightTable, datas);
