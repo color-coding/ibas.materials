@@ -75,7 +75,9 @@ export class GoodsIssueEditApp extends ibas.BOEditApplication<IGoodsIssueEditVie
         this.view.showGoodsIssueLines(this.editData.goodsIssueLines.filterDeleted());
     }
     /** 运行,覆盖原方法 */
-    run(...args: any[]): void {
+    run(): void;
+    run(data: bo.GoodsIssue): void;
+    run(): void {
         let that: this = this;
         that.searchPriceList();
         if (ibas.objects.instanceOf(arguments[0], bo.GoodsIssue)) {
@@ -111,7 +113,7 @@ export class GoodsIssueEditApp extends ibas.BOEditApplication<IGoodsIssueEditVie
                 return;
             }
         }
-        super.run.apply(this, args);
+        super.run.apply(this, arguments);
     }
 
     protected priceListData: bo.MaterialPriceList[];
@@ -235,7 +237,6 @@ export class GoodsIssueEditApp extends ibas.BOEditApplication<IGoodsIssueEditVie
     chooseGoodsIssueLineMaterial(caller: bo.GoodsIssueLine): void {
         let that: this = this;
         ibas.servicesManager.runChooseService<bo.Product>({
-            caller: caller,
             boCode: bo.Product.BUSINESS_OBJECT_CODE,
             criteria: that.getConditions(),
             onCompleted(selecteds: ibas.List<bo.Product>): void {
@@ -274,7 +275,6 @@ export class GoodsIssueEditApp extends ibas.BOEditApplication<IGoodsIssueEditVie
     chooseGoodsIssueLineWarehouse(caller: bo.GoodsIssueLine): void {
         let that: this = this;
         ibas.servicesManager.runChooseService<bo.Warehouse>({
-            caller: caller,
             boCode: bo.Warehouse.BUSINESS_OBJECT_CODE,
             criteria: [
                 new ibas.Condition(bo.Warehouse.PROPERTY_ACTIVATED_NAME, ibas.emConditionOperation.EQUAL, "Y")

@@ -72,7 +72,9 @@ export class GoodsReceiptEditApp extends ibas.BOEditApplication<IGoodsReceiptEdi
         this.view.showGoodsReceiptLines(this.editData.goodsReceiptLines.filterDeleted());
     }
     /** 运行,覆盖原方法 */
-    run(...args: any[]): void {
+    run(): void;
+    run(data: bo.GoodsReceipt): void;
+    run(): void {
         let that: this = this;
         that.searchPriceList();
         if (ibas.objects.instanceOf(arguments[0], bo.GoodsReceipt)) {
@@ -108,7 +110,7 @@ export class GoodsReceiptEditApp extends ibas.BOEditApplication<IGoodsReceiptEdi
                 return;
             }
         }
-        super.run.apply(this, args);
+        super.run.apply(this, arguments);
     }
     /** 待编辑的数据 */
     protected editData: bo.GoodsReceipt;
@@ -228,7 +230,6 @@ export class GoodsReceiptEditApp extends ibas.BOEditApplication<IGoodsReceiptEdi
     chooseGoodsReceiptLineMaterial(caller: bo.GoodsReceiptLine): void {
         let that: this = this;
         ibas.servicesManager.runChooseService<bo.Product>({
-            caller: caller,
             boCode: bo.Product.BUSINESS_OBJECT_CODE,
             criteria: that.getConditions(),
             onCompleted(selecteds: ibas.List<bo.Product>): void {
@@ -267,7 +268,6 @@ export class GoodsReceiptEditApp extends ibas.BOEditApplication<IGoodsReceiptEdi
     chooseGoodsreceiptlineWarehouse(caller: bo.GoodsReceiptLine): void {
         let that: this = this;
         ibas.servicesManager.runChooseService<bo.Warehouse>({
-            caller: caller,
             boCode: bo.Warehouse.BUSINESS_OBJECT_CODE,
             criteria: [
                 new ibas.Condition(bo.Warehouse.PROPERTY_ACTIVATED_NAME, ibas.emConditionOperation.EQUAL, "Y")

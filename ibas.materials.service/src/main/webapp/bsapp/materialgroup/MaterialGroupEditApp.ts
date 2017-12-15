@@ -45,7 +45,9 @@ export class MaterialGroupEditApp extends ibas.BOEditApplication<IMaterialGroupE
         this.view.showMaterialGroup(this.editData);
     }
     /** 运行,覆盖原方法 */
-    run(...args: any[]): void {
+    run(): void;
+    run(data: bo.MaterialGroup): void;
+    run(): void {
         let that: this = this;
         if (ibas.objects.instanceOf(arguments[0], bo.MaterialGroup)) {
             // 尝试重新查询编辑对象
@@ -80,7 +82,7 @@ export class MaterialGroupEditApp extends ibas.BOEditApplication<IMaterialGroupE
                 return;
             }
         }
-        super.run.apply(this, args);
+        super.run.apply(this, arguments);
     }
     /** 待编辑的数据 */
     protected editData: bo.MaterialGroup;
