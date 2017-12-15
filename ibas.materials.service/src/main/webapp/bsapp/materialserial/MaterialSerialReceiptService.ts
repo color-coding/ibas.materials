@@ -150,12 +150,12 @@ export class MaterialSerialReceiptService extends ibas.BOApplication<IMaterialSe
     }
 
     /** 运行,覆盖原方法 */
-    run(...args: any[]): void {
+    run(): void {
         let that: this = this;
         if (arguments[0].caller.materialReceiptSerialContractLines.length >= 1) {
             that.bindSerialServiceData(arguments[0].caller);
         }
-        super.run.apply(this, args);
+        super.run.apply(this, arguments);
     }
     /** 视图显示后 */
     protected viewShowed(): void {

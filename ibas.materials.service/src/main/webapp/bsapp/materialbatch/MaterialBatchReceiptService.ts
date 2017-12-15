@@ -151,7 +151,7 @@ export class MaterialBatchReceiptService extends ibas.BOApplication<IMaterialBat
         if (ibas.objects.isNull(selected)) {
             return;
         }
-        let index:number =this.batchServiceDatas.indexOf(selected);
+        let index: number = this.batchServiceDatas.indexOf(selected);
         let batchJournal: batch.MaterialReceiptBatchJournal = this.batchServiceDatas[index];
         // let batchJournal: batch.MaterialReceiptBatchJournal = this.batchServiceDatas
         //     .find(c => c.itemCode === selected.itemCode && c.warehouse === selected.warehouse);
@@ -170,12 +170,12 @@ export class MaterialBatchReceiptService extends ibas.BOApplication<IMaterialBat
         this.batchServiceDatas = batchServiceDatas;
     }
     /** 运行,覆盖原方法 */
-    run(...args: any[]): void {
+    run(): void {
         let that: this = this;
         if (arguments[0].caller.materialReceiptBatchContractLines.length >= 1) {
             that.bindBatchServiceData(arguments[0].caller);
         }
-        super.run.apply(this, args);
+        super.run.apply(this, arguments);
     }
     /** 视图显示后 */
     protected viewShowed(): void {
