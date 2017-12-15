@@ -536,7 +536,7 @@ export class GoodsReceiptLineMaterialSerialJournals extends BusinessObjects<Mate
         return item;
     }
     createSerialJournal(data: IMaterialReceiptSerialLine): MaterialSerialJournal {
-        let item: MaterialSerialJournal = new MaterialSerialJournal();
+        let item: MaterialSerialJournal = this.create();
         item.serialCode = data.serialCode;
         item.supplierSerial = data.supplierSerial;
         item.itemCode = data.itemCode;
@@ -544,7 +544,6 @@ export class GoodsReceiptLineMaterialSerialJournals extends BusinessObjects<Mate
         item.warehouse = data.warehouse;
         item.direction = emDirection.IN;
         item.lineStatus = this.parent.lineStatus;
-        this.add(item);
         return item;
     }
     /** 移除序列日记账集合 */

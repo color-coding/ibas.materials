@@ -23,14 +23,12 @@ import {
 import {
     IMaterialSerial,
     BO_CODE_MATERIALSERIAL,
-    BO_CODE_RECEIPT_MATERIALSERIAL,
-    BO_CODE_ISSUE_MATERIALSERIAL
 } from "../../api/index";
 export class MaterialSerial extends BOSimple<MaterialSerial> implements IMaterialSerial {
     /** 业务对象编码 */
     static BUSINESS_OBJECT_CODE: string = BO_CODE_MATERIALSERIAL;
-    static BUSINESS_OBJECT_RECEIEPT_CODE: string = BO_CODE_RECEIPT_MATERIALSERIAL;
-    static BUSINESS_OBJECT_ISSUE_CODE: string = BO_CODE_ISSUE_MATERIALSERIAL;
+    // static BUSINESS_OBJECT_RECEIEPT_CODE: string = BO_CODE_RECEIPT_MATERIALSERIAL;
+    // static BUSINESS_OBJECT_ISSUE_CODE: string = BO_CODE_ISSUE_MATERIALSERIAL;
     /** 构造函数 */
     constructor() {
         super();

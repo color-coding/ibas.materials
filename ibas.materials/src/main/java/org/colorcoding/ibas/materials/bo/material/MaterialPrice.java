@@ -13,6 +13,8 @@ import javax.xml.bind.annotation.*;
 public class MaterialPrice extends Serializable implements IMaterialPrice {
 
 
+    private static final long serialVersionUID = -3012064774202678680L;
+
     /**
      * 创建物料价格清单
      *

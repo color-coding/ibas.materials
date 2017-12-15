@@ -32,13 +32,13 @@ export class MaterialBatchIssueService extends ibas.BOApplication<IMaterialBatch
     /** 应用名称 */
     static APPLICATION_NAME: string = "materials_app_materialbatchissue";
     /** 业务对象编码 */
-    static BUSINESS_OBJECT_CODE: string = bo.MaterialBatchJournal.BUSINESS_OBJECT_ISSUE_CODE;
+    // static BUSINESS_OBJECT_CODE: string = bo.MaterialBatchJournal.BUSINESS_OBJECT_ISSUE_CODE;
     /** 构造函数 */
     constructor() {
         super();
         this.id = MaterialBatchIssueService.APPLICATION_ID;
         this.name = MaterialBatchIssueService.APPLICATION_NAME;
-        this.boCode = MaterialBatchIssueService.BUSINESS_OBJECT_CODE;
+        // this.boCode = MaterialBatchIssueService.BUSINESS_OBJECT_CODE;
         this.description = ibas.i18n.prop(this.name);
     }
     /** 服务契约 */
@@ -416,7 +416,6 @@ export class MaterialBatchIssueServiceMapping extends ibas.ServiceMapping {
         super();
         this.id = MaterialBatchIssueService.APPLICATION_ID;
         this.name = MaterialBatchIssueService.APPLICATION_NAME;
-        this.category = MaterialBatchIssueService.BUSINESS_OBJECT_CODE;
         this.description = ibas.i18n.prop(this.name);
         this.proxy = MaterialBatchIssueServiceProxy;
     }

@@ -34,13 +34,13 @@ export class MaterialSerialReceiptService extends ibas.BOApplication<IMaterialSe
     /** 应用名称 */
     static APPLICATION_NAME: string = "materials_app_materialserialreceipt";
     /** 业务对象编码 */
-    static BUSINESS_OBJECT_CODE: string = bo.MaterialSerialJournal.BUSINESS_OBJECT_RECEIPT_CODE;
+    // static BUSINESS_OBJECT_CODE: string = bo.MaterialSerialJournal.BUSINESS_OBJECT_RECEIPT_CODE;
     /** 构造函数 */
     constructor() {
         super();
         this.id = MaterialSerialReceiptService.APPLICATION_ID;
         this.name = MaterialSerialReceiptService.APPLICATION_NAME;
-        this.boCode = MaterialSerialReceiptService.BUSINESS_OBJECT_CODE;
+        // this.boCode = MaterialSerialReceiptService.BUSINESS_OBJECT_CODE;
         this.description = ibas.i18n.prop(this.name);
     }
     /** 服务契约 */
@@ -200,7 +200,6 @@ export class MaterialSerialReceipServiceMapping extends ibas.ServiceMapping {
         super();
         this.id = MaterialSerialReceiptService.APPLICATION_ID;
         this.name = MaterialSerialReceiptService.APPLICATION_NAME;
-        this.category = MaterialSerialReceiptService.BUSINESS_OBJECT_CODE;
         this.description = ibas.i18n.prop(this.name);
         this.proxy = MaterialSerialReceiptServiceProxy;
     }

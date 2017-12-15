@@ -29,6 +29,7 @@ import {
     MaterialIssueSerialJournal,
     MaterialIssueSerialInfo
 } from "./index";
+import { MaterialSerial } from "../../borep/bo/index";
 export class MaterialSerialIssueService extends ibas.BOApplication<IMaterialSerialIssueView> {
 
     /** 应用标识 */
@@ -36,14 +37,14 @@ export class MaterialSerialIssueService extends ibas.BOApplication<IMaterialSeri
     /** 应用名称 */
     static APPLICATION_NAME: string = "materials_app_materialserialissue";
     /** 业务对象编码 */
-    static BUSINESS_OBJECT_CODE: string = bo.MaterialSerialJournal.BUSINESS_OBJECT_ISSUE_CODE;
+    // static BUSINESS_OBJECT_CODE: string = bo.MaterialSerialJournal.BUSINESS_OBJECT_ISSUE_CODE;
 
     /** 构造函数 */
     constructor() {
         super();
         this.id = MaterialSerialIssueService.APPLICATION_ID;
         this.name = MaterialSerialIssueService.APPLICATION_NAME;
-        this.boCode = MaterialSerialIssueService.BUSINESS_OBJECT_CODE;
+        // this.boCode = MaterialSerialIssueService.BUSINESS_OBJECT_CODE;
         this.description = ibas.i18n.prop(this.name);
     }
 
@@ -207,6 +208,10 @@ export class MaterialSerialIssueService extends ibas.BOApplication<IMaterialSeri
             if (selected.materialSerialInfos.indexOf(item) >= 0) {
                 selected.materialSerialInfos.deleteSerialJournal(item);
             }
+            let serial: MaterialSerial = this.serialData.find(c => c.serialCode === item.serialCode);
+            if (!ibas.objects.isNull(serial)) {
+                serial.markNew(true);
+            }
         }
         this.view.showLeftData(this.serialData.filter(c => c.isDeleted === false));
         this.view.showRightData(selected.materialSerialInfos.filterDeleted());
@@ -296,7 +301,6 @@ export class MaterialSerialIssueServiceMapping extends ibas.ServiceMapping {
         super();
         this.id = MaterialSerialIssueService.APPLICATION_ID;
         this.name = MaterialSerialIssueService.APPLICATION_NAME;
-        this.category = MaterialSerialIssueService.BUSINESS_OBJECT_CODE;
         this.description = ibas.i18n.prop(this.name);
         this.proxy = MaterialSerialIssueServiceProxy;
     }

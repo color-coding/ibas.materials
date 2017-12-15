@@ -337,7 +337,7 @@ export class GoodsIssueEditApp extends ibas.BOEditApplication<IGoodsIssueEditVie
         for (let item of goodIssueLines) {
             let batchInfos: IMaterialIssueBatchs = {
                 materialIssueLineBatchs: [],
-                createBatchJournal(batchData: IMaterialBatchJournal): bo.MaterialBatchJournal {
+                createBatchJournal(batchData: IMaterialIssueBatchLine): bo.MaterialBatchJournal {
                     let batchJournal: MaterialBatchJournal = item.materialBatchJournals.createBatchJournal(batchData);
                     return batchJournal;
                 },
@@ -347,11 +347,9 @@ export class GoodsIssueEditApp extends ibas.BOEditApplication<IGoodsIssueEditVie
                         let batchJournal: MaterialBatchJournal = item.materialBatchJournals[index];
                         batchJournal.quantity = batchData.quantity;
                         return batchJournal;
-
                     }
-
                 },
-                deleteBatchJournal(batchData: IMaterialBatchJournal): void {
+                deleteBatchJournal(batchData: IMaterialIssueBatchLine): void {
                     if (!ibas.objects.isNull(batchData.caller)) {
                         let index: number = item.materialBatchJournals.indexOf(batchData.caller);
                         let batchJournal: MaterialBatchJournal = item.materialBatchJournals[index];
@@ -361,7 +359,6 @@ export class GoodsIssueEditApp extends ibas.BOEditApplication<IGoodsIssueEditVie
                             batchJournal.delete();
                         }
                     }
-
                 }
             };
             // 遍历行中的批次信息

@@ -18,6 +18,7 @@ public class MaterialQuantity extends Serializable implements IMaterialQuantity 
      * 查询条件字段-仓库
      */
     public static final String WAREHOUSE_NAME = "WhsCode";
+    private static final long serialVersionUID = 9065321638987133730L;
 
     /**
      * 创建物料库存

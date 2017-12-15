@@ -24,10 +24,7 @@ import {
 import {
 
 } from "../Datas";
-import{
-    IMaterialBatchBaseLine,
-} from "./index";
-export interface IMaterialBatchJournal extends IBOSimple,IMaterialBatchBaseLine {
+export interface IMaterialBatchJournal extends IBOSimple {
     /**物料编号 */
     itemCode: string;
 

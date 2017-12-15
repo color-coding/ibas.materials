@@ -539,8 +539,7 @@ export class GoodsIssueLineMaterialSerialJournals extends BusinessObjects<Materi
         return item;
     }
     createSerialJournal(data: IMaterialIssueSerialLine): MaterialSerialJournal {
-        let item: MaterialSerialJournal = new MaterialSerialJournal();
-        this.add(item);
+        let item: MaterialSerialJournal = this.create();
         item.serialCode = data.serialCode;
         item.supplierSerial = data.supplierSerial;
         item.itemCode = data.itemCode;

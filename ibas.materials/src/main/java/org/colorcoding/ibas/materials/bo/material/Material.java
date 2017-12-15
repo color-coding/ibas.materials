@@ -24,7 +24,7 @@ public class Material extends MaterialBase<Material> implements IMaterial {
     /**
      * 序列化版本标记
      */
-    private static final long serialVersionUID = 8078764747253121172L;
+    private static final long serialVersionUID = -4979250287382115515L;
 
     /**
      * 业务对象名称
@@ -47,6 +47,7 @@ public class Material extends MaterialBase<Material> implements IMaterial {
     @DbField(name = "AvgPrice", type = DbFieldType.DECIMAL, table = DB_TABLE_NAME, primaryKey = false)
     public static final IPropertyInfo<Decimal> PROPERTY_AVGPRICE = registerProperty(PROPERTY_AVGPRICE_NAME,
             Decimal.class, MY_CLASS);
+
 
     /**
      * 获取-价格

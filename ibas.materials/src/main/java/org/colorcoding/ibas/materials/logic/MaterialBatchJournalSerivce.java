@@ -74,7 +74,7 @@ public class MaterialBatchJournalSerivce extends BusinessLogic<IMaterialBatchJou
         } else {
             quantity = quantity.subtract(contract.getQuantity());
         }
-        if(quantity.compareTo(BigDecimal.ZERO)== -1){
+        if (quantity.compareTo(BigDecimal.ZERO) == -1) {
             throw new BusinessLogicException(String.format(I18N.prop("msg_mm_batch_is_not_enough"),
                     contract.getBatchCode()));
         }
@@ -90,7 +90,7 @@ public class MaterialBatchJournalSerivce extends BusinessLogic<IMaterialBatchJou
         } else {
             quantity = quantity.add(contract.getQuantity());
         }
-        if(quantity.compareTo(BigDecimal.ZERO)== -1){
+        if (quantity.compareTo(BigDecimal.ZERO) == -1) {
             throw new BusinessLogicException(String.format(I18N.prop("msg_mm_batch_is_not_enough"),
                     contract.getBatchCode()));
         }
@@ -99,15 +99,21 @@ public class MaterialBatchJournalSerivce extends BusinessLogic<IMaterialBatchJou
 
     @Override
     protected boolean checkDataStatus(Object data) {
-        super.checkDataStatus(data);
-        if(data instanceof IBOSimpleLine){
-            IMaterialBatchJournal journal = (IMaterialBatchJournal) data;
-            if (journal.getLineStatus() == emDocumentStatus.PLANNED) {
-                return false;
+        if (super.checkDataStatus(data)) {
+            if (data instanceof IBOSimpleLine) {
+                IMaterialBatchJournal journal = (IMaterialBatchJournal) data;
+                if (journal.getLineStatus() == emDocumentStatus.PLANNED) {
+                    return false;
+                }
             }
+            return true;
+        } else {
+            return false;
         }
-        return true;
+
+
     }
+
     private void checkContractData(IMaterialBatchJournalContract contract) {
         ICriteria criteria = Criteria.create();
         ICondition condition = criteria.getConditions().create();

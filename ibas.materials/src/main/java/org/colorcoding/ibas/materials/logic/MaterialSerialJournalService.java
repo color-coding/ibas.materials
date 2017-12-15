@@ -85,14 +85,17 @@ public class MaterialSerialJournalService extends BusinessLogic<IMaterialSerialJ
 
     @Override
     protected boolean checkDataStatus(Object data) {
-        super.checkDataStatus(data);
-        if(data instanceof IBOSimpleLine){
-            IMaterialSerialJournal journal = (IMaterialSerialJournal) data;
-            if (journal.getLineStatus() == emDocumentStatus.PLANNED) {
-                return false;
+        if (super.checkDataStatus(data)) {
+            if (data instanceof IBOSimpleLine) {
+                IMaterialSerialJournal journal = (IMaterialSerialJournal) data;
+                if (journal.getLineStatus() == emDocumentStatus.PLANNED) {
+                    return false;
+                }
             }
+            return true;
+        } else {
+            return false;
         }
-        return true;
     }
 
     private void checkContractData(IMaterialSerialJournalContract contract) {
