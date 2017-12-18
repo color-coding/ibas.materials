@@ -17,14 +17,14 @@ import org.colorcoding.ibas.materials.bo.materialserial.MaterialSerial;
 import org.colorcoding.ibas.materials.repository.BORepositoryMaterials;
 
 /**
- * ÎïÁÏĞòÁĞºÅÈÕ¼ÇÕË·şÎñ  Éú³ÉÒ»ÕÅĞòÁĞºÅÈÕ¼ÇÕË·ÖÂ¼
+ * ç‰©æ–™åºåˆ—å·æ—¥è®°è´¦æœåŠ¡  ç”Ÿæˆä¸€å¼ åºåˆ—å·æ—¥è®°è´¦åˆ†å½•
  */
 @LogicContract(IMaterialSerialJournalContract.class)
 public class MaterialSerialJournalService extends BusinessLogic<IMaterialSerialJournalContract, IMaterialSerial> {
     @Override
     protected IMaterialSerial fetchBeAffected(IMaterialSerialJournalContract contract) {
         this.checkContractData(contract);
-        // region ¶¨Òå²éÑ¯Ìõ¼ş
+        // region å®šä¹‰æŸ¥è¯¢æ¡ä»¶
         ICriteria criteria = Criteria.create();
         ICondition condition = criteria.getConditions().create();
         condition.setAlias(MaterialSerial.PROPERTY_SERIALCODE.getName());
@@ -46,7 +46,7 @@ public class MaterialSerialJournalService extends BusinessLogic<IMaterialSerialJ
         // endregion
         IMaterialSerial materialSerial = this.fetchBeAffected(criteria, IMaterialSerial.class);
         if (materialSerial == null) {
-            // region ²éÑ¯ÎïÁÏĞòÁĞºÅÈÕ¼ÇÕË
+            // region æŸ¥è¯¢ç‰©æ–™åºåˆ—å·æ—¥è®°è´¦
             BORepositoryMaterials boRepository = new BORepositoryMaterials();
             boRepository.setRepository(super.getRepository());
             IOperationResult<IMaterialSerial> operationResult = boRepository.fetchMaterialSerial(criteria);
@@ -119,12 +119,12 @@ public class MaterialSerialJournalService extends BusinessLogic<IMaterialSerialJ
             throw new BusinessLogicException(
                     String.format(I18N.prop("msg_mm_material_is_not_exist"), contract.getItemCode()));
         }
-        // ĞéÄâÎïÁÏ
+        // è™šæ‹Ÿç‰©æ–™
         if (material.getPhantomItem() == emYesNo.YES) {
             throw new BusinessLogicException(String.format(
                     I18N.prop("msg_mm_material_is_phantom_item_can't_create_journal"), contract.getItemCode()));
         }
-        // ·ÇĞòÁĞºÅ¹ÜÀíÎïÁÏ
+        // éåºåˆ—å·ç®¡ç†ç‰©æ–™
         if (material.getSerialManagement() == emYesNo.NO) {
             throw new BusinessLogicException(
                     String.format(I18N.prop("msg_mm_material_is_not_serialmanagement"), contract.getItemCode()));

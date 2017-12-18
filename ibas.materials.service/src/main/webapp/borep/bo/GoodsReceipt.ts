@@ -509,7 +509,14 @@ export class GoodsReceiptLineMaterialBatchJournals extends BusinessObjects<Mater
             return batchJournal;
         }
     }
-    /** 移除批次行 */
+    /** 删除批次日记账集合 */
+    deleteAll(): void {
+        for (let item of this) {
+            item.delete();
+        }
+    }
+
+    /** 移除批次日记账集合 */
     removeAll(): void {
         for (let item of this) {
             this.remove(item);
@@ -545,6 +552,12 @@ export class GoodsReceiptLineMaterialSerialJournals extends BusinessObjects<Mate
         item.direction = emDirection.IN;
         item.lineStatus = this.parent.lineStatus;
         return item;
+    }
+    /** 删除序列日记账集合 */
+    deleteAll(): void {
+        for (let item of this) {
+            item.delete();
+        }
     }
     /** 移除序列日记账集合 */
     removeAll(): void {

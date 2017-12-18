@@ -502,8 +502,7 @@ export class GoodsIssueLineMaterialBatchJournals extends BusinessObjects<Materia
         return item;
     }
     createBatchJournal(data: IMaterialIssueBatchLine): MaterialBatchJournal {
-        let item: MaterialBatchJournal = new MaterialBatchJournal();
-        this.add(item);
+        let item: MaterialBatchJournal = this.create();
         item.batchCode = data.batchCode;
         item.itemCode = data.itemCode;
         item.warehouse = data.warehouse;
@@ -512,6 +511,12 @@ export class GoodsIssueLineMaterialBatchJournals extends BusinessObjects<Materia
         return item;
     }
 
+    /** 删除批次日记账集合 */
+    deleteAll(): void {
+        for (let item of this) {
+            item.delete();
+        }
+    }
     /** 移除批次日记账集合 */
     removeAll(): void {
         for (let item of this) {
@@ -547,6 +552,12 @@ export class GoodsIssueLineMaterialSerialJournals extends BusinessObjects<Materi
         item.warehouse = data.warehouse;
         item.lineStatus = this.parent.lineStatus;
         return item;
+    }
+    /** 删除序列日记账集合 */
+    deleteAll(): void {
+        for (let item of this) {
+            item.delete();
+        }
     }
     /** 移除序列日记账集合 */
     removeAll(): void {
