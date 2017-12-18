@@ -340,7 +340,6 @@ export class GoodsReceiptEditApp extends ibas.BOEditApplication<IGoodsReceiptEdi
                         }
                         return batchJournal;
                     }
-
                 },
                 deleteBatchJournal(batchData: IMaterialReceiptBatchLine): void {
                     if (!ibas.objects.isNull(batchData.caller)) {
@@ -352,7 +351,6 @@ export class GoodsReceiptEditApp extends ibas.BOEditApplication<IGoodsReceiptEdi
                             } else {
                                 batchJournal.delete();
                             }
-
                         }
                     }
                 }

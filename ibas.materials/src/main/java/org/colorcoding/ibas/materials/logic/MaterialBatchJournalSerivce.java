@@ -68,6 +68,8 @@ public class MaterialBatchJournalSerivce extends BusinessLogic<IMaterialBatchJou
     @Override
     protected void impact(IMaterialBatchJournalContract contract) {
         IMaterialBatch materialBatch = this.getBeAffected();
+        materialBatch.setItemCode(contract.getItemCode());
+        materialBatch.setWarehouse(contract.getWarehouse());
         Decimal quantity = materialBatch.getQuantity();
         if (contract.getDirection().equals(emDirection.IN)) {
             quantity = quantity.add(contract.getQuantity());
@@ -84,6 +86,8 @@ public class MaterialBatchJournalSerivce extends BusinessLogic<IMaterialBatchJou
     @Override
     protected void revoke(IMaterialBatchJournalContract contract) {
         IMaterialBatch materialBatch = this.getBeAffected();
+        materialBatch.setItemCode(contract.getItemCode());
+        materialBatch.setWarehouse(contract.getWarehouse());
         Decimal quantity = materialBatch.getQuantity();
         if (contract.getDirection().equals(emDirection.IN)) {
             quantity = quantity.subtract(contract.getQuantity());

@@ -79,6 +79,9 @@ public class MaterialReceiptService extends BusinessLogic<IMaterialReceiptContra
     @Override
     protected void impact(IMaterialReceiptContract contract) {
         IMaterialInventoryJournal materialJournal = this.getBeAffected();
+        materialJournal.setItemCode((contract.getItemCode()));
+        materialJournal.setItemName(contract.getItemName());
+        materialJournal.setWarehouse(contract.getWarehouse());
         Decimal receiptQuantity = materialJournal.getQuantity();
         receiptQuantity = receiptQuantity.add(contract.getQuantity());
         materialJournal.setQuantity(receiptQuantity);

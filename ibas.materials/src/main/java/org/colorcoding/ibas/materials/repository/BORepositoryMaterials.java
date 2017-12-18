@@ -676,7 +676,7 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
             filterConditons.add(Product.PRICELIST_NAME);
             filterConditons.add(Product.WAREHOUSE_NAME);
             // 查产品信息
-            OperationResult<Product> opRstProduct = super.fetch(this.filterCondition(criteria, filterConditons), token, Product.class);
+            OperationResult<Product> opRstProduct = super.fetch(this.splitCondition(criteria, filterConditons), token, Product.class);
             if (opRstProduct.getError() != null) {
                 throw opRstProduct.getError();
             }
@@ -723,7 +723,7 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
      * @param conditions 过滤的条件
      * @return
      */
-    private ICriteria filterCondition(ICriteria criteria, ArrayList<String> conditions) {
+    private ICriteria splitCondition(ICriteria criteria, ArrayList<String> conditions) {
         ICriteria criteria1Material = new Criteria();
         criteria1Material = criteria.clone();
         for (int index = 0; index < criteria1Material.getConditions().size(); index++) {
@@ -812,7 +812,7 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
             ArrayList<String> filterConditons = new ArrayList<>();
             filterConditons.add(MaterialPrice.PRICELIST_NAME);
             // 查物料
-            IOperationResult<IMaterial> opRstMaterial = this.fetchMaterial(this.filterCondition(criteria, filterConditons));
+            IOperationResult<IMaterial> opRstMaterial = this.fetchMaterial(this.splitCondition(criteria, filterConditons));
             if (opRstMaterial.getError() != null) {
                 throw opRstMaterial.getError();
             }
@@ -933,7 +933,7 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
             }
             ArrayList<String> filterConditons = new ArrayList<>();
             filterConditons.add(MaterialQuantity.WAREHOUSE_NAME);
-            IOperationResult<IMaterial> opRstMaterial = this.fetchMaterial(this.filterCondition(criteria, filterConditons));
+            IOperationResult<IMaterial> opRstMaterial = this.fetchMaterial(this.splitCondition(criteria, filterConditons));
             if (opRstMaterial.getError() != null) {
                 throw opRstMaterial.getError();
             }
