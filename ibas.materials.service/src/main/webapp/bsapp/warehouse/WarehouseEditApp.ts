@@ -45,7 +45,9 @@ export class WarehouseEditApp extends ibas.BOEditApplication<IWarehouseEditView,
         this.view.showWarehouse(this.editData);
     }
     /** 运行,覆盖原方法 */
-    run(...args: any[]): void {
+    run(): void;
+    run(data: bo.Warehouse): void;
+    run(): void {
         let that: this = this;
         if (ibas.objects.instanceOf(arguments[0], bo.Warehouse)) {
             // 尝试重新查询编辑对象
@@ -80,7 +82,7 @@ export class WarehouseEditApp extends ibas.BOEditApplication<IWarehouseEditView,
                 return;
             }
         }
-        super.run.apply(this, args);
+        super.run.apply(this, arguments);
     }
     /** 待编辑的数据 */
     protected editData: bo.Warehouse;

@@ -69,7 +69,9 @@ export class InventoryTransferEditApp extends ibas.BOEditApplication<IInventoryT
         this.view.showInventoryTransferLines(this.editData.inventoryTransferLines.filterDeleted());
     }
     /** 运行,覆盖原方法 */
-    run(...args: any[]): void {
+    run(): void;
+    run(data: bo.InventoryTransfer): void;
+    run(): void {
         let that: this = this;
         that.searchPriceList();
         if (ibas.objects.instanceOf(arguments[0], bo.InventoryTransfer)) {
@@ -105,7 +107,7 @@ export class InventoryTransferEditApp extends ibas.BOEditApplication<IInventoryT
                 return;
             }
         }
-        super.run.apply(this, args);
+        super.run.apply(this, arguments);
     }
     /** 待编辑的数据 */
     protected editData: bo.InventoryTransfer;
@@ -239,7 +241,6 @@ export class InventoryTransferEditApp extends ibas.BOEditApplication<IInventoryT
     chooseInventoryTransferLineMaterial(caller: bo.InventoryTransferLine): void {
         let that: this = this;
         ibas.servicesManager.runChooseService<bo.Product>({
-            caller: caller,
             boCode: bo.Product.BUSINESS_OBJECT_CODE,
             criteria: that.getConditions(),
             onCompleted(selecteds: ibas.List<bo.Product>): void {
@@ -273,7 +274,6 @@ export class InventoryTransferEditApp extends ibas.BOEditApplication<IInventoryT
     chooseInventoryTransferLineWarehouse(caller: bo.InventoryTransferLine): void {
         let that: this = this;
         ibas.servicesManager.runChooseService<bo.Warehouse>({
-            caller: caller,
             boCode: bo.Warehouse.BUSINESS_OBJECT_CODE,
             criteria: [
                 new ibas.Condition(bo.Warehouse.PROPERTY_ACTIVATED_NAME, ibas.emConditionOperation.EQUAL, "Y")
