@@ -21,11 +21,11 @@ import {
     IMaterialIssueBatchContract,
     IMaterialIssueBatchContractLine,
 } from "../../api/bo/index";
-import {MaterialIssueBatchJournal,MaterialIssueBatchInfo} from "./index";
+import { MaterialIssueBatchJournal, MaterialIssueBatchInfo } from "./index";
 import { MaterialBatchJournal } from "../../borep/bo/index";
 import { emDirection } from "ibas/index";
 
-export class MaterialBatchIssueService extends ibas.BOApplication<IMaterialBatchIssueView> {
+export class MaterialBatchIssueService extends ibas.ServiceApplication<IMaterialBatchIssueView, IMaterialIssueBatchContract>{
 
     /** 应用标识 */
     static APPLICATION_ID: string = "141e2a0f-3120-40a3-9bb4-f8b61672ed9c";
@@ -131,7 +131,7 @@ export class MaterialBatchIssueService extends ibas.BOApplication<IMaterialBatch
                 .find(c => c.batchCode === item.batchCode);
             // 未选择该批次 新建批次日记账
             if (ibas.objects.isNull(batchLine)) {
-                let batchJournal:MaterialIssueBatchInfo = new MaterialIssueBatchInfo();
+                let batchJournal: MaterialIssueBatchInfo = new MaterialIssueBatchInfo();
                 batchJournal.itemCode = item.itemCode;
                 batchJournal.warehouse = item.warehouse;
                 batchJournal.batchCode = item.batchCode;
@@ -144,7 +144,7 @@ export class MaterialBatchIssueService extends ibas.BOApplication<IMaterialBatch
                     item.quantity = Number(item.quantity) - Number(batchJournal.quantity);
                 }
                 batchLine = journal.materialBatchInfos.createBatchJournal(batchJournal);
-            }else {
+            } else {
                 // 已选择该批次 修改批次日记账
                 if (item.quantity <= journal.needBatchQuantity) {
                     batchLine.quantity = Number(batchLine.quantity) + Number(item.quantity);
@@ -185,7 +185,7 @@ export class MaterialBatchIssueService extends ibas.BOApplication<IMaterialBatch
                 .find(c => c.batchCode === item.batchCode);
             // 该凭证行未选择该批次 新建操作
             if (ibas.objects.isNull(batchline)) {
-                let batchJournal:MaterialIssueBatchInfo = new MaterialIssueBatchInfo();
+                let batchJournal: MaterialIssueBatchInfo = new MaterialIssueBatchInfo();
                 batchJournal.itemCode = item.itemCode;
                 batchJournal.warehouse = item.warehouse;
                 batchJournal.batchCode = item.batchCode;
@@ -360,14 +360,13 @@ export class MaterialBatchIssueService extends ibas.BOApplication<IMaterialBatch
             }
         }
     }
-    /** 运行,覆盖原方法 */
-    run(...args: any[]): void {
-        let that: this = this;
+    /** 运行服务 */
+    runService(contract: IMaterialIssueBatchContract): void {
         // 行数据
-        if (arguments[0].caller.materialIssueBatchContractLines.length >= 1) {
-            that.bindBatchServiceData(arguments[0].caller);
+        if (contract.materialIssueBatchContractLines.length >= 1) {
+            this.bindBatchServiceData(contract);
         }
-        super.run.apply(this, args);
+        super.show();
     }
     /** 绑定服务数据 */
     bindBatchServiceData(contract: IMaterialIssueBatchContract): void {
@@ -419,8 +418,8 @@ export class MaterialBatchIssueServiceMapping extends ibas.ServiceMapping {
         this.description = ibas.i18n.prop(this.name);
         this.proxy = MaterialBatchIssueServiceProxy;
     }
-    /** 创建服务并运行 */
-    create(): ibas.IService<ibas.IApplicationServiceContract> {
+    /** 创建服务实例 */
+    create(): ibas.IService<ibas.IServiceCaller<ibas.IServiceContract>> {
         return new MaterialBatchIssueService();
     }
 }

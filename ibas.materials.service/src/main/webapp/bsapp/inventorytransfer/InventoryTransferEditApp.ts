@@ -226,7 +226,6 @@ export class InventoryTransferEditApp extends ibas.BOEditApplication<IInventoryT
     chooseInventoryTransferWarehouse(): void {
         let that: this = this;
         ibas.servicesManager.runChooseService<bo.Warehouse>({
-            caller: that.editData,
             boCode: bo.Warehouse.BUSINESS_OBJECT_CODE,
             criteria: [
                 new ibas.Condition(bo.Warehouse.PROPERTY_DELETED_NAME, ibas.emConditionOperation.EQUAL, "N")
@@ -309,8 +308,7 @@ export class InventoryTransferEditApp extends ibas.BOEditApplication<IInventoryT
         }
         // 调用批次选择服务
         ibas.servicesManager.runApplicationService<IMaterialIssueBatchContract>({
-            caller: that.getBatchContract(inventoryTransferLines),
-            proxy: MaterialBatchIssueServiceProxy
+            proxy: new MaterialBatchIssueServiceProxy(that.getBatchContract(inventoryTransferLines))
         });
     }
     chooseInventoryTransferLineMaterialSerial(): void {
@@ -322,8 +320,7 @@ export class InventoryTransferEditApp extends ibas.BOEditApplication<IInventoryT
         }
         // 调用序列选择服务
         ibas.servicesManager.runApplicationService<IMaterialIssueSerialContract>({
-            caller: that.getSerialContract(inventoryTransferLine),
-            proxy: MaterialSerialIssueServiceProxy,
+            proxy: new MaterialSerialIssueServiceProxy(that.getSerialContract(inventoryTransferLine))
         });
     }
 

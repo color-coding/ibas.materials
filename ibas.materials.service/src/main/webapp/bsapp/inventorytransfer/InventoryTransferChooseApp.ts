@@ -97,8 +97,8 @@ export class InventoryTransferChooseServiceMapping extends ibas.BOChooseServiceM
         this.boCode = InventoryTransferChooseApp.BUSINESS_OBJECT_CODE;
         this.description = ibas.i18n.prop(this.name);
     }
-    /** 创建服务并运行 */
-    create(): ibas.IService<ibas.IServiceCaller> {
+    /** 创建服务实例 */
+    create(): ibas.IService<ibas.IBOChooseServiceCaller<bo.InventoryTransfer>> {
         return new InventoryTransferChooseApp();
     }
 }

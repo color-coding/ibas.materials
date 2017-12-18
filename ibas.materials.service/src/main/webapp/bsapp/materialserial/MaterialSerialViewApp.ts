@@ -46,7 +46,7 @@ export class MaterialSerialViewApp extends ibas.BOViewService<IMaterialSerialVie
     run(): void;
     run(data: bo.MaterialSerial): void;
     run(): void {
-        if (!(arguments[0] instanceof bo.MaterialSerial)) {
+        if (ibas.objects.instanceOf(arguments[0], bo.MaterialSerial)) {
             this.viewData = arguments[0];
             let criteria: ibas.ICriteria = new ibas.Criteria();
             let condition: ibas.ICondition;

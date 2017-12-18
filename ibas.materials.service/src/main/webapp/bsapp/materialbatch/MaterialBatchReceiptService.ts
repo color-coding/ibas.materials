@@ -22,7 +22,8 @@ import {
     MaterialBatchReceiptServiceProxy,
 } from "../../api/Datas";
 import * as batch from "./index";
-export class MaterialBatchReceiptService extends ibas.BOApplication<IMaterialBatchReceiptView> {
+export class MaterialBatchReceiptService extends ibas.ServiceApplication<IMaterialBatchReceiptView, IMaterialReceiptBatchContract>{
+
     /** 应用标识 */
     static APPLICATION_ID: string = "f4448871-b03a-48f5-bf6d-9418259fab9d";
     /** 应用名称 */
@@ -151,7 +152,7 @@ export class MaterialBatchReceiptService extends ibas.BOApplication<IMaterialBat
         if (ibas.objects.isNull(selected)) {
             return;
         }
-        let index:number =this.batchServiceDatas.indexOf(selected);
+        let index: number = this.batchServiceDatas.indexOf(selected);
         let batchJournal: batch.MaterialReceiptBatchJournal = this.batchServiceDatas[index];
         // let batchJournal: batch.MaterialReceiptBatchJournal = this.batchServiceDatas
         //     .find(c => c.itemCode === selected.itemCode && c.warehouse === selected.warehouse);
@@ -169,13 +170,13 @@ export class MaterialBatchReceiptService extends ibas.BOApplication<IMaterialBat
         }
         this.batchServiceDatas = batchServiceDatas;
     }
-    /** 运行,覆盖原方法 */
-    run(...args: any[]): void {
-        let that: this = this;
-        if (arguments[0].caller.materialReceiptBatchContractLines.length >= 1) {
-            that.bindBatchServiceData(arguments[0].caller);
+    /** 运行服务 */
+    runService(contract: IMaterialReceiptBatchContract): void {
+        // 行数据
+        if (contract.materialReceiptBatchContractLines.length >= 1) {
+            this.bindBatchServiceData(contract);
         }
-        super.run.apply(this, args);
+        super.show();
     }
     /** 视图显示后 */
     protected viewShowed(): void {
@@ -227,8 +228,8 @@ export class MaterialBatchReceipServiceMapping extends ibas.ServiceMapping {
         this.description = ibas.i18n.prop(this.name);
         this.proxy = MaterialBatchReceiptServiceProxy;
     }
-    /** 创建服务并运行 */
-    create(): ibas.IService<ibas.IApplicationServiceContract> {
+    /** 创建服务实例 */
+    create(): ibas.IService<ibas.IServiceCaller<ibas.IServiceContract>> {
         return new MaterialBatchReceiptService();
     }
 }

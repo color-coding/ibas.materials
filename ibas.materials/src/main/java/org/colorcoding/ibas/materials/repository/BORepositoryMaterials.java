@@ -46,7 +46,7 @@ import org.colorcoding.ibas.materials.bo.warehouse.IWarehouse;
 import org.colorcoding.ibas.materials.bo.warehouse.Warehouse;
 
 /**
- * Materialsä»“åº“
+ * Materials²Ö¿â
  */
 public class BORepositoryMaterials extends BORepositoryServiceApplication
         implements IBORepositoryMaterialsSvc, IBORepositoryMaterialsApp {
@@ -54,42 +54,42 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
     // --------------------------------------------------------------------------------------------//
 
     /**
-     * æŸ¥è¯¢-åº“å­˜å‘è´§
+     * ²éÑ¯-¿â´æ·¢»õ
      *
-     * @param criteria æŸ¥è¯¢
-     * @param token    å£ä»¤
-     * @return æ“ä½œç»“æœ
+     * @param criteria ²éÑ¯
+     * @param token    ¿ÚÁî
+     * @return ²Ù×÷½á¹û
      */
     public OperationResult<GoodsIssue> fetchGoodsIssue(ICriteria criteria, String token) {
         return super.fetch(criteria, token, GoodsIssue.class);
     }
 
     /**
-     * æŸ¥è¯¢-åº“å­˜å‘è´§ï¼ˆæå‰è®¾ç½®ç”¨æˆ·å£ä»¤ï¼‰
+     * ²éÑ¯-¿â´æ·¢»õ£¨ÌáÇ°ÉèÖÃÓÃ»§¿ÚÁî£©
      *
-     * @param criteria æŸ¥è¯¢
-     * @return æ“ä½œç»“æœ
+     * @param criteria ²éÑ¯
+     * @return ²Ù×÷½á¹û
      */
     public IOperationResult<IGoodsIssue> fetchGoodsIssue(ICriteria criteria) {
         return new OperationResult<IGoodsIssue>(this.fetchGoodsIssue(criteria, this.getUserToken()));
     }
 
     /**
-     * ä¿å­˜-åº“å­˜å‘è´§
+     * ±£´æ-¿â´æ·¢»õ
      *
-     * @param bo    å¯¹è±¡å®ä¾‹
-     * @param token å£ä»¤
-     * @return æ“ä½œç»“æœ
+     * @param bo    ¶ÔÏóÊµÀı
+     * @param token ¿ÚÁî
+     * @return ²Ù×÷½á¹û
      */
     public OperationResult<GoodsIssue> saveGoodsIssue(GoodsIssue bo, String token) {
         return super.save(bo, token);
     }
 
     /**
-     * ä¿å­˜-åº“å­˜å‘è´§ï¼ˆæå‰è®¾ç½®ç”¨æˆ·å£ä»¤ï¼‰
+     * ±£´æ-¿â´æ·¢»õ£¨ÌáÇ°ÉèÖÃÓÃ»§¿ÚÁî£©
      *
-     * @param bo å¯¹è±¡å®ä¾‹
-     * @return æ“ä½œç»“æœ
+     * @param bo ¶ÔÏóÊµÀı
+     * @return ²Ù×÷½á¹û
      */
     public IOperationResult<IGoodsIssue> saveGoodsIssue(IGoodsIssue bo) {
         return new OperationResult<IGoodsIssue>(this.saveGoodsIssue((GoodsIssue) bo, this.getUserToken()));
@@ -98,42 +98,42 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
     // --------------------------------------------------------------------------------------------//
 
     /**
-     * æŸ¥è¯¢-åº“å­˜æ”¶è´§
+     * ²éÑ¯-¿â´æÊÕ»õ
      *
-     * @param criteria æŸ¥è¯¢
-     * @param token    å£ä»¤
-     * @return æ“ä½œç»“æœ
+     * @param criteria ²éÑ¯
+     * @param token    ¿ÚÁî
+     * @return ²Ù×÷½á¹û
      */
     public OperationResult<GoodsReceipt> fetchGoodsReceipt(ICriteria criteria, String token) {
         return super.fetch(criteria, token, GoodsReceipt.class);
     }
 
     /**
-     * æŸ¥è¯¢-åº“å­˜æ”¶è´§ï¼ˆæå‰è®¾ç½®ç”¨æˆ·å£ä»¤ï¼‰
+     * ²éÑ¯-¿â´æÊÕ»õ£¨ÌáÇ°ÉèÖÃÓÃ»§¿ÚÁî£©
      *
-     * @param criteria æŸ¥è¯¢
-     * @return æ“ä½œç»“æœ
+     * @param criteria ²éÑ¯
+     * @return ²Ù×÷½á¹û
      */
     public IOperationResult<IGoodsReceipt> fetchGoodsReceipt(ICriteria criteria) {
         return new OperationResult<IGoodsReceipt>(this.fetchGoodsReceipt(criteria, this.getUserToken()));
     }
 
     /**
-     * ä¿å­˜-åº“å­˜æ”¶è´§
+     * ±£´æ-¿â´æÊÕ»õ
      *
-     * @param bo    å¯¹è±¡å®ä¾‹
-     * @param token å£ä»¤
-     * @return æ“ä½œç»“æœ
+     * @param bo    ¶ÔÏóÊµÀı
+     * @param token ¿ÚÁî
+     * @return ²Ù×÷½á¹û
      */
     public OperationResult<GoodsReceipt> saveGoodsReceipt(GoodsReceipt bo, String token) {
         return super.save(bo, token);
     }
 
     /**
-     * ä¿å­˜-åº“å­˜æ”¶è´§ï¼ˆæå‰è®¾ç½®ç”¨æˆ·å£ä»¤ï¼‰
+     * ±£´æ-¿â´æÊÕ»õ£¨ÌáÇ°ÉèÖÃÓÃ»§¿ÚÁî£©
      *
-     * @param bo å¯¹è±¡å®ä¾‹
-     * @return æ“ä½œç»“æœ
+     * @param bo ¶ÔÏóÊµÀı
+     * @return ²Ù×÷½á¹û
      */
     public IOperationResult<IGoodsReceipt> saveGoodsReceipt(IGoodsReceipt bo) {
         return new OperationResult<IGoodsReceipt>(this.saveGoodsReceipt((GoodsReceipt) bo, this.getUserToken()));
@@ -142,42 +142,42 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
     // --------------------------------------------------------------------------------------------//
 
     /**
-     * æŸ¥è¯¢-åº“å­˜è½¬å‚¨
+     * ²éÑ¯-¿â´æ×ª´¢
      *
-     * @param criteria æŸ¥è¯¢
-     * @param token    å£ä»¤
-     * @return æ“ä½œç»“æœ
+     * @param criteria ²éÑ¯
+     * @param token    ¿ÚÁî
+     * @return ²Ù×÷½á¹û
      */
     public OperationResult<InventoryTransfer> fetchInventoryTransfer(ICriteria criteria, String token) {
         return super.fetch(criteria, token, InventoryTransfer.class);
     }
 
     /**
-     * æŸ¥è¯¢-åº“å­˜è½¬å‚¨ï¼ˆæå‰è®¾ç½®ç”¨æˆ·å£ä»¤ï¼‰
+     * ²éÑ¯-¿â´æ×ª´¢£¨ÌáÇ°ÉèÖÃÓÃ»§¿ÚÁî£©
      *
-     * @param criteria æŸ¥è¯¢
-     * @return æ“ä½œç»“æœ
+     * @param criteria ²éÑ¯
+     * @return ²Ù×÷½á¹û
      */
     public IOperationResult<IInventoryTransfer> fetchInventoryTransfer(ICriteria criteria) {
         return new OperationResult<IInventoryTransfer>(this.fetchInventoryTransfer(criteria, this.getUserToken()));
     }
 
     /**
-     * ä¿å­˜-åº“å­˜è½¬å‚¨
+     * ±£´æ-¿â´æ×ª´¢
      *
-     * @param bo    å¯¹è±¡å®ä¾‹
-     * @param token å£ä»¤
-     * @return æ“ä½œç»“æœ
+     * @param bo    ¶ÔÏóÊµÀı
+     * @param token ¿ÚÁî
+     * @return ²Ù×÷½á¹û
      */
     public OperationResult<InventoryTransfer> saveInventoryTransfer(InventoryTransfer bo, String token) {
         return super.save(bo, token);
     }
 
     /**
-     * ä¿å­˜-åº“å­˜è½¬å‚¨ï¼ˆæå‰è®¾ç½®ç”¨æˆ·å£ä»¤ï¼‰
+     * ±£´æ-¿â´æ×ª´¢£¨ÌáÇ°ÉèÖÃÓÃ»§¿ÚÁî£©
      *
-     * @param bo å¯¹è±¡å®ä¾‹
-     * @return æ“ä½œç»“æœ
+     * @param bo ¶ÔÏóÊµÀı
+     * @return ²Ù×÷½á¹û
      */
     public IOperationResult<IInventoryTransfer> saveInventoryTransfer(IInventoryTransfer bo) {
         return new OperationResult<IInventoryTransfer>(
@@ -187,42 +187,42 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
     // --------------------------------------------------------------------------------------------//
 
     /**
-     * æŸ¥è¯¢-ç‰©æ–™
+     * ²éÑ¯-ÎïÁÏ
      *
-     * @param criteria æŸ¥è¯¢
-     * @param token    å£ä»¤
-     * @return æ“ä½œç»“æœ
+     * @param criteria ²éÑ¯
+     * @param token    ¿ÚÁî
+     * @return ²Ù×÷½á¹û
      */
     public OperationResult<Material> fetchMaterial(ICriteria criteria, String token) {
         return super.fetch(criteria, token, Material.class);
     }
 
     /**
-     * æŸ¥è¯¢-ç‰©æ–™ï¼ˆæå‰è®¾ç½®ç”¨æˆ·å£ä»¤ï¼‰
+     * ²éÑ¯-ÎïÁÏ£¨ÌáÇ°ÉèÖÃÓÃ»§¿ÚÁî£©
      *
-     * @param criteria æŸ¥è¯¢
-     * @return æ“ä½œç»“æœ
+     * @param criteria ²éÑ¯
+     * @return ²Ù×÷½á¹û
      */
     public IOperationResult<IMaterial> fetchMaterial(ICriteria criteria) {
         return new OperationResult<IMaterial>(this.fetchMaterial(criteria, this.getUserToken()));
     }
 
     /**
-     * ä¿å­˜-ç‰©æ–™
+     * ±£´æ-ÎïÁÏ
      *
-     * @param bo    å¯¹è±¡å®ä¾‹
-     * @param token å£ä»¤
-     * @return æ“ä½œç»“æœ
+     * @param bo    ¶ÔÏóÊµÀı
+     * @param token ¿ÚÁî
+     * @return ²Ù×÷½á¹û
      */
     public OperationResult<Material> saveMaterial(Material bo, String token) {
         return super.save(bo, token);
     }
 
     /**
-     * ä¿å­˜-ç‰©æ–™ï¼ˆæå‰è®¾ç½®ç”¨æˆ·å£ä»¤ï¼‰
+     * ±£´æ-ÎïÁÏ£¨ÌáÇ°ÉèÖÃÓÃ»§¿ÚÁî£©
      *
-     * @param bo å¯¹è±¡å®ä¾‹
-     * @return æ“ä½œç»“æœ
+     * @param bo ¶ÔÏóÊµÀı
+     * @return ²Ù×÷½á¹û
      */
     public IOperationResult<IMaterial> saveMaterial(IMaterial bo) {
         return new OperationResult<IMaterial>(this.saveMaterial((Material) bo, this.getUserToken()));
@@ -231,42 +231,42 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
     // --------------------------------------------------------------------------------------------//
 
     /**
-     * æŸ¥è¯¢-ç‰©æ–™ç»„
+     * ²éÑ¯-ÎïÁÏ×é
      *
-     * @param criteria æŸ¥è¯¢
-     * @param token    å£ä»¤
-     * @return æ“ä½œç»“æœ
+     * @param criteria ²éÑ¯
+     * @param token    ¿ÚÁî
+     * @return ²Ù×÷½á¹û
      */
     public OperationResult<MaterialGroup> fetchMaterialGroup(ICriteria criteria, String token) {
         return super.fetch(criteria, token, MaterialGroup.class);
     }
 
     /**
-     * æŸ¥è¯¢-ç‰©æ–™ç»„ï¼ˆæå‰è®¾ç½®ç”¨æˆ·å£ä»¤ï¼‰
+     * ²éÑ¯-ÎïÁÏ×é£¨ÌáÇ°ÉèÖÃÓÃ»§¿ÚÁî£©
      *
-     * @param criteria æŸ¥è¯¢
-     * @return æ“ä½œç»“æœ
+     * @param criteria ²éÑ¯
+     * @return ²Ù×÷½á¹û
      */
     public IOperationResult<IMaterialGroup> fetchMaterialGroup(ICriteria criteria) {
         return new OperationResult<IMaterialGroup>(this.fetchMaterialGroup(criteria, this.getUserToken()));
     }
 
     /**
-     * ä¿å­˜-ç‰©æ–™ç»„
+     * ±£´æ-ÎïÁÏ×é
      *
-     * @param bo    å¯¹è±¡å®ä¾‹
-     * @param token å£ä»¤
-     * @return æ“ä½œç»“æœ
+     * @param bo    ¶ÔÏóÊµÀı
+     * @param token ¿ÚÁî
+     * @return ²Ù×÷½á¹û
      */
     public OperationResult<MaterialGroup> saveMaterialGroup(MaterialGroup bo, String token) {
         return super.save(bo, token);
     }
 
     /**
-     * ä¿å­˜-ç‰©æ–™ç»„ï¼ˆæå‰è®¾ç½®ç”¨æˆ·å£ä»¤ï¼‰
+     * ±£´æ-ÎïÁÏ×é£¨ÌáÇ°ÉèÖÃÓÃ»§¿ÚÁî£©
      *
-     * @param bo å¯¹è±¡å®ä¾‹
-     * @return æ“ä½œç»“æœ
+     * @param bo ¶ÔÏóÊµÀı
+     * @return ²Ù×÷½á¹û
      */
     public IOperationResult<IMaterialGroup> saveMaterialGroup(IMaterialGroup bo) {
         return new OperationResult<IMaterialGroup>(this.saveMaterialGroup((MaterialGroup) bo, this.getUserToken()));
@@ -275,42 +275,42 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
     // --------------------------------------------------------------------------------------------//
 
     /**
-     * æŸ¥è¯¢-ç‰©æ–™åº“å­˜
+     * ²éÑ¯-ÎïÁÏ¿â´æ
      *
-     * @param criteria æŸ¥è¯¢
-     * @param token    å£ä»¤
-     * @return æ“ä½œç»“æœ
+     * @param criteria ²éÑ¯
+     * @param token    ¿ÚÁî
+     * @return ²Ù×÷½á¹û
      */
     public OperationResult<MaterialInventory> fetchMaterialInventory(ICriteria criteria, String token) {
         return super.fetch(criteria, token, MaterialInventory.class);
     }
 
     /**
-     * æŸ¥è¯¢-ç‰©æ–™åº“å­˜ï¼ˆæå‰è®¾ç½®ç”¨æˆ·å£ä»¤ï¼‰
+     * ²éÑ¯-ÎïÁÏ¿â´æ£¨ÌáÇ°ÉèÖÃÓÃ»§¿ÚÁî£©
      *
-     * @param criteria æŸ¥è¯¢
-     * @return æ“ä½œç»“æœ
+     * @param criteria ²éÑ¯
+     * @return ²Ù×÷½á¹û
      */
     public IOperationResult<IMaterialInventory> fetchMaterialInventory(ICriteria criteria) {
         return new OperationResult<IMaterialInventory>(this.fetchMaterialInventory(criteria, this.getUserToken()));
     }
 
     /**
-     * ä¿å­˜-ç‰©æ–™åº“å­˜
+     * ±£´æ-ÎïÁÏ¿â´æ
      *
-     * @param bo    å¯¹è±¡å®ä¾‹
-     * @param token å£ä»¤
-     * @return æ“ä½œç»“æœ
+     * @param bo    ¶ÔÏóÊµÀı
+     * @param token ¿ÚÁî
+     * @return ²Ù×÷½á¹û
      */
     public OperationResult<MaterialInventory> saveMaterialInventory(MaterialInventory bo, String token) {
         return super.save(bo, token);
     }
 
     /**
-     * ä¿å­˜-ç‰©æ–™åº“å­˜ï¼ˆæå‰è®¾ç½®ç”¨æˆ·å£ä»¤ï¼‰
+     * ±£´æ-ÎïÁÏ¿â´æ£¨ÌáÇ°ÉèÖÃÓÃ»§¿ÚÁî£©
      *
-     * @param bo å¯¹è±¡å®ä¾‹
-     * @return æ“ä½œç»“æœ
+     * @param bo ¶ÔÏóÊµÀı
+     * @return ²Ù×÷½á¹û
      */
     public IOperationResult<IMaterialInventory> saveMaterialInventory(IMaterialInventory bo) {
         return new OperationResult<IMaterialInventory>(
@@ -320,21 +320,21 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
     // --------------------------------------------------------------------------------------------//
 
     /**
-     * æŸ¥è¯¢-ä»“åº“æ—¥è®°è´¦
+     * ²éÑ¯-²Ö¿âÈÕ¼ÇÕË
      *
-     * @param criteria æŸ¥è¯¢
-     * @param token    å£ä»¤
-     * @return æ“ä½œç»“æœ
+     * @param criteria ²éÑ¯
+     * @param token    ¿ÚÁî
+     * @return ²Ù×÷½á¹û
      */
     public OperationResult<MaterialInventoryJournal> fetchMaterialInventoryJournal(ICriteria criteria, String token) {
         return super.fetch(criteria, token, MaterialInventoryJournal.class);
     }
 
     /**
-     * æŸ¥è¯¢-ä»“åº“æ—¥è®°è´¦ï¼ˆæå‰è®¾ç½®ç”¨æˆ·å£ä»¤ï¼‰
+     * ²éÑ¯-²Ö¿âÈÕ¼ÇÕË£¨ÌáÇ°ÉèÖÃÓÃ»§¿ÚÁî£©
      *
-     * @param criteria æŸ¥è¯¢
-     * @return æ“ä½œç»“æœ
+     * @param criteria ²éÑ¯
+     * @return ²Ù×÷½á¹û
      */
     public IOperationResult<IMaterialInventoryJournal> fetchMaterialInventoryJournal(ICriteria criteria) {
         return new OperationResult<IMaterialInventoryJournal>(
@@ -342,11 +342,11 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
     }
 
     /**
-     * ä¿å­˜-ä»“åº“æ—¥è®°è´¦
+     * ±£´æ-²Ö¿âÈÕ¼ÇÕË
      *
-     * @param bo    å¯¹è±¡å®ä¾‹
-     * @param token å£ä»¤
-     * @return æ“ä½œç»“æœ
+     * @param bo    ¶ÔÏóÊµÀı
+     * @param token ¿ÚÁî
+     * @return ²Ù×÷½á¹û
      */
     public OperationResult<MaterialInventoryJournal> saveMaterialInventoryJournal(MaterialInventoryJournal bo,
                                                                                   String token) {
@@ -354,10 +354,10 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
     }
 
     /**
-     * ä¿å­˜-ä»“åº“æ—¥è®°è´¦ï¼ˆæå‰è®¾ç½®ç”¨æˆ·å£ä»¤ï¼‰
+     * ±£´æ-²Ö¿âÈÕ¼ÇÕË£¨ÌáÇ°ÉèÖÃÓÃ»§¿ÚÁî£©
      *
-     * @param bo å¯¹è±¡å®ä¾‹
-     * @return æ“ä½œç»“æœ
+     * @param bo ¶ÔÏóÊµÀı
+     * @return ²Ù×÷½á¹û
      */
     public IOperationResult<IMaterialInventoryJournal> saveMaterialInventoryJournal(IMaterialInventoryJournal bo) {
         return new OperationResult<IMaterialInventoryJournal>(
@@ -367,42 +367,42 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
     // --------------------------------------------------------------------------------------------//
 
     /**
-     * æŸ¥è¯¢-ç‰©æ–™ä»·æ ¼æ¸…å•
+     * ²éÑ¯-ÎïÁÏ¼Û¸ñÇåµ¥
      *
-     * @param criteria æŸ¥è¯¢
-     * @param token    å£ä»¤
-     * @return æ“ä½œç»“æœ
+     * @param criteria ²éÑ¯
+     * @param token    ¿ÚÁî
+     * @return ²Ù×÷½á¹û
      */
     public OperationResult<MaterialPriceList> fetchMaterialPriceList(ICriteria criteria, String token) {
         return super.fetch(criteria, token, MaterialPriceList.class);
     }
 
     /**
-     * æŸ¥è¯¢-ç‰©æ–™ä»·æ ¼æ¸…å•ï¼ˆæå‰è®¾ç½®ç”¨æˆ·å£ä»¤ï¼‰
+     * ²éÑ¯-ÎïÁÏ¼Û¸ñÇåµ¥£¨ÌáÇ°ÉèÖÃÓÃ»§¿ÚÁî£©
      *
-     * @param criteria æŸ¥è¯¢
-     * @return æ“ä½œç»“æœ
+     * @param criteria ²éÑ¯
+     * @return ²Ù×÷½á¹û
      */
     public IOperationResult<IMaterialPriceList> fetchMaterialPriceList(ICriteria criteria) {
         return new OperationResult<IMaterialPriceList>(this.fetchMaterialPriceList(criteria, this.getUserToken()));
     }
 
     /**
-     * ä¿å­˜-ç‰©æ–™ä»·æ ¼æ¸…å•
+     * ±£´æ-ÎïÁÏ¼Û¸ñÇåµ¥
      *
-     * @param bo    å¯¹è±¡å®ä¾‹
-     * @param token å£ä»¤
-     * @return æ“ä½œç»“æœ
+     * @param bo    ¶ÔÏóÊµÀı
+     * @param token ¿ÚÁî
+     * @return ²Ù×÷½á¹û
      */
     public OperationResult<MaterialPriceList> saveMaterialPriceList(MaterialPriceList bo, String token) {
         return super.save(bo, token);
     }
 
     /**
-     * ä¿å­˜-ç‰©æ–™ä»·æ ¼æ¸…å•ï¼ˆæå‰è®¾ç½®ç”¨æˆ·å£ä»¤ï¼‰
+     * ±£´æ-ÎïÁÏ¼Û¸ñÇåµ¥£¨ÌáÇ°ÉèÖÃÓÃ»§¿ÚÁî£©
      *
-     * @param bo å¯¹è±¡å®ä¾‹
-     * @return æ“ä½œç»“æœ
+     * @param bo ¶ÔÏóÊµÀı
+     * @return ²Ù×÷½á¹û
      */
     public IOperationResult<IMaterialPriceList> saveMaterialPriceList(IMaterialPriceList bo) {
         return new OperationResult<IMaterialPriceList>(
@@ -412,42 +412,42 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
     // --------------------------------------------------------------------------------------------//
 
     /**
-     * æŸ¥è¯¢-ç‰©æ–™æ‰¹æ¬¡
+     * ²éÑ¯-ÎïÁÏÅú´Î
      *
-     * @param criteria æŸ¥è¯¢
-     * @param token    å£ä»¤
-     * @return æ“ä½œç»“æœ
+     * @param criteria ²éÑ¯
+     * @param token    ¿ÚÁî
+     * @return ²Ù×÷½á¹û
      */
     public OperationResult<MaterialBatch> fetchMaterialBatch(ICriteria criteria, String token) {
         return super.fetch(criteria, token, MaterialBatch.class);
     }
 
     /**
-     * æŸ¥è¯¢-ç‰©æ–™æ‰¹æ¬¡ï¼ˆæå‰è®¾ç½®ç”¨æˆ·å£ä»¤ï¼‰
+     * ²éÑ¯-ÎïÁÏÅú´Î£¨ÌáÇ°ÉèÖÃÓÃ»§¿ÚÁî£©
      *
-     * @param criteria æŸ¥è¯¢
-     * @return æ“ä½œç»“æœ
+     * @param criteria ²éÑ¯
+     * @return ²Ù×÷½á¹û
      */
     public IOperationResult<IMaterialBatch> fetchMaterialBatch(ICriteria criteria) {
         return new OperationResult<IMaterialBatch>(this.fetchMaterialBatch(criteria, this.getUserToken()));
     }
 
     /**
-     * ä¿å­˜-ç‰©æ–™æ‰¹æ¬¡
+     * ±£´æ-ÎïÁÏÅú´Î
      *
-     * @param bo    å¯¹è±¡å®ä¾‹
-     * @param token å£ä»¤
-     * @return æ“ä½œç»“æœ
+     * @param bo    ¶ÔÏóÊµÀı
+     * @param token ¿ÚÁî
+     * @return ²Ù×÷½á¹û
      */
     public OperationResult<MaterialBatch> saveMaterialBatch(MaterialBatch bo, String token) {
         return super.save(bo, token);
     }
 
     /**
-     * ä¿å­˜-ç‰©æ–™æ‰¹æ¬¡ï¼ˆæå‰è®¾ç½®ç”¨æˆ·å£ä»¤ï¼‰
+     * ±£´æ-ÎïÁÏÅú´Î£¨ÌáÇ°ÉèÖÃÓÃ»§¿ÚÁî£©
      *
-     * @param bo å¯¹è±¡å®ä¾‹
-     * @return æ“ä½œç»“æœ
+     * @param bo ¶ÔÏóÊµÀı
+     * @return ²Ù×÷½á¹û
      */
     public IOperationResult<IMaterialBatch> saveMaterialBatch(IMaterialBatch bo) {
         return new OperationResult<IMaterialBatch>(this.saveMaterialBatch((MaterialBatch) bo, this.getUserToken()));
@@ -456,11 +456,11 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
     // --------------------------------------------------------------------------------------------//
 
     /**
-     * æŸ¥è¯¢-ç‰©æ–™æ‰¹æ¬¡æ—¥è®°è´¦
+     * ²éÑ¯-ÎïÁÏÅú´ÎÈÕ¼ÇÕË
      *
-     * @param criteria æŸ¥è¯¢
-     * @param token    å£ä»¤
-     * @return æ“ä½œç»“æœ
+     * @param criteria ²éÑ¯
+     * @param token    ¿ÚÁî
+     * @return ²Ù×÷½á¹û
      */
     @Override
     public OperationResult<MaterialBatchJournal> fetchMaterialBatchJournal(ICriteria criteria, String token) {
@@ -468,10 +468,10 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
     }
 
     /**
-     * æŸ¥è¯¢-ç‰©æ–™æ‰¹æ¬¡æ—¥è®°è´¦ï¼ˆæå‰è®¾ç½®ç”¨æˆ·å£ä»¤ï¼‰
+     * ²éÑ¯-ÎïÁÏÅú´ÎÈÕ¼ÇÕË£¨ÌáÇ°ÉèÖÃÓÃ»§¿ÚÁî£©
      *
-     * @param criteria æŸ¥è¯¢
-     * @return æ“ä½œç»“æœ
+     * @param criteria ²éÑ¯
+     * @return ²Ù×÷½á¹û
      */
     @Override
     public IOperationResult<IMaterialBatchJournal> fetchMaterialBatchJournal(ICriteria criteria) {
@@ -480,11 +480,11 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
     }
 
     /**
-     * ä¿å­˜-ç‰©æ–™æ‰¹æ¬¡æ—¥è®°è´¦
+     * ±£´æ-ÎïÁÏÅú´ÎÈÕ¼ÇÕË
      *
-     * @param bo    å¯¹è±¡å®ä¾‹
-     * @param token å£ä»¤
-     * @return æ“ä½œç»“æœ
+     * @param bo    ¶ÔÏóÊµÀı
+     * @param token ¿ÚÁî
+     * @return ²Ù×÷½á¹û
      */
     @Override
     public OperationResult<MaterialBatchJournal> saveMaterialBatchJournal(MaterialBatchJournal bo, String token) {
@@ -492,10 +492,10 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
     }
 
     /**
-     * ä¿å­˜-ç‰©æ–™æ‰¹æ¬¡æ—¥è®°è´¦ï¼ˆæå‰è®¾ç½®ç”¨æˆ·å£ä»¤ï¼‰
+     * ±£´æ-ÎïÁÏÅú´ÎÈÕ¼ÇÕË£¨ÌáÇ°ÉèÖÃÓÃ»§¿ÚÁî£©
      *
-     * @param bo å¯¹è±¡å®ä¾‹
-     * @return æ“ä½œç»“æœ
+     * @param bo ¶ÔÏóÊµÀı
+     * @return ²Ù×÷½á¹û
      */
     @Override
     public IOperationResult<IMaterialBatchJournal> saveMaterialBatchJournal(IMaterialBatchJournal bo) {
@@ -506,11 +506,11 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
     // --------------------------------------------------------------------------------------------//
 
     /**
-     * æŸ¥è¯¢-ç‰©æ–™åºåˆ—å·
+     * ²éÑ¯-ÎïÁÏĞòÁĞºÅ
      *
-     * @param criteria æŸ¥è¯¢
-     * @param token    å£ä»¤
-     * @return æ“ä½œç»“æœ
+     * @param criteria ²éÑ¯
+     * @param token    ¿ÚÁî
+     * @return ²Ù×÷½á¹û
      */
     @Override
     public OperationResult<MaterialSerial> fetchMaterialSerial(ICriteria criteria, String token) {
@@ -518,10 +518,10 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
     }
 
     /**
-     * æŸ¥è¯¢-ç‰©æ–™åºåˆ—å·ï¼ˆæå‰è®¾ç½®ç”¨æˆ·å£ä»¤ï¼‰
+     * ²éÑ¯-ÎïÁÏĞòÁĞºÅ£¨ÌáÇ°ÉèÖÃÓÃ»§¿ÚÁî£©
      *
-     * @param criteria æŸ¥è¯¢
-     * @return æ“ä½œç»“æœ
+     * @param criteria ²éÑ¯
+     * @return ²Ù×÷½á¹û
      */
     @Override
     public IOperationResult<IMaterialSerial> fetchMaterialSerial(ICriteria criteria) {
@@ -529,11 +529,11 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
     }
 
     /**
-     * ä¿å­˜-ç‰©æ–™åºåˆ—å·
+     * ±£´æ-ÎïÁÏĞòÁĞºÅ
      *
-     * @param bo    å¯¹è±¡å®ä¾‹
-     * @param token å£ä»¤
-     * @return æ“ä½œç»“æœ
+     * @param bo    ¶ÔÏóÊµÀı
+     * @param token ¿ÚÁî
+     * @return ²Ù×÷½á¹û
      */
     @Override
     public OperationResult<MaterialSerial> saveMaterialSerial(MaterialSerial bo, String token) {
@@ -541,10 +541,10 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
     }
 
     /**
-     * ä¿å­˜-ç‰©æ–™åºåˆ—å·ï¼ˆæå‰è®¾ç½®ç”¨æˆ·å£ä»¤ï¼‰
+     * ±£´æ-ÎïÁÏĞòÁĞºÅ£¨ÌáÇ°ÉèÖÃÓÃ»§¿ÚÁî£©
      *
-     * @param bo å¯¹è±¡å®ä¾‹
-     * @return æ“ä½œç»“æœ
+     * @param bo ¶ÔÏóÊµÀı
+     * @return ²Ù×÷½á¹û
      */
     @Override
     public IOperationResult<IMaterialSerial> saveMaterialSerial(IMaterialSerial bo) {
@@ -554,11 +554,11 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
     // --------------------------------------------------------------------------------------------//
 
     /**
-     * æŸ¥è¯¢-ç‰©æ–™åºåˆ—å·æ—¥è®°è´¦
+     * ²éÑ¯-ÎïÁÏĞòÁĞºÅÈÕ¼ÇÕË
      *
-     * @param criteria æŸ¥è¯¢
-     * @param token    å£ä»¤
-     * @return æ“ä½œç»“æœ
+     * @param criteria ²éÑ¯
+     * @param token    ¿ÚÁî
+     * @return ²Ù×÷½á¹û
      */
     @Override
     public OperationResult<MaterialSerialJournal> fetchMaterialSerialJournal(ICriteria criteria, String token) {
@@ -566,10 +566,10 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
     }
 
     /**
-     * æŸ¥è¯¢-ç‰©æ–™åºåˆ—å·æ—¥è®°è´¦ï¼ˆæå‰è®¾ç½®ç”¨æˆ·å£ä»¤ï¼‰
+     * ²éÑ¯-ÎïÁÏĞòÁĞºÅÈÕ¼ÇÕË£¨ÌáÇ°ÉèÖÃÓÃ»§¿ÚÁî£©
      *
-     * @param criteria æŸ¥è¯¢
-     * @return æ“ä½œç»“æœ
+     * @param criteria ²éÑ¯
+     * @return ²Ù×÷½á¹û
      */
     @Override
     public IOperationResult<IMaterialSerialJournal> fetchMaterialSerialJournal(ICriteria criteria) {
@@ -578,11 +578,11 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
     }
 
     /**
-     * ä¿å­˜-ç‰©æ–™åºåˆ—å·æ—¥è®°è´¦
+     * ±£´æ-ÎïÁÏĞòÁĞºÅÈÕ¼ÇÕË
      *
-     * @param bo    å¯¹è±¡å®ä¾‹
-     * @param token å£ä»¤
-     * @return æ“ä½œç»“æœ
+     * @param bo    ¶ÔÏóÊµÀı
+     * @param token ¿ÚÁî
+     * @return ²Ù×÷½á¹û
      */
     @Override
     public OperationResult<MaterialSerialJournal> saveMaterialSerialJournal(MaterialSerialJournal bo, String token) {
@@ -590,10 +590,10 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
     }
 
     /**
-     * ä¿å­˜-ç‰©æ–™åºåˆ—å·æ—¥è®°è´¦ï¼ˆæå‰è®¾ç½®ç”¨æˆ·å£ä»¤ï¼‰
+     * ±£´æ-ÎïÁÏĞòÁĞºÅÈÕ¼ÇÕË£¨ÌáÇ°ÉèÖÃÓÃ»§¿ÚÁî£©
      *
-     * @param bo å¯¹è±¡å®ä¾‹
-     * @return æ“ä½œç»“æœ
+     * @param bo ¶ÔÏóÊµÀı
+     * @return ²Ù×÷½á¹û
      */
     @Override
     public IOperationResult<IMaterialSerialJournal> saveMaterialSerialJournal(IMaterialSerialJournal bo) {
@@ -604,11 +604,11 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
     // --------------------------------------------------------------------------------------------//
 
     /**
-     * æŸ¥è¯¢-ä»“åº“
+     * ²éÑ¯-²Ö¿â
      *
-     * @param criteria æŸ¥è¯¢
-     * @param token    å£ä»¤
-     * @return æ“ä½œç»“æœ
+     * @param criteria ²éÑ¯
+     * @param token    ¿ÚÁî
+     * @return ²Ù×÷½á¹û
      */
     @Override
     public OperationResult<Warehouse> fetchWarehouse(ICriteria criteria, String token) {
@@ -616,10 +616,10 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
     }
 
     /**
-     * æŸ¥è¯¢-ä»“åº“ï¼ˆæå‰è®¾ç½®ç”¨æˆ·å£ä»¤ï¼‰
+     * ²éÑ¯-²Ö¿â£¨ÌáÇ°ÉèÖÃÓÃ»§¿ÚÁî£©
      *
-     * @param criteria æŸ¥è¯¢
-     * @return æ“ä½œç»“æœ
+     * @param criteria ²éÑ¯
+     * @return ²Ù×÷½á¹û
      */
     @Override
     public IOperationResult<IWarehouse> fetchWarehouse(ICriteria criteria) {
@@ -627,11 +627,11 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
     }
 
     /**
-     * ä¿å­˜-ä»“åº“
+     * ±£´æ-²Ö¿â
      *
-     * @param bo    å¯¹è±¡å®ä¾‹
-     * @param token å£ä»¤
-     * @return æ“ä½œç»“æœ
+     * @param bo    ¶ÔÏóÊµÀı
+     * @param token ¿ÚÁî
+     * @return ²Ù×÷½á¹û
      */
     @Override
     public OperationResult<Warehouse> saveWarehouse(Warehouse bo, String token) {
@@ -639,10 +639,10 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
     }
 
     /**
-     * ä¿å­˜-ä»“åº“ï¼ˆæå‰è®¾ç½®ç”¨æˆ·å£ä»¤ï¼‰
+     * ±£´æ-²Ö¿â£¨ÌáÇ°ÉèÖÃÓÃ»§¿ÚÁî£©
      *
-     * @param bo å¯¹è±¡å®ä¾‹
-     * @return æ“ä½œç»“æœ
+     * @param bo ¶ÔÏóÊµÀı
+     * @return ²Ù×÷½á¹û
      */
     @Override
     public IOperationResult<IWarehouse> saveWarehouse(IWarehouse bo) {
@@ -652,20 +652,20 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
     // --------------------------------------------------------------------------------------------//
 
     /**
-     * æŸ¥è¯¢-äº§å“ä¿¡æ¯
+     * ²éÑ¯-²úÆ·ĞÅÏ¢
      *
-     * @param criteria å¯¹è±¡å®ä¾‹
-     * @param token    å£ä»¤
-     * @return æ“ä½œç»“æœ
+     * @param criteria ¶ÔÏóÊµÀı
+     * @param token    ¿ÚÁî
+     * @return ²Ù×÷½á¹û
      */
     @Override
     public OperationResult<Product> fetchProduct(ICriteria criteria, String token) {
         try {
-            //region  1ã€æŸ¥è¯¢ç‰©æ–™
-            // ä»æŸ¥è¯¢ä¸­æ‰¾åˆ°ä»·æ ¼æ¸…å•
+            //region  1¡¢²éÑ¯ÎïÁÏ
+            // ´Ó²éÑ¯ÖĞÕÒµ½¼Û¸ñÇåµ¥
             ICondition conditionPriceList = criteria.getConditions()
                     .firstOrDefault(c -> c.getAlias().equalsIgnoreCase(Product.PRICELIST_NAME));
-            // ä»æŸ¥è¯¢ä¸­æ‰¾åˆ°ä»“åº“
+            // ´Ó²éÑ¯ÖĞÕÒµ½²Ö¿â
             ArrayList<ICondition> conditionWarehouse = new ArrayList<>();
             criteria.getConditions().forEach(c -> {
                 if (c.getAlias().equalsIgnoreCase(Product.WAREHOUSE_NAME)) {
@@ -675,15 +675,15 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
             ArrayList<String> filterConditons = new ArrayList<>();
             filterConditons.add(Product.PRICELIST_NAME);
             filterConditons.add(Product.WAREHOUSE_NAME);
-            // æŸ¥äº§å“ä¿¡æ¯
+            // ²é²úÆ·ĞÅÏ¢
             OperationResult<Product> opRstProduct = super.fetch(this.splitCondition(criteria, filterConditons), token, Product.class);
             if (opRstProduct.getError() != null) {
                 throw opRstProduct.getError();
             }
-            // ç§»å‡ºä»·æ ¼æ¸…å•æŸ¥è¯¢å’Œä»“åº“æŸ¥è¯¢
+            // ÒÆ³ö¼Û¸ñÇåµ¥²éÑ¯ºÍ²Ö¿â²éÑ¯
             criteria.getConditions().remove(conditionPriceList);
             //endregion
-            //region 2ã€å«æœ‰ä»“åº“æ¡ä»¶ è°ƒç”¨åº“å­˜æŸ¥è¯¢
+            //region 2¡¢º¬ÓĞ²Ö¿âÌõ¼ş µ÷ÓÃ¿â´æ²éÑ¯
             if (!conditionWarehouse.isEmpty()) {
                 IOperationResult<MaterialQuantity> opRstMaterialQuantity = this.fetchMaterialQuantity(criteria);
                 if (opRstMaterialQuantity.getError() != null) {
@@ -699,7 +699,7 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
                 }
             }
             //endregion
-            // region 3ã€éå†Product æŸ¥è¯¢ä»·æ ¼æ¸…å•
+            // region 3¡¢±éÀúProduct ²éÑ¯¼Û¸ñÇåµ¥
             if (conditionPriceList != null) {
                 int priceList = Integer.parseInt(conditionPriceList.getValue());
                 for (Product item : opRstProduct.getResultObjects()) {
@@ -717,10 +717,10 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
     }
 
     /**
-     * å¤„ç†æŸ¥è¯¢æ¡ä»¶ å¤„ç†æ‹¬å·
+     * ´¦Àí²éÑ¯Ìõ¼ş ´¦ÀíÀ¨ºÅ
      *
-     * @param criteria   æŸ¥è¯¢æ¡ä»¶
-     * @param conditions è¿‡æ»¤çš„æ¡ä»¶
+     * @param criteria   ²éÑ¯Ìõ¼ş
+     * @param conditions ¹ıÂËµÄÌõ¼ş
      * @return
      */
     private ICriteria splitCondition(ICriteria criteria, ArrayList<String> conditions) {
@@ -731,9 +731,9 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
             if (conditions.firstOrDefault(c -> c.equalsIgnoreCase(aliensValue)) != null) {
                 int bracketOpenCount = criteria1Material.getConditions().get(index).getBracketOpen();
                 int bracketCloseCount = criteria1Material.getConditions().get(index).getBracketClose();
-                // è‡ªèº«å¼€æ‹¬å·ä¸é—­æ‹¬å·ä¸ç›¸ç­‰æ‰å¤„ç†ï¼Œç›¸ç­‰æƒ…å†µå¿½ç•¥
+                // ×ÔÉí¿ªÀ¨ºÅÓë±ÕÀ¨ºÅ²»ÏàµÈ²Å´¦Àí£¬ÏàµÈÇé¿öºöÂÔ
                 if (bracketCloseCount != bracketOpenCount) {
-                    //region å»æ‰è‡ªèº«åŒæ‹¬å·
+                    //region È¥µô×ÔÉíË«À¨ºÅ
                     if (bracketOpenCount != 0 && bracketCloseCount != 0) {
                         int bracketCount = Math.abs(bracketOpenCount - bracketCloseCount);
                         bracketOpenCount = bracketOpenCount - bracketCount;
@@ -742,7 +742,7 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
                         criteria1Material.getConditions().get(index).setBracketOpen(bracketCloseCount);
                     }
                     //endregion
-                    //region å¤„ç†å¼€æ‹¬å·
+                    //region ´¦Àí¿ªÀ¨ºÅ
                     if (bracketOpenCount != 0) {
                         if (index + 1 < criteria1Material.getConditions().size()) {
                             int nextBracketOpenCount = criteria1Material.getConditions().get(index + 1).getBracketOpen();
@@ -751,7 +751,7 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
                         }
                     }
                     //endregion
-                    //region å¤„ç†é—­æ‹¬å·
+                    //region ´¦Àí±ÕÀ¨ºÅ
                     if (bracketCloseCount != 0) {
                         if (index - 1 >= 0) {
                             int preBracketCloseCount = criteria1Material.getConditions().get(index - 1).getBracketClose();
@@ -769,10 +769,10 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
     }
 
     /**
-     * æŸ¥è¯¢-äº§å“ä¿¡æ¯ï¼ˆæå‰è®¾ç½®ç”¨æˆ·å£ä»¤ï¼‰
+     * ²éÑ¯-²úÆ·ĞÅÏ¢£¨ÌáÇ°ÉèÖÃÓÃ»§¿ÚÁî£©
      *
-     * @param criteria æŸ¥è¯¢
-     * @return äº§å“ä¿¡æ¯
+     * @param criteria ²éÑ¯
+     * @return ²úÆ·ĞÅÏ¢
      */
     @Override
     public IOperationResult<IProduct> fetchProduct(ICriteria criteria) {
@@ -782,10 +782,10 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
     // --------------------------------------------------------------------------------------------//
 
     /**
-     * æŸ¥è¯¢-ç‰©æ–™ä»·æ ¼ï¼ˆæå‰è®¾ç½®ç”¨æˆ·å£ä»¤ï¼‰
+     * ²éÑ¯-ÎïÁÏ¼Û¸ñ£¨ÌáÇ°ÉèÖÃÓÃ»§¿ÚÁî£©
      *
-     * @param criteria æŸ¥è¯¢
-     * @return æ“ä½œç»“æœ
+     * @param criteria ²éÑ¯
+     * @return ²Ù×÷½á¹û
      */
     @Override
     public IOperationResult<MaterialPrice> fetchMaterialPrice(ICriteria criteria) {
@@ -793,17 +793,17 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
     }
 
     /**
-     * æŸ¥è¯¢-ç‰©æ–™ä»·æ ¼
+     * ²éÑ¯-ÎïÁÏ¼Û¸ñ
      *
-     * @param criteria æŸ¥è¯¢
-     * @param token    å£ä»¤
-     * @return ç‰©æ–™ä»·æ ¼
+     * @param criteria ²éÑ¯
+     * @param token    ¿ÚÁî
+     * @return ÎïÁÏ¼Û¸ñ
      */
     @Override
     public OperationResult<MaterialPrice> fetchMaterialPrice(ICriteria criteria, String token) {
         try {
             OperationResult<MaterialPrice> operationResult = new OperationResult<>();
-            // ä»æŸ¥è¯¢ä¸­æ‰¾åˆ°ä»·æ ¼æ¸…å•
+            // ´Ó²éÑ¯ÖĞÕÒµ½¼Û¸ñÇåµ¥
             ICondition conditionPriceList = criteria.getConditions()
                     .firstOrDefault(c -> c.getAlias().equalsIgnoreCase(MaterialPriceList.PROPERTY_OBJECTKEY.getName()));
             if (conditionPriceList == null) {
@@ -811,12 +811,12 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
             }
             ArrayList<String> filterConditons = new ArrayList<>();
             filterConditons.add(MaterialPrice.PRICELIST_NAME);
-            // æŸ¥ç‰©æ–™
+            // ²éÎïÁÏ
             IOperationResult<IMaterial> opRstMaterial = this.fetchMaterial(this.splitCondition(criteria, filterConditons));
             if (opRstMaterial.getError() != null) {
                 throw opRstMaterial.getError();
             }
-            // å¾ªç¯ç‰©æ–™æŸ¥ä»·æ ¼
+            // Ñ­»·ÎïÁÏ²é¼Û¸ñ
             int priceList = Integer.parseInt(conditionPriceList.getValue());
             for (IMaterial item : opRstMaterial.getResultObjects()) {
                 MaterialPrice materialPrice = this.fetchMaterialPrice(item.getCode(), priceList, null);
@@ -834,12 +834,12 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
     }
 
     /**
-     * æŸ¥è¯¢ç‰©æ–™å¯¹åº”ä»·æ ¼æ¸…å•çš„ä»·æ ¼
+     * ²éÑ¯ÎïÁÏ¶ÔÓ¦¼Û¸ñÇåµ¥µÄ¼Û¸ñ
      *
-     * @param itemCode  ç‰©æ–™
-     * @param priceList ä»·æ ¼æ¸…å•
-     * @param factory   ä»·æ ¼æ¸…å•ç³»æ•°
-     * @return ç‰©æ–™ä»·æ ¼æ¸…å•
+     * @param itemCode  ÎïÁÏ
+     * @param priceList ¼Û¸ñÇåµ¥
+     * @param factory   ¼Û¸ñÇåµ¥ÏµÊı
+     * @return ÎïÁÏ¼Û¸ñÇåµ¥
      */
 
     private MaterialPrice fetchMaterialPrice(String itemCode, int priceList, Decimal factory) {
@@ -847,7 +847,7 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
             ICriteria criteria = new Criteria();
             MaterialPrice materialPrice = new MaterialPrice();
             materialPrice.setItemCode(itemCode);
-            // region ä»·æ ¼æ¸…å•æŸ¥è¯¢æ¡ä»¶
+            // region ¼Û¸ñÇåµ¥²éÑ¯Ìõ¼ş
             IChildCriteria childCriteria;
             ICondition condition;
             condition = criteria.getConditions().create();
@@ -863,19 +863,19 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
             condition.setOperation(ConditionOperation.EQUAL);
             condition.setValue(itemCode);
             // endregion
-            // æŸ¥è¯¢ä»·æ ¼æ¸…å•
+            // ²éÑ¯¼Û¸ñÇåµ¥
             IOperationResult<IMaterialPriceList> opRstPriceList = this.fetchMaterialPriceList(criteria);
             if (opRstPriceList.getError() != null) {
                 throw opRstPriceList.getError();
             }
-            // ä»·æ ¼æ¸…å•ä¸»è¡¨ä¸å­˜åœ¨
+            // ¼Û¸ñÇåµ¥Ö÷±í²»´æÔÚ
             if (opRstPriceList.getResultObjects().isEmpty()) {
                 return materialPrice;
             }
             IMaterialPriceList materialPriceList = opRstPriceList.getResultObjects().firstOrDefault();
-            // ä¸»å­è¡¨éƒ½æœ‰è®°å½•
+            // Ö÷×Ó±í¶¼ÓĞ¼ÇÂ¼
             if (materialPriceList != null && !materialPriceList.getMaterialPriceItems().isEmpty()) {
-                // ä»·æ ¼æ¸…å•ä¸­æ‰¾åˆ°è¯¥ç‰©æ–™ï¼Œè®¡ç®—ä»·æ ¼
+                // ¼Û¸ñÇåµ¥ÖĞÕÒµ½¸ÃÎïÁÏ£¬¼ÆËã¼Û¸ñ
                 materialPrice.setCurrency(materialPriceList.getCurrency());
                 if (factory == null) {
                     materialPrice.setPrice(materialPriceList.getMaterialPriceItems().firstOrDefault().getPrice());
@@ -884,7 +884,7 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
                 }
                 return materialPrice;
             } else if (materialPriceList != null) {
-                // åªæœ‰ä¸»è¡¨æœ‰è®°å½•
+                // Ö»ÓĞÖ÷±íÓĞ¼ÇÂ¼
                 if (factory == null) {
                     factory = materialPriceList.getFactor();
                 } else {
@@ -902,10 +902,10 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
     // --------------------------------------------------------------------------------------------//
 
     /**
-     * æŸ¥è¯¢-ç‰©æ–™åº“å­˜æ•°é‡ï¼ˆæå‰è®¾ç½®ç”¨æˆ·å£ä»¤ï¼‰
+     * ²éÑ¯-ÎïÁÏ¿â´æÊıÁ¿£¨ÌáÇ°ÉèÖÃÓÃ»§¿ÚÁî£©
      *
-     * @param criteria æŸ¥è¯¢
-     * @return æ“ä½œç»“æœ
+     * @param criteria ²éÑ¯
+     * @return ²Ù×÷½á¹û
      */
     @Override
     public IOperationResult<MaterialQuantity> fetchMaterialQuantity(ICriteria criteria) {
@@ -914,17 +914,17 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 
 
     /**
-     * æŸ¥è¯¢-ç‰©æ–™åº“å­˜æ•°é‡
+     * ²éÑ¯-ÎïÁÏ¿â´æÊıÁ¿
      *
-     * @param criteria æŸ¥è¯¢ Materialå±æ€§+MaterialQuantityå¸¸é‡
-     * @param token    å£ä»¤
-     * @return ç‰©æ–™åº“å­˜æ•°é‡
+     * @param criteria ²éÑ¯ MaterialÊôĞÔ+MaterialQuantity³£Á¿
+     * @param token    ¿ÚÁî
+     * @return ÎïÁÏ¿â´æÊıÁ¿
      */
     @Override
     public OperationResult<MaterialQuantity> fetchMaterialQuantity(ICriteria criteria, String token) {
         try {
             OperationResult<MaterialQuantity> operationResult = new OperationResult<>();
-            // ä»æŸ¥è¯¢ä¸­æ‰¾åˆ°æ‰€æœ‰çš„ä»“åº“
+            // ´Ó²éÑ¯ÖĞÕÒµ½ËùÓĞµÄ²Ö¿â
             ArrayList<ICondition> conditions = new ArrayList<>();
             for (ICondition item : criteria.getConditions()) {
                 if (item.getAlias().equals(MaterialQuantity.WAREHOUSE_NAME)) {
@@ -937,23 +937,23 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
             if (opRstMaterial.getError() != null) {
                 throw opRstMaterial.getError();
             }
-            // å¦‚æœä»“åº“æ¡ä»¶ä¸ºç©ºï¼Œè¿”å›ç‰©æ–™åº“å­˜ï¼›ä»“åº“æ¡ä»¶ä¸ä¸ºç©ºï¼Œä»¥ä»“åº“ä½œä¸ºæ¡ä»¶æŸ¥è¯¢åº“å­˜
+            // Èç¹û²Ö¿âÌõ¼şÎª¿Õ£¬·µ»ØÎïÁÏ¿â´æ£»²Ö¿âÌõ¼ş²»Îª¿Õ£¬ÒÔ²Ö¿â×÷ÎªÌõ¼ş²éÑ¯¿â´æ
             if (conditions.isEmpty()) {
                 operationResult.addResultObjects(MaterialQuantity.create(opRstMaterial.getResultObjects(), true));
             } else {
-                // å»é™¤ä»“åº“ä¹‹å¤–æ‰€æœ‰æ¡ä»¶ æŸ¥è¯¢åº“å­˜
+                // È¥³ı²Ö¿âÖ®ÍâËùÓĞÌõ¼ş ²éÑ¯¿â´æ
                 criteria.getConditions().clear();
                 conditions.forEach(c -> criteria.getConditions().add(c));
                 IOperationResult<IMaterialInventory> opRstInventry = this.fetchMaterialInventory(criteria);
                 if (opRstInventry.getError() != null) {
                     throw opRstInventry.getError();
                 }
-                // åˆ›å»ºç‰©æ–™åº“å­˜é›†åˆï¼Œåº“å­˜åˆå§‹å€¼ä¸º0
+                // ´´½¨ÎïÁÏ¿â´æ¼¯ºÏ£¬¿â´æ³õÊ¼ÖµÎª0
                 ArrayList<IMaterialQuantity> materialQuantities = MaterialQuantity.create(opRstMaterial.getResultObjects(), false);
                 for (IMaterialInventory item : opRstInventry.getResultObjects()) {
                     IMaterialQuantity materialQuantity = materialQuantities.firstOrDefault(c -> c.getItemCode().equals(item.getItemCode()));
                     if (materialQuantity != null) {
-                        // æ›´æ–°ç‰©æ–™åº“å­˜é›†åˆä¸­ç‰©æ–™çš„åº“å­˜
+                        // ¸üĞÂÎïÁÏ¿â´æ¼¯ºÏÖĞÎïÁÏµÄ¿â´æ
                         Decimal onHand = materialQuantity.getOnHand();
                         onHand = onHand.add(item.getOnHand());
                         materialQuantity.setOnHand(onHand);

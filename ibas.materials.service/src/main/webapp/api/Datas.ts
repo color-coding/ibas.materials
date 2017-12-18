@@ -9,10 +9,15 @@
 // 共享的数据
 import {
     ServiceProxy,
-    IApplicationServiceContract,
     strings,
     MODULE_REPOSITORY_NAME_TEMPLATE,
 } from "ibas/index";
+import {
+    IMaterialIssueBatchContract,
+    IMaterialReceiptBatchContract,
+    IMaterialIssueSerialContract,
+    IMaterialReceiptSerialContract,
+} from "./bo/index";
 
 /** 模块-标识 */
 export const CONSOLE_ID: string = "bad47859-3d74-4b2b-975a-48c635406be4";
@@ -74,18 +79,18 @@ export enum emAutoSelectBatchSerialRules {
 }
 
 /** 物料批次创建服务代理 */
-export class MaterialBatchReceiptServiceProxy extends ServiceProxy<IApplicationServiceContract> {
+export class MaterialBatchReceiptServiceProxy extends ServiceProxy<IMaterialReceiptBatchContract> {
 
 }
 /** 物料批次选择服务代理 */
-export class MaterialBatchIssueServiceProxy extends ServiceProxy<IApplicationServiceContract> {
+export class MaterialBatchIssueServiceProxy extends ServiceProxy<IMaterialIssueBatchContract> {
 
 }
 /** 物料序列创建服务代理 */
-export class MaterialSerialReceiptServiceProxy extends ServiceProxy<IApplicationServiceContract> {
+export class MaterialSerialReceiptServiceProxy extends ServiceProxy<IMaterialReceiptSerialContract> {
 
 }
 /** 物料序列选择服务代理 */
-export class MaterialSerialIssueServiceProxy extends ServiceProxy<IApplicationServiceContract> {
+export class MaterialSerialIssueServiceProxy extends ServiceProxy<IMaterialIssueSerialContract> {
 
 }
