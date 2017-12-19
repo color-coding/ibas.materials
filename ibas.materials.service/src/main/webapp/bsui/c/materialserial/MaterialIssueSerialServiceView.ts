@@ -1,29 +1,32 @@
-/*
- * @Author: fancy
- * @Date: 2017-11-27 16:41:55
- * @Last Modified by: fancy
- * @Last Modified time: 2017-12-11 15:57:13
+/**
  * @license
  * Copyright color-coding studio. All Rights Reserved.
- *
  * Use of this source code is governed by an Apache License, Version 2.0
  * that can be found in the LICENSE file at http://www.apache.org/licenses/LICENSE-2.0
+ * @Author: fancy
+ * @Date: 2017-11-30 17:45:55
+ * @Last Modified by: fancy
+ * @Last Modified time: 2017-12-19 10:59:43
  */
+
 import * as ibas from "ibas/index";
 import * as openui5 from "openui5/index";
 import * as bo from "../../../borep/bo/index";
 import { emAutoSelectBatchSerialRules } from "../../../api/Datas";
-import { IMaterialBatchIssueView,MaterialIssueBatchJournal,MaterialIssueBatchInfo } from "../../../bsapp/materialbatch/index";
-export class MaterialBatchIssueView extends ibas.BODialogView implements IMaterialBatchIssueView {
-
-    /** 选择批次凭证行信息事件 */
-    selectMaterialBatchJournalLineEvent: Function;
-    /** 自动选择批次信息事件 */
-    autoSelectMaterialBatchEvent: Function;
-    /** 添加选择的批次事件 */
-    addBatchMaterialBatchEvent: Function;
-    /** 移除选择的批次事件 */
-    removeBatchMaterialBatchEvent: Function;
+import {
+    IMaterialIssueSerialView,
+    MaterialIssueSerialInfo,
+    MaterialIssueSerialJournal
+} from "../../../bsapp/materialserial/index";
+export class MaterialIssueSerialServiceView extends ibas.BODialogView implements IMaterialIssueSerialView {
+    /** 选择序列号凭证行信息事件 */
+    selectMaterialSerialJournalLineEvent: Function;
+    /** 自动选择序列号信息事件 */
+    autoSelectMaterialSerialEvent: Function;
+    /** 添加选择的序列号事件 */
+    addSerialMaterialSerialEvent: Function;
+    /** 移除选择的序列号事件 */
+    removeSerialMaterialSerialEvent: Function;
     /** 保存回调 */
     saveDataEvent: Function;
     // 控件
@@ -32,9 +35,7 @@ export class MaterialBatchIssueView extends ibas.BODialogView implements IMateri
     private leftTable: sap.ui.table.Table;
     private rightTable: sap.ui.table.Table;
     private actionLayout: sap.ui.layout.form.SimpleForm;
-    private mainBlockLayout: sap.ui.layout.BlockLayout;
     private splitter: sap.ui.layout.Splitter;
-
     darw(): any {
         let that: this = this;
         this.journalLineTable = new sap.ui.table.Table("", {
@@ -44,13 +45,13 @@ export class MaterialBatchIssueView extends ibas.BODialogView implements IMateri
             visibleRowCount: ibas.config.get(openui5.utils.CONFIG_ITEM_LIST_TABLE_VISIBLE_ROW_COUNT, 8),
             visibleRowCountMode: sap.ui.table.VisibleRowCountMode.Interactive,
             rowSelectionChange: function (): void {
-                that.fireViewEvents(that.selectMaterialBatchJournalLineEvent,
-                    openui5.utils.getTableSelecteds<MaterialIssueBatchJournal>(that.journalLineTable).firstOrDefault(), );
+                that.fireViewEvents(that.selectMaterialSerialJournalLineEvent,
+                    openui5.utils.getTableSelecteds<MaterialIssueSerialJournal>(that.journalLineTable).firstOrDefault(), );
             },
             rows: "{/journallinedata}",
             columns: [
                 new sap.ui.table.Column("", {
-                    label: ibas.i18n.prop("bo_materialbatchjournal_itemCode"),
+                    label: ibas.i18n.prop("bo_materialserialjournal_itemCode"),
                     template: new sap.m.Text("", {
                         wrapping: false,
                     }).bindProperty("text", {
@@ -58,7 +59,7 @@ export class MaterialBatchIssueView extends ibas.BODialogView implements IMateri
                     }),
                 }),
                 new sap.ui.table.Column("", {
-                    label: ibas.i18n.prop("bo_materialbatchjournal_warehousecode"),
+                    label: ibas.i18n.prop("bo_materialserialjournal_warehousecode"),
                     template: new sap.m.Text("", {
                         wrapping: false,
                     }).bindProperty("text", {
@@ -66,7 +67,7 @@ export class MaterialBatchIssueView extends ibas.BODialogView implements IMateri
                     }),
                 }),
                 new sap.ui.table.Column("", {
-                    label: ibas.i18n.prop("bo_materialbatchjournal_quantity"),
+                    label: ibas.i18n.prop("bo_materialserialjournal_quantity"),
                     template: new sap.m.Text("", {
                         wrapping: false,
                     }).bindProperty("text", {
@@ -74,23 +75,23 @@ export class MaterialBatchIssueView extends ibas.BODialogView implements IMateri
                     }),
                 }),
                 new sap.ui.table.Column("", {
-                    label: ibas.i18n.prop("bo_materialbatchjournal_needquantity"),
+                    label: ibas.i18n.prop("bo_materialserialjournal_needquantity"),
                     template: new sap.m.Text("", {
                         wrapping: false,
                     }).bindProperty("text", {
-                        path: "needBatchQuantity",
+                        path: "needSerialQuantity",
                     }),
                 }),
                 new sap.ui.table.Column("", {
-                    label: ibas.i18n.prop("bo_materialbatchjournal_selectedquantity"),
+                    label: ibas.i18n.prop("bo_materialserialjournal_selectedquantity"),
                     template: new sap.m.Text("", {
                         wrapping: false,
                     }).bindProperty("text", {
-                        path: "selectedBatchQuantity",
+                        path: "selectedSerialQuantity",
                     }),
                 }),
                 new sap.ui.table.Column("", {
-                    label: ibas.i18n.prop("bo_materialbatchjournal_direction"),
+                    label: ibas.i18n.prop("bo_materialserialjournal_direction"),
                     template: new sap.m.Text("", {
                         wrapping: false,
                     }).bindProperty("text", {
@@ -110,20 +111,11 @@ export class MaterialBatchIssueView extends ibas.BODialogView implements IMateri
             rows: "{/leftrows}",
             columns: [
                 new sap.ui.table.Column("", {
-                    label: ibas.i18n.prop("bo_materialbatchjournal_batchcode"),
+                    label: ibas.i18n.prop("bo_materialserialjournal_serialcode"),
                     template: new sap.m.Text("", {
                         wrapping: false,
                     }).bindProperty("text", {
-                        path: "BatchCode"
-                    })
-                }),
-                new sap.ui.table.Column("", {
-                    label: ibas.i18n.prop("bo_materialbatchjournal_quantitycanuse"),
-                    template: new sap.m.Text("", {
-                        wrapping: false,
-                        type: sap.m.InputType.Number
-                    }).bindProperty("text", {
-                        path: "quantity"
+                        path: "SerialCode"
                     })
                 }),
             ]
@@ -135,20 +127,11 @@ export class MaterialBatchIssueView extends ibas.BODialogView implements IMateri
             rows: "{/rightrows}",
             columns: [
                 new sap.ui.table.Column("", {
-                    label: ibas.i18n.prop("bo_materialbatchjournal_batchcode"),
+                    label: ibas.i18n.prop("bo_materialserialjournal_serialcode"),
                     template: new sap.m.Text("", {
                         wrapping: false,
                     }).bindProperty("text", {
-                        path: "BatchCode"
-                    })
-                }),
-                new sap.ui.table.Column("", {
-                    label: ibas.i18n.prop("bo_materialbatchjournal_quantitychoosed"),
-                    template: new sap.m.Text("", {
-                        wrapping: false,
-                        type: sap.m.InputType.Number
-                    }).bindProperty("text", {
-                        path: "quantity"
+                        path: "SerialCode"
                     })
                 }),
             ]
@@ -163,8 +146,8 @@ export class MaterialBatchIssueView extends ibas.BODialogView implements IMateri
                                 new sap.m.MenuItem("", {
                                     text: ibas.i18n.prop("materials_app_autoselectbatch_by_firstinfirstout"),
                                     press: function (): void {
-                                        that.fireViewEvents(that.autoSelectMaterialBatchEvent
-                                            , openui5.utils.getTableSelecteds<MaterialIssueBatchJournal>
+                                        that.fireViewEvents(that.autoSelectMaterialSerialEvent
+                                            , openui5.utils.getTableSelecteds<MaterialIssueSerialJournal>
                                                 (that.journalLineTable).firstOrDefault()
                                             , emAutoSelectBatchSerialRules.FIRST_IN_FIRST_OUT);
                                     }
@@ -172,8 +155,8 @@ export class MaterialBatchIssueView extends ibas.BODialogView implements IMateri
                                 new sap.m.MenuItem("", {
                                     text: ibas.i18n.prop("materials_app_autoselectbatch_by_batchno"),
                                     press: function (): void {
-                                        that.fireViewEvents(that.autoSelectMaterialBatchEvent
-                                            , openui5.utils.getTableSelecteds<MaterialIssueBatchJournal>
+                                        that.fireViewEvents(that.autoSelectMaterialSerialEvent
+                                            , openui5.utils.getTableSelecteds<MaterialIssueSerialJournal>
                                                 (that.journalLineTable).firstOrDefault()
                                             , emAutoSelectBatchSerialRules.ORDER_BY_CODE);
                                     }
@@ -185,9 +168,9 @@ export class MaterialBatchIssueView extends ibas.BODialogView implements IMateri
                 new sap.m.Button("", {
                     text: "<",
                     press: function (): void {
-                        that.fireViewEvents(that.removeBatchMaterialBatchEvent,
+                        that.fireViewEvents(that.removeSerialMaterialSerialEvent,
                             // 获取表格选中的对象
-                            openui5.utils.getTableSelecteds<MaterialIssueBatchJournal>(that.journalLineTable).firstOrDefault(),
+                            openui5.utils.getTableSelecteds<MaterialIssueSerialJournal>(that.journalLineTable).firstOrDefault(),
                             openui5.utils.getTableSelecteds<bo.MaterialBatchJournal>(that.rightTable),
                         );
                     }
@@ -195,9 +178,9 @@ export class MaterialBatchIssueView extends ibas.BODialogView implements IMateri
                 new sap.m.Button("", {
                     text: ">",
                     press: function (): void {
-                        that.fireViewEvents(that.addBatchMaterialBatchEvent,
+                        that.fireViewEvents(that.addSerialMaterialSerialEvent,
                             // 获取表格选中的对象
-                            openui5.utils.getTableSelecteds<MaterialIssueBatchJournal>(that.journalLineTable).firstOrDefault(),
+                            openui5.utils.getTableSelecteds<MaterialIssueSerialJournal>(that.journalLineTable).firstOrDefault(),
                             openui5.utils.getTableSelecteds<bo.MaterialBatch>(that.leftTable),
                         );
                     }
@@ -210,7 +193,7 @@ export class MaterialBatchIssueView extends ibas.BODialogView implements IMateri
                 new sap.ui.layout.Splitter("", {
                     layoutData: new sap.ui.layout.SplitterLayoutData("", {
                         resizable: false,
-                        size: "42%",
+                        size: "41%",
                     }),
                     contentAreas: [
                         this.leftTable
@@ -228,7 +211,7 @@ export class MaterialBatchIssueView extends ibas.BODialogView implements IMateri
                 new sap.ui.layout.Splitter("", {
                     layoutData: new sap.ui.layout.SplitterLayoutData("", {
                         resizable: false,
-                        size: "42%",
+                        size: "41%",
                     }),
                     contentAreas: [
                         this.rightTable
@@ -271,16 +254,18 @@ export class MaterialBatchIssueView extends ibas.BODialogView implements IMateri
             ]
         });
     }
-    showJournalLineData(datas: MaterialIssueBatchJournal[]): void {
+    private lastCriteria: ibas.ICriteria;
+
+    showJournalLineData(datas: MaterialIssueSerialJournal[]): void {
         this.journalLineTable.setModel(new sap.ui.model.json.JSONModel({ journallinedata: datas }));
         openui5.utils.refreshModelChanged(this.journalLineTable, datas);
     }
-    showLeftData(datas: bo.MaterialBatch[]): void {
+    showLeftData(datas: bo.MaterialSerial[]): void {
         this.leftTable.setModel(new sap.ui.model.json.JSONModel({ leftrows: datas }));
         // 监听属性改变，并更新控件
         openui5.utils.refreshModelChanged(this.leftTable, datas);
     }
-    showRightData(datas: MaterialIssueBatchInfo[]): void {
+    showRightData(datas: MaterialIssueSerialInfo[]): void {
         this.rightTable.setModel(new sap.ui.model.json.JSONModel({ rightrows: datas }));
         // 监听属性改变，并更新控件
         openui5.utils.refreshModelChanged(this.rightTable, datas);

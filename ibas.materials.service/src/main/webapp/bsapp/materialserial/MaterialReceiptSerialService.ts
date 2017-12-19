@@ -2,7 +2,7 @@
  * @Author: fancy
  * @Date: 2017-11-27 16:41:05
  * @Last Modified by: fancy
- * @Last Modified time: 2017-12-12 15:11:21
+ * @Last Modified time: 2017-12-19 11:03:39
  */
 
 /**
@@ -15,7 +15,7 @@
 import * as ibas from "ibas/index";
 import * as bo from "../../borep/bo/index";
 import {
-    MaterialSerialReceiptServiceProxy,
+    MaterialReceiptSerialServiceProxy,
 } from "../../api/Datas";
 import { BORepositoryMaterials } from "../../borep/BORepositories";
 import {
@@ -28,7 +28,7 @@ import {
     MaterialReceiptSerialJournal,
     MaterialReceiptSerialInfo
 } from "./index";
-export class MaterialSerialReceiptService extends ibas.ServiceApplication<IMaterialSerialReceiptView, IMaterialReceiptSerialContract> {
+export class MaterialReceiptSerialService extends ibas.ServiceApplication<IMaterialReceiptSerialView, IMaterialReceiptSerialContract> {
 
     /** 应用标识 */
     static APPLICATION_ID: string = "3533e07e-0c13-44cf-9543-adacb49dade2";
@@ -39,9 +39,9 @@ export class MaterialSerialReceiptService extends ibas.ServiceApplication<IMater
     /** 构造函数 */
     constructor() {
         super();
-        this.id = MaterialSerialReceiptService.APPLICATION_ID;
-        this.name = MaterialSerialReceiptService.APPLICATION_NAME;
-        // this.boCode = MaterialSerialReceiptService.BUSINESS_OBJECT_CODE;
+        this.id = MaterialReceiptSerialService.APPLICATION_ID;
+        this.name = MaterialReceiptSerialService.APPLICATION_NAME;
+        // this.boCode = MaterialReceiptSerialService.BUSINESS_OBJECT_CODE;
         this.description = ibas.i18n.prop(this.name);
     }
     /** 服务契约 */
@@ -177,7 +177,7 @@ export class MaterialSerialReceiptService extends ibas.ServiceApplication<IMater
 
 
 /** 视图-新建序列 */
-export interface IMaterialSerialReceiptView extends ibas.IBOView {
+export interface IMaterialReceiptSerialView extends ibas.IBOView {
     /** 显示数据 */
     showData(datas: MaterialReceiptSerialInfo[]): void;
     showJournalLineData(datas: MaterialReceiptSerialJournal[]): void;
@@ -198,13 +198,13 @@ export class MaterialSerialReceipServiceMapping extends ibas.ServiceMapping {
     /** 构造函数 */
     constructor() {
         super();
-        this.id = MaterialSerialReceiptService.APPLICATION_ID;
-        this.name = MaterialSerialReceiptService.APPLICATION_NAME;
+        this.id = MaterialReceiptSerialService.APPLICATION_ID;
+        this.name = MaterialReceiptSerialService.APPLICATION_NAME;
         this.description = ibas.i18n.prop(this.name);
-        this.proxy = MaterialSerialReceiptServiceProxy;
+        this.proxy = MaterialReceiptSerialServiceProxy;
     }
     /** 创建服务实例 */
     create(): ibas.IService<ibas.IServiceCaller<ibas.IServiceContract>> {
-        return new MaterialSerialReceiptService();
+        return new MaterialReceiptSerialService();
     }
 }

@@ -79,18 +79,18 @@ export enum emAutoSelectBatchSerialRules {
 }
 
 /** 物料批次创建服务代理 */
-export class MaterialBatchReceiptServiceProxy extends ServiceProxy<IMaterialReceiptBatchContract> {
+export class MaterialReceiptBatchServiceProxy extends ServiceProxy<IMaterialReceiptBatchContract> {
 
 }
 /** 物料批次选择服务代理 */
-export class MaterialBatchIssueServiceProxy extends ServiceProxy<IMaterialIssueBatchContract> {
+export class MaterialIssueBatchServiceProxy extends ServiceProxy<IMaterialIssueBatchContract> {
 
 }
 /** 物料序列创建服务代理 */
-export class MaterialSerialReceiptServiceProxy extends ServiceProxy<IMaterialReceiptSerialContract> {
+export class MaterialReceiptSerialServiceProxy extends ServiceProxy<IMaterialReceiptSerialContract> {
 
 }
 /** 物料序列选择服务代理 */
-export class MaterialSerialIssueServiceProxy extends ServiceProxy<IMaterialIssueSerialContract> {
+export class MaterialIssueSerialServiceProxy extends ServiceProxy<IMaterialIssueSerialContract> {
 
 }

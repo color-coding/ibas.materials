@@ -34,7 +34,7 @@ export interface IMaterialSerial extends IBOSimple {
     warehouse: string;
 
     /**在仓库 */
-    inStock: string;
+    inStock: emYesNo;
 
     /**锁定 */
     locked: emYesNo;

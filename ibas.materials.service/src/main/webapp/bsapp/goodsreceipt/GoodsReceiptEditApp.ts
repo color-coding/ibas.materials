@@ -21,8 +21,8 @@ import {
     IMaterialReceiptSerialContract,
 } from "../../api/bo/index";
 import {
-    MaterialBatchReceiptServiceProxy,
-    MaterialSerialReceiptServiceProxy,
+    MaterialReceiptBatchServiceProxy,
+    MaterialReceiptSerialServiceProxy,
 } from "../../api/Datas";
 import { BORepositoryMaterials } from "../../borep/BORepositories";
 
@@ -313,7 +313,7 @@ export class GoodsReceiptEditApp extends ibas.BOEditApplication<IGoodsReceiptEdi
             return;
         }
         ibas.servicesManager.runApplicationService<IMaterialReceiptBatchContract>({
-            proxy: new MaterialBatchReceiptServiceProxy(that.getBatchContract(goodReceiptLines))
+            proxy: new MaterialReceiptBatchServiceProxy(that.getBatchContract(goodReceiptLines))
         });
     }
     /** 新建物料序列信息 */
@@ -325,7 +325,7 @@ export class GoodsReceiptEditApp extends ibas.BOEditApplication<IGoodsReceiptEdi
             return;
         }
         ibas.servicesManager.runApplicationService<IMaterialReceiptSerialContract>({
-            proxy: new MaterialSerialReceiptServiceProxy(that.getSerialContract(goodReceiptLines))
+            proxy: new MaterialReceiptSerialServiceProxy(that.getSerialContract(goodReceiptLines))
         });
     }
 

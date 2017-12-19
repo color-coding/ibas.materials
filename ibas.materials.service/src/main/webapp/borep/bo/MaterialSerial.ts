@@ -69,11 +69,11 @@ export class MaterialSerial extends BOSimple<MaterialSerial> implements IMateria
     /** 映射的属性名称-在仓库 */
     static PROPERTY_INSTOCK_NAME: string = "InStock";
     /** 获取-在仓库 */
-    get inStock(): string {
-        return this.getProperty<string>(MaterialSerial.PROPERTY_INSTOCK_NAME);
+    get inStock(): emYesNo {
+        return this.getProperty<emYesNo>(MaterialSerial.PROPERTY_INSTOCK_NAME);
     }
     /** 设置-在仓库 */
-    set inStock(value: string) {
+    set inStock(value: emYesNo) {
         this.setProperty(MaterialSerial.PROPERTY_INSTOCK_NAME, value);
     }
 

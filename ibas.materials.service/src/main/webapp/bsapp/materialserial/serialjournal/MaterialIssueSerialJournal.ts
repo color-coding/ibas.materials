@@ -7,7 +7,7 @@
  * @Author: fancy
  * @Date: 2017-12-10 17:57:47
  * @Last Modified by: fancy
- * @Last Modified time: 2017-12-12 18:19:07
+ * @Last Modified time: 2017-12-18 15:42:39
  */
 import * as ibas from "ibas/index";
 import {
@@ -159,6 +159,8 @@ export class MaterialIssueSerialInfos extends ibas.BusinessObjects<MaterialIssue
 
     materialIssueLineSerials = this;
 
+    // create():MaterialIssueSerialInfo;
+    // create(data: IMaterialIssueSerialLine): MaterialIssueSerialInfo;
     /** 创建并添加子项 */
     create(data?: IMaterialIssueSerialLine): MaterialIssueSerialInfo {
         let item: MaterialIssueSerialInfo = new MaterialIssueSerialInfo();

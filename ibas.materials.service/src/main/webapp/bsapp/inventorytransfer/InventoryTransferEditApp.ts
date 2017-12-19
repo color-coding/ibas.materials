@@ -21,8 +21,8 @@ import {
     IMaterialIssueSerials,
 } from "../../api/bo/index";
 import {
-    MaterialBatchIssueServiceProxy,
-    MaterialSerialIssueServiceProxy,
+    MaterialIssueBatchServiceProxy,
+    MaterialIssueSerialServiceProxy,
 } from "../../api/Datas";
 import { BORepositoryMaterials } from "../../borep/BORepositories";
 
@@ -308,7 +308,7 @@ export class InventoryTransferEditApp extends ibas.BOEditApplication<IInventoryT
         }
         // 调用批次选择服务
         ibas.servicesManager.runApplicationService<IMaterialIssueBatchContract>({
-            proxy: new MaterialBatchIssueServiceProxy(that.getBatchContract(inventoryTransferLines))
+            proxy: new MaterialIssueBatchServiceProxy(that.getBatchContract(inventoryTransferLines))
         });
     }
     chooseInventoryTransferLineMaterialSerial(): void {
@@ -320,7 +320,7 @@ export class InventoryTransferEditApp extends ibas.BOEditApplication<IInventoryT
         }
         // 调用序列选择服务
         ibas.servicesManager.runApplicationService<IMaterialIssueSerialContract>({
-            proxy: new MaterialSerialIssueServiceProxy(that.getSerialContract(inventoryTransferLine))
+            proxy: new MaterialIssueSerialServiceProxy(that.getSerialContract(inventoryTransferLine))
         });
     }
 

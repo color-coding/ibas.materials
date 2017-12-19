@@ -6,7 +6,7 @@
  * that can be found in the LICENSE file at http://www.apache.org/licenses/LICENSE-2.0
  */
 // export * from "./MaterialSerialReceiptView";
-export * from "./MaterialSerialIssueServiceView";
-export * from "./MaterialSerialReceiptServiceView";
+export * from "./MaterialIssueSerialServiceView";
+export * from "./MaterialReceiptSerialServiceView";
 export * from "./MaterialSerialListView";
 export * from "./MaterialSerialViewView";

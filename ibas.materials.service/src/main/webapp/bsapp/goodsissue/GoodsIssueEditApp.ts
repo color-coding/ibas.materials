@@ -22,8 +22,8 @@ import {
     IMaterialIssueSerialContractLine,
 } from "../../api/bo/index";
 import {
-    MaterialBatchIssueServiceProxy,
-    MaterialSerialIssueServiceProxy,
+    MaterialIssueBatchServiceProxy,
+    MaterialIssueSerialServiceProxy,
 } from "../../api/Datas";
 import { BORepositoryMaterials } from "../../borep/BORepositories";
 import { IMaterialBatch } from "../../api/index";
@@ -322,7 +322,7 @@ export class GoodsIssueEditApp extends ibas.BOEditApplication<IGoodsIssueEditVie
         }
         // 调用批次选择服务
         ibas.servicesManager.runApplicationService<IMaterialIssueBatchContract>({
-            proxy: new MaterialBatchIssueServiceProxy(that.getBatchContract(goodIssueLines))
+            proxy: new MaterialIssueBatchServiceProxy(that.getBatchContract(goodIssueLines))
         });
     }
     /** 选择库存发货序列事件 */
@@ -335,7 +335,7 @@ export class GoodsIssueEditApp extends ibas.BOEditApplication<IGoodsIssueEditVie
         }
         // 调用序列选择服务
         ibas.servicesManager.runApplicationService<IMaterialIssueSerialContract>({
-            proxy: new MaterialSerialIssueServiceProxy(that.getSerialContract(goodIssueLines))
+            proxy: new MaterialIssueSerialServiceProxy(that.getSerialContract(goodIssueLines))
         });
     }
 
@@ -476,7 +476,7 @@ export class GoodsIssueEditApp extends ibas.BOEditApplication<IGoodsIssueEditVie
                 , ibas.emConditionOperation.EQUAL
                 , this.editData.priceList));
         }
-        conditions.push(new ibas.Condition(bo.Material.PROPERTY_DELETED_NAME, ibas.emConditionOperation.EQUAL, "N"));
+        conditions.push(new ibas.Condition(bo.Material.PROPERTY_DELETED_NAME, ibas.emConditionOperation.EQUAL, ibas.emYesNo.NO));
         return conditions;
     }
 }

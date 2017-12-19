@@ -2,7 +2,7 @@
  * @Author: fancy
  * @Date: 2017-11-27 16:40:53
  * @Last Modified by: fancy
- * @Last Modified time: 2017-12-11 16:23:01
+ * @Last Modified time: 2017-12-19 11:04:23
  */
 
 /**
@@ -16,7 +16,7 @@ import * as ibas from "ibas/index";
 import * as bo from "../../borep/bo/index";
 import {
     emAutoSelectBatchSerialRules,
-    MaterialSerialIssueServiceProxy,
+    MaterialIssueSerialServiceProxy,
 } from "../../api/Datas";
 import { BORepositoryMaterials } from "../../borep/BORepositories";
 import {
@@ -30,7 +30,7 @@ import {
     MaterialIssueSerialInfo
 } from "./index";
 import { MaterialSerial } from "../../borep/bo/index";
-export class MaterialSerialIssueService extends ibas.ServiceApplication<IMaterialSerialIssueView, IMaterialIssueSerialContract> {
+export class MaterialIssueSerialService extends ibas.ServiceApplication<IMaterialIssueSerialView, IMaterialIssueSerialContract> {
 
     /** 应用标识 */
     static APPLICATION_ID: string = "bdd08ed9-5d6b-4058-b8e5-f8fc6975a637";
@@ -42,9 +42,9 @@ export class MaterialSerialIssueService extends ibas.ServiceApplication<IMateria
     /** 构造函数 */
     constructor() {
         super();
-        this.id = MaterialSerialIssueService.APPLICATION_ID;
-        this.name = MaterialSerialIssueService.APPLICATION_NAME;
-        // this.boCode = MaterialSerialIssueService.BUSINESS_OBJECT_CODE;
+        this.id = MaterialIssueSerialService.APPLICATION_ID;
+        this.name = MaterialIssueSerialService.APPLICATION_NAME;
+        // this.boCode = MaterialIssueSerialService.BUSINESS_OBJECT_CODE;
         this.description = ibas.i18n.prop(this.name);
     }
 
@@ -86,7 +86,7 @@ export class MaterialSerialIssueService extends ibas.ServiceApplication<IMateria
         criteria.conditions.add(condition);
         condition = new ibas.Condition(bo.MaterialSerial.PROPERTY_WAREHOUSE_NAME, ibas.emConditionOperation.EQUAL, selected.warehouse);
         criteria.conditions.add(condition);
-        condition = new ibas.Condition(bo.MaterialSerial.PROPERTY_INSTOCK_NAME, ibas.emConditionOperation.EQUAL, "Y");
+        condition = new ibas.Condition(bo.MaterialSerial.PROPERTY_INSTOCK_NAME, ibas.emConditionOperation.EQUAL, ibas.emYesNo.YES);
         criteria.conditions.add(condition);
         that.fetchSerialData(criteria, selected);
         that.view.showRightData(selected.materialSerialInfos);
@@ -277,7 +277,7 @@ export class MaterialSerialIssueService extends ibas.ServiceApplication<IMateria
 }
 
 /** 视图-序列号新建 */
-export interface IMaterialSerialIssueView extends ibas.IBOView {
+export interface IMaterialIssueSerialView extends ibas.IBOView {
     /** 显示数据 */
     showLeftData(datas: bo.MaterialSerial[]): void;
     showRightData(datas: MaterialIssueSerialInfo[]): void;
@@ -295,17 +295,17 @@ export interface IMaterialSerialIssueView extends ibas.IBOView {
 }
 
 /** 序列号选择服务映射 */
-export class MaterialSerialIssueServiceMapping extends ibas.ServiceMapping {
+export class MaterialIssueSerialServiceMapping extends ibas.ServiceMapping {
     /** 构造函数 */
     constructor() {
         super();
-        this.id = MaterialSerialIssueService.APPLICATION_ID;
-        this.name = MaterialSerialIssueService.APPLICATION_NAME;
+        this.id = MaterialIssueSerialService.APPLICATION_ID;
+        this.name = MaterialIssueSerialService.APPLICATION_NAME;
         this.description = ibas.i18n.prop(this.name);
-        this.proxy = MaterialSerialIssueServiceProxy;
+        this.proxy = MaterialIssueSerialServiceProxy;
     }
     /** 创建服务实例 */
     create(): ibas.IService<ibas.IServiceCaller<ibas.IServiceContract>> {
-        return new MaterialSerialIssueService();
+        return new MaterialIssueSerialService();
     }
 }
