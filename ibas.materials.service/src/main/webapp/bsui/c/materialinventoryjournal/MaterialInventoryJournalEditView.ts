@@ -71,7 +71,7 @@ export class MaterialInventoryJournalEditView extends ibas.BOEditView implements
                     path: "/warehouse"
                 }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_materialjournal_direction") }),
-                new sap.m.SegmentedButton("", {
+                new sap.m.Select("", {
                     width: "30%",
                     items: [
                         new sap.m.SegmentedButtonItem("", {
