@@ -10,7 +10,6 @@ import * as ibas from "ibas/index";
 import * as openui5 from "openui5/index";
 import * as bo from "../../../borep/bo/index";
 import { IProductChooseView } from "../../../bsapp/material/index";
-import { emItemType } from "../../../api/index";
 
 /**
  * 选择视图-物料
