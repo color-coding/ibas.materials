@@ -38,13 +38,15 @@ export class Console extends ibas.ModuleConsole {
     protected registers(): void {
         // 注册功能
         this.register(new MaterialFunc());
-        this.register(new MaterialGroupFunc());
-        this.register(new WarehouseFunc());
-        this.register(new GoodsIssueFunc());
         this.register(new GoodsReceiptFunc());
+        this.register(new GoodsIssueFunc());
         this.register(new InventoryTransferFunc());
+        this.register(new MaterialBatchFunc());
+        this.register(new MaterialSerialFunc());
+        this.register(new WarehouseFunc());
+        this.register(new MaterialGroupFunc());
         this.register(new MaterialInventoryFunc());
-        this.register(new MaterialInventoryJournalFunc());
+        // this.register(new MaterialInventoryJournalFunc());
         // 注册服务应用
         this.register(new MaterialChooseServiceMapping());
         this.register(new MaterialLinkServiceMapping());
@@ -57,8 +59,6 @@ export class Console extends ibas.ModuleConsole {
         this.register(new MaterialBatchIssueServiceMapping);
         this.register(new MaterialSerialReceipServiceMapping);
         this.register(new MaterialSerialIssueServiceMapping);
-        this.register(new MaterialBatchFunc());
-        this.register(new MaterialSerialFunc());
         // 注册常驻应用
 
     }
