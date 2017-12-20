@@ -12,8 +12,10 @@ import {
     emDocumentStatus,
     emBOStatus,
     emApprovalStatus,
+    IBusinessObject,
     BusinessObject,
     BusinessObjects,
+    IBODocumentLine,
     BOMasterData,
     BOMasterDataLine,
     BODocument,
@@ -27,21 +29,15 @@ import {
 } from "ibas/index";
 import {
     IGoodsReceipt,
-    IMaterialReceiptSerialLine,
     IGoodsReceiptLines,
     IGoodsReceiptLine,
     IGoodsReceiptLineMaterialBatchJournals,
-    IMaterialBatchJournal,
-    IMaterialReceiptBatchLine,
     IGoodsReceiptLineMaterialSerialJournals,
-    IMaterialSerialJournal,
     BO_CODE_GOODSRECEIPT,
     emItemType,
 } from "../../api/index";
-import {
-    MaterialBatchJournal,
-    MaterialSerialJournal
-} from "./index";
+import { MaterialBatchJournals } from "./MaterialBatchJournal";
+import { MaterialSerialJournals } from "./MaterialSerialJournal";
 /** 库存收货 */
 export class GoodsReceipt extends BODocument<GoodsReceipt> implements IGoodsReceipt {
 
@@ -487,41 +483,11 @@ export class GoodsReceiptLines extends BusinessObjects<GoodsReceiptLine, GoodsRe
         }
     }
 }
+
 /** 库存收货-批次日记账 集合 */
-export class GoodsReceiptLineMaterialBatchJournals extends BusinessObjects<MaterialBatchJournal, GoodsReceiptLine>
+export class GoodsReceiptLineMaterialBatchJournals extends MaterialBatchJournals<GoodsReceiptLine>
     implements IGoodsReceiptLineMaterialBatchJournals {
-    /** 创建并添加子项 */
-    create(): MaterialBatchJournal {
-        let item: MaterialBatchJournal = new MaterialBatchJournal();
-        this.add(item);
-        item.lineStatus = this.parent.lineStatus;
-        return item;
-    }
 
-    createBatchJournal(data: IMaterialReceiptBatchLine): MaterialBatchJournal {
-        if (!objects.isNull(data)) {
-            let batchJournal: MaterialBatchJournal = this.create();
-            batchJournal.batchCode = data.batchCode;
-            batchJournal.itemCode = data.itemCode;
-            batchJournal.warehouse = data.warehouse;
-            batchJournal.direction = data.direction;
-            batchJournal.quantity = data.quantity;
-            return batchJournal;
-        }
-    }
-    /** 删除批次日记账集合 */
-    deleteAll(): void {
-        for (let item of this) {
-            item.delete();
-        }
-    }
-
-    /** 移除批次日记账集合 */
-    removeAll(): void {
-        for (let item of this) {
-            this.remove(item);
-        }
-    }
     /** 监听父项属性改变 */
     protected onParentPropertyChanged(name: string): void {
         super.onParentPropertyChanged(name);
@@ -533,38 +499,8 @@ export class GoodsReceiptLineMaterialBatchJournals extends BusinessObjects<Mater
     }
 }
 /** 库存库存收货发货-序列日记账 集合 */
-export class GoodsReceiptLineMaterialSerialJournals extends BusinessObjects<MaterialSerialJournal, GoodsReceiptLine>
+export class GoodsReceiptLineMaterialSerialJournals extends MaterialSerialJournals<GoodsReceiptLine>
     implements IGoodsReceiptLineMaterialSerialJournals {
-    /** 创建并添加子项 */
-    create(): MaterialSerialJournal {
-        let item: MaterialSerialJournal = new MaterialSerialJournal();
-        this.add(item);
-        item.lineStatus = this.parent.lineStatus;
-        return item;
-    }
-    createSerialJournal(data: IMaterialReceiptSerialLine): MaterialSerialJournal {
-        let item: MaterialSerialJournal = this.create();
-        item.serialCode = data.serialCode;
-        item.supplierSerial = data.supplierSerial;
-        item.itemCode = data.itemCode;
-        item.direction = data.direction;
-        item.warehouse = data.warehouse;
-        item.direction = emDirection.IN;
-        item.lineStatus = this.parent.lineStatus;
-        return item;
-    }
-    /** 删除序列日记账集合 */
-    deleteAll(): void {
-        for (let item of this) {
-            item.delete();
-        }
-    }
-    /** 移除序列日记账集合 */
-    removeAll(): void {
-        for (let item of this) {
-            this.remove(item);
-        }
-    }
     /** 监听父项属性改变 */
     protected onParentPropertyChanged(name: string): void {
         super.onParentPropertyChanged(name);

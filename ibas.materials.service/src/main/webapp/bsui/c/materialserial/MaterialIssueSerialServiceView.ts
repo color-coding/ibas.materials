@@ -6,7 +6,7 @@
  * @Author: fancy
  * @Date: 2017-11-30 17:45:55
  * @Last Modified by: fancy
- * @Last Modified time: 2017-12-19 10:59:43
+ * @Last Modified time: 2017-12-20 14:53:52
  */
 
 import * as ibas from "ibas/index";
@@ -55,7 +55,7 @@ export class MaterialIssueSerialServiceView extends ibas.BODialogView implements
                     template: new sap.m.Text("", {
                         wrapping: false,
                     }).bindProperty("text", {
-                        path: "ItemCode",
+                        path: "itemCode",
                     }),
                 }),
                 new sap.ui.table.Column("", {
@@ -115,7 +115,7 @@ export class MaterialIssueSerialServiceView extends ibas.BODialogView implements
                     template: new sap.m.Text("", {
                         wrapping: false,
                     }).bindProperty("text", {
-                        path: "SerialCode"
+                        path: "serialCode"
                     })
                 }),
             ]
@@ -131,7 +131,7 @@ export class MaterialIssueSerialServiceView extends ibas.BODialogView implements
                     template: new sap.m.Text("", {
                         wrapping: false,
                     }).bindProperty("text", {
-                        path: "SerialCode"
+                        path: "serialCode"
                     })
                 }),
             ]

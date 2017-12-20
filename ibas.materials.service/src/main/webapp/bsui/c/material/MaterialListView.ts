@@ -71,7 +71,7 @@ export class MaterialListView extends ibas.BOListView implements IMaterialListVi
                     template: new sap.m.Text("", {
                         wrapping: false
                     }).bindProperty("text", {
-                        path: "ItemType",
+                        path: "itemType",
                         formatter(data: any): any {
                             return ibas.enums.describe(bo.emItemType, data);
                         }
@@ -82,7 +82,7 @@ export class MaterialListView extends ibas.BOListView implements IMaterialListVi
                     template: new sap.m.Text("", {
                         wrapping: false,
                     }).bindProperty("text", {
-                        path: "OnHand",
+                        path: "onHand",
                     }),
                 }),
                 new sap.ui.table.Column("", {
@@ -90,7 +90,7 @@ export class MaterialListView extends ibas.BOListView implements IMaterialListVi
                     template: new sap.m.Text("", {
                         wrapping: false,
                     }).bindProperty("text", {
-                        path: "Remarks",
+                        path: "remarks",
                     }),
                 }),
                 new sap.ui.table.Column("", {
@@ -98,7 +98,7 @@ export class MaterialListView extends ibas.BOListView implements IMaterialListVi
                     template: new sap.m.Text("", {
                         wrapping: false,
                     }).bindProperty("text", {
-                        path: "CreateDate",
+                        path: "createDate",
                         type: "sap.ui.model.type.Date",
                         formatOptions: {
                             style: "short"

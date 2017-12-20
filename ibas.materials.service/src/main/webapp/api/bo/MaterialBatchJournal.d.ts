@@ -22,8 +22,9 @@ import {
     IBOSimpleLine
 } from "ibas/index";
 import {
-
-} from "../Datas";
+    IMaterialReceiptBatchLine,
+    IMaterialIssueBatchLine,
+} from "../../api/index";
 export interface IMaterialBatchJournal extends IBOSimple {
     /**物料编号 */
     itemCode: string;
@@ -111,4 +112,12 @@ export interface IMaterialBatchJournal extends IBOSimple {
 
     /**更新动作标识 */
     updateActionId: string
+}
+
+export interface IMaterialBatchJournals<P extends IBODocumentLine> extends IBusinessObjects<IMaterialBatchJournal, P> {
+
+    /** 移除批次日记账 */
+    removeAll(): void;
+    /** 删除批次日记账 */
+    deleteAll(): void;
 }

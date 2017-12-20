@@ -89,13 +89,13 @@ export class GoodsReceiptEditView extends ibas.BOEditView implements IGoodsRecei
                 new sap.m.DatePicker("", {
                     valueFormat: "yyyy-MM-dd",
                 }).bindProperty("dateValue", {
-                    path: "PostingDate"
+                    path: "postingDate"
                 }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_goodsreceipt_deliverydate") }),
                 new sap.m.DatePicker("", {
                     valueFormat: "yyyy-MM-dd",
                 }).bindProperty("dateValue", {
-                    path: "DeliveryDate"
+                    path: "deliveryDate"
                 }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_goodsreceipt_documentdate") }),
                 new sap.m.DatePicker("", {
@@ -187,7 +187,7 @@ export class GoodsReceiptEditView extends ibas.BOEditView implements IGoodsRecei
                         width: "100%",
                         editable: false,
                     }).bindProperty("value", {
-                        path: "ItemDescription"
+                        path: "itemDescription"
                     })
                 }),
                 new sap.ui.table.Column("", {
@@ -214,7 +214,7 @@ export class GoodsReceiptEditView extends ibas.BOEditView implements IGoodsRecei
                         width: "100%",
                         type: sap.m.InputType.Text
                     }).bindProperty("value", {
-                        path: "UOM"
+                        path: "uOM"
                     })
                 }),
                 new sap.ui.table.Column("", {
@@ -229,7 +229,7 @@ export class GoodsReceiptEditView extends ibas.BOEditView implements IGoodsRecei
                             );
                         }
                     }).bindProperty("value", {
-                        path: "Warehouse"
+                        path: "warehouse"
                     })
                 }),
             ]

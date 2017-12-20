@@ -64,14 +64,14 @@ export class GoodsReceiptViewView extends ibas.BOViewView implements IGoodsRecei
                     valueFormat: ibas.config.get(ibas.CONFIG_ITEM_FORMAT_DATE),
                     showFormat: ibas.config.get(ibas.CONFIG_ITEM_FORMAT_DATE),
                 }).bindProperty("text", {
-                    path: "PostingDate",
+                    path: "postingDate",
                 }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_goodsreceipt_deliverydate") }),
                 new sap.m.Text("", {
                     valueFormat: ibas.config.get(ibas.CONFIG_ITEM_FORMAT_DATE),
                     showFormat: ibas.config.get(ibas.CONFIG_ITEM_FORMAT_DATE),
                 }).bindProperty("text", {
-                    path: "DeliveryDate",
+                    path: "deliveryDate",
                 }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_goodsreceipt_documentdate") }),
                 new sap.m.Text("", {
@@ -121,7 +121,7 @@ export class GoodsReceiptViewView extends ibas.BOViewView implements IGoodsRecei
                     template: new sap.m.Text("", {
                         width: "100%",
                     }).bindProperty("text", {
-                        path: "ItemDescription"
+                        path: "itemDescription"
                     })
                 }),
                 new sap.ui.table.Column("", {
@@ -138,7 +138,7 @@ export class GoodsReceiptViewView extends ibas.BOViewView implements IGoodsRecei
                     template: new sap.m.Text("", {
                         width: "100%",
                     }).bindProperty("text", {
-                        path: "UOM"
+                        path: "uOM"
                     })
                 }),
                 new sap.ui.table.Column("", {
@@ -146,7 +146,7 @@ export class GoodsReceiptViewView extends ibas.BOViewView implements IGoodsRecei
                     template: new sap.m.Text("", {
                         width: "100%",
                     }).bindProperty("text", {
-                        path: "Warehouse"
+                        path: "warehouse"
                     })
                 })
             ]

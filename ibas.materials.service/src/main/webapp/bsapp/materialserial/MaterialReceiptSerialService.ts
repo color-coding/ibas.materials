@@ -2,7 +2,7 @@
  * @Author: fancy
  * @Date: 2017-11-27 16:41:05
  * @Last Modified by: fancy
- * @Last Modified time: 2017-12-19 11:03:39
+ * @Last Modified time: 2017-12-19 14:37:17
  */
 
 /**
@@ -194,7 +194,7 @@ export interface IMaterialReceiptSerialView extends ibas.IBOView {
 }
 
 /** 新建序列服务映射 */
-export class MaterialSerialReceipServiceMapping extends ibas.ServiceMapping {
+export class MaterialReceiptSerialServiceMapping extends ibas.ServiceMapping {
     /** 构造函数 */
     constructor() {
         super();

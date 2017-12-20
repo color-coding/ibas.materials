@@ -346,7 +346,7 @@ export class GoodsIssueEditApp extends ibas.BOEditApplication<IGoodsIssueEditVie
             let batchInfos: IMaterialIssueBatchs = {
                 materialIssueLineBatchs: [],
                 createBatchJournal(batchData: IMaterialIssueBatchLine): bo.MaterialBatchJournal {
-                    let batchJournal: MaterialBatchJournal = item.materialBatchJournals.createBatchJournal(batchData);
+                    let batchJournal: MaterialBatchJournal = item.materialBatchJournals.create(batchData);
                     return batchJournal;
                 },
                 updateBatchJournal(batchData: IMaterialIssueBatchLine): bo.MaterialBatchJournal {
@@ -403,7 +403,7 @@ export class GoodsIssueEditApp extends ibas.BOEditApplication<IGoodsIssueEditVie
             let serialInfos: IMaterialIssueSerials = {
                 materialIssueLineSerials: [],
                 createSerialJournal(serialData: IMaterialIssueSerialLine): bo.MaterialSerialJournal {
-                    let serialJournal: bo.MaterialSerialJournal = item.materialSerialJournals.createSerialJournal(serialData);
+                    let serialJournal: bo.MaterialSerialJournal = item.materialSerialJournals.create(serialData);
                     return serialJournal;
                 },
                 updateSerialJournal(serialData: IMaterialIssueSerialLine): bo.MaterialSerialJournal {
@@ -412,7 +412,6 @@ export class GoodsIssueEditApp extends ibas.BOEditApplication<IGoodsIssueEditVie
                         let serialJournal: bo.MaterialSerialJournal = item.materialSerialJournals[index];
                         return serialJournal;
                     }
-
                 },
                 deleteSerialJournal(serialData: IMaterialIssueSerialLine): void {
                     if (!ibas.objects.isNull(serialData.caller)) {

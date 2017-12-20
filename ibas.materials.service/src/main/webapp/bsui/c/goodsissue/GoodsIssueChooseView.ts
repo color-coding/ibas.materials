@@ -67,7 +67,7 @@ export class GoodsIssueChooseView extends ibas.BOChooseView implements IGoodsIss
                     template: new sap.m.Text("", {
                         wrapping: false,
                     }).bindProperty("text", {
-                        path: "docentry",
+                        path: "docEntry",
                     }),
                 }),
                 new sap.ui.table.Column("", {
@@ -76,7 +76,7 @@ export class GoodsIssueChooseView extends ibas.BOChooseView implements IGoodsIss
                         enabled: false,
                         items: openui5.utils.createComboBoxItems(ibas.emDocumentStatus),
                     }).bindProperty("selectedKey", {
-                        path: "documentstatus",
+                        path: "documentStatus",
                         type: "sap.ui.model.type.Integer",
                     }),
                 }),
@@ -86,7 +86,7 @@ export class GoodsIssueChooseView extends ibas.BOChooseView implements IGoodsIss
                         enabled: false,
                         items: openui5.utils.createComboBoxItems(ibas.emApprovalStatus),
                     }).bindProperty("selectedKey", {
-                        path: "approvalstatus",
+                        path: "approvalStatus",
                         type: "sap.ui.model.type.Integer",
                     }),
                 }),
@@ -95,7 +95,7 @@ export class GoodsIssueChooseView extends ibas.BOChooseView implements IGoodsIss
                     template: new sap.m.Text("", {
                         wrapping: false,
                     }).bindProperty("text", {
-                        path: "documenttotal",
+                        path: "documentTotal",
                     }),
                 }),
                 new sap.ui.table.Column("", {
@@ -103,7 +103,7 @@ export class GoodsIssueChooseView extends ibas.BOChooseView implements IGoodsIss
                     template: new sap.m.Text("", {
                         wrapping: false,
                     }).bindProperty("text", {
-                        path: "deliverydate",
+                        path: "deliveryDate",
                     }),
                 }),
                 new sap.ui.table.Column("", {
@@ -111,7 +111,7 @@ export class GoodsIssueChooseView extends ibas.BOChooseView implements IGoodsIss
                     template: new sap.m.Text("", {
                         wrapping: false,
                     }).bindProperty("text", {
-                        path: "documentdate",
+                        path: "documentDate",
                     }),
                 }),
                 new sap.ui.table.Column("", {

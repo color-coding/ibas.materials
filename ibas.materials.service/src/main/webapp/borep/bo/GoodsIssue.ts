@@ -30,20 +30,12 @@ import {
     IGoodsIssueLines,
     IGoodsIssueLine,
     IGoodsIssueLineMaterialBatchJournals,
-    IMaterialBatchJournal,
     IGoodsIssueLineMaterialSerialJournals,
-    IMaterialSerialJournal,
-    IMaterialIssueSerialLine,
-    IMaterialIssueBatchLine,
     BO_CODE_GOODSISSUE,
     emItemType,
 } from "../../api/index";
-import {
-    MaterialBatch,
-    MaterialBatchJournal,
-    MaterialSerialJournal
-} from "./index";
-
+import { MaterialBatchJournals } from "./MaterialBatchJournal";
+import { MaterialSerialJournals } from "./MaterialSerialJournal";
 /** 库存发货 */
 export class GoodsIssue extends BODocument<GoodsIssue> implements IGoodsIssue {
 
@@ -492,37 +484,8 @@ export class GoodsIssueLines extends BusinessObjects<GoodsIssueLine, GoodsIssue>
     }
 }
 /** 库存发货-批次日记账 集合 */
-export class GoodsIssueLineMaterialBatchJournals extends BusinessObjects<MaterialBatchJournal, GoodsIssueLine>
+export class GoodsIssueLineMaterialBatchJournals extends MaterialBatchJournals<GoodsIssueLine>
     implements IGoodsIssueLineMaterialBatchJournals {
-    /** 创建并添加子项 */
-    create(): MaterialBatchJournal {
-        let item: MaterialBatchJournal = new MaterialBatchJournal();
-        this.add(item);
-        item.lineStatus = this.parent.lineStatus;
-        return item;
-    }
-    createBatchJournal(data: IMaterialIssueBatchLine): MaterialBatchJournal {
-        let item: MaterialBatchJournal = this.create();
-        item.batchCode = data.batchCode;
-        item.itemCode = data.itemCode;
-        item.warehouse = data.warehouse;
-        item.quantity = data.quantity;
-        item.direction = data.direction;
-        return item;
-    }
-
-    /** 删除批次日记账集合 */
-    deleteAll(): void {
-        for (let item of this) {
-            item.delete();
-        }
-    }
-    /** 移除批次日记账集合 */
-    removeAll(): void {
-        for (let item of this) {
-            this.remove(item);
-        }
-    }
     /** 监听父项属性改变 */
     protected onParentPropertyChanged(name: string): void {
         super.onParentPropertyChanged(name);
@@ -534,37 +497,8 @@ export class GoodsIssueLineMaterialBatchJournals extends BusinessObjects<Materia
     }
 }
 /** 库存发货-序列日记账 集合 */
-export class GoodsIssueLineMaterialSerialJournals extends BusinessObjects<MaterialSerialJournal, GoodsIssueLine>
+export class GoodsIssueLineMaterialSerialJournals extends MaterialSerialJournals<GoodsIssueLine>
     implements IGoodsIssueLineMaterialSerialJournals {
-    /** 创建并添加子项 */
-    create(): MaterialSerialJournal {
-        let item: MaterialSerialJournal = new MaterialSerialJournal();
-        this.add(item);
-        item.lineStatus = this.parent.lineStatus;
-        return item;
-    }
-    createSerialJournal(data: IMaterialIssueSerialLine): MaterialSerialJournal {
-        let item: MaterialSerialJournal = this.create();
-        item.serialCode = data.serialCode;
-        item.supplierSerial = data.supplierSerial;
-        item.itemCode = data.itemCode;
-        item.direction = emDirection.OUT;
-        item.warehouse = data.warehouse;
-        item.lineStatus = this.parent.lineStatus;
-        return item;
-    }
-    /** 删除序列日记账集合 */
-    deleteAll(): void {
-        for (let item of this) {
-            item.delete();
-        }
-    }
-    /** 移除序列日记账集合 */
-    removeAll(): void {
-        for (let item of this) {
-            this.remove(item);
-        }
-    }
     /** 监听父项属性改变 */
     protected onParentPropertyChanged(name: string): void {
         super.onParentPropertyChanged(name);

@@ -46,13 +46,13 @@ export class MaterialViewView extends ibas.BOViewView implements IMaterialViewVi
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_material_foreignname") }),
                 new sap.m.Text("", {
                 }).bindProperty("text", {
-                    path: "ForeignName"
+                    path: "foreignName"
                 }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_material_itemtype") }),
                 new sap.m.Text("", {
                     wrapping: false
                 }).bindProperty("text", {
-                    path: "ItemType",
+                    path: "itemType",
                     formatter(data: any): any {
                         return ibas.enums.describe(bo.emItemType, data);
                     }
@@ -60,19 +60,19 @@ export class MaterialViewView extends ibas.BOViewView implements IMaterialViewVi
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_material_group") }),
                 new sap.m.Text("", {
                 }).bindProperty("text", {
-                    path: "Group"
+                    path: "group"
                 }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_material_barcode") }),
                 new sap.m.Text("", {
                 }).bindProperty("text", {
-                    path: "BarCode"
+                    path: "barCode"
                 }),
                 new sap.ui.core.Title("", { text: ibas.i18n.prop("materials_type_information") }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_material_activated") }),
                 new sap.m.Text("", {
                     wrapping: false
                 }).bindProperty("text", {
-                    path: "Activated",
+                    path: "activated",
                     formatter(data: any): any {
                         return ibas.enums.describe(ibas.emYesNo, data);
                     }
@@ -81,7 +81,7 @@ export class MaterialViewView extends ibas.BOViewView implements IMaterialViewVi
                 new sap.m.Text("", {
                     wrapping: false
                 }).bindProperty("text", {
-                    path: "PurchaseItem",
+                    path: "purchaseItem",
                     formatter(data: any): any {
                         return ibas.enums.describe(ibas.emYesNo, data);
                     }
@@ -90,7 +90,7 @@ export class MaterialViewView extends ibas.BOViewView implements IMaterialViewVi
                 new sap.m.Text("", {
                     wrapping: false
                 }).bindProperty("text", {
-                    path: "SalesItem",
+                    path: "salesItem",
                     formatter(data: any): any {
                         return ibas.enums.describe(ibas.emYesNo, data);
                     }
@@ -99,7 +99,7 @@ export class MaterialViewView extends ibas.BOViewView implements IMaterialViewVi
                 new sap.m.Text("", {
                     wrapping: false
                 }).bindProperty("text", {
-                    path: "InventoryItem",
+                    path: "inventoryItem",
                     formatter(data: any): any {
                         return ibas.enums.describe(ibas.emYesNo, data);
                     }
@@ -108,7 +108,7 @@ export class MaterialViewView extends ibas.BOViewView implements IMaterialViewVi
                 new sap.m.Text("", {
                     wrapping: false
                 }).bindProperty("text", {
-                    path: "FixedAssets",
+                    path: "fixedAssets",
                     formatter(data: any): any {
                         return ibas.enums.describe(ibas.emYesNo, data);
                     }
@@ -117,27 +117,27 @@ export class MaterialViewView extends ibas.BOViewView implements IMaterialViewVi
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_material_remarks") }),
                 new sap.m.Text("", {
                 }).bindProperty("text", {
-                    path: "Remarks"
+                    path: "remarks"
                 }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_material_picture") }),
                 new sap.m.Text("", {
                 }).bindProperty("text", {
-                    path: "Picture"
+                    path: "picture"
                 }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_material_oncommited") }),
                 new sap.m.Text("", {
                 }).bindProperty("text", {
-                    path: "OnCommited"
+                    path: "onCommited"
                 }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_material_onhand") }),
                 new sap.m.Text("", {
                 }).bindProperty("text", {
-                    path: "OnHand"
+                    path: "onHand"
                 }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_material_onorder") }),
                 new sap.m.Text("", {
                 }).bindProperty("text", {
-                    path: "OnOrder"
+                    path: "onOrder"
                 }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_material_uom") }),
                 new sap.m.Text("", {
@@ -148,18 +148,18 @@ export class MaterialViewView extends ibas.BOViewView implements IMaterialViewVi
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_material_minimuminventory") }),
                 new sap.m.Text("", {
                 }).bindProperty("text", {
-                    path: "MinimumInventory"
+                    path: "minimumInventory"
                 }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_material_defaultwarehouse") }),
                 new sap.m.Text("", {
                 }).bindProperty("text", {
-                    path: "DefaultWarehouse"
+                    path: "defaultWarehouse"
                 }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_material_phantomitem") }),
                 new sap.m.Text("", {
                     wrapping: false
                 }).bindProperty("text", {
-                    path: "PhantomItem",
+                    path: "phantomItem",
                     formatter(data: any): any {
                         return ibas.enums.describe(ibas.emYesNo, data);
                     }
@@ -168,7 +168,7 @@ export class MaterialViewView extends ibas.BOViewView implements IMaterialViewVi
                 new sap.m.Text("", {
                     wrapping: false
                 }).bindProperty("text", {
-                    path: "SerialManagement",
+                    path: "serialManagement",
                     formatter(data: any): any {
                         return ibas.enums.describe(ibas.emYesNo, data);
                     }
@@ -177,7 +177,7 @@ export class MaterialViewView extends ibas.BOViewView implements IMaterialViewVi
                 new sap.m.Text("", {
                     wrapping: false
                 }).bindProperty("text", {
-                    path: "BatchManagement",
+                    path: "batchManagement",
                     formatter(data: any): any {
                         return ibas.enums.describe(ibas.emYesNo, data);
                     }
@@ -186,7 +186,7 @@ export class MaterialViewView extends ibas.BOViewView implements IMaterialViewVi
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_material_createdate") }),
                 new sap.m.Text("", {
                 }).bindProperty("text", {
-                    path: "CreateDate",
+                    path: "createDate",
                     type: new sap.ui.model.type.Date({
                         pattern: "yyyy-MM-dd",
                         strictParsing: true,
@@ -195,12 +195,12 @@ export class MaterialViewView extends ibas.BOViewView implements IMaterialViewVi
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_material_createusersign") }),
                 new sap.m.Text("", {
                 }).bindProperty("text", {
-                    path: "CreateUserSign"
+                    path: "createUserSign"
                 }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_material_updatedate") }),
                 new sap.m.Text("", {
                 }).bindProperty("text", {
-                    path: "UpdateDate",
+                    path: "updateDate",
                     type: new sap.ui.model.type.Date({
                         pattern: "yyyy-MM-dd",
                         strictParsing: true,
@@ -209,32 +209,32 @@ export class MaterialViewView extends ibas.BOViewView implements IMaterialViewVi
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_material_updateusersign") }),
                 new sap.m.Text("", {
                 }).bindProperty("text", {
-                    path: "UpdateUserSign"
+                    path: "updateUserSign"
                 }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_material_objectcode") }),
                 new sap.m.Text("", {
                 }).bindProperty("text", {
-                    path: "ObjectCode"
+                    path: "objectCode"
                 }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_material_docentry") }),
                 new sap.m.Text("", {
                 }).bindProperty("text", {
-                    path: "DocEntry"
+                    path: "docEntry"
                 }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_material_loginst") }),
                 new sap.m.Text("", {
                 }).bindProperty("text", {
-                    path: "LogInst"
+                    path: "logInst"
                 }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_material_createactionid") }),
                 new sap.m.Text("", {
                 }).bindProperty("text", {
-                    path: "CreateActionId"
+                    path: "createActionId"
                 }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_material_updateactionid") }),
                 new sap.m.Text("", {
                 }).bindProperty("text", {
-                    path: "UpdateActionId"
+                    path: "updateActionId"
                 }),
             ],
         });

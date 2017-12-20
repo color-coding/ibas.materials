@@ -337,7 +337,7 @@ export class GoodsReceiptEditApp extends ibas.BOEditApplication<IGoodsReceiptEdi
             let batchInfos: IMaterialReceiptBatchs = {
                 materialReceiptLineBatchs: [],
                 createBatchJournal(batchData: IMaterialReceiptBatchLine): bo.MaterialBatchJournal {
-                    return item.materialBatchJournals.createBatchJournal(batchData);
+                    return item.materialBatchJournals.create(batchData);
                 },
                 updateBatchJournal(batchData: IMaterialReceiptBatchLine): bo.MaterialBatchJournal {
                     if (!ibas.objects.isNull(batchData.caller)) {
@@ -394,7 +394,7 @@ export class GoodsReceiptEditApp extends ibas.BOEditApplication<IGoodsReceiptEdi
             let serialInfos: IMaterialReceiptSerials = {
                 materialReceiptLineSerials: [],
                 createSerialJournal(serialData: IMaterialReceiptSerialLine): bo.MaterialSerialJournal {
-                    return item.materialSerialJournals.createSerialJournal(serialData);
+                    return item.materialSerialJournals.create(serialData);
                 },
                 updateSerialJournal(serialData: IMaterialReceiptSerialLine): bo.MaterialSerialJournal {
                     if (!ibas.objects.isNull(serialData.caller)) {

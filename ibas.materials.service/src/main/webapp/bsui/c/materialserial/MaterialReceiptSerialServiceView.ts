@@ -6,7 +6,7 @@
  * @Author: fancy
  * @Date: 2017-11-30 17:55:41
  * @Last Modified by: fancy
- * @Last Modified time: 2017-12-19 11:02:33
+ * @Last Modified time: 2017-12-20 14:54:14
  */
 
 
@@ -91,7 +91,7 @@ export class MaterialReceiptSerialServiceView extends ibas.BODialogView implemen
                     template: new sap.m.DatePicker("", {
                         valueFormat: "yyyy-MM-dd",
                     }).bindProperty("dateValue", {
-                        path: "ExpirationDate"
+                        path: "expirationDate"
                     })
                 }),
                 new sap.ui.table.Column("", {
@@ -99,7 +99,7 @@ export class MaterialReceiptSerialServiceView extends ibas.BODialogView implemen
                     template: new sap.m.DatePicker("", {
                         valueFormat: "yyyy-MM-dd",
                     }).bindProperty("dateValue", {
-                        path: "ManufacturingDate"
+                        path: "manufacturingDate"
                     })
                 }),
                 new sap.ui.table.Column("", {
@@ -107,7 +107,7 @@ export class MaterialReceiptSerialServiceView extends ibas.BODialogView implemen
                     template: new sap.m.DatePicker("", {
                         valueFormat: "yyyy-MM-dd",
                     }).bindProperty("dateValue", {
-                        path: "AdmissionDate"
+                        path: "admissionDate"
                     })
                 }),
             ]
@@ -129,7 +129,7 @@ export class MaterialReceiptSerialServiceView extends ibas.BODialogView implemen
                     template: new sap.m.Text("", {
                         wrapping: false,
                     }).bindProperty("text", {
-                        path: "ItemCode",
+                        path: "itemCode",
                     }),
                 }),
                 new sap.ui.table.Column("", {

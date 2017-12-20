@@ -25,8 +25,6 @@ import {
     objects,
 } from "ibas/index";
 import {
-    IMaterialBatchJournal,
-    IMaterialSerialJournal,
     IInventoryTransfer,
     IInventoryTransferLineMaterialBatchJournals,
     IInventoryTransferLineMaterialSerialJournals,
@@ -35,11 +33,8 @@ import {
     BO_CODE_INVENTORYTRANSFER,
     emItemType,
 } from "../../api/index";
-import {
-    MaterialBatchJournal,
-    MaterialSerialJournal
-} from "./index";
-
+import { MaterialBatchJournals } from "./MaterialBatchJournal";
+import { MaterialSerialJournals } from "./MaterialSerialJournal";
 /** 库存转储 */
 export class InventoryTransfer extends BODocument<InventoryTransfer> implements IInventoryTransfer {
 
@@ -455,55 +450,14 @@ export class InventoryTransfer extends BODocument<InventoryTransfer> implements 
 }
 
 /** 库存转储-批次日记账 集合 */
-export class InventoryTransferLineMaterialBatchJournals extends BusinessObjects<MaterialBatchJournal, InventoryTransferLine>
+export class InventoryTransferLineMaterialBatchJournals extends MaterialBatchJournals<InventoryTransferLine>
     implements IInventoryTransferLineMaterialBatchJournals {
-    /** 创建并添加子项 */
-    create(): MaterialBatchJournal {
-        let item: MaterialBatchJournal = new MaterialBatchJournal();
-        this.add(item);
-        item.lineStatus = this.parent.lineStatus;
-        return item;
-    }
-    createBatchJournal(data: IMaterialBatchJournal): MaterialBatchJournal {
-        let item: MaterialBatchJournal = new MaterialBatchJournal();
-        if (objects.instanceOf(data, MaterialBatchJournal)) {
-            item.batchCode = data.batchCode;
-            item.itemCode = data.itemCode;
-            item.warehouse = data.warehouse;
-            item.quantity = data.quantity;
-            item.admissionDate = data.admissionDate;
-            item.expirationDate = data.expirationDate;
-            item.manufacturingDate = data.manufacturingDate;
-            this.add(item);
-        }
-        return item;
-    }
 
 }
 /** 库存转储-序列日记账 集合 */
-export class InventoryTransferLineMaterialSerialJournals extends BusinessObjects<MaterialSerialJournal, InventoryTransferLine>
+export class InventoryTransferLineMaterialSerialJournals extends MaterialSerialJournals<InventoryTransferLine>
     implements IInventoryTransferLineMaterialSerialJournals {
-    /** 创建并添加子项 */
-    create(): MaterialSerialJournal {
-        let item: MaterialSerialJournal = new MaterialSerialJournal();
-        this.add(item);
-        item.lineStatus = this.parent.lineStatus;
-        return item;
-    }
-    createSerialJournal(data: IMaterialSerialJournal): MaterialSerialJournal {
-        let item: MaterialSerialJournal = new MaterialSerialJournal();
-        if (objects.instanceOf(data, MaterialSerialJournal)) {
-            item.supplierSerial = data.supplierSerial;
-            item.serialCode = data.serialCode;
-            item.itemCode = data.itemCode;
-            item.warehouse = data.warehouse;
-            item.admissionDate = data.admissionDate;
-            item.expirationDate = data.expirationDate;
-            item.manufacturingDate = data.manufacturingDate;
-            this.add(item);
-        }
-        return item;
-    }
+
 }
 /** 库存转储-行 集合 */
 export class InventoryTransferLines extends BusinessObjects<InventoryTransferLine, InventoryTransfer> implements IInventoryTransferLines {

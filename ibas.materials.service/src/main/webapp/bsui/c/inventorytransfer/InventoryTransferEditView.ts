@@ -82,7 +82,7 @@ export class InventoryTransferEditView extends ibas.BOEditView implements IInven
                         that.fireViewEvents(that.chooseInventoryTransferWarehouseEvent);
                     }
                 }).bindProperty("value", {
-                    path: "FromWarehouse",
+                    path: "fromWarehouse",
                 }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_inventorytransfer_pricelist") }),
                 that.priceListSelect.bindProperty("selectedKey",{
@@ -94,13 +94,13 @@ export class InventoryTransferEditView extends ibas.BOEditView implements IInven
                 new sap.m.DatePicker("", {
                     valueFormat: "yyyy-MM-dd",
                 }).bindProperty("dateValue", {
-                    path: "PostingDate"
+                    path: "postingDate"
                 }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_inventorytransfer_deliverydate") }),
                 new sap.m.DatePicker("", {
                     valueFormat: "yyyy-MM-dd",
                 }).bindProperty("dateValue", {
-                    path: "DeliveryDate"
+                    path: "deliveryDate"
                 }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_inventorytransfer_documentdate") }),
                 new sap.m.DatePicker("", {
@@ -182,7 +182,7 @@ export class InventoryTransferEditView extends ibas.BOEditView implements IInven
                         width: "100%",
                         editable: false,
                     }).bindProperty("value", {
-                        path: "ItemDescription"
+                        path: "itemDescription"
                     })
                 }),
                 new sap.ui.table.Column("", {
@@ -209,7 +209,7 @@ export class InventoryTransferEditView extends ibas.BOEditView implements IInven
                         width: "100%",
                         type: sap.m.InputType.Text
                     }).bindProperty("value", {
-                        path: "UOM"
+                        path: "uOM"
                     })
                 }),
                 new sap.ui.table.Column("", {
@@ -224,7 +224,7 @@ export class InventoryTransferEditView extends ibas.BOEditView implements IInven
                             );
                         }
                     }).bindProperty("value", {
-                        path: "Warehouse"
+                        path: "warehouse"
                     })
                 }),
             ]

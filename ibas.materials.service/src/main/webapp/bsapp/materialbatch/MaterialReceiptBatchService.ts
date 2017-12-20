@@ -6,7 +6,7 @@
  * @Author: fancy
  * @Date: 2017-11-30 17:59:05
  * @Last Modified by: fancy
- * @Last Modified time: 2017-12-19 10:43:12
+ * @Last Modified time: 2017-12-19 16:05:44
  */
 
 import * as ibas from "ibas/index";
@@ -22,7 +22,7 @@ import {
     MaterialReceiptBatchServiceProxy,
 } from "../../api/Datas";
 import * as batch from "./index";
-export class MaterialReceiptBatchService extends ibas.ServiceApplication<IMaterialReceiptBatchView, IMaterialReceiptBatchContract>{
+export class MaterialReceiptBatchService extends ibas.ServiceApplication<IMaterialReceiptBatchView, IMaterialReceiptBatchContract> {
 
     /** 应用标识 */
     static APPLICATION_ID: string = "f4448871-b03a-48f5-bf6d-9418259fab9d";
@@ -219,7 +219,7 @@ export interface IMaterialReceiptBatchView extends ibas.IBOView {
 }
 
 /** 新建批次服务映射 */
-export class MaterialBatchReceipServiceMapping extends ibas.ServiceMapping {
+export class MaterialReceiptBatchServiceMapping extends ibas.ServiceMapping {
     /** 构造函数 */
     constructor() {
         super();
