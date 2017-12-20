@@ -145,8 +145,6 @@ export class MaterialEditView extends ibas.BOEditView implements IMaterialEditVi
                 }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_material_defaultwarehouse") }),
                 new sap.m.Input("", {
-                    placeholder: ibas.i18n.prop("bo_material_defaultwarehouse"),
-                    tooltip: ibas.i18n.prop("bo_material_defaultwarehouse"),
                     showValueHelp: true,
                     valueHelpRequest: function (): void {
                         that.fireViewEvents(that.chooseMaterialWarehouseEvent);
