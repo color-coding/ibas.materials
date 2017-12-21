@@ -20,13 +20,8 @@ import {
     IMaterialBaseContract,
     IMaterialBatchBaseLine,
 } from "./index";
-/**  */
-export interface IMaterialIssueBatchContract {
-    /** 物料批次契约行 */
-    materialIssueBatchContractLines: IMaterialIssueBatchContractLine[];
-}
-
-export interface IMaterialIssueBatchContractLine extends IMaterialBaseContract {
+/** 物料出库批次服务契约 */
+export interface IMaterialIssueBatchContract extends IMaterialBaseContract {
     /** 单据类型 */
     docType?: string;
     /** 单据号 */

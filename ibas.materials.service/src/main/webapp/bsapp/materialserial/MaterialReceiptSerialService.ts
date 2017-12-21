@@ -22,13 +22,12 @@ import {
     IMaterialReceiptSerials,
     IMaterialReceiptSerialLine,
     IMaterialReceiptSerialContract,
-    IMaterialReceiptSerialContractLine,
 } from "../../api/bo/index";
 import {
     MaterialReceiptSerialJournal,
     MaterialReceiptSerialInfo
 } from "./index";
-export class MaterialReceiptSerialService extends ibas.ServiceApplication<IMaterialReceiptSerialView, IMaterialReceiptSerialContract> {
+export class MaterialReceiptSerialService extends ibas.ServiceApplication<IMaterialReceiptSerialView, IMaterialReceiptSerialContract[]> {
 
     /** 应用标识 */
     static APPLICATION_ID: string = "3533e07e-0c13-44cf-9543-adacb49dade2";
@@ -140,9 +139,9 @@ export class MaterialReceiptSerialService extends ibas.ServiceApplication<IMater
         }
     }
     /** 绑定服务数据 */
-    bindSerialServiceData(contract: IMaterialReceiptSerialContract): void {
+    bindSerialServiceData(contract: IMaterialReceiptSerialContract[]): void {
         let serialServiceDatas: MaterialReceiptSerialJournal[] = Array<MaterialReceiptSerialJournal>();
-        for (let item of contract.materialReceiptSerialContractLines) {
+        for (let item of contract) {
             let serialServiceData: MaterialReceiptSerialJournal = new MaterialReceiptSerialJournal(item);
             serialServiceData.direction = ibas.emDirection.IN;
             serialServiceDatas.push(serialServiceData);
@@ -150,9 +149,9 @@ export class MaterialReceiptSerialService extends ibas.ServiceApplication<IMater
         this.serialServiceDatas = serialServiceDatas;
     }
     /** 运行服务 */
-    runService(contract: IMaterialReceiptSerialContract): void {
+    runService(contract: IMaterialReceiptSerialContract[]): void {
         // 行数据
-        if (contract.materialReceiptSerialContractLines.length >= 1) {
+        if (contract.length >= 1) {
             this.bindSerialServiceData(contract);
         }
         super.show();

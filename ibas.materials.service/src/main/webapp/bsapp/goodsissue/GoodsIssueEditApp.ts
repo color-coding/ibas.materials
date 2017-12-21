@@ -18,8 +18,6 @@ import {
     IMaterialIssueSerialContract,
     IMaterialSerialJournal,
     IMaterialBatchJournal,
-    IMaterialIssueBatchContractLine,
-    IMaterialIssueSerialContractLine,
 } from "../../api/bo/index";
 import {
     MaterialIssueBatchServiceProxy,
@@ -321,7 +319,7 @@ export class GoodsIssueEditApp extends ibas.BOEditApplication<IGoodsIssueEditVie
             return;
         }
         // 调用批次选择服务
-        ibas.servicesManager.runApplicationService<IMaterialIssueBatchContract>({
+        ibas.servicesManager.runApplicationService<IMaterialIssueBatchContract[]>({
             proxy: new MaterialIssueBatchServiceProxy(that.getBatchContract(goodIssueLines))
         });
     }
@@ -334,14 +332,14 @@ export class GoodsIssueEditApp extends ibas.BOEditApplication<IGoodsIssueEditVie
             return;
         }
         // 调用序列选择服务
-        ibas.servicesManager.runApplicationService<IMaterialIssueSerialContract>({
+        ibas.servicesManager.runApplicationService<IMaterialIssueSerialContract[]>({
             proxy: new MaterialIssueSerialServiceProxy(that.getSerialContract(goodIssueLines))
         });
     }
 
     /** 获取行-批次服务契约信息 */
-    getBatchContract(goodIssueLines: bo.GoodsIssueLine[]): IMaterialIssueBatchContract {
-        let contracts: IMaterialIssueBatchContractLine[] = [];
+    getBatchContract(goodIssueLines: bo.GoodsIssueLine[]): IMaterialIssueBatchContract[] {
+        let contracts: IMaterialIssueBatchContract[] = new ibas.ArrayList<IMaterialIssueBatchContract>();
         for (let item of goodIssueLines) {
             let batchInfos: IMaterialIssueBatchs = {
                 materialIssueLineBatchs: [],
@@ -381,7 +379,7 @@ export class GoodsIssueEditApp extends ibas.BOEditApplication<IGoodsIssueEditVie
                 };
                 batchInfos.materialIssueLineBatchs.push(batchInfo);
             }
-            let batchContractLine: IMaterialIssueBatchContractLine = {
+            let batchContractLine: IMaterialIssueBatchContract = {
                 itemCode: item.itemCode,
                 warehouse: item.warehouse,
                 quantity: item.quantity,
@@ -392,12 +390,12 @@ export class GoodsIssueEditApp extends ibas.BOEditApplication<IGoodsIssueEditVie
             };
             contracts.push(batchContractLine);
         }
-        return { materialIssueBatchContractLines: contracts };
+        return contracts;
     }
 
     /** 获取行-批次服务契约信息 */
-    getSerialContract(goodIssueLines: bo.GoodsIssueLine[]): IMaterialIssueSerialContract {
-        let contracts: IMaterialIssueSerialContractLine[] = [];
+    getSerialContract(goodIssueLines: bo.GoodsIssueLine[]): IMaterialIssueSerialContract[] {
+        let contracts: IMaterialIssueSerialContract[] = new ibas.ArrayList<IMaterialIssueSerialContract>();
         for (let item of goodIssueLines) {
             // 定义事件
             let serialInfos: IMaterialIssueSerials = {
@@ -435,7 +433,7 @@ export class GoodsIssueEditApp extends ibas.BOEditApplication<IGoodsIssueEditVie
                 };
                 serialInfos.materialIssueLineSerials.push(serialInfo);
             }
-            let serialContractLine: IMaterialIssueSerialContractLine = {
+            let serialContractLine: IMaterialIssueSerialContract = {
                 itemCode: item.itemCode,
                 warehouse: item.warehouse,
                 quantity: item.quantity,
@@ -443,7 +441,7 @@ export class GoodsIssueEditApp extends ibas.BOEditApplication<IGoodsIssueEditVie
             };
             contracts.push(serialContractLine);
         }
-        return { materialIssueSerialContractLines: contracts };
+        return contracts;
     }
 
 

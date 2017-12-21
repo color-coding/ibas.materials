@@ -14,10 +14,8 @@ import {
     IMaterialSerialJournal,
     IMaterialReceiptBatchs,
     IMaterialReceiptSerials,
-    IMaterialReceiptSerialContractLine,
     IMaterialReceiptBatchLine,
     IMaterialReceiptBatchContract,
-    IMaterialReceiptBatchContractLine,
     IMaterialReceiptSerialContract,
 } from "../../api/bo/index";
 import {
@@ -25,6 +23,7 @@ import {
     MaterialReceiptSerialServiceProxy,
 } from "../../api/Datas";
 import { BORepositoryMaterials } from "../../borep/BORepositories";
+import { ArrayList } from "ibas/index";
 
 /** 编辑应用-库存收货 */
 export class GoodsReceiptEditApp extends ibas.BOEditApplication<IGoodsReceiptEditView, bo.GoodsReceipt> {
@@ -312,7 +311,7 @@ export class GoodsReceiptEditApp extends ibas.BOEditApplication<IGoodsReceiptEdi
             this.messages(ibas.emMessageType.INFORMATION, ibas.i18n.prop("materials_app_no_matched_documentline_to_create_batch"));
             return;
         }
-        ibas.servicesManager.runApplicationService<IMaterialReceiptBatchContract>({
+        ibas.servicesManager.runApplicationService<IMaterialReceiptBatchContract[]>({
             proxy: new MaterialReceiptBatchServiceProxy(that.getBatchContract(goodReceiptLines))
         });
     }
@@ -324,14 +323,14 @@ export class GoodsReceiptEditApp extends ibas.BOEditApplication<IGoodsReceiptEdi
             this.messages(ibas.emMessageType.INFORMATION, ibas.i18n.prop("materials_app_no_matched_documentline_to_create_serial"));
             return;
         }
-        ibas.servicesManager.runApplicationService<IMaterialReceiptSerialContract>({
+        ibas.servicesManager.runApplicationService<IMaterialReceiptSerialContract[]>({
             proxy: new MaterialReceiptSerialServiceProxy(that.getSerialContract(goodReceiptLines))
         });
     }
 
     /** 获取行-批次服务契约信息 */
-    getBatchContract(goodReceiptLines: bo.GoodsReceiptLine[]): IMaterialReceiptBatchContract {
-        let contracts: IMaterialReceiptBatchContractLine[] = [];
+    getBatchContract(goodReceiptLines: bo.GoodsReceiptLine[]): IMaterialReceiptBatchContract[] {
+        let contracts: IMaterialReceiptBatchContract[] = new ArrayList<IMaterialReceiptBatchContract>();
         for (let item of goodReceiptLines) {
             // 定义事件
             let batchInfos: IMaterialReceiptBatchs = {
@@ -374,8 +373,7 @@ export class GoodsReceiptEditApp extends ibas.BOEditApplication<IGoodsReceiptEdi
                 };
                 batchInfos.materialReceiptLineBatchs.push(batchInfo);
             }
-            let batchContractLine: IMaterialReceiptBatchContractLine = {
-                index: goodReceiptLines.indexOf(item),
+            let batchContractLine: IMaterialReceiptBatchContract = {
                 itemCode: item.itemCode,
                 warehouse: item.warehouse,
                 quantity: item.quantity,
@@ -383,12 +381,12 @@ export class GoodsReceiptEditApp extends ibas.BOEditApplication<IGoodsReceiptEdi
             };
             contracts.push(batchContractLine);
         }
-        return { materialReceiptBatchContractLines: contracts };
+        return  contracts ;
     }
 
     /** 获取行-序列服务契约信息 */
-    getSerialContract(goodReceiptLines: bo.GoodsReceiptLine[]): IMaterialReceiptSerialContract {
-        let contracts: IMaterialReceiptSerialContractLine[] = [];
+    getSerialContract(goodReceiptLines: bo.GoodsReceiptLine[]): IMaterialReceiptSerialContract[] {
+        let contracts: IMaterialReceiptSerialContract[] = new ArrayList<IMaterialReceiptSerialContract>();
         for (let item of goodReceiptLines) {
             // 定义事件
             let serialInfos: IMaterialReceiptSerials = {
@@ -431,7 +429,7 @@ export class GoodsReceiptEditApp extends ibas.BOEditApplication<IGoodsReceiptEdi
                 };
                 serialInfos.materialReceiptLineSerials.push(serialInfo);
             }
-            let serialContractLine: IMaterialReceiptSerialContractLine = {
+            let serialContractLine: IMaterialReceiptSerialContract = {
                 itemCode: item.itemCode,
                 warehouse: item.warehouse,
                 quantity: item.quantity,
@@ -439,7 +437,7 @@ export class GoodsReceiptEditApp extends ibas.BOEditApplication<IGoodsReceiptEdi
             };
             contracts.push(serialContractLine);
         }
-        return { materialReceiptSerialContractLines: contracts };
+        return  contracts ;
     }
 
     /** 查询价格清单 */

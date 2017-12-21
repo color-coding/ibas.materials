@@ -11,16 +11,15 @@
  */
 import * as ibas from "ibas/index";
 import {
-    IMaterialIssueBatchContractLine,
+    IMaterialIssueBatchContract,
     IMaterialIssueBatchLine,
     IMaterialIssueBatchs,
 } from "../../../api/index";
 export class MaterialIssueBatchJournal extends ibas.BusinessObjectBase<MaterialIssueBatchJournal> {
-    public contract: IMaterialIssueBatchContractLine;
-    constructor(contract: IMaterialIssueBatchContractLine) {
+    public contract: IMaterialIssueBatchContract;
+    constructor(contract: IMaterialIssueBatchContract) {
         super();
         this.contract = contract;
-        // this.index = contract.index;
         this.itemCode = contract.itemCode;
         this.warehouse = contract.warehouse;
         this.quantity = contract.quantity;

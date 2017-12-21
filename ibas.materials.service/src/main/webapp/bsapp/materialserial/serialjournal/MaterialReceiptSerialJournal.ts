@@ -11,16 +11,15 @@
  */
 import * as ibas from "ibas/index";
 import {
-    IMaterialReceiptSerialContractLine,
+    IMaterialReceiptSerialContract,
     IMaterialReceiptSerialLine,
     IMaterialReceiptSerials,
 } from "../../../api/index";
 export class MaterialReceiptSerialJournal extends ibas.BusinessObjectBase<MaterialReceiptSerialJournal> {
-    public contract: IMaterialReceiptSerialContractLine;
-    constructor(contract: IMaterialReceiptSerialContractLine) {
+    public contract: IMaterialReceiptSerialContract;
+    constructor(contract: IMaterialReceiptSerialContract) {
         super();
         this.contract = contract;
-        // this.index = contract.index;
         this.itemCode = contract.itemCode;
         this.warehouse = contract.warehouse;
         this.quantity = contract.quantity;

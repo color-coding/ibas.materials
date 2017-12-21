@@ -20,12 +20,7 @@ import {
     IMaterialSerialBaseLine,
 } from "./index";
 /** 物料出库序列契约 */
-export interface IMaterialIssueSerialContract {
-    /** 出库序列契约行 */
-    materialIssueSerialContractLines: IMaterialIssueSerialContractLine[];
-}
-
-export interface IMaterialIssueSerialContractLine extends IMaterialBaseContract {
+export interface IMaterialIssueSerialContract extends IMaterialBaseContract {
     /** 单据号 */
     docEntry?: number;
     /** 单据行号 */

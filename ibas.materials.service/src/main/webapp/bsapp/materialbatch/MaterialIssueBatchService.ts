@@ -19,13 +19,12 @@ import {
     IMaterialIssueBatchs,
     IMaterialIssueBatchLine,
     IMaterialIssueBatchContract,
-    IMaterialIssueBatchContractLine,
 } from "../../api/bo/index";
 import { MaterialIssueBatchJournal, MaterialIssueBatchInfo } from "./index";
 import { MaterialBatchJournal } from "../../borep/bo/index";
 import { emDirection } from "ibas/index";
 
-export class MaterialIssueBatchService extends ibas.ServiceApplication<IMaterialIssueBatchView, IMaterialIssueBatchContract> {
+export class MaterialIssueBatchService extends ibas.ServiceApplication<IMaterialIssueBatchView, IMaterialIssueBatchContract[]> {
 
     /** 应用标识 */
     static APPLICATION_ID: string = "141e2a0f-3120-40a3-9bb4-f8b61672ed9c";
@@ -361,17 +360,17 @@ export class MaterialIssueBatchService extends ibas.ServiceApplication<IMaterial
         }
     }
     /** 运行服务 */
-    runService(contract: IMaterialIssueBatchContract): void {
+    runService(contract: IMaterialIssueBatchContract[]): void {
         // 行数据
-        if (contract.materialIssueBatchContractLines.length >= 1) {
+        if (contract.length >= 1) {
             this.bindBatchServiceData(contract);
         }
         super.show();
     }
     /** 绑定服务数据 */
-    bindBatchServiceData(contract: IMaterialIssueBatchContract): void {
+    bindBatchServiceData(contract: IMaterialIssueBatchContract[]): void {
         let batchServiceDatas: MaterialIssueBatchJournal[] = Array<MaterialIssueBatchJournal>();
-        for (let item of contract.materialIssueBatchContractLines) {
+        for (let item of contract) {
             let batchServiceData: MaterialIssueBatchJournal = new MaterialIssueBatchJournal(item);
             batchServiceData.direction = ibas.emDirection.OUT;
             batchServiceDatas.push(batchServiceData);

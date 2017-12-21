@@ -23,14 +23,13 @@ import {
     IMaterialIssueSerials,
     IMaterialIssueSerialLine,
     IMaterialIssueSerialContract,
-    IMaterialIssueSerialContractLine,
 } from "../../api/bo/index";
 import {
     MaterialIssueSerialJournal,
     MaterialIssueSerialInfo
 } from "./index";
 import { MaterialSerial } from "../../borep/bo/index";
-export class MaterialIssueSerialService extends ibas.ServiceApplication<IMaterialIssueSerialView, IMaterialIssueSerialContract> {
+export class MaterialIssueSerialService extends ibas.ServiceApplication<IMaterialIssueSerialView, IMaterialIssueSerialContract[]> {
 
     /** 应用标识 */
     static APPLICATION_ID: string = "bdd08ed9-5d6b-4058-b8e5-f8fc6975a637";
@@ -49,7 +48,7 @@ export class MaterialIssueSerialService extends ibas.ServiceApplication<IMateria
     }
 
     /** 服务契约 */
-    private contract: IMaterialIssueSerialContract;
+    private contract: IMaterialIssueSerialContract[];
     /** 序列服务数据 */
     protected serialServiceDatas: MaterialIssueSerialJournal[];
     /** 可选序列号信息 */
@@ -239,9 +238,9 @@ export class MaterialIssueSerialService extends ibas.ServiceApplication<IMateria
         this.proceeding(ibas.emMessageType.INFORMATION, ibas.i18n.prop("shell_fetching_data"));
     }
     /** 绑定服务数据 */
-    bindSerialServiceData(contract: IMaterialIssueSerialContract): void {
+    bindSerialServiceData(contract: IMaterialIssueSerialContract[]): void {
         let serialServiceDatas: MaterialIssueSerialJournal[] = Array<MaterialIssueSerialJournal>();
-        for (let item of contract.materialIssueSerialContractLines) {
+        for (let item of contract) {
             let serialServiceData: MaterialIssueSerialJournal = new MaterialIssueSerialJournal(item);
             serialServiceData.direction = ibas.emDirection.OUT;
             serialServiceDatas.push(serialServiceData);
@@ -264,9 +263,9 @@ export class MaterialIssueSerialService extends ibas.ServiceApplication<IMateria
 
     }
     /** 运行服务 */
-    runService(contract: IMaterialIssueSerialContract): void {
+    runService(contract: IMaterialIssueSerialContract[]): void {
         // 行数据
-        if (contract.materialIssueSerialContractLines.length >= 1) {
+        if (contract.length >= 1) {
             this.bindSerialServiceData(contract);
         }
         super.show();
