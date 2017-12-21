@@ -23,7 +23,7 @@ import {
 import {
 
 } from "../Datas";
-import{
+import {
     IMaterialBatchBaseLine,
 } from "./index";
 export interface IMaterialSerialJournal extends IBOSimple {
@@ -118,4 +118,13 @@ export interface IMaterialSerialJournal extends IBOSimple {
 
     /**更新动作标识 */
     updateActionId: string
+}
+
+export interface IMaterialSerialJournals<P extends IBODocumentLine>
+    extends IBusinessObjects<IMaterialSerialJournal, P> {
+
+    /** 移除批次日记账 */
+    removeAll(): void;
+    /** 删除批次日记账 */
+    deleteAll(): void;
 }

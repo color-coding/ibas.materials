@@ -22,8 +22,8 @@ import {
     IMaterialIssueSerialContractLine,
 } from "../../api/bo/index";
 import {
-    MaterialBatchIssueServiceProxy,
-    MaterialSerialIssueServiceProxy,
+    MaterialIssueBatchServiceProxy,
+    MaterialIssueSerialServiceProxy,
 } from "../../api/Datas";
 import { BORepositoryMaterials } from "../../borep/BORepositories";
 import { IMaterialBatch } from "../../api/index";
@@ -250,8 +250,13 @@ export class GoodsIssueEditApp extends ibas.BOEditApplication<IGoodsIssueEditVie
                     }
                     // 如果物料、仓库发生变更 删除批次、序列集合
                     if (item.itemCode !== selected.code) {
-                        item.materialBatchJournals.removeAll();
-                        item.materialSerialJournals.removeAll();
+                        if (!item.isNew) {
+                            item.materialBatchJournals.deleteAll();
+                            item.materialSerialJournals.deleteAll();
+                        } else {
+                            item.materialBatchJournals.removeAll();
+                            item.materialSerialJournals.removeAll();
+                        }
                     }
                     item.itemCode = selected.code;
                     item.itemDescription = selected.name;
@@ -289,8 +294,13 @@ export class GoodsIssueEditApp extends ibas.BOEditApplication<IGoodsIssueEditVie
                         created = true;
                     }
                     if (item.warehouse !== selected.code) {
-                        item.materialBatchJournals.removeAll();
-                        item.materialSerialJournals.removeAll();
+                        if (item.isNew) {
+                            item.materialBatchJournals.removeAll();
+                            item.materialSerialJournals.removeAll();
+                        } else {
+                            item.materialBatchJournals.deleteAll();
+                            item.materialSerialJournals.deleteAll();
+                        }
                     }
                     item.warehouse = selected.code;
                     item = null;
@@ -312,7 +322,7 @@ export class GoodsIssueEditApp extends ibas.BOEditApplication<IGoodsIssueEditVie
         }
         // 调用批次选择服务
         ibas.servicesManager.runApplicationService<IMaterialIssueBatchContract>({
-            proxy: new MaterialBatchIssueServiceProxy(that.getBatchContract(goodIssueLines))
+            proxy: new MaterialIssueBatchServiceProxy(that.getBatchContract(goodIssueLines))
         });
     }
     /** 选择库存发货序列事件 */
@@ -325,7 +335,7 @@ export class GoodsIssueEditApp extends ibas.BOEditApplication<IGoodsIssueEditVie
         }
         // 调用序列选择服务
         ibas.servicesManager.runApplicationService<IMaterialIssueSerialContract>({
-            proxy: new MaterialSerialIssueServiceProxy(that.getSerialContract(goodIssueLines))
+            proxy: new MaterialIssueSerialServiceProxy(that.getSerialContract(goodIssueLines))
         });
     }
 
@@ -336,7 +346,7 @@ export class GoodsIssueEditApp extends ibas.BOEditApplication<IGoodsIssueEditVie
             let batchInfos: IMaterialIssueBatchs = {
                 materialIssueLineBatchs: [],
                 createBatchJournal(batchData: IMaterialIssueBatchLine): bo.MaterialBatchJournal {
-                    let batchJournal: MaterialBatchJournal = item.materialBatchJournals.createBatchJournal(batchData);
+                    let batchJournal: MaterialBatchJournal = item.materialBatchJournals.create(batchData);
                     return batchJournal;
                 },
                 updateBatchJournal(batchData: IMaterialIssueBatchLine): bo.MaterialBatchJournal {
@@ -393,7 +403,7 @@ export class GoodsIssueEditApp extends ibas.BOEditApplication<IGoodsIssueEditVie
             let serialInfos: IMaterialIssueSerials = {
                 materialIssueLineSerials: [],
                 createSerialJournal(serialData: IMaterialIssueSerialLine): bo.MaterialSerialJournal {
-                    let serialJournal: bo.MaterialSerialJournal = item.materialSerialJournals.createSerialJournal(serialData);
+                    let serialJournal: bo.MaterialSerialJournal = item.materialSerialJournals.create(serialData);
                     return serialJournal;
                 },
                 updateSerialJournal(serialData: IMaterialIssueSerialLine): bo.MaterialSerialJournal {
@@ -402,7 +412,6 @@ export class GoodsIssueEditApp extends ibas.BOEditApplication<IGoodsIssueEditVie
                         let serialJournal: bo.MaterialSerialJournal = item.materialSerialJournals[index];
                         return serialJournal;
                     }
-
                 },
                 deleteSerialJournal(serialData: IMaterialIssueSerialLine): void {
                     if (!ibas.objects.isNull(serialData.caller)) {
@@ -466,7 +475,7 @@ export class GoodsIssueEditApp extends ibas.BOEditApplication<IGoodsIssueEditVie
                 , ibas.emConditionOperation.EQUAL
                 , this.editData.priceList));
         }
-        conditions.push(new ibas.Condition(bo.Material.PROPERTY_DELETED_NAME, ibas.emConditionOperation.EQUAL, "N"));
+        conditions.push(new ibas.Condition(bo.Material.PROPERTY_DELETED_NAME, ibas.emConditionOperation.EQUAL, ibas.emYesNo.NO));
         return conditions;
     }
 }

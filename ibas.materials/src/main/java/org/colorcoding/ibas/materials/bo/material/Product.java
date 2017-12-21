@@ -42,8 +42,6 @@ public class Product extends MaterialBase<Product> implements IProduct {
      */
     private static final Class<?> MY_CLASS = Product.class;
 
-    // private static final String DB_OITW_TABLE_NAME ="${Company}_MM_OITM";
-    // private static final String DB_PRICELIST_TABLE_NAME ="${Company}_MM_MPL1";
 
     /**
      * 创建Product

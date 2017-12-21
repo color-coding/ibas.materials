@@ -2,7 +2,7 @@
  * @Author: fancy
  * @Date: 2017-11-27 16:41:55
  * @Last Modified by: fancy
- * @Last Modified time: 2017-12-11 15:57:13
+ * @Last Modified time: 2017-12-20 14:52:17
  * @license
  * Copyright color-coding studio. All Rights Reserved.
  *
@@ -13,8 +13,8 @@ import * as ibas from "ibas/index";
 import * as openui5 from "openui5/index";
 import * as bo from "../../../borep/bo/index";
 import { emAutoSelectBatchSerialRules } from "../../../api/Datas";
-import { IMaterialBatchIssueView,MaterialIssueBatchJournal,MaterialIssueBatchInfo } from "../../../bsapp/materialbatch/index";
-export class MaterialBatchIssueView extends ibas.BODialogView implements IMaterialBatchIssueView {
+import { IMaterialIssueBatchView,MaterialIssueBatchJournal,MaterialIssueBatchInfo } from "../../../bsapp/materialbatch/index";
+export class MaterialIssueBatchServiceView extends ibas.BODialogView implements IMaterialIssueBatchView {
 
     /** 选择批次凭证行信息事件 */
     selectMaterialBatchJournalLineEvent: Function;
@@ -54,7 +54,7 @@ export class MaterialBatchIssueView extends ibas.BODialogView implements IMateri
                     template: new sap.m.Text("", {
                         wrapping: false,
                     }).bindProperty("text", {
-                        path: "ItemCode",
+                        path: "itemCode",
                     }),
                 }),
                 new sap.ui.table.Column("", {
@@ -114,7 +114,7 @@ export class MaterialBatchIssueView extends ibas.BODialogView implements IMateri
                     template: new sap.m.Text("", {
                         wrapping: false,
                     }).bindProperty("text", {
-                        path: "BatchCode"
+                        path: "batchCode"
                     })
                 }),
                 new sap.ui.table.Column("", {
@@ -139,7 +139,7 @@ export class MaterialBatchIssueView extends ibas.BODialogView implements IMateri
                     template: new sap.m.Text("", {
                         wrapping: false,
                     }).bindProperty("text", {
-                        path: "BatchCode"
+                        path: "batchCode"
                     })
                 }),
                 new sap.ui.table.Column("", {

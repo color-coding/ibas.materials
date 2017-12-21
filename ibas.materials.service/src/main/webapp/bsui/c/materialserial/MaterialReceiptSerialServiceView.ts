@@ -6,18 +6,18 @@
  * @Author: fancy
  * @Date: 2017-11-30 17:55:41
  * @Last Modified by: fancy
- * @Last Modified time: 2017-12-11 17:48:01
+ * @Last Modified time: 2017-12-20 14:54:14
  */
 
 
 import * as ibas from "ibas/index";
 import * as openui5 from "openui5/index";
 import * as bo from "../../../borep/bo/index";
-import { IMaterialSerialReceiptView,
+import { IMaterialReceiptSerialView,
      MaterialReceiptSerialJournal,
     MaterialReceiptSerialInfo } from "../../../bsapp/materialserial/index";
 
-export class MaterialSerialReceiptView extends ibas.BODialogView implements IMaterialSerialReceiptView {
+export class MaterialReceiptSerialServiceView extends ibas.BODialogView implements IMaterialReceiptSerialView {
     /** 添加批次事件 */
     addSerialEvent: Function;
     /** 移除批次事件 */
@@ -91,7 +91,7 @@ export class MaterialSerialReceiptView extends ibas.BODialogView implements IMat
                     template: new sap.m.DatePicker("", {
                         valueFormat: "yyyy-MM-dd",
                     }).bindProperty("dateValue", {
-                        path: "ExpirationDate"
+                        path: "expirationDate"
                     })
                 }),
                 new sap.ui.table.Column("", {
@@ -99,7 +99,7 @@ export class MaterialSerialReceiptView extends ibas.BODialogView implements IMat
                     template: new sap.m.DatePicker("", {
                         valueFormat: "yyyy-MM-dd",
                     }).bindProperty("dateValue", {
-                        path: "ManufacturingDate"
+                        path: "manufacturingDate"
                     })
                 }),
                 new sap.ui.table.Column("", {
@@ -107,7 +107,7 @@ export class MaterialSerialReceiptView extends ibas.BODialogView implements IMat
                     template: new sap.m.DatePicker("", {
                         valueFormat: "yyyy-MM-dd",
                     }).bindProperty("dateValue", {
-                        path: "AdmissionDate"
+                        path: "admissionDate"
                     })
                 }),
             ]
@@ -129,7 +129,7 @@ export class MaterialSerialReceiptView extends ibas.BODialogView implements IMat
                     template: new sap.m.Text("", {
                         wrapping: false,
                     }).bindProperty("text", {
-                        path: "ItemCode",
+                        path: "itemCode",
                     }),
                 }),
                 new sap.ui.table.Column("", {
@@ -194,14 +194,14 @@ export class MaterialSerialReceiptView extends ibas.BODialogView implements IMat
             content: [this.mainLayout],
             buttons: [
                 new sap.m.Button("", {
-                    text: ibas.i18n.prop("shell_data_save"),
+                    text: ibas.i18n.prop("shell_confirm"),
                     type: sap.m.ButtonType.Transparent,
                     press: function (): void {
                         that.fireViewEvents(that.saveDataEvent);
                     }
                 }),
                 new sap.m.Button("", {
-                    text: ibas.i18n.prop("shell_exit"),
+                    text: ibas.i18n.prop("shell_data_close"),
                     type: sap.m.ButtonType.Transparent,
                     press: function (): void {
                         that.fireViewEvents(that.closeEvent);

@@ -65,6 +65,8 @@ public class MaterialSerialJournalService extends BusinessLogic<IMaterialSerialJ
     @Override
     protected void impact(IMaterialSerialJournalContract contract) {
         IMaterialSerial materialSerial = this.getBeAffected();
+        materialSerial.setItemCode(contract.getItemCode());
+        materialSerial.setWarehouse(contract.getWarehouse());
         if (contract.getDirection() == emDirection.IN) {
             materialSerial.setInStock(emYesNo.YES);
         } else {
@@ -76,6 +78,8 @@ public class MaterialSerialJournalService extends BusinessLogic<IMaterialSerialJ
     @Override
     protected void revoke(IMaterialSerialJournalContract contract) {
         IMaterialSerial materialSerial = this.getBeAffected();
+        materialSerial.setItemCode(contract.getItemCode());
+        materialSerial.setWarehouse(contract.getWarehouse());
         if (contract.getDirection() == emDirection.IN) {
             materialSerial.setInStock(emYesNo.NO);
         } else {

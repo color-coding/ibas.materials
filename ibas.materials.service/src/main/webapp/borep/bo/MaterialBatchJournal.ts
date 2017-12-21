@@ -11,6 +11,9 @@ import {
     emBOStatus,
     emDirection,
     emApprovalStatus,
+    IBOSimple,
+    IBusinessObject,
+    IBODocumentLine,
     BusinessObject,
     BusinessObjects,
     BOMasterData,
@@ -20,10 +23,14 @@ import {
     BOSimple,
     BOSimpleLine,
     config,
+    IBODocumentLines,
 } from "ibas/index";
 import {
     IMaterialBatchJournal,
+    IMaterialReceiptBatchLine,
+    IMaterialIssueBatchLine,
     BO_CODE_MATERIALBATCHJOURNAL,
+    IMaterialBatchJournals,
 } from "../../api/index";
 export class MaterialBatchJournal extends BOSimple<MaterialBatchJournal> implements IMaterialBatchJournal {
     /** 业务对象编码 */
@@ -350,5 +357,30 @@ export class MaterialBatchJournal extends BOSimple<MaterialBatchJournal> impleme
     /** 初始化数据 */
     protected init(): void {
         this.objectCode = config.applyVariables(MaterialBatchJournal.BUSINESS_OBJECT_CODE);
+    }
+}
+export abstract class MaterialBatchJournals<P extends IBODocumentLine> extends BusinessObjects<MaterialBatchJournal, P>
+    implements IMaterialBatchJournals<P> {
+    create(): MaterialBatchJournal;
+    create(data: IMaterialReceiptBatchLine): MaterialBatchJournal;
+    create(date: IMaterialIssueBatchLine): MaterialBatchJournal;
+    create(data?: any): MaterialBatchJournal {
+        let item: MaterialBatchJournal;
+        item = new MaterialBatchJournal();
+        this.add(item);
+        item.lineStatus = this.parent.lineStatus;
+        return item;
+    }
+    /** 删除序列日记账集合 */
+    deleteAll(): void {
+        for (let item of this) {
+            item.markDeleted(true);
+        }
+    }
+    /** 移除序列日记账集合 */
+    removeAll(): void {
+        for (let item of this) {
+            this.remove(item);
+        }
     }
 }

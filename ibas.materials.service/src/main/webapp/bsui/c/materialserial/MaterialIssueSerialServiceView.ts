@@ -6,7 +6,7 @@
  * @Author: fancy
  * @Date: 2017-11-30 17:45:55
  * @Last Modified by: fancy
- * @Last Modified time: 2017-12-11 16:54:45
+ * @Last Modified time: 2017-12-20 14:53:52
  */
 
 import * as ibas from "ibas/index";
@@ -14,11 +14,11 @@ import * as openui5 from "openui5/index";
 import * as bo from "../../../borep/bo/index";
 import { emAutoSelectBatchSerialRules } from "../../../api/Datas";
 import {
-    IMaterialSerialIssueView,
+    IMaterialIssueSerialView,
     MaterialIssueSerialInfo,
     MaterialIssueSerialJournal
 } from "../../../bsapp/materialserial/index";
-export class MaterialSerialIssueView extends ibas.BODialogView implements IMaterialSerialIssueView {
+export class MaterialIssueSerialServiceView extends ibas.BODialogView implements IMaterialIssueSerialView {
     /** 选择序列号凭证行信息事件 */
     selectMaterialSerialJournalLineEvent: Function;
     /** 自动选择序列号信息事件 */
@@ -55,7 +55,7 @@ export class MaterialSerialIssueView extends ibas.BODialogView implements IMater
                     template: new sap.m.Text("", {
                         wrapping: false,
                     }).bindProperty("text", {
-                        path: "ItemCode",
+                        path: "itemCode",
                     }),
                 }),
                 new sap.ui.table.Column("", {
@@ -115,7 +115,7 @@ export class MaterialSerialIssueView extends ibas.BODialogView implements IMater
                     template: new sap.m.Text("", {
                         wrapping: false,
                     }).bindProperty("text", {
-                        path: "SerialCode"
+                        path: "serialCode"
                     })
                 }),
             ]
@@ -131,7 +131,7 @@ export class MaterialSerialIssueView extends ibas.BODialogView implements IMater
                     template: new sap.m.Text("", {
                         wrapping: false,
                     }).bindProperty("text", {
-                        path: "SerialCode"
+                        path: "serialCode"
                     })
                 }),
             ]
@@ -238,14 +238,14 @@ export class MaterialSerialIssueView extends ibas.BODialogView implements IMater
             content: [this.mainLayout],
             buttons: [
                 new sap.m.Button("", {
-                    text: ibas.i18n.prop("shell_data_save"),
+                    text: ibas.i18n.prop("shell_confirm"),
                     type: sap.m.ButtonType.Transparent,
                     press: function (): void {
                         that.fireViewEvents(that.saveDataEvent);
                     }
                 }),
                 new sap.m.Button("", {
-                    text: ibas.i18n.prop("shell_exit"),
+                    text: ibas.i18n.prop("shell_data_close"),
                     type: sap.m.ButtonType.Transparent,
                     press: function (): void {
                         that.fireViewEvents(that.closeEvent);

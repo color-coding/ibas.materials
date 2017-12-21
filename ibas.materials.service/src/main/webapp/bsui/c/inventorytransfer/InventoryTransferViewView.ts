@@ -71,7 +71,7 @@ export class InventoryTransferViewView extends ibas.BOViewView implements IInven
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_inventorytransfer_deliverydate") }),
                 new sap.m.Text("", {
                 }).bindProperty("text", {
-                    path: "DeliveryDate",
+                    path: "deliveryDate",
                     type: new sap.ui.model.type.Date({
                         pattern: "yyyy-MM-dd",
                         strictParsing: true,
@@ -127,7 +127,7 @@ export class InventoryTransferViewView extends ibas.BOViewView implements IInven
                     template: new sap.m.Text("", {
                         width: "100%",
                     }).bindProperty("text", {
-                        path: "ItemDescription"
+                        path: "itemDescription"
                     })
                 }),
                 new sap.ui.table.Column("", {
@@ -144,7 +144,7 @@ export class InventoryTransferViewView extends ibas.BOViewView implements IInven
                     template: new sap.m.Text("", {
                         width: "100%",
                     }).bindProperty("text", {
-                        path: "UOM"
+                        path: "uOM"
                     })
                 }),
                 new sap.ui.table.Column("", {
@@ -152,7 +152,7 @@ export class InventoryTransferViewView extends ibas.BOViewView implements IInven
                     template: new sap.m.Text("", {
                         width: "100%",
                     }).bindProperty("text", {
-                        path: "Warehouse"
+                        path: "warehouse"
                     })
                 })
             ]

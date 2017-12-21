@@ -6,7 +6,7 @@
  * @Author: fancy
  * @Date: 2017-11-30 17:59:05
  * @Last Modified by: fancy
- * @Last Modified time: 2017-12-12 15:07:44
+ * @Last Modified time: 2017-12-19 16:05:44
  */
 
 import * as ibas from "ibas/index";
@@ -19,10 +19,10 @@ import {
     IMaterialReceiptBatchContractLine,
 } from "../../api/bo/index";
 import {
-    MaterialBatchReceiptServiceProxy,
+    MaterialReceiptBatchServiceProxy,
 } from "../../api/Datas";
 import * as batch from "./index";
-export class MaterialBatchReceiptService extends ibas.ServiceApplication<IMaterialBatchReceiptView, IMaterialReceiptBatchContract>{
+export class MaterialReceiptBatchService extends ibas.ServiceApplication<IMaterialReceiptBatchView, IMaterialReceiptBatchContract> {
 
     /** 应用标识 */
     static APPLICATION_ID: string = "f4448871-b03a-48f5-bf6d-9418259fab9d";
@@ -33,9 +33,9 @@ export class MaterialBatchReceiptService extends ibas.ServiceApplication<IMateri
     /** 构造函数 */
     constructor() {
         super();
-        this.id = MaterialBatchReceiptService.APPLICATION_ID;
-        this.name = MaterialBatchReceiptService.APPLICATION_NAME;
-        // this.boCode = MaterialBatchReceiptService.BUSINESS_OBJECT_CODE;
+        this.id = MaterialReceiptBatchService.APPLICATION_ID;
+        this.name = MaterialReceiptBatchService.APPLICATION_NAME;
+        // this.boCode = MaterialReceiptBatchService.BUSINESS_OBJECT_CODE;
         this.description = ibas.i18n.prop(this.name);
     }
     /** 服务契约 */
@@ -202,7 +202,7 @@ export class MaterialBatchReceiptService extends ibas.ServiceApplication<IMateri
 
 
 /** 视图-新建批次 */
-export interface IMaterialBatchReceiptView extends ibas.IBOView {
+export interface IMaterialReceiptBatchView extends ibas.IBOView {
     /** 显示数据 */
     showData(datas: batch.MaterialReceiptBatchInfo[]): void;
     showJournalLineData(datas: batch.MaterialReceiptBatchJournal[]): void;
@@ -219,17 +219,17 @@ export interface IMaterialBatchReceiptView extends ibas.IBOView {
 }
 
 /** 新建批次服务映射 */
-export class MaterialBatchReceipServiceMapping extends ibas.ServiceMapping {
+export class MaterialReceiptBatchServiceMapping extends ibas.ServiceMapping {
     /** 构造函数 */
     constructor() {
         super();
-        this.id = MaterialBatchReceiptService.APPLICATION_ID;
-        this.name = MaterialBatchReceiptService.APPLICATION_NAME;
+        this.id = MaterialReceiptBatchService.APPLICATION_ID;
+        this.name = MaterialReceiptBatchService.APPLICATION_NAME;
         this.description = ibas.i18n.prop(this.name);
-        this.proxy = MaterialBatchReceiptServiceProxy;
+        this.proxy = MaterialReceiptBatchServiceProxy;
     }
     /** 创建服务实例 */
     create(): ibas.IService<ibas.IServiceCaller<ibas.IServiceContract>> {
-        return new MaterialBatchReceiptService();
+        return new MaterialReceiptBatchService();
     }
 }

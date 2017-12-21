@@ -1,11 +1,5 @@
 package org.colorcoding.ibas.materials.bo.materialinventory;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlType;
-
 import org.colorcoding.ibas.bobas.bo.BusinessObject;
 import org.colorcoding.ibas.bobas.core.IPropertyInfo;
 import org.colorcoding.ibas.bobas.data.DateTime;
@@ -15,6 +9,8 @@ import org.colorcoding.ibas.bobas.mapping.DbField;
 import org.colorcoding.ibas.bobas.mapping.DbFieldType;
 import org.colorcoding.ibas.materials.MyConfiguration;
 import org.colorcoding.ibas.materials.logic.IMaterialWarehouseInventoryContract;
+
+import javax.xml.bind.annotation.*;
 
 /**
  * 获取-物料库存
@@ -43,7 +39,7 @@ public class MaterialInventory extends BusinessObject<MaterialInventory> impleme
     /**
      * 业务对象编码
      */
-    public static final String BUSINESS_OBJECT_CODE = "${Company}_MM_MATERIALINVENTORY";
+    public static final String BUSINESS_OBJECT_CODE = "${Company}_MM_INVENTORY";
 
     /**
      * 业务对象名称

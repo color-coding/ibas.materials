@@ -176,7 +176,7 @@ export class MaterialEditApp extends ibas.BOEditApplication<IMaterialEditView, b
             boCode: bo.Warehouse.BUSINESS_OBJECT_CODE,
             chooseType: ibas.emChooseType.SINGLE,
             criteria: [
-                new ibas.Condition(bo.Warehouse.PROPERTY_ACTIVATED_NAME, ibas.emConditionOperation.EQUAL, "Y")
+                new ibas.Condition(bo.Warehouse.PROPERTY_ACTIVATED_NAME, ibas.emConditionOperation.EQUAL, ibas.emYesNo.YES)
             ],
             onCompleted(selecteds: ibas.List<bo.Warehouse>): void {
                 that.editData.defaultWarehouse = selecteds.firstOrDefault().code;

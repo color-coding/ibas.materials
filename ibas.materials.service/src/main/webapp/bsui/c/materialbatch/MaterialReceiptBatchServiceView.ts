@@ -2,7 +2,7 @@
  * @Author: fancy
  * @Date: 2017-11-27 16:44:31
  * @Last Modified by: fancy
- * @Last Modified time: 2017-12-11 14:42:03
+ * @Last Modified time: 2017-12-20 14:52:50
  * @license
  * Copyright color-coding studio. All Rights Reserved.
  *
@@ -12,12 +12,12 @@
 import * as ibas from "ibas/index";
 import * as openui5 from "openui5/index";
 import * as bo from "../../../borep/bo/index";
-import { IMaterialBatchReceiptView,
+import { IMaterialReceiptBatchView,
     MaterialReceiptBatchJournal,
     MaterialReceiptBatchInfo,
 } from "../../../bsapp/materialbatch/index";
 
-export class MaterialBatchReceiptView extends ibas.BODialogView implements IMaterialBatchReceiptView {
+export class MaterialReceiptBatchServiceView extends ibas.BODialogView implements IMaterialReceiptBatchView {
     /** 添加批次事件 */
     addBatchEvent: Function;
     /** 保存事件 */
@@ -94,7 +94,7 @@ export class MaterialBatchReceiptView extends ibas.BODialogView implements IMate
                     template: new sap.m.DatePicker("", {
                         valueFormat: "yyyy-MM-dd",
                     }).bindProperty("dateValue", {
-                        path: "ExpirationDate"
+                        path: "expirationDate"
                     })
                 }),
                 new sap.ui.table.Column("", {
@@ -102,7 +102,7 @@ export class MaterialBatchReceiptView extends ibas.BODialogView implements IMate
                     template: new sap.m.DatePicker("", {
                         valueFormat: "yyyy-MM-dd",
                     }).bindProperty("dateValue", {
-                        path: "ManufacturingDate"
+                        path: "manufacturingDate"
                     })
                 }),
                 new sap.ui.table.Column("", {
@@ -110,7 +110,7 @@ export class MaterialBatchReceiptView extends ibas.BODialogView implements IMate
                     template: new sap.m.DatePicker("", {
                         valueFormat: "yyyy-MM-dd",
                     }).bindProperty("dateValue", {
-                        path: "AdmissionDate"
+                        path: "admissionDate"
                     })
                 }),
             ]
@@ -132,7 +132,7 @@ export class MaterialBatchReceiptView extends ibas.BODialogView implements IMate
                     template: new sap.m.Text("", {
                         wrapping: false,
                     }).bindProperty("text", {
-                        path: "ItemCode",
+                        path: "itemCode",
                     }),
                 }),
                 new sap.ui.table.Column("", {

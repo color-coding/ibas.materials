@@ -21,8 +21,8 @@ import {
     IMaterialReceiptSerialContract,
 } from "../../api/bo/index";
 import {
-    MaterialBatchReceiptServiceProxy,
-    MaterialSerialReceiptServiceProxy,
+    MaterialReceiptBatchServiceProxy,
+    MaterialReceiptSerialServiceProxy,
 } from "../../api/Datas";
 import { BORepositoryMaterials } from "../../borep/BORepositories";
 
@@ -241,8 +241,13 @@ export class GoodsReceiptEditApp extends ibas.BOEditApplication<IGoodsReceiptEdi
                     }
                     // 如果物料或仓库发生更改，删除批次、序列集合
                     if (item.itemCode !== selected.code) {
-                        item.materialBatchJournals.clear();
-                        item.materialSerialJournals.clear();
+                        if (item.isNew) {
+                            item.materialBatchJournals.removeAll();
+                            item.materialSerialJournals.removeAll();
+                        } else {
+                            item.materialBatchJournals.deleteAll();
+                            item.materialSerialJournals.deleteAll();
+                        }
                     }
                     item.itemCode = selected.code;
                     item.itemDescription = selected.name;
@@ -280,8 +285,14 @@ export class GoodsReceiptEditApp extends ibas.BOEditApplication<IGoodsReceiptEdi
                         created = true;
                     }
                     if (item.warehouse !== selected.code) {
-                        item.materialBatchJournals.removeAll();
-                        item.materialSerialJournals.removeAll();
+                        if (item.isNew) {
+                            // 新添加的行发生修改仓库
+                            item.materialBatchJournals.removeAll();
+                            item.materialSerialJournals.removeAll();
+                        } else {
+                            item.materialBatchJournals.deleteAll();
+                            item.materialSerialJournals.deleteAll();
+                        }
                     }
                     item.warehouse = selected.code;
                     item = null;
@@ -302,7 +313,7 @@ export class GoodsReceiptEditApp extends ibas.BOEditApplication<IGoodsReceiptEdi
             return;
         }
         ibas.servicesManager.runApplicationService<IMaterialReceiptBatchContract>({
-            proxy: new MaterialBatchReceiptServiceProxy(that.getBatchContract(goodReceiptLines))
+            proxy: new MaterialReceiptBatchServiceProxy(that.getBatchContract(goodReceiptLines))
         });
     }
     /** 新建物料序列信息 */
@@ -314,7 +325,7 @@ export class GoodsReceiptEditApp extends ibas.BOEditApplication<IGoodsReceiptEdi
             return;
         }
         ibas.servicesManager.runApplicationService<IMaterialReceiptSerialContract>({
-            proxy: new MaterialSerialReceiptServiceProxy(that.getSerialContract(goodReceiptLines))
+            proxy: new MaterialReceiptSerialServiceProxy(that.getSerialContract(goodReceiptLines))
         });
     }
 
@@ -326,7 +337,7 @@ export class GoodsReceiptEditApp extends ibas.BOEditApplication<IGoodsReceiptEdi
             let batchInfos: IMaterialReceiptBatchs = {
                 materialReceiptLineBatchs: [],
                 createBatchJournal(batchData: IMaterialReceiptBatchLine): bo.MaterialBatchJournal {
-                    return item.materialBatchJournals.createBatchJournal(batchData);
+                    return item.materialBatchJournals.create(batchData);
                 },
                 updateBatchJournal(batchData: IMaterialReceiptBatchLine): bo.MaterialBatchJournal {
                     if (!ibas.objects.isNull(batchData.caller)) {
@@ -338,7 +349,6 @@ export class GoodsReceiptEditApp extends ibas.BOEditApplication<IGoodsReceiptEdi
                         }
                         return batchJournal;
                     }
-
                 },
                 deleteBatchJournal(batchData: IMaterialReceiptBatchLine): void {
                     if (!ibas.objects.isNull(batchData.caller)) {
@@ -350,7 +360,6 @@ export class GoodsReceiptEditApp extends ibas.BOEditApplication<IGoodsReceiptEdi
                             } else {
                                 batchJournal.delete();
                             }
-
                         }
                     }
                 }
@@ -385,7 +394,7 @@ export class GoodsReceiptEditApp extends ibas.BOEditApplication<IGoodsReceiptEdi
             let serialInfos: IMaterialReceiptSerials = {
                 materialReceiptLineSerials: [],
                 createSerialJournal(serialData: IMaterialReceiptSerialLine): bo.MaterialSerialJournal {
-                    return item.materialSerialJournals.createSerialJournal(serialData);
+                    return item.materialSerialJournals.create(serialData);
                 },
                 updateSerialJournal(serialData: IMaterialReceiptSerialLine): bo.MaterialSerialJournal {
                     if (!ibas.objects.isNull(serialData.caller)) {

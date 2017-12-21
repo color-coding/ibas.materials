@@ -129,7 +129,7 @@ export class GoodsReceiptListView extends ibas.BOListView implements IGoodsRecei
                     template: new sap.m.Text("", {
                         wrapping: false,
                     }).bindProperty("text", {
-                        path: "Remarks",
+                        path: "remarks",
                     }),
                 }),
             ]

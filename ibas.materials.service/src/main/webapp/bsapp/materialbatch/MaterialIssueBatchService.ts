@@ -2,7 +2,7 @@
  * @Author: fancy
  * @Date: 2017-11-27 16:29:14
  * @Last Modified by: fancy
- * @Last Modified time: 2017-12-11 15:02:58
+ * @Last Modified time: 2017-12-19 10:54:10
  */
 /**
  * @license
@@ -13,7 +13,7 @@
  */
 import * as ibas from "ibas/index";
 import * as bo from "../../borep/bo/index";
-import { emAutoSelectBatchSerialRules, MaterialBatchIssueServiceProxy } from "../../api/Datas";
+import { emAutoSelectBatchSerialRules, MaterialIssueBatchServiceProxy } from "../../api/Datas";
 import { BORepositoryMaterials } from "../../borep/BORepositories";
 import {
     IMaterialIssueBatchs,
@@ -25,7 +25,7 @@ import { MaterialIssueBatchJournal, MaterialIssueBatchInfo } from "./index";
 import { MaterialBatchJournal } from "../../borep/bo/index";
 import { emDirection } from "ibas/index";
 
-export class MaterialBatchIssueService extends ibas.ServiceApplication<IMaterialBatchIssueView, IMaterialIssueBatchContract>{
+export class MaterialIssueBatchService extends ibas.ServiceApplication<IMaterialIssueBatchView, IMaterialIssueBatchContract> {
 
     /** 应用标识 */
     static APPLICATION_ID: string = "141e2a0f-3120-40a3-9bb4-f8b61672ed9c";
@@ -36,9 +36,9 @@ export class MaterialBatchIssueService extends ibas.ServiceApplication<IMaterial
     /** 构造函数 */
     constructor() {
         super();
-        this.id = MaterialBatchIssueService.APPLICATION_ID;
-        this.name = MaterialBatchIssueService.APPLICATION_NAME;
-        // this.boCode = MaterialBatchIssueService.BUSINESS_OBJECT_CODE;
+        this.id = MaterialIssueBatchService.APPLICATION_ID;
+        this.name = MaterialIssueBatchService.APPLICATION_NAME;
+        // this.boCode = MaterialIssueBatchService.BUSINESS_OBJECT_CODE;
         this.description = ibas.i18n.prop(this.name);
     }
     /** 服务契约 */
@@ -391,7 +391,7 @@ export class MaterialBatchIssueService extends ibas.ServiceApplication<IMaterial
 }
 
 /** 视图-批次新建 */
-export interface IMaterialBatchIssueView extends ibas.IBOView {
+export interface IMaterialIssueBatchView extends ibas.IBOView {
     /** 显示数据 */
     showLeftData(datas: bo.MaterialBatch[]): void;
     showRightData(datas: MaterialIssueBatchInfo[]): void;
@@ -409,17 +409,17 @@ export interface IMaterialBatchIssueView extends ibas.IBOView {
 }
 
 /** 批次选择服务映射 */
-export class MaterialBatchIssueServiceMapping extends ibas.ServiceMapping {
+export class MaterialIssueBatchServiceMapping extends ibas.ServiceMapping {
     /** 构造函数 */
     constructor() {
         super();
-        this.id = MaterialBatchIssueService.APPLICATION_ID;
-        this.name = MaterialBatchIssueService.APPLICATION_NAME;
+        this.id = MaterialIssueBatchService.APPLICATION_ID;
+        this.name = MaterialIssueBatchService.APPLICATION_NAME;
         this.description = ibas.i18n.prop(this.name);
-        this.proxy = MaterialBatchIssueServiceProxy;
+        this.proxy = MaterialIssueBatchServiceProxy;
     }
     /** 创建服务实例 */
     create(): ibas.IService<ibas.IServiceCaller<ibas.IServiceContract>> {
-        return new MaterialBatchIssueService();
+        return new MaterialIssueBatchService();
     }
 }

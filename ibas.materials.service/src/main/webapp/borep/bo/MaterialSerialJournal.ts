@@ -10,7 +10,9 @@ import {
     emDocumentStatus,
     emBOStatus,
     emDirection,
+    objects,
     emApprovalStatus,
+    IBODocumentLine,
     BusinessObject,
     BusinessObjects,
     BOMasterData,
@@ -22,8 +24,11 @@ import {
     config,
 } from "ibas/index";
 import {
+    IMaterialReceiptSerialLine,
+    IMaterialIssueSerialLine,
     IMaterialSerialJournal,
     BO_CODE_MATERIALSERIALJOURNAL,
+    IMaterialSerialJournals,
 } from "../../api/index";
 export class MaterialSerialJournal extends BOSimple<MaterialSerialJournal> implements IMaterialSerialJournal {
     /** 业务对象编码 */
@@ -364,10 +369,44 @@ export class MaterialSerialJournal extends BOSimple<MaterialSerialJournal> imple
         this.setProperty(MaterialSerialJournal.PROPERTY_UPDATEACTIONID_NAME, value);
     }
 
-
-
     /** 初始化数据 */
     protected init(): void {
         this.objectCode = config.applyVariables(MaterialSerialJournal.BUSINESS_OBJECT_CODE);
+    }
+}
+
+export class MaterialSerialJournals<P extends IBODocumentLine>
+    extends BusinessObjects<MaterialSerialJournal, P>
+    implements IMaterialSerialJournals<P> {
+    create(): MaterialSerialJournal;
+    create(data: IMaterialReceiptSerialLine): MaterialSerialJournal;
+    create(date: IMaterialIssueSerialLine): MaterialSerialJournal;
+    create(data?: any): MaterialSerialJournal {
+        let item: MaterialSerialJournal = new MaterialSerialJournal();
+        this.add(item);
+        item.lineStatus = this.parent.lineStatus;
+        if (objects.isNull(data)) {
+            return item;
+        }
+        item.serialCode = data.serialCode;
+        item.supplierSerial = data.supplierSerial;
+        item.itemCode = data.itemCode;
+        item.direction = data.direction;
+        item.warehouse = data.warehouse;
+        item.direction = emDirection.IN;
+        item.lineStatus = this.parent.lineStatus;
+        return item;
+    }
+    /** 删除序列日记账集合 */
+    deleteAll(): void {
+        for (let item of this) {
+            item.delete();
+        }
+    }
+    /** 移除序列日记账集合 */
+    removeAll(): void {
+        for (let item of this) {
+            this.remove(item);
+        }
     }
 }
