@@ -28,16 +28,6 @@ export class MaterialBatchViewView extends ibas.BOViewView implements IMaterialB
         let that: this = this;
         this.form = new sap.ui.layout.form.SimpleForm("", {
             editable: false,
-            layout: sap.ui.layout.form.SimpleFormLayout.ResponsiveGridLayout,
-            singleContainerFullSize: false,
-            adjustLabelSpan: false,
-            labelSpanL: 2,
-            labelSpanM: 2,
-            labelSpanS: 12,
-            columnsXL: 2,
-            columnsL: 2,
-            columnsM: 1,
-            columnsS: 1,
             content: [
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_materialbatch_batchcode") }),
                 new sap.m.Text("", {

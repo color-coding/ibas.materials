@@ -24,16 +24,6 @@ export class MaterialSerialViewView extends ibas.BOViewView implements IMaterial
         let that: this = this;
         this.form = new sap.ui.layout.form.SimpleForm("", {
             editable: false,
-            layout: sap.ui.layout.form.SimpleFormLayout.ResponsiveGridLayout,
-            singleContainerFullSize: false,
-            adjustLabelSpan: false,
-            labelSpanL: 2,
-            labelSpanM: 2,
-            labelSpanS: 12,
-            columnsXL: 2,
-            columnsL: 2,
-            columnsM: 1,
-            columnsS: 1,
             content: [
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_materialserial_serialcode") }),
                 new sap.m.Text("", {

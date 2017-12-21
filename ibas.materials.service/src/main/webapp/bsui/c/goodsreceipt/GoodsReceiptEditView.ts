@@ -77,7 +77,6 @@ export class GoodsReceiptEditView extends ibas.BOEditView implements IGoodsRecei
                 }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_goodsreceipt_documentdate") }),
                 new sap.m.DatePicker("", {
-                    valueFormat: "yyyy-MM-dd",
                 }).bindProperty("dateValue", {
                     path: "documentDate",
                 }),

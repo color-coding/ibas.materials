@@ -13,9 +13,11 @@
 import * as ibas from "ibas/index";
 import * as openui5 from "openui5/index";
 import * as bo from "../../../borep/bo/index";
-import { IMaterialReceiptSerialView,
-     MaterialReceiptSerialJournal,
-    MaterialReceiptSerialInfo } from "../../../bsapp/materialserial/index";
+import {
+    IMaterialReceiptSerialView,
+    MaterialReceiptSerialJournal,
+    MaterialReceiptSerialInfo
+} from "../../../bsapp/materialserial/index";
 
 export class MaterialReceiptSerialServiceView extends ibas.BODialogView implements IMaterialReceiptSerialView {
     /** 添加批次事件 */
@@ -89,7 +91,6 @@ export class MaterialReceiptSerialServiceView extends ibas.BODialogView implemen
                 new sap.ui.table.Column("", {
                     label: ibas.i18n.prop("bo_materialserial_expirationdate"),
                     template: new sap.m.DatePicker("", {
-                        valueFormat: "yyyy-MM-dd",
                     }).bindProperty("dateValue", {
                         path: "expirationDate"
                     })
@@ -97,7 +98,6 @@ export class MaterialReceiptSerialServiceView extends ibas.BODialogView implemen
                 new sap.ui.table.Column("", {
                     label: ibas.i18n.prop("bo_materialserial_manufacturingdate"),
                     template: new sap.m.DatePicker("", {
-                        valueFormat: "yyyy-MM-dd",
                     }).bindProperty("dateValue", {
                         path: "manufacturingDate"
                     })
@@ -105,7 +105,6 @@ export class MaterialReceiptSerialServiceView extends ibas.BODialogView implemen
                 new sap.ui.table.Column("", {
                     label: ibas.i18n.prop("bo_materialserial_admissiondate"),
                     template: new sap.m.DatePicker("", {
-                        valueFormat: "yyyy-MM-dd",
                     }).bindProperty("dateValue", {
                         path: "admissionDate"
                     })

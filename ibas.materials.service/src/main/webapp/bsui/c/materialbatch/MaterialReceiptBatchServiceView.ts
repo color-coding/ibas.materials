@@ -12,7 +12,8 @@
 import * as ibas from "ibas/index";
 import * as openui5 from "openui5/index";
 import * as bo from "../../../borep/bo/index";
-import { IMaterialReceiptBatchView,
+import {
+    IMaterialReceiptBatchView,
     MaterialReceiptBatchJournal,
     MaterialReceiptBatchInfo,
 } from "../../../bsapp/materialbatch/index";
@@ -92,7 +93,6 @@ export class MaterialReceiptBatchServiceView extends ibas.BODialogView implement
                 new sap.ui.table.Column("", {
                     label: ibas.i18n.prop("bo_materialbatch_expirationdate"),
                     template: new sap.m.DatePicker("", {
-                        valueFormat: "yyyy-MM-dd",
                     }).bindProperty("dateValue", {
                         path: "expirationDate"
                     })
@@ -100,7 +100,6 @@ export class MaterialReceiptBatchServiceView extends ibas.BODialogView implement
                 new sap.ui.table.Column("", {
                     label: ibas.i18n.prop("bo_materialbatch_manufacturingdate"),
                     template: new sap.m.DatePicker("", {
-                        valueFormat: "yyyy-MM-dd",
                     }).bindProperty("dateValue", {
                         path: "manufacturingDate"
                     })
@@ -108,7 +107,6 @@ export class MaterialReceiptBatchServiceView extends ibas.BODialogView implement
                 new sap.ui.table.Column("", {
                     label: ibas.i18n.prop("bo_materialbatch_admissiondate"),
                     template: new sap.m.DatePicker("", {
-                        valueFormat: "yyyy-MM-dd",
                     }).bindProperty("dateValue", {
                         path: "admissionDate"
                     })

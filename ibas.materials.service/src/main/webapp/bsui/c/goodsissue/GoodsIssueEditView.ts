@@ -78,7 +78,6 @@ export class GoodsIssueEditView extends ibas.BOEditView implements IGoodsIssueEd
                 }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_goodsissue_documentdate") }),
                 new sap.m.DatePicker("", {
-                    valueFormat: "yyyy-MM-dd",
                 }).bindProperty("dateValue", {
                     path: "documentDate",
                 }),

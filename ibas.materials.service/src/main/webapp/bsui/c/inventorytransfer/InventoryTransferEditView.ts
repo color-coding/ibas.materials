@@ -87,7 +87,6 @@ export class InventoryTransferEditView extends ibas.BOEditView implements IInven
                 }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_inventorytransfer_documentdate") }),
                 new sap.m.DatePicker("", {
-                    valueFormat: "yyyy-MM-dd",
                 }).bindProperty("dateValue", {
                     path: "documentDate",
                 }),

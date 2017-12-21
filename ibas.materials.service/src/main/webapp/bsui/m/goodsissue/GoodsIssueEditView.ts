@@ -41,16 +41,6 @@ export class GoodsIssueEditView extends ibas.BOEditView implements IGoodsIssueEd
         });
         this.viewTopForm = new sap.ui.layout.form.SimpleForm("", {
             editable: true,
-            layout: sap.ui.layout.form.SimpleFormLayout.ResponsiveGridLayout,
-            singleContainerFullSize: false,
-            adjustLabelSpan: false,
-            labelSpanL: 2,
-            labelSpanM: 2,
-            labelSpanS: 12,
-            columnsXL: 2,
-            columnsL: 2,
-            columnsM: 1,
-            columnsS: 1,
             content: [
                 // new sap.ui.core.Title("", { text: ibas.i18n.prop("materials_general_information") }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_goodsissue_documentstatus") }),
@@ -78,19 +68,16 @@ export class GoodsIssueEditView extends ibas.BOEditView implements IGoodsIssueEd
                 // new sap.ui.core.Title("", { text: ibas.i18n.prop("materials_date_information") }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_goodsissue_postingdate") }),
                 new sap.m.DatePicker("", {
-                    valueFormat: "yyyy-MM-dd",
                 }).bindProperty("dateValue", {
                     path: "PostingDate"
                 }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_goodsissue_deliverydate") }),
                 new sap.m.DatePicker("", {
-                    valueFormat: "yyyy-MM-dd",
                 }).bindProperty("dateValue", {
                     path: "DeliveryDate"
                 }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_goodsissue_documentdate") }),
                 new sap.m.DatePicker("", {
-                    valueFormat: "yyyy-MM-dd",
                 }).bindProperty("dateValue", {
                     path: "documentDate"
                 }),
@@ -98,14 +85,6 @@ export class GoodsIssueEditView extends ibas.BOEditView implements IGoodsIssueEd
         });
         this.viewBottomForm = new sap.ui.layout.form.SimpleForm("", {
             editable: true,
-            layout: sap.ui.layout.form.SimpleFormLayout.ResponsiveGridLayout,
-            labelSpanL: 2,
-            labelSpanM: 2,
-            labelSpanS: 12,
-            columnsXL: 2,
-            columnsL: 2,
-            columnsM: 1,
-            columnsS: 1,
             content: [
                 new sap.ui.core.Title("", { text: ibas.i18n.prop("bo_goodsissue_remarks") }),
                 new sap.m.TextArea("", {
@@ -222,16 +201,6 @@ export class GoodsIssueEditView extends ibas.BOEditView implements IGoodsIssueEd
         // 子对象编辑页
         this.childEditForm = new sap.ui.layout.form.SimpleForm("", {
             editable: true,
-            layout: sap.ui.layout.form.SimpleFormLayout.ResponsiveGridLayout,
-            singleContainerFullSize: false,
-            adjustLabelSpan: false,
-            labelSpanL: 2,
-            labelSpanM: 2,
-            labelSpanS: 12,
-            columnsXL: 2,
-            columnsL: 2,
-            columnsM: 1,
-            columnsS: 1,
             content: [
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_goodsissueline_itemcode") }),
                 new sap.m.Input("", {
