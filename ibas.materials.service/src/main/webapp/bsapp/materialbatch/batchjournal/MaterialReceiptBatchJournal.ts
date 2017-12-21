@@ -11,13 +11,13 @@
  */
 import * as ibas from "ibas/index";
 import {
-    IMaterialReceiptBatchContract,
-    IMaterialReceiptBatchLine,
-    IMaterialReceiptBatchs
+    IMaterialBatchContract,
+    IMaterialBatchLine,
+    IMaterialBatchs
 } from "../../../api/index";
 export class MaterialReceiptBatchJournal extends ibas.BusinessObjectBase<MaterialReceiptBatchJournal> {
-    public contract: IMaterialReceiptBatchContract;
-    constructor(contract: IMaterialReceiptBatchContract) {
+    public contract: IMaterialBatchContract;
+    constructor(contract: IMaterialBatchContract) {
         super();
         this.contract = contract;
         this.itemCode = contract.itemCode;
@@ -31,8 +31,8 @@ export class MaterialReceiptBatchJournal extends ibas.BusinessObjectBase<Materia
         } if (!ibas.objects.isNull(contract.lineNum)) {
             this.lineNum = contract.lineNum;
         }
-        if (!ibas.objects.isNull(contract.materialReceiptBatchs)) {
-            for (let contractLine of contract.materialReceiptBatchs.materialReceiptLineBatchs) {
+        if (!ibas.objects.isNull(contract.materialBatchs)) {
+            for (let contractLine of contract.materialBatchs.materialLineBatchs) {
                 this.materialBatchInfos.create(contractLine);
             }
         }
@@ -153,11 +153,11 @@ export class MaterialReceiptBatchJournal extends ibas.BusinessObjectBase<Materia
 }
 
 export class MaterialReceiptBatchInfos extends ibas.BusinessObjects<MaterialReceiptBatchInfo, MaterialReceiptBatchJournal>
-    implements IMaterialReceiptBatchs {
+    implements IMaterialBatchs {
 
-    materialReceiptLineBatchs = this;
+    materialLineBatchs = this;
     /** 创建并添加子项 */
-    create(data?: IMaterialReceiptBatchLine): MaterialReceiptBatchInfo {
+    create(data?: IMaterialBatchLine): MaterialReceiptBatchInfo {
         let item: MaterialReceiptBatchInfo = new MaterialReceiptBatchInfo();
         this.add(item);
         item.itemCode = this.parent.itemCode;
@@ -174,7 +174,7 @@ export class MaterialReceiptBatchInfos extends ibas.BusinessObjects<MaterialRece
     createBatchJournal(data: MaterialReceiptBatchInfo): MaterialReceiptBatchInfo {
         if (ibas.objects.instanceOf(data, MaterialReceiptBatchInfo)) {
             data = this.create(data);
-            let caller: any = this.parent.contract.materialReceiptBatchs.createBatchJournal(data);
+            let caller: any = this.parent.contract.materialBatchs.createBatchJournal(data);
             data.caller = caller;
             return data;
         }
@@ -182,7 +182,7 @@ export class MaterialReceiptBatchInfos extends ibas.BusinessObjects<MaterialRece
     /** 删除批次日记账 */
     deleteBatchJournal(data: MaterialReceiptBatchInfo): void {
         data.index = this.indexOf(data);
-        this.parent.contract.materialReceiptBatchs.deleteBatchJournal(data);
+        this.parent.contract.materialBatchs.deleteBatchJournal(data);
         if (data.isNew) {
             this.remove(data);
         } else {
@@ -192,7 +192,7 @@ export class MaterialReceiptBatchInfos extends ibas.BusinessObjects<MaterialRece
     /** 修改批次日记账 */
     updateBatchJournal(data: MaterialReceiptBatchInfo): void {
         data.index = this.indexOf(data);
-        this.parent.contract.materialReceiptBatchs.updateBatchJournal(data);
+        this.parent.contract.materialBatchs.updateBatchJournal(data);
     }
 
     /** 监听子项属性改变 */

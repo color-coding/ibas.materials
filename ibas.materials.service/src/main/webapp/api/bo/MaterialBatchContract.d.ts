@@ -20,7 +20,7 @@ import {
     IMaterialBatchBaseLine,
 } from "./index";
 /**  */
-export interface IMaterialReceiptBatchContract extends IMaterialBaseContract {
+export interface IMaterialBatchContract extends IMaterialBaseContract {
 
     /** 单据类型 */
     docType?: string;
@@ -30,14 +30,14 @@ export interface IMaterialReceiptBatchContract extends IMaterialBaseContract {
     lineNum?: number;
 
     /** 创建的物料批次 */
-    materialReceiptBatchs?: IMaterialReceiptBatchs
+    materialBatchs?: IMaterialBatchs
 }
 
 
 /** 物料入库行批次信息 */
-export interface IMaterialReceiptBatchs {
+export interface IMaterialBatchs {
     /** 物料出库行批次信息 */
-    materialReceiptLineBatchs: IMaterialReceiptBatchLine[];
+    materialLineBatchs: IMaterialBatchLine[];
     /**
      * 创建批次日记账  返回调用者
      */
@@ -51,7 +51,7 @@ export interface IMaterialReceiptBatchs {
 }
 
 /** 物料入库批次服务行-新建 */
-export interface IMaterialReceiptBatchLine extends IMaterialBatchBaseLine {
+export interface IMaterialBatchLine extends IMaterialBatchBaseLine {
     /** 方向 */
     direction: emDirection;
 

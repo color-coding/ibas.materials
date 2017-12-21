@@ -21,10 +21,6 @@ import {
     IBOSimple,
     IBOSimpleLine
 } from "ibas/index";
-import {
-    IMaterialReceiptBatchLine,
-    IMaterialIssueBatchLine,
-} from "../../api/index";
 export interface IMaterialBatchJournal extends IBOSimple {
     /**物料编号 */
     itemCode: string;

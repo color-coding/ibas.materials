@@ -11,13 +11,13 @@
  */
 import * as ibas from "ibas/index";
 import {
-    IMaterialIssueBatchContract,
-    IMaterialIssueBatchLine,
-    IMaterialIssueBatchs,
+    IMaterialBatchContract,
+    IMaterialBatchLine,
+    IMaterialBatchs,
 } from "../../../api/index";
 export class MaterialIssueBatchJournal extends ibas.BusinessObjectBase<MaterialIssueBatchJournal> {
-    public contract: IMaterialIssueBatchContract;
-    constructor(contract: IMaterialIssueBatchContract) {
+    public contract: IMaterialBatchContract;
+    constructor(contract: IMaterialBatchContract) {
         super();
         this.contract = contract;
         this.itemCode = contract.itemCode;
@@ -31,8 +31,8 @@ export class MaterialIssueBatchJournal extends ibas.BusinessObjectBase<MaterialI
         } if (!ibas.objects.isNull(contract.lineNum)) {
             this.lineNum = contract.lineNum;
         }
-        if (!ibas.objects.isNull(contract.materialIssueBatchs)) {
-            for (let contractLine of contract.materialIssueBatchs.materialIssueLineBatchs) {
+        if (!ibas.objects.isNull(contract.materialBatchs)) {
+            for (let contractLine of contract.materialBatchs.materialLineBatchs) {
                 this.materialBatchInfos.create(contractLine);
             }
         }
@@ -154,10 +154,10 @@ export class MaterialIssueBatchJournal extends ibas.BusinessObjectBase<MaterialI
 }
 
 export class MaterialIssueBatchInfos extends ibas.BusinessObjects<MaterialIssueBatchInfo, MaterialIssueBatchJournal>
-    implements IMaterialIssueBatchs {
-    materialIssueLineBatchs = this;
+    implements IMaterialBatchs {
+    materialLineBatchs = this;
     /** 创建并添加子项 */
-    create(data?: IMaterialIssueBatchLine): MaterialIssueBatchInfo {
+    create(data?: IMaterialBatchLine): MaterialIssueBatchInfo {
         let item: MaterialIssueBatchInfo = new MaterialIssueBatchInfo();
         this.add(item);
         item.itemCode = this.parent.itemCode;
@@ -174,14 +174,14 @@ export class MaterialIssueBatchInfos extends ibas.BusinessObjects<MaterialIssueB
     createBatchJournal(data: MaterialIssueBatchInfo): MaterialIssueBatchInfo {
         if (ibas.objects.instanceOf(data, MaterialIssueBatchInfo)) {
             data = this.create(data);
-            let caller: any = this.parent.contract.materialIssueBatchs.createBatchJournal(data);
+            let caller: any = this.parent.contract.materialBatchs.createBatchJournal(data);
             data.caller = caller;
             return data;
         }
     }
     /** 删除批次日记账 */
     deleteBatchJournal(data: MaterialIssueBatchInfo): void {
-        this.parent.contract.materialIssueBatchs.deleteBatchJournal(data);
+        this.parent.contract.materialBatchs.deleteBatchJournal(data);
         if (data.isNew) {
             this.remove(data);
         } else {
@@ -191,7 +191,7 @@ export class MaterialIssueBatchInfos extends ibas.BusinessObjects<MaterialIssueB
     }
     /** 修改批次日记账 */
     updateBatchJournal(data: MaterialIssueBatchInfo): void {
-        this.parent.contract.materialIssueBatchs.updateBatchJournal(data);
+        this.parent.contract.materialBatchs.updateBatchJournal(data);
     }
 
     /** 监听子项属性改变 */

@@ -16,15 +16,14 @@ import * as bo from "../../borep/bo/index";
 import { emAutoSelectBatchSerialRules, MaterialIssueBatchServiceProxy } from "../../api/Datas";
 import { BORepositoryMaterials } from "../../borep/BORepositories";
 import {
-    IMaterialIssueBatchs,
-    IMaterialIssueBatchLine,
-    IMaterialIssueBatchContract,
+    IMaterialBatchLine,
+    IMaterialBatchContract,
 } from "../../api/bo/index";
 import { MaterialIssueBatchJournal, MaterialIssueBatchInfo } from "./index";
 import { MaterialBatchJournal } from "../../borep/bo/index";
 import { emDirection } from "ibas/index";
 
-export class MaterialIssueBatchService extends ibas.ServiceApplication<IMaterialIssueBatchView, IMaterialIssueBatchContract[]> {
+export class MaterialIssueBatchService extends ibas.ServiceApplication<IMaterialIssueBatchView, IMaterialBatchContract[]> {
 
     /** 应用标识 */
     static APPLICATION_ID: string = "141e2a0f-3120-40a3-9bb4-f8b61672ed9c";
@@ -41,7 +40,7 @@ export class MaterialIssueBatchService extends ibas.ServiceApplication<IMaterial
         this.description = ibas.i18n.prop(this.name);
     }
     /** 服务契约 */
-    private contract: IMaterialIssueBatchContract;
+    private contract: IMaterialBatchContract;
     /** 批次服务数据 */
     protected batchServiceDatas: MaterialIssueBatchJournal[];
     /** 可选批次信息 */
@@ -360,7 +359,7 @@ export class MaterialIssueBatchService extends ibas.ServiceApplication<IMaterial
         }
     }
     /** 运行服务 */
-    runService(contract: IMaterialIssueBatchContract[]): void {
+    runService(contract: IMaterialBatchContract[]): void {
         // 行数据
         if (contract.length >= 1) {
             this.bindBatchServiceData(contract);
@@ -368,7 +367,7 @@ export class MaterialIssueBatchService extends ibas.ServiceApplication<IMaterial
         super.show();
     }
     /** 绑定服务数据 */
-    bindBatchServiceData(contract: IMaterialIssueBatchContract[]): void {
+    bindBatchServiceData(contract: IMaterialBatchContract[]): void {
         let batchServiceDatas: MaterialIssueBatchJournal[] = Array<MaterialIssueBatchJournal>();
         for (let item of contract) {
             let batchServiceData: MaterialIssueBatchJournal = new MaterialIssueBatchJournal(item);

@@ -24,11 +24,11 @@ import {
     BOSimpleLine,
     config,
     IBODocumentLines,
+    objects,
 } from "ibas/index";
 import {
     IMaterialBatchJournal,
-    IMaterialReceiptBatchLine,
-    IMaterialIssueBatchLine,
+    IMaterialBatchLine,
     BO_CODE_MATERIALBATCHJOURNAL,
     IMaterialBatchJournals,
 } from "../../api/index";
@@ -362,13 +362,19 @@ export class MaterialBatchJournal extends BOSimple<MaterialBatchJournal> impleme
 export abstract class MaterialBatchJournals<P extends IBODocumentLine> extends BusinessObjects<MaterialBatchJournal, P>
     implements IMaterialBatchJournals<P> {
     create(): MaterialBatchJournal;
-    create(data: IMaterialReceiptBatchLine): MaterialBatchJournal;
-    create(date: IMaterialIssueBatchLine): MaterialBatchJournal;
+    create(data: IMaterialBatchLine): MaterialBatchJournal;
     create(data?: any): MaterialBatchJournal {
         let item: MaterialBatchJournal;
         item = new MaterialBatchJournal();
         this.add(item);
         item.lineStatus = this.parent.lineStatus;
+        if (objects.isNull(data)) {
+            return item;
+        }
+        item.itemCode = data.itemCode;
+        item.warehouse = data.warehouse;
+        item.quantity = data.quantity;
+        item.direction = data.direction;
         return item;
     }
     /** 删除序列日记账集合 */

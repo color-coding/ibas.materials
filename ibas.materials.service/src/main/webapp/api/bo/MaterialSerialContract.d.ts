@@ -16,39 +16,40 @@ import {
     IBOSimpleLine,
 } from "ibas/index";
 import {
-    IMaterialBaseContract,
     IMaterialSerialBaseLine,
+    IMaterialBaseContract,
 } from "./index";
 /** 物料出库序列契约 */
-export interface IMaterialIssueSerialContract extends IMaterialBaseContract {
+export interface IMaterialSerialContract extends IMaterialBaseContract {
     /** 单据号 */
     docEntry?: number;
     /** 单据行号 */
     lineNum?: number;
     /** 单据类型 */
     docType?: string;
-
-    /** 选择的序列 */
-    materialLineSerials?: IMaterialIssueSerials;
+    /** 创建的序列 */
+    materialLineSerials?: IMaterialSerials;
 }
 
 /** 物料出库行序列信息 */
-export interface IMaterialIssueSerials {
+export interface IMaterialSerials {
     /** 物料出库行批次信息 */
-    materialIssueLineSerials: IMaterialIssueSerialLine[];
-    /** 创建序列记账 */
-    createSerialJournal(data: IMaterialIssueSerialLine): any;
-    /** 删除序列记账 */
-    deleteSerialJournal(data: IMaterialIssueSerialLine): any;
+    materialLineSerials: IMaterialSerialLine[];
+    /**
+     * 创建序列记账 返回创建者
+     */
+    createSerialJournal(data: IMaterialSerialBaseLine): any;
+    /**
+     * 删除序列记账 返回更新者
+     */
+    deleteSerialJournal(data: IMaterialSerialBaseLine): any;
     /** 修改序列记账 */
-    updateSerialJournal(data: IMaterialIssueSerialLine): void;
+    updateSerialJournal(data: IMaterialSerialBaseLine): void;
 }
 
 
-
-/** 物料出库序列服务行-选择 */
-export interface IMaterialIssueSerialLine extends IMaterialSerialBaseLine {
-
+/** 物料出库序列服务行-新建 */
+export interface IMaterialSerialLine extends IMaterialSerialBaseLine {
     /** 方向 */
     direction: emDirection;
 
@@ -56,5 +57,6 @@ export interface IMaterialIssueSerialLine extends IMaterialSerialBaseLine {
 
     warehouse?: string;
 
-    supplierSerial:string;
+    supplierSerial?:string;
 }
+

@@ -11,13 +11,13 @@
  */
 import * as ibas from "ibas/index";
 import {
-    IMaterialReceiptSerialContract,
-    IMaterialReceiptSerialLine,
-    IMaterialReceiptSerials,
+    IMaterialSerialContract,
+    IMaterialSerialLine,
+    IMaterialSerials,
 } from "../../../api/index";
 export class MaterialReceiptSerialJournal extends ibas.BusinessObjectBase<MaterialReceiptSerialJournal> {
-    public contract: IMaterialReceiptSerialContract;
-    constructor(contract: IMaterialReceiptSerialContract) {
+    public contract: IMaterialSerialContract;
+    constructor(contract: IMaterialSerialContract) {
         super();
         this.contract = contract;
         this.itemCode = contract.itemCode;
@@ -32,7 +32,7 @@ export class MaterialReceiptSerialJournal extends ibas.BusinessObjectBase<Materi
             this.lineNum = contract.lineNum;
         }
         if (!ibas.objects.isNull(contract.materialLineSerials)) {
-            for (let contractLine of contract.materialLineSerials.materialReceiptLineSerials) {
+            for (let contractLine of contract.materialLineSerials.materialLineSerials) {
                 this.materialSerialInfos.create(contractLine);
             }
         }
@@ -154,10 +154,10 @@ export class MaterialReceiptSerialJournal extends ibas.BusinessObjectBase<Materi
 }
 
 export class MaterialReceiptSerialInfos extends ibas.BusinessObjects<MaterialReceiptSerialInfo, MaterialReceiptSerialJournal>
-    implements IMaterialReceiptSerials {
-    materialReceiptLineSerials = this;
+    implements IMaterialSerials {
+    materialLineSerials = this;
     /** 创建并添加子项 */
-    create(data?: IMaterialReceiptSerialLine): MaterialReceiptSerialInfo {
+    create(data?: IMaterialSerialLine): MaterialReceiptSerialInfo {
         let item: MaterialReceiptSerialInfo = new MaterialReceiptSerialInfo();
         this.add(item);
         item.itemCode = this.parent.itemCode;

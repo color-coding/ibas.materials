@@ -13,15 +13,16 @@ import * as ibas from "ibas/index";
 import * as bo from "../../borep/bo/index";
 import { BORepositoryMaterials } from "../../borep/BORepositories";
 import {
-    IMaterialReceiptBatchs,
-    IMaterialReceiptBatchLine,
-    IMaterialReceiptBatchContract,
+    IMaterialBatchBaseLine,
+    IMaterialBatchs,
+    IMaterialBatchLine,
+    IMaterialBatchContract,
 } from "../../api/bo/index";
 import {
     MaterialReceiptBatchServiceProxy,
 } from "../../api/Datas";
 import * as batch from "./index";
-export class MaterialReceiptBatchService extends ibas.ServiceApplication<IMaterialReceiptBatchView, IMaterialReceiptBatchContract[]> {
+export class MaterialReceiptBatchService extends ibas.ServiceApplication<IMaterialReceiptBatchView, IMaterialBatchContract[]> {
 
     /** 应用标识 */
     static APPLICATION_ID: string = "f4448871-b03a-48f5-bf6d-9418259fab9d";
@@ -34,11 +35,10 @@ export class MaterialReceiptBatchService extends ibas.ServiceApplication<IMateri
         super();
         this.id = MaterialReceiptBatchService.APPLICATION_ID;
         this.name = MaterialReceiptBatchService.APPLICATION_NAME;
-        // this.boCode = MaterialReceiptBatchService.BUSINESS_OBJECT_CODE;
         this.description = ibas.i18n.prop(this.name);
     }
     /** 服务契约 */
-    private contract: IMaterialReceiptBatchContract[];
+    private contract: IMaterialBatchContract[];
     /** 批次服务数据 */
     protected batchServiceDatas: batch.MaterialReceiptBatchJournal[];
     /** 批次信息 */
@@ -161,7 +161,7 @@ export class MaterialReceiptBatchService extends ibas.ServiceApplication<IMateri
         }
     }
     /** 绑定服务数据 */
-    bindBatchServiceData(contract: IMaterialReceiptBatchContract[]): void {
+    bindBatchServiceData(contract: IMaterialBatchContract[]): void {
         let batchServiceDatas: batch.MaterialReceiptBatchJournal[] = Array<batch.MaterialReceiptBatchJournal>();
         for (let item of contract) {
             let batchServiceData: batch.MaterialReceiptBatchJournal = new batch.MaterialReceiptBatchJournal(item);
@@ -171,7 +171,7 @@ export class MaterialReceiptBatchService extends ibas.ServiceApplication<IMateri
         this.batchServiceDatas = batchServiceDatas;
     }
     /** 运行服务 */
-    runService(contract: IMaterialReceiptBatchContract[]): void {
+    runService(contract: IMaterialBatchContract[]): void {
         // 行数据
         if (contract.length >= 1) {
             this.bindBatchServiceData(contract);
@@ -234,3 +234,47 @@ export class MaterialReceiptBatchServiceMapping extends ibas.ServiceMapping {
     }
 }
 
+export class MaterialBatchJournal implements IMaterialBatchContract {
+
+    docType?: string;
+
+    docEntry?: number;
+
+    lineNum?: number;
+
+    itemCode: string;
+
+    warehouse: string;
+
+    quantity: number;
+
+    needBatchQuantity: number;
+
+    selectedBatchQuantity: number;
+
+    materialBatchs?: IMaterialBatchs;
+}
+export class MaterialReceiptBatchs implements IMaterialBatchs {
+
+    materialLineBatchs: IMaterialBatchLine[];
+
+    createBatchJournal(data: IMaterialBatchBaseLine): MaterialReceiptBatch {
+        throw new Error("Method not implemented.");
+    }
+
+    deleteBatchJournal(data: IMaterialBatchBaseLine): MaterialReceiptBatch {
+        throw new Error("Method not implemented.");
+    }
+
+    updateBatchJournal(data: IMaterialBatchBaseLine): void {
+        throw new Error("Method not implemented.");
+    }
+}
+export class MaterialReceiptBatch implements IMaterialBatchBaseLine {
+
+    caller?: any;
+
+    batchCode: string;
+
+    quantity: number;
+}

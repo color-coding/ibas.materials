@@ -24,8 +24,7 @@ import {
     config,
 } from "ibas/index";
 import {
-    IMaterialReceiptSerialLine,
-    IMaterialIssueSerialLine,
+    IMaterialSerialLine,
     IMaterialSerialJournal,
     BO_CODE_MATERIALSERIALJOURNAL,
     IMaterialSerialJournals,
@@ -379,8 +378,7 @@ export class MaterialSerialJournals<P extends IBODocumentLine>
     extends BusinessObjects<MaterialSerialJournal, P>
     implements IMaterialSerialJournals<P> {
     create(): MaterialSerialJournal;
-    create(data: IMaterialReceiptSerialLine): MaterialSerialJournal;
-    create(date: IMaterialIssueSerialLine): MaterialSerialJournal;
+    create(data: IMaterialSerialLine): MaterialSerialJournal;
     create(data?: any): MaterialSerialJournal {
         let item: MaterialSerialJournal = new MaterialSerialJournal();
         this.add(item);

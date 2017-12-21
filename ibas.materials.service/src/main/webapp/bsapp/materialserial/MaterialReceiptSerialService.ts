@@ -19,15 +19,15 @@ import {
 } from "../../api/Datas";
 import { BORepositoryMaterials } from "../../borep/BORepositories";
 import {
-    IMaterialReceiptSerials,
-    IMaterialReceiptSerialLine,
-    IMaterialReceiptSerialContract,
+    IMaterialSerials,
+    IMaterialSerialLine,
+    IMaterialSerialContract,
 } from "../../api/bo/index";
 import {
     MaterialReceiptSerialJournal,
     MaterialReceiptSerialInfo
 } from "./index";
-export class MaterialReceiptSerialService extends ibas.ServiceApplication<IMaterialReceiptSerialView, IMaterialReceiptSerialContract[]> {
+export class MaterialReceiptSerialService extends ibas.ServiceApplication<IMaterialReceiptSerialView, IMaterialSerialContract[]> {
 
     /** 应用标识 */
     static APPLICATION_ID: string = "3533e07e-0c13-44cf-9543-adacb49dade2";
@@ -44,7 +44,7 @@ export class MaterialReceiptSerialService extends ibas.ServiceApplication<IMater
         this.description = ibas.i18n.prop(this.name);
     }
     /** 服务契约 */
-    private contract: IMaterialReceiptSerialContract;
+    private contract: IMaterialSerialContract;
     /** 服务输入数据 */
     protected serialServiceDatas: MaterialReceiptSerialJournal[];
 
@@ -139,7 +139,7 @@ export class MaterialReceiptSerialService extends ibas.ServiceApplication<IMater
         }
     }
     /** 绑定服务数据 */
-    bindSerialServiceData(contract: IMaterialReceiptSerialContract[]): void {
+    bindSerialServiceData(contract: IMaterialSerialContract[]): void {
         let serialServiceDatas: MaterialReceiptSerialJournal[] = Array<MaterialReceiptSerialJournal>();
         for (let item of contract) {
             let serialServiceData: MaterialReceiptSerialJournal = new MaterialReceiptSerialJournal(item);
@@ -149,7 +149,7 @@ export class MaterialReceiptSerialService extends ibas.ServiceApplication<IMater
         this.serialServiceDatas = serialServiceDatas;
     }
     /** 运行服务 */
-    runService(contract: IMaterialReceiptSerialContract[]): void {
+    runService(contract: IMaterialSerialContract[]): void {
         // 行数据
         if (contract.length >= 1) {
             this.bindSerialServiceData(contract);

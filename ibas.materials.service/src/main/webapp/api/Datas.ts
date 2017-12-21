@@ -13,10 +13,8 @@ import {
     MODULE_REPOSITORY_NAME_TEMPLATE,
 } from "ibas/index";
 import {
-    IMaterialIssueBatchContract,
-    IMaterialReceiptBatchContract,
-    IMaterialIssueSerialContract,
-    IMaterialReceiptSerialContract,
+    IMaterialBatchContract,
+    IMaterialSerialContract,
 } from "./bo/index";
 
 /** 模块-标识 */
@@ -79,18 +77,18 @@ export enum emAutoSelectBatchSerialRules {
 }
 
 /** 物料批次创建服务代理 */
-export class MaterialReceiptBatchServiceProxy extends ServiceProxy<IMaterialReceiptBatchContract[]> {
+export class MaterialReceiptBatchServiceProxy extends ServiceProxy<IMaterialBatchContract[]> {
 
 }
 /** 物料批次选择服务代理 */
-export class MaterialIssueBatchServiceProxy extends ServiceProxy<IMaterialIssueBatchContract[]> {
+export class MaterialIssueBatchServiceProxy extends ServiceProxy<IMaterialBatchContract[]> {
 
 }
 /** 物料序列创建服务代理 */
-export class MaterialReceiptSerialServiceProxy extends ServiceProxy<IMaterialReceiptSerialContract[]> {
+export class MaterialReceiptSerialServiceProxy extends ServiceProxy<IMaterialSerialContract[]> {
 
 }
 /** 物料序列选择服务代理 */
-export class MaterialIssueSerialServiceProxy extends ServiceProxy<IMaterialIssueSerialContract[]> {
+export class MaterialIssueSerialServiceProxy extends ServiceProxy<IMaterialSerialContract[]> {
 
 }
