@@ -35,13 +35,10 @@ export interface IMaterialSerialContract extends IMaterialBaseContract {
 export interface IMaterialSerials {
     /** 物料出库行批次信息 */
     materialLineSerials: IMaterialSerialLine[];
-    /**
-     * 创建序列记账 返回创建者
-     */
+
+    /** 创建序列记账 返回创建者 */
     createSerialJournal(data: IMaterialSerialBaseLine): any;
-    /**
-     * 删除序列记账 返回更新者
-     */
+    /** 删除序列记账 返回更新者 */
     deleteSerialJournal(data: IMaterialSerialBaseLine): any;
     /** 修改序列记账 */
     updateSerialJournal(data: IMaterialSerialBaseLine): void;

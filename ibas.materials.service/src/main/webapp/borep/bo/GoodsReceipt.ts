@@ -455,8 +455,8 @@ export class GoodsReceiptLines extends BusinessObjects<GoodsReceiptLine, GoodsRe
             c => c.isDeleted === false
                 && !objects.isNull(c.lineStatus)
                 && c.lineStatus !== emDocumentStatus.PLANNED
-                && c.batchManagement !== undefined
-                && c.batchManagement.toString() === enums.toString(emYesNo, emYesNo.YES)
+                // && c.batchManagement !== undefined
+                // && c.batchManagement.toString() === enums.toString(emYesNo, emYesNo.YES)
                 && !strings.isEmpty(c.itemCode)
                 && !strings.isEmpty(c.warehouse));
         return goodReceiptLines;
@@ -467,8 +467,8 @@ export class GoodsReceiptLines extends BusinessObjects<GoodsReceiptLine, GoodsRe
             c => c.isDeleted === false
                 && !objects.isNull(c.lineStatus)
                 && c.lineStatus !== emDocumentStatus.PLANNED
-                && c.serialManagement !== undefined
-                && c.serialManagement.toString() === enums.toString(emYesNo, emYesNo.YES)
+                // && c.serialManagement !== undefined
+                // && c.serialManagement.toString() === enums.toString(emYesNo, emYesNo.YES)
                 && !strings.isEmpty(c.itemCode)
                 && !strings.isEmpty(c.warehouse));
         return goodReceiptLines;

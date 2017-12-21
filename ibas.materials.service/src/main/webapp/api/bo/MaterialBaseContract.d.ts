@@ -43,9 +43,10 @@ export interface IMaterialBatchBaseLine {
 
 /** 物料序列-基本信息 */
 export interface IMaterialSerialBaseLine {
-    /** 序列名称 */
-    serialCode: string;
+
     /** 调用者 */
     caller?: any;
 
+    /** 序列名称 */
+    serialCode: string;
 }

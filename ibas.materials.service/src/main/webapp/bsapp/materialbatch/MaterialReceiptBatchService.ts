@@ -6,7 +6,7 @@
  * @Author: fancy
  * @Date: 2017-11-30 17:59:05
  * @Last Modified by: fancy
- * @Last Modified time: 2017-12-19 16:05:44
+ * @Last Modified time: 2017-12-21 16:49:07
  */
 
 import * as ibas from "ibas/index";
@@ -75,7 +75,7 @@ export class MaterialReceiptBatchService extends ibas.ServiceApplication<IMateri
         let batchInfo: batch.MaterialReceiptBatchInfo = new batch.MaterialReceiptBatchInfo();
         item.materialBatchInfos.createBatchJournal(batchInfo);
         // 仅显示没有标记删除的
-        this.view.showData(item.materialBatchInfos.filterDeleted());
+        this.view.showData(item.materialBatchInfos);
     }
     /** 移除批次 */
     protected removeBatch(batch: batch.MaterialReceiptBatchJournal, items: batch.MaterialReceiptBatchInfo[]): void {
@@ -103,7 +103,7 @@ export class MaterialReceiptBatchService extends ibas.ServiceApplication<IMateri
             }
         }
         // 仅显示没有标记删除的
-        this.view.showData(batchData.materialBatchInfos.filterDeleted());
+        this.view.showData(batchData.materialBatchInfos);
     }
     /** 自动创建批次 */
     protected autoCreateBatch(item: batch.MaterialReceiptBatchJournal): void {
@@ -118,7 +118,7 @@ export class MaterialReceiptBatchService extends ibas.ServiceApplication<IMateri
         let batchItem: batch.MaterialReceiptBatchJournal = this.batchServiceDatas[index];
         // 不需要创建批次了
         if (batchItem.needBatchQuantity === 0) {
-            this.view.showData(batchItem.materialBatchInfos.filterDeleted());
+            this.view.showData(batchItem.materialBatchInfos);
             return;
         }
         let batchLine: batch.MaterialReceiptBatchInfo;
@@ -128,11 +128,11 @@ export class MaterialReceiptBatchService extends ibas.ServiceApplication<IMateri
         if (batchItem.materialBatchInfos.length !== 0) {
             // 存在数量为0的行，就不新建行
             batchLine = batchItem.materialBatchInfos.find(c => ibas.numbers.toFloat(c.quantity) === 0.0);
-            for (let batch of batchItem.materialBatchInfos.filterDeleted()) {
+            for (let batch of batchItem.materialBatchInfos) {
                 allcationQuantity = allcationQuantity + ibas.numbers.toFloat(batch.quantity);
                 // 过滤掉为0的
                 if (batch.quantity === 0) {
-                    batch.markDeleted(true);
+                    batchItem.materialBatchInfos.remove(batch);
                 }
             }
             if (ibas.objects.isNull(batchLine)) {
@@ -145,7 +145,7 @@ export class MaterialReceiptBatchService extends ibas.ServiceApplication<IMateri
             batchInfo.quantity = batchItem.needBatchQuantity;
             batchItem.materialBatchInfos.createBatchJournal(batchInfo);
         }
-        this.view.showData(batchItem.materialBatchInfos.filterDeleted());
+        this.view.showData(batchItem.materialBatchInfos);
     }
     /** 选择凭证行事件 */
     protected selectMaterialBatchJournalLine(selected: batch.MaterialReceiptBatchJournal): void {
@@ -204,7 +204,8 @@ export class MaterialReceiptBatchService extends ibas.ServiceApplication<IMateri
 /** 视图-新建批次 */
 export interface IMaterialReceiptBatchView extends ibas.IBOView {
     /** 显示数据 */
-    showData(datas: batch.MaterialReceiptBatchInfo[]): void;
+    // showData(datas: batch.MaterialReceiptBatchInfo[]): void;
+    showData(datas: IMaterialBatchContract[]): void;
     showJournalLineData(datas: batch.MaterialReceiptBatchJournal[]): void;
     /** 添加批次事件 */
     addBatchEvent: Function;

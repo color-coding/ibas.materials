@@ -24,8 +24,10 @@ export interface IMaterialBatchContract extends IMaterialBaseContract {
 
     /** 单据类型 */
     docType?: string;
+
     /** 单据号 */
     docEntry?: number;
+
     /** 单据行号 */
     lineNum?: number;
 
@@ -38,13 +40,10 @@ export interface IMaterialBatchContract extends IMaterialBaseContract {
 export interface IMaterialBatchs {
     /** 物料出库行批次信息 */
     materialLineBatchs: IMaterialBatchLine[];
-    /**
-     * 创建批次日记账  返回调用者
-     */
+
+    /** 创建批次日记账  返回调用者 */
     createBatchJournal(data: IMaterialBatchBaseLine): any;
-    /**
-     * 删除批次记账 返回更新者
-     */
+    /** 删除批次记账 返回更新者 */
     deleteBatchJournal(data: IMaterialBatchBaseLine): any;
     /** 修改批次记账 */
     updateBatchJournal(data: IMaterialBatchBaseLine): void;

@@ -219,11 +219,11 @@ export class MaterialReceiptBatchServiceView extends ibas.BODialogView implement
         this.table.setModel(new sap.ui.model.json.JSONModel({ rows: datas }));
         // this.table.bindObject("/");
         // 监听属性改变，并更新控件
-        openui5.utils.refreshModelChanged(this.table, datas);
+        // openui5.utils.refreshModelChanged(this.table, datas);
     }
     showJournalLineData(datas: MaterialReceiptBatchJournal[]): void {
         this.journalLineTable.setModel(new sap.ui.model.json.JSONModel({ journallinedata: datas }));
-        openui5.utils.refreshModelChanged(this.journalLineTable, datas);
+        // openui5.utils.refreshModelChanged(this.journalLineTable, datas);
     }
 
 }
