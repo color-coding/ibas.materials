@@ -25,18 +25,8 @@ export class MaterialInventoryJournalEditView extends ibas.BOEditView implements
         let that: this = this;
         this.form = new sap.ui.layout.form.SimpleForm("", {
             editable: true,
-            layout: sap.ui.layout.form.SimpleFormLayout.ResponsiveGridLayout,
-            singleContainerFullSize: false,
-            adjustLabelSpan: false,
-            labelSpanL: 2,
-            labelSpanM: 2,
-            labelSpanS: 12,
-            columnsXL: 2,
-            columnsL: 2,
-            columnsM: 1,
-            columnsS: 1,
             content: [
-                new sap.ui.core.Title("", { text: ibas.i18n.prop("materials_base_information") }),
+                new sap.ui.core.Title("", { text: ibas.i18n.prop("materials_general_information") }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_materialjournal_baseentry") }),
                 new sap.m.Input("", {
                 }).bindProperty("value", {
@@ -68,17 +58,7 @@ export class MaterialInventoryJournalEditView extends ibas.BOEditView implements
                 }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_materialjournal_direction") }),
                 new sap.m.Select("", {
-                    width: "30%",
-                    items: [
-                        new sap.m.SegmentedButtonItem("", {
-                            text: ibas.enums.describe(ibas.emDirection, ibas.emDirection.IN),
-                            key: ibas.emDirection.IN
-                        }),
-                        new sap.m.SegmentedButtonItem("", {
-                            text: ibas.enums.describe(ibas.emDirection, ibas.emDirection.OUT),
-                            key: ibas.emDirection.OUT
-                        })
-                    ]
+                    items: openui5.utils.createComboBoxItems(ibas.emDirection)
                 }).bindProperty("selectedKey", {
                     path: "/direction",
                     type: "sap.ui.model.type.Integer"
@@ -95,40 +75,21 @@ export class MaterialInventoryJournalEditView extends ibas.BOEditView implements
                 }).bindProperty("value", {
                     path: "/price"
                 }),
-
-                new sap.ui.core.Title("", { text: ibas.i18n.prop("materials_date_information") }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_materialjournal_documentdate") }),
                 new sap.m.DatePicker("", {
-                    valueFormat: "yyyy-MM-dd",
                 }).bindProperty("dateValue", {
                     path: "/documentDate"
                 }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_materialjournal_postingdate") }),
                 new sap.m.DatePicker("", {
-                    valueFormat: "yyyy-MM-dd",
                 }).bindProperty("dateValue", {
                     path: "/documentDate"
                 }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_materialjournal_deliverydate") }),
                 new sap.m.DatePicker("", {
-                    valueFormat: "yyyy-MM-dd",
                 }).bindProperty("dateValue", {
                     path: "/documentDate"
                 }),
-
-                new sap.ui.core.Title("", { text: ibas.i18n.prop("materials_forex_information") }),
-                new sap.m.Label("", { text: ibas.i18n.prop("bo_materialjournal_currency") }),
-                new sap.m.Input("", {
-                }).bindProperty("value", {
-                    path: "/currency"
-                }),
-                new sap.m.Label("", { text: ibas.i18n.prop("bo_materialjournal_rate") }),
-                new sap.m.Input("", {
-                    type: sap.m.InputType.Number
-                }).bindProperty("value", {
-                    path: "/rate"
-                }),
-
             ]
         });
         this.page = new sap.m.Page("", {

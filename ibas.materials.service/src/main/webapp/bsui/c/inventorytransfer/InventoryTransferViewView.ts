@@ -15,25 +15,15 @@ import { IInventoryTransferViewView } from "../../../bsapp/inventorytransfer/ind
  * 查看视图-库存转储
  */
 export class InventoryTransferViewView extends ibas.BOViewView implements IInventoryTransferViewView {
-    private mainLayout: sap.ui.layout.VerticalLayout;
+    private layoutMain: sap.ui.layout.VerticalLayout;
     private viewBottomForm: sap.ui.layout.form.SimpleForm;
     /** 绘制视图 */
     darw(): any {
         let that: this = this;
         this.form = new sap.ui.layout.form.SimpleForm("", {
             editable: false,
-            layout: sap.ui.layout.form.SimpleFormLayout.ResponsiveGridLayout,
-            singleContainerFullSize: false,
-            adjustLabelSpan: false,
-            labelSpanL: 2,
-            labelSpanM: 2,
-            labelSpanS: 12,
-            columnsXL: 2,
-            columnsL: 2,
-            columnsM: 1,
-            columnsS: 1,
             content: [
-                new sap.ui.core.Title("", { text: ibas.i18n.prop("materials_base_information") }),
+                new sap.ui.core.Title("", { text: ibas.i18n.prop("materials_general_information") }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_inventorytransfer_docentry") }),
                 new sap.m.Text("", {
                 }).bindProperty("text", {
@@ -160,14 +150,6 @@ export class InventoryTransferViewView extends ibas.BOViewView implements IInven
         this.form.addContent(this.tableInventoryTransferLine);
         this.viewBottomForm = new sap.ui.layout.form.SimpleForm("", {
             editable: true,
-            layout: sap.ui.layout.form.SimpleFormLayout.ResponsiveGridLayout,
-            labelSpanL: 2,
-            labelSpanM: 2,
-            labelSpanS: 12,
-            columnsXL: 2,
-            columnsL: 2,
-            columnsM: 1,
-            columnsS: 1,
             content: [
                 new sap.ui.core.Title("", { text: ibas.i18n.prop("bo_inventorytransfer_remarks") }),
                 new sap.m.Text("", {
@@ -176,7 +158,7 @@ export class InventoryTransferViewView extends ibas.BOViewView implements IInven
                 }),
             ]
         });
-        this.mainLayout = new sap.ui.layout.VerticalLayout("", {
+        this.layoutMain = new sap.ui.layout.VerticalLayout("", {
             content: [
                 this.form,
                 this.tableInventoryTransferLine,
@@ -229,7 +211,7 @@ export class InventoryTransferViewView extends ibas.BOViewView implements IInven
                     })
                 ]
             }),
-            content: [this.mainLayout]
+            content: [this.layoutMain]
         });
         this.id = this.page.getId();
         return this.page;
@@ -240,8 +222,8 @@ export class InventoryTransferViewView extends ibas.BOViewView implements IInven
 
     /** 显示数据 */
     showInventoryTransfer(data: bo.InventoryTransfer): void {
-        this.mainLayout.setModel(new sap.ui.model.json.JSONModel(data));
-        this.mainLayout.bindObject("/");
+        this.layoutMain.setModel(new sap.ui.model.json.JSONModel(data));
+        this.layoutMain.bindObject("/");
     }
     /** 显示数据 */
     showInventoryTransferLines(datas: bo.InventoryTransferLine[]): void {

@@ -30,7 +30,7 @@ export class MaterialIssueSerialServiceView extends ibas.BODialogView implements
     /** 保存回调 */
     saveDataEvent: Function;
     // 控件
-    private mainLayout: sap.ui.layout.VerticalLayout;
+    private layoutMain: sap.ui.layout.VerticalLayout;
     private journalLineTable: sap.ui.table.Table;
     private leftTable: sap.ui.table.Table;
     private rightTable: sap.ui.table.Table;
@@ -219,7 +219,7 @@ export class MaterialIssueSerialServiceView extends ibas.BODialogView implements
                 }),
             ]
         });
-        this.mainLayout = new sap.ui.layout.VerticalLayout("", {
+        this.layoutMain = new sap.ui.layout.VerticalLayout("", {
             width: "750px",
             wrapping: false,
             content: [
@@ -227,7 +227,7 @@ export class MaterialIssueSerialServiceView extends ibas.BODialogView implements
                 this.splitter
             ]
         });
-        this.id = this.mainLayout.getId();
+        this.id = this.layoutMain.getId();
         return new sap.m.Dialog("", {
             title: this.title,
             type: sap.m.DialogType.Standard,
@@ -235,7 +235,7 @@ export class MaterialIssueSerialServiceView extends ibas.BODialogView implements
             stretchOnPhone: true,
             horizontalScrolling: true,
             verticalScrolling: true,
-            content: [this.mainLayout],
+            content: [this.layoutMain],
             buttons: [
                 new sap.m.Button("", {
                     text: ibas.i18n.prop("shell_confirm"),

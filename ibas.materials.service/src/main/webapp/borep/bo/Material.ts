@@ -318,6 +318,15 @@ export class Material extends MaterialBase<Material> implements IMaterial {
     /** 初始化数据 */
     protected init(): void {
         this.objectCode = config.applyVariables(Material.BUSINESS_OBJECT_CODE);
+        this.salesItem = emYesNo.YES;
+        this.purchaseItem = emYesNo.YES;
+        this.inventoryItem = emYesNo.YES;
+        this.phantomItem = emYesNo.NO;
+        this.fixedAssets = emYesNo.NO;
+        this.batchManagement = emYesNo.NO;
+        this.serialManagement = emYesNo.NO;
+        this.itemType = emItemType.ITEM;
+        this.activated = emYesNo.YES;
     }
 }
 

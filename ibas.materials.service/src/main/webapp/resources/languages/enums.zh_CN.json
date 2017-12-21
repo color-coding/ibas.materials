@@ -1,2 +1,7 @@
 {
+    "em_item": "物料",
+    "em_services": "服务",
+    "em_first_in_first_out": "先进先出",
+    "em_first_in_last_out": "先进后出",
+    "em_order_by_code": "编码排序"
 }

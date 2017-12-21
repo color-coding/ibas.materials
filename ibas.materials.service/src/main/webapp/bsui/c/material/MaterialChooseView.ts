@@ -127,18 +127,6 @@ export class MaterialChooseView extends ibas.BOChooseView implements IMaterialCh
                         path: "remarks",
                     }),
                 }),
-                new sap.ui.table.Column("", {
-                    label: ibas.i18n.prop("bo_material_createdate"),
-                    template: new sap.m.Text("", {
-                        wrapping: false,
-                    }).bindProperty("text", {
-                        path: "createDate",
-                        type: "sap.ui.model.type.Date",
-                        formatOptions: {
-                            style: "short"
-                        }
-                    }),
-                }),
             ]
         });
         this.id = this.table.getId();

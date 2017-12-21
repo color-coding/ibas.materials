@@ -35,7 +35,7 @@ export class InventoryTransferListView extends ibas.BOListView implements IInven
             rows: "{/rows}",
             columns: [
                 new sap.ui.table.Column("", {
-                    label: ibas.i18n.prop("bo_inventorytransfer_docentry"),
+                    label: ibas.i18n.prop("bo_goodsreceipt_docentry"),
                     template: new sap.m.Text("", {
                         wrapping: false,
                     }).bindProperty("text", {
@@ -43,7 +43,7 @@ export class InventoryTransferListView extends ibas.BOListView implements IInven
                     }),
                 }),
                 new sap.ui.table.Column("", {
-                    label: ibas.i18n.prop("bo_inventorytransfer_documentstatus"),
+                    label: ibas.i18n.prop("bo_goodsreceipt_documentstatus"),
                     template: new sap.m.Text("", {
                         wrapping: false
                     }).bindProperty("text", {
@@ -54,50 +54,7 @@ export class InventoryTransferListView extends ibas.BOListView implements IInven
                     })
                 }),
                 new sap.ui.table.Column("", {
-                    label: ibas.i18n.prop("bo_inventorytransfer_approvalstatus"),
-                    template: new sap.m.Text("", {
-                        wrapping: false
-                    }).bindProperty("text", {
-                        path: "approvalStatus",
-                        formatter(data: any): any {
-                            return ibas.enums.describe(ibas.emApprovalStatus, data);
-                        }
-                    })
-                }),
-                new sap.ui.table.Column("", {
-                    label: ibas.i18n.prop("bo_inventorytransfer_documenttotal"),
-                    template: new sap.m.Text("", {
-                        wrapping: false,
-                    }).bindProperty("text", {
-                        path: "documentTotal",
-                    }),
-                }),
-                new sap.ui.table.Column("", {
-                    label: ibas.i18n.prop("bo_inventorytransfer_postingdate"),
-                    template: new sap.m.Text("", {
-                        wrapping: false,
-                    }).bindProperty("text", {
-                        path: "postingDate",
-                        type: "sap.ui.model.type.Date",
-                        formatOptions: {
-                            style: "short"
-                        }
-                    }),
-                }),
-                new sap.ui.table.Column("", {
-                    label: ibas.i18n.prop("bo_inventorytransfer_deliverydate"),
-                    template: new sap.m.Text("", {
-                        wrapping: false,
-                    }).bindProperty("text", {
-                        path: "deliveryDate",
-                        type: "sap.ui.model.type.Date",
-                        formatOptions: {
-                            style: "short"
-                        }
-                    }),
-                }),
-                new sap.ui.table.Column("", {
-                    label: ibas.i18n.prop("bo_inventorytransfer_documentdate"),
+                    label: ibas.i18n.prop("bo_goodsreceipt_documentdate"),
                     template: new sap.m.Text("", {
                         wrapping: false,
                     }).bindProperty("text", {
@@ -109,7 +66,15 @@ export class InventoryTransferListView extends ibas.BOListView implements IInven
                     }),
                 }),
                 new sap.ui.table.Column("", {
-                    label: ibas.i18n.prop("bo_inventorytransfer_reference1"),
+                    label: ibas.i18n.prop("bo_inventorytransfer_fromwarehouse"),
+                    template: new sap.m.Text("", {
+                        wrapping: false,
+                    }).bindProperty("text", {
+                        path: "fromWarehouse",
+                    }),
+                }),
+                new sap.ui.table.Column("", {
+                    label: ibas.i18n.prop("bo_goodsreceipt_reference1"),
                     template: new sap.m.Text("", {
                         wrapping: false,
                     }).bindProperty("text", {
@@ -117,19 +82,11 @@ export class InventoryTransferListView extends ibas.BOListView implements IInven
                     }),
                 }),
                 new sap.ui.table.Column("", {
-                    label: ibas.i18n.prop("bo_inventorytransfer_reference2"),
+                    label: ibas.i18n.prop("bo_goodsreceipt_reference2"),
                     template: new sap.m.Text("", {
                         wrapping: false,
                     }).bindProperty("text", {
                         path: "reference2",
-                    }),
-                }),
-                new sap.ui.table.Column("", {
-                    label: ibas.i18n.prop("bo_inventorytransfer_remarks"),
-                    template: new sap.m.Text("", {
-                        wrapping: false,
-                    }).bindProperty("text", {
-                        path: "Remarks",
                     }),
                 }),
             ]
@@ -147,6 +104,7 @@ export class InventoryTransferListView extends ibas.BOListView implements IInven
                             that.fireViewEvents(that.newDataEvent);
                         }
                     }),
+                    /*
                     new sap.m.Button("", {
                         text: ibas.i18n.prop("shell_data_view"),
                         type: sap.m.ButtonType.Transparent,
@@ -158,6 +116,7 @@ export class InventoryTransferListView extends ibas.BOListView implements IInven
                             );
                         }
                     }),
+                    */
                     new sap.m.Button("", {
                         text: ibas.i18n.prop("shell_data_edit"),
                         type: sap.m.ButtonType.Transparent,

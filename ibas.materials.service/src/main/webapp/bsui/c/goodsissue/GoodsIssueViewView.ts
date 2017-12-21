@@ -15,25 +15,15 @@ import { IGoodsIssueViewView } from "../../../bsapp/goodsissue/index";
  * 查看视图-库存发货
  */
 export class GoodsIssueViewView extends ibas.BOViewView implements IGoodsIssueViewView {
-    private mainLayout: sap.ui.layout.VerticalLayout;
+    private layoutMain: sap.ui.layout.VerticalLayout;
     private viewBottomForm: sap.ui.layout.form.SimpleForm;
     /** 绘制视图 */
     darw(): any {
         let that: this = this;
         this.form = new sap.ui.layout.form.SimpleForm("", {
             editable: true,
-            layout: sap.ui.layout.form.SimpleFormLayout.ResponsiveGridLayout,
-            singleContainerFullSize: false,
-            adjustLabelSpan: false,
-            labelSpanL: 2,
-            labelSpanM: 2,
-            labelSpanS: 12,
-            columnsXL: 2,
-            columnsL: 2,
-            columnsM: 1,
-            columnsS: 1,
             content: [
-                new sap.ui.core.Title("", { text: ibas.i18n.prop("materials_base_information") }),
+                new sap.ui.core.Title("", { text: ibas.i18n.prop("materials_general_information") }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_goodsissue_docentry") }),
                 new sap.m.Text("", {
                 }).bindProperty("text", {
@@ -160,14 +150,6 @@ export class GoodsIssueViewView extends ibas.BOViewView implements IGoodsIssueVi
         this.form.addContent(this.tableGoodsIssueLine);
         this.viewBottomForm = new sap.ui.layout.form.SimpleForm("", {
             editable: true,
-            layout: sap.ui.layout.form.SimpleFormLayout.ResponsiveGridLayout,
-            labelSpanL: 2,
-            labelSpanM: 2,
-            labelSpanS: 12,
-            columnsXL: 2,
-            columnsL: 2,
-            columnsM: 1,
-            columnsS: 1,
             content: [
                 new sap.ui.core.Title("", { text: ibas.i18n.prop("bo_goodsissue_remarks") }),
                 new sap.m.Text("", {
@@ -176,7 +158,7 @@ export class GoodsIssueViewView extends ibas.BOViewView implements IGoodsIssueVi
                 }),
             ]
         });
-        this.mainLayout = new sap.ui.layout.VerticalLayout("", {
+        this.layoutMain = new sap.ui.layout.VerticalLayout("", {
             content: [
                 this.form,
                 this.tableGoodsIssueLine,
@@ -229,7 +211,7 @@ export class GoodsIssueViewView extends ibas.BOViewView implements IGoodsIssueVi
                     })
                 ]
             }),
-            content: [this.mainLayout]
+            content: [this.layoutMain]
         });
         this.id = this.page.getId();
         return this.page;
@@ -240,8 +222,8 @@ export class GoodsIssueViewView extends ibas.BOViewView implements IGoodsIssueVi
 
     /** 显示数据 */
     showGoodsIssue(data: bo.GoodsIssue): void {
-        this.mainLayout.setModel(new sap.ui.model.json.JSONModel(data));
-        this.mainLayout.bindObject("/");
+        this.layoutMain.setModel(new sap.ui.model.json.JSONModel(data));
+        this.layoutMain.bindObject("/");
     }
     /** 显示数据 */
     showGoodsIssueLines(datas: bo.GoodsIssueLine[]): void {

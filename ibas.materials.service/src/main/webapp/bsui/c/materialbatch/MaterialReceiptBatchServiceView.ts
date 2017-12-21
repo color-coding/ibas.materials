@@ -2,7 +2,7 @@
  * @Author: fancy
  * @Date: 2017-11-27 16:44:31
  * @Last Modified by: fancy
- * @Last Modified time: 2017-12-20 14:52:50
+ * @Last Modified time: 2017-12-21 17:00:24
  * @license
  * Copyright color-coding studio. All Rights Reserved.
  *
@@ -12,7 +12,8 @@
 import * as ibas from "ibas/index";
 import * as openui5 from "openui5/index";
 import * as bo from "../../../borep/bo/index";
-import { IMaterialReceiptBatchView,
+import {
+    IMaterialReceiptBatchView,
     MaterialReceiptBatchJournal,
     MaterialReceiptBatchInfo,
 } from "../../../bsapp/materialbatch/index";
@@ -28,7 +29,7 @@ export class MaterialReceiptBatchServiceView extends ibas.BODialogView implement
     autoCreateBatchEvent: Function;
     /** 选中凭证行事件 */
     selectMaterialBatchJournalLineEvent: Function;
-    private mainLayout: sap.ui.layout.VerticalLayout;
+    private layoutMain: sap.ui.layout.VerticalLayout;
     private journalLineTable: sap.ui.table.Table;
     /** 绘制视图 */
     darw(): any {
@@ -92,7 +93,6 @@ export class MaterialReceiptBatchServiceView extends ibas.BODialogView implement
                 new sap.ui.table.Column("", {
                     label: ibas.i18n.prop("bo_materialbatch_expirationdate"),
                     template: new sap.m.DatePicker("", {
-                        valueFormat: "yyyy-MM-dd",
                     }).bindProperty("dateValue", {
                         path: "expirationDate"
                     })
@@ -100,7 +100,6 @@ export class MaterialReceiptBatchServiceView extends ibas.BODialogView implement
                 new sap.ui.table.Column("", {
                     label: ibas.i18n.prop("bo_materialbatch_manufacturingdate"),
                     template: new sap.m.DatePicker("", {
-                        valueFormat: "yyyy-MM-dd",
                     }).bindProperty("dateValue", {
                         path: "manufacturingDate"
                     })
@@ -108,7 +107,6 @@ export class MaterialReceiptBatchServiceView extends ibas.BODialogView implement
                 new sap.ui.table.Column("", {
                     label: ibas.i18n.prop("bo_materialbatch_admissiondate"),
                     template: new sap.m.DatePicker("", {
-                        valueFormat: "yyyy-MM-dd",
                     }).bindProperty("dateValue", {
                         path: "admissionDate"
                     })
@@ -180,13 +178,13 @@ export class MaterialReceiptBatchServiceView extends ibas.BODialogView implement
                 }),
             ]
         });
-        this.mainLayout = new sap.ui.layout.VerticalLayout("", {
+        this.layoutMain = new sap.ui.layout.VerticalLayout("", {
             content: [
                 this.journalLineTable,
                 this.table
             ]
         });
-        this.id = this.mainLayout.getId();
+        this.id = this.layoutMain.getId();
         return new sap.m.Dialog("", {
             title: this.title,
             type: sap.m.DialogType.Standard,
@@ -194,7 +192,7 @@ export class MaterialReceiptBatchServiceView extends ibas.BODialogView implement
             stretchOnPhone: true,
             horizontalScrolling: true,
             verticalScrolling: true,
-            content: [this.mainLayout],
+            content: [this.layoutMain],
             buttons: [
                 new sap.m.Button("", {
                     text: ibas.i18n.prop("shell_confirm"),

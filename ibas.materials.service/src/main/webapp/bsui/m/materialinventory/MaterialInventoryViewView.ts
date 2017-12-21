@@ -16,18 +16,8 @@ export class MaterialInventoryViewView extends ibas.BOViewView implements IMater
         let that: this = this;
         this.form = new sap.ui.layout.form.SimpleForm("", {
             editable: true,
-            layout: sap.ui.layout.form.SimpleFormLayout.ResponsiveGridLayout,
-            singleContainerFullSize: false,
-            adjustLabelSpan: false,
-            labelSpanL: 2,
-            labelSpanM: 2,
-            labelSpanS: 12,
-            columnsXL: 2,
-            columnsL: 2,
-            columnsM: 1,
-            columnsS: 1,
             content: [
-                new sap.ui.core.Title("", { text: ibas.i18n.prop("materials_base_information") }),
+                new sap.ui.core.Title("", { text: ibas.i18n.prop("materials_general_information") }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_materialjournal_itemcode") }),
                 new sap.m.Text("", {
                 }).bindProperty("text", {
@@ -43,7 +33,7 @@ export class MaterialInventoryViewView extends ibas.BOViewView implements IMater
                 }).bindProperty("text", {
                     path: "/avgPrice"
                 }),
-                new sap.ui.core.Title("", { text: ibas.i18n.prop("materials_onHand_information") }),
+                new sap.ui.core.Title("", { text: ibas.i18n.prop("materials_inventory_information") }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_materialinventory_onhand") }),
                 new sap.m.Text("", {
                 }).bindProperty("text", {

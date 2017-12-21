@@ -66,7 +66,6 @@ export class GoodsIssueEditApp extends ibas.BOEditApplication<IGoodsIssueEditVie
             this.editData = new bo.GoodsIssue();
             this.proceeding(ibas.emMessageType.WARNING, ibas.i18n.prop("shell_data_created_new"));
         }
-        this.view.showPriceListSelect(this.priceListData);
         this.view.showGoodsIssue(this.editData);
         this.view.showGoodsIssueLines(this.editData.goodsIssueLines.filterDeleted());
     }
@@ -75,7 +74,6 @@ export class GoodsIssueEditApp extends ibas.BOEditApplication<IGoodsIssueEditVie
     run(data: bo.GoodsIssue): void;
     run(): void {
         let that: this = this;
-        that.searchPriceList();
         if (ibas.objects.instanceOf(arguments[0], bo.GoodsIssue)) {
             // 尝试重新查询编辑对象
             let criteria: ibas.ICriteria = arguments[0].criteria();
@@ -444,26 +442,6 @@ export class GoodsIssueEditApp extends ibas.BOEditApplication<IGoodsIssueEditVie
         return contracts;
     }
 
-
-    /** 查询价格清单 */
-    searchPriceList(): void {
-        // 查询价格清单
-        let that: this = this;
-        let boRepository: BORepositoryMaterials = new BORepositoryMaterials();
-        boRepository.fetchMaterialPriceList({
-            criteria: [],
-            onCompleted(opRslt: ibas.IOperationResult<bo.MaterialPriceList>): void {
-                let data: bo.MaterialPriceList;
-                if (opRslt.resultCode === 0) {
-                    data = opRslt.resultObjects.firstOrDefault();
-                }
-                if (ibas.objects.instanceOf(data, bo.MaterialPriceList)) {
-                    that.priceListData = opRslt.resultObjects;
-                    that.view.showPriceListSelect(that.priceListData);
-                }
-            }
-        });
-    }
     /** 获取物料增量查询条件 */
     getConditions(): ibas.ICondition[] {
         let conditions: ibas.ICondition[] = new Array<ibas.ICondition>();
@@ -492,8 +470,6 @@ export interface IGoodsIssueEditView extends ibas.IBOEditView {
     removeGoodsIssueLineEvent: Function;
     /** 显示数据 */
     showGoodsIssueLines(datas: bo.GoodsIssueLine[]): void;
-    /** 显示价格清单 */
-    showPriceListSelect(datas: bo.MaterialPriceList[]): void;
     /** 选择库存发货单行物料事件 */
     chooseGoodsIssueLineMaterialEvent: Function;
     /** 选择库存发货单行仓库事件 */

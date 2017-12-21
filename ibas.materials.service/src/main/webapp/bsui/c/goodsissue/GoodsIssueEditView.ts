@@ -33,76 +33,62 @@ export class GoodsIssueEditView extends ibas.BOEditView implements IGoodsIssueEd
     chooseGoodsIssueLineMaterialSerialEvent: Function;
 
 
-    private page: sap.m.Page;
-    private form: sap.ui.layout.form.SimpleForm;
-    private mainLayout: sap.ui.layout.VerticalLayout;
-    private viewBottomForm: sap.ui.layout.form.SimpleForm;
-    private priceListSelect: sap.m.Select;
     /** 绘制视图 */
     darw(): any {
         let that: this = this;
-        this.priceListSelect = new sap.m.Select("", {
-        });
-        this.form = new sap.ui.layout.form.SimpleForm("", {
+        let formTop: sap.ui.layout.form.SimpleForm = new sap.ui.layout.form.SimpleForm("", {
             editable: true,
-            layout: sap.ui.layout.form.SimpleFormLayout.ResponsiveGridLayout,
-            singleContainerFullSize: false,
-            adjustLabelSpan: false,
-            labelSpanL: 2,
-            labelSpanM: 2,
-            labelSpanS: 12,
-            columnsXL: 2,
-            columnsL: 2,
-            columnsM: 1,
-            columnsS: 1,
             content: [
-                new sap.ui.core.Title("", { text: ibas.i18n.prop("materials_base_information") }),
-                new sap.m.Label("", { text: ibas.i18n.prop("bo_goodsissue_documentstatus") }),
-                new sap.m.Select("", {
-                    items: openui5.utils.createComboBoxItems(ibas.emDocumentStatus)
-                }).bindProperty("selectedKey", {
-                    path: "documentStatus",
-                    type: "sap.ui.model.type.Integer"
-                }),
-                new sap.m.Label("", { text: ibas.i18n.prop("bo_goodsissue_reference1") }),
+                new sap.ui.core.Title("", { text: ibas.i18n.prop("materials_general_information") }),
+                new sap.m.Label("", { text: ibas.i18n.prop("bo_goodsissue_docentry") }),
                 new sap.m.Input("", {
-                    type: sap.m.InputType.Text
                 }).bindProperty("value", {
-                    path: "reference1",
-                }),
-                new sap.m.Label("", { text: ibas.i18n.prop("bo_goodsissue_reference2") }),
-                new sap.m.Input("", {
-                    type: sap.m.InputType.Text
-                }).bindProperty("value", {
-                    path: "reference2",
+                    path: "docEntry",
                 }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_goodsissue_pricelist") }),
-                that.priceListSelect.bindProperty("selectedKey",{
-                    path: "priceList",
-                    type: "sap.ui.model.type.Integer"
+                new sap.m.Input("", {
+                    showValueHelp: true,
+                    valueHelpRequest: function (): void {
+                    }
+                }).bindProperty("value", {
+                    path: "priceList"
                 }),
-                new sap.ui.core.Title("", { text: ibas.i18n.prop("materials_date_information") }),
-                new sap.m.Label("", { text: ibas.i18n.prop("bo_goodsissue_postingdate") }),
-                new sap.m.DatePicker("", {
-                    valueFormat: "yyyy-MM-dd",
-                }).bindProperty("dateValue", {
-                    path: "postingDate"
+                new sap.m.Label("", { text: ibas.i18n.prop("bo_goodsissue_reference1") }),
+                new sap.m.Input("", {}).bindProperty("value", {
+                    path: "reference1"
                 }),
-                new sap.m.Label("", { text: ibas.i18n.prop("bo_goodsissue_deliverydate") }),
-                new sap.m.DatePicker("", {
-                    valueFormat: "yyyy-MM-dd",
-                }).bindProperty("dateValue", {
-                    path: "deliveryDate"
+                new sap.m.Label("", { text: ibas.i18n.prop("bo_goodsissue_reference2") }),
+                new sap.m.Input("", {}).bindProperty("value", {
+                    path: "reference2"
+                }),
+                new sap.ui.core.Title("", { text: ibas.i18n.prop("materials_status_information") }),
+                new sap.m.Label("", { text: ibas.i18n.prop("bo_goodsissue_documentstatus") }),
+                new sap.m.Select("", {
+                    items: openui5.utils.createComboBoxItems(ibas.emDocumentStatus),
+                }).bindProperty("selectedKey", {
+                    path: "documentStatus",
+                    type: "sap.ui.model.type.Integer",
+                }),
+                new sap.m.Label("", { text: ibas.i18n.prop("bo_goodsissue_canceled") }),
+                new sap.m.Select("", {
+                    items: openui5.utils.createComboBoxItems(ibas.emYesNo),
+                }).bindProperty("selectedKey", {
+                    path: "canceled",
+                    type: "sap.ui.model.type.Integer",
                 }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_goodsissue_documentdate") }),
                 new sap.m.DatePicker("", {
-                    valueFormat: "yyyy-MM-dd",
                 }).bindProperty("dateValue", {
-                    path: "documentDate"
+                    path: "documentDate",
+                }),
+                new sap.m.Label("", { text: ibas.i18n.prop("bo_receipt_dataowner") }),
+                new sap.m.Input("", {
+                    showValueHelp: true,
+                }).bindProperty("value", {
+                    path: "dataOwner",
                 }),
             ]
         });
-        this.form.addContent(new sap.ui.core.Title("", { text: ibas.i18n.prop("bo_goodsissueline") }));
         this.tableGoodsIssueLine = new sap.ui.table.Table("", {
             toolbar: new sap.m.Toolbar("", {
                 content: [
@@ -125,19 +111,20 @@ export class GoodsIssueEditView extends ibas.BOEditView implements IGoodsIssueEd
                             );
                         }
                     }),
+                    new sap.m.ToolbarSeparator(""),
                     new sap.m.MenuButton("", {
-                        text: ibas.i18n.prop("materials_data_batch_serial"),
+                        text: ibas.strings.format("{0}/{1}", ibas.i18n.prop("materials_batch"), ibas.i18n.prop("materials_serial")),
                         menu: [
                             new sap.m.Menu("", {
                                 items: [
                                     new sap.m.MenuItem("", {
-                                        text: ibas.i18n.prop("materials_app_materialbatchissue"),
+                                        text: ibas.i18n.prop("materials_batch"),
                                         press: function (): void {
                                             that.fireViewEvents(that.chooseGoodsIssueLineMaterialBatchEvent);
                                         }
                                     }),
                                     new sap.m.MenuItem("", {
-                                        text: ibas.i18n.prop("materials_app_materialserialhissue"),
+                                        text: ibas.i18n.prop("materials_serial"),
                                         press: function (): void {
                                             that.fireViewEvents(that.chooseGoodsIssueLineMaterialSerialEvent);
                                         }
@@ -150,11 +137,19 @@ export class GoodsIssueEditView extends ibas.BOEditView implements IGoodsIssueEd
             }),
             enableSelectAll: false,
             selectionBehavior: sap.ui.table.SelectionBehavior.Row,
-            visibleRowCount: ibas.config.get(openui5.utils.CONFIG_ITEM_LIST_TABLE_VISIBLE_ROW_COUNT, 5),
+            visibleRowCount: ibas.config.get(openui5.utils.CONFIG_ITEM_LIST_TABLE_VISIBLE_ROW_COUNT, 8),
             rows: "{/rows}",
             columns: [
                 new sap.ui.table.Column("", {
-                    label: ibas.i18n.prop("bo_goodsreceiptline_linestatus"),
+                    label: ibas.i18n.prop("bo_goodsissueline_lineid"),
+                    template: new sap.m.Text("", {
+                        wrapping: false,
+                    }).bindProperty("text", {
+                        path: "lineId",
+                    }),
+                }),
+                new sap.ui.table.Column("", {
+                    label: ibas.i18n.prop("bo_goodsissueline_linestatus"),
                     template: new sap.m.Select("", {
                         width: "100%",
                         items: openui5.utils.createComboBoxItems(ibas.emDocumentStatus),
@@ -188,33 +183,6 @@ export class GoodsIssueEditView extends ibas.BOEditView implements IGoodsIssueEd
                     })
                 }),
                 new sap.ui.table.Column("", {
-                    label: ibas.i18n.prop("bo_goodsissueline_quantity"),
-                    template: new sap.m.Input("", {
-                        width: "100%",
-                        type: sap.m.InputType.Number
-                    }).bindProperty("value", {
-                        path: "quantity"
-                    })
-                }),
-                new sap.ui.table.Column("", {
-                    label: ibas.i18n.prop("bo_goodsissueline_price"),
-                    template: new sap.m.Input("", {
-                        width: "100%",
-                        type: sap.m.InputType.Number,
-                    }).bindProperty("value", {
-                        path: "price"
-                    })
-                }),
-                new sap.ui.table.Column("", {
-                    label: ibas.i18n.prop("bo_goodsissueline_uom"),
-                    template: new sap.m.Input("", {
-                        width: "100%",
-                        type: sap.m.InputType.Text
-                    }).bindProperty("value", {
-                        path: "uOM"
-                    })
-                }),
-                new sap.ui.table.Column("", {
                     label: ibas.i18n.prop("bo_goodsissueline_warehouse"),
                     template: new sap.m.Input("", {
                         width: "100%",
@@ -229,33 +197,73 @@ export class GoodsIssueEditView extends ibas.BOEditView implements IGoodsIssueEd
                         path: "warehouse"
                     })
                 }),
-            ]
-        });
-        this.form.addContent(this.tableGoodsIssueLine);
-        this.viewBottomForm = new sap.ui.layout.form.SimpleForm("", {
-            editable: true,
-            layout: sap.ui.layout.form.SimpleFormLayout.ResponsiveGridLayout,
-            labelSpanL: 2,
-            labelSpanM: 2,
-            labelSpanS: 12,
-            columnsXL: 2,
-            columnsL: 2,
-            columnsM: 1,
-            columnsS: 1,
-            content: [
-                new sap.ui.core.Title("", { text: ibas.i18n.prop("bo_inventorytransfer_remarks") }),
-                new sap.m.TextArea("", {
-                    rows: 5,
-                }).bindProperty("value", {
-                    path: "remarks"
+                new sap.ui.table.Column("", {
+                    label: ibas.i18n.prop("bo_goodsissueline_quantity"),
+                    template: new sap.m.Input("", {
+                        width: "100%",
+                        type: sap.m.InputType.Number
+                    }).bindProperty("value", {
+                        path: "quantity"
+                    })
+                }),
+                new sap.ui.table.Column("", {
+                    label: ibas.i18n.prop("bo_goodsissueline_uom"),
+                    template: new sap.m.Input("", {
+                        width: "100%",
+                    }).bindProperty("value", {
+                        path: "uom"
+                    })
+                }),
+                new sap.ui.table.Column("", {
+                    label: ibas.i18n.prop("bo_goodsissueline_price"),
+                    template: new sap.m.Input("", {
+                        width: "100%",
+                        type: sap.m.InputType.Number
+                    }).bindProperty("value", {
+                        path: "price"
+                    })
+                }),
+                new sap.ui.table.Column("", {
+                    label: ibas.i18n.prop("bo_goodsissueline_linetotal"),
+                    template: new sap.m.Input("", {
+                        width: "100%",
+                        type: sap.m.InputType.Number
+                    }).bindProperty("value", {
+                        path: "lineTotal"
+                    })
                 }),
             ]
         });
-        this.mainLayout = new sap.ui.layout.VerticalLayout("", {
+        let formMiddle: sap.ui.layout.form.SimpleForm = new sap.ui.layout.form.SimpleForm("", {
+            editable: true,
             content: [
-                this.form,
+                new sap.ui.core.Title("", { text: ibas.i18n.prop("bo_goodsissueline") }),
                 this.tableGoodsIssueLine,
-                this.viewBottomForm,
+            ]
+        });
+        let formBottom: sap.ui.layout.form.SimpleForm = new sap.ui.layout.form.SimpleForm("", {
+            editable: true,
+            content: [
+                new sap.ui.core.Title("", { text: ibas.i18n.prop("materials_remarks_information") }),
+                new sap.m.TextArea("", {
+                    rows: 5,
+                }).bindProperty("value", {
+                    path: "remarks",
+                }),
+                new sap.ui.core.Title("", { text: ibas.i18n.prop("materials_total_information") }),
+                new sap.m.Label("", { text: ibas.i18n.prop("bo_goodsissue_documenttotal") }),
+                new sap.m.Input("", {
+                    editable: false,
+                }).bindProperty("value", {
+                    path: "documentTotal"
+                }),
+            ]
+        });
+        this.layoutMain = new sap.ui.layout.VerticalLayout("", {
+            content: [
+                formTop,
+                formMiddle,
+                formBottom,
             ]
         });
         this.page = new sap.m.Page("", {
@@ -315,11 +323,13 @@ export class GoodsIssueEditView extends ibas.BOEditView implements IGoodsIssueEd
                     }),
                 ]
             }),
-            content: [this.mainLayout]
+            content: [this.layoutMain]
         });
-        this.id = this.page.getId();
         return this.page;
     }
+    private page: sap.m.Page;
+    private layoutMain: sap.ui.layout.VerticalLayout;
+    private tableGoodsIssueLine: sap.ui.table.Table;
     /** 改变视图状态 */
     private changeViewStatus(data: bo.GoodsIssue): void {
         if (ibas.objects.isNull(data)) {
@@ -337,17 +347,16 @@ export class GoodsIssueEditView extends ibas.BOEditView implements IGoodsIssueEd
                 openui5.utils.changeToolbarSavable(<sap.m.Toolbar>this.page.getSubHeader(), false);
                 openui5.utils.changeToolbarDeletable(<sap.m.Toolbar>this.page.getSubHeader(), false);
             }
-            openui5.utils.changeFormEditable(this.form, false);
+            openui5.utils.changeFormEditable(this.layoutMain, false);
         }
     }
-    private tableGoodsIssueLine: sap.ui.table.Table;
 
     /** 显示数据 */
     showGoodsIssue(data: bo.GoodsIssue): void {
-        this.mainLayout.setModel(new sap.ui.model.json.JSONModel(data));
-        this.mainLayout.bindContext("/");
+        this.layoutMain.setModel(new sap.ui.model.json.JSONModel(data));
+        this.layoutMain.bindContext("/");
         // 监听属性改变，并更新控件
-        openui5.utils.refreshModelChanged(this.form, data);
+        openui5.utils.refreshModelChanged(this.layoutMain, data);
         // 改变视图状态
         this.changeViewStatus(data);
     }
@@ -356,18 +365,6 @@ export class GoodsIssueEditView extends ibas.BOEditView implements IGoodsIssueEd
         this.tableGoodsIssueLine.setModel(new sap.ui.model.json.JSONModel({ rows: datas }));
         // 监听属性改变，并更新控件
         openui5.utils.refreshModelChanged(this.tableGoodsIssueLine, datas);
-    }
-    /** 添加价格清单List */
-    showPriceListSelect(datas: bo.MaterialPriceList[]): void {
-        if (!ibas.objects.isNull(datas)) {
-            for (let item of datas) {
-                this.priceListSelect.addItem(new sap.ui.core.ListItem("", {
-                    key: item.objectKey,
-                    text: item.name,
-                    additionalText: item.objectKey
-                }));
-            }
-        }
     }
 
 }
