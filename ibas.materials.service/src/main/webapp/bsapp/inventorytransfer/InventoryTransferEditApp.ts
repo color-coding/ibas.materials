@@ -73,7 +73,6 @@ export class InventoryTransferEditApp extends ibas.BOEditApplication<IInventoryT
     run(data: bo.InventoryTransfer): void;
     run(): void {
         let that: this = this;
-        that.searchPriceList();
         if (ibas.objects.instanceOf(arguments[0], bo.InventoryTransfer)) {
             // 尝试重新查询编辑对象
             let criteria: ibas.ICriteria = arguments[0].criteria();
@@ -442,31 +441,11 @@ export class InventoryTransferEditApp extends ibas.BOEditApplication<IInventoryT
         }
         return conditions;
     }
-    /** 查询价格清单 */
-    searchPriceList(): void {
-        // 查询价格清单
-        let that: this = this;
-        let boRepository: BORepositoryMaterials = new BORepositoryMaterials();
-        boRepository.fetchMaterialPriceList({
-            criteria: [],
-            onCompleted(opRslt: ibas.IOperationResult<bo.MaterialPriceList>): void {
-                let data: bo.MaterialPriceList;
-                if (opRslt.resultCode === 0) {
-                    data = opRslt.resultObjects.firstOrDefault();
-                }
-                if (ibas.objects.instanceOf(data, bo.MaterialPriceList)) {
-                    that.view.showPriceListSelect(opRslt.resultObjects);
-                }
-            }
-        });
-    }
 }
 /** 视图-库存转储 */
 export interface IInventoryTransferEditView extends ibas.IBOEditView {
     /** 显示数据 */
     showInventoryTransfer(data: bo.InventoryTransfer): void;
-    /** 显示价格清单 */
-    showPriceListSelect(datas: bo.MaterialPriceList[]): void;
     /** 删除数据事件 */
     deleteDataEvent: Function;
     /** 新建数据事件，参数1：是否克隆 */

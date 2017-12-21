@@ -36,7 +36,7 @@ export class MaterialInventoryJournalEditView extends ibas.BOEditView implements
             columnsM: 1,
             columnsS: 1,
             content: [
-                new sap.ui.core.Title("", { text: ibas.i18n.prop("materials_base_information") }),
+                new sap.ui.core.Title("", { text: ibas.i18n.prop("materials_general_information") }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_materialjournal_baseentry") }),
                 new sap.m.Input("", {
                 }).bindProperty("value", {
@@ -70,11 +70,11 @@ export class MaterialInventoryJournalEditView extends ibas.BOEditView implements
                 new sap.m.Select("", {
                     width: "30%",
                     items: [
-                        new sap.m.SegmentedButtonItem("", {
+                        new sap.m.SelectItem("", {
                             text: ibas.enums.describe(ibas.emDirection, ibas.emDirection.IN),
                             key: ibas.emDirection.IN
                         }),
-                        new sap.m.SegmentedButtonItem("", {
+                        new sap.m.SelectItem("", {
                             text: ibas.enums.describe(ibas.emDirection, ibas.emDirection.OUT),
                             key: ibas.emDirection.OUT
                         })

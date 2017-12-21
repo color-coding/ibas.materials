@@ -28,7 +28,7 @@ export class MaterialReceiptBatchServiceView extends ibas.BODialogView implement
     autoCreateBatchEvent: Function;
     /** 选中凭证行事件 */
     selectMaterialBatchJournalLineEvent: Function;
-    private mainLayout: sap.ui.layout.VerticalLayout;
+    private layoutMain: sap.ui.layout.VerticalLayout;
     private journalLineTable: sap.ui.table.Table;
     /** 绘制视图 */
     darw(): any {
@@ -180,13 +180,13 @@ export class MaterialReceiptBatchServiceView extends ibas.BODialogView implement
                 }),
             ]
         });
-        this.mainLayout = new sap.ui.layout.VerticalLayout("", {
+        this.layoutMain = new sap.ui.layout.VerticalLayout("", {
             content: [
                 this.journalLineTable,
                 this.table
             ]
         });
-        this.id = this.mainLayout.getId();
+        this.id = this.layoutMain.getId();
         return new sap.m.Dialog("", {
             title: this.title,
             type: sap.m.DialogType.Standard,
@@ -194,7 +194,7 @@ export class MaterialReceiptBatchServiceView extends ibas.BODialogView implement
             stretchOnPhone: true,
             horizontalScrolling: true,
             verticalScrolling: true,
-            content: [this.mainLayout],
+            content: [this.layoutMain],
             buttons: [
                 new sap.m.Button("", {
                     text: ibas.i18n.prop("shell_confirm"),

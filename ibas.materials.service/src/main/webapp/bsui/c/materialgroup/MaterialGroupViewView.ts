@@ -31,7 +31,7 @@ export class MaterialGroupViewView extends ibas.BOViewView implements IMaterialG
             columnsM: 1,
             columnsS: 1,
             content: [
-                new sap.ui.core.Title("", { text: ibas.i18n.prop("materials_base_information") }),
+                new sap.ui.core.Title("", { text: ibas.i18n.prop("materials_general_information") }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_materialgroup_code") }),
                 new sap.m.Text("", {
                 }).bindProperty("text", {

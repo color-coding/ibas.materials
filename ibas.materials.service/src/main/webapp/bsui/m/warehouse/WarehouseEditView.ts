@@ -32,7 +32,7 @@ export class WarehouseEditView extends ibas.BOEditView implements IWarehouseEdit
             columnsM: 1,
             columnsS: 1,
             content: [
-                new sap.ui.core.Title("", { text: ibas.i18n.prop("materials_base_information") }),
+                new sap.ui.core.Title("", { text: ibas.i18n.prop("materials_general_information") }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_warehouse_code") }),
                 new sap.m.Input("", {
                 }).bindProperty("value", {
@@ -46,19 +46,19 @@ export class WarehouseEditView extends ibas.BOEditView implements IWarehouseEdit
 
                 new sap.ui.core.Title("", { text: ibas.i18n.prop("materials_sys_information") }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_warehouse_activated") }),
-                new sap.m.SegmentedButton("",{
-                    width:"30%",
+                new sap.m.Select("", {
+                    width: "30%",
                     items: [
-                        new sap.m.SegmentedButtonItem("",{
-                            text: ibas.enums.describe(ibas.emYesNo,ibas.emYesNo.YES),
+                        new sap.m.SelectItem("", {
+                            text: ibas.enums.describe(ibas.emYesNo, ibas.emYesNo.YES),
                             key: ibas.emYesNo.YES
                         }),
-                        new sap.m.SegmentedButtonItem("",{
-                            text: ibas.enums.describe(ibas.emYesNo,ibas.emYesNo.NO),
+                        new sap.m.SelectItem("", {
+                            text: ibas.enums.describe(ibas.emYesNo, ibas.emYesNo.NO),
                             key: ibas.emYesNo.NO
                         })
                     ]
-                }).bindProperty("selectedKey",{
+                }).bindProperty("selectedKey", {
                     path: "/activated",
                     type: "sap.ui.model.type.Integer"
                 }),

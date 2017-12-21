@@ -93,18 +93,6 @@ export class MaterialListView extends ibas.BOListView implements IMaterialListVi
                         path: "remarks",
                     }),
                 }),
-                new sap.ui.table.Column("", {
-                    label: ibas.i18n.prop("bo_material_createdate"),
-                    template: new sap.m.Text("", {
-                        wrapping: false,
-                    }).bindProperty("text", {
-                        path: "createDate",
-                        type: "sap.ui.model.type.Date",
-                        formatOptions: {
-                            style: "short"
-                        }
-                    }),
-                }),
             ],
         });
         this.form.addContent(this.table);
@@ -121,6 +109,7 @@ export class MaterialListView extends ibas.BOListView implements IMaterialListVi
                             that.fireViewEvents(that.newDataEvent);
                         }
                     }),
+                    /*
                     new sap.m.Button("", {
                         text: ibas.i18n.prop("shell_data_view"),
                         type: sap.m.ButtonType.Transparent,
@@ -133,6 +122,7 @@ export class MaterialListView extends ibas.BOListView implements IMaterialListVi
                             );
                         }
                     }),
+                    */
                     new sap.m.Button("", {
                         text: ibas.i18n.prop("shell_data_edit"),
                         type: sap.m.ButtonType.Transparent,

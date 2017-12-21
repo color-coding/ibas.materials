@@ -52,7 +52,7 @@ export class GoodsReceiptEditApp extends ibas.BOEditApplication<IGoodsReceiptEdi
         this.view.addGoodsReceiptLineEvent = this.addGoodsReceiptLine;
         this.view.removeGoodsReceiptLineEvent = this.removeGoodsReceiptLine;
         this.view.chooseGoodsReceiptLineMaterialEvent = this.chooseGoodsReceiptLineMaterial;
-        this.view.chooseGoodsreceiptlineWarehouseEvent = this.chooseGoodsreceiptlineWarehouse;
+        this.view.chooseGoodsReceiptlineWarehouseEvent = this.chooseGoodsReceiptlineWarehouse;
         this.view.createGoodsReceiptLineMaterialBatchEvent = this.createGoodsReceiptLineMaterialBatch;
         this.view.createGoodsReceiptLineMaterialSerialEvent = this.createGoodsReceiptLineMaterialSerial;
     }
@@ -72,7 +72,6 @@ export class GoodsReceiptEditApp extends ibas.BOEditApplication<IGoodsReceiptEdi
     run(data: bo.GoodsReceipt): void;
     run(): void {
         let that: this = this;
-        that.searchPriceList();
         if (ibas.objects.instanceOf(arguments[0], bo.GoodsReceipt)) {
             // 尝试重新查询编辑对象
             let criteria: ibas.ICriteria = arguments[0].criteria();
@@ -266,7 +265,7 @@ export class GoodsReceiptEditApp extends ibas.BOEditApplication<IGoodsReceiptEdi
     }
 
     /** 选择库存收货订单行物料事件 */
-    chooseGoodsreceiptlineWarehouse(caller: bo.GoodsReceiptLine): void {
+    chooseGoodsReceiptlineWarehouse(caller: bo.GoodsReceiptLine): void {
         let that: this = this;
         ibas.servicesManager.runChooseService<bo.Warehouse>({
             boCode: bo.Warehouse.BUSINESS_OBJECT_CODE,
@@ -442,24 +441,6 @@ export class GoodsReceiptEditApp extends ibas.BOEditApplication<IGoodsReceiptEdi
         return { materialReceiptSerialContractLines: contracts };
     }
 
-    /** 查询价格清单 */
-    searchPriceList(): void {
-        // 查询价格清单
-        let that: this = this;
-        let boRepository: BORepositoryMaterials = new BORepositoryMaterials();
-        boRepository.fetchMaterialPriceList({
-            criteria: [],
-            onCompleted(opRslt: ibas.IOperationResult<bo.MaterialPriceList>): void {
-                let data: bo.MaterialPriceList;
-                if (opRslt.resultCode === 0) {
-                    data = opRslt.resultObjects.firstOrDefault();
-                }
-                if (ibas.objects.instanceOf(data, bo.MaterialPriceList)) {
-                    that.view.showPriceListSelect(opRslt.resultObjects);
-                }
-            }
-        });
-    }
     /** 获取物料增量查询条件 */
     getConditions(): ibas.ICondition[] {
         let conditions: ibas.ICondition[] = new Array<ibas.ICondition>();
@@ -477,8 +458,6 @@ export class GoodsReceiptEditApp extends ibas.BOEditApplication<IGoodsReceiptEdi
 export interface IGoodsReceiptEditView extends ibas.IBOEditView {
     /** 显示数据 */
     showGoodsReceipt(data: bo.GoodsReceipt): void;
-    /** 显示价格清单 */
-    showPriceListSelect(datas: bo.MaterialPriceList[]): void;
     /** 删除数据事件 */
     deleteDataEvent: Function;
     /** 新建数据事件，参数1：是否克隆 */
@@ -492,7 +471,7 @@ export interface IGoodsReceiptEditView extends ibas.IBOEditView {
     /** 选择库存收货单行物料事件 */
     chooseGoodsReceiptLineMaterialEvent: Function;
     /** 选择库存收货单行仓库事件 */
-    chooseGoodsreceiptlineWarehouseEvent: Function;
+    chooseGoodsReceiptlineWarehouseEvent: Function;
     /** 批次管理物料新建批次 */
     createGoodsReceiptLineMaterialBatchEvent: Function;
     /** 批次管理物料新建序列 */

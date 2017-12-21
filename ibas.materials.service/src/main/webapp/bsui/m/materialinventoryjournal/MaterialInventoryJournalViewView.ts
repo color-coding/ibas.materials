@@ -27,7 +27,7 @@ export class MaterialInventoryJournalViewView extends ibas.BOViewView implements
             columnsM: 1,
             columnsS: 1,
             content: [
-                new sap.ui.core.Title("", { text: ibas.i18n.prop("materials_base_information") }),
+                new sap.ui.core.Title("", { text: ibas.i18n.prop("materials_general_information") }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_materialjournal_baseentry") }),
                 new sap.m.Text("", {
                 }).bindProperty("text", {

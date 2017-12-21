@@ -15,7 +15,7 @@ import { IGoodsReceiptViewView } from "../../../bsapp/goodsreceipt/index";
  * 查看视图-库存收货
  */
 export class GoodsReceiptViewView extends ibas.BOViewView implements IGoodsReceiptViewView {
-    private mainLayout: sap.ui.layout.VerticalLayout;
+    private layoutMain: sap.ui.layout.VerticalLayout;
     private viewBottomForm: sap.ui.layout.form.SimpleForm;
     /** 绘制视图 */
     darw(): any {
@@ -33,7 +33,7 @@ export class GoodsReceiptViewView extends ibas.BOViewView implements IGoodsRecei
             columnsM: 1,
             columnsS: 1,
             content: [
-                new sap.ui.core.Title("", { text: ibas.i18n.prop("materials_base_information") }),
+                new sap.ui.core.Title("", { text: ibas.i18n.prop("materials_general_information") }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_goodsreceipt_docentry") }),
                 new sap.m.Text("", {
                 }).bindProperty("text", {
@@ -170,7 +170,7 @@ export class GoodsReceiptViewView extends ibas.BOViewView implements IGoodsRecei
                 }),
             ]
         });
-        this.mainLayout = new sap.ui.layout.VerticalLayout("", {
+        this.layoutMain = new sap.ui.layout.VerticalLayout("", {
             content: [
                 this.form,
                 this.tableGoodsReceiptLine,
@@ -223,7 +223,7 @@ export class GoodsReceiptViewView extends ibas.BOViewView implements IGoodsRecei
                     })
                 ]
             }),
-            content: [this.mainLayout]
+            content: [this.layoutMain]
         });
         this.id = this.page.getId();
         return this.page;
@@ -234,8 +234,8 @@ export class GoodsReceiptViewView extends ibas.BOViewView implements IGoodsRecei
 
     /** 显示数据 */
     showGoodsReceipt(data: bo.GoodsReceipt): void {
-        this.mainLayout.setModel(new sap.ui.model.json.JSONModel(data));
-        this.mainLayout.bindObject("/");
+        this.layoutMain.setModel(new sap.ui.model.json.JSONModel(data));
+        this.layoutMain.bindObject("/");
     }
     /** 显示数据 */
     showGoodsReceiptLines(datas: bo.GoodsReceiptLine[]): void {

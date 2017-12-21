@@ -72,39 +72,14 @@ export class GoodsIssueChooseView extends ibas.BOChooseView implements IGoodsIss
                 }),
                 new sap.ui.table.Column("", {
                     label: ibas.i18n.prop("bo_goodsissue_documentstatus"),
-                    template: new sap.m.Select("", {
-                        enabled: false,
-                        items: openui5.utils.createComboBoxItems(ibas.emDocumentStatus),
-                    }).bindProperty("selectedKey", {
+                    template: new sap.m.Text("", {
+                        wrapping: false
+                    }).bindProperty("text", {
                         path: "documentStatus",
-                        type: "sap.ui.model.type.Integer",
-                    }),
-                }),
-                new sap.ui.table.Column("", {
-                    label: ibas.i18n.prop("bo_goodsissue_approvalstatus"),
-                    template: new sap.m.Select("", {
-                        enabled: false,
-                        items: openui5.utils.createComboBoxItems(ibas.emApprovalStatus),
-                    }).bindProperty("selectedKey", {
-                        path: "approvalStatus",
-                        type: "sap.ui.model.type.Integer",
-                    }),
-                }),
-                new sap.ui.table.Column("", {
-                    label: ibas.i18n.prop("bo_goodsissue_documenttotal"),
-                    template: new sap.m.Text("", {
-                        wrapping: false,
-                    }).bindProperty("text", {
-                        path: "documentTotal",
-                    }),
-                }),
-                new sap.ui.table.Column("", {
-                    label: ibas.i18n.prop("bo_goodsissue_deliverydate"),
-                    template: new sap.m.Text("", {
-                        wrapping: false,
-                    }).bindProperty("text", {
-                        path: "deliveryDate",
-                    }),
+                        formatter(data: any): any {
+                            return ibas.enums.describe(ibas.emDocumentStatus, data);
+                        }
+                    })
                 }),
                 new sap.ui.table.Column("", {
                     label: ibas.i18n.prop("bo_goodsissue_documentdate"),
@@ -112,6 +87,10 @@ export class GoodsIssueChooseView extends ibas.BOChooseView implements IGoodsIss
                         wrapping: false,
                     }).bindProperty("text", {
                         path: "documentDate",
+                        type: "sap.ui.model.type.Date",
+                        formatOptions: {
+                            style: "short"
+                        }
                     }),
                 }),
                 new sap.ui.table.Column("", {

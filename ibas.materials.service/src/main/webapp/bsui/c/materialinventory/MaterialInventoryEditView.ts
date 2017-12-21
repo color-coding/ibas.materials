@@ -39,7 +39,7 @@ export class MaterialInventoryEditView extends ibas.BOEditView implements IMater
             columnsM: 1,
             columnsS: 1,
             content: [
-                new sap.ui.core.Title("", { text: ibas.i18n.prop("materials_base_information") }),
+                new sap.ui.core.Title("", { text: ibas.i18n.prop("materials_general_information") }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_materialjournal_itemcode") }),
                 new sap.m.Input("", {
                     showValueHelp: true,
@@ -64,7 +64,7 @@ export class MaterialInventoryEditView extends ibas.BOEditView implements IMater
                 }).bindProperty("value", {
                     path: "/avgPrice"
                 }),
-                new sap.ui.core.Title("", { text: ibas.i18n.prop("materials_onHand_information") }),
+                new sap.ui.core.Title("", { text: ibas.i18n.prop("materials_inventory_information") }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_materialinventory_onhand") }),
                 new sap.m.Input("", {
                     type: sap.m.InputType.Number,
