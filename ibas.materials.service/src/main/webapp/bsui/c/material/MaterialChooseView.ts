@@ -112,7 +112,7 @@ export class MaterialChooseView extends ibas.BOChooseView implements IMaterialCh
                     }),
                 }),
                 new sap.ui.table.Column("", {
-                    label: ibas.i18n.prop("bo_material_uom"),
+                    label: ibas.i18n.prop("bo_material_inventoryuom"),
                     template: new sap.m.Text("", {
                         wrapping: false,
                     }).bindProperty("text", {

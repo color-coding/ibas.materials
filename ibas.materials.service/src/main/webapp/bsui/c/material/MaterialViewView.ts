@@ -129,7 +129,7 @@ export class MaterialViewView extends ibas.BOViewView implements IMaterialViewVi
                 }).bindProperty("text", {
                     path: "onOrder"
                 }),
-                new sap.m.Label("", { text: ibas.i18n.prop("bo_material_uom") }),
+                new sap.m.Label("", { text: ibas.i18n.prop("bo_material_inventoryuom") }),
                 new sap.m.Text("", {
                 }).bindProperty("text", {
                     path: "UOM"
