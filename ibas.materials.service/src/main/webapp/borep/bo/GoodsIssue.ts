@@ -22,6 +22,7 @@ import {
     strings,
     config,
     objects,
+    numbers,
     enums,
     emDirection,
 } from "ibas/index";
@@ -36,6 +37,7 @@ import {
 } from "../../api/index";
 import { MaterialBatchJournals } from "./MaterialBatchJournal";
 import { MaterialSerialJournals } from "./MaterialSerialJournal";
+import { BODocumentBaseLine, BODocumentBaseLines } from "./BODocumentBaseLine";
 /** 库存发货 */
 export class GoodsIssue extends BODocument<GoodsIssue> implements IGoodsIssue {
 
@@ -436,11 +438,12 @@ export class GoodsIssue extends BODocument<GoodsIssue> implements IGoodsIssue {
     protected init(): void {
         this.goodsIssueLines = new GoodsIssueLines(this);
         this.objectCode = config.applyVariables(GoodsIssue.BUSINESS_OBJECT_CODE);
+        this.documentStatus = emDocumentStatus.PLANNED;
     }
 }
 
 /** 库存发货-行 集合 */
-export class GoodsIssueLines extends BusinessObjects<GoodsIssueLine, GoodsIssue> implements IGoodsIssueLines {
+export class GoodsIssueLines extends BODocumentBaseLines<GoodsIssueLine, GoodsIssue> implements IGoodsIssueLines {
 
     /** 创建并添加子项 */
     create(): GoodsIssueLine {
@@ -448,75 +451,27 @@ export class GoodsIssueLines extends BusinessObjects<GoodsIssueLine, GoodsIssue>
         this.add(item);
         return item;
     }
-    /** 取出需要添加批次的行 */
-    filterBatchLine(): GoodsIssueLine[] {
-        let goodIssueLines: GoodsIssueLine[] = this.filter(
-            c => c.isDeleted === false
-                && !objects.isNull(c.lineStatus)
-                && c.lineStatus !== emDocumentStatus.PLANNED
-                && c.batchManagement !== undefined
-                && c.batchManagement.toString() === enums.toString(emYesNo, emYesNo.YES)
-                && !strings.isEmpty(c.itemCode)
-                && !strings.isEmpty(c.warehouse));
-        return goodIssueLines;
-    }
 
-    /** 取出需要添加序列的行 */
-    filterSerialLine(): GoodsIssueLine[] {
-        let goodIssueLines: GoodsIssueLine[] = this.filter(
-            c => c.isDeleted === false
-                && !objects.isNull(c.lineStatus)
-                && c.lineStatus !== emDocumentStatus.PLANNED
-                && c.serialManagement !== undefined
-                && c.serialManagement.toString() === enums.toString(emYesNo, emYesNo.YES)
-                && !strings.isEmpty(c.itemCode)
-                && !strings.isEmpty(c.warehouse));
-        return goodIssueLines;
-    }
-    /** 监听父项属性改变 */
-    protected onParentPropertyChanged(name: string): void {
-        super.onParentPropertyChanged(name);
-        if (strings.equalsIgnoreCase(name, GoodsIssue.PROPERTY_DOCUMENTSTATUS_NAME)) {
-            for (let item of this.filterDeleted()) {
-                item.lineStatus = this.parent.documentStatus;
-            }
-        }
-    }
 }
 /** 库存发货-批次日记账 集合 */
 export class GoodsIssueLineMaterialBatchJournals extends MaterialBatchJournals<GoodsIssueLine>
     implements IGoodsIssueLineMaterialBatchJournals {
-    /** 监听父项属性改变 */
-    protected onParentPropertyChanged(name: string): void {
-        super.onParentPropertyChanged(name);
-        if (strings.equalsIgnoreCase(name, GoodsIssueLine.PROPERTY_LINESTATUS_NAME)) {
-            for (let item of this.filterDeleted()) {
-                item.lineStatus = this.parent.lineStatus;
-            }
-        }
-    }
+
 }
 /** 库存发货-序列日记账 集合 */
 export class GoodsIssueLineMaterialSerialJournals extends MaterialSerialJournals<GoodsIssueLine>
     implements IGoodsIssueLineMaterialSerialJournals {
-    /** 监听父项属性改变 */
-    protected onParentPropertyChanged(name: string): void {
-        super.onParentPropertyChanged(name);
-        if (strings.equalsIgnoreCase(name, GoodsIssueLine.PROPERTY_LINESTATUS_NAME)) {
-            for (let item of this.filterDeleted()) {
-                item.lineStatus = this.parent.lineStatus;
-            }
-        }
-    }
+
 }
 
 /** 库存发货-行 */
-export class GoodsIssueLine extends BODocumentLine<GoodsIssueLine> implements IGoodsIssueLine {
+export class GoodsIssueLine extends BODocumentBaseLine<GoodsIssueLine> implements IGoodsIssueLine {
 
     /** 构造函数 */
     constructor() {
         super();
     }
+
     /** 映射的属性名称-编码 */
     static PROPERTY_DOCENTRY_NAME: string = "DocEntry";
     /** 获取-编码 */

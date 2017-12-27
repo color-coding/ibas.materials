@@ -10,7 +10,7 @@
     "bo_materialserial_admissiondate":"准入日期",
     "bo_materialserial_warehouse":"仓库",
     "bo_materialserial_instock":"在仓库",
-    "bo_materialserial_itemCode":"物料编码",
+    "bo_materialserial_itemcode":"物料编码",
     "bo_materialserial_notes":"备注",
     "bo_materialserial_internalserial":"内部序号",
     "bo_materialserial_locked":"锁定",

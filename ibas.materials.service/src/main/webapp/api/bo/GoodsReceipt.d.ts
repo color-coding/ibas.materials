@@ -26,6 +26,8 @@ import {
 import {
     IMaterialBatchJournals,
     IMaterialSerialJournals,
+    IBODocumentBaseLines,
+    IBODocumentBaseLine,
 } from "./index";
 /** 库存收货 */
 export interface IGoodsReceipt extends IBODocument {
@@ -140,7 +142,7 @@ export interface IGoodsReceipt extends IBODocument {
 }
 
 /** 库存收货-行 集合 */
-export interface IGoodsReceiptLines extends IBusinessObjects<IGoodsReceiptLine, IGoodsReceipt> {
+export interface IGoodsReceiptLines extends IBODocumentBaseLines<IGoodsReceiptLine, IGoodsReceipt> {
 
     /** 创建并添加子项 */
     create(): IGoodsReceiptLine;
@@ -155,7 +157,7 @@ export interface IGoodsReceiptLineMaterialSerialJournals extends IMaterialSerial
 }
 
 /** 库存收货-行 */
-export interface IGoodsReceiptLine extends IBODocumentLine {
+export interface IGoodsReceiptLine extends IBODocumentBaseLine {
 
     /** 编码 */
     docEntry: number;

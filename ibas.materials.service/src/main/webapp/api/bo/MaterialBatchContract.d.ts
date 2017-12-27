@@ -7,54 +7,40 @@
  */
 
 import {
+    ArrayList,
     emDirection,
     IBusinessObject,
     IBusinessObjects,
     IBOMasterData,
     IBOMasterDataLine,
+    IBODocumentLine,
     IBOSimple,
     IBOSimpleLine,
 } from "ibas/index";
 import {
-    IMaterialBaseContract,
-    IMaterialBatchBaseLine,
+    IMaterialBatchJournal,
+    IMaterialBatchJournals,
 } from "./index";
+import {
+    MaterialBatchJournal, MaterialBatchJournals
+} from "../../borep/bo/index";
 /**  */
-export interface IMaterialBatchContract extends IMaterialBaseContract {
+export interface IMaterialBatchContract {
 
-    /** 单据类型 */
-    docType?: string;
+    /**物料编号 */
+    itemCode: string;
 
-    /** 单据号 */
-    docEntry?: number;
+    /**仓库编码 */
+    warehouse: string;
 
-    /** 单据行号 */
-    lineNum?: number;
+    /**数量 */
+    quantity: number;
 
     /** 创建的物料批次 */
-    materialBatchs?: IMaterialBatchs
+    materialBatchs?: IMaterialBatchs;
 }
 
-
-/** 物料入库行批次信息 */
-export interface IMaterialBatchs {
-    /** 物料出库行批次信息 */
-    materialLineBatchs: IMaterialBatchLine[];
-
-    /** 创建批次日记账  返回调用者 */
-    createBatchJournal(data: IMaterialBatchBaseLine): any;
-    /** 删除批次记账 返回更新者 */
-    deleteBatchJournal(data: IMaterialBatchBaseLine): any;
-    /** 修改批次记账 */
-    updateBatchJournal(data: IMaterialBatchBaseLine): void;
+export interface IMaterialBatchs extends ArrayList<MaterialBatchJournal>{
+    create(batchJournal:IMaterialBatchJournal):void;
 }
 
-/** 物料入库批次服务行-新建 */
-export interface IMaterialBatchLine extends IMaterialBatchBaseLine {
-    /** 方向 */
-    direction: emDirection;
-
-    itemCode?: string;
-
-    warehouse?: string;
-}

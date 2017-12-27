@@ -6,7 +6,7 @@
  * @Author: fancy
  * @Date: 2017-11-30 17:55:41
  * @Last Modified by: fancy
- * @Last Modified time: 2017-12-21 17:00:44
+ * @Last Modified time: 2017-12-22 16:06:41
  */
 
 
@@ -15,16 +15,16 @@ import * as openui5 from "openui5/index";
 import * as bo from "../../../borep/bo/index";
 import {
     IMaterialReceiptSerialView,
-    MaterialReceiptSerialJournal,
-    MaterialReceiptSerialInfo
+    MaterialSerialServiceJournal
 } from "../../../bsapp/materialserial/index";
 
 export class MaterialReceiptSerialServiceView extends ibas.BODialogView implements IMaterialReceiptSerialView {
     /** 添加批次事件 */
     addSerialEvent: Function;
     /** 移除批次事件 */
-    saveDataEvent: Function;
     removeSerialEvent: Function;
+    /** 确定事件 */
+    confirmDataEvent: Function;
     /** 自动创建批次事件 */
     autoCreateSerialEvent: Function;
     /** 选中凭证行事件 */
@@ -43,7 +43,7 @@ export class MaterialReceiptSerialServiceView extends ibas.BODialogView implemen
                         type: sap.m.ButtonType.Transparent,
                         press: function (): void {
                             that.fireViewEvents(that.autoCreateSerialEvent,
-                                openui5.utils.getTableSelecteds<MaterialReceiptSerialJournal>(that.journalLineTable).firstOrDefault()
+                                openui5.utils.getTableSelecteds<MaterialSerialServiceJournal>(that.journalLineTable).firstOrDefault()
                             );
                         }
                     }),
@@ -53,7 +53,7 @@ export class MaterialReceiptSerialServiceView extends ibas.BODialogView implemen
                         icon: "sap-icon://add",
                         press: function (): void {
                             that.fireViewEvents(that.addSerialEvent,
-                                openui5.utils.getTableSelecteds<MaterialReceiptSerialJournal>(that.journalLineTable).firstOrDefault());
+                                openui5.utils.getTableSelecteds<MaterialSerialServiceJournal>(that.journalLineTable).firstOrDefault());
                         }
                     }),
                     new sap.m.Button("", {
@@ -62,8 +62,8 @@ export class MaterialReceiptSerialServiceView extends ibas.BODialogView implemen
                         icon: "sap-icon://less",
                         press: function (): void {
                             that.fireViewEvents(that.removeSerialEvent,
-                                openui5.utils.getTableSelecteds<MaterialReceiptSerialJournal>(that.journalLineTable).firstOrDefault(),
-                                openui5.utils.getTableSelecteds<bo.MaterialBatch>(that.table)
+                                openui5.utils.getTableSelecteds<MaterialSerialServiceJournal>(that.journalLineTable).firstOrDefault(),
+                                openui5.utils.getTableSelecteds<bo.MaterialSerialJournal>(that.table)
                             );
                         }
                     }),
@@ -119,7 +119,7 @@ export class MaterialReceiptSerialServiceView extends ibas.BODialogView implemen
             visibleRowCountMode: sap.ui.table.VisibleRowCountMode.Interactive,
             rowSelectionChange: function (): void {
                 that.fireViewEvents(that.selectMaterialSerialJournalLineEvent,
-                    openui5.utils.getTableSelecteds<MaterialReceiptSerialJournal>(that.journalLineTable).firstOrDefault(), );
+                    openui5.utils.getTableSelecteds<MaterialSerialServiceJournal>(that.journalLineTable).firstOrDefault(), );
             },
             rows: "{/journallinedata}",
             columns: [
@@ -196,7 +196,7 @@ export class MaterialReceiptSerialServiceView extends ibas.BODialogView implemen
                     text: ibas.i18n.prop("shell_confirm"),
                     type: sap.m.ButtonType.Transparent,
                     press: function (): void {
-                        that.fireViewEvents(that.saveDataEvent);
+                        that.fireViewEvents(that.confirmDataEvent);
                     }
                 }),
                 new sap.m.Button("", {
@@ -211,13 +211,13 @@ export class MaterialReceiptSerialServiceView extends ibas.BODialogView implemen
     }
     private table: sap.ui.table.Table;
     /** 显示数据 */
-    showData(datas: MaterialReceiptSerialInfo[]): void {
+    showData(datas: bo.MaterialSerialJournal[]): void {
         this.table.setModel(new sap.ui.model.json.JSONModel({ rows: datas }));
         openui5.utils.refreshModelChanged(this.table, datas);
     }
-    showJournalLineData(datas: MaterialReceiptSerialJournal[]): void {
+    showJournalLineData(datas: MaterialSerialServiceJournal[]): void {
         this.journalLineTable.setModel(new sap.ui.model.json.JSONModel({ journallinedata: datas }));
-        openui5.utils.refreshModelChanged(this.journalLineTable, datas);
+        // openui5.utils.refreshModelChanged(this.journalLineTable, datas);
     }
     private lastCriteria: ibas.ICriteria;
 

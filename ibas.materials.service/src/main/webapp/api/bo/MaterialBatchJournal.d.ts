@@ -112,6 +112,8 @@ export interface IMaterialBatchJournal extends IBOSimple {
 
 export interface IMaterialBatchJournals<P extends IBODocumentLine> extends IBusinessObjects<IMaterialBatchJournal, P> {
 
+    create(): IMaterialBatchJournal;
+    create(item: IMaterialBatchJournal): IMaterialBatchJournal;
     /** 移除批次日记账 */
     removeAll(): void;
     /** 删除批次日记账 */

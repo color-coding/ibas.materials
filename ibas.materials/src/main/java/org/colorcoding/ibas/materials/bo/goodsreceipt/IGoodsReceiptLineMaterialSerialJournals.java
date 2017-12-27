@@ -1,7 +1,6 @@
 package org.colorcoding.ibas.materials.bo.goodsreceipt;
 
-import org.colorcoding.ibas.bobas.bo.IBusinessObjects;
-import org.colorcoding.ibas.materials.bo.materialserial.IMaterialSerialJournal;
+import org.colorcoding.ibas.materials.bo.materialserial.IMaterialSerialJournals;
 
-public interface IGoodsReceiptLineMaterialSerialJournals extends IBusinessObjects<IMaterialSerialJournal, IGoodsReceiptLine> {
+public interface IGoodsReceiptLineMaterialSerialJournals extends IMaterialSerialJournals<IGoodsReceiptLine> {
 }

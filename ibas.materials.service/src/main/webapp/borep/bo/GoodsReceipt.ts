@@ -38,6 +38,7 @@ import {
 } from "../../api/index";
 import { MaterialBatchJournals } from "./MaterialBatchJournal";
 import { MaterialSerialJournals } from "./MaterialSerialJournal";
+import { BODocumentBaseLine, BODocumentBaseLines } from "./BODocumentBaseLine";
 /** 库存收货 */
 export class GoodsReceipt extends BODocument<GoodsReceipt> implements IGoodsReceipt {
 
@@ -438,81 +439,32 @@ export class GoodsReceipt extends BODocument<GoodsReceipt> implements IGoodsRece
     protected init(): void {
         this.goodsReceiptLines = new GoodsReceiptLines(this);
         this.objectCode = config.applyVariables(GoodsReceipt.BUSINESS_OBJECT_CODE);
+        this.documentStatus = emDocumentStatus.PLANNED;
     }
 }
 
 /** 库存收货-行 集合 */
-export class GoodsReceiptLines extends BusinessObjects<GoodsReceiptLine, GoodsReceipt> implements IGoodsReceiptLines {
+export class GoodsReceiptLines extends BODocumentBaseLines<GoodsReceiptLine, GoodsReceipt> implements IGoodsReceiptLines {
     /** 创建并添加子项 */
     create(): GoodsReceiptLine {
         let item: GoodsReceiptLine = new GoodsReceiptLine();
         this.add(item);
         return item;
     }
-    /** 取出需要创建批次的行集合 */
-    filterBatchLine(): GoodsReceiptLine[] {
-        let goodReceiptLines: GoodsReceiptLine[] = this.filter(
-            c => c.isDeleted === false
-                && !objects.isNull(c.lineStatus)
-                && c.lineStatus !== emDocumentStatus.PLANNED
-                // && c.batchManagement !== undefined
-                // && c.batchManagement.toString() === enums.toString(emYesNo, emYesNo.YES)
-                && !strings.isEmpty(c.itemCode)
-                && !strings.isEmpty(c.warehouse));
-        return goodReceiptLines;
-    }
-    /** 取出需要创建序列的行集合 */
-    filterSerialLine(): GoodsReceiptLine[] {
-        let goodReceiptLines: GoodsReceiptLine[] = this.filter(
-            c => c.isDeleted === false
-                && !objects.isNull(c.lineStatus)
-                && c.lineStatus !== emDocumentStatus.PLANNED
-                // && c.serialManagement !== undefined
-                // && c.serialManagement.toString() === enums.toString(emYesNo, emYesNo.YES)
-                && !strings.isEmpty(c.itemCode)
-                && !strings.isEmpty(c.warehouse));
-        return goodReceiptLines;
-    }
-    /** 监听父项属性改变 */
-    protected onParentPropertyChanged(name: string): void {
-        super.onParentPropertyChanged(name);
-        if (strings.equalsIgnoreCase(name, GoodsReceipt.PROPERTY_DOCUMENTSTATUS_NAME)) {
-            for (let item of this.filterDeleted()) {
-                item.lineStatus = this.parent.documentStatus;
-            }
-        }
-    }
+
 }
 
 /** 库存收货-批次日记账 集合 */
 export class GoodsReceiptLineMaterialBatchJournals extends MaterialBatchJournals<GoodsReceiptLine>
     implements IGoodsReceiptLineMaterialBatchJournals {
-
-    /** 监听父项属性改变 */
-    protected onParentPropertyChanged(name: string): void {
-        super.onParentPropertyChanged(name);
-        if (strings.equalsIgnoreCase(name, GoodsReceiptLine.PROPERTY_LINESTATUS_NAME)) {
-            for (let item of this.filterDeleted()) {
-                item.lineStatus = this.parent.lineStatus;
-            }
-        }
-    }
 }
 /** 库存库存收货发货-序列日记账 集合 */
 export class GoodsReceiptLineMaterialSerialJournals extends MaterialSerialJournals<GoodsReceiptLine>
     implements IGoodsReceiptLineMaterialSerialJournals {
     /** 监听父项属性改变 */
-    protected onParentPropertyChanged(name: string): void {
-        super.onParentPropertyChanged(name);
-        if (strings.equalsIgnoreCase(name, GoodsReceiptLine.PROPERTY_LINESTATUS_NAME)) {
-            for (let item of this.filterDeleted()) {
-                item.lineStatus = this.parent.lineStatus;
-            }
-        }
-    }
 }
 /** 库存收货-行 */
-export class GoodsReceiptLine extends BODocumentLine<GoodsReceiptLine> implements IGoodsReceiptLine {
+export class GoodsReceiptLine extends BODocumentBaseLine<GoodsReceiptLine> implements IGoodsReceiptLine {
 
     /** 构造函数 */
     constructor() {

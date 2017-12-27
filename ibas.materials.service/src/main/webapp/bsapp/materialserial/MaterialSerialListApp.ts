@@ -1,8 +1,8 @@
 /*
  * @Author: fancy
  * @Date: 2017-11-27 16:39:57
- * @Last Modified by:   fancy
- * @Last Modified time: 2017-11-27 16:39:57
+ * @Last Modified by: fancy
+ * @Last Modified time: 2017-12-25 16:24:46
  */
 /**
  * @license
@@ -82,7 +82,7 @@ export class MaterialSerialListApp extends ibas.BOListApplication<IMaterialSeria
         app.run(data);
     }
     protected newData(): void {
-        throw new Error("Method not implemented.");
+        //
     }
     /** 获取服务的契约 */
     protected getServiceProxies(): ibas.IServiceProxy<ibas.IServiceContract>[] {

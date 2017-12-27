@@ -7,53 +7,40 @@
  */
 
 import {
+    ArrayList,
     emDirection,
     IBusinessObject,
     IBusinessObjects,
     IBOMasterData,
     IBOMasterDataLine,
+    IBODocumentLine,
     IBOSimple,
     IBOSimpleLine,
 } from "ibas/index";
 import {
-    IMaterialSerialBaseLine,
-    IMaterialBaseContract,
-} from "./index";
+    IMaterialSerialJournal
+} from "../../api/index";
+import {
+    MaterialSerialJournal,
+} from "../../borep/bo/index";
 /** 物料出库序列契约 */
-export interface IMaterialSerialContract extends IMaterialBaseContract {
-    /** 单据号 */
-    docEntry?: number;
-    /** 单据行号 */
-    lineNum?: number;
-    /** 单据类型 */
-    docType?: string;
+export interface IMaterialSerialContract {
+
+    /**物料编号 */
+    itemCode: string;
+
+    /**仓库编码 */
+    warehouse: string;
+
+    /**数量 */
+    quantity: number;
+
     /** 创建的序列 */
-    materialLineSerials?: IMaterialSerials;
+    materialSerials?: IMaterialSerials;
 }
 
-/** 物料出库行序列信息 */
-export interface IMaterialSerials {
-    /** 物料出库行批次信息 */
-    materialLineSerials: IMaterialSerialLine[];
-
-    /** 创建序列记账 返回创建者 */
-    createSerialJournal(data: IMaterialSerialBaseLine): any;
-    /** 删除序列记账 返回更新者 */
-    deleteSerialJournal(data: IMaterialSerialBaseLine): any;
-    /** 修改序列记账 */
-    updateSerialJournal(data: IMaterialSerialBaseLine): void;
+export interface IMaterialSerials extends ArrayList<MaterialSerialJournal> {
+    create(data: IMaterialSerialJournal): void;
 }
 
-
-/** 物料出库序列服务行-新建 */
-export interface IMaterialSerialLine extends IMaterialSerialBaseLine {
-    /** 方向 */
-    direction: emDirection;
-
-    itemCode?: string;
-
-    warehouse?: string;
-
-    supplierSerial?:string;
-}
 

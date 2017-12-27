@@ -23,12 +23,13 @@ import {
     BOSimple,
     BOSimpleLine,
     config,
+    strings,
     IBODocumentLines,
     objects,
+    BO_PROPERTY_NAME_LINESTATUS,
 } from "ibas/index";
 import {
     IMaterialBatchJournal,
-    IMaterialBatchLine,
     BO_CODE_MATERIALBATCHJOURNAL,
     IMaterialBatchJournals,
 } from "../../api/index";
@@ -195,7 +196,7 @@ export class MaterialBatchJournal extends BOSimple<MaterialBatchJournal> impleme
         return this.getProperty<number>(MaterialBatchJournal.PROPERTY_BASEDOCUMENTENTRY_NAME);
     }
     /** 设置-基于标识 */
-    set baseDocubaseDocumentEntrymentType(value: number) {
+    set baseDocumentEntry(value: number) {
         this.setProperty(MaterialBatchJournal.PROPERTY_BASEDOCUMENTENTRY_NAME, value);
     }
     /** 映射的属性名称-基于行号 */
@@ -205,7 +206,7 @@ export class MaterialBatchJournal extends BOSimple<MaterialBatchJournal> impleme
         return this.getProperty<number>(MaterialBatchJournal.PROPERTY_BASEDOCUMENTLINEID_NAME);
     }
     /** 设置-基于行号 */
-    set baseDocubaseDocumentEntrymentLineId(value: number) {
+    set baseDocumentLineId(value: number) {
         this.setProperty(MaterialBatchJournal.PROPERTY_BASEDOCUMENTLINEID_NAME, value);
     }
 
@@ -362,7 +363,7 @@ export class MaterialBatchJournal extends BOSimple<MaterialBatchJournal> impleme
 export abstract class MaterialBatchJournals<P extends IBODocumentLine> extends BusinessObjects<MaterialBatchJournal, P>
     implements IMaterialBatchJournals<P> {
     create(): MaterialBatchJournal;
-    create(data: IMaterialBatchLine): MaterialBatchJournal;
+    create(data: MaterialBatchJournal): MaterialBatchJournal;
     create(data?: any): MaterialBatchJournal {
         let item: MaterialBatchJournal;
         item = new MaterialBatchJournal();
@@ -371,6 +372,8 @@ export abstract class MaterialBatchJournals<P extends IBODocumentLine> extends B
         if (objects.isNull(data)) {
             return item;
         }
+        /** 此处物料、仓库等信息要以传递的参数为准，不能给父项的值 */
+        item.batchCode = data.batchCode;
         item.itemCode = data.itemCode;
         item.warehouse = data.warehouse;
         item.quantity = data.quantity;
@@ -387,6 +390,19 @@ export abstract class MaterialBatchJournals<P extends IBODocumentLine> extends B
     removeAll(): void {
         for (let item of this) {
             this.remove(item);
+        }
+    }
+    /**
+     * 父项单据行发生改变
+     */
+    protected onParentPropertyChanged(name: string): void {
+        super.onParentPropertyChanged(name);
+        if (strings.equalsIgnoreCase(name, BO_PROPERTY_NAME_LINESTATUS)) {
+            if (objects.instanceOf(this.parent, BODocumentLine)) {
+                for (let item of this) {
+                    item.setProperty(BO_PROPERTY_NAME_LINESTATUS, this.parent.getProperty(BO_PROPERTY_NAME_LINESTATUS));
+                }
+            }
         }
     }
 }

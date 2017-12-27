@@ -11,6 +11,7 @@ import {
     emDocumentStatus,
     emBOStatus,
     emApprovalStatus,
+    ArrayList,
     BusinessObject,
     BusinessObjects,
     BOMasterData,
@@ -23,6 +24,7 @@ import {
     strings,
     config,
     objects,
+    emDirection,
 } from "ibas/index";
 import {
     IInventoryTransfer,
@@ -33,8 +35,9 @@ import {
     BO_CODE_INVENTORYTRANSFER,
     emItemType,
 } from "../../api/index";
-import { MaterialBatchJournals } from "./MaterialBatchJournal";
-import { MaterialSerialJournals } from "./MaterialSerialJournal";
+import { MaterialBatchJournal, MaterialBatchJournals } from "./MaterialBatchJournal";
+import { MaterialSerialJournal, MaterialSerialJournals } from "./MaterialSerialJournal";
+import { BODocumentBaseLine, BODocumentBaseLines } from "./BODocumentBaseLine";
 /** 库存转储 */
 export class InventoryTransfer extends BODocument<InventoryTransfer> implements IInventoryTransfer {
 
@@ -446,6 +449,7 @@ export class InventoryTransfer extends BODocument<InventoryTransfer> implements 
     protected init(): void {
         this.inventoryTransferLines = new InventoryTransferLines(this);
         this.objectCode = config.applyVariables(InventoryTransfer.BUSINESS_OBJECT_CODE);
+        this.documentStatus = emDocumentStatus.PLANNED;
     }
 }
 
@@ -453,14 +457,38 @@ export class InventoryTransfer extends BODocument<InventoryTransfer> implements 
 export class InventoryTransferLineMaterialBatchJournals extends MaterialBatchJournals<InventoryTransferLine>
     implements IInventoryTransferLineMaterialBatchJournals {
 
+    /**
+     * 去除入库批次
+     */
+    filterReceiptBatch(): InventoryTransferLineMaterialBatchJournals {
+        for (let item of this) {
+            if (item.warehouse === this.parent.warehouse) {
+                this.remove(item);
+            }
+        }
+        return this;
+    }
 }
 /** 库存转储-序列日记账 集合 */
 export class InventoryTransferLineMaterialSerialJournals extends MaterialSerialJournals<InventoryTransferLine>
     implements IInventoryTransferLineMaterialSerialJournals {
 
+    /**
+     * 去除入库批次
+     */
+    filterReceiptSerial(): InventoryTransferLineMaterialSerialJournals {
+        for (let item of this) {
+            if (item.warehouse === this.parent.warehouse) {
+                this.remove(item);
+            }
+        }
+        return this;
+    }
 }
 /** 库存转储-行 集合 */
-export class InventoryTransferLines extends BusinessObjects<InventoryTransferLine, InventoryTransfer> implements IInventoryTransferLines {
+export class InventoryTransferLines
+    extends BODocumentBaseLines<InventoryTransferLine, InventoryTransfer>
+    implements IInventoryTransferLines {
 
     /** 创建并添加子项 */
     create(): InventoryTransferLine {
@@ -468,33 +496,57 @@ export class InventoryTransferLines extends BusinessObjects<InventoryTransferLin
         this.add(item);
         return item;
     }
-    /** 取出需要添加批次的行 */
+    /**
+     * 创建入库批次序列
+     */
+    createReceiptBatchAndSerial(): void {
+        for (let item of this) {
+            if (item.materialBatchJournals.length !== 0) {
+                let batchs: ArrayList<MaterialBatchJournal> = new ArrayList<MaterialBatchJournal>();
+                for (let batch of item.materialBatchJournals.filter(c => c.warehouse === this.parent.fromWarehouse)) {
+                    let journal: MaterialBatchJournal = batch.clone();
+                    journal.warehouse = item.warehouse;
+                    journal.direction = emDirection.IN;
+                    batchs.add(journal);
+                }
+                batchs.forEach(c => item.materialBatchJournals.create(c));
+            }
+            if (item.materialSerialJournals.length !== 0) {
+                let serials: ArrayList<MaterialSerialJournal> = new ArrayList<MaterialSerialJournal>();
+                for (let serial of item.materialSerialJournals.filter(c => c.warehouse === this.parent.fromWarehouse)) {
+                    let journal: MaterialSerialJournal = serial.clone();
+                    journal.warehouse = item.warehouse;
+                    journal.direction = emDirection.IN;
+                    serials.add(journal);
+                }
+                serials.forEach(c => item.materialSerialJournals.create(c));
+            }
+        }
+    }
+    /**
+     * 取出需要添加批次的行
+     * 添加从仓库非空判断
+     */
     filterBatchLine(): InventoryTransferLine[] {
-        let lines: InventoryTransferLine[] = this.filter(
-            c => c.isDeleted === false
-                && !objects.isNull(c.lineStatus)
-                && c.lineStatus !== emDocumentStatus.PLANNED
-                && c.batchManagement !== undefined
-                && c.batchManagement.toString() === enums.toString(emYesNo, emYesNo.YES)
-                && !strings.isEmpty(c.itemCode)
-                && !strings.isEmpty(c.warehouse));
-        return lines;
-    } /** 取出需要添加批次的行 */
-    filterSerialLine(): InventoryTransferLine[] {
-        let lines: InventoryTransferLine[] = this.filter(
-            c => c.isDeleted === false
-                && !objects.isNull(c.lineStatus)
-                && c.lineStatus !== emDocumentStatus.PLANNED
-                && c.serialManagement !== undefined
-                && c.serialManagement.toString() === enums.toString(emYesNo, emYesNo.YES)
-                && !strings.isEmpty(c.itemCode)
-                && !strings.isEmpty(c.warehouse));
+        let lines: InventoryTransferLine[] = super.filterBatchLine()
+            .filter(c => c.warehouse !== this.parent.fromWarehouse);
         return lines;
     }
+
+    /**
+     * 取出需要添加序列的行
+     * 添加从仓库非空判断
+     */
+    filterSerialLine(): InventoryTransferLine[] {
+        let lines: InventoryTransferLine[] = super.filterSerialLine()
+            .filter(c => c.warehouse !== this.parent.fromWarehouse);
+        return lines;
+    }
+
 }
 
 /** 库存转储-行 */
-export class InventoryTransferLine extends BODocumentLine<InventoryTransferLine> implements IInventoryTransferLine {
+export class InventoryTransferLine extends BODocumentBaseLine<InventoryTransferLine> implements IInventoryTransferLine {
 
     /** 构造函数 */
     constructor() {

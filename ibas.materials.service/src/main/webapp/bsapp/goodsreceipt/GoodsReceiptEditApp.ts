@@ -9,12 +9,8 @@
 import * as ibas from "ibas/index";
 import * as bo from "../../borep/bo/index";
 import {
-    IMaterialSerialLine,
     IMaterialBatchJournal,
     IMaterialSerialJournal,
-    IMaterialBatchs,
-    IMaterialSerials,
-    IMaterialBatchLine,
     IMaterialBatchContract,
     IMaterialSerialContract,
 } from "../../api/bo/index";
@@ -112,6 +108,15 @@ export class GoodsReceiptEditApp extends ibas.BOEditApplication<IGoodsReceiptEdi
     protected saveData(): void {
         let that: this = this;
         let boRepository: BORepositoryMaterials = new BORepositoryMaterials();
+        // 物料数量与批次数量不相等
+        if (!this.editData.goodsReceiptLines.checkBatchQuantity()) {
+            this.messages(ibas.emMessageType.ERROR, ibas.i18n.prop("materials_app_material_quantity_not_equal_batch_quantity"));
+            return;
+        }
+        if (!this.editData.goodsReceiptLines.checkSerialQuantity()) {
+            this.messages(ibas.emMessageType.ERROR, ibas.i18n.prop("materials_app_material_quantity_not_equal_serial_quantity"));
+            return;
+        }
         boRepository.saveGoodsReceipt({
             beSaved: this.editData,
             onCompleted(opRslt: ibas.IOperationResult<bo.GoodsReceipt>): void {
@@ -223,10 +228,10 @@ export class GoodsReceiptEditApp extends ibas.BOEditApplication<IGoodsReceiptEdi
     /** 选择库存收货订单行物料事件 */
     chooseGoodsReceiptLineMaterial(caller: bo.GoodsReceiptLine): void {
         let that: this = this;
-        ibas.servicesManager.runChooseService<bo.Product>({
-            boCode: bo.Product.BUSINESS_OBJECT_CODE,
+        ibas.servicesManager.runChooseService<bo.Material>({
+            boCode: bo.Material.BUSINESS_OBJECT_CODE,
             criteria: that.getConditions(),
-            onCompleted(selecteds: ibas.List<bo.Product>): void {
+            onCompleted(selecteds: ibas.List<bo.Material>): void {
                 // 获取触发的对象
                 let index: number = that.editData.goodsReceiptLines.indexOf(caller);
                 let item: bo.GoodsReceiptLine = that.editData.goodsReceiptLines[index];
@@ -251,7 +256,6 @@ export class GoodsReceiptEditApp extends ibas.BOEditApplication<IGoodsReceiptEdi
                     item.itemDescription = selected.name;
                     item.serialManagement = selected.serialManagement;
                     item.batchManagement = selected.batchManagement;
-                    item.price = selected.price;
                     item.quantity = 1;
                     item = null;
                 }
@@ -331,49 +335,11 @@ export class GoodsReceiptEditApp extends ibas.BOEditApplication<IGoodsReceiptEdi
     getBatchContract(goodReceiptLines: bo.GoodsReceiptLine[]): IMaterialBatchContract[] {
         let contracts: IMaterialBatchContract[] = new ArrayList<IMaterialBatchContract>();
         for (let item of goodReceiptLines) {
-            let lines: IMaterialBatchLine[] = new ibas.ArrayList<IMaterialBatchLine>();
-            for (let line of item.materialBatchJournals.filterDeleted()) {
-                lines.push({
-                    batchCode: line.batchCode,
-                    quantity: line.quantity,
-                    direction: ibas.emDirection.IN,
-                    caller: line
-                });
-            }
             contracts.push({
                 itemCode: item.itemCode,
                 warehouse: item.warehouse,
                 quantity: item.quantity,
-                materialBatchs: {
-                    materialLineBatchs:lines,
-                    createBatchJournal(batchData: IMaterialBatchLine): bo.MaterialBatchJournal {
-                        return item.materialBatchJournals.create(batchData);
-                    },
-                    updateBatchJournal(batchData: IMaterialBatchLine): bo.MaterialBatchJournal {
-                        if (!ibas.objects.isNull(batchData.caller)) {
-                            let index: number = item.materialBatchJournals.indexOf(batchData.caller);
-                            let batchJournal: bo.MaterialBatchJournal = item.materialBatchJournals[index];
-                            if (!ibas.objects.isNull(batchJournal)) {
-                                batchJournal.batchCode = batchData.batchCode;
-                                batchJournal.quantity = batchData.quantity;
-                            }
-                            return batchJournal;
-                        }
-                    },
-                    deleteBatchJournal(batchData: IMaterialBatchLine): void {
-                        if (!ibas.objects.isNull(batchData.caller)) {
-                            let index: number = item.materialBatchJournals.indexOf(batchData.caller);
-                            let batchJournal: bo.MaterialBatchJournal = item.materialBatchJournals[index];
-                            if (!ibas.objects.isNull(batchJournal)) {
-                                if (item.isNew) {
-                                    item.materialBatchJournals.remove(batchJournal);
-                                } else {
-                                    batchJournal.delete();
-                                }
-                            }
-                        }
-                    }
-                }
+                materialBatchs: item.materialBatchJournals,
             });
         }
         return contracts;
@@ -383,54 +349,12 @@ export class GoodsReceiptEditApp extends ibas.BOEditApplication<IGoodsReceiptEdi
     getSerialContract(goodReceiptLines: bo.GoodsReceiptLine[]): IMaterialSerialContract[] {
         let contracts: IMaterialSerialContract[] = new ArrayList<IMaterialSerialContract>();
         for (let item of goodReceiptLines) {
-            // 定义事件
-            let serialInfos: IMaterialSerials = {
-                materialLineSerials: [],
-                createSerialJournal(serialData: IMaterialSerialLine): bo.MaterialSerialJournal {
-                    return item.materialSerialJournals.create(serialData);
-                },
-                updateSerialJournal(serialData: IMaterialSerialLine): bo.MaterialSerialJournal {
-                    if (!ibas.objects.isNull(serialData.caller)) {
-                        let index: number = item.materialSerialJournals.indexOf(serialData.caller);
-                        let serialJournal: bo.MaterialSerialJournal = item.materialSerialJournals[index];
-                        if (!ibas.objects.isNull(serialJournal)) {
-                            serialJournal.serialCode = serialData.serialCode;
-                            serialJournal.supplierSerial = serialData.supplierSerial;
-                        }
-                        return serialJournal;
-                    }
-                },
-                deleteSerialJournal(serialData: IMaterialSerialLine): void {
-                    if (!ibas.objects.isNull(serialData.caller)) {
-                        let index: number = item.materialSerialJournals.indexOf(serialData.caller);
-                        let serialJournal: bo.MaterialSerialJournal = item.materialSerialJournals[index];
-                        if (!ibas.objects.isNull(serialJournal)) {
-                            if (serialJournal.isNew) {
-                                item.materialSerialJournals.remove(serialJournal);
-                            } else {
-                                serialJournal.delete();
-                            }
-                        }
-                    }
-                }
-            };
-            // 遍历行中的序列信息
-            for (let line of item.materialSerialJournals.filterDeleted()) {
-                let serialInfo: IMaterialSerialLine = {
-                    serialCode: line.serialCode,
-                    supplierSerial: line.supplierSerial,
-                    direction: ibas.emDirection.IN,
-                    caller: line
-                };
-                serialInfos.materialLineSerials.push(serialInfo);
-            }
-            let serialContractLine: IMaterialSerialContract = {
+            contracts.push({
                 itemCode: item.itemCode,
                 warehouse: item.warehouse,
                 quantity: item.quantity,
-                materialLineSerials: serialInfos
-            };
-            contracts.push(serialContractLine);
+                materialSerials: item.materialSerialJournals,
+            });
         }
         return contracts;
     }
