@@ -81,7 +81,7 @@ export class GoodsIssueEditView extends ibas.BOEditView implements IGoodsIssueEd
                 }).bindProperty("dateValue", {
                     path: "documentDate",
                 }),
-                new sap.m.Label("", { text: ibas.i18n.prop("bo_receipt_dataowner") }),
+                new sap.m.Label("", { text: ibas.i18n.prop("bo_goodsissue_dataowner") }),
                 new sap.m.Input("", {
                     showValueHelp: true,
                 }).bindProperty("value", {

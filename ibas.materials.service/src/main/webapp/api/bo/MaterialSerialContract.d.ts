@@ -7,18 +7,24 @@
  */
 
 import {
+    ArrayList,
     emDirection,
     IBusinessObject,
     IBusinessObjects,
     IBOMasterData,
     IBOMasterDataLine,
+    IBODocumentLine,
     IBOSimple,
     IBOSimpleLine,
 } from "ibas/index";
-/** 物料批次序列基础契约 */
-export interface IMaterialBaseContract {
-    /** 行索引 */
-    index?: number;
+import {
+    IMaterialSerialJournal
+} from "../../api/index";
+import {
+    MaterialSerialJournal,
+} from "../../borep/bo/index";
+/** 物料出库序列契约 */
+export interface IMaterialSerialContract {
 
     /**物料编号 */
     itemCode: string;
@@ -28,26 +34,13 @@ export interface IMaterialBaseContract {
 
     /**数量 */
     quantity: number;
+
+    /** 创建的序列 */
+    materialSerials?: IMaterialSerials;
 }
 
-/** 物料批次-基本信息 */
-export interface IMaterialBatchBaseLine {
-
-    /** 调用者 */
-    caller?: any;
-
-    /** 批次名称 */
-    batchCode: string;
-
-    /** 数量 */
-    quantity: number;
+export interface IMaterialSerials extends ArrayList<MaterialSerialJournal> {
+    create(data: IMaterialSerialJournal): void;
 }
 
-/** 物料序列-基本信息 */
-export interface IMaterialSerialBaseLine {
-    /** 序列名称 */
-    serialCode: string;
-    /** 调用者 */
-    caller?: any;
 
-}

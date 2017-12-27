@@ -25,7 +25,9 @@ import {
 } from "../Datas";
 import {
     IMaterialBatchJournals,
-    IMaterialSerialJournals
+    IMaterialSerialJournals,
+    IBODocumentBaseLines,
+    IBODocumentBaseLine,
 } from "./index";
 
 /** 库存转储 */
@@ -151,32 +153,20 @@ export interface IInventoryTransferLineMaterialSerialJournals extends IMaterialS
 
 }
 /** 库存转储-行 集合 */
-export interface IInventoryTransferLines extends IBusinessObjects<IInventoryTransferLine, IInventoryTransfer> {
+export interface IInventoryTransferLines extends IBODocumentBaseLines<IInventoryTransferLine, IInventoryTransfer> {
 
     /** 创建并添加子项 */
     create(): IInventoryTransferLine;
 }
 
 /** 库存转储-行 */
-export interface IInventoryTransferLine extends IBODocumentLine {
-
-    /** 编码 */
-    docEntry: number;
-
-    /** 行号 */
-    lineId: number;
-
-    /** 显示顺序 */
-    visOrder: number;
+export interface IInventoryTransferLine extends IBODocumentBaseLine {
 
     /** 取消 */
     canceled: emYesNo;
 
     /** 状态 */
     status: emBOStatus;
-
-    /** 单据状态 */
-    lineStatus: emDocumentStatus;
 
     /** 类型 */
     objectCode: string;
@@ -232,29 +222,14 @@ export interface IInventoryTransferLine extends IBODocumentLine {
     /** 基于行号 */
     baseDocumentLineId: number;
 
-    /** 物料编号 */
-    itemCode: string;
-
     /** 物料/服务描述 */
     itemDescription: string;
 
     /** 物料类型 */
     itemType: emItemType;
 
-    /** 序号管理 */
-    serialManagement: emYesNo;
-
-    /** 批号管理 */
-    batchManagement: emYesNo;
-
-    /** 数量 */
-    quantity: number;
-
     /** 计量单位 */
     uom: string;
-
-    /** 仓库 */
-    warehouse: string;
 
     /** 价格 */
     price: number;

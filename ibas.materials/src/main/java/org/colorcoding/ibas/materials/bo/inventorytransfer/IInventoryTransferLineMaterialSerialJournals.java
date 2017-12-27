@@ -1,7 +1,7 @@
 package org.colorcoding.ibas.materials.bo.inventorytransfer;
 
-import org.colorcoding.ibas.bobas.bo.IBusinessObjects;
-import org.colorcoding.ibas.materials.bo.materialserial.IMaterialSerialJournal;
+import org.colorcoding.ibas.materials.bo.materialserial.IMaterialSerialJournals;
 
-public interface IInventoryTransferLineMaterialSerialJournals extends IBusinessObjects<IMaterialSerialJournal, IInventoryTransferLine> {
+public interface IInventoryTransferLineMaterialSerialJournals extends IMaterialSerialJournals<IInventoryTransferLine> {
+
 }

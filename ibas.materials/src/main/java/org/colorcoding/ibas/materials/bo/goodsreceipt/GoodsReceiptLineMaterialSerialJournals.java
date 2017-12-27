@@ -1,10 +1,10 @@
 package org.colorcoding.ibas.materials.bo.goodsreceipt;
 
-import org.colorcoding.ibas.bobas.bo.BusinessObjects;
 import org.colorcoding.ibas.bobas.common.*;
 import org.colorcoding.ibas.materials.MyConfiguration;
 import org.colorcoding.ibas.materials.bo.materialserial.IMaterialSerialJournal;
 import org.colorcoding.ibas.materials.bo.materialserial.MaterialSerialJournal;
+import org.colorcoding.ibas.materials.bo.materialserial.MaterialSerialJournals;
 
 import javax.xml.bind.annotation.XmlSeeAlso;
 import javax.xml.bind.annotation.XmlType;
@@ -15,7 +15,7 @@ import java.beans.PropertyChangeEvent;
  */
 @XmlType(name = GoodsReceiptLineMaterialSerialJournals.BUSINESS_OBJECT_NAME, namespace = MyConfiguration.NAMESPACE_BO)
 @XmlSeeAlso({ MaterialSerialJournal.class })
-public class GoodsReceiptLineMaterialSerialJournals extends BusinessObjects<IMaterialSerialJournal,IGoodsReceiptLine> implements IGoodsReceiptLineMaterialSerialJournals {
+public class GoodsReceiptLineMaterialSerialJournals extends MaterialSerialJournals<IGoodsReceiptLine> implements IGoodsReceiptLineMaterialSerialJournals {
     /**
      * 业务对象名称
      */

@@ -1,8 +1,8 @@
 /*
  * @Author: fancy
  * @Date: 2017-11-27 16:40:05
- * @Last Modified by:   fancy
- * @Last Modified time: 2017-11-27 16:40:05
+ * @Last Modified by: fancy
+ * @Last Modified time: 2017-12-25 17:43:10
  */
 /**
  * @license
@@ -49,16 +49,10 @@ export class MaterialSerialViewApp extends ibas.BOViewService<IMaterialSerialVie
         if (ibas.objects.instanceOf(arguments[0], bo.MaterialSerial)) {
             this.viewData = arguments[0];
             let criteria: ibas.ICriteria = new ibas.Criteria();
-            let condition: ibas.ICondition;
-            condition = new ibas.Condition(bo.MaterialSerialJournal.PROPERTY_ITEMCODE_NAME
-                , ibas.emConditionOperation.EQUAL
-                , this.viewData.itemCode);
-            criteria.conditions.add(condition);
-            condition = new ibas.Condition(bo.MaterialSerialJournal.PROPERTY_WAREHOUSE_NAME
-                , ibas.emConditionOperation.EQUAL
-                , this.viewData.warehouse);
-            condition.relationship = ibas.emConditionRelationship.AND;
-            criteria.conditions.add(condition);
+            let condition: ibas.ICondition = criteria.conditions.create();
+            condition.alias = bo.MaterialSerialJournal.PROPERTY_SERIALCODE_NAME;
+            condition.value = this.viewData.serialCode;
+            condition.operation =ibas.emConditionOperation.EQUAL;
             // 查询日记账
             this.fetchJournalData(criteria);
             this.show();
@@ -67,8 +61,10 @@ export class MaterialSerialViewApp extends ibas.BOViewService<IMaterialSerialVie
         }
     }
 
+    /** 日记账行集合数据 */
     private journalData:bo.MaterialSerialJournal[];
 
+    /** 序列数据 */
     private viewData: bo.MaterialSerial;
     /** 查询数据 */
     protected fetchData(criteria: ibas.ICriteria | string): void {

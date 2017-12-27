@@ -60,7 +60,23 @@ class BOConverter4mm extends ibas.BOConverter {
                 || property === bo.Material.PROPERTY_PHANTOMITEM_NAME) {
                 return ibas.enums.toString(ibas.emYesNo, value);
             }
+        } else if (boName === bo.GoodsIssueLine.name) {
+            if (property === bo.GoodsIssueLine.PROPERTY_SERIALMANAGEMENT_NAME
+                || property === bo.GoodsIssueLine.PROPERTY_BATCHMANAGEMENT_NAME) {
+                return ibas.enums.toString(ibas.emYesNo, value);
+            }
+        } else if (boName === bo.GoodsReceiptLine.name) {
+            if (property === bo.GoodsReceiptLine.PROPERTY_SERIALMANAGEMENT_NAME
+                || property === bo.GoodsReceiptLine.PROPERTY_BATCHMANAGEMENT_NAME) {
+                return ibas.enums.toString(ibas.emYesNo, value);
+            }
+        } else if (boName === bo.InventoryTransferLine.name) {
+            if (property === bo.InventoryTransferLine.PROPERTY_SERIALMANAGEMENT_NAME
+                || property === bo.InventoryTransferLine.PROPERTY_BATCHMANAGEMENT_NAME) {
+                return ibas.enums.toString(ibas.emYesNo, value);
+            }
         }
+
         return super.convertData(boName, property, value);
     }
 
@@ -90,6 +106,21 @@ class BOConverter4mm extends ibas.BOConverter {
                 || property === bo.Material.PROPERTY_PURCHASEITEM_NAME
                 || property === bo.Material.PROPERTY_INVENTORYITEM_NAME
                 || property === bo.Material.PROPERTY_PHANTOMITEM_NAME) {
+                return ibas.enums.valueOf(ibas.emYesNo, value);
+            }
+        } else if (boName === bo.GoodsIssueLine.name) {
+            if (property === bo.GoodsIssueLine.PROPERTY_SERIALMANAGEMENT_NAME
+                || property === bo.GoodsIssueLine.PROPERTY_BATCHMANAGEMENT_NAME) {
+                return ibas.enums.valueOf(ibas.emYesNo, value);
+            }
+        } else if (boName === bo.GoodsReceiptLine.name) {
+            if (property === bo.GoodsReceiptLine.PROPERTY_SERIALMANAGEMENT_NAME
+                || property === bo.GoodsReceiptLine.PROPERTY_BATCHMANAGEMENT_NAME) {
+                return ibas.enums.valueOf(ibas.emYesNo, value);
+            }
+        } else if (boName === bo.InventoryTransferLine.name) {
+            if (property === bo.InventoryTransferLine.PROPERTY_SERIALMANAGEMENT_NAME
+                || property === bo.InventoryTransferLine.PROPERTY_BATCHMANAGEMENT_NAME) {
                 return ibas.enums.valueOf(ibas.emYesNo, value);
             }
         }

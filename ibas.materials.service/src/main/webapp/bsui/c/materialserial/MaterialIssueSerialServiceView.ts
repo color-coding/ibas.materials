@@ -6,7 +6,7 @@
  * @Author: fancy
  * @Date: 2017-11-30 17:45:55
  * @Last Modified by: fancy
- * @Last Modified time: 2017-12-20 14:53:52
+ * @Last Modified time: 2017-12-25 15:46:21
  */
 
 import * as ibas from "ibas/index";
@@ -15,9 +15,9 @@ import * as bo from "../../../borep/bo/index";
 import { emAutoSelectBatchSerialRules } from "../../../api/Datas";
 import {
     IMaterialIssueSerialView,
-    MaterialIssueSerialInfo,
-    MaterialIssueSerialJournal
+    MaterialSerialServiceJournal,
 } from "../../../bsapp/materialserial/index";
+
 export class MaterialIssueSerialServiceView extends ibas.BODialogView implements IMaterialIssueSerialView {
     /** 选择序列号凭证行信息事件 */
     selectMaterialSerialJournalLineEvent: Function;
@@ -28,7 +28,7 @@ export class MaterialIssueSerialServiceView extends ibas.BODialogView implements
     /** 移除选择的序列号事件 */
     removeSerialMaterialSerialEvent: Function;
     /** 保存回调 */
-    saveDataEvent: Function;
+    confirmDataEvent: Function;
     // 控件
     private layoutMain: sap.ui.layout.VerticalLayout;
     private journalLineTable: sap.ui.table.Table;
@@ -46,7 +46,7 @@ export class MaterialIssueSerialServiceView extends ibas.BODialogView implements
             visibleRowCountMode: sap.ui.table.VisibleRowCountMode.Interactive,
             rowSelectionChange: function (): void {
                 that.fireViewEvents(that.selectMaterialSerialJournalLineEvent,
-                    openui5.utils.getTableSelecteds<MaterialIssueSerialJournal>(that.journalLineTable).firstOrDefault(), );
+                    openui5.utils.getTableSelecteds<MaterialSerialServiceJournal>(that.journalLineTable).firstOrDefault(), );
             },
             rows: "{/journallinedata}",
             columns: [
@@ -144,19 +144,19 @@ export class MaterialIssueSerialServiceView extends ibas.BODialogView implements
                         new sap.m.Menu("", {
                             items: [
                                 new sap.m.MenuItem("", {
-                                    text: ibas.i18n.prop("materials_app_autoselectbatch_by_firstinfirstout"),
+                                    text: ibas.i18n.prop("materials_app_autoselect_by_firstinfirstout"),
                                     press: function (): void {
                                         that.fireViewEvents(that.autoSelectMaterialSerialEvent
-                                            , openui5.utils.getTableSelecteds<MaterialIssueSerialJournal>
+                                            , openui5.utils.getTableSelecteds<MaterialSerialServiceJournal>
                                                 (that.journalLineTable).firstOrDefault()
                                             , emAutoSelectBatchSerialRules.FIRST_IN_FIRST_OUT);
                                     }
                                 }),
                                 new sap.m.MenuItem("", {
-                                    text: ibas.i18n.prop("materials_app_autoselectbatch_by_batchno"),
+                                    text: ibas.i18n.prop("materials_app_autoselect_by_no"),
                                     press: function (): void {
                                         that.fireViewEvents(that.autoSelectMaterialSerialEvent
-                                            , openui5.utils.getTableSelecteds<MaterialIssueSerialJournal>
+                                            , openui5.utils.getTableSelecteds<MaterialSerialServiceJournal>
                                                 (that.journalLineTable).firstOrDefault()
                                             , emAutoSelectBatchSerialRules.ORDER_BY_CODE);
                                     }
@@ -170,8 +170,8 @@ export class MaterialIssueSerialServiceView extends ibas.BODialogView implements
                     press: function (): void {
                         that.fireViewEvents(that.removeSerialMaterialSerialEvent,
                             // 获取表格选中的对象
-                            openui5.utils.getTableSelecteds<MaterialIssueSerialJournal>(that.journalLineTable).firstOrDefault(),
-                            openui5.utils.getTableSelecteds<bo.MaterialBatchJournal>(that.rightTable),
+                            openui5.utils.getTableSelecteds<MaterialSerialServiceJournal>(that.journalLineTable).firstOrDefault(),
+                            openui5.utils.getTableSelecteds<bo.MaterialSerialJournal>(that.rightTable),
                         );
                     }
                 }),
@@ -180,8 +180,8 @@ export class MaterialIssueSerialServiceView extends ibas.BODialogView implements
                     press: function (): void {
                         that.fireViewEvents(that.addSerialMaterialSerialEvent,
                             // 获取表格选中的对象
-                            openui5.utils.getTableSelecteds<MaterialIssueSerialJournal>(that.journalLineTable).firstOrDefault(),
-                            openui5.utils.getTableSelecteds<bo.MaterialBatch>(that.leftTable),
+                            openui5.utils.getTableSelecteds<MaterialSerialServiceJournal>(that.journalLineTable).firstOrDefault(),
+                            openui5.utils.getTableSelecteds<bo.MaterialSerial>(that.leftTable),
                         );
                     }
                 })
@@ -241,7 +241,7 @@ export class MaterialIssueSerialServiceView extends ibas.BODialogView implements
                     text: ibas.i18n.prop("shell_confirm"),
                     type: sap.m.ButtonType.Transparent,
                     press: function (): void {
-                        that.fireViewEvents(that.saveDataEvent);
+                        that.fireViewEvents(that.confirmDataEvent);
                     }
                 }),
                 new sap.m.Button("", {
@@ -256,16 +256,16 @@ export class MaterialIssueSerialServiceView extends ibas.BODialogView implements
     }
     private lastCriteria: ibas.ICriteria;
 
-    showJournalLineData(datas: MaterialIssueSerialJournal[]): void {
+    showJournalLineData(datas: MaterialSerialServiceJournal[]): void {
         this.journalLineTable.setModel(new sap.ui.model.json.JSONModel({ journallinedata: datas }));
-        openui5.utils.refreshModelChanged(this.journalLineTable, datas);
+        // openui5.utils.refreshModelChanged(this.journalLineTable, datas);
     }
     showLeftData(datas: bo.MaterialSerial[]): void {
         this.leftTable.setModel(new sap.ui.model.json.JSONModel({ leftrows: datas }));
         // 监听属性改变，并更新控件
         openui5.utils.refreshModelChanged(this.leftTable, datas);
     }
-    showRightData(datas: MaterialIssueSerialInfo[]): void {
+    showRightData(datas: bo.MaterialSerialJournal[]): void {
         this.rightTable.setModel(new sap.ui.model.json.JSONModel({ rightrows: datas }));
         // 监听属性改变，并更新控件
         openui5.utils.refreshModelChanged(this.rightTable, datas);

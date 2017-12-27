@@ -1,10 +1,10 @@
 package org.colorcoding.ibas.materials.bo.goodsissue;
 
-import org.colorcoding.ibas.bobas.bo.BusinessObjects;
 import org.colorcoding.ibas.bobas.common.*;
 import org.colorcoding.ibas.materials.MyConfiguration;
 import org.colorcoding.ibas.materials.bo.materialbatch.IMaterialBatchJournal;
 import org.colorcoding.ibas.materials.bo.materialbatch.MaterialBatchJournal;
+import org.colorcoding.ibas.materials.bo.materialbatch.MaterialBatchJournals;
 
 import javax.xml.bind.annotation.XmlSeeAlso;
 import javax.xml.bind.annotation.XmlType;
@@ -15,7 +15,7 @@ import java.beans.PropertyChangeEvent;
  */
 @XmlType(name = GoodsIssueLineMaterialBatchJournals.BUSINESS_OBJECT_NAME, namespace = MyConfiguration.NAMESPACE_BO)
 @XmlSeeAlso({ MaterialBatchJournal.class })
-public class GoodsIssueLineMaterialBatchJournals extends BusinessObjects<IMaterialBatchJournal,IGoodsIssueLine> implements IGoodsIssueLineMaterialBatchJournals {
+public class GoodsIssueLineMaterialBatchJournals extends MaterialBatchJournals<IGoodsIssueLine> implements IGoodsIssueLineMaterialBatchJournals {
     /**
      * 业务对象名称
      */

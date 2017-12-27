@@ -6,8 +6,8 @@
  *
  * @Author: fancy
  * @Date: 2017-11-30 17:59:34
- * @Last Modified by:   fancy
- * @Last Modified time: 2017-11-30 17:59:34
+ * @Last Modified by: fancy
+ * @Last Modified time: 2017-12-25 17:25:44
  */
 
 
@@ -48,16 +48,10 @@ export class MaterialBatchViewApp extends ibas.BOViewService<IMaterialBatchViewV
         if (ibas.objects.instanceOf(arguments[0], bo.MaterialBatch)) {
             this.viewData = arguments[0];
             let criteria: ibas.ICriteria = new ibas.Criteria();
-            let condition: ibas.ICondition;
-            condition = new ibas.Condition(bo.MaterialBatchJournal.PROPERTY_ITEMCODE_NAME
-                , ibas.emConditionOperation.EQUAL
-                , this.viewData.itemCode);
-            criteria.conditions.add(condition);
-            condition = new ibas.Condition(bo.MaterialBatchJournal.PROPERTY_WAREHOUSE_NAME
-                , ibas.emConditionOperation.EQUAL
-                , this.viewData.warehouse);
-            condition.relationship = ibas.emConditionRelationship.AND;
-            criteria.conditions.add(condition);
+            let condition: ibas.ICondition = criteria.conditions.create();
+            condition.alias = bo.MaterialBatchJournal.PROPERTY_BATCH_NAME;
+            condition.value = this.viewData.batchCode;
+            condition.operation =ibas.emConditionOperation.EQUAL;
             // 查询日记账
             this.fetchJournalData(criteria);
             this.show();
