@@ -106,7 +106,7 @@ export class GoodsReceiptEditView extends ibas.BOEditView implements IGoodsRecei
                         press: function (): void {
                             that.fireViewEvents(that.removeGoodsReceiptLineEvent,
                                 // 获取表格选中的对象
-                                openui5.utils.getTableSelecteds<bo.GoodsReceiptLine>(that.tableGoodsReceiptLine)
+                                openui5.utils.getSelecteds<bo.GoodsReceiptLine>(that.tableGoodsReceiptLine)
                             );
                         }
                     }),

@@ -34,7 +34,7 @@ export class WarehouseChooseView extends ibas.BOChooseView implements IWarehouse
                 press: function (): void {
                     that.fireViewEvents(that.chooseDataEvent,
                         // 获取表格选中的对象
-                        openui5.utils.getTableSelecteds<bo.Warehouse>(that.table)
+                        openui5.utils.getSelecteds<bo.Warehouse>(that.table)
                     );
                 }
             }),

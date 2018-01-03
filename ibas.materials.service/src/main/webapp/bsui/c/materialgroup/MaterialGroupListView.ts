@@ -90,7 +90,7 @@ export class MaterialGroupListView extends ibas.BOListView implements IMaterialG
                         press: function (): void {
                             that.fireViewEvents(that.viewDataEvent,
                                 // 获取表格选中的对象
-                                openui5.utils.getTableSelecteds<bo.MaterialGroup>(that.table).firstOrDefault()
+                                openui5.utils.getSelecteds<bo.MaterialGroup>(that.table).firstOrDefault()
                             );
                         }
                     }),
@@ -101,7 +101,7 @@ export class MaterialGroupListView extends ibas.BOListView implements IMaterialG
                         press: function (): void {
                             that.fireViewEvents(that.editDataEvent,
                                 // 获取表格选中的对象
-                                openui5.utils.getTableSelecteds<bo.MaterialGroup>(that.table).firstOrDefault()
+                                openui5.utils.getSelecteds<bo.MaterialGroup>(that.table).firstOrDefault()
                             );
                         }
                     }),
@@ -113,7 +113,7 @@ export class MaterialGroupListView extends ibas.BOListView implements IMaterialG
                         press: function (): void {
                             that.fireViewEvents(that.deleteDataEvent,
                                 // 获取表格选中的对象
-                                openui5.utils.getTableSelecteds<bo.MaterialGroup>(that.table)
+                                openui5.utils.getSelecteds<bo.MaterialGroup>(that.table)
                             );
                         }
                     }),
@@ -213,6 +213,6 @@ export class MaterialGroupListView extends ibas.BOListView implements IMaterialG
     }
     /** 获取选择的数据 */
     getSelecteds(): bo.MaterialGroup[] {
-        return openui5.utils.getTableSelecteds<bo.MaterialGroup>(this.table);
+        return openui5.utils.getSelecteds<bo.MaterialGroup>(this.table);
     }
 }

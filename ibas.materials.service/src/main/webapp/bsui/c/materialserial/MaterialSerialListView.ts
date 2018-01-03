@@ -118,7 +118,7 @@ export class MaterialSerialListView extends ibas.BOListView implements IMaterial
                         press: function (): void {
                             that.fireViewEvents(that.viewDataEvent,
                                 // 获取表格选中的对象
-                                openui5.utils.getTableSelecteds<bo.MaterialSerial>(that.table).firstOrDefault()
+                                openui5.utils.getSelecteds<bo.MaterialSerial>(that.table).firstOrDefault()
                             );
                         }
                     }),
@@ -218,6 +218,6 @@ export class MaterialSerialListView extends ibas.BOListView implements IMaterial
     }
     /** 获取选择的数据 */
     getSelecteds(): bo.MaterialSerial[] {
-        return openui5.utils.getTableSelecteds<bo.MaterialSerial>(this.table);
+        return openui5.utils.getSelecteds<bo.MaterialSerial>(this.table);
     }
 }

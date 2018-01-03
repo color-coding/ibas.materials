@@ -43,7 +43,7 @@ export class MaterialReceiptSerialServiceView extends ibas.BODialogView implemen
                         type: sap.m.ButtonType.Transparent,
                         press: function (): void {
                             that.fireViewEvents(that.autoCreateSerialEvent,
-                                openui5.utils.getTableSelecteds<MaterialReceiptSerialJournal>(that.journalLineTable).firstOrDefault()
+                                openui5.utils.getSelecteds<MaterialReceiptSerialJournal>(that.journalLineTable).firstOrDefault()
                             );
                         }
                     }),
@@ -53,7 +53,7 @@ export class MaterialReceiptSerialServiceView extends ibas.BODialogView implemen
                         icon: "sap-icon://add",
                         press: function (): void {
                             that.fireViewEvents(that.addSerialEvent,
-                                openui5.utils.getTableSelecteds<MaterialReceiptSerialJournal>(that.journalLineTable).firstOrDefault());
+                                openui5.utils.getSelecteds<MaterialReceiptSerialJournal>(that.journalLineTable).firstOrDefault());
                         }
                     }),
                     new sap.m.Button("", {
@@ -62,8 +62,8 @@ export class MaterialReceiptSerialServiceView extends ibas.BODialogView implemen
                         icon: "sap-icon://less",
                         press: function (): void {
                             that.fireViewEvents(that.removeSerialEvent,
-                                openui5.utils.getTableSelecteds<MaterialReceiptSerialJournal>(that.journalLineTable).firstOrDefault(),
-                                openui5.utils.getTableSelecteds<bo.MaterialBatch>(that.table)
+                                openui5.utils.getSelecteds<MaterialReceiptSerialJournal>(that.journalLineTable).firstOrDefault(),
+                                openui5.utils.getSelecteds<bo.MaterialBatch>(that.table)
                             );
                         }
                     }),
@@ -119,7 +119,7 @@ export class MaterialReceiptSerialServiceView extends ibas.BODialogView implemen
             visibleRowCountMode: sap.ui.table.VisibleRowCountMode.Interactive,
             rowSelectionChange: function (): void {
                 that.fireViewEvents(that.selectMaterialSerialJournalLineEvent,
-                    openui5.utils.getTableSelecteds<MaterialReceiptSerialJournal>(that.journalLineTable).firstOrDefault(), );
+                    openui5.utils.getSelecteds<MaterialReceiptSerialJournal>(that.journalLineTable).firstOrDefault(), );
             },
             rows: "{/journallinedata}",
             columns: [
