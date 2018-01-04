@@ -6,7 +6,7 @@
  * @Author: fancy
  * @Date: 2017-11-30 17:45:55
  * @Last Modified by: Fancy
- * @Last Modified time: 2017-12-28 14:16:07
+ * @Last Modified time: 2018-01-04 17:17:36
  */
 
 import * as ibas from "ibas/index";
@@ -46,7 +46,7 @@ export class MaterialIssueSerialServiceView extends ibas.BODialogView implements
             visibleRowCountMode: sap.ui.table.VisibleRowCountMode.Interactive,
             rowSelectionChange: function (): void {
                 that.fireViewEvents(that.selectMaterialSerialJournalLineEvent,
-                    openui5.utils.getTableSelecteds<IMaterialSerialContract>(that.journalLineTable).firstOrDefault(), );
+                    openui5.utils.getSelecteds<IMaterialSerialContract>(that.journalLineTable).firstOrDefault(), );
             },
             rows: "{/journallinedata}",
             columns: [
@@ -131,7 +131,7 @@ export class MaterialIssueSerialServiceView extends ibas.BODialogView implements
                                     text: ibas.i18n.prop("materials_app_autoselect_by_firstinfirstout"),
                                     press: function (): void {
                                         that.fireViewEvents(that.autoSelectMaterialSerialEvent
-                                            , openui5.utils.getTableSelecteds<IMaterialSerialContract>
+                                            , openui5.utils.getSelecteds<IMaterialSerialContract>
                                                 (that.journalLineTable).firstOrDefault()
                                             , emAutoSelectBatchSerialRules.FIRST_IN_FIRST_OUT);
                                     }
@@ -140,7 +140,7 @@ export class MaterialIssueSerialServiceView extends ibas.BODialogView implements
                                     text: ibas.i18n.prop("materials_app_autoselect_by_no"),
                                     press: function (): void {
                                         that.fireViewEvents(that.autoSelectMaterialSerialEvent
-                                            , openui5.utils.getTableSelecteds<IMaterialSerialContract>
+                                            , openui5.utils.getSelecteds<IMaterialSerialContract>
                                                 (that.journalLineTable).firstOrDefault()
                                             , emAutoSelectBatchSerialRules.ORDER_BY_CODE);
                                     }
@@ -154,8 +154,8 @@ export class MaterialIssueSerialServiceView extends ibas.BODialogView implements
                     press: function (): void {
                         that.fireViewEvents(that.removeSerialMaterialSerialEvent,
                             // 获取表格选中的对象
-                            openui5.utils.getTableSelecteds<IMaterialSerialContract>(that.journalLineTable).firstOrDefault(),
-                            openui5.utils.getTableSelecteds<bo.MaterialSerialJournal>(that.rightTable),
+                            openui5.utils.getSelecteds<IMaterialSerialContract>(that.journalLineTable).firstOrDefault(),
+                            openui5.utils.getSelecteds<bo.MaterialBatchJournal>(that.rightTable),
                         );
                     }
                 }),
@@ -164,8 +164,8 @@ export class MaterialIssueSerialServiceView extends ibas.BODialogView implements
                     press: function (): void {
                         that.fireViewEvents(that.addSerialMaterialSerialEvent,
                             // 获取表格选中的对象
-                            openui5.utils.getTableSelecteds<IMaterialSerialContract>(that.journalLineTable).firstOrDefault(),
-                            openui5.utils.getTableSelecteds<bo.MaterialSerial>(that.leftTable),
+                            openui5.utils.getSelecteds<IMaterialSerialContract>(that.journalLineTable).firstOrDefault(),
+                            openui5.utils.getSelecteds<bo.MaterialBatch>(that.leftTable),
                         );
                     }
                 })

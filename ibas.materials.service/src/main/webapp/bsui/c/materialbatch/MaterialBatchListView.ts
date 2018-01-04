@@ -123,7 +123,7 @@ export class MaterialBatchListView extends ibas.BOListView implements IMaterialB
                         press: function (): void {
                             that.fireViewEvents(that.viewDataEvent,
                                 // 获取表格选中的对象
-                                openui5.utils.getTableSelecteds<bo.MaterialBatch>(that.table).firstOrDefault()
+                                openui5.utils.getSelecteds<bo.MaterialBatch>(that.table).firstOrDefault()
                             );
                         }
                     }),
@@ -223,6 +223,6 @@ export class MaterialBatchListView extends ibas.BOListView implements IMaterialB
     }
     /** 获取选择的数据 */
     getSelecteds(): bo.MaterialBatch[] {
-        return openui5.utils.getTableSelecteds<bo.MaterialBatch>(this.table);
+        return openui5.utils.getSelecteds<bo.MaterialBatch>(this.table);
     }
 }

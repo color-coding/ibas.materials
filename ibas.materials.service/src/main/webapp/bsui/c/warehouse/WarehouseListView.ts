@@ -90,7 +90,7 @@ export class WarehouseListView extends ibas.BOListView implements IWarehouseList
                         press: function (): void {
                             that.fireViewEvents(that.viewDataEvent,
                                 // 获取表格选中的对象
-                                openui5.utils.getTableSelecteds<bo.Warehouse>(that.table).firstOrDefault()
+                                openui5.utils.getSelecteds<bo.Warehouse>(that.table).firstOrDefault()
                             );
                         }
                     }),
@@ -101,7 +101,7 @@ export class WarehouseListView extends ibas.BOListView implements IWarehouseList
                         press: function (): void {
                             that.fireViewEvents(that.editDataEvent,
                                 // 获取表格选中的对象
-                                openui5.utils.getTableSelecteds<bo.Warehouse>(that.table).firstOrDefault()
+                                openui5.utils.getSelecteds<bo.Warehouse>(that.table).firstOrDefault()
                             );
                         }
                     }),
@@ -113,7 +113,7 @@ export class WarehouseListView extends ibas.BOListView implements IWarehouseList
                         press: function (): void {
                             that.fireViewEvents(that.deleteDataEvent,
                                 // 获取表格选中的对象
-                                openui5.utils.getTableSelecteds<bo.Warehouse>(that.table)
+                                openui5.utils.getSelecteds<bo.Warehouse>(that.table)
                             );
                         }
                     }),
@@ -213,6 +213,6 @@ export class WarehouseListView extends ibas.BOListView implements IWarehouseList
     }
     /** 获取选择的数据 */
     getSelecteds(): bo.Warehouse[] {
-        return openui5.utils.getTableSelecteds<bo.Warehouse>(this.table);
+        return openui5.utils.getSelecteds<bo.Warehouse>(this.table);
     }
 }

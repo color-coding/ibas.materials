@@ -1,5 +1,7 @@
 package org.colorcoding.ibas.materials.bo.material;
 
+import javax.xml.bind.annotation.XmlElement;
+
 import org.colorcoding.ibas.bobas.bo.BusinessObject;
 import org.colorcoding.ibas.bobas.core.IPropertyInfo;
 import org.colorcoding.ibas.bobas.data.DateTime;
@@ -8,8 +10,6 @@ import org.colorcoding.ibas.bobas.data.emYesNo;
 import org.colorcoding.ibas.bobas.mapping.DbField;
 import org.colorcoding.ibas.bobas.mapping.DbFieldType;
 import org.colorcoding.ibas.materials.data.emItemType;
-
-import javax.xml.bind.annotation.XmlElement;
 
 public abstract class MaterialBase<T extends IMaterialBase> extends BusinessObject<T> implements IMaterialBase {
 
@@ -40,7 +40,6 @@ public abstract class MaterialBase<T extends IMaterialBase> extends BusinessObje
 	@DbField(name = "Code", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME, primaryKey = true)
 	public static final IPropertyInfo<String> PROPERTY_CODE = registerProperty(PROPERTY_CODE_NAME, String.class,
 			MY_CLASS);
-
 
 	/**
 	 * 获取-编号
@@ -499,10 +498,12 @@ public abstract class MaterialBase<T extends IMaterialBase> extends BusinessObje
 	public final Decimal getOnHand() {
 		return this.getProperty(PROPERTY_ONHAND);
 	}
+
 	/**
 	 * 设置-库存
 	 *
-	 * @param value 值
+	 * @param value
+	 *            值
 	 */
 	public final void setOnHand(Decimal value) {
 		this.setProperty(PROPERTY_ONHAND, value);
@@ -511,7 +512,8 @@ public abstract class MaterialBase<T extends IMaterialBase> extends BusinessObje
 	/**
 	 * 设置-库存
 	 *
-	 * @param value 值
+	 * @param value
+	 *            值
 	 */
 	public final void setOnHand(String value) {
 		this.setOnHand(new Decimal(value));
@@ -520,7 +522,8 @@ public abstract class MaterialBase<T extends IMaterialBase> extends BusinessObje
 	/**
 	 * 设置-库存
 	 *
-	 * @param value 值
+	 * @param value
+	 *            值
 	 */
 	public final void setOnHand(int value) {
 		this.setOnHand(new Decimal(value));
@@ -529,11 +532,13 @@ public abstract class MaterialBase<T extends IMaterialBase> extends BusinessObje
 	/**
 	 * 设置-库存
 	 *
-	 * @param value 值
+	 * @param value
+	 *            值
 	 */
 	public final void setOnHand(double value) {
 		this.setOnHand(new Decimal(value));
 	}
+
 	/**
 	 * 属性名称-对象编号
 	 */
@@ -1077,4 +1082,69 @@ public abstract class MaterialBase<T extends IMaterialBase> extends BusinessObje
 	public final void setActivated(emYesNo value) {
 		this.setProperty(PROPERTY_ACTIVATED, value);
 	}
+
+	/**
+	 * 属性名称-数据所有者
+	 */
+	private static final String PROPERTY_DATAOWNER_NAME = "DataOwner";
+
+	/**
+	 * 数据所有者 属性
+	 */
+	@DbField(name = "DataOwner", type = DbFieldType.NUMERIC, table = DB_TABLE_NAME, primaryKey = false)
+	public static final IPropertyInfo<Integer> PROPERTY_DATAOWNER = registerProperty(PROPERTY_DATAOWNER_NAME,
+			Integer.class, MY_CLASS);
+
+	/**
+	 * 获取-数据所有者
+	 *
+	 * @return 值
+	 */
+	@XmlElement(name = PROPERTY_DATAOWNER_NAME)
+	public final Integer getDataOwner() {
+		return this.getProperty(PROPERTY_DATAOWNER);
+	}
+
+	/**
+	 * 设置-数据所有者
+	 *
+	 * @param value
+	 *            值
+	 */
+	public final void setDataOwner(Integer value) {
+		this.setProperty(PROPERTY_DATAOWNER, value);
+	}
+
+	/**
+	 * 属性名称-数据所属组织
+	 */
+	private static final String PROPERTY_ORGANIZATION_NAME = "Organization";
+
+	/**
+	 * 数据所属组织 属性
+	 */
+	@DbField(name = "OrgCode", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME, primaryKey = false)
+	public static final IPropertyInfo<String> PROPERTY_ORGANIZATION = registerProperty(PROPERTY_ORGANIZATION_NAME,
+			String.class, MY_CLASS);
+
+	/**
+	 * 获取-数据所属组织
+	 *
+	 * @return 值
+	 */
+	@XmlElement(name = PROPERTY_ORGANIZATION_NAME)
+	public final String getOrganization() {
+		return this.getProperty(PROPERTY_ORGANIZATION);
+	}
+
+	/**
+	 * 设置-数据所属组织
+	 *
+	 * @param value
+	 *            值
+	 */
+	public final void setOrganization(String value) {
+		this.setProperty(PROPERTY_ORGANIZATION, value);
+	}
+
 }

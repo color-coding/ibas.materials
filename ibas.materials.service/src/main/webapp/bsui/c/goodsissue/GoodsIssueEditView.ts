@@ -110,7 +110,7 @@ export class GoodsIssueEditView extends ibas.BOEditView implements IGoodsIssueEd
                         press: function (): void {
                             that.fireViewEvents(that.removeGoodsIssueLineEvent,
                                 // 获取表格选中的对象
-                                openui5.utils.getTableSelecteds<bo.GoodsIssueLine>(that.tableGoodsIssueLine)
+                                openui5.utils.getSelecteds<bo.GoodsIssueLine>(that.tableGoodsIssueLine)
                             );
                         }
                     }),

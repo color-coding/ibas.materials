@@ -2,7 +2,7 @@
  * @Author: fancy
  * @Date: 2017-11-27 16:44:31
  * @Last Modified by: Fancy
- * @Last Modified time: 2017-12-29 11:56:59
+ * @Last Modified time: 2018-01-04 17:18:55
  * @license
  * Copyright color-coding studio. All Rights Reserved.
  *
@@ -16,7 +16,7 @@ import {
     IMaterialReceiptBatchView,
     MaterialBatchServiceJournal,
 } from "../../../bsapp/materialbatch/index";
-
+import{IMaterialBatchContract} from "../../../api/index";
 export class MaterialReceiptBatchServiceView extends ibas.BODialogView implements IMaterialReceiptBatchView {
     /** 添加批次事件 */
     addBatchEvent: Function;
@@ -41,7 +41,7 @@ export class MaterialReceiptBatchServiceView extends ibas.BODialogView implement
                         type: sap.m.ButtonType.Transparent,
                         press: function (): void {
                             that.fireViewEvents(that.autoCreateBatchEvent,
-                                openui5.utils.getTableSelecteds<MaterialBatchServiceJournal>(that.journalLineTable).firstOrDefault()
+                                openui5.utils.getSelecteds<IMaterialBatchContract>(that.journalLineTable).firstOrDefault()
                             );
                         }
                     }),
@@ -51,7 +51,7 @@ export class MaterialReceiptBatchServiceView extends ibas.BODialogView implement
                         icon: "sap-icon://add",
                         press: function (): void {
                             that.fireViewEvents(that.addBatchEvent,
-                                openui5.utils.getTableSelecteds<MaterialBatchServiceJournal>(that.journalLineTable).firstOrDefault());
+                                openui5.utils.getSelecteds<IMaterialBatchContract>(that.journalLineTable).firstOrDefault());
                         }
                     }),
                     new sap.m.Button("", {
@@ -60,8 +60,8 @@ export class MaterialReceiptBatchServiceView extends ibas.BODialogView implement
                         icon: "sap-icon://less",
                         press: function (): void {
                             that.fireViewEvents(that.removeBatchEvent,
-                                openui5.utils.getTableSelecteds<MaterialBatchServiceJournal>(that.journalLineTable).firstOrDefault(),
-                                openui5.utils.getTableSelecteds<bo.MaterialBatchJournal>(that.table)
+                                openui5.utils.getSelecteds<IMaterialBatchContract>(that.journalLineTable).firstOrDefault(),
+                                openui5.utils.getSelecteds<bo.MaterialBatch>(that.table)
                             );
                         }
                     }),
@@ -120,7 +120,7 @@ export class MaterialReceiptBatchServiceView extends ibas.BODialogView implement
             visibleRowCountMode: sap.ui.table.VisibleRowCountMode.Interactive,
             rowSelectionChange: function (): void {
                 that.fireViewEvents(that.selectMaterialBatchJournalLineEvent,
-                    openui5.utils.getTableSelecteds<MaterialBatchServiceJournal>(that.journalLineTable).firstOrDefault(), );
+                    openui5.utils.getSelecteds<IMaterialBatchContract>(that.journalLineTable).firstOrDefault(), );
             },
             rows: "{/journallinedata}",
             columns: [

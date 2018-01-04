@@ -34,7 +34,7 @@ export class MaterialInventoryChooseView extends ibas.BOChooseView implements IM
                 press: function (): void {
                     that.fireViewEvents(that.chooseDataEvent,
                         // 获取表格选中的对象
-                        openui5.utils.getTableSelecteds<bo.MaterialInventory>(that.table)
+                        openui5.utils.getSelecteds<bo.MaterialInventory>(that.table)
                     );
                 }
             }),

@@ -38,7 +38,7 @@ export class GoodsIssueChooseView extends ibas.BOChooseView implements IGoodsIss
                 press: function (): void {
                     that.fireViewEvents(that.chooseDataEvent,
                         // 获取表格选中的对象
-                        openui5.utils.getTableSelecteds<bo.GoodsIssue>(that.table)
+                        openui5.utils.getSelecteds<bo.GoodsIssue>(that.table)
                     );
                 }
             }),
