@@ -22,6 +22,8 @@ import {
     BODocumentLine,
     BOSimple,
     BOSimpleLine,
+    boFactory,
+    numbers,
     config,
     strings,
     objects,
@@ -31,14 +33,23 @@ import {
     IGoodsReceipt,
     IGoodsReceiptLines,
     IGoodsReceiptLine,
+    IBatchManagementLine,
+    IBatchManagementLines,
+    ISerialManagementLines,
     IGoodsReceiptLineMaterialBatchJournals,
     IGoodsReceiptLineMaterialSerialJournals,
     BO_CODE_GOODSRECEIPT,
+    BO_CODE_MATERIALSERIALJOURNALS,
     emItemType,
+    IMaterialBatchJournal,
+    IMaterialBatchJournals,
+    IMaterialSerialJournal,
+    IMaterialSerialJournals,
 } from "../../api/index";
-import { MaterialBatchJournals } from "./MaterialBatchJournal";
-import { MaterialSerialJournals } from "./MaterialSerialJournal";
-import { BODocumentBaseLine, BODocumentBaseLines } from "./BODocumentBaseLine";
+import { MaterialBatchJournal, MaterialBatchJournals } from "./MaterialBatchJournal";
+import { MaterialSerialJournal, MaterialSerialJournals } from "./MaterialSerialJournal";
+import { BatchManagementLines } from "./BatchManagementLine";
+import { SerialManagementLines } from "./SerialManagementLine";
 /** 库存收货 */
 export class GoodsReceipt extends BODocument<GoodsReceipt> implements IGoodsReceipt {
 
@@ -442,33 +453,152 @@ export class GoodsReceipt extends BODocument<GoodsReceipt> implements IGoodsRece
         this.documentStatus = emDocumentStatus.PLANNED;
     }
 }
-
 /** 库存收货-行 集合 */
-export class GoodsReceiptLines extends BODocumentBaseLines<GoodsReceiptLine, GoodsReceipt> implements IGoodsReceiptLines {
+export class GoodsReceiptLines extends BusinessObjects<GoodsReceiptLine, GoodsReceipt>
+    implements IGoodsReceiptLines,
+    IBatchManagementLines,
+    ISerialManagementLines {
+    constructor(parent: GoodsReceipt) {
+        super(parent);
+        this.batchManagementLines = new BatchManagementLines(this);
+        this.serialManagementLines = new SerialManagementLines(this);
+    }
+    batchManagementLines: IBatchManagementLines;
+    serialManagementLines: ISerialManagementLines;
+
+    checkBatchQuantity(): boolean {
+        return this.batchManagementLines.checkBatchQuantity();
+    }
+
+    checkSerialQuantity(): boolean {
+        return this.serialManagementLines.checkSerialQuantity();
+    }
+
     /** 创建并添加子项 */
     create(): GoodsReceiptLine {
         let item: GoodsReceiptLine = new GoodsReceiptLine();
         this.add(item);
         return item;
     }
-
+    afterAdd(item: GoodsReceiptLine): void {
+        super.afterAdd(item);
+        item.lineStatus = this.parent.documentStatus;
+    }
+    /** 监听父项属性改变 */
+    protected onParentPropertyChanged(name: string): void {
+        super.onParentPropertyChanged(name);
+        if (strings.equalsIgnoreCase(name, GoodsReceipt.PROPERTY_DOCUMENTSTATUS_NAME)) {
+            for (let item of this.filterDeleted()) {
+                item.lineStatus = this.parent.documentStatus;
+            }
+        }
+    }
+    /** 监听子项属性改变 */
+    protected onChildPropertyChanged(item: GoodsReceiptLine, name: string): void {
+        super.onChildPropertyChanged(item, name);
+        if (strings.equalsIgnoreCase(name, GoodsReceiptLine.PROPERTY_LINETOTAL_NAME)) {
+            let total: number = 0;
+            for (let item of this.filterDeleted()) {
+                if (objects.isNull(item.lineTotal)) {
+                    item.lineTotal = 0;
+                }
+                total = Number(total) + Number(item.lineTotal);
+            }
+            this.parent.documentTotal = total;
+        }
+    }
 }
-
 /** 库存收货-批次日记账 集合 */
-export class GoodsReceiptLineMaterialBatchJournals extends MaterialBatchJournals<GoodsReceiptLine>
-    implements IGoodsReceiptLineMaterialBatchJournals {
+export class GoodsReceiptLineMaterialBatchJournals extends BusinessObjects<IMaterialBatchJournal, GoodsReceiptLine>
+    implements IGoodsReceiptLineMaterialBatchJournals,
+    IMaterialBatchJournals {
+    constructor(parent: GoodsReceiptLine) {
+        super(parent);
+        this.batchJournals = new MaterialBatchJournals<GoodsReceiptLine>(this,parent);
+    }
+    batchJournals: IMaterialBatchJournals;
+    /**
+     * 创建批次日记账
+     * @param data
+     */
+    create(data?: any): IMaterialBatchJournal {
+        return this.batchJournals.create(data);
+    }
+    /**
+     * 删除批次日记账集合
+     */
+    deleteAll(): void {
+        this.batchJournals.deleteAll();
+    }
+    /**
+     * 移除批次日记账集合
+     */
+    removeAll(): void {
+        this.batchJournals.removeAll();
+    }
+    /**
+     * 父项属性发生改变
+     * @param name 属性名称
+     */
+    onParentPropertyChanged(name: string): void {
+        super.onParentPropertyChanged(name);
+        this.batchJournals.onParentPropertyChanged(name);
+    }
 }
 /** 库存库存收货发货-序列日记账 集合 */
-export class GoodsReceiptLineMaterialSerialJournals extends MaterialSerialJournals<GoodsReceiptLine>
-    implements IGoodsReceiptLineMaterialSerialJournals {
-    /** 监听父项属性改变 */
+export class GoodsReceiptLineMaterialSerialJournals extends BusinessObjects<IMaterialSerialJournal, GoodsReceiptLine>
+    implements IGoodsReceiptLineMaterialSerialJournals,
+    IMaterialSerialJournals {
+    constructor(parent: GoodsReceiptLine) {
+        super(parent);
+        // this.batchSerials = new MaterialSerialJournals<GoodsReceiptLine>(this,parent);
+        let bo: any = boFactory.classOf(BO_CODE_MATERIALSERIALJOURNALS);
+        this.serialJournals = new bo(this,parent);
+    }
+    serialJournals: IMaterialSerialJournals;
+
+    /**
+     * 创建序列日记账
+     * @param data
+     */
+    create(data?: any): IMaterialSerialJournal {
+        return this.serialJournals.create(data);
+    }
+    /**
+     * 删除序列日记账集合
+     */
+    deleteAll(): void {
+        this.serialJournals.deleteAll();
+    }
+    /**
+     * 移除序列日记账集合
+     */
+    removeAll(): void {
+        this.serialJournals.removeAll();
+    }
+    /**
+     * 监听父项属性改变
+     * @param name 父项属性名称
+     */
+    onParentPropertyChanged(name: string): void {
+        super.onParentPropertyChanged(name);
+        this.serialJournals.onParentPropertyChanged(name);
+    }
+
 }
 /** 库存收货-行 */
-export class GoodsReceiptLine extends BODocumentBaseLine<GoodsReceiptLine> implements IGoodsReceiptLine {
+export class GoodsReceiptLine extends BODocumentLine<GoodsReceiptLine> implements IGoodsReceiptLine, IBatchManagementLine {
 
     /** 构造函数 */
     constructor() {
         super();
+    }
+    protected onPropertyChanged(name: string): void {
+        super.onPropertyChanged(name);
+        if (strings.equalsIgnoreCase(name, GoodsReceiptLine.PROPERTY_QUANTITY_NAME) ||
+            strings.equalsIgnoreCase(name, GoodsReceiptLine.PROPERTY_PRICE_NAME)) {
+            this.lineTotal = numbers.toFloat(this.quantity) * numbers.toFloat(this.price);
+        }
     }
     /** 映射的属性名称-编码 */
     static PROPERTY_DOCENTRY_NAME: string = "DocEntry";
@@ -880,28 +1010,28 @@ export class GoodsReceiptLine extends BODocumentBaseLine<GoodsReceiptLine> imple
     /** 映射的属性名称-库存收货-行-序列号集合 */
     static PROPERTY_GOODSRECEIPTMATERIALSERIALJOURNALS_NAME: string = "GoodsReceiptLineMaterialSerialJournals";
     /** 获取-库存发货-行-序列号集合 */
-    get materialSerialJournals(): GoodsReceiptLineMaterialSerialJournals {
+    get materialSerials(): GoodsReceiptLineMaterialSerialJournals {
         return this.getProperty<GoodsReceiptLineMaterialSerialJournals>(GoodsReceiptLine.PROPERTY_GOODSRECEIPTMATERIALSERIALJOURNALS_NAME);
     }
     /** 设置-库存收货-行-序列号集合 */
-    set materialSerialJournals(value: GoodsReceiptLineMaterialSerialJournals) {
+    set materialSerials(value: GoodsReceiptLineMaterialSerialJournals) {
         this.setProperty(GoodsReceiptLine.PROPERTY_GOODSRECEIPTMATERIALSERIALJOURNALS_NAME, value);
     }
     /** 映射的属性名称-库存收货-行-批次集合 */
     static PROPERTY_GOODSRECEIPTMATERIALBATCHJOURNALS_NAME: string = "GoodsReceiptLineMaterialBatchJournals";
     /** 获取-库存发货-行-序列号集合 */
-    get materialBatchJournals(): GoodsReceiptLineMaterialBatchJournals {
+    get materialBatchs(): GoodsReceiptLineMaterialBatchJournals {
         return this.getProperty<GoodsReceiptLineMaterialBatchJournals>(GoodsReceiptLine.PROPERTY_GOODSRECEIPTMATERIALBATCHJOURNALS_NAME);
     }
     /** 设置-库存收货-行-序列号集合 */
-    set materialBatchJournals(value: GoodsReceiptLineMaterialBatchJournals) {
+    set materialBatchs(value: GoodsReceiptLineMaterialBatchJournals) {
         this.setProperty(GoodsReceiptLine.PROPERTY_GOODSRECEIPTMATERIALBATCHJOURNALS_NAME, value);
     }
 
     /** 初始化数据 */
     protected init(): void {
-        this.materialBatchJournals = new GoodsReceiptLineMaterialBatchJournals(this);
-        this.materialSerialJournals = new GoodsReceiptLineMaterialSerialJournals(this);
+        this.materialBatchs = new GoodsReceiptLineMaterialBatchJournals(this);
+        this.materialSerials = new GoodsReceiptLineMaterialSerialJournals(this);
         this.objectCode = config.applyVariables(GoodsReceipt.BUSINESS_OBJECT_CODE);
     }
 }

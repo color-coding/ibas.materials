@@ -5,8 +5,8 @@
  * that can be found in the LICENSE file at http://www.apache.org/licenses/LICENSE-2.0
  * @Author: fancy
  * @Date: 2017-11-30 17:45:55
- * @Last Modified by: fancy
- * @Last Modified time: 2017-12-25 15:46:21
+ * @Last Modified by: Fancy
+ * @Last Modified time: 2017-12-28 14:16:07
  */
 
 import * as ibas from "ibas/index";
@@ -15,8 +15,8 @@ import * as bo from "../../../borep/bo/index";
 import { emAutoSelectBatchSerialRules } from "../../../api/Datas";
 import {
     IMaterialIssueSerialView,
-    MaterialSerialServiceJournal,
 } from "../../../bsapp/materialserial/index";
+import { IMaterialSerialContract } from "../../../api/index";
 
 export class MaterialIssueSerialServiceView extends ibas.BODialogView implements IMaterialIssueSerialView {
     /** 选择序列号凭证行信息事件 */
@@ -46,7 +46,7 @@ export class MaterialIssueSerialServiceView extends ibas.BODialogView implements
             visibleRowCountMode: sap.ui.table.VisibleRowCountMode.Interactive,
             rowSelectionChange: function (): void {
                 that.fireViewEvents(that.selectMaterialSerialJournalLineEvent,
-                    openui5.utils.getTableSelecteds<MaterialSerialServiceJournal>(that.journalLineTable).firstOrDefault(), );
+                    openui5.utils.getTableSelecteds<IMaterialSerialContract>(that.journalLineTable).firstOrDefault(), );
             },
             rows: "{/journallinedata}",
             columns: [
@@ -72,22 +72,6 @@ export class MaterialIssueSerialServiceView extends ibas.BODialogView implements
                         wrapping: false,
                     }).bindProperty("text", {
                         path: "quantity",
-                    }),
-                }),
-                new sap.ui.table.Column("", {
-                    label: ibas.i18n.prop("bo_materialserialjournal_needquantity"),
-                    template: new sap.m.Text("", {
-                        wrapping: false,
-                    }).bindProperty("text", {
-                        path: "needSerialQuantity",
-                    }),
-                }),
-                new sap.ui.table.Column("", {
-                    label: ibas.i18n.prop("bo_materialserialjournal_selectedquantity"),
-                    template: new sap.m.Text("", {
-                        wrapping: false,
-                    }).bindProperty("text", {
-                        path: "selectedSerialQuantity",
                     }),
                 }),
                 new sap.ui.table.Column("", {
@@ -147,7 +131,7 @@ export class MaterialIssueSerialServiceView extends ibas.BODialogView implements
                                     text: ibas.i18n.prop("materials_app_autoselect_by_firstinfirstout"),
                                     press: function (): void {
                                         that.fireViewEvents(that.autoSelectMaterialSerialEvent
-                                            , openui5.utils.getTableSelecteds<MaterialSerialServiceJournal>
+                                            , openui5.utils.getTableSelecteds<IMaterialSerialContract>
                                                 (that.journalLineTable).firstOrDefault()
                                             , emAutoSelectBatchSerialRules.FIRST_IN_FIRST_OUT);
                                     }
@@ -156,7 +140,7 @@ export class MaterialIssueSerialServiceView extends ibas.BODialogView implements
                                     text: ibas.i18n.prop("materials_app_autoselect_by_no"),
                                     press: function (): void {
                                         that.fireViewEvents(that.autoSelectMaterialSerialEvent
-                                            , openui5.utils.getTableSelecteds<MaterialSerialServiceJournal>
+                                            , openui5.utils.getTableSelecteds<IMaterialSerialContract>
                                                 (that.journalLineTable).firstOrDefault()
                                             , emAutoSelectBatchSerialRules.ORDER_BY_CODE);
                                     }
@@ -170,7 +154,7 @@ export class MaterialIssueSerialServiceView extends ibas.BODialogView implements
                     press: function (): void {
                         that.fireViewEvents(that.removeSerialMaterialSerialEvent,
                             // 获取表格选中的对象
-                            openui5.utils.getTableSelecteds<MaterialSerialServiceJournal>(that.journalLineTable).firstOrDefault(),
+                            openui5.utils.getTableSelecteds<IMaterialSerialContract>(that.journalLineTable).firstOrDefault(),
                             openui5.utils.getTableSelecteds<bo.MaterialSerialJournal>(that.rightTable),
                         );
                     }
@@ -180,7 +164,7 @@ export class MaterialIssueSerialServiceView extends ibas.BODialogView implements
                     press: function (): void {
                         that.fireViewEvents(that.addSerialMaterialSerialEvent,
                             // 获取表格选中的对象
-                            openui5.utils.getTableSelecteds<MaterialSerialServiceJournal>(that.journalLineTable).firstOrDefault(),
+                            openui5.utils.getTableSelecteds<IMaterialSerialContract>(that.journalLineTable).firstOrDefault(),
                             openui5.utils.getTableSelecteds<bo.MaterialSerial>(that.leftTable),
                         );
                     }
@@ -256,7 +240,7 @@ export class MaterialIssueSerialServiceView extends ibas.BODialogView implements
     }
     private lastCriteria: ibas.ICriteria;
 
-    showJournalLineData(datas: MaterialSerialServiceJournal[]): void {
+    showJournalLineData(datas: IMaterialSerialContract[]): void {
         this.journalLineTable.setModel(new sap.ui.model.json.JSONModel({ journallinedata: datas }));
         // openui5.utils.refreshModelChanged(this.journalLineTable, datas);
     }

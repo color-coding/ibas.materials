@@ -28,6 +28,8 @@ export class GoodsIssueEditView extends ibas.BOEditView implements IGoodsIssueEd
     removeGoodsIssueLineEvent: Function;
     /** 选择库存发货单行物料事件 */
     chooseGoodsIssueLineMaterialEvent: Function;
+    /** 选择库存发货物料价格清单 */
+    chooseeGoodsIssueMaterialPriceListEvent: Function;
     /** 选择库存发货单行仓库事件 */
     chooseGoodsIssueLineWarehouseEvent: Function;
     chooseGoodsIssueLineMaterialBatchEvent: Function;

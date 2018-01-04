@@ -1,8 +1,8 @@
 /*
  * @Author: fancy
  * @Date: 2017-11-27 16:44:31
- * @Last Modified by: fancy
- * @Last Modified time: 2017-12-22 17:06:01
+ * @Last Modified by: Fancy
+ * @Last Modified time: 2017-12-29 11:56:59
  * @license
  * Copyright color-coding studio. All Rights Reserved.
  *
@@ -146,22 +146,6 @@ export class MaterialReceiptBatchServiceView extends ibas.BODialogView implement
                         wrapping: false,
                     }).bindProperty("text", {
                         path: "quantity",
-                    }),
-                }),
-                new sap.ui.table.Column("", {
-                    label: ibas.i18n.prop("bo_materialbatchjournal_needquantity"),
-                    template: new sap.m.Text("", {
-                        wrapping: false,
-                    }).bindProperty("text", {
-                        path: "needBatchQuantity",
-                    }),
-                }),
-                new sap.ui.table.Column("", {
-                    label: ibas.i18n.prop("bo_materialbatchjournal_createdquantity"),
-                    template: new sap.m.Text("", {
-                        wrapping: false,
-                    }).bindProperty("text", {
-                        path: "selectedBatchQuantity",
                     }),
                 }),
                 new sap.ui.table.Column("", {

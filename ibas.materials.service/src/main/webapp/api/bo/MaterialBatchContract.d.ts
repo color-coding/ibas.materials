@@ -21,9 +21,6 @@ import {
     IMaterialBatchJournal,
     IMaterialBatchJournals,
 } from "./index";
-import {
-    MaterialBatchJournal, MaterialBatchJournals
-} from "../../borep/bo/index";
 /**  */
 export interface IMaterialBatchContract {
 
@@ -36,11 +33,14 @@ export interface IMaterialBatchContract {
     /**数量 */
     quantity: number;
 
+    direction?: emDirection;
+
     /** 创建的物料批次 */
     materialBatchs?: IMaterialBatchs;
 }
 
-export interface IMaterialBatchs extends ArrayList<MaterialBatchJournal>{
+export interface IMaterialBatchs extends Array<IMaterialBatchJournal>{
     create(batchJournal:IMaterialBatchJournal):void;
+    remove(batchJournal:IMaterialBatchJournal):void;
 }
 

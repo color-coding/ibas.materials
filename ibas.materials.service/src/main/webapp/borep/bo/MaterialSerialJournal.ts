@@ -13,6 +13,7 @@ import {
     objects,
     emApprovalStatus,
     IBODocumentLine,
+    IBusinessObjects,
     BusinessObject,
     BusinessObjects,
     BOMasterData,
@@ -24,10 +25,14 @@ import {
     config,
     strings,
     BO_PROPERTY_NAME_LINESTATUS,
+    ArrayList,
+    IBusinessObject,
+    boFactory,
 } from "ibas/index";
 import {
     IMaterialSerialJournal,
     BO_CODE_MATERIALSERIALJOURNAL,
+    BO_CODE_MATERIALSERIALJOURNALS,
     IMaterialSerialJournals,
 } from "../../api/index";
 export class MaterialSerialJournal extends BOSimple<MaterialSerialJournal> implements IMaterialSerialJournal {
@@ -376,13 +381,22 @@ export class MaterialSerialJournal extends BOSimple<MaterialSerialJournal> imple
 }
 
 export class MaterialSerialJournals<P extends IBODocumentLine>
-    extends BusinessObjects<MaterialSerialJournal, P>
-    implements IMaterialSerialJournals<P> {
-    create(): MaterialSerialJournal;
-    create(data: MaterialSerialJournal): MaterialSerialJournal;
-    create(data?: any): MaterialSerialJournal {
-        let item: MaterialSerialJournal = new MaterialSerialJournal();
-        this.add(item);
+    extends ArrayList<IMaterialSerialJournal>
+    // extends BusinessObjects<IMaterialSerialJournal, P>
+    implements IMaterialSerialJournals {
+    static BUSINESS_OBJECT_CODE: string = BO_CODE_MATERIALSERIALJOURNALS;
+    parent: P;
+    materialSerials:BusinessObjects<IMaterialSerialJournal, P>;
+    constructor(materialSerials:BusinessObjects<IMaterialSerialJournal, P>,parent: P) {
+        super();
+        this.materialSerials = materialSerials;
+        this.parent = parent;
+    }
+    create(): IMaterialSerialJournal;
+    create(data: MaterialSerialJournal): IMaterialSerialJournal;
+    create(data?: any): IMaterialSerialJournal {
+        let item: IMaterialSerialJournal = new MaterialSerialJournal();
+        this.materialSerials.add(item);
         item.lineStatus = this.parent.lineStatus;
         if (objects.isNull(data)) {
             return item;
@@ -393,29 +407,27 @@ export class MaterialSerialJournals<P extends IBODocumentLine>
         item.itemCode = data.itemCode;
         item.direction = data.direction;
         item.warehouse = data.warehouse;
-        item.lineStatus = this.parent.lineStatus;
         return item;
     }
     /** 删除序列日记账集合 */
     deleteAll(): void {
-        for (let item of this) {
-            item.delete();
+        for (let item of this.materialSerials) {
+            item.markDeleted(true);
         }
     }
     /** 移除序列日记账集合 */
     removeAll(): void {
-        for (let item of this) {
-            this.remove(item);
+        for (let item of this.materialSerials) {
+            this.materialSerials.remove(item);
         }
     }
     /**
      * 父项单据行发生改变
      */
-    protected onParentPropertyChanged(name: string): void {
-        super.onParentPropertyChanged(name);
+    onParentPropertyChanged(name: string): void {
         if (strings.equalsIgnoreCase(name, BO_PROPERTY_NAME_LINESTATUS)) {
             if (objects.instanceOf(this.parent, BODocumentLine)) {
-                for (let item of this) {
+                for (let item of this.materialSerials) {
                     item.setProperty(BO_PROPERTY_NAME_LINESTATUS, this.parent.getProperty(BO_PROPERTY_NAME_LINESTATUS));
                 }
             }

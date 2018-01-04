@@ -14,6 +14,7 @@ import {
     IBOSimple,
     IBusinessObject,
     IBODocumentLine,
+    IBusinessObjects,
     BusinessObject,
     BusinessObjects,
     BOMasterData,
@@ -27,10 +28,12 @@ import {
     IBODocumentLines,
     objects,
     BO_PROPERTY_NAME_LINESTATUS,
+    ArrayList,
 } from "ibas/index";
 import {
     IMaterialBatchJournal,
     BO_CODE_MATERIALBATCHJOURNAL,
+    BO_CODE_MATERIALBATCHJOURNALS,
     IMaterialBatchJournals,
 } from "../../api/index";
 export class MaterialBatchJournal extends BOSimple<MaterialBatchJournal> implements IMaterialBatchJournal {
@@ -360,14 +363,24 @@ export class MaterialBatchJournal extends BOSimple<MaterialBatchJournal> impleme
         this.objectCode = config.applyVariables(MaterialBatchJournal.BUSINESS_OBJECT_CODE);
     }
 }
-export abstract class MaterialBatchJournals<P extends IBODocumentLine> extends BusinessObjects<MaterialBatchJournal, P>
-    implements IMaterialBatchJournals<P> {
-    create(): MaterialBatchJournal;
-    create(data: MaterialBatchJournal): MaterialBatchJournal;
-    create(data?: any): MaterialBatchJournal {
-        let item: MaterialBatchJournal;
+
+export class MaterialBatchJournals<P extends IBODocumentLine>
+    extends ArrayList<IMaterialBatchJournal>
+    implements IMaterialBatchJournals {
+    static BUSINESS_OBJECT_CODE: string = BO_CODE_MATERIALBATCHJOURNALS;
+    parent: IBODocumentLine;
+    materialBatchs: BusinessObjects<IMaterialBatchJournal, P>;
+    constructor(materialBatchs: BusinessObjects<IMaterialBatchJournal, P>, parent: P) {
+        super();
+        this.parent = parent;
+        this.materialBatchs = materialBatchs;
+    }
+    create(): IMaterialBatchJournal;
+    create(data: IMaterialBatchJournal): IMaterialBatchJournal;
+    create(data?: any): IMaterialBatchJournal {
+        let item: IMaterialBatchJournal;
         item = new MaterialBatchJournal();
-        this.add(item);
+        this.materialBatchs.add(item);
         item.lineStatus = this.parent.lineStatus;
         if (objects.isNull(data)) {
             return item;
@@ -382,27 +395,27 @@ export abstract class MaterialBatchJournals<P extends IBODocumentLine> extends B
     }
     /** 删除序列日记账集合 */
     deleteAll(): void {
-        for (let item of this) {
+        for (let item of this.materialBatchs) {
             item.markDeleted(true);
         }
     }
     /** 移除序列日记账集合 */
     removeAll(): void {
-        for (let item of this) {
-            this.remove(item);
+        for (let item of this.materialBatchs) {
+            this.materialBatchs.remove(item);
         }
     }
     /**
      * 父项单据行发生改变
      */
-    protected onParentPropertyChanged(name: string): void {
-        super.onParentPropertyChanged(name);
+    onParentPropertyChanged(name: string): void {
         if (strings.equalsIgnoreCase(name, BO_PROPERTY_NAME_LINESTATUS)) {
             if (objects.instanceOf(this.parent, BODocumentLine)) {
-                for (let item of this) {
+                for (let item of this.materialBatchs) {
                     item.setProperty(BO_PROPERTY_NAME_LINESTATUS, this.parent.getProperty(BO_PROPERTY_NAME_LINESTATUS));
                 }
             }
         }
     }
 }
+

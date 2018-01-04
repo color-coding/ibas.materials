@@ -1,10 +1,10 @@
 package org.colorcoding.ibas.materials.bo.inventorytransfer;
 
+import org.colorcoding.ibas.bobas.bo.BusinessObjects;
 import org.colorcoding.ibas.bobas.common.*;
 import org.colorcoding.ibas.materials.MyConfiguration;
 import org.colorcoding.ibas.materials.bo.materialserial.IMaterialSerialJournal;
 import org.colorcoding.ibas.materials.bo.materialserial.MaterialSerialJournal;
-import org.colorcoding.ibas.materials.bo.materialserial.MaterialSerialJournals;
 
 import javax.xml.bind.annotation.XmlSeeAlso;
 import javax.xml.bind.annotation.XmlType;
@@ -13,7 +13,7 @@ import java.beans.PropertyChangeEvent;
 @XmlType(name = InventoryTransferLineMaterialSerialJournals.BUSINESS_OBJECT_NAME, namespace = MyConfiguration.NAMESPACE_BO)
 @XmlSeeAlso({ MaterialSerialJournal.class })
 public class InventoryTransferLineMaterialSerialJournals
-		extends MaterialSerialJournals<IInventoryTransferLine>
+		extends BusinessObjects<IMaterialSerialJournal,IInventoryTransferLine>
 		implements IInventoryTransferLineMaterialSerialJournals {
 	/**
 	 * 业务对象名称

@@ -53,6 +53,7 @@ export class GoodsIssueEditApp extends ibas.BOEditApplication<IGoodsIssueEditVie
         this.view.chooseGoodsIssueLineWarehouseEvent = this.chooseGoodsIssueLineWarehouse;
         this.view.chooseGoodsIssueLineMaterialBatchEvent = this.chooseGoodsIssueLineMaterialBatch;
         this.view.chooseGoodsIssueLineMaterialSerialEvent = this.chooseGoodsIssueLineMaterialSerial;
+        this.view.chooseeGoodsIssueMaterialPriceListEvent = this.chooseeGoodsIssueMaterialPriceList;
     }
     /** 视图显示后 */
     protected viewShowed(): void {
@@ -251,11 +252,11 @@ export class GoodsIssueEditApp extends ibas.BOEditApplication<IGoodsIssueEditVie
                     // 如果物料、仓库发生变更 删除批次、序列集合
                     if (item.itemCode !== selected.code) {
                         if (!item.isNew) {
-                            item.materialBatchJournals.deleteAll();
-                            item.materialSerialJournals.deleteAll();
+                            item.materialBatchs.deleteAll();
+                            item.materialSerials.deleteAll();
                         } else {
-                            item.materialBatchJournals.removeAll();
-                            item.materialSerialJournals.removeAll();
+                            item.materialBatchs.removeAll();
+                            item.materialSerials.removeAll();
                         }
                     }
                     item.itemCode = selected.code;
@@ -279,7 +280,7 @@ export class GoodsIssueEditApp extends ibas.BOEditApplication<IGoodsIssueEditVie
         ibas.servicesManager.runChooseService<bo.Warehouse>({
             boCode: bo.Warehouse.BUSINESS_OBJECT_CODE,
             criteria: [
-                new ibas.Condition(bo.Warehouse.PROPERTY_ACTIVATED_NAME, ibas.emConditionOperation.EQUAL, "Y")
+                new ibas.Condition(bo.Warehouse.PROPERTY_ACTIVATED_NAME, ibas.emConditionOperation.EQUAL, ibas.emYesNo.YES)
             ],
             onCompleted(selecteds: ibas.List<bo.Warehouse>): void {
                 // 获取触发的对象
@@ -294,11 +295,11 @@ export class GoodsIssueEditApp extends ibas.BOEditApplication<IGoodsIssueEditVie
                     }
                     if (item.warehouse !== selected.code) {
                         if (item.isNew) {
-                            item.materialBatchJournals.removeAll();
-                            item.materialSerialJournals.removeAll();
+                            item.materialBatchs.removeAll();
+                            item.materialSerials.removeAll();
                         } else {
-                            item.materialBatchJournals.deleteAll();
-                            item.materialSerialJournals.deleteAll();
+                            item.materialBatchs.deleteAll();
+                            item.materialSerials.deleteAll();
                         }
                     }
                     item.warehouse = selected.code;
@@ -311,10 +312,30 @@ export class GoodsIssueEditApp extends ibas.BOEditApplication<IGoodsIssueEditVie
             }
         });
     }
+    /** 选择库存发货订单物料价格清单事件 */
+    chooseeGoodsIssueMaterialPriceList(): void {
+        let that: this = this;
+        ibas.servicesManager.runChooseService<bo.MaterialPriceList>({
+            boCode: bo.MaterialPriceList.BUSINESS_OBJECT_CODE,
+            chooseType: ibas.emChooseType.SINGLE,
+            criteria: [],
+            onCompleted(selecteds: ibas.List<bo.MaterialPriceList>): void {
+                that.editData.priceList = selecteds.firstOrDefault().objectKey;
+            }
+        });
+    }
     /** 选择库存发货行批次事件 */
     chooseGoodsIssueLineMaterialBatch(): void {
         let that: this = this;
-        let goodIssueLines: bo.GoodsIssueLine[] = this.editData.goodsIssueLines.filterBatchLine();
+        let goodIssueLines: bo.GoodsIssueLine[] = this.editData.goodsIssueLines
+            .filter(
+            c => c.isDeleted === false
+                && !ibas.objects.isNull(c.lineStatus)
+                && c.batchManagement !== undefined
+                && c.batchManagement === ibas.emYesNo.YES
+                && !ibas.strings.isEmpty(c.itemCode)
+                && !ibas.strings.isEmpty(c.warehouse)
+            );
         if (ibas.objects.isNull(goodIssueLines) || goodIssueLines.length === 0) {
             this.messages(ibas.emMessageType.INFORMATION, ibas.i18n.prop("materials_app_no_matched_documentline_to_choose_batch"));
             return;
@@ -327,7 +348,13 @@ export class GoodsIssueEditApp extends ibas.BOEditApplication<IGoodsIssueEditVie
     /** 选择库存发货序列事件 */
     chooseGoodsIssueLineMaterialSerial(): void {
         let that: this = this;
-        let goodIssueLines: bo.GoodsIssueLine[] = this.editData.goodsIssueLines.filterSerialLine();
+        let goodIssueLines: bo.GoodsIssueLine[] = this.editData.goodsIssueLines
+            .filter(c => c.isDeleted === false
+                && !ibas.objects.isNull(c.lineStatus)
+                && c.serialManagement !== undefined
+                && c.serialManagement === ibas.emYesNo.YES
+                && !ibas.strings.isEmpty(c.itemCode)
+                && !ibas.strings.isEmpty(c.warehouse));
         if (ibas.objects.isNull(goodIssueLines) || goodIssueLines.length === 0) {
             this.messages(ibas.emMessageType.INFORMATION, ibas.i18n.prop("materials_app_no_matched_documentline_to_choose_serial"));
             return;
@@ -346,7 +373,7 @@ export class GoodsIssueEditApp extends ibas.BOEditApplication<IGoodsIssueEditVie
                 itemCode: item.itemCode,
                 warehouse: item.warehouse,
                 quantity: item.quantity,
-                materialBatchs: item.materialBatchJournals,
+                materialBatchs: item.materialBatchs,
             });
         }
         return contracts;
@@ -360,7 +387,7 @@ export class GoodsIssueEditApp extends ibas.BOEditApplication<IGoodsIssueEditVie
                 itemCode: item.itemCode,
                 warehouse: item.warehouse,
                 quantity: item.quantity,
-                materialSerials: item.materialSerialJournals,
+                materialSerials: item.materialSerials
             });
         }
         return contracts;
@@ -392,6 +419,8 @@ export interface IGoodsIssueEditView extends ibas.IBOEditView {
     addGoodsIssueLineEvent: Function;
     /** 删除库存发货-行事件 */
     removeGoodsIssueLineEvent: Function;
+    /** 选择库存发货物料价格清单 */
+    chooseeGoodsIssueMaterialPriceListEvent: Function;
     /** 显示数据 */
     showGoodsIssueLines(datas: bo.GoodsIssueLine[]): void;
     /** 选择库存发货单行物料事件 */

@@ -24,10 +24,8 @@ import {
     emItemType,
 } from "../Datas";
 import {
-    IMaterialBatchJournals,
-    IMaterialSerialJournals,
-    IBODocumentBaseLines,
-    IBODocumentBaseLine,
+    IMaterialBatchJournal,
+    IMaterialSerialJournal,
 } from "./index";
 
 /** 库存发货 */
@@ -143,22 +141,22 @@ export interface IGoodsIssue extends IBODocument {
 }
 
 /** 库存发货-行 集合 */
-export interface IGoodsIssueLines extends IBODocumentBaseLines<IGoodsIssueLine,IGoodsIssue> {
+export interface IGoodsIssueLines extends IBusinessObjects<IGoodsIssueLine,IGoodsIssue> {
 
     /** 创建并添加子项 */
     create(): IGoodsIssueLine;
 }
 /** 库存发货-批次日记账 集合 */
-export interface IGoodsIssueLineMaterialBatchJournals extends IMaterialBatchJournals<IGoodsIssueLine> {
+export interface IGoodsIssueLineMaterialBatchJournals extends IBusinessObjects<IMaterialBatchJournal,IGoodsIssueLine> {
 
 }
 /**  库存发货-序列号日记账  */
-export interface IGoodsIssueLineMaterialSerialJournals extends IMaterialSerialJournals<IGoodsIssueLine> {
+export interface IGoodsIssueLineMaterialSerialJournals extends IBusinessObjects<IMaterialSerialJournal,IGoodsIssueLine> {
 
 }
 
 /** 库存发货-行 */
-export interface IGoodsIssueLine extends IBODocumentBaseLine {
+export interface IGoodsIssueLine extends IBODocumentLine {
 
     /** 编码 */
     docEntry: number;
@@ -270,8 +268,6 @@ export interface IGoodsIssueLine extends IBODocumentBaseLine {
 
     /** 项目代码 */
     project: string;
-
-
 
 }
 

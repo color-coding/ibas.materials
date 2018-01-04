@@ -1,8 +1,8 @@
 /*
  * @Author: fancy
  * @Date: 2017-11-27 16:29:14
- * @Last Modified by: fancy
- * @Last Modified time: 2017-12-27 15:33:51
+ * @Last Modified by: Fancy
+ * @Last Modified time: 2017-12-29 15:42:07
  */
 /**
  * @license
@@ -20,7 +20,6 @@ import {
     IMaterialBatchJournal,
 } from "../../api/bo/index";
 import { MaterialBatchJournal } from "../../borep/bo/index";
-import { MaterialBatchServiceJournal } from "./index";
 import { emDocumentStatus } from "ibas/index";
 
 export class MaterialIssueBatchService extends ibas.ServiceApplication<IMaterialIssueBatchView, IMaterialBatchContract[]> {
@@ -39,7 +38,7 @@ export class MaterialIssueBatchService extends ibas.ServiceApplication<IMaterial
     /** 服务契约 */
     // private contract: IMaterialBatchContract[];
     /** 批次服务数据 */
-    protected batchJournals: MaterialBatchServiceJournal[];
+    protected batchJournals: IMaterialBatchContract[];
     /** 可选批次信息 */
     protected batchData: bo.MaterialBatch[];
 
@@ -61,15 +60,15 @@ export class MaterialIssueBatchService extends ibas.ServiceApplication<IMaterial
     }
 
     /** 选择凭证行事件 -更新可用批次 */
-    protected selectMaterialBatchJournalLine(selected: MaterialBatchServiceJournal): void {
+    protected selectMaterialBatchJournalLine(selected: IMaterialBatchContract): void {
         if (ibas.objects.isNull(selected)) {
             return;
         }
         let that: this = this;
         // 根据物料查询可用批次
         that.fetchBatchData(selected);
-        if(!ibas.objects.isNull(selected.contract.materialBatchs)) {
-            that.view.showRightData(selected.contract.materialBatchs.filter(c=>c.isDeleted === false));
+        if(!ibas.objects.isNull(selected.materialBatchs)) {
+            that.view.showRightData(selected.materialBatchs.filter(c=>c.isDeleted === false));
         }
     }
     /**
@@ -77,7 +76,7 @@ export class MaterialIssueBatchService extends ibas.ServiceApplication<IMaterial
      * @param selected 选择的凭证行
      * @param rules 自动选择批次规则
      */
-    protected autoSelectMaterialBatch(journal: MaterialBatchServiceJournal, rules: emAutoSelectBatchSerialRules): void {
+    protected autoSelectMaterialBatch(journal: IMaterialBatchContract, rules: emAutoSelectBatchSerialRules): void {
         // 未选择凭证行
         if (ibas.objects.isNull(journal)) {
             this.messages(ibas.emMessageType.WARNING, ibas.i18n.prop("shell_please_chooose_data",
@@ -87,7 +86,7 @@ export class MaterialIssueBatchService extends ibas.ServiceApplication<IMaterial
         }
         // 不需要选择批次了
         if (!this.isNeedToSelected(journal)) {
-            this.view.showRightData(journal.contract.materialBatchs.filter(c => c.isDeleted === false));
+            this.view.showRightData(journal.materialBatchs.filter(c => c.isDeleted === false));
             return;
         }
         if (ibas.objects.isNull(this.batchData.filter(c => c.isDeleted === false))) {
@@ -110,23 +109,23 @@ export class MaterialIssueBatchService extends ibas.ServiceApplication<IMaterial
         }
         this.allocateBatch(journal, this.batchData);
         this.view.showLeftData(this.batchData.filter(c => c.quantity > 0));
-        this.view.showRightData(journal.contract.materialBatchs.filter(c => c.isDeleted === false));
+        this.view.showRightData(journal.materialBatchs.filter(c => c.isDeleted === false));
     }
     /**
      * 分配批次
      * @param journal 凭证行
      * @param selectItem 可供选择的批次
      */
-    protected allocateBatch(journal: MaterialBatchServiceJournal, selectItem: bo.MaterialBatch[]): void {
+    protected allocateBatch(journal: IMaterialBatchContract, selectItem: bo.MaterialBatch[]): void {
         let needQuantity:number = Number(journal.quantity);
-        journal.contract.materialBatchs.forEach(c=>needQuantity = needQuantity - Number(c.quantity));
+        journal.materialBatchs.filter(c=>c.isDeleted === false).forEach(c=>needQuantity = needQuantity - Number(c.quantity));
         for (let item of selectItem.filter(c => c.quantity > 0 && c.isDeleted === false)) {
             // 已分配数量
             if (!this.isNeedToSelected(journal)) {
                 return;
             }
             // 在已选择的行中找该批次记录
-            let batchLine: bo.MaterialBatchJournal = journal.contract.materialBatchs
+            let batchLine: IMaterialBatchJournal = journal.materialBatchs
                 .find(c => c.batchCode === item.batchCode);
             // 未选择该批次 新建批次日记账
             if (ibas.objects.isNull(batchLine)) {
@@ -144,7 +143,7 @@ export class MaterialIssueBatchService extends ibas.ServiceApplication<IMaterial
                     needQuantity = 0;
                     item.quantity = ibas.numbers.toFloat(item.quantity) - ibas.numbers.toFloat(batchJournal.quantity);
                 }
-                journal.contract.materialBatchs.create(batchJournal);
+                journal.materialBatchs.create(batchJournal);
             } else {
                 // 已选择该批次 修改批次日记账
                 if (item.quantity <= needQuantity) {
@@ -166,7 +165,7 @@ export class MaterialIssueBatchService extends ibas.ServiceApplication<IMaterial
      * @param journal 凭证行
      * @param items 可供选择的批次
      */
-    protected addBatchMaterialBatch(journal: MaterialBatchServiceJournal, items: bo.MaterialBatch[]): void {
+    protected addBatchMaterialBatch(journal: IMaterialBatchContract, items: bo.MaterialBatch[]): void {
         // 未选择凭证行
         if (ibas.objects.isNull(journal)) {
             this.messages(ibas.emMessageType.WARNING, ibas.i18n.prop("shell_please_chooose_data",
@@ -179,7 +178,7 @@ export class MaterialIssueBatchService extends ibas.ServiceApplication<IMaterial
         }
         this.allocateBatch(journal,items);
         this.view.showLeftData(this.batchData.filter(c => c.quantity > 0));
-        this.view.showRightData(journal.contract.materialBatchs.filter(c => c.isDeleted === false));
+        this.view.showRightData(journal.materialBatchs.filter(c => c.isDeleted === false));
     }
 
     /**
@@ -187,7 +186,7 @@ export class MaterialIssueBatchService extends ibas.ServiceApplication<IMaterial
      * @param selected 凭证行
      * @param items 已选择的批次
      */
-    protected removeBatchMaterialBatch(selected: MaterialBatchServiceJournal, items: bo.MaterialBatchJournal[]): void {
+    protected removeBatchMaterialBatch(selected: IMaterialBatchContract, items: bo.MaterialBatchJournal[]): void {
         // 未选择凭证行
         if (ibas.objects.isNull(selected)) {
             this.messages(ibas.emMessageType.WARNING, ibas.i18n.prop("shell_please_chooose_data",
@@ -204,9 +203,9 @@ export class MaterialIssueBatchService extends ibas.ServiceApplication<IMaterial
         }
         // 移除项目
         for (let item of items) {
-            if (selected.contract.materialBatchs.indexOf(item) >= 0) {
+            if (selected.materialBatchs.indexOf(item) >= 0) {
                 if (item.isNew) {
-                    selected.contract.materialBatchs.remove(item);
+                    selected.materialBatchs.remove(item);
                 } else {
                     item.delete();
                 }
@@ -224,14 +223,14 @@ export class MaterialIssueBatchService extends ibas.ServiceApplication<IMaterial
             }
         }
         this.view.showLeftData(this.batchData.filter(c => c.quantity > 0));
-        this.view.showRightData(selected.contract.materialBatchs.filter(c => c.isDeleted === false));
+        this.view.showRightData(selected.materialBatchs.filter(c => c.isDeleted === false));
     }
 
     /**
      * 查询可用批次
      * @param selected 选择的凭证行
      */
-    protected fetchBatchData(selected: MaterialBatchServiceJournal): void {
+    protected fetchBatchData(selected: IMaterialBatchContract): void {
         this.busy(true);
         let that: this = this;
         let criteria: ibas.ICriteria = new ibas.Criteria();
@@ -268,14 +267,14 @@ export class MaterialIssueBatchService extends ibas.ServiceApplication<IMaterial
      * 过滤已经选择的批次
      * @param selected 选择的凭证行
      */
-    private filterSelected(selected: MaterialBatchServiceJournal): void {
-        if (selected.contract.materialBatchs.length === 0) {
+    private filterSelected(selected: IMaterialBatchContract): void {
+        if (selected.materialBatchs.length === 0) {
             return;
         }
-        for (let item of selected.contract.materialBatchs) {
+        for (let item of selected.materialBatchs) {
             let batchItem: bo.MaterialBatch = this.batchData.find(c => c.batchCode === item.batchCode);
             if (ibas.objects.isNull(batchItem)) {
-                item.delete();
+                item.markDeleted(true);
             } else if (item.isNew || item.lineStatus === emDocumentStatus.PLANNED) {
                 batchItem.quantity = batchItem.quantity - item.quantity;
             }
@@ -292,16 +291,14 @@ export class MaterialIssueBatchService extends ibas.ServiceApplication<IMaterial
     }
     /** 绑定日记账信息 */
     bindBatchJournalData(contract: IMaterialBatchContract[]): void {
-        let batchJournals: MaterialBatchServiceJournal[] = new ibas.ArrayList<MaterialBatchServiceJournal>();
+        let batchJournals: IMaterialBatchContract[] = new ibas.ArrayList<IMaterialBatchContract>();
         for (let item of contract) {
             batchJournals.push({
-                contract: item,
                 itemCode: item.itemCode,
                 warehouse: item.warehouse,
                 quantity: item.quantity,
                 direction: ibas.emDirection.OUT,
-                needBatchQuantity: item.quantity,
-                // selectedBatchQuantity: selectNum
+                materialBatchs: item.materialBatchs
             });
         }
         this.batchJournals = batchJournals;
@@ -321,9 +318,9 @@ export class MaterialIssueBatchService extends ibas.ServiceApplication<IMaterial
      * 是否需要选择批次  false 不需要；true 需要
      * @param journal 批次日记账行
      */
-    isNeedToSelected(journal: MaterialBatchServiceJournal): boolean {
+    isNeedToSelected(journal: IMaterialBatchContract): boolean {
         let selectedQuantity: number = Number(0);
-        journal.contract.materialBatchs.forEach(c => selectedQuantity = selectedQuantity + Number(c.quantity));
+        journal.materialBatchs.filter(c=>c.isDeleted === false).forEach(c => selectedQuantity = selectedQuantity + Number(c.quantity));
         if (Number(selectedQuantity) === Number(journal.quantity)) {
             return false;
         }
@@ -336,7 +333,7 @@ export interface IMaterialIssueBatchView extends ibas.IBOView {
     /** 显示数据 */
     showLeftData(datas: bo.MaterialBatch[]): void;
     showRightData(datas: IMaterialBatchJournal[]): void;
-    showJournalLineData(datas: MaterialBatchServiceJournal[]): void;
+    showJournalLineData(datas: IMaterialBatchContract[]): void;
     /** 选择设置批次中凭证行信息事件 */
     selectMaterialBatchJournalLineEvent: Function;
     /** 自动选择事件 */

@@ -24,4 +24,5 @@ export * from "./MaterialSerialJournal.d";
 export * from "./MaterialPriceList.d";
 export * from "./MaterialSerialContract.d";
 export * from "./MaterialBatchContract.d";
-export * from "./BODocumentBaseLine.d";
+export * from "./BatchManagementLine.d";
+export * from "./SerialManagementLine.d";

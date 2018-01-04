@@ -19,10 +19,7 @@ import {
 } from "ibas/index";
 import {
     IMaterialSerialJournal
-} from "../../api/index";
-import {
-    MaterialSerialJournal,
-} from "../../borep/bo/index";
+} from "../index";
 /** 物料出库序列契约 */
 export interface IMaterialSerialContract {
 
@@ -35,12 +32,14 @@ export interface IMaterialSerialContract {
     /**数量 */
     quantity: number;
 
+    direction?: emDirection;
     /** 创建的序列 */
     materialSerials?: IMaterialSerials;
 }
 
-export interface IMaterialSerials extends ArrayList<MaterialSerialJournal> {
+export interface IMaterialSerials extends ArrayList<IMaterialSerialJournal> {
     create(data: IMaterialSerialJournal): void;
+    remove(data: IMaterialSerialJournal): void;
 }
 
 

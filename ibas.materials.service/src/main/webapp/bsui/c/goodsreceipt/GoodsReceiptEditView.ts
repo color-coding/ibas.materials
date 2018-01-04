@@ -23,6 +23,8 @@ export class GoodsReceiptEditView extends ibas.BOEditView implements IGoodsRecei
     addGoodsReceiptLineEvent: Function;
     /** 删除库存收货-行事件 */
     removeGoodsReceiptLineEvent: Function;
+    /** 选择库存收货单价格清单 */
+    chooseGoodsReceiptMaterialPriceListEvent: Function;
     /** 选择库存收货单行物料事件 */
     chooseGoodsReceiptLineMaterialEvent: Function;
     /** 选择库存收货单行仓库事件 */
@@ -41,6 +43,7 @@ export class GoodsReceiptEditView extends ibas.BOEditView implements IGoodsRecei
                 new sap.ui.core.Title("", { text: ibas.i18n.prop("materials_general_information") }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_goodsreceipt_docentry") }),
                 new sap.m.Input("", {
+                    editable: false,
                 }).bindProperty("value", {
                     path: "docEntry",
                 }),
@@ -48,7 +51,7 @@ export class GoodsReceiptEditView extends ibas.BOEditView implements IGoodsRecei
                 new sap.m.Input("", {
                     showValueHelp: true,
                     valueHelpRequest: function (): void {
-
+                        that.fireViewEvents(that.chooseGoodsReceiptMaterialPriceListEvent);
                     }
                 }).bindProperty("value", {
                     path: "priceList"
@@ -221,6 +224,14 @@ export class GoodsReceiptEditView extends ibas.BOEditView implements IGoodsRecei
                         type: sap.m.InputType.Number
                     }).bindProperty("value", {
                         path: "price"
+                    })
+                }),
+                new sap.ui.table.Column("", {
+                    label: ibas.i18n.prop("bo_goodsreceiptline_currency"),
+                    template: new sap.m.Input("", {
+                        width: "100%",
+                    }).bindProperty("value", {
+                        path: "currency"
                     })
                 }),
                 new sap.ui.table.Column("", {

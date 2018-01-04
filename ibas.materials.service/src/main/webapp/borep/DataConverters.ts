@@ -60,7 +60,17 @@ class BOConverter4mm extends ibas.BOConverter {
                 || property === bo.Material.PROPERTY_PHANTOMITEM_NAME) {
                 return ibas.enums.toString(ibas.emYesNo, value);
             }
-        } else if (boName === bo.GoodsIssueLine.name) {
+        } else if (boName === bo.Product.name) {
+            if (property === bo.Product.PROPERTY_SERIALMANAGEMENT_NAME
+                || property === bo.Product.PROPERTY_FIXEDASSETS_NAME
+                || property === bo.Product.PROPERTY_BATCHMANAGEMENT_NAME
+                || property === bo.Product.PROPERTY_SALESITEM_NAME
+                || property === bo.Product.PROPERTY_PURCHASEITEM_NAME
+                || property === bo.Product.PROPERTY_INVENTORYITEM_NAME
+                || property === bo.Product.PROPERTY_PHANTOMITEM_NAME) {
+                return ibas.enums.toString(ibas.emYesNo, value);
+            }
+        }else if (boName === bo.GoodsIssueLine.name) {
             if (property === bo.GoodsIssueLine.PROPERTY_SERIALMANAGEMENT_NAME
                 || property === bo.GoodsIssueLine.PROPERTY_BATCHMANAGEMENT_NAME) {
                 return ibas.enums.toString(ibas.emYesNo, value);
@@ -106,6 +116,16 @@ class BOConverter4mm extends ibas.BOConverter {
                 || property === bo.Material.PROPERTY_PURCHASEITEM_NAME
                 || property === bo.Material.PROPERTY_INVENTORYITEM_NAME
                 || property === bo.Material.PROPERTY_PHANTOMITEM_NAME) {
+                return ibas.enums.valueOf(ibas.emYesNo, value);
+            }
+        }  else if (boName === bo.Product.name) {
+            if (property === bo.Product.PROPERTY_SERIALMANAGEMENT_NAME
+                || property === bo.Product.PROPERTY_FIXEDASSETS_NAME
+                || property === bo.Product.PROPERTY_BATCHMANAGEMENT_NAME
+                || property === bo.Product.PROPERTY_SALESITEM_NAME
+                || property === bo.Product.PROPERTY_PURCHASEITEM_NAME
+                || property === bo.Product.PROPERTY_INVENTORYITEM_NAME
+                || property === bo.Product.PROPERTY_PHANTOMITEM_NAME) {
                 return ibas.enums.valueOf(ibas.emYesNo, value);
             }
         } else if (boName === bo.GoodsIssueLine.name) {

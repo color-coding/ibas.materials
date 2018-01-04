@@ -39,14 +39,14 @@ export const BO_CODE_PRODUCT: string = "${Company}_MM_PRODUCT";
 export const BO_CODE_MATERIALBATCH: string = "${Company}_MM_BATCH";
 /** 业务对象编码-物料批次凭证 */
 export const BO_CODE_MATERIALBATCHJOURNAL: string = "${Company}_MM_BATCHJOURNAL";
-/**  业务对象编码-物料批次服务 */
-export const BO_CODE_MATERIALBATCHSERVICE: string = "${Company}_MM_BATCHJOURNAL";
+/**  业务对象编码-物料批次凭证集合 */
+export const BO_CODE_MATERIALBATCHJOURNALS: string = "${Company}_MM_BATCHJOURNALS";
 /** 业务对象编码-物料序列号 */
 export const BO_CODE_MATERIALSERIAL: string = "${Company}_MM_SERIAL";
 /** 业务对象编码-物料序列号凭证 */
 export const BO_CODE_MATERIALSERIALJOURNAL: string = "${Company}_MM_SERIALJOURNAL";
-/** 业务对象编码-物料序列凭证 */
-export const BO_CODE_MATERIALSERIALSERVICE: string = "${Company}_MM_SERIALJOURNAL";
+/** 业务对象编码-物料序列号凭证集合 */
+export const BO_CODE_MATERIALSERIALJOURNALS: string = "${Company}_MM_SERIALJOURNALS";
 /** 业务对象编码-物料组 */
 export const BO_CODE_MATERIALGROUP: string = "${Company}_MM_MATERIALGROUP";
 /** 业务对象编码-物料库存 */
@@ -57,7 +57,10 @@ export const BO_CODE_MATERIALJOURNAL: string = "${Company}_MM_MATERIALJOURNAL";
 export const BO_CODE_WAREHOUSE: string = "${Company}_MM_WAREHOUSE";
 /** 业务对象编码-价格清单 */
 export const BO_CODE_MATERIALPRICELIST: string = "${Company}_MM_PRICELIST";
-
+/** 业务对象编码-批次管理行 */
+export const BO_CODE_BATCHMANAGEMENTLINE:string ="${Company}_MM_BATCHMANAGEMENTLINES";
+/** 业务对象编码-序列管理行 */
+export const BO_CODE_SERIALMANAGEMENTLINE:string ="${Company}_MM_SERIALMANAGEMENTLINES";
 /** 物料类型 */
 export enum emItemType {
     /** 物料 */

@@ -19,7 +19,6 @@ import {
     MaterialReceiptSerialServiceProxy,
 } from "../../api/Datas";
 import { BORepositoryMaterials } from "../../borep/BORepositories";
-import { ArrayList } from "ibas/index";
 
 /** 编辑应用-库存收货 */
 export class GoodsReceiptEditApp extends ibas.BOEditApplication<IGoodsReceiptEditView, bo.GoodsReceipt> {
@@ -50,6 +49,7 @@ export class GoodsReceiptEditApp extends ibas.BOEditApplication<IGoodsReceiptEdi
         this.view.chooseGoodsReceiptlineWarehouseEvent = this.chooseGoodsReceiptlineWarehouse;
         this.view.createGoodsReceiptLineMaterialBatchEvent = this.createGoodsReceiptLineMaterialBatch;
         this.view.createGoodsReceiptLineMaterialSerialEvent = this.createGoodsReceiptLineMaterialSerial;
+        this.view.chooseGoodsReceiptMaterialPriceListEvent = this.chooseeGoodsReceiptMaterialPriceList;
     }
     /** 视图显示后 */
     protected viewShowed(): void {
@@ -230,7 +230,9 @@ export class GoodsReceiptEditApp extends ibas.BOEditApplication<IGoodsReceiptEdi
         let that: this = this;
         ibas.servicesManager.runChooseService<bo.Material>({
             boCode: bo.Material.BUSINESS_OBJECT_CODE,
-            criteria: that.getConditions(),
+            criteria: [
+                new ibas.Condition(bo.Warehouse.PROPERTY_DELETED_NAME, ibas.emConditionOperation.EQUAL, ibas.emYesNo.NO)
+            ],
             onCompleted(selecteds: ibas.List<bo.Material>): void {
                 // 获取触发的对象
                 let index: number = that.editData.goodsReceiptLines.indexOf(caller);
@@ -245,11 +247,11 @@ export class GoodsReceiptEditApp extends ibas.BOEditApplication<IGoodsReceiptEdi
                     // 如果物料或仓库发生更改，删除批次、序列集合
                     if (item.itemCode !== selected.code) {
                         if (item.isNew) {
-                            item.materialBatchJournals.removeAll();
-                            item.materialSerialJournals.removeAll();
+                            item.materialBatchs.removeAll();
+                            item.materialSerials.removeAll();
                         } else {
-                            item.materialBatchJournals.deleteAll();
-                            item.materialSerialJournals.deleteAll();
+                            item.materialBatchs.deleteAll();
+                            item.materialSerials.deleteAll();
                         }
                     }
                     item.itemCode = selected.code;
@@ -266,6 +268,20 @@ export class GoodsReceiptEditApp extends ibas.BOEditApplication<IGoodsReceiptEdi
             }
         });
     }
+    /** 选择库存收货订单物料价格清单事件 */
+    chooseeGoodsReceiptMaterialPriceList(): void {
+        let that: this = this;
+        ibas.servicesManager.runChooseService<bo.MaterialPriceList>({
+            boCode: bo.MaterialPriceList.BUSINESS_OBJECT_CODE,
+            chooseType: ibas.emChooseType.SINGLE,
+            criteria: [
+                // new ibas.Condition(bo.MaterialPriceList.Property_, ibas.emConditionOperation.EQUAL, "Y")
+            ],
+            onCompleted(selecteds: ibas.List<bo.MaterialPriceList>): void {
+                that.editData.priceList = selecteds.firstOrDefault().objectKey;
+            }
+        });
+    }
 
     /** 选择库存收货订单行物料事件 */
     chooseGoodsReceiptlineWarehouse(caller: bo.GoodsReceiptLine): void {
@@ -273,7 +289,7 @@ export class GoodsReceiptEditApp extends ibas.BOEditApplication<IGoodsReceiptEdi
         ibas.servicesManager.runChooseService<bo.Warehouse>({
             boCode: bo.Warehouse.BUSINESS_OBJECT_CODE,
             criteria: [
-                new ibas.Condition(bo.Warehouse.PROPERTY_ACTIVATED_NAME, ibas.emConditionOperation.EQUAL, "Y")
+                new ibas.Condition(bo.Warehouse.PROPERTY_ACTIVATED_NAME, ibas.emConditionOperation.EQUAL, ibas.emYesNo.YES)
             ],
             onCompleted(selecteds: ibas.List<bo.Warehouse>): void {
                 // 获取触发的对象
@@ -289,11 +305,11 @@ export class GoodsReceiptEditApp extends ibas.BOEditApplication<IGoodsReceiptEdi
                     if (item.warehouse !== selected.code) {
                         if (item.isNew) {
                             // 新添加的行发生修改仓库
-                            item.materialBatchJournals.removeAll();
-                            item.materialSerialJournals.removeAll();
+                            item.materialBatchs.removeAll();
+                            item.materialSerials.removeAll();
                         } else {
-                            item.materialBatchJournals.deleteAll();
-                            item.materialSerialJournals.deleteAll();
+                            item.materialBatchs.deleteAll();
+                            item.materialSerials.deleteAll();
                         }
                     }
                     item.warehouse = selected.code;
@@ -309,7 +325,13 @@ export class GoodsReceiptEditApp extends ibas.BOEditApplication<IGoodsReceiptEdi
     /** 新建物料批次信息 */
     createGoodsReceiptLineMaterialBatch(): void {
         let that: this = this;
-        let goodReceiptLines: bo.GoodsReceiptLine[] = that.editData.goodsReceiptLines.filterBatchLine();
+        let goodReceiptLines: bo.GoodsReceiptLine[] = that.editData.goodsReceiptLines
+            .filter(c => c.isDeleted === false
+                && !ibas.objects.isNull(c.lineStatus)
+                && c.batchManagement !== undefined
+                && c.batchManagement === ibas.emYesNo.YES
+                && !ibas.strings.isEmpty(c.itemCode)
+                && !ibas.strings.isEmpty(c.warehouse));
         if (ibas.objects.isNull(goodReceiptLines) || goodReceiptLines.length === 0) {
             this.messages(ibas.emMessageType.INFORMATION, ibas.i18n.prop("materials_app_no_matched_documentline_to_create_batch"));
             return;
@@ -321,7 +343,13 @@ export class GoodsReceiptEditApp extends ibas.BOEditApplication<IGoodsReceiptEdi
     /** 新建物料序列信息 */
     createGoodsReceiptLineMaterialSerial(): void {
         let that: this = this;
-        let goodReceiptLines: bo.GoodsReceiptLine[] = that.editData.goodsReceiptLines.filterSerialLine();
+        let goodReceiptLines: bo.GoodsReceiptLine[] = that.editData.goodsReceiptLines
+            .filter(c => c.isDeleted === false
+                && !ibas.objects.isNull(c.lineStatus)
+                && c.serialManagement !== undefined
+                && c.serialManagement === ibas.emYesNo.YES
+                && !ibas.strings.isEmpty(c.itemCode)
+                && !ibas.strings.isEmpty(c.warehouse));
         if (ibas.objects.isNull(goodReceiptLines) || goodReceiptLines.length === 0) {
             this.messages(ibas.emMessageType.INFORMATION, ibas.i18n.prop("materials_app_no_matched_documentline_to_create_serial"));
             return;
@@ -333,13 +361,13 @@ export class GoodsReceiptEditApp extends ibas.BOEditApplication<IGoodsReceiptEdi
 
     /** 获取行-批次服务契约信息 */
     getBatchContract(goodReceiptLines: bo.GoodsReceiptLine[]): IMaterialBatchContract[] {
-        let contracts: IMaterialBatchContract[] = new ArrayList<IMaterialBatchContract>();
+        let contracts: IMaterialBatchContract[] = new ibas.ArrayList<IMaterialBatchContract>();
         for (let item of goodReceiptLines) {
             contracts.push({
                 itemCode: item.itemCode,
                 warehouse: item.warehouse,
                 quantity: item.quantity,
-                materialBatchs: item.materialBatchJournals,
+                materialBatchs: item.materialBatchs,
             });
         }
         return contracts;
@@ -347,30 +375,18 @@ export class GoodsReceiptEditApp extends ibas.BOEditApplication<IGoodsReceiptEdi
 
     /** 获取行-序列服务契约信息 */
     getSerialContract(goodReceiptLines: bo.GoodsReceiptLine[]): IMaterialSerialContract[] {
-        let contracts: IMaterialSerialContract[] = new ArrayList<IMaterialSerialContract>();
+        let contracts: IMaterialSerialContract[] = new ibas.ArrayList<IMaterialSerialContract>();
         for (let item of goodReceiptLines) {
             contracts.push({
                 itemCode: item.itemCode,
                 warehouse: item.warehouse,
                 quantity: item.quantity,
-                materialSerials: item.materialSerialJournals,
+                materialSerials: item.materialSerials,
             });
         }
         return contracts;
     }
 
-    /** 获取物料增量查询条件 */
-    getConditions(): ibas.ICondition[] {
-        let conditions: ibas.ICondition[] = new Array<ibas.ICondition>();
-        conditions.push(new ibas.Condition(bo.Material.PROPERTY_DELETED_NAME, ibas.emConditionOperation.EQUAL, "N"));
-        if (!ibas.objects.isNull(this.editData.priceList)) {
-            conditions.push(new ibas.Condition(
-                bo.MaterialPriceList.PROPERTY_OBJECTKEY_NAME
-                , ibas.emConditionOperation.EQUAL
-                , this.editData.priceList));
-        }
-        return conditions;
-    }
 }
 /** 视图-库存收货 */
 export interface IGoodsReceiptEditView extends ibas.IBOEditView {
@@ -386,6 +402,8 @@ export interface IGoodsReceiptEditView extends ibas.IBOEditView {
     removeGoodsReceiptLineEvent: Function;
     /** 显示数据 */
     showGoodsReceiptLines(datas: bo.GoodsReceiptLine[]): void;
+    /** 选择库存收货单价格清单 */
+    chooseGoodsReceiptMaterialPriceListEvent: Function;
     /** 选择库存收货单行物料事件 */
     chooseGoodsReceiptLineMaterialEvent: Function;
     /** 选择库存收货单行仓库事件 */

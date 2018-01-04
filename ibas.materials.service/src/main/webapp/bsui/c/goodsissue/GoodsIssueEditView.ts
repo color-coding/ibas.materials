@@ -31,7 +31,8 @@ export class GoodsIssueEditView extends ibas.BOEditView implements IGoodsIssueEd
     chooseGoodsIssueLineMaterialBatchEvent: Function;
     /** 选择库存发货单行物料序列号事件 */
     chooseGoodsIssueLineMaterialSerialEvent: Function;
-
+    /** 选择库存发货物料价格清单 */
+    chooseeGoodsIssueMaterialPriceListEvent: Function;
 
     /** 绘制视图 */
     darw(): any {
@@ -42,6 +43,7 @@ export class GoodsIssueEditView extends ibas.BOEditView implements IGoodsIssueEd
                 new sap.ui.core.Title("", { text: ibas.i18n.prop("materials_general_information") }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_goodsissue_docentry") }),
                 new sap.m.Input("", {
+                    editable: false,
                 }).bindProperty("value", {
                     path: "docEntry",
                 }),
@@ -49,6 +51,7 @@ export class GoodsIssueEditView extends ibas.BOEditView implements IGoodsIssueEd
                 new sap.m.Input("", {
                     showValueHelp: true,
                     valueHelpRequest: function (): void {
+                        that.fireViewEvents(that.chooseeGoodsIssueMaterialPriceListEvent);
                     }
                 }).bindProperty("value", {
                     path: "priceList"
@@ -221,6 +224,14 @@ export class GoodsIssueEditView extends ibas.BOEditView implements IGoodsIssueEd
                         type: sap.m.InputType.Number
                     }).bindProperty("value", {
                         path: "price"
+                    })
+                }),
+                new sap.ui.table.Column("", {
+                    label: ibas.i18n.prop("bo_goodsissueline_currency"),
+                    template: new sap.m.Input("", {
+                        width: "100%",
+                    }).bindProperty("value", {
+                        path: "currency"
                     })
                 }),
                 new sap.ui.table.Column("", {
