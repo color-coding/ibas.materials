@@ -455,20 +455,12 @@ export class GoodsIssueLines extends BusinessObjects<GoodsIssueLine, GoodsIssue>
     implements IGoodsIssueLines,
     IBatchManagementLines,
     ISerialManagementLines {
-    constructor(parent: GoodsIssue) {
-        super(parent);
-        this.batchManagementLines = new BatchManagementLines(this);
-        this.serialManagementLines = new SerialManagementLines(this);
-    }
-    batchManagementLines: IBatchManagementLines;
-    serialManagementLines: ISerialManagementLines;
-
     checkBatchQuantity(): boolean {
-        return this.batchManagementLines.checkBatchQuantity();
+        return new BatchManagementLines(this.filterDeleted().filter(c=>c.batchManagement === emYesNo.YES)).checkBatchQuantity();
     }
 
     checkSerialQuantity(): boolean {
-        return this.serialManagementLines.checkSerialQuantity();
+        return new SerialManagementLines(this.filterDeleted().filter(c=>c.serialManagement === emYesNo.YES)).checkSerialQuantity();
     }
 
     /** 创建并添加子项 */

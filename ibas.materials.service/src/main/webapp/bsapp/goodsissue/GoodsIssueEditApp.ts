@@ -20,8 +20,8 @@ import {
     MaterialIssueSerialServiceProxy,
 } from "../../api/Datas";
 import { BORepositoryMaterials } from "../../borep/BORepositories";
-import { IMaterialBatch } from "../../api/index";
-import { MaterialBatchJournal } from "../../borep/bo/index";
+import { IMaterialBatch, IMaterialBatchJournals } from "../../api/index";
+import { MaterialBatchJournal, GoodsIssueLine } from "../../borep/bo/index";
 import { objects } from "ibas/index";
 
 /** 编辑应用-库存发货 */
