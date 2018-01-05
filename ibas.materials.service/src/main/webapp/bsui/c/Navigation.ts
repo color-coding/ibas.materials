@@ -27,7 +27,8 @@ import * as materialbatchApps from "../../bsapp/materialbatch/index";
 import * as materialserialApps from "../../bsapp/materialserial/index";
 import * as materialbatchViews from "./materialbatch/index";
 import * as materialserialViews from "./materialserial/index";
-
+import * as materialPriceListApps from "../../bsapp/materialpricelist/index";
+import * as materialPriceListViews from "./materialpricelist/index";
 /**
  * 视图导航
  */
@@ -157,11 +158,20 @@ export default class Navigation extends ibas.ViewNavigation {
             case materialserialApps.MaterialSerialViewApp.APPLICATION_ID:
                 view = new materialserialViews.MaterialSerialViewView();
                 break;
+            case materialserialApps.MaterialSerialChooseApp.APPLICATION_ID:
+                view = new materialserialViews.MaterialSerialChooseView();
+                break;
             case materialbatchApps.MaterialBatchListApp.APPLICATION_ID:
                 view = new materialbatchViews.MaterialBatchListView();
                 break;
             case materialbatchApps.MaterialBatchViewApp.APPLICATION_ID:
                 view = new materialbatchViews.MaterialBatchViewView();
+                break;
+            case materialbatchApps.MaterialBatchChooseApp.APPLICATION_ID:
+                view = new materialbatchViews.MaterialBatchChooseView();
+                break;
+            case materialPriceListApps.MaterialPriceListChooseApp.APPLICATION_ID:
+                view = new materialPriceListViews.MaterialPriceListChooseView();
                 break;
             default:
                 break;

@@ -13,6 +13,7 @@ import {
     objects,
     emApprovalStatus,
     IBODocumentLine,
+    IBusinessObjects,
     BusinessObject,
     BusinessObjects,
     BOMasterData,
@@ -22,12 +23,16 @@ import {
     BOSimple,
     BOSimpleLine,
     config,
+    strings,
+    BO_PROPERTY_NAME_LINESTATUS,
+    ArrayList,
+    IBusinessObject,
+    boFactory,
 } from "ibas/index";
 import {
-    IMaterialReceiptSerialLine,
-    IMaterialIssueSerialLine,
     IMaterialSerialJournal,
     BO_CODE_MATERIALSERIALJOURNAL,
+    BO_CODE_MATERIALSERIALJOURNALS,
     IMaterialSerialJournals,
 } from "../../api/index";
 export class MaterialSerialJournal extends BOSimple<MaterialSerialJournal> implements IMaterialSerialJournal {
@@ -58,14 +63,14 @@ export class MaterialSerialJournal extends BOSimple<MaterialSerialJournal> imple
         this.setProperty(MaterialSerialJournal.PROPERTY_DIRECTION_NAME, value);
     }
     /** 映射的属性名称-序列编号 */
-    static PROPERTY_BATCH_NAME: string = "SerialCode";
+    static PROPERTY_SERIALCODE_NAME: string = "SerialCode";
     /** 获取-序列编号 */
     get serialCode(): string {
-        return this.getProperty<string>(MaterialSerialJournal.PROPERTY_BATCH_NAME);
+        return this.getProperty<string>(MaterialSerialJournal.PROPERTY_SERIALCODE_NAME);
     }
     /** 设置-序列编号 */
     set serialCode(value: string) {
-        this.setProperty(MaterialSerialJournal.PROPERTY_BATCH_NAME, value);
+        this.setProperty(MaterialSerialJournal.PROPERTY_SERIALCODE_NAME, value);
     }
 
     /** 映射的属性名称-仓库编号 */
@@ -212,7 +217,7 @@ export class MaterialSerialJournal extends BOSimple<MaterialSerialJournal> imple
         return this.getProperty<number>(MaterialSerialJournal.PROPERTY_BASEDOCUMENTENTRY_NAME);
     }
     /** 设置-基于标识 */
-    set baseDocubaseDocumentEntrymentType(value: number) {
+    set baseDocumentEntry(value: number) {
         this.setProperty(MaterialSerialJournal.PROPERTY_BASEDOCUMENTENTRY_NAME, value);
     }
     /** 映射的属性名称-基于行号 */
@@ -222,7 +227,7 @@ export class MaterialSerialJournal extends BOSimple<MaterialSerialJournal> imple
         return this.getProperty<number>(MaterialSerialJournal.PROPERTY_BASEDOCUMENTLINEID_NAME);
     }
     /** 设置-基于行号 */
-    set baseDocubaseDocumentEntrymentLineId(value: number) {
+    set baseDocumentLineId(value: number) {
         this.setProperty(MaterialSerialJournal.PROPERTY_BASEDOCUMENTLINEID_NAME, value);
     }
 
@@ -376,37 +381,56 @@ export class MaterialSerialJournal extends BOSimple<MaterialSerialJournal> imple
 }
 
 export class MaterialSerialJournals<P extends IBODocumentLine>
-    extends BusinessObjects<MaterialSerialJournal, P>
-    implements IMaterialSerialJournals<P> {
-    create(): MaterialSerialJournal;
-    create(data: IMaterialReceiptSerialLine): MaterialSerialJournal;
-    create(date: IMaterialIssueSerialLine): MaterialSerialJournal;
-    create(data?: any): MaterialSerialJournal {
-        let item: MaterialSerialJournal = new MaterialSerialJournal();
-        this.add(item);
+    extends ArrayList<IMaterialSerialJournal>
+    // extends BusinessObjects<IMaterialSerialJournal, P>
+    implements IMaterialSerialJournals {
+    static BUSINESS_OBJECT_CODE: string = BO_CODE_MATERIALSERIALJOURNALS;
+    parent: P;
+    materialSerials:BusinessObjects<IMaterialSerialJournal, P>;
+    constructor(materialSerials:BusinessObjects<IMaterialSerialJournal, P>,parent: P) {
+        super();
+        this.materialSerials = materialSerials;
+        this.parent = parent;
+    }
+    create(): IMaterialSerialJournal;
+    create(data: MaterialSerialJournal): IMaterialSerialJournal;
+    create(data?: any): IMaterialSerialJournal {
+        let item: IMaterialSerialJournal = new MaterialSerialJournal();
+        this.materialSerials.add(item);
         item.lineStatus = this.parent.lineStatus;
         if (objects.isNull(data)) {
             return item;
         }
+        /** 此处物料、仓库等信息要以传递的参数为准，不能给父项的值 */
         item.serialCode = data.serialCode;
         item.supplierSerial = data.supplierSerial;
         item.itemCode = data.itemCode;
         item.direction = data.direction;
         item.warehouse = data.warehouse;
-        item.direction = emDirection.IN;
-        item.lineStatus = this.parent.lineStatus;
         return item;
     }
     /** 删除序列日记账集合 */
     deleteAll(): void {
-        for (let item of this) {
-            item.delete();
+        for (let item of this.materialSerials) {
+            item.markDeleted(true);
         }
     }
     /** 移除序列日记账集合 */
     removeAll(): void {
-        for (let item of this) {
-            this.remove(item);
+        for (let item of this.materialSerials) {
+            this.materialSerials.remove(item);
+        }
+    }
+    /**
+     * 父项单据行发生改变
+     */
+    onParentPropertyChanged(name: string): void {
+        if (strings.equalsIgnoreCase(name, BO_PROPERTY_NAME_LINESTATUS)) {
+            if (objects.instanceOf(this.parent, BODocumentLine)) {
+                for (let item of this.materialSerials) {
+                    item.setProperty(BO_PROPERTY_NAME_LINESTATUS, this.parent.getProperty(BO_PROPERTY_NAME_LINESTATUS));
+                }
+            }
         }
     }
 }

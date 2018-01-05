@@ -6,6 +6,7 @@ import org.colorcoding.ibas.materials.MyConfiguration;
 import org.colorcoding.ibas.materials.bo.goodsreceipt.GoodsReceiptLine;
 import org.colorcoding.ibas.materials.bo.materialserial.IMaterialSerialJournal;
 import org.colorcoding.ibas.materials.bo.materialserial.MaterialSerialJournal;
+
 import javax.xml.bind.annotation.XmlSeeAlso;
 import javax.xml.bind.annotation.XmlType;
 import java.beans.PropertyChangeEvent;
@@ -75,6 +76,7 @@ public class GoodsIssueLineMaterialSerialJournals extends BusinessObjects<IMater
         condition.setOperation(ConditionOperation.EQUAL);
         condition.setValue(this.getParent().getLineId());
         condition.setRelationship(ConditionRelationship.AND);
+        // TODO 添加关联查询条件
         return criteria;
     }
 

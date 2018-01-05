@@ -22,6 +22,7 @@ import {
     strings,
     config,
     objects,
+    numbers,
     enums,
     emDirection,
 } from "ibas/index";
@@ -29,13 +30,23 @@ import {
     IGoodsIssue,
     IGoodsIssueLines,
     IGoodsIssueLine,
+    IBatchManagementLines,
+    ISerialManagementLines,
+    IMaterialSerialJournals,
+    IMaterialBatchJournals,
     IGoodsIssueLineMaterialBatchJournals,
     IGoodsIssueLineMaterialSerialJournals,
     BO_CODE_GOODSISSUE,
     emItemType,
+    IBatchManagementLine,
+    ISerialManagementLine,
+    IMaterialBatchJournal,
+    IMaterialSerialJournal,
 } from "../../api/index";
-import { MaterialBatchJournals } from "./MaterialBatchJournal";
-import { MaterialSerialJournals } from "./MaterialSerialJournal";
+import { MaterialBatchJournal, MaterialBatchJournals } from "./MaterialBatchJournal";
+import { MaterialSerialJournal, MaterialSerialJournals } from "./MaterialSerialJournal";
+import { BatchManagementLines } from "./BatchManagementLine";
+import { SerialManagementLines } from "./SerialManagementLine";
 /** 库存发货 */
 export class GoodsIssue extends BODocument<GoodsIssue> implements IGoodsIssue {
 
@@ -436,11 +447,29 @@ export class GoodsIssue extends BODocument<GoodsIssue> implements IGoodsIssue {
     protected init(): void {
         this.goodsIssueLines = new GoodsIssueLines(this);
         this.objectCode = config.applyVariables(GoodsIssue.BUSINESS_OBJECT_CODE);
+        this.documentStatus = emDocumentStatus.PLANNED;
     }
 }
-
 /** 库存发货-行 集合 */
-export class GoodsIssueLines extends BusinessObjects<GoodsIssueLine, GoodsIssue> implements IGoodsIssueLines {
+export class GoodsIssueLines extends BusinessObjects<GoodsIssueLine, GoodsIssue>
+    implements IGoodsIssueLines,
+    IBatchManagementLines,
+    ISerialManagementLines {
+    constructor(parent: GoodsIssue) {
+        super(parent);
+        this.batchManagementLines = new BatchManagementLines(this);
+        this.serialManagementLines = new SerialManagementLines(this);
+    }
+    batchManagementLines: IBatchManagementLines;
+    serialManagementLines: ISerialManagementLines;
+
+    checkBatchQuantity(): boolean {
+        return this.batchManagementLines.checkBatchQuantity();
+    }
+
+    checkSerialQuantity(): boolean {
+        return this.serialManagementLines.checkSerialQuantity();
+    }
 
     /** 创建并添加子项 */
     create(): GoodsIssueLine {
@@ -448,30 +477,9 @@ export class GoodsIssueLines extends BusinessObjects<GoodsIssueLine, GoodsIssue>
         this.add(item);
         return item;
     }
-    /** 取出需要添加批次的行 */
-    filterBatchLine(): GoodsIssueLine[] {
-        let goodIssueLines: GoodsIssueLine[] = this.filter(
-            c => c.isDeleted === false
-                && !objects.isNull(c.lineStatus)
-                && c.lineStatus !== emDocumentStatus.PLANNED
-                && c.batchManagement !== undefined
-                && c.batchManagement.toString() === enums.toString(emYesNo, emYesNo.YES)
-                && !strings.isEmpty(c.itemCode)
-                && !strings.isEmpty(c.warehouse));
-        return goodIssueLines;
-    }
-
-    /** 取出需要添加序列的行 */
-    filterSerialLine(): GoodsIssueLine[] {
-        let goodIssueLines: GoodsIssueLine[] = this.filter(
-            c => c.isDeleted === false
-                && !objects.isNull(c.lineStatus)
-                && c.lineStatus !== emDocumentStatus.PLANNED
-                && c.serialManagement !== undefined
-                && c.serialManagement.toString() === enums.toString(emYesNo, emYesNo.YES)
-                && !strings.isEmpty(c.itemCode)
-                && !strings.isEmpty(c.warehouse));
-        return goodIssueLines;
+    afterAdd(item: GoodsIssueLine): void {
+        super.afterAdd(item);
+        item.lineStatus = this.parent.documentStatus;
     }
     /** 监听父项属性改变 */
     protected onParentPropertyChanged(name: string): void {
@@ -482,40 +490,112 @@ export class GoodsIssueLines extends BusinessObjects<GoodsIssueLine, GoodsIssue>
             }
         }
     }
+    /** 监听子项属性改变 */
+    protected onChildPropertyChanged(item: GoodsIssueLine, name: string): void {
+        super.onChildPropertyChanged(item, name);
+        if (strings.equalsIgnoreCase(name, GoodsIssueLine.PROPERTY_LINETOTAL_NAME)) {
+            let total: number = 0;
+            for (let item of this.filterDeleted()) {
+                if (objects.isNull(item.lineTotal)) {
+                    item.lineTotal = 0;
+                }
+                total = Number(total) + Number(item.lineTotal);
+            }
+            this.parent.documentTotal = total;
+        }
+    }
 }
 /** 库存发货-批次日记账 集合 */
-export class GoodsIssueLineMaterialBatchJournals extends MaterialBatchJournals<GoodsIssueLine>
-    implements IGoodsIssueLineMaterialBatchJournals {
-    /** 监听父项属性改变 */
-    protected onParentPropertyChanged(name: string): void {
+export class GoodsIssueLineMaterialBatchJournals extends BusinessObjects<IMaterialBatchJournal, GoodsIssueLine>
+    implements IGoodsIssueLineMaterialBatchJournals,
+    IMaterialBatchJournals {
+    constructor(parent: GoodsIssueLine) {
+        super(parent);
+        this.batchJournals = new MaterialBatchJournals<GoodsIssueLine>(this, parent);
+    }
+    batchJournals: IMaterialBatchJournals;
+    /**
+     * 创建批次日记账
+     * @param data
+     */
+    create(data?: any): IMaterialBatchJournal {
+        return this.batchJournals.create(data);
+    }
+    /**
+     * 删除批次日记账集合
+     */
+    deleteAll(): void {
+        this.batchJournals.deleteAll();
+    }
+    /**
+     * 移除批次日记账集合
+     */
+    removeAll(): void {
+        this.batchJournals.removeAll();
+    }
+
+    /**
+     * 父项属性发生改变
+     * @param name 属性名称
+     */
+    onParentPropertyChanged(name: string): void {
         super.onParentPropertyChanged(name);
-        if (strings.equalsIgnoreCase(name, GoodsIssueLine.PROPERTY_LINESTATUS_NAME)) {
-            for (let item of this.filterDeleted()) {
-                item.lineStatus = this.parent.lineStatus;
-            }
-        }
+        this.batchJournals.onParentPropertyChanged(name);
     }
 }
 /** 库存发货-序列日记账 集合 */
-export class GoodsIssueLineMaterialSerialJournals extends MaterialSerialJournals<GoodsIssueLine>
-    implements IGoodsIssueLineMaterialSerialJournals {
-    /** 监听父项属性改变 */
-    protected onParentPropertyChanged(name: string): void {
-        super.onParentPropertyChanged(name);
-        if (strings.equalsIgnoreCase(name, GoodsIssueLine.PROPERTY_LINESTATUS_NAME)) {
-            for (let item of this.filterDeleted()) {
-                item.lineStatus = this.parent.lineStatus;
-            }
-        }
+export class GoodsIssueLineMaterialSerialJournals extends BusinessObjects<IMaterialSerialJournal, GoodsIssueLine>
+    implements IGoodsIssueLineMaterialSerialJournals,
+    IMaterialSerialJournals {
+    constructor(parent: GoodsIssueLine) {
+        super(parent);
+        this.batchSerials = new MaterialSerialJournals<GoodsIssueLine>(this, parent);
     }
-}
+    batchSerials: IMaterialSerialJournals;
 
+    /**
+     * 创建序列日记账
+     * @param data
+     */
+    create(data?: any): IMaterialSerialJournal {
+        return this.batchSerials.create(data);
+    }
+    /**
+     * 删除序列日记账集合
+     */
+    deleteAll(): void {
+        this.batchSerials.deleteAll();
+    }
+    /**
+     * 移除序列日记账集合
+     */
+    removeAll(): void {
+        this.batchSerials.removeAll();
+    }
+    /**
+     * 监听父项属性改变
+     * @param name 父项属性名称
+     */
+    onParentPropertyChanged(name: string): void {
+        super.onParentPropertyChanged(name);
+        this.batchSerials.onParentPropertyChanged(name);
+    }
+
+}
 /** 库存发货-行 */
-export class GoodsIssueLine extends BODocumentLine<GoodsIssueLine> implements IGoodsIssueLine {
+export class GoodsIssueLine extends BODocumentLine<GoodsIssueLine> implements IGoodsIssueLine, IBatchManagementLine, ISerialManagementLine {
 
     /** 构造函数 */
     constructor() {
         super();
+    }
+
+    protected onPropertyChanged(name: string): void {
+        super.onPropertyChanged(name);
+        if (strings.equalsIgnoreCase(name, GoodsIssueLine.PROPERTY_QUANTITY_NAME) ||
+            strings.equalsIgnoreCase(name, GoodsIssueLine.PROPERTY_PRICE_NAME)) {
+            this.lineTotal = Number(this.quantity) * Number(this.price);
+        }
     }
     /** 映射的属性名称-编码 */
     static PROPERTY_DOCENTRY_NAME: string = "DocEntry";
@@ -926,27 +1006,27 @@ export class GoodsIssueLine extends BODocumentLine<GoodsIssueLine> implements IG
     /** 映射的属性名称-库存发货-行-序列号集合 */
     static PROPERTY_GOODSISSUEMATERIALSERIALJOURNALS_NAME: string = "GoodsIssueLineMaterialSerialJournals";
     /** 获取-库存发货-行-序列号集合 */
-    get materialSerialJournals(): GoodsIssueLineMaterialSerialJournals {
+    get materialSerials(): GoodsIssueLineMaterialSerialJournals {
         return this.getProperty<GoodsIssueLineMaterialSerialJournals>(GoodsIssueLine.PROPERTY_GOODSISSUEMATERIALSERIALJOURNALS_NAME);
     }
     /** 设置-库存发货-行-序列号集合 */
-    set materialSerialJournals(value: GoodsIssueLineMaterialSerialJournals) {
+    set materialSerials(value: GoodsIssueLineMaterialSerialJournals) {
         this.setProperty(GoodsIssueLine.PROPERTY_GOODSISSUEMATERIALSERIALJOURNALS_NAME, value);
     }
     /** 映射的属性名称-库存发货-行-批次集合 */
     static PROPERTY_GOODSISSUEMATERIALBATCHJOURNALS_NAME: string = "GoodsIssueLineMaterialBatchJournals";
     /** 获取-库存发货-行-序列号集合 */
-    get materialBatchJournals(): GoodsIssueLineMaterialBatchJournals {
+    get materialBatchs(): GoodsIssueLineMaterialBatchJournals {
         return this.getProperty<GoodsIssueLineMaterialBatchJournals>(GoodsIssueLine.PROPERTY_GOODSISSUEMATERIALBATCHJOURNALS_NAME);
     }
     /** 设置-库存发货-行-序列号集合 */
-    set materialBatchJournals(value: GoodsIssueLineMaterialBatchJournals) {
+    set materialBatchs(value: GoodsIssueLineMaterialBatchJournals) {
         this.setProperty(GoodsIssueLine.PROPERTY_GOODSISSUEMATERIALBATCHJOURNALS_NAME, value);
     }
     /** 初始化数据 */
     protected init(): void {
-        this.materialBatchJournals = new GoodsIssueLineMaterialBatchJournals(this);
-        this.materialSerialJournals = new GoodsIssueLineMaterialSerialJournals(this);
+        this.materialBatchs = new GoodsIssueLineMaterialBatchJournals(this);
+        this.materialSerials = new GoodsIssueLineMaterialSerialJournals(this);
         this.objectCode = config.applyVariables(GoodsIssue.BUSINESS_OBJECT_CODE);
     }
 }

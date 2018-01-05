@@ -21,6 +21,8 @@ export class InventoryTransferEditView extends ibas.BOEditView implements IInven
     createDataEvent: Function;
     /** 选择库存转储单从仓库事件 */
     chooseInventoryTransferWarehouseEvent: Function;
+    /** 选择库存转储单物料价格清单 */
+    chooseeInventoryTransferMaterialPriceListEvent: Function;
     /** 添加库存转储-行事件 */
     addInventoryTransferLineEvent: Function;
     /** 删除库存转储-行事件 */
@@ -42,6 +44,7 @@ export class InventoryTransferEditView extends ibas.BOEditView implements IInven
                 new sap.ui.core.Title("", { text: ibas.i18n.prop("materials_general_information") }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_inventorytransfer_docentry") }),
                 new sap.m.Input("", {
+                    editable: false,
                 }).bindProperty("value", {
                     path: "docEntry",
                 }),
@@ -58,6 +61,7 @@ export class InventoryTransferEditView extends ibas.BOEditView implements IInven
                 new sap.m.Input("", {
                     showValueHelp: true,
                     valueHelpRequest: function (): void {
+                        that.fireViewEvents(that.chooseeInventoryTransferMaterialPriceListEvent);
                     }
                 }).bindProperty("value", {
                     path: "priceList"
@@ -90,7 +94,7 @@ export class InventoryTransferEditView extends ibas.BOEditView implements IInven
                 }).bindProperty("dateValue", {
                     path: "documentDate",
                 }),
-                new sap.m.Label("", { text: ibas.i18n.prop("bo_receipt_dataowner") }),
+                new sap.m.Label("", { text: ibas.i18n.prop("bo_inventorytransfer_dataowner") }),
                 new sap.m.Input("", {
                     showValueHelp: true,
                 }).bindProperty("value", {
@@ -230,6 +234,14 @@ export class InventoryTransferEditView extends ibas.BOEditView implements IInven
                         type: sap.m.InputType.Number
                     }).bindProperty("value", {
                         path: "price"
+                    })
+                }),
+                new sap.ui.table.Column("", {
+                    label: ibas.i18n.prop("bo_inventorytransferline_currency"),
+                    template: new sap.m.Input("", {
+                        width: "100%",
+                    }).bindProperty("value", {
+                        path: "currency"
                     })
                 }),
                 new sap.ui.table.Column("", {

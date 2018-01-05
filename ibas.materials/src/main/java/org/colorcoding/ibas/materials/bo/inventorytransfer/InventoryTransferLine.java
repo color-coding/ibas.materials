@@ -1,14 +1,8 @@
 package org.colorcoding.ibas.materials.bo.inventorytransfer;
 
-import javax.xml.bind.annotation.*;
-
 import org.colorcoding.ibas.bobas.bo.BusinessObject;
 import org.colorcoding.ibas.bobas.core.IPropertyInfo;
-import org.colorcoding.ibas.bobas.data.DateTime;
-import org.colorcoding.ibas.bobas.data.Decimal;
-import org.colorcoding.ibas.bobas.data.emBOStatus;
-import org.colorcoding.ibas.bobas.data.emDocumentStatus;
-import org.colorcoding.ibas.bobas.data.emYesNo;
+import org.colorcoding.ibas.bobas.data.*;
 import org.colorcoding.ibas.bobas.logic.IBusinessLogicContract;
 import org.colorcoding.ibas.bobas.logic.IBusinessLogicsHost;
 import org.colorcoding.ibas.bobas.mapping.DbField;
@@ -19,6 +13,8 @@ import org.colorcoding.ibas.materials.bo.materialserial.MaterialSerialJournal;
 import org.colorcoding.ibas.materials.data.emItemType;
 import org.colorcoding.ibas.materials.logic.IMaterialIssueContract;
 import org.colorcoding.ibas.materials.logic.IMaterialReceiptContract;
+
+import javax.xml.bind.annotation.*;
 
 /**
  * 获取-库存转储-行
@@ -1394,9 +1390,8 @@ public class InventoryTransferLine extends BusinessObject<InventoryTransferLine>
         return this.FromWarehouse;
     }
 
-    public String setFroomWarehouse(String fromWarehouse) {
+    public void setFromWarehouse(String fromWarehouse) {
         this.FromWarehouse = fromWarehouse;
-        return this.FromWarehouse;
     }
 
     private DateTime PostingDate;

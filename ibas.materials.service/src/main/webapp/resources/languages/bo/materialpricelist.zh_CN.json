@@ -1,2 +1,10 @@
 {
+    "bo_materialpricelist_objectkey":"编号",
+    "bo_materialpricelist_name":"价格清单名称",
+    "bo_materialpricelist_group":"分组",
+    "bo_materialpricelist_currency":"币种",
+    "bo_materialpricelist_baseonlist":"基于清单",
+    "bo_materialpricelist_factor":"系数",
+    "bo_materialpricelist_validDate":"生效日期",
+    "bo_materialpricelist_inValidDate":"失效日期"
 }

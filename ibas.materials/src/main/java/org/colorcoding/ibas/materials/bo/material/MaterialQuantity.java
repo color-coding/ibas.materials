@@ -9,8 +9,8 @@ import org.colorcoding.ibas.materials.bo.materialinventory.IMaterialInventory;
 import javax.xml.bind.annotation.*;
 
 @XmlAccessorType(XmlAccessType.NONE)
-@XmlType(name = "MaterialPrice", namespace = MyConfiguration.NAMESPACE_BO)
-@XmlRootElement(name = "MaterialPrice", namespace = MyConfiguration.NAMESPACE_BO)
+@XmlType(name = "MaterialQuantity", namespace = MyConfiguration.NAMESPACE_BO)
+@XmlRootElement(name = "MaterialQuantity", namespace = MyConfiguration.NAMESPACE_BO)
 public class MaterialQuantity extends Serializable implements IMaterialQuantity {
 
 

@@ -30,12 +30,36 @@ export class MaterialGroupEditView extends ibas.BOEditView implements IMaterialG
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_materialgroup_code") }),
                 new sap.m.Input("", {
                 }).bindProperty("value", {
-                    path: "/code"
+                    path: "/code",
+                    type: new openui5.datatype.Alphanumeric({
+                        description: ibas.i18n.prop("bo_materialgroup_code"),
+                        validate(oValue: string): openui5.datatype.ValidateResult {
+                            let result: openui5.datatype.ValidateResult = new openui5.datatype.ValidateResult();
+                            result.status = true;
+                            if (ibas.strings.isEmpty(oValue)) {
+                                result.status = false;
+                                result.message = ibas.i18n.prop("materials_app_materialgroup_code_is_null");
+                            }
+                            return result;
+                        }
+                    })
                 }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_materialgroup_name") }),
                 new sap.m.Input("", {
                 }).bindProperty("value", {
-                    path: "/name"
+                    path: "/name",
+                    type: new openui5.datatype.Alphanumeric({
+                        description: ibas.i18n.prop("bo_materialgroup_name"),
+                        validate(oValue: string): openui5.datatype.ValidateResult {
+                            let result: openui5.datatype.ValidateResult = new openui5.datatype.ValidateResult();
+                            result.status = true;
+                            if (ibas.strings.isEmpty(oValue)) {
+                                result.status = false;
+                                result.message = ibas.i18n.prop("materials_app_materialgroup_name_is_null");
+                            }
+                            return result;
+                        }
+                    })
                 }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_materialgroup_activated") }),
                 new sap.m.Select("", {

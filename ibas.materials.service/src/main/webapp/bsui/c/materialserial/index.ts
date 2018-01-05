@@ -8,5 +8,6 @@
 // export * from "./MaterialSerialReceiptView";
 export * from "./MaterialIssueSerialServiceView";
 export * from "./MaterialReceiptSerialServiceView";
+export * from "./MaterialSerialChooseView";
 export * from "./MaterialSerialListView";
 export * from "./MaterialSerialViewView";

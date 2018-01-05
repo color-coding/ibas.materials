@@ -648,6 +648,7 @@ public interface IInventoryTransferLine extends IBODocumentLine {
     */
     void setProject(String value);
 
+    void setFromWarehouse(String value);
     /**
      * 获取-库存转储-物料批次集合
      *
