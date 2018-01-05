@@ -279,7 +279,6 @@ export class InventoryTransferEditApp extends ibas.BOEditApplication<IInventoryT
             boCode: bo.MaterialPriceList.BUSINESS_OBJECT_CODE,
             chooseType: ibas.emChooseType.SINGLE,
             criteria: [
-                // new ibas.Condition(bo.MaterialPriceList.Property_, ibas.emConditionOperation.EQUAL, "Y")
             ],
             onCompleted(selecteds: ibas.List<bo.MaterialPriceList>): void {
                 that.editData.priceList = selecteds.firstOrDefault().objectKey;

@@ -458,20 +458,12 @@ export class GoodsReceiptLines extends BusinessObjects<GoodsReceiptLine, GoodsRe
     implements IGoodsReceiptLines,
     IBatchManagementLines,
     ISerialManagementLines {
-    constructor(parent: GoodsReceipt) {
-        super(parent);
-        this.batchManagementLines = new BatchManagementLines(this);
-        this.serialManagementLines = new SerialManagementLines(this);
-    }
-    batchManagementLines: IBatchManagementLines;
-    serialManagementLines: ISerialManagementLines;
-
     checkBatchQuantity(): boolean {
-        return this.batchManagementLines.checkBatchQuantity();
+        return new BatchManagementLines(this.filterDeleted().filter(c => c.batchManagement === emYesNo.YES)).checkBatchQuantity();
     }
 
     checkSerialQuantity(): boolean {
-        return this.serialManagementLines.checkSerialQuantity();
+        return new SerialManagementLines(this.filterDeleted().filter(c => c.serialManagement === emYesNo.YES)).checkSerialQuantity();
     }
 
     /** 创建并添加子项 */
@@ -514,7 +506,7 @@ export class GoodsReceiptLineMaterialBatchJournals extends BusinessObjects<IMate
     IMaterialBatchJournals {
     constructor(parent: GoodsReceiptLine) {
         super(parent);
-        this.batchJournals = new MaterialBatchJournals<GoodsReceiptLine>(this,parent);
+        this.batchJournals = new MaterialBatchJournals<GoodsReceiptLine>(this, parent);
     }
     batchJournals: IMaterialBatchJournals;
     /**
@@ -553,7 +545,7 @@ export class GoodsReceiptLineMaterialSerialJournals extends BusinessObjects<IMat
         super(parent);
         // this.batchSerials = new MaterialSerialJournals<GoodsReceiptLine>(this,parent);
         let bo: any = boFactory.classOf(BO_CODE_MATERIALSERIALJOURNALS);
-        this.serialJournals = new bo(this,parent);
+        this.serialJournals = new bo(this, parent);
     }
     serialJournals: IMaterialSerialJournals;
 

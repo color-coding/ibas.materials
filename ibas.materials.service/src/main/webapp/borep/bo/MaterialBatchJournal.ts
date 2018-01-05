@@ -356,11 +356,22 @@ export class MaterialBatchJournal extends BOSimple<MaterialBatchJournal> impleme
         this.setProperty(MaterialBatchJournal.PROPERTY_UPDATEACTIONID_NAME, value);
     }
 
-
-
     /** 初始化数据 */
     protected init(): void {
         this.objectCode = config.applyVariables(MaterialBatchJournal.BUSINESS_OBJECT_CODE);
+    }
+
+    create(data: IMaterialBatchJournal): IMaterialBatchJournal {
+        let batchJournal: IMaterialBatchJournal = new MaterialBatchJournal();
+        batchJournal.batchCode = data.batchCode;
+        batchJournal.itemCode = data.itemCode;
+        batchJournal.warehouse = data.warehouse;
+        batchJournal.direction = data.direction;
+        batchJournal.lineStatus = data.lineStatus;
+        batchJournal.baseDocumentType = data.baseDocumentType;
+        batchJournal.baseDocumentEntry = data.baseDocumentEntry;
+        batchJournal.baseDocumentLineId = data.baseDocumentLineId;
+        return batchJournal;
     }
 }
 
