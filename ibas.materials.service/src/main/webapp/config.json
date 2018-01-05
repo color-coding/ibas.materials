@@ -2,8 +2,8 @@
   "appSettings": {
     "debug": true,
     "language": "zh_CN",
-    "offline": false,
-    "offline|BORepositoryShell": false,
+    "offline": true,
+    "offline|BORepositoryShell": true,
     "disablePlatformView": false,
     "defaultUser": "admin",
     "defaultPassword": "1q2w3e",
