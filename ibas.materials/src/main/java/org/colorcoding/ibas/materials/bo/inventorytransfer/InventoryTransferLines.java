@@ -1,10 +1,12 @@
 package org.colorcoding.ibas.materials.bo.inventorytransfer;
 
-import java.beans.PropertyChangeEvent;
-import javax.xml.bind.annotation.*;
-import org.colorcoding.ibas.bobas.common.*;
-import org.colorcoding.ibas.bobas.bo.*;
+import org.colorcoding.ibas.bobas.bo.BusinessObjects;
+import org.colorcoding.ibas.bobas.common.ICriteria;
 import org.colorcoding.ibas.materials.MyConfiguration;
+
+import javax.xml.bind.annotation.XmlSeeAlso;
+import javax.xml.bind.annotation.XmlType;
+import java.beans.PropertyChangeEvent;
 
 /**
 * 库存转储-行 集合
@@ -62,7 +64,7 @@ public class InventoryTransferLines extends BusinessObjects<IInventoryTransferLi
     protected void afterAddItem(IInventoryTransferLine item) {
         super.afterAddItem(item);
         // TODO 设置关联值
-        ((InventoryTransferLine)item).setFroomWarehouse(this.getParent().getFromWarehouse());
+        ((InventoryTransferLine)item).setFromWarehouse(this.getParent().getFromWarehouse());
         ((InventoryTransferLine)item).setDeliveryDate(this.getParent().getDeliveryDate());
         ((InventoryTransferLine)item).setDocumentDate(this.getParent().getDocumentDate());
         ((InventoryTransferLine)item).setPostingDate(this.getParent().getPostingDate());
@@ -79,5 +81,10 @@ public class InventoryTransferLines extends BusinessObjects<IInventoryTransferLi
     public void onParentPropertyChanged(PropertyChangeEvent evt) {
         super.onParentPropertyChanged(evt);
         // TODO 设置关联值
+        if(evt.getPropertyName().equalsIgnoreCase(InventoryTransfer.PROPERTY_FROMWAREHOUSE.getName())){
+            for(IInventoryTransferLine item: this){
+                item.setFromWarehouse(this.getParent().getFromWarehouse());
+            }
+        }
     }
 }

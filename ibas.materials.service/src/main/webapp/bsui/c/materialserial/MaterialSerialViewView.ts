@@ -6,7 +6,7 @@
  * @Author: fancy
  * @Date: 2017-11-30 17:52:25
  * @Last Modified by: fancy
- * @Last Modified time: 2017-11-30 17:57:20
+ * @Last Modified time: 2017-12-25 16:45:23
  */
 
 import * as ibas from "ibas/index";
@@ -34,6 +34,16 @@ export class MaterialSerialViewView extends ibas.BOViewView implements IMaterial
                 new sap.m.Text("", {
                 }).bindProperty("text", {
                     path: "supplierSerial"
+                }),
+                new sap.m.Label("", { text: ibas.i18n.prop("bo_materialserial_itemcode") }),
+                new sap.m.Text("", {
+                }).bindProperty("text", {
+                    path: "itemCode"
+                }),
+                new sap.m.Label("", { text: ibas.i18n.prop("bo_materialserial_warehouse") }),
+                new sap.m.Text("", {
+                }).bindProperty("text", {
+                    path: "warehouse"
                 }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_materialserial_instock") }),
                 new sap.m.Text("", {

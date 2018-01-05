@@ -116,7 +116,7 @@ export class MaterialChooseView extends ibas.BOChooseView implements IMaterialCh
                     template: new sap.m.Text("", {
                         wrapping: false,
                     }).bindProperty("text", {
-                        path: "uOM",
+                        path: "inventoryUOM",
                     }),
                 }),
                 new sap.ui.table.Column("", {
