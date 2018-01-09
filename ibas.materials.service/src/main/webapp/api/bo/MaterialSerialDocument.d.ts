@@ -7,7 +7,7 @@
  * @Author: Fancy
  * @Date: 2017-12-28 11:31:06
  * @Last Modified by: Fancy
- * @Last Modified time: 2017-12-29 11:11:42
+ * @Last Modified time: 2018-01-09 11:00:18
  */
 import {
     IBusinessObject,
@@ -20,7 +20,16 @@ import {
     IMaterialSerialJournals,
 } from "./index";
 /** 序列管理单据行 */
-export interface ISerialManagementLine extends IBODocumentLine {
+export interface IMaterialSerialDocument extends IBusinessObject {
+
+    /** 基于类型 */
+    baseDocumentType: string;
+
+    /** 基于标识 */
+    baseDocumentEntry: number;
+
+    /** 基于行号 */
+    baseDocumentLineId: number;
     /** 物料 */
     itemCode: string;
 
@@ -30,11 +39,14 @@ export interface ISerialManagementLine extends IBODocumentLine {
     /** 数量 */
     quantity: number;
 
+    /** 行状态 */
+    lineStatus: emDocumentStatus;
+
     /** 批次集合 */
-    materialSerials: IMaterialSerialJournals;
+    materialSerials: IMaterialSerialJournals<IMaterialSerialDocument>;
 }
 
-export interface ISerialManagementLines{
+export interface IMaterialSerialDocuments {
     /** 检查批次集合行中的数量与单据行中数量是否相等 */
     checkSerialQuantity(): boolean;
 }

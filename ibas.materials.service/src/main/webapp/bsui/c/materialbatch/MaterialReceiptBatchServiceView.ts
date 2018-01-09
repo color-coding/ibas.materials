@@ -2,7 +2,7 @@
  * @Author: fancy
  * @Date: 2017-11-27 16:44:31
  * @Last Modified by: Fancy
- * @Last Modified time: 2018-01-04 17:18:55
+ * @Last Modified time: 2018-01-09 10:24:37
  * @license
  * Copyright color-coding studio. All Rights Reserved.
  *
@@ -14,7 +14,6 @@ import * as openui5 from "openui5/index";
 import * as bo from "../../../borep/bo/index";
 import {
     IMaterialReceiptBatchView,
-    MaterialBatchServiceJournal,
 } from "../../../bsapp/materialbatch/index";
 import{IMaterialBatchContract} from "../../../api/index";
 export class MaterialReceiptBatchServiceView extends ibas.BODialogView implements IMaterialReceiptBatchView {
@@ -203,7 +202,7 @@ export class MaterialReceiptBatchServiceView extends ibas.BODialogView implement
         // 监听属性改变，并更新控件
         openui5.utils.refreshModelChanged(this.table, datas);
     }
-    showJournalLineData(datas: MaterialBatchServiceJournal[]): void {
+    showJournalLineData(datas: IMaterialBatchContract[]): void {
         this.journalLineTable.setModel(new sap.ui.model.json.JSONModel({ journallinedata: datas }));
         // openui5.utils.refreshModelChanged(this.journalLineTable, datas);
     }

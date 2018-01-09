@@ -22,8 +22,8 @@ import {
     IBOSimpleLine
 } from "ibas/index";
 import {
-
-} from "../Datas";
+    IMaterialSerialDocument
+} from "../index";
 export interface IMaterialSerialJournal extends IBOSimple {
     /**物料编号 */
     itemCode: string;
@@ -118,7 +118,8 @@ export interface IMaterialSerialJournal extends IBOSimple {
     updateActionId: string
 }
 
-export interface IMaterialSerialJournals extends ArrayList<IMaterialSerialJournal>{
+export interface IMaterialSerialJournals<P extends IMaterialSerialDocument>
+    extends IBusinessObjects<IMaterialSerialJournal, P> {
 
     create(): IMaterialSerialJournal;
     create(item: IMaterialSerialJournal): IMaterialSerialJournal;

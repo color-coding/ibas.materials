@@ -10,14 +10,14 @@ import * as ibas from "ibas/index";
 import * as bo from "../../borep/bo/index";
 import {
     IGoodsIssueLines,
-    IMaterialBatchContract,
-    IMaterialSerialContract,
     IMaterialSerialJournal,
     IMaterialBatchJournal,
 } from "../../api/bo/index";
 import {
     MaterialIssueBatchServiceProxy,
     MaterialIssueSerialServiceProxy,
+    IMaterialBatchContract,
+    IMaterialSerialContract,
 } from "../../api/Datas";
 import { BORepositoryMaterials } from "../../borep/BORepositories";
 import { IMaterialBatch, IMaterialBatchJournals } from "../../api/index";

@@ -11,12 +11,12 @@ import * as bo from "../../borep/bo/index";
 import {
     IMaterialBatchJournal,
     IMaterialSerialJournal,
-    IMaterialBatchContract,
-    IMaterialSerialContract,
 } from "../../api/bo/index";
 import {
     MaterialReceiptBatchServiceProxy,
     MaterialReceiptSerialServiceProxy,
+    IMaterialBatchContract,
+    IMaterialSerialContract,
 } from "../../api/Datas";
 import { BORepositoryMaterials } from "../../borep/BORepositories";
 

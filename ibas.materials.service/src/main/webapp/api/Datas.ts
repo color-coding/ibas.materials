@@ -10,11 +10,14 @@
 import {
     ServiceProxy,
     strings,
+    emDirection,
     MODULE_REPOSITORY_NAME_TEMPLATE,
 } from "ibas/index";
 import {
-    IMaterialBatchContract,
-    IMaterialSerialContract,
+    IMaterialBatchJournals,
+    IMaterialSerialJournals,
+    IMaterialBatchDocument,
+    IMaterialSerialDocument,
 } from "./bo/index";
 
 /** 模块-标识 */
@@ -58,9 +61,9 @@ export const BO_CODE_WAREHOUSE: string = "${Company}_MM_WAREHOUSE";
 /** 业务对象编码-价格清单 */
 export const BO_CODE_MATERIALPRICELIST: string = "${Company}_MM_PRICELIST";
 /** 业务对象编码-批次管理行 */
-export const BO_CODE_BATCHMANAGEMENTLINE:string ="${Company}_MM_BATCHMANAGEMENTLINES";
+export const BO_CODE_MATERIALBATCHDOCUMENT: string = "${Company}_MM_BATCHMANAGEMENTLINES";
 /** 业务对象编码-序列管理行 */
-export const BO_CODE_SERIALMANAGEMENTLINE:string ="${Company}_MM_SERIALMANAGEMENTLINES";
+export const BO_CODE_MATERIALSERIALDOCUMENT: string = "${Company}_MM_SERIALMANAGEMENTLINES";
 /** 物料类型 */
 export enum emItemType {
     /** 物料 */
@@ -79,6 +82,39 @@ export enum emAutoSelectBatchSerialRules {
     ORDER_BY_CODE,
 }
 
+/** 批次服务契约 */
+export interface IMaterialBatchContract {
+
+    /** 物料编号 */
+    itemCode: string;
+
+    /** 仓库编码 */
+    warehouse: string;
+
+    /** 数量 */
+    quantity: number;
+
+    direction?: emDirection;
+
+    /** 创建的物料批次 */
+    materialBatchs?: IMaterialBatchJournals<IMaterialBatchDocument>;
+}
+/** 序列服务契约 */
+export interface IMaterialSerialContract {
+
+    /** 物料编号 */
+    itemCode: string;
+
+    /** 仓库编码 */
+    warehouse: string;
+
+    /** 数量 */
+    quantity: number;
+
+    direction?: emDirection;
+    /** 创建的序列 */
+    materialSerials?: IMaterialSerialJournals<IMaterialSerialDocument>;
+}
 /** 物料批次创建服务代理 */
 export class MaterialReceiptBatchServiceProxy extends ServiceProxy<IMaterialBatchContract[]> {
 

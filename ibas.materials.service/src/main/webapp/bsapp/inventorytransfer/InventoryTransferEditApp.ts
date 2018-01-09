@@ -11,12 +11,12 @@ import * as bo from "../../borep/bo/index";
 import {
     IMaterialBatchJournal,
     IMaterialSerialJournal,
-    IMaterialBatchContract,
-    IMaterialSerialContract,
 } from "../../api/bo/index";
 import {
     MaterialIssueBatchServiceProxy,
     MaterialIssueSerialServiceProxy,
+    IMaterialBatchContract,
+    IMaterialSerialContract,
 } from "../../api/Datas";
 import { BORepositoryMaterials } from "../../borep/BORepositories";
 
@@ -243,8 +243,22 @@ export class InventoryTransferEditApp extends ibas.BOEditApplication<IInventoryT
                 new ibas.Condition(bo.Warehouse.PROPERTY_DELETED_NAME, ibas.emConditionOperation.EQUAL, "N")
             ],
             onCompleted(selecteds: ibas.List<bo.Warehouse>): void {
+                if (that.editData.fromWarehouse !== selecteds.firstOrDefault().code) {
+                    that.editData.inventoryTransferLines
+                        .forEach(c => c.materialBatchs.forEach(b => {
+                            if (b.warehouse === selecteds.firstOrDefault().code) {
+                                b.warehouse = selecteds.firstOrDefault().code;
+                            }
+                        },
+                            c.materialSerials.forEach(s => {
+                                if (s.warehouse === selecteds.firstOrDefault().code) {
+                                    s.warehouse = selecteds.firstOrDefault().code;
+                                }
+                            })));
+                }
                 // 获取触发的对象
                 that.editData.fromWarehouse = selecteds.firstOrDefault().code;
+                // 如果物料或仓库发生更改，删除批次、序列集合
             }
         });
     }
@@ -264,6 +278,16 @@ export class InventoryTransferEditApp extends ibas.BOEditApplication<IInventoryT
                     if (ibas.objects.isNull(item)) {
                         item = that.editData.inventoryTransferLines.create();
                         created = true;
+                    }
+                    // 如果物料或仓库发生更改，删除批次、序列集合
+                    if (item.itemCode !== selected.code) {
+                        if (item.isNew) {
+                            item.materialBatchs.removeAll();
+                            item.materialSerials.removeAll();
+                        } else {
+                            item.materialBatchs.deleteAll();
+                            item.materialSerials.deleteAll();
+                        }
                     }
                     item.itemCode = selected.code;
                     item.itemDescription = selected.name;
@@ -310,6 +334,16 @@ export class InventoryTransferEditApp extends ibas.BOEditApplication<IInventoryT
                     if (ibas.objects.isNull(item)) {
                         item = that.editData.inventoryTransferLines.create();
                         created = true;
+                    }
+                    // 如果物料或仓库发生更改，删除批次、序列集合
+                    if (item.warehouse !== selected.code) {
+                        if (item.isNew) {
+                            item.materialBatchs.removeAll();
+                            item.materialSerials.removeAll();
+                        } else {
+                            item.materialBatchs.deleteAll();
+                            item.materialSerials.deleteAll();
+                        }
                     }
                     item.warehouse = selected.code;
                     item = null;
@@ -375,7 +409,7 @@ export class InventoryTransferEditApp extends ibas.BOEditApplication<IInventoryT
                 itemCode: item.itemCode,
                 warehouse: this.editData.fromWarehouse,
                 quantity: item.quantity,
-                materialBatchs: item.materialBatchs.filterReceiptBatch(),
+                materialBatchs: item.materialBatchs,
             });
         }
         return contracts;
@@ -388,7 +422,7 @@ export class InventoryTransferEditApp extends ibas.BOEditApplication<IInventoryT
                 itemCode: item.itemCode,
                 warehouse: this.editData.fromWarehouse,
                 quantity: item.quantity,
-                materialSerials: item.materialSerials.filterReceiptSerial(),
+                materialSerials: item.materialSerials,
             });
         }
         return contracts;

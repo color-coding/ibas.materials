@@ -16,11 +16,11 @@ import * as ibas from "ibas/index";
 import * as bo from "../../borep/bo/index";
 import {
     MaterialReceiptSerialServiceProxy,
+    IMaterialSerialContract,
 } from "../../api/Datas";
 import { BORepositoryMaterials } from "../../borep/BORepositories";
 import {
     IMaterialSerialJournal,
-    IMaterialSerialContract,
 } from "../../api/bo/index";
 
 export class MaterialReceiptSerialService extends ibas.ServiceApplication<IMaterialReceiptSerialView, IMaterialSerialContract[]> {

@@ -23,11 +23,8 @@ import {
 import {
     emItemType,
 } from "../Datas";
-import {
-    IMaterialBase
-} from "./index";
 /** 物料 */
-export interface IMaterial extends IMaterialBase {
+export interface IMaterial extends IBOMasterData {
 
     /** 编号 */
     code: string;
@@ -148,6 +145,14 @@ export interface IMaterial extends IMaterialBase {
 
     /** 数据所属组织 */
     organization: string;
+
+     /** 序号管理 */
+     serialManagement: emYesNo;
+
+     /** 批号管理 */
+     batchManagement: emYesNo;
+     /** 已删除 */
+     deleted: emYesNo;
 }
 
 

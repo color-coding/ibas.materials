@@ -55,7 +55,7 @@ ibas.boFactory.register(MaterialSerialJournal.BUSINESS_OBJECT_CODE, MaterialSeri
 ibas.boFactory.register(MaterialSerialJournals.BUSINESS_OBJECT_CODE, MaterialSerialJournals);
 import { MaterialPriceList } from "./MaterialPriceList";
 ibas.boFactory.register(MaterialPriceList.BUSINESS_OBJECT_CODE, MaterialPriceList);
-import {BatchManagementLines} from "./BatchManagementLine";
-ibas.boFactory.register(BatchManagementLines.BUSINESS_OBJECT_CODE,BatchManagementLines);
-import { SerialManagementLines} from "./SerialManagementLine";
-ibas.boFactory.register(SerialManagementLines.BUSINESS_OBJECT_CODE,SerialManagementLines);
+import {MaterialBatchDocuments} from "./MaterialBatchDocument";
+ibas.boFactory.register(MaterialBatchDocuments.BUSINESS_OBJECT_CODE,MaterialBatchDocuments);
+import { MaterialSerialDocuments} from "./MaterialSerialDocument";
+ibas.boFactory.register(MaterialSerialDocuments.BUSINESS_OBJECT_CODE,MaterialSerialDocuments);
