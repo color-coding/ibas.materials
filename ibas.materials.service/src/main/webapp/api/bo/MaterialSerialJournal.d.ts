@@ -123,8 +123,6 @@ export interface IMaterialSerialJournals<P extends IMaterialSerialDocument>
 
     create(): IMaterialSerialJournal;
     create(item: IMaterialSerialJournal): IMaterialSerialJournal;
-    /** 移除批次日记账 */
-    removeAll(): void;
     /** 删除批次日记账 */
     deleteAll(): void;
     /** 父项属性改变 */

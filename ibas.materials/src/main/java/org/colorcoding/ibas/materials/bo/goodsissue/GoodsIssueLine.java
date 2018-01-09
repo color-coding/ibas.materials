@@ -2,11 +2,7 @@ package org.colorcoding.ibas.materials.bo.goodsissue;
 
 import org.colorcoding.ibas.bobas.bo.BusinessObject;
 import org.colorcoding.ibas.bobas.core.IPropertyInfo;
-import org.colorcoding.ibas.bobas.data.DateTime;
-import org.colorcoding.ibas.bobas.data.Decimal;
-import org.colorcoding.ibas.bobas.data.emBOStatus;
-import org.colorcoding.ibas.bobas.data.emDocumentStatus;
-import org.colorcoding.ibas.bobas.data.emYesNo;
+import org.colorcoding.ibas.bobas.data.*;
 import org.colorcoding.ibas.bobas.logic.IBusinessLogicContract;
 import org.colorcoding.ibas.bobas.logic.IBusinessLogicsHost;
 import org.colorcoding.ibas.bobas.mapping.DbField;
@@ -16,11 +12,8 @@ import org.colorcoding.ibas.materials.bo.materialbatch.MaterialBatchJournal;
 import org.colorcoding.ibas.materials.bo.materialserial.MaterialSerialJournal;
 import org.colorcoding.ibas.materials.data.emItemType;
 import org.colorcoding.ibas.materials.logic.IMaterialIssueContract;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlElementWrapper;
-import javax.xml.bind.annotation.XmlType;
+
+import javax.xml.bind.annotation.*;
 
 /**
  * 获取-库存发货-行
@@ -246,6 +239,7 @@ public class GoodsIssueLine extends BusinessObject<GoodsIssueLine> implements IG
 	public final void setLineStatus(emDocumentStatus value) {
 		this.setProperty(PROPERTY_LINESTATUS, value);
 	}
+
 
 	/**
 	 * 属性名称-类型
@@ -1362,14 +1356,14 @@ public class GoodsIssueLine extends BusinessObject<GoodsIssueLine> implements IG
 	/**
 	 * 属性名称-库存发货-物料批次
 	 */
-	private static final String PROPERTY_GOODSISSUELINEMATERIALBATCHJOURNALS_NAME = "GoodsIssueLineMaterialBatchJournals";
+	private static final String PROPERTY_GOODSISSUELINEMATERIALBATCHJOURNALS_NAME = "MaterialBatchJournals";
 
 	/**
 	 * 库存发货-物料批次的集合属性
 	 *
 	 */
-	public static final IPropertyInfo<IGoodsIssueLineMaterialBatchJournals> PROPERTY_GOODSISSUELINEMATERIALBATCHJOURNALS = registerProperty(
-			PROPERTY_GOODSISSUELINEMATERIALBATCHJOURNALS_NAME, IGoodsIssueLineMaterialBatchJournals.class, MY_CLASS);
+	public static final IPropertyInfo<IGoodsIssueLineMaterialBatch> PROPERTY_GOODSISSUELINEMATERIALBATCHJOURNALS = registerProperty(
+			PROPERTY_GOODSISSUELINEMATERIALBATCHJOURNALS_NAME, IGoodsIssueLineMaterialBatch.class, MY_CLASS);
 
 	/**
 	 * 获取-库存发货-物料批次集合
@@ -1378,7 +1372,7 @@ public class GoodsIssueLine extends BusinessObject<GoodsIssueLine> implements IG
 	 */
 	@XmlElementWrapper(name = PROPERTY_GOODSISSUELINEMATERIALBATCHJOURNALS_NAME)
 	@XmlElement(name = MaterialBatchJournal.BUSINESS_OBJECT_NAME, type = MaterialBatchJournal.class)
-	public final IGoodsIssueLineMaterialBatchJournals getMaterialBatchJournals() {
+	public final IGoodsIssueLineMaterialBatch getMaterialBatchs() {
 		return this.getProperty(PROPERTY_GOODSISSUELINEMATERIALBATCHJOURNALS);
 	}
 
@@ -1388,21 +1382,21 @@ public class GoodsIssueLine extends BusinessObject<GoodsIssueLine> implements IG
 	 * @param value
 	 *            值
 	 */
-	public final void setMaterialBatchJournals(IGoodsIssueLineMaterialBatchJournals value) {
+	public final void setMaterialBatchs(IGoodsIssueLineMaterialBatch value) {
 		this.setProperty(PROPERTY_GOODSISSUELINEMATERIALBATCHJOURNALS, value);
 	}
 
 	/**
 	 * 属性名称-库存发货-物料序列
 	 */
-	private static final String PROPERTY_GOODSISSUELINEMATERIALSERIALJOURNALS_NAME = "GoodsIssueLineMaterialSerialJournals";
+	private static final String PROPERTY_GOODSISSUELINEMATERIALSERIALJOURNALS_NAME = "MaterialSerialJournals";
 
 	/**
 	 * 库存发货-物料序列的集合属性
 	 *
 	 */
-	public static final IPropertyInfo<IGoodsIssueLineMaterialSerialJournals> PROPERTY_GOODSISSUELINEMATERIALSERIALJOURNALS = registerProperty(
-			PROPERTY_GOODSISSUELINEMATERIALSERIALJOURNALS_NAME, IGoodsIssueLineMaterialSerialJournals.class, MY_CLASS);
+	public static final IPropertyInfo<IGoodsIssueLineMaterialSerial> PROPERTY_GOODSISSUELINEMATERIALSERIALJOURNALS = registerProperty(
+			PROPERTY_GOODSISSUELINEMATERIALSERIALJOURNALS_NAME, IGoodsIssueLineMaterialSerial.class, MY_CLASS);
 
 	/**
 	 * 获取-库存发货-物料序列集合
@@ -1411,7 +1405,7 @@ public class GoodsIssueLine extends BusinessObject<GoodsIssueLine> implements IG
 	 */
 	@XmlElementWrapper(name = PROPERTY_GOODSISSUELINEMATERIALSERIALJOURNALS_NAME)
 	@XmlElement(name = MaterialSerialJournal.BUSINESS_OBJECT_NAME, type = MaterialSerialJournal.class)
-	public final IGoodsIssueLineMaterialSerialJournals getMaterialSerialJournals() {
+	public final IGoodsIssueLineMaterialSerial getMaterialSerials() {
 		return this.getProperty(PROPERTY_GOODSISSUELINEMATERIALSERIALJOURNALS);
 	}
 
@@ -1421,7 +1415,7 @@ public class GoodsIssueLine extends BusinessObject<GoodsIssueLine> implements IG
 	 * @param value
 	 *            值
 	 */
-	public final void setMaterialSerialJournals(IGoodsIssueLineMaterialSerialJournals value) {
+	public final void setMaterialSerials(IGoodsIssueLineMaterialSerial value) {
 		this.setProperty(PROPERTY_GOODSISSUELINEMATERIALSERIALJOURNALS, value);
 	}
 
@@ -1431,8 +1425,8 @@ public class GoodsIssueLine extends BusinessObject<GoodsIssueLine> implements IG
 	@Override
 	protected void initialize() {
 		super.initialize();// 基类初始化，不可去除
-		this.setMaterialBatchJournals(new GoodsIssueLineMaterialBatchJournals(this));
-		this.setMaterialSerialJournals(new GoodsIssueLineMaterialSerialJournals(this));
+		this.setMaterialBatchs(new GoodsIssueLineMaterialBatch(this));
+		this.setMaterialSerials(new GoodsIssueLineMaterialSerial(this));
 		this.setObjectCode(MyConfiguration.applyVariables(BUSINESS_OBJECT_CODE));
 		// 日期初始化。 需要在前台中添加这三个日期，并实现父类日期发生更改时，子类日期发生相应更改。
 		this.setPostingDate(DateTime.getToday());

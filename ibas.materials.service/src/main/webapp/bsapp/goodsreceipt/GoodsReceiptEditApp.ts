@@ -253,13 +253,8 @@ export class GoodsReceiptEditApp extends ibas.BOEditApplication<IGoodsReceiptEdi
                     }
                     // 如果物料或仓库发生更改，删除批次、序列集合
                     if (item.itemCode !== selected.code) {
-                        if (item.isNew) {
-                            item.materialBatchs.removeAll();
-                            item.materialSerials.removeAll();
-                        } else {
-                            item.materialBatchs.deleteAll();
-                            item.materialSerials.deleteAll();
-                        }
+                        item.materialBatchs.deleteAll();
+                        item.materialSerials.deleteAll();
                     }
                     item.itemCode = selected.code;
                     item.itemDescription = selected.name;
@@ -310,14 +305,8 @@ export class GoodsReceiptEditApp extends ibas.BOEditApplication<IGoodsReceiptEdi
                         created = true;
                     }
                     if (item.warehouse !== selected.code) {
-                        if (item.isNew) {
-                            // 新添加的行发生修改仓库
-                            item.materialBatchs.removeAll();
-                            item.materialSerials.removeAll();
-                        } else {
-                            item.materialBatchs.deleteAll();
-                            item.materialSerials.deleteAll();
-                        }
+                        item.materialBatchs.deleteAll();
+                        item.materialSerials.deleteAll();
                     }
                     item.warehouse = selected.code;
                     item = null;

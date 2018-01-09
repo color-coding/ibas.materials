@@ -7,7 +7,7 @@
  * @Author: Fancy
  * @Date: 2017-12-28 11:31:06
  * @Last Modified by: Fancy
- * @Last Modified time: 2018-01-09 11:00:18
+ * @Last Modified time: 2018-01-09 16:29:18
  */
 import {
     IBusinessObject,
@@ -22,14 +22,12 @@ import {
 /** 序列管理单据行 */
 export interface IMaterialSerialDocument extends IBusinessObject {
 
-    /** 基于类型 */
-    baseDocumentType: string;
+    /** 类型 */
+    objectCode: string;
 
-    /** 基于标识 */
-    baseDocumentEntry: number;
+    docEntry: number;
 
-    /** 基于行号 */
-    baseDocumentLineId: number;
+    lineId: number;
     /** 物料 */
     itemCode: string;
 
@@ -42,7 +40,7 @@ export interface IMaterialSerialDocument extends IBusinessObject {
     /** 行状态 */
     lineStatus: emDocumentStatus;
 
-    /** 批次集合 */
+    /** 序列集合 */
     materialSerials: IMaterialSerialJournals<IMaterialSerialDocument>;
 }
 

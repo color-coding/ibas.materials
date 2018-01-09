@@ -919,7 +919,7 @@ export class GoodsIssueLine extends BODocumentLine<GoodsIssueLine>
         this.setProperty(GoodsIssueLine.PROPERTY_PROJECT_NAME, value);
     }
     /** 映射的属性名称-库存发货-行-序列号集合 */
-    static PROPERTY_GOODSISSUEMATERIALSERIALJOURNALS_NAME: string = "GoodsIssueLineMaterialSerialJournals";
+    static PROPERTY_GOODSISSUEMATERIALSERIALJOURNALS_NAME: string = "MaterialSerialJournals";
     /** 获取-库存发货-行-序列号集合 */
     get materialSerials(): MaterialSerialJournals<GoodsIssueLine> {
         return this.getProperty<MaterialSerialJournals<GoodsIssueLine>>(GoodsIssueLine.PROPERTY_GOODSISSUEMATERIALSERIALJOURNALS_NAME);
@@ -929,7 +929,7 @@ export class GoodsIssueLine extends BODocumentLine<GoodsIssueLine>
         this.setProperty(GoodsIssueLine.PROPERTY_GOODSISSUEMATERIALSERIALJOURNALS_NAME, value);
     }
     /** 映射的属性名称-库存发货-行-批次集合 */
-    static PROPERTY_GOODSISSUEMATERIALBATCHJOURNALS_NAME: string = "GoodsIssueLineMaterialBatchJournals";
+    static PROPERTY_GOODSISSUEMATERIALBATCHJOURNALS_NAME: string = "MaterialBatchJournals";
     /** 获取-库存发货-行-序列号集合 */
     get materialBatchs(): MaterialBatchJournals<GoodsIssueLine> {
         return this.getProperty<MaterialBatchJournals<GoodsIssueLine>>(GoodsIssueLine.PROPERTY_GOODSISSUEMATERIALBATCHJOURNALS_NAME);

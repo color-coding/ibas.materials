@@ -113,12 +113,10 @@ export interface IMaterialBatchJournal extends IBOSimple {
     updateActionId: string
 }
 
-export interface IMaterialBatchJournals<P extends IMaterialBatchDocument> extends IBusinessObjects<IMaterialBatchJournal,P>{
+export interface IMaterialBatchJournals<P extends IMaterialBatchDocument> extends IBusinessObjects<IMaterialBatchJournal,P> {
 
     create(): IMaterialBatchJournal;
     create(item: IMaterialBatchJournal): IMaterialBatchJournal;
-    /** 移除批次日记账 */
-    removeAll(): void;
     /** 删除批次日记账 */
     deleteAll(): void;
     onParentPropertyChanged(name: string):void;

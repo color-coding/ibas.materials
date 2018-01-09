@@ -385,13 +385,6 @@ export class MaterialSerialJournals<P extends IMaterialSerialDocument>
     extends BusinessObjects<IMaterialSerialJournal, P>
     implements IMaterialSerialJournals<P> {
     static BUSINESS_OBJECT_CODE: string = BO_CODE_MATERIALSERIALJOURNALS;
-    // parent: P;
-    // materialSerials:BusinessObjects<IMaterialSerialJournal, P>;
-    // constructor(materialSerials:BusinessObjects<IMaterialSerialJournal, P>,parent: P) {
-    //     super(parent);
-    //     this.materialSerials = materialSerials;
-    //     this.parent = parent;
-    // }
     create(): IMaterialSerialJournal;
     create(data: MaterialSerialJournal): IMaterialSerialJournal;
     create(data?: any): IMaterialSerialJournal {
@@ -419,12 +412,6 @@ export class MaterialSerialJournals<P extends IMaterialSerialDocument>
             }
 
 
-        }
-    }
-    /** 移除序列日记账集合 */
-    removeAll(): void {
-        for (let item of this) {
-            this.remove(item);
         }
     }
     /**

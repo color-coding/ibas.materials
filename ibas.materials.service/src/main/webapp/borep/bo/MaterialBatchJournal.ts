@@ -377,16 +377,9 @@ export class MaterialBatchJournal extends BOSimple<MaterialBatchJournal> impleme
 }
 
 export class MaterialBatchJournals<P extends IMaterialBatchDocument>
-    extends BusinessObjects<IMaterialBatchJournal,P>
+    extends BusinessObjects<IMaterialBatchJournal, P>
     implements IMaterialBatchJournals<P> {
     static BUSINESS_OBJECT_CODE: string = BO_CODE_MATERIALBATCHJOURNALS;
-    // parent: IBODocumentLine;
-    // materialBatchs: BusinessObjects<IMaterialBatchJournal, P>;
-    // constructor(materialBatchs: BusinessObjects<IMaterialBatchJournal, P>, parent: P) {
-    //     super(parent);
-    //     this.parent = parent;
-    //     this.materialBatchs = materialBatchs;
-    // }
     create(): IMaterialBatchJournal;
     create(data: IMaterialBatchJournal): IMaterialBatchJournal;
     create(data?: any): IMaterialBatchJournal {
@@ -408,15 +401,15 @@ export class MaterialBatchJournals<P extends IMaterialBatchDocument>
     /** 删除序列日记账集合 */
     deleteAll(): void {
         for (let item of this) {
-            item.markDeleted(true);
+            if (item.isNew) {
+                this.remove(item);
+            } else {
+                item.markDeleted(true);
+            }
+
         }
     }
-    /** 移除序列日记账集合 */
-    removeAll(): void {
-        for (let item of this) {
-            this.remove(item);
-        }
-    }
+
     /**
      * 父项单据行发生改变
      */

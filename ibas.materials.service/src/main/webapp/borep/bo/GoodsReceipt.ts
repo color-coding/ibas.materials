@@ -36,8 +36,7 @@ import {
     IMaterialBatchDocument,
     IMaterialBatchDocuments,
     IMaterialSerialDocuments,
-    IGoodsReceiptLineMaterialBatchJournals,
-    IGoodsReceiptLineMaterialSerialJournals,
+    IMaterialSerialDocument,
     BO_CODE_GOODSRECEIPT,
     BO_CODE_MATERIALSERIALJOURNALS,
     emItemType,
@@ -501,7 +500,8 @@ export class GoodsReceiptLines extends BusinessObjects<GoodsReceiptLine, GoodsRe
     }
 }
 /** 库存收货-行 */
-export class GoodsReceiptLine extends BODocumentLine<GoodsReceiptLine> implements IGoodsReceiptLine, IMaterialBatchDocument {
+export class GoodsReceiptLine extends BODocumentLine<GoodsReceiptLine>
+    implements IGoodsReceiptLine, IMaterialBatchDocument, IMaterialSerialDocument {
 
     /** 构造函数 */
     constructor() {
@@ -922,7 +922,7 @@ export class GoodsReceiptLine extends BODocumentLine<GoodsReceiptLine> implement
     }
 
     /** 映射的属性名称-库存收货-行-序列号集合 */
-    static PROPERTY_GOODSRECEIPTMATERIALSERIALJOURNALS_NAME: string = "GoodsReceiptLineMaterialSerialJournals";
+    static PROPERTY_GOODSRECEIPTMATERIALSERIALJOURNALS_NAME: string = "MaterialSerialJournals";
     /** 获取-库存发货-行-序列号集合 */
     get materialSerials(): MaterialSerialJournals<GoodsReceiptLine> {
         return this.getProperty<MaterialSerialJournals<GoodsReceiptLine>>
@@ -933,7 +933,7 @@ export class GoodsReceiptLine extends BODocumentLine<GoodsReceiptLine> implement
         this.setProperty(GoodsReceiptLine.PROPERTY_GOODSRECEIPTMATERIALSERIALJOURNALS_NAME, value);
     }
     /** 映射的属性名称-库存收货-行-批次集合 */
-    static PROPERTY_GOODSRECEIPTMATERIALBATCHJOURNALS_NAME: string = "GoodsReceiptLineMaterialBatchJournals";
+    static PROPERTY_GOODSRECEIPTMATERIALBATCHJOURNALS_NAME: string = "MaterialBatchJournals";
     /** 获取-库存发货-行-序列号集合 */
     get materialBatchs(): MaterialBatchJournals<GoodsReceiptLine> {
         return this.getProperty<MaterialBatchJournals<GoodsReceiptLine>>(GoodsReceiptLine.PROPERTY_GOODSRECEIPTMATERIALBATCHJOURNALS_NAME);

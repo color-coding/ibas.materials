@@ -490,12 +490,7 @@ export class InventoryTransferLineMaterialBatchJournals extends BusinessObjects<
     deleteAll(): void {
         this.batchJournals.deleteAll();
     }
-    /**
-     * 移除批次日记账集合
-     */
-    removeAll(): void {
-        this.batchJournals.removeAll();
-    }
+
     /**
      * 父项属性发生改变
      * @param name 属性名称
@@ -549,12 +544,7 @@ export class InventoryTransferLineMaterialSerialJournals extends BusinessObjects
     deleteAll(): void {
         this.serialJournals.deleteAll();
     }
-    /**
-     * 移除序列日记账集合
-     */
-    removeAll(): void {
-        this.serialJournals.removeAll();
-    }
+
     /**
      * 监听父项属性改变
      * @param name 父项属性名称
@@ -1063,7 +1053,7 @@ export class InventoryTransferLine extends BODocumentLine<InventoryTransferLine>
         this.setProperty(InventoryTransferLine.PROPERTY_PROJECT_NAME, value);
     }
     /** 映射的属性名称-库存转储-行-序列号集合 */
-    static PROPERTY_INVENTORYTRANSFERMATERIALSERIALJOURNALS_NAME: string = "InventoryTransferMaterialSerialJournals";
+    static PROPERTY_INVENTORYTRANSFERMATERIALSERIALJOURNALS_NAME: string = "MaterialSerialJournals";
     /** 获取-库存转储-行-序列号集合 */
     get materialSerials(): InventoryTransferLineMaterialSerialJournals {
         return this.getProperty<InventoryTransferLineMaterialSerialJournals>
@@ -1074,7 +1064,7 @@ export class InventoryTransferLine extends BODocumentLine<InventoryTransferLine>
         this.setProperty(InventoryTransferLine.PROPERTY_INVENTORYTRANSFERMATERIALSERIALJOURNALS_NAME, value);
     }
     /** 映射的属性名称-库存转储-行-批次集合 */
-    static PROPERTY_INVENTORYTRANSFERMATERIALBATCHJOURNALS_NAME: string = "InventoryTransferMaterialBatchJournals";
+    static PROPERTY_INVENTORYTRANSFERMATERIALBATCHJOURNALS_NAME: string = "MaterialBatchJournals";
     /** 获取-库存转储-行-序列号集合 */
     get materialBatchs(): InventoryTransferLineMaterialBatchJournals {
         return this.getProperty<InventoryTransferLineMaterialBatchJournals>

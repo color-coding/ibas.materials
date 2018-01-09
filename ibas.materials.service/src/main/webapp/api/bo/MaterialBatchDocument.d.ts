@@ -7,7 +7,7 @@
  * @Author: Fancy
  * @Date: 2017-12-28 11:30:30
  * @Last Modified by: Fancy
- * @Last Modified time: 2018-01-09 10:50:16
+ * @Last Modified time: 2018-01-09 13:36:52
  */
 
 import {
@@ -23,14 +23,12 @@ import {
 /** 批次管理单据行 */
 export interface IMaterialBatchDocument extends IBusinessObject {
 
-    /** 基于类型 */
-    baseDocumentType: string;
+    /** 类型 */
+    objectCode: string;
 
-    /** 基于标识 */
-    baseDocumentEntry: number;
+    docEntry: number;
 
-    /** 基于行号 */
-    baseDocumentLineId: number;
+    lineId: number;
 
     /** 物料 */
     itemCode: string;

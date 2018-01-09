@@ -7,7 +7,7 @@
  * @Author: Fancy
  * @Date: 2017-12-28 11:40:30
  * @Last Modified by: Fancy
- * @Last Modified time: 2018-01-09 11:07:41
+ * @Last Modified time: 2018-01-09 13:38:25
  */
 
 import {
@@ -37,10 +37,21 @@ import {
     MaterialSerialJournals
 } from "./index";
 export abstract class MaterialSerialDocument
-    extends BODocumentLine<MaterialSerialDocument>
+    extends BusinessObject<MaterialSerialDocument>
     implements IMaterialSerialDocument {
     /** 映射的属性名称-编码 */
     static PROPERTY_DOCENTRY_NAME: string = "DocEntry";
+    /** 映射的属性名称-类型 */
+    static PROPERTY_OBJECTCODE_NAME: string = "ObjectCode";
+    /** 获取-类型 */
+    get objectCode(): string {
+        return this.getProperty<string>(MaterialSerialDocument.PROPERTY_OBJECTCODE_NAME);
+    }
+    /** 设置-类型 */
+    set objectCode(value: string) {
+        this.setProperty(MaterialSerialDocument.PROPERTY_OBJECTCODE_NAME, value);
+    }
+
     /** 获取-编码 */
     get docEntry(): number {
         return this.getProperty<number>(MaterialSerialDocument.PROPERTY_DOCENTRY_NAME);
@@ -61,49 +72,6 @@ export abstract class MaterialSerialDocument
         this.setProperty(MaterialSerialDocument.PROPERTY_LINEID_NAME, value);
     }
 
-    /** 映射的属性名称-基于类型 */
-    static PROPERTY_BASEDOCUMENTTYPE_NAME: string = "BaseDocumentType";
-    /** 获取-基于类型 */
-    get baseDocumentType(): string {
-        return this.getProperty<string>(MaterialSerialDocument.PROPERTY_BASEDOCUMENTTYPE_NAME);
-    }
-    /** 设置-基于类型 */
-    set baseDocumentType(value: string) {
-        this.setProperty(MaterialSerialDocument.PROPERTY_BASEDOCUMENTTYPE_NAME, value);
-    }
-
-    /** 映射的属性名称-基于标识 */
-    static PROPERTY_BASEDOCUMENTENTRY_NAME: string = "BaseDocumentEntry";
-    /** 获取-基于标识 */
-    get baseDocumentEntry(): number {
-        return this.getProperty<number>(MaterialSerialDocument.PROPERTY_BASEDOCUMENTENTRY_NAME);
-    }
-    /** 设置-基于标识 */
-    set baseDocumentEntry(value: number) {
-        this.setProperty(MaterialSerialDocument.PROPERTY_BASEDOCUMENTENTRY_NAME, value);
-    }
-
-    /** 映射的属性名称-基于行号 */
-    static PROPERTY_BASEDOCUMENTLINEID_NAME: string = "BaseDocumentLineId";
-    /** 获取-基于行号 */
-    get baseDocumentLineId(): number {
-        return this.getProperty<number>(MaterialSerialDocument.PROPERTY_BASEDOCUMENTLINEID_NAME);
-    }
-    /** 设置-基于行号 */
-    set baseDocumentLineId(value: number) {
-        this.setProperty(MaterialSerialDocument.PROPERTY_BASEDOCUMENTLINEID_NAME, value);
-    }
-    /** 映射的属性名称-显示顺序 */
-    static PROPERTY_VISORDER_NAME: string = "VisOrder";
-    /** 获取-显示顺序 */
-    get visOrder(): number {
-        return this.getProperty<number>(MaterialSerialDocument.PROPERTY_VISORDER_NAME);
-    }
-    /** 设置-显示顺序 */
-    set visOrder(value: number) {
-        this.setProperty(MaterialSerialDocument.PROPERTY_VISORDER_NAME, value);
-    }
-
     /** 映射的属性名称-单据状态 */
     static PROPERTY_LINESTATUS_NAME: string = "LineStatus";
     /** 获取-单据状态 */
@@ -115,16 +83,6 @@ export abstract class MaterialSerialDocument
         this.setProperty(MaterialSerialDocument.PROPERTY_LINESTATUS_NAME, value);
     }
 
-    /** 映射的属性名称-状态 */
-    static PROPERTY_STATUS_NAME: string = "Status";
-    /** 获取-状态 */
-    get status(): emBOStatus {
-        return this.getProperty<emBOStatus>(MaterialSerialDocument.PROPERTY_STATUS_NAME);
-    }
-    /** 设置-状态 */
-    set status(value: emBOStatus) {
-        this.setProperty(MaterialSerialDocument.PROPERTY_STATUS_NAME, value);
-    }
     /** 映射的属性名称-物料编号 */
     static PROPERTY_ITEMCODE_NAME: string = "ItemCode";
     /** 获取-物料编号 */

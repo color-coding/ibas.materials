@@ -259,6 +259,7 @@ export class InventoryTransferEditApp extends ibas.BOEditApplication<IInventoryT
                 // 获取触发的对象
                 that.editData.fromWarehouse = selecteds.firstOrDefault().code;
                 // 如果物料或仓库发生更改，删除批次、序列集合
+                // that.editData.
             }
         });
     }
@@ -281,13 +282,8 @@ export class InventoryTransferEditApp extends ibas.BOEditApplication<IInventoryT
                     }
                     // 如果物料或仓库发生更改，删除批次、序列集合
                     if (item.itemCode !== selected.code) {
-                        if (item.isNew) {
-                            item.materialBatchs.removeAll();
-                            item.materialSerials.removeAll();
-                        } else {
-                            item.materialBatchs.deleteAll();
-                            item.materialSerials.deleteAll();
-                        }
+                        item.materialBatchs.deleteAll();
+                        item.materialSerials.deleteAll();
                     }
                     item.itemCode = selected.code;
                     item.itemDescription = selected.name;
@@ -337,13 +333,8 @@ export class InventoryTransferEditApp extends ibas.BOEditApplication<IInventoryT
                     }
                     // 如果物料或仓库发生更改，删除批次、序列集合
                     if (item.warehouse !== selected.code) {
-                        if (item.isNew) {
-                            item.materialBatchs.removeAll();
-                            item.materialSerials.removeAll();
-                        } else {
-                            item.materialBatchs.deleteAll();
-                            item.materialSerials.deleteAll();
-                        }
+                        item.materialBatchs.deleteAll();
+                        item.materialSerials.deleteAll();
                     }
                     item.warehouse = selected.code;
                     item = null;

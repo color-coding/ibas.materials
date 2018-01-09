@@ -1,14 +1,16 @@
 package org.colorcoding.ibas.materials.bo.goodsissue;
 
-import org.colorcoding.ibas.bobas.bo.*;
+import org.colorcoding.ibas.bobas.bo.IBODocumentLine;
 import org.colorcoding.ibas.bobas.data.*;
-import org.colorcoding.ibas.materials.data.*;
+import org.colorcoding.ibas.materials.bo.materialbatch.IMaterialBatchDocument;
+import org.colorcoding.ibas.materials.bo.materialserial.IMaterialSerialDocument;
+import org.colorcoding.ibas.materials.data.emItemType;
 
 /**
 * 库存发货-行 接口
 * 
 */
-public interface IGoodsIssueLine extends IBODocumentLine {
+public interface IGoodsIssueLine extends IBODocumentLine, IMaterialSerialDocument,IMaterialBatchDocument {
 
     /**
     * 获取-编码
@@ -648,32 +650,11 @@ public interface IGoodsIssueLine extends IBODocumentLine {
     */
     void setProject(String value);
 
+    IGoodsIssueLineMaterialBatch getMaterialBatchs();
 
-    /**
-     * 获取-库存发货-物料批次集合
-     *
-     * @return 值
-     */
-    IGoodsIssueLineMaterialBatchJournals getMaterialBatchJournals();
+    void setMaterialBatchs(IGoodsIssueLineMaterialBatch value);
 
-    /**
-     * 设置-库存发货-物料批次集合
-     *
-     * @param value 值
-     */
-    void setMaterialBatchJournals(IGoodsIssueLineMaterialBatchJournals value);
+    IGoodsIssueLineMaterialSerial getMaterialSerials();
 
-    /**
-     * 获取-库存发货-物料序列集合
-     *
-     * @return 值
-     */
-    IGoodsIssueLineMaterialSerialJournals getMaterialSerialJournals();
-
-    /**
-     * 设置-库存发货-物料序列集合
-     *
-     * @param value 值
-     */
-    void setMaterialSerialJournals(IGoodsIssueLineMaterialSerialJournals value);
+    void setMaterialSerials(IGoodsIssueLineMaterialSerial value);
 }
