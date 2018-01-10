@@ -30,21 +30,11 @@ import {
     IGoodsIssue,
     IGoodsIssueLines,
     IGoodsIssueLine,
-    IMaterialBatchDocuments,
-    IMaterialSerialDocuments,
-    IMaterialSerialJournals,
-    IMaterialBatchJournals,
+    MaterialSerialJournals,
+    MaterialBatchJournals,
     BO_CODE_GOODSISSUE,
     emItemType,
-    IMaterialBatchDocument,
-    IMaterialSerialDocument,
-    IMaterialBatchJournal,
-    IMaterialSerialJournal,
 } from "../../api/index";
-import { MaterialBatchJournal, MaterialBatchJournals } from "./MaterialBatchJournal";
-import { MaterialSerialJournal, MaterialSerialJournals } from "./MaterialSerialJournal";
-import { MaterialBatchDocuments } from "./MaterialBatchDocument";
-import { MaterialSerialDocuments } from "./MaterialSerialDocument";
 /** 库存发货 */
 export class GoodsIssue extends BODocument<GoodsIssue> implements IGoodsIssue {
 
@@ -449,36 +439,12 @@ export class GoodsIssue extends BODocument<GoodsIssue> implements IGoodsIssue {
     }
 }
 /** 库存发货-行 集合 */
-export class GoodsIssueLines extends BusinessObjects<GoodsIssueLine, GoodsIssue>
-    implements IGoodsIssueLines,
-    IMaterialBatchDocuments,
-    IMaterialSerialDocuments {
-    checkBatchQuantity(): boolean {
-        return new MaterialBatchDocuments(this.filterDeleted().filter(c => c.batchManagement === emYesNo.YES)).checkBatchQuantity();
-    }
-
-    checkSerialQuantity(): boolean {
-        return new MaterialSerialDocuments(this.filterDeleted().filter(c => c.serialManagement === emYesNo.YES)).checkSerialQuantity();
-    }
-
+export class GoodsIssueLines extends BusinessObjects<GoodsIssueLine, GoodsIssue> implements IGoodsIssueLines {
     /** 创建并添加子项 */
     create(): GoodsIssueLine {
         let item: GoodsIssueLine = new GoodsIssueLine();
         this.add(item);
         return item;
-    }
-    afterAdd(item: GoodsIssueLine): void {
-        super.afterAdd(item);
-        item.lineStatus = this.parent.documentStatus;
-    }
-    /** 监听父项属性改变 */
-    protected onParentPropertyChanged(name: string): void {
-        super.onParentPropertyChanged(name);
-        if (strings.equalsIgnoreCase(name, GoodsIssue.PROPERTY_DOCUMENTSTATUS_NAME)) {
-            for (let item of this.filterDeleted()) {
-                item.lineStatus = this.parent.documentStatus;
-            }
-        }
     }
     /** 监听子项属性改变 */
     protected onChildPropertyChanged(item: GoodsIssueLine, name: string): void {
@@ -497,21 +463,13 @@ export class GoodsIssueLines extends BusinessObjects<GoodsIssueLine, GoodsIssue>
 }
 
 /** 库存发货-行 */
-export class GoodsIssueLine extends BODocumentLine<GoodsIssueLine>
-    implements IGoodsIssueLine, IMaterialBatchDocument, IMaterialSerialDocument {
+export class GoodsIssueLine extends BODocumentLine<GoodsIssueLine> implements IGoodsIssueLine {
 
     /** 构造函数 */
     constructor() {
         super();
     }
 
-    protected onPropertyChanged(name: string): void {
-        super.onPropertyChanged(name);
-        if (strings.equalsIgnoreCase(name, GoodsIssueLine.PROPERTY_QUANTITY_NAME) ||
-            strings.equalsIgnoreCase(name, GoodsIssueLine.PROPERTY_PRICE_NAME)) {
-            this.lineTotal = Number(this.quantity) * Number(this.price);
-        }
-    }
     /** 映射的属性名称-编码 */
     static PROPERTY_DOCENTRY_NAME: string = "DocEntry";
     /** 获取-编码 */
@@ -918,31 +876,42 @@ export class GoodsIssueLine extends BODocumentLine<GoodsIssueLine>
     set project(value: string) {
         this.setProperty(GoodsIssueLine.PROPERTY_PROJECT_NAME, value);
     }
-    /** 映射的属性名称-库存发货-行-序列号集合 */
-    static PROPERTY_GOODSISSUEMATERIALSERIALJOURNALS_NAME: string = "MaterialSerialJournals";
-    /** 获取-库存发货-行-序列号集合 */
-    get materialSerials(): MaterialSerialJournals<GoodsIssueLine> {
-        return this.getProperty<MaterialSerialJournals<GoodsIssueLine>>(GoodsIssueLine.PROPERTY_GOODSISSUEMATERIALSERIALJOURNALS_NAME);
+
+    /** 映射的属性名称-物料批次集合 */
+    static PROPERTY_MATERIALBATCHES_NAME: string = "MaterialBatches";
+    /** 获取-物料批次集合 */
+    get materialBatches(): MaterialBatchJournals {
+        return this.getProperty<MaterialBatchJournals>(GoodsIssueLine.PROPERTY_MATERIALBATCHES_NAME);
     }
-    /** 设置-库存发货-行-序列号集合 */
-    set materialSerials(value: MaterialSerialJournals<GoodsIssueLine>) {
-        this.setProperty(GoodsIssueLine.PROPERTY_GOODSISSUEMATERIALSERIALJOURNALS_NAME, value);
+    /** 设置-物料批次集合 */
+    set materialBatches(value: MaterialBatchJournals) {
+        this.setProperty(GoodsIssueLine.PROPERTY_MATERIALBATCHES_NAME, value);
     }
-    /** 映射的属性名称-库存发货-行-批次集合 */
-    static PROPERTY_GOODSISSUEMATERIALBATCHJOURNALS_NAME: string = "MaterialBatchJournals";
-    /** 获取-库存发货-行-序列号集合 */
-    get materialBatchs(): MaterialBatchJournals<GoodsIssueLine> {
-        return this.getProperty<MaterialBatchJournals<GoodsIssueLine>>(GoodsIssueLine.PROPERTY_GOODSISSUEMATERIALBATCHJOURNALS_NAME);
+
+    /** 映射的属性名称-物料序列集合 */
+    static PROPERTY_MATERIALSERIALS_NAME: string = "MaterialSerials";
+    /** 获取-物料序列集合 */
+    get materialSerials(): MaterialSerialJournals {
+        return this.getProperty<MaterialSerialJournals>(GoodsIssueLine.PROPERTY_MATERIALSERIALS_NAME);
     }
-    /** 设置-库存发货-行-序列号集合 */
-    set materialBatchs(value: MaterialBatchJournals<GoodsIssueLine>) {
-        this.setProperty(GoodsIssueLine.PROPERTY_GOODSISSUEMATERIALBATCHJOURNALS_NAME, value);
+    /** 设置-物料序列集合 */
+    set materialSerials(value: MaterialSerialJournals) {
+        this.setProperty(GoodsIssueLine.PROPERTY_MATERIALSERIALS_NAME, value);
     }
+
     /** 初始化数据 */
     protected init(): void {
-        this.materialBatchs = new MaterialBatchJournals<GoodsIssueLine>(this);
-        this.materialSerials = new MaterialSerialJournals<GoodsIssueLine>(this);
+        this.materialBatches = new MaterialBatchJournals(this);
+        this.materialSerials = new MaterialSerialJournals(this);
         this.objectCode = config.applyVariables(GoodsIssue.BUSINESS_OBJECT_CODE);
+    }
+
+    protected onPropertyChanged(name: string): void {
+        super.onPropertyChanged(name);
+        if (strings.equalsIgnoreCase(name, GoodsIssueLine.PROPERTY_QUANTITY_NAME) ||
+            strings.equalsIgnoreCase(name, GoodsIssueLine.PROPERTY_PRICE_NAME)) {
+            this.lineTotal = Number(this.quantity) * Number(this.price);
+        }
     }
 }
 

@@ -10,8 +10,6 @@ import org.colorcoding.ibas.materials.bo.goodsreceipt.GoodsReceipt;
 import org.colorcoding.ibas.materials.bo.goodsreceipt.IGoodsReceipt;
 import org.colorcoding.ibas.materials.bo.goodsreceipt.IGoodsReceiptLine;
 import org.colorcoding.ibas.materials.bo.material.*;
-import org.colorcoding.ibas.materials.bo.materialgroup.IMaterialGroup;
-import org.colorcoding.ibas.materials.bo.materialgroup.MaterialGroup;
 import org.colorcoding.ibas.materials.bo.materialpricelist.IMaterialPriceItem;
 import org.colorcoding.ibas.materials.bo.materialpricelist.IMaterialPriceList;
 import org.colorcoding.ibas.materials.bo.materialpricelist.MaterialPriceList;

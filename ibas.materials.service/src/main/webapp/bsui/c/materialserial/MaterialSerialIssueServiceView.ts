@@ -12,13 +12,13 @@
 import * as ibas from "ibas/index";
 import * as openui5 from "openui5/index";
 import * as bo from "../../../borep/bo/index";
-import { emAutoSelectBatchSerialRules } from "../../../api/Datas";
+import { emMaterialIssueRules } from "../../../api/Datas";
 import {
-    IMaterialIssueSerialView,
+    IMaterialSerialIssueView,
 } from "../../../bsapp/materialserial/index";
 import { IMaterialSerialContract } from "../../../api/index";
 
-export class MaterialIssueSerialServiceView extends ibas.BODialogView implements IMaterialIssueSerialView {
+export class MaterialSerialIssueServiceView extends ibas.BODialogView implements IMaterialSerialIssueView {
     /** 选择序列号凭证行信息事件 */
     selectMaterialSerialJournalLineEvent: Function;
     /** 自动选择序列号信息事件 */
@@ -133,7 +133,7 @@ export class MaterialIssueSerialServiceView extends ibas.BODialogView implements
                                         that.fireViewEvents(that.autoSelectMaterialSerialEvent
                                             , openui5.utils.getSelecteds<IMaterialSerialContract>
                                                 (that.journalLineTable).firstOrDefault()
-                                            , emAutoSelectBatchSerialRules.FIRST_IN_FIRST_OUT);
+                                            , emMaterialIssueRules.FIRST_IN_FIRST_OUT);
                                     }
                                 }),
                                 new sap.m.MenuItem("", {
@@ -142,7 +142,7 @@ export class MaterialIssueSerialServiceView extends ibas.BODialogView implements
                                         that.fireViewEvents(that.autoSelectMaterialSerialEvent
                                             , openui5.utils.getSelecteds<IMaterialSerialContract>
                                                 (that.journalLineTable).firstOrDefault()
-                                            , emAutoSelectBatchSerialRules.ORDER_BY_CODE);
+                                            , emMaterialIssueRules.ORDER_BY_CODE);
                                     }
                                 }),
                             ]

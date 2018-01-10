@@ -1,9 +1,3 @@
-/*
- * @Author: fancy
- * @Date: 2017-11-27 16:29:14
- * @Last Modified by: Fancy
- * @Last Modified time: 2018-01-08 16:04:26
- */
 /**
  * @license
  * Copyright color-coding studio. All Rights Reserved.
@@ -13,25 +7,23 @@
  */
 import * as ibas from "ibas/index";
 import * as bo from "../../borep/bo/index";
-import { emAutoSelectBatchSerialRules, MaterialIssueBatchServiceProxy,IMaterialBatchContract } from "../../api/Datas";
-import { BORepositoryMaterials } from "../../borep/BORepositories";
 import {
-    IMaterialBatchJournal,
-} from "../../api/bo/index";
-import { MaterialBatchJournal } from "../../borep/bo/index";
-import { emDocumentStatus, emDirection } from "ibas/index";
+    emMaterialIssueRules, MaterialBatchIssueServiceProxy, IMaterialBatchContract,
+    IMaterialBatchJournal, MaterialBatchJournal,
+} from "../../api/index";
+import { BORepositoryMaterials } from "../../borep/BORepositories";
 
-export class MaterialIssueBatchService extends ibas.ServiceApplication<IMaterialIssueBatchView, IMaterialBatchContract[]> {
+export class MaterialBatchIssueService extends ibas.ServiceApplication<IMaterialBatchIssueView, IMaterialBatchContract[]> {
 
     /** 应用标识 */
     static APPLICATION_ID: string = "141e2a0f-3120-40a3-9bb4-f8b61672ed9c";
     /** 应用名称 */
-    static APPLICATION_NAME: string = "materials_app_materialissuebatchservice";
+    static APPLICATION_NAME: string = "materials_app_MaterialBatchIssueservice";
     /** 构造函数 */
     constructor() {
         super();
-        this.id = MaterialIssueBatchService.APPLICATION_ID;
-        this.name = MaterialIssueBatchService.APPLICATION_NAME;
+        this.id = MaterialBatchIssueService.APPLICATION_ID;
+        this.name = MaterialBatchIssueService.APPLICATION_NAME;
         this.description = ibas.i18n.prop(this.name);
     }
     /** 服务契约 */
@@ -66,8 +58,8 @@ export class MaterialIssueBatchService extends ibas.ServiceApplication<IMaterial
         let that: this = this;
         // 根据物料查询可用批次
         that.fetchBatchData(selected);
-        if (!ibas.objects.isNull(selected.materialBatchs)) {
-            that.view.showRightData(selected.materialBatchs.filter(c => c.isDeleted === false && c.direction === emDirection.OUT));
+        if (!ibas.objects.isNull(selected.materialBatches)) {
+            that.view.showRightData(selected.materialBatches.filter(c => c.isDeleted === false && c.direction === ibas.emDirection.OUT));
         }
     }
     /**
@@ -75,7 +67,7 @@ export class MaterialIssueBatchService extends ibas.ServiceApplication<IMaterial
      * @param selected 选择的凭证行
      * @param rules 自动选择批次规则
      */
-    protected autoSelectMaterialBatch(journal: IMaterialBatchContract, rules: emAutoSelectBatchSerialRules): void {
+    protected autoSelectMaterialBatch(journal: IMaterialBatchContract, rules: emMaterialIssueRules): void {
         // 未选择凭证行
         if (ibas.objects.isNull(journal)) {
             this.messages(ibas.emMessageType.WARNING, ibas.i18n.prop("shell_please_chooose_data",
@@ -85,7 +77,7 @@ export class MaterialIssueBatchService extends ibas.ServiceApplication<IMaterial
         }
         // 不需要选择批次了
         if (!this.isNeedToSelected(journal)) {
-            this.view.showRightData(journal.materialBatchs.filter(c => c.isDeleted === false && c.direction === emDirection.OUT));
+            this.view.showRightData(journal.materialBatches.filter(c => c.isDeleted === false && c.direction === ibas.emDirection.OUT));
             return;
         }
         if (ibas.objects.isNull(this.batchData.filter(c => c.isDeleted === false))) {
@@ -94,21 +86,21 @@ export class MaterialIssueBatchService extends ibas.ServiceApplication<IMaterial
             return;
         }
         // 按照一定规则排序
-        if (rules === emAutoSelectBatchSerialRules.FIRST_IN_FIRST_OUT) {
+        if (rules === emMaterialIssueRules.FIRST_IN_FIRST_OUT) {
             this.batchData.sort((batch1, batch2) => batch1.createDate < batch2.createDate ? -1
                 : (batch1.createDate > batch2.createDate ? 1 : (batch1.createTime < batch2.createTime ? -1
                     : (batch1.createTime > batch2.createTime ? 1 : 0))));
-        } else if (rules === emAutoSelectBatchSerialRules.FIRST_IN_LAST_OUT) {
+        } else if (rules === emMaterialIssueRules.FIRST_IN_LAST_OUT) {
             this.batchData.sort((batch1, batch2) => batch1.createDate > batch2.createDate ? -1
                 : (batch1.createDate < batch2.createDate ? 1 : (batch1.createTime > batch2.createTime ? -1
                     : (batch1.createTime < batch2.createTime ? 1 : 0))));
-        } else if (rules === emAutoSelectBatchSerialRules.ORDER_BY_CODE) {
+        } else if (rules === emMaterialIssueRules.ORDER_BY_CODE) {
             this.batchData.sort((batch1, batch2) => batch1.batchCode < batch2.batchCode ? -1
                 : batch1.batchCode > batch2.batchCode ? 1 : 0);
         }
         this.allocateBatch(journal, this.batchData);
         this.view.showLeftData(this.batchData.filter(c => c.quantity > 0));
-        this.view.showRightData(journal.materialBatchs.filter(c => c.isDeleted === false && c.direction === emDirection.OUT));
+        this.view.showRightData(journal.materialBatches.filter(c => c.isDeleted === false && c.direction === ibas.emDirection.OUT));
     }
     /**
      * 分配批次
@@ -117,7 +109,7 @@ export class MaterialIssueBatchService extends ibas.ServiceApplication<IMaterial
      */
     protected allocateBatch(journal: IMaterialBatchContract, selectItem: bo.MaterialBatch[]): void {
         let needQuantity: number = Number(journal.quantity);
-        journal.materialBatchs.filter(c => c.isDeleted === false && c.direction === emDirection.OUT)
+        journal.materialBatches.filter(c => c.isDeleted === false && c.direction === ibas.emDirection.OUT)
             .forEach(c => needQuantity = needQuantity - Number(c.quantity));
         for (let item of selectItem.filter(c => c.quantity > 0 && c.isDeleted === false)) {
             // 已分配数量
@@ -125,7 +117,7 @@ export class MaterialIssueBatchService extends ibas.ServiceApplication<IMaterial
                 return;
             }
             // 在已选择的行中找该批次记录
-            let batchLine: IMaterialBatchJournal = journal.materialBatchs
+            let batchLine: IMaterialBatchJournal = journal.materialBatches
                 .find(c => c.batchCode === item.batchCode);
             // 未选择该批次 新建批次日记账
             if (ibas.objects.isNull(batchLine)) {
@@ -143,7 +135,7 @@ export class MaterialIssueBatchService extends ibas.ServiceApplication<IMaterial
                     needQuantity = 0;
                     item.quantity = ibas.numbers.toFloat(item.quantity) - ibas.numbers.toFloat(batchJournal.quantity);
                 }
-                journal.materialBatchs.create(batchJournal);
+                journal.materialBatches.add(batchJournal);
             } else {
                 // 已选择该批次 修改批次日记账
                 if (item.quantity <= needQuantity) {
@@ -178,7 +170,7 @@ export class MaterialIssueBatchService extends ibas.ServiceApplication<IMaterial
         }
         this.allocateBatch(journal, items);
         this.view.showLeftData(this.batchData.filter(c => c.quantity > 0));
-        this.view.showRightData(journal.materialBatchs.filter(c => c.isDeleted === false && c.direction === emDirection.OUT));
+        this.view.showRightData(journal.materialBatches.filter(c => c.isDeleted === false && c.direction === ibas.emDirection.OUT));
     }
 
     /**
@@ -204,12 +196,12 @@ export class MaterialIssueBatchService extends ibas.ServiceApplication<IMaterial
         // 移除项目
         for (let item of items) {
             // 找到对应的入库批次
-            let batchIn:IMaterialBatchJournal = selected.materialBatchs
-            .find(c=>c.batchCode === item.batchCode && c.direction === emDirection.IN);
-            if (selected.materialBatchs.indexOf(item) >= 0) {
+            let batchIn: IMaterialBatchJournal = selected.materialBatches
+                .find(c => c.batchCode === item.batchCode && c.direction === ibas.emDirection.IN);
+            if (selected.materialBatches.indexOf(item) >= 0) {
                 if (item.isNew) {
-                    selected.materialBatchs.remove(item);
-                    selected.materialBatchs.remove(batchIn);
+                    selected.materialBatches.remove(item);
+                    selected.materialBatches.remove(batchIn);
                 } else {
                     item.delete();
                     batchIn.markDeleted(true);
@@ -227,7 +219,7 @@ export class MaterialIssueBatchService extends ibas.ServiceApplication<IMaterial
             }
         }
         this.view.showLeftData(this.batchData.filter(c => c.quantity > 0));
-        this.view.showRightData(selected.materialBatchs.filter(c => c.isDeleted === false && c.direction === emDirection.OUT));
+        this.view.showRightData(selected.materialBatches.filter(c => c.isDeleted === false && c.direction === ibas.emDirection.OUT));
     }
 
     /**
@@ -277,14 +269,14 @@ export class MaterialIssueBatchService extends ibas.ServiceApplication<IMaterial
      * @param selected 选择的凭证行
      */
     private filterSelected(selected: IMaterialBatchContract): void {
-        if (selected.materialBatchs.length === 0) {
+        if (selected.materialBatches.length === 0) {
             return;
         }
-        for (let item of selected.materialBatchs) {
+        for (let item of selected.materialBatches) {
             let batchItem: bo.MaterialBatch = this.batchData.find(c => c.batchCode === item.batchCode);
             if (ibas.objects.isNull(batchItem)) {
                 item.markDeleted(true);
-            } else if (item.isNew || item.lineStatus === emDocumentStatus.PLANNED) {
+            } else if (item.isNew || item.lineStatus === ibas.emDocumentStatus.PLANNED) {
                 batchItem.quantity = batchItem.quantity - item.quantity;
             }
         }
@@ -306,8 +298,7 @@ export class MaterialIssueBatchService extends ibas.ServiceApplication<IMaterial
                 itemCode: item.itemCode,
                 warehouse: item.warehouse,
                 quantity: item.quantity,
-                direction: ibas.emDirection.OUT,
-                materialBatchs: item.materialBatchs
+                materialBatches: item.materialBatches
             });
         }
         this.batchJournals = batchJournals;
@@ -329,7 +320,7 @@ export class MaterialIssueBatchService extends ibas.ServiceApplication<IMaterial
      */
     isNeedToSelected(journal: IMaterialBatchContract): boolean {
         let selectedQuantity: number = Number(0);
-        journal.materialBatchs.filter(c => c.isDeleted === false && c.direction === emDirection.OUT)
+        journal.materialBatches.filter(c => c.isDeleted === false && c.direction === ibas.emDirection.OUT)
             .forEach(c => selectedQuantity = selectedQuantity + Number(c.quantity));
         if (Number(selectedQuantity) === Number(journal.quantity)) {
             return false;
@@ -339,7 +330,7 @@ export class MaterialIssueBatchService extends ibas.ServiceApplication<IMaterial
 }
 
 /** 视图-批次新建 */
-export interface IMaterialIssueBatchView extends ibas.IBOView {
+export interface IMaterialBatchIssueView extends ibas.IBOView {
     /** 显示数据 */
     showLeftData(datas: bo.MaterialBatch[]): void;
     showRightData(datas: IMaterialBatchJournal[]): void;
@@ -357,18 +348,18 @@ export interface IMaterialIssueBatchView extends ibas.IBOView {
 }
 
 /** 批次选择服务映射 */
-export class MaterialIssueBatchServiceMapping extends ibas.ServiceMapping {
+export class MaterialBatchIssueServiceMapping extends ibas.ServiceMapping {
     /** 构造函数 */
     constructor() {
         super();
-        this.id = MaterialIssueBatchService.APPLICATION_ID;
-        this.name = MaterialIssueBatchService.APPLICATION_NAME;
+        this.id = MaterialBatchIssueService.APPLICATION_ID;
+        this.name = MaterialBatchIssueService.APPLICATION_NAME;
         this.description = ibas.i18n.prop(this.name);
-        this.proxy = MaterialIssueBatchServiceProxy;
+        this.proxy = MaterialBatchIssueServiceProxy;
     }
     /** 创建服务实例 */
     create(): ibas.IService<ibas.IServiceCaller<ibas.IServiceContract>> {
-        return new MaterialIssueBatchService();
+        return new MaterialBatchIssueService();
     }
 }
 

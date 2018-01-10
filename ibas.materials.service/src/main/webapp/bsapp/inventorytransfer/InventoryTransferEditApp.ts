@@ -13,8 +13,8 @@ import {
     IMaterialSerialJournal,
 } from "../../api/bo/index";
 import {
-    MaterialIssueBatchServiceProxy,
-    MaterialIssueSerialServiceProxy,
+    MaterialBatchIssueServiceProxy,
+    MaterialSerialIssueServiceProxy,
     IMaterialBatchContract,
     IMaterialSerialContract,
 } from "../../api/Datas";
@@ -116,16 +116,6 @@ export class InventoryTransferEditApp extends ibas.BOEditApplication<IInventoryT
     protected saveData(): void {
         let that: this = this;
         let boRepository: BORepositoryMaterials = new BORepositoryMaterials();
-        // 物料数量与批次数量不相等
-        if (!this.editData.inventoryTransferLines.checkBatchQuantity()) {
-            this.messages(ibas.emMessageType.ERROR, ibas.i18n.prop("materials_app_material_quantity_not_equal_batch_quantity"));
-            return;
-        }
-        if (!this.editData.inventoryTransferLines.checkSerialQuantity()) {
-            this.messages(ibas.emMessageType.ERROR, ibas.i18n.prop("materials_app_material_quantity_not_equal_serial_quantity"));
-            return;
-        }
-        // this.editData.inventoryTransferLines.createReceiptBatchAndSerial();
         boRepository.saveInventoryTransfer({
             beSaved: this.editData,
             onCompleted(opRslt: ibas.IOperationResult<bo.InventoryTransfer>): void {
@@ -245,7 +235,7 @@ export class InventoryTransferEditApp extends ibas.BOEditApplication<IInventoryT
             onCompleted(selecteds: ibas.List<bo.Warehouse>): void {
                 if (that.editData.fromWarehouse !== selecteds.firstOrDefault().code) {
                     that.editData.inventoryTransferLines
-                        .forEach(c => c.materialBatchs.forEach(b => {
+                        .forEach(c => c.materialBatches.forEach(b => {
                             if (b.warehouse === selecteds.firstOrDefault().code) {
                                 b.warehouse = selecteds.firstOrDefault().code;
                             }
@@ -279,11 +269,6 @@ export class InventoryTransferEditApp extends ibas.BOEditApplication<IInventoryT
                     if (ibas.objects.isNull(item)) {
                         item = that.editData.inventoryTransferLines.create();
                         created = true;
-                    }
-                    // 如果物料或仓库发生更改，删除批次、序列集合
-                    if (item.itemCode !== selected.code) {
-                        item.materialBatchs.deleteAll();
-                        item.materialSerials.deleteAll();
                     }
                     item.itemCode = selected.code;
                     item.itemDescription = selected.name;
@@ -331,11 +316,6 @@ export class InventoryTransferEditApp extends ibas.BOEditApplication<IInventoryT
                         item = that.editData.inventoryTransferLines.create();
                         created = true;
                     }
-                    // 如果物料或仓库发生更改，删除批次、序列集合
-                    if (item.warehouse !== selected.code) {
-                        item.materialBatchs.deleteAll();
-                        item.materialSerials.deleteAll();
-                    }
                     item.warehouse = selected.code;
                     item = null;
                 }
@@ -366,7 +346,7 @@ export class InventoryTransferEditApp extends ibas.BOEditApplication<IInventoryT
         }
         // 调用批次选择服务
         ibas.servicesManager.runApplicationService<IMaterialBatchContract[]>({
-            proxy: new MaterialIssueBatchServiceProxy(that.getBatchContract(inventoryTransferLines))
+            proxy: new MaterialBatchIssueServiceProxy(that.getBatchContract(inventoryTransferLines))
         });
     }
     chooseInventoryTransferLineMaterialSerial(): void {
@@ -388,7 +368,7 @@ export class InventoryTransferEditApp extends ibas.BOEditApplication<IInventoryT
         }
         // 调用序列选择服务
         ibas.servicesManager.runApplicationService<IMaterialSerialContract[]>({
-            proxy: new MaterialIssueSerialServiceProxy(that.getSerialContract(inventoryTransferLine))
+            proxy: new MaterialSerialIssueServiceProxy(that.getSerialContract(inventoryTransferLine))
         });
     }
 
@@ -400,7 +380,7 @@ export class InventoryTransferEditApp extends ibas.BOEditApplication<IInventoryT
                 itemCode: item.itemCode,
                 warehouse: this.editData.fromWarehouse,
                 quantity: item.quantity,
-                materialBatchs: item.materialBatchs,
+                materialBatches: item.materialBatches,
             });
         }
         return contracts;

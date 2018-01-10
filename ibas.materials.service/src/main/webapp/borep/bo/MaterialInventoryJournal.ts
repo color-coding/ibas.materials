@@ -69,37 +69,35 @@ export class MaterialInventoryJournal extends BOSimple<MaterialInventoryJournal>
         this.setProperty(MaterialInventoryJournal.PROPERTY_WAREHOUSE_NAME, value);
     }
 
-    /** 映射的属性名称-基础单据类型 */
-    static PROPERTY_BASETYPE_NAME: string = "BaseType";
-    /** 获取-基础单据类型 */
-    get baseType(): string {
-        return this.getProperty<string>(MaterialInventoryJournal.PROPERTY_BASETYPE_NAME);
+    /** 映射的属性名称-基于类型 */
+    static PROPERTY_BASEDOCUMENTTYPE_NAME: string = "BaseDocumentType";
+    /** 获取-基于类型 */
+    get baseDocumentType(): string {
+        return this.getProperty<string>(MaterialInventoryJournal.PROPERTY_BASEDOCUMENTTYPE_NAME);
     }
-    /** 设置-基础单据类型 */
-    set baseType(value: string) {
-        this.setProperty(MaterialInventoryJournal.PROPERTY_BASETYPE_NAME, value);
+    /** 设置-基于类型 */
+    set baseDocumentType(value: string) {
+        this.setProperty(MaterialInventoryJournal.PROPERTY_BASEDOCUMENTTYPE_NAME, value);
     }
-
-    /** 映射的属性名称-基础单据号 */
-    static PROPERTY_BASEENTRY_NAME: string = "BaseEntry";
-    /** 获取-基础单据号 */
-    get baseEntry(): number {
-        return this.getProperty<number>(MaterialInventoryJournal.PROPERTY_BASEENTRY_NAME);
+    /** 映射的属性名称-基于标识 */
+    static PROPERTY_BASEDOCUMENTENTRY_NAME: string = "BaseDocumentEntry";
+    /** 获取-基于标识 */
+    get baseDocumentEntry(): number {
+        return this.getProperty<number>(MaterialInventoryJournal.PROPERTY_BASEDOCUMENTENTRY_NAME);
     }
-    /** 设置-基础单据号 */
-    set baseEntry(value: number) {
-        this.setProperty(MaterialInventoryJournal.PROPERTY_BASEENTRY_NAME, value);
+    /** 设置-基于标识 */
+    set baseDocumentEntry(value: number) {
+        this.setProperty(MaterialInventoryJournal.PROPERTY_BASEDOCUMENTENTRY_NAME, value);
     }
-
-    /** 映射的属性名称-基础单据行 */
-    static PROPERTY_BASELINNUM_NAME: string = "BaseLinNum";
-    /** 获取-基础单据行 */
-    get baseLinNum(): number {
-        return this.getProperty<number>(MaterialInventoryJournal.PROPERTY_BASELINNUM_NAME);
+    /** 映射的属性名称-基于行号 */
+    static PROPERTY_BASEDOCUMENTLINEID_NAME: string = "BaseDocumentLineId";
+    /** 获取-基于行号 */
+    get baseDocumentLineId(): number {
+        return this.getProperty<number>(MaterialInventoryJournal.PROPERTY_BASEDOCUMENTLINEID_NAME);
     }
-    /** 设置-基础单据行 */
-    set baseLinNum(value: number) {
-        this.setProperty(MaterialInventoryJournal.PROPERTY_BASELINNUM_NAME, value);
+    /** 设置-基于行号 */
+    set baseDocumentLineId(value: number) {
+        this.setProperty(MaterialInventoryJournal.PROPERTY_BASEDOCUMENTLINEID_NAME, value);
     }
 
     /** 映射的属性名称-方向 */

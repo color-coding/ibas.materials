@@ -19,8 +19,6 @@ export * from "./Warehouse";
 export * from "./Product";
 export * from "./MaterialBatch";
 export * from "./MaterialSerial";
-export * from "./MaterialBatchJournal";
-export * from "./MaterialSerialJournal";
 export * from "./MaterialPriceList";
 
 // 注册业务对象到工厂
@@ -47,15 +45,12 @@ import { MaterialBatch } from "./MaterialBatch";
 ibas.boFactory.register(MaterialBatch.BUSINESS_OBJECT_CODE, MaterialBatch);
 import { MaterialSerial } from "./MaterialSerial";
 ibas.boFactory.register(MaterialSerial.BUSINESS_OBJECT_CODE, MaterialSerial);
-import { MaterialBatchJournal,MaterialBatchJournals } from "./MaterialBatchJournal";
-ibas.boFactory.register(MaterialBatchJournal.BUSINESS_OBJECT_CODE, MaterialBatchJournal);
-ibas.boFactory.register(MaterialBatchJournals.BUSINESS_OBJECT_CODE, MaterialBatchJournals);
-import { MaterialSerialJournal,MaterialSerialJournals } from "./MaterialSerialJournal";
-ibas.boFactory.register(MaterialSerialJournal.BUSINESS_OBJECT_CODE, MaterialSerialJournal);
-ibas.boFactory.register(MaterialSerialJournals.BUSINESS_OBJECT_CODE, MaterialSerialJournals);
 import { MaterialPriceList } from "./MaterialPriceList";
 ibas.boFactory.register(MaterialPriceList.BUSINESS_OBJECT_CODE, MaterialPriceList);
-import {MaterialBatchDocuments} from "./MaterialBatchDocument";
-ibas.boFactory.register(MaterialBatchDocuments.BUSINESS_OBJECT_CODE,MaterialBatchDocuments);
-import { MaterialSerialDocuments} from "./MaterialSerialDocument";
-ibas.boFactory.register(MaterialSerialDocuments.BUSINESS_OBJECT_CODE,MaterialSerialDocuments);
+// 注册api对象
+import { MaterialBatchJournal } from "../../api/bo/MaterialBatchJournal";
+ibas.boFactory.register(MaterialBatchJournal.BUSINESS_OBJECT_CODE, MaterialBatchJournal);
+export * from "../../api/bo/MaterialBatchJournal";
+import { MaterialSerialJournal } from "../../api/bo/MaterialSerialJournal";
+ibas.boFactory.register(MaterialSerialJournal.BUSINESS_OBJECT_CODE, MaterialSerialJournal);
+export * from "../../api/bo/MaterialSerialJournal";

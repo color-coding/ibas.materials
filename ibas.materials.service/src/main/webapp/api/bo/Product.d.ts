@@ -22,8 +22,10 @@ import {
 import {
     emItemType,
 } from "../Datas";
+/** 商品 */
 export interface IProduct extends IBOMasterData {
-    /** 编号 */
+
+    /** 编码 */
     code: string;
 
     /** 名称 */
@@ -35,17 +37,14 @@ export interface IProduct extends IBOMasterData {
     /** 物料组 */
     group: string;
 
+    /** 激活 */
+    activated: emYesNo;
+
     /** 条形码 */
     barCode: string;
 
     /** 物料类型 */
     itemType: emItemType;
-
-    /** 采购物料 */
-    purchaseItem: emYesNo;
-
-    /** 销售物料 */
-    salesItem: emYesNo;
 
     /** 库存物料 */
     inventoryItem: emYesNo;
@@ -53,33 +52,57 @@ export interface IProduct extends IBOMasterData {
     /** 虚拟物料 */
     phantomItem: emYesNo;
 
-    /** 固定资产 */
-    fixedAssets: emYesNo;
-
     /** 缺省仓库 */
     defaultWarehouse: string;
 
-    /** 首选供应商 */
-    preferredVendor: string;
+    /** 价格 */
+    price: number;
+
+    /** 货币 */
+    currency: string;
+
+    /** 库存 */
+    onHand: number;
+
+    /** 已承诺 */
+    onCommited: number;
+
+    /** 已订购 */
+    onOrdered: number;
+
+    /** 最低库存量 */
+    minimumInventory: number;
 
     /** 库存单位 */
     inventoryUOM: string;
-
-    /** 对象编号 */
-    docEntry: number;
-
-    /** 仓库库存 */
-    onHand: number;
-
-    /** 价格清单 */
-    price: number;
 
     /** 序号管理 */
     serialManagement: emYesNo;
 
     /** 批号管理 */
     batchManagement: emYesNo;
-    
-    /** 已删除 */
-    deleted: emYesNo;
+
+    /** 生效日期 */
+    validDate: Date;
+
+    /** 失效日期 */
+    invalidDate: Date;
+
+    /** 图片 */
+    picture: string;
+
+    /** 备注 */
+    remarks: string;
+
+    /** 对象编号 */
+    docEntry: number;
+
+    /** 对象类型 */
+    objectCode: string;
+
+    /** 数据所有者 */
+    dataOwner: number;
+
+    /** 数据所属组织 */
+    organization: string;
 }

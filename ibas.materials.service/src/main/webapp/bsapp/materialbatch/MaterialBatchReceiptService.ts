@@ -13,29 +13,27 @@ import * as ibas from "ibas/index";
 import * as bo from "../../borep/bo/index";
 import { BORepositoryMaterials } from "../../borep/BORepositories";
 import {
-    IMaterialBatchJournal,
-} from "../../api/bo/index";
-import {
-    MaterialReceiptBatchServiceProxy,
+    MaterialBatchReceiptServiceProxy,
     IMaterialBatchContract,
-} from "../../api/Datas";
-export class MaterialReceiptBatchService extends ibas.ServiceApplication<IMaterialReceiptBatchView, IMaterialBatchContract[]> {
+    IMaterialBatchJournal,
+} from "../../api/index";
+export class MaterialBatchReceiptService extends ibas.ServiceApplication<IMaterialBatchReceiptView, IMaterialBatchContract[]> {
 
     /** 应用标识 */
     static APPLICATION_ID: string = "f4448871-b03a-48f5-bf6d-9418259fab9d";
     /** 应用名称 */
-    static APPLICATION_NAME: string = "materials_app_materialreceiptbatchservice";
+    static APPLICATION_NAME: string = "materials_app_MaterialBatchReceiptservice";
 
     /** 构造函数 */
     constructor() {
         super();
-        this.id = MaterialReceiptBatchService.APPLICATION_ID;
-        this.name = MaterialReceiptBatchService.APPLICATION_NAME;
+        this.id = MaterialBatchReceiptService.APPLICATION_ID;
+        this.name = MaterialBatchReceiptService.APPLICATION_NAME;
         this.description = ibas.i18n.prop(this.name);
     }
     protected batchJournals: IMaterialBatchContract[];
     /** 批次日记账数据 */
-    // protected batchJournals: MaterialBatchServiceJournal[];
+    // protected batchJournals: materialBatcheserviceJournal[];
     /** 注册视图 */
     protected registerView(): void {
         super.registerView();
@@ -60,7 +58,7 @@ export class MaterialReceiptBatchService extends ibas.ServiceApplication<IMateri
             return;
         }
         // 存在了数量0批次行不继续添加
-        if (journal.materialBatchs.filter(c => c.isDeleted === false && c.quantity === 0).length !== 0) {
+        if (journal.materialBatches.filter(c => c.isDeleted === false && c.quantity === 0).length !== 0) {
             return;
         }
         // 找到输入数据的批次集合
@@ -74,9 +72,9 @@ export class MaterialReceiptBatchService extends ibas.ServiceApplication<IMateri
         batchInfo.itemCode = journal.itemCode;
         batchInfo.warehouse = journal.warehouse;
         batchInfo.direction = ibas.emDirection.IN;
-        journalItem.materialBatchs.create(batchInfo);
+        journalItem.materialBatches.add(batchInfo);
         // 仅显示没有标记删除的
-        this.view.showData(journalItem.materialBatchs.filter(c => c.isDeleted === false));
+        this.view.showData(journalItem.materialBatches.filter(c => c.isDeleted === false));
     }
 
     /**
@@ -85,7 +83,7 @@ export class MaterialReceiptBatchService extends ibas.ServiceApplication<IMateri
      */
     protected isNeedToCreate(journal: IMaterialBatchContract): boolean {
         let createdQuantity: number = Number(0);
-        journal.materialBatchs.filter(c => c.isDeleted === false).forEach(c => createdQuantity = createdQuantity + c.quantity);
+        journal.materialBatches.filter(c => c.isDeleted === false).forEach(c => createdQuantity = createdQuantity + c.quantity);
         if (ibas.numbers.toFloat(journal.quantity) === ibas.numbers.toFloat(createdQuantity)) {
             return false;
         }
@@ -117,13 +115,13 @@ export class MaterialReceiptBatchService extends ibas.ServiceApplication<IMateri
         // 移除项目
         for (let item of items) {
             if (item.isNew) {
-                batchData.materialBatchs.remove(item);
+                batchData.materialBatches.remove(item);
             } else {
                 item.delete();
             }
         }
         // 仅显示没有标记删除的
-        this.view.showData(batchData.materialBatchs.filter(c => c.isDeleted === false));
+        this.view.showData(batchData.materialBatches.filter(c => c.isDeleted === false));
     }
 
     /**
@@ -150,23 +148,23 @@ export class MaterialReceiptBatchService extends ibas.ServiceApplication<IMateri
         batchInfo.itemCode = journal.itemCode;
         batchInfo.warehouse = journal.warehouse;
         batchInfo.direction = ibas.emDirection.IN;
-        if (batchJournal.materialBatchs.filter(c => c.isDeleted === false).length !== 0) {
+        if (batchJournal.materialBatches.filter(c => c.isDeleted === false).length !== 0) {
             // 存在数量为0的行，不用新建行
-            batchLine = batchJournal.materialBatchs.find(c => ibas.numbers.toFloat(c.quantity) === 0.0);
-            for (let batch of batchJournal.materialBatchs.filter(c => c.isDeleted === false)) {
+            batchLine = batchJournal.materialBatches.find(c => ibas.numbers.toFloat(c.quantity) === 0.0);
+            for (let batch of batchJournal.materialBatches.filter(c => c.isDeleted === false)) {
                 allcationQuantity = allcationQuantity + ibas.numbers.toFloat(batch.quantity);
             }
             if (ibas.objects.isNull(batchLine)) {
                 batchInfo.quantity = batchJournal.quantity - ibas.numbers.toFloat(allcationQuantity);
-                batchJournal.materialBatchs.create(batchInfo);
+                batchJournal.materialBatches.add(batchInfo);
             } else {
                 batchLine.quantity = batchJournal.quantity - Number(allcationQuantity);
             }
         } else {
             batchInfo.quantity = journal.quantity;
-            batchJournal.materialBatchs.create(batchInfo);
+            batchJournal.materialBatches.add(batchInfo);
         }
-        this.view.showData(batchJournal.materialBatchs.filter(c => c.isDeleted === false));
+        this.view.showData(batchJournal.materialBatches.filter(c => c.isDeleted === false));
     }
 
     /**
@@ -179,8 +177,8 @@ export class MaterialReceiptBatchService extends ibas.ServiceApplication<IMateri
         }
         let index: number = this.batchJournals.indexOf(selected);
         let batchJournal: IMaterialBatchContract = this.batchJournals[index];
-        if (!ibas.objects.isNull(batchJournal.materialBatchs)) {
-            this.view.showData(batchJournal.materialBatchs.filter(c=>c.isDeleted === false));
+        if (!ibas.objects.isNull(batchJournal.materialBatches)) {
+            this.view.showData(batchJournal.materialBatches.filter(c => c.isDeleted === false));
         }
     }
     /** 绑定日记账信息 */
@@ -191,8 +189,7 @@ export class MaterialReceiptBatchService extends ibas.ServiceApplication<IMateri
                 itemCode: item.itemCode,
                 warehouse: item.warehouse,
                 quantity: item.quantity,
-                direction: ibas.emDirection.IN,
-                materialBatchs: item.materialBatchs
+                materialBatches: item.materialBatches
             });
         }
         this.batchJournals = batchJournals;
@@ -216,7 +213,7 @@ export class MaterialReceiptBatchService extends ibas.ServiceApplication<IMateri
     protected confirmData(): void {
         for (let item of this.batchJournals) {
             let createdQuantity: number = Number(0);
-            item.materialBatchs.forEach(c => {
+            item.materialBatches.forEach(c => {
                 if (c.isDeleted === false) {
                     createdQuantity = createdQuantity + Number(c.quantity);
                 }
@@ -225,7 +222,7 @@ export class MaterialReceiptBatchService extends ibas.ServiceApplication<IMateri
                 this.messages(ibas.emMessageType.WARNING, ibas.i18n.prop("materials_app_batch_quantity_create_error"));
                 return;
             }
-            if (item.materialBatchs.filter(c => ibas.strings.isEmpty(c.batchCode)).length !== 0) {
+            if (item.materialBatches.filter(c => ibas.strings.isEmpty(c.batchCode)).length !== 0) {
                 this.messages(ibas.emMessageType.WARNING, ibas.i18n.prop("materials_app_batchcode_is_empty"));
                 return;
             }
@@ -236,7 +233,7 @@ export class MaterialReceiptBatchService extends ibas.ServiceApplication<IMateri
 
 
 /** 视图-新建批次 */
-export interface IMaterialReceiptBatchView extends ibas.IBOView {
+export interface IMaterialBatchReceiptView extends ibas.IBOView {
     /** 显示数据 */
     // showData(datas: IMaterialBatchJournal[]): void;
     showData(datas: IMaterialBatchJournal[]): void;
@@ -254,18 +251,18 @@ export interface IMaterialReceiptBatchView extends ibas.IBOView {
 }
 
 /** 新建批次服务映射 */
-export class MaterialReceiptBatchServiceMapping extends ibas.ServiceMapping {
+export class MaterialBatchReceiptServiceMapping extends ibas.ServiceMapping {
     /** 构造函数 */
     constructor() {
         super();
-        this.id = MaterialReceiptBatchService.APPLICATION_ID;
-        this.name = MaterialReceiptBatchService.APPLICATION_NAME;
+        this.id = MaterialBatchReceiptService.APPLICATION_ID;
+        this.name = MaterialBatchReceiptService.APPLICATION_NAME;
         this.description = ibas.i18n.prop(this.name);
-        this.proxy = MaterialReceiptBatchServiceProxy;
+        this.proxy = MaterialBatchReceiptServiceProxy;
     }
     /** 创建服务实例 */
     create(): ibas.IService<ibas.IServiceCaller<ibas.IServiceContract>> {
-        return new MaterialReceiptBatchService();
+        return new MaterialBatchReceiptService();
     }
 }
 

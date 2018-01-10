@@ -9,7 +9,10 @@ import javax.xml.bind.annotation.XmlType;
 import org.colorcoding.ibas.bobas.core.IPropertyInfo;
 import org.colorcoding.ibas.bobas.data.ArrayList;
 import org.colorcoding.ibas.bobas.data.Decimal;
+import org.colorcoding.ibas.bobas.data.emYesNo;
 import org.colorcoding.ibas.bobas.mapping.BOCode;
+import org.colorcoding.ibas.bobas.mapping.DbField;
+import org.colorcoding.ibas.bobas.mapping.DbFieldType;
 import org.colorcoding.ibas.bobas.ownership.IDataOwnership;
 import org.colorcoding.ibas.materials.MyConfiguration;
 
@@ -31,6 +34,10 @@ public class Product extends MaterialBase<Product> implements IProduct, IDataOwn
 	 * 业务对象名称
 	 */
 	public static final String BUSINESS_OBJECT_NAME = "Product";
+	/**
+	 * 业务对象编码
+	 */
+	public static final String BUSINESS_OBJECT_CODE = "${Company}_MM_PRODUCT";
 
 	/**
 	 * 仓库查询条件
@@ -102,12 +109,6 @@ public class Product extends MaterialBase<Product> implements IProduct, IDataOwn
 		return products;
 	}
 
-	@Override
-	protected void initialize() {
-		super.initialize();// 基类初始化，不可去除
-		// this.setObjectCode(MyConfiguration.applyVariables(BUSINESS_OBJECT_CODE));
-	}
-
 	/**
 	 * 属性名称-价格
 	 */
@@ -167,6 +168,45 @@ public class Product extends MaterialBase<Product> implements IProduct, IDataOwn
 	 */
 	public final void setPrice(double value) {
 		this.setPrice(new Decimal(value));
+	}
+
+	/**
+	 * 属性名称-币种
+	 */
+	private static final String PROPERTY_CURRENCY_NAME = "Currency";
+
+	/**
+	 * 币种 属性
+	 */
+	@DbField(name = "Currency", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME, primaryKey = false)
+	public static final IPropertyInfo<String> PROPERTY_CURRENCY = registerProperty(PROPERTY_CURRENCY_NAME, String.class,
+			MY_CLASS);
+
+	/**
+	 * 获取-币种
+	 * 
+	 * @return 值
+	 */
+	@XmlElement(name = PROPERTY_CURRENCY_NAME)
+	public final String getCurrency() {
+		return this.getProperty(PROPERTY_CURRENCY);
+	}
+
+	/**
+	 * 设置-币种
+	 * 
+	 * @param value
+	 *            值
+	 */
+	public final void setCurrency(String value) {
+		this.setProperty(PROPERTY_CURRENCY, value);
+	}
+
+	@Override
+	protected void initialize() {
+		super.initialize();// 基类初始化，不可去除
+		this.setObjectCode(MyConfiguration.applyVariables(BUSINESS_OBJECT_CODE));
+		this.setActivated(emYesNo.YES);
 	}
 
 }

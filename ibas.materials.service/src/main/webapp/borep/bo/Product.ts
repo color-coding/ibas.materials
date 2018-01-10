@@ -27,30 +27,20 @@ import {
     emItemType,
 } from "../../api/index";
 export class Product extends BOMasterData<Product> implements IProduct {
+
     /** 业务对象编码 */
     static BUSINESS_OBJECT_CODE: string = BO_CODE_PRODUCT;
     /** 构造函数 */
     constructor() {
         super();
     }
-    /** 映射的属性名称-对象类型 */
-    static PROPERTY_OBJECTCODE_NAME: string = "ObjectCode";
-    /** 获取-对象类型 */
-    get objectCode(): string {
-        return this.getProperty<string>(Product.PROPERTY_OBJECTCODE_NAME);
-    }
-    /** 设置-对象类型 */
-    set objectCode(value: string) {
-        this.setProperty(Product.PROPERTY_OBJECTCODE_NAME, value);
-    }
-
-    /** 映射的属性名称-编号 */
+    /** 映射的属性名称-编码 */
     static PROPERTY_CODE_NAME: string = "Code";
-    /** 获取-编号 */
+    /** 获取-编码 */
     get code(): string {
         return this.getProperty<string>(Product.PROPERTY_CODE_NAME);
     }
-    /** 设置-编号 */
+    /** 设置-编码 */
     set code(value: string) {
         this.setProperty(Product.PROPERTY_CODE_NAME, value);
     }
@@ -88,6 +78,17 @@ export class Product extends BOMasterData<Product> implements IProduct {
         this.setProperty(Product.PROPERTY_GROUP_NAME, value);
     }
 
+    /** 映射的属性名称-激活 */
+    static PROPERTY_ACTIVATED_NAME: string = "Activated";
+    /** 获取-激活 */
+    get activated(): emYesNo {
+        return this.getProperty<emYesNo>(Product.PROPERTY_ACTIVATED_NAME);
+    }
+    /** 设置-激活 */
+    set activated(value: emYesNo) {
+        this.setProperty(Product.PROPERTY_ACTIVATED_NAME, value);
+    }
+
     /** 映射的属性名称-条形码 */
     static PROPERTY_BARCODE_NAME: string = "BarCode";
     /** 获取-条形码 */
@@ -108,28 +109,6 @@ export class Product extends BOMasterData<Product> implements IProduct {
     /** 设置-物料类型 */
     set itemType(value: emItemType) {
         this.setProperty(Product.PROPERTY_ITEMTYPE_NAME, value);
-    }
-
-    /** 映射的属性名称-采购物料 */
-    static PROPERTY_PURCHASEITEM_NAME: string = "PurchaseItem";
-    /** 获取-采购物料 */
-    get purchaseItem(): emYesNo {
-        return this.getProperty<emYesNo>(Product.PROPERTY_PURCHASEITEM_NAME);
-    }
-    /** 设置-采购物料 */
-    set purchaseItem(value: emYesNo) {
-        this.setProperty(Product.PROPERTY_PURCHASEITEM_NAME, value);
-    }
-
-    /** 映射的属性名称-销售物料 */
-    static PROPERTY_SALESITEM_NAME: string = "SalesItem";
-    /** 获取-销售物料 */
-    get salesItem(): emYesNo {
-        return this.getProperty<emYesNo>(Product.PROPERTY_SALESITEM_NAME);
-    }
-    /** 设置-销售物料 */
-    set salesItem(value: emYesNo) {
-        this.setProperty(Product.PROPERTY_SALESITEM_NAME, value);
     }
 
     /** 映射的属性名称-库存物料 */
@@ -154,17 +133,6 @@ export class Product extends BOMasterData<Product> implements IProduct {
         this.setProperty(Product.PROPERTY_PHANTOMITEM_NAME, value);
     }
 
-    /** 映射的属性名称-固定资产 */
-    static PROPERTY_FIXEDASSETS_NAME: string = "FixedAssets";
-    /** 获取-固定资产 */
-    get fixedAssets(): emYesNo {
-        return this.getProperty<emYesNo>(Product.PROPERTY_FIXEDASSETS_NAME);
-    }
-    /** 设置-固定资产 */
-    set fixedAssets(value: emYesNo) {
-        this.setProperty(Product.PROPERTY_FIXEDASSETS_NAME, value);
-    }
-
     /** 映射的属性名称-缺省仓库 */
     static PROPERTY_DEFAULTWAREHOUSE_NAME: string = "DefaultWarehouse";
     /** 获取-缺省仓库 */
@@ -174,17 +142,6 @@ export class Product extends BOMasterData<Product> implements IProduct {
     /** 设置-缺省仓库 */
     set defaultWarehouse(value: string) {
         this.setProperty(Product.PROPERTY_DEFAULTWAREHOUSE_NAME, value);
-    }
-
-    /** 映射的属性名称-首选供应商 */
-    static PROPERTY_PREFERREDVENDOR_NAME: string = "PreferredVendor";
-    /** 获取-首选供应商 */
-    get preferredVendor(): string {
-        return this.getProperty<string>(Product.PROPERTY_PREFERREDVENDOR_NAME);
-    }
-    /** 设置-首选供应商 */
-    set preferredVendor(value: string) {
-        this.setProperty(Product.PROPERTY_PREFERREDVENDOR_NAME, value);
     }
 
     /** 映射的属性名称-库存单位 */
@@ -197,6 +154,73 @@ export class Product extends BOMasterData<Product> implements IProduct {
     set inventoryUOM(value: string) {
         this.setProperty(Product.PROPERTY_INVENTORYUOM_NAME, value);
     }
+
+    /** 映射的属性名称-价格 */
+    static PROPERTY_PRICE_NAME: string = "Price";
+    /** 获取-价格 */
+    get price(): number {
+        return this.getProperty<number>(Product.PROPERTY_PRICE_NAME);
+    }
+    /** 设置-价格 */
+    set price(value: number) {
+        this.setProperty(Product.PROPERTY_PRICE_NAME, value);
+    }
+
+    /** 映射的属性名称-币种 */
+    static PROPERTY_CURRENCY_NAME: string = "Currency";
+    /** 获取-币种 */
+    get currency(): string {
+        return this.getProperty<string>(Product.PROPERTY_CURRENCY_NAME);
+    }
+    /** 设置-币种 */
+    set currency(value: string) {
+        this.setProperty(Product.PROPERTY_CURRENCY_NAME, value);
+    }
+
+    /** 映射的属性名称-库存 */
+    static PROPERTY_ONHAND_NAME: string = "OnHand";
+    /** 获取-库存 */
+    get onHand(): number {
+        return this.getProperty<number>(Product.PROPERTY_ONHAND_NAME);
+    }
+    /** 设置-库存 */
+    set onHand(value: number) {
+        this.setProperty(Product.PROPERTY_ONHAND_NAME, value);
+    }
+
+    /** 映射的属性名称-已承诺 */
+    static PROPERTY_ONCOMMITED_NAME: string = "OnCommited";
+    /** 获取-已承诺 */
+    get onCommited(): number {
+        return this.getProperty<number>(Product.PROPERTY_ONCOMMITED_NAME);
+    }
+    /** 设置-已承诺 */
+    set onCommited(value: number) {
+        this.setProperty(Product.PROPERTY_ONCOMMITED_NAME, value);
+    }
+
+    /** 映射的属性名称-已订购 */
+    static PROPERTY_ONORDERED_NAME: string = "OnOrdered";
+    /** 获取-已订购 */
+    get onOrdered(): number {
+        return this.getProperty<number>(Product.PROPERTY_ONORDERED_NAME);
+    }
+    /** 设置-已订购 */
+    set onOrdered(value: number) {
+        this.setProperty(Product.PROPERTY_ONORDERED_NAME, value);
+    }
+
+    /** 映射的属性名称-最低库存量 */
+    static PROPERTY_MINIMUMINVENTORY_NAME: string = "MinimumInventory";
+    /** 获取-最低库存量 */
+    get minimumInventory(): number {
+        return this.getProperty<number>(Product.PROPERTY_MINIMUMINVENTORY_NAME);
+    }
+    /** 设置-最低库存量 */
+    set minimumInventory(value: number) {
+        this.setProperty(Product.PROPERTY_MINIMUMINVENTORY_NAME, value);
+    }
+
     /** 映射的属性名称-序号管理 */
     static PROPERTY_SERIALMANAGEMENT_NAME: string = "SerialManagement";
     /** 获取-序号管理 */
@@ -218,6 +242,51 @@ export class Product extends BOMasterData<Product> implements IProduct {
     set batchManagement(value: emYesNo) {
         this.setProperty(Product.PROPERTY_BATCHMANAGEMENT_NAME, value);
     }
+
+    /** 映射的属性名称-生效日期 */
+    static PROPERTY_VALIDDATE_NAME: string = "ValidDate";
+    /** 获取-生效日期 */
+    get validDate(): Date {
+        return this.getProperty<Date>(Product.PROPERTY_VALIDDATE_NAME);
+    }
+    /** 设置-生效日期 */
+    set validDate(value: Date) {
+        this.setProperty(Product.PROPERTY_VALIDDATE_NAME, value);
+    }
+
+    /** 映射的属性名称-失效日期 */
+    static PROPERTY_INVALIDDATE_NAME: string = "InvalidDate";
+    /** 获取-失效日期 */
+    get invalidDate(): Date {
+        return this.getProperty<Date>(Product.PROPERTY_INVALIDDATE_NAME);
+    }
+    /** 设置-失效日期 */
+    set invalidDate(value: Date) {
+        this.setProperty(Product.PROPERTY_INVALIDDATE_NAME, value);
+    }
+
+    /** 映射的属性名称-图片 */
+    static PROPERTY_PICTURE_NAME: string = "Picture";
+    /** 获取-图片 */
+    get picture(): string {
+        return this.getProperty<string>(Product.PROPERTY_PICTURE_NAME);
+    }
+    /** 设置-图片 */
+    set picture(value: string) {
+        this.setProperty(Product.PROPERTY_PICTURE_NAME, value);
+    }
+
+    /** 映射的属性名称-备注 */
+    static PROPERTY_REMARKS_NAME: string = "Remarks";
+    /** 获取-备注 */
+    get remarks(): string {
+        return this.getProperty<string>(Product.PROPERTY_REMARKS_NAME);
+    }
+    /** 设置-备注 */
+    set remarks(value: string) {
+        this.setProperty(Product.PROPERTY_REMARKS_NAME, value);
+    }
+
     /** 映射的属性名称-对象编号 */
     static PROPERTY_DOCENTRY_NAME: string = "DocEntry";
     /** 获取-对象编号 */
@@ -228,50 +297,42 @@ export class Product extends BOMasterData<Product> implements IProduct {
     set docEntry(value: number) {
         this.setProperty(Product.PROPERTY_DOCENTRY_NAME, value);
     }
-    /** 映射的属性名称-已删除 */
-    static PROPERTY_DELETED_NAME: string = "Deleted";
-    /** 获取-已删除 */
-    get deleted(): emYesNo {
-        return this.getProperty<emYesNo>(Product.PROPERTY_DELETED_NAME);
+
+    /** 映射的属性名称-对象类型 */
+    static PROPERTY_OBJECTCODE_NAME: string = "ObjectCode";
+    /** 获取-对象类型 */
+    get objectCode(): string {
+        return this.getProperty<string>(Product.PROPERTY_OBJECTCODE_NAME);
     }
-    /** 设置-已删除 */
-    set deleted(value: emYesNo) {
-        this.setProperty(Product.PROPERTY_DELETED_NAME, value);
-    }
-    /** 映射的属性名称-激活 */
-    static PROPERTY_ACTIVATED_NAME: string = "Activated";
-    /** 获取-激活 */
-    get activated(): emYesNo {
-        return this.getProperty<emYesNo>(Product.PROPERTY_ACTIVATED_NAME);
-    }
-    /** 设置-激活 */
-    set activated(value: emYesNo) {
-        this.setProperty(Product.PROPERTY_ACTIVATED_NAME, value);
-    }
-    /** 映射的属性名称-仓库库存 */
-    static PROPERTY_ONHAND_NAME: string = "OnHand";
-    /** 获取-仓库库存 */
-    get onHand(): number {
-        return this.getProperty<number>(Product.PROPERTY_ONHAND_NAME);
-    }
-    /** 设置-仓库库存 */
-    set onHand(value: number) {
-        this.setProperty(Product.PROPERTY_ONHAND_NAME, value);
+    /** 设置-对象类型 */
+    set objectCode(value: string) {
+        this.setProperty(Product.PROPERTY_OBJECTCODE_NAME, value);
     }
 
-    /** 映射的属性名称-价格清单 */
-    static PROPERTY_PRICE_NAME: string = "Price";
-    /** 获取-价格清单 */
-    get price(): number {
-        return this.getProperty<number>(Product.PROPERTY_PRICE_NAME);
+    /** 映射的属性名称-数据所有者 */
+    static PROPERTY_DATAOWNER_NAME: string = "DataOwner";
+    /** 获取-数据所有者 */
+    get dataOwner(): number {
+        return this.getProperty<number>(Product.PROPERTY_DATAOWNER_NAME);
     }
-    /** 设置-价格清单 */
-    set price(value: number) {
-        this.setProperty(Product.PROPERTY_PRICE_NAME, value);
+    /** 设置-数据所有者 */
+    set dataOwner(value: number) {
+        this.setProperty(Product.PROPERTY_DATAOWNER_NAME, value);
     }
 
+    /** 映射的属性名称-数据所属组织 */
+    static PROPERTY_ORGANIZATION_NAME: string = "Organization";
+    /** 获取-数据所属组织 */
+    get organization(): string {
+        return this.getProperty<string>(Product.PROPERTY_ORGANIZATION_NAME);
+    }
+    /** 设置-数据所属组织 */
+    set organization(value: string) {
+        this.setProperty(Product.PROPERTY_ORGANIZATION_NAME, value);
+    }
+
+    /** 初始化数据 */
     protected init(): void {
         this.objectCode = config.applyVariables(Product.BUSINESS_OBJECT_CODE);
     }
-
 }

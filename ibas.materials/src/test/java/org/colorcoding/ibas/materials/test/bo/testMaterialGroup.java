@@ -4,7 +4,7 @@ import junit.framework.TestCase;
 import org.colorcoding.ibas.bobas.common.ICriteria;
 import org.colorcoding.ibas.bobas.common.IOperationResult;
 import org.colorcoding.ibas.bobas.organization.OrganizationFactory;
-import org.colorcoding.ibas.materials.bo.materialgroup.MaterialGroup;
+import org.colorcoding.ibas.materials.bo.material.MaterialGroup;
 import org.colorcoding.ibas.materials.repository.BORepositoryMaterials;
 import org.colorcoding.ibas.materials.repository.IBORepositoryMaterialsApp;
 

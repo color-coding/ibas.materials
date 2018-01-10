@@ -1,7 +1,11 @@
 package org.colorcoding.ibas.materials.test.bo;
 
-import junit.framework.TestCase;
-import org.colorcoding.ibas.bobas.common.*;
+import org.colorcoding.ibas.bobas.common.ConditionOperation;
+import org.colorcoding.ibas.bobas.common.ConditionRelationship;
+import org.colorcoding.ibas.bobas.common.Criteria;
+import org.colorcoding.ibas.bobas.common.ICondition;
+import org.colorcoding.ibas.bobas.common.ICriteria;
+import org.colorcoding.ibas.bobas.common.IOperationResult;
 import org.colorcoding.ibas.bobas.data.DateTime;
 import org.colorcoding.ibas.bobas.data.emDirection;
 import org.colorcoding.ibas.bobas.data.emDocumentStatus;
@@ -19,6 +23,8 @@ import org.colorcoding.ibas.materials.bo.materialserial.MaterialSerialJournal;
 import org.colorcoding.ibas.materials.bo.warehouse.Warehouse;
 import org.colorcoding.ibas.materials.repository.BORepositoryMaterials;
 import org.colorcoding.ibas.materials.repository.IBORepositoryMaterialsApp;
+
+import junit.framework.TestCase;
 
 /**
  * 库存收货 测试
@@ -47,11 +53,12 @@ public class testGoodsReceipt extends TestCase {
 		goodsreceiptline.setItemCode("1000001");
 		goodsreceiptline.setQuantity(1000);
 		goodsreceiptline.setWarehouse("BJKJ");
-		IMaterialBatchJournal goodsreceiptBatch = (MaterialBatchJournal)goodsreceiptline.getMaterialBatchs().create();
+		IMaterialBatchJournal goodsreceiptBatch = (MaterialBatchJournal) goodsreceiptline.getMaterialBatches().create();
 		goodsreceiptBatch.setQuantity(10);
 		goodsreceiptBatch.setItemCode("A0001");
 		goodsreceiptBatch.setWarehouse("BJKJ");
-		IMaterialSerialJournal goodsreceiptlineSerial = (MaterialSerialJournal)goodsreceiptline.getMaterialSerials().create();
+		IMaterialSerialJournal goodsreceiptlineSerial = (MaterialSerialJournal) goodsreceiptline.getMaterialSerials()
+				.create();
 		goodsreceiptlineSerial.setSerialCode("10001");
 		goodsreceiptlineSerial.setItemCode("A0002");
 		goodsreceiptlineSerial.setWarehouse("BJKJ");

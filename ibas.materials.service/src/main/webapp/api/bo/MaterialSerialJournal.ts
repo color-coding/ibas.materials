@@ -25,17 +25,19 @@ import {
     config,
     strings,
     BO_PROPERTY_NAME_LINESTATUS,
-    ArrayList,
-    IBusinessObject,
-    boFactory,
+    BO_PROPERTY_NAME_OBJECTCODE,
+    BO_PROPERTY_NAME_DOCENTRY,
+    BO_PROPERTY_NAME_LINEID
 } from "ibas/index";
 import {
-    IMaterialSerialJournal,
     BO_CODE_MATERIALSERIALJOURNAL,
-    BO_CODE_MATERIALSERIALJOURNALS,
+} from "../Datas";
+import {
+    IMaterialSerialJournal,
     IMaterialSerialJournals,
-    IMaterialSerialDocument,
-} from "../../api/index";
+    IMaterialSerialJournalsParent,
+} from "./MaterialSerialJournal.d";
+/** 物料序列记录 */
 export class MaterialSerialJournal extends BOSimple<MaterialSerialJournal> implements IMaterialSerialJournal {
     /** 业务对象编码 */
     static BUSINESS_OBJECT_CODE: string = BO_CODE_MATERIALSERIALJOURNAL;
@@ -201,6 +203,7 @@ export class MaterialSerialJournal extends BOSimple<MaterialSerialJournal> imple
     set notes(value: string) {
         this.setProperty(MaterialSerialJournal.PROPERTY_NOTES_NAME, value);
     }
+
     /** 映射的属性名称-基于类型 */
     static PROPERTY_BASEDOCUMENTTYPE_NAME: string = "BaseDocumentType";
     /** 获取-基于类型 */
@@ -381,48 +384,42 @@ export class MaterialSerialJournal extends BOSimple<MaterialSerialJournal> imple
     }
 }
 
-export class MaterialSerialJournals<P extends IMaterialSerialDocument>
-    extends BusinessObjects<IMaterialSerialJournal, P>
-    implements IMaterialSerialJournals<P> {
-    static BUSINESS_OBJECT_CODE: string = BO_CODE_MATERIALSERIALJOURNALS;
-    create(): IMaterialSerialJournal;
-    create(data: MaterialSerialJournal): IMaterialSerialJournal;
-    create(data?: any): IMaterialSerialJournal {
-        let item: IMaterialSerialJournal = new MaterialSerialJournal();
+/** 物料序列记录集合 */
+export class MaterialSerialJournals
+    extends BusinessObjects<IMaterialSerialJournal, IMaterialSerialJournalsParent>
+    implements IMaterialSerialJournals {
+    /** 创建并添加子项 */
+    create(): MaterialSerialJournal {
+        let item: MaterialSerialJournal = new MaterialSerialJournal();
         this.add(item);
-        item.lineStatus = this.parent.lineStatus;
-        if (objects.isNull(data)) {
-            return item;
-        }
-        /** 此处物料、仓库等信息要以传递的参数为准，不能给父项的值 */
-        item.serialCode = data.serialCode;
-        item.supplierSerial = data.supplierSerial;
-        item.itemCode = data.itemCode;
-        item.direction = data.direction;
-        item.warehouse = data.warehouse;
         return item;
     }
-    /** 删除序列日记账集合 */
-    deleteAll(): void {
-        for (let item of this) {
-            if (item.isNew) {
-                this.remove(item);
-            } else {
-                item.markDeleted(true);
-            }
-
-
-        }
+    afterAdd(item: MaterialSerialJournal): void {
+        super.afterAdd(item);
+        item.lineStatus = this.parent.lineStatus;
+        item.baseDocumentType = this.parent.objectCode;
+        item.baseDocumentEntry = this.parent.docEntry;
+        item.baseDocumentLineId = this.parent.lineId;
     }
     /**
      * 父项单据行发生改变
      */
     onParentPropertyChanged(name: string): void {
         if (strings.equalsIgnoreCase(name, BO_PROPERTY_NAME_LINESTATUS)) {
-            if (objects.instanceOf(this.parent, BODocumentLine)) {
-                for (let item of this) {
-                    item.setProperty(BO_PROPERTY_NAME_LINESTATUS, this.parent.getProperty(BO_PROPERTY_NAME_LINESTATUS));
-                }
+            for (let item of this) {
+                item.lineStatus = this.parent.lineStatus;
+            }
+        } else if (strings.equalsIgnoreCase(name, BO_PROPERTY_NAME_OBJECTCODE)) {
+            for (let item of this) {
+                item.baseDocumentType = this.parent.objectCode;
+            }
+        } else if (strings.equalsIgnoreCase(name, BO_PROPERTY_NAME_DOCENTRY)) {
+            for (let item of this) {
+                item.baseDocumentEntry = this.parent.docEntry;
+            }
+        } else if (strings.equalsIgnoreCase(name, BO_PROPERTY_NAME_LINEID)) {
+            for (let item of this) {
+                item.baseDocumentLineId = this.parent.lineId;
             }
         }
     }

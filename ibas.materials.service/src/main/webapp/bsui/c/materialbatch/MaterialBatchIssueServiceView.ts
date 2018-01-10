@@ -12,13 +12,13 @@
 import * as ibas from "ibas/index";
 import * as openui5 from "openui5/index";
 import * as bo from "../../../borep/bo/index";
-import { emAutoSelectBatchSerialRules } from "../../../api/Datas";
+import { emMaterialIssueRules } from "../../../api/Datas";
 import {
-    IMaterialIssueBatchView,
- }
-from "../../../bsapp/materialbatch/index";
-import{IMaterialBatchContract} from "../../../api/index";
-export class MaterialIssueBatchServiceView extends ibas.BODialogView implements IMaterialIssueBatchView {
+    IMaterialBatchIssueView,
+}
+    from "../../../bsapp/materialbatch/index";
+import { IMaterialBatchContract } from "../../../api/index";
+export class MaterialBatchIssueServiceView extends ibas.BODialogView implements IMaterialBatchIssueView {
 
     /** 选择批次凭证行信息事件 */
     selectMaterialBatchJournalLineEvent: Function;
@@ -154,7 +154,7 @@ export class MaterialIssueBatchServiceView extends ibas.BODialogView implements 
                                         that.fireViewEvents(that.autoSelectMaterialBatchEvent
                                             , openui5.utils.getSelecteds<IMaterialBatchContract>
                                                 (that.journalLineTable).firstOrDefault()
-                                            , emAutoSelectBatchSerialRules.FIRST_IN_FIRST_OUT);
+                                            , emMaterialIssueRules.FIRST_IN_FIRST_OUT);
                                     }
                                 }),
                                 new sap.m.MenuItem("", {
@@ -163,7 +163,7 @@ export class MaterialIssueBatchServiceView extends ibas.BODialogView implements 
                                         that.fireViewEvents(that.autoSelectMaterialBatchEvent
                                             , openui5.utils.getSelecteds<IMaterialBatchContract>
                                                 (that.journalLineTable).firstOrDefault()
-                                            , emAutoSelectBatchSerialRules.ORDER_BY_CODE);
+                                            , emMaterialIssueRules.ORDER_BY_CODE);
                                     }
                                 }),
                             ]
@@ -261,16 +261,16 @@ export class MaterialIssueBatchServiceView extends ibas.BODialogView implements 
     }
     showJournalLineData(datas: IMaterialBatchContract[]): void {
         this.journalLineTable.setModel(new sap.ui.model.json.JSONModel({ journallinedata: datas }));
-       // openui5.utils.refreshModelChanged(this.journalLineTable, datas);
+        // openui5.utils.refreshModelChanged(this.journalLineTable, datas);
     }
     showLeftData(datas: bo.MaterialBatch[]): void {
         this.leftTable.setModel(new sap.ui.model.json.JSONModel({ leftrows: datas }));
         // 监听属性改变，并更新控件
-       // openui5.utils.refreshModelChanged(this.leftTable, datas);
+        // openui5.utils.refreshModelChanged(this.leftTable, datas);
     }
     showRightData(datas: bo.MaterialBatchJournal[]): void {
         this.rightTable.setModel(new sap.ui.model.json.JSONModel({ rightrows: datas }));
         // 监听属性改变，并更新控件
-       // openui5.utils.refreshModelChanged(this.rightTable, datas);
+        // openui5.utils.refreshModelChanged(this.rightTable, datas);
     }
 }

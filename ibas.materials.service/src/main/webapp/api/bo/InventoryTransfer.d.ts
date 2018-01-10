@@ -24,11 +24,11 @@ import {
     emItemType,
 } from "../Datas";
 import {
-    IMaterialBatchJournals,
-    IMaterialSerialJournals,
-    IMaterialBatchJournal,
-    IMaterialSerialJournal,
-} from "./index";
+    IMaterialSerialJournalsParent,
+} from "./MaterialSerialJournal.d";
+import {
+    IMaterialBatchJournalsParent,
+} from "./MaterialBatchJournal.d";
 
 /** 库存转储 */
 export interface IInventoryTransfer extends IBODocument {
@@ -138,18 +138,8 @@ export interface IInventoryTransfer extends IBODocument {
     /** 从仓库 */
     fromWarehouse: string;
 
-
     /** 库存转储-行集合 */
     inventoryTransferLines: IInventoryTransferLines;
-
-
-}
-/** 库存转储-批次日记账 集合 */
-export interface IInventoryTransferLineMaterialBatchJournals extends IBusinessObjects<IMaterialBatchJournal,IInventoryTransferLine> {
-
-}
-/**  库存转储-序列号日记账  */
-export interface IInventoryTransferLineMaterialSerialJournals extends IBusinessObjects<IMaterialSerialJournal,IInventoryTransferLine> {
 
 }
 /** 库存转储-行 集合 */
@@ -160,13 +150,25 @@ export interface IInventoryTransferLines extends IBusinessObjects<IInventoryTran
 }
 
 /** 库存转储-行 */
-export interface IInventoryTransferLine extends IBODocumentLine {
+export interface IInventoryTransferLine extends IBODocumentLine, IMaterialSerialJournalsParent, IMaterialBatchJournalsParent {
+
+    /** 编码 */
+    docEntry: number;
+
+    /** 行号 */
+    lineId: number;
+
+    /** 显示顺序 */
+    visOrder: number;
 
     /** 取消 */
     canceled: emYesNo;
 
     /** 状态 */
     status: emBOStatus;
+
+    /** 单据状态 */
+    lineStatus: emDocumentStatus;
 
     /** 类型 */
     objectCode: string;
@@ -222,14 +224,29 @@ export interface IInventoryTransferLine extends IBODocumentLine {
     /** 基于行号 */
     baseDocumentLineId: number;
 
+    /** 物料编号 */
+    itemCode: string;
+
     /** 物料/服务描述 */
     itemDescription: string;
 
     /** 物料类型 */
     itemType: emItemType;
 
+    /** 序号管理 */
+    serialManagement: emYesNo;
+
+    /** 批号管理 */
+    batchManagement: emYesNo;
+
+    /** 数量 */
+    quantity: number;
+
     /** 计量单位 */
     uom: string;
+
+    /** 仓库 */
+    warehouse: string;
 
     /** 价格 */
     price: number;
@@ -246,11 +263,6 @@ export interface IInventoryTransferLine extends IBODocumentLine {
     /** 项目代码 */
     project: string;
 
-    // /** 库存发货-行-序列号集合 */
-    // materialSerialJournals: IInventoryTransferLineMaterialSerialJournals;
 
-    // /** 库存发货-行-批次集合 */
-    // materialBatchJournals: IInventoryTransferLineMaterialBatchJournals
 }
-
 

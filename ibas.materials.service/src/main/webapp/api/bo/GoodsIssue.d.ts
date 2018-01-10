@@ -24,9 +24,11 @@ import {
     emItemType,
 } from "../Datas";
 import {
-    IMaterialBatchJournal,
-    IMaterialSerialJournal,
-} from "./index";
+    IMaterialSerialJournalsParent,
+} from "./MaterialSerialJournal.d";
+import {
+    IMaterialBatchJournalsParent,
+} from "./MaterialBatchJournal.d";
 
 /** 库存发货 */
 export interface IGoodsIssue extends IBODocument {
@@ -141,14 +143,14 @@ export interface IGoodsIssue extends IBODocument {
 }
 
 /** 库存发货-行 集合 */
-export interface IGoodsIssueLines extends IBusinessObjects<IGoodsIssueLine,IGoodsIssue> {
+export interface IGoodsIssueLines extends IBusinessObjects<IGoodsIssueLine, IGoodsIssue> {
 
     /** 创建并添加子项 */
     create(): IGoodsIssueLine;
 }
 
 /** 库存发货-行 */
-export interface IGoodsIssueLine extends IBODocumentLine {
+export interface IGoodsIssueLine extends IBODocumentLine, IMaterialSerialJournalsParent, IMaterialBatchJournalsParent {
 
     /** 编码 */
     docEntry: number;

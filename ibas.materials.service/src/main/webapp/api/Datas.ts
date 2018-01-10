@@ -8,6 +8,7 @@
 
 // 共享的数据
 import {
+    IServiceContract,
     ServiceProxy,
     strings,
     emDirection,
@@ -16,8 +17,6 @@ import {
 import {
     IMaterialBatchJournals,
     IMaterialSerialJournals,
-    IMaterialBatchDocument,
-    IMaterialSerialDocument,
 } from "./bo/index";
 
 /** 模块-标识 */
@@ -42,14 +41,10 @@ export const BO_CODE_PRODUCT: string = "${Company}_MM_PRODUCT";
 export const BO_CODE_MATERIALBATCH: string = "${Company}_MM_BATCH";
 /** 业务对象编码-物料批次凭证 */
 export const BO_CODE_MATERIALBATCHJOURNAL: string = "${Company}_MM_BATCHJOURNAL";
-/**  业务对象编码-物料批次凭证集合 */
-export const BO_CODE_MATERIALBATCHJOURNALS: string = "${Company}_MM_BATCHJOURNALS";
 /** 业务对象编码-物料序列号 */
 export const BO_CODE_MATERIALSERIAL: string = "${Company}_MM_SERIAL";
 /** 业务对象编码-物料序列号凭证 */
 export const BO_CODE_MATERIALSERIALJOURNAL: string = "${Company}_MM_SERIALJOURNAL";
-/** 业务对象编码-物料序列号凭证集合 */
-export const BO_CODE_MATERIALSERIALJOURNALS: string = "${Company}_MM_SERIALJOURNALS";
 /** 业务对象编码-物料组 */
 export const BO_CODE_MATERIALGROUP: string = "${Company}_MM_MATERIALGROUP";
 /** 业务对象编码-物料库存 */
@@ -60,10 +55,7 @@ export const BO_CODE_MATERIALJOURNAL: string = "${Company}_MM_MATERIALJOURNAL";
 export const BO_CODE_WAREHOUSE: string = "${Company}_MM_WAREHOUSE";
 /** 业务对象编码-价格清单 */
 export const BO_CODE_MATERIALPRICELIST: string = "${Company}_MM_PRICELIST";
-/** 业务对象编码-批次管理行 */
-export const BO_CODE_MATERIALBATCHDOCUMENT: string = "${Company}_MM_BATCHMANAGEMENTLINES";
-/** 业务对象编码-序列管理行 */
-export const BO_CODE_MATERIALSERIALDOCUMENT: string = "${Company}_MM_SERIALMANAGEMENTLINES";
+
 /** 物料类型 */
 export enum emItemType {
     /** 物料 */
@@ -71,9 +63,8 @@ export enum emItemType {
     /** 服务 */
     SERVICES,
 }
-
-/** 排序规则 */
-export enum emAutoSelectBatchSerialRules {
+/** 物料发货规则 */
+export enum emMaterialIssueRules {
     /** 先进先出 */
     FIRST_IN_FIRST_OUT,
     /** 先进后出 */
@@ -81,9 +72,8 @@ export enum emAutoSelectBatchSerialRules {
     /** 编码排序 */
     ORDER_BY_CODE,
 }
-
 /** 批次服务契约 */
-export interface IMaterialBatchContract {
+export interface IMaterialBatchContract extends IServiceContract {
 
     /** 物料编号 */
     itemCode: string;
@@ -94,13 +84,11 @@ export interface IMaterialBatchContract {
     /** 数量 */
     quantity: number;
 
-    direction?: emDirection;
-
-    /** 创建的物料批次 */
-    materialBatchs?: IMaterialBatchJournals<IMaterialBatchDocument>;
+    /** 物料批次 */
+    materialBatches: IMaterialBatchJournals;
 }
 /** 序列服务契约 */
-export interface IMaterialSerialContract {
+export interface IMaterialSerialContract extends IServiceContract {
 
     /** 物料编号 */
     itemCode: string;
@@ -111,23 +99,22 @@ export interface IMaterialSerialContract {
     /** 数量 */
     quantity: number;
 
-    direction?: emDirection;
-    /** 创建的序列 */
-    materialSerials?: IMaterialSerialJournals<IMaterialSerialDocument>;
+    /** 物料序列 */
+    materialSerials: IMaterialSerialJournals;
 }
 /** 物料批次创建服务代理 */
-export class MaterialReceiptBatchServiceProxy extends ServiceProxy<IMaterialBatchContract[]> {
+export class MaterialBatchReceiptServiceProxy extends ServiceProxy<IMaterialBatchContract[]> {
 
 }
 /** 物料批次选择服务代理 */
-export class MaterialIssueBatchServiceProxy extends ServiceProxy<IMaterialBatchContract[]> {
+export class MaterialBatchIssueServiceProxy extends ServiceProxy<IMaterialBatchContract[]> {
 
 }
 /** 物料序列创建服务代理 */
-export class MaterialReceiptSerialServiceProxy extends ServiceProxy<IMaterialSerialContract[]> {
+export class MaterialSerialReceiptServiceProxy extends ServiceProxy<IMaterialSerialContract[]> {
 
 }
 /** 物料序列选择服务代理 */
-export class MaterialIssueSerialServiceProxy extends ServiceProxy<IMaterialSerialContract[]> {
+export class MaterialSerialIssueServiceProxy extends ServiceProxy<IMaterialSerialContract[]> {
 
 }

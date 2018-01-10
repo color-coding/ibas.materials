@@ -22,7 +22,9 @@ import {
 import {
 
 } from "../Datas";
+/** 物料价格清单 */
 export interface IMaterialPriceList extends IBOSimple {
+
     /** 价格清单名称 */
     name: string;
 

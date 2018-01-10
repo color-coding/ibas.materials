@@ -11,9 +11,10 @@ import org.colorcoding.ibas.bobas.mapping.DbField;
 import org.colorcoding.ibas.bobas.mapping.DbFieldType;
 import org.colorcoding.ibas.materials.data.emItemType;
 
-public abstract class MaterialBase<T extends IMaterialBase> extends BusinessObject<T> implements IMaterialBase {
+public abstract class MaterialBase<T extends MaterialBase<T>> extends BusinessObject<T> {
 
-	private static final long serialVersionUID = 958775403743981796L;
+	private static final long serialVersionUID = 6631440022403617225L;
+
 	/**
 	 * 当前类型
 	 */
@@ -25,25 +26,20 @@ public abstract class MaterialBase<T extends IMaterialBase> extends BusinessObje
 	public static final String DB_TABLE_NAME = "${Company}_MM_OITM";
 
 	/**
-	 * 业务对象编码
-	 */
-	public static final String BUSINESS_OBJECT_CODE = "${Company}_MM_MATERIAL";
-
-	/**
-	 * 属性名称-编号
+	 * 属性名称-编码
 	 */
 	private static final String PROPERTY_CODE_NAME = "Code";
 
 	/**
-	 * 编号 属性
+	 * 编码 属性
 	 */
 	@DbField(name = "Code", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME, primaryKey = true)
 	public static final IPropertyInfo<String> PROPERTY_CODE = registerProperty(PROPERTY_CODE_NAME, String.class,
 			MY_CLASS);
 
 	/**
-	 * 获取-编号
-	 *
+	 * 获取-编码
+	 * 
 	 * @return 值
 	 */
 	@XmlElement(name = PROPERTY_CODE_NAME)
@@ -52,8 +48,8 @@ public abstract class MaterialBase<T extends IMaterialBase> extends BusinessObje
 	}
 
 	/**
-	 * 设置-编号
-	 *
+	 * 设置-编码
+	 * 
 	 * @param value
 	 *            值
 	 */
@@ -75,7 +71,7 @@ public abstract class MaterialBase<T extends IMaterialBase> extends BusinessObje
 
 	/**
 	 * 获取-名称
-	 *
+	 * 
 	 * @return 值
 	 */
 	@XmlElement(name = PROPERTY_NAME_NAME)
@@ -85,7 +81,7 @@ public abstract class MaterialBase<T extends IMaterialBase> extends BusinessObje
 
 	/**
 	 * 设置-名称
-	 *
+	 * 
 	 * @param value
 	 *            值
 	 */
@@ -107,7 +103,7 @@ public abstract class MaterialBase<T extends IMaterialBase> extends BusinessObje
 
 	/**
 	 * 获取-外文名称
-	 *
+	 * 
 	 * @return 值
 	 */
 	@XmlElement(name = PROPERTY_FOREIGNNAME_NAME)
@@ -117,7 +113,7 @@ public abstract class MaterialBase<T extends IMaterialBase> extends BusinessObje
 
 	/**
 	 * 设置-外文名称
-	 *
+	 * 
 	 * @param value
 	 *            值
 	 */
@@ -139,7 +135,7 @@ public abstract class MaterialBase<T extends IMaterialBase> extends BusinessObje
 
 	/**
 	 * 获取-物料组
-	 *
+	 * 
 	 * @return 值
 	 */
 	@XmlElement(name = PROPERTY_GROUP_NAME)
@@ -149,12 +145,44 @@ public abstract class MaterialBase<T extends IMaterialBase> extends BusinessObje
 
 	/**
 	 * 设置-物料组
-	 *
+	 * 
 	 * @param value
 	 *            值
 	 */
 	public final void setGroup(String value) {
 		this.setProperty(PROPERTY_GROUP, value);
+	}
+
+	/**
+	 * 属性名称-激活
+	 */
+	private static final String PROPERTY_ACTIVATED_NAME = "Activated";
+
+	/**
+	 * 激活 属性
+	 */
+	@DbField(name = "Activated", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME, primaryKey = false)
+	public static final IPropertyInfo<emYesNo> PROPERTY_ACTIVATED = registerProperty(PROPERTY_ACTIVATED_NAME,
+			emYesNo.class, MY_CLASS);
+
+	/**
+	 * 获取-激活
+	 * 
+	 * @return 值
+	 */
+	@XmlElement(name = PROPERTY_ACTIVATED_NAME)
+	public final emYesNo getActivated() {
+		return this.getProperty(PROPERTY_ACTIVATED);
+	}
+
+	/**
+	 * 设置-激活
+	 * 
+	 * @param value
+	 *            值
+	 */
+	public final void setActivated(emYesNo value) {
+		this.setProperty(PROPERTY_ACTIVATED, value);
 	}
 
 	/**
@@ -171,7 +199,7 @@ public abstract class MaterialBase<T extends IMaterialBase> extends BusinessObje
 
 	/**
 	 * 获取-条形码
-	 *
+	 * 
 	 * @return 值
 	 */
 	@XmlElement(name = PROPERTY_BARCODE_NAME)
@@ -181,7 +209,7 @@ public abstract class MaterialBase<T extends IMaterialBase> extends BusinessObje
 
 	/**
 	 * 设置-条形码
-	 *
+	 * 
 	 * @param value
 	 *            值
 	 */
@@ -203,7 +231,7 @@ public abstract class MaterialBase<T extends IMaterialBase> extends BusinessObje
 
 	/**
 	 * 获取-物料类型
-	 *
+	 * 
 	 * @return 值
 	 */
 	@XmlElement(name = PROPERTY_ITEMTYPE_NAME)
@@ -213,76 +241,12 @@ public abstract class MaterialBase<T extends IMaterialBase> extends BusinessObje
 
 	/**
 	 * 设置-物料类型
-	 *
+	 * 
 	 * @param value
 	 *            值
 	 */
 	public final void setItemType(emItemType value) {
 		this.setProperty(PROPERTY_ITEMTYPE, value);
-	}
-
-	/**
-	 * 属性名称-采购物料
-	 */
-	private static final String PROPERTY_PURCHASEITEM_NAME = "PurchaseItem";
-
-	/**
-	 * 采购物料 属性
-	 */
-	@DbField(name = "PrchseItem", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME, primaryKey = false)
-	public static final IPropertyInfo<emYesNo> PROPERTY_PURCHASEITEM = registerProperty(PROPERTY_PURCHASEITEM_NAME,
-			emYesNo.class, MY_CLASS);
-
-	/**
-	 * 获取-采购物料
-	 *
-	 * @return 值
-	 */
-	@XmlElement(name = PROPERTY_PURCHASEITEM_NAME)
-	public final emYesNo getPurchaseItem() {
-		return this.getProperty(PROPERTY_PURCHASEITEM);
-	}
-
-	/**
-	 * 设置-采购物料
-	 *
-	 * @param value
-	 *            值
-	 */
-	public final void setPurchaseItem(emYesNo value) {
-		this.setProperty(PROPERTY_PURCHASEITEM, value);
-	}
-
-	/**
-	 * 属性名称-销售物料
-	 */
-	private static final String PROPERTY_SALESITEM_NAME = "SalesItem";
-
-	/**
-	 * 销售物料 属性
-	 */
-	@DbField(name = "SalesItem", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME, primaryKey = false)
-	public static final IPropertyInfo<emYesNo> PROPERTY_SALESITEM = registerProperty(PROPERTY_SALESITEM_NAME,
-			emYesNo.class, MY_CLASS);
-
-	/**
-	 * 获取-销售物料
-	 *
-	 * @return 值
-	 */
-	@XmlElement(name = PROPERTY_SALESITEM_NAME)
-	public final emYesNo getSalesItem() {
-		return this.getProperty(PROPERTY_SALESITEM);
-	}
-
-	/**
-	 * 设置-销售物料
-	 *
-	 * @param value
-	 *            值
-	 */
-	public final void setSalesItem(emYesNo value) {
-		this.setProperty(PROPERTY_SALESITEM, value);
 	}
 
 	/**
@@ -299,7 +263,7 @@ public abstract class MaterialBase<T extends IMaterialBase> extends BusinessObje
 
 	/**
 	 * 获取-库存物料
-	 *
+	 * 
 	 * @return 值
 	 */
 	@XmlElement(name = PROPERTY_INVENTORYITEM_NAME)
@@ -309,7 +273,7 @@ public abstract class MaterialBase<T extends IMaterialBase> extends BusinessObje
 
 	/**
 	 * 设置-库存物料
-	 *
+	 * 
 	 * @param value
 	 *            值
 	 */
@@ -331,7 +295,7 @@ public abstract class MaterialBase<T extends IMaterialBase> extends BusinessObje
 
 	/**
 	 * 获取-虚拟物料
-	 *
+	 * 
 	 * @return 值
 	 */
 	@XmlElement(name = PROPERTY_PHANTOMITEM_NAME)
@@ -341,44 +305,12 @@ public abstract class MaterialBase<T extends IMaterialBase> extends BusinessObje
 
 	/**
 	 * 设置-虚拟物料
-	 *
+	 * 
 	 * @param value
 	 *            值
 	 */
 	public final void setPhantomItem(emYesNo value) {
 		this.setProperty(PROPERTY_PHANTOMITEM, value);
-	}
-
-	/**
-	 * 属性名称-固定资产
-	 */
-	private static final String PROPERTY_FIXEDASSETS_NAME = "FixedAssets";
-
-	/**
-	 * 固定资产 属性
-	 */
-	@DbField(name = "AssetItem", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME, primaryKey = false)
-	public static final IPropertyInfo<emYesNo> PROPERTY_FIXEDASSETS = registerProperty(PROPERTY_FIXEDASSETS_NAME,
-			emYesNo.class, MY_CLASS);
-
-	/**
-	 * 获取-固定资产
-	 *
-	 * @return 值
-	 */
-	@XmlElement(name = PROPERTY_FIXEDASSETS_NAME)
-	public final emYesNo getFixedAssets() {
-		return this.getProperty(PROPERTY_FIXEDASSETS);
-	}
-
-	/**
-	 * 设置-固定资产
-	 *
-	 * @param value
-	 *            值
-	 */
-	public final void setFixedAssets(emYesNo value) {
-		this.setProperty(PROPERTY_FIXEDASSETS, value);
 	}
 
 	/**
@@ -395,7 +327,7 @@ public abstract class MaterialBase<T extends IMaterialBase> extends BusinessObje
 
 	/**
 	 * 获取-缺省仓库
-	 *
+	 * 
 	 * @return 值
 	 */
 	@XmlElement(name = PROPERTY_DEFAULTWAREHOUSE_NAME)
@@ -405,44 +337,12 @@ public abstract class MaterialBase<T extends IMaterialBase> extends BusinessObje
 
 	/**
 	 * 设置-缺省仓库
-	 *
+	 * 
 	 * @param value
 	 *            值
 	 */
 	public final void setDefaultWarehouse(String value) {
 		this.setProperty(PROPERTY_DEFAULTWAREHOUSE, value);
-	}
-
-	/**
-	 * 属性名称-首选供应商
-	 */
-	private static final String PROPERTY_PREFERREDVENDOR_NAME = "PreferredVendor";
-
-	/**
-	 * 首选供应商 属性
-	 */
-	@DbField(name = "Vendor", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME, primaryKey = false)
-	public static final IPropertyInfo<String> PROPERTY_PREFERREDVENDOR = registerProperty(PROPERTY_PREFERREDVENDOR_NAME,
-			String.class, MY_CLASS);
-
-	/**
-	 * 获取-首选供应商
-	 *
-	 * @return 值
-	 */
-	@XmlElement(name = PROPERTY_PREFERREDVENDOR_NAME)
-	public final String getPreferredVendor() {
-		return this.getProperty(PROPERTY_PREFERREDVENDOR);
-	}
-
-	/**
-	 * 设置-首选供应商
-	 *
-	 * @param value
-	 *            值
-	 */
-	public final void setPreferredVendor(String value) {
-		this.setProperty(PROPERTY_PREFERREDVENDOR, value);
 	}
 
 	/**
@@ -459,7 +359,7 @@ public abstract class MaterialBase<T extends IMaterialBase> extends BusinessObje
 
 	/**
 	 * 获取-库存单位
-	 *
+	 * 
 	 * @return 值
 	 */
 	@XmlElement(name = PROPERTY_INVENTORYUOM_NAME)
@@ -469,7 +369,7 @@ public abstract class MaterialBase<T extends IMaterialBase> extends BusinessObje
 
 	/**
 	 * 设置-库存单位
-	 *
+	 * 
 	 * @param value
 	 *            值
 	 */
@@ -491,7 +391,7 @@ public abstract class MaterialBase<T extends IMaterialBase> extends BusinessObje
 
 	/**
 	 * 获取-库存
-	 *
+	 * 
 	 * @return 值
 	 */
 	@XmlElement(name = PROPERTY_ONHAND_NAME)
@@ -501,7 +401,7 @@ public abstract class MaterialBase<T extends IMaterialBase> extends BusinessObje
 
 	/**
 	 * 设置-库存
-	 *
+	 * 
 	 * @param value
 	 *            值
 	 */
@@ -511,7 +411,7 @@ public abstract class MaterialBase<T extends IMaterialBase> extends BusinessObje
 
 	/**
 	 * 设置-库存
-	 *
+	 * 
 	 * @param value
 	 *            值
 	 */
@@ -521,7 +421,7 @@ public abstract class MaterialBase<T extends IMaterialBase> extends BusinessObje
 
 	/**
 	 * 设置-库存
-	 *
+	 * 
 	 * @param value
 	 *            值
 	 */
@@ -531,7 +431,7 @@ public abstract class MaterialBase<T extends IMaterialBase> extends BusinessObje
 
 	/**
 	 * 设置-库存
-	 *
+	 * 
 	 * @param value
 	 *            值
 	 */
@@ -540,67 +440,127 @@ public abstract class MaterialBase<T extends IMaterialBase> extends BusinessObje
 	}
 
 	/**
-	 * 属性名称-对象编号
+	 * 属性名称-已承诺
 	 */
-	private static final String PROPERTY_DOCENTRY_NAME = "DocEntry";
+	private static final String PROPERTY_ONCOMMITED_NAME = "OnCommited";
 
 	/**
-	 * 对象编号 属性
+	 * 已承诺 属性
 	 */
-	@DbField(name = "DocEntry", type = DbFieldType.NUMERIC, table = DB_TABLE_NAME, primaryKey = true)
-	public static final IPropertyInfo<Integer> PROPERTY_DOCENTRY = registerProperty(PROPERTY_DOCENTRY_NAME,
-			Integer.class, MY_CLASS);
+	@DbField(name = "OnCommited", type = DbFieldType.DECIMAL, table = DB_TABLE_NAME, primaryKey = false)
+	public static final IPropertyInfo<Decimal> PROPERTY_ONCOMMITED = registerProperty(PROPERTY_ONCOMMITED_NAME,
+			Decimal.class, MY_CLASS);
 
 	/**
-	 * 获取-对象编号
-	 *
+	 * 获取-已承诺
+	 * 
 	 * @return 值
 	 */
-	@XmlElement(name = PROPERTY_DOCENTRY_NAME)
-	public final Integer getDocEntry() {
-		return this.getProperty(PROPERTY_DOCENTRY);
+	@XmlElement(name = PROPERTY_ONCOMMITED_NAME)
+	public final Decimal getOnCommited() {
+		return this.getProperty(PROPERTY_ONCOMMITED);
 	}
 
 	/**
-	 * 设置-对象编号
-	 *
+	 * 设置-已承诺
+	 * 
 	 * @param value
 	 *            值
 	 */
-	public final void setDocEntry(Integer value) {
-		this.setProperty(PROPERTY_DOCENTRY, value);
+	public final void setOnCommited(Decimal value) {
+		this.setProperty(PROPERTY_ONCOMMITED, value);
 	}
 
 	/**
-	 * 属性名称-对象类型
-	 */
-	private static final String PROPERTY_OBJECTCODE_NAME = "ObjectCode";
-
-	/**
-	 * 对象类型 属性
-	 */
-	@DbField(name = "ObjectCode", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME, primaryKey = false)
-	public static final IPropertyInfo<String> PROPERTY_OBJECTCODE = registerProperty(PROPERTY_OBJECTCODE_NAME,
-			String.class, MY_CLASS);
-
-	/**
-	 * 获取-对象类型
-	 *
-	 * @return 值
-	 */
-	@XmlElement(name = PROPERTY_OBJECTCODE_NAME)
-	public final String getObjectCode() {
-		return this.getProperty(PROPERTY_OBJECTCODE);
-	}
-
-	/**
-	 * 设置-对象类型
-	 *
+	 * 设置-已承诺
+	 * 
 	 * @param value
 	 *            值
 	 */
-	public final void setObjectCode(String value) {
-		this.setProperty(PROPERTY_OBJECTCODE, value);
+	public final void setOnCommited(String value) {
+		this.setOnCommited(new Decimal(value));
+	}
+
+	/**
+	 * 设置-已承诺
+	 * 
+	 * @param value
+	 *            值
+	 */
+	public final void setOnCommited(int value) {
+		this.setOnCommited(new Decimal(value));
+	}
+
+	/**
+	 * 设置-已承诺
+	 * 
+	 * @param value
+	 *            值
+	 */
+	public final void setOnCommited(double value) {
+		this.setOnCommited(new Decimal(value));
+	}
+
+	/**
+	 * 属性名称-已订购
+	 */
+	private static final String PROPERTY_ONORDERED_NAME = "OnOrdered";
+
+	/**
+	 * 已订购 属性
+	 */
+	@DbField(name = "OnOrdered", type = DbFieldType.DECIMAL, table = DB_TABLE_NAME, primaryKey = false)
+	public static final IPropertyInfo<Decimal> PROPERTY_ONORDERED = registerProperty(PROPERTY_ONORDERED_NAME,
+			Decimal.class, MY_CLASS);
+
+	/**
+	 * 获取-已订购
+	 * 
+	 * @return 值
+	 */
+	@XmlElement(name = PROPERTY_ONORDERED_NAME)
+	public final Decimal getOnOrdered() {
+		return this.getProperty(PROPERTY_ONORDERED);
+	}
+
+	/**
+	 * 设置-已订购
+	 * 
+	 * @param value
+	 *            值
+	 */
+	public final void setOnOrdered(Decimal value) {
+		this.setProperty(PROPERTY_ONORDERED, value);
+	}
+
+	/**
+	 * 设置-已订购
+	 * 
+	 * @param value
+	 *            值
+	 */
+	public final void setOnOrdered(String value) {
+		this.setOnOrdered(new Decimal(value));
+	}
+
+	/**
+	 * 设置-已订购
+	 * 
+	 * @param value
+	 *            值
+	 */
+	public final void setOnOrdered(int value) {
+		this.setOnOrdered(new Decimal(value));
+	}
+
+	/**
+	 * 设置-已订购
+	 * 
+	 * @param value
+	 *            值
+	 */
+	public final void setOnOrdered(double value) {
+		this.setOnOrdered(new Decimal(value));
 	}
 
 	/**
@@ -617,7 +577,7 @@ public abstract class MaterialBase<T extends IMaterialBase> extends BusinessObje
 
 	/**
 	 * 获取-序号管理
-	 *
+	 * 
 	 * @return 值
 	 */
 	@XmlElement(name = PROPERTY_SERIALMANAGEMENT_NAME)
@@ -627,7 +587,7 @@ public abstract class MaterialBase<T extends IMaterialBase> extends BusinessObje
 
 	/**
 	 * 设置-序号管理
-	 *
+	 * 
 	 * @param value
 	 *            值
 	 */
@@ -649,7 +609,7 @@ public abstract class MaterialBase<T extends IMaterialBase> extends BusinessObje
 
 	/**
 	 * 获取-批号管理
-	 *
+	 * 
 	 * @return 值
 	 */
 	@XmlElement(name = PROPERTY_BATCHMANAGEMENT_NAME)
@@ -659,7 +619,7 @@ public abstract class MaterialBase<T extends IMaterialBase> extends BusinessObje
 
 	/**
 	 * 设置-批号管理
-	 *
+	 * 
 	 * @param value
 	 *            值
 	 */
@@ -668,419 +628,195 @@ public abstract class MaterialBase<T extends IMaterialBase> extends BusinessObje
 	}
 
 	/**
-	 * 属性名称-创建日期
+	 * 属性名称-生效日期
 	 */
-	private static final String PROPERTY_CREATEDATE_NAME = "CreateDate";
+	private static final String PROPERTY_VALIDDATE_NAME = "ValidDate";
 
 	/**
-	 * 创建日期 属性
+	 * 生效日期 属性
 	 */
-	@DbField(name = "CreateDate", type = DbFieldType.DATE, table = DB_TABLE_NAME, primaryKey = false)
-	public static final IPropertyInfo<DateTime> PROPERTY_CREATEDATE = registerProperty(PROPERTY_CREATEDATE_NAME,
+	@DbField(name = "ValidDate", type = DbFieldType.DATE, table = DB_TABLE_NAME, primaryKey = false)
+	public static final IPropertyInfo<DateTime> PROPERTY_VALIDDATE = registerProperty(PROPERTY_VALIDDATE_NAME,
 			DateTime.class, MY_CLASS);
 
 	/**
-	 * 获取-创建日期
-	 *
+	 * 获取-生效日期
+	 * 
 	 * @return 值
 	 */
-	@XmlElement(name = PROPERTY_CREATEDATE_NAME)
-	public final DateTime getCreateDate() {
-		return this.getProperty(PROPERTY_CREATEDATE);
+	@XmlElement(name = PROPERTY_VALIDDATE_NAME)
+	public final DateTime getValidDate() {
+		return this.getProperty(PROPERTY_VALIDDATE);
 	}
 
 	/**
-	 * 设置-创建日期
-	 *
+	 * 设置-生效日期
+	 * 
 	 * @param value
 	 *            值
 	 */
-	public final void setCreateDate(DateTime value) {
-		this.setProperty(PROPERTY_CREATEDATE, value);
+	public final void setValidDate(DateTime value) {
+		this.setProperty(PROPERTY_VALIDDATE, value);
 	}
 
 	/**
-	 * 属性名称-创建时间
+	 * 属性名称-失效日期
 	 */
-	private static final String PROPERTY_CREATETIME_NAME = "CreateTime";
+	private static final String PROPERTY_INVALIDDATE_NAME = "InvalidDate";
 
 	/**
-	 * 创建时间 属性
+	 * 失效日期 属性
 	 */
-	@DbField(name = "CreateTime", type = DbFieldType.NUMERIC, table = DB_TABLE_NAME, primaryKey = false)
-	public static final IPropertyInfo<Short> PROPERTY_CREATETIME = registerProperty(PROPERTY_CREATETIME_NAME,
-			Short.class, MY_CLASS);
-
-	/**
-	 * 获取-创建时间
-	 *
-	 * @return 值
-	 */
-	@XmlElement(name = PROPERTY_CREATETIME_NAME)
-	public final Short getCreateTime() {
-		return this.getProperty(PROPERTY_CREATETIME);
-	}
-
-	/**
-	 * 设置-创建时间
-	 *
-	 * @param value
-	 *            值
-	 */
-	public final void setCreateTime(Short value) {
-		this.setProperty(PROPERTY_CREATETIME, value);
-	}
-
-	/**
-	 * 属性名称-修改日期
-	 */
-	private static final String PROPERTY_UPDATEDATE_NAME = "UpdateDate";
-
-	/**
-	 * 修改日期 属性
-	 */
-	@DbField(name = "UpdateDate", type = DbFieldType.DATE, table = DB_TABLE_NAME, primaryKey = false)
-	public static final IPropertyInfo<DateTime> PROPERTY_UPDATEDATE = registerProperty(PROPERTY_UPDATEDATE_NAME,
+	@DbField(name = "InvalidDate", type = DbFieldType.DATE, table = DB_TABLE_NAME, primaryKey = false)
+	public static final IPropertyInfo<DateTime> PROPERTY_INVALIDDATE = registerProperty(PROPERTY_INVALIDDATE_NAME,
 			DateTime.class, MY_CLASS);
 
 	/**
-	 * 获取-修改日期
-	 *
+	 * 获取-失效日期
+	 * 
 	 * @return 值
 	 */
-	@XmlElement(name = PROPERTY_UPDATEDATE_NAME)
-	public final DateTime getUpdateDate() {
-		return this.getProperty(PROPERTY_UPDATEDATE);
+	@XmlElement(name = PROPERTY_INVALIDDATE_NAME)
+	public final DateTime getInvalidDate() {
+		return this.getProperty(PROPERTY_INVALIDDATE);
 	}
 
 	/**
-	 * 设置-修改日期
-	 *
+	 * 设置-失效日期
+	 * 
 	 * @param value
 	 *            值
 	 */
-	public final void setUpdateDate(DateTime value) {
-		this.setProperty(PROPERTY_UPDATEDATE, value);
+	public final void setInvalidDate(DateTime value) {
+		this.setProperty(PROPERTY_INVALIDDATE, value);
 	}
 
 	/**
-	 * 属性名称-修改时间
+	 * 属性名称-图片
 	 */
-	private static final String PROPERTY_UPDATETIME_NAME = "UpdateTime";
+	private static final String PROPERTY_PICTURE_NAME = "Picture";
 
 	/**
-	 * 修改时间 属性
+	 * 图片 属性
 	 */
-	@DbField(name = "UpdateTime", type = DbFieldType.NUMERIC, table = DB_TABLE_NAME, primaryKey = false)
-	public static final IPropertyInfo<Short> PROPERTY_UPDATETIME = registerProperty(PROPERTY_UPDATETIME_NAME,
-			Short.class, MY_CLASS);
-
-	/**
-	 * 获取-修改时间
-	 *
-	 * @return 值
-	 */
-	@XmlElement(name = PROPERTY_UPDATETIME_NAME)
-	public final Short getUpdateTime() {
-		return this.getProperty(PROPERTY_UPDATETIME);
-	}
-
-	/**
-	 * 设置-修改时间
-	 *
-	 * @param value
-	 *            值
-	 */
-	public final void setUpdateTime(Short value) {
-		this.setProperty(PROPERTY_UPDATETIME, value);
-	}
-
-	/**
-	 * 属性名称-版本
-	 */
-	private static final String PROPERTY_LOGINST_NAME = "LogInst";
-
-	/**
-	 * 版本 属性
-	 */
-	@DbField(name = "LogInst", type = DbFieldType.NUMERIC, table = DB_TABLE_NAME, primaryKey = false)
-	public static final IPropertyInfo<Integer> PROPERTY_LOGINST = registerProperty(PROPERTY_LOGINST_NAME, Integer.class,
+	@DbField(name = "Picture", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME, primaryKey = false)
+	public static final IPropertyInfo<String> PROPERTY_PICTURE = registerProperty(PROPERTY_PICTURE_NAME, String.class,
 			MY_CLASS);
 
 	/**
-	 * 获取-版本
-	 *
+	 * 获取-图片
+	 * 
 	 * @return 值
 	 */
-	@XmlElement(name = PROPERTY_LOGINST_NAME)
-	public final Integer getLogInst() {
-		return this.getProperty(PROPERTY_LOGINST);
+	@XmlElement(name = PROPERTY_PICTURE_NAME)
+	public final String getPicture() {
+		return this.getProperty(PROPERTY_PICTURE);
 	}
 
 	/**
-	 * 设置-版本
-	 *
+	 * 设置-图片
+	 * 
 	 * @param value
 	 *            值
 	 */
-	public final void setLogInst(Integer value) {
-		this.setProperty(PROPERTY_LOGINST, value);
+	public final void setPicture(String value) {
+		this.setProperty(PROPERTY_PICTURE, value);
 	}
 
 	/**
-	 * 属性名称-服务系列
+	 * 属性名称-备注
 	 */
-	private static final String PROPERTY_SERIES_NAME = "Series";
+	private static final String PROPERTY_REMARKS_NAME = "Remarks";
 
 	/**
-	 * 服务系列 属性
+	 * 备注 属性
 	 */
-	@DbField(name = "Series", type = DbFieldType.NUMERIC, table = DB_TABLE_NAME, primaryKey = false)
-	public static final IPropertyInfo<Integer> PROPERTY_SERIES = registerProperty(PROPERTY_SERIES_NAME, Integer.class,
+	@DbField(name = "Remarks", type = DbFieldType.MEMO, table = DB_TABLE_NAME, primaryKey = false)
+	public static final IPropertyInfo<String> PROPERTY_REMARKS = registerProperty(PROPERTY_REMARKS_NAME, String.class,
 			MY_CLASS);
 
 	/**
-	 * 获取-服务系列
-	 *
+	 * 获取-备注
+	 * 
 	 * @return 值
 	 */
-	@XmlElement(name = PROPERTY_SERIES_NAME)
-	public final Integer getSeries() {
-		return this.getProperty(PROPERTY_SERIES);
+	@XmlElement(name = PROPERTY_REMARKS_NAME)
+	public final String getRemarks() {
+		return this.getProperty(PROPERTY_REMARKS);
 	}
 
 	/**
-	 * 设置-服务系列
-	 *
+	 * 设置-备注
+	 * 
 	 * @param value
 	 *            值
 	 */
-	public final void setSeries(Integer value) {
-		this.setProperty(PROPERTY_SERIES, value);
+	public final void setRemarks(String value) {
+		this.setProperty(PROPERTY_REMARKS, value);
 	}
 
 	/**
-	 * 属性名称-数据源
+	 * 属性名称-对象编号
 	 */
-	private static final String PROPERTY_DATASOURCE_NAME = "DataSource";
+	private static final String PROPERTY_DOCENTRY_NAME = "DocEntry";
 
 	/**
-	 * 数据源 属性
+	 * 对象编号 属性
 	 */
-	@DbField(name = "DataSource", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME, primaryKey = false)
-	public static final IPropertyInfo<String> PROPERTY_DATASOURCE = registerProperty(PROPERTY_DATASOURCE_NAME,
-			String.class, MY_CLASS);
-
-	/**
-	 * 获取-数据源
-	 *
-	 * @return 值
-	 */
-	@XmlElement(name = PROPERTY_DATASOURCE_NAME)
-	public final String getDataSource() {
-		return this.getProperty(PROPERTY_DATASOURCE);
-	}
-
-	/**
-	 * 设置-数据源
-	 *
-	 * @param value
-	 *            值
-	 */
-	public final void setDataSource(String value) {
-		this.setProperty(PROPERTY_DATASOURCE, value);
-	}
-
-	/**
-	 * 属性名称-创建用户
-	 */
-	private static final String PROPERTY_CREATEUSERSIGN_NAME = "CreateUserSign";
-
-	/**
-	 * 创建用户 属性
-	 */
-	@DbField(name = "Creator", type = DbFieldType.NUMERIC, table = DB_TABLE_NAME, primaryKey = false)
-	public static final IPropertyInfo<Integer> PROPERTY_CREATEUSERSIGN = registerProperty(PROPERTY_CREATEUSERSIGN_NAME,
+	@DbField(name = "DocEntry", type = DbFieldType.NUMERIC, table = DB_TABLE_NAME, primaryKey = true)
+	public static final IPropertyInfo<Integer> PROPERTY_DOCENTRY = registerProperty(PROPERTY_DOCENTRY_NAME,
 			Integer.class, MY_CLASS);
 
 	/**
-	 * 获取-创建用户
-	 *
+	 * 获取-对象编号
+	 * 
 	 * @return 值
 	 */
-	@XmlElement(name = PROPERTY_CREATEUSERSIGN_NAME)
-	public final Integer getCreateUserSign() {
-		return this.getProperty(PROPERTY_CREATEUSERSIGN);
+	@XmlElement(name = PROPERTY_DOCENTRY_NAME)
+	public final Integer getDocEntry() {
+		return this.getProperty(PROPERTY_DOCENTRY);
 	}
 
 	/**
-	 * 设置-创建用户
-	 *
+	 * 设置-对象编号
+	 * 
 	 * @param value
 	 *            值
 	 */
-	public final void setCreateUserSign(Integer value) {
-		this.setProperty(PROPERTY_CREATEUSERSIGN, value);
+	public final void setDocEntry(Integer value) {
+		this.setProperty(PROPERTY_DOCENTRY, value);
 	}
 
 	/**
-	 * 属性名称-修改用户
+	 * 属性名称-对象类型
 	 */
-	private static final String PROPERTY_UPDATEUSERSIGN_NAME = "UpdateUserSign";
+	private static final String PROPERTY_OBJECTCODE_NAME = "ObjectCode";
 
 	/**
-	 * 修改用户 属性
+	 * 对象类型 属性
 	 */
-	@DbField(name = "Updator", type = DbFieldType.NUMERIC, table = DB_TABLE_NAME, primaryKey = false)
-	public static final IPropertyInfo<Integer> PROPERTY_UPDATEUSERSIGN = registerProperty(PROPERTY_UPDATEUSERSIGN_NAME,
-			Integer.class, MY_CLASS);
-
-	/**
-	 * 获取-修改用户
-	 *
-	 * @return 值
-	 */
-	@XmlElement(name = PROPERTY_UPDATEUSERSIGN_NAME)
-	public final Integer getUpdateUserSign() {
-		return this.getProperty(PROPERTY_UPDATEUSERSIGN);
-	}
-
-	/**
-	 * 设置-修改用户
-	 *
-	 * @param value
-	 *            值
-	 */
-	public final void setUpdateUserSign(Integer value) {
-		this.setProperty(PROPERTY_UPDATEUSERSIGN, value);
-	}
-
-	/**
-	 * 属性名称-创建动作标识
-	 */
-	private static final String PROPERTY_CREATEACTIONID_NAME = "CreateActionId";
-
-	/**
-	 * 创建动作标识 属性
-	 */
-	@DbField(name = "CreateActId", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME, primaryKey = false)
-	public static final IPropertyInfo<String> PROPERTY_CREATEACTIONID = registerProperty(PROPERTY_CREATEACTIONID_NAME,
+	@DbField(name = "ObjectCode", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME, primaryKey = false)
+	public static final IPropertyInfo<String> PROPERTY_OBJECTCODE = registerProperty(PROPERTY_OBJECTCODE_NAME,
 			String.class, MY_CLASS);
 
 	/**
-	 * 获取-创建动作标识
-	 *
+	 * 获取-对象类型
+	 * 
 	 * @return 值
 	 */
-	@XmlElement(name = PROPERTY_CREATEACTIONID_NAME)
-	public final String getCreateActionId() {
-		return this.getProperty(PROPERTY_CREATEACTIONID);
+	@XmlElement(name = PROPERTY_OBJECTCODE_NAME)
+	public final String getObjectCode() {
+		return this.getProperty(PROPERTY_OBJECTCODE);
 	}
 
 	/**
-	 * 设置-创建动作标识
-	 *
+	 * 设置-对象类型
+	 * 
 	 * @param value
 	 *            值
 	 */
-	public final void setCreateActionId(String value) {
-		this.setProperty(PROPERTY_CREATEACTIONID, value);
-	}
-
-	/**
-	 * 属性名称-更新动作标识
-	 */
-	private static final String PROPERTY_UPDATEACTIONID_NAME = "UpdateActionId";
-
-	/**
-	 * 更新动作标识 属性
-	 */
-	@DbField(name = "UpdateActId", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME, primaryKey = false)
-	public static final IPropertyInfo<String> PROPERTY_UPDATEACTIONID = registerProperty(PROPERTY_UPDATEACTIONID_NAME,
-			String.class, MY_CLASS);
-
-	/**
-	 * 获取-更新动作标识
-	 *
-	 * @return 值
-	 */
-	@XmlElement(name = PROPERTY_UPDATEACTIONID_NAME)
-	public final String getUpdateActionId() {
-		return this.getProperty(PROPERTY_UPDATEACTIONID);
-	}
-
-	/**
-	 * 设置-更新动作标识
-	 *
-	 * @param value
-	 *            值
-	 */
-	public final void setUpdateActionId(String value) {
-		this.setProperty(PROPERTY_UPDATEACTIONID, value);
-	}
-
-	/**
-	 * 属性名称-已删除
-	 */
-	private static final String PROPERTY_DELETED_NAME = "Deleted";
-
-	/**
-	 * 已删除 属性
-	 */
-	@DbField(name = "Deleted", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME, primaryKey = false)
-	public static final IPropertyInfo<emYesNo> PROPERTY_DELETED = registerProperty(PROPERTY_DELETED_NAME, emYesNo.class,
-			MY_CLASS);
-
-	/**
-	 * 获取-已删除
-	 *
-	 * @return 值
-	 */
-	@XmlElement(name = PROPERTY_DELETED_NAME)
-	public final emYesNo getDeleted() {
-		return this.getProperty(PROPERTY_DELETED);
-	}
-
-	/**
-	 * 设置-已删除
-	 *
-	 * @param value
-	 *            值
-	 */
-	public final void setDeleted(emYesNo value) {
-		this.setProperty(PROPERTY_DELETED, value);
-	}
-
-	/**
-	 * 属性名称-激活
-	 */
-	private static final String PROPERTY_ACTIVATED_NAME = "Activated";
-
-	/**
-	 * 激活 属性
-	 */
-	@DbField(name = "Activated", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME, primaryKey = false)
-	public static final IPropertyInfo<emYesNo> PROPERTY_ACTIVATED = registerProperty(PROPERTY_ACTIVATED_NAME,
-			emYesNo.class, MY_CLASS);
-
-	/**
-	 * 获取-激活
-	 *
-	 * @return 值
-	 */
-	@XmlElement(name = PROPERTY_ACTIVATED_NAME)
-	public final emYesNo getActivated() {
-		return this.getProperty(PROPERTY_ACTIVATED);
-	}
-
-	/**
-	 * 设置-激活
-	 *
-	 * @param value
-	 *            值
-	 */
-	public final void setActivated(emYesNo value) {
-		this.setProperty(PROPERTY_ACTIVATED, value);
+	public final void setObjectCode(String value) {
+		this.setProperty(PROPERTY_OBJECTCODE, value);
 	}
 
 	/**
@@ -1097,7 +833,7 @@ public abstract class MaterialBase<T extends IMaterialBase> extends BusinessObje
 
 	/**
 	 * 获取-数据所有者
-	 *
+	 * 
 	 * @return 值
 	 */
 	@XmlElement(name = PROPERTY_DATAOWNER_NAME)
@@ -1107,7 +843,7 @@ public abstract class MaterialBase<T extends IMaterialBase> extends BusinessObje
 
 	/**
 	 * 设置-数据所有者
-	 *
+	 * 
 	 * @param value
 	 *            值
 	 */
@@ -1129,7 +865,7 @@ public abstract class MaterialBase<T extends IMaterialBase> extends BusinessObje
 
 	/**
 	 * 获取-数据所属组织
-	 *
+	 * 
 	 * @return 值
 	 */
 	@XmlElement(name = PROPERTY_ORGANIZATION_NAME)
@@ -1139,7 +875,7 @@ public abstract class MaterialBase<T extends IMaterialBase> extends BusinessObje
 
 	/**
 	 * 设置-数据所属组织
-	 *
+	 * 
 	 * @param value
 	 *            值
 	 */

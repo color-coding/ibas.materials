@@ -37,14 +37,14 @@ export interface IMaterialInventoryJournal extends IBOSimple {
     /** 仓库编号 */
     warehouse: string;
 
-    /** 基础单据类型 */
-    baseType: string;
+    /**基于类型 */
+    baseDocumentType: string;
 
-    /** 基础单据号 */
-    baseEntry: number;
+    /**基于标识 */
+    baseDocumentEntry: number
 
-    /** 基础单据行 */
-    baseLinNum: number;
+    /**基于行号 */
+    baseDocumentLineId: number;
 
     /** 方向 */
     direction: emDirection;

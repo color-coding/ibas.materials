@@ -6,5 +6,5 @@ import org.colorcoding.ibas.bobas.bo.IBusinessObjects;
  * @author Fancy
  * @date 2018/1/9
  */
-public interface IMaterialBatchJournals<P extends IMaterialBatchDocument> extends IBusinessObjects<IMaterialBatchJournal,P> {
+public interface IMaterialBatchJournals extends IBusinessObjects<IMaterialBatchJournal, IMaterialBatchJournalsParent> {
 }

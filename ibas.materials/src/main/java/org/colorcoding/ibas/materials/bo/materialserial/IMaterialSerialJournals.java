@@ -6,6 +6,7 @@ import org.colorcoding.ibas.bobas.bo.IBusinessObjects;
  * @author Fancy
  * @date 2018/1/9
  */
-public interface IMaterialSerialJournals<P extends IMaterialSerialDocument>  extends IBusinessObjects<IMaterialSerialJournal, P> {
+public interface IMaterialSerialJournals
+		extends IBusinessObjects<IMaterialSerialJournal, IMaterialSerialJournalsParent> {
 
 }

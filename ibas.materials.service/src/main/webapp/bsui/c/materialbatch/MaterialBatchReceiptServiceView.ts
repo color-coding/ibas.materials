@@ -1,39 +1,34 @@
-/**
+/*
+ * @Author: fancy
+ * @Date: 2017-11-27 16:44:31
+ * @Last Modified by: Fancy
+ * @Last Modified time: 2018-01-09 10:24:37
  * @license
  * Copyright color-coding studio. All Rights Reserved.
+ *
  * Use of this source code is governed by an Apache License, Version 2.0
  * that can be found in the LICENSE file at http://www.apache.org/licenses/LICENSE-2.0
- * @Author: fancy
- * @Date: 2017-11-30 17:55:41
- * @Last Modified by: Fancy
- * @Last Modified time: 2018-01-04 17:18:08
  */
-
-
 import * as ibas from "ibas/index";
 import * as openui5 from "openui5/index";
 import * as bo from "../../../borep/bo/index";
 import {
-    IMaterialReceiptSerialView,
-} from "../../../bsapp/materialserial/index";
-import{
-    IMaterialSerialContract
-} from "../../../api/index";
-
-export class MaterialReceiptSerialServiceView extends ibas.BODialogView implements IMaterialReceiptSerialView {
+    IMaterialBatchReceiptView,
+} from "../../../bsapp/materialbatch/index";
+import { IMaterialBatchContract } from "../../../api/index";
+export class MaterialBatchReceiptServiceView extends ibas.BODialogView implements IMaterialBatchReceiptView {
     /** 添加批次事件 */
-    addSerialEvent: Function;
-    /** 移除批次事件 */
-    removeSerialEvent: Function;
+    addBatchEvent: Function;
     /** 确定事件 */
     confirmDataEvent: Function;
+    /** 移除批次事件 */
+    removeBatchEvent: Function;
     /** 自动创建批次事件 */
-    autoCreateSerialEvent: Function;
+    autoCreateBatchEvent: Function;
     /** 选中凭证行事件 */
-    selectMaterialSerialJournalLineEvent: Function;
+    selectMaterialBatchJournalLineEvent: Function;
     private layoutMain: sap.ui.layout.VerticalLayout;
     private journalLineTable: sap.ui.table.Table;
-
     /** 绘制视图 */
     darw(): any {
         let that: this = this;
@@ -44,8 +39,8 @@ export class MaterialReceiptSerialServiceView extends ibas.BODialogView implemen
                         text: ibas.i18n.prop("materials_sys_autocreate"),
                         type: sap.m.ButtonType.Transparent,
                         press: function (): void {
-                            that.fireViewEvents(that.autoCreateSerialEvent,
-                                openui5.utils.getSelecteds<IMaterialSerialContract>(that.journalLineTable).firstOrDefault()
+                            that.fireViewEvents(that.autoCreateBatchEvent,
+                                openui5.utils.getSelecteds<IMaterialBatchContract>(that.journalLineTable).firstOrDefault()
                             );
                         }
                     }),
@@ -54,8 +49,8 @@ export class MaterialReceiptSerialServiceView extends ibas.BODialogView implemen
                         type: sap.m.ButtonType.Transparent,
                         icon: "sap-icon://add",
                         press: function (): void {
-                            that.fireViewEvents(that.addSerialEvent,
-                                openui5.utils.getSelecteds<IMaterialSerialContract>(that.journalLineTable).firstOrDefault());
+                            that.fireViewEvents(that.addBatchEvent,
+                                openui5.utils.getSelecteds<IMaterialBatchContract>(that.journalLineTable).firstOrDefault());
                         }
                     }),
                     new sap.m.Button("", {
@@ -63,8 +58,8 @@ export class MaterialReceiptSerialServiceView extends ibas.BODialogView implemen
                         type: sap.m.ButtonType.Transparent,
                         icon: "sap-icon://less",
                         press: function (): void {
-                            that.fireViewEvents(that.removeSerialEvent,
-                                openui5.utils.getSelecteds<IMaterialSerialContract>(that.journalLineTable).firstOrDefault(),
+                            that.fireViewEvents(that.removeBatchEvent,
+                                openui5.utils.getSelecteds<IMaterialBatchContract>(that.journalLineTable).firstOrDefault(),
                                 openui5.utils.getSelecteds<bo.MaterialBatch>(that.table)
                             );
                         }
@@ -77,35 +72,38 @@ export class MaterialReceiptSerialServiceView extends ibas.BODialogView implemen
             rows: "{/rows}",
             columns: [
                 new sap.ui.table.Column("", {
-                    label: ibas.i18n.prop("bo_materialserial_supplierserial"),
+                    label: ibas.i18n.prop("bo_materialbatch_batchcode"),
                     template: new sap.m.Input("", {
+                        width: "100%",
                     }).bindProperty("value", {
-                        path: "supplierSerial"
+                        path: "batchCode",
                     })
                 }),
                 new sap.ui.table.Column("", {
-                    label: ibas.i18n.prop("bo_materialserial_serialcode"),
+                    label: ibas.i18n.prop("bo_materialbatch_quantity"),
                     template: new sap.m.Input("", {
+                        width: "100%",
+                        type: sap.m.InputType.Number
                     }).bindProperty("value", {
-                        path: "serialCode",
+                        path: "quantity"
                     })
                 }),
                 new sap.ui.table.Column("", {
-                    label: ibas.i18n.prop("bo_materialserial_expirationdate"),
+                    label: ibas.i18n.prop("bo_materialbatch_expirationdate"),
                     template: new sap.m.DatePicker("", {
                     }).bindProperty("dateValue", {
                         path: "expirationDate"
                     })
                 }),
                 new sap.ui.table.Column("", {
-                    label: ibas.i18n.prop("bo_materialserial_manufacturingdate"),
+                    label: ibas.i18n.prop("bo_materialbatch_manufacturingdate"),
                     template: new sap.m.DatePicker("", {
                     }).bindProperty("dateValue", {
                         path: "manufacturingDate"
                     })
                 }),
                 new sap.ui.table.Column("", {
-                    label: ibas.i18n.prop("bo_materialserial_admissiondate"),
+                    label: ibas.i18n.prop("bo_materialbatch_admissiondate"),
                     template: new sap.m.DatePicker("", {
                     }).bindProperty("dateValue", {
                         path: "admissionDate"
@@ -120,13 +118,13 @@ export class MaterialReceiptSerialServiceView extends ibas.BODialogView implemen
             visibleRowCount: ibas.config.get(openui5.utils.CONFIG_ITEM_LIST_TABLE_VISIBLE_ROW_COUNT, 8),
             visibleRowCountMode: sap.ui.table.VisibleRowCountMode.Interactive,
             rowSelectionChange: function (): void {
-                that.fireViewEvents(that.selectMaterialSerialJournalLineEvent,
-                    openui5.utils.getSelecteds<IMaterialSerialContract>(that.journalLineTable).firstOrDefault(), );
+                that.fireViewEvents(that.selectMaterialBatchJournalLineEvent,
+                    openui5.utils.getSelecteds<IMaterialBatchContract>(that.journalLineTable).firstOrDefault(), );
             },
             rows: "{/journallinedata}",
             columns: [
                 new sap.ui.table.Column("", {
-                    label: ibas.i18n.prop("bo_materialserialjournal_itemCode"),
+                    label: ibas.i18n.prop("bo_materialbatchjournal_itemCode"),
                     template: new sap.m.Text("", {
                         wrapping: false,
                     }).bindProperty("text", {
@@ -134,7 +132,7 @@ export class MaterialReceiptSerialServiceView extends ibas.BODialogView implemen
                     }),
                 }),
                 new sap.ui.table.Column("", {
-                    label: ibas.i18n.prop("bo_materialserialjournal_warehousecode"),
+                    label: ibas.i18n.prop("bo_materialbatchjournal_warehousecode"),
                     template: new sap.m.Text("", {
                         wrapping: false,
                     }).bindProperty("text", {
@@ -142,7 +140,7 @@ export class MaterialReceiptSerialServiceView extends ibas.BODialogView implemen
                     }),
                 }),
                 new sap.ui.table.Column("", {
-                    label: ibas.i18n.prop("bo_materialserialjournal_quantity"),
+                    label: ibas.i18n.prop("bo_materialbatchjournal_quantity"),
                     template: new sap.m.Text("", {
                         wrapping: false,
                     }).bindProperty("text", {
@@ -150,7 +148,7 @@ export class MaterialReceiptSerialServiceView extends ibas.BODialogView implemen
                     }),
                 }),
                 new sap.ui.table.Column("", {
-                    label: ibas.i18n.prop("bo_materialserialjournal_direction"),
+                    label: ibas.i18n.prop("bo_materialbatchjournal_direction"),
                     template: new sap.m.Text("", {
                         wrapping: false,
                     }).bindProperty("text", {
@@ -171,6 +169,7 @@ export class MaterialReceiptSerialServiceView extends ibas.BODialogView implemen
         this.id = this.layoutMain.getId();
         return new sap.m.Dialog("", {
             title: this.title,
+            width: "110%",
             type: sap.m.DialogType.Standard,
             state: sap.ui.core.ValueState.None,
             stretchOnPhone: true,
@@ -197,14 +196,15 @@ export class MaterialReceiptSerialServiceView extends ibas.BODialogView implemen
     }
     private table: sap.ui.table.Table;
     /** 显示数据 */
-    showData(datas: bo.MaterialSerialJournal[]): void {
+    showData(datas: bo.MaterialBatchJournal[]): void {
         this.table.setModel(new sap.ui.model.json.JSONModel({ rows: datas }));
+        // this.table.bindObject("/");
+        // 监听属性改变，并更新控件
         openui5.utils.refreshModelChanged(this.table, datas);
     }
-    showJournalLineData(datas: IMaterialSerialContract[]): void {
+    showJournalLineData(datas: IMaterialBatchContract[]): void {
         this.journalLineTable.setModel(new sap.ui.model.json.JSONModel({ journallinedata: datas }));
         // openui5.utils.refreshModelChanged(this.journalLineTable, datas);
     }
-    private lastCriteria: ibas.ICriteria;
 
 }

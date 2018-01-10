@@ -1,4 +1,4 @@
-package org.colorcoding.ibas.materials.bo.materialgroup;
+package org.colorcoding.ibas.materials.bo.material;
 
 import org.colorcoding.ibas.bobas.bo.IBOMasterData;
 import org.colorcoding.ibas.bobas.data.DateTime;

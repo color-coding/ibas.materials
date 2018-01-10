@@ -1,4 +1,4 @@
-package org.colorcoding.ibas.materials.bo.materialgroup;
+package org.colorcoding.ibas.materials.bo.material;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
