@@ -11,4 +11,3 @@ export * from "./MaterialReceiptSerialService";
 export * from "./MaterialSerialListApp";
 export * from "./MaterialSerialViewApp";
 export * from "./MaterialSerialChooseApp";
-export * from "./serialjournal/MaterialSerialServiceJournal";

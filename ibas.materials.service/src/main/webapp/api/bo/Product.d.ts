@@ -22,10 +22,7 @@ import {
 import {
     emItemType,
 } from "../Datas";
-import {
-    IMaterialBase
-} from "./index";
-export interface IProduct extends IMaterialBase {
+export interface IProduct extends IBOMasterData {
     /** 编号 */
     code: string;
 
@@ -73,7 +70,16 @@ export interface IProduct extends IMaterialBase {
 
     /** 仓库库存 */
     onHand: number;
-    
+
     /** 价格清单 */
     price: number;
+
+    /** 序号管理 */
+    serialManagement: emYesNo;
+
+    /** 批号管理 */
+    batchManagement: emYesNo;
+    
+    /** 已删除 */
+    deleted: emYesNo;
 }

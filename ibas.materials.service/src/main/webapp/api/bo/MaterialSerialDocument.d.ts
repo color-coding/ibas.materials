@@ -5,23 +5,29 @@
  * that can be found in the LICENSE file at http://www.apache.org/licenses/LICENSE-2.0
  *
  * @Author: Fancy
- * @Date: 2017-12-28 11:30:30
+ * @Date: 2017-12-28 11:31:06
  * @Last Modified by: Fancy
- * @Last Modified time: 2018-01-05 17:24:51
+ * @Last Modified time: 2018-01-09 16:29:18
  */
-
 import {
-    emDocumentStatus,
-    IBODocumentLine,
     IBusinessObject,
     IBusinessObjects,
-    IBODocumentLines,
+    emDocumentStatus,
+    IBODocumentLine,
+    ArrayList
 } from "ibas/index";
 import {
-    IMaterialBatchJournals,
+    IMaterialSerialJournals,
 } from "./index";
-/** 批次管理单据行 */
-export interface IBatchManagementLine extends IBODocumentLine {
+/** 序列管理单据行 */
+export interface IMaterialSerialDocument extends IBusinessObject {
+
+    /** 类型 */
+    objectCode: string;
+
+    docEntry: number;
+
+    lineId: number;
     /** 物料 */
     itemCode: string;
 
@@ -31,11 +37,14 @@ export interface IBatchManagementLine extends IBODocumentLine {
     /** 数量 */
     quantity: number;
 
-    /** 批次集合 */
-    materialBatchs: IMaterialBatchJournals;
+    /** 行状态 */
+    lineStatus: emDocumentStatus;
+
+    /** 序列集合 */
+    materialSerials: IMaterialSerialJournals<IMaterialSerialDocument>;
 }
 
-export interface IBatchManagementLines {
+export interface IMaterialSerialDocuments {
     /** 检查批次集合行中的数量与单据行中数量是否相等 */
-   checkBatchQuantity(): boolean;
+    checkSerialQuantity(): boolean;
 }

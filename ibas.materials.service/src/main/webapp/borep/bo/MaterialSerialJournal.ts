@@ -34,6 +34,7 @@ import {
     BO_CODE_MATERIALSERIALJOURNAL,
     BO_CODE_MATERIALSERIALJOURNALS,
     IMaterialSerialJournals,
+    IMaterialSerialDocument,
 } from "../../api/index";
 export class MaterialSerialJournal extends BOSimple<MaterialSerialJournal> implements IMaterialSerialJournal {
     /** 业务对象编码 */
@@ -380,23 +381,15 @@ export class MaterialSerialJournal extends BOSimple<MaterialSerialJournal> imple
     }
 }
 
-export class MaterialSerialJournals<P extends IBODocumentLine>
-    extends ArrayList<IMaterialSerialJournal>
-    // extends BusinessObjects<IMaterialSerialJournal, P>
-    implements IMaterialSerialJournals {
+export class MaterialSerialJournals<P extends IMaterialSerialDocument>
+    extends BusinessObjects<IMaterialSerialJournal, P>
+    implements IMaterialSerialJournals<P> {
     static BUSINESS_OBJECT_CODE: string = BO_CODE_MATERIALSERIALJOURNALS;
-    parent: P;
-    materialSerials:BusinessObjects<IMaterialSerialJournal, P>;
-    constructor(materialSerials:BusinessObjects<IMaterialSerialJournal, P>,parent: P) {
-        super();
-        this.materialSerials = materialSerials;
-        this.parent = parent;
-    }
     create(): IMaterialSerialJournal;
     create(data: MaterialSerialJournal): IMaterialSerialJournal;
     create(data?: any): IMaterialSerialJournal {
         let item: IMaterialSerialJournal = new MaterialSerialJournal();
-        this.materialSerials.add(item);
+        this.add(item);
         item.lineStatus = this.parent.lineStatus;
         if (objects.isNull(data)) {
             return item;
@@ -411,14 +404,14 @@ export class MaterialSerialJournals<P extends IBODocumentLine>
     }
     /** 删除序列日记账集合 */
     deleteAll(): void {
-        for (let item of this.materialSerials) {
-            item.markDeleted(true);
-        }
-    }
-    /** 移除序列日记账集合 */
-    removeAll(): void {
-        for (let item of this.materialSerials) {
-            this.materialSerials.remove(item);
+        for (let item of this) {
+            if (item.isNew) {
+                this.remove(item);
+            } else {
+                item.markDeleted(true);
+            }
+
+
         }
     }
     /**
@@ -427,7 +420,7 @@ export class MaterialSerialJournals<P extends IBODocumentLine>
     onParentPropertyChanged(name: string): void {
         if (strings.equalsIgnoreCase(name, BO_PROPERTY_NAME_LINESTATUS)) {
             if (objects.instanceOf(this.parent, BODocumentLine)) {
-                for (let item of this.materialSerials) {
+                for (let item of this) {
                     item.setProperty(BO_PROPERTY_NAME_LINESTATUS, this.parent.getProperty(BO_PROPERTY_NAME_LINESTATUS));
                 }
             }

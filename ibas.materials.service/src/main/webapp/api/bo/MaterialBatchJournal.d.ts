@@ -20,8 +20,10 @@ import {
     IBODocumentLine,
     IBOSimple,
     IBOSimpleLine,
-    ArrayList
+    ArrayList,
+    BusinessObject
 } from "ibas/index";
+import {IMaterialBatchDocument} from "./index";
 export interface IMaterialBatchJournal extends IBOSimple {
     /**物料编号 */
     itemCode: string;
@@ -111,12 +113,10 @@ export interface IMaterialBatchJournal extends IBOSimple {
     updateActionId: string
 }
 
-export interface IMaterialBatchJournals extends ArrayList<IMaterialBatchJournal>{
+export interface IMaterialBatchJournals<P extends IMaterialBatchDocument> extends IBusinessObjects<IMaterialBatchJournal,P> {
 
     create(): IMaterialBatchJournal;
     create(item: IMaterialBatchJournal): IMaterialBatchJournal;
-    /** 移除批次日记账 */
-    removeAll(): void;
     /** 删除批次日记账 */
     deleteAll(): void;
     onParentPropertyChanged(name: string):void;

@@ -10,14 +10,14 @@ import * as ibas from "ibas/index";
 import * as bo from "../../borep/bo/index";
 import {
     IGoodsIssueLines,
-    IMaterialBatchContract,
-    IMaterialSerialContract,
     IMaterialSerialJournal,
     IMaterialBatchJournal,
 } from "../../api/bo/index";
 import {
     MaterialIssueBatchServiceProxy,
     MaterialIssueSerialServiceProxy,
+    IMaterialBatchContract,
+    IMaterialSerialContract,
 } from "../../api/Datas";
 import { BORepositoryMaterials } from "../../borep/BORepositories";
 import { IMaterialBatch, IMaterialBatchJournals } from "../../api/index";
@@ -258,13 +258,8 @@ export class GoodsIssueEditApp extends ibas.BOEditApplication<IGoodsIssueEditVie
                     }
                     // 如果物料、仓库发生变更 删除批次、序列集合
                     if (item.itemCode !== selected.code) {
-                        if (!item.isNew) {
-                            item.materialBatchs.deleteAll();
-                            item.materialSerials.deleteAll();
-                        } else {
-                            item.materialBatchs.removeAll();
-                            item.materialSerials.removeAll();
-                        }
+                        item.materialBatchs.deleteAll();
+                        item.materialSerials.deleteAll();
                     }
                     item.itemCode = selected.code;
                     item.itemDescription = selected.name;
@@ -301,13 +296,8 @@ export class GoodsIssueEditApp extends ibas.BOEditApplication<IGoodsIssueEditVie
                         created = true;
                     }
                     if (item.warehouse !== selected.code) {
-                        if (item.isNew) {
-                            item.materialBatchs.removeAll();
-                            item.materialSerials.removeAll();
-                        } else {
-                            item.materialBatchs.deleteAll();
-                            item.materialSerials.deleteAll();
-                        }
+                        item.materialBatchs.deleteAll();
+                        item.materialSerials.deleteAll();
                     }
                     item.warehouse = selected.code;
                     item = null;

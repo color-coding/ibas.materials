@@ -1356,14 +1356,14 @@ public class GoodsReceiptLine extends BusinessObject<GoodsReceiptLine>
 	/**
 	 * 属性名称-库存发货-物料批次
 	 */
-	private static final String PROPERTY_GOODSRECEIPTLINEMATERIALBATCHJOURNALS_NAME = "GoodsReceiptLineMaterialBatchJournals";
+	private static final String PROPERTY_GOODSRECEIPTLINEMATERIALBATCHJOURNALS_NAME = "MaterialBatchJournals";
 
 	/**
 	 * 库存发货-物料批次的集合属性
 	 *
 	 */
-	public static final IPropertyInfo<IGoodsReceiptLineMaterialBatchJournals> PROPERTY_GOODSRECEIPTLINEMATERIALBATCHJOURNALS = registerProperty(
-			PROPERTY_GOODSRECEIPTLINEMATERIALBATCHJOURNALS_NAME, IGoodsReceiptLineMaterialBatchJournals.class, MY_CLASS);
+	public static final IPropertyInfo<IGoodsReceiptLineMaterialBatch> PROPERTY_GOODSRECEIPTLINEMATERIALBATCHJOURNALS = registerProperty(
+			PROPERTY_GOODSRECEIPTLINEMATERIALBATCHJOURNALS_NAME, IGoodsReceiptLineMaterialBatch.class, MY_CLASS);
 
 	/**
 	 * 获取-库存收货-物料批次集合
@@ -1372,7 +1372,7 @@ public class GoodsReceiptLine extends BusinessObject<GoodsReceiptLine>
 	 */
 	@XmlElementWrapper(name = PROPERTY_GOODSRECEIPTLINEMATERIALBATCHJOURNALS_NAME)
 	@XmlElement(name = MaterialBatchJournal.BUSINESS_OBJECT_NAME, type = MaterialBatchJournal.class)
-	public final IGoodsReceiptLineMaterialBatchJournals getMaterialBatchJournals() {
+	public final IGoodsReceiptLineMaterialBatch getMaterialBatchs() {
 		return this.getProperty(PROPERTY_GOODSRECEIPTLINEMATERIALBATCHJOURNALS);
 	}
 
@@ -1382,20 +1382,20 @@ public class GoodsReceiptLine extends BusinessObject<GoodsReceiptLine>
 	 * @param value
 	 *            值
 	 */
-	public final void setMaterialBatchJournals(IGoodsReceiptLineMaterialBatchJournals value) {
+	public final void setMaterialBatchs(IGoodsReceiptLineMaterialBatch value) {
 		this.setProperty(PROPERTY_GOODSRECEIPTLINEMATERIALBATCHJOURNALS, value);
 	}
 	/**
 	 * 属性名称-库存发货-物料序列
 	 */
-	private static final String PROPERTY_GOODSRECEIPTLINEMATERIALSERIALJOURNALS_NAME = "GoodsReceiptLineMaterialSerialJournals";
+	private static final String PROPERTY_GOODSRECEIPTLINEMATERIALSERIALJOURNALS_NAME = "MaterialSerialJournals";
 
 	/**
 	 * 库存发货-物料序列的集合属性
 	 *
 	 */
-	public static final IPropertyInfo<IGoodsReceiptLineMaterialSerialJournals> PROPERTY_GOODSRECEIPTLINEMATERIALSERIALJOURNALS = registerProperty(
-			PROPERTY_GOODSRECEIPTLINEMATERIALSERIALJOURNALS_NAME, IGoodsReceiptLineMaterialSerialJournals.class, MY_CLASS);
+	public static final IPropertyInfo<IGoodsReceiptLineMaterialSerial> PROPERTY_GOODSRECEIPTLINEMATERIALSERIALJOURNALS = registerProperty(
+			PROPERTY_GOODSRECEIPTLINEMATERIALSERIALJOURNALS_NAME, IGoodsReceiptLineMaterialSerial.class, MY_CLASS);
 
 	/**
 	 * 获取-库存发货-物料序列集合
@@ -1404,9 +1404,10 @@ public class GoodsReceiptLine extends BusinessObject<GoodsReceiptLine>
 	 */
 	@XmlElementWrapper(name = PROPERTY_GOODSRECEIPTLINEMATERIALSERIALJOURNALS_NAME)
 	@XmlElement(name = MaterialSerialJournal.BUSINESS_OBJECT_NAME, type = MaterialSerialJournal.class)
-	public final IGoodsReceiptLineMaterialSerialJournals getMaterialSerialJournals() {
+	public final IGoodsReceiptLineMaterialSerial getMaterialSerials() {
 		return this.getProperty(PROPERTY_GOODSRECEIPTLINEMATERIALSERIALJOURNALS);
 	}
+
 
 	/**
 	 * 设置-库存发货-物料序列集合
@@ -1414,7 +1415,8 @@ public class GoodsReceiptLine extends BusinessObject<GoodsReceiptLine>
 	 * @param value
 	 *            值
 	 */
-	public final void setMaterialSerialJournals(IGoodsReceiptLineMaterialSerialJournals value) {
+
+	public final void setMaterialSerials(IGoodsReceiptLineMaterialSerial value) {
 		this.setProperty(PROPERTY_GOODSRECEIPTLINEMATERIALSERIALJOURNALS, value);
 	}
 
@@ -1424,8 +1426,8 @@ public class GoodsReceiptLine extends BusinessObject<GoodsReceiptLine>
 	@Override
 	protected void initialize() {
 		super.initialize();// 基类初始化，不可去除
-		this.setMaterialBatchJournals(new GoodsReceiptLineMaterialBatchJournals(this));
-		this.setMaterialSerialJournals(new GoodsReceiptLineMaterialSerialJournals(this));
+		this.setMaterialBatchs(new GoodsReceiptLineMaterialBatch(this));
+		this.setMaterialSerials(new GoodsReceiptLineMaterialSerial(this));
 		this.setObjectCode(MyConfiguration.applyVariables(BUSINESS_OBJECT_CODE));
 		// 日期初始化。 需要在前台中添加这三个日期，并实现父类日期发生更改时，子类日期发生相应更改。
 		this.setPostingDate(DateTime.getToday());

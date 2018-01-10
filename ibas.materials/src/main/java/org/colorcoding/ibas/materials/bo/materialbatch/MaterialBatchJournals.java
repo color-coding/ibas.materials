@@ -1,32 +1,34 @@
-package org.colorcoding.ibas.materials.bo.goodsreceipt;
+package org.colorcoding.ibas.materials.bo.materialbatch;
 
 import org.colorcoding.ibas.bobas.bo.BusinessObjects;
 import org.colorcoding.ibas.bobas.common.*;
 import org.colorcoding.ibas.materials.MyConfiguration;
-import org.colorcoding.ibas.materials.bo.materialserial.IMaterialSerialJournal;
-import org.colorcoding.ibas.materials.bo.materialserial.MaterialSerialJournal;
 
 import javax.xml.bind.annotation.XmlSeeAlso;
 import javax.xml.bind.annotation.XmlType;
 import java.beans.PropertyChangeEvent;
 
 /**
- * 库存收货-序列 集合
+ * @author Fancy
+ * @date 2018/1/9
  */
-@XmlType(name = GoodsReceiptLineMaterialSerialJournals.BUSINESS_OBJECT_NAME, namespace = MyConfiguration.NAMESPACE_BO)
-@XmlSeeAlso({ MaterialSerialJournal.class })
-public class GoodsReceiptLineMaterialSerialJournals extends BusinessObjects<IMaterialSerialJournal,IGoodsReceiptLine> implements IGoodsReceiptLineMaterialSerialJournals {
+@XmlType(name = MaterialBatchJournals.BUSINESS_OBJECT_NAME, namespace = MyConfiguration.NAMESPACE_BO)
+@XmlSeeAlso({ MaterialBatchJournal.class })
+public  class MaterialBatchJournals<P extends IMaterialBatchDocument>
+        extends BusinessObjects<IMaterialBatchJournal,P>
+        implements IMaterialBatchJournals<P> {
     /**
      * 业务对象名称
      */
-    public static final String BUSINESS_OBJECT_NAME = "GoodsReceiptLineMaterialSerialJournals";
+    public static final String BUSINESS_OBJECT_NAME = "MaterialBatchJournals";
+
 
     /**
      * 序列化版本标记
      */
-    private static final long serialVersionUID = 7759763557795210319L;
+    private static final long serialVersionUID = 1554854583483859573L;
 
-    public GoodsReceiptLineMaterialSerialJournals(){
+    public MaterialBatchJournals(){
         super();
     }
 
@@ -34,7 +36,7 @@ public class GoodsReceiptLineMaterialSerialJournals extends BusinessObjects<IMat
      * 构造方法
      * @param parent 父项对象
      */
-    public GoodsReceiptLineMaterialSerialJournals(IGoodsReceiptLine parent) {
+    public MaterialBatchJournals(P parent) {
         super(parent);
     }
 
@@ -42,13 +44,12 @@ public class GoodsReceiptLineMaterialSerialJournals extends BusinessObjects<IMat
      * 元素类型
      */
     public Class<?> getElementType() {
-        return MaterialSerialJournal.class;
+        return MaterialBatchJournal.class;
     }
 
     @Override
-    protected void afterAddItem(IMaterialSerialJournal item) {
+    protected void afterAddItem(IMaterialBatchJournal item) {
         super.afterAddItem(item);
-        // TODO 设置关联值
         // TODO 设置关联值
         item.setBaseDocumentType(this.getParent().getObjectCode());
         item.setBaseDocumentEntry(this.getParent().getDocEntry());
@@ -57,23 +58,23 @@ public class GoodsReceiptLineMaterialSerialJournals extends BusinessObjects<IMat
 
     @Override
     public ICriteria getElementCriteria() {
-        // ICriteria criteria = super.getElementCriteria();
-        // TODO 添加关联查询条件
+        // super.getElementCriteria();
         ICriteria criteria = new Criteria();
         ICondition condition = criteria.getConditions().create();
-        condition.setAlias(MaterialSerialJournal.PROPERTY_BASEDOCUMENTTYPE.getName());
+        condition.setAlias(MaterialBatchJournal.PROPERTY_BASEDOCUMENTTYPE.getName());
         condition.setOperation(ConditionOperation.EQUAL);
         condition.setValue(this.getParent().getObjectCode());
         condition = criteria.getConditions().create();
-        condition.setAlias(MaterialSerialJournal.PROPERTY_BASEDOCUMENTENTRY.getName());
+        condition.setAlias(MaterialBatchJournal.PROPERTY_BASEDOCUMENTENTRY.getName());
         condition.setOperation(ConditionOperation.EQUAL);
         condition.setValue(this.getParent().getDocEntry());
         condition.setRelationship(ConditionRelationship.AND);
         condition = criteria.getConditions().create();
-        condition.setAlias(MaterialSerialJournal.PROPERTY_BASEDOCUMENTLINEID.getName());
+        condition.setAlias(MaterialBatchJournal.PROPERTY_BASEDOCUMENTLINEID.getName());
         condition.setOperation(ConditionOperation.EQUAL);
         condition.setValue(this.getParent().getLineId());
         condition.setRelationship(ConditionRelationship.AND);
+        // TODO 添加关联查询条件
         return criteria;
     }
 
@@ -81,8 +82,8 @@ public class GoodsReceiptLineMaterialSerialJournals extends BusinessObjects<IMat
     public void onParentPropertyChanged(PropertyChangeEvent evt) {
         super.onParentPropertyChanged(evt);
         // TODO 设置关联值
-        if(evt.getPropertyName().equalsIgnoreCase(GoodsReceiptLine.MASTER_PRIMARY_KEY_NAME)){
-            for(IMaterialSerialJournal item: this){
+        if(evt.getPropertyName().equalsIgnoreCase("DocEntry")){
+            for(IMaterialBatchJournal item: this){
                 item.setBaseDocumentType(this.getParent().getObjectCode());
                 item.setBaseDocumentEntry(this.getParent().getDocEntry());
                 item.setBaseDocumentLineId(this.getParent().getLineId());
@@ -91,11 +92,12 @@ public class GoodsReceiptLineMaterialSerialJournals extends BusinessObjects<IMat
     }
 
     @Override
-    public IMaterialSerialJournal create() {
-        IMaterialSerialJournal item = new MaterialSerialJournal();
+    public IMaterialBatchJournal create() {
+        IMaterialBatchJournal item = new MaterialBatchJournal();
         if (this.add(item)) {
             return item;
         }
         return null;
     }
+
 }

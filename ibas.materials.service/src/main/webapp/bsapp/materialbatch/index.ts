@@ -11,4 +11,3 @@ export * from "./MaterialReceiptBatchService";
 export * from "./MaterialBatchListApp";
 export * from "./MaterialBatchViewApp";
 export * from "./MaterialBatchChooseApp";
-export * from "./batchjournal/MaterialBatchServiceJournal";

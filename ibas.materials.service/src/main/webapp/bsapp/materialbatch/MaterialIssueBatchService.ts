@@ -2,7 +2,7 @@
  * @Author: fancy
  * @Date: 2017-11-27 16:29:14
  * @Last Modified by: Fancy
- * @Last Modified time: 2017-12-29 15:42:07
+ * @Last Modified time: 2018-01-08 16:04:26
  */
 /**
  * @license
@@ -13,14 +13,13 @@
  */
 import * as ibas from "ibas/index";
 import * as bo from "../../borep/bo/index";
-import { emAutoSelectBatchSerialRules, MaterialIssueBatchServiceProxy } from "../../api/Datas";
+import { emAutoSelectBatchSerialRules, MaterialIssueBatchServiceProxy,IMaterialBatchContract } from "../../api/Datas";
 import { BORepositoryMaterials } from "../../borep/BORepositories";
 import {
-    IMaterialBatchContract,
     IMaterialBatchJournal,
 } from "../../api/bo/index";
 import { MaterialBatchJournal } from "../../borep/bo/index";
-import { emDocumentStatus } from "ibas/index";
+import { emDocumentStatus, emDirection } from "ibas/index";
 
 export class MaterialIssueBatchService extends ibas.ServiceApplication<IMaterialIssueBatchView, IMaterialBatchContract[]> {
 
@@ -67,8 +66,8 @@ export class MaterialIssueBatchService extends ibas.ServiceApplication<IMaterial
         let that: this = this;
         // 根据物料查询可用批次
         that.fetchBatchData(selected);
-        if(!ibas.objects.isNull(selected.materialBatchs)) {
-            that.view.showRightData(selected.materialBatchs.filter(c=>c.isDeleted === false));
+        if (!ibas.objects.isNull(selected.materialBatchs)) {
+            that.view.showRightData(selected.materialBatchs.filter(c => c.isDeleted === false && c.direction === emDirection.OUT));
         }
     }
     /**
@@ -86,7 +85,7 @@ export class MaterialIssueBatchService extends ibas.ServiceApplication<IMaterial
         }
         // 不需要选择批次了
         if (!this.isNeedToSelected(journal)) {
-            this.view.showRightData(journal.materialBatchs.filter(c => c.isDeleted === false));
+            this.view.showRightData(journal.materialBatchs.filter(c => c.isDeleted === false && c.direction === emDirection.OUT));
             return;
         }
         if (ibas.objects.isNull(this.batchData.filter(c => c.isDeleted === false))) {
@@ -94,8 +93,8 @@ export class MaterialIssueBatchService extends ibas.ServiceApplication<IMaterial
             this.fetchBatchData(journal);
             return;
         }
-         // 按照一定规则排序
-         if (rules === emAutoSelectBatchSerialRules.FIRST_IN_FIRST_OUT) {
+        // 按照一定规则排序
+        if (rules === emAutoSelectBatchSerialRules.FIRST_IN_FIRST_OUT) {
             this.batchData.sort((batch1, batch2) => batch1.createDate < batch2.createDate ? -1
                 : (batch1.createDate > batch2.createDate ? 1 : (batch1.createTime < batch2.createTime ? -1
                     : (batch1.createTime > batch2.createTime ? 1 : 0))));
@@ -109,7 +108,7 @@ export class MaterialIssueBatchService extends ibas.ServiceApplication<IMaterial
         }
         this.allocateBatch(journal, this.batchData);
         this.view.showLeftData(this.batchData.filter(c => c.quantity > 0));
-        this.view.showRightData(journal.materialBatchs.filter(c => c.isDeleted === false));
+        this.view.showRightData(journal.materialBatchs.filter(c => c.isDeleted === false && c.direction === emDirection.OUT));
     }
     /**
      * 分配批次
@@ -117,8 +116,9 @@ export class MaterialIssueBatchService extends ibas.ServiceApplication<IMaterial
      * @param selectItem 可供选择的批次
      */
     protected allocateBatch(journal: IMaterialBatchContract, selectItem: bo.MaterialBatch[]): void {
-        let needQuantity:number = Number(journal.quantity);
-        journal.materialBatchs.filter(c=>c.isDeleted === false).forEach(c=>needQuantity = needQuantity - Number(c.quantity));
+        let needQuantity: number = Number(journal.quantity);
+        journal.materialBatchs.filter(c => c.isDeleted === false && c.direction === emDirection.OUT)
+            .forEach(c => needQuantity = needQuantity - Number(c.quantity));
         for (let item of selectItem.filter(c => c.quantity > 0 && c.isDeleted === false)) {
             // 已分配数量
             if (!this.isNeedToSelected(journal)) {
@@ -176,9 +176,9 @@ export class MaterialIssueBatchService extends ibas.ServiceApplication<IMaterial
         if (items.length === 0) {
             return;
         }
-        this.allocateBatch(journal,items);
+        this.allocateBatch(journal, items);
         this.view.showLeftData(this.batchData.filter(c => c.quantity > 0));
-        this.view.showRightData(journal.materialBatchs.filter(c => c.isDeleted === false));
+        this.view.showRightData(journal.materialBatchs.filter(c => c.isDeleted === false && c.direction === emDirection.OUT));
     }
 
     /**
@@ -203,13 +203,17 @@ export class MaterialIssueBatchService extends ibas.ServiceApplication<IMaterial
         }
         // 移除项目
         for (let item of items) {
+            // 找到对应的入库批次
+            let batchIn:IMaterialBatchJournal = selected.materialBatchs
+            .find(c=>c.batchCode === item.batchCode && c.direction === emDirection.IN);
             if (selected.materialBatchs.indexOf(item) >= 0) {
                 if (item.isNew) {
                     selected.materialBatchs.remove(item);
+                    selected.materialBatchs.remove(batchIn);
                 } else {
                     item.delete();
+                    batchIn.markDeleted(true);
                 }
-
                 let batchItem: bo.MaterialBatch = this.batchData.find(c => c.batchCode === item.batchCode);
                 if (!ibas.objects.isNull(batchItem)) {
                     batchItem.quantity = Number(batchItem.quantity) + Number(item.quantity);
@@ -223,7 +227,7 @@ export class MaterialIssueBatchService extends ibas.ServiceApplication<IMaterial
             }
         }
         this.view.showLeftData(this.batchData.filter(c => c.quantity > 0));
-        this.view.showRightData(selected.materialBatchs.filter(c => c.isDeleted === false));
+        this.view.showRightData(selected.materialBatchs.filter(c => c.isDeleted === false && c.direction === emDirection.OUT));
     }
 
     /**
@@ -242,6 +246,11 @@ export class MaterialIssueBatchService extends ibas.ServiceApplication<IMaterial
         condition.alias = bo.MaterialBatch.PROPERTY_WAREHOUSE_NAME;
         condition.operation = ibas.emConditionOperation.EQUAL;
         condition.value = selected.warehouse;
+        condition.relationship = ibas.emConditionRelationship.AND;
+        condition = criteria.conditions.create();
+        condition.alias = bo.MaterialBatch.PROPERTY_QUANTITY_NAME;
+        condition.operation = ibas.emConditionOperation.GRATER_THAN;
+        condition.value = "0";
         condition.relationship = ibas.emConditionRelationship.AND;
         let boRepository: BORepositoryMaterials = new BORepositoryMaterials();
         boRepository.fetchMaterialBatch({
@@ -320,7 +329,8 @@ export class MaterialIssueBatchService extends ibas.ServiceApplication<IMaterial
      */
     isNeedToSelected(journal: IMaterialBatchContract): boolean {
         let selectedQuantity: number = Number(0);
-        journal.materialBatchs.filter(c=>c.isDeleted === false).forEach(c => selectedQuantity = selectedQuantity + Number(c.quantity));
+        journal.materialBatchs.filter(c => c.isDeleted === false && c.direction === emDirection.OUT)
+            .forEach(c => selectedQuantity = selectedQuantity + Number(c.quantity));
         if (Number(selectedQuantity) === Number(journal.quantity)) {
             return false;
         }

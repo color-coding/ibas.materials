@@ -6,7 +6,7 @@
  * @Author: fancy
  * @Date: 2017-11-30 17:59:05
  * @Last Modified by: Fancy
- * @Last Modified time: 2017-12-29 11:54:12
+ * @Last Modified time: 2018-01-08 16:03:59
  */
 
 import * as ibas from "ibas/index";
@@ -14,10 +14,10 @@ import * as bo from "../../borep/bo/index";
 import { BORepositoryMaterials } from "../../borep/BORepositories";
 import {
     IMaterialBatchJournal,
-    IMaterialBatchContract,
 } from "../../api/bo/index";
 import {
     MaterialReceiptBatchServiceProxy,
+    IMaterialBatchContract,
 } from "../../api/Datas";
 export class MaterialReceiptBatchService extends ibas.ServiceApplication<IMaterialReceiptBatchView, IMaterialBatchContract[]> {
 
@@ -59,8 +59,8 @@ export class MaterialReceiptBatchService extends ibas.ServiceApplication<IMateri
             ));
             return;
         }
-        // 存在了数量0批次行不能继续添加
-        if (journal.materialBatchs.filter(c => c=>c.isDeleted === false && ibas.numbers.toFloat(c.quantity) === 0).length !== 0) {
+        // 存在了数量0批次行不继续添加
+        if (journal.materialBatchs.filter(c => c.isDeleted === false && c.quantity === 0).length !== 0) {
             return;
         }
         // 找到输入数据的批次集合
@@ -85,7 +85,7 @@ export class MaterialReceiptBatchService extends ibas.ServiceApplication<IMateri
      */
     protected isNeedToCreate(journal: IMaterialBatchContract): boolean {
         let createdQuantity: number = Number(0);
-        journal.materialBatchs.filter(c=>c.isDeleted === false).forEach(c => createdQuantity = createdQuantity + c.quantity);
+        journal.materialBatchs.filter(c => c.isDeleted === false).forEach(c => createdQuantity = createdQuantity + c.quantity);
         if (ibas.numbers.toFloat(journal.quantity) === ibas.numbers.toFloat(createdQuantity)) {
             return false;
         }
@@ -150,20 +150,11 @@ export class MaterialReceiptBatchService extends ibas.ServiceApplication<IMateri
         batchInfo.itemCode = journal.itemCode;
         batchInfo.warehouse = journal.warehouse;
         batchInfo.direction = ibas.emDirection.IN;
-        if (batchJournal.materialBatchs.length !== 0) {
+        if (batchJournal.materialBatchs.filter(c => c.isDeleted === false).length !== 0) {
             // 存在数量为0的行，不用新建行
             batchLine = batchJournal.materialBatchs.find(c => ibas.numbers.toFloat(c.quantity) === 0.0);
-            for (let batch of batchJournal.materialBatchs) {
+            for (let batch of batchJournal.materialBatchs.filter(c => c.isDeleted === false)) {
                 allcationQuantity = allcationQuantity + ibas.numbers.toFloat(batch.quantity);
-                // 过滤掉为0的
-                if (batch.quantity === 0) {
-                    if (batch.isNew) {
-                        batchJournal.materialBatchs.remove(batch);
-                    } else {
-                        // batch.delete();
-                        batch.markDeleted(true);
-                    }
-                }
             }
             if (ibas.objects.isNull(batchLine)) {
                 batchInfo.quantity = batchJournal.quantity - ibas.numbers.toFloat(allcationQuantity);
@@ -175,7 +166,7 @@ export class MaterialReceiptBatchService extends ibas.ServiceApplication<IMateri
             batchInfo.quantity = journal.quantity;
             batchJournal.materialBatchs.create(batchInfo);
         }
-        this.view.showData(batchJournal.materialBatchs);
+        this.view.showData(batchJournal.materialBatchs.filter(c => c.isDeleted === false));
     }
 
     /**
@@ -189,7 +180,7 @@ export class MaterialReceiptBatchService extends ibas.ServiceApplication<IMateri
         let index: number = this.batchJournals.indexOf(selected);
         let batchJournal: IMaterialBatchContract = this.batchJournals[index];
         if (!ibas.objects.isNull(batchJournal.materialBatchs)) {
-            this.view.showData(batchJournal.materialBatchs);
+            this.view.showData(batchJournal.materialBatchs.filter(c=>c.isDeleted === false));
         }
     }
     /** 绑定日记账信息 */
@@ -225,7 +216,11 @@ export class MaterialReceiptBatchService extends ibas.ServiceApplication<IMateri
     protected confirmData(): void {
         for (let item of this.batchJournals) {
             let createdQuantity: number = Number(0);
-            item.materialBatchs.forEach(c => createdQuantity = createdQuantity + Number(c.quantity));
+            item.materialBatchs.forEach(c => {
+                if (c.isDeleted === false) {
+                    createdQuantity = createdQuantity + Number(c.quantity);
+                }
+            });
             if (Number(item.quantity) !== Number(createdQuantity)) {
                 this.messages(ibas.emMessageType.WARNING, ibas.i18n.prop("materials_app_batch_quantity_create_error"));
                 return;

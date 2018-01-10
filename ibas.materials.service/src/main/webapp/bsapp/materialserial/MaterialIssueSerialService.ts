@@ -17,11 +17,11 @@ import * as bo from "../../borep/bo/index";
 import {
     emAutoSelectBatchSerialRules,
     MaterialIssueSerialServiceProxy,
+    IMaterialSerialContract,
 } from "../../api/Datas";
 import { BORepositoryMaterials } from "../../borep/BORepositories";
 import {
     IMaterialSerialJournal,
-    IMaterialSerialContract,
 } from "api/bo/index";
 import { MaterialSerial } from "../../borep/bo/index";
 export class MaterialIssueSerialService extends ibas.ServiceApplication<IMaterialIssueSerialView, IMaterialSerialContract[]> {
