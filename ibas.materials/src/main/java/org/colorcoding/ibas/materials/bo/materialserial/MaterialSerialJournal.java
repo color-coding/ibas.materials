@@ -1,5 +1,11 @@
 package org.colorcoding.ibas.materials.bo.materialserial;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlType;
+
 import org.colorcoding.ibas.bobas.bo.BusinessObject;
 import org.colorcoding.ibas.bobas.core.IPropertyInfo;
 import org.colorcoding.ibas.bobas.data.DateTime;
@@ -10,10 +16,10 @@ import org.colorcoding.ibas.bobas.logic.IBusinessLogicsHost;
 import org.colorcoding.ibas.bobas.mapping.BOCode;
 import org.colorcoding.ibas.bobas.mapping.DbField;
 import org.colorcoding.ibas.bobas.mapping.DbFieldType;
+import org.colorcoding.ibas.bobas.rule.IBusinessRule;
+import org.colorcoding.ibas.bobas.rule.common.BusinessRuleRequired;
 import org.colorcoding.ibas.materials.MyConfiguration;
 import org.colorcoding.ibas.materials.logic.IMaterialSerialJournalContract;
-
-import javax.xml.bind.annotation.*;
 
 /**
  * 获取-物料序列号日记账
@@ -23,7 +29,8 @@ import javax.xml.bind.annotation.*;
 @XmlType(name = MaterialSerialJournal.BUSINESS_OBJECT_NAME, namespace = MyConfiguration.NAMESPACE_BO)
 @XmlRootElement(name = MaterialSerialJournal.BUSINESS_OBJECT_NAME, namespace = MyConfiguration.NAMESPACE_BO)
 @BOCode(MaterialSerialJournal.BUSINESS_OBJECT_CODE)
-public class MaterialSerialJournal extends BusinessObject<MaterialSerialJournal> implements IMaterialSerialJournal,IBusinessLogicsHost {
+public class MaterialSerialJournal extends BusinessObject<MaterialSerialJournal>
+		implements IMaterialSerialJournal, IBusinessLogicsHost {
 
 	/**
 	 * 序列化版本标记
@@ -171,7 +178,8 @@ public class MaterialSerialJournal extends BusinessObject<MaterialSerialJournal>
 	/**
 	 * 设置-单据状态
 	 *
-	 * @param value 值
+	 * @param value
+	 *            值
 	 */
 	public final void setLineStatus(emDocumentStatus value) {
 		this.setProperty(PROPERTY_LINESTATUS, value);
@@ -732,50 +740,55 @@ public class MaterialSerialJournal extends BusinessObject<MaterialSerialJournal>
 	}
 
 	@Override
-	public IBusinessLogicContract[] getContracts() {
-		return new IBusinessLogicContract[]{
-				new IMaterialSerialJournalContract(){
-
-					@Override
-					public String getIdentifiers() {
-						return MaterialSerialJournal.this.getIdentifiers();
-					}
-
-					@Override
-					public String getSerialCode() {
-						return MaterialSerialJournal.this.getSerialCode();
-					}
-
-					@Override
-					public String getItemCode() {
-						return MaterialSerialJournal.this.getItemCode();
-					}
-
-					@Override
-					public String getWarehouse() {
-						return MaterialSerialJournal.this.getWarehouse();
-					}
-
-					@Override
-					public emDirection getDirection() {
-						return MaterialSerialJournal.this.getDirection();
-					}
-
-					@Override
-					public String getBaseDocumentType() {
-						return MaterialSerialJournal.this.getBaseDocumentType();
-					}
-
-					@Override
-					public Integer getBaseDocumentEntry() {
-						return MaterialSerialJournal.this.getBaseDocumentEntry();
-					}
-
-					@Override
-					public Integer getBaseDocumentLineId() {
-						return MaterialSerialJournal.this.getBaseDocumentLineId();
-					}
-				}
+	protected IBusinessRule[] registerRules() {
+		return new IBusinessRule[] { // 注册的业务规则
+				new BusinessRuleRequired(PROPERTY_ITEMCODE, PROPERTY_WAREHOUSE, PROPERTY_SERIALCODE), // 要求有值
 		};
+	}
+
+	@Override
+	public IBusinessLogicContract[] getContracts() {
+		return new IBusinessLogicContract[] { new IMaterialSerialJournalContract() {
+
+			@Override
+			public String getIdentifiers() {
+				return MaterialSerialJournal.this.getIdentifiers();
+			}
+
+			@Override
+			public String getSerialCode() {
+				return MaterialSerialJournal.this.getSerialCode();
+			}
+
+			@Override
+			public String getItemCode() {
+				return MaterialSerialJournal.this.getItemCode();
+			}
+
+			@Override
+			public String getWarehouse() {
+				return MaterialSerialJournal.this.getWarehouse();
+			}
+
+			@Override
+			public emDirection getDirection() {
+				return MaterialSerialJournal.this.getDirection();
+			}
+
+			@Override
+			public String getDocumentType() {
+				return MaterialSerialJournal.this.getBaseDocumentType();
+			}
+
+			@Override
+			public Integer getDocumentEntry() {
+				return MaterialSerialJournal.this.getBaseDocumentEntry();
+			}
+
+			@Override
+			public Integer getDocumentLineId() {
+				return MaterialSerialJournal.this.getBaseDocumentLineId();
+			}
+		} };
 	}
 }

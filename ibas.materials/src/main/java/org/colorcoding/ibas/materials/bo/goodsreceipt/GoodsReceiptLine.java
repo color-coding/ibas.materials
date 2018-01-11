@@ -1472,17 +1472,17 @@ public class GoodsReceiptLine extends BusinessObject<GoodsReceiptLine>
 			}
 
 			@Override
-			public String getBaseDocumentType() {
+			public String getDocumentType() {
 				return GoodsReceiptLine.this.getObjectCode();
 			}
 
 			@Override
-			public Integer getBaseDocumentEntry() {
+			public Integer getDocumentEntry() {
 				return GoodsReceiptLine.this.getDocEntry();
 			}
 
 			@Override
-			public Integer getBaseDocumentLineId() {
+			public Integer getDocumentLineId() {
 				return GoodsReceiptLine.this.getLineId();
 			}
 

@@ -14,6 +14,9 @@ import org.colorcoding.ibas.bobas.data.emYesNo;
 import org.colorcoding.ibas.bobas.mapping.BOCode;
 import org.colorcoding.ibas.bobas.mapping.DbField;
 import org.colorcoding.ibas.bobas.mapping.DbFieldType;
+import org.colorcoding.ibas.bobas.rule.IBusinessRule;
+import org.colorcoding.ibas.bobas.rule.common.BusinessRuleMinValue;
+import org.colorcoding.ibas.bobas.rule.common.BusinessRuleRequired;
 import org.colorcoding.ibas.materials.MyConfiguration;
 import org.colorcoding.ibas.materials.logic.IMaterialBatchJournalContract;
 
@@ -57,13 +60,14 @@ public class MaterialBatch extends BusinessObject<MaterialBatch> implements IMat
 	 */
 	private static final String PROPERTY_ITEMCODE_NAME = "ItemCode";
 
-	public static IMaterialBatch create(IMaterialBatchJournalContract contract){
+	public static IMaterialBatch create(IMaterialBatchJournalContract contract) {
 		IMaterialBatch materialBatch = new MaterialBatch();
 		materialBatch.setBatchCode(contract.getBatchCode());
 		materialBatch.setItemCode(contract.getItemCode());
 		materialBatch.setWarehouse(contract.getWarehouse());
-		return  materialBatch;
+		return materialBatch;
 	}
+
 	/**
 	 * 物料编码 属性
 	 */
@@ -440,8 +444,6 @@ public class MaterialBatch extends BusinessObject<MaterialBatch> implements IMat
 	public final void setNotes(String value) {
 		this.setProperty(PROPERTY_NOTES, value);
 	}
-
-
 
 	/**
 	 * 属性名称-对象编号
@@ -859,7 +861,6 @@ public class MaterialBatch extends BusinessObject<MaterialBatch> implements IMat
 		this.setProperty(PROPERTY_UPDATEACTIONID, value);
 	}
 
-
 	/**
 	 * 初始化数据
 	 */
@@ -870,4 +871,11 @@ public class MaterialBatch extends BusinessObject<MaterialBatch> implements IMat
 
 	}
 
+	@Override
+	protected IBusinessRule[] registerRules() {
+		return new IBusinessRule[] { // 注册的业务规则
+				new BusinessRuleRequired(PROPERTY_ITEMCODE, PROPERTY_WAREHOUSE, PROPERTY_BATCHCODE), // 要求有值
+				new BusinessRuleMinValue<Decimal>(Decimal.ZERO, PROPERTY_QUANTITY), // 不能低于0
+		};
+	}
 }

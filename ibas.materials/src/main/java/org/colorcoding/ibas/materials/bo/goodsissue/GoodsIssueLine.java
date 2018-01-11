@@ -1470,17 +1470,17 @@ public class GoodsIssueLine extends BusinessObject<GoodsIssueLine> implements IG
 			}
 
 			@Override
-			public String getBaseDocumentType() {
+			public String getDocumentType() {
 				return GoodsIssueLine.this.getObjectCode();
 			}
 
 			@Override
-			public Integer getBaseDocumentEntry() {
+			public Integer getDocumentEntry() {
 				return GoodsIssueLine.this.getDocEntry();
 			}
 
 			@Override
-			public Integer getBaseDocumentLineId() {
+			public Integer getDocumentLineId() {
 				return GoodsIssueLine.this.getLineId();
 			}
 

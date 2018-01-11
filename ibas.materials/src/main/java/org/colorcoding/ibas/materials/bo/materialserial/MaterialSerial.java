@@ -13,6 +13,8 @@ import org.colorcoding.ibas.bobas.data.emYesNo;
 import org.colorcoding.ibas.bobas.mapping.BOCode;
 import org.colorcoding.ibas.bobas.mapping.DbField;
 import org.colorcoding.ibas.bobas.mapping.DbFieldType;
+import org.colorcoding.ibas.bobas.rule.IBusinessRule;
+import org.colorcoding.ibas.bobas.rule.common.BusinessRuleRequired;
 import org.colorcoding.ibas.materials.MyConfiguration;
 import org.colorcoding.ibas.materials.logic.IMaterialSerialJournalContract;
 
@@ -56,14 +58,14 @@ public class MaterialSerial extends BusinessObject<MaterialSerial> implements IM
 	 */
 	private static final String PROPERTY_ITEMCODE_NAME = "ItemCode";
 
-
-	public static IMaterialSerial create(IMaterialSerialJournalContract contract){
+	public static IMaterialSerial create(IMaterialSerialJournalContract contract) {
 		IMaterialSerial materialSerial = new MaterialSerial();
 		materialSerial.setSerialCode(contract.getSerialCode());
 		materialSerial.setItemCode(contract.getItemCode());
 		materialSerial.setWarehouse(contract.getWarehouse());
-		return  materialSerial;
+		return materialSerial;
 	}
+
 	/**
 	 * 物料编码 属性
 	 */
@@ -474,8 +476,6 @@ public class MaterialSerial extends BusinessObject<MaterialSerial> implements IM
 	public final void setNotes(String value) {
 		this.setProperty(PROPERTY_NOTES, value);
 	}
-
-
 
 	/**
 	 * 属性名称-对象编号
@@ -902,4 +902,10 @@ public class MaterialSerial extends BusinessObject<MaterialSerial> implements IM
 		this.setObjectCode(MyConfiguration.applyVariables(BUSINESS_OBJECT_CODE));
 	}
 
+	@Override
+	protected IBusinessRule[] registerRules() {
+		return new IBusinessRule[] { // 注册的业务规则
+				new BusinessRuleRequired(PROPERTY_ITEMCODE, PROPERTY_WAREHOUSE, PROPERTY_SERIALCODE), // 要求有值
+		};
+	}
 }

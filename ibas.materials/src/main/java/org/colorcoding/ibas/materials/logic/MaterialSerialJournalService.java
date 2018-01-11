@@ -1,133 +1,105 @@
 package org.colorcoding.ibas.materials.logic;
 
-import org.colorcoding.ibas.bobas.bo.IBOSimpleLine;
-import org.colorcoding.ibas.bobas.common.*;
+import org.colorcoding.ibas.bobas.common.ConditionOperation;
+import org.colorcoding.ibas.bobas.common.ConditionRelationship;
+import org.colorcoding.ibas.bobas.common.Criteria;
+import org.colorcoding.ibas.bobas.common.ICondition;
+import org.colorcoding.ibas.bobas.common.ICriteria;
+import org.colorcoding.ibas.bobas.common.IOperationResult;
 import org.colorcoding.ibas.bobas.data.emDirection;
 import org.colorcoding.ibas.bobas.data.emDocumentStatus;
 import org.colorcoding.ibas.bobas.data.emYesNo;
 import org.colorcoding.ibas.bobas.i18n.I18N;
-import org.colorcoding.ibas.bobas.logic.BusinessLogic;
 import org.colorcoding.ibas.bobas.logic.BusinessLogicException;
 import org.colorcoding.ibas.bobas.mapping.LogicContract;
 import org.colorcoding.ibas.materials.bo.material.IMaterial;
-import org.colorcoding.ibas.materials.bo.material.Material;
 import org.colorcoding.ibas.materials.bo.materialserial.IMaterialSerial;
 import org.colorcoding.ibas.materials.bo.materialserial.IMaterialSerialJournal;
 import org.colorcoding.ibas.materials.bo.materialserial.MaterialSerial;
 import org.colorcoding.ibas.materials.repository.BORepositoryMaterials;
 
 /**
- * 物料序列号日记账服务  生成一张序列号日记账分录
+ * 物料序列号日记账服务 生成一张序列号日记账分录
  */
 @LogicContract(IMaterialSerialJournalContract.class)
-public class MaterialSerialJournalService extends BusinessLogic<IMaterialSerialJournalContract, IMaterialSerial> {
-    @Override
-    protected IMaterialSerial fetchBeAffected(IMaterialSerialJournalContract contract) {
-        this.checkContractData(contract);
-        // region 定义查询条件
-        ICriteria criteria = Criteria.create();
-        ICondition condition = criteria.getConditions().create();
-        condition.setAlias(MaterialSerial.PROPERTY_SERIALCODE.getName());
-        condition.setValue(contract.getSerialCode());
-        condition.setOperation(ConditionOperation.EQUAL);
+public class MaterialSerialJournalService
+		extends MaterialInventoryBusinessLogic<IMaterialSerialJournalContract, IMaterialSerial> {
+	@Override
+	protected IMaterialSerial fetchBeAffected(IMaterialSerialJournalContract contract) {
+		// 检查物料
+		IMaterial material = this.checkMaterial(contract.getItemCode());
+		// 非序列号管理物料
+		if (material.getSerialManagement() != emYesNo.YES) {
+			throw new BusinessLogicException(
+					String.format(I18N.prop("msg_mm_material_is_not_serialmanagement"), contract.getItemCode()));
+		}
+		// 检查仓库
+		this.checkWarehose(contract.getWarehouse());
+		// 检查物料序列库存记录
+		ICriteria criteria = new Criteria();
+		ICondition condition = criteria.getConditions().create();
+		condition.setAlias(MaterialSerial.PROPERTY_SERIALCODE.getName());
+		condition.setOperation(ConditionOperation.EQUAL);
+		condition.setValue(contract.getSerialCode());
+		condition = criteria.getConditions().create();
+		condition.setRelationship(ConditionRelationship.AND);
+		condition.setAlias(MaterialSerial.PROPERTY_ITEMCODE.getName());
+		condition.setOperation(ConditionOperation.EQUAL);
+		condition.setValue(contract.getItemCode());
+		condition = criteria.getConditions().create();
+		condition.setRelationship(ConditionRelationship.AND);
+		condition.setAlias(MaterialSerial.PROPERTY_WAREHOUSE.getName());
+		condition.setOperation(ConditionOperation.EQUAL);
+		condition.setValue(contract.getWarehouse());
 
-        condition = criteria.getConditions().create();
-        condition.setAlias(MaterialSerial.PROPERTY_ITEMCODE.getName());
-        condition.setValue(contract.getItemCode());
-        condition.setOperation(ConditionOperation.EQUAL);
-        condition.setRelationship(ConditionRelationship.AND);
+		IMaterialSerial materialSerial = this.fetchBeAffected(criteria, IMaterialSerial.class);
+		if (materialSerial == null) {
+			BORepositoryMaterials boRepository = new BORepositoryMaterials();
+			boRepository.setRepository(super.getRepository());
+			IOperationResult<IMaterialSerial> operationResult = boRepository.fetchMaterialSerial(criteria);
+			if (operationResult.getError() != null) {
+				throw new BusinessLogicException(operationResult.getError());
+			}
+			materialSerial = operationResult.getResultObjects().firstOrDefault();
+		}
+		if (materialSerial == null) {
+			materialSerial = MaterialSerial.create(contract);
+		}
+		return materialSerial;
+	}
 
-        condition = criteria.getConditions().create();
-        condition.setAlias(MaterialSerial.PROPERTY_WAREHOUSE.getName());
-        condition.setValue(contract.getWarehouse());
-        condition.setOperation(ConditionOperation.EQUAL);
-        condition.setRelationship(ConditionRelationship.AND);
+	@Override
+	protected void impact(IMaterialSerialJournalContract contract) {
+		IMaterialSerial materialSerial = this.getBeAffected();
+		materialSerial.setItemCode(contract.getItemCode());
+		materialSerial.setWarehouse(contract.getWarehouse());
+		if (contract.getDirection() == emDirection.IN) {
+			materialSerial.setInStock(emYesNo.YES);
+		} else {
+			materialSerial.setInStock(emYesNo.NO);
+		}
+	}
 
-        // endregion
-        IMaterialSerial materialSerial = this.fetchBeAffected(criteria, IMaterialSerial.class);
-        if (materialSerial == null) {
-            // region 查询物料序列号日记账
-            BORepositoryMaterials boRepository = new BORepositoryMaterials();
-            boRepository.setRepository(super.getRepository());
-            IOperationResult<IMaterialSerial> operationResult = boRepository.fetchMaterialSerial(criteria);
-            if (operationResult.getError() != null) {
-                throw new BusinessLogicException(operationResult.getMessage());
-            }
-            // endregion
-            materialSerial = operationResult.getResultObjects().firstOrDefault();
-            if (materialSerial == null) {
-                materialSerial = MaterialSerial.create(contract);
-            }
-        }
-        return materialSerial;
-    }
+	@Override
+	protected void revoke(IMaterialSerialJournalContract contract) {
+		IMaterialSerial materialSerial = this.getBeAffected();
+		materialSerial.setItemCode(contract.getItemCode());
+		materialSerial.setWarehouse(contract.getWarehouse());
+		if (contract.getDirection() == emDirection.IN) {
+			materialSerial.setInStock(emYesNo.NO);
+		} else {
+			materialSerial.setInStock(emYesNo.YES);
+		}
+	}
 
-    @Override
-    protected void impact(IMaterialSerialJournalContract contract) {
-        IMaterialSerial materialSerial = this.getBeAffected();
-        materialSerial.setItemCode(contract.getItemCode());
-        materialSerial.setWarehouse(contract.getWarehouse());
-        if (contract.getDirection() == emDirection.IN) {
-            materialSerial.setInStock(emYesNo.YES);
-        } else {
-            materialSerial.setInStock(emYesNo.NO);
-        }
-
-    }
-
-    @Override
-    protected void revoke(IMaterialSerialJournalContract contract) {
-        IMaterialSerial materialSerial = this.getBeAffected();
-        materialSerial.setItemCode(contract.getItemCode());
-        materialSerial.setWarehouse(contract.getWarehouse());
-        if (contract.getDirection() == emDirection.IN) {
-            materialSerial.setInStock(emYesNo.NO);
-        } else {
-            materialSerial.setInStock(emYesNo.YES);
-        }
-    }
-
-    @Override
-    protected boolean checkDataStatus(Object data) {
-        if (super.checkDataStatus(data)) {
-            if (data instanceof IBOSimpleLine) {
-                IMaterialSerialJournal journal = (IMaterialSerialJournal) data;
-                if (journal.getLineStatus() == emDocumentStatus.PLANNED) {
-                    return false;
-                }
-            }
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    private void checkContractData(IMaterialSerialJournalContract contract) {
-        ICriteria criteria = Criteria.create();
-        ICondition condition = criteria.getConditions().create();
-        condition.setAlias(Material.PROPERTY_CODE.getName());
-        condition.setValue(contract.getItemCode());
-        condition.setOperation(ConditionOperation.EQUAL);
-        BORepositoryMaterials boRepository = new BORepositoryMaterials();
-        boRepository.setRepository(super.getRepository());
-        IOperationResult<IMaterial> operationResult = boRepository.fetchMaterial(criteria);
-        if (operationResult.getError() != null) {
-            throw new BusinessLogicException(operationResult.getMessage());
-        }
-        IMaterial material = operationResult.getResultObjects().firstOrDefault();
-        if (material == null) {
-            throw new BusinessLogicException(
-                    String.format(I18N.prop("msg_mm_material_is_not_exist"), contract.getItemCode()));
-        }
-        // 虚拟物料
-        if (material.getPhantomItem() == emYesNo.YES) {
-            throw new BusinessLogicException(String.format(
-                    I18N.prop("msg_mm_material_is_phantom_item_can't_create_journal"), contract.getItemCode()));
-        }
-        // 非序列号管理物料
-        if (material.getSerialManagement() == emYesNo.NO) {
-            throw new BusinessLogicException(
-                    String.format(I18N.prop("msg_mm_material_is_not_serialmanagement"), contract.getItemCode()));
-        }
-    }
+	@Override
+	protected boolean checkDataStatus(Object data) {
+		if (data instanceof IMaterialSerialJournal) {
+			IMaterialSerialJournal journal = (IMaterialSerialJournal) data;
+			if (journal.getLineStatus() == emDocumentStatus.PLANNED) {
+				return false;
+			}
+		}
+		return super.checkDataStatus(data);
+	}
 }

@@ -1471,17 +1471,17 @@ public class InventoryTransferLine extends BusinessObject<InventoryTransferLine>
 			}
 
 			@Override
-			public String getBaseDocumentType() {
+			public String getDocumentType() {
 				return InventoryTransferLine.this.getObjectCode();
 			}
 
 			@Override
-			public Integer getBaseDocumentEntry() {
+			public Integer getDocumentEntry() {
 				return InventoryTransferLine.this.getDocEntry();
 			}
 
 			@Override
-			public Integer getBaseDocumentLineId() {
+			public Integer getDocumentLineId() {
 				return InventoryTransferLine.this.getLineId();
 			}
 
@@ -1536,17 +1536,17 @@ public class InventoryTransferLine extends BusinessObject<InventoryTransferLine>
 			}
 
 			@Override
-			public String getBaseDocumentType() {
+			public String getDocumentType() {
 				return InventoryTransferLine.this.getObjectCode();
 			}
 
 			@Override
-			public Integer getBaseDocumentEntry() {
+			public Integer getDocumentEntry() {
 				return InventoryTransferLine.this.getDocEntry();
 			}
 
 			@Override
-			public Integer getBaseDocumentLineId() {
+			public Integer getDocumentLineId() {
 				return InventoryTransferLine.this.getLineId();
 			}
 
@@ -1581,6 +1581,5 @@ public class InventoryTransferLine extends BusinessObject<InventoryTransferLine>
 			}
 		} };
 	}
-	// endregion
 
 }
