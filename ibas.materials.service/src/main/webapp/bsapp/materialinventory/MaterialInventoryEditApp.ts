@@ -182,7 +182,7 @@ export class MaterialInventoryEditApp extends ibas.BOEditApplication<IMaterialIn
             boCode: bo.Warehouse.BUSINESS_OBJECT_CODE,
             chooseType: ibas.emChooseType.SINGLE,
             criteria: [
-                new ibas.Condition(bo.Warehouse.PROPERTY_ACTIVATED_NAME, ibas.emConditionOperation.EQUAL, "Y")
+                new ibas.Condition(bo.Warehouse.PROPERTY_ACTIVATED_NAME, ibas.emConditionOperation.EQUAL, ibas.emYesNo.YES)
             ],
             onCompleted(selecteds: ibas.List<bo.Warehouse>): void {
                 that.editData.warehouse = selecteds.firstOrDefault().code;
@@ -196,7 +196,7 @@ export class MaterialInventoryEditApp extends ibas.BOEditApplication<IMaterialIn
             boCode: bo.Material.BUSINESS_OBJECT_CODE,
             chooseType: ibas.emChooseType.SINGLE,
             criteria: [
-                new ibas.Condition(bo.Warehouse.PROPERTY_ACTIVATED_NAME, ibas.emConditionOperation.EQUAL, "Y")
+                new ibas.Condition(bo.Warehouse.PROPERTY_ACTIVATED_NAME, ibas.emConditionOperation.EQUAL, ibas.emYesNo.YES)
             ],
             onCompleted(selecteds: ibas.List<bo.Material>): void {
                 that.editData.itemCode = selecteds.firstOrDefault().code;
