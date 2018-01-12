@@ -305,9 +305,12 @@ export class InventoryTransferEditApp extends ibas.BOEditApplication<IInventoryT
         let contracts: ibas.ArrayList<bo.IMaterialBatchContract> = new ibas.ArrayList<bo.IMaterialBatchContract>();
         for (let item of this.editData.inventoryTransferLines) {
             contracts.add({
+                batchManagement: item.batchManagement,
                 itemCode: item.itemCode,
+                itemDescription: item.itemDescription,
                 warehouse: item.warehouse,
                 quantity: item.quantity,
+                uom: item.uom,
                 materialBatches: item.materialBatches
             });
         }
@@ -319,9 +322,12 @@ export class InventoryTransferEditApp extends ibas.BOEditApplication<IInventoryT
         let contracts: ibas.ArrayList<bo.IMaterialSerialContract> = new ibas.ArrayList<bo.IMaterialSerialContract>();
         for (let item of this.editData.inventoryTransferLines) {
             contracts.add({
+                serialManagement: item.serialManagement,
                 itemCode: item.itemCode,
+                itemDescription: item.itemDescription,
                 warehouse: item.warehouse,
                 quantity: item.quantity,
+                uom: item.uom,
                 materialSerials: item.materialSerials
             });
         }

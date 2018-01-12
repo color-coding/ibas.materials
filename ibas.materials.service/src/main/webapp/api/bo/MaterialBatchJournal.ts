@@ -383,6 +383,8 @@ export class MaterialBatchJournals
         item.baseDocumentType = this.parent.objectCode;
         item.baseDocumentEntry = this.parent.docEntry;
         item.baseDocumentLineId = this.parent.lineId;
+        item.itemCode = this.parent.itemCode;
+        item.warehouse = this.parent.warehouse;
     }
     /**
      * 父项单据行发生改变
@@ -405,6 +407,17 @@ export class MaterialBatchJournals
                 item.baseDocumentLineId = this.parent.lineId;
             }
         }
+    }
+    /** 总计 */
+    total(): number {
+        let total: number = 0;
+        for (let item of this) {
+            if (item.isDeleted) {
+                continue;
+            }
+            total += item.quantity;
+        }
+        return total;
     }
 }
 

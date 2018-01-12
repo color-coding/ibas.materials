@@ -82,31 +82,35 @@ export enum emMaterialIssueRules {
 }
 /** 批次服务契约 */
 export interface IMaterialBatchContract extends IServiceContract {
-
+    /** 批号管理 */
+    batchManagement: emYesNo;
     /** 物料编号 */
     itemCode: string;
-
+    /** 物料描述 */
+    itemDescription: string;
     /** 仓库编码 */
     warehouse: string;
-
     /** 数量 */
     quantity: number;
-
+    /** 单位 */
+    uom: string;
     /** 物料批次 */
     materialBatches: IMaterialBatchJournals;
 }
 /** 序列服务契约 */
 export interface IMaterialSerialContract extends IServiceContract {
-
+    /** 序号管理 */
+    serialManagement: emYesNo;
     /** 物料编号 */
     itemCode: string;
-
+    /** 物料描述 */
+    itemDescription: string;
     /** 仓库编码 */
     warehouse: string;
-
     /** 数量 */
     quantity: number;
-
+    /** 单位 */
+    uom: string;
     /** 物料序列 */
     materialSerials: IMaterialSerialJournals;
 }

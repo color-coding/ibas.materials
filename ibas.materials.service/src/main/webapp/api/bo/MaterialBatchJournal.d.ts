@@ -117,6 +117,8 @@ export interface IMaterialBatchJournal extends IBOSimple {
 export interface IMaterialBatchJournals extends IBusinessObjects<IMaterialBatchJournal, IMaterialBatchJournalsParent> {
     /** 创建实例 */
     create(): IMaterialBatchJournal;
+    /** 总计 */
+    total(): number;
 }
 /** 物料批次记录父项 */
 export interface IMaterialBatchJournalsParent extends IBusinessObject {

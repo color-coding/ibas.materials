@@ -121,6 +121,8 @@ export interface IMaterialSerialJournal extends IBOSimple {
 export interface IMaterialSerialJournals extends IBusinessObjects<IMaterialSerialJournal, IMaterialSerialJournalsParent> {
     /** 创建实例 */
     create(): IMaterialSerialJournal;
+    /** 总计 */
+    total(): number;
 }
 /** 序列管理单据行 */
 export interface IMaterialSerialJournalsParent extends IBusinessObject {
