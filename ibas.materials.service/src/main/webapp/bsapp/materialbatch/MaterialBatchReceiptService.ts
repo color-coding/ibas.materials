@@ -186,10 +186,13 @@ export class MaterialBatchReceiptService extends ibas.ServiceApplication<IMateri
         let batchJournals: IMaterialBatchContract[] = new ibas.ArrayList<IMaterialBatchContract>();
         for (let item of contracts) {
             batchJournals.push({
+                batchManagement: item.batchManagement,
                 itemCode: item.itemCode,
+                itemDescription: item.itemDescription,
                 warehouse: item.warehouse,
                 quantity: item.quantity,
-                materialBatches: item.materialBatches
+                uom: item.uom,
+                materialBatches: item.materialBatches,
             });
         }
         this.batchJournals = batchJournals;

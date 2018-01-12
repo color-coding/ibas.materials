@@ -149,10 +149,13 @@ export class MaterialSerialReceiptService extends ibas.ServiceApplication<IMater
         let batchJournals: IMaterialSerialContract[] = new ibas.ArrayList<IMaterialSerialContract>();
         for (let item of contract) {
             batchJournals.push({
+                serialManagement: item.serialManagement,
                 itemCode: item.itemCode,
+                itemDescription: item.itemDescription,
                 warehouse: item.warehouse,
                 quantity: item.quantity,
-                materialSerials: item.materialSerials
+                uom: item.uom,
+                materialSerials: item.materialSerials,
             });
         }
         this.serialJournals = batchJournals;
