@@ -16,7 +16,6 @@ import org.colorcoding.ibas.bobas.mapping.DbFieldType;
 import org.colorcoding.ibas.bobas.rule.IBusinessRule;
 import org.colorcoding.ibas.bobas.rule.common.BusinessRuleRequired;
 import org.colorcoding.ibas.materials.MyConfiguration;
-import org.colorcoding.ibas.materials.logic.IMaterialSerialJournalContract;
 
 /**
  * 获取-物料序列号
@@ -57,14 +56,6 @@ public class MaterialSerial extends BusinessObject<MaterialSerial> implements IM
 	 * 属性名称-物料编码
 	 */
 	private static final String PROPERTY_ITEMCODE_NAME = "ItemCode";
-
-	public static IMaterialSerial create(IMaterialSerialJournalContract contract) {
-		IMaterialSerial materialSerial = new MaterialSerial();
-		materialSerial.setSerialCode(contract.getSerialCode());
-		materialSerial.setItemCode(contract.getItemCode());
-		materialSerial.setWarehouse(contract.getWarehouse());
-		return materialSerial;
-	}
 
 	/**
 	 * 物料编码 属性

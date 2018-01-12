@@ -18,7 +18,6 @@ import org.colorcoding.ibas.bobas.rule.IBusinessRule;
 import org.colorcoding.ibas.bobas.rule.common.BusinessRuleMinValue;
 import org.colorcoding.ibas.bobas.rule.common.BusinessRuleRequired;
 import org.colorcoding.ibas.materials.MyConfiguration;
-import org.colorcoding.ibas.materials.logic.IMaterialBatchJournalContract;
 
 /**
  * 获取-物料批次
@@ -59,14 +58,6 @@ public class MaterialBatch extends BusinessObject<MaterialBatch> implements IMat
 	 * 属性名称-物料编码
 	 */
 	private static final String PROPERTY_ITEMCODE_NAME = "ItemCode";
-
-	public static IMaterialBatch create(IMaterialBatchJournalContract contract) {
-		IMaterialBatch materialBatch = new MaterialBatch();
-		materialBatch.setBatchCode(contract.getBatchCode());
-		materialBatch.setItemCode(contract.getItemCode());
-		materialBatch.setWarehouse(contract.getWarehouse());
-		return materialBatch;
-	}
 
 	/**
 	 * 物料编码 属性

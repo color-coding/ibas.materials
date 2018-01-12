@@ -46,7 +46,9 @@ public class MaterialWarehouseInventoryService
 			materialInventory = operationResult.getResultObjects().firstOrDefault();
 		}
 		if (materialInventory == null) {
-			materialInventory = MaterialInventory.create(contract);
+			materialInventory = new MaterialInventory();
+			materialInventory.setItemCode(contract.getItemCode());
+			materialInventory.setWarehouse(contract.getWarehouse());
 		}
 		return materialInventory;
 	}

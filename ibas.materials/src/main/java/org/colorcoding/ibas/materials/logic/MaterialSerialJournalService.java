@@ -63,33 +63,12 @@ public class MaterialSerialJournalService
 			materialSerial = operationResult.getResultObjects().firstOrDefault();
 		}
 		if (materialSerial == null) {
-			materialSerial = MaterialSerial.create(contract);
+			materialSerial = new MaterialSerial();
+			materialSerial.setSerialCode(contract.getSerialCode());
+			materialSerial.setItemCode(contract.getItemCode());
+			materialSerial.setWarehouse(contract.getWarehouse());
 		}
 		return materialSerial;
-	}
-
-	@Override
-	protected void impact(IMaterialSerialJournalContract contract) {
-		IMaterialSerial materialSerial = this.getBeAffected();
-		materialSerial.setItemCode(contract.getItemCode());
-		materialSerial.setWarehouse(contract.getWarehouse());
-		if (contract.getDirection() == emDirection.IN) {
-			materialSerial.setInStock(emYesNo.YES);
-		} else {
-			materialSerial.setInStock(emYesNo.NO);
-		}
-	}
-
-	@Override
-	protected void revoke(IMaterialSerialJournalContract contract) {
-		IMaterialSerial materialSerial = this.getBeAffected();
-		materialSerial.setItemCode(contract.getItemCode());
-		materialSerial.setWarehouse(contract.getWarehouse());
-		if (contract.getDirection() == emDirection.IN) {
-			materialSerial.setInStock(emYesNo.NO);
-		} else {
-			materialSerial.setInStock(emYesNo.YES);
-		}
 	}
 
 	@Override
@@ -102,4 +81,25 @@ public class MaterialSerialJournalService
 		}
 		return super.checkDataStatus(data);
 	}
+
+	@Override
+	protected void impact(IMaterialSerialJournalContract contract) {
+		IMaterialSerial materialSerial = this.getBeAffected();
+		if (contract.getDirection() == emDirection.IN) {
+			materialSerial.setInStock(emYesNo.YES);
+		} else {
+			materialSerial.setInStock(emYesNo.NO);
+		}
+	}
+
+	@Override
+	protected void revoke(IMaterialSerialJournalContract contract) {
+		IMaterialSerial materialSerial = this.getBeAffected();
+		if (contract.getDirection() == emDirection.IN) {
+			materialSerial.setInStock(emYesNo.NO);
+		} else {
+			materialSerial.setInStock(emYesNo.YES);
+		}
+	}
+
 }

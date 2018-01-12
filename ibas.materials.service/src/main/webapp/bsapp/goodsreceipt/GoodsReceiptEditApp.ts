@@ -8,16 +8,6 @@
 
 import * as ibas from "ibas/index";
 import * as bo from "../../borep/bo/index";
-import {
-    IMaterialBatchJournal,
-    IMaterialSerialJournal,
-} from "../../api/bo/index";
-import {
-    MaterialBatchReceiptServiceProxy,
-    MaterialSerialReceiptServiceProxy,
-    IMaterialBatchContract,
-    IMaterialSerialContract,
-} from "../../api/Datas";
 import { BORepositoryMaterials } from "../../borep/BORepositories";
 
 /** 编辑应用-库存收货 */
@@ -228,10 +218,7 @@ export class GoodsReceiptEditApp extends ibas.BOEditApplication<IGoodsReceiptEdi
         let that: this = this;
         ibas.servicesManager.runChooseService<bo.Material>({
             boCode: bo.Material.BUSINESS_OBJECT_CODE,
-            criteria: [
-                new ibas.Condition(bo.Material.PROPERTY_ACTIVATED_NAME, ibas.emConditionOperation.EQUAL, ibas.emYesNo.YES),
-                new ibas.Condition(bo.Material.PROPERTY_DELETED_NAME, ibas.emConditionOperation.EQUAL, ibas.emYesNo.NO)
-            ],
+            criteria: bo.conditions.material.create(),
             onCompleted(selecteds: ibas.List<bo.Material>): void {
                 // 获取触发的对象
                 let index: number = that.editData.goodsReceiptLines.indexOf(caller);
@@ -280,10 +267,7 @@ export class GoodsReceiptEditApp extends ibas.BOEditApplication<IGoodsReceiptEdi
         ibas.servicesManager.runChooseService<bo.Warehouse>({
             boCode: bo.Warehouse.BUSINESS_OBJECT_CODE,
             chooseType: ibas.emChooseType.SINGLE,
-            criteria: [
-                new ibas.Condition(bo.Warehouse.PROPERTY_ACTIVATED_NAME, ibas.emConditionOperation.EQUAL, ibas.emYesNo.YES),
-                new ibas.Condition(bo.Warehouse.PROPERTY_DELETED_NAME, ibas.emConditionOperation.EQUAL, ibas.emYesNo.NO)
-            ],
+            criteria: bo.conditions.warehouse.create(),
             onCompleted(selecteds: ibas.List<bo.Warehouse>): void {
                 // 获取触发的对象
                 let index: number = that.editData.goodsReceiptLines.indexOf(caller);
@@ -307,7 +291,7 @@ export class GoodsReceiptEditApp extends ibas.BOEditApplication<IGoodsReceiptEdi
     }
     /** 新建物料批次信息 */
     createGoodsReceiptLineMaterialBatch(): void {
-        let contracts: ibas.ArrayList<IMaterialBatchContract> = new ibas.ArrayList<IMaterialBatchContract>();
+        let contracts: ibas.ArrayList<bo.IMaterialBatchContract> = new ibas.ArrayList<bo.IMaterialBatchContract>();
         for (let item of this.editData.goodsReceiptLines) {
             contracts.add({
                 itemCode: item.itemCode,
@@ -316,13 +300,13 @@ export class GoodsReceiptEditApp extends ibas.BOEditApplication<IGoodsReceiptEdi
                 materialBatches: item.materialBatches,
             });
         }
-        ibas.servicesManager.runApplicationService<IMaterialBatchContract[]>({
-            proxy: new MaterialBatchReceiptServiceProxy(contracts)
+        ibas.servicesManager.runApplicationService<bo.IMaterialBatchContract[]>({
+            proxy: new bo.MaterialBatchReceiptServiceProxy(contracts)
         });
     }
     /** 新建物料序列信息 */
     createGoodsReceiptLineMaterialSerial(): void {
-        let contracts: ibas.ArrayList<IMaterialSerialContract> = new ibas.ArrayList<IMaterialSerialContract>();
+        let contracts: ibas.ArrayList<bo.IMaterialSerialContract> = new ibas.ArrayList<bo.IMaterialSerialContract>();
         for (let item of this.editData.goodsReceiptLines) {
             contracts.add({
                 itemCode: item.itemCode,
@@ -331,8 +315,8 @@ export class GoodsReceiptEditApp extends ibas.BOEditApplication<IGoodsReceiptEdi
                 materialSerials: item.materialSerials
             });
         }
-        ibas.servicesManager.runApplicationService<IMaterialSerialContract[]>({
-            proxy: new MaterialSerialReceiptServiceProxy(contracts)
+        ibas.servicesManager.runApplicationService<bo.IMaterialSerialContract[]>({
+            proxy: new bo.MaterialSerialReceiptServiceProxy(contracts)
         });
     }
 }

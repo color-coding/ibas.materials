@@ -8,16 +8,6 @@
 
 import * as ibas from "ibas/index";
 import * as bo from "../../borep/bo/index";
-import {
-    IMaterialBatchJournal,
-    IMaterialSerialJournal,
-} from "../../api/bo/index";
-import {
-    MaterialBatchIssueServiceProxy,
-    MaterialSerialIssueServiceProxy,
-    IMaterialBatchContract,
-    IMaterialSerialContract,
-} from "../../api/Datas";
 import { BORepositoryMaterials } from "../../borep/BORepositories";
 
 /** 编辑应用-库存转储 */
@@ -229,12 +219,10 @@ export class InventoryTransferEditApp extends ibas.BOEditApplication<IInventoryT
         ibas.servicesManager.runChooseService<bo.Warehouse>({
             boCode: bo.Warehouse.BUSINESS_OBJECT_CODE,
             chooseType: ibas.emChooseType.SINGLE,
-            criteria: [
-                new ibas.Condition(bo.Warehouse.PROPERTY_ACTIVATED_NAME, ibas.emConditionOperation.EQUAL, ibas.emYesNo.YES),
-                new ibas.Condition(bo.Warehouse.PROPERTY_DELETED_NAME, ibas.emConditionOperation.EQUAL, ibas.emYesNo.NO)
-            ],
+            criteria: bo.conditions.warehouse.create(),
             onCompleted(selecteds: ibas.List<bo.Warehouse>): void {
-                that.editData.fromWarehouse = selecteds.firstOrDefault().code;
+                let selected: bo.Warehouse = selecteds.firstOrDefault();
+                that.editData.fromWarehouse = selected.code;
             }
         });
     }
@@ -243,10 +231,7 @@ export class InventoryTransferEditApp extends ibas.BOEditApplication<IInventoryT
         let that: this = this;
         ibas.servicesManager.runChooseService<bo.Material>({
             boCode: bo.Material.BUSINESS_OBJECT_CODE,
-            criteria: [
-                new ibas.Condition(bo.Material.PROPERTY_ACTIVATED_NAME, ibas.emConditionOperation.EQUAL, ibas.emYesNo.YES),
-                new ibas.Condition(bo.Material.PROPERTY_DELETED_NAME, ibas.emConditionOperation.EQUAL, ibas.emYesNo.NO)
-            ],
+            criteria: bo.conditions.material.create(),
             onCompleted(selecteds: ibas.List<bo.Material>): void {
                 // 获取触发的对象
                 let index: number = that.editData.inventoryTransferLines.indexOf(caller);
@@ -293,10 +278,7 @@ export class InventoryTransferEditApp extends ibas.BOEditApplication<IInventoryT
         ibas.servicesManager.runChooseService<bo.Warehouse>({
             boCode: bo.Warehouse.BUSINESS_OBJECT_CODE,
             chooseType: ibas.emChooseType.SINGLE,
-            criteria: [
-                new ibas.Condition(bo.Warehouse.PROPERTY_ACTIVATED_NAME, ibas.emConditionOperation.EQUAL, ibas.emYesNo.YES),
-                new ibas.Condition(bo.Warehouse.PROPERTY_DELETED_NAME, ibas.emConditionOperation.EQUAL, ibas.emYesNo.NO)
-            ],
+            criteria: bo.conditions.warehouse.create(),
             onCompleted(selecteds: ibas.List<bo.Warehouse>): void {
                 // 获取触发的对象
                 let index: number = that.editData.inventoryTransferLines.indexOf(caller);
@@ -320,7 +302,7 @@ export class InventoryTransferEditApp extends ibas.BOEditApplication<IInventoryT
     }
 
     chooseInventoryTransferLineMaterialBatch(): void {
-        let contracts: ibas.ArrayList<IMaterialBatchContract> = new ibas.ArrayList<IMaterialBatchContract>();
+        let contracts: ibas.ArrayList<bo.IMaterialBatchContract> = new ibas.ArrayList<bo.IMaterialBatchContract>();
         for (let item of this.editData.inventoryTransferLines) {
             contracts.add({
                 itemCode: item.itemCode,
@@ -329,12 +311,12 @@ export class InventoryTransferEditApp extends ibas.BOEditApplication<IInventoryT
                 materialBatches: item.materialBatches
             });
         }
-        ibas.servicesManager.runApplicationService<IMaterialBatchContract[]>({
-            proxy: new MaterialBatchIssueServiceProxy(contracts)
+        ibas.servicesManager.runApplicationService<bo.IMaterialBatchContract[]>({
+            proxy: new bo.MaterialBatchIssueServiceProxy(contracts)
         });
     }
     chooseInventoryTransferLineMaterialSerial(): void {
-        let contracts: ibas.ArrayList<IMaterialSerialContract> = new ibas.ArrayList<IMaterialSerialContract>();
+        let contracts: ibas.ArrayList<bo.IMaterialSerialContract> = new ibas.ArrayList<bo.IMaterialSerialContract>();
         for (let item of this.editData.inventoryTransferLines) {
             contracts.add({
                 itemCode: item.itemCode,
@@ -343,8 +325,8 @@ export class InventoryTransferEditApp extends ibas.BOEditApplication<IInventoryT
                 materialSerials: item.materialSerials
             });
         }
-        ibas.servicesManager.runApplicationService<IMaterialSerialContract[]>({
-            proxy: new MaterialSerialIssueServiceProxy(contracts)
+        ibas.servicesManager.runApplicationService<bo.IMaterialSerialContract[]>({
+            proxy: new bo.MaterialSerialIssueServiceProxy(contracts)
         });
     }
 

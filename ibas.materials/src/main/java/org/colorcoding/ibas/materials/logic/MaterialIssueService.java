@@ -6,7 +6,6 @@ import org.colorcoding.ibas.bobas.common.Criteria;
 import org.colorcoding.ibas.bobas.common.ICondition;
 import org.colorcoding.ibas.bobas.common.ICriteria;
 import org.colorcoding.ibas.bobas.common.IOperationResult;
-import org.colorcoding.ibas.bobas.data.Decimal;
 import org.colorcoding.ibas.bobas.data.emDirection;
 import org.colorcoding.ibas.bobas.logic.BusinessLogicException;
 import org.colorcoding.ibas.bobas.mapping.LogicContract;
@@ -57,7 +56,11 @@ public class MaterialIssueService
 			materialJournal = operationResult.getResultObjects().firstOrDefault();
 		}
 		if (materialJournal == null) {
-			materialJournal = MaterialInventoryJournal.create(contract);
+			materialJournal = new MaterialInventoryJournal();
+			materialJournal.setBaseDocumentType(contract.getDocumentType());
+			materialJournal.setBaseDocumentEntry(contract.getDocumentEntry());
+			materialJournal.setBaseDocumentLineId(contract.getDocumentLineId());
+			materialJournal.setDirection(emDirection.OUT);
 		}
 		return materialJournal;
 	}
@@ -65,17 +68,23 @@ public class MaterialIssueService
 	@Override
 	protected void impact(IMaterialIssueContract contract) {
 		IMaterialInventoryJournal materialJournal = this.getBeAffected();
-		Decimal issueQuantity = materialJournal.getQuantity();
-		issueQuantity = issueQuantity.add(contract.getQuantity());
-		materialJournal.setQuantity(issueQuantity);
+		materialJournal.setItemCode(contract.getItemCode());
+		materialJournal.setItemName(contract.getItemName());
+		materialJournal.setWarehouse(contract.getWarehouse());
+		materialJournal.setPostingDate(contract.getPostingDate());
+		materialJournal.setDocumentDate(contract.getDocumentDate());
+		materialJournal.setDeliveryDate(contract.getDeliveryDate());
+		materialJournal.setQuantity(materialJournal.getQuantity().subtract(contract.getQuantity()));
 	}
 
 	@Override
 	protected void revoke(IMaterialIssueContract contract) {
 		IMaterialInventoryJournal materialJournal = this.getBeAffected();
-		Decimal issueQuantity = materialJournal.getQuantity();
-		issueQuantity = issueQuantity.subtract(contract.getQuantity());
-		materialJournal.setQuantity(issueQuantity);
+		materialJournal.setQuantity(materialJournal.getQuantity().add(contract.getQuantity()));
+		if (materialJournal.getQuantity().isZero()) {
+			// 已为0，则删除此条数据
+			materialJournal.delete();
+		}
 	}
 
 }

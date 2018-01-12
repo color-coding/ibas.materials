@@ -7,25 +7,31 @@ import org.colorcoding.ibas.bobas.logic.IBusinessLogicContract;
  * 获取生成物料价格清单的契约
  */
 public interface IMaterialPriceContract extends IBusinessLogicContract {
-    /**
-     * 价格清单编号
-     *
-     * @return
-     */
-    Integer getPriceList();
+	/**
+	 * 价格清单编号
+	 *
+	 * @return
+	 */
+	Integer getPriceList();
 
-    /**
-     * 物料编码
-     *
-     * @return
-     */
-    String getItemCode();
+	/**
+	 * 物料编码
+	 *
+	 * @return
+	 */
+	String getItemCode();
 
-    /**
-     * 价格
-     *
-     * @return
-     */
-    Decimal getPrice();
+	/**
+	 * 价格
+	 *
+	 * @return
+	 */
+	Decimal getPrice();
 
+	/**
+	 * 币种
+	 * 
+	 * @return 值
+	 */
+	String getCurrency();
 }

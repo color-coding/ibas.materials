@@ -17,7 +17,6 @@ import org.colorcoding.ibas.bobas.rule.IBusinessRule;
 import org.colorcoding.ibas.bobas.rule.common.BusinessRuleMinValue;
 import org.colorcoding.ibas.bobas.rule.common.BusinessRuleRequired;
 import org.colorcoding.ibas.materials.MyConfiguration;
-import org.colorcoding.ibas.materials.logic.IMaterialWarehouseInventoryContract;
 
 /**
  * 获取-物料库存
@@ -57,13 +56,6 @@ public class MaterialInventory extends BusinessObject<MaterialInventory> impleme
 	 * 属性名称-物料编码
 	 */
 	private static final String PROPERTY_ITEMCODE_NAME = "ItemCode";
-
-	public static IMaterialInventory create(IMaterialWarehouseInventoryContract contract) {
-		IMaterialInventory materialInventory = new MaterialInventory();
-		materialInventory.setItemCode(contract.getItemCode());
-		materialInventory.setWarehouse(contract.getWarehouse());
-		return materialInventory;
-	}
 
 	/**
 	 * 物料编码 属性

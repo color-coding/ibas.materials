@@ -8,11 +8,19 @@
 
 // 共享的数据
 import {
+    strings,
+    dates,
     IServiceContract,
     ServiceProxy,
-    strings,
     emDirection,
     MODULE_REPOSITORY_NAME_TEMPLATE,
+    Condition,
+    ArrayList,
+    List,
+    ICondition,
+    emConditionOperation,
+    emConditionRelationship,
+    emYesNo,
 } from "ibas/index";
 import {
     IMaterialBatchJournals,
@@ -117,4 +125,185 @@ export class MaterialSerialReceiptServiceProxy extends ServiceProxy<IMaterialSer
 /** 物料序列选择服务代理 */
 export class MaterialSerialIssueServiceProxy extends ServiceProxy<IMaterialSerialContract[]> {
 
+}
+/** 查询条件 */
+export namespace conditions {
+    export namespace material {
+        /** 默认查询条件 */
+        export function create(): List<ICondition> {
+            let today: string = dates.toString(dates.today(), "yyyy-MM-dd");
+            let condition: ICondition;
+            let conditions: List<ICondition> = new ArrayList<ICondition>();
+            // 激活的
+            condition = new Condition();
+            condition.bracketOpen = 1;
+            condition.alias = "activated";
+            condition.operation = emConditionOperation.EQUAL;
+            condition.value = emYesNo.YES.toString();
+            conditions.add(condition);
+            // 有效日期
+            condition = new Condition();
+            condition.bracketOpen = 1;
+            condition.alias = "validDate";
+            condition.operation = emConditionOperation.IS_NULL;
+            conditions.add(condition);
+            condition = new Condition();
+            condition.relationship = emConditionRelationship.OR;
+            condition.bracketOpen = 1;
+            condition.alias = "validDate";
+            condition.operation = emConditionOperation.NOT_NULL;
+            conditions.add(condition);
+            condition = new Condition();
+            condition.bracketClose = 2;
+            condition.alias = "validDate";
+            condition.operation = emConditionOperation.LESS_EQUAL;
+            condition.value = today;
+            conditions.add(condition);
+            // 失效日期
+            condition = new Condition();
+            condition.bracketOpen = 1;
+            condition.alias = "invalidDate";
+            condition.operation = emConditionOperation.IS_NULL;
+            conditions.add(condition);
+            condition = new Condition();
+            condition.relationship = emConditionRelationship.OR;
+            condition.bracketOpen = 1;
+            condition.alias = "invalidDate";
+            condition.operation = emConditionOperation.NOT_NULL;
+            conditions.add(condition);
+            condition = new Condition();
+            condition.bracketClose = 2;
+            condition.alias = "invalidDate";
+            condition.operation = emConditionOperation.GRATER_EQUAL;
+            condition.value = today;
+            conditions.add(condition);
+            // 没删除
+            condition = new Condition();
+            condition.bracketClose = 1;
+            condition.alias = "deleted";
+            condition.operation = emConditionOperation.EQUAL;
+            condition.value = emYesNo.NO.toString();
+            conditions.add(condition);
+            return conditions;
+        }
+    }
+    export namespace product {
+        /** 默认查询条件 */
+        export function create(): List<ICondition> {
+            let today: string = dates.toString(dates.today(), "yyyy-MM-dd");
+            let condition: ICondition;
+            let conditions: List<ICondition> = new ArrayList<ICondition>();
+            // 激活的
+            condition = new Condition();
+            condition.bracketOpen = 1;
+            condition.alias = "activated";
+            condition.operation = emConditionOperation.EQUAL;
+            condition.value = emYesNo.YES.toString();
+            conditions.add(condition);
+            // 有效日期
+            condition = new Condition();
+            condition.bracketOpen = 1;
+            condition.alias = "validDate";
+            condition.operation = emConditionOperation.IS_NULL;
+            conditions.add(condition);
+            condition = new Condition();
+            condition.relationship = emConditionRelationship.OR;
+            condition.bracketOpen = 1;
+            condition.alias = "validDate";
+            condition.operation = emConditionOperation.NOT_NULL;
+            conditions.add(condition);
+            condition = new Condition();
+            condition.bracketClose = 2;
+            condition.alias = "validDate";
+            condition.operation = emConditionOperation.LESS_EQUAL;
+            condition.value = today;
+            conditions.add(condition);
+            // 失效日期
+            condition = new Condition();
+            condition.bracketOpen = 1;
+            condition.alias = "invalidDate";
+            condition.operation = emConditionOperation.IS_NULL;
+            conditions.add(condition);
+            condition = new Condition();
+            condition.relationship = emConditionRelationship.OR;
+            condition.bracketOpen = 1;
+            condition.alias = "invalidDate";
+            condition.operation = emConditionOperation.NOT_NULL;
+            conditions.add(condition);
+            condition = new Condition();
+            condition.bracketClose = 3;
+            condition.alias = "invalidDate";
+            condition.operation = emConditionOperation.GRATER_EQUAL;
+            condition.value = today;
+            conditions.add(condition);
+            return conditions;
+        }
+    }
+    export namespace warehouse {
+        /** 默认查询条件 */
+        export function create(): List<ICondition> {
+            let conditions: List<ICondition> = new ArrayList<ICondition>();
+            let condition: ICondition;
+            // 激活的
+            condition = new Condition();
+            condition.bracketOpen = 1;
+            condition.alias = "activated";
+            condition.operation = emConditionOperation.EQUAL;
+            condition.value = emYesNo.YES.toString();
+            conditions.add(condition);
+            // 没删除
+            condition = new Condition();
+            condition.bracketClose = 1;
+            condition.alias = "deleted";
+            condition.operation = emConditionOperation.EQUAL;
+            condition.value = emYesNo.NO.toString();
+            conditions.add(condition);
+            return conditions;
+        }
+    }
+    export namespace materialpricelist {
+        /** 默认查询条件 */
+        export function create(): List<ICondition> {
+            let today: string = dates.toString(dates.today(), "yyyy-MM-dd");
+            let conditions: List<ICondition> = new ArrayList<ICondition>();
+            let condition: ICondition;
+            // 有效日期
+            condition = new Condition();
+            condition.bracketOpen = 1;
+            condition.alias = "validDate";
+            condition.operation = emConditionOperation.IS_NULL;
+            conditions.add(condition);
+            condition = new Condition();
+            condition.relationship = emConditionRelationship.OR;
+            condition.bracketOpen = 1;
+            condition.alias = "validDate";
+            condition.operation = emConditionOperation.NOT_NULL;
+            conditions.add(condition);
+            condition = new Condition();
+            condition.bracketClose = 2;
+            condition.alias = "validDate";
+            condition.operation = emConditionOperation.LESS_EQUAL;
+            condition.value = today;
+            conditions.add(condition);
+            // 失效日期
+            condition = new Condition();
+            condition.bracketOpen = 1;
+            condition.alias = "invalidDate";
+            condition.operation = emConditionOperation.IS_NULL;
+            conditions.add(condition);
+            condition = new Condition();
+            condition.relationship = emConditionRelationship.OR;
+            condition.bracketOpen = 1;
+            condition.alias = "invalidDate";
+            condition.operation = emConditionOperation.NOT_NULL;
+            conditions.add(condition);
+            condition = new Condition();
+            condition.bracketClose = 2;
+            condition.alias = "invalidDate";
+            condition.operation = emConditionOperation.GRATER_EQUAL;
+            condition.value = today;
+            conditions.add(condition);
+            return conditions;
+        }
+    }
 }

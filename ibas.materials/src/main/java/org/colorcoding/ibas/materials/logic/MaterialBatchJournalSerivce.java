@@ -64,7 +64,10 @@ public class MaterialBatchJournalSerivce
 			materialBatch = operationResult.getResultObjects().firstOrDefault();
 		}
 		if (materialBatch == null) {
-			materialBatch = MaterialBatch.create(contract);
+			materialBatch = new MaterialBatch();
+			materialBatch.setBatchCode(contract.getBatchCode());
+			materialBatch.setItemCode(contract.getItemCode());
+			materialBatch.setWarehouse(contract.getWarehouse());
 		}
 		return materialBatch;
 	}
@@ -83,8 +86,6 @@ public class MaterialBatchJournalSerivce
 	@Override
 	protected void impact(IMaterialBatchJournalContract contract) {
 		IMaterialBatch materialBatch = this.getBeAffected();
-		materialBatch.setItemCode(contract.getItemCode());
-		materialBatch.setWarehouse(contract.getWarehouse());
 		Decimal quantity = materialBatch.getQuantity();
 		if (contract.getDirection().equals(emDirection.IN)) {
 			quantity = quantity.add(contract.getQuantity());
@@ -97,8 +98,6 @@ public class MaterialBatchJournalSerivce
 	@Override
 	protected void revoke(IMaterialBatchJournalContract contract) {
 		IMaterialBatch materialBatch = this.getBeAffected();
-		materialBatch.setItemCode(contract.getItemCode());
-		materialBatch.setWarehouse(contract.getWarehouse());
 		Decimal quantity = materialBatch.getQuantity();
 		if (contract.getDirection().equals(emDirection.IN)) {
 			quantity = quantity.subtract(contract.getQuantity());

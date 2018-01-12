@@ -21,8 +21,6 @@ import org.colorcoding.ibas.bobas.rule.common.BusinessRuleMinValue;
 import org.colorcoding.ibas.bobas.rule.common.BusinessRuleRequired;
 import org.colorcoding.ibas.materials.MyConfiguration;
 import org.colorcoding.ibas.materials.logic.IMaterialInventoryContract;
-import org.colorcoding.ibas.materials.logic.IMaterialIssueContract;
-import org.colorcoding.ibas.materials.logic.IMaterialReceiptContract;
 import org.colorcoding.ibas.materials.logic.IMaterialWarehouseInventoryContract;
 
 /**
@@ -64,48 +62,6 @@ public class MaterialInventoryJournal extends BusinessObject<MaterialInventoryJo
 	 * 属性名称-物料编码
 	 */
 	private static final String PROPERTY_ITEMCODE_NAME = "ItemCode";
-
-	/**
-	 * 根据物料-发货契约对象创建日记账分录
-	 *
-	 * @param contract
-	 * @return
-	 */
-	public static IMaterialInventoryJournal create(IMaterialIssueContract contract) {
-		IMaterialInventoryJournal bo = new MaterialInventoryJournal();
-		bo.setItemCode(contract.getItemCode());
-		bo.setItemName(contract.getItemName());
-		bo.setWarehouse(contract.getWarehouse());
-		bo.setBaseDocumentType(contract.getDocumentType());
-		bo.setBaseDocumentEntry(contract.getDocumentEntry());
-		bo.setBaseDocumentLineId(contract.getDocumentLineId());
-		bo.setDirection(emDirection.OUT);
-		bo.setPostingDate(contract.getPostingDate());
-		bo.setDocumentDate(contract.getDocumentDate());
-		bo.setDeliveryDate(contract.getDeliveryDate());
-		return bo;
-	}
-
-	/**
-	 * 根据物料-收货契约对象创建日记账分录
-	 *
-	 * @param contract
-	 * @return
-	 */
-	public static IMaterialInventoryJournal create(IMaterialReceiptContract contract) {
-		IMaterialInventoryJournal bo = new MaterialInventoryJournal();
-		bo.setItemCode(contract.getItemCode());
-		bo.setItemName(contract.getItemName());
-		bo.setWarehouse(contract.getWarehouse());
-		bo.setBaseDocumentType(contract.getDocumentType());
-		bo.setBaseDocumentEntry(contract.getDocumentEntry());
-		bo.setBaseDocumentLineId(contract.getDocumentLineId());
-		bo.setDirection(emDirection.IN);
-		bo.setPostingDate(contract.getPostingDate());
-		bo.setDocumentDate(contract.getDocumentDate());
-		bo.setDeliveryDate(contract.getDeliveryDate());
-		return bo;
-	}
 
 	/**
 	 * 物料编码 属性
