@@ -13,13 +13,13 @@ import org.colorcoding.ibas.bobas.data.emYesNo;
 import org.colorcoding.ibas.bobas.organization.OrganizationFactory;
 import org.colorcoding.ibas.materials.bo.goodsreceipt.GoodsReceipt;
 import org.colorcoding.ibas.materials.bo.goodsreceipt.IGoodsReceiptLine;
+import org.colorcoding.ibas.materials.bo.material.IMaterial;
 import org.colorcoding.ibas.materials.bo.material.Material;
 import org.colorcoding.ibas.materials.bo.materialbatch.IMaterialBatchJournal;
-import org.colorcoding.ibas.materials.bo.materialbatch.MaterialBatchJournal;
 import org.colorcoding.ibas.materials.bo.materialinventory.MaterialInventory;
 import org.colorcoding.ibas.materials.bo.materialinventory.MaterialInventoryJournal;
 import org.colorcoding.ibas.materials.bo.materialserial.IMaterialSerialJournal;
-import org.colorcoding.ibas.materials.bo.materialserial.MaterialSerialJournal;
+import org.colorcoding.ibas.materials.bo.warehouse.IWarehouse;
 import org.colorcoding.ibas.materials.bo.warehouse.Warehouse;
 import org.colorcoding.ibas.materials.repository.BORepositoryMaterials;
 import org.colorcoding.ibas.materials.repository.IBORepositoryMaterialsApp;
@@ -44,24 +44,6 @@ public class testGoodsReceipt extends TestCase {
 	 * @throws Exception
 	 */
 	public void testBasicItems() throws Exception {
-		GoodsReceipt bo = new GoodsReceipt();
-		// 测试属性赋值
-
-		// 测试库存收货-行
-		IGoodsReceiptLine goodsreceiptline = bo.getGoodsReceiptLines().create();
-		// 测试属性赋值
-		goodsreceiptline.setItemCode("1000001");
-		goodsreceiptline.setQuantity(1000);
-		goodsreceiptline.setWarehouse("BJKJ");
-		IMaterialBatchJournal goodsreceiptBatch = (MaterialBatchJournal) goodsreceiptline.getMaterialBatches().create();
-		goodsreceiptBatch.setQuantity(10);
-		goodsreceiptBatch.setItemCode("A0001");
-		goodsreceiptBatch.setWarehouse("BJKJ");
-		IMaterialSerialJournal goodsreceiptlineSerial = (MaterialSerialJournal) goodsreceiptline.getMaterialSerials()
-				.create();
-		goodsreceiptlineSerial.setSerialCode("10001");
-		goodsreceiptlineSerial.setItemCode("A0002");
-		goodsreceiptlineSerial.setWarehouse("BJKJ");
 
 		// 测试对象的保存和查询
 		IOperationResult<?> operationResult = null;
@@ -69,6 +51,48 @@ public class testGoodsReceipt extends TestCase {
 		IBORepositoryMaterialsApp boRepository = new BORepositoryMaterials();
 		// 设置用户口令
 		boRepository.setUserToken(this.getToken());
+
+		IMaterial bMaterial = new testMaterial().create();
+		bMaterial.setBatchManagement(emYesNo.YES);
+		operationResult = boRepository.saveMaterial(bMaterial);
+		assertEquals(operationResult.getMessage(), operationResult.getResultCode(), 0);
+		IMaterial sMaterial = new testMaterial().create();
+		sMaterial.setSerialManagement(emYesNo.YES);
+		operationResult = boRepository.saveMaterial(sMaterial);
+		assertEquals(operationResult.getMessage(), operationResult.getResultCode(), 0);
+		IWarehouse warehouse = new testWarehouse().create();
+		operationResult = boRepository.saveWarehouse(warehouse);
+		assertEquals(operationResult.getMessage(), operationResult.getResultCode(), 0);
+
+		GoodsReceipt bo = new GoodsReceipt();
+		// 批次物料
+		IGoodsReceiptLine batchLine = bo.getGoodsReceiptLines().create();
+		batchLine.setItemCode(bMaterial.getCode());
+		batchLine.setQuantity(100);
+		batchLine.setWarehouse(warehouse.getCode());
+		IMaterialBatchJournal batchJournal = batchLine.getMaterialBatches().create();
+		batchJournal.setQuantity(78);
+		batchJournal.setItemCode(bMaterial.getCode());
+		batchJournal.setWarehouse(warehouse.getCode());
+		batchJournal.setBatchCode("B00001");
+		batchJournal = batchLine.getMaterialBatches().create();
+		batchJournal.setQuantity(22);
+		batchJournal.setItemCode(bMaterial.getCode());
+		batchJournal.setWarehouse(warehouse.getCode());
+		batchJournal.setBatchCode("B00001");
+		// 序列号物料
+		IGoodsReceiptLine serialLine = bo.getGoodsReceiptLines().create();
+		serialLine.setItemCode(sMaterial.getCode());
+		serialLine.setQuantity(2);
+		serialLine.setWarehouse(warehouse.getCode());
+		IMaterialSerialJournal serialJournal = serialLine.getMaterialSerials().create();
+		serialJournal.setItemCode(sMaterial.getCode());
+		serialJournal.setWarehouse(warehouse.getCode());
+		serialJournal.setSerialCode("S00001");
+		serialJournal = serialLine.getMaterialSerials().create();
+		serialJournal.setItemCode(sMaterial.getCode());
+		serialJournal.setWarehouse(warehouse.getCode());
+		serialJournal.setSerialCode("S00002");
 
 		// 测试保存
 		operationResult = boRepository.saveGoodsReceipt(bo);

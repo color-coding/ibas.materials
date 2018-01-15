@@ -1,6 +1,6 @@
 package org.colorcoding.ibas.materials.bo.materialserial;
 
-import org.colorcoding.ibas.bobas.bo.IBOSimpleLine;
+import org.colorcoding.ibas.bobas.bo.IBOSimple;
 import org.colorcoding.ibas.bobas.data.DateTime;
 import org.colorcoding.ibas.bobas.data.emDirection;
 import org.colorcoding.ibas.bobas.data.emYesNo;
@@ -9,7 +9,7 @@ import org.colorcoding.ibas.bobas.data.emYesNo;
  * 物料序列号日记账 接口
  * 
  */
-public interface IMaterialSerialJournal extends IBOSimpleLine {
+public interface IMaterialSerialJournal extends IBOSimple {
 
 	/**
 	 * 获取-物料编码
@@ -145,21 +145,6 @@ public interface IMaterialSerialJournal extends IBOSimpleLine {
 	 *            值
 	 */
 	void setObjectKey(Integer value);
-
-	/**
-	 * 获取-对象行号
-	 * 
-	 * @return 值
-	 */
-	Integer getLineId();
-
-	/**
-	 * 设置-对象行号
-	 * 
-	 * @param value
-	 *            值
-	 */
-	void setLineId(Integer value);
 
 	/**
 	 * 获取-对象类型

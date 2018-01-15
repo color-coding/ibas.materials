@@ -149,17 +149,6 @@ export class MaterialSerialJournal extends BOSimple<MaterialSerialJournal> imple
         this.setProperty(MaterialSerialJournal.PROPERTY_OBJECTKEY_NAME, value);
     }
 
-    /** 映射的属性名称-对象行号 */
-    static PROPERTY_LINEID_NAME: string = "LineId";
-    /** 获取-对象行号 */
-    get lineId(): number {
-        return this.getProperty<number>(MaterialSerialJournal.PROPERTY_LINEID_NAME);
-    }
-    /** 设置-对象行号 */
-    set lineId(value: number) {
-        this.setProperty(MaterialSerialJournal.PROPERTY_LINEID_NAME, value);
-    }
-
     /** 映射的属性名称-对象类型 */
     static PROPERTY_OBJECTCODE_NAME: string = "ObjectCode";
     /** 获取-对象类型 */

@@ -346,38 +346,6 @@ public class MaterialSerialJournal extends BusinessObject<MaterialSerialJournal>
 	}
 
 	/**
-	 * 属性名称-对象行号
-	 */
-	private static final String PROPERTY_LINEID_NAME = "LineId";
-
-	/**
-	 * 对象行号 属性
-	 */
-	@DbField(name = "LineId", type = DbFieldType.NUMERIC, table = DB_TABLE_NAME, primaryKey = true)
-	public static final IPropertyInfo<Integer> PROPERTY_LINEID = registerProperty(PROPERTY_LINEID_NAME, Integer.class,
-			MY_CLASS);
-
-	/**
-	 * 获取-对象行号
-	 * 
-	 * @return 值
-	 */
-	@XmlElement(name = PROPERTY_LINEID_NAME)
-	public final Integer getLineId() {
-		return this.getProperty(PROPERTY_LINEID);
-	}
-
-	/**
-	 * 设置-对象行号
-	 * 
-	 * @param value
-	 *            值
-	 */
-	public final void setLineId(Integer value) {
-		this.setProperty(PROPERTY_LINEID, value);
-	}
-
-	/**
 	 * 属性名称-对象类型
 	 */
 	private static final String PROPERTY_OBJECTCODE_NAME = "ObjectCode";
@@ -742,7 +710,9 @@ public class MaterialSerialJournal extends BusinessObject<MaterialSerialJournal>
 	@Override
 	protected IBusinessRule[] registerRules() {
 		return new IBusinessRule[] { // 注册的业务规则
-				new BusinessRuleRequired(PROPERTY_ITEMCODE, PROPERTY_WAREHOUSE, PROPERTY_SERIALCODE), // 要求有值
+				new BusinessRuleRequired(PROPERTY_ITEMCODE), // 要求有值
+				new BusinessRuleRequired(PROPERTY_WAREHOUSE), // 要求有值
+				new BusinessRuleRequired(PROPERTY_SERIALCODE), // 要求有值
 		};
 	}
 

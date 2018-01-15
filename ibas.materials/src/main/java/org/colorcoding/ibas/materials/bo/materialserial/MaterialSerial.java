@@ -897,7 +897,9 @@ public class MaterialSerial extends BusinessObject<MaterialSerial> implements IM
 	@Override
 	protected IBusinessRule[] registerRules() {
 		return new IBusinessRule[] { // 注册的业务规则
-				new BusinessRuleRequired(PROPERTY_ITEMCODE, PROPERTY_WAREHOUSE, PROPERTY_SERIALCODE), // 要求有值
+				new BusinessRuleRequired(PROPERTY_ITEMCODE), // 要求有值
+				new BusinessRuleRequired(PROPERTY_WAREHOUSE), // 要求有值
+				new BusinessRuleRequired(PROPERTY_SERIALCODE), // 要求有值
 		};
 	}
 }

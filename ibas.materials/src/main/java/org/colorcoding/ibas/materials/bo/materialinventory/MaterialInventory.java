@@ -792,9 +792,12 @@ public class MaterialInventory extends BusinessObject<MaterialInventory> impleme
 	@Override
 	protected IBusinessRule[] registerRules() {
 		return new IBusinessRule[] { // 注册的业务规则
-				new BusinessRuleRequired(PROPERTY_ITEMCODE, PROPERTY_WAREHOUSE), // 要求有值
-				new BusinessRuleMinValue<Decimal>(Decimal.ZERO, PROPERTY_ONHAND, PROPERTY_ONORDERED,
-						PROPERTY_ONCOMMITED, PROPERTY_AVGPRICE), // 不能低于0
+				new BusinessRuleRequired(PROPERTY_ITEMCODE), // 要求有值
+				new BusinessRuleRequired(PROPERTY_WAREHOUSE), // 要求有值
+				new BusinessRuleMinValue<Decimal>(Decimal.ZERO, PROPERTY_ONHAND), // 不能低于0
+				new BusinessRuleMinValue<Decimal>(Decimal.ZERO, PROPERTY_ONORDERED), // 不能低于0
+				new BusinessRuleMinValue<Decimal>(Decimal.ZERO, PROPERTY_ONCOMMITED), // 不能低于0
+				new BusinessRuleMinValue<Decimal>(Decimal.ZERO, PROPERTY_AVGPRICE), // 不能低于0
 		};
 	}
 

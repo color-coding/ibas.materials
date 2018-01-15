@@ -1,12 +1,15 @@
 package org.colorcoding.ibas.materials.test.bo;
 
-import junit.framework.TestCase;
 import org.colorcoding.ibas.bobas.common.ICriteria;
 import org.colorcoding.ibas.bobas.common.IOperationResult;
+import org.colorcoding.ibas.bobas.data.DateTime;
 import org.colorcoding.ibas.bobas.organization.OrganizationFactory;
+import org.colorcoding.ibas.materials.bo.warehouse.IWarehouse;
 import org.colorcoding.ibas.materials.bo.warehouse.Warehouse;
 import org.colorcoding.ibas.materials.repository.BORepositoryMaterials;
 import org.colorcoding.ibas.materials.repository.IBORepositoryMaterialsApp;
+
+import junit.framework.TestCase;
 
 /**
  * 仓库 测试
@@ -20,16 +23,20 @@ public class testWarehouse extends TestCase {
 		return OrganizationFactory.SYSTEM_USER.getToken();
 	}
 
+	public IWarehouse create() {
+		String value = String.valueOf(DateTime.getNow().getTime());
+		IWarehouse warehouse = new Warehouse();
+		warehouse.setCode("T" + value.substring(value.length() - 7));
+		warehouse.setName(warehouse.getCode());
+		return warehouse;
+	}
+
 	/**
 	 * 基本项目测试
 	 * 
 	 * @throws Exception
 	 */
 	public void testBasicItems() throws Exception {
-		Warehouse bo = new Warehouse();
-		// 测试属性赋值
-		bo.setCode("SHKJ");
-		bo.setName("上海科捷");
 
 		// 测试对象的保存和查询
 		IOperationResult<?> operationResult = null;
@@ -38,6 +45,7 @@ public class testWarehouse extends TestCase {
 		// 设置用户口令
 		boRepository.setUserToken(this.getToken());
 
+		IWarehouse bo = this.create();
 		// 测试保存
 		operationResult = boRepository.saveWarehouse(bo);
 		assertEquals(operationResult.getMessage(), operationResult.getResultCode(), 0);

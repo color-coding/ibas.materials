@@ -57,9 +57,6 @@ export interface IMaterialBatchJournal extends IBOSimple {
     /** 对象编号 */
     objectKey: number;
 
-    /** 对象行号 */
-    lineId: number;
-
     /** 对象类型 */
     objectCode: string;
 

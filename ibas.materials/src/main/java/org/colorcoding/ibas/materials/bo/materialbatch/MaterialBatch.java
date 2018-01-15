@@ -865,7 +865,9 @@ public class MaterialBatch extends BusinessObject<MaterialBatch> implements IMat
 	@Override
 	protected IBusinessRule[] registerRules() {
 		return new IBusinessRule[] { // 注册的业务规则
-				new BusinessRuleRequired(PROPERTY_ITEMCODE, PROPERTY_WAREHOUSE, PROPERTY_BATCHCODE), // 要求有值
+				new BusinessRuleRequired(PROPERTY_ITEMCODE), // 要求有值
+				new BusinessRuleRequired(PROPERTY_WAREHOUSE), // 要求有值
+				new BusinessRuleRequired(PROPERTY_BATCHCODE), // 要求有值
 				new BusinessRuleMinValue<Decimal>(Decimal.ZERO, PROPERTY_QUANTITY), // 不能低于0
 		};
 	}
