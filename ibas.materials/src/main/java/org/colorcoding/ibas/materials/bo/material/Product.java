@@ -15,6 +15,7 @@ import org.colorcoding.ibas.bobas.mapping.DbField;
 import org.colorcoding.ibas.bobas.mapping.DbFieldType;
 import org.colorcoding.ibas.bobas.ownership.IDataOwnership;
 import org.colorcoding.ibas.materials.MyConfiguration;
+import org.colorcoding.ibas.materials.data.emItemType;
 
 /**
  * 获取-物料(包含仓库库存，价格清单)
@@ -207,6 +208,8 @@ public class Product extends MaterialBase<Product> implements IProduct, IDataOwn
 		super.initialize();// 基类初始化，不可去除
 		this.setObjectCode(MyConfiguration.applyVariables(BUSINESS_OBJECT_CODE));
 		this.setActivated(emYesNo.YES);
+		this.setItemType(emItemType.ITEM);
+		this.setInventoryItem(emYesNo.YES);
 	}
 
 }

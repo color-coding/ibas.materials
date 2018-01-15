@@ -130,15 +130,6 @@ public interface IBORepositoryMaterialsApp extends IBORepositoryApplication {
 	 */
 	IOperationResult<IMaterialInventory> fetchMaterialInventory(ICriteria criteria);
 
-	/**
-	 * 保存-物料库存
-	 * 
-	 * @param bo
-	 *            对象实例
-	 * @return 操作结果
-	 */
-	IOperationResult<IMaterialInventory> saveMaterialInventory(IMaterialInventory bo);
-
 	// --------------------------------------------------------------------------------------------//
 	/**
 	 * 查询-仓库日记账
@@ -206,15 +197,6 @@ public interface IBORepositoryMaterialsApp extends IBORepositoryApplication {
 	 */
 	IOperationResult<IMaterialBatchJournal> fetchMaterialBatchJournal(ICriteria criteria);
 
-	/**
-	 * 保存-物料批次日记账
-	 * 
-	 * @param bo
-	 *            对象实例
-	 * @return 操作结果
-	 */
-	IOperationResult<IMaterialBatchJournal> saveMaterialBatchJournal(IMaterialBatchJournal bo);
-
 	// --------------------------------------------------------------------------------------------//
 	/**
 	 * 查询-物料序列号
@@ -243,15 +225,6 @@ public interface IBORepositoryMaterialsApp extends IBORepositoryApplication {
 	 * @return 操作结果
 	 */
 	IOperationResult<IMaterialSerialJournal> fetchMaterialSerialJournal(ICriteria criteria);
-
-	/**
-	 * 保存-物料序列号日记账
-	 * 
-	 * @param bo
-	 *            对象实例
-	 * @return 操作结果
-	 */
-	IOperationResult<IMaterialSerialJournal> saveMaterialSerialJournal(IMaterialSerialJournal bo);
 
 	// --------------------------------------------------------------------------------------------//
 	/**

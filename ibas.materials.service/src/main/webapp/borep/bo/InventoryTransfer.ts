@@ -447,7 +447,7 @@ export class InventoryTransfer extends BODocument<InventoryTransfer> implements 
     protected init(): void {
         this.inventoryTransferLines = new InventoryTransferLines(this);
         this.objectCode = config.applyVariables(InventoryTransfer.BUSINESS_OBJECT_CODE);
-        this.documentStatus = emDocumentStatus.PLANNED;
+        this.documentStatus = emDocumentStatus.RELEASED;
     }
 }
 /** 库存转储-行 集合 */

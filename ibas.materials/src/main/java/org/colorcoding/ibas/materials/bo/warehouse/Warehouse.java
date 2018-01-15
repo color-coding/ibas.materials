@@ -735,7 +735,6 @@ public class Warehouse extends BusinessObject<Warehouse> implements IWarehouse, 
 		super.initialize();// 基类初始化，不可去除
 		this.setObjectCode(MyConfiguration.applyVariables(BUSINESS_OBJECT_CODE));
 		this.setActivated(emYesNo.YES);
-
 	}
 
 	@Override

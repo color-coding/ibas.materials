@@ -6,8 +6,7 @@
  * that can be found in the LICENSE file at http://www.apache.org/licenses/LICENSE-2.0
  */
 export * from "./MaterialSerialFunc";
-export * from "./MaterialSerialIssueService";
-export * from "./MaterialSerialReceiptService";
+export * from "./MaterialSerialService";
 export * from "./MaterialSerialListApp";
 export * from "./MaterialSerialViewApp";
 export * from "./MaterialSerialChooseApp";

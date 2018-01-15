@@ -11,7 +11,6 @@ import * as bo from "../../borep/bo/index";
 import { BORepositoryMaterials } from "../../borep/BORepositories";
 import { DataConverter4mm } from "../../borep/DataConverters";
 import { MaterialInventoryViewApp } from "./MaterialInventoryViewApp";
-import { MaterialInventoryEditApp } from "./MaterialInventoryEditApp";
 
 /** 列表应用-物料库存 */
 export class MaterialInventoryListApp extends ibas.BOListApplication<IMaterialInventoryListView, bo.MaterialInventory> {
@@ -67,10 +66,7 @@ export class MaterialInventoryListApp extends ibas.BOListApplication<IMaterialIn
     }
     /** 新建数据 */
     protected newData(): void {
-        let app: MaterialInventoryEditApp = new MaterialInventoryEditApp();
-        app.navigation = this.navigation;
-        app.viewShower = this.viewShower;
-        app.run();
+        // 不能编辑
     }
     /** 查看数据，参数：目标数据 */
     protected viewData(data: bo.MaterialInventory): void {
@@ -89,87 +85,11 @@ export class MaterialInventoryListApp extends ibas.BOListApplication<IMaterialIn
     }
     /** 编辑数据，参数：目标数据 */
     protected editData(data: bo.MaterialInventory): void {
-        // 检查目标数据
-        if (ibas.objects.isNull(data)) {
-            this.messages(ibas.emMessageType.WARNING, ibas.i18n.prop("shell_please_chooose_data",
-                ibas.i18n.prop("shell_data_edit")
-            ));
-            return;
-        }
-        let app: MaterialInventoryEditApp = new MaterialInventoryEditApp();
-        app.navigation = this.navigation;
-        app.viewShower = this.viewShower;
-        app.run(data);
+        // 不能编辑
     }
     /** 删除数据，参数：目标数据集合 */
     protected deleteData(data: bo.MaterialInventory | bo.MaterialInventory[]): void {
-        // 检查目标数据
-        if (ibas.objects.isNull(data)) {
-            this.messages(ibas.emMessageType.WARNING, ibas.i18n.prop("shell_please_chooose_data",
-                ibas.i18n.prop("shell_data_delete")
-            ));
-            return;
-        }
-        let beDeleteds: ibas.ArrayList<bo.MaterialInventory> = new ibas.ArrayList<bo.MaterialInventory>();
-        if (data instanceof Array) {
-            for (let item of data) {
-                item.delete();
-                beDeleteds.add(item);
-            }
-        } else {
-            data.delete();
-            beDeleteds.add(data);
-        }
-        // 没有选择删除的对象
-        if (beDeleteds.length === 0) {
-            return;
-        }
-        let that: this = this;
-        this.messages({
-            type: ibas.emMessageType.QUESTION,
-            title: ibas.i18n.prop(this.name),
-            message: ibas.i18n.prop("shell_whether_to_delete", beDeleteds.length),
-            actions: [ibas.emMessageAction.YES, ibas.emMessageAction.NO],
-            onCompleted(action: ibas.emMessageAction): void {
-                if (action === ibas.emMessageAction.YES) {
-                    try {
-                        let boRepository: BORepositoryMaterials = new BORepositoryMaterials();
-                        let saveMethod: Function = function (beSaved: bo.MaterialInventory): void {
-                            boRepository.saveMaterialInventory({
-                                beSaved: beSaved,
-                                onCompleted(opRslt: ibas.IOperationResult<bo.MaterialInventory>): void {
-                                    try {
-                                        if (opRslt.resultCode !== 0) {
-                                            throw new Error(opRslt.message);
-                                        }
-                                        // 保存下一个数据
-                                        let index: number = beDeleteds.indexOf(beSaved) + 1;
-                                        if (index > 0 && index < beDeleteds.length) {
-                                            saveMethod(beDeleteds[index]);
-                                        } else {
-                                            // 处理完成
-                                            that.busy(false);
-                                            that.messages(ibas.emMessageType.SUCCESS,
-                                                ibas.i18n.prop("shell_data_delete") + ibas.i18n.prop("shell_sucessful"));
-                                        }
-                                    } catch (error) {
-                                        that.messages(ibas.emMessageType.ERROR,
-                                            ibas.i18n.prop("shell_data_delete_error", beSaved, error.message));
-                                    }
-                                }
-                            });
-                            that.proceeding(ibas.emMessageType.INFORMATION, ibas.i18n.prop("shell_data_deleting", beSaved));
-                        };
-                        that.busy(true);
-                        // 开始保存
-                        saveMethod(beDeleteds.firstOrDefault());
-                    } catch (error) {
-                        that.busy(false);
-                        that.messages(error);
-                    }
-                }
-            }
-        });
+        // 不能编辑
     }
     /** 获取服务的契约 */
     protected getServiceProxies(): ibas.IServiceProxy<ibas.IServiceContract>[] {

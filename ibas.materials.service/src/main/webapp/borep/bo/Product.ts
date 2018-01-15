@@ -334,5 +334,8 @@ export class Product extends BOMasterData<Product> implements IProduct {
     /** 初始化数据 */
     protected init(): void {
         this.objectCode = config.applyVariables(Product.BUSINESS_OBJECT_CODE);
+        this.activated = emYesNo.YES;
+        this.itemType = emItemType.ITEM;
+        this.inventoryItem = emYesNo.YES;
     }
 }

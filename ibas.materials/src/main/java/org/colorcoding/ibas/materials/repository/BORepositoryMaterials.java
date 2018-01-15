@@ -328,31 +328,6 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 		return new OperationResult<IMaterialInventory>(this.fetchMaterialInventory(criteria, this.getUserToken()));
 	}
 
-	/**
-	 * 保存-物料库存
-	 *
-	 * @param bo
-	 *            对象实例
-	 * @param token
-	 *            口令
-	 * @return 操作结果
-	 */
-	public OperationResult<MaterialInventory> saveMaterialInventory(MaterialInventory bo, String token) {
-		return super.save(bo, token);
-	}
-
-	/**
-	 * 保存-物料库存（提前设置用户口令）
-	 *
-	 * @param bo
-	 *            对象实例
-	 * @return 操作结果
-	 */
-	public IOperationResult<IMaterialInventory> saveMaterialInventory(IMaterialInventory bo) {
-		return new OperationResult<IMaterialInventory>(
-				this.saveMaterialInventory((MaterialInventory) bo, this.getUserToken()));
-	}
-
 	// --------------------------------------------------------------------------------------------//
 
 	/**
@@ -536,33 +511,6 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 				this.fetchMaterialBatchJournal(criteria, this.getUserToken()));
 	}
 
-	/**
-	 * 保存-物料批次日记账
-	 *
-	 * @param bo
-	 *            对象实例
-	 * @param token
-	 *            口令
-	 * @return 操作结果
-	 */
-	@Override
-	public OperationResult<MaterialBatchJournal> saveMaterialBatchJournal(MaterialBatchJournal bo, String token) {
-		return super.save(bo, token);
-	}
-
-	/**
-	 * 保存-物料批次日记账（提前设置用户口令）
-	 *
-	 * @param bo
-	 *            对象实例
-	 * @return 操作结果
-	 */
-	@Override
-	public IOperationResult<IMaterialBatchJournal> saveMaterialBatchJournal(IMaterialBatchJournal bo) {
-		return new OperationResult<IMaterialBatchJournal>(
-				this.saveMaterialBatchJournal((MaterialBatchJournal) bo, this.getUserToken()));
-	}
-
 	// --------------------------------------------------------------------------------------------//
 
 	/**
@@ -644,33 +592,6 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 	public IOperationResult<IMaterialSerialJournal> fetchMaterialSerialJournal(ICriteria criteria) {
 		return new OperationResult<IMaterialSerialJournal>(
 				this.fetchMaterialSerialJournal(criteria, this.getUserToken()));
-	}
-
-	/**
-	 * 保存-物料序列号日记账
-	 *
-	 * @param bo
-	 *            对象实例
-	 * @param token
-	 *            口令
-	 * @return 操作结果
-	 */
-	@Override
-	public OperationResult<MaterialSerialJournal> saveMaterialSerialJournal(MaterialSerialJournal bo, String token) {
-		return super.save(bo, token);
-	}
-
-	/**
-	 * 保存-物料序列号日记账（提前设置用户口令）
-	 *
-	 * @param bo
-	 *            对象实例
-	 * @return 操作结果
-	 */
-	@Override
-	public IOperationResult<IMaterialSerialJournal> saveMaterialSerialJournal(IMaterialSerialJournal bo) {
-		return new OperationResult<IMaterialSerialJournal>(
-				this.saveMaterialSerialJournal((MaterialSerialJournal) bo, this.getUserToken()));
 	}
 
 	// --------------------------------------------------------------------------------------------//

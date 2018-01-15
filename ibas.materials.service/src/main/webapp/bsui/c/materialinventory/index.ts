@@ -10,4 +10,3 @@
 export * from "./MaterialInventoryListView";
 export * from "./MaterialInventoryChooseView";
 export * from "./MaterialInventoryViewView";
-export * from "./MaterialInventoryEditView";

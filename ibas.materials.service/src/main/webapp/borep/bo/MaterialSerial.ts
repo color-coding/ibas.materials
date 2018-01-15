@@ -350,5 +350,6 @@ export class MaterialSerial extends BOSimple<MaterialSerial> implements IMateria
     /** 初始化数据 */
     protected init(): void {
         this.objectCode = config.applyVariables(MaterialSerial.BUSINESS_OBJECT_CODE);
+        this.locked = emYesNo.NO;
     }
 }

@@ -9,7 +9,6 @@
 import * as ibas from "ibas/index";
 import * as bo from "../../borep/bo/index";
 import { BORepositoryMaterials } from "../../borep/BORepositories";
-import { MaterialInventoryEditApp } from "./MaterialInventoryEditApp";
 
 /** 查看应用-物料库存 */
 export class MaterialInventoryViewApp extends ibas.BOViewService<IMaterialInventoryViewView> {
@@ -48,10 +47,7 @@ export class MaterialInventoryViewApp extends ibas.BOViewService<IMaterialInvent
     private viewData: bo.MaterialInventory;
     /** 编辑数据，参数：目标数据 */
     protected editData(): void {
-        let app: MaterialInventoryEditApp = new MaterialInventoryEditApp();
-        app.navigation = this.navigation;
-        app.viewShower = this.viewShower;
-        app.run(this.viewData);
+        // 不能编辑
     }
     /** 运行,覆盖原方法 */
     run(): void;

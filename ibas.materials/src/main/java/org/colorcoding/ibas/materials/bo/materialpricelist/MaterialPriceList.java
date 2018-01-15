@@ -762,6 +762,7 @@ public class MaterialPriceList extends BusinessObject<MaterialPriceList> impleme
 		super.initialize();// 基类初始化，不可去除
 		this.setMaterialPriceItems(new MaterialPriceItems(this));
 		this.setObjectCode(MyConfiguration.applyVariables(BUSINESS_OBJECT_CODE));
+		this.setCurrency(MyConfiguration.getConfigValue(MyConfiguration.CONFIG_ITEM_DEFAULT_CURRENCY, "CNY"));
 	}
 
 }

@@ -7,7 +7,8 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
-import org.colorcoding.ibas.bobas.common.*;
+import org.colorcoding.ibas.bobas.common.Criteria;
+import org.colorcoding.ibas.bobas.common.OperationResult;
 import org.colorcoding.ibas.materials.bo.goodsissue.GoodsIssue;
 import org.colorcoding.ibas.materials.bo.goodsreceipt.GoodsReceipt;
 import org.colorcoding.ibas.materials.bo.inventorytransfer.InventoryTransfer;
@@ -23,9 +24,6 @@ import org.colorcoding.ibas.materials.bo.materialserial.MaterialSerial;
 import org.colorcoding.ibas.materials.bo.materialserial.MaterialSerialJournal;
 import org.colorcoding.ibas.materials.bo.warehouse.Warehouse;
 import org.colorcoding.ibas.materials.repository.BORepositoryMaterials;
-
-
-
 
 /**
  * Materials 数据服务JSON
@@ -229,24 +227,6 @@ public class DataService extends BORepositoryMaterials {
 		return super.fetchMaterialBatchJournal(criteria, token);
 	}
 
-	/**
-	 * 保存-物料批次日记账
-	 * 
-	 * @param bo
-	 *            对象实例
-	 * @param token
-	 *            口令
-	 * @return 操作结果
-	 */
-	@POST
-	@Produces(MediaType.APPLICATION_JSON)
-	@Consumes(MediaType.APPLICATION_JSON)
-	@Path("saveMaterialBatchJournal")
-	public OperationResult<MaterialBatchJournal> saveMaterialBatchJournal(MaterialBatchJournal bo,
-			@QueryParam("token") String token) {
-		return super.saveMaterialBatchJournal(bo, token);
-	}
-
 	// --------------------------------------------------------------------------------------------//
 	/**
 	 * 查询-物料组
@@ -301,24 +281,6 @@ public class DataService extends BORepositoryMaterials {
 		return super.fetchMaterialInventory(criteria, token);
 	}
 
-	/**
-	 * 保存-物料库存
-	 * 
-	 * @param bo
-	 *            对象实例
-	 * @param token
-	 *            口令
-	 * @return 操作结果
-	 */
-	@POST
-	@Produces(MediaType.APPLICATION_JSON)
-	@Consumes(MediaType.APPLICATION_JSON)
-	@Path("saveMaterialInventory")
-	public OperationResult<MaterialInventory> saveMaterialInventory(MaterialInventory bo,
-			@QueryParam("token") String token) {
-		return super.saveMaterialInventory(bo, token);
-	}
-
 	// --------------------------------------------------------------------------------------------//
 	/**
 	 * 查询-仓库日记账
@@ -336,24 +298,6 @@ public class DataService extends BORepositoryMaterials {
 	public OperationResult<MaterialInventoryJournal> fetchMaterialInventoryJournal(Criteria criteria,
 			@QueryParam("token") String token) {
 		return super.fetchMaterialInventoryJournal(criteria, token);
-	}
-
-	/**
-	 * 保存-仓库日记账
-	 * 
-	 * @param bo
-	 *            对象实例
-	 * @param token
-	 *            口令
-	 * @return 操作结果
-	 */
-	@POST
-	@Produces(MediaType.APPLICATION_JSON)
-	@Consumes(MediaType.APPLICATION_JSON)
-	@Path("saveMaterialInventoryJournal")
-	public OperationResult<MaterialInventoryJournal> saveMaterialInventoryJournal(MaterialInventoryJournal bo,
-			@QueryParam("token") String token) {
-		return super.saveMaterialInventoryJournal(bo, token);
 	}
 
 	// --------------------------------------------------------------------------------------------//
@@ -445,24 +389,6 @@ public class DataService extends BORepositoryMaterials {
 	public OperationResult<MaterialSerialJournal> fetchMaterialSerialJournal(Criteria criteria,
 			@QueryParam("token") String token) {
 		return super.fetchMaterialSerialJournal(criteria, token);
-	}
-
-	/**
-	 * 保存-物料序列号日记账
-	 * 
-	 * @param bo
-	 *            对象实例
-	 * @param token
-	 *            口令
-	 * @return 操作结果
-	 */
-	@POST
-	@Produces(MediaType.APPLICATION_JSON)
-	@Consumes(MediaType.APPLICATION_JSON)
-	@Path("saveMaterialSerialJournal")
-	public OperationResult<MaterialSerialJournal> saveMaterialSerialJournal(MaterialSerialJournal bo,
-			@QueryParam("token") String token) {
-		return super.saveMaterialSerialJournal(bo, token);
 	}
 
 	// --------------------------------------------------------------------------------------------//

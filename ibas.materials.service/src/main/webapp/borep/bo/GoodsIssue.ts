@@ -435,7 +435,7 @@ export class GoodsIssue extends BODocument<GoodsIssue> implements IGoodsIssue {
     protected init(): void {
         this.goodsIssueLines = new GoodsIssueLines(this);
         this.objectCode = config.applyVariables(GoodsIssue.BUSINESS_OBJECT_CODE);
-        this.documentStatus = emDocumentStatus.PLANNED;
+        this.documentStatus = emDocumentStatus.RELEASED;
     }
 }
 /** 库存发货-行 集合 */

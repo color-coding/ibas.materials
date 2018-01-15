@@ -10,7 +10,7 @@ import org.colorcoding.ibas.bobas.bo.BusinessObject;
 import org.colorcoding.ibas.bobas.core.IPropertyInfo;
 import org.colorcoding.ibas.bobas.data.DateTime;
 import org.colorcoding.ibas.bobas.data.emDirection;
-import org.colorcoding.ibas.bobas.data.emDocumentStatus;
+import org.colorcoding.ibas.bobas.data.emYesNo;
 import org.colorcoding.ibas.bobas.logic.IBusinessLogicContract;
 import org.colorcoding.ibas.bobas.logic.IBusinessLogicsHost;
 import org.colorcoding.ibas.bobas.mapping.BOCode;
@@ -154,35 +154,35 @@ public class MaterialSerialJournal extends BusinessObject<MaterialSerialJournal>
 	}
 
 	/**
-	 * 属性名称-单据状态
+	 * 属性名称-激活
 	 */
-	private static final String PROPERTY_LINESTATUS_NAME = "LineStatus";
+	private static final String PROPERTY_ACTIVATED_NAME = "Activated";
 
 	/**
-	 * 单据状态 属性
+	 * 激活 属性
 	 */
-	@DbField(name = "LineStatus", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME, primaryKey = false)
-	public static final IPropertyInfo<emDocumentStatus> PROPERTY_LINESTATUS = registerProperty(PROPERTY_LINESTATUS_NAME,
-			emDocumentStatus.class, MY_CLASS);
+	@DbField(name = "Activated", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME, primaryKey = false)
+	public static final IPropertyInfo<emYesNo> PROPERTY_ACTIVATED = registerProperty(PROPERTY_ACTIVATED_NAME,
+			emYesNo.class, MY_CLASS);
 
 	/**
-	 * 获取-单据状态
-	 *
+	 * 获取-激活
+	 * 
 	 * @return 值
 	 */
-	@XmlElement(name = PROPERTY_LINESTATUS_NAME)
-	public final emDocumentStatus getLineStatus() {
-		return this.getProperty(PROPERTY_LINESTATUS);
+	@XmlElement(name = PROPERTY_ACTIVATED_NAME)
+	public final emYesNo getActivated() {
+		return this.getProperty(PROPERTY_ACTIVATED);
 	}
 
 	/**
-	 * 设置-单据状态
-	 *
+	 * 设置-激活
+	 * 
 	 * @param value
 	 *            值
 	 */
-	public final void setLineStatus(emDocumentStatus value) {
-		this.setProperty(PROPERTY_LINESTATUS, value);
+	public final void setActivated(emYesNo value) {
+		this.setProperty(PROPERTY_ACTIVATED, value);
 	}
 
 	/**

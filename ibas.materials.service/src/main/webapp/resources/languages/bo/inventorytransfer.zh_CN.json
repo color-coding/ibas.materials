@@ -74,6 +74,5 @@
   "bo_inventorytransferline_rate": "汇率",
   "bo_inventorytransferline_linetotal": "行总计",
   "bo_inventorytransferline_project": "项目代码",
-  "bo_inventorytransferline_fromwarehouse_is_empty": "未选择从仓库",
   "bo_inventorytransfer_closing_delimiter": "----结束----"
 }

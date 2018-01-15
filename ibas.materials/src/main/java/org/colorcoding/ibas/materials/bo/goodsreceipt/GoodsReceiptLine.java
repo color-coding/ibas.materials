@@ -1506,15 +1506,6 @@ public class GoodsReceiptLine extends BusinessObject<GoodsReceiptLine>
 				return GoodsReceiptLine.this.parent.getDocumentDate();
 			}
 
-			@Override
-			public emYesNo getCanceled() {
-				return GoodsReceiptLine.this.getCanceled();
-			}
-
-			@Override
-			public emDocumentStatus getStatus() {
-				return GoodsReceiptLine.this.getLineStatus();
-			}
 		} };
 	}
 }

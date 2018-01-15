@@ -116,18 +116,18 @@ export class GoodsReceiptEditView extends ibas.BOEditView implements IGoodsRecei
                     }),
                     new sap.m.ToolbarSeparator(""),
                     new sap.m.MenuButton("", {
-                        text: ibas.strings.format("{0}/{1}", ibas.i18n.prop("materials_batch"), ibas.i18n.prop("materials_serial")),
+                        text: ibas.strings.format("{0}/{1}", ibas.i18n.prop("materials_material_batch"), ibas.i18n.prop("materials_material_serial")),
                         menu: [
                             new sap.m.Menu("", {
                                 items: [
                                     new sap.m.MenuItem("", {
-                                        text: ibas.i18n.prop("materials_batch"),
+                                        text: ibas.i18n.prop("materials_material_batch"),
                                         press: function (): void {
                                             that.fireViewEvents(that.createGoodsReceiptLineMaterialBatchEvent);
                                         }
                                     }),
                                     new sap.m.MenuItem("", {
-                                        text: ibas.i18n.prop("materials_serial"),
+                                        text: ibas.i18n.prop("materials_material_serial"),
                                         press: function (): void {
                                             that.fireViewEvents(that.createGoodsReceiptLineMaterialSerialEvent);
                                         }

@@ -121,16 +121,16 @@ export class MaterialBatch extends BOSimple<MaterialBatch> implements IMaterialB
     set expirationDate(value: Date) {
         this.setProperty(MaterialBatch.PROPERTY_EXPIRATIONDATE_NAME, value);
     }
-     /** 映射的属性名称-生产日期 */
-     static PROPERTY_MANUFACTURINGDATE_NAME: string = "ManufacturingDate";
-     /** 获取-生产日期 */
-     get manufacturingDate(): Date {
-         return this.getProperty<Date>(MaterialBatch.PROPERTY_MANUFACTURINGDATE_NAME);
-     }
-     /** 设置-生产日期 */
-     set manufacturingDate(value: Date) {
-         this.setProperty(MaterialBatch.PROPERTY_MANUFACTURINGDATE_NAME, value);
-     }
+    /** 映射的属性名称-生产日期 */
+    static PROPERTY_MANUFACTURINGDATE_NAME: string = "ManufacturingDate";
+    /** 获取-生产日期 */
+    get manufacturingDate(): Date {
+        return this.getProperty<Date>(MaterialBatch.PROPERTY_MANUFACTURINGDATE_NAME);
+    }
+    /** 设置-生产日期 */
+    set manufacturingDate(value: Date) {
+        this.setProperty(MaterialBatch.PROPERTY_MANUFACTURINGDATE_NAME, value);
+    }
     /** 映射的属性名称-准入日期 */
     static PROPERTY_ADMISSIONDATE_NAME: string = "AdmissionDate";
     /** 获取-准入日期 */
@@ -330,5 +330,6 @@ export class MaterialBatch extends BOSimple<MaterialBatch> implements IMaterialB
     /** 初始化数据 */
     protected init(): void {
         this.objectCode = config.applyVariables(MaterialBatch.BUSINESS_OBJECT_CODE);
+        this.locked = emYesNo.NO;
     }
 }

@@ -47,8 +47,6 @@ class BOConverter4mm extends ibas.BOConverter {
         } else if (boName === bo.MaterialSerialJournal.name) {
             if (property === bo.MaterialSerialJournal.PROPERTY_DIRECTION_NAME) {
                 return ibas.enums.toString(ibas.emDirection, value);
-            } else if (property === bo.MaterialSerialJournal.PROPERTY_INSTOCK_NAME) {
-                return ibas.enums.toString(ibas.emYesNo, value);
             }
         } else if (boName === bo.Material.name) {
             if (property === bo.Material.PROPERTY_SERIALMANAGEMENT_NAME
@@ -102,8 +100,6 @@ class BOConverter4mm extends ibas.BOConverter {
         } else if (boName === bo.MaterialSerialJournal.name) {
             if (property === bo.MaterialSerialJournal.PROPERTY_DIRECTION_NAME) {
                 return ibas.enums.valueOf(ibas.emDirection, value);
-            } else if (property === bo.MaterialSerialJournal.PROPERTY_INSTOCK_NAME) {
-                return ibas.enums.valueOf(ibas.emYesNo, value);
             }
         } else if (boName === bo.Material.name) {
             if (property === bo.Material.PROPERTY_SERIALMANAGEMENT_NAME

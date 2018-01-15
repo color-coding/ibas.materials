@@ -238,6 +238,7 @@ export class MaterialGroup extends BOMasterData<MaterialGroup> implements IMater
     /** 初始化数据 */
     protected init(): void {
         this.objectCode = config.applyVariables(MaterialGroup.BUSINESS_OBJECT_CODE);
+        this.activated = emYesNo.YES;
     }
 }
 

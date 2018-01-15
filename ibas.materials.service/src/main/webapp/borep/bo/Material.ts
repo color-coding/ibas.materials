@@ -525,6 +525,11 @@ export class Material extends BOMasterData<Material> implements IMaterial {
     /** 初始化数据 */
     protected init(): void {
         this.objectCode = config.applyVariables(Material.BUSINESS_OBJECT_CODE);
+        this.activated = emYesNo.YES;
+        this.itemType = emItemType.ITEM;
+        this.inventoryItem = emYesNo.YES;
+        this.purchaseItem = emYesNo.YES;
+        this.salesItem = emYesNo.YES;
     }
 }
 

@@ -3,11 +3,6 @@
  * Copyright color-coding studio. All Rights Reserved.
  * Use of this source code is governed by an Apache License, Version 2.0
  * that can be found in the LICENSE file at http://www.apache.org/licenses/LICENSE-2.0
- *
- * @Author: fancy
- * @Date: 2018-01-03 15:58:55
- * @Last Modified by: Fancy
- * @Last Modified time: 2018-01-03 18:05:44
  */
 import * as ibas from "ibas/index";
 import * as openui5 from "openui5/index";
@@ -21,39 +16,6 @@ export class MaterialBatchChooseView extends ibas.BOChooseView implements IMater
     get queryTarget(): any {
         return bo.MaterialBatch;
     }
-    /** 绘制工具条 */
-    darwBars(): any {
-        let that: this = this;
-        return [
-            // new sap.m.Button("", {
-            //     text: ibas.i18n.prop("shell_data_new"),
-            //     type: sap.m.ButtonType.Transparent,
-            //     // icon: "sap-icon://create",
-            //     press: function (): void {
-            //         that.fireViewEvents(that.newDataEvent);
-            //     }
-            // }),
-            new sap.m.Button("", {
-                text: ibas.i18n.prop("shell_data_choose"),
-                type: sap.m.ButtonType.Transparent,
-                // icon: "sap-icon://accept",
-                press: function (): void {
-                    that.fireViewEvents(that.chooseDataEvent,
-                        // 获取表格选中的对象
-                        openui5.utils.getTableSelecteds<bo.MaterialBatch>(that.table)
-                    );
-                }
-            }),
-            new sap.m.Button("", {
-                text: ibas.i18n.prop("shell_exit"),
-                type: sap.m.ButtonType.Transparent,
-                // icon: "sap-icon://inspect-down",
-                press: function (): void {
-                    that.fireViewEvents(that.closeEvent);
-                }
-            }),
-        ];
-    }
     /** 绘制视图 */
     darw(): any {
         let that: this = this;
@@ -64,20 +26,6 @@ export class MaterialBatchChooseView extends ibas.BOChooseView implements IMater
             visibleRowCount: ibas.config.get(openui5.utils.CONFIG_ITEM_LIST_TABLE_VISIBLE_ROW_COUNT, 15),
             rows: "{/rows}",
             columns: [
-                new sap.ui.table.Column("", {
-                    label: ibas.i18n.prop("bo_materialbatch_batchcode"),
-                    template: new sap.m.Link("", {
-                        wrapping: false,
-                        press(event: any): void {
-                            ibas.servicesManager.runLinkService({
-                                boCode: bo.MaterialBatch.BUSINESS_OBJECT_CODE,
-                                linkValue: event.getSource().getText(),
-                            });
-                        },
-                    }).bindProperty("text", {
-                        path: "batchCode",
-                    }),
-                }),
                 new sap.ui.table.Column("", {
                     label: ibas.i18n.prop("bo_materialbatch_itemcode"),
                     template: new sap.m.Text("", {
@@ -95,11 +43,59 @@ export class MaterialBatchChooseView extends ibas.BOChooseView implements IMater
                     })
                 }),
                 new sap.ui.table.Column("", {
+                    label: ibas.i18n.prop("bo_materialbatch_batchcode"),
+                    template: new sap.m.Text("", {
+                        wrapping: false,
+                    }).bindProperty("text", {
+                        path: "batchCode",
+                    }),
+                }),
+                new sap.ui.table.Column("", {
                     label: ibas.i18n.prop("bo_materialbatch_quantity"),
                     template: new sap.m.Text("", {
                         wrapping: false,
                     }).bindProperty("text", {
                         path: "quantity",
+                    }),
+                }),
+                new sap.ui.table.Column("", {
+                    label: ibas.i18n.prop("bo_materialbatch_supplierserial"),
+                    template: new sap.m.Text("", {
+                        wrapping: false,
+                    }).bindProperty("text", {
+                        path: "supplierSerial",
+                    }),
+                }),
+                new sap.ui.table.Column("", {
+                    label: ibas.i18n.prop("bo_materialbatch_internalserial"),
+                    template: new sap.m.Text("", {
+                        wrapping: false,
+                    }).bindProperty("text", {
+                        path: "internalSerial",
+                    }),
+                }),
+                new sap.ui.table.Column("", {
+                    label: ibas.i18n.prop("bo_materialbatch_expirationdate"),
+                    template: new sap.m.Text("", {
+                        wrapping: false,
+                    }).bindProperty("text", {
+                        path: "expirationDate",
+                    }),
+                }),
+                new sap.ui.table.Column("", {
+                    label: ibas.i18n.prop("bo_materialbatch_manufacturingdate"),
+                    template: new sap.m.Text("", {
+                        wrapping: false,
+                    }).bindProperty("text", {
+                        path: "manufacturingDate",
+                    }),
+                }),
+                new sap.ui.table.Column("", {
+                    label: ibas.i18n.prop("bo_materialbatch_admissiondate"),
+                    template: new sap.m.Text("", {
+                        wrapping: false,
+                    }).bindProperty("text", {
+                        path: "admissionDate",
                     }),
                 }),
             ]
@@ -128,7 +124,27 @@ export class MaterialBatchChooseView extends ibas.BOChooseView implements IMater
             horizontalScrolling: true,
             verticalScrolling: true,
             content: [this.table],
-            buttons: [this.darwBars()]
+            buttons: [
+                new sap.m.Button("", {
+                    text: ibas.i18n.prop("shell_data_choose"),
+                    type: sap.m.ButtonType.Transparent,
+                    // icon: "sap-icon://accept",
+                    press: function (): void {
+                        that.fireViewEvents(that.chooseDataEvent,
+                            // 获取表格选中的对象
+                            openui5.utils.getTableSelecteds<bo.MaterialBatch>(that.table)
+                        );
+                    }
+                }),
+                new sap.m.Button("", {
+                    text: ibas.i18n.prop("shell_exit"),
+                    type: sap.m.ButtonType.Transparent,
+                    // icon: "sap-icon://inspect-down",
+                    press: function (): void {
+                        that.fireViewEvents(that.closeEvent);
+                    }
+                }),
+            ]
         });
     }
     private table: sap.ui.table.Table;

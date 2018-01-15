@@ -21,39 +21,6 @@ export class MaterialSerialChooseView extends ibas.BOChooseView implements IMate
     get queryTarget(): any {
         return bo.MaterialSerial;
     }
-    /** 绘制工具条 */
-    darwBars(): any {
-        let that: this = this;
-        return [
-            // new sap.m.Button("", {
-            //     text: ibas.i18n.prop("shell_data_new"),
-            //     type: sap.m.ButtonType.Transparent,
-            //     // icon: "sap-icon://create",
-            //     press: function (): void {
-            //         that.fireViewEvents(that.newDataEvent);
-            //     }
-            // }),
-            new sap.m.Button("", {
-                text: ibas.i18n.prop("shell_data_choose"),
-                type: sap.m.ButtonType.Transparent,
-                // icon: "sap-icon://accept",
-                press: function (): void {
-                    that.fireViewEvents(that.chooseDataEvent,
-                        // 获取表格选中的对象
-                        openui5.utils.getTableSelecteds<bo.MaterialSerial>(that.table)
-                    );
-                }
-            }),
-            new sap.m.Button("", {
-                text: ibas.i18n.prop("shell_exit"),
-                type: sap.m.ButtonType.Transparent,
-                // icon: "sap-icon://inspect-down",
-                press: function (): void {
-                    that.fireViewEvents(that.closeEvent);
-                }
-            }),
-        ];
-    }
     /** 绘制视图 */
     darw(): any {
         let that: this = this;
@@ -64,20 +31,6 @@ export class MaterialSerialChooseView extends ibas.BOChooseView implements IMate
             visibleRowCount: ibas.config.get(openui5.utils.CONFIG_ITEM_LIST_TABLE_VISIBLE_ROW_COUNT, 15),
             rows: "{/rows}",
             columns: [
-                new sap.ui.table.Column("", {
-                    label: ibas.i18n.prop("bo_materialserial_serialcode"),
-                    template: new sap.m.Link("", {
-                        wrapping: false,
-                        press(event: any): void {
-                            ibas.servicesManager.runLinkService({
-                                boCode: bo.MaterialSerial.BUSINESS_OBJECT_CODE,
-                                linkValue: event.getSource().getText(),
-                            });
-                        },
-                    }).bindProperty("text", {
-                        path: "serialCode",
-                    }),
-                }),
                 new sap.ui.table.Column("", {
                     label: ibas.i18n.prop("bo_materialserial_itemcode"),
                     template: new sap.m.Text("", {
@@ -95,11 +48,70 @@ export class MaterialSerialChooseView extends ibas.BOChooseView implements IMate
                     })
                 }),
                 new sap.ui.table.Column("", {
-                    label: ibas.i18n.prop("bo_materialserial_quantity"),
+                    label: ibas.i18n.prop("bo_materialserial_serialcode"),
                     template: new sap.m.Text("", {
                         wrapping: false,
                     }).bindProperty("text", {
-                        path: "quantity",
+                        path: "serialCode",
+                    }),
+                }),
+                new sap.ui.table.Column("", {
+                    label: ibas.i18n.prop("bo_materialserial_instock"),
+                    template: new sap.m.Text("", {
+                        wrapping: false
+                    }).bindProperty("text", {
+                        path: "inStock",
+                        formatter(data: any): any {
+                            return ibas.enums.describe(ibas.emYesNo, data);
+                        }
+                    })
+                }),
+                new sap.ui.table.Column("", {
+                    label: ibas.i18n.prop("bo_materialserial_batchserial"),
+                    template: new sap.m.Text("", {
+                        wrapping: false,
+                    }).bindProperty("text", {
+                        path: "batchSerial",
+                    }),
+                }),
+                new sap.ui.table.Column("", {
+                    label: ibas.i18n.prop("bo_materialserial_supplierserial"),
+                    template: new sap.m.Text("", {
+                        wrapping: false,
+                    }).bindProperty("text", {
+                        path: "supplierSerial",
+                    }),
+                }),
+                new sap.ui.table.Column("", {
+                    label: ibas.i18n.prop("bo_materialserial_internalserial"),
+                    template: new sap.m.Text("", {
+                        wrapping: false,
+                    }).bindProperty("text", {
+                        path: "internalSerial",
+                    }),
+                }),
+                new sap.ui.table.Column("", {
+                    label: ibas.i18n.prop("bo_materialserial_expirationdate"),
+                    template: new sap.m.Text("", {
+                        wrapping: false,
+                    }).bindProperty("text", {
+                        path: "expirationDate",
+                    }),
+                }),
+                new sap.ui.table.Column("", {
+                    label: ibas.i18n.prop("bo_materialserial_manufacturingdate"),
+                    template: new sap.m.Text("", {
+                        wrapping: false,
+                    }).bindProperty("text", {
+                        path: "manufacturingDate",
+                    }),
+                }),
+                new sap.ui.table.Column("", {
+                    label: ibas.i18n.prop("bo_materialserial_admissiondate"),
+                    template: new sap.m.Text("", {
+                        wrapping: false,
+                    }).bindProperty("text", {
+                        path: "admissionDate",
                     }),
                 }),
             ]
@@ -128,7 +140,26 @@ export class MaterialSerialChooseView extends ibas.BOChooseView implements IMate
             horizontalScrolling: true,
             verticalScrolling: true,
             content: [this.table],
-            buttons: [this.darwBars()]
+            buttons: [
+                new sap.m.Button("", {
+                    text: ibas.i18n.prop("shell_data_choose"),
+                    type: sap.m.ButtonType.Transparent,
+                    // icon: "sap-icon://accept",
+                    press: function (): void {
+                        that.fireViewEvents(that.chooseDataEvent,
+                            // 获取表格选中的对象
+                            openui5.utils.getTableSelecteds<bo.MaterialSerial>(that.table)
+                        );
+                    }
+                }),
+                new sap.m.Button("", {
+                    text: ibas.i18n.prop("shell_exit"),
+                    type: sap.m.ButtonType.Transparent,
+                    // icon: "sap-icon://inspect-down",
+                    press: function (): void {
+                        that.fireViewEvents(that.closeEvent);
+                    }
+                }),]
         });
     }
     private table: sap.ui.table.Table;

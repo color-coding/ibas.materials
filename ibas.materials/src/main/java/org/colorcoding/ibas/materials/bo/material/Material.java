@@ -20,6 +20,7 @@ import org.colorcoding.ibas.bobas.rule.IBusinessRule;
 import org.colorcoding.ibas.bobas.rule.common.BusinessRuleMinValue;
 import org.colorcoding.ibas.bobas.rule.common.BusinessRuleRequired;
 import org.colorcoding.ibas.materials.MyConfiguration;
+import org.colorcoding.ibas.materials.data.emItemType;
 
 /**
  * 获取-物料
@@ -757,6 +758,10 @@ public class Material extends MaterialBase<Material> implements IMaterial, IData
 		super.initialize();// 基类初始化，不可去除
 		this.setObjectCode(MyConfiguration.applyVariables(BUSINESS_OBJECT_CODE));
 		this.setActivated(emYesNo.YES);
+		this.setItemType(emItemType.ITEM);
+		this.setInventoryItem(emYesNo.YES);
+		this.setSalesItem(emYesNo.YES);
+		this.setPurchaseItem(emYesNo.YES);
 	}
 
 	@Override

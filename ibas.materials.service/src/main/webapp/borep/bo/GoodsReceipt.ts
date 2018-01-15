@@ -438,7 +438,7 @@ export class GoodsReceipt extends BODocument<GoodsReceipt> implements IGoodsRece
     protected init(): void {
         this.goodsReceiptLines = new GoodsReceiptLines(this);
         this.objectCode = config.applyVariables(GoodsReceipt.BUSINESS_OBJECT_CODE);
-        this.documentStatus = emDocumentStatus.PLANNED;
+        this.documentStatus = emDocumentStatus.RELEASED;
     }
 }
 /** 库存收货-行 集合 */

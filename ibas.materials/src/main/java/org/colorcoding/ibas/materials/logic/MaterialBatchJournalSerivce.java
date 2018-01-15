@@ -8,7 +8,6 @@ import org.colorcoding.ibas.bobas.common.ICriteria;
 import org.colorcoding.ibas.bobas.common.IOperationResult;
 import org.colorcoding.ibas.bobas.data.Decimal;
 import org.colorcoding.ibas.bobas.data.emDirection;
-import org.colorcoding.ibas.bobas.data.emDocumentStatus;
 import org.colorcoding.ibas.bobas.data.emYesNo;
 import org.colorcoding.ibas.bobas.i18n.I18N;
 import org.colorcoding.ibas.bobas.logic.BusinessLogicException;
@@ -76,7 +75,7 @@ public class MaterialBatchJournalSerivce
 	protected boolean checkDataStatus(Object data) {
 		if (data instanceof IMaterialBatchJournal) {
 			IMaterialBatchJournal journal = (IMaterialBatchJournal) data;
-			if (journal.getLineStatus() == emDocumentStatus.PLANNED) {
+			if (journal.getActivated() == emYesNo.NO) {
 				return false;
 			}
 		}

@@ -8,9 +8,9 @@ import org.colorcoding.ibas.materials.bo.goodsreceipt.GoodsReceipt;
 import org.colorcoding.ibas.materials.bo.inventorytransfer.InventoryTransfer;
 import org.colorcoding.ibas.materials.bo.material.Material;
 import org.colorcoding.ibas.materials.bo.material.MaterialGroup;
-import org.colorcoding.ibas.materials.bo.material.Product;
 import org.colorcoding.ibas.materials.bo.material.MaterialPrice;
 import org.colorcoding.ibas.materials.bo.material.MaterialQuantity;
+import org.colorcoding.ibas.materials.bo.material.Product;
 import org.colorcoding.ibas.materials.bo.materialbatch.MaterialBatch;
 import org.colorcoding.ibas.materials.bo.materialbatch.MaterialBatchJournal;
 import org.colorcoding.ibas.materials.bo.materialinventory.MaterialInventory;
@@ -152,17 +152,6 @@ public interface IBORepositoryMaterialsSvc extends IBORepositorySmartService {
 	 */
 	OperationResult<MaterialBatchJournal> fetchMaterialBatchJournal(ICriteria criteria, String token);
 
-	/**
-	 * 保存-物料批次日记账
-	 * 
-	 * @param bo
-	 *            对象实例
-	 * @param token
-	 *            口令
-	 * @return 操作结果
-	 */
-	OperationResult<MaterialBatchJournal> saveMaterialBatchJournal(MaterialBatchJournal bo, String token);
-
 	// --------------------------------------------------------------------------------------------//
 	/**
 	 * 查询-物料组
@@ -197,17 +186,6 @@ public interface IBORepositoryMaterialsSvc extends IBORepositorySmartService {
 	 * @return 操作结果
 	 */
 	OperationResult<MaterialInventory> fetchMaterialInventory(ICriteria criteria, String token);
-
-	/**
-	 * 保存-物料库存
-	 * 
-	 * @param bo
-	 *            对象实例
-	 * @param token
-	 *            口令
-	 * @return 操作结果
-	 */
-	OperationResult<MaterialInventory> saveMaterialInventory(MaterialInventory bo, String token);
 
 	// --------------------------------------------------------------------------------------------//
 	/**
@@ -289,17 +267,6 @@ public interface IBORepositoryMaterialsSvc extends IBORepositorySmartService {
 	 * @return 操作结果
 	 */
 	OperationResult<MaterialSerialJournal> fetchMaterialSerialJournal(ICriteria criteria, String token);
-
-	/**
-	 * 保存-物料序列号日记账
-	 * 
-	 * @param bo
-	 *            对象实例
-	 * @param token
-	 *            口令
-	 * @return 操作结果
-	 */
-	OperationResult<MaterialSerialJournal> saveMaterialSerialJournal(MaterialSerialJournal bo, String token);
 
 	// --------------------------------------------------------------------------------------------//
 	/**

@@ -7,11 +7,11 @@
  */
 import * as ibas from "ibas/index";
 import * as bo from "../../borep/bo/index";
-import { IMaterialBatchJournal, IMaterialBatch } from "../../api/bo/index";
+import { IMaterialSerialJournal, IMaterialSerial } from "../../api/bo/index";
 import { BORepositoryMaterials } from "../../borep/BORepositories";
-/** 物料批次服务 */
-abstract class MaterialBatchService<T extends IMaterialBatchServiceView>
-    extends ibas.ServiceApplication<T, bo.IMaterialBatchContract[]> {
+/** 物料序列号服务 */
+abstract class MaterialSerialService<T extends IMaterialSerialServiceView>
+    extends ibas.ServiceApplication<T, bo.IMaterialSerialContract[]> {
     /** 注册视图 */
     protected registerView(): void {
         super.registerView();
@@ -23,16 +23,16 @@ abstract class MaterialBatchService<T extends IMaterialBatchServiceView>
         // 视图加载完成
         this.view.showWorkDatas(this.workDatas);
     }
-    protected workDatas: ibas.List<bo.IMaterialBatchContract>;
-    protected workingData: bo.IMaterialBatchContract;
+    protected workDatas: ibas.List<bo.IMaterialSerialContract>;
+    protected workingData: bo.IMaterialSerialContract;
     /** 运行服务 */
-    runService(contracts: bo.IMaterialBatchContract[]): void {
-        this.workDatas = new ibas.ArrayList<bo.IMaterialBatchContract>();
+    runService(contracts: bo.IMaterialSerialContract[]): void {
+        this.workDatas = new ibas.ArrayList<bo.IMaterialSerialContract>();
         for (let item of contracts) {
             if (ibas.objects.isNull(item)) {
                 continue;
             }
-            if (item.batchManagement !== ibas.emYesNo.YES) {
+            if (item.serialManagement !== ibas.emYesNo.YES) {
                 continue;
             }
             this.workDatas.add(item);
@@ -41,10 +41,10 @@ abstract class MaterialBatchService<T extends IMaterialBatchServiceView>
             super.show();
         } else {
             // 没有需要处理的数据
-            this.proceeding(ibas.emMessageType.WARNING, ibas.i18n.prop("materials_no_work_datas_for_material_batch"));
+            this.proceeding(ibas.emMessageType.WARNING, ibas.i18n.prop("materials_no_work_datas_for_material_serial"));
         }
     }
-    protected changeWorkingData(data: bo.IMaterialBatchContract): void {
+    protected changeWorkingData(data: bo.IMaterialSerialContract): void {
         if (!this.workDatas.concat(data)) {
             throw new Error(ibas.i18n.prop("sys_invalid_parameter", "data"));
         }
@@ -52,20 +52,20 @@ abstract class MaterialBatchService<T extends IMaterialBatchServiceView>
         if (ibas.objects.isNull(this.workingData)) {
             throw new Error(ibas.i18n.prop("sys_invalid_parameter", "workingData"));
         }
-        this.view.showMaterialBatchJournals(this.workingData.materialBatches.filterDeleted());
+        this.view.showMaterialSerialJournals(this.workingData.materialSerials.filterDeleted());
     }
 }
-/** 物料批次发货服务 */
-export class MaterialBatchIssueService extends MaterialBatchService<IMaterialBatchIssueView> {
+/** 物料序列号发货服务 */
+export class MaterialSerialIssueService extends MaterialSerialService<IMaterialSerialIssueView> {
     /** 应用标识 */
-    static APPLICATION_ID: string = "141e2a0f-3120-40a3-9bb4-f8b61672ed9c";
+    static APPLICATION_ID: string = "a8542551-c39a-4e11-abbc-cfa9eff6de8b";
     /** 应用名称 */
-    static APPLICATION_NAME: string = "materials_app_materialbatch_issue";
+    static APPLICATION_NAME: string = "materials_app_materialserial_issue";
     /** 构造函数 */
     constructor() {
         super();
-        this.id = MaterialBatchIssueService.APPLICATION_ID;
-        this.name = MaterialBatchIssueService.APPLICATION_NAME;
+        this.id = MaterialSerialIssueService.APPLICATION_ID;
+        this.name = MaterialSerialIssueService.APPLICATION_NAME;
         this.description = ibas.i18n.prop(this.name);
     }
 
@@ -73,67 +73,67 @@ export class MaterialBatchIssueService extends MaterialBatchService<IMaterialBat
     protected registerView(): void {
         super.registerView();
         // 其他事件
-        this.view.useMaterialBatchInventoryEvent = this.useMaterialBatchInventory;
-        this.view.removeMaterialBatchJournalEvent = this.removeMaterialBatchJournal;
+        this.view.useMaterialSerialInventoryEvent = this.useMaterialSerialInventory;
+        this.view.removeMaterialSerialJournalEvent = this.removeMaterialSerialJournal;
     }
-    protected changeWorkingData(data: bo.IMaterialBatchContract): void {
+    protected changeWorkingData(data: bo.IMaterialSerialContract): void {
         super.changeWorkingData(data);
         let that: this = this;
         let criteria: ibas.ICriteria = new ibas.Criteria();
         let condition: ibas.ICondition = criteria.conditions.create();
-        condition.alias = bo.MaterialBatch.PROPERTY_ITEMCODE_NAME;
+        condition.alias = bo.MaterialSerial.PROPERTY_ITEMCODE_NAME;
         condition.operation = ibas.emConditionOperation.EQUAL;
         condition.value = this.workingData.itemCode;
         condition = criteria.conditions.create();
-        condition.alias = bo.MaterialBatch.PROPERTY_WAREHOUSE_NAME;
+        condition.alias = bo.MaterialSerial.PROPERTY_WAREHOUSE_NAME;
         condition.operation = ibas.emConditionOperation.EQUAL;
         condition.value = this.workingData.warehouse;
         condition = criteria.conditions.create();
-        condition.alias = bo.MaterialBatch.PROPERTY_LOCKED_NAME;
+        condition.alias = bo.MaterialSerial.PROPERTY_LOCKED_NAME;
         condition.operation = ibas.emConditionOperation.EQUAL;
         condition.value = ibas.emYesNo.NO.toString();
         condition = criteria.conditions.create();
-        condition.alias = bo.MaterialBatch.PROPERTY_QUANTITY_NAME;
-        condition.operation = ibas.emConditionOperation.GRATER_THAN;
-        condition.value = "0";
+        condition.alias = bo.MaterialSerial.PROPERTY_INSTOCK_NAME;
+        condition.operation = ibas.emConditionOperation.EQUAL;
+        condition.value = ibas.emYesNo.YES.toString();
         this.busy(true);
         let boRepository: BORepositoryMaterials = new BORepositoryMaterials();
-        boRepository.fetchMaterialBatch({
+        boRepository.fetchMaterialSerial({
             criteria: criteria,
-            onCompleted(opRslt: ibas.IOperationResult<bo.MaterialBatch>): void {
+            onCompleted(opRslt: ibas.IOperationResult<bo.MaterialSerial>): void {
                 try {
                     if (opRslt.resultCode !== 0) {
                         throw new Error(opRslt.message);
                     }
-                    let results: ibas.ArrayList<bo.MaterialBatch> = new ibas.ArrayList<bo.MaterialBatch>();
+                    let results: ibas.ArrayList<bo.MaterialSerial> = new ibas.ArrayList<bo.MaterialSerial>();
                     // 修正可用的数量
                     for (let item of opRslt.resultObjects) {
                         for (let wItem of that.workDatas) {
-                            for (let jItem of wItem.materialBatches) {
+                            for (let jItem of wItem.materialSerials) {
                                 if (item.warehouse !== jItem.warehouse) {
                                     continue;
                                 }
                                 if (item.itemCode !== jItem.itemCode) {
                                     continue;
                                 }
-                                if (item.batchCode !== jItem.batchCode) {
+                                if (item.serialCode !== jItem.serialCode) {
                                     continue;
                                 }
                                 if (item.isDeleted && jItem.activated === ibas.emYesNo.YES) {
                                     // 已释放的加回
-                                    item.quantity += jItem.quantity;
+                                    item.inStock = ibas.emYesNo.YES;
                                 } else {
                                     // 已被使用的减去
-                                    item.quantity -= jItem.quantity;
+                                    item.inStock = ibas.emYesNo.NO;
                                 }
                             }
                         }
-                        if (item.quantity > 0) {
+                        if (item.inStock === ibas.emYesNo.YES) {
                             results.add(item);
                         }
                     }
                     // 显示可用结果
-                    that.view.showMaterialBatchInventories(results);
+                    that.view.showMaterialSerialInventories(results);
                     if (opRslt.resultObjects.length === 0) {
                         that.proceeding(ibas.emMessageType.INFORMATION, ibas.i18n.prop("shell_data_fetched_none"));
                     }
@@ -145,7 +145,7 @@ export class MaterialBatchIssueService extends MaterialBatchService<IMaterialBat
         });
         this.proceeding(ibas.emMessageType.INFORMATION, ibas.i18n.prop("shell_fetching_data"));
     }
-    protected useMaterialBatchInventory(data: IMaterialBatch): void {
+    protected useMaterialSerialInventory(data: IMaterialSerial): void {
         if (ibas.objects.isNull(data)) {
             this.messages(ibas.emMessageType.WARNING, ibas.i18n.prop("shell_please_chooose_data"));
             return;
@@ -153,16 +153,15 @@ export class MaterialBatchIssueService extends MaterialBatchService<IMaterialBat
         if (ibas.objects.isNull(this.workingData)) {
             throw new Error(ibas.i18n.prop("sys_invalid_parameter", "workingData"));
         }
-        let total: number = this.workingData.materialBatches.total();
+        let total: number = this.workingData.materialSerials.total();
         if (total >= this.workingData.quantity) {
             this.messages(ibas.emMessageType.WARNING, ibas.i18n.prop("materials_no_data_to_be_processed"));
             return;
         }
-        let journal: IMaterialBatchJournal = this.workingData.materialBatches.create();
-        journal.quantity = this.workingData.quantity - total;
-        this.view.showMaterialBatchJournals(this.workingData.materialBatches.filterDeleted());
+        let journal: IMaterialSerialJournal = this.workingData.materialSerials.create();
+        this.view.showMaterialSerialJournals(this.workingData.materialSerials.filterDeleted());
     }
-    protected removeMaterialBatchJournal(data: IMaterialBatchJournal): void {
+    protected removeMaterialSerialJournal(data: IMaterialSerialJournal): void {
         if (ibas.objects.isNull(data)) {
             this.messages(ibas.emMessageType.WARNING, ibas.i18n.prop("shell_please_chooose_data"));
             return;
@@ -171,34 +170,34 @@ export class MaterialBatchIssueService extends MaterialBatchService<IMaterialBat
             throw new Error(ibas.i18n.prop("sys_invalid_parameter", "workingData"));
         }
         if (data.isNew) {
-            this.workingData.materialBatches.remove(data);
+            this.workingData.materialSerials.remove(data);
         } else {
             data.delete();
         }
-        this.view.showMaterialBatchJournals(this.workingData.materialBatches.filterDeleted());
+        this.view.showMaterialSerialJournals(this.workingData.materialSerials.filterDeleted());
     }
 }
-/** 物料批次收货服务 */
-export class MaterialBatchReceiptService extends MaterialBatchService<IMaterialBatchReceiptView> {
+/** 物料序列号收货服务 */
+export class MaterialSerialReceiptService extends MaterialSerialService<IMaterialSerialReceiptView> {
     /** 应用标识 */
-    static APPLICATION_ID: string = "f4448871-b03a-48f5-bf6d-9418259fab9d";
+    static APPLICATION_ID: string = "ff8f4173-77f6-4f92-bfc5-697e6d8ff545";
     /** 应用名称 */
-    static APPLICATION_NAME: string = "materials_app_materialbatch_receipt";
+    static APPLICATION_NAME: string = "materials_app_materialserial_receipt";
     /** 构造函数 */
     constructor() {
         super();
-        this.id = MaterialBatchReceiptService.APPLICATION_ID;
-        this.name = MaterialBatchReceiptService.APPLICATION_NAME;
+        this.id = MaterialSerialReceiptService.APPLICATION_ID;
+        this.name = MaterialSerialReceiptService.APPLICATION_NAME;
         this.description = ibas.i18n.prop(this.name);
     }
     /** 注册视图 */
     protected registerView(): void {
         super.registerView();
         // 其他事件
-        this.view.createMaterialBatchJournalEvent = this.createMaterialBatchJournal;
-        this.view.deleteMaterialBatchJournalEvent = this.deleteMaterialBatchJournal;
+        this.view.createMaterialSerialJournalEvent = this.createMaterialSerialJournal;
+        this.view.deleteMaterialSerialJournalEvent = this.deleteMaterialSerialJournal;
     }
-    protected deleteMaterialBatchJournal(data: IMaterialBatchJournal): void {
+    protected deleteMaterialSerialJournal(data: IMaterialSerialJournal): void {
         if (ibas.objects.isNull(data)) {
             this.messages(ibas.emMessageType.WARNING, ibas.i18n.prop("shell_please_chooose_data"));
             return;
@@ -207,18 +206,18 @@ export class MaterialBatchReceiptService extends MaterialBatchService<IMaterialB
             throw new Error(ibas.i18n.prop("sys_invalid_parameter", "workingData"));
         }
         if (data.isNew) {
-            this.workingData.materialBatches.remove(data);
+            this.workingData.materialSerials.remove(data);
         } else {
             data.delete();
         }
-        this.view.showMaterialBatchJournals(this.workingData.materialBatches.filterDeleted());
+        this.view.showMaterialSerialJournals(this.workingData.materialSerials.filterDeleted());
     }
-    protected createMaterialBatchJournal(): void {
-        let datas: ibas.List<bo.IMaterialBatchContract> = new ibas.ArrayList<bo.IMaterialBatchContract>();
+    protected createMaterialSerialJournal(): void {
+        let datas: ibas.List<bo.IMaterialSerialContract> = new ibas.ArrayList<bo.IMaterialSerialContract>();
         if (ibas.objects.isNull(this.workingData)) {
             // 没有工作的，全部创建
             for (let item of this.workDatas) {
-                if (item.quantity === item.materialBatches.total()) {
+                if (item.quantity === item.materialSerials.total()) {
                     continue;
                 }
                 datas.add(item);
@@ -227,73 +226,72 @@ export class MaterialBatchReceiptService extends MaterialBatchService<IMaterialB
             // 仅创建工作的
             datas.add(this.workingData);
         }
-        let journals: ibas.List<IMaterialBatchJournal> = new ibas.ArrayList<IMaterialBatchJournal>();
+        let journals: ibas.List<IMaterialSerialJournal> = new ibas.ArrayList<IMaterialSerialJournal>();
         for (let item of datas) {
-            let total: number = item.materialBatches.total();
+            let total: number = item.materialSerials.total();
             if (total >= item.quantity) {
                 continue;
             }
-            let journal: IMaterialBatchJournal = item.materialBatches.create();
-            journal.quantity = item.quantity - total;
-            journal.batchCode = ibas.dates.toString(ibas.dates.now(), "yyyyMMdd");
+            let journal: IMaterialSerialJournal = item.materialSerials.create();
+            journal.serialCode = ibas.dates.toString(ibas.dates.now(), "yyyyMMdd");
             journals.add(journal);
         }
-        this.view.showMaterialBatchJournals(journals);
+        this.view.showMaterialSerialJournals(journals);
     }
 }
-/** 视图-物料批次服务 */
-export interface IMaterialBatchServiceView extends ibas.IBOView {
+/** 视图-物料序列号服务 */
+export interface IMaterialSerialServiceView extends ibas.IBOView {
     /** 显示待处理数据 */
-    showWorkDatas(datas: bo.IMaterialBatchContract[]): void;
+    showWorkDatas(datas: bo.IMaterialSerialContract[]): void;
     /** 切换工作数据 */
     changeWorkingDataEvent: Function;
-    /** 显示物料批次记录 */
-    showMaterialBatchJournals(datas: IMaterialBatchJournal[]): void;
+    /** 显示物料序列号记录 */
+    showMaterialSerialJournals(datas: IMaterialSerialJournal[]): void;
 }
-/** 视图-物料批次发货 */
-export interface IMaterialBatchIssueView extends IMaterialBatchServiceView {
-    /** 显示物料批次库存 */
-    showMaterialBatchInventories(datas: bo.MaterialBatch[]): void;
-    /** 使用物料批次库存 */
-    useMaterialBatchInventoryEvent: Function;
-    /** 移出物料批次库存 */
-    removeMaterialBatchJournalEvent: Function;
+/** 视图-物料序列号发货 */
+export interface IMaterialSerialIssueView extends IMaterialSerialServiceView {
+    /** 显示物料序列号库存 */
+    showMaterialSerialInventories(datas: bo.MaterialSerial[]): void;
+    /** 使用物料序列号库存 */
+    useMaterialSerialInventoryEvent: Function;
+    /** 移出物料序列号库存 */
+    removeMaterialSerialJournalEvent: Function;
 }
-/** 视图-物料批次收货 */
-export interface IMaterialBatchReceiptView extends IMaterialBatchServiceView {
-    /** 创建批次记录 */
-    createMaterialBatchJournalEvent: Function;
-    /** 删除物料批次库存 */
-    deleteMaterialBatchJournalEvent: Function;
+/** 视图-物料序列号收货 */
+export interface IMaterialSerialReceiptView extends IMaterialSerialServiceView {
+    /** 创建序列号记录 */
+    createMaterialSerialJournalEvent: Function;
+    /** 删除物料序列号库存 */
+    deleteMaterialSerialJournalEvent: Function;
 }
-/** 物料批次发货服务映射 */
-export class MaterialBatchIssueServiceMapping extends ibas.ServiceMapping {
+/** 物料序列号发货服务映射 */
+export class MaterialSerialIssueServiceMapping extends ibas.ServiceMapping {
     /** 构造函数 */
     constructor() {
         super();
-        this.id = MaterialBatchIssueService.APPLICATION_ID;
-        this.name = MaterialBatchIssueService.APPLICATION_NAME;
+        this.id = MaterialSerialIssueService.APPLICATION_ID;
+        this.name = MaterialSerialIssueService.APPLICATION_NAME;
         this.description = ibas.i18n.prop(this.name);
-        this.proxy = bo.MaterialBatchIssueServiceProxy;
+        this.proxy = bo.MaterialSerialIssueServiceProxy;
     }
     /** 创建服务实例 */
     create(): ibas.IService<ibas.IServiceContract> {
-        return new MaterialBatchIssueService();
+        return new MaterialSerialIssueService();
     }
 }
-/** 物料批次收货服务映射 */
-export class MaterialBatchReceiptServiceMapping extends ibas.ServiceMapping {
+/** 物料序列号收货服务映射 */
+export class MaterialSerialReceiptServiceMapping extends ibas.ServiceMapping {
     /** 构造函数 */
     constructor() {
         super();
-        this.id = MaterialBatchReceiptService.APPLICATION_ID;
-        this.name = MaterialBatchReceiptService.APPLICATION_NAME;
+        this.id = MaterialSerialReceiptService.APPLICATION_ID;
+        this.name = MaterialSerialReceiptService.APPLICATION_NAME;
         this.description = ibas.i18n.prop(this.name);
-        this.proxy = bo.MaterialBatchReceiptServiceProxy;
+        this.proxy = bo.MaterialSerialReceiptServiceProxy;
     }
     /** 创建服务实例 */
     create(): ibas.IService<ibas.IServiceContract> {
-        return new MaterialBatchReceiptService();
+        return new MaterialSerialReceiptService();
     }
 }
 

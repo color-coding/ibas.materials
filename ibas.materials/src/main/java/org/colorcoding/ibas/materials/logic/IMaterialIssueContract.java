@@ -2,8 +2,6 @@ package org.colorcoding.ibas.materials.logic;
 
 import org.colorcoding.ibas.bobas.data.DateTime;
 import org.colorcoding.ibas.bobas.data.Decimal;
-import org.colorcoding.ibas.bobas.data.emDocumentStatus;
-import org.colorcoding.ibas.bobas.data.emYesNo;
 import org.colorcoding.ibas.bobas.logic.IBusinessLogicContract;
 
 /**
@@ -81,17 +79,4 @@ public interface IMaterialIssueContract extends IBusinessLogicContract {
 	 */
 	DateTime getDocumentDate();
 
-	/**
-	 * 取消
-	 *
-	 * @return
-	 */
-	emYesNo getCanceled();
-
-	/**
-	 * 单据状态
-	 *
-	 * @return
-	 */
-	emDocumentStatus getStatus();
 }

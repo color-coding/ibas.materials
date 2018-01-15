@@ -11,4 +11,3 @@ export * from "./MaterialInventoryFunc";
 export * from "./MaterialInventoryListApp";
 export * from "./MaterialInventoryChooseApp";
 export * from "./MaterialInventoryViewApp";
-export * from "./MaterialInventoryEditApp";

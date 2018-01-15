@@ -39,7 +39,7 @@ export class MaterialBatchViewApp extends ibas.BOViewService<IMaterialBatchViewV
     /** 视图显示后 */
     protected viewShowed(): void {
         this.view.showMaterialBatch(this.viewData);
-         this.view.showMaterialBatchJournal(this.journalData);
+        this.view.showMaterialBatchJournal(this.journalData);
     }
     /** 运行,覆盖原方法 */
     run(): void;
@@ -49,9 +49,9 @@ export class MaterialBatchViewApp extends ibas.BOViewService<IMaterialBatchViewV
             this.viewData = arguments[0];
             let criteria: ibas.ICriteria = new ibas.Criteria();
             let condition: ibas.ICondition = criteria.conditions.create();
-            condition.alias = bo.MaterialBatchJournal.PROPERTY_BATCH_NAME;
+            condition.alias = bo.MaterialBatchJournal.PROPERTY_BATCHCODE_NAME;
             condition.value = this.viewData.batchCode;
-            condition.operation =ibas.emConditionOperation.EQUAL;
+            condition.operation = ibas.emConditionOperation.EQUAL;
             // 查询日记账
             this.fetchJournalData(criteria);
             this.show();

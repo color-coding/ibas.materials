@@ -20,6 +20,7 @@ import {
     BOSimple,
     BOSimpleLine,
     config,
+    CONFIG_ITEM_DEFAULT_CURRENCY,
 } from "ibas/index";
 import {
     IMaterialPriceList,
@@ -286,6 +287,7 @@ export class MaterialPriceList extends BOSimple<MaterialPriceList> implements IM
     protected init(): void {
         this.materialPriceItems = new MaterialPriceItems(this);
         this.objectCode = config.applyVariables(MaterialPriceList.BUSINESS_OBJECT_CODE);
+        this.currency = config.get(CONFIG_ITEM_DEFAULT_CURRENCY, "CNY");
     }
 }
 export class MaterialPriceItems extends BusinessObjects<MaterialPriceItem, MaterialPriceList> implements IMaterialPriceItems {

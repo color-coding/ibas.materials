@@ -1505,15 +1505,6 @@ public class InventoryTransferLine extends BusinessObject<InventoryTransferLine>
 				return InventoryTransferLine.this.parent.getDocumentDate();
 			}
 
-			@Override
-			public emYesNo getCanceled() {
-				return InventoryTransferLine.this.getCanceled();
-			}
-
-			@Override
-			public emDocumentStatus getStatus() {
-				return InventoryTransferLine.this.getLineStatus();
-			}
 		}, new IMaterialReceiptContract() {
 			@Override
 			public String getIdentifiers() {
@@ -1568,16 +1559,6 @@ public class InventoryTransferLine extends BusinessObject<InventoryTransferLine>
 			@Override
 			public DateTime getDocumentDate() {
 				return InventoryTransferLine.this.parent.getDocumentDate();
-			}
-
-			@Override
-			public emYesNo getCanceled() {
-				return InventoryTransferLine.this.getCanceled();
-			}
-
-			@Override
-			public emDocumentStatus getStatus() {
-				return InventoryTransferLine.this.getLineStatus();
 			}
 		} };
 	}

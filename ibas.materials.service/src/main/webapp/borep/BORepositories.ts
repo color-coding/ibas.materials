@@ -125,13 +125,6 @@ export class BORepositoryMaterials extends ibas.BORepositoryApplication implemen
     fetchMaterialInventory(fetcher: ibas.FetchCaller<bo.MaterialInventory>): void {
         super.fetch(bo.MaterialInventory.name, fetcher);
     }
-    /**
-     * 保存 物料库存
-     * @param saver 保存者
-     */
-    saveMaterialInventory(saver: ibas.SaveCaller<bo.MaterialInventory>): void {
-        super.save(bo.MaterialInventory.name, saver);
-    }
 
     /**
      * 查询 仓库日记账

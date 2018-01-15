@@ -1504,15 +1504,6 @@ public class GoodsIssueLine extends BusinessObject<GoodsIssueLine> implements IG
 				return GoodsIssueLine.this.parent.getDocumentDate();
 			}
 
-			@Override
-			public emYesNo getCanceled() {
-				return GoodsIssueLine.this.getCanceled();
-			}
-
-			@Override
-			public emDocumentStatus getStatus() {
-				return GoodsIssueLine.this.getLineStatus();
-			}
 		} };
 	}
 }
