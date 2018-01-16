@@ -3,7 +3,6 @@ package org.colorcoding.ibas.materials.bo.materialserial;
 import org.colorcoding.ibas.bobas.bo.IBOSimple;
 import org.colorcoding.ibas.bobas.data.DateTime;
 import org.colorcoding.ibas.bobas.data.emDirection;
-import org.colorcoding.ibas.bobas.data.emYesNo;
 
 /**
  * 物料序列号日记账 接口
@@ -85,21 +84,6 @@ public interface IMaterialSerialJournal extends IBOSimple {
 	 *            值
 	 */
 	void setBaseDocumentType(String value);
-
-	/**
-	 * 获取-激活
-	 * 
-	 * @return 值
-	 */
-	emYesNo getActivated();
-
-	/**
-	 * 设置-激活
-	 * 
-	 * @param value
-	 *            值
-	 */
-	void setActivated(emYesNo value);
 
 	/**
 	 * 获取-基于标识

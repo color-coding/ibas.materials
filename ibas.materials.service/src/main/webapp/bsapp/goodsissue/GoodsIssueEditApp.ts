@@ -9,7 +9,6 @@
 import * as ibas from "ibas/index";
 import * as bo from "../../borep/bo/index";
 import { BORepositoryMaterials } from "../../borep/BORepositories";
-import { IMaterialBatch, IMaterialBatchJournals } from "../../api/index";
 import { MaterialBatchJournal, GoodsIssueLine } from "../../borep/bo/index";
 import { objects } from "ibas/index";
 

@@ -10,7 +10,6 @@ import org.colorcoding.ibas.bobas.bo.BusinessObject;
 import org.colorcoding.ibas.bobas.core.IPropertyInfo;
 import org.colorcoding.ibas.bobas.data.DateTime;
 import org.colorcoding.ibas.bobas.data.emDirection;
-import org.colorcoding.ibas.bobas.data.emYesNo;
 import org.colorcoding.ibas.bobas.logic.IBusinessLogicContract;
 import org.colorcoding.ibas.bobas.logic.IBusinessLogicsHost;
 import org.colorcoding.ibas.bobas.mapping.BOCode;
@@ -19,7 +18,7 @@ import org.colorcoding.ibas.bobas.mapping.DbFieldType;
 import org.colorcoding.ibas.bobas.rule.IBusinessRule;
 import org.colorcoding.ibas.bobas.rule.common.BusinessRuleRequired;
 import org.colorcoding.ibas.materials.MyConfiguration;
-import org.colorcoding.ibas.materials.logic.IMaterialSerialJournalContract;
+import org.colorcoding.ibas.materials.logic.IMaterialSerialInventoryContract;
 
 /**
  * 获取-物料序列号日记账
@@ -151,38 +150,6 @@ public class MaterialSerialJournal extends BusinessObject<MaterialSerialJournal>
 	 */
 	public final void setWarehouse(String value) {
 		this.setProperty(PROPERTY_WAREHOUSE, value);
-	}
-
-	/**
-	 * 属性名称-激活
-	 */
-	private static final String PROPERTY_ACTIVATED_NAME = "Activated";
-
-	/**
-	 * 激活 属性
-	 */
-	@DbField(name = "Activated", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME, primaryKey = false)
-	public static final IPropertyInfo<emYesNo> PROPERTY_ACTIVATED = registerProperty(PROPERTY_ACTIVATED_NAME,
-			emYesNo.class, MY_CLASS);
-
-	/**
-	 * 获取-激活
-	 * 
-	 * @return 值
-	 */
-	@XmlElement(name = PROPERTY_ACTIVATED_NAME)
-	public final emYesNo getActivated() {
-		return this.getProperty(PROPERTY_ACTIVATED);
-	}
-
-	/**
-	 * 设置-激活
-	 * 
-	 * @param value
-	 *            值
-	 */
-	public final void setActivated(emYesNo value) {
-		this.setProperty(PROPERTY_ACTIVATED, value);
 	}
 
 	/**
@@ -718,7 +685,7 @@ public class MaterialSerialJournal extends BusinessObject<MaterialSerialJournal>
 
 	@Override
 	public IBusinessLogicContract[] getContracts() {
-		return new IBusinessLogicContract[] { new IMaterialSerialJournalContract() {
+		return new IBusinessLogicContract[] { new IMaterialSerialInventoryContract() {
 
 			@Override
 			public String getIdentifiers() {
@@ -746,17 +713,17 @@ public class MaterialSerialJournal extends BusinessObject<MaterialSerialJournal>
 			}
 
 			@Override
-			public String getDocumentType() {
+			public String getBaseDocumentType() {
 				return MaterialSerialJournal.this.getBaseDocumentType();
 			}
 
 			@Override
-			public Integer getDocumentEntry() {
+			public Integer getBaseDocumentEntry() {
 				return MaterialSerialJournal.this.getBaseDocumentEntry();
 			}
 
 			@Override
-			public Integer getDocumentLineId() {
+			public Integer getBaseDocumentLineId() {
 				return MaterialSerialJournal.this.getBaseDocumentLineId();
 			}
 		} };

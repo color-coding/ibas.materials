@@ -16,10 +16,6 @@ import org.colorcoding.ibas.materials.bo.materialpricelist.MaterialPriceItem;
 import org.colorcoding.ibas.materials.bo.materialpricelist.MaterialPriceList;
 import org.colorcoding.ibas.materials.repository.BORepositoryMaterials;
 
-/**
- * 影响物料价格清单的契约
- * 
- */
 @LogicContract(IMaterialPriceContract.class)
 public class MaterialPriceContract extends MaterialBusinessLogic<IMaterialPriceContract, IMaterialPriceList> {
 

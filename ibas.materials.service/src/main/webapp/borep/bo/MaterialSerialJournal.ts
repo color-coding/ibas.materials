@@ -34,13 +34,9 @@ import {
     BO_PROPERTY_NAME_DELETED,
 } from "ibas/index";
 import {
-    BO_CODE_MATERIALSERIALJOURNAL,
-} from "../Datas";
-import {
     IMaterialSerialJournal,
-    IMaterialSerialJournals,
-    IMaterialSerialJournalsParent,
-} from "./MaterialSerialJournal.d";
+    BO_CODE_MATERIALSERIALJOURNAL,
+} from "../../api/index";
 /** 物料序列记录 */
 export class MaterialSerialJournal extends BOSimple<MaterialSerialJournal> implements IMaterialSerialJournal {
 
@@ -81,17 +77,6 @@ export class MaterialSerialJournal extends BOSimple<MaterialSerialJournal> imple
     /** 设置-仓库编码 */
     set warehouse(value: string) {
         this.setProperty(MaterialSerialJournal.PROPERTY_WAREHOUSE_NAME, value);
-    }
-
-    /** 映射的属性名称-激活 */
-    static PROPERTY_ACTIVATED_NAME: string = "Activated";
-    /** 获取-激活 */
-    get activated(): emYesNo {
-        return this.getProperty<emYesNo>(MaterialSerialJournal.PROPERTY_ACTIVATED_NAME);
-    }
-    /** 设置-激活 */
-    set activated(value: emYesNo) {
-        this.setProperty(MaterialSerialJournal.PROPERTY_ACTIVATED_NAME, value);
     }
 
     /** 映射的属性名称-方向 */
@@ -275,82 +260,5 @@ export class MaterialSerialJournal extends BOSimple<MaterialSerialJournal> imple
     /** 初始化数据 */
     protected init(): void {
         this.objectCode = config.applyVariables(MaterialSerialJournal.BUSINESS_OBJECT_CODE);
-    }
-}
-
-/** 物料序列记录集合 */
-export class MaterialSerialJournals
-    extends BusinessObjects<IMaterialSerialJournal, IMaterialSerialJournalsParent>
-    implements IMaterialSerialJournals {
-    /** 创建并添加子项 */
-    create(): MaterialSerialJournal {
-        let item: MaterialSerialJournal = new MaterialSerialJournal();
-        this.add(item);
-        return item;
-    }
-    afterAdd(item: MaterialSerialJournal): void {
-        super.afterAdd(item);
-        item.baseDocumentType = this.parent.objectCode;
-        item.baseDocumentEntry = this.parent.docEntry;
-        item.baseDocumentLineId = this.parent.lineId;
-        item.itemCode = this.parent.itemCode;
-        item.warehouse = this.parent.warehouse;
-        item.activated = this.getActivated();
-    }
-    /**
-     * 父项单据行发生改变
-     */
-    onParentPropertyChanged(name: string): void {
-        if (strings.equalsIgnoreCase(name, BO_PROPERTY_NAME_LINESTATUS)
-            || strings.equalsIgnoreCase(name, BO_PROPERTY_NAME_DOCUMENTSTATUS)
-            || strings.equalsIgnoreCase(name, BO_PROPERTY_NAME_CANCELED)
-            || strings.equalsIgnoreCase(name, BO_PROPERTY_NAME_DELETED)
-            || strings.equalsIgnoreCase(name, BO_PROPERTY_NAME_APPROVALSTATUS)) {
-            for (let item of this) {
-                item.activated = this.getActivated();
-            }
-        } else if (strings.equalsIgnoreCase(name, BO_PROPERTY_NAME_OBJECTCODE)) {
-            for (let item of this) {
-                item.baseDocumentType = this.parent.objectCode;
-            }
-        } else if (strings.equalsIgnoreCase(name, BO_PROPERTY_NAME_DOCENTRY)) {
-            for (let item of this) {
-                item.baseDocumentEntry = this.parent.docEntry;
-            }
-        } else if (strings.equalsIgnoreCase(name, BO_PROPERTY_NAME_LINEID)) {
-            for (let item of this) {
-                item.baseDocumentLineId = this.parent.lineId;
-            }
-        }
-    }
-    protected getActivated(): emYesNo {
-        if (this.parent.getProperty(BO_PROPERTY_NAME_LINESTATUS) === emDocumentStatus.PLANNED) {
-            return emYesNo.NO;
-        }
-        if (this.parent.getProperty(BO_PROPERTY_NAME_DOCUMENTSTATUS) === emDocumentStatus.PLANNED) {
-            return emYesNo.NO;
-        }
-        if (this.parent.getProperty(BO_PROPERTY_NAME_CANCELED) === emYesNo.YES) {
-            return emYesNo.NO;
-        }
-        if (this.parent.getProperty(BO_PROPERTY_NAME_DELETED) === emYesNo.YES) {
-            return emYesNo.NO;
-        }
-        if (this.parent.getProperty(BO_PROPERTY_NAME_APPROVALSTATUS) !== emApprovalStatus.APPROVED
-            && this.parent.getProperty(BO_PROPERTY_NAME_APPROVALSTATUS) !== emApprovalStatus.UNAFFECTED) {
-            return emYesNo.NO;
-        }
-        return emYesNo.YES;
-    }
-    /** 总计 */
-    total(): number {
-        let total: number = 0;
-        for (let item of this) {
-            if (item.isDeleted) {
-                continue;
-            }
-            total += 1;
-        }
-        return total;
     }
 }

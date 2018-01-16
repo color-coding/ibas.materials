@@ -7,7 +7,7 @@
  */
 import * as ibas from "ibas/index";
 import * as bo from "../../borep/bo/index";
-import { IMaterialSerialJournal, IMaterialSerial } from "../../api/bo/index";
+import { IMaterialSerialItem, IMaterialSerial } from "../../api/bo/index";
 import { BORepositoryMaterials } from "../../borep/BORepositories";
 /** 物料序列号服务 */
 abstract class MaterialSerialService<T extends IMaterialSerialServiceView>
@@ -52,7 +52,7 @@ abstract class MaterialSerialService<T extends IMaterialSerialServiceView>
         if (ibas.objects.isNull(this.workingData)) {
             throw new Error(ibas.i18n.prop("sys_invalid_parameter", "workingData"));
         }
-        this.view.showMaterialSerialJournals(this.workingData.materialSerials.filterDeleted());
+        this.view.showMaterialSerialItems(this.workingData.materialSerials.filterDeleted());
     }
 }
 /** 物料序列号发货服务 */
@@ -74,7 +74,7 @@ export class MaterialSerialIssueService extends MaterialSerialService<IMaterialS
         super.registerView();
         // 其他事件
         this.view.useMaterialSerialInventoryEvent = this.useMaterialSerialInventory;
-        this.view.removeMaterialSerialJournalEvent = this.removeMaterialSerialJournal;
+        this.view.removeMaterialSerialItemEvent = this.removeMaterialSerialItem;
     }
     protected changeWorkingData(data: bo.IMaterialSerialContract): void {
         super.changeWorkingData(data);
@@ -119,7 +119,7 @@ export class MaterialSerialIssueService extends MaterialSerialService<IMaterialS
                                 if (item.serialCode !== jItem.serialCode) {
                                     continue;
                                 }
-                                if (item.isDeleted && jItem.activated === ibas.emYesNo.YES) {
+                                if (item.isDeleted) {
                                     // 已释放的加回
                                     item.inStock = ibas.emYesNo.YES;
                                 } else {
@@ -158,10 +158,10 @@ export class MaterialSerialIssueService extends MaterialSerialService<IMaterialS
             this.messages(ibas.emMessageType.WARNING, ibas.i18n.prop("materials_no_data_to_be_processed"));
             return;
         }
-        let journal: IMaterialSerialJournal = this.workingData.materialSerials.create();
-        this.view.showMaterialSerialJournals(this.workingData.materialSerials.filterDeleted());
+        let journal: IMaterialSerialItem = this.workingData.materialSerials.create();
+        this.view.showMaterialSerialItems(this.workingData.materialSerials.filterDeleted());
     }
-    protected removeMaterialSerialJournal(data: IMaterialSerialJournal): void {
+    protected removeMaterialSerialItem(data: IMaterialSerialItem): void {
         if (ibas.objects.isNull(data)) {
             this.messages(ibas.emMessageType.WARNING, ibas.i18n.prop("shell_please_chooose_data"));
             return;
@@ -174,7 +174,7 @@ export class MaterialSerialIssueService extends MaterialSerialService<IMaterialS
         } else {
             data.delete();
         }
-        this.view.showMaterialSerialJournals(this.workingData.materialSerials.filterDeleted());
+        this.view.showMaterialSerialItems(this.workingData.materialSerials.filterDeleted());
     }
 }
 /** 物料序列号收货服务 */
@@ -194,10 +194,10 @@ export class MaterialSerialReceiptService extends MaterialSerialService<IMateria
     protected registerView(): void {
         super.registerView();
         // 其他事件
-        this.view.createMaterialSerialJournalEvent = this.createMaterialSerialJournal;
-        this.view.deleteMaterialSerialJournalEvent = this.deleteMaterialSerialJournal;
+        this.view.createMaterialSerialItemEvent = this.createMaterialSerialItem;
+        this.view.deleteMaterialSerialItemEvent = this.deleteMaterialSerialItem;
     }
-    protected deleteMaterialSerialJournal(data: IMaterialSerialJournal): void {
+    protected deleteMaterialSerialItem(data: IMaterialSerialItem): void {
         if (ibas.objects.isNull(data)) {
             this.messages(ibas.emMessageType.WARNING, ibas.i18n.prop("shell_please_chooose_data"));
             return;
@@ -210,9 +210,9 @@ export class MaterialSerialReceiptService extends MaterialSerialService<IMateria
         } else {
             data.delete();
         }
-        this.view.showMaterialSerialJournals(this.workingData.materialSerials.filterDeleted());
+        this.view.showMaterialSerialItems(this.workingData.materialSerials.filterDeleted());
     }
-    protected createMaterialSerialJournal(): void {
+    protected createMaterialSerialItem(): void {
         let datas: ibas.List<bo.IMaterialSerialContract> = new ibas.ArrayList<bo.IMaterialSerialContract>();
         if (ibas.objects.isNull(this.workingData)) {
             // 没有工作的，全部创建
@@ -226,17 +226,17 @@ export class MaterialSerialReceiptService extends MaterialSerialService<IMateria
             // 仅创建工作的
             datas.add(this.workingData);
         }
-        let journals: ibas.List<IMaterialSerialJournal> = new ibas.ArrayList<IMaterialSerialJournal>();
+        let journals: ibas.List<IMaterialSerialItem> = new ibas.ArrayList<IMaterialSerialItem>();
         for (let item of datas) {
             let total: number = item.materialSerials.total();
             if (total >= item.quantity) {
                 continue;
             }
-            let journal: IMaterialSerialJournal = item.materialSerials.create();
+            let journal: IMaterialSerialItem = item.materialSerials.create();
             journal.serialCode = ibas.dates.toString(ibas.dates.now(), "yyyyMMdd");
             journals.add(journal);
         }
-        this.view.showMaterialSerialJournals(journals);
+        this.view.showMaterialSerialItems(journals);
     }
 }
 /** 视图-物料序列号服务 */
@@ -246,7 +246,7 @@ export interface IMaterialSerialServiceView extends ibas.IBOView {
     /** 切换工作数据 */
     changeWorkingDataEvent: Function;
     /** 显示物料序列号记录 */
-    showMaterialSerialJournals(datas: IMaterialSerialJournal[]): void;
+    showMaterialSerialItems(datas: IMaterialSerialItem[]): void;
 }
 /** 视图-物料序列号发货 */
 export interface IMaterialSerialIssueView extends IMaterialSerialServiceView {
@@ -255,14 +255,14 @@ export interface IMaterialSerialIssueView extends IMaterialSerialServiceView {
     /** 使用物料序列号库存 */
     useMaterialSerialInventoryEvent: Function;
     /** 移出物料序列号库存 */
-    removeMaterialSerialJournalEvent: Function;
+    removeMaterialSerialItemEvent: Function;
 }
 /** 视图-物料序列号收货 */
 export interface IMaterialSerialReceiptView extends IMaterialSerialServiceView {
     /** 创建序列号记录 */
-    createMaterialSerialJournalEvent: Function;
+    createMaterialSerialItemEvent: Function;
     /** 删除物料序列号库存 */
-    deleteMaterialSerialJournalEvent: Function;
+    deleteMaterialSerialItemEvent: Function;
 }
 /** 物料序列号发货服务映射 */
 export class MaterialSerialIssueServiceMapping extends ibas.ServiceMapping {

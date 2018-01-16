@@ -10,5 +10,5 @@
 export * from "./bo/index.d";
 export * from "./BORepository.d";
 export * from "./Datas";
-export * from "./bo/MaterialBatchJournal";
-export * from "./bo/MaterialSerialJournal";
+export * from "./bo/MaterialBatchItem";
+export * from "./bo/MaterialSerialItem";

@@ -7,7 +7,7 @@
 import * as ibas from "ibas/index";
 import * as openui5 from "openui5/index";
 import * as bo from "../../../borep/bo/index";
-import { IMaterialSerialJournal } from "../../../api/index";
+import { IMaterialSerialItem } from "../../../api/index";
 import { IMaterialSerialServiceView, IMaterialSerialIssueView, IMaterialSerialReceiptView } from "../../../bsapp/materialserial/index";
 
 /** 物料序列号发货视图 */
@@ -17,7 +17,7 @@ export class MaterialSerialIssueView extends ibas.BODialogView implements IMater
     /** 使用物料序列号库存 */
     useMaterialSerialInventoryEvent: Function;
     /** 移出物料序列号库存 */
-    removeMaterialSerialJournalEvent: Function;
+    removeMaterialSerialItemEvent: Function;
 
     darw(): any {
         let that: this = this;
@@ -86,7 +86,7 @@ export class MaterialSerialIssueView extends ibas.BODialogView implements IMater
                 }),
             ]
         });
-        this.tableJournals = new sap.ui.table.Table("", {
+        this.tableItems = new sap.ui.table.Table("", {
             selectionBehavior: sap.ui.table.SelectionBehavior.Row,
             selectionMode: sap.ui.table.SelectionMode.Single,
             visibleRowCount: ibas.config.get(openui5.utils.CONFIG_ITEM_LIST_TABLE_VISIBLE_ROW_COUNT, 4),
@@ -223,7 +223,7 @@ export class MaterialSerialIssueView extends ibas.BODialogView implements IMater
                                             height: "100%",
                                             horizontal: true,
                                             content: [
-                                                this.tableJournals
+                                                this.tableItems
                                             ]
                                         })
                                     ]
@@ -245,15 +245,15 @@ export class MaterialSerialIssueView extends ibas.BODialogView implements IMater
         });
     }
     private tableWorkDatas: sap.ui.table.Table;
-    private tableJournals: sap.ui.table.Table;
+    private tableItems: sap.ui.table.Table;
     private tableInventories: sap.ui.table.Table;
     /** 显示待处理数据 */
     showWorkDatas(datas: bo.IMaterialSerialContract[]): void {
         this.tableWorkDatas.setModel(new sap.ui.model.json.JSONModel({ rows: datas }));
     }
     /** 显示物料序列号记录 */
-    showMaterialSerialJournals(datas: IMaterialSerialJournal[]): void {
-        this.tableJournals.setModel(new sap.ui.model.json.JSONModel({ rows: datas }));
+    showMaterialSerialItems(datas: IMaterialSerialItem[]): void {
+        this.tableItems.setModel(new sap.ui.model.json.JSONModel({ rows: datas }));
     }
     /** 显示物料序列号库存 */
     showMaterialSerialInventories(datas: bo.MaterialSerial[]): void {
@@ -265,9 +265,9 @@ export class MaterialSerialReceiptView extends ibas.BODialogView implements IMat
     /** 切换工作数据 */
     changeWorkingDataEvent: Function;
     /** 创建序列号记录 */
-    createMaterialSerialJournalEvent: Function;
+    createMaterialSerialItemEvent: Function;
     /** 删除物料序列号库存 */
-    deleteMaterialSerialJournalEvent: Function;
+    deleteMaterialSerialItemEvent: Function;
 
     darw(): any {
         let that: this = this;
@@ -336,7 +336,7 @@ export class MaterialSerialReceiptView extends ibas.BODialogView implements IMat
                 }),
             ]
         });
-        this.tableJournals = new sap.ui.table.Table("", {
+        this.tableItems = new sap.ui.table.Table("", {
             selectionBehavior: sap.ui.table.SelectionBehavior.Row,
             selectionMode: sap.ui.table.SelectionMode.Single,
             visibleRowCount: ibas.config.get(openui5.utils.CONFIG_ITEM_LIST_TABLE_VISIBLE_ROW_COUNT, 4),
@@ -347,7 +347,7 @@ export class MaterialSerialReceiptView extends ibas.BODialogView implements IMat
                         icon: "sap-icon://add",
                         type: sap.m.ButtonType.Transparent,
                         press: function (): void {
-                            that.fireViewEvents(that.createMaterialSerialJournalEvent);
+                            that.fireViewEvents(that.createMaterialSerialItemEvent);
                         }
                     }),
                     new sap.m.Button("", {
@@ -355,8 +355,8 @@ export class MaterialSerialReceiptView extends ibas.BODialogView implements IMat
                         type: sap.m.ButtonType.Transparent,
                         icon: "sap-icon://less",
                         press: function (): void {
-                            that.fireViewEvents(that.deleteMaterialSerialJournalEvent,
-                                openui5.utils.getSelecteds<bo.IMaterialSerialContract>(that.tableJournals).firstOrDefault()
+                            that.fireViewEvents(that.deleteMaterialSerialItemEvent,
+                                openui5.utils.getSelecteds<bo.IMaterialSerialContract>(that.tableItems).firstOrDefault()
                             );
                         }
                     }),
@@ -402,7 +402,7 @@ export class MaterialSerialReceiptView extends ibas.BODialogView implements IMat
                             height: "40%",
                             fitContainer: true,
                             items: [
-                                this.tableJournals
+                                this.tableItems
                             ]
                         }),
                     ]
@@ -420,14 +420,14 @@ export class MaterialSerialReceiptView extends ibas.BODialogView implements IMat
         });
     }
     private tableWorkDatas: sap.ui.table.Table;
-    private tableJournals: sap.ui.table.Table;
+    private tableItems: sap.ui.table.Table;
 
     /** 显示待处理数据 */
     showWorkDatas(datas: bo.IMaterialSerialContract[]): void {
         this.tableWorkDatas.setModel(new sap.ui.model.json.JSONModel({ rows: datas }));
     }
     /** 显示物料序列号记录 */
-    showMaterialSerialJournals(datas: IMaterialSerialJournal[]): void {
-        this.tableJournals.setModel(new sap.ui.model.json.JSONModel({ rows: datas }));
+    showMaterialSerialItems(datas: IMaterialSerialItem[]): void {
+        this.tableItems.setModel(new sap.ui.model.json.JSONModel({ rows: datas }));
     }
 }

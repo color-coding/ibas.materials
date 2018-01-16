@@ -3,6 +3,12 @@ package org.colorcoding.ibas.materials.logic;
 import org.colorcoding.ibas.bobas.data.emDirection;
 import org.colorcoding.ibas.bobas.logic.IBusinessLogicContract;
 
+/**
+ * 物料序列号记录契约，影响序列号记录
+ * 
+ * @author Niuren.Zhu
+ *
+ */
 public interface IMaterialSerialJournalContract extends IBusinessLogicContract {
 	/**
 	 * 序列编号

@@ -892,6 +892,7 @@ public class MaterialSerial extends BusinessObject<MaterialSerial> implements IM
 		super.initialize();// 基类初始化，不可去除
 		this.setObjectCode(MyConfiguration.applyVariables(BUSINESS_OBJECT_CODE));
 		this.setLocked(emYesNo.NO);
+		this.setInStock(emYesNo.NO);
 	}
 
 	@Override

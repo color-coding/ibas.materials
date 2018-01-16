@@ -21,3 +21,5 @@ export * from "./MaterialSerial.d";
 export * from "./MaterialBatchJournal.d";
 export * from "./MaterialSerialJournal.d";
 export * from "./MaterialPriceList.d";
+export * from "./MaterialBatchItem.d";
+export * from "./MaterialSerialItem.d";

@@ -23,8 +23,8 @@ import {
     emYesNo,
 } from "ibas/index";
 import {
-    IMaterialBatchJournals,
-    IMaterialSerialJournals,
+    IMaterialBatchItems,
+    IMaterialSerialItems,
 } from "./bo/index";
 
 /** 模块-标识 */
@@ -63,6 +63,10 @@ export const BO_CODE_MATERIALJOURNAL: string = "${Company}_MM_MATERIALJOURNAL";
 export const BO_CODE_WAREHOUSE: string = "${Company}_MM_WAREHOUSE";
 /** 业务对象编码-价格清单 */
 export const BO_CODE_MATERIALPRICELIST: string = "${Company}_MM_PRICELIST";
+/** 业务对象编码-物料序列号项目 */
+export const BO_CODE_MATERIALSERIALITEM: string = "${Company}_MM_SERIALITEM";
+/** 业务对象编码-物料批次项目 */
+export const BO_CODE_MATERIALBATCHITEM: string = "${Company}_MM_BATCHITEM";
 
 /** 物料类型 */
 export enum emItemType {
@@ -95,7 +99,7 @@ export interface IMaterialBatchContract extends IServiceContract {
     /** 单位 */
     uom: string;
     /** 物料批次 */
-    materialBatches: IMaterialBatchJournals;
+    materialBatches: IMaterialBatchItems;
 }
 /** 序列服务契约 */
 export interface IMaterialSerialContract extends IServiceContract {
@@ -112,7 +116,7 @@ export interface IMaterialSerialContract extends IServiceContract {
     /** 单位 */
     uom: string;
     /** 物料序列 */
-    materialSerials: IMaterialSerialJournals;
+    materialSerials: IMaterialSerialItems;
 }
 /** 物料批次创建服务代理 */
 export class MaterialBatchReceiptServiceProxy extends ServiceProxy<IMaterialBatchContract[]> {

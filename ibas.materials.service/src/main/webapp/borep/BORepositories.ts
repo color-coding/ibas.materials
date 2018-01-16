@@ -178,20 +178,12 @@ export class BORepositoryMaterials extends ibas.BORepositoryApplication implemen
     saveMaterialBatch(saver: ibas.SaveCaller<bo.MaterialBatch>): void {
         super.save(bo.MaterialBatch.name, saver);
     }
-
     /**
      *  查询 物料批次日记账
      * @param fetcher 查询者
      */
     fetchMaterialBatchJournal(fetcher: ibas.FetchCaller<bo.MaterialBatchJournal>): void {
         super.fetch(bo.MaterialBatchJournal.name, fetcher);
-    }
-    /**
-     * 保存 物料批次日记账
-     * @param saver 保存者
-     */
-    saveMaterialBatchJournal(saver: ibas.SaveCaller<bo.MaterialBatchJournal>): void {
-        super.save(bo.MaterialBatchJournal.name, saver);
     }
     /**
      *  查询 物料序列号
@@ -213,13 +205,6 @@ export class BORepositoryMaterials extends ibas.BORepositoryApplication implemen
      */
     fetchMaterialSerialJournal(fetcher: ibas.FetchCaller<bo.MaterialSerialJournal>): void {
         super.fetch(bo.MaterialSerialJournal.name, fetcher);
-    }
-    /**
-     * 保存 物料序列号日记账
-     * @param saver 保存者
-     */
-    saveMaterialSerialJournal(saver: ibas.SaveCaller<bo.MaterialSerialJournal>): void {
-        super.save(bo.MaterialSerialJournal.name, saver);
     }
     /**
      *  查询 物料价格清单

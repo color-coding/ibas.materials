@@ -126,6 +126,11 @@ export interface IBORepositoryMaterials extends IBORepositoryApplication {
      * @param saver 保存者
      */
     saveMaterialBatch(saver: SaveCaller<bo.IMaterialBatch>);
+    /**
+     * 查询 物料批次日记账
+     * @param fetcher 查询者
+     */
+    fetchMaterialBatchJournal(fetcher: FetchCaller<bo.IMaterialBatchJournal>);
 
     /**
     * 查询 物料序列号
@@ -137,6 +142,11 @@ export interface IBORepositoryMaterials extends IBORepositoryApplication {
      * @param saver 保存者
      */
     saveMaterialSerial(saver: SaveCaller<bo.IMaterialSerial>);
+    /**
+     * 查询 物料序列号日记账
+     * @param fetcher 查询者
+     */
+    fetchMaterialSerialJournal(fetcher: FetchCaller<bo.IMaterialSerialJournal>);
 
     /**
     * 查询 物料价格清单

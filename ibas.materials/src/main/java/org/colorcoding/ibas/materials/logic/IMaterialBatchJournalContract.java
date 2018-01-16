@@ -4,6 +4,12 @@ import org.colorcoding.ibas.bobas.data.Decimal;
 import org.colorcoding.ibas.bobas.data.emDirection;
 import org.colorcoding.ibas.bobas.logic.IBusinessLogicContract;
 
+/**
+ * 物料批次记录契约，影响物料批次出入库记录
+ * 
+ * @author Niuren.Zhu
+ *
+ */
 public interface IMaterialBatchJournalContract extends IBusinessLogicContract {
 	/**
 	 * 批次编号

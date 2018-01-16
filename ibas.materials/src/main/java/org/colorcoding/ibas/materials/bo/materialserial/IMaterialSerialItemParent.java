@@ -1,14 +1,20 @@
-package org.colorcoding.ibas.materials.bo.materialbatch;
+package org.colorcoding.ibas.materials.bo.materialserial;
 
 import org.colorcoding.ibas.bobas.bo.IBusinessObject;
 import org.colorcoding.ibas.bobas.data.Decimal;
 import org.colorcoding.ibas.bobas.data.emDocumentStatus;
 
 /**
- * @author Fancy
- * @date 2018/1/9
+ * 物料序列号项目父项（此接口仅数据存储，不影响库存）
+ * 
+ * 发货使用：IMaterialSerialIssueParent
+ * 
+ * 收货使用：IMaterialSerialReceiptParent
+ * 
+ * @author Niuren.Zhu
+ *
  */
-public interface IMaterialBatchJournalsParent extends IBusinessObject {
+public interface IMaterialSerialItemParent extends IBusinessObject {
 	/**
 	 * 基于类型
 	 */
@@ -46,8 +52,8 @@ public interface IMaterialBatchJournalsParent extends IBusinessObject {
 	emDocumentStatus getLineStatus();
 
 	/**
-	 * 物料批次记录集合
+	 * 物料序列号集合
 	 */
-	IMaterialBatchJournals getMaterialBatches();
+	IMaterialSerialItems getMaterialSerials();
 
 }

@@ -36,13 +36,9 @@ import {
     BO_PROPERTY_NAME_DELETED,
 } from "ibas/index";
 import {
-    BO_CODE_MATERIALBATCHJOURNAL,
-} from "../Datas";
-import {
     IMaterialBatchJournal,
-    IMaterialBatchJournals,
-    IMaterialBatchJournalsParent,
-} from "./MaterialBatchJournal.d";
+    BO_CODE_MATERIALBATCHJOURNAL,
+} from "../../api/index";
 /** 物料批次记录 */
 export class MaterialBatchJournal extends BOSimple<MaterialBatchJournal> implements IMaterialBatchJournal {
 
@@ -83,17 +79,6 @@ export class MaterialBatchJournal extends BOSimple<MaterialBatchJournal> impleme
     /** 设置-仓库编码 */
     set warehouse(value: string) {
         this.setProperty(MaterialBatchJournal.PROPERTY_WAREHOUSE_NAME, value);
-    }
-
-    /** 映射的属性名称-激活 */
-    static PROPERTY_ACTIVATED_NAME: string = "Activated";
-    /** 获取-激活 */
-    get activated(): emYesNo {
-        return this.getProperty<emYesNo>(MaterialBatchJournal.PROPERTY_ACTIVATED_NAME);
-    }
-    /** 设置-激活 */
-    set activated(value: emYesNo) {
-        this.setProperty(MaterialBatchJournal.PROPERTY_ACTIVATED_NAME, value);
     }
 
     /** 映射的属性名称-数量 */
@@ -289,82 +274,3 @@ export class MaterialBatchJournal extends BOSimple<MaterialBatchJournal> impleme
         this.objectCode = config.applyVariables(MaterialBatchJournal.BUSINESS_OBJECT_CODE);
     }
 }
-
-/** 物料批次记录集合 */
-export class MaterialBatchJournals
-    extends BusinessObjects<IMaterialBatchJournal, IMaterialBatchJournalsParent>
-    implements IMaterialBatchJournals {
-
-    /** 创建并添加子项 */
-    create(): MaterialBatchJournal {
-        let item: MaterialBatchJournal = new MaterialBatchJournal();
-        this.add(item);
-        return item;
-    }
-    afterAdd(item: MaterialBatchJournal): void {
-        super.afterAdd(item);
-        item.baseDocumentType = this.parent.objectCode;
-        item.baseDocumentEntry = this.parent.docEntry;
-        item.baseDocumentLineId = this.parent.lineId;
-        item.activated = this.getActivated();
-        item.itemCode = this.parent.itemCode;
-        item.warehouse = this.parent.warehouse;
-    }
-    /**
-     * 父项单据行发生改变
-     */
-    onParentPropertyChanged(name: string): void {
-        if (strings.equalsIgnoreCase(name, BO_PROPERTY_NAME_LINESTATUS)
-            || strings.equalsIgnoreCase(name, BO_PROPERTY_NAME_DOCUMENTSTATUS)
-            || strings.equalsIgnoreCase(name, BO_PROPERTY_NAME_CANCELED)
-            || strings.equalsIgnoreCase(name, BO_PROPERTY_NAME_DELETED)
-            || strings.equalsIgnoreCase(name, BO_PROPERTY_NAME_APPROVALSTATUS)) {
-            for (let item of this) {
-                item.activated = this.getActivated();
-            }
-        } else if (strings.equalsIgnoreCase(name, BO_PROPERTY_NAME_OBJECTCODE)) {
-            for (let item of this) {
-                item.baseDocumentType = this.parent.objectCode;
-            }
-        } else if (strings.equalsIgnoreCase(name, BO_PROPERTY_NAME_DOCENTRY)) {
-            for (let item of this) {
-                item.baseDocumentEntry = this.parent.docEntry;
-            }
-        } else if (strings.equalsIgnoreCase(name, BO_PROPERTY_NAME_LINEID)) {
-            for (let item of this) {
-                item.baseDocumentLineId = this.parent.lineId;
-            }
-        }
-    }
-    protected getActivated(): emYesNo {
-        if (this.parent.getProperty(BO_PROPERTY_NAME_LINESTATUS) === emDocumentStatus.PLANNED) {
-            return emYesNo.NO;
-        }
-        if (this.parent.getProperty(BO_PROPERTY_NAME_DOCUMENTSTATUS) === emDocumentStatus.PLANNED) {
-            return emYesNo.NO;
-        }
-        if (this.parent.getProperty(BO_PROPERTY_NAME_CANCELED) === emYesNo.YES) {
-            return emYesNo.NO;
-        }
-        if (this.parent.getProperty(BO_PROPERTY_NAME_DELETED) === emYesNo.YES) {
-            return emYesNo.NO;
-        }
-        if (this.parent.getProperty(BO_PROPERTY_NAME_APPROVALSTATUS) !== emApprovalStatus.APPROVED
-            && this.parent.getProperty(BO_PROPERTY_NAME_APPROVALSTATUS) !== emApprovalStatus.UNAFFECTED) {
-            return emYesNo.NO;
-        }
-        return emYesNo.YES;
-    }
-    /** 总计 */
-    total(): number {
-        let total: number = 0;
-        for (let item of this) {
-            if (item.isDeleted) {
-                continue;
-            }
-            total += item.quantity;
-        }
-        return total;
-    }
-}
-

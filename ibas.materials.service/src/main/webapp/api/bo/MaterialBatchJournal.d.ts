@@ -36,9 +36,6 @@ export interface IMaterialBatchJournal extends IBOSimple {
     /** 仓库编码 */
     warehouse: string;
 
-    /** 激活 */
-    activated: emYesNo;
-
     /** 数量 */
     quantity: number;
 
@@ -90,41 +87,4 @@ export interface IMaterialBatchJournal extends IBOSimple {
     /** 更新动作标识 */
     updateActionId: string;
 
-}
-/** 物料批次记录集合 */
-export interface IMaterialBatchJournals extends IBusinessObjects<IMaterialBatchJournal, IMaterialBatchJournalsParent> {
-    /** 创建实例 */
-    create(): IMaterialBatchJournal;
-    /** 总计 */
-    total(): number;
-}
-/** 物料批次记录父项 */
-export interface IMaterialBatchJournalsParent extends IBusinessObject {
-
-    /** 批号管理 */
-    batchManagement: emYesNo;
-
-    /**类型 */
-    objectCode: string;
-
-    /**标识 */
-    docEntry: number
-
-    /**行号 */
-    lineId: number;
-
-    /** 物料 */
-    itemCode: string;
-
-    /** 仓库 */
-    warehouse: string;
-
-    /** 数量 */
-    quantity: number;
-
-    /** 行状态 */
-    lineStatus: emDocumentStatus;
-
-    /** 物料批次集合 */
-    materialBatches: IMaterialBatchJournals;
 }

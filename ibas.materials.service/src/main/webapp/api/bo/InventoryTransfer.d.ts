@@ -24,11 +24,11 @@ import {
     emItemType,
 } from "../Datas";
 import {
-    IMaterialSerialJournalsParent,
-} from "./MaterialSerialJournal.d";
+    IMaterialSerialItemParent,
+} from "./MaterialSerialItem.d";
 import {
-    IMaterialBatchJournalsParent,
-} from "./MaterialBatchJournal.d";
+    IMaterialBatchItemParent,
+} from "./MaterialBatchItem.d";
 
 /** 库存转储 */
 export interface IInventoryTransfer extends IBODocument {
@@ -150,7 +150,7 @@ export interface IInventoryTransferLines extends IBusinessObjects<IInventoryTran
 }
 
 /** 库存转储-行 */
-export interface IInventoryTransferLine extends IBODocumentLine, IMaterialSerialJournalsParent, IMaterialBatchJournalsParent {
+export interface IInventoryTransferLine extends IBODocumentLine, IMaterialSerialItemParent, IMaterialBatchItemParent {
 
     /** 编码 */
     docEntry: number;

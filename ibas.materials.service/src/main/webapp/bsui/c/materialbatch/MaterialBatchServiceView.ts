@@ -7,7 +7,7 @@
 import * as ibas from "ibas/index";
 import * as openui5 from "openui5/index";
 import * as bo from "../../../borep/bo/index";
-import { IMaterialBatchJournal } from "../../../api/index";
+import { IMaterialBatchItem } from "../../../api/index";
 import { IMaterialBatchServiceView, IMaterialBatchIssueView, IMaterialBatchReceiptView } from "../../../bsapp/materialbatch/index";
 
 /** 物料批次发货视图 */
@@ -17,7 +17,7 @@ export class MaterialBatchIssueView extends ibas.BODialogView implements IMateri
     /** 使用物料批次库存 */
     useMaterialBatchInventoryEvent: Function;
     /** 移出物料批次库存 */
-    removeMaterialBatchJournalEvent: Function;
+    removeMaterialBatchItemEvent: Function;
 
     darw(): any {
         let that: this = this;
@@ -86,7 +86,7 @@ export class MaterialBatchIssueView extends ibas.BODialogView implements IMateri
                 }),
             ]
         });
-        this.tableJournals = new sap.ui.table.Table("", {
+        this.tableItems = new sap.ui.table.Table("", {
             selectionBehavior: sap.ui.table.SelectionBehavior.Row,
             selectionMode: sap.ui.table.SelectionMode.Single,
             visibleRowCount: ibas.config.get(openui5.utils.CONFIG_ITEM_LIST_TABLE_VISIBLE_ROW_COUNT, 4),
@@ -231,7 +231,7 @@ export class MaterialBatchIssueView extends ibas.BODialogView implements IMateri
                                             height: "100%",
                                             horizontal: true,
                                             content: [
-                                                this.tableJournals
+                                                this.tableItems
                                             ]
                                         })
                                     ]
@@ -253,15 +253,15 @@ export class MaterialBatchIssueView extends ibas.BODialogView implements IMateri
         });
     }
     private tableWorkDatas: sap.ui.table.Table;
-    private tableJournals: sap.ui.table.Table;
+    private tableItems: sap.ui.table.Table;
     private tableInventories: sap.ui.table.Table;
     /** 显示待处理数据 */
     showWorkDatas(datas: bo.IMaterialBatchContract[]): void {
         this.tableWorkDatas.setModel(new sap.ui.model.json.JSONModel({ rows: datas }));
     }
     /** 显示物料批次记录 */
-    showMaterialBatchJournals(datas: IMaterialBatchJournal[]): void {
-        this.tableJournals.setModel(new sap.ui.model.json.JSONModel({ rows: datas }));
+    showMaterialBatchItems(datas: IMaterialBatchItem[]): void {
+        this.tableItems.setModel(new sap.ui.model.json.JSONModel({ rows: datas }));
     }
     /** 显示物料批次库存 */
     showMaterialBatchInventories(datas: bo.MaterialBatch[]): void {
@@ -273,9 +273,9 @@ export class MaterialBatchReceiptView extends ibas.BODialogView implements IMate
     /** 切换工作数据 */
     changeWorkingDataEvent: Function;
     /** 创建批次记录 */
-    createMaterialBatchJournalEvent: Function;
+    createMaterialBatchItemEvent: Function;
     /** 删除物料批次库存 */
-    deleteMaterialBatchJournalEvent: Function;
+    deleteMaterialBatchItemEvent: Function;
 
     darw(): any {
         let that: this = this;
@@ -344,7 +344,7 @@ export class MaterialBatchReceiptView extends ibas.BODialogView implements IMate
                 }),
             ]
         });
-        this.tableJournals = new sap.ui.table.Table("", {
+        this.tableItems = new sap.ui.table.Table("", {
             selectionBehavior: sap.ui.table.SelectionBehavior.Row,
             selectionMode: sap.ui.table.SelectionMode.Single,
             visibleRowCount: ibas.config.get(openui5.utils.CONFIG_ITEM_LIST_TABLE_VISIBLE_ROW_COUNT, 4),
@@ -355,7 +355,7 @@ export class MaterialBatchReceiptView extends ibas.BODialogView implements IMate
                         icon: "sap-icon://add",
                         type: sap.m.ButtonType.Transparent,
                         press: function (): void {
-                            that.fireViewEvents(that.createMaterialBatchJournalEvent);
+                            that.fireViewEvents(that.createMaterialBatchItemEvent);
                         }
                     }),
                     new sap.m.Button("", {
@@ -363,8 +363,8 @@ export class MaterialBatchReceiptView extends ibas.BODialogView implements IMate
                         type: sap.m.ButtonType.Transparent,
                         icon: "sap-icon://less",
                         press: function (): void {
-                            that.fireViewEvents(that.deleteMaterialBatchJournalEvent,
-                                openui5.utils.getSelecteds<bo.IMaterialBatchContract>(that.tableJournals).firstOrDefault()
+                            that.fireViewEvents(that.deleteMaterialBatchItemEvent,
+                                openui5.utils.getSelecteds<bo.IMaterialBatchContract>(that.tableItems).firstOrDefault()
                             );
                         }
                     }),
@@ -418,7 +418,7 @@ export class MaterialBatchReceiptView extends ibas.BODialogView implements IMate
                             height: "40%",
                             fitContainer: true,
                             items: [
-                                this.tableJournals
+                                this.tableItems
                             ]
                         }),
                     ]
@@ -436,14 +436,14 @@ export class MaterialBatchReceiptView extends ibas.BODialogView implements IMate
         });
     }
     private tableWorkDatas: sap.ui.table.Table;
-    private tableJournals: sap.ui.table.Table;
+    private tableItems: sap.ui.table.Table;
 
     /** 显示待处理数据 */
     showWorkDatas(datas: bo.IMaterialBatchContract[]): void {
         this.tableWorkDatas.setModel(new sap.ui.model.json.JSONModel({ rows: datas }));
     }
     /** 显示物料批次记录 */
-    showMaterialBatchJournals(datas: IMaterialBatchJournal[]): void {
-        this.tableJournals.setModel(new sap.ui.model.json.JSONModel({ rows: datas }));
+    showMaterialBatchItems(datas: IMaterialBatchItem[]): void {
+        this.tableItems.setModel(new sap.ui.model.json.JSONModel({ rows: datas }));
     }
 }

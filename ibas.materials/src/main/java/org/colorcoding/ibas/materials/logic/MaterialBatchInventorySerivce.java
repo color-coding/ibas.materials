@@ -14,18 +14,14 @@ import org.colorcoding.ibas.bobas.logic.BusinessLogicException;
 import org.colorcoding.ibas.bobas.mapping.LogicContract;
 import org.colorcoding.ibas.materials.bo.material.IMaterial;
 import org.colorcoding.ibas.materials.bo.materialbatch.IMaterialBatch;
-import org.colorcoding.ibas.materials.bo.materialbatch.IMaterialBatchJournal;
 import org.colorcoding.ibas.materials.bo.materialbatch.MaterialBatch;
 import org.colorcoding.ibas.materials.repository.BORepositoryMaterials;
 
-/**
- * 物料批次日记账服务 生成一张批次日记账分录
- */
-@LogicContract(IMaterialBatchJournalContract.class)
-public class MaterialBatchJournalSerivce
-		extends MaterialInventoryBusinessLogic<IMaterialBatchJournalContract, IMaterialBatch> {
+@LogicContract(IMaterialBatchInventoryContract.class)
+public class MaterialBatchInventorySerivce
+		extends MaterialInventoryBusinessLogic<IMaterialBatchInventoryContract, IMaterialBatch> {
 	@Override
-	protected IMaterialBatch fetchBeAffected(IMaterialBatchJournalContract contract) {
+	protected IMaterialBatch fetchBeAffected(IMaterialBatchInventoryContract contract) {
 		// 检查物料
 		IMaterial material = this.checkMaterial(contract.getItemCode());
 		// 非批次管理物料
@@ -72,18 +68,7 @@ public class MaterialBatchJournalSerivce
 	}
 
 	@Override
-	protected boolean checkDataStatus(Object data) {
-		if (data instanceof IMaterialBatchJournal) {
-			IMaterialBatchJournal journal = (IMaterialBatchJournal) data;
-			if (journal.getActivated() == emYesNo.NO) {
-				return false;
-			}
-		}
-		return super.checkDataStatus(data);
-	}
-
-	@Override
-	protected void impact(IMaterialBatchJournalContract contract) {
+	protected void impact(IMaterialBatchInventoryContract contract) {
 		IMaterialBatch materialBatch = this.getBeAffected();
 		Decimal quantity = materialBatch.getQuantity();
 		if (contract.getDirection().equals(emDirection.IN)) {
@@ -95,7 +80,7 @@ public class MaterialBatchJournalSerivce
 	}
 
 	@Override
-	protected void revoke(IMaterialBatchJournalContract contract) {
+	protected void revoke(IMaterialBatchInventoryContract contract) {
 		IMaterialBatch materialBatch = this.getBeAffected();
 		Decimal quantity = materialBatch.getQuantity();
 		if (contract.getDirection().equals(emDirection.IN)) {

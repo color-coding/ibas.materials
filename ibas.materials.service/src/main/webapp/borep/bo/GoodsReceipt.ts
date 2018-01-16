@@ -33,8 +33,8 @@ import {
     IGoodsReceipt,
     IGoodsReceiptLines,
     IGoodsReceiptLine,
-    MaterialSerialJournals,
-    MaterialBatchJournals,
+    MaterialSerialItems,
+    MaterialBatchItems,
     BO_CODE_GOODSRECEIPT,
     emItemType,
 } from "../../api/index";
@@ -881,29 +881,29 @@ export class GoodsReceiptLine extends BODocumentLine<GoodsReceiptLine> implement
     /** 映射的属性名称-物料批次集合 */
     static PROPERTY_MATERIALBATCHES_NAME: string = "MaterialBatches";
     /** 获取-物料批次集合 */
-    get materialBatches(): MaterialBatchJournals {
-        return this.getProperty<MaterialBatchJournals>(GoodsReceiptLine.PROPERTY_MATERIALBATCHES_NAME);
+    get materialBatches(): MaterialBatchItems {
+        return this.getProperty<MaterialBatchItems>(GoodsReceiptLine.PROPERTY_MATERIALBATCHES_NAME);
     }
     /** 设置-物料批次集合 */
-    set materialBatches(value: MaterialBatchJournals) {
+    set materialBatches(value: MaterialBatchItems) {
         this.setProperty(GoodsReceiptLine.PROPERTY_MATERIALBATCHES_NAME, value);
     }
 
     /** 映射的属性名称-物料序列集合 */
     static PROPERTY_MATERIALSERIALS_NAME: string = "MaterialSerials";
     /** 获取-物料序列集合 */
-    get materialSerials(): MaterialSerialJournals {
-        return this.getProperty<MaterialSerialJournals>(GoodsReceiptLine.PROPERTY_MATERIALSERIALS_NAME);
+    get materialSerials(): MaterialSerialItems {
+        return this.getProperty<MaterialSerialItems>(GoodsReceiptLine.PROPERTY_MATERIALSERIALS_NAME);
     }
     /** 设置-物料序列集合 */
-    set materialSerials(value: MaterialSerialJournals) {
+    set materialSerials(value: MaterialSerialItems) {
         this.setProperty(GoodsReceiptLine.PROPERTY_MATERIALSERIALS_NAME, value);
     }
 
     /** 初始化数据 */
     protected init(): void {
-        this.materialBatches = new MaterialBatchJournals(this);
-        this.materialSerials = new MaterialSerialJournals(this);
+        this.materialBatches = new MaterialBatchItems(this);
+        this.materialSerials = new MaterialSerialItems(this);
         this.objectCode = config.applyVariables(GoodsReceipt.BUSINESS_OBJECT_CODE);
     }
 

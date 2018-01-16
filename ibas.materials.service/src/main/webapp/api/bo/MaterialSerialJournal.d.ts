@@ -34,9 +34,6 @@ export interface IMaterialSerialJournal extends IBOSimple {
     /** 仓库编码 */
     warehouse: string;
 
-    /** 激活 */
-    activated: emYesNo;
-
     /** 方向 */
     direction: emDirection;
 
@@ -84,41 +81,4 @@ export interface IMaterialSerialJournal extends IBOSimple {
 
     /** 更新动作标识 */
     updateActionId: string;
-}
-/** 物料序列记录集合 */
-export interface IMaterialSerialJournals extends IBusinessObjects<IMaterialSerialJournal, IMaterialSerialJournalsParent> {
-    /** 创建实例 */
-    create(): IMaterialSerialJournal;
-    /** 总计 */
-    total(): number;
-}
-/** 序列管理单据行 */
-export interface IMaterialSerialJournalsParent extends IBusinessObject {
-
-    /** 序号管理 */
-    serialManagement: emYesNo;
-
-    /**类型 */
-    objectCode: string;
-
-    /**标识 */
-    docEntry: number
-
-    /**行号 */
-    lineId: number;
-
-    /** 物料 */
-    itemCode: string;
-
-    /** 仓库 */
-    warehouse: string;
-
-    /** 数量 */
-    quantity: number;
-
-    /** 行状态 */
-    lineStatus: emDocumentStatus;
-
-    /** 物料序列集合 */
-    materialSerials: IMaterialSerialJournals;
 }

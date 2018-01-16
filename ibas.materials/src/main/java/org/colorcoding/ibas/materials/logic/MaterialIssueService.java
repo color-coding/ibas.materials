@@ -7,8 +7,10 @@ import org.colorcoding.ibas.bobas.common.ICondition;
 import org.colorcoding.ibas.bobas.common.ICriteria;
 import org.colorcoding.ibas.bobas.common.IOperationResult;
 import org.colorcoding.ibas.bobas.data.emDirection;
+import org.colorcoding.ibas.bobas.i18n.I18N;
 import org.colorcoding.ibas.bobas.logic.BusinessLogicException;
 import org.colorcoding.ibas.bobas.mapping.LogicContract;
+import org.colorcoding.ibas.materials.bo.material.IMaterial;
 import org.colorcoding.ibas.materials.bo.materialinventory.IMaterialInventoryJournal;
 import org.colorcoding.ibas.materials.bo.materialinventory.MaterialInventoryJournal;
 import org.colorcoding.ibas.materials.repository.BORepositoryMaterials;
@@ -19,7 +21,15 @@ public class MaterialIssueService
 	@Override
 	protected IMaterialInventoryJournal fetchBeAffected(IMaterialIssueContract contract) {
 		// 检查物料
-		this.checkMaterial(contract.getItemCode());
+		IMaterial material = this.checkMaterial(contract.getItemCode());
+		if (material.getBatchManagement() != contract.getBatchManagement()) {
+			throw new BusinessLogicException(I18N.prop("msg_mm_document_batchmanagement_is_not_same_material_setting",
+					contract.getIdentifiers(), contract.getItemCode()));
+		}
+		if (material.getSerialManagement() != contract.getSerialManagement()) {
+			throw new BusinessLogicException(I18N.prop("msg_mm_document_serialmanagement_is_not_same_material_setting",
+					contract.getIdentifiers(), contract.getItemCode()));
+		}
 		// 检查仓库
 		this.checkWarehose(contract.getWarehouse());
 		// 检查物料发货记录
