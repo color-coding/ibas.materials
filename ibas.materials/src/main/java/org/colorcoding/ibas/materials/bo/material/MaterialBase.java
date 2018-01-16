@@ -314,38 +314,6 @@ public abstract class MaterialBase<T extends MaterialBase<T>> extends BusinessOb
 	}
 
 	/**
-	 * 属性名称-缺省仓库
-	 */
-	private static final String PROPERTY_DEFAULTWAREHOUSE_NAME = "DefaultWarehouse";
-
-	/**
-	 * 缺省仓库 属性
-	 */
-	@DbField(name = "DfltWhs", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME, primaryKey = false)
-	public static final IPropertyInfo<String> PROPERTY_DEFAULTWAREHOUSE = registerProperty(
-			PROPERTY_DEFAULTWAREHOUSE_NAME, String.class, MY_CLASS);
-
-	/**
-	 * 获取-缺省仓库
-	 * 
-	 * @return 值
-	 */
-	@XmlElement(name = PROPERTY_DEFAULTWAREHOUSE_NAME)
-	public final String getDefaultWarehouse() {
-		return this.getProperty(PROPERTY_DEFAULTWAREHOUSE);
-	}
-
-	/**
-	 * 设置-缺省仓库
-	 * 
-	 * @param value
-	 *            值
-	 */
-	public final void setDefaultWarehouse(String value) {
-		this.setProperty(PROPERTY_DEFAULTWAREHOUSE, value);
-	}
-
-	/**
 	 * 属性名称-库存单位
 	 */
 	private static final String PROPERTY_INVENTORYUOM_NAME = "InventoryUOM";

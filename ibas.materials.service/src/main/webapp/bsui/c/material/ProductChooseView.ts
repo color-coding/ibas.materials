@@ -62,7 +62,7 @@ export class ProductChooseView extends ibas.BOChooseView implements IProductChoo
             rows: "{/rows}",
             columns: [
                 new sap.ui.table.Column("", {
-                    label: ibas.i18n.prop("bo_materialex_code"),
+                    label: ibas.i18n.prop("bo_material_code"),
                     template: new sap.m.Link("", {
                         wrapping: false,
                         press(event: any): void {
@@ -76,7 +76,7 @@ export class ProductChooseView extends ibas.BOChooseView implements IProductChoo
                     }),
                 }),
                 new sap.ui.table.Column("", {
-                    label: ibas.i18n.prop("bo_materialex_name"),
+                    label: ibas.i18n.prop("bo_material_name"),
                     template: new sap.m.Text("", {
                         wrapping: false,
                     }).bindProperty("text", {
@@ -84,7 +84,15 @@ export class ProductChooseView extends ibas.BOChooseView implements IProductChoo
                     }),
                 }),
                 new sap.ui.table.Column("", {
-                    label: ibas.i18n.prop("bo_materialex_onhand"),
+                    label: ibas.i18n.prop("bo_materialinventory_warehouse"),
+                    template: new sap.m.Text("", {
+                        wrapping: false,
+                    }).bindProperty("text", {
+                        path: "warehouse",
+                    }),
+                }),
+                new sap.ui.table.Column("", {
+                    label: ibas.i18n.prop("bo_material_onhand"),
                     template: new sap.m.Text("", {
                         wrapping: false,
                     }).bindProperty("text", {
@@ -92,11 +100,27 @@ export class ProductChooseView extends ibas.BOChooseView implements IProductChoo
                     }),
                 }),
                 new sap.ui.table.Column("", {
-                    label: ibas.i18n.prop("bo_materialex_price"),
+                    label: ibas.i18n.prop("bo_material_inventoryuom"),
+                    template: new sap.m.Text("", {
+                        wrapping: false,
+                    }).bindProperty("text", {
+                        path: "inventoryUOM",
+                    }),
+                }),
+                new sap.ui.table.Column("", {
+                    label: ibas.i18n.prop("bo_materialpriceitem_price"),
                     template: new sap.m.Text("", {
                         wrapping: false,
                     }).bindProperty("text", {
                         path: "price",
+                    }),
+                }),
+                new sap.ui.table.Column("", {
+                    label: ibas.i18n.prop("bo_materialpricelist_currency"),
+                    template: new sap.m.Text("", {
+                        wrapping: false,
+                    }).bindProperty("text", {
+                        path: "currency",
                     }),
                 }),
             ]

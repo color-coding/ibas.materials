@@ -52,8 +52,8 @@ export interface IProduct extends IBOMasterData {
     /** 虚拟物料 */
     phantomItem: emYesNo;
 
-    /** 缺省仓库 */
-    defaultWarehouse: string;
+    /** 仓库 */
+    warehouse: string;
 
     /** 价格 */
     price: number;
@@ -69,9 +69,6 @@ export interface IProduct extends IBOMasterData {
 
     /** 已订购 */
     onOrdered: number;
-
-    /** 最低库存量 */
-    minimumInventory: number;
 
     /** 库存单位 */
     inventoryUOM: string;
@@ -90,9 +87,6 @@ export interface IProduct extends IBOMasterData {
 
     /** 图片 */
     picture: string;
-
-    /** 备注 */
-    remarks: string;
 
     /** 对象编号 */
     docEntry: number;

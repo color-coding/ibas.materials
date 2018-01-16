@@ -134,14 +134,14 @@ export class Product extends BOMasterData<Product> implements IProduct {
     }
 
     /** 映射的属性名称-缺省仓库 */
-    static PROPERTY_DEFAULTWAREHOUSE_NAME: string = "DefaultWarehouse";
-    /** 获取-缺省仓库 */
-    get defaultWarehouse(): string {
-        return this.getProperty<string>(Product.PROPERTY_DEFAULTWAREHOUSE_NAME);
+    static PROPERTY_WAREHOUSE_NAME: string = "Warehouse";
+    /** 获取-仓库 */
+    get warehouse(): string {
+        return this.getProperty<string>(Product.PROPERTY_WAREHOUSE_NAME);
     }
-    /** 设置-缺省仓库 */
-    set defaultWarehouse(value: string) {
-        this.setProperty(Product.PROPERTY_DEFAULTWAREHOUSE_NAME, value);
+    /** 设置-仓库 */
+    set warehouse(value: string) {
+        this.setProperty(Product.PROPERTY_WAREHOUSE_NAME, value);
     }
 
     /** 映射的属性名称-库存单位 */
@@ -210,17 +210,6 @@ export class Product extends BOMasterData<Product> implements IProduct {
         this.setProperty(Product.PROPERTY_ONORDERED_NAME, value);
     }
 
-    /** 映射的属性名称-最低库存量 */
-    static PROPERTY_MINIMUMINVENTORY_NAME: string = "MinimumInventory";
-    /** 获取-最低库存量 */
-    get minimumInventory(): number {
-        return this.getProperty<number>(Product.PROPERTY_MINIMUMINVENTORY_NAME);
-    }
-    /** 设置-最低库存量 */
-    set minimumInventory(value: number) {
-        this.setProperty(Product.PROPERTY_MINIMUMINVENTORY_NAME, value);
-    }
-
     /** 映射的属性名称-序号管理 */
     static PROPERTY_SERIALMANAGEMENT_NAME: string = "SerialManagement";
     /** 获取-序号管理 */
@@ -274,17 +263,6 @@ export class Product extends BOMasterData<Product> implements IProduct {
     /** 设置-图片 */
     set picture(value: string) {
         this.setProperty(Product.PROPERTY_PICTURE_NAME, value);
-    }
-
-    /** 映射的属性名称-备注 */
-    static PROPERTY_REMARKS_NAME: string = "Remarks";
-    /** 获取-备注 */
-    get remarks(): string {
-        return this.getProperty<string>(Product.PROPERTY_REMARKS_NAME);
-    }
-    /** 设置-备注 */
-    set remarks(value: string) {
-        this.setProperty(Product.PROPERTY_REMARKS_NAME, value);
     }
 
     /** 映射的属性名称-对象编号 */

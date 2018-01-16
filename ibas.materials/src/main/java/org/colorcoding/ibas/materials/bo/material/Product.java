@@ -111,6 +111,38 @@ public class Product extends MaterialBase<Product> implements IProduct, IDataOwn
 	}
 
 	/**
+	 * 属性名称-仓库
+	 */
+	private static final String PROPERTY_WAREHOUSE_NAME = "Warehouse";
+
+	/**
+	 * 仓库 属性
+	 */
+	@DbField(name = "DfltWhs", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME, primaryKey = false)
+	public static final IPropertyInfo<String> PROPERTY_WAREHOUSE = registerProperty(PROPERTY_WAREHOUSE_NAME,
+			String.class, MY_CLASS);
+
+	/**
+	 * 获取-仓库
+	 * 
+	 * @return 值
+	 */
+	@XmlElement(name = PROPERTY_WAREHOUSE_NAME)
+	public final String getWarehouse() {
+		return this.getProperty(PROPERTY_WAREHOUSE);
+	}
+
+	/**
+	 * 设置-仓库
+	 * 
+	 * @param value
+	 *            值
+	 */
+	public final void setWarehouse(String value) {
+		this.setProperty(PROPERTY_WAREHOUSE, value);
+	}
+
+	/**
 	 * 属性名称-价格
 	 */
 	private static final String PROPERTY_PRICE_NAME = "Price";

@@ -147,19 +147,19 @@ public interface IProduct {
 	void setPhantomItem(emYesNo value);
 
 	/**
-	 * 获取-缺省仓库
+	 * 获取-仓库
 	 * 
 	 * @return 值
 	 */
-	String getDefaultWarehouse();
+	String getWarehouse();
 
 	/**
-	 * 设置-缺省仓库
+	 * 设置-仓库
 	 * 
 	 * @param value
 	 *            值
 	 */
-	void setDefaultWarehouse(String value);
+	void setWarehouse(String value);
 
 	/**
 	 * 获取-库存单位
@@ -420,21 +420,6 @@ public interface IProduct {
 	 *            值
 	 */
 	void setPicture(String value);
-
-	/**
-	 * 获取-备注
-	 * 
-	 * @return 值
-	 */
-	String getRemarks();
-
-	/**
-	 * 设置-备注
-	 * 
-	 * @param value
-	 *            值
-	 */
-	void setRemarks(String value);
 
 	/**
 	 * 获取-对象编号
