@@ -1,0 +1,23 @@
+{
+  "bo_materialbatchitem": "物料批次项目",
+  "bo_materialbatchitem_itemcode": "物料编码",
+  "bo_materialbatchitem_batchcode": "批次编码",
+  "bo_materialbatchitem_warehouse": "仓库编码",
+  "bo_materialbatchitem_quantity": "数量",
+  "bo_materialbatchitem_documenttype": "基于类型",
+  "bo_materialbatchitem_documententry": "基于标识",
+  "bo_materialbatchitem_documentlineid": "基于行号",
+  "bo_materialbatchitem_objectkey": "对象编号",
+  "bo_materialbatchitem_objectcode": "对象类型",
+  "bo_materialbatchitem_loginst": "实例号",
+  "bo_materialbatchitem_datasource": "数据源",
+  "bo_materialbatchitem_createdate": "创建日期",
+  "bo_materialbatchitem_createtime": "创建时间",
+  "bo_materialbatchitem_updatedate": "更新日期",
+  "bo_materialbatchitem_updatetime": "更新时间",
+  "bo_materialbatchitem_createusersign": "创建用户",
+  "bo_materialbatchitem_updateusersign": "更新用户",
+  "bo_materialbatchitem_createactionid": "创建动作标识",
+  "bo_materialbatchitem_updateactionid": "更新动作标识",
+  "bo_materialbatchitem_closing_delimiter": "----结束----"
+}

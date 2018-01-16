@@ -1,0 +1,22 @@
+{
+  "bo_materialserialitem": "物料序列号项目",
+  "bo_materialserialitem_itemcode": "物料编码",
+  "bo_materialserialitem_serialcode": "序列编码",
+  "bo_materialserialitem_warehouse": "仓库编码",
+  "bo_materialserialitem_documenttype": "基于类型",
+  "bo_materialserialitem_documententry": "基于标识",
+  "bo_materialserialitem_documentlineid": "基于行号",
+  "bo_materialserialitem_objectkey": "对象编号",
+  "bo_materialserialitem_objectcode": "对象类型",
+  "bo_materialserialitem_loginst": "实例号",
+  "bo_materialserialitem_datasource": "数据源",
+  "bo_materialserialitem_createdate": "创建日期",
+  "bo_materialserialitem_createtime": "创建时间",
+  "bo_materialserialitem_updatedate": "更新日期",
+  "bo_materialserialitem_updatetime": "更新时间",
+  "bo_materialserialitem_createusersign": "创建用户",
+  "bo_materialserialitem_updateusersign": "更新用户",
+  "bo_materialserialitem_createactionid": "创建动作标识",
+  "bo_materialserialitem_updateactionid": "更新动作标识",
+  "bo_materialserialitem_closing_delimiter": "----结束----"
+}

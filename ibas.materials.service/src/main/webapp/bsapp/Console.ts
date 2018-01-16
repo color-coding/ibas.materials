@@ -94,6 +94,8 @@ export class Console extends ibas.ModuleConsole {
         ibas.i18n.load(this.rootUrl + "resources/languages/bo/materialserial.json");
         ibas.i18n.load(this.rootUrl + "resources/languages/bo/materialbatchjournal.json");
         ibas.i18n.load(this.rootUrl + "resources/languages/bo/materialserialjournal.json");
+        ibas.i18n.load(this.rootUrl + "resources/languages/bo/materialbatchitem.json");
+        ibas.i18n.load(this.rootUrl + "resources/languages/bo/materialserialitem.json");
         // 设置资源属性
         this.description = ibas.i18n.prop(this.name.toLowerCase());
         this.icon = ibas.i18n.prop(this.name.toLowerCase() + "_icon");
