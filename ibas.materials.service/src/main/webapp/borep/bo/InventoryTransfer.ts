@@ -458,20 +458,6 @@ export class InventoryTransferLines extends BusinessObjects<InventoryTransferLin
         this.add(item);
         return item;
     }
-    /** 监听子项属性改变 */
-    protected onChildPropertyChanged(item: InventoryTransferLine, name: string): void {
-        super.onChildPropertyChanged(item, name);
-        if (strings.equalsIgnoreCase(name, InventoryTransferLine.PROPERTY_LINETOTAL_NAME)) {
-            let total: number = 0;
-            for (let item of this.filterDeleted()) {
-                if (objects.isNull(item.lineTotal)) {
-                    item.lineTotal = 0;
-                }
-                total = Number(total) + Number(item.lineTotal);
-            }
-            this.parent.documentTotal = total;
-        }
-    }
 }
 
 /** 库存转储-行 */

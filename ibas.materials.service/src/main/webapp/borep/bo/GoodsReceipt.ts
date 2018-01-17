@@ -449,20 +449,6 @@ export class GoodsReceiptLines extends BusinessObjects<GoodsReceiptLine, GoodsRe
         this.add(item);
         return item;
     }
-    /** 监听子项属性改变 */
-    protected onChildPropertyChanged(item: GoodsReceiptLine, name: string): void {
-        super.onChildPropertyChanged(item, name);
-        if (strings.equalsIgnoreCase(name, GoodsReceiptLine.PROPERTY_LINETOTAL_NAME)) {
-            let total: number = 0;
-            for (let item of this.filterDeleted()) {
-                if (objects.isNull(item.lineTotal)) {
-                    item.lineTotal = 0;
-                }
-                total = Number(total) + Number(item.lineTotal);
-            }
-            this.parent.documentTotal = total;
-        }
-    }
 }
 /** 库存收货-行 */
 export class GoodsReceiptLine extends BODocumentLine<GoodsReceiptLine> implements IGoodsReceiptLine {
@@ -907,12 +893,5 @@ export class GoodsReceiptLine extends BODocumentLine<GoodsReceiptLine> implement
         this.objectCode = config.applyVariables(GoodsReceipt.BUSINESS_OBJECT_CODE);
     }
 
-    protected onPropertyChanged(name: string): void {
-        super.onPropertyChanged(name);
-        if (strings.equalsIgnoreCase(name, GoodsReceiptLine.PROPERTY_QUANTITY_NAME) ||
-            strings.equalsIgnoreCase(name, GoodsReceiptLine.PROPERTY_PRICE_NAME)) {
-            this.lineTotal = numbers.toFloat(this.quantity) * numbers.toFloat(this.price);
-        }
-    }
 }
 

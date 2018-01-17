@@ -446,20 +446,6 @@ export class GoodsIssueLines extends BusinessObjects<GoodsIssueLine, GoodsIssue>
         this.add(item);
         return item;
     }
-    /** 监听子项属性改变 */
-    protected onChildPropertyChanged(item: GoodsIssueLine, name: string): void {
-        super.onChildPropertyChanged(item, name);
-        if (strings.equalsIgnoreCase(name, GoodsIssueLine.PROPERTY_LINETOTAL_NAME)) {
-            let total: number = 0;
-            for (let item of this.filterDeleted()) {
-                if (objects.isNull(item.lineTotal)) {
-                    item.lineTotal = 0;
-                }
-                total = Number(total) + Number(item.lineTotal);
-            }
-            this.parent.documentTotal = total;
-        }
-    }
 }
 
 /** 库存发货-行 */
@@ -906,12 +892,5 @@ export class GoodsIssueLine extends BODocumentLine<GoodsIssueLine> implements IG
         this.objectCode = config.applyVariables(GoodsIssue.BUSINESS_OBJECT_CODE);
     }
 
-    protected onPropertyChanged(name: string): void {
-        super.onPropertyChanged(name);
-        if (strings.equalsIgnoreCase(name, GoodsIssueLine.PROPERTY_QUANTITY_NAME) ||
-            strings.equalsIgnoreCase(name, GoodsIssueLine.PROPERTY_PRICE_NAME)) {
-            this.lineTotal = Number(this.quantity) * Number(this.price);
-        }
-    }
 }
 
