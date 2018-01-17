@@ -78,7 +78,7 @@ public class testGoodsReceipt extends TestCase {
 		batchItem = batchLine.getMaterialBatches().create();
 		batchItem.setQuantity(22);
 		batchItem.setBatchCode("B00001");
-		// 序列号物料
+		// 序列编码物料
 		IGoodsReceiptLine serialLine = bo.getGoodsReceiptLines().create();
 		serialLine.setItemCode(sMaterial.getCode());
 		serialLine.setBatchManagement(sMaterial.getBatchManagement());

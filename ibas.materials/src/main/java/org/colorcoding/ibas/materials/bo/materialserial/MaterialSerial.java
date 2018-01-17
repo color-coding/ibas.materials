@@ -18,7 +18,7 @@ import org.colorcoding.ibas.bobas.rule.common.BusinessRuleRequired;
 import org.colorcoding.ibas.materials.MyConfiguration;
 
 /**
- * 获取-物料序列号
+ * 获取-物料序列
  *
  */
 @XmlAccessorType(XmlAccessType.NONE)

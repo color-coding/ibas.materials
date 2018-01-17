@@ -1,8 +1,11 @@
 {
-  "bo_materialserialitem": "物料序列号项目",
+  "bo_materialserialitem": "物料序列项目",
   "bo_materialserialitem_itemcode": "物料编码",
-  "bo_materialserialitem_serialcode": "序列编码",
+  "bo_materialserialitem_itemdescription": "物料描述",
   "bo_materialserialitem_warehouse": "仓库编码",
+  "bo_materialserialitem_serialcode": "序列编码",
+  "bo_materialserialitem_quantity": "数量",
+  "bo_materialserialitem_unworked_quantity": "未分配数量",
   "bo_materialserialitem_documenttype": "基于类型",
   "bo_materialserialitem_documententry": "基于标识",
   "bo_materialserialitem_documentlineid": "基于行号",

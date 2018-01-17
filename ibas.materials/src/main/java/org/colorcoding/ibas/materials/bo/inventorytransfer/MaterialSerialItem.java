@@ -10,7 +10,7 @@ import org.colorcoding.ibas.materials.MyConfiguration;
 import org.colorcoding.ibas.materials.logic.IMaterialSerialJournalContract;
 
 /**
- * 物料序列号项目（库存转储）
+ * 物料序列项目（库存转储）
  * 
  */
 @XmlAccessorType(XmlAccessType.NONE)

@@ -10,13 +10,13 @@ import * as bo from "../../../borep/bo/index";
 import { IMaterialSerialItem } from "../../../api/index";
 import { IMaterialSerialServiceView, IMaterialSerialIssueView, IMaterialSerialReceiptView } from "../../../bsapp/materialserial/index";
 
-/** 物料序列号发货视图 */
+/** 物料序列发货视图 */
 export class MaterialSerialIssueView extends ibas.BODialogView implements IMaterialSerialIssueView {
     /** 切换工作数据 */
     changeWorkingDataEvent: Function;
-    /** 使用物料序列号库存 */
+    /** 使用物料序列库存 */
     useMaterialSerialInventoryEvent: Function;
-    /** 移出物料序列号库存 */
+    /** 移出物料序列库存 */
     removeMaterialSerialItemEvent: Function;
 
     darw(): any {
@@ -33,7 +33,7 @@ export class MaterialSerialIssueView extends ibas.BODialogView implements IMater
             rows: "{/rows}",
             columns: [
                 new sap.ui.table.Column("", {
-                    label: ibas.i18n.prop("bo_materialserialjournal_itemcode"),
+                    label: ibas.i18n.prop("bo_materialserialitem_itemcode"),
                     template: new sap.m.Text("", {
                         wrapping: false,
                     }).bindProperty("text", {
@@ -41,7 +41,7 @@ export class MaterialSerialIssueView extends ibas.BODialogView implements IMater
                     }),
                 }),
                 new sap.ui.table.Column("", {
-                    label: ibas.i18n.prop("bo_materialserialjournal_itemdescription"),
+                    label: ibas.i18n.prop("bo_materialserialitem_itemdescription"),
                     template: new sap.m.Text("", {
                         wrapping: false,
                     }).bindProperty("text", {
@@ -49,7 +49,7 @@ export class MaterialSerialIssueView extends ibas.BODialogView implements IMater
                     }),
                 }),
                 new sap.ui.table.Column("", {
-                    label: ibas.i18n.prop("bo_materialserialjournal_warehouse"),
+                    label: ibas.i18n.prop("bo_materialserialitem_warehouse"),
                     template: new sap.m.Text("", {
                         wrapping: false,
                     }).bindProperty("text", {
@@ -57,7 +57,7 @@ export class MaterialSerialIssueView extends ibas.BODialogView implements IMater
                     }),
                 }),
                 new sap.ui.table.Column("", {
-                    label: ibas.i18n.prop("bo_materialserialjournal_quantity"),
+                    label: ibas.i18n.prop("bo_materialserialitem_quantity"),
                     template: new sap.m.Text("", {
                         wrapping: false,
                     }).bindProperty("text", {
@@ -65,7 +65,7 @@ export class MaterialSerialIssueView extends ibas.BODialogView implements IMater
                     }),
                 }),
                 new sap.ui.table.Column("", {
-                    label: ibas.i18n.prop("bo_materialserialjournal_unworked_quantity"),
+                    label: ibas.i18n.prop("bo_materialserialitem_unworked_quantity"),
                     template: new sap.m.Text("", {
                         wrapping: false,
                     }).bindProperty("text", {
@@ -93,7 +93,7 @@ export class MaterialSerialIssueView extends ibas.BODialogView implements IMater
             rows: "{/rows}",
             columns: [
                 new sap.ui.table.Column("", {
-                    label: ibas.i18n.prop("bo_materialserialjournal_serialcode"),
+                    label: ibas.i18n.prop("bo_materialserialitem_serialcode"),
                     template: new sap.m.Input("", {
                         wrapping: false,
                     }).bindProperty("value", {
@@ -251,22 +251,22 @@ export class MaterialSerialIssueView extends ibas.BODialogView implements IMater
     showWorkDatas(datas: bo.IMaterialSerialContract[]): void {
         this.tableWorkDatas.setModel(new sap.ui.model.json.JSONModel({ rows: datas }));
     }
-    /** 显示物料序列号记录 */
+    /** 显示物料序列记录 */
     showMaterialSerialItems(datas: IMaterialSerialItem[]): void {
         this.tableItems.setModel(new sap.ui.model.json.JSONModel({ rows: datas }));
     }
-    /** 显示物料序列号库存 */
+    /** 显示物料序列库存 */
     showMaterialSerialInventories(datas: bo.MaterialSerial[]): void {
         this.tableInventories.setModel(new sap.ui.model.json.JSONModel({ rows: datas }));
     }
 }
-/** 物料序列号收货视图 */
+/** 物料序列收货视图 */
 export class MaterialSerialReceiptView extends ibas.BODialogView implements IMaterialSerialReceiptView {
     /** 切换工作数据 */
     changeWorkingDataEvent: Function;
-    /** 创建序列号记录 */
+    /** 创建序列编码记录 */
     createMaterialSerialItemEvent: Function;
-    /** 删除物料序列号库存 */
+    /** 删除物料序列库存 */
     deleteMaterialSerialItemEvent: Function;
 
     darw(): any {
@@ -283,7 +283,7 @@ export class MaterialSerialReceiptView extends ibas.BODialogView implements IMat
             rows: "{/rows}",
             columns: [
                 new sap.ui.table.Column("", {
-                    label: ibas.i18n.prop("bo_materialserialjournal_itemcode"),
+                    label: ibas.i18n.prop("bo_materialserialitem_itemcode"),
                     template: new sap.m.Text("", {
                         wrapping: false,
                     }).bindProperty("text", {
@@ -291,7 +291,7 @@ export class MaterialSerialReceiptView extends ibas.BODialogView implements IMat
                     }),
                 }),
                 new sap.ui.table.Column("", {
-                    label: ibas.i18n.prop("bo_materialserialjournal_itemdescription"),
+                    label: ibas.i18n.prop("bo_materialserialitem_itemdescription"),
                     template: new sap.m.Text("", {
                         wrapping: false,
                     }).bindProperty("text", {
@@ -299,7 +299,7 @@ export class MaterialSerialReceiptView extends ibas.BODialogView implements IMat
                     }),
                 }),
                 new sap.ui.table.Column("", {
-                    label: ibas.i18n.prop("bo_materialserialjournal_warehouse"),
+                    label: ibas.i18n.prop("bo_materialserialitem_warehouse"),
                     template: new sap.m.Text("", {
                         wrapping: false,
                     }).bindProperty("text", {
@@ -307,7 +307,7 @@ export class MaterialSerialReceiptView extends ibas.BODialogView implements IMat
                     }),
                 }),
                 new sap.ui.table.Column("", {
-                    label: ibas.i18n.prop("bo_materialserialjournal_quantity"),
+                    label: ibas.i18n.prop("bo_materialserialitem_quantity"),
                     template: new sap.m.Text("", {
                         wrapping: false,
                     }).bindProperty("text", {
@@ -315,7 +315,7 @@ export class MaterialSerialReceiptView extends ibas.BODialogView implements IMat
                     }),
                 }),
                 new sap.ui.table.Column("", {
-                    label: ibas.i18n.prop("bo_materialserialjournal_unworked_quantity"),
+                    label: ibas.i18n.prop("bo_materialserialitem_unworked_quantity"),
                     template: new sap.m.Text("", {
                         wrapping: false,
                     }).bindProperty("text", {
@@ -365,7 +365,7 @@ export class MaterialSerialReceiptView extends ibas.BODialogView implements IMat
             rows: "{/rows}",
             columns: [
                 new sap.ui.table.Column("", {
-                    label: ibas.i18n.prop("bo_materialserialjournal_serialcode"),
+                    label: ibas.i18n.prop("bo_materialserialitem_serialcode"),
                     template: new sap.m.Input("", {
                         wrapping: false,
                     }).bindProperty("value", {
@@ -426,7 +426,7 @@ export class MaterialSerialReceiptView extends ibas.BODialogView implements IMat
     showWorkDatas(datas: bo.IMaterialSerialContract[]): void {
         this.tableWorkDatas.setModel(new sap.ui.model.json.JSONModel({ rows: datas }));
     }
-    /** 显示物料序列号记录 */
+    /** 显示物料序列记录 */
     showMaterialSerialItems(datas: IMaterialSerialItem[]): void {
         this.tableItems.setModel(new sap.ui.model.json.JSONModel({ rows: datas }));
     }

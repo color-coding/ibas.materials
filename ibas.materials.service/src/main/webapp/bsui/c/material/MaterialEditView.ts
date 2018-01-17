@@ -29,7 +29,7 @@ export class MaterialEditView extends ibas.BOEditView implements IMaterialEditVi
         this.form = new sap.ui.layout.form.SimpleForm("", {
             editable: true,
             content: [
-                new sap.ui.core.Title("", { text: ibas.i18n.prop("materials_general_information") }),
+                new sap.ui.core.Title("", { text: ibas.i18n.prop("materials_title_general") }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_material_code") }),
                 new sap.m.Input("", {
                     type: sap.m.InputType.Text,
@@ -83,7 +83,7 @@ export class MaterialEditView extends ibas.BOEditView implements IMaterialEditVi
                 }).bindProperty("value", {
                     path: "barCode",
                 }),
-                new sap.ui.core.Title("", { text: ibas.i18n.prop("materials_status_information") }),
+                new sap.ui.core.Title("", { text: ibas.i18n.prop("materials_title_status") }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_material_activated") }),
                 new sap.m.Select("", {
                     items: openui5.utils.createComboBoxItems(ibas.emYesNo),
@@ -119,7 +119,7 @@ export class MaterialEditView extends ibas.BOEditView implements IMaterialEditVi
                     path: "phantomItem",
                     type: "sap.ui.model.type.Integer",
                 }),
-                new sap.ui.core.Title("", { text: ibas.i18n.prop("materials_inventory_information") }),
+                new sap.ui.core.Title("", { text: ibas.i18n.prop("materials_title_inventory") }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_material_onhand") }),
                 new sap.m.Input("", {
                     type: sap.m.InputType.Text,

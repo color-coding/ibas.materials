@@ -41,19 +41,27 @@ export class MaterialSerialListView extends ibas.BOListView implements IMaterial
             rows: "{/rows}",
             columns: [
                 new sap.ui.table.Column("", {
+                    label: ibas.i18n.prop("bo_materialserial_itemcode"),
+                    template: new sap.m.Text("", {
+                        wrapping: false
+                    }).bindProperty("text", {
+                        path: "itemCode",
+                    }),
+                }),
+                new sap.ui.table.Column("", {
+                    label: ibas.i18n.prop("bo_materialserial_warehouse"),
+                    template: new sap.m.Text("", {
+                        wrapping: false
+                    }).bindProperty("text", {
+                        path: "warehouse",
+                    })
+                }),
+                new sap.ui.table.Column("", {
                     label: ibas.i18n.prop("bo_materialserial_serialcode"),
                     template: new sap.m.Text("", {
                         wrapping: false,
                     }).bindProperty("text", {
                         path: "serialCode",
-                    }),
-                }),
-                new sap.ui.table.Column("", {
-                    label: ibas.i18n.prop("bo_materialserial_supplierserial"),
-                    template: new sap.m.Text("", {
-                        wrapping: false,
-                    }).bindProperty("text", {
-                        path: "supplierSerial",
                     }),
                 }),
                 new sap.ui.table.Column("", {
@@ -65,6 +73,22 @@ export class MaterialSerialListView extends ibas.BOListView implements IMaterial
                         formatter(data: any): any {
                             return ibas.enums.describe(ibas.emYesNo, data);
                         }
+                    })
+                }),
+                new sap.ui.table.Column("", {
+                    label: ibas.i18n.prop("bo_materialserial_batchserial"),
+                    template: new sap.m.Text("", {
+                        wrapping: false,
+                    }).bindProperty("text", {
+                        path: "batchSerial",
+                    }),
+                }),
+                new sap.ui.table.Column("", {
+                    label: ibas.i18n.prop("bo_materialserial_supplierserial"),
+                    template: new sap.m.Text("", {
+                        wrapping: false,
+                    }).bindProperty("text", {
+                        path: "supplierSerial",
                     }),
                 }),
                 new sap.ui.table.Column("", {
@@ -73,10 +97,6 @@ export class MaterialSerialListView extends ibas.BOListView implements IMaterial
                         wrapping: false,
                     }).bindProperty("text", {
                         path: "expirationDate",
-                        type: "sap.ui.model.type.Date",
-                        formatOptions: {
-                            style: "short"
-                        }
                     }),
                 }),
                 new sap.ui.table.Column("", {
@@ -85,10 +105,6 @@ export class MaterialSerialListView extends ibas.BOListView implements IMaterial
                         wrapping: false,
                     }).bindProperty("text", {
                         path: "manufacturingDate",
-                        type: "sap.ui.model.type.Date",
-                        formatOptions: {
-                            style: "short"
-                        }
                     }),
                 }),
                 new sap.ui.table.Column("", {
@@ -97,10 +113,6 @@ export class MaterialSerialListView extends ibas.BOListView implements IMaterial
                         wrapping: false,
                     }).bindProperty("text", {
                         path: "admissionDate",
-                        type: "sap.ui.model.type.Date",
-                        formatOptions: {
-                            style: "short"
-                        }
                     }),
                 }),
             ],

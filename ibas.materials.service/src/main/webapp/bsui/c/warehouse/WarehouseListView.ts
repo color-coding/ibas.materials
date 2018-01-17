@@ -67,7 +67,6 @@ export class WarehouseListView extends ibas.BOListView implements IWarehouseList
                         }
                     })
                 }),
-
             ]
         });
         this.form.addContent(this.table);

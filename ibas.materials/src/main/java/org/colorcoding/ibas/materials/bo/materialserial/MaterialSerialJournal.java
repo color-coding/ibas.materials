@@ -21,7 +21,7 @@ import org.colorcoding.ibas.materials.MyConfiguration;
 import org.colorcoding.ibas.materials.logic.IMaterialSerialInventoryContract;
 
 /**
- * 获取-物料序列号日记账
+ * 获取-物料序列日记账
  * 
  */
 @XmlAccessorType(XmlAccessType.NONE)

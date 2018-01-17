@@ -4,7 +4,7 @@ import org.colorcoding.ibas.bobas.bo.IBusinessObject;
 import org.colorcoding.ibas.bobas.data.Decimal;
 
 /**
- * 物料序列号项目父项（此接口仅数据存储，不影响库存）
+ * 物料序列项目父项（此接口仅数据存储，不影响库存）
  * 
  * 发货使用：IMaterialSerialIssueParent
  * 
@@ -46,7 +46,7 @@ public interface IMaterialSerialItemParent extends IBusinessObject {
 	Decimal getQuantity();
 
 	/**
-	 * 物料序列号集合
+	 * 物料序列集合
 	 */
 	IMaterialSerialItems getMaterialSerials();
 

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE Domain>
 <Domain Name="Materials" ShortName="MM">
-  <Model Name="MaterialSerial" Description="物料序列号" ModelType="Simple" Mapped="${Company}_MM_OMSR">
+  <Model Name="MaterialSerial" Description="物料序列" ModelType="Simple" Mapped="${Company}_MM_OMSR">
     <Property Name="ItemCode" Description="物料编码" DataType="Alphanumeric" DataSubType="Default" EditSize="30" Mapped="ItemCode" UniqueKey="Yes"/>
     <Property Name="SerialCode" Description="序列编码" DataType="Alphanumeric" DataSubType="Default" EditSize="36" Mapped="SerialCode" UniqueKey="Yes"/>
     <Property Name="Warehouse" Description="仓库编码" DataType="Alphanumeric" DataSubType="Default" EditSize="8" Mapped="WhsCode" UniqueKey="Yes"/>
@@ -30,7 +30,7 @@
     <Property Name="UpdateActionId" Description="更新动作标识" DataType="Alphanumeric" DataSubType="Default" EditSize="36" Mapped="UpdateActId"/>
   </Model>
   <BusinessObject MappedModel="MaterialSerial" ShortName="${Company}_MM_SERIAL"/>
-  <Model Name="MaterialSerialJournal" Description="物料序列号日记账" ModelType="Simple" Mapped="${Company}_MM_MSR1">
+  <Model Name="MaterialSerialJournal" Description="物料序列日记账" ModelType="Simple" Mapped="${Company}_MM_MSR1">
     <Property Name="ItemCode" Description="物料编码" DataType="Alphanumeric" DataSubType="Default" EditSize="30" Mapped="ItemCode"/>
     <Property Name="SerialCode" Description="序列编码" DataType="Alphanumeric" DataSubType="Default" EditSize="36" Mapped="SerialCode"/>
     <Property Name="Warehouse" Description="仓库编码" DataType="Alphanumeric" DataSubType="Default" EditSize="8" Mapped="WhsCode"/>

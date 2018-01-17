@@ -22,7 +22,7 @@ export class MaterialViewView extends ibas.BOViewView implements IMaterialViewVi
         this.form = new sap.ui.layout.form.SimpleForm("", {
             editable: false,
             content: [
-                new sap.ui.core.Title("", { text: ibas.i18n.prop("materials_general_information") }),
+                new sap.ui.core.Title("", { text: ibas.i18n.prop("materials_title_general") }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_material_code") }),
                 new sap.m.Text("", {
                 }).bindProperty("text", {
@@ -103,7 +103,7 @@ export class MaterialViewView extends ibas.BOViewView implements IMaterialViewVi
                         return ibas.enums.describe(ibas.emYesNo, data);
                     }
                 }),
-                new sap.ui.core.Title("", { text: ibas.i18n.prop("materials_general_information") }),
+                new sap.ui.core.Title("", { text: ibas.i18n.prop("materials_title_general") }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_material_remarks") }),
                 new sap.m.Text("", {
                 }).bindProperty("text", {
@@ -134,7 +134,7 @@ export class MaterialViewView extends ibas.BOViewView implements IMaterialViewVi
                 }).bindProperty("text", {
                     path: "UOM"
                 }),
-                new sap.ui.core.Title("", { text: ibas.i18n.prop("materials_inventory_information") }),
+                new sap.ui.core.Title("", { text: ibas.i18n.prop("materials_title_inventory") }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_material_minimuminventory") }),
                 new sap.m.Text("", {
                 }).bindProperty("text", {

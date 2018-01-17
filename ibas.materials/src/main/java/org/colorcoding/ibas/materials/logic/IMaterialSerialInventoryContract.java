@@ -4,7 +4,7 @@ import org.colorcoding.ibas.bobas.data.emDirection;
 import org.colorcoding.ibas.bobas.logic.IBusinessLogicContract;
 
 /**
- * 物料序列号契约，影响序列号库存
+ * 物料序列契约，影响序列编码库存
  * 
  * @author Niuren.Zhu
  *

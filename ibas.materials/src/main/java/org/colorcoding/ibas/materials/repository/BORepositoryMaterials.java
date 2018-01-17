@@ -514,7 +514,7 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 	// --------------------------------------------------------------------------------------------//
 
 	/**
-	 * 查询-物料序列号
+	 * 查询-物料序列
 	 *
 	 * @param criteria
 	 *            查询
@@ -528,7 +528,7 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 	}
 
 	/**
-	 * 查询-物料序列号（提前设置用户口令）
+	 * 查询-物料序列（提前设置用户口令）
 	 *
 	 * @param criteria
 	 *            查询
@@ -540,7 +540,7 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 	}
 
 	/**
-	 * 保存-物料序列号
+	 * 保存-物料序列
 	 *
 	 * @param bo
 	 *            对象实例
@@ -554,7 +554,7 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 	}
 
 	/**
-	 * 保存-物料序列号（提前设置用户口令）
+	 * 保存-物料序列（提前设置用户口令）
 	 *
 	 * @param bo
 	 *            对象实例
@@ -568,7 +568,7 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 	// --------------------------------------------------------------------------------------------//
 
 	/**
-	 * 查询-物料序列号日记账
+	 * 查询-物料序列日记账
 	 *
 	 * @param criteria
 	 *            查询
@@ -582,7 +582,7 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 	}
 
 	/**
-	 * 查询-物料序列号日记账（提前设置用户口令）
+	 * 查询-物料序列日记账（提前设置用户口令）
 	 *
 	 * @param criteria
 	 *            查询

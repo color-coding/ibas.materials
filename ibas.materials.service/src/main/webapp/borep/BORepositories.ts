@@ -186,21 +186,21 @@ export class BORepositoryMaterials extends ibas.BORepositoryApplication implemen
         super.fetch(bo.MaterialBatchJournal.name, fetcher);
     }
     /**
-     *  查询 物料序列号
+     *  查询 物料序列
      * @param fetcher 查询者
      */
     fetchMaterialSerial(fetcher: ibas.FetchCaller<bo.MaterialSerial>): void {
         super.fetch(bo.MaterialSerial.name, fetcher);
     }
     /**
-     * 保存 物料序列号
+     * 保存 物料序列
      * @param saver 保存者
      */
     saveMaterialSerial(saver: ibas.SaveCaller<bo.MaterialSerial>): void {
         super.save(bo.MaterialSerial.name, saver);
     }
     /**
-     *  查询 物料序列号日记账
+     *  查询 物料序列日记账
      * @param fetcher 查询者
      */
     fetchMaterialSerialJournal(fetcher: ibas.FetchCaller<bo.MaterialSerialJournal>): void {

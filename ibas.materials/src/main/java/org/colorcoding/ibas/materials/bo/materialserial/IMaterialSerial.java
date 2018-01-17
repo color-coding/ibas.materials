@@ -5,7 +5,7 @@ import org.colorcoding.ibas.bobas.data.DateTime;
 import org.colorcoding.ibas.bobas.data.emYesNo;
 
 /**
- * 物料序列号 接口
+ * 物料序列 接口
  *
  */
 public interface IMaterialSerial extends IBOSimple {

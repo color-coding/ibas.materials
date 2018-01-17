@@ -297,7 +297,7 @@ public class DataService extends BORepositoryMaterials {
 
 	// --------------------------------------------------------------------------------------------//
 	/**
-	 * 查询-物料序列号
+	 * 查询-物料序列
 	 * 
 	 * @param criteria
 	 *            查询
@@ -312,7 +312,7 @@ public class DataService extends BORepositoryMaterials {
 	}
 
 	/**
-	 * 保存-物料序列号
+	 * 保存-物料序列
 	 * 
 	 * @param bo
 	 *            对象实例
@@ -328,7 +328,7 @@ public class DataService extends BORepositoryMaterials {
 
 	// --------------------------------------------------------------------------------------------//
 	/**
-	 * 查询-物料序列号日记账
+	 * 查询-物料序列日记账
 	 * 
 	 * @param criteria
 	 *            查询

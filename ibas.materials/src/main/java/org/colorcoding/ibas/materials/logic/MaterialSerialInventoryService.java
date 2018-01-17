@@ -23,7 +23,7 @@ public class MaterialSerialInventoryService
 	protected IMaterialSerial fetchBeAffected(IMaterialSerialInventoryContract contract) {
 		// 检查物料
 		IMaterial material = this.checkMaterial(contract.getItemCode());
-		// 非序列号管理物料
+		// 非序列编码管理物料
 		if (material.getSerialManagement() != emYesNo.YES) {
 			throw new BusinessLogicException(
 					String.format(I18N.prop("msg_mm_material_is_not_serialmanagement"), contract.getItemCode()));

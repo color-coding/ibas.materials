@@ -23,7 +23,7 @@ export class InventoryTransferViewView extends ibas.BOViewView implements IInven
         this.form = new sap.ui.layout.form.SimpleForm("", {
             editable: false,
             content: [
-                new sap.ui.core.Title("", { text: ibas.i18n.prop("materials_general_information") }),
+                new sap.ui.core.Title("", { text: ibas.i18n.prop("materials_title_general") }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_inventorytransfer_docentry") }),
                 new sap.m.Text("", {
                 }).bindProperty("text", {

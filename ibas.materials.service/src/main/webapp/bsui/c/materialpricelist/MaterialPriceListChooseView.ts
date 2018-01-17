@@ -96,7 +96,6 @@ export class MaterialPriceListChooseView extends ibas.BOChooseView implements IM
                 }),
             ]
         });
-        this.id = this.table.getId();
         // 添加列表自动查询事件
         openui5.utils.triggerNextResults({
             listener: this.table,

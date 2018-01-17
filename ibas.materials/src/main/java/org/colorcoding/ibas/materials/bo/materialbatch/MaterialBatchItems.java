@@ -99,6 +99,22 @@ public class MaterialBatchItems extends BusinessObjects<IMaterialBatchItem, IMat
 		return null;
 	}
 
+	public IMaterialBatchItem create(String batchCode) {
+		for (IMaterialBatchItem item : this) {
+			if (item.getBatchCode() == null) {
+				continue;
+			}
+			if (item.getBatchCode().equals(batchCode)) {
+				return item;
+			}
+		}
+		IMaterialBatchItem item = this.create();
+		if (item != null) {
+			item.setBatchCode(batchCode);
+		}
+		return item;
+	}
+
 	/**
 	 * 元素类型
 	 */

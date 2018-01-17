@@ -5,7 +5,7 @@ import org.colorcoding.ibas.bobas.data.DateTime;
 import org.colorcoding.ibas.bobas.data.emDirection;
 
 /**
- * 物料序列号日记账 接口
+ * 物料序列日记账 接口
  * 
  */
 public interface IMaterialSerialJournal extends IBOSimple {

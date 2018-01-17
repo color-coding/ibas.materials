@@ -29,7 +29,7 @@ export class GoodsIssueEditView extends ibas.BOEditView implements IGoodsIssueEd
     chooseGoodsIssueLineWarehouseEvent: Function;
     /** 选择物料批次事件 */
     chooseGoodsIssueLineMaterialBatchEvent: Function;
-    /** 选择库存发货单行物料序列号事件 */
+    /** 选择库存发货单行物料序列事件 */
     chooseGoodsIssueLineMaterialSerialEvent: Function;
     /** 选择库存发货物料价格清单 */
     chooseeGoodsIssueMaterialPriceListEvent: Function;
@@ -40,7 +40,7 @@ export class GoodsIssueEditView extends ibas.BOEditView implements IGoodsIssueEd
         let formTop: sap.ui.layout.form.SimpleForm = new sap.ui.layout.form.SimpleForm("", {
             editable: true,
             content: [
-                new sap.ui.core.Title("", { text: ibas.i18n.prop("materials_general_information") }),
+                new sap.ui.core.Title("", { text: ibas.i18n.prop("materials_title_general") }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_goodsissue_docentry") }),
                 new sap.m.Input("", {
                     editable: false,
@@ -64,7 +64,7 @@ export class GoodsIssueEditView extends ibas.BOEditView implements IGoodsIssueEd
                 new sap.m.Input("", {}).bindProperty("value", {
                     path: "reference2"
                 }),
-                new sap.ui.core.Title("", { text: ibas.i18n.prop("materials_status_information") }),
+                new sap.ui.core.Title("", { text: ibas.i18n.prop("materials_title_status") }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_goodsissue_documentstatus") }),
                 new sap.m.Select("", {
                     items: openui5.utils.createComboBoxItems(ibas.emDocumentStatus),
@@ -255,13 +255,13 @@ export class GoodsIssueEditView extends ibas.BOEditView implements IGoodsIssueEd
         let formBottom: sap.ui.layout.form.SimpleForm = new sap.ui.layout.form.SimpleForm("", {
             editable: true,
             content: [
-                new sap.ui.core.Title("", { text: ibas.i18n.prop("materials_remarks_information") }),
+                new sap.ui.core.Title("", { text: ibas.i18n.prop("materials_title_remarks") }),
                 new sap.m.TextArea("", {
                     rows: 5,
                 }).bindProperty("value", {
                     path: "remarks",
                 }),
-                new sap.ui.core.Title("", { text: ibas.i18n.prop("materials_total_information") }),
+                new sap.ui.core.Title("", { text: ibas.i18n.prop("materials_title_total") }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_goodsissue_documenttotal") }),
                 new sap.m.Input("", {
                     editable: false,

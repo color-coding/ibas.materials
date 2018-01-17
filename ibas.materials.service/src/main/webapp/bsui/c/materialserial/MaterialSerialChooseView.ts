@@ -83,14 +83,6 @@ export class MaterialSerialChooseView extends ibas.BOChooseView implements IMate
                     }),
                 }),
                 new sap.ui.table.Column("", {
-                    label: ibas.i18n.prop("bo_materialserial_internalserial"),
-                    template: new sap.m.Text("", {
-                        wrapping: false,
-                    }).bindProperty("text", {
-                        path: "internalSerial",
-                    }),
-                }),
-                new sap.ui.table.Column("", {
                     label: ibas.i18n.prop("bo_materialserial_expirationdate"),
                     template: new sap.m.Text("", {
                         wrapping: false,

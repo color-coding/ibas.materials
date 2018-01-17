@@ -16,6 +16,8 @@ import org.colorcoding.ibas.bobas.logic.IBusinessLogicsHost;
 import org.colorcoding.ibas.bobas.mapping.BOCode;
 import org.colorcoding.ibas.bobas.mapping.DbField;
 import org.colorcoding.ibas.bobas.mapping.DbFieldType;
+import org.colorcoding.ibas.bobas.rule.IBusinessRule;
+import org.colorcoding.ibas.bobas.rule.common.BusinessRuleRequired;
 import org.colorcoding.ibas.materials.MyConfiguration;
 import org.colorcoding.ibas.materials.logic.IMaterialBatchJournalContract;
 
@@ -636,6 +638,16 @@ public class MaterialBatchItem extends BusinessObject<MaterialBatchItem>
 	protected void initialize() {
 		super.initialize();// 基类初始化，不可去除
 		this.setObjectCode(MyConfiguration.applyVariables(BUSINESS_OBJECT_CODE));
+	}
+
+	@Override
+	protected IBusinessRule[] registerRules() {
+		return new IBusinessRule[] { // 注册的业务规则
+				new BusinessRuleRequired(PROPERTY_BATCHCODE), // 要求有值
+				new BusinessRuleRequired(PROPERTY_DOCUMENTTYPE), // 要求有值
+				new BusinessRuleRequired(PROPERTY_DOCUMENTENTRY), // 要求有值
+				new BusinessRuleRequired(PROPERTY_DOCUMENTLINEID), // 要求有值
+		};
 	}
 
 	IMaterialBatchItemParent parent;

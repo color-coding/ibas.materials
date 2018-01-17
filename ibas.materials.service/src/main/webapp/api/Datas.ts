@@ -49,9 +49,9 @@ export const BO_CODE_PRODUCT: string = "${Company}_MM_PRODUCT";
 export const BO_CODE_MATERIALBATCH: string = "${Company}_MM_BATCH";
 /** 业务对象编码-物料批次凭证 */
 export const BO_CODE_MATERIALBATCHJOURNAL: string = "${Company}_MM_BATCHJOURNAL";
-/** 业务对象编码-物料序列号 */
+/** 业务对象编码-物料序列 */
 export const BO_CODE_MATERIALSERIAL: string = "${Company}_MM_SERIAL";
-/** 业务对象编码-物料序列号凭证 */
+/** 业务对象编码-物料序列凭证 */
 export const BO_CODE_MATERIALSERIALJOURNAL: string = "${Company}_MM_SERIALJOURNAL";
 /** 业务对象编码-物料组 */
 export const BO_CODE_MATERIALGROUP: string = "${Company}_MM_MATERIALGROUP";
@@ -63,7 +63,7 @@ export const BO_CODE_MATERIALJOURNAL: string = "${Company}_MM_MATERIALJOURNAL";
 export const BO_CODE_WAREHOUSE: string = "${Company}_MM_WAREHOUSE";
 /** 业务对象编码-价格清单 */
 export const BO_CODE_MATERIALPRICELIST: string = "${Company}_MM_PRICELIST";
-/** 业务对象编码-物料序列号项目 */
+/** 业务对象编码-物料序列项目 */
 export const BO_CODE_MATERIALSERIALITEM: string = "${Company}_MM_SERIALITEM";
 /** 业务对象编码-物料批次项目 */
 export const BO_CODE_MATERIALBATCHITEM: string = "${Company}_MM_BATCHITEM";

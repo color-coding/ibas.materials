@@ -1,12 +1,9 @@
 {
   "bo_materialbatchjournal": "物料批次日记账",
   "bo_materialbatchjournal_itemcode": "物料编码",
-  "bo_materialbatchjournal_itemdescription": "物料描述",
   "bo_materialbatchjournal_batchcode": "批次编码",
-  "bo_materialbatchjournal_linestatus": "单据状态",
   "bo_materialbatchjournal_warehouse": "仓库编码",
   "bo_materialbatchjournal_quantity": "数量",
-  "bo_materialbatchjournal_unworked_quantity": "未分配数量",
   "bo_materialbatchjournal_direction": "方向",
   "bo_materialbatchjournal_basedocumenttype": "基于类型",
   "bo_materialbatchjournal_basedocumententry": "基于标识",

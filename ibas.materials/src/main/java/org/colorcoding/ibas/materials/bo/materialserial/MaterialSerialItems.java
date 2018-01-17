@@ -106,4 +106,21 @@ public class MaterialSerialItems extends BusinessObjects<IMaterialSerialItem, IM
 		}
 		return null;
 	}
+
+	public IMaterialSerialItem create(String serialCode) {
+		for (IMaterialSerialItem item : this) {
+			if (item.getSerialCode() == null) {
+				continue;
+			}
+			if (item.getSerialCode().equals(serialCode)) {
+				return item;
+			}
+		}
+		IMaterialSerialItem item = this.create();
+		if (item != null) {
+			item.setSerialCode(serialCode);
+		}
+		return item;
+	}
+
 }

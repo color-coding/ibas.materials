@@ -41,14 +41,6 @@ export class MaterialBatchListView extends ibas.BOListView implements IMaterialB
             rows: "{/rows}",
             columns: [
                 new sap.ui.table.Column("", {
-                    label: ibas.i18n.prop("bo_materialbatch_batchcode"),
-                    template: new sap.m.Text("", {
-                        wrapping: false,
-                    }).bindProperty("text", {
-                        path: "batchCode",
-                    }),
-                }),
-                new sap.ui.table.Column("", {
                     label: ibas.i18n.prop("bo_materialbatch_itemcode"),
                     template: new sap.m.Text("", {
                         wrapping: false,
@@ -62,6 +54,14 @@ export class MaterialBatchListView extends ibas.BOListView implements IMaterialB
                         wrapping: false
                     }).bindProperty("text", {
                         path: "warehouse",
+                    }),
+                }),
+                new sap.ui.table.Column("", {
+                    label: ibas.i18n.prop("bo_materialbatch_batchcode"),
+                    template: new sap.m.Text("", {
+                        wrapping: false,
+                    }).bindProperty("text", {
+                        path: "batchCode",
                     }),
                 }),
                 new sap.ui.table.Column("", {

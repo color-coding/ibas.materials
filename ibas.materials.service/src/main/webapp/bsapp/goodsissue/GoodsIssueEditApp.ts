@@ -352,6 +352,6 @@ export interface IGoodsIssueEditView extends ibas.IBOEditView {
     chooseGoodsIssueLineWarehouseEvent: Function;
     /** 选择库存发货单行物料批次事件 */
     chooseGoodsIssueLineMaterialBatchEvent: Function;
-    /** 选择库存发货单行物料序列号事件 */
+    /** 选择库存发货单行物料序列事件 */
     chooseGoodsIssueLineMaterialSerialEvent: Function;
 }

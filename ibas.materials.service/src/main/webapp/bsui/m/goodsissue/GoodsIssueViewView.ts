@@ -27,7 +27,7 @@ export class GoodsIssueViewView extends ibas.BOViewView implements IGoodsIssueVi
         this.viewTopForm = new sap.ui.layout.form.SimpleForm("", {
             editable: true,
             content: [
-                new sap.ui.core.Title("", { text: ibas.i18n.prop("materials_general_information") }),
+                new sap.ui.core.Title("", { text: ibas.i18n.prop("materials_title_general") }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_goodsissue_docentry") }),
                 new sap.m.Text("", {
                 }).bindProperty("text", {

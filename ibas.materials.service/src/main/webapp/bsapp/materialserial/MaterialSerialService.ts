@@ -9,7 +9,7 @@ import * as ibas from "ibas/index";
 import * as bo from "../../borep/bo/index";
 import { IMaterialSerialItem, IMaterialSerial } from "../../api/bo/index";
 import { BORepositoryMaterials } from "../../borep/BORepositories";
-/** 物料序列号服务 */
+/** 物料序列服务 */
 abstract class MaterialSerialService<T extends IMaterialSerialServiceView>
     extends ibas.ServiceApplication<T, bo.IMaterialSerialContract[]> {
     /** 注册视图 */
@@ -55,7 +55,7 @@ abstract class MaterialSerialService<T extends IMaterialSerialServiceView>
         this.view.showMaterialSerialItems(this.workingData.materialSerials.filterDeleted());
     }
 }
-/** 物料序列号发货服务 */
+/** 物料序列发货服务 */
 export class MaterialSerialIssueService extends MaterialSerialService<IMaterialSerialIssueView> {
     /** 应用标识 */
     static APPLICATION_ID: string = "a8542551-c39a-4e11-abbc-cfa9eff6de8b";
@@ -177,7 +177,7 @@ export class MaterialSerialIssueService extends MaterialSerialService<IMaterialS
         this.view.showMaterialSerialItems(this.workingData.materialSerials.filterDeleted());
     }
 }
-/** 物料序列号收货服务 */
+/** 物料序列收货服务 */
 export class MaterialSerialReceiptService extends MaterialSerialService<IMaterialSerialReceiptView> {
     /** 应用标识 */
     static APPLICATION_ID: string = "ff8f4173-77f6-4f92-bfc5-697e6d8ff545";
@@ -232,39 +232,41 @@ export class MaterialSerialReceiptService extends MaterialSerialService<IMateria
             if (total >= item.quantity) {
                 continue;
             }
-            let journal: IMaterialSerialItem = item.materialSerials.create();
-            journal.serialCode = ibas.dates.toString(ibas.dates.now(), "yyyyMMdd");
-            journals.add(journal);
+            for (let index: number = 0; index < item.quantity; index++) {
+                let journal: IMaterialSerialItem = item.materialSerials.create();
+                journal.serialCode = ibas.dates.toString(ibas.dates.now(), "yyyyMMddhhmm") + ibas.strings.fill(index + 1, 4, "0");
+                journals.add(journal);
+            }
         }
         this.view.showMaterialSerialItems(journals);
     }
 }
-/** 视图-物料序列号服务 */
+/** 视图-物料序列服务 */
 export interface IMaterialSerialServiceView extends ibas.IBOView {
     /** 显示待处理数据 */
     showWorkDatas(datas: bo.IMaterialSerialContract[]): void;
     /** 切换工作数据 */
     changeWorkingDataEvent: Function;
-    /** 显示物料序列号记录 */
+    /** 显示物料序列记录 */
     showMaterialSerialItems(datas: IMaterialSerialItem[]): void;
 }
-/** 视图-物料序列号发货 */
+/** 视图-物料序列发货 */
 export interface IMaterialSerialIssueView extends IMaterialSerialServiceView {
-    /** 显示物料序列号库存 */
+    /** 显示物料序列库存 */
     showMaterialSerialInventories(datas: bo.MaterialSerial[]): void;
-    /** 使用物料序列号库存 */
+    /** 使用物料序列库存 */
     useMaterialSerialInventoryEvent: Function;
-    /** 移出物料序列号库存 */
+    /** 移出物料序列库存 */
     removeMaterialSerialItemEvent: Function;
 }
-/** 视图-物料序列号收货 */
+/** 视图-物料序列收货 */
 export interface IMaterialSerialReceiptView extends IMaterialSerialServiceView {
-    /** 创建序列号记录 */
+    /** 创建序列编码记录 */
     createMaterialSerialItemEvent: Function;
-    /** 删除物料序列号库存 */
+    /** 删除物料序列库存 */
     deleteMaterialSerialItemEvent: Function;
 }
-/** 物料序列号发货服务映射 */
+/** 物料序列发货服务映射 */
 export class MaterialSerialIssueServiceMapping extends ibas.ServiceMapping {
     /** 构造函数 */
     constructor() {
@@ -279,7 +281,7 @@ export class MaterialSerialIssueServiceMapping extends ibas.ServiceMapping {
         return new MaterialSerialIssueService();
     }
 }
-/** 物料序列号收货服务映射 */
+/** 物料序列收货服务映射 */
 export class MaterialSerialReceiptServiceMapping extends ibas.ServiceMapping {
     /** 构造函数 */
     constructor() {

@@ -24,7 +24,7 @@ import {
 
 } from "../Datas";
 
-/** 物料序列号项目 */
+/** 物料序列项目 */
 export interface IMaterialSerialItem extends IBOSimple {
 
     /** 序列编码 */

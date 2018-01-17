@@ -1,11 +1,8 @@
 {
-  "bo_materialserialjournal": "物料序列号日记账",
+  "bo_materialserialjournal": "物料序列日记账",
   "bo_materialserialjournal_itemcode": "物料编码",
-  "bo_materialserialjournal_itemdescription": "物料描述",
-  "bo_materialserialjournal_serialcode": "序列编码",
   "bo_materialserialjournal_warehouse": "仓库编码",
-  "bo_materialserialjournal_unworked": "未分配",
-  "bo_materialserialjournal_linestatus": "单据状态",
+  "bo_materialserialjournal_serialcode": "序列编码",
   "bo_materialserialjournal_direction": "方向",
   "bo_materialserialjournal_basedocumenttype": "基于类型",
   "bo_materialserialjournal_basedocumententry": "基于标识",

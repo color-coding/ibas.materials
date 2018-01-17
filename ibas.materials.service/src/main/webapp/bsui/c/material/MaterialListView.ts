@@ -90,7 +90,7 @@ export class MaterialListView extends ibas.BOListView implements IMaterialListVi
                     template: new sap.m.Text("", {
                         wrapping: false,
                     }).bindProperty("text", {
-                        path: "inventoryUom",
+                        path: "inventoryUOM",
                     }),
                 }),
                 new sap.ui.table.Column("", {

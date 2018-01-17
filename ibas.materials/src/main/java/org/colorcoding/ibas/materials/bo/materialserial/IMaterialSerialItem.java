@@ -4,7 +4,7 @@ import org.colorcoding.ibas.bobas.bo.IBOSimple;
 import org.colorcoding.ibas.bobas.data.DateTime;
 
 /**
- * 物料序列号项目 接口
+ * 物料序列项目 接口
  * 
  */
 public interface IMaterialSerialItem extends IBOSimple {

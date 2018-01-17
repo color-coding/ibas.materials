@@ -133,17 +133,17 @@ export interface IBORepositoryMaterials extends IBORepositoryApplication {
     fetchMaterialBatchJournal(fetcher: FetchCaller<bo.IMaterialBatchJournal>);
 
     /**
-    * 查询 物料序列号
+    * 查询 物料序列
     * @param fetcher 查询者
     */
     fetchMaterialSerial(fetcher: FetchCaller<bo.IMaterialSerial>);
     /**
-     * 保存 物料序列号
+     * 保存 物料序列
      * @param saver 保存者
      */
     saveMaterialSerial(saver: SaveCaller<bo.IMaterialSerial>);
     /**
-     * 查询 物料序列号日记账
+     * 查询 物料序列日记账
      * @param fetcher 查询者
      */
     fetchMaterialSerialJournal(fetcher: FetchCaller<bo.IMaterialSerialJournal>);

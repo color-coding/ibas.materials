@@ -33,7 +33,7 @@ export class MaterialBatchIssueView extends ibas.BODialogView implements IMateri
             rows: "{/rows}",
             columns: [
                 new sap.ui.table.Column("", {
-                    label: ibas.i18n.prop("bo_materialbatchjournal_itemcode"),
+                    label: ibas.i18n.prop("bo_materialbatchitem_itemcode"),
                     template: new sap.m.Text("", {
                         wrapping: false,
                     }).bindProperty("text", {
@@ -41,7 +41,7 @@ export class MaterialBatchIssueView extends ibas.BODialogView implements IMateri
                     }),
                 }),
                 new sap.ui.table.Column("", {
-                    label: ibas.i18n.prop("bo_materialbatchjournal_itemdescription"),
+                    label: ibas.i18n.prop("bo_materialbatchitem_itemdescription"),
                     template: new sap.m.Text("", {
                         wrapping: false,
                     }).bindProperty("text", {
@@ -49,7 +49,7 @@ export class MaterialBatchIssueView extends ibas.BODialogView implements IMateri
                     }),
                 }),
                 new sap.ui.table.Column("", {
-                    label: ibas.i18n.prop("bo_materialbatchjournal_warehouse"),
+                    label: ibas.i18n.prop("bo_materialbatchitem_warehouse"),
                     template: new sap.m.Text("", {
                         wrapping: false,
                     }).bindProperty("text", {
@@ -57,7 +57,7 @@ export class MaterialBatchIssueView extends ibas.BODialogView implements IMateri
                     }),
                 }),
                 new sap.ui.table.Column("", {
-                    label: ibas.i18n.prop("bo_materialbatchjournal_quantity"),
+                    label: ibas.i18n.prop("bo_materialbatchitem_quantity"),
                     template: new sap.m.Text("", {
                         wrapping: false,
                     }).bindProperty("text", {
@@ -65,7 +65,7 @@ export class MaterialBatchIssueView extends ibas.BODialogView implements IMateri
                     }),
                 }),
                 new sap.ui.table.Column("", {
-                    label: ibas.i18n.prop("bo_materialbatchjournal_unworked_quantity"),
+                    label: ibas.i18n.prop("bo_materialbatchitem_unworked_quantity"),
                     template: new sap.m.Text("", {
                         wrapping: false,
                     }).bindProperty("text", {
@@ -93,7 +93,7 @@ export class MaterialBatchIssueView extends ibas.BODialogView implements IMateri
             rows: "{/rows}",
             columns: [
                 new sap.ui.table.Column("", {
-                    label: ibas.i18n.prop("bo_materialbatchjournal_batchcode"),
+                    label: ibas.i18n.prop("bo_materialbatchitem_batchcode"),
                     template: new sap.m.Input("", {
                         wrapping: false,
                     }).bindProperty("value", {
@@ -101,7 +101,7 @@ export class MaterialBatchIssueView extends ibas.BODialogView implements IMateri
                     }),
                 }),
                 new sap.ui.table.Column("", {
-                    label: ibas.i18n.prop("bo_materialbatchjournal_quantity"),
+                    label: ibas.i18n.prop("bo_materialbatchitem_quantity"),
                     template: new sap.m.Input("", {
                         wrapping: false,
                     }).bindProperty("value", {
@@ -291,7 +291,7 @@ export class MaterialBatchReceiptView extends ibas.BODialogView implements IMate
             rows: "{/rows}",
             columns: [
                 new sap.ui.table.Column("", {
-                    label: ibas.i18n.prop("bo_materialbatchjournal_itemcode"),
+                    label: ibas.i18n.prop("bo_materialbatchitem_itemcode"),
                     template: new sap.m.Text("", {
                         wrapping: false,
                     }).bindProperty("text", {
@@ -299,7 +299,7 @@ export class MaterialBatchReceiptView extends ibas.BODialogView implements IMate
                     }),
                 }),
                 new sap.ui.table.Column("", {
-                    label: ibas.i18n.prop("bo_materialbatchjournal_itemdescription"),
+                    label: ibas.i18n.prop("bo_materialbatchitem_itemdescription"),
                     template: new sap.m.Text("", {
                         wrapping: false,
                     }).bindProperty("text", {
@@ -307,7 +307,7 @@ export class MaterialBatchReceiptView extends ibas.BODialogView implements IMate
                     }),
                 }),
                 new sap.ui.table.Column("", {
-                    label: ibas.i18n.prop("bo_materialbatchjournal_warehouse"),
+                    label: ibas.i18n.prop("bo_materialbatchitem_warehouse"),
                     template: new sap.m.Text("", {
                         wrapping: false,
                     }).bindProperty("text", {
@@ -315,7 +315,7 @@ export class MaterialBatchReceiptView extends ibas.BODialogView implements IMate
                     }),
                 }),
                 new sap.ui.table.Column("", {
-                    label: ibas.i18n.prop("bo_materialbatchjournal_quantity"),
+                    label: ibas.i18n.prop("bo_materialbatchitem_quantity"),
                     template: new sap.m.Text("", {
                         wrapping: false,
                     }).bindProperty("text", {
@@ -323,7 +323,7 @@ export class MaterialBatchReceiptView extends ibas.BODialogView implements IMate
                     }),
                 }),
                 new sap.ui.table.Column("", {
-                    label: ibas.i18n.prop("bo_materialbatchjournal_unworked_quantity"),
+                    label: ibas.i18n.prop("bo_materialbatchitem_unworked_quantity"),
                     template: new sap.m.Text("", {
                         wrapping: false,
                     }).bindProperty("text", {
@@ -373,7 +373,7 @@ export class MaterialBatchReceiptView extends ibas.BODialogView implements IMate
             rows: "{/rows}",
             columns: [
                 new sap.ui.table.Column("", {
-                    label: ibas.i18n.prop("bo_materialbatchjournal_batchcode"),
+                    label: ibas.i18n.prop("bo_materialbatchitem_batchcode"),
                     template: new sap.m.Input("", {
                         wrapping: false,
                     }).bindProperty("value", {
@@ -381,7 +381,7 @@ export class MaterialBatchReceiptView extends ibas.BODialogView implements IMate
                     }),
                 }),
                 new sap.ui.table.Column("", {
-                    label: ibas.i18n.prop("bo_materialbatchjournal_quantity"),
+                    label: ibas.i18n.prop("bo_materialbatchitem_quantity"),
                     template: new sap.m.Input("", {
                         wrapping: false,
                     }).bindProperty("value", {

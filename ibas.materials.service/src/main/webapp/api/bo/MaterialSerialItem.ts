@@ -33,7 +33,7 @@ import {
     IMaterialSerialItemParent,
 } from "./MaterialSerialItem.d";
 
-/** 物料序列号项目 */
+/** 物料序列项目 */
 export class MaterialSerialItem extends BOSimple<MaterialSerialItem> implements IMaterialSerialItem {
 
     /** 业务对象编码 */
