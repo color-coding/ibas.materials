@@ -45,14 +45,15 @@ abstract class MaterialBatchService<T extends IMaterialBatchServiceView>
         }
     }
     protected changeWorkingData(data: bo.IMaterialBatchContract): void {
-        if (!this.workDatas.concat(data)) {
+        if (!ibas.objects.isNull(data) && !this.workDatas.concat(data)) {
             throw new Error(ibas.i18n.prop("sys_invalid_parameter", "data"));
         }
         this.workingData = data;
         if (ibas.objects.isNull(this.workingData)) {
-            throw new Error(ibas.i18n.prop("sys_invalid_parameter", "workingData"));
+            this.view.showMaterialBatchItems([]);
+        } else {
+            this.view.showMaterialBatchItems(this.workingData.materialBatches.filterDeleted());
         }
-        this.view.showMaterialBatchItems(this.workingData.materialBatches.filterDeleted());
     }
 }
 /** 物料批次发货服务 */
@@ -78,6 +79,10 @@ export class MaterialBatchIssueService extends MaterialBatchService<IMaterialBat
     }
     protected changeWorkingData(data: bo.IMaterialBatchContract): void {
         super.changeWorkingData(data);
+        if (ibas.objects.isNull(this.workingData)) {
+            this.view.showMaterialBatchInventories([]);
+            return;
+        }
         let that: this = this;
         let criteria: ibas.ICriteria = new ibas.Criteria();
         let condition: ibas.ICondition = criteria.conditions.create();
@@ -147,7 +152,8 @@ export class MaterialBatchIssueService extends MaterialBatchService<IMaterialBat
     }
     protected useMaterialBatchInventory(data: IMaterialBatch): void {
         if (ibas.objects.isNull(data)) {
-            this.messages(ibas.emMessageType.WARNING, ibas.i18n.prop("shell_please_chooose_data"));
+            this.messages(ibas.emMessageType.WARNING,
+                ibas.i18n.prop("shell_please_chooose_data", ibas.i18n.prop("shell_using")));
             return;
         }
         if (ibas.objects.isNull(this.workingData)) {
@@ -158,13 +164,14 @@ export class MaterialBatchIssueService extends MaterialBatchService<IMaterialBat
             this.messages(ibas.emMessageType.WARNING, ibas.i18n.prop("materials_no_data_to_be_processed"));
             return;
         }
-        let journal: IMaterialBatchItem = this.workingData.materialBatches.create();
+        let journal: IMaterialBatchItem = this.workingData.materialBatches.create(data.batchCode);
         journal.quantity = this.workingData.quantity - total;
         this.view.showMaterialBatchItems(this.workingData.materialBatches.filterDeleted());
     }
     protected removeMaterialBatchItem(data: IMaterialBatchItem): void {
         if (ibas.objects.isNull(data)) {
-            this.messages(ibas.emMessageType.WARNING, ibas.i18n.prop("shell_please_chooose_data"));
+            this.messages(ibas.emMessageType.WARNING,
+                ibas.i18n.prop("shell_please_chooose_data", ibas.i18n.prop("shell_using")));
             return;
         }
         if (ibas.objects.isNull(this.workingData)) {
@@ -200,7 +207,8 @@ export class MaterialBatchReceiptService extends MaterialBatchService<IMaterialB
     }
     protected deleteMaterialBatchItem(data: IMaterialBatchItem): void {
         if (ibas.objects.isNull(data)) {
-            this.messages(ibas.emMessageType.WARNING, ibas.i18n.prop("shell_please_chooose_data"));
+            this.messages(ibas.emMessageType.WARNING,
+                ibas.i18n.prop("shell_please_chooose_data", ibas.i18n.prop("shell_using")));
             return;
         }
         if (ibas.objects.isNull(this.workingData)) {

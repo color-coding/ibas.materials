@@ -6,6 +6,7 @@ import org.colorcoding.ibas.bobas.common.Criteria;
 import org.colorcoding.ibas.bobas.common.ICondition;
 import org.colorcoding.ibas.bobas.common.ICriteria;
 import org.colorcoding.ibas.bobas.common.IOperationResult;
+import org.colorcoding.ibas.bobas.data.Decimal;
 import org.colorcoding.ibas.bobas.data.emDirection;
 import org.colorcoding.ibas.bobas.i18n.I18N;
 import org.colorcoding.ibas.bobas.logic.BusinessLogicException;
@@ -84,13 +85,13 @@ public class MaterialIssueService
 		materialJournal.setPostingDate(contract.getPostingDate());
 		materialJournal.setDocumentDate(contract.getDocumentDate());
 		materialJournal.setDeliveryDate(contract.getDeliveryDate());
-		materialJournal.setQuantity(materialJournal.getQuantity().subtract(contract.getQuantity()));
+		materialJournal.setQuantity(contract.getQuantity());
 	}
 
 	@Override
 	protected void revoke(IMaterialIssueContract contract) {
 		IMaterialInventoryJournal materialJournal = this.getBeAffected();
-		materialJournal.setQuantity(materialJournal.getQuantity().add(contract.getQuantity()));
+		materialJournal.setQuantity(Decimal.ZERO);
 		if (materialJournal.getQuantity().isZero()) {
 			// 已为0，则删除此条数据
 			materialJournal.delete();

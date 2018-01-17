@@ -232,12 +232,26 @@ export class MaterialSerialItems
     extends BusinessObjects<IMaterialSerialItem, IMaterialSerialItemParent>
     implements IMaterialSerialItems {
     /** 创建并添加子项 */
-    create(): MaterialSerialItem {
+    create(): IMaterialSerialItem;
+    /** 创建并添加子项，序列编号 */
+    create(serialCode: string): IMaterialSerialItem;
+    create(): IMaterialSerialItem {
+        let serialCode: string = arguments[0];
+        if (!strings.isEmpty(serialCode)) {
+            for (let item of this) {
+                if (item.serialCode === serialCode) {
+                    return item;
+                }
+            }
+        }
         let item: MaterialSerialItem = new MaterialSerialItem();
+        if (!strings.isEmpty(serialCode)) {
+            item.serialCode = serialCode;
+        }
         this.add(item);
         return item;
     }
-    afterAdd(item: MaterialSerialItem): void {
+    afterAdd(item: IMaterialSerialItem): void {
         super.afterAdd(item);
         item.documentType = this.parent.objectCode;
         item.documentEntry = this.parent.docEntry;

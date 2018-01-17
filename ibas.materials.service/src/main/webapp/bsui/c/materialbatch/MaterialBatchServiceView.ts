@@ -24,7 +24,7 @@ export class MaterialBatchIssueView extends ibas.BODialogView implements IMateri
         this.tableWorkDatas = new sap.ui.table.Table("", {
             selectionBehavior: sap.ui.table.SelectionBehavior.Row,
             selectionMode: sap.ui.table.SelectionMode.Single,
-            visibleRowCount: ibas.config.get(openui5.utils.CONFIG_ITEM_LIST_TABLE_VISIBLE_ROW_COUNT, 6),
+            visibleRowCount: ibas.config.get(openui5.utils.CONFIG_ITEM_LIST_TABLE_VISIBLE_ROW_COUNT, 5),
             rowSelectionChange: function (event: any): void {
                 let table: sap.ui.table.Table = event.getSource();
                 that.fireViewEvents(that.changeWorkingDataEvent,
@@ -89,14 +89,14 @@ export class MaterialBatchIssueView extends ibas.BODialogView implements IMateri
         this.tableItems = new sap.ui.table.Table("", {
             selectionBehavior: sap.ui.table.SelectionBehavior.Row,
             selectionMode: sap.ui.table.SelectionMode.Single,
-            visibleRowCount: ibas.config.get(openui5.utils.CONFIG_ITEM_LIST_TABLE_VISIBLE_ROW_COUNT, 4),
+            visibleRowCount: ibas.config.get(openui5.utils.CONFIG_ITEM_LIST_TABLE_VISIBLE_ROW_COUNT, 6),
             rows: "{/rows}",
             columns: [
                 new sap.ui.table.Column("", {
                     label: ibas.i18n.prop("bo_materialbatchitem_batchcode"),
-                    template: new sap.m.Input("", {
+                    template: new sap.m.Text("", {
                         wrapping: false,
-                    }).bindProperty("value", {
+                    }).bindProperty("text", {
                         path: "batchCode",
                     }),
                 }),
@@ -113,7 +113,7 @@ export class MaterialBatchIssueView extends ibas.BODialogView implements IMateri
         this.tableInventories = new sap.ui.table.Table("", {
             selectionBehavior: sap.ui.table.SelectionBehavior.Row,
             selectionMode: sap.ui.table.SelectionMode.Single,
-            visibleRowCount: ibas.config.get(openui5.utils.CONFIG_ITEM_LIST_TABLE_VISIBLE_ROW_COUNT, 4),
+            visibleRowCount: ibas.config.get(openui5.utils.CONFIG_ITEM_LIST_TABLE_VISIBLE_ROW_COUNT, 6),
             rows: "{/rows}",
             columns: [
                 new sap.ui.table.Column("", {
@@ -132,6 +132,7 @@ export class MaterialBatchIssueView extends ibas.BODialogView implements IMateri
                         path: "quantity",
                     }),
                 }),
+                /*
                 new sap.ui.table.Column("", {
                     label: ibas.i18n.prop("bo_materialbatch_supplierserial"),
                     template: new sap.m.Text("", {
@@ -172,6 +173,7 @@ export class MaterialBatchIssueView extends ibas.BODialogView implements IMateri
                         path: "admissionDate",
                     }),
                 }),
+                */
             ]
         });
         return new sap.m.Dialog("", {
@@ -217,9 +219,24 @@ export class MaterialBatchIssueView extends ibas.BODialogView implements IMateri
                                     ]
                                 }),
                                 new sap.m.VBox("", {
-                                    widht: "2%",
+                                    widht: "20px",
                                     fitContainer: true,
                                     items: [
+                                        new sap.m.Button("", {
+                                            text: ">",
+                                            type: sap.m.ButtonType.Transparent,
+                                            press: function (): void {
+                                                that.fireViewEvents(that.useMaterialBatchInventoryEvent,
+                                                    openui5.utils.getSelecteds(that.tableInventories).firstOrDefault());
+                                            }
+                                        }),
+                                        new sap.m.Button("", {
+                                            text: "<",
+                                            type: sap.m.ButtonType.Transparent,
+                                            press: function (): void {
+                                                that.fireViewEvents(that.removeMaterialBatchItemEvent);
+                                            }
+                                        }),
                                     ]
                                 }),
                                 new sap.m.VBox("", {
@@ -282,7 +299,7 @@ export class MaterialBatchReceiptView extends ibas.BODialogView implements IMate
         this.tableWorkDatas = new sap.ui.table.Table("", {
             selectionBehavior: sap.ui.table.SelectionBehavior.Row,
             selectionMode: sap.ui.table.SelectionMode.Single,
-            visibleRowCount: ibas.config.get(openui5.utils.CONFIG_ITEM_LIST_TABLE_VISIBLE_ROW_COUNT, 6),
+            visibleRowCount: ibas.config.get(openui5.utils.CONFIG_ITEM_LIST_TABLE_VISIBLE_ROW_COUNT, 5),
             rowSelectionChange: function (event: any): void {
                 let table: sap.ui.table.Table = event.getSource();
                 that.fireViewEvents(that.changeWorkingDataEvent,

@@ -242,12 +242,26 @@ export class MaterialBatchItems
     implements IMaterialBatchItems {
 
     /** 创建并添加子项 */
-    create(): MaterialBatchItem {
+    create(): IMaterialBatchItem;
+    /** 创建并添加子项，批次号 */
+    create(batchCode: string): IMaterialBatchItem;
+    create(): IMaterialBatchItem {
+        let batchCode: string = arguments[0];
+        if (!strings.isEmpty(batchCode)) {
+            for (let item of this) {
+                if (item.batchCode === batchCode) {
+                    return item;
+                }
+            }
+        }
         let item: MaterialBatchItem = new MaterialBatchItem();
+        if (!strings.isEmpty(batchCode)) {
+            item.batchCode = batchCode;
+        }
         this.add(item);
         return item;
     }
-    afterAdd(item: MaterialBatchItem): void {
+    afterAdd(item: IMaterialBatchItem): void {
         super.afterAdd(item);
         item.documentType = this.parent.objectCode;
         item.documentEntry = this.parent.docEntry;

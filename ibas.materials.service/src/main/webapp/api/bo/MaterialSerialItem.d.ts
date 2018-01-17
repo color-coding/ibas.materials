@@ -82,6 +82,7 @@ export interface IMaterialSerialItem extends IBOSimple {
 export interface IMaterialSerialItems extends IBusinessObjects<IMaterialSerialItem, IMaterialSerialItemParent> {
     /** 创建实例 */
     create(): IMaterialSerialItem;
+    create(serialCode: string): IMaterialSerialItem;
     /** 总计 */
     total(): number;
 }

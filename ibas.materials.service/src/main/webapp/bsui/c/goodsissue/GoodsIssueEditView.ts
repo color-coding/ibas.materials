@@ -116,7 +116,8 @@ export class GoodsIssueEditView extends ibas.BOEditView implements IGoodsIssueEd
                     }),
                     new sap.m.ToolbarSeparator(""),
                     new sap.m.MenuButton("", {
-                        text: ibas.strings.format("{0}/{1}", ibas.i18n.prop("materials_material_batch"), ibas.i18n.prop("materials_material_serial")),
+                        text: ibas.strings.format("{0}/{1}",
+                            ibas.i18n.prop("materials_material_batch"), ibas.i18n.prop("materials_material_serial")),
                         menu: [
                             new sap.m.Menu("", {
                                 items: [
@@ -178,10 +179,9 @@ export class GoodsIssueEditView extends ibas.BOEditView implements IGoodsIssueEd
                 }),
                 new sap.ui.table.Column("", {
                     label: ibas.i18n.prop("bo_goodsissueline_itemdescription"),
-                    template: new sap.m.Input("", {
-                        width: "100%",
-                        editable: false,
-                    }).bindProperty("value", {
+                    template: new sap.m.Text("", {
+                        wrapping: false,
+                    }).bindProperty("text", {
                         path: "itemDescription"
                     })
                 }),

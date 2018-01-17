@@ -24,7 +24,7 @@ export class MaterialSerialIssueView extends ibas.BODialogView implements IMater
         this.tableWorkDatas = new sap.ui.table.Table("", {
             selectionBehavior: sap.ui.table.SelectionBehavior.Row,
             selectionMode: sap.ui.table.SelectionMode.Single,
-            visibleRowCount: ibas.config.get(openui5.utils.CONFIG_ITEM_LIST_TABLE_VISIBLE_ROW_COUNT, 6),
+            visibleRowCount: ibas.config.get(openui5.utils.CONFIG_ITEM_LIST_TABLE_VISIBLE_ROW_COUNT, 5),
             rowSelectionChange: function (event: any): void {
                 let table: sap.ui.table.Table = event.getSource();
                 that.fireViewEvents(that.changeWorkingDataEvent,
@@ -89,14 +89,14 @@ export class MaterialSerialIssueView extends ibas.BODialogView implements IMater
         this.tableItems = new sap.ui.table.Table("", {
             selectionBehavior: sap.ui.table.SelectionBehavior.Row,
             selectionMode: sap.ui.table.SelectionMode.Single,
-            visibleRowCount: ibas.config.get(openui5.utils.CONFIG_ITEM_LIST_TABLE_VISIBLE_ROW_COUNT, 4),
+            visibleRowCount: ibas.config.get(openui5.utils.CONFIG_ITEM_LIST_TABLE_VISIBLE_ROW_COUNT, 6),
             rows: "{/rows}",
             columns: [
                 new sap.ui.table.Column("", {
                     label: ibas.i18n.prop("bo_materialserialitem_serialcode"),
-                    template: new sap.m.Input("", {
+                    template: new sap.m.Text("", {
                         wrapping: false,
-                    }).bindProperty("value", {
+                    }).bindProperty("text", {
                         path: "serialCode",
                     }),
                 }),
@@ -105,7 +105,7 @@ export class MaterialSerialIssueView extends ibas.BODialogView implements IMater
         this.tableInventories = new sap.ui.table.Table("", {
             selectionBehavior: sap.ui.table.SelectionBehavior.Row,
             selectionMode: sap.ui.table.SelectionMode.Single,
-            visibleRowCount: ibas.config.get(openui5.utils.CONFIG_ITEM_LIST_TABLE_VISIBLE_ROW_COUNT, 4),
+            visibleRowCount: ibas.config.get(openui5.utils.CONFIG_ITEM_LIST_TABLE_VISIBLE_ROW_COUNT, 6),
             rows: "{/rows}",
             columns: [
                 new sap.ui.table.Column("", {
@@ -124,6 +124,7 @@ export class MaterialSerialIssueView extends ibas.BODialogView implements IMater
                         path: "batchSerial",
                     }),
                 }),
+                /*
                 new sap.ui.table.Column("", {
                     label: ibas.i18n.prop("bo_materialserial_supplierserial"),
                     template: new sap.m.Text("", {
@@ -164,6 +165,7 @@ export class MaterialSerialIssueView extends ibas.BODialogView implements IMater
                         path: "admissionDate",
                     }),
                 }),
+                */
             ]
         });
         return new sap.m.Dialog("", {
@@ -209,9 +211,24 @@ export class MaterialSerialIssueView extends ibas.BODialogView implements IMater
                                     ]
                                 }),
                                 new sap.m.VBox("", {
-                                    widht: "2%",
+                                    widht: "20px",
                                     fitContainer: true,
                                     items: [
+                                        new sap.m.Button("", {
+                                            text: ">",
+                                            type: sap.m.ButtonType.Transparent,
+                                            press: function (): void {
+                                                that.fireViewEvents(that.useMaterialSerialInventoryEvent,
+                                                    openui5.utils.getSelecteds(that.tableInventories).firstOrDefault());
+                                            }
+                                        }),
+                                        new sap.m.Button("", {
+                                            text: "<",
+                                            type: sap.m.ButtonType.Transparent,
+                                            press: function (): void {
+                                                that.fireViewEvents(that.removeMaterialSerialItemEvent);
+                                            }
+                                        }),
                                     ]
                                 }),
                                 new sap.m.VBox("", {
@@ -274,7 +291,7 @@ export class MaterialSerialReceiptView extends ibas.BODialogView implements IMat
         this.tableWorkDatas = new sap.ui.table.Table("", {
             selectionBehavior: sap.ui.table.SelectionBehavior.Row,
             selectionMode: sap.ui.table.SelectionMode.Single,
-            visibleRowCount: ibas.config.get(openui5.utils.CONFIG_ITEM_LIST_TABLE_VISIBLE_ROW_COUNT, 6),
+            visibleRowCount: ibas.config.get(openui5.utils.CONFIG_ITEM_LIST_TABLE_VISIBLE_ROW_COUNT, 5),
             rowSelectionChange: function (event: any): void {
                 let table: sap.ui.table.Table = event.getSource();
                 that.fireViewEvents(that.changeWorkingDataEvent,

@@ -85,6 +85,7 @@ export interface IMaterialBatchItem extends IBOSimple {
 export interface IMaterialBatchItems extends IBusinessObjects<IMaterialBatchItem, IMaterialBatchItemParent> {
     /** 创建实例 */
     create(): IMaterialBatchItem;
+    create(batchCode: string): IMaterialBatchItem;
     /** 总计 */
     total(): number;
 }

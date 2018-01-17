@@ -45,14 +45,15 @@ abstract class MaterialSerialService<T extends IMaterialSerialServiceView>
         }
     }
     protected changeWorkingData(data: bo.IMaterialSerialContract): void {
-        if (!this.workDatas.concat(data)) {
+        if (!ibas.objects.isNull(data) && !this.workDatas.concat(data)) {
             throw new Error(ibas.i18n.prop("sys_invalid_parameter", "data"));
         }
         this.workingData = data;
         if (ibas.objects.isNull(this.workingData)) {
-            throw new Error(ibas.i18n.prop("sys_invalid_parameter", "workingData"));
+            this.view.showMaterialSerialItems([]);
+        } else {
+            this.view.showMaterialSerialItems(this.workingData.materialSerials.filterDeleted());
         }
-        this.view.showMaterialSerialItems(this.workingData.materialSerials.filterDeleted());
     }
 }
 /** 物料序列发货服务 */
@@ -78,6 +79,10 @@ export class MaterialSerialIssueService extends MaterialSerialService<IMaterialS
     }
     protected changeWorkingData(data: bo.IMaterialSerialContract): void {
         super.changeWorkingData(data);
+        if (ibas.objects.isNull(this.workingData)) {
+            this.view.showMaterialSerialInventories([]);
+            return;
+        }
         let that: this = this;
         let criteria: ibas.ICriteria = new ibas.Criteria();
         let condition: ibas.ICondition = criteria.conditions.create();
@@ -147,7 +152,8 @@ export class MaterialSerialIssueService extends MaterialSerialService<IMaterialS
     }
     protected useMaterialSerialInventory(data: IMaterialSerial): void {
         if (ibas.objects.isNull(data)) {
-            this.messages(ibas.emMessageType.WARNING, ibas.i18n.prop("shell_please_chooose_data"));
+            this.messages(ibas.emMessageType.WARNING,
+                ibas.i18n.prop("shell_please_chooose_data", ibas.i18n.prop("shell_using")));
             return;
         }
         if (ibas.objects.isNull(this.workingData)) {
@@ -158,12 +164,13 @@ export class MaterialSerialIssueService extends MaterialSerialService<IMaterialS
             this.messages(ibas.emMessageType.WARNING, ibas.i18n.prop("materials_no_data_to_be_processed"));
             return;
         }
-        let journal: IMaterialSerialItem = this.workingData.materialSerials.create();
+        let journal: IMaterialSerialItem = this.workingData.materialSerials.create(data.serialCode);
         this.view.showMaterialSerialItems(this.workingData.materialSerials.filterDeleted());
     }
     protected removeMaterialSerialItem(data: IMaterialSerialItem): void {
         if (ibas.objects.isNull(data)) {
-            this.messages(ibas.emMessageType.WARNING, ibas.i18n.prop("shell_please_chooose_data"));
+            this.messages(ibas.emMessageType.WARNING,
+                ibas.i18n.prop("shell_please_chooose_data", ibas.i18n.prop("shell_using")));
             return;
         }
         if (ibas.objects.isNull(this.workingData)) {
@@ -199,7 +206,8 @@ export class MaterialSerialReceiptService extends MaterialSerialService<IMateria
     }
     protected deleteMaterialSerialItem(data: IMaterialSerialItem): void {
         if (ibas.objects.isNull(data)) {
-            this.messages(ibas.emMessageType.WARNING, ibas.i18n.prop("shell_please_chooose_data"));
+            this.messages(ibas.emMessageType.WARNING,
+                ibas.i18n.prop("shell_please_chooose_data", ibas.i18n.prop("shell_using")));
             return;
         }
         if (ibas.objects.isNull(this.workingData)) {
