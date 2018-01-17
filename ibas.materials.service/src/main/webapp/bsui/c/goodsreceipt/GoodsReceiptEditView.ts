@@ -29,10 +29,10 @@ export class GoodsReceiptEditView extends ibas.BOEditView implements IGoodsRecei
     chooseGoodsReceiptLineMaterialEvent: Function;
     /** 选择库存收货单行仓库事件 */
     chooseGoodsReceiptlineWarehouseEvent: Function;
-    /** 新建库存收货单行物料序列事件 */
-    createGoodsReceiptLineMaterialSerialEvent: Function;
-    /** 新建库存收货单行物料批次事件 */
-    createGoodsReceiptLineMaterialBatchEvent: Function;
+    /** 选择库存收货单行物料序列事件 */
+    chooseGoodsReceiptLineMaterialSerialEvent: Function;
+    /** 选择库存收货单行物料批次事件 */
+    chooseGoodsReceiptLineMaterialBatchEvent: Function;
 
     /** 绘制视图 */
     darw(): any {
@@ -124,13 +124,13 @@ export class GoodsReceiptEditView extends ibas.BOEditView implements IGoodsRecei
                                     new sap.m.MenuItem("", {
                                         text: ibas.i18n.prop("materials_material_batch"),
                                         press: function (): void {
-                                            that.fireViewEvents(that.createGoodsReceiptLineMaterialBatchEvent);
+                                            that.fireViewEvents(that.chooseGoodsReceiptLineMaterialBatchEvent);
                                         }
                                     }),
                                     new sap.m.MenuItem("", {
                                         text: ibas.i18n.prop("materials_material_serial"),
                                         press: function (): void {
-                                            that.fireViewEvents(that.createGoodsReceiptLineMaterialSerialEvent);
+                                            that.fireViewEvents(that.chooseGoodsReceiptLineMaterialSerialEvent);
                                         }
                                     }),
                                 ]

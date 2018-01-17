@@ -17,7 +17,7 @@ export class ProductChooseApp extends ibas.BOChooseService<IProductChooseView, b
     /** 应用标识 */
     static APPLICATION_ID: string = "8df26811-dd1f-4bbd-bb86-0560d2b04e51";
     /** 应用名称 */
-    static APPLICATION_NAME: string = "materialexs_app_material_choose";
+    static APPLICATION_NAME: string = "materials_app_material_choose";
     /** 业务对象编码 */
     static BUSINESS_OBJECT_CODE: string = bo.Product.BUSINESS_OBJECT_CODE;
     /** 构造函数 */

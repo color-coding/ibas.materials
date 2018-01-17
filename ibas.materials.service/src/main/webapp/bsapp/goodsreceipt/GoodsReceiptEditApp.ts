@@ -36,8 +36,8 @@ export class GoodsReceiptEditApp extends ibas.BOEditApplication<IGoodsReceiptEdi
         this.view.removeGoodsReceiptLineEvent = this.removeGoodsReceiptLine;
         this.view.chooseGoodsReceiptLineMaterialEvent = this.chooseGoodsReceiptLineMaterial;
         this.view.chooseGoodsReceiptlineWarehouseEvent = this.chooseGoodsReceiptlineWarehouse;
-        this.view.createGoodsReceiptLineMaterialBatchEvent = this.createGoodsReceiptLineMaterialBatch;
-        this.view.createGoodsReceiptLineMaterialSerialEvent = this.createGoodsReceiptLineMaterialSerial;
+        this.view.chooseGoodsReceiptLineMaterialBatchEvent = this.chooseGoodsReceiptLineMaterialBatch;
+        this.view.chooseGoodsReceiptLineMaterialSerialEvent = this.createGoodsReceiptLineMaterialSerial;
         this.view.chooseGoodsReceiptMaterialPriceListEvent = this.chooseeGoodsReceiptMaterialPriceList;
     }
     /** 视图显示后 */
@@ -288,8 +288,8 @@ export class GoodsReceiptEditApp extends ibas.BOEditApplication<IGoodsReceiptEdi
             }
         });
     }
-    /** 新建物料批次信息 */
-    createGoodsReceiptLineMaterialBatch(): void {
+    /** 选择物料批次信息 */
+    chooseGoodsReceiptLineMaterialBatch(): void {
         let contracts: ibas.ArrayList<bo.IMaterialBatchContract> = new ibas.ArrayList<bo.IMaterialBatchContract>();
         for (let item of this.editData.goodsReceiptLines) {
             contracts.add({
@@ -306,7 +306,7 @@ export class GoodsReceiptEditApp extends ibas.BOEditApplication<IGoodsReceiptEdi
             proxy: new bo.MaterialBatchReceiptServiceProxy(contracts)
         });
     }
-    /** 新建物料序列信息 */
+    /** 选择物料序列信息 */
     createGoodsReceiptLineMaterialSerial(): void {
         let contracts: ibas.ArrayList<bo.IMaterialSerialContract> = new ibas.ArrayList<bo.IMaterialSerialContract>();
         for (let item of this.editData.goodsReceiptLines) {
@@ -346,7 +346,7 @@ export interface IGoodsReceiptEditView extends ibas.IBOEditView {
     /** 选择库存收货单行仓库事件 */
     chooseGoodsReceiptlineWarehouseEvent: Function;
     /** 批次管理物料新建批次 */
-    createGoodsReceiptLineMaterialBatchEvent: Function;
+    chooseGoodsReceiptLineMaterialBatchEvent: Function;
     /** 批次管理物料新建序列 */
-    createGoodsReceiptLineMaterialSerialEvent: Function;
+    chooseGoodsReceiptLineMaterialSerialEvent: Function;
 }
