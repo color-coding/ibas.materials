@@ -74,13 +74,9 @@ public class testGoodsReceipt extends TestCase {
 		batchLine.setWarehouse(warehouse.getCode());
 		IMaterialBatchItem batchItem = batchLine.getMaterialBatches().create();
 		batchItem.setQuantity(78);
-		batchItem.setItemCode(bMaterial.getCode());
-		batchItem.setWarehouse(warehouse.getCode());
 		batchItem.setBatchCode("B00001");
 		batchItem = batchLine.getMaterialBatches().create();
 		batchItem.setQuantity(22);
-		batchItem.setItemCode(bMaterial.getCode());
-		batchItem.setWarehouse(warehouse.getCode());
 		batchItem.setBatchCode("B00001");
 		// 序列号物料
 		IGoodsReceiptLine serialLine = bo.getGoodsReceiptLines().create();
@@ -90,12 +86,8 @@ public class testGoodsReceipt extends TestCase {
 		serialLine.setQuantity(2);
 		serialLine.setWarehouse(warehouse.getCode());
 		IMaterialSerialItem serialItem = serialLine.getMaterialSerials().create();
-		serialItem.setItemCode(sMaterial.getCode());
-		serialItem.setWarehouse(warehouse.getCode());
 		serialItem.setSerialCode("S00001");
 		serialItem = serialLine.getMaterialSerials().create();
-		serialItem.setItemCode(sMaterial.getCode());
-		serialItem.setWarehouse(warehouse.getCode());
 		serialItem.setSerialCode("S00002");
 
 		// 测试保存

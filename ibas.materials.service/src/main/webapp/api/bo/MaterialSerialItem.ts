@@ -42,16 +42,6 @@ export class MaterialSerialItem extends BOSimple<MaterialSerialItem> implements 
     constructor() {
         super();
     }
-    /** 映射的属性名称-物料编码 */
-    static PROPERTY_ITEMCODE_NAME: string = "ItemCode";
-    /** 获取-物料编码 */
-    get itemCode(): string {
-        return this.getProperty<string>(MaterialSerialItem.PROPERTY_ITEMCODE_NAME);
-    }
-    /** 设置-物料编码 */
-    set itemCode(value: string) {
-        this.setProperty(MaterialSerialItem.PROPERTY_ITEMCODE_NAME, value);
-    }
 
     /** 映射的属性名称-序列编码 */
     static PROPERTY_SERIALCODE_NAME: string = "SerialCode";
@@ -62,17 +52,6 @@ export class MaterialSerialItem extends BOSimple<MaterialSerialItem> implements 
     /** 设置-序列编码 */
     set serialCode(value: string) {
         this.setProperty(MaterialSerialItem.PROPERTY_SERIALCODE_NAME, value);
-    }
-
-    /** 映射的属性名称-仓库编码 */
-    static PROPERTY_WAREHOUSE_NAME: string = "Warehouse";
-    /** 获取-仓库编码 */
-    get warehouse(): string {
-        return this.getProperty<string>(MaterialSerialItem.PROPERTY_WAREHOUSE_NAME);
-    }
-    /** 设置-仓库编码 */
-    set warehouse(value: string) {
-        this.setProperty(MaterialSerialItem.PROPERTY_WAREHOUSE_NAME, value);
     }
 
     /** 映射的属性名称-基于类型 */
@@ -263,8 +242,6 @@ export class MaterialSerialItems
         item.documentType = this.parent.objectCode;
         item.documentEntry = this.parent.docEntry;
         item.documentLineId = this.parent.lineId;
-        item.itemCode = this.parent.itemCode;
-        item.warehouse = this.parent.warehouse;
     }
     /**
      * 父项单据行发生改变

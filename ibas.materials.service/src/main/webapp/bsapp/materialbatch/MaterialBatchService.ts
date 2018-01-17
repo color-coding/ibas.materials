@@ -110,10 +110,10 @@ export class MaterialBatchIssueService extends MaterialBatchService<IMaterialBat
                     for (let item of opRslt.resultObjects) {
                         for (let wItem of that.workDatas) {
                             for (let jItem of wItem.materialBatches) {
-                                if (item.warehouse !== jItem.warehouse) {
+                                if (item.warehouse !== wItem.warehouse) {
                                     continue;
                                 }
-                                if (item.itemCode !== jItem.itemCode) {
+                                if (item.itemCode !== wItem.itemCode) {
                                     continue;
                                 }
                                 if (item.batchCode !== jItem.batchCode) {

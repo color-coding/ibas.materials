@@ -27,14 +27,8 @@ import {
 /** 物料序列号项目 */
 export interface IMaterialSerialItem extends IBOSimple {
 
-    /** 物料编码 */
-    itemCode: string;
-
     /** 序列编码 */
     serialCode: string;
-
-    /** 仓库编码 */
-    warehouse: string;
 
     /** 基于类型 */
     documentType: string;
@@ -114,9 +108,6 @@ export interface IMaterialSerialItemParent extends IBusinessObject {
 
     /** 数量 */
     quantity: number;
-
-    /** 行状态 */
-    lineStatus: emDocumentStatus;
 
     /** 物料序列集合 */
     materialSerials: IMaterialSerialItems;

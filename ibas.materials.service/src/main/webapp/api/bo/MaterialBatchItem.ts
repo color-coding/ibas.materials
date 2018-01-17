@@ -42,16 +42,6 @@ export class MaterialBatchItem extends BOSimple<MaterialBatchItem> implements IM
     constructor() {
         super();
     }
-    /** 映射的属性名称-物料编码 */
-    static PROPERTY_ITEMCODE_NAME: string = "ItemCode";
-    /** 获取-物料编码 */
-    get itemCode(): string {
-        return this.getProperty<string>(MaterialBatchItem.PROPERTY_ITEMCODE_NAME);
-    }
-    /** 设置-物料编码 */
-    set itemCode(value: string) {
-        this.setProperty(MaterialBatchItem.PROPERTY_ITEMCODE_NAME, value);
-    }
 
     /** 映射的属性名称-批次编码 */
     static PROPERTY_BATCHCODE_NAME: string = "BatchCode";
@@ -62,17 +52,6 @@ export class MaterialBatchItem extends BOSimple<MaterialBatchItem> implements IM
     /** 设置-批次编码 */
     set batchCode(value: string) {
         this.setProperty(MaterialBatchItem.PROPERTY_BATCHCODE_NAME, value);
-    }
-
-    /** 映射的属性名称-仓库编码 */
-    static PROPERTY_WAREHOUSE_NAME: string = "Warehouse";
-    /** 获取-仓库编码 */
-    get warehouse(): string {
-        return this.getProperty<string>(MaterialBatchItem.PROPERTY_WAREHOUSE_NAME);
-    }
-    /** 设置-仓库编码 */
-    set warehouse(value: string) {
-        this.setProperty(MaterialBatchItem.PROPERTY_WAREHOUSE_NAME, value);
     }
 
     /** 映射的属性名称-数量 */
@@ -273,8 +252,6 @@ export class MaterialBatchItems
         item.documentType = this.parent.objectCode;
         item.documentEntry = this.parent.docEntry;
         item.documentLineId = this.parent.lineId;
-        item.itemCode = this.parent.itemCode;
-        item.warehouse = this.parent.warehouse;
     }
     /**
      * 父项单据行发生改变

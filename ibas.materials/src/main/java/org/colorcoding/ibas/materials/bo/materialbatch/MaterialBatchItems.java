@@ -14,7 +14,7 @@ import org.colorcoding.ibas.bobas.common.ICriteria;
 import org.colorcoding.ibas.materials.MyConfiguration;
 
 @XmlType(name = MaterialBatchItems.BUSINESS_OBJECT_NAME, namespace = MyConfiguration.NAMESPACE_BO)
-@XmlSeeAlso({ MaterialBatchJournal.class })
+@XmlSeeAlso({ MaterialBatchItem.class })
 public class MaterialBatchItems extends BusinessObjects<IMaterialBatchItem, IMaterialBatchItemParent>
 		implements IMaterialBatchItems {
 	/**

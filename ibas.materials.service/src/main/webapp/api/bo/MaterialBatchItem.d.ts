@@ -27,14 +27,8 @@ import {
 /** 物料批次项目 */
 export interface IMaterialBatchItem extends IBOSimple {
 
-    /** 物料编码 */
-    itemCode: string;
-
     /** 批次编码 */
     batchCode: string;
-
-    /** 仓库编码 */
-    warehouse: string;
 
     /** 数量 */
     quantity: number;
@@ -117,9 +111,6 @@ export interface IMaterialBatchItemParent extends IBusinessObject {
 
     /** 数量 */
     quantity: number;
-
-    /** 行状态 */
-    lineStatus: emDocumentStatus;
 
     /** 物料批次集合 */
     materialBatches: IMaterialBatchItems;

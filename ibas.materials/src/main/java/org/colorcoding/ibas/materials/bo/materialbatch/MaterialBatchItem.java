@@ -56,38 +56,6 @@ public class MaterialBatchItem extends BusinessObject<MaterialBatchItem>
 	public static final String BUSINESS_OBJECT_NAME = "MaterialBatchItem";
 
 	/**
-	 * 属性名称-物料编码
-	 */
-	private static final String PROPERTY_ITEMCODE_NAME = "ItemCode";
-
-	/**
-	 * 物料编码 属性
-	 */
-	@DbField(name = "ItemCode", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME, primaryKey = false)
-	public static final IPropertyInfo<String> PROPERTY_ITEMCODE = registerProperty(PROPERTY_ITEMCODE_NAME, String.class,
-			MY_CLASS);
-
-	/**
-	 * 获取-物料编码
-	 * 
-	 * @return 值
-	 */
-	@XmlElement(name = PROPERTY_ITEMCODE_NAME)
-	public final String getItemCode() {
-		return this.getProperty(PROPERTY_ITEMCODE);
-	}
-
-	/**
-	 * 设置-物料编码
-	 * 
-	 * @param value
-	 *            值
-	 */
-	public final void setItemCode(String value) {
-		this.setProperty(PROPERTY_ITEMCODE, value);
-	}
-
-	/**
 	 * 属性名称-批次编码
 	 */
 	private static final String PROPERTY_BATCHCODE_NAME = "BatchCode";
@@ -117,38 +85,6 @@ public class MaterialBatchItem extends BusinessObject<MaterialBatchItem>
 	 */
 	public final void setBatchCode(String value) {
 		this.setProperty(PROPERTY_BATCHCODE, value);
-	}
-
-	/**
-	 * 属性名称-仓库编码
-	 */
-	private static final String PROPERTY_WAREHOUSE_NAME = "Warehouse";
-
-	/**
-	 * 仓库编码 属性
-	 */
-	@DbField(name = "WhsCode", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME, primaryKey = false)
-	public static final IPropertyInfo<String> PROPERTY_WAREHOUSE = registerProperty(PROPERTY_WAREHOUSE_NAME,
-			String.class, MY_CLASS);
-
-	/**
-	 * 获取-仓库编码
-	 * 
-	 * @return 值
-	 */
-	@XmlElement(name = PROPERTY_WAREHOUSE_NAME)
-	public final String getWarehouse() {
-		return this.getProperty(PROPERTY_WAREHOUSE);
-	}
-
-	/**
-	 * 设置-仓库编码
-	 * 
-	 * @param value
-	 *            值
-	 */
-	public final void setWarehouse(String value) {
-		this.setProperty(PROPERTY_WAREHOUSE, value);
 	}
 
 	/**
@@ -716,7 +652,7 @@ public class MaterialBatchItem extends BusinessObject<MaterialBatchItem>
 
 				@Override
 				public String getWarehouse() {
-					return MaterialBatchItem.this.getWarehouse();
+					return MaterialBatchItem.this.parent.getWarehouse();
 				}
 
 				@Override
@@ -726,7 +662,7 @@ public class MaterialBatchItem extends BusinessObject<MaterialBatchItem>
 
 				@Override
 				public String getItemCode() {
-					return MaterialBatchItem.this.getItemCode();
+					return MaterialBatchItem.this.parent.getItemCode();
 				}
 
 				@Override
@@ -766,7 +702,7 @@ public class MaterialBatchItem extends BusinessObject<MaterialBatchItem>
 
 				@Override
 				public String getWarehouse() {
-					return MaterialBatchItem.this.getWarehouse();
+					return MaterialBatchItem.this.parent.getWarehouse();
 				}
 
 				@Override
@@ -776,7 +712,7 @@ public class MaterialBatchItem extends BusinessObject<MaterialBatchItem>
 
 				@Override
 				public String getItemCode() {
-					return MaterialBatchItem.this.getItemCode();
+					return MaterialBatchItem.this.parent.getItemCode();
 				}
 
 				@Override

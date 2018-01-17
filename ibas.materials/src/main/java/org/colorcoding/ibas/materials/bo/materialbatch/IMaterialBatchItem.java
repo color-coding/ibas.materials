@@ -11,21 +11,6 @@ import org.colorcoding.ibas.bobas.data.Decimal;
 public interface IMaterialBatchItem extends IBOSimple {
 
 	/**
-	 * 获取-物料编码
-	 * 
-	 * @return 值
-	 */
-	String getItemCode();
-
-	/**
-	 * 设置-物料编码
-	 * 
-	 * @param value
-	 *            值
-	 */
-	void setItemCode(String value);
-
-	/**
 	 * 获取-批次编码
 	 * 
 	 * @return 值
@@ -39,21 +24,6 @@ public interface IMaterialBatchItem extends IBOSimple {
 	 *            值
 	 */
 	void setBatchCode(String value);
-
-	/**
-	 * 获取-仓库编码
-	 * 
-	 * @return 值
-	 */
-	String getWarehouse();
-
-	/**
-	 * 设置-仓库编码
-	 * 
-	 * @param value
-	 *            值
-	 */
-	void setWarehouse(String value);
 
 	/**
 	 * 获取-数量

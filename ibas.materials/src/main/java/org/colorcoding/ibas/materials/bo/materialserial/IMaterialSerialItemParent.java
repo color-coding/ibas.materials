@@ -2,7 +2,6 @@ package org.colorcoding.ibas.materials.bo.materialserial;
 
 import org.colorcoding.ibas.bobas.bo.IBusinessObject;
 import org.colorcoding.ibas.bobas.data.Decimal;
-import org.colorcoding.ibas.bobas.data.emDocumentStatus;
 
 /**
  * 物料序列号项目父项（此接口仅数据存储，不影响库存）
@@ -45,11 +44,6 @@ public interface IMaterialSerialItemParent extends IBusinessObject {
 	 * 数量
 	 */
 	Decimal getQuantity();
-
-	/**
-	 * 行状态
-	 */
-	emDocumentStatus getLineStatus();
 
 	/**
 	 * 物料序列号集合

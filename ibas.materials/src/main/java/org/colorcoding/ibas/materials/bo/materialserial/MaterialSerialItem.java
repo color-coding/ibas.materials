@@ -55,38 +55,6 @@ public class MaterialSerialItem extends BusinessObject<MaterialSerialItem>
 	public static final String BUSINESS_OBJECT_NAME = "MaterialSerialItem";
 
 	/**
-	 * 属性名称-物料编码
-	 */
-	private static final String PROPERTY_ITEMCODE_NAME = "ItemCode";
-
-	/**
-	 * 物料编码 属性
-	 */
-	@DbField(name = "ItemCode", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME, primaryKey = false)
-	public static final IPropertyInfo<String> PROPERTY_ITEMCODE = registerProperty(PROPERTY_ITEMCODE_NAME, String.class,
-			MY_CLASS);
-
-	/**
-	 * 获取-物料编码
-	 * 
-	 * @return 值
-	 */
-	@XmlElement(name = PROPERTY_ITEMCODE_NAME)
-	public final String getItemCode() {
-		return this.getProperty(PROPERTY_ITEMCODE);
-	}
-
-	/**
-	 * 设置-物料编码
-	 * 
-	 * @param value
-	 *            值
-	 */
-	public final void setItemCode(String value) {
-		this.setProperty(PROPERTY_ITEMCODE, value);
-	}
-
-	/**
 	 * 属性名称-序列编码
 	 */
 	private static final String PROPERTY_SERIALCODE_NAME = "SerialCode";
@@ -116,38 +84,6 @@ public class MaterialSerialItem extends BusinessObject<MaterialSerialItem>
 	 */
 	public final void setSerialCode(String value) {
 		this.setProperty(PROPERTY_SERIALCODE, value);
-	}
-
-	/**
-	 * 属性名称-仓库编码
-	 */
-	private static final String PROPERTY_WAREHOUSE_NAME = "Warehouse";
-
-	/**
-	 * 仓库编码 属性
-	 */
-	@DbField(name = "WhsCode", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME, primaryKey = false)
-	public static final IPropertyInfo<String> PROPERTY_WAREHOUSE = registerProperty(PROPERTY_WAREHOUSE_NAME,
-			String.class, MY_CLASS);
-
-	/**
-	 * 获取-仓库编码
-	 * 
-	 * @return 值
-	 */
-	@XmlElement(name = PROPERTY_WAREHOUSE_NAME)
-	public final String getWarehouse() {
-		return this.getProperty(PROPERTY_WAREHOUSE);
-	}
-
-	/**
-	 * 设置-仓库编码
-	 * 
-	 * @param value
-	 *            值
-	 */
-	public final void setWarehouse(String value) {
-		this.setProperty(PROPERTY_WAREHOUSE, value);
 	}
 
 	/**
@@ -654,7 +590,7 @@ public class MaterialSerialItem extends BusinessObject<MaterialSerialItem>
 
 				@Override
 				public String getWarehouse() {
-					return MaterialSerialItem.this.getWarehouse();
+					return MaterialSerialItem.this.parent.getWarehouse();
 				}
 
 				@Override
@@ -664,7 +600,7 @@ public class MaterialSerialItem extends BusinessObject<MaterialSerialItem>
 
 				@Override
 				public String getItemCode() {
-					return MaterialSerialItem.this.getItemCode();
+					return MaterialSerialItem.this.parent.getItemCode();
 				}
 
 				@Override
@@ -698,7 +634,7 @@ public class MaterialSerialItem extends BusinessObject<MaterialSerialItem>
 
 				@Override
 				public String getWarehouse() {
-					return MaterialSerialItem.this.getWarehouse();
+					return MaterialSerialItem.this.parent.getWarehouse();
 				}
 
 				@Override
@@ -708,7 +644,7 @@ public class MaterialSerialItem extends BusinessObject<MaterialSerialItem>
 
 				@Override
 				public String getItemCode() {
-					return MaterialSerialItem.this.getItemCode();
+					return MaterialSerialItem.this.parent.getItemCode();
 				}
 
 				@Override

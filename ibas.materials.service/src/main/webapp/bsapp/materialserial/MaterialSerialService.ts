@@ -110,10 +110,10 @@ export class MaterialSerialIssueService extends MaterialSerialService<IMaterialS
                     for (let item of opRslt.resultObjects) {
                         for (let wItem of that.workDatas) {
                             for (let jItem of wItem.materialSerials) {
-                                if (item.warehouse !== jItem.warehouse) {
+                                if (item.warehouse !== wItem.warehouse) {
                                     continue;
                                 }
-                                if (item.itemCode !== jItem.itemCode) {
+                                if (item.itemCode !== wItem.itemCode) {
                                     continue;
                                 }
                                 if (item.serialCode !== jItem.serialCode) {
