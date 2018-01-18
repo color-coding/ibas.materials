@@ -19,6 +19,10 @@ public abstract class MaterialBase<T extends MaterialBase<T>> extends BusinessOb
 	 * 当前类型
 	 */
 	private static final Class<?> MY_CLASS = MaterialBase.class;
+	/**
+	 * 业务对象编码
+	 */
+	public static final String BUSINESS_OBJECT_CODE = "${Company}_MM_MATERIAL";
 
 	/**
 	 * 数据库表
@@ -247,6 +251,70 @@ public abstract class MaterialBase<T extends MaterialBase<T>> extends BusinessOb
 	 */
 	public final void setItemType(emItemType value) {
 		this.setProperty(PROPERTY_ITEMTYPE, value);
+	}
+
+	/**
+	 * 属性名称-采购物料
+	 */
+	private static final String PROPERTY_PURCHASEITEM_NAME = "PurchaseItem";
+
+	/**
+	 * 采购物料 属性
+	 */
+	@DbField(name = "PrchseItem", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME, primaryKey = false)
+	public static final IPropertyInfo<emYesNo> PROPERTY_PURCHASEITEM = registerProperty(PROPERTY_PURCHASEITEM_NAME,
+			emYesNo.class, MY_CLASS);
+
+	/**
+	 * 获取-采购物料
+	 * 
+	 * @return 值
+	 */
+	@XmlElement(name = PROPERTY_PURCHASEITEM_NAME)
+	public final emYesNo getPurchaseItem() {
+		return this.getProperty(PROPERTY_PURCHASEITEM);
+	}
+
+	/**
+	 * 设置-采购物料
+	 * 
+	 * @param value
+	 *            值
+	 */
+	public final void setPurchaseItem(emYesNo value) {
+		this.setProperty(PROPERTY_PURCHASEITEM, value);
+	}
+
+	/**
+	 * 属性名称-销售物料
+	 */
+	private static final String PROPERTY_SALESITEM_NAME = "SalesItem";
+
+	/**
+	 * 销售物料 属性
+	 */
+	@DbField(name = "SalesItem", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME, primaryKey = false)
+	public static final IPropertyInfo<emYesNo> PROPERTY_SALESITEM = registerProperty(PROPERTY_SALESITEM_NAME,
+			emYesNo.class, MY_CLASS);
+
+	/**
+	 * 获取-销售物料
+	 * 
+	 * @return 值
+	 */
+	@XmlElement(name = PROPERTY_SALESITEM_NAME)
+	public final emYesNo getSalesItem() {
+		return this.getProperty(PROPERTY_SALESITEM);
+	}
+
+	/**
+	 * 设置-销售物料
+	 * 
+	 * @param value
+	 *            值
+	 */
+	public final void setSalesItem(emYesNo value) {
+		this.setProperty(PROPERTY_SALESITEM, value);
 	}
 
 	/**

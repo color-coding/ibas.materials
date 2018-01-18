@@ -35,4 +35,7 @@ public class MyConfiguration extends org.colorcoding.ibas.bobas.MyConfiguration 
 
 	/** 配置项目-默认币种 */
 	public final static String CONFIG_ITEM_DEFAULT_CURRENCY = "defaultCurrency";
+
+	/** 配置项目-价格清单最大层级 */
+	public final static String CONFIG_ITEM_PRICE_LIST_MAX_LEVEL = "maxPriceListLevel";
 }

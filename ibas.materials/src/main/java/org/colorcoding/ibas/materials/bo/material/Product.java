@@ -7,15 +7,9 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
 import org.colorcoding.ibas.bobas.core.IPropertyInfo;
-import org.colorcoding.ibas.bobas.data.ArrayList;
 import org.colorcoding.ibas.bobas.data.Decimal;
-import org.colorcoding.ibas.bobas.data.emYesNo;
-import org.colorcoding.ibas.bobas.mapping.BOCode;
-import org.colorcoding.ibas.bobas.mapping.DbField;
-import org.colorcoding.ibas.bobas.mapping.DbFieldType;
 import org.colorcoding.ibas.bobas.ownership.IDataOwnership;
 import org.colorcoding.ibas.materials.MyConfiguration;
-import org.colorcoding.ibas.materials.data.emItemType;
 
 /**
  * 获取-物料(包含仓库库存，价格清单)
@@ -23,8 +17,15 @@ import org.colorcoding.ibas.materials.data.emItemType;
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlType(name = Product.BUSINESS_OBJECT_NAME, namespace = MyConfiguration.NAMESPACE_BO)
 @XmlRootElement(name = Product.BUSINESS_OBJECT_NAME, namespace = MyConfiguration.NAMESPACE_BO)
-@BOCode(Product.BUSINESS_OBJECT_CODE)
 public class Product extends MaterialBase<Product> implements IProduct, IDataOwnership {
+	/**
+	 * 查询条件字段-仓库
+	 */
+	public static final String CONDITION_ALIAS_WAREHOUSE = "WhsCode";
+	/**
+	 * 查询条件字段-价格清单
+	 */
+	public static final String CONDITION_ALIAS_PRICELIST = "PriceList";
 
 	/**
 	 * 序列化版本标记
@@ -35,80 +36,11 @@ public class Product extends MaterialBase<Product> implements IProduct, IDataOwn
 	 * 业务对象名称
 	 */
 	public static final String BUSINESS_OBJECT_NAME = "Product";
-	/**
-	 * 业务对象编码
-	 */
-	public static final String BUSINESS_OBJECT_CODE = "${Company}_MM_PRODUCT";
-
-	/**
-	 * 仓库查询条件
-	 */
-	public static final String WAREHOUSE_NAME = "WhsCode";
-
-	/**
-	 * 价格清单查询条件
-	 */
-	public static final String PRICELIST_NAME = "ObjectKey";
 
 	/**
 	 * 当前类型
 	 */
 	private static final Class<?> MY_CLASS = Product.class;
-
-	/**
-	 * 创建Product
-	 *
-	 * @param material
-	 * @return
-	 */
-	public static Product create(Material material) {
-		Product product = new Product();
-		product.setCode(material.getCode());
-		product.setName(material.getName());
-		product.setGroup(material.getGroup());
-		product.setSerialManagement(material.getSerialManagement());
-		product.setBatchManagement(material.getBatchManagement());
-		product.setBarCode(material.getBarCode());
-		product.setItemType(material.getItemType());
-		product.setPrice(material.getAvgPrice());
-		product.setOnHand(material.getOnHand());
-		return product;
-	}
-
-	/**
-	 * 创建Product
-	 *
-	 * @param material
-	 * @return
-	 */
-	public static Product create(Product material) {
-		Product products = new Product();
-		products.setCode(material.getCode());
-		products.setName(material.getName());
-		products.setGroup(material.getGroup());
-		products.setSerialManagement(material.getSerialManagement());
-		products.setBatchManagement(material.getBatchManagement());
-		products.setBarCode(material.getBarCode());
-		products.setItemType(material.getItemType());
-		products.setPrice(material.getPrice());
-		products.setOnHand(material.getOnHand());
-		return products;
-	}
-
-	/**
-	 * 创建Product对象集合
-	 *
-	 * @param materials
-	 *            物料对象集合
-	 * @return
-	 */
-	public static ArrayList<Product> create(ArrayList<Material> materials) {
-		ArrayList<Product> products = new ArrayList<>();
-		for (Material material : materials) {
-			products.add(create(material));
-		}
-		return products;
-	}
 
 	/**
 	 * 属性名称-仓库
@@ -118,7 +50,6 @@ public class Product extends MaterialBase<Product> implements IProduct, IDataOwn
 	/**
 	 * 仓库 属性
 	 */
-	@DbField(name = "DfltWhs", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME, primaryKey = false)
 	public static final IPropertyInfo<String> PROPERTY_WAREHOUSE = registerProperty(PROPERTY_WAREHOUSE_NAME,
 			String.class, MY_CLASS);
 
@@ -211,7 +142,6 @@ public class Product extends MaterialBase<Product> implements IProduct, IDataOwn
 	/**
 	 * 币种 属性
 	 */
-	@DbField(name = "Currency", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME, primaryKey = false)
 	public static final IPropertyInfo<String> PROPERTY_CURRENCY = registerProperty(PROPERTY_CURRENCY_NAME, String.class,
 			MY_CLASS);
 
@@ -239,9 +169,6 @@ public class Product extends MaterialBase<Product> implements IProduct, IDataOwn
 	protected void initialize() {
 		super.initialize();// 基类初始化，不可去除
 		this.setObjectCode(MyConfiguration.applyVariables(BUSINESS_OBJECT_CODE));
-		this.setActivated(emYesNo.YES);
-		this.setItemType(emItemType.ITEM);
-		this.setInventoryItem(emYesNo.YES);
 	}
 
 }

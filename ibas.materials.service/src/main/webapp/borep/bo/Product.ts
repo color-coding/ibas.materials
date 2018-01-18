@@ -111,6 +111,28 @@ export class Product extends BOMasterData<Product> implements IProduct {
         this.setProperty(Product.PROPERTY_ITEMTYPE_NAME, value);
     }
 
+    /** 映射的属性名称-采购物料 */
+    static PROPERTY_PURCHASEITEM_NAME: string = "PurchaseItem";
+    /** 获取-采购物料 */
+    get purchaseItem(): emYesNo {
+        return this.getProperty<emYesNo>(Product.PROPERTY_PURCHASEITEM_NAME);
+    }
+    /** 设置-采购物料 */
+    set purchaseItem(value: emYesNo) {
+        this.setProperty(Product.PROPERTY_PURCHASEITEM_NAME, value);
+    }
+
+    /** 映射的属性名称-销售物料 */
+    static PROPERTY_SALESITEM_NAME: string = "SalesItem";
+    /** 获取-销售物料 */
+    get salesItem(): emYesNo {
+        return this.getProperty<emYesNo>(Product.PROPERTY_SALESITEM_NAME);
+    }
+    /** 设置-销售物料 */
+    set salesItem(value: emYesNo) {
+        this.setProperty(Product.PROPERTY_SALESITEM_NAME, value);
+    }
+
     /** 映射的属性名称-库存物料 */
     static PROPERTY_INVENTORYITEM_NAME: string = "InventoryItem";
     /** 获取-库存物料 */
@@ -314,6 +336,8 @@ export class Product extends BOMasterData<Product> implements IProduct {
         this.objectCode = config.applyVariables(Product.BUSINESS_OBJECT_CODE);
         this.activated = emYesNo.YES;
         this.itemType = emItemType.ITEM;
+        this.salesItem = emYesNo.YES;
+        this.purchaseItem = emYesNo.YES;
         this.inventoryItem = emYesNo.YES;
     }
 }

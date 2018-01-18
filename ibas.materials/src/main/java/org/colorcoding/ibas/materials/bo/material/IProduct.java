@@ -117,6 +117,36 @@ public interface IProduct {
 	void setItemType(emItemType value);
 
 	/**
+	 * 获取-采购物料
+	 * 
+	 * @return 值
+	 */
+	emYesNo getPurchaseItem();
+
+	/**
+	 * 设置-采购物料
+	 * 
+	 * @param value
+	 *            值
+	 */
+	void setPurchaseItem(emYesNo value);
+
+	/**
+	 * 获取-销售物料
+	 * 
+	 * @return 值
+	 */
+	emYesNo getSalesItem();
+
+	/**
+	 * 设置-销售物料
+	 * 
+	 * @param value
+	 *            值
+	 */
+	void setSalesItem(emYesNo value);
+
+	/**
 	 * 获取-库存物料
 	 * 
 	 * @return 值

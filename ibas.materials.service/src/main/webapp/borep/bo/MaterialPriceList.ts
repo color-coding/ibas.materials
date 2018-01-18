@@ -288,6 +288,7 @@ export class MaterialPriceList extends BOSimple<MaterialPriceList> implements IM
         this.materialPriceItems = new MaterialPriceItems(this);
         this.objectCode = config.applyVariables(MaterialPriceList.BUSINESS_OBJECT_CODE);
         this.currency = config.get(CONFIG_ITEM_DEFAULT_CURRENCY, "CNY");
+        this.factor = 1;
     }
 }
 export class MaterialPriceItems extends BusinessObjects<MaterialPriceItem, MaterialPriceList> implements IMaterialPriceItems {

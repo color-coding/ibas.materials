@@ -14,6 +14,8 @@ import org.colorcoding.ibas.bobas.data.Decimal;
 import org.colorcoding.ibas.bobas.mapping.BOCode;
 import org.colorcoding.ibas.bobas.mapping.DbField;
 import org.colorcoding.ibas.bobas.mapping.DbFieldType;
+import org.colorcoding.ibas.bobas.rule.IBusinessRule;
+import org.colorcoding.ibas.bobas.rule.common.BusinessRuleMinValue;
 import org.colorcoding.ibas.materials.MyConfiguration;
 
 /**
@@ -763,6 +765,12 @@ public class MaterialPriceList extends BusinessObject<MaterialPriceList> impleme
 		this.setMaterialPriceItems(new MaterialPriceItems(this));
 		this.setObjectCode(MyConfiguration.applyVariables(BUSINESS_OBJECT_CODE));
 		this.setCurrency(MyConfiguration.getConfigValue(MyConfiguration.CONFIG_ITEM_DEFAULT_CURRENCY, "CNY"));
+		this.setFactor(Decimal.ONE);
 	}
 
+	@Override
+	protected IBusinessRule[] registerRules() {
+		return new IBusinessRule[] { // 注册的业务规则
+				new BusinessRuleMinValue<Decimal>(Decimal.ZERO, PROPERTY_FACTOR) };
+	}
 }

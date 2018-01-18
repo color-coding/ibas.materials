@@ -46,6 +46,12 @@ export interface IProduct extends IBOMasterData {
     /** 物料类型 */
     itemType: emItemType;
 
+    /** 采购物料 */
+    purchaseItem: emYesNo;
+
+    /** 销售物料 */
+    salesItem: emYesNo;
+
     /** 库存物料 */
     inventoryItem: emYesNo;
 
