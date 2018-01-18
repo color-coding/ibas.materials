@@ -13,6 +13,8 @@ class MaterialSerialItems extends org.colorcoding.ibas.materials.bo.materialseri
 
 	private static final long serialVersionUID = -1330675354887159036L;
 
+	public static final String BUSINESS_OBJECT_NAME = MaterialSerialItem.BUSINESS_OBJECT_NAME + "s";
+
 	public MaterialSerialItems() {
 		super();
 	}

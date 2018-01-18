@@ -19,6 +19,8 @@ class MaterialSerialItem extends org.colorcoding.ibas.materials.bo.materialseria
 
 	private static final long serialVersionUID = -6784948562067908976L;
 
+	public static final String BUSINESS_OBJECT_NAME = "MaterialSerialItItem";
+
 	InventoryTransferLine parent;
 
 	@Override

@@ -13,6 +13,8 @@ class MaterialBatchItems extends org.colorcoding.ibas.materials.bo.materialbatch
 
 	private static final long serialVersionUID = -2784510193155897161L;
 
+	public static final String BUSINESS_OBJECT_NAME = MaterialBatchItem.BUSINESS_OBJECT_NAME + "s";
+
 	public MaterialBatchItems() {
 		super();
 	}

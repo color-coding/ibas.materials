@@ -20,7 +20,7 @@ public class MaterialBatchItems extends BusinessObjects<IMaterialBatchItem, IMat
 	/**
 	 * 业务对象名称
 	 */
-	public static final String BUSINESS_OBJECT_NAME = "MaterialBatchJournals";
+	public static final String BUSINESS_OBJECT_NAME = "MaterialBatchItems";
 
 	/**
 	 * 序列化版本标记
