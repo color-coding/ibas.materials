@@ -66,7 +66,7 @@
   "bo_goodsreceiptline_serialmanagement": "序号管理",
   "bo_goodsreceiptline_batchmanagement": "批号管理",
   "bo_goodsreceiptline_quantity": "数量",
-  "bo_goodsreceiptline_uom": "计量单位",
+  "bo_goodsreceiptline_uom": "单位",
   "bo_goodsreceiptline_warehouse": "仓库",
   "bo_goodsreceiptline_price": "价格",
   "bo_goodsreceiptline_currency": "货币",

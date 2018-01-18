@@ -221,9 +221,10 @@ export class InventoryTransferEditView extends ibas.BOEditView implements IInven
                 }),
                 new sap.ui.table.Column("", {
                     label: ibas.i18n.prop("bo_inventorytransferline_uom"),
-                    template: new sap.m.Input("", {
+                    template: new sap.m.Text("", {
                         width: "100%",
-                    }).bindProperty("value", {
+                        wrapping: false
+                    }).bindProperty("text", {
                         path: "uom"
                     })
                 }),

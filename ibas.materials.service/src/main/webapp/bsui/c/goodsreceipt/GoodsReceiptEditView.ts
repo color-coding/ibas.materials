@@ -211,9 +211,10 @@ export class GoodsReceiptEditView extends ibas.BOEditView implements IGoodsRecei
                 }),
                 new sap.ui.table.Column("", {
                     label: ibas.i18n.prop("bo_goodsreceiptline_uom"),
-                    template: new sap.m.Input("", {
+                    template: new sap.m.Text("", {
                         width: "100%",
-                    }).bindProperty("value", {
+                        wrapping: false
+                    }).bindProperty("text", {
                         path: "uom"
                     })
                 }),

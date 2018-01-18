@@ -67,7 +67,7 @@
   "bo_inventorytransferline_serialmanagement": "序号管理",
   "bo_inventorytransferline_batchmanagement": "批号管理",
   "bo_inventorytransferline_quantity": "数量",
-  "bo_inventorytransferline_uom": "计量单位",
+  "bo_inventorytransferline_uom": "单位",
   "bo_inventorytransferline_warehouse": "仓库",
   "bo_inventorytransferline_price": "价格",
   "bo_inventorytransferline_currency": "货币",
