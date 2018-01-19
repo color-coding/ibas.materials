@@ -163,27 +163,21 @@ export class MaterialInventoryJournalListView extends ibas.BOListView implements
         });
         this.id = this.page.getId();
         // 添加列表自动查询事件
-        // openui5.utils.triggerNextResults({
-        //     listener: this.table,
-        //     next(data: any): void {
-        //         if (ibas.objects.isNull(that.lastCriteria)) {
-        //             return;
-        //         }
-        //         let criteria: ibas.ICriteria = that.lastCriteria.next(data);
-        //         if (ibas.objects.isNull(criteria)) {
-        //             return;
-        //         }
-        //         ibas.logger.log(ibas.emMessageLevel.DEBUG, "result: {0}", criteria.toString());
-        //         that.fireViewEvents(that.fetchDataEvent, criteria);
-        //     }
-        // });
-
+        openui5.utils.triggerNextResults({
+            listener: this.table,
+            next(data: any): void {
+                if (ibas.objects.isNull(that.lastCriteria)) {
+                    return;
+                }
+                let criteria: ibas.ICriteria = that.lastCriteria.next(data);
+                if (ibas.objects.isNull(criteria)) {
+                    return;
+                }
+                ibas.logger.log(ibas.emMessageLevel.DEBUG, "result: {0}", criteria.toString());
+                that.fireViewEvents(that.fetchDataEvent, criteria);
+            }
+        });
         return this.page;
-    }
-    /** 嵌入查询面板 */
-    embedded(view: any): void {
-        this.page.addHeaderContent(view);
-        this.page.setShowHeader(true);
     }
     private page: sap.m.Page;
     private form: sap.ui.layout.VerticalLayout;

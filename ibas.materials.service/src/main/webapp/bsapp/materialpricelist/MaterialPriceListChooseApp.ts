@@ -3,11 +3,6 @@
  * Copyright color-coding studio. All Rights Reserved.
  * Use of this source code is governed by an Apache License, Version 2.0
  * that can be found in the LICENSE file at http://www.apache.org/licenses/LICENSE-2.0
- *
- * @Author: fancy
- * @Date: 2017-12-28 09:59:56
- * @Last Modified by: Fancy
- * @Last Modified time: 2018-01-03 17:24:34
  */
 import * as ibas from "ibas/index";
 import * as bo from "../../borep/bo/index";
@@ -76,11 +71,6 @@ export class MaterialPriceListChooseApp extends ibas.BOChooseService<IMaterialPr
     protected newData(): void {
         // 关闭自身
         this.destroy();
-        // // 调用编辑应用
-        // let app: MaterialPriceListEditApp = new MaterialPriceListEditApp();
-        // app.navigation = this.navigation;
-        // app.viewShower = this.viewShower;
-        // app.run();
     }
 }
 /** 视图-物料价格清单 */

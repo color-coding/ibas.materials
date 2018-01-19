@@ -1,14 +1,31 @@
 /**
  * @license
  * Copyright color-coding studio. All Rights Reserved.
+ *
  * Use of this source code is governed by an Apache License, Version 2.0
  * that can be found in the LICENSE file at http://www.apache.org/licenses/LICENSE-2.0
- *
- * @Author: Fancy
- * @Date: 2017-12-28 09:59:51
- * @Last Modified by: Fancy
- * @Last Modified time: 2018-01-03 16:24:20
  */
+
 import * as ibas from "ibas/index";
-import * as bo from "../../borep/bo/index";
-import { BORepositoryMaterials } from "../../borep/BORepositories";
+import { MaterialPriceListListApp } from "./MaterialPriceListListApp";
+
+export class MaterialPriceListFunc extends ibas.ModuleFunction {
+
+    /** 功能标识 */
+    static FUNCTION_ID = "1e57cd18-ab90-48ee-8b1c-cf0f90399ce5";
+    /** 功能名称 */
+    static FUNCTION_NAME = "materials_func_materialpricelist";
+    /** 构造函数 */
+    constructor() {
+        super();
+        this.id = MaterialPriceListFunc.FUNCTION_ID;
+        this.name = MaterialPriceListFunc.FUNCTION_NAME;
+        this.description = ibas.i18n.prop(this.name);
+    }
+    /** 默认功能 */
+    default(): ibas.IApplication<ibas.IView> {
+        let app: MaterialPriceListListApp = new MaterialPriceListListApp();
+        app.navigation = this.navigation;
+        return app;
+    }
+}

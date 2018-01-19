@@ -1,9 +1,3 @@
-/*
- * @Author: fancy
- * @Date: 2017-11-27 16:40:05
- * @Last Modified by: fancy
- * @Last Modified time: 2017-12-25 17:43:10
- */
 /**
  * @license
  * Copyright color-coding studio. All Rights Reserved.
@@ -52,7 +46,7 @@ export class MaterialSerialViewApp extends ibas.BOViewService<IMaterialSerialVie
             let condition: ibas.ICondition = criteria.conditions.create();
             condition.alias = bo.MaterialSerialJournal.PROPERTY_SERIALCODE_NAME;
             condition.value = this.viewData.serialCode;
-            condition.operation =ibas.emConditionOperation.EQUAL;
+            condition.operation = ibas.emConditionOperation.EQUAL;
             // 查询日记账
             this.fetchJournalData(criteria);
             this.show();
@@ -62,7 +56,7 @@ export class MaterialSerialViewApp extends ibas.BOViewService<IMaterialSerialVie
     }
 
     /** 日记账行集合数据 */
-    private journalData:bo.MaterialSerialJournal[];
+    private journalData: bo.MaterialSerialJournal[];
 
     /** 序列数据 */
     private viewData: bo.MaterialSerial;

@@ -24,7 +24,7 @@ import {
     MaterialSerialReceiptServiceMapping, MaterialSerialIssueServiceMapping,
     MaterialSerialFunc, MaterialSerialChooseServiceMapping
 } from "./materialserial/index";
-import { MaterialPriceListChooseServiceMapping } from "./materialpricelist/index";
+import { MaterialPriceListChooseServiceMapping, MaterialPriceListFunc } from "./materialpricelist/index";
 
 
 
@@ -47,6 +47,7 @@ export class Console extends ibas.ModuleConsole {
     protected registers(): void {
         // 注册功能
         this.register(new MaterialFunc());
+        this.register(new MaterialPriceListFunc());
         this.register(new GoodsReceiptFunc());
         this.register(new GoodsIssueFunc());
         this.register(new InventoryTransferFunc());
@@ -55,7 +56,6 @@ export class Console extends ibas.ModuleConsole {
         this.register(new WarehouseFunc());
         this.register(new MaterialGroupFunc());
         this.register(new MaterialInventoryFunc());
-        // this.register(new mateiralpricelistFunc());
         // this.register(new MaterialInventoryJournalFunc());
         // 注册服务应用
         this.register(new MaterialChooseServiceMapping());

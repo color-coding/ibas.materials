@@ -4,10 +4,6 @@
  *
  * Use of this source code is governed by an Apache License, Version 2.0
  * that can be found in the LICENSE file at http://www.apache.org/licenses/LICENSE-2.0
- * @Author: fancy
- * @Date: 2017-11-27 16:41:45
- * @Last Modified by: fancy
- * @Last Modified time: 2017-11-27 16:43:59
  */
 
 import * as ibas from "ibas/index";
@@ -180,11 +176,6 @@ export class MaterialBatchListView extends ibas.BOListView implements IMaterialB
             }
         });
         return this.page;
-    }
-    /** 嵌入查询面板 */
-    embedded(view: any): void {
-        this.page.addHeaderContent(view);
-        this.page.setShowHeader(true);
     }
     private page: sap.m.Page;
     private form: sap.ui.layout.form.SimpleForm;

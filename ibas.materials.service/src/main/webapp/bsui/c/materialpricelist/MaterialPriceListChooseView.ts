@@ -3,11 +3,6 @@
  * Copyright color-coding studio. All Rights Reserved.
  * Use of this source code is governed by an Apache License, Version 2.0
  * that can be found in the LICENSE file at http://www.apache.org/licenses/LICENSE-2.0
- *
- * @Author: Fancy
- * @Date: 2017-12-28 10:00:34
- * @Last Modified by: Fancy
- * @Last Modified time: 2018-01-03 16:52:39
  */
 import * as ibas from "ibas/index";
 import * as openui5 from "openui5/index";
@@ -21,39 +16,6 @@ export class MaterialPriceListChooseView extends ibas.BOChooseView implements IM
     get queryTarget(): any {
         return bo.MaterialPriceList;
     }
-    /** 绘制工具条 */
-    darwBars(): any {
-        let that: this = this;
-        return [
-            // new sap.m.Button("", {
-            //     text: ibas.i18n.prop("shell_data_new"),
-            //     type: sap.m.ButtonType.Transparent,
-            //     // icon: "sap-icon://create",
-            //     press: function (): void {
-            //         that.fireViewEvents(that.newDataEvent);
-            //     }
-            // }),
-            new sap.m.Button("", {
-                text: ibas.i18n.prop("shell_data_choose"),
-                type: sap.m.ButtonType.Transparent,
-                // icon: "sap-icon://accept",
-                press: function (): void {
-                    that.fireViewEvents(that.chooseDataEvent,
-                        // 获取表格选中的对象
-                        openui5.utils.getTableSelecteds<bo.MaterialPriceList>(that.table)
-                    );
-                }
-            }),
-            new sap.m.Button("", {
-                text: ibas.i18n.prop("shell_exit"),
-                type: sap.m.ButtonType.Transparent,
-                // icon: "sap-icon://inspect-down",
-                press: function (): void {
-                    that.fireViewEvents(that.closeEvent);
-                }
-            }),
-        ];
-    }
     /** 绘制视图 */
     darw(): any {
         let that: this = this;
@@ -66,14 +28,8 @@ export class MaterialPriceListChooseView extends ibas.BOChooseView implements IM
             columns: [
                 new sap.ui.table.Column("", {
                     label: ibas.i18n.prop("bo_materialpricelist_objectkey"),
-                    template: new sap.m.Link("", {
-                        wrapping: false,
-                        press(event: any): void {
-                            ibas.servicesManager.runLinkService({
-                                boCode: bo.MaterialPriceList.BUSINESS_OBJECT_CODE,
-                                linkValue: event.getSource().getText(),
-                            });
-                        },
+                    template: new sap.m.Text("", {
+                        wrapping: false
                     }).bindProperty("text", {
                         path: "objectKey",
                     }),
@@ -93,6 +49,46 @@ export class MaterialPriceListChooseView extends ibas.BOChooseView implements IM
                     }).bindProperty("text", {
                         path: "currency",
                     })
+                }),
+                new sap.ui.table.Column("", {
+                    label: ibas.i18n.prop("bo_materialpricelist_basedonlist"),
+                    template: new sap.m.Text("", {
+                        wrapping: false
+                    }).bindProperty("text", {
+                        path: "basedOnList",
+                    })
+                }),
+                new sap.ui.table.Column("", {
+                    label: ibas.i18n.prop("bo_materialpricelist_factor"),
+                    template: new sap.m.Text("", {
+                        wrapping: false
+                    }).bindProperty("text", {
+                        path: "factor",
+                    })
+                }),
+                new sap.ui.table.Column("", {
+                    label: ibas.i18n.prop("bo_materialpricelist_validdate"),
+                    template: new sap.m.Text("", {
+                        wrapping: false,
+                    }).bindProperty("text", {
+                        path: "validDate",
+                        type: "sap.ui.model.type.Date",
+                        formatOptions: {
+                            style: "short"
+                        }
+                    }),
+                }),
+                new sap.ui.table.Column("", {
+                    label: ibas.i18n.prop("bo_materialpricelist_invaliddate"),
+                    template: new sap.m.Text("", {
+                        wrapping: false,
+                    }).bindProperty("text", {
+                        path: "invalidDate",
+                        type: "sap.ui.model.type.Date",
+                        formatOptions: {
+                            style: "short"
+                        }
+                    }),
                 }),
             ]
         });
@@ -121,7 +117,27 @@ export class MaterialPriceListChooseView extends ibas.BOChooseView implements IM
             horizontalScrolling: true,
             verticalScrolling: true,
             content: [this.table],
-            buttons: [this.darwBars()]
+            buttons: [
+                new sap.m.Button("", {
+                    text: ibas.i18n.prop("shell_data_choose"),
+                    type: sap.m.ButtonType.Transparent,
+                    // icon: "sap-icon://accept",
+                    press: function (): void {
+                        that.fireViewEvents(that.chooseDataEvent,
+                            // 获取表格选中的对象
+                            openui5.utils.getTableSelecteds<bo.MaterialPriceList>(that.table)
+                        );
+                    }
+                }),
+                new sap.m.Button("", {
+                    text: ibas.i18n.prop("shell_exit"),
+                    type: sap.m.ButtonType.Transparent,
+                    // icon: "sap-icon://inspect-down",
+                    press: function (): void {
+                        that.fireViewEvents(that.closeEvent);
+                    }
+                }),
+            ]
         });
     }
     private table: sap.ui.table.Table;
