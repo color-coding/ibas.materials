@@ -132,8 +132,7 @@ export class GoodsReceiptListView extends ibas.BOListView implements IGoodsRecei
                             );
                         }
                     }),
-                ],
-                contentRight: [
+                    new sap.m.ToolbarSpacer(""),
                     new sap.m.Button("", {
                         type: sap.m.ButtonType.Transparent,
                         icon: "sap-icon://action",

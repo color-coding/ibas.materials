@@ -36,6 +36,8 @@ export class MaterialPriceListListApp extends ibas.BOListApplication<IMaterialPr
         // 其他事件
         this.view.editDataEvent = this.editData;
         this.view.deleteDataEvent = this.deleteData;
+        this.view.fetchPriceEvent = this.fetchPrice;
+        this.view.savePriceListItemEvent = this.savePriceListItem;
     }
     /** 视图显示后 */
     protected viewShowed(): void {
@@ -61,7 +63,7 @@ export class MaterialPriceListListApp extends ibas.BOListApplication<IMaterialPr
                     if (opRslt.resultObjects.length === 0) {
                         that.proceeding(ibas.emMessageType.INFORMATION, ibas.i18n.prop("shell_data_fetched_none"));
                     }
-                    that.view.showData(opRslt.resultObjects);
+                    that.view.showPriceList(opRslt.resultObjects);
                     that.busy(false);
                 } catch (error) {
                     that.messages(error);
@@ -180,6 +182,82 @@ export class MaterialPriceListListApp extends ibas.BOListApplication<IMaterialPr
     protected getServiceProxies(): ibas.IServiceProxy<ibas.IServiceContract>[] {
         return [];
     }
+    private priceCriteria: ibas.ICriteria;
+    /** 查询价格 */
+    protected fetchPrice(criteria: ibas.ICriteria): void {
+        // 检查目标数据
+        if (ibas.objects.isNull(criteria) || criteria.conditions.length === 0) {
+            throw new Error(ibas.i18n.prop("sys_invalid_parameter", "criteria"));
+        }
+        this.busy(true);
+        let that: this = this;
+        let boRepository: BORepositoryMaterials = new BORepositoryMaterials();
+        boRepository.fetchMaterialPrice({
+            criteria: criteria,
+            onCompleted(opRslt: ibas.IOperationResult<bo.MaterialPrice>): void {
+                try {
+                    if (opRslt.resultCode !== 0) {
+                        throw new Error(opRslt.message);
+                    }
+                    if (opRslt.resultObjects.length === 0) {
+                        that.proceeding(ibas.emMessageType.INFORMATION, ibas.i18n.prop("shell_data_fetched_none"));
+                    }
+                    that.view.showPrices(opRslt.resultObjects);
+                    that.busy(false);
+                } catch (error) {
+                    that.messages(error);
+                }
+            }
+        });
+        this.proceeding(ibas.emMessageType.INFORMATION, ibas.i18n.prop("shell_fetching_data"));
+    }
+    /** 保存价格清单项目 */
+    protected savePriceListItem(data: bo.MaterialPriceItem | bo.MaterialPriceItem[]): void {
+        let beSaved: bo.MaterialPriceList = new bo.MaterialPriceList();
+        beSaved.isSavable = false;// 主对象不保存
+        beSaved.markOld(true);
+        if (data instanceof Array) {
+            for (let item of data) {
+                if (!ibas.objects.instanceOf(item, bo.MaterialPriceItem)) {
+                    continue;
+                }
+                beSaved.materialPriceItems.add(item);
+                beSaved.objectKey = item.objectKey;
+            }
+        } else if (ibas.objects.instanceOf(data, bo.MaterialPriceItem)) {
+            beSaved.objectKey = data.objectKey;
+            beSaved.materialPriceItems.add(data);
+        }
+        // 没有选择删除的对象
+        if (beSaved.materialPriceItems.length === 0) {
+            return;
+        }
+        let that: this = this;
+        that.busy(true);
+        let boRepository: BORepositoryMaterials = new BORepositoryMaterials();
+        boRepository.saveMaterialPriceList({
+            beSaved: beSaved,
+            onCompleted(opRslt: ibas.IOperationResult<bo.MaterialPriceList>): void {
+                try {
+                    if (opRslt.resultCode !== 0) {
+                        throw new Error(opRslt.message);
+                    }
+                    that.busy(false);
+                    if (opRslt.resultObjects.length === 0 || opRslt.resultObjects.firstOrDefault().materialPriceItems.length) {
+                        that.messages(ibas.emMessageType.SUCCESS,
+                            ibas.i18n.prop("shell_data_delete") + ibas.i18n.prop("shell_sucessful"));
+                    } else {
+                        that.messages(ibas.emMessageType.SUCCESS,
+                            ibas.i18n.prop("shell_data_save") + ibas.i18n.prop("shell_sucessful"));
+                    }
+                } catch (error) {
+                    that.messages(ibas.emMessageType.ERROR,
+                        ibas.i18n.prop("shell_data_delete_error", beSaved, error.message));
+                }
+            }
+        });
+        this.proceeding(ibas.emMessageType.INFORMATION, ibas.i18n.prop("shell_saving_data"));
+    }
 }
 /** 视图-物料价格清单 */
 export interface IMaterialPriceListListView extends ibas.IBOListView {
@@ -188,5 +266,11 @@ export interface IMaterialPriceListListView extends ibas.IBOListView {
     /** 删除数据事件，参数：删除对象集合 */
     deleteDataEvent: Function;
     /** 显示数据 */
-    showData(datas: bo.MaterialPriceList[]): void;
+    showPriceList(datas: bo.MaterialPriceList[]): void;
+    /** 查询价格事件 */
+    fetchPriceEvent: Function;
+    /** 显示数据 */
+    showPrices(datas: bo.MaterialPrice[]): void;
+    /** 保存价格项目事件 */
+    savePriceListItemEvent: Function;
 }

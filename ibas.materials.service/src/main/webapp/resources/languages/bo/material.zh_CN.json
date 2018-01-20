@@ -44,5 +44,16 @@
   "bo_material_approvalstatus": "审批状态",
   "bo_material_dataowner": "数据所有者",
   "bo_material_organization": "数据所属组织",
+  "bo_materialquantity": "物料数量",
+  "bo_materialquantity_itemcode": "物料编号",
+  "bo_materialquantity_itemname": "物料名称",
+  "bo_materialquantity_onhand": "库存",
+  "bo_materialquantity_uom": "库存单位",
+  "bo_materialprice": "物料价格",
+  "bo_materialprice_source": "价格来源",
+  "bo_materialprice_itemcode": "物料编号",
+  "bo_materialprice_itemname": "物料名称",
+  "bo_materialprice_price": "价格",
+  "bo_materialprice_currency": "货币",
   "bo_material_closing_delimiter": "----结束----"
 }

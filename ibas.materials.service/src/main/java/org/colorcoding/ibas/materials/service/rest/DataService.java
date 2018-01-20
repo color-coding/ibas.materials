@@ -14,6 +14,8 @@ import org.colorcoding.ibas.materials.bo.goodsreceipt.GoodsReceipt;
 import org.colorcoding.ibas.materials.bo.inventorytransfer.InventoryTransfer;
 import org.colorcoding.ibas.materials.bo.material.Material;
 import org.colorcoding.ibas.materials.bo.material.MaterialGroup;
+import org.colorcoding.ibas.materials.bo.material.MaterialPrice;
+import org.colorcoding.ibas.materials.bo.material.MaterialQuantity;
 import org.colorcoding.ibas.materials.bo.material.Product;
 import org.colorcoding.ibas.materials.bo.materialbatch.MaterialBatch;
 import org.colorcoding.ibas.materials.bo.materialbatch.MaterialBatchJournal;
@@ -429,10 +431,10 @@ public class DataService extends BORepositoryMaterials {
 	// --------------------------------------------------------------------------------------------//
 
 	/**
-	 * 查询-物料扩展（仓库库存、价格清单）
+	 * 查询-产品（物料）（数量、价格）
 	 *
-	 * @param bo
-	 *            对象实例
+	 * @param criteria
+	 *            查询
 	 * @param token
 	 *            口令
 	 * @return 操作结果
@@ -445,5 +447,39 @@ public class DataService extends BORepositoryMaterials {
 		return super.fetchProduct(criteria, token);
 	}
 
+	/**
+	 * 查询-物料数量
+	 *
+	 * @param criteria
+	 *            查询（支持的查询条件，仅为ItemCode，ItemName，WhsCode）
+	 * @param token
+	 *            口令
+	 * @return 操作结果
+	 */
+	@POST
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Path("fetchMaterialQuantity")
+	public OperationResult<MaterialQuantity> fetchMaterialQuantity(Criteria criteria,
+			@QueryParam("token") String token) {
+		return super.fetchMaterialQuantity(criteria, token);
+	}
+
+	/**
+	 * 查询-物料价格
+	 *
+	 * @param criteria
+	 *            查询（支持的查询条件，仅为ItemCode，ItemName，PriceList）
+	 * @param token
+	 *            口令
+	 * @return 物料价格
+	 */
+	@POST
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Path("fetchMaterialPrice")
+	public OperationResult<MaterialPrice> fetchMaterialPrice(Criteria criteria, @QueryParam("token") String token) {
+		return super.fetchMaterialPrice(criteria, token);
+	}
 	// --------------------------------------------------------------------------------------------//
 }

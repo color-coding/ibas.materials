@@ -116,8 +116,7 @@ export class WarehouseListView extends ibas.BOListView implements IWarehouseList
                             );
                         }
                     }),
-                ],
-                contentRight: [
+                    new sap.m.ToolbarSpacer(""),
                     new sap.m.Button("", {
                         type: sap.m.ButtonType.Transparent,
                         icon: "sap-icon://action",

@@ -158,4 +158,14 @@ export interface IBORepositoryMaterials extends IBORepositoryApplication {
      * @param saver 保存者
      */
     saveMaterialPriceList(saver: SaveCaller<bo.IMaterialPriceList>);
+    /**
+     * 查询 物料数量
+     * @param fetcher 查询者
+     */
+    fetchMaterialQuantity(fetcher: FetchCaller<bo.IMaterialQuantity>);
+    /**
+     * 查询 物料价格
+     * @param fetcher 查询者
+     */
+    fetchMaterialPrice(fetcher: FetchCaller<bo.IMaterialPrice>);
 }

@@ -7,6 +7,20 @@ import org.colorcoding.ibas.bobas.data.Decimal;
  */
 public interface IMaterialPrice {
 	/**
+	 * 获取-价格来源
+	 *
+	 * @return
+	 */
+	String getSource();
+
+	/**
+	 * 设置-价格来源
+	 *
+	 * @param value
+	 */
+	void setSource(String value);
+
+	/**
 	 * 获取-物料编码
 	 *
 	 * @return

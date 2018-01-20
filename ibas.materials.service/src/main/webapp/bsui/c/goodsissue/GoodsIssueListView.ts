@@ -132,8 +132,7 @@ export class GoodsIssueListView extends ibas.BOListView implements IGoodsIssueLi
                             );
                         }
                     }),
-                ],
-                contentRight: [
+                    new sap.m.ToolbarSpacer(""),
                     new sap.m.Button("", {
                         type: sap.m.ButtonType.Transparent,
                         icon: "sap-icon://action",

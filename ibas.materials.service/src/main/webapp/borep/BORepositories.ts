@@ -220,6 +220,20 @@ export class BORepositoryMaterials extends ibas.BORepositoryApplication implemen
     saveMaterialPriceList(saver: ibas.SaveCaller<bo.MaterialPriceList>): void {
         super.save(bo.MaterialPriceList.name, saver);
     }
+    /**
+     * 查询 物料数量
+     * @param fetcher 查询者
+     */
+    fetchMaterialQuantity(fetcher: ibas.FetchCaller<bo.MaterialQuantity>): void {
+        super.fetch(bo.MaterialQuantity.name, fetcher);
+    }
+    /**
+     * 查询 物料价格
+     * @param fetcher 查询者
+     */
+    fetchMaterialPrice(fetcher: ibas.FetchCaller<bo.MaterialPrice>): void {
+        super.fetch(bo.MaterialPrice.name, fetcher);
+    }
 }
 // 注册业务对象仓库到工厂
 ibas.boFactory.register(BO_REPOSITORY_MATERIALS, BORepositoryMaterials);

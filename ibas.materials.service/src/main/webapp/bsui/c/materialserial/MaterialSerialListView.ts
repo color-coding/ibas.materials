@@ -130,8 +130,7 @@ export class MaterialSerialListView extends ibas.BOListView implements IMaterial
                             );
                         }
                     }),
-                ],
-                contentRight: [
+                    new sap.m.ToolbarSpacer(""),
                     new sap.m.Button("", {
                         type: sap.m.ButtonType.Transparent,
                         icon: "sap-icon://action",

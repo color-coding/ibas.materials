@@ -154,8 +154,7 @@ export class MaterialListView extends ibas.BOListView implements IMaterialListVi
                             );
                         }
                     }),
-                ],
-                contentRight: [
+                    new sap.m.ToolbarSpacer(""),
                     new sap.m.Button("", {
                         type: sap.m.ButtonType.Transparent,
                         icon: "sap-icon://action",

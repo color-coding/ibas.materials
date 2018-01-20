@@ -12,6 +12,8 @@ import org.colorcoding.ibas.materials.bo.goodsreceipt.GoodsReceipt;
 import org.colorcoding.ibas.materials.bo.inventorytransfer.InventoryTransfer;
 import org.colorcoding.ibas.materials.bo.material.Material;
 import org.colorcoding.ibas.materials.bo.material.MaterialGroup;
+import org.colorcoding.ibas.materials.bo.material.MaterialPrice;
+import org.colorcoding.ibas.materials.bo.material.MaterialQuantity;
 import org.colorcoding.ibas.materials.bo.material.Product;
 import org.colorcoding.ibas.materials.bo.materialbatch.MaterialBatch;
 import org.colorcoding.ibas.materials.bo.materialbatch.MaterialBatchJournal;
@@ -375,7 +377,7 @@ public class DataService extends BORepositoryMaterials {
 
 	// --------------------------------------------------------------------------------------------//
 	/**
-	 * 查询-物料扩展（仓库库存、单价）
+	 * 查询-产品（物料）（数量、价格）
 	 *
 	 * @param criteria
 	 *            查询
@@ -387,6 +389,36 @@ public class DataService extends BORepositoryMaterials {
 	public OperationResult<Product> fetchProduct(@WebParam(name = "criteria") Criteria criteria,
 			@WebParam(name = "token") String token) {
 		return super.fetchProduct(criteria, token);
+	}
+
+	/**
+	 * 查询-物料数量
+	 *
+	 * @param criteria
+	 *            查询（支持的查询条件，仅为ItemCode，ItemName，WhsCode）
+	 * @param token
+	 *            口令
+	 * @return 操作结果
+	 */
+	@WebMethod
+	public OperationResult<MaterialQuantity> fetchMaterialQuantity(@WebParam(name = "criteria") Criteria criteria,
+			@WebParam(name = "token") String token) {
+		return super.fetchMaterialQuantity(criteria, token);
+	}
+
+	/**
+	 * 查询-物料价格
+	 *
+	 * @param criteria
+	 *            查询（支持的查询条件，仅为ItemCode，ItemName，PriceList）
+	 * @param token
+	 *            口令
+	 * @return 物料价格
+	 */
+	@WebMethod
+	public OperationResult<MaterialPrice> fetchMaterialPrice(@WebParam(name = "criteria") Criteria criteria,
+			@WebParam(name = "token") String token) {
+		return super.fetchMaterialPrice(criteria, token);
 	}
 	// --------------------------------------------------------------------------------------------//
 

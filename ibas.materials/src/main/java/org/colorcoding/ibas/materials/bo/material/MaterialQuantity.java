@@ -8,6 +8,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
+import org.colorcoding.ibas.bobas.common.ICondition;
 import org.colorcoding.ibas.bobas.data.ArrayList;
 import org.colorcoding.ibas.bobas.data.Decimal;
 import org.colorcoding.ibas.bobas.data.List;
@@ -32,6 +33,16 @@ public class MaterialQuantity extends Serializable implements IMaterialQuantity 
 	 * 查询条件字段-仓库（关系为或）
 	 */
 	public static final String CONDITION_ALIAS_WAREHOUSE = "WhsCode";
+
+	public static void transform(Iterable<ICondition> conditions) {
+		for (ICondition condition : conditions) {
+			if (condition.getAlias().equalsIgnoreCase(CONDITION_ALIAS_ITEMCODE)) {
+				condition.setAlias(Material.PROPERTY_CODE.getName());
+			} else if (condition.getAlias().equalsIgnoreCase(CONDITION_ALIAS_ITEMNAME)) {
+				condition.setAlias(Material.PROPERTY_NAME.getName());
+			}
+		}
+	}
 
 	public static IMaterialQuantity create(IMaterial material) {
 		MaterialQuantity materialQuantity = new MaterialQuantity();
@@ -63,15 +74,13 @@ public class MaterialQuantity extends Serializable implements IMaterialQuantity 
 		return materialQuantities;
 	}
 
-	@XmlElement(name = "ItemCode")
 	private String itemCode;
 
-	@Override
+	@XmlElement(name = "ItemCode")
 	public final String getItemCode() {
 		return itemCode;
 	}
 
-	@Override
 	public final void setItemCode(String value) {
 		this.itemCode = value;
 	}
@@ -87,38 +96,32 @@ public class MaterialQuantity extends Serializable implements IMaterialQuantity 
 		this.itemName = value;
 	}
 
-	@XmlElement(name = "OnHand")
 	private Decimal onHand;
 
-	@Override
+	@XmlElement(name = "OnHand")
 	public final Decimal getOnHand() {
 		return onHand;
 	}
 
-	@Override
 	public final void setOnHand(Decimal onHand) {
 		this.onHand = onHand;
 	}
 
-	@Override
 	public final void setOnHand(int value) {
 		this.setOnHand(new Decimal(value));
 	}
 
-	@Override
 	public final void setOnHand(double value) {
 		this.setOnHand(new Decimal(value));
 	}
 
-	@XmlElement(name = "UOM")
 	private String uom;
 
-	@Override
+	@XmlElement(name = "UOM")
 	public final String getUOM() {
 		return uom;
 	}
 
-	@Override
 	public final void setUOM(String value) {
 		this.uom = value;
 	}

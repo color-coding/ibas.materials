@@ -9,6 +9,7 @@ import org.colorcoding.ibas.bobas.common.ICriteria;
 import org.colorcoding.ibas.bobas.common.IOperationResult;
 import org.colorcoding.ibas.bobas.common.ISort;
 import org.colorcoding.ibas.bobas.common.OperationResult;
+import org.colorcoding.ibas.bobas.common.SortType;
 import org.colorcoding.ibas.bobas.data.Decimal;
 import org.colorcoding.ibas.bobas.data.measurement.Currency;
 import org.colorcoding.ibas.bobas.i18n.I18N;
@@ -688,6 +689,15 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 			}
 			if (used) {
 				criteria.getConditions().add(condition);
+			} else {
+				if (condition.getBracketOpen() > 0 && i + 1 < tmpCriteria.getConditions().size()) {
+					ICondition tmpCondition = tmpCriteria.getConditions().get(i + 1);
+					tmpCondition.setBracketOpen(tmpCondition.getBracketOpen() + condition.getBracketOpen());
+				}
+				if (condition.getBracketClose() > 0 && i - 1 > 0) {
+					ICondition tmpCondition = tmpCriteria.getConditions().get(i - 1);
+					tmpCondition.setBracketClose(tmpCondition.getBracketClose() + condition.getBracketClose());
+				}
 			}
 		}
 		for (ISort sort : tmpCriteria.getSorts()) {
@@ -735,21 +745,33 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 	@Override
 	public OperationResult<MaterialPrice> fetchMaterialPrice(ICriteria criteria, String token) {
 		try {
+			this.setUserToken(token);
 			if (criteria == null || criteria.getConditions().isEmpty()) {
 				throw new Exception(I18N.prop("msg_bobas_invaild_criteria"));
 			}
-			OperationResult<MaterialPrice> operationResult = new OperationResult<>();
 			// 查询物料
 			ICriteria maCriteria = this.filterConditions(criteria, true, MaterialPrice.CONDITION_ALIAS_ITEMCODE,
 					MaterialPrice.CONDITION_ALIAS_ITEMNAME);
+			maCriteria.setResultCount(criteria.getResultCount());
+			for (ICondition condition : maCriteria.getConditions()) {
+				if (condition.getAlias().equalsIgnoreCase(MaterialPrice.CONDITION_ALIAS_ITEMCODE)) {
+					condition.setAlias(Material.PROPERTY_CODE.getName());
+				} else if (condition.getAlias().equalsIgnoreCase(MaterialPrice.CONDITION_ALIAS_ITEMNAME)) {
+					condition.setAlias(Material.PROPERTY_NAME.getName());
+				}
+			}
+			ISort sort = maCriteria.getSorts().create();
+			sort.setAlias(Material.PROPERTY_CODE.getName());
+			sort.setSortType(SortType.ASCENDING);
 			IOperationResult<IMaterial> opRsltMaterial = this.fetchMaterial(maCriteria);
 			if (opRsltMaterial.getError() != null) {
 				throw opRsltMaterial.getError();
 			}
+			OperationResult<MaterialPrice> operationResult = new OperationResult<>();
 			operationResult.addResultObjects(MaterialPrice.create(opRsltMaterial.getResultObjects()));
 			// 查询物料价格
 			ICondition plCondition = criteria.getConditions()
-					.firstOrDefault(c -> MaterialPrice.CONDITION_ALIAS_ITEMCODE.equalsIgnoreCase(c.getAlias()));
+					.firstOrDefault(c -> MaterialPrice.CONDITION_ALIAS_PRICELIST.equalsIgnoreCase(c.getAlias()));
 			if (plCondition != null) {
 				for (IMaterialPrice item : operationResult.getResultObjects()) {
 					// 清零
@@ -760,6 +782,7 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 						item.setPrice(price.getValue());
 						item.setCurrency(price.getUnit());
 					}
+					item.setSource(plCondition.getValue());
 				}
 			}
 			return operationResult;
@@ -846,7 +869,7 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 	}
 
 	/**
-	 * 查询-物料库存数量（提前设置用户口令）
+	 * 查询-物料数量（提前设置用户口令）
 	 *
 	 * @param criteria
 	 *            查询
@@ -858,7 +881,7 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 	}
 
 	/**
-	 * 查询-物料库存数量
+	 * 查询-物料数量
 	 *
 	 * @param criteria
 	 *            查询（支持的查询条件，仅为ItemCode，ItemName，WhsCode）
@@ -869,17 +892,29 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 	@Override
 	public OperationResult<MaterialQuantity> fetchMaterialQuantity(ICriteria criteria, String token) {
 		try {
+			this.setUserToken(token);
 			if (criteria == null || criteria.getConditions().isEmpty()) {
 				throw new Exception(I18N.prop("msg_bobas_invaild_criteria"));
 			}
-			OperationResult<MaterialQuantity> operationResult = new OperationResult<>();
 			// 查询物料
 			ICriteria maCriteria = this.filterConditions(criteria, true, MaterialQuantity.CONDITION_ALIAS_ITEMCODE,
 					MaterialQuantity.CONDITION_ALIAS_ITEMNAME);
+			maCriteria.setResultCount(criteria.getResultCount());
+			for (ICondition condition : maCriteria.getConditions()) {
+				if (condition.getAlias().equalsIgnoreCase(MaterialQuantity.CONDITION_ALIAS_ITEMCODE)) {
+					condition.setAlias(Material.PROPERTY_CODE.getName());
+				} else if (condition.getAlias().equalsIgnoreCase(MaterialQuantity.CONDITION_ALIAS_ITEMNAME)) {
+					condition.setAlias(Material.PROPERTY_NAME.getName());
+				}
+			}
+			ISort sort = maCriteria.getSorts().create();
+			sort.setAlias(Material.PROPERTY_CODE.getName());
+			sort.setSortType(SortType.ASCENDING);
 			IOperationResult<IMaterial> opRsltMaterial = this.fetchMaterial(maCriteria);
 			if (opRsltMaterial.getError() != null) {
 				throw opRsltMaterial.getError();
 			}
+			OperationResult<MaterialQuantity> operationResult = new OperationResult<>();
 			operationResult.addResultObjects(MaterialQuantity.create(opRsltMaterial.getResultObjects()));
 			// 查询物料库存
 			ICriteria whCriteria = this.filterConditions(criteria, true, MaterialQuantity.CONDITION_ALIAS_WAREHOUSE);
@@ -938,7 +973,7 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 	 * 查询-产品信息
 	 *
 	 * @param criteria
-	 *            对象实例
+	 *            查询
 	 * @param token
 	 *            口令
 	 * @return 操作结果
@@ -946,9 +981,14 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 	@Override
 	public OperationResult<Product> fetchProduct(ICriteria criteria, String token) {
 		try {
+			this.setUserToken(token);
+			if (criteria == null || criteria.getConditions().isEmpty()) {
+				throw new Exception(I18N.prop("msg_bobas_invaild_criteria"));
+			}
 			// 查询物料
 			ICriteria pdCriteria = this.filterConditions(criteria, false, Product.CONDITION_ALIAS_WAREHOUSE,
 					Product.CONDITION_ALIAS_PRICELIST);
+			pdCriteria.setResultCount(criteria.getResultCount());
 			OperationResult<Product> operationResult = this.fetch(pdCriteria, token, Product.class);
 			if (operationResult.getError() != null) {
 				throw operationResult.getError();
@@ -988,7 +1028,7 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 			}
 			// 查询物料的价格
 			ICondition plCondition = criteria.getConditions()
-					.firstOrDefault(c -> MaterialPrice.CONDITION_ALIAS_ITEMCODE.equalsIgnoreCase(c.getAlias()));
+					.firstOrDefault(c -> MaterialPrice.CONDITION_ALIAS_PRICELIST.equalsIgnoreCase(c.getAlias()));
 			if (plCondition != null) {
 				for (IProduct product : operationResult.getResultObjects()) {
 					// 清零

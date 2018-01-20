@@ -61,15 +61,24 @@ public class MaterialPrice extends Serializable implements IMaterialPrice {
 		return materialPrices;
 	}
 
-	@XmlElement(name = "ItemCode")
+	private String source;
+
+	@XmlElement(name = "Source")
+	public String getSource() {
+		return source;
+	}
+
+	public void setSource(String source) {
+		this.source = source;
+	}
+
 	private String itemCode;
 
-	@Override
+	@XmlElement(name = "ItemCode")
 	public final String getItemCode() {
 		return itemCode;
 	}
 
-	@Override
 	public final void setItemCode(String itemCode) {
 		this.itemCode = itemCode;
 	}
@@ -85,38 +94,32 @@ public class MaterialPrice extends Serializable implements IMaterialPrice {
 		this.itemName = value;
 	}
 
-	@XmlElement(name = "Price")
 	private Decimal price;
 
-	@Override
+	@XmlElement(name = "Price")
 	public final Decimal getPrice() {
 		return price;
 	}
 
-	@Override
 	public final void setPrice(Decimal price) {
 		this.price = price;
 	}
 
-	@Override
 	public final void setPrice(int value) {
 		this.setPrice(new Decimal(value));
 	}
 
-	@Override
 	public final void setPrice(double value) {
 		this.setPrice(new Decimal(value));
 	}
 
-	@XmlElement(name = "Currency")
 	private String currency;
 
-	@Override
+	@XmlElement(name = "Currency")
 	public final String getCurrency() {
 		return currency;
 	}
 
-	@Override
 	public final void setCurrency(String currency) {
 		this.currency = currency;
 	}

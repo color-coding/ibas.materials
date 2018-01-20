@@ -31,8 +31,11 @@ import { GoodsReceipt } from "./GoodsReceipt";
 ibas.boFactory.register(GoodsReceipt.BUSINESS_OBJECT_CODE, GoodsReceipt);
 import { InventoryTransfer } from "./InventoryTransfer";
 ibas.boFactory.register(InventoryTransfer.BUSINESS_OBJECT_CODE, InventoryTransfer);
-import { Material } from "./Material";
+import { Material, MaterialPrice, MaterialQuantity } from "./Material";
 ibas.boFactory.register(Material.BUSINESS_OBJECT_CODE, Material);
+// 模块内应用对象
+ibas.boFactory.register(MaterialPrice);
+ibas.boFactory.register(MaterialQuantity);
 import { Product } from "./Product";
 ibas.boFactory.register(Product.BUSINESS_OBJECT_CODE, Product);
 import { MaterialGroup } from "./MaterialGroup";

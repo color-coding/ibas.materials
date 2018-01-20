@@ -314,4 +314,20 @@ export namespace conditions {
             return conditions;
         }
     }
+    export namespace materialprice {
+        /** 查询条件字段-物料编码 */
+        export const CONDITION_ALIAS_ITEMCODE: string = "ItemCode";
+        /** 查询条件字段-物料名称 */
+        export const CONDITION_ALIAS_ITEMNAME: string = "ItemName";
+        /** 查询条件字段-价格清单 */
+        export const CONDITION_ALIAS_PRICELIST: string = "PriceList";
+    }
+    export namespace materialquantity {
+        /** 查询条件字段-物料编码 */
+        export const CONDITION_ALIAS_ITEMCODE: string = "ItemCode";
+        /** 查询条件字段-物料名称 */
+        export const CONDITION_ALIAS_ITEMNAME: string = "ItemName";
+        /** 查询条件字段-仓库（关系为或）*/
+        export const CONDITION_ALIAS_WAREHOUSE: string = "WhsCode";
+    }
 }

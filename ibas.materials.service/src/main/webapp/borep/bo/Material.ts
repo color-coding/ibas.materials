@@ -20,11 +20,17 @@ import {
     BOSimple,
     BOSimpleLine,
     config,
+    StringBuilder,
+    ICriteria,
+    Criteria,
+    ICondition,
 } from "ibas/index";
 import {
     IMaterial,
     BO_CODE_MATERIAL,
     emItemType,
+    IMaterialPrice,
+    IMaterialQuantity,
 } from "../../api/index";
 
 /** 物料 */
@@ -534,3 +540,189 @@ export class Material extends BOMasterData<Material> implements IMaterial {
 }
 
 
+/** 物料数量 */
+export class MaterialQuantity extends BusinessObject<MaterialQuantity> implements IMaterialQuantity {
+
+    /** 映射的属性名称-物料编号 */
+    static PROPERTY_ITEMCODE_NAME: string = "ItemCode";
+    /** 获取-物料编号 */
+    get itemCode(): string {
+        return this.getProperty<string>(MaterialQuantity.PROPERTY_ITEMCODE_NAME);
+    }
+    /** 设置-物料编号 */
+    set itemCode(value: string) {
+        this.setProperty(MaterialQuantity.PROPERTY_ITEMCODE_NAME, value);
+    }
+
+    /** 映射的属性名称-物料名称 */
+    static PROPERTY_ITEMNAME_NAME: string = "ItemName";
+    /** 获取-物料名称 */
+    get itemName(): string {
+        return this.getProperty<string>(MaterialQuantity.PROPERTY_ITEMNAME_NAME);
+    }
+    /** 设置-物料名称 */
+    set itemName(value: string) {
+        this.setProperty(MaterialQuantity.PROPERTY_ITEMNAME_NAME, value);
+    }
+
+    /** 映射的属性名称-库存 */
+    static PROPERTY_ONHAND_NAME: string = "OnHand";
+    /** 获取-库存 */
+    get onHand(): number {
+        return this.getProperty<number>(MaterialQuantity.PROPERTY_ONHAND_NAME);
+    }
+    /** 设置-库存 */
+    set onHand(value: number) {
+        this.setProperty(MaterialQuantity.PROPERTY_ONHAND_NAME, value);
+    }
+
+    /** 映射的属性名称-计量单位 */
+    static PROPERTY_UOM_NAME: string = "UOM";
+    /** 获取-计量单位 */
+    get uom(): string {
+        return this.getProperty<string>(MaterialQuantity.PROPERTY_UOM_NAME);
+    }
+    /** 设置-计量单位 */
+    set uom(value: string) {
+        this.setProperty(MaterialQuantity.PROPERTY_UOM_NAME, value);
+    }
+
+    /** 字符串 */
+    toString(): string {
+        let builder: StringBuilder = new StringBuilder();
+        builder.append("{");
+        builder.append("[");
+        builder.append(MaterialQuantity.name);
+        builder.append("].");
+        builder.append("[");
+        builder.append(MaterialQuantity.PROPERTY_ITEMCODE_NAME);
+        builder.append(" ");
+        builder.append("=");
+        builder.append(" ");
+        builder.append(this.itemCode);
+        builder.append("]");
+        builder.append("&");
+        builder.append("[");
+        builder.append(MaterialQuantity.PROPERTY_ONHAND_NAME);
+        builder.append(" ");
+        builder.append("=");
+        builder.append(" ");
+        builder.append(this.onHand);
+        builder.append(" ");
+        builder.append(this.uom);
+        builder.append("]");
+        builder.append("}");
+        return builder.toString();
+    }
+    /** 获取查询 */
+    criteria(): ICriteria {
+        let criteria: ICriteria = new Criteria();
+        let condition: ICondition = criteria.conditions.create();
+        condition.alias = MaterialPrice.PROPERTY_ITEMCODE_NAME;
+        condition.value = this.itemCode;
+        return criteria;
+    }
+    /** 初始化数据 */
+    protected init(): void {
+    }
+
+
+}
+/** 物料价格 */
+export class MaterialPrice extends BusinessObject<MaterialPrice> implements IMaterialPrice {
+
+    /** 映射的属性名称-数据源 */
+    static PROPERTY_SOURCE_NAME: string = "Source";
+    /** 获取-数据源 */
+    get source(): string {
+        return this.getProperty<string>(MaterialPrice.PROPERTY_SOURCE_NAME);
+    }
+    /** 设置-数据源 */
+    set source(value: string) {
+        this.setProperty(MaterialPrice.PROPERTY_SOURCE_NAME, value);
+    }
+
+    /** 映射的属性名称-物料编号 */
+    static PROPERTY_ITEMCODE_NAME: string = "ItemCode";
+    /** 获取-物料编号 */
+    get itemCode(): string {
+        return this.getProperty<string>(MaterialPrice.PROPERTY_ITEMCODE_NAME);
+    }
+    /** 设置-物料编号 */
+    set itemCode(value: string) {
+        this.setProperty(MaterialPrice.PROPERTY_ITEMCODE_NAME, value);
+    }
+
+    /** 映射的属性名称-物料名称 */
+    static PROPERTY_ITEMNAME_NAME: string = "ItemName";
+    /** 获取-物料名称 */
+    get itemName(): string {
+        return this.getProperty<string>(MaterialPrice.PROPERTY_ITEMNAME_NAME);
+    }
+    /** 设置-物料名称 */
+    set itemName(value: string) {
+        this.setProperty(MaterialPrice.PROPERTY_ITEMNAME_NAME, value);
+    }
+
+    /** 映射的属性名称-价格 */
+    static PROPERTY_PRICE_NAME: string = "Price";
+    /** 获取-价格 */
+    get price(): number {
+        return this.getProperty<number>(MaterialPrice.PROPERTY_PRICE_NAME);
+    }
+    /** 设置-价格 */
+    set price(value: number) {
+        this.setProperty(MaterialPrice.PROPERTY_PRICE_NAME, value);
+    }
+
+    /** 映射的属性名称-货币 */
+    static PROPERTY_CURRENCY_NAME: string = "Currency";
+    /** 获取-货币 */
+    get currency(): string {
+        return this.getProperty<string>(MaterialPrice.PROPERTY_CURRENCY_NAME);
+    }
+    /** 设置-货币 */
+    set currency(value: string) {
+        this.setProperty(MaterialPrice.PROPERTY_CURRENCY_NAME, value);
+    }
+
+    /** 字符串 */
+    toString(): string {
+        let builder: StringBuilder = new StringBuilder();
+        builder.append("{");
+        builder.append("[");
+        builder.append(MaterialPrice.name);
+        builder.append("].");
+        builder.append("[");
+        builder.append(MaterialPrice.PROPERTY_ITEMCODE_NAME);
+        builder.append(" ");
+        builder.append("=");
+        builder.append(" ");
+        builder.append(this.itemCode);
+        builder.append("]");
+        builder.append("&");
+        builder.append("[");
+        builder.append(MaterialPrice.PROPERTY_PRICE_NAME);
+        builder.append(" ");
+        builder.append("=");
+        builder.append(" ");
+        builder.append(this.price);
+        builder.append(" ");
+        builder.append(this.currency);
+        builder.append("]");
+        builder.append("}");
+        return builder.toString();
+    }
+    /** 获取查询 */
+    criteria(): ICriteria {
+        let criteria: ICriteria = new Criteria();
+        let condition: ICondition = criteria.conditions.create();
+        condition.alias = MaterialPrice.PROPERTY_ITEMCODE_NAME;
+        condition.value = this.itemCode;
+        return criteria;
+    }
+    /** 初始化数据 */
+    protected init(): void {
+    }
+
+}

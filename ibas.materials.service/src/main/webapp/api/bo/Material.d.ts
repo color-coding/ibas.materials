@@ -159,4 +159,39 @@ export interface IMaterial extends IBOMasterData {
     organization: string;
 }
 
+/** 物料数量 */
+export interface IMaterialQuantity {
 
+    /** 物料编码 */
+    itemCode: string;
+
+    /** 物料名称 */
+    itemName: string;
+
+    /** 库存数量 */
+    onHand: number;
+
+    /** 单位 */
+    uom: string;
+
+}
+
+/** 物料价格 */
+export interface IMaterialPrice {
+
+    /** 价格来源 */
+    source: string;
+
+    /** 物料编码 */
+    itemCode: string;
+
+    /** 物料名称 */
+    itemName: string;
+
+    /** 价格 */
+    price: number;
+
+    /** 币种 */
+    currency: string;
+
+}
