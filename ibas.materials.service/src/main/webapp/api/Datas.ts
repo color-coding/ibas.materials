@@ -327,7 +327,7 @@ export namespace conditions {
         export const CONDITION_ALIAS_ITEMCODE: string = "ItemCode";
         /** 查询条件字段-物料名称 */
         export const CONDITION_ALIAS_ITEMNAME: string = "ItemName";
-        /** 查询条件字段-仓库（关系为或）*/
+        /** 查询条件字段-仓库（关系为或） */
         export const CONDITION_ALIAS_WAREHOUSE: string = "WhsCode";
     }
 }

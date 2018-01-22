@@ -199,6 +199,7 @@ export class MaterialPriceListListApp extends ibas.BOListApplication<IMaterialPr
             criteria: criteria,
             onCompleted(opRslt: ibas.IOperationResult<bo.MaterialPrice>): void {
                 try {
+                    that.busy(false);
                     if (opRslt.resultCode !== 0) {
                         throw new Error(opRslt.message);
                     }
@@ -206,7 +207,6 @@ export class MaterialPriceListListApp extends ibas.BOListApplication<IMaterialPr
                         that.proceeding(ibas.emMessageType.INFORMATION, ibas.i18n.prop("shell_data_fetched_none"));
                     }
                     that.view.showPrices(opRslt.resultObjects);
-                    that.busy(false);
                 } catch (error) {
                     that.messages(error);
                 }
@@ -242,17 +242,12 @@ export class MaterialPriceListListApp extends ibas.BOListApplication<IMaterialPr
             beSaved: beSaved,
             onCompleted(opRslt: ibas.IOperationResult<bo.MaterialPriceList>): void {
                 try {
+                    that.busy(false);
                     if (opRslt.resultCode !== 0) {
                         throw new Error(opRslt.message);
                     }
-                    that.busy(false);
-                    if (opRslt.resultObjects.length === 0 || opRslt.resultObjects.firstOrDefault().materialPriceItems.length) {
-                        that.messages(ibas.emMessageType.SUCCESS,
-                            ibas.i18n.prop("shell_data_delete") + ibas.i18n.prop("shell_sucessful"));
-                    } else {
-                        that.messages(ibas.emMessageType.SUCCESS,
-                            ibas.i18n.prop("shell_data_save") + ibas.i18n.prop("shell_sucessful"));
-                    }
+                    that.messages(ibas.emMessageType.SUCCESS,
+                        ibas.i18n.prop("shell_data_save") + ibas.i18n.prop("shell_sucessful"));
                 } catch (error) {
                     that.messages(ibas.emMessageType.ERROR,
                         ibas.i18n.prop("shell_data_delete_error", beSaved, error.message));
