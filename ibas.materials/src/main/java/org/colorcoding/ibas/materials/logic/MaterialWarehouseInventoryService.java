@@ -8,10 +8,14 @@ import org.colorcoding.ibas.bobas.common.ICriteria;
 import org.colorcoding.ibas.bobas.common.IOperationResult;
 import org.colorcoding.ibas.bobas.data.Decimal;
 import org.colorcoding.ibas.bobas.data.emDirection;
+import org.colorcoding.ibas.bobas.data.emYesNo;
+import org.colorcoding.ibas.bobas.i18n.I18N;
 import org.colorcoding.ibas.bobas.logic.BusinessLogicException;
 import org.colorcoding.ibas.bobas.mapping.LogicContract;
+import org.colorcoding.ibas.materials.bo.material.IMaterial;
 import org.colorcoding.ibas.materials.bo.materialinventory.IMaterialInventory;
 import org.colorcoding.ibas.materials.bo.materialinventory.MaterialInventory;
+import org.colorcoding.ibas.materials.data.emItemType;
 import org.colorcoding.ibas.materials.repository.BORepositoryMaterials;
 
 @LogicContract(IMaterialWarehouseInventoryContract.class)
@@ -20,7 +24,22 @@ public class MaterialWarehouseInventoryService
 	@Override
 	protected IMaterialInventory fetchBeAffected(IMaterialWarehouseInventoryContract contract) {
 		// 检查物料
-		this.checkMaterial(contract.getItemCode());
+		IMaterial material = this.checkMaterial(contract.getItemCode());
+		// 虚拟物料，不生成库存记录
+		if (material.getPhantomItem() == emYesNo.YES) {
+			throw new BusinessLogicException(String
+					.format(I18N.prop("msg_mm_material_is_phantom_item_can't_create_journal"), material.getCode()));
+		}
+		// 非库存物料，不生成库存记录
+		if (material.getInventoryItem() == emYesNo.NO) {
+			throw new BusinessLogicException(String.format(
+					I18N.prop("msg_mm_material_is_not_inventory_item_can't_create_journal"), material.getCode()));
+		}
+		// 服务物料，不生成库存记录
+		if (material.getItemType() == emItemType.SERVICES) {
+			throw new BusinessLogicException(String
+					.format(I18N.prop("msg_mm_material_is_service_item_can't_create_journal"), material.getCode()));
+		}
 		// 检查仓库
 		this.checkWarehose(contract.getWarehouse());
 		// 检查物料库存记录
