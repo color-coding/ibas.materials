@@ -48,13 +48,17 @@ export class GoodsIssueEditView extends ibas.BOEditView implements IGoodsIssueEd
                     path: "docEntry",
                 }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_goodsissue_pricelist") }),
-                new sap.m.Input("", {
-                    showValueHelp: true,
+                new sap.m.ex.BOInput("", {
+                    boText: "name",
+                    boKey: "objectKey",
+                    boCode: ibas.config.applyVariables(bo.BO_CODE_MATERIALPRICELIST),
+                    repositoryName: bo.BO_REPOSITORY_MATERIALS,
                     valueHelpRequest: function (): void {
                         that.fireViewEvents(that.chooseeGoodsIssueMaterialPriceListEvent);
+                    },
+                    bindingValue: {
+                        path: "priceList"
                     }
-                }).bindProperty("value", {
-                    path: "priceList"
                 }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_goodsissue_reference1") }),
                 new sap.m.Input("", {}).bindProperty("value", {

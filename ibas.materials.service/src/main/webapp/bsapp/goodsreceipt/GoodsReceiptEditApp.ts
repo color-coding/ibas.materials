@@ -215,10 +215,38 @@ export class GoodsReceiptEditApp extends ibas.BOEditApplication<IGoodsReceiptEdi
     /** 选择库存收货订单行物料事件 */
     chooseGoodsReceiptLineMaterial(caller: bo.GoodsReceiptLine): void {
         let that: this = this;
-        ibas.servicesManager.runChooseService<bo.Material>({
-            boCode: bo.Material.BUSINESS_OBJECT_CODE,
-            criteria: bo.conditions.material.create(),
-            onCompleted(selecteds: ibas.List<bo.Material>): void {
+        let condition: ibas.ICondition;
+        let conditions: ibas.List<ibas.ICondition> = bo.conditions.product.create();
+        // 添加价格清单条件
+        if (this.editData.priceList > 0) {
+            condition = new ibas.Condition();
+            condition.alias = bo.conditions.product.CONDITION_ALIAS_PRICELIST;
+            condition.value = this.editData.priceList.toString();
+            condition.operation = ibas.emConditionOperation.EQUAL;
+            condition.relationship = ibas.emConditionRelationship.AND;
+            conditions.add(condition);
+        }
+        // 添加仓库条件
+        if (!ibas.objects.isNull(caller) && !ibas.strings.isEmpty(caller.warehouse)) {
+            condition = new ibas.Condition();
+            condition.alias = bo.conditions.product.CONDITION_ALIAS_WAREHOUSE;
+            condition.value = caller.warehouse;
+            condition.operation = ibas.emConditionOperation.EQUAL;
+            condition.relationship = ibas.emConditionRelationship.AND;
+            conditions.add(condition);
+        }
+        // 库存物料
+        condition = new ibas.Condition();
+        condition.alias = bo.conditions.product.CONDITION_ALIAS_INVENTORY_ITEM;
+        condition.value = ibas.emYesNo.YES.toString();
+        condition.operation = ibas.emConditionOperation.EQUAL;
+        condition.relationship = ibas.emConditionRelationship.AND;
+        conditions.add(condition);
+        // 调用选择服务
+        ibas.servicesManager.runChooseService<bo.Product>({
+            boCode: bo.BO_CODE_PRODUCT,
+            criteria: conditions,
+            onCompleted(selecteds: ibas.List<bo.Product>): void {
                 // 获取触发的对象
                 let index: number = that.editData.goodsReceiptLines.indexOf(caller);
                 let item: bo.GoodsReceiptLine = that.editData.goodsReceiptLines[index];
@@ -233,7 +261,7 @@ export class GoodsReceiptEditApp extends ibas.BOEditApplication<IGoodsReceiptEdi
                     item.itemDescription = selected.name;
                     item.serialManagement = selected.serialManagement;
                     item.batchManagement = selected.batchManagement;
-                    item.warehouse = selected.defaultWarehouse;
+                    item.warehouse = selected.warehouse;
                     item.quantity = 1;
                     item.uom = selected.inventoryUOM;
                     item = null;
@@ -251,11 +279,10 @@ export class GoodsReceiptEditApp extends ibas.BOEditApplication<IGoodsReceiptEdi
         ibas.servicesManager.runChooseService<bo.MaterialPriceList>({
             boCode: bo.MaterialPriceList.BUSINESS_OBJECT_CODE,
             chooseType: ibas.emChooseType.SINGLE,
-            criteria: [
-                // new ibas.Condition(bo.MaterialPriceList.Property_, ibas.emConditionOperation.EQUAL, ibas.emYesNo.YES)
-            ],
+            criteria: bo.conditions.materialpricelist.create(),
             onCompleted(selecteds: ibas.List<bo.MaterialPriceList>): void {
-                that.editData.priceList = selecteds.firstOrDefault().objectKey;
+                let selected: bo.MaterialPriceList = selecteds.firstOrDefault();
+                that.editData.priceList = selected.objectKey;
             }
         });
     }

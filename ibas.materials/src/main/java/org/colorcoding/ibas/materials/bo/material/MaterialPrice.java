@@ -13,6 +13,7 @@ import org.colorcoding.ibas.bobas.data.Decimal;
 import org.colorcoding.ibas.bobas.data.List;
 import org.colorcoding.ibas.bobas.serialization.Serializable;
 import org.colorcoding.ibas.materials.MyConfiguration;
+import org.colorcoding.ibas.materials.bo.materialpricelist.IMaterialPriceItem;
 
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlType(name = "MaterialPrice", namespace = MyConfiguration.NAMESPACE_BO)
@@ -46,6 +47,20 @@ public class MaterialPrice extends Serializable implements IMaterialPrice {
 		materialPrice.setItemCode(material.getCode());
 		materialPrice.setItemName(material.getName());
 		materialPrice.setPrice(material.getPrice());
+		return materialPrice;
+	}
+
+	public static IMaterialPrice create(IMaterialPriceItem materialPriceItem) {
+		MaterialPrice materialPrice = new MaterialPrice();
+		materialPrice.setItemCode(materialPriceItem.getItemCode());
+		materialPrice.setPrice(materialPriceItem.getPrice());
+		materialPrice.setSource(Integer.toString(materialPriceItem.getObjectKey()));
+		return materialPrice;
+	}
+
+	public static IMaterialPrice create(IMaterialPriceItem materialPriceItem, String currency) {
+		IMaterialPrice materialPrice = create(materialPriceItem);
+		materialPrice.setCurrency(currency);
 		return materialPrice;
 	}
 

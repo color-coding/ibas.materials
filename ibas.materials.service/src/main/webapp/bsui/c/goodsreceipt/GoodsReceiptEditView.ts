@@ -48,13 +48,17 @@ export class GoodsReceiptEditView extends ibas.BOEditView implements IGoodsRecei
                     path: "docEntry",
                 }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_goodsreceipt_pricelist") }),
-                new sap.m.Input("", {
-                    showValueHelp: true,
+                new sap.m.ex.BOInput("", {
+                    boText: "name",
+                    boKey: "objectKey",
+                    boCode: ibas.config.applyVariables(bo.BO_CODE_MATERIALPRICELIST),
+                    repositoryName: bo.BO_REPOSITORY_MATERIALS,
                     valueHelpRequest: function (): void {
                         that.fireViewEvents(that.chooseGoodsReceiptMaterialPriceListEvent);
+                    },
+                    bindingValue: {
+                        path: "priceList"
                     }
-                }).bindProperty("value", {
-                    path: "priceList"
                 }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_goodsreceipt_reference1") }),
                 new sap.m.Input("", {}).bindProperty("value", {

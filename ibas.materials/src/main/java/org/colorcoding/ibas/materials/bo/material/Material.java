@@ -683,38 +683,6 @@ public class Material extends MaterialBase<Material> implements IMaterial, IData
 	}
 
 	/**
-	 * 属性名称-已删除
-	 */
-	private static final String PROPERTY_DELETED_NAME = "Deleted";
-
-	/**
-	 * 已删除 属性
-	 */
-	@DbField(name = "Deleted", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME, primaryKey = false)
-	public static final IPropertyInfo<emYesNo> PROPERTY_DELETED = registerProperty(PROPERTY_DELETED_NAME, emYesNo.class,
-			MY_CLASS);
-
-	/**
-	 * 获取-已删除
-	 * 
-	 * @return 值
-	 */
-	@XmlElement(name = PROPERTY_DELETED_NAME)
-	public final emYesNo getDeleted() {
-		return this.getProperty(PROPERTY_DELETED);
-	}
-
-	/**
-	 * 设置-已删除
-	 * 
-	 * @param value
-	 *            值
-	 */
-	public final void setDeleted(emYesNo value) {
-		this.setProperty(PROPERTY_DELETED, value);
-	}
-
-	/**
 	 * 初始化数据
 	 */
 	@Override

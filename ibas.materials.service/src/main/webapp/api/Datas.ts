@@ -150,6 +150,12 @@ export namespace conditions {
             condition.operation = emConditionOperation.EQUAL;
             condition.value = emYesNo.YES.toString();
             conditions.add(condition);
+            // 没删除
+            condition = new Condition();
+            condition.alias = "deleted";
+            condition.operation = emConditionOperation.EQUAL;
+            condition.value = emYesNo.NO.toString();
+            conditions.add(condition);
             // 有效日期
             condition = new Condition();
             condition.bracketOpen = 1;
@@ -181,17 +187,10 @@ export namespace conditions {
             condition.operation = emConditionOperation.NOT_NULL;
             conditions.add(condition);
             condition = new Condition();
-            condition.bracketClose = 2;
+            condition.bracketClose = 3;
             condition.alias = "invalidDate";
             condition.operation = emConditionOperation.GRATER_EQUAL;
             condition.value = today;
-            conditions.add(condition);
-            // 没删除
-            condition = new Condition();
-            condition.bracketClose = 1;
-            condition.alias = "deleted";
-            condition.operation = emConditionOperation.EQUAL;
-            condition.value = emYesNo.NO.toString();
             conditions.add(condition);
             return conditions;
         }
@@ -201,6 +200,12 @@ export namespace conditions {
         export const CONDITION_ALIAS_WAREHOUSE: string = "WhsCode";
         /** 查询条件字段-价格清单 */
         export const CONDITION_ALIAS_PRICELIST: string = "PriceList";
+        /** 查询条件字段-销售物料 */
+        export const CONDITION_ALIAS_SALES_ITEM: string = "SalesItem";
+        /** 查询条件字段-采购物料 */
+        export const CONDITION_ALIAS_PURCHASE_ITEM: string = "PurchaseItem";
+        /** 查询条件字段-库存物料 */
+        export const CONDITION_ALIAS_INVENTORY_ITEM: string = "InventoryItem";
         /** 默认查询条件 */
         export function create(): List<ICondition> {
             let today: string = dates.toString(dates.today(), "yyyy-MM-dd");
@@ -212,6 +217,12 @@ export namespace conditions {
             condition.alias = "activated";
             condition.operation = emConditionOperation.EQUAL;
             condition.value = emYesNo.YES.toString();
+            conditions.add(condition);
+            // 没删除
+            condition = new Condition();
+            condition.alias = "deleted";
+            condition.operation = emConditionOperation.EQUAL;
+            condition.value = emYesNo.NO.toString();
             conditions.add(condition);
             // 有效日期
             condition = new Condition();

@@ -228,10 +228,38 @@ export class InventoryTransferEditApp extends ibas.BOEditApplication<IInventoryT
     /** 选择库存转储订单行物料事件 */
     chooseInventoryTransferLineMaterial(caller: bo.InventoryTransferLine): void {
         let that: this = this;
-        ibas.servicesManager.runChooseService<bo.Material>({
-            boCode: bo.Material.BUSINESS_OBJECT_CODE,
-            criteria: bo.conditions.material.create(),
-            onCompleted(selecteds: ibas.List<bo.Material>): void {
+        let condition: ibas.ICondition;
+        let conditions: ibas.List<ibas.ICondition> = bo.conditions.product.create();
+        // 添加价格清单条件
+        if (this.editData.priceList > 0) {
+            condition = new ibas.Condition();
+            condition.alias = bo.conditions.product.CONDITION_ALIAS_PRICELIST;
+            condition.value = this.editData.priceList.toString();
+            condition.operation = ibas.emConditionOperation.EQUAL;
+            condition.relationship = ibas.emConditionRelationship.AND;
+            conditions.add(condition);
+        }
+        // 添加仓库条件
+        if (!ibas.objects.isNull(this.editData) && !ibas.strings.isEmpty(this.editData.fromWarehouse)) {
+            condition = new ibas.Condition();
+            condition.alias = bo.conditions.product.CONDITION_ALIAS_WAREHOUSE;
+            condition.value = this.editData.fromWarehouse;
+            condition.operation = ibas.emConditionOperation.EQUAL;
+            condition.relationship = ibas.emConditionRelationship.AND;
+            conditions.add(condition);
+        }
+        // 库存物料
+        condition = new ibas.Condition();
+        condition.alias = bo.conditions.product.CONDITION_ALIAS_INVENTORY_ITEM;
+        condition.value = ibas.emYesNo.YES.toString();
+        condition.operation = ibas.emConditionOperation.EQUAL;
+        condition.relationship = ibas.emConditionRelationship.AND;
+        conditions.add(condition);
+        // 调用选择服务
+        ibas.servicesManager.runChooseService<bo.Product>({
+            boCode: bo.BO_CODE_PRODUCT,
+            criteria: conditions,
+            onCompleted(selecteds: ibas.List<bo.Product>): void {
                 // 获取触发的对象
                 let index: number = that.editData.inventoryTransferLines.indexOf(caller);
                 let item: bo.InventoryTransferLine = that.editData.inventoryTransferLines[index];
@@ -246,7 +274,7 @@ export class InventoryTransferEditApp extends ibas.BOEditApplication<IInventoryT
                     item.itemDescription = selected.name;
                     item.serialManagement = selected.serialManagement;
                     item.batchManagement = selected.batchManagement;
-                    item.warehouse = selected.defaultWarehouse;
+                    item.warehouse = selected.warehouse;
                     item.quantity = 1;
                     item.uom = selected.inventoryUOM;
                     item = null;
@@ -264,10 +292,10 @@ export class InventoryTransferEditApp extends ibas.BOEditApplication<IInventoryT
         ibas.servicesManager.runChooseService<bo.MaterialPriceList>({
             boCode: bo.MaterialPriceList.BUSINESS_OBJECT_CODE,
             chooseType: ibas.emChooseType.SINGLE,
-            criteria: [
-            ],
+            criteria: bo.conditions.materialpricelist.create(),
             onCompleted(selecteds: ibas.List<bo.MaterialPriceList>): void {
-                that.editData.priceList = selecteds.firstOrDefault().objectKey;
+                let selected: bo.MaterialPriceList = selecteds.firstOrDefault();
+                that.editData.priceList = selected.objectKey;
             }
         });
     }
