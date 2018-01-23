@@ -21,6 +21,7 @@ import {
     emConditionOperation,
     emConditionRelationship,
     emYesNo,
+    ICriteria, Criteria,
 } from "ibas/index";
 import {
     IMaterialBatchItems,
@@ -196,6 +197,10 @@ export namespace conditions {
         }
     }
     export namespace product {
+        /** 查询条件字段-仓库（关系为或） */
+        export const CONDITION_ALIAS_WAREHOUSE: string = "WhsCode";
+        /** 查询条件字段-价格清单 */
+        export const CONDITION_ALIAS_PRICELIST: string = "PriceList";
         /** 默认查询条件 */
         export function create(): List<ICondition> {
             let today: string = dates.toString(dates.today(), "yyyy-MM-dd");
@@ -271,47 +276,43 @@ export namespace conditions {
     }
     export namespace materialpricelist {
         /** 默认查询条件 */
-        export function create(): List<ICondition> {
+        export function create(): ICriteria {
             let today: string = dates.toString(dates.today(), "yyyy-MM-dd");
-            let conditions: List<ICondition> = new ArrayList<ICondition>();
+            let criteria: ICriteria = new Criteria();
+            // 不加载子项
+            criteria.noChilds = true;
             let condition: ICondition;
             // 有效日期
-            condition = new Condition();
+            condition = criteria.conditions.create();
             condition.bracketOpen = 1;
             condition.alias = "validDate";
             condition.operation = emConditionOperation.IS_NULL;
-            conditions.add(condition);
-            condition = new Condition();
+            condition = criteria.conditions.create();
             condition.relationship = emConditionRelationship.OR;
             condition.bracketOpen = 1;
             condition.alias = "validDate";
             condition.operation = emConditionOperation.NOT_NULL;
-            conditions.add(condition);
-            condition = new Condition();
+            condition = criteria.conditions.create();
             condition.bracketClose = 2;
             condition.alias = "validDate";
             condition.operation = emConditionOperation.LESS_EQUAL;
             condition.value = today;
-            conditions.add(condition);
             // 失效日期
-            condition = new Condition();
+            condition = criteria.conditions.create();
             condition.bracketOpen = 1;
             condition.alias = "invalidDate";
             condition.operation = emConditionOperation.IS_NULL;
-            conditions.add(condition);
-            condition = new Condition();
+            condition = criteria.conditions.create();
             condition.relationship = emConditionRelationship.OR;
             condition.bracketOpen = 1;
             condition.alias = "invalidDate";
             condition.operation = emConditionOperation.NOT_NULL;
-            conditions.add(condition);
-            condition = new Condition();
+            condition = criteria.conditions.create();
             condition.bracketClose = 2;
             condition.alias = "invalidDate";
             condition.operation = emConditionOperation.GRATER_EQUAL;
             condition.value = today;
-            conditions.add(condition);
-            return conditions;
+            return criteria;
         }
     }
     export namespace materialprice {

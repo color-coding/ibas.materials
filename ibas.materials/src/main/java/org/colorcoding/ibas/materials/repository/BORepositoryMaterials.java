@@ -694,8 +694,8 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 					ICondition tmpCondition = tmpCriteria.getConditions().get(i + 1);
 					tmpCondition.setBracketOpen(tmpCondition.getBracketOpen() + condition.getBracketOpen());
 				}
-				if (condition.getBracketClose() > 0 && i - 1 > 0) {
-					ICondition tmpCondition = tmpCriteria.getConditions().get(i - 1);
+				if (condition.getBracketClose() > 0 && i + 1 < tmpCriteria.getConditions().size()) {
+					ICondition tmpCondition = tmpCriteria.getConditions().get(i + 1);
 					tmpCondition.setBracketClose(tmpCondition.getBracketClose() + condition.getBracketClose());
 				}
 			}
@@ -754,9 +754,9 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 					MaterialPrice.CONDITION_ALIAS_ITEMNAME);
 			maCriteria.setResultCount(criteria.getResultCount());
 			for (ICondition condition : maCriteria.getConditions()) {
-				if (condition.getAlias().equalsIgnoreCase(MaterialPrice.CONDITION_ALIAS_ITEMCODE)) {
+				if (MaterialPrice.CONDITION_ALIAS_ITEMCODE.equalsIgnoreCase(condition.getAlias())) {
 					condition.setAlias(Material.PROPERTY_CODE.getName());
-				} else if (condition.getAlias().equalsIgnoreCase(MaterialPrice.CONDITION_ALIAS_ITEMNAME)) {
+				} else if (MaterialPrice.CONDITION_ALIAS_ITEMNAME.equalsIgnoreCase(condition.getAlias())) {
 					condition.setAlias(Material.PROPERTY_NAME.getName());
 				}
 			}
@@ -901,9 +901,9 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 					MaterialQuantity.CONDITION_ALIAS_ITEMNAME);
 			maCriteria.setResultCount(criteria.getResultCount());
 			for (ICondition condition : maCriteria.getConditions()) {
-				if (condition.getAlias().equalsIgnoreCase(MaterialQuantity.CONDITION_ALIAS_ITEMCODE)) {
+				if (MaterialQuantity.CONDITION_ALIAS_ITEMCODE.equalsIgnoreCase(condition.getAlias())) {
 					condition.setAlias(Material.PROPERTY_CODE.getName());
-				} else if (condition.getAlias().equalsIgnoreCase(MaterialQuantity.CONDITION_ALIAS_ITEMNAME)) {
+				} else if (MaterialQuantity.CONDITION_ALIAS_ITEMNAME.equalsIgnoreCase(condition.getAlias())) {
 					condition.setAlias(Material.PROPERTY_NAME.getName());
 				}
 			}
