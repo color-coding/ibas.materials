@@ -10,7 +10,6 @@ import * as ibas from "ibas/index";
 import * as bo from "../../borep/bo/index";
 import { BORepositoryMaterials } from "../../borep/BORepositories";
 import { DataConverter4mm } from "../../borep/DataConverters";
-import { MaterialBatchViewApp } from "./MaterialBatchViewApp";
 
 /** 列表应用-物料 */
 export class MaterialBatchListApp extends ibas.BOListApplication<IMaterialBatchListView, bo.MaterialBatch> {
@@ -70,11 +69,6 @@ export class MaterialBatchListApp extends ibas.BOListApplication<IMaterialBatchL
             ));
             return;
         }
-        let app: MaterialBatchViewApp = new MaterialBatchViewApp();
-        app.navigation = this.navigation;
-        app.viewShower = this.viewShower;
-        app.run(data);
-
     }
     protected newData(): void {
         throw new Error("Method not implemented.");

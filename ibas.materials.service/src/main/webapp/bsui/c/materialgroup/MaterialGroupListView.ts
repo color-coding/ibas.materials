@@ -36,14 +36,8 @@ export class MaterialGroupListView extends ibas.BOListView implements IMaterialG
             columns: [
                 new sap.ui.table.Column("", {
                     label: ibas.i18n.prop("bo_materialgroup_code"),
-                    template: new sap.m.Link("", {
+                    template: new sap.m.Text("", {
                         wrapping: false,
-                        press(event: any): void {
-                            ibas.servicesManager.runLinkService({
-                                boCode: bo.MaterialGroup.BUSINESS_OBJECT_CODE,
-                                linkValue: event.getSource().getText()
-                            });
-                        }
                     }).bindProperty("text", {
                         path: "code",
                     })

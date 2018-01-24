@@ -85,7 +85,6 @@ class BOConverter4mm extends ibas.BOConverter {
                 return ibas.enums.toString(ibas.emYesNo, value);
             }
         }
-
         return super.convertData(boName, property, value);
     }
 

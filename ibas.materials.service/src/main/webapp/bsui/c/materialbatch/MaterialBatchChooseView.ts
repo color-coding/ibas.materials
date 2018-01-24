@@ -29,7 +29,7 @@ export class MaterialBatchChooseView extends ibas.BOChooseView implements IMater
                 new sap.ui.table.Column("", {
                     label: ibas.i18n.prop("bo_materialbatch_itemcode"),
                     template: new sap.m.Text("", {
-                        wrapping: false
+                        wrapping: false,
                     }).bindProperty("text", {
                         path: "itemCode",
                     }),
@@ -40,7 +40,7 @@ export class MaterialBatchChooseView extends ibas.BOChooseView implements IMater
                         wrapping: false
                     }).bindProperty("text", {
                         path: "warehouse",
-                    })
+                    }),
                 }),
                 new sap.ui.table.Column("", {
                     label: ibas.i18n.prop("bo_materialbatch_batchcode"),
@@ -67,11 +67,15 @@ export class MaterialBatchChooseView extends ibas.BOChooseView implements IMater
                     }),
                 }),
                 new sap.ui.table.Column("", {
-                    label: ibas.i18n.prop("bo_materialbatch_internalserial"),
+                    label: ibas.i18n.prop("bo_materialbatch_manufacturingdate"),
                     template: new sap.m.Text("", {
                         wrapping: false,
                     }).bindProperty("text", {
-                        path: "internalSerial",
+                        path: "manufacturingDate",
+                        type: "sap.ui.model.type.Date",
+                        formatOptions: {
+                            style: "short"
+                        }
                     }),
                 }),
                 new sap.ui.table.Column("", {
@@ -80,22 +84,10 @@ export class MaterialBatchChooseView extends ibas.BOChooseView implements IMater
                         wrapping: false,
                     }).bindProperty("text", {
                         path: "expirationDate",
-                    }),
-                }),
-                new sap.ui.table.Column("", {
-                    label: ibas.i18n.prop("bo_materialbatch_manufacturingdate"),
-                    template: new sap.m.Text("", {
-                        wrapping: false,
-                    }).bindProperty("text", {
-                        path: "manufacturingDate",
-                    }),
-                }),
-                new sap.ui.table.Column("", {
-                    label: ibas.i18n.prop("bo_materialbatch_admissiondate"),
-                    template: new sap.m.Text("", {
-                        wrapping: false,
-                    }).bindProperty("text", {
-                        path: "admissionDate",
+                        type: "sap.ui.model.type.Date",
+                        formatOptions: {
+                            style: "short"
+                        }
                     }),
                 }),
             ]

@@ -51,7 +51,20 @@ export class WarehouseEditView extends ibas.BOEditView implements IWarehouseEdit
                     path: "/activated",
                     type: "sap.ui.model.type.Integer"
                 }),
-                new sap.ui.core.Title("", {}),
+                new sap.ui.core.Title("", { text: ibas.i18n.prop("materials_title_others") }),
+                new sap.m.Label("", { text: ibas.i18n.prop("bo_warehouse_docentry") }),
+                new sap.m.Input("", {
+                    type: sap.m.InputType.Text
+                }).bindProperty("value", {
+                    path: "/docEntry"
+                }),
+                new sap.m.Label("", { text: ibas.i18n.prop("bo_warehouse_objectcode") }),
+                new sap.m.Input("", {
+                    enabled: false,
+                    type: sap.m.InputType.Text
+                }).bindProperty("value", {
+                    path: "/objectCode"
+                }),
             ]
         });
         this.page = new sap.m.Page("", {

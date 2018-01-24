@@ -10,7 +10,6 @@ import * as ibas from "ibas/index";
 import * as bo from "../../borep/bo/index";
 import { BORepositoryMaterials } from "../../borep/BORepositories";
 import { DataConverter4mm } from "../../borep/DataConverters";
-import { MaterialGroupViewApp } from "./MaterialGroupViewApp";
 import { MaterialGroupEditApp } from "./MaterialGroupEditApp";
 
 /** 列表应用-物料组 */
@@ -81,11 +80,6 @@ export class MaterialGroupListApp extends ibas.BOListApplication<IMaterialGroupL
             ));
             return;
         }
-        let app: MaterialGroupViewApp = new MaterialGroupViewApp();
-        app.navigation = this.navigation;
-        app.viewShower = this.viewShower;
-        app.run(data);
-
     }
     /** 编辑数据，参数：目标数据 */
     protected editData(data: bo.MaterialGroup): void {

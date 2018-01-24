@@ -10,5 +10,4 @@
 export * from "./MaterialGroupFunc";
 export * from "./MaterialGroupListApp";
 export * from "./MaterialGroupChooseApp";
-export * from "./MaterialGroupViewApp";
 export * from "./MaterialGroupEditApp";

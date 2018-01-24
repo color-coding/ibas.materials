@@ -12,16 +12,12 @@ import * as goodsreceiptApps from "../../bsapp/goodsreceipt/index";
 import * as inventorytransferApps from "../../bsapp/inventorytransfer/index";
 import * as materialApps from "../../bsapp/material/index";
 import * as materialgroupApps from "../../bsapp/materialgroup/index";
-import * as materialinventoryApps from "../../bsapp/materialinventory/index";
-import * as materialinventoryjournalApps from "../../bsapp/materialinventoryjournal/index";
 import * as warehouseApps from "../../bsapp/warehouse/index";
 import * as goodsissueViews from "./goodsissue/index";
 import * as goodsreceiptViews from "./goodsreceipt/index";
 import * as inventorytransferViews from "./inventorytransfer/index";
 import * as materialViews from "./material/index";
 import * as materialgroupViews from "./materialgroup/index";
-import * as materialinventoryViews from "./materialinventory/index";
-import * as materialinventoryjournalViews from "./materialinventoryjournal/index";
 import * as warehouseViews from "./warehouse/index";
 import * as materialbatchApps from "../../bsapp/materialbatch/index";
 import * as materialserialApps from "../../bsapp/materialserial/index";
@@ -95,32 +91,8 @@ export default class Navigation extends ibas.ViewNavigation {
             case materialgroupApps.MaterialGroupChooseApp.APPLICATION_ID:
                 view = new materialgroupViews.MaterialGroupChooseView();
                 break;
-            case materialgroupApps.MaterialGroupViewApp.APPLICATION_ID:
-                view = new materialgroupViews.MaterialGroupViewView();
-                break;
             case materialgroupApps.MaterialGroupEditApp.APPLICATION_ID:
                 view = new materialgroupViews.MaterialGroupEditView();
-                break;
-            case materialinventoryApps.MaterialInventoryListApp.APPLICATION_ID:
-                view = new materialinventoryViews.MaterialInventoryListView();
-                break;
-            case materialinventoryApps.MaterialInventoryChooseApp.APPLICATION_ID:
-                view = new materialinventoryViews.MaterialInventoryChooseView();
-                break;
-            case materialinventoryApps.MaterialInventoryViewApp.APPLICATION_ID:
-                view = new materialinventoryViews.MaterialInventoryViewView();
-                break;
-            case materialinventoryjournalApps.MaterialJournalListApp.APPLICATION_ID:
-                view = new materialinventoryjournalViews.MaterialInventoryJournalListView();
-                break;
-            case materialinventoryjournalApps.MaterialInventoryJournalChooseApp.APPLICATION_ID:
-                view = new materialinventoryjournalViews.MaterialInventoryJournalChooseView();
-                break;
-            case materialinventoryjournalApps.MaterialInventoryJournalViewApp.APPLICATION_ID:
-                view = new materialinventoryjournalViews.MaterialInventoryJournalViewView();
-                break;
-            case materialinventoryjournalApps.MaterialInventoryJournalEditApp.APPLICATION_ID:
-                view = new materialinventoryjournalViews.MaterialInventoryJournalEditView();
                 break;
             case warehouseApps.WarehouseListApp.APPLICATION_ID:
                 view = new warehouseViews.WarehouseListView();
@@ -152,17 +124,11 @@ export default class Navigation extends ibas.ViewNavigation {
             case materialserialApps.MaterialSerialListApp.APPLICATION_ID:
                 view = new materialserialViews.MaterialSerialListView();
                 break;
-            case materialserialApps.MaterialSerialViewApp.APPLICATION_ID:
-                view = new materialserialViews.MaterialSerialViewView();
-                break;
             case materialserialApps.MaterialSerialChooseApp.APPLICATION_ID:
                 view = new materialserialViews.MaterialSerialChooseView();
                 break;
             case materialbatchApps.MaterialBatchListApp.APPLICATION_ID:
                 view = new materialbatchViews.MaterialBatchListView();
-                break;
-            case materialbatchApps.MaterialBatchViewApp.APPLICATION_ID:
-                view = new materialbatchViews.MaterialBatchViewView();
                 break;
             case materialbatchApps.MaterialBatchChooseApp.APPLICATION_ID:
                 view = new materialbatchViews.MaterialBatchChooseView();
@@ -172,9 +138,6 @@ export default class Navigation extends ibas.ViewNavigation {
                 break;
             case materialpricelistApps.MaterialPriceListChooseApp.APPLICATION_ID:
                 view = new materialpricelistViews.MaterialPriceListChooseView();
-                break;
-            case materialpricelistApps.MaterialPriceListViewApp.APPLICATION_ID:
-                view = new materialpricelistViews.MaterialPriceListViewView();
                 break;
             case materialpricelistApps.MaterialPriceListEditApp.APPLICATION_ID:
                 view = new materialpricelistViews.MaterialPriceListEditView();

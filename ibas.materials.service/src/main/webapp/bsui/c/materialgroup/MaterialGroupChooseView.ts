@@ -64,14 +64,8 @@ export class MaterialGroupChooseView extends ibas.BOChooseView implements IMater
             columns: [
                 new sap.ui.table.Column("", {
                     label: ibas.i18n.prop("bo_materialgroup_code"),
-                    template: new sap.m.Link("", {
+                    template: new sap.m.Text("", {
                         wrapping: false,
-                        press(event: any): void {
-                            ibas.servicesManager.runLinkService({
-                                boCode: bo.Warehouse.BUSINESS_OBJECT_CODE,
-                                linkValue: event.getSource().getText()
-                            });
-                        }
                     }).bindProperty("text", {
                         path: "code"
                     })
@@ -132,7 +126,7 @@ export class MaterialGroupChooseView extends ibas.BOChooseView implements IMater
         }
         if (!done) {
             // 没有显示数据
-            this.table.setModel(new sap.ui.model.json.JSONModel({rows: datas}));
+            this.table.setModel(new sap.ui.model.json.JSONModel({ rows: datas }));
         }
         this.table.setBusy(false);
     }

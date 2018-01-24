@@ -10,7 +10,6 @@ import * as ibas from "ibas/index";
 import * as bo from "../../borep/bo/index";
 import { BORepositoryMaterials } from "../../borep/BORepositories";
 import { DataConverter4mm } from "../../borep/DataConverters";
-import { MaterialSerialViewApp } from "./MaterialSerialViewApp";
 
 /** 列表应用-物料 */
 export class MaterialSerialListApp extends ibas.BOListApplication<IMaterialSerialListView, bo.MaterialSerial> {
@@ -70,10 +69,6 @@ export class MaterialSerialListApp extends ibas.BOListApplication<IMaterialSeria
             ));
             return;
         }
-        let app: MaterialSerialViewApp = new MaterialSerialViewApp();
-        app.navigation = this.navigation;
-        app.viewShower = this.viewShower;
-        app.run(data);
     }
     protected newData(): void {
         //

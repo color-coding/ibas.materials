@@ -59,14 +59,8 @@ export class WarehouseChooseView extends ibas.BOChooseView implements IWarehouse
             columns: [
                 new sap.ui.table.Column("", {
                     label: ibas.i18n.prop("bo_warehouse_code"),
-                    template: new sap.m.Link("", {
+                    template: new sap.m.Text("", {
                         wrapping: false,
-                        press(event: any): void {
-                            ibas.servicesManager.runLinkService({
-                                boCode: bo.Warehouse.BUSINESS_OBJECT_CODE,
-                                linkValue: event.getSource().getText()
-                            });
-                        }
                     }).bindProperty("text", {
                         path: "code"
                     })

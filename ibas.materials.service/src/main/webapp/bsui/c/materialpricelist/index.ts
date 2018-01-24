@@ -7,4 +7,3 @@
 export * from "./MaterialPriceListListView";
 export * from "./MaterialPriceListEditView";
 export * from "./MaterialPriceListChooseView";
-export * from "./MaterialPriceListViewView";

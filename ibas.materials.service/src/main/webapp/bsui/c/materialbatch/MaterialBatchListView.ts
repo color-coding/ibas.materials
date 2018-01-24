@@ -69,23 +69,30 @@ export class MaterialBatchListView extends ibas.BOListView implements IMaterialB
                     }),
                 }),
                 new sap.ui.table.Column("", {
+                    label: ibas.i18n.prop("bo_materialbatch_locked"),
+                    template: new sap.m.Text("", {
+                        wrapping: false
+                    }).bindProperty("text", {
+                        path: "locked",
+                        formatter(data: any): any {
+                            return ibas.enums.describe(ibas.emYesNo, data);
+                        }
+                    })
+                }),
+                new sap.ui.table.Column("", {
+                    label: ibas.i18n.prop("bo_materialbatch_supplierserial"),
+                    template: new sap.m.Text("", {
+                        wrapping: false,
+                    }).bindProperty("text", {
+                        path: "supplierSerial",
+                    }),
+                }),
+                new sap.ui.table.Column("", {
                     label: ibas.i18n.prop("bo_materialbatch_manufacturingdate"),
                     template: new sap.m.Text("", {
                         wrapping: false,
                     }).bindProperty("text", {
                         path: "manufacturingDate",
-                        type: "sap.ui.model.type.Date",
-                        formatOptions: {
-                            style: "short"
-                        }
-                    }),
-                }),
-                new sap.ui.table.Column("", {
-                    label: ibas.i18n.prop("bo_materialbatch_admissiondate"),
-                    template: new sap.m.Text("", {
-                        wrapping: false,
-                    }).bindProperty("text", {
-                        path: "admissionDate",
                         type: "sap.ui.model.type.Date",
                         formatOptions: {
                             style: "short"

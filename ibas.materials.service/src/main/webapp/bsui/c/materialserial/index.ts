@@ -8,4 +8,3 @@
 export * from "./MaterialSerialServiceView";
 export * from "./MaterialSerialChooseView";
 export * from "./MaterialSerialListView";
-export * from "./MaterialSerialViewView";

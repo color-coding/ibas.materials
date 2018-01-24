@@ -8,4 +8,3 @@
 export * from "./MaterialBatchServiceView";
 export * from "./MaterialBatchChooseView";
 export * from "./MaterialBatchListView";
-export * from "./MaterialBatchViewView";

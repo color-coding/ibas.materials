@@ -61,6 +61,17 @@ export class MaterialSerialListView extends ibas.BOListView implements IMaterial
                     }),
                 }),
                 new sap.ui.table.Column("", {
+                    label: ibas.i18n.prop("bo_materialserial_locked"),
+                    template: new sap.m.Text("", {
+                        wrapping: false
+                    }).bindProperty("text", {
+                        path: "locked",
+                        formatter(data: any): any {
+                            return ibas.enums.describe(ibas.emYesNo, data);
+                        }
+                    })
+                }),
+                new sap.ui.table.Column("", {
                     label: ibas.i18n.prop("bo_materialserial_instock"),
                     template: new sap.m.Text("", {
                         wrapping: false
@@ -72,14 +83,6 @@ export class MaterialSerialListView extends ibas.BOListView implements IMaterial
                     })
                 }),
                 new sap.ui.table.Column("", {
-                    label: ibas.i18n.prop("bo_materialserial_batchserial"),
-                    template: new sap.m.Text("", {
-                        wrapping: false,
-                    }).bindProperty("text", {
-                        path: "batchSerial",
-                    }),
-                }),
-                new sap.ui.table.Column("", {
                     label: ibas.i18n.prop("bo_materialserial_supplierserial"),
                     template: new sap.m.Text("", {
                         wrapping: false,
@@ -88,11 +91,11 @@ export class MaterialSerialListView extends ibas.BOListView implements IMaterial
                     }),
                 }),
                 new sap.ui.table.Column("", {
-                    label: ibas.i18n.prop("bo_materialserial_expirationdate"),
+                    label: ibas.i18n.prop("bo_materialserial_batchserial"),
                     template: new sap.m.Text("", {
                         wrapping: false,
                     }).bindProperty("text", {
-                        path: "expirationDate",
+                        path: "batchSerial",
                     }),
                 }),
                 new sap.ui.table.Column("", {
@@ -104,11 +107,11 @@ export class MaterialSerialListView extends ibas.BOListView implements IMaterial
                     }),
                 }),
                 new sap.ui.table.Column("", {
-                    label: ibas.i18n.prop("bo_materialserial_admissiondate"),
+                    label: ibas.i18n.prop("bo_materialserial_expirationdate"),
                     template: new sap.m.Text("", {
                         wrapping: false,
                     }).bindProperty("text", {
-                        path: "admissionDate",
+                        path: "expirationDate",
                     }),
                 }),
             ],
