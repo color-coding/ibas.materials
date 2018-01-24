@@ -13,3 +13,4 @@ export * from "./MaterialChooseApp";
 export * from "./MaterialViewApp";
 export * from "./MaterialEditApp";
 export * from "./ProductChooseApp";
+export * from "./MaterialInventoryListApp";

@@ -8,4 +8,5 @@
 export * from "./MaterialSerialFunc";
 export * from "./MaterialSerialService";
 export * from "./MaterialSerialListApp";
+export * from "./MaterialSerialEditApp";
 export * from "./MaterialSerialChooseApp";

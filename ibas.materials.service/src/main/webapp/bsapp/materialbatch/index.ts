@@ -8,4 +8,5 @@
 export * from "./MaterialBatchFunc";
 export * from "./MaterialBatchService";
 export * from "./MaterialBatchListApp";
+export * from "./MaterialBatchEditApp";
 export * from "./MaterialBatchChooseApp";

@@ -277,38 +277,6 @@ public class MaterialBatch extends BusinessObject<MaterialBatch> implements IMat
 	}
 
 	/**
-	 * 属性名称-内部序号
-	 */
-	private static final String PROPERTY_INTERNALSERIAL_NAME = "InternalSerial";
-
-	/**
-	 * 内部序号 属性
-	 */
-	@DbField(name = "IntrSerial", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME, primaryKey = false)
-	public static final IPropertyInfo<String> PROPERTY_INTERNALSERIAL = registerProperty(PROPERTY_INTERNALSERIAL_NAME,
-			String.class, MY_CLASS);
-
-	/**
-	 * 获取-内部序号
-	 *
-	 * @return 值
-	 */
-	@XmlElement(name = PROPERTY_INTERNALSERIAL_NAME)
-	public final String getInternalSerial() {
-		return this.getProperty(PROPERTY_INTERNALSERIAL);
-	}
-
-	/**
-	 * 设置-内部序号
-	 *
-	 * @param value
-	 *            值
-	 */
-	public final void setInternalSerial(String value) {
-		this.setProperty(PROPERTY_INTERNALSERIAL, value);
-	}
-
-	/**
 	 * 属性名称-过期日期
 	 */
 	private static final String PROPERTY_EXPIRATIONDATE_NAME = "ExpirationDate";

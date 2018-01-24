@@ -12,3 +12,4 @@ export * from "./MaterialChooseView";
 export * from "./ProductChooseView";
 export * from "./MaterialViewView";
 export * from "./MaterialEditView";
+export * from "./MaterialInventoryListView";

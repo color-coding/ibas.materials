@@ -11,7 +11,13 @@ import { CONSOLE_ID, CONSOLE_NAME, CONSOLE_VERSION } from "../api/index";
 import { GoodsIssueFunc, } from "./goodsissue/index";
 import { GoodsReceiptFunc, } from "./goodsreceipt/index";
 import { InventoryTransferFunc, } from "./inventorytransfer/index";
-import { MaterialFunc, MaterialChooseServiceMapping, MaterialLinkServiceMapping, ProductChooseServiceMapping } from "./material/index";
+import {
+    MaterialFunc,
+    MaterialChooseServiceMapping,
+    MaterialLinkServiceMapping,
+    ProductChooseServiceMapping,
+    MaterialInventoryFunc,
+} from "./material/index";
 import { MaterialGroupFunc, MaterialGroupChooseServiceMapping, } from "./materialgroup/index";
 import { WarehouseFunc, WarehouseChooseServiceMapping, WarehouseLinkServiceMapping } from "./warehouse/index";
 import {
@@ -49,6 +55,7 @@ export class Console extends ibas.ModuleConsole {
         this.register(new GoodsReceiptFunc());
         this.register(new GoodsIssueFunc());
         this.register(new InventoryTransferFunc());
+        this.register(new MaterialInventoryFunc());
         this.register(new MaterialBatchFunc());
         this.register(new MaterialSerialFunc());
         this.register(new WarehouseFunc());

@@ -126,21 +126,6 @@ public interface IMaterialBatch extends IBOSimple {
 	void setSupplierSerial(String value);
 
 	/**
-	 * 获取-内部序号
-	 *
-	 * @return 值
-	 */
-	String getInternalSerial();
-
-	/**
-	 * 设置-内部序号
-	 *
-	 * @param value
-	 *            值
-	 */
-	void setInternalSerial(String value);
-
-	/**
 	 * 获取-过期日期
 	 *
 	 * @return 值
@@ -394,6 +379,5 @@ public interface IMaterialBatch extends IBOSimple {
 	 *            值
 	 */
 	void setUpdateActionId(String value);
-
 
 }

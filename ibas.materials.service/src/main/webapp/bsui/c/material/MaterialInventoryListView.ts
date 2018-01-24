@@ -1,38 +1,36 @@
-/**
+/*
  * @license
  * Copyright color-coding studio. All Rights Reserved.
+ *
  * Use of this source code is governed by an Apache License, Version 2.0
  * that can be found in the LICENSE file at http://www.apache.org/licenses/LICENSE-2.0
  */
 
-
 import * as ibas from "ibas/index";
 import * as openui5 from "openui5/index";
 import * as bo from "../../../borep/bo/index";
-import { IMaterialSerialListView } from "../../../bsapp/materialserial/index";
+import { IMaterialInventoryListView } from "../../../bsapp/material/index";
 
 /**
- * 列表视图-物料
+ * 列表视图-物料库存
  */
-export class MaterialSerialListView extends ibas.BOQueryViewWithPanel implements IMaterialSerialListView {
+export class MaterialInventoryListView extends ibas.BOQueryViewWithPanel implements IMaterialInventoryListView {
     /** 返回查询的对象 */
     get queryTarget(): any {
-        return bo.MaterialSerial;
+        return bo.MaterialInventory;
     }
-    /** 新建数据 */
+    /** 新建数据事件 */
     newDataEvent: Function;
-    /** 编辑数据，参数：目标数据 */
-    editDataEvent: Function;
-    /** 显示数据，参数：目标数据 */
+    /** 查看数据事件，参数：目标数据 */
     viewDataEvent: Function;
     /** 调用服务事件，参数1 IServicesShower显示服务者 */
     callServicesEvent: Function;
-    /** 查询物料批次交易记录 */
-    fetchSerialJournalEvent: Function;
+    /** 查询物料库存交易记录 */
+    fetchInventoryJournalEvent: Function;
     /** 绘制视图 */
     darw(): any {
         let that: this = this;
-        this.tableSerial = new sap.m.List("", {
+        this.tableInventory = new sap.m.List("", {
             inset: false,
             growing: false,
             growingThreshold: ibas.config.get(openui5.utils.CONFIG_ITEM_LIST_TABLE_VISIBLE_ROW_COUNT, 15),
@@ -41,31 +39,22 @@ export class MaterialSerialListView extends ibas.BOQueryViewWithPanel implements
             items: {
                 path: "/rows",
                 template: new sap.m.ObjectListItem("", {
-                    title: "{serialCode}",
-                    markLocked: {
-                        path: "locked",
-                        formatter(data: any): any {
-                            if (data === ibas.emYesNo.YES) {
-                                return true;
-                            }
-                            return false;
-                        }
-                    },
+                    title: "{itemCode}",
                     firstStatus: new sap.m.ObjectStatus("", {
-                        text: "{quantity}"
+                        text: "{warehous}"
                     }),
                     attributes: [
                         new sap.m.ObjectAttribute("", {
-                            title: ibas.i18n.prop("bo_materialbatch_itemcode"),
-                            text: "{itemCode}"
+                            title: ibas.i18n.prop("bo_materialinventory_onhand"),
+                            text: "{onHand}"
                         }),
                         new sap.m.ObjectAttribute("", {
-                            title: ibas.i18n.prop("bo_materialbatch_warehouse"),
-                            text: "{warehouse}"
+                            title: ibas.i18n.prop("bo_materialinventory_oncommited"),
+                            text: "{onCommited}"
                         }),
                         new sap.m.ObjectAttribute("", {
-                            title: ibas.i18n.prop("bo_materialbatch_supplierserial"),
-                            text: "{supplierSerial}"
+                            title: ibas.i18n.prop("bo_materialinventory_onordered"),
+                            text: "{onOrdered}"
                         }),
                     ]
                 })
@@ -73,7 +62,7 @@ export class MaterialSerialListView extends ibas.BOQueryViewWithPanel implements
         });
         // 添加列表自动查询事件
         openui5.utils.triggerNextResults({
-            listener: this.tableSerial,
+            listener: this.tableInventory,
             next(data: any): void {
                 if (ibas.objects.isNull(that.lastCriteria)) {
                     return;
@@ -86,27 +75,11 @@ export class MaterialSerialListView extends ibas.BOQueryViewWithPanel implements
                 that.fireViewEvents(that.fetchDataEvent, criteria);
             }
         });
-        this.pageSerial = new sap.m.Page("", {
+        this.pageInventory = new sap.m.Page("", {
             showHeader: false,
-            footer: new sap.m.Toolbar("", {
-                content: [
-                    new sap.m.ToolbarSpacer(""),
-                    new sap.m.Button("", {
-                        text: ibas.i18n.prop("shell_data_edit"),
-                        type: sap.m.ButtonType.Transparent,
-                        icon: "sap-icon://edit",
-                        press: function (): void {
-                            that.fireViewEvents(that.editDataEvent,
-                                // 获取表格选中的对象
-                                openui5.utils.getSelecteds<bo.MaterialPriceList>(that.tableSerial).firstOrDefault()
-                            );
-                        }
-                    }),
-                ]
-            }),
-            content: [this.tableSerial]
+            content: [this.tableInventory]
         });
-        this.tableSerialJournal = new sap.ui.table.Table("", {
+        this.tableInventoryJournal = new sap.ui.table.Table("", {
             enableSelectAll: false,
             selectionBehavior: sap.ui.table.SelectionBehavior.Row,
             visibleRowCount: ibas.config.get(openui5.utils.CONFIG_ITEM_LIST_TABLE_VISIBLE_ROW_COUNT, 15),
@@ -114,7 +87,7 @@ export class MaterialSerialListView extends ibas.BOQueryViewWithPanel implements
             rows: "{/rows}",
             columns: [
                 new sap.ui.table.Column("", {
-                    label: ibas.i18n.prop("bo_materialserialjournal_basedocumenttype"),
+                    label: ibas.i18n.prop("bo_materialinventoryjournal_basedocumenttype"),
                     template: new sap.m.Text("", {
                         wrapping: false
                     }).bindProperty("text", {
@@ -122,7 +95,7 @@ export class MaterialSerialListView extends ibas.BOQueryViewWithPanel implements
                     }),
                 }),
                 new sap.ui.table.Column("", {
-                    label: ibas.i18n.prop("bo_materialserialjournal_basedocumententry"),
+                    label: ibas.i18n.prop("bo_materialinventoryjournal_basedocumententry"),
                     template: new sap.m.Text("", {
                         wrapping: false
                     }).bindProperty("text", {
@@ -130,7 +103,7 @@ export class MaterialSerialListView extends ibas.BOQueryViewWithPanel implements
                     }),
                 }),
                 new sap.ui.table.Column("", {
-                    label: ibas.i18n.prop("bo_materialserialjournal_basedocumentlineid"),
+                    label: ibas.i18n.prop("bo_materialinventoryjournal_basedocumentlineid"),
                     template: new sap.m.Text("", {
                         wrapping: false
                     }).bindProperty("text", {
@@ -138,7 +111,7 @@ export class MaterialSerialListView extends ibas.BOQueryViewWithPanel implements
                     })
                 }),
                 new sap.ui.table.Column("", {
-                    label: ibas.i18n.prop("bo_materialserialjournal_direction"),
+                    label: ibas.i18n.prop("bo_materialinventoryjournal_direction"),
                     template: new sap.m.Text("", {
                         wrapping: false
                     }).bindProperty("text", {
@@ -148,11 +121,19 @@ export class MaterialSerialListView extends ibas.BOQueryViewWithPanel implements
                         }
                     })
                 }),
+                new sap.ui.table.Column("", {
+                    label: ibas.i18n.prop("bo_materialinventoryjournal_quantity"),
+                    template: new sap.m.Text("", {
+                        wrapping: false
+                    }).bindProperty("text", {
+                        path: "quantity",
+                    })
+                }),
             ]
         });
         // 添加列表自动查询事件
         openui5.utils.triggerNextResults({
-            listener: this.tableSerialJournal,
+            listener: this.tableInventoryJournal,
             next(data: any): void {
                 if (ibas.objects.isNull(that.lastJournalCriteria)) {
                     return;
@@ -162,24 +143,24 @@ export class MaterialSerialListView extends ibas.BOQueryViewWithPanel implements
                     return;
                 }
                 ibas.logger.log(ibas.emMessageLevel.DEBUG, "result: {0}", criteria.toString());
-                that.fireViewEvents(that.fetchSerialJournalEvent, criteria);
+                that.fireViewEvents(that.fetchInventoryJournalEvent, criteria);
             }
         });
-        this.searchSerialJournal = new sap.m.SearchField("", {
+        this.searchInventoryJournal = new sap.m.SearchField("", {
             search(): void {
-                let batch: bo.MaterialSerial =
-                    openui5.utils.getSelecteds<bo.MaterialSerial>(that.tableSerial).firstOrDefault();
-                if (ibas.objects.isNull(batch)) {
+                let Inventory: bo.MaterialInventory =
+                    openui5.utils.getSelecteds<bo.MaterialInventory>(that.tableInventory).firstOrDefault();
+                if (ibas.objects.isNull(Inventory)) {
                     that.application.viewShower.messages({
                         title: that.application.description,
-                        message: ibas.i18n.prop("shell_please_chooose_data", ibas.i18n.prop("bo_materialbatch")),
+                        message: ibas.i18n.prop("shell_please_chooose_data", ibas.i18n.prop("bo_materialInventory")),
                         type: ibas.emMessageType.WARNING
                     });
                     return;
                 }
                 let condition: ibas.ICondition;
-                let criteria: ibas.ICriteria = that.getSerialJournalCriteria().clone();
-                let search: string = that.searchSerialJournal.getValue();
+                let criteria: ibas.ICriteria = that.getInventoryJournalCriteria().clone();
+                let search: string = that.searchInventoryJournal.getValue();
                 if (!ibas.strings.isEmpty(search)) {
                     for (let item of criteria.conditions) {
                         if (ibas.strings.isEmpty(item.alias)) {
@@ -189,37 +170,33 @@ export class MaterialSerialListView extends ibas.BOQueryViewWithPanel implements
                 }
                 condition = criteria.conditions.create();
                 condition.bracketOpen = 1;
-                condition.alias = bo.MaterialSerialJournal.PROPERTY_ITEMCODE_NAME;
+                condition.alias = bo.MaterialInventoryJournal.PROPERTY_ITEMCODE_NAME;
                 condition.operation = ibas.emConditionOperation.EQUAL;
-                condition.value = batch.itemCode;
+                condition.value = Inventory.itemCode;
                 condition = criteria.conditions.create();
-                condition.alias = bo.MaterialSerialJournal.PROPERTY_WAREHOUSE_NAME;
+                condition.alias = bo.MaterialInventoryJournal.PROPERTY_WAREHOUSE_NAME;
                 condition.operation = ibas.emConditionOperation.EQUAL;
-                condition.value = batch.warehouse;
-                condition = criteria.conditions.create();
+                condition.value = Inventory.warehouse;
                 condition.bracketClose = 1;
-                condition.alias = bo.MaterialSerialJournal.PROPERTY_SERIALCODE_NAME;
-                condition.operation = ibas.emConditionOperation.EQUAL;
-                condition.value = batch.serialCode;
-                that.fireViewEvents(that.fetchSerialJournalEvent, criteria);
+                that.fireViewEvents(that.fetchInventoryJournalEvent, criteria);
                 that.lastJournalCriteria = criteria;
-                that.tableSerialJournal.setFirstVisibleRow(0);
-                that.tableSerialJournal.setModel(null);
+                that.tableInventoryJournal.setFirstVisibleRow(0);
+                that.tableInventoryJournal.setModel(null);
             }
         });
-        this.pageSerialJournal = new sap.m.Page("", {
+        this.pageInventoryJournal = new sap.m.Page("", {
             showHeader: true,
             customHeader: new sap.m.Toolbar("", {
                 content: [
-                    this.searchSerialJournal,
+                    this.searchInventoryJournal,
                     new sap.m.Button("", {
                         icon: "sap-icon://filter",
                         type: sap.m.ButtonType.Transparent,
                         press: function (): void {
                             ibas.servicesManager.runApplicationService<ibas.ICriteriaEditorServiceContract, ibas.ICriteria>({
                                 proxy: new ibas.CriteriaEditorServiceProxy({
-                                    target: bo.MaterialSerialJournal,
-                                    criteria: that.getSerialJournalCriteria(),
+                                    target: bo.MaterialInventoryJournal,
+                                    criteria: that.getInventoryJournalCriteria(),
                                 }),
                                 onCompleted(result: ibas.ICriteria): void {
                                     that.journalCriteria = result;
@@ -230,15 +207,15 @@ export class MaterialSerialListView extends ibas.BOQueryViewWithPanel implements
                 ]
             }),
             content: [
-                this.tableSerialJournal
+                this.tableInventoryJournal
             ]
         });
         return new sap.m.SplitContainer("", {
             masterPages: [
-                this.pageSerial,
+                this.pageInventory,
             ],
             detailPages: [
-                this.pageSerialJournal
+                this.pageInventoryJournal
             ],
         });
     }
@@ -248,16 +225,16 @@ export class MaterialSerialListView extends ibas.BOQueryViewWithPanel implements
             view.setDesign(sap.m.ToolbarDesign.Transparent);
             view.setHeight("100%");
         }
-        this.pageSerial.addHeaderContent(view);
-        this.pageSerial.setShowHeader(true);
+        this.pageInventory.addHeaderContent(view);
+        this.pageInventory.setShowHeader(true);
     }
-    private pageSerial: sap.m.Page;
-    private tableSerial: sap.m.List;
+    private pageInventory: sap.m.Page;
+    private tableInventory: sap.m.List;
 
-    /** 显示物料批次数据 */
-    showSerials(datas: bo.MaterialSerial[]): void {
+    /** 显示物料库存数据 */
+    showInventories(datas: bo.MaterialInventory[]): void {
         let done: boolean = false;
-        let model: sap.ui.model.Model = this.tableSerial.getModel(undefined);
+        let model: sap.ui.model.Model = this.tableInventory.getModel(undefined);
         if (!ibas.objects.isNull(model)) {
             // 已存在绑定数据，添加新的
             let hDatas: any = (<any>model).getData();
@@ -271,27 +248,27 @@ export class MaterialSerialListView extends ibas.BOQueryViewWithPanel implements
         }
         if (!done) {
             // 没有显示数据
-            this.tableSerial.setModel(new sap.ui.model.json.JSONModel({ rows: datas }));
+            this.tableInventory.setModel(new sap.ui.model.json.JSONModel({ rows: datas }));
         }
-        this.tableSerial.setBusy(false);
+        this.tableInventory.setBusy(false);
     }
     /** 记录上次查询条件，表格滚动时自动触发 */
     query(criteria: ibas.ICriteria): void {
         super.query(criteria);
         // 清除历史数据
         if (this.isDisplayed) {
-            this.tableSerial.setBusy(true);
-            this.tableSerial.setModel(null);
+            this.tableInventory.setBusy(true);
+            this.tableInventory.setModel(null);
         }
     }
-    private pageSerialJournal: sap.m.Page;
-    private searchSerialJournal: sap.m.SearchField;
-    private tableSerialJournal: sap.ui.table.Table;
+    private pageInventoryJournal: sap.m.Page;
+    private searchInventoryJournal: sap.m.SearchField;
+    private tableInventoryJournal: sap.ui.table.Table;
     /** 上一次使用的价格查询 */
     private lastJournalCriteria: ibas.ICriteria;
     /** 基础价格查询 */
     private journalCriteria: ibas.ICriteria;
-    private getSerialJournalCriteria(): ibas.ICriteria {
+    private getInventoryJournalCriteria(): ibas.ICriteria {
         if (!ibas.objects.isNull(this.journalCriteria)) {
             return this.journalCriteria;
         }
@@ -301,10 +278,10 @@ export class MaterialSerialListView extends ibas.BOQueryViewWithPanel implements
         this.journalCriteria = criteria;
         return this.journalCriteria;
     }
-    /** 显示物料批次交易数据 */
-    showSerialJournals(datas: bo.MaterialSerialJournal[]): void {
+    /** 显示物料库存交易数据 */
+    showInventoryJournals(datas: bo.MaterialInventoryJournal[]): void {
         let done: boolean = false;
-        let model: sap.ui.model.Model = this.tableSerialJournal.getModel(undefined);
+        let model: sap.ui.model.Model = this.tableInventoryJournal.getModel(undefined);
         if (!ibas.objects.isNull(model)) {
             // 已存在绑定数据，添加新的
             let hDatas: any = (<any>model).getData();
@@ -318,8 +295,8 @@ export class MaterialSerialListView extends ibas.BOQueryViewWithPanel implements
         }
         if (!done) {
             // 没有显示数据
-            this.tableSerialJournal.setModel(new sap.ui.model.json.JSONModel({ rows: datas }));
+            this.tableInventoryJournal.setModel(new sap.ui.model.json.JSONModel({ rows: datas }));
         }
-        this.tableSerialJournal.setBusy(false);
+        this.tableInventoryJournal.setBusy(false);
     }
 }

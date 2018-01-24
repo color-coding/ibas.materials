@@ -8,7 +8,6 @@
     <Property Name="Quantity" Description="数量" DataType="Decimal" DataSubType="Quantity" EditSize="8" Mapped="Quantity"/>
     <Property Name="Locked" Description="锁定" DataType="Alphanumeric" DataSubType="Default" EditSize="1" DeclaredType="emYesNo" Mapped="Locked"/>
     <Property Name="SupplierSerial" Description="供应商序号" DataType="Alphanumeric" DataSubType="Default" EditSize="60" Mapped="SuprSerial"/>
-    <Property Name="InternalSerial" Description="内部序号" DataType="Alphanumeric" DataSubType="Default" EditSize="60" Mapped="IntrSerial"/>
     <Property Name="ExpirationDate" Description="过期日期" DataType="Date" DataSubType="Default" EditSize="8" Mapped="ExpDate"/>
     <Property Name="ManufacturingDate" Description="生产日期" DataType="Date" DataSubType="Default" EditSize="8" Mapped="MafDate"/>
     <Property Name="AdmissionDate" Description="准入日期" DataType="Date" DataSubType="Default" EditSize="8" Mapped="AdmDate"/>

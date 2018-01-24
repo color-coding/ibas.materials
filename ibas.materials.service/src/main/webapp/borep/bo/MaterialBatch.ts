@@ -100,17 +100,6 @@ export class MaterialBatch extends BOSimple<MaterialBatch> implements IMaterialB
         this.setProperty(MaterialBatch.PROPERTY_SUPPLIERSERIAL_NAME, value);
     }
 
-    /** 映射的属性名称-内部序号 */
-    static PROPERTY_INTERNALSERIAL_NAME: string = "InternalSerial";
-    /** 获取-内部序号 */
-    get internalSerial(): string {
-        return this.getProperty<string>(MaterialBatch.PROPERTY_INTERNALSERIAL_NAME);
-    }
-    /** 设置-内部序号 */
-    set internalSerial(value: string) {
-        this.setProperty(MaterialBatch.PROPERTY_INTERNALSERIAL_NAME, value);
-    }
-
     /** 映射的属性名称-过期日期 */
     static PROPERTY_EXPIRATIONDATE_NAME: string = "ExpirationDate";
     /** 获取-过期日期 */

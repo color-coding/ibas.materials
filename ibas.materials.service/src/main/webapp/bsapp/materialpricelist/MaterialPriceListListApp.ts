@@ -185,7 +185,6 @@ export class MaterialPriceListListApp extends ibas.BOListApplication<IMaterialPr
     protected getServiceProxies(): ibas.IServiceProxy<ibas.IServiceContract>[] {
         return [];
     }
-    private priceCriteria: ibas.ICriteria;
     /** 查询价格 */
     protected fetchPrice(criteria: ibas.ICriteria): void {
         // 检查目标数据

@@ -6,7 +6,6 @@
   "bo_materialbatch_quantity": "数量",
   "bo_materialbatch_locked": "锁定",
   "bo_materialbatch_supplierserial": "供应商序号",
-  "bo_materialbatch_internalserial": "内部序号",
   "bo_materialbatch_expirationdate": "过期日期",
   "bo_materialbatch_manufacturingdate": "生产日期",
   "bo_materialbatch_admissiondate": "准入日期",

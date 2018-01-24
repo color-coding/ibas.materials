@@ -10,31 +10,29 @@ import * as ibas from "ibas/index";
 import * as bo from "../../borep/bo/index";
 import { BORepositoryMaterials } from "../../borep/BORepositories";
 import { DataConverter4mm } from "../../borep/DataConverters";
-import { MaterialBatchEditApp } from "./MaterialBatchEditApp";
 
-/** 列表应用-物料批次 */
-export class MaterialBatchListApp extends ibas.BOListApplication<IMaterialBatchListView, bo.MaterialBatch> {
+/** 列表应用-物料库存 */
+export class MaterialInventoryListApp extends ibas.BOListApplication<IMaterialInventoryListView, bo.MaterialInventory> {
 
     /** 应用标识 */
-    static APPLICATION_ID: string = "9944f917-1aa2-4972-bc71-5b9ab908a43c";
+    static APPLICATION_ID: string = "32c45fcd-47cd-4074-a853-4290967bcbbc";
     /** 应用名称 */
-    static APPLICATION_NAME: string = "materials_app_materialbatch_list";
+    static APPLICATION_NAME: string = "materials_app_materialinventory_list";
     /** 业务对象编码 */
-    static BUSINESS_OBJECT_CODE: string = bo.MaterialBatch.BUSINESS_OBJECT_CODE;
+    static BUSINESS_OBJECT_CODE: string = bo.MaterialInventory.BUSINESS_OBJECT_CODE;
     /** 构造函数 */
     constructor() {
         super();
-        this.id = MaterialBatchListApp.APPLICATION_ID;
-        this.name = MaterialBatchListApp.APPLICATION_NAME;
-        this.boCode = MaterialBatchListApp.BUSINESS_OBJECT_CODE;
+        this.id = MaterialInventoryListApp.APPLICATION_ID;
+        this.name = MaterialInventoryListApp.APPLICATION_NAME;
+        this.boCode = MaterialInventoryListApp.BUSINESS_OBJECT_CODE;
         this.description = ibas.i18n.prop(this.name);
     }
     /** 注册视图 */
     protected registerView(): void {
         super.registerView();
         // 其他事件
-        this.view.editDataEvent = this.editData;
-        this.view.fetchBatchJournalEvent = this.fetchBatchJournal;
+        this.view.fetchInventoryJournalEvent = this.fetchInventoryJournal;
     }
     /** 视图显示后 */
     protected viewShowed(): void {
@@ -45,9 +43,9 @@ export class MaterialBatchListApp extends ibas.BOListApplication<IMaterialBatchL
         this.busy(true);
         let that: this = this;
         let boRepository: BORepositoryMaterials = new BORepositoryMaterials();
-        boRepository.fetchMaterialBatch({
+        boRepository.fetchMaterialInventory({
             criteria: criteria,
-            onCompleted(opRslt: ibas.IOperationResult<bo.MaterialBatch>): void {
+            onCompleted(opRslt: ibas.IOperationResult<bo.MaterialInventory>): void {
                 try {
                     if (opRslt.resultCode !== 0) {
                         throw new Error(opRslt.message);
@@ -59,7 +57,7 @@ export class MaterialBatchListApp extends ibas.BOListApplication<IMaterialBatchL
                     if (opRslt.resultObjects.length === 0) {
                         that.proceeding(ibas.emMessageType.INFORMATION, ibas.i18n.prop("shell_data_fetched_none"));
                     }
-                    that.view.showBatches(opRslt.resultObjects);
+                    that.view.showInventories(opRslt.resultObjects);
                     that.busy(false);
                 } catch (error) {
                     that.messages(error);
@@ -73,36 +71,19 @@ export class MaterialBatchListApp extends ibas.BOListApplication<IMaterialBatchL
         throw new Error(ibas.i18n.prop("sys_unsupported_operation"));
     }
     /** 查看数据，参数：目标数据 */
-    protected viewData(data: bo.MaterialBatch): void {
-        // 检查目标数据
-        if (ibas.objects.isNull(data)) {
-            this.messages(ibas.emMessageType.WARNING, ibas.i18n.prop("shell_please_chooose_data",
-                ibas.i18n.prop("shell_data_view")
-            ));
-            return;
-        }
+    protected viewData(data: bo.MaterialInventory): void {
+        throw new Error(ibas.i18n.prop("sys_unsupported_operation"));
     }
     /** 编辑数据，参数：目标数据 */
-    protected editData(data: bo.MaterialBatch): void {
-        // 检查目标数据
-        if (ibas.objects.isNull(data)) {
-            this.messages(ibas.emMessageType.WARNING, ibas.i18n.prop("shell_please_chooose_data",
-                ibas.i18n.prop("shell_data_edit")
-            ));
-            return;
-        }
-        let app: MaterialBatchEditApp = new MaterialBatchEditApp();
-        app.navigation = this.navigation;
-        app.viewShower = this.viewShower;
-        app.run(data);
+    protected editData(data: bo.MaterialInventory): void {
+        throw new Error(ibas.i18n.prop("sys_unsupported_operation"));
     }
     /** 获取服务的契约 */
     protected getServiceProxies(): ibas.IServiceProxy<ibas.IServiceContract>[] {
-        return [
-        ];
+        return [];
     }
     /** 查询物料批次交易记录 */
-    protected fetchBatchJournal(criteria: ibas.ICriteria): void {
+    protected fetchInventoryJournal(criteria: ibas.ICriteria): void {
         // 检查目标数据
         if (ibas.objects.isNull(criteria) || criteria.conditions.length === 0) {
             throw new Error(ibas.i18n.prop("sys_invalid_parameter", "criteria"));
@@ -110,9 +91,9 @@ export class MaterialBatchListApp extends ibas.BOListApplication<IMaterialBatchL
         this.busy(true);
         let that: this = this;
         let boRepository: BORepositoryMaterials = new BORepositoryMaterials();
-        boRepository.fetchMaterialBatchJournal({
+        boRepository.fetchMaterialInventoryJournal({
             criteria: criteria,
-            onCompleted(opRslt: ibas.IOperationResult<bo.MaterialBatchJournal>): void {
+            onCompleted(opRslt: ibas.IOperationResult<bo.MaterialInventoryJournal>): void {
                 try {
                     that.busy(false);
                     if (opRslt.resultCode !== 0) {
@@ -121,7 +102,7 @@ export class MaterialBatchListApp extends ibas.BOListApplication<IMaterialBatchL
                     if (opRslt.resultObjects.length === 0) {
                         that.proceeding(ibas.emMessageType.INFORMATION, ibas.i18n.prop("shell_data_fetched_none"));
                     }
-                    that.view.showBatchJournals(opRslt.resultObjects);
+                    that.view.showInventoryJournals(opRslt.resultObjects);
                 } catch (error) {
                     that.messages(error);
                 }
@@ -130,14 +111,12 @@ export class MaterialBatchListApp extends ibas.BOListApplication<IMaterialBatchL
         this.proceeding(ibas.emMessageType.INFORMATION, ibas.i18n.prop("shell_fetching_data"));
     }
 }
-/** 视图-物料批次 */
-export interface IMaterialBatchListView extends ibas.IBOListView {
-    /** 编辑数据事件，参数：编辑对象 */
-    editDataEvent: Function;
-    /** 显示物料批次数据 */
-    showBatches(datas: bo.MaterialBatch[]): void;
-    /** 查询物料批次交易记录 */
-    fetchBatchJournalEvent: Function;
-    /** 显示物料批次交易数据 */
-    showBatchJournals(datas: bo.MaterialBatchJournal[]): void;
+/** 视图-物料库存 */
+export interface IMaterialInventoryListView extends ibas.IBOListView {
+    /** 显示物料库存数据 */
+    showInventories(datas: bo.MaterialInventory[]): void;
+    /** 查询物料库存交易记录 */
+    fetchInventoryJournalEvent: Function;
+    /** 显示物料库存交易数据 */
+    showInventoryJournals(datas: bo.MaterialInventoryJournal[]): void;
 }

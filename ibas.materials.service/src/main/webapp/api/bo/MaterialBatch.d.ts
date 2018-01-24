@@ -43,9 +43,6 @@ export interface IMaterialBatch extends IBOSimple {
     /**供应商序号 */
     supplierSerial: string;
 
-    /**内部序号 */
-    internalSerial: string;
-
     /**过期日期 */
     expirationDate: Date;
 

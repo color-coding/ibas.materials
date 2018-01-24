@@ -109,6 +109,9 @@ export default class Navigation extends ibas.ViewNavigation {
             case materialApps.ProductChooseApp.APPLICATION_ID:
                 view = new materialViews.ProductChooseView();
                 break;
+            case materialApps.MaterialInventoryListApp.APPLICATION_ID:
+                view = new materialViews.MaterialInventoryListView();
+                break;
             case materialbatchApps.MaterialBatchReceiptService.APPLICATION_ID:
                 view = new materialbatchViews.MaterialBatchReceiptView();
                 break;
@@ -127,11 +130,17 @@ export default class Navigation extends ibas.ViewNavigation {
             case materialserialApps.MaterialSerialChooseApp.APPLICATION_ID:
                 view = new materialserialViews.MaterialSerialChooseView();
                 break;
+            case materialserialApps.MaterialSerialEditApp.APPLICATION_ID:
+                view = new materialserialViews.MaterialSerialEditView();
+                break;
             case materialbatchApps.MaterialBatchListApp.APPLICATION_ID:
                 view = new materialbatchViews.MaterialBatchListView();
                 break;
             case materialbatchApps.MaterialBatchChooseApp.APPLICATION_ID:
                 view = new materialbatchViews.MaterialBatchChooseView();
+                break;
+            case materialbatchApps.MaterialBatchEditApp.APPLICATION_ID:
+                view = new materialbatchViews.MaterialBatchEditView();
                 break;
             case materialpricelistApps.MaterialPriceListListApp.APPLICATION_ID:
                 view = new materialpricelistViews.MaterialPriceListListView();
