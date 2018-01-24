@@ -109,6 +109,9 @@ export default class Navigation extends ibas.ViewNavigation {
             case materialApps.ProductChooseApp.APPLICATION_ID:
                 view = new materialViews.ProductChooseView();
                 break;
+            case materialApps.MaterialOverviewApp.APPLICATION_ID:
+                view = new materialViews.MaterialOverviewView();
+                break;
             case materialApps.MaterialInventoryListApp.APPLICATION_ID:
                 view = new materialViews.MaterialInventoryListView();
                 break;

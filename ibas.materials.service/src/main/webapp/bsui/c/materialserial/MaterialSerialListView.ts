@@ -88,6 +88,7 @@ export class MaterialSerialListView extends ibas.BOQueryViewWithPanel implements
         });
         this.pageSerial = new sap.m.Page("", {
             showHeader: false,
+            floatingFooter: true,
             footer: new sap.m.Toolbar("", {
                 content: [
                     new sap.m.ToolbarSpacer(""),

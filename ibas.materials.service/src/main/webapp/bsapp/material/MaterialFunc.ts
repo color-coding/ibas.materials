@@ -9,6 +9,7 @@
 import * as ibas from "ibas/index";
 import { MaterialListApp } from "./MaterialListApp";
 import { MaterialInventoryListApp } from "./MaterialInventoryListApp";
+import { MaterialOverviewApp } from "./MaterialOverviewApp";
 
 export class MaterialFunc extends ibas.ModuleFunction {
 
@@ -46,6 +47,26 @@ export class MaterialInventoryFunc extends ibas.ModuleFunction {
     /** 默认功能 */
     default(): ibas.IApplication<ibas.IView> {
         let app: MaterialInventoryListApp = new MaterialInventoryListApp();
+        app.navigation = this.navigation;
+        return app;
+    }
+}
+export class MaterialOverviewFunc extends ibas.ModuleFunction {
+
+    /** 功能标识 */
+    static FUNCTION_ID = "eb5a7d4b-c45b-4854-b265-1291b5ad4738";
+    /** 功能名称 */
+    static FUNCTION_NAME = "materials_func_materialoverview";
+    /** 构造函数 */
+    constructor() {
+        super();
+        this.id = MaterialOverviewFunc.FUNCTION_ID;
+        this.name = MaterialOverviewFunc.FUNCTION_NAME;
+        this.description = ibas.i18n.prop(this.name);
+    }
+    /** 默认功能 */
+    default(): ibas.IApplication<ibas.IView> {
+        let app: MaterialOverviewApp = new MaterialOverviewApp();
         app.navigation = this.navigation;
         return app;
     }

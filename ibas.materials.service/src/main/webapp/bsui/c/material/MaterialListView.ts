@@ -111,7 +111,6 @@ export class MaterialListView extends ibas.BOListView implements IMaterialListVi
                     new sap.m.Button("", {
                         text: ibas.i18n.prop("shell_data_new"),
                         type: sap.m.ButtonType.Transparent,
-                        // tslint:disable-next-line:object-literal-sort-keys
                         icon: "sap-icon://create",
                         press: function (): void {
                             that.fireViewEvents(that.newDataEvent);

@@ -13,10 +13,11 @@ import { GoodsReceiptFunc, } from "./goodsreceipt/index";
 import { InventoryTransferFunc, } from "./inventorytransfer/index";
 import {
     MaterialFunc,
+    MaterialInventoryFunc,
+    MaterialOverviewFunc,
     MaterialChooseServiceMapping,
     MaterialLinkServiceMapping,
     ProductChooseServiceMapping,
-    MaterialInventoryFunc,
 } from "./material/index";
 import { MaterialGroupFunc, MaterialGroupChooseServiceMapping, } from "./materialgroup/index";
 import { WarehouseFunc, WarehouseChooseServiceMapping, WarehouseLinkServiceMapping } from "./warehouse/index";
@@ -51,6 +52,7 @@ export class Console extends ibas.ModuleConsole {
     protected registers(): void {
         // 注册功能
         this.register(new MaterialFunc());
+        this.register(new MaterialOverviewFunc());
         this.register(new MaterialPriceListFunc());
         this.register(new GoodsReceiptFunc());
         this.register(new GoodsIssueFunc());
