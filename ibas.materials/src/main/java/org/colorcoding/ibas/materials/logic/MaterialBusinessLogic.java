@@ -35,7 +35,8 @@ public abstract class MaterialBusinessLogic<L extends IBusinessLogicContract, B 
 		}
 		// 物料不存在
 		if (material == null) {
-			throw new BusinessLogicException(String.format(I18N.prop("msg_mm_material_is_not_exist"), itemCode));
+			throw new BusinessLogicException(
+					String.format(I18N.prop("msg_mm_material_is_not_exist"), itemCode == null ? "" : itemCode));
 		}
 		return material;
 	}

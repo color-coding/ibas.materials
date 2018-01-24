@@ -41,7 +41,7 @@ export class MaterialInventoryListView extends ibas.BOQueryViewWithPanel impleme
                 template: new sap.m.ObjectListItem("", {
                     title: "{itemCode}",
                     firstStatus: new sap.m.ObjectStatus("", {
-                        text: "{warehous}"
+                        text: "{warehouse}"
                     }),
                     attributes: [
                         new sap.m.ObjectAttribute("", {

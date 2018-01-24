@@ -34,7 +34,8 @@ public abstract class MaterialInventoryBusinessLogic<L extends IBusinessLogicCon
 		}
 		// 仓库不存在
 		if (warehouse == null) {
-			throw new BusinessLogicException(String.format(I18N.prop("msg_mm_warehouse_is_not_exist"), whsCode));
+			throw new BusinessLogicException(
+					String.format(I18N.prop("msg_mm_warehouse_is_not_exist"), whsCode == null ? "" : whsCode));
 		}
 		return warehouse;
 	}
