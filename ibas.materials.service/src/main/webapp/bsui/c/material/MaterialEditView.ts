@@ -35,18 +35,13 @@ export class MaterialEditView extends ibas.BOEditView implements IMaterialEditVi
                     type: sap.m.InputType.Text,
                 }).bindProperty("value", {
                     path: "code",
-                    type: new openui5.datatype.Alphanumeric({
-                        description: ibas.i18n.prop("bo_material_code"),
-                        validate(oValue: string): openui5.datatype.ValidateResult {
-                            let result: openui5.datatype.ValidateResult = new openui5.datatype.ValidateResult();
-                            result.status = true;
-                            if (ibas.strings.isEmpty(oValue)) {
-                                result.status = false;
-                                result.message = ibas.i18n.prop("materials_app_material_code_is_null");
-                            }
-                            return result;
-                        }
-                    })
+                }),
+                new sap.m.ex.SeriesSelect("", {
+                    objectCode: ibas.config.applyVariables(bo.BO_CODE_MATERIAL),
+                    bindingValue: {
+                        path: "series",
+                        type: "sap.ui.model.type.Integer",
+                    }
                 }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_material_name") }),
                 new sap.m.Input("", {

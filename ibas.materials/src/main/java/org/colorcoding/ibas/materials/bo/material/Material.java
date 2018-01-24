@@ -7,6 +7,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
 import org.colorcoding.ibas.bobas.approval.IApprovalData;
+import org.colorcoding.ibas.bobas.bo.IBOSeriesKey;
 import org.colorcoding.ibas.bobas.core.IPropertyInfo;
 import org.colorcoding.ibas.bobas.data.DateTime;
 import org.colorcoding.ibas.bobas.data.Decimal;
@@ -29,7 +30,7 @@ import org.colorcoding.ibas.materials.data.emItemType;
 @XmlType(name = Material.BUSINESS_OBJECT_NAME, namespace = MyConfiguration.NAMESPACE_BO)
 @XmlRootElement(name = Material.BUSINESS_OBJECT_NAME, namespace = MyConfiguration.NAMESPACE_BO)
 @BOCode(Material.BUSINESS_OBJECT_CODE)
-public class Material extends MaterialBase<Material> implements IMaterial, IDataOwnership, IApprovalData {
+public class Material extends MaterialBase<Material> implements IMaterial, IDataOwnership, IApprovalData, IBOSeriesKey {
 
 	/**
 	 * 序列化版本标记
@@ -680,6 +681,11 @@ public class Material extends MaterialBase<Material> implements IMaterial, IData
 	 */
 	public final void setReferenced(emYesNo value) {
 		this.setProperty(PROPERTY_REFERENCED, value);
+	}
+
+	@Override
+	public void setSeriesValue(Object value) {
+		this.setCode((String) value);
 	}
 
 	/**

@@ -75,6 +75,7 @@
   "materials_title_total": "总计",
   "materials_title_remarks": "备注",
   "materials_title_inventory": "库存信息",
+  "materials_title_others": "其他信息",
   "materials_material_batch": "物料批次",
   "materials_material_serial": "物料序列",
   "materials_no_data_to_be_processed": "没有需要处理的数据",

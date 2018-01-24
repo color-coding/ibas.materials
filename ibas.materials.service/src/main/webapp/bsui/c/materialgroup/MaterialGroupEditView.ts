@@ -30,45 +30,41 @@ export class MaterialGroupEditView extends ibas.BOEditView implements IMaterialG
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_materialgroup_code") }),
                 new sap.m.Input("", {
                 }).bindProperty("value", {
-                    path: "/code",
-                    type: new openui5.datatype.Alphanumeric({
-                        description: ibas.i18n.prop("bo_materialgroup_code"),
-                        validate(oValue: string): openui5.datatype.ValidateResult {
-                            let result: openui5.datatype.ValidateResult = new openui5.datatype.ValidateResult();
-                            result.status = true;
-                            if (ibas.strings.isEmpty(oValue)) {
-                                result.status = false;
-                                result.message = ibas.i18n.prop("materials_app_materialgroup_code_is_null");
-                            }
-                            return result;
-                        }
-                    })
+                    path: "code",
+                }),
+                new sap.m.ex.SeriesSelect("", {
+                    objectCode: ibas.config.applyVariables(bo.BO_CODE_MATERIALGROUP),
+                    bindingValue: {
+                        path: "series",
+                        type: "sap.ui.model.type.Integer",
+                    }
                 }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_materialgroup_name") }),
                 new sap.m.Input("", {
                 }).bindProperty("value", {
-                    path: "/name",
-                    type: new openui5.datatype.Alphanumeric({
-                        description: ibas.i18n.prop("bo_materialgroup_name"),
-                        validate(oValue: string): openui5.datatype.ValidateResult {
-                            let result: openui5.datatype.ValidateResult = new openui5.datatype.ValidateResult();
-                            result.status = true;
-                            if (ibas.strings.isEmpty(oValue)) {
-                                result.status = false;
-                                result.message = ibas.i18n.prop("materials_app_materialgroup_name_is_null");
-                            }
-                            return result;
-                        }
-                    })
+                    path: "name",
                 }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_materialgroup_activated") }),
                 new sap.m.Select("", {
                     items: openui5.utils.createComboBoxItems(ibas.emYesNo)
                 }).bindProperty("selectedKey", {
-                    path: "/activated",
+                    path: "activated",
                     type: "sap.ui.model.type.Integer"
                 }),
-                new sap.ui.core.Title("", {}),
+                new sap.ui.core.Title("", { text: ibas.i18n.prop("materials_title_others") }),
+                new sap.m.Label("", { text: ibas.i18n.prop("bo_materialgroup_docentry") }),
+                new sap.m.Input("", {
+                    type: sap.m.InputType.Text
+                }).bindProperty("value", {
+                    path: "docEntry"
+                }),
+                new sap.m.Label("", { text: ibas.i18n.prop("bo_materialgroup_objectcode") }),
+                new sap.m.Input("", {
+                    enabled: false,
+                    type: sap.m.InputType.Text
+                }).bindProperty("value", {
+                    path: "objectCode"
+                }),
             ]
         });
         this.page = new sap.m.Page("", {
@@ -152,6 +148,7 @@ export class MaterialGroupEditView extends ibas.BOEditView implements IMaterialG
     /** 显示数据 */
     showMaterialGroup(data: bo.MaterialGroup): void {
         this.form.setModel(new sap.ui.model.json.JSONModel(data));
+        this.form.bindObject("/");
         // 监听属性改变，并更新控件
         openui5.utils.refreshModelChanged(this.form, data);
         // 改变视图状态

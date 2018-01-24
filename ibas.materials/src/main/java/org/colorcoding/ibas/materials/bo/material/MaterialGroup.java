@@ -7,6 +7,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
 import org.colorcoding.ibas.bobas.bo.BusinessObject;
+import org.colorcoding.ibas.bobas.bo.IBOSeriesKey;
 import org.colorcoding.ibas.bobas.core.IPropertyInfo;
 import org.colorcoding.ibas.bobas.data.DateTime;
 import org.colorcoding.ibas.bobas.data.emYesNo;
@@ -25,7 +26,7 @@ import org.colorcoding.ibas.materials.MyConfiguration;
 @XmlType(name = MaterialGroup.BUSINESS_OBJECT_NAME, namespace = MyConfiguration.NAMESPACE_BO)
 @XmlRootElement(name = MaterialGroup.BUSINESS_OBJECT_NAME, namespace = MyConfiguration.NAMESPACE_BO)
 @BOCode(MaterialGroup.BUSINESS_OBJECT_CODE)
-public class MaterialGroup extends BusinessObject<MaterialGroup> implements IMaterialGroup {
+public class MaterialGroup extends BusinessObject<MaterialGroup> implements IMaterialGroup, IBOSeriesKey {
 
 	/**
 	 * 序列化版本标记
@@ -626,6 +627,11 @@ public class MaterialGroup extends BusinessObject<MaterialGroup> implements IMat
 	 */
 	public final void setOrganization(String value) {
 		this.setProperty(PROPERTY_ORGANIZATION, value);
+	}
+
+	@Override
+	public void setSeriesValue(Object value) {
+		this.setCode((String) value);
 	}
 
 	/**

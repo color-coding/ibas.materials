@@ -187,7 +187,8 @@ export class MaterialEditApp extends ibas.BOEditApplication<IMaterialEditView, b
                 new ibas.Condition(bo.Warehouse.PROPERTY_ACTIVATED_NAME, ibas.emConditionOperation.EQUAL, ibas.emYesNo.YES)
             ],
             onCompleted(selecteds: ibas.List<bo.Warehouse>): void {
-                that.editData.defaultWarehouse = selecteds.firstOrDefault().code;
+                let selected: bo.Warehouse = selecteds.firstOrDefault();
+                that.editData.defaultWarehouse = selected.code;
             }
         });
     }
@@ -199,7 +200,8 @@ export class MaterialEditApp extends ibas.BOEditApplication<IMaterialEditView, b
             chooseType: ibas.emChooseType.SINGLE,
             criteria: [],
             onCompleted(selecteds: ibas.List<bo.MaterialGroup>): void {
-                that.editData.group = selecteds.firstOrDefault().code;
+                let selected: bo.MaterialGroup = selecteds.firstOrDefault();
+                that.editData.group = selected.code;
             }
         });
     }
