@@ -32,7 +32,7 @@ export class MaterialInventoryListView extends ibas.BOQueryViewWithPanel impleme
         let that: this = this;
         this.tableInventory = new sap.m.List("", {
             inset: false,
-            growing: false,
+            growing: true,
             growingThreshold: ibas.config.get(openui5.utils.CONFIG_ITEM_LIST_TABLE_VISIBLE_ROW_COUNT, 15),
             growingScrollToLoad: true,
             mode: sap.m.ListMode.SingleSelectMaster,

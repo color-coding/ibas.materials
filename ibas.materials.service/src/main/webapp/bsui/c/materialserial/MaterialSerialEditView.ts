@@ -55,7 +55,7 @@ export class MaterialSerialEditView extends ibas.BODialogView implements IMateri
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_materialserial_instock") }),
                 new sap.m.Select("", {
                     items: openui5.utils.createComboBoxItems(ibas.emYesNo),
-                    editable: false,
+                    enabled: false,
                 }).bindProperty("selectedKey", {
                     path: "inStock",
                     type: "sap.ui.model.type.Integer",
