@@ -138,6 +138,14 @@ export class MaterialSerialIssueServiceProxy extends ServiceProxy<IMaterialSeria
 /** 查询条件 */
 export namespace conditions {
     export namespace material {
+        /** 查询条件字段-销售物料 */
+        export const CONDITION_ALIAS_SALES_ITEM: string = "SalesItem";
+        /** 查询条件字段-采购物料 */
+        export const CONDITION_ALIAS_PURCHASE_ITEM: string = "PurchaseItem";
+        /** 查询条件字段-库存物料 */
+        export const CONDITION_ALIAS_INVENTORY_ITEM: string = "InventoryItem";
+        /** 查询条件字段-物料类型 */
+        export const CONDITION_ALIAS_ITEM_TYPE: string = "ItemType";
         /** 默认查询条件 */
         export function create(): List<ICondition> {
             let today: string = dates.toString(dates.today(), "yyyy-MM-dd");
@@ -206,6 +214,8 @@ export namespace conditions {
         export const CONDITION_ALIAS_PURCHASE_ITEM: string = "PurchaseItem";
         /** 查询条件字段-库存物料 */
         export const CONDITION_ALIAS_INVENTORY_ITEM: string = "InventoryItem";
+        /** 查询条件字段-物料类型 */
+        export const CONDITION_ALIAS_ITEM_TYPE: string = "ItemType";
         /** 默认查询条件 */
         export function create(): List<ICondition> {
             let today: string = dates.toString(dates.today(), "yyyy-MM-dd");

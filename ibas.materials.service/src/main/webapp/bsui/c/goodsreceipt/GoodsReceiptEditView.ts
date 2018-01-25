@@ -47,6 +47,7 @@ export class GoodsReceiptEditView extends ibas.BOEditView implements IGoodsRecei
                 }).bindProperty("value", {
                     path: "docEntry",
                 }),
+                /*
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_goodsreceipt_pricelist") }),
                 new sap.m.ex.BOInput("", {
                     boText: "name",
@@ -60,6 +61,7 @@ export class GoodsReceiptEditView extends ibas.BOEditView implements IGoodsRecei
                         path: "priceList"
                     }
                 }),
+                */
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_goodsreceipt_reference1") }),
                 new sap.m.Input("", {}).bindProperty("value", {
                     path: "reference1"

@@ -57,6 +57,7 @@ export class InventoryTransferEditView extends ibas.BOEditView implements IInven
                 }).bindProperty("value", {
                     path: "fromWarehouse"
                 }),
+                /*
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_inventorytransfer_pricelist") }),
                 new sap.m.ex.BOInput("", {
                     boText: "name",
@@ -70,6 +71,7 @@ export class InventoryTransferEditView extends ibas.BOEditView implements IInven
                         path: "priceList"
                     }
                 }),
+                */
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_inventorytransfer_reference1") }),
                 new sap.m.Input("", {}).bindProperty("value", {
                     path: "reference1"
