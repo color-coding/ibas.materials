@@ -9,7 +9,7 @@
 import * as ibas from "ibas/index";
 import * as bo from "../../borep/bo/index";
 import { BORepositoryMaterials } from "../../borep/BORepositories";
-import { DataConverter4mm } from "../../borep/DataConverters";
+import { DataConverter4MM } from "../../borep/DataConverters";
 
 /** 列表应用-物料库存 */
 export class MaterialInventoryListApp extends ibas.BOListApplication<IMaterialInventoryListView, bo.MaterialInventory> {

@@ -24,7 +24,7 @@ export class MaterialEditView extends ibas.BOEditView implements IMaterialEditVi
     /** 选择物料组事件 */
     chooseMaterialGroupEvent: Function;
     /** 绘制视图 */
-    public darw(): any {
+    public draw(): any {
         const that: this = this;
         this.form = new sap.ui.layout.form.SimpleForm("", {
             editable: true,
@@ -176,37 +176,29 @@ export class MaterialEditView extends ibas.BOEditView implements IMaterialEditVi
                     }),
                     new sap.m.ToolbarSeparator(""),
                     new sap.m.MenuButton("", {
-                        text: ibas.i18n.prop("shell_data_new"),
-                        type: sap.m.ButtonType.Transparent,
+                        text: ibas.strings.format("{0}/{1}",
+                            ibas.i18n.prop("shell_data_new"), ibas.i18n.prop("shell_data_clone")),
                         icon: "sap-icon://create",
-                        buttonMode: sap.m.MenuButtonMode.Split,
-                        defaultAction: function (): void {
-                            // 触发新建对象
-                            that.fireViewEvents(that.createDataEvent, false);
-                        },
+                        type: sap.m.ButtonType.Transparent,
                         menu: new sap.m.Menu("", {
                             items: [
                                 new sap.m.MenuItem("", {
                                     text: ibas.i18n.prop("shell_data_new"),
-                                    icon: "sap-icon://create"
+                                    icon: "sap-icon://create",
+                                    press: function (): void {
+                                        // 创建新的对象
+                                        that.fireViewEvents(that.createDataEvent, false);
+                                    }
                                 }),
                                 new sap.m.MenuItem("", {
                                     text: ibas.i18n.prop("shell_data_clone"),
-                                    icon: "sap-icon://copy"
+                                    icon: "sap-icon://copy",
+                                    press: function (): void {
+                                        // 复制当前对象
+                                        that.fireViewEvents(that.createDataEvent, true);
+                                    }
                                 }),
                             ],
-                            itemSelected: function (event: any): void {
-                                let item: any = event.getParameter("item");
-                                if (item instanceof sap.m.MenuItem) {
-                                    if (item.getIcon() === "sap-icon://copy") {
-                                        // 触发克隆对象
-                                        that.fireViewEvents(that.createDataEvent, true);
-                                    } else {
-                                        // 触发新建对象
-                                        that.fireViewEvents(that.createDataEvent, false);
-                                    }
-                                }
-                            }
                         })
                     }),
                 ]

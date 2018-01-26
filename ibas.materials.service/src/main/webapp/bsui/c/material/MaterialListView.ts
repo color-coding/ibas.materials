@@ -26,7 +26,7 @@ export class MaterialListView extends ibas.BOListView implements IMaterialListVi
     // tslint:disable-next-line:ban-types
     public deleteDataEvent: Function;
     /** 绘制视图 */
-    public darw(): any {
+    public draw(): any {
         const that: this = this;
         this.form = new sap.ui.layout.form.SimpleForm("");
         this.table = new sap.ui.table.Table("", {

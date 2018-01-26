@@ -30,7 +30,7 @@ export class MaterialBatchListView extends ibas.BOQueryViewWithPanel implements 
     /** 查询物料批次交易记录 */
     fetchBatchJournalEvent: Function;
     /** 绘制视图 */
-    darw(): any {
+    draw(): any {
         let that: this = this;
         this.tableBatch = new sap.m.List("", {
             inset: false,

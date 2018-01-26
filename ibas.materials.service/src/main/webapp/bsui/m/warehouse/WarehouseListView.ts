@@ -20,7 +20,7 @@ export class WarehouseListView extends ibas.BOListView implements IWarehouseList
     /** 删除数据事件，参数：删除对象集合 */
     deleteDataEvent: Function;
     /** 绘制视图 */
-    darw(): any {
+    draw(): any {
         let that: this = this;
         this.table = new sap.m.List("", {
             inset: false,

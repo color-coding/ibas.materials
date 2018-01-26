@@ -28,7 +28,7 @@ export class MaterialInventoryListView extends ibas.BOQueryViewWithPanel impleme
     /** 查询物料库存交易记录 */
     fetchInventoryJournalEvent: Function;
     /** 绘制视图 */
-    darw(): any {
+    draw(): any {
         let that: this = this;
         this.tableInventory = new sap.m.List("", {
             inset: false,

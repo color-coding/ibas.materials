@@ -8,7 +8,7 @@
 
 import * as ibas from "ibas/index";
 import * as bo from "../../borep/bo/index";
-import { DataConverter4mm } from "../../borep/DataConverters";
+import { DataConverter4MM } from "../../borep/DataConverters";
 import { BORepositoryMaterials } from "../../borep/BORepositories";
 import { WarehouseEditApp } from "./WarehouseEditApp";
 
@@ -95,7 +95,7 @@ export class WarehouseViewApp extends ibas.BOViewService<IWarehouseViewView> {
         return [
             new ibas.BOServiceProxy({
                 data: this.viewData,
-                converter: new DataConverter4mm()
+                converter: new DataConverter4MM()
             })
         ];
     }

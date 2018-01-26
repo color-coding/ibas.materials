@@ -19,7 +19,7 @@ export class MaterialBatchIssueView extends ibas.BODialogView implements IMateri
     /** 移出物料批次库存 */
     removeMaterialBatchItemEvent: Function;
 
-    darw(): any {
+    draw(): any {
         let that: this = this;
         this.tableWorkDatas = new sap.ui.table.Table("", {
             selectionBehavior: sap.ui.table.SelectionBehavior.Row,
@@ -294,7 +294,7 @@ export class MaterialBatchReceiptView extends ibas.BODialogView implements IMate
     /** 删除物料批次库存 */
     deleteMaterialBatchItemEvent: Function;
 
-    darw(): any {
+    draw(): any {
         let that: this = this;
         this.tableWorkDatas = new sap.ui.table.Table("", {
             selectionBehavior: sap.ui.table.SelectionBehavior.Row,

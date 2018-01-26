@@ -19,7 +19,7 @@ export class MaterialSerialIssueView extends ibas.BODialogView implements IMater
     /** 移出物料序列库存 */
     removeMaterialSerialItemEvent: Function;
 
-    darw(): any {
+    draw(): any {
         let that: this = this;
         this.tableWorkDatas = new sap.ui.table.Table("", {
             selectionBehavior: sap.ui.table.SelectionBehavior.Row,
@@ -286,7 +286,7 @@ export class MaterialSerialReceiptView extends ibas.BODialogView implements IMat
     /** 删除物料序列库存 */
     deleteMaterialSerialItemEvent: Function;
 
-    darw(): any {
+    draw(): any {
         let that: this = this;
         this.tableWorkDatas = new sap.ui.table.Table("", {
             selectionBehavior: sap.ui.table.SelectionBehavior.Row,

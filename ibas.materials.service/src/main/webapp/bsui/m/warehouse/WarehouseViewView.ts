@@ -12,7 +12,7 @@ import * as bo from "../../../borep/bo/index";
 import { IWarehouseViewView } from "../../../bsapp/warehouse/index";
 export class WarehouseViewView extends ibas.BOViewView implements IWarehouseViewView {
     /** 绘制视图 */
-    darw(): any {
+    draw(): any {
         let that: this = this;
         this.form = new sap.ui.layout.form.SimpleForm("", {
             editable: true,
