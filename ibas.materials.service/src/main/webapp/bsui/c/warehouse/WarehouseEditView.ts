@@ -29,26 +29,29 @@ export class WarehouseEditView extends ibas.BOEditView implements IWarehouseEdit
                 new sap.ui.core.Title("", { text: ibas.i18n.prop("materials_title_general") }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_warehouse_code") }),
                 new sap.m.Input("", {
+                    type: sap.m.InputType.Text,
+                    editable: { path: "isNew" }
                 }).bindProperty("value", {
-                    path: "/code",
+                    path: "code",
                 }),
                 new sap.m.ex.SeriesSelect("", {
                     objectCode: ibas.config.applyVariables(bo.BO_CODE_WAREHOUSE),
+                    enabled: { path: "isNew" },
                     bindingValue: {
-                        path: "/series",
+                        path: "series",
                         type: "sap.ui.model.type.Integer",
                     }
                 }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_warehouse_name") }),
                 new sap.m.Input("", {
                 }).bindProperty("value", {
-                    path: "/name",
+                    path: "name",
                 }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_warehouse_activated") }),
                 new sap.m.Select("", {
                     items: openui5.utils.createComboBoxItems(ibas.emYesNo),
                 }).bindProperty("selectedKey", {
-                    path: "/activated",
+                    path: "activated",
                     type: "sap.ui.model.type.Integer"
                 }),
                 new sap.ui.core.Title("", { text: ibas.i18n.prop("materials_title_others") }),
@@ -56,14 +59,14 @@ export class WarehouseEditView extends ibas.BOEditView implements IWarehouseEdit
                 new sap.m.Input("", {
                     type: sap.m.InputType.Text
                 }).bindProperty("value", {
-                    path: "/docEntry"
+                    path: "docEntry"
                 }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_warehouse_objectcode") }),
                 new sap.m.Input("", {
                     enabled: false,
                     type: sap.m.InputType.Text
                 }).bindProperty("value", {
-                    path: "/objectCode"
+                    path: "objectCode"
                 }),
             ]
         });
@@ -155,6 +158,7 @@ export class WarehouseEditView extends ibas.BOEditView implements IWarehouseEdit
     /** 显示数据 */
     showWarehouse(data: bo.Warehouse): void {
         this.form.setModel(new sap.ui.model.json.JSONModel(data));
+        this.form.bindContext("/");
         // 监听属性改变，并更新控件
         openui5.utils.refreshModelChanged(this.form, data);
         // 改变视图状态
