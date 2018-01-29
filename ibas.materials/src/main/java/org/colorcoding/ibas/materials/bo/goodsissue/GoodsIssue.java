@@ -20,6 +20,8 @@ import org.colorcoding.ibas.bobas.mapping.BOCode;
 import org.colorcoding.ibas.bobas.mapping.DbField;
 import org.colorcoding.ibas.bobas.mapping.DbFieldType;
 import org.colorcoding.ibas.bobas.ownership.IDataOwnership;
+import org.colorcoding.ibas.bobas.rule.IBusinessRule;
+import org.colorcoding.ibas.bobas.rule.common.BusinessRuleRequiredElements;
 import org.colorcoding.ibas.materials.MyConfiguration;
 
 /**
@@ -1253,4 +1255,10 @@ public class GoodsIssue extends BusinessObject<GoodsIssue> implements IGoodsIssu
 
 	}
 
+	@Override
+	protected IBusinessRule[] registerRules() {
+		return new IBusinessRule[] { // 注册的业务规则
+				new BusinessRuleRequiredElements(PROPERTY_GOODSISSUELINES), // 要求有元素
+		};
+	}
 }
