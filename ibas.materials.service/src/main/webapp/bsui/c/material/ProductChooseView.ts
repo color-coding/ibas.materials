@@ -20,7 +20,7 @@ export class ProductChooseView extends ibas.BOChooseView implements IProductChoo
         return bo.Product;
     }
     /** 绘制工具条 */
-    darwBars(): any {
+    drawBars(): any {
         let that: this = this;
         return [
             new sap.m.Button("", {
@@ -53,7 +53,7 @@ export class ProductChooseView extends ibas.BOChooseView implements IProductChoo
         ];
     }
     /** 绘制视图 */
-    darw(): any {
+    draw(): any {
         let that: this = this;
         this.table = new sap.ui.table.Table("", {
             enableSelectAll: false,

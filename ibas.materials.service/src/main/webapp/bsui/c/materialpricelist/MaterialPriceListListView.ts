@@ -34,7 +34,7 @@ export class MaterialPriceListListView extends ibas.BOQueryViewWithPanel impleme
     /** 保存价格项目事件 */
     savePriceListItemEvent: Function;
     /** 绘制视图 */
-    darw(): any {
+    draw(): any {
         let that: this = this;
         this.tablePriceList = new sap.m.List("", {
             inset: false,

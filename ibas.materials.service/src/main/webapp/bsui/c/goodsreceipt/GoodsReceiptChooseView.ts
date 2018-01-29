@@ -20,7 +20,7 @@ export class GoodsReceiptChooseView extends ibas.BOChooseView implements IGoodsR
         return bo.GoodsReceipt;
     }
     /** 绘制工具条 */
-    darwBars(): any {
+    drawBars(): any {
         let that: this = this;
         return [
             new sap.m.Button("", {
@@ -53,7 +53,7 @@ export class GoodsReceiptChooseView extends ibas.BOChooseView implements IGoodsR
         ];
     }
     /** 绘制视图 */
-    darw(): any {
+    draw(): any {
         let that: this = this;
         this.table = new sap.ui.table.Table("", {
             enableSelectAll: false,
@@ -87,10 +87,10 @@ export class GoodsReceiptChooseView extends ibas.BOChooseView implements IGoodsR
                         wrapping: false,
                     }).bindProperty("text", {
                         path: "documentDate",
-                        type: "sap.ui.model.type.Date",
-                        formatOptions: {
-                            style: "short"
-                        }
+                        type: new sap.ui.model.type.Date({
+                            pattern: "yyyy-MM-dd",
+                            strictParsing: true,
+                        })
                     }),
                 }),
                 new sap.ui.table.Column("", {
@@ -136,7 +136,7 @@ export class GoodsReceiptChooseView extends ibas.BOChooseView implements IGoodsR
             horizontalScrolling: true,
             verticalScrolling: true,
             content: [this.table],
-            buttons: [this.darwBars()]
+            buttons: [this.drawBars()]
         });
     }
     private table: sap.ui.table.Table;

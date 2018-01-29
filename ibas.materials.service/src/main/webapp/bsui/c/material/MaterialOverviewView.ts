@@ -28,7 +28,7 @@ export class MaterialOverviewView extends ibas.BOQueryViewWithPanel implements I
     /** 调用服务事件，参数1 IServicesShower显示服务者 */
     callServicesEvent: Function;
     /** 绘制视图 */
-    darw(): any {
+    draw(): any {
         let that: this = this;
         this.tableMaterial = new sap.m.List("", {
             inset: false,

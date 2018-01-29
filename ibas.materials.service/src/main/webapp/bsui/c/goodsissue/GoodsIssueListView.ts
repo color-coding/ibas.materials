@@ -24,7 +24,7 @@ export class GoodsIssueListView extends ibas.BOListView implements IGoodsIssueLi
     /** 删除数据事件，参数：删除对象集合 */
     deleteDataEvent: Function;
     /** 绘制视图 */
-    darw(): any {
+    draw(): any {
         let that: this = this;
         this.form = new sap.ui.layout.form.SimpleForm("");
         this.table = new sap.ui.table.Table("", {
@@ -59,10 +59,10 @@ export class GoodsIssueListView extends ibas.BOListView implements IGoodsIssueLi
                         wrapping: false,
                     }).bindProperty("text", {
                         path: "documentDate",
-                        type: "sap.ui.model.type.Date",
-                        formatOptions: {
-                            style: "short"
-                        }
+                        type: new sap.ui.model.type.Date({
+                            pattern: "yyyy-MM-dd",
+                            strictParsing: true,
+                        })
                     }),
                 }),
                 new sap.ui.table.Column("", {

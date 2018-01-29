@@ -23,7 +23,7 @@ export class MaterialPriceListEditView extends ibas.BODialogView implements IMat
     chooseBasedOnMaterialPriceListEvent: Function;
 
     /** 绘制视图 */
-    darw(): any {
+    draw(): any {
         let that: this = this;
         this.layoutMain = new sap.ui.layout.form.SimpleForm("", {
             editable: true,

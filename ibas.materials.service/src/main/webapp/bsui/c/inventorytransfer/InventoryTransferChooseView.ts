@@ -20,7 +20,7 @@ export class InventoryTransferChooseView extends ibas.BOChooseView implements II
         return bo.InventoryTransfer;
     }
     /** 绘制工具条 */
-    darwBars(): any {
+    drawBars(): any {
         let that: this = this;
         return [
             new sap.m.Button("", {
@@ -53,7 +53,7 @@ export class InventoryTransferChooseView extends ibas.BOChooseView implements II
         ];
     }
     /** 绘制视图 */
-    darw(): any {
+    draw(): any {
         let that: this = this;
         this.table = new sap.ui.table.Table("", {
             enableSelectAll: false,
@@ -87,10 +87,10 @@ export class InventoryTransferChooseView extends ibas.BOChooseView implements II
                         wrapping: false,
                     }).bindProperty("text", {
                         path: "documentDate",
-                        type: "sap.ui.model.type.Date",
-                        formatOptions: {
-                            style: "short"
-                        }
+                        type: new sap.ui.model.type.Date({
+                            pattern: "yyyy-MM-dd",
+                            strictParsing: true,
+                        })
                     }),
                 }),
                 new sap.ui.table.Column("", {
@@ -144,7 +144,7 @@ export class InventoryTransferChooseView extends ibas.BOChooseView implements II
             horizontalScrolling: true,
             verticalScrolling: true,
             content: [this.table],
-            buttons: [this.darwBars()]
+            buttons: [this.drawBars()]
         });
     }
     private table: sap.ui.table.Table;

@@ -17,7 +17,7 @@ export class MaterialSerialChooseView extends ibas.BOChooseView implements IMate
         return bo.MaterialSerial;
     }
     /** 绘制视图 */
-    darw(): any {
+    draw(): any {
         let that: this = this;
         this.table = new sap.ui.table.Table("", {
             enableSelectAll: false,

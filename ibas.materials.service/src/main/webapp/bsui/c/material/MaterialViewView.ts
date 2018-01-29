@@ -17,7 +17,7 @@ import { IMaterialViewView } from "../../../bsapp/material/index";
 export class MaterialViewView extends ibas.BOViewView implements IMaterialViewView {
 
     /** 绘制视图 */
-    public darw(): any {
+    public draw(): any {
         let that: this = this;
         this.form = new sap.ui.layout.form.SimpleForm("", {
             editable: false,

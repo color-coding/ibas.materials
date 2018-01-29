@@ -9,7 +9,7 @@
 import * as ibas from "ibas/index";
 import * as bo from "../../borep/bo/index";
 import { BORepositoryMaterials } from "../../borep/BORepositories";
-import { DataConverter4mm } from "../../borep/DataConverters";
+import { DataConverter4MM } from "../../borep/DataConverters";
 import { MaterialGroupEditApp } from "./MaterialGroupEditApp";
 
 /** 列表应用-物料组 */
@@ -173,7 +173,7 @@ export class MaterialGroupListApp extends ibas.BOListApplication<IMaterialGroupL
         return [
             new ibas.BOListServiceProxy({
                 data: this.view.getSelecteds(),
-                converter: new DataConverter4mm()
+                converter: new DataConverter4MM()
             })
         ];
     }

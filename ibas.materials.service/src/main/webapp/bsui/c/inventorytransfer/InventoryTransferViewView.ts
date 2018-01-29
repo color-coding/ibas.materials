@@ -18,7 +18,7 @@ export class InventoryTransferViewView extends ibas.BOViewView implements IInven
     private layoutMain: sap.ui.layout.VerticalLayout;
     private viewBottomForm: sap.ui.layout.form.SimpleForm;
     /** 绘制视图 */
-    darw(): any {
+    draw(): any {
         let that: this = this;
         this.form = new sap.ui.layout.form.SimpleForm("", {
             editable: false,

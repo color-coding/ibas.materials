@@ -33,7 +33,7 @@ export class MaterialBatchListView extends ibas.BOQueryViewWithPanel implements 
     private isActivated: sap.m.ObjectStatus;
 
     /** 绘制视图 */
-    darw(): any {
+    draw(): any {
         let that: this = this;
         this.tableBatch = new sap.m.List("", {
             inset: false,
