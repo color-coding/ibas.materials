@@ -19,6 +19,7 @@ export class MaterialOverviewView extends ibas.BOQueryViewWithPanel implements I
     get queryTarget(): any {
         return bo.Material;
     }
+
     /** 编辑物料事件，参数：编辑对象 */
     editDataEvent: Function;
     /** 新建物料事件 */
@@ -30,7 +31,7 @@ export class MaterialOverviewView extends ibas.BOQueryViewWithPanel implements I
     /** 绘制视图 */
     draw(): any {
         let that: this = this;
-        this.tableMaterial = new sap.m.List("", {
+        that.tableMaterial = new sap.m.List("", {
             inset: false,
             growing: true,
             growingThreshold: ibas.config.get(openui5.utils.CONFIG_ITEM_LIST_TABLE_VISIBLE_ROW_COUNT, 15),
@@ -40,30 +41,57 @@ export class MaterialOverviewView extends ibas.BOQueryViewWithPanel implements I
                 path: "/rows",
                 template: new sap.m.ObjectListItem("", {
                     title: "{name}",
+                    number: "{group}",
                     firstStatus: new sap.m.ObjectStatus("", {
-                        text: "{group}"
-                    }),
-                    markLocked: {
-                        path: "activated",
-                        formatter(data: any): any {
-                            if (data === ibas.emYesNo.NO) {
-                                return true;
+                        text: {
+                            path: "activated",
+                            formatter(): any {
+                                if (!ibas.objects.isNull(this.getBindingContext())) {
+                                    let material: bo.Material = this.getBindingContext().getObject();
+                                    if (!!material) {
+                                        if (material.activated === ibas.emYesNo.YES) {
+                                            let today: Date = ibas.dates.now();
+                                            // 已激活-无生效日期-无失效日期
+                                            if (ibas.objects.isNull(material.validDate) && ibas.objects.isNull(material.invalidDate)) {
+                                                return ibas.i18n.prop("bo_material_can_use");
+                                            } else if (ibas.objects.isNull(material.validDate) &&
+                                                // 已激活-无生效日期-失效日期大于等于当前日期
+                                                material.invalidDate >= today) {
+                                                return ibas.i18n.prop("bo_material_can_use");
+                                            } else if (material.validDate < today &&
+                                                // 已激活-生效日期小于等于当前日期-失效日期大于等于当前日期
+                                                material.invalidDate >= today) {
+                                                return ibas.i18n.prop("bo_material_can_use");
+                                            } else if (material.validDate <= today &&
+                                                // 已激活-生效日期小于等于当前日期-无失效日期
+                                                ibas.objects.isNull(material.invalidDate)) {
+                                                return ibas.i18n.prop("bo_material_can_use");
+                                            } else {
+                                                // 已激活-其他
+                                                return ibas.i18n.prop("bo_material_can_not_use");
+                                            }
+                                        } else {
+                                            // 未激活
+                                            return ibas.i18n.prop("bo_material_can_not_use");
+                                        }
+                                    }
+                                }
                             }
-                            return false;
-                        }
-                    },
+                        },
+                        state: sap.ui.core.ValueState.Success
+                    }),
                     attributes: [
                         new sap.m.ObjectAttribute("", {
                             title: ibas.i18n.prop("bo_material_code"),
                             text: "{code}"
-                        }),
+                        })
                     ]
                 })
             }
         });
         // 添加列表自动查询事件
         openui5.utils.triggerNextResults({
-            listener: this.tableMaterial,
+            listener: that.tableMaterial,
             next(data: any): void {
                 if (ibas.objects.isNull(that.lastCriteria)) {
                     return;
@@ -76,7 +104,7 @@ export class MaterialOverviewView extends ibas.BOQueryViewWithPanel implements I
                 that.fireViewEvents(that.fetchDataEvent, criteria);
             }
         });
-        this.pageMaterial = new sap.m.Page("", {
+        that.pageMaterial = new sap.m.Page("", {
             showHeader: false,
             floatingFooter: true,
             footer: new sap.m.Toolbar("", {
@@ -103,9 +131,9 @@ export class MaterialOverviewView extends ibas.BOQueryViewWithPanel implements I
                     }),
                 ]
             }),
-            content: [this.tableMaterial]
+            content: [that.tableMaterial]
         });
-        this.pageOverview = new sap.m.Page("", {
+        that.pageOverview = new sap.m.Page("", {
             showHeader: true,
             customHeader: new sap.m.Toolbar("", {
                 content: [
@@ -118,6 +146,7 @@ export class MaterialOverviewView extends ibas.BOQueryViewWithPanel implements I
                         boCode: ibas.config.applyVariables(bo.BO_CODE_MATERIALPRICELIST),
                         repositoryName: bo.BO_REPOSITORY_MATERIALS,
                         valueHelpRequest: function (): void {
+                            //
                         },
                         bindingValue: {
                             path: "priceList"
@@ -130,11 +159,11 @@ export class MaterialOverviewView extends ibas.BOQueryViewWithPanel implements I
         });
         return new sap.m.SplitContainer("", {
             masterPages: [
-                this.pageMaterial,
+                that.pageMaterial,
             ],
             detailPages: [
-                this.pageOverview
-            ],
+                that.pageOverview
+            ]
         });
     }
     /** 嵌入查询面板 */

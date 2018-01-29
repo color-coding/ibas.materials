@@ -58,10 +58,6 @@ export class MaterialBatchListView extends ibas.BOQueryViewWithPanel implements 
                             }
                         }
                     }),
-                    firstStatus: that.isActivated = new sap.m.ObjectStatus("", {
-                        text: "{locked}",
-                        state: sap.ui.core.ValueState.Success
-                    }),
                     attributes: [
                         new sap.m.ObjectAttribute("", {
                             title: ibas.i18n.prop("bo_materialbatch_itemcode"),
