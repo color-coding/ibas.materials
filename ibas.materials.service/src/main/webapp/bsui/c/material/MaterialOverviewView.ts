@@ -48,7 +48,7 @@ export class MaterialOverviewView extends ibas.BOQueryViewWithPanel implements I
                             formatter(): any {
                                 if (!ibas.objects.isNull(this.getBindingContext())) {
                                     let material: bo.Material = this.getBindingContext().getObject();
-                                    if (!!material) {
+                                    if (material) {
                                         if (material.activated === ibas.emYesNo.YES) {
                                             let today: Date = ibas.dates.now();
                                             // 已激活-无生效日期-无失效日期
@@ -68,10 +68,12 @@ export class MaterialOverviewView extends ibas.BOQueryViewWithPanel implements I
                                                 return ibas.i18n.prop("bo_material_can_use");
                                             } else {
                                                 // 已激活-其他
+                                                //  that.materialIsCanBeUse.setState(sap.ui.core.ValueState.Warning);
                                                 return ibas.i18n.prop("bo_material_can_not_use");
                                             }
                                         } else {
                                             // 未激活
+                                            // that.materialIsCanBeUse.setState(sap.ui.core.ValueState.Warning);
                                             return ibas.i18n.prop("bo_material_can_not_use");
                                         }
                                     }
