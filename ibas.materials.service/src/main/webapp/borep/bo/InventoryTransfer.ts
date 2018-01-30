@@ -375,13 +375,13 @@ export class InventoryTransfer extends BODocument<InventoryTransfer> implements 
         this.setProperty(InventoryTransfer.PROPERTY_DOCUMENTCURRENCY_NAME, value);
     }
 
-    /** 映射的属性名称-单据交换率 */
+    /** 映射的属性名称-单据汇率 */
     static PROPERTY_DOCUMENTRATE_NAME: string = "DocumentRate";
-    /** 获取-单据交换率 */
+    /** 获取-单据汇率 */
     get documentRate(): number {
         return this.getProperty<number>(InventoryTransfer.PROPERTY_DOCUMENTRATE_NAME);
     }
-    /** 设置-单据交换率 */
+    /** 设置-单据汇率 */
     set documentRate(value: number) {
         this.setProperty(InventoryTransfer.PROPERTY_DOCUMENTRATE_NAME, value);
     }

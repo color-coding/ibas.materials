@@ -2,7 +2,7 @@
   "bo_materialpricelist": "物料价格清单",
   "bo_materialpricelist_name": "名称",
   "bo_materialpricelist_group": "分组",
-  "bo_materialpricelist_currency": "币种",
+  "bo_materialpricelist_currency": "货币",
   "bo_materialpricelist_basedonlist": "基于的清单",
   "bo_materialpricelist_factor": "系数",
   "bo_materialpricelist_validdate": "生效日期",

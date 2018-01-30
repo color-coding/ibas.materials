@@ -78,14 +78,14 @@ public interface IMaterialPrice {
 	void setPrice(double value);
 
 	/**
-	 * 获取-币种
+	 * 获取-货币
 	 *
 	 * @return
 	 */
 	String getCurrency();
 
 	/**
-	 * 设置-币种
+	 * 设置-货币
 	 *
 	 * @param value
 	 */

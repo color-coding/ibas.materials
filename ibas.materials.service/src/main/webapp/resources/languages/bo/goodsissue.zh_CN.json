@@ -30,7 +30,7 @@
   "bo_goodsissue_referenced": "已引用",
   "bo_goodsissue_remarks": "备注",
   "bo_goodsissue_documentcurrency": "单据货币",
-  "bo_goodsissue_documentrate": "单据交换率",
+  "bo_goodsissue_documentrate": "单据汇率",
   "bo_goodsissue_documenttotal": "单据总计",
   "bo_goodsissue_pricelist": "价格清单",
   "bo_goodsissue_project": "项目代码",

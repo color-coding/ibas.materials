@@ -70,6 +70,8 @@ public class InventoryTransferLines extends BusinessObjects<IInventoryTransferLi
 		if (item instanceof InventoryTransferLine) {
 			((InventoryTransferLine) item).parent = this.getParent();
 		}
+		// 记录父项的值
+		item.setRate(this.getParent().getDocumentRate());
 	}
 
 	@Override

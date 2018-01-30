@@ -1020,19 +1020,19 @@ public class GoodsReceipt extends BusinessObject<GoodsReceipt> implements IGoods
 	}
 
 	/**
-	 * 属性名称-单据交换率
+	 * 属性名称-单据汇率
 	 */
 	private static final String PROPERTY_DOCUMENTRATE_NAME = "DocumentRate";
 
 	/**
-	 * 单据交换率 属性
+	 * 单据汇率 属性
 	 */
 	@DbField(name = "DocRate", type = DbFieldType.DECIMAL, table = DB_TABLE_NAME, primaryKey = false)
 	public static final IPropertyInfo<Decimal> PROPERTY_DOCUMENTRATE = registerProperty(PROPERTY_DOCUMENTRATE_NAME,
 			Decimal.class, MY_CLASS);
 
 	/**
-	 * 获取-单据交换率
+	 * 获取-单据汇率
 	 * 
 	 * @return 值
 	 */
@@ -1042,7 +1042,7 @@ public class GoodsReceipt extends BusinessObject<GoodsReceipt> implements IGoods
 	}
 
 	/**
-	 * 设置-单据交换率
+	 * 设置-单据汇率
 	 * 
 	 * @param value
 	 *            值
@@ -1052,7 +1052,7 @@ public class GoodsReceipt extends BusinessObject<GoodsReceipt> implements IGoods
 	}
 
 	/**
-	 * 设置-单据交换率
+	 * 设置-单据汇率
 	 * 
 	 * @param value
 	 *            值
@@ -1062,7 +1062,7 @@ public class GoodsReceipt extends BusinessObject<GoodsReceipt> implements IGoods
 	}
 
 	/**
-	 * 设置-单据交换率
+	 * 设置-单据汇率
 	 * 
 	 * @param value
 	 *            值
@@ -1072,7 +1072,7 @@ public class GoodsReceipt extends BusinessObject<GoodsReceipt> implements IGoods
 	}
 
 	/**
-	 * 设置-单据交换率
+	 * 设置-单据汇率
 	 * 
 	 * @param value
 	 *            值

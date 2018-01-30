@@ -33,7 +33,7 @@ public class MyConfiguration extends org.colorcoding.ibas.bobas.MyConfiguration 
 	 */
 	public final static String CONFIG_ITEM_MATERIALS_FILE_FOLDER = "MMFileFolder";
 
-	/** 配置项目-默认币种 */
+	/** 配置项目-默认货币 */
 	public final static String CONFIG_ITEM_DEFAULT_CURRENCY = "defaultCurrency";
 
 	/** 配置项目-价格清单最大层级 */

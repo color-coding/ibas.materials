@@ -55,7 +55,7 @@ export interface IMaterialInventoryJournal extends IBOSimple {
     /** 价格 */
     price: number;
 
-    /** 币种 */
+    /** 货币 */
     currency: string;
 
     /** 汇率 */

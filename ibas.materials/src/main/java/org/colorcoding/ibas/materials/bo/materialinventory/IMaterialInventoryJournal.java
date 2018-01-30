@@ -150,14 +150,14 @@ public interface IMaterialInventoryJournal extends IBOSimple {
 	void setPrice(double value);
 
 	/**
-	 * 获取-币种
+	 * 获取-货币
 	 * 
 	 * @return 值
 	 */
 	String getCurrency();
 
 	/**
-	 * 设置-币种
+	 * 设置-货币
 	 * 
 	 * @param value
 	 *            值

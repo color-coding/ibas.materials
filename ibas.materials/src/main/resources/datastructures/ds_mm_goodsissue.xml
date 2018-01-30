@@ -32,7 +32,7 @@
     <Property Name="Referenced" Description="已引用" DataType="Alphanumeric" DataSubType="Default" EditSize="1" DeclaredType="emYesNo" Mapped="Refed"/>
     <Property Name="Remarks" Description="备注" DataType="Memo" DataSubType="Default" EditSize="8" Mapped="Remarks"/>
     <Property Name="DocumentCurrency" Description="单据货币" DataType="Alphanumeric" DataSubType="Default" EditSize="8" Mapped="DocCur"/>
-    <Property Name="DocumentRate" Description="单据交换率" DataType="Decimal" DataSubType="Rate" EditSize="8" Mapped="DocRate"/>
+    <Property Name="DocumentRate" Description="单据汇率" DataType="Decimal" DataSubType="Rate" EditSize="8" Mapped="DocRate"/>
     <Property Name="DocumentTotal" Description="单据总计" DataType="Decimal" DataSubType="Sum" EditSize="8" Mapped="DocTotal"/>
     <Property Name="PriceList" Description="价格清单" DataType="Numeric" DataSubType="Default" EditSize="8" Mapped="PriceList"/>
     <Property Name="Project" Description="项目代码" DataType="Alphanumeric" DataSubType="Default" EditSize="8" Mapped="Project"/>
