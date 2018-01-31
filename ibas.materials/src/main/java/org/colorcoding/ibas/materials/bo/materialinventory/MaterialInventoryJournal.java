@@ -311,19 +311,19 @@ public class MaterialInventoryJournal extends BusinessObject<MaterialInventoryJo
 	}
 
 	/**
-	 * 属性名称-币种
+	 * 属性名称-货币
 	 */
 	private static final String PROPERTY_CURRENCY_NAME = "Currency";
 
 	/**
-	 * 币种 属性
+	 * 货币 属性
 	 */
 	@DbField(name = "Currency", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME, primaryKey = false)
 	public static final IPropertyInfo<String> PROPERTY_CURRENCY = registerProperty(PROPERTY_CURRENCY_NAME, String.class,
 			MY_CLASS);
 
 	/**
-	 * 获取-币种
+	 * 获取-货币
 	 *
 	 * @return 值
 	 */
@@ -333,7 +333,7 @@ public class MaterialInventoryJournal extends BusinessObject<MaterialInventoryJo
 	}
 
 	/**
-	 * 设置-币种
+	 * 设置-货币
 	 *
 	 * @param value
 	 *            值

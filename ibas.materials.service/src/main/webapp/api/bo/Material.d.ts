@@ -191,7 +191,7 @@ export interface IMaterialPrice {
     /** 价格 */
     price: number;
 
-    /** 币种 */
+    /** 货币 */
     currency: string;
 
 }

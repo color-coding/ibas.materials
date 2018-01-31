@@ -34,7 +34,6 @@ import {
     MaterialSerialItems,
     MaterialBatchItems,
     BO_CODE_INVENTORYTRANSFER,
-    emItemType,
 } from "../../api/index";
 /** 库存转储 */
 export class InventoryTransfer extends BODocument<InventoryTransfer> implements IInventoryTransfer {
@@ -375,13 +374,13 @@ export class InventoryTransfer extends BODocument<InventoryTransfer> implements 
         this.setProperty(InventoryTransfer.PROPERTY_DOCUMENTCURRENCY_NAME, value);
     }
 
-    /** 映射的属性名称-单据交换率 */
+    /** 映射的属性名称-单据汇率 */
     static PROPERTY_DOCUMENTRATE_NAME: string = "DocumentRate";
-    /** 获取-单据交换率 */
+    /** 获取-单据汇率 */
     get documentRate(): number {
         return this.getProperty<number>(InventoryTransfer.PROPERTY_DOCUMENTRATE_NAME);
     }
-    /** 设置-单据交换率 */
+    /** 设置-单据汇率 */
     set documentRate(value: number) {
         this.setProperty(InventoryTransfer.PROPERTY_DOCUMENTRATE_NAME, value);
     }
@@ -751,17 +750,6 @@ export class InventoryTransferLine extends BODocumentLine<InventoryTransferLine>
     /** 设置-物料/服务描述 */
     set itemDescription(value: string) {
         this.setProperty(InventoryTransferLine.PROPERTY_ITEMDESCRIPTION_NAME, value);
-    }
-
-    /** 映射的属性名称-物料类型 */
-    static PROPERTY_ITEMTYPE_NAME: string = "ItemType";
-    /** 获取-物料类型 */
-    get itemType(): emItemType {
-        return this.getProperty<emItemType>(InventoryTransferLine.PROPERTY_ITEMTYPE_NAME);
-    }
-    /** 设置-物料类型 */
-    set itemType(value: emItemType) {
-        this.setProperty(InventoryTransferLine.PROPERTY_ITEMTYPE_NAME, value);
     }
 
     /** 映射的属性名称-序号管理 */

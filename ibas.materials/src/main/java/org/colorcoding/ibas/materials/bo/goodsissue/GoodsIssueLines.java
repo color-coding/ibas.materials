@@ -69,6 +69,9 @@ public class GoodsIssueLines extends BusinessObjects<IGoodsIssueLine, IGoodsIssu
 		if (item instanceof GoodsIssueLine) {
 			((GoodsIssueLine) item).parent = this.getParent();
 		}
+		// 记录父项的值
+		item.setRate(this.getParent().getDocumentRate());
+		item.setCurrency(this.getParent().getDocumentCurrency());
 	}
 
 	@Override

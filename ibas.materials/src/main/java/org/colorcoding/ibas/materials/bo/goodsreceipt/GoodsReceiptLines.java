@@ -69,6 +69,9 @@ public class GoodsReceiptLines extends BusinessObjects<IGoodsReceiptLine, IGoods
 		if (item instanceof GoodsReceiptLine) {
 			((GoodsReceiptLine) item).parent = this.getParent();
 		}
+		// 记录父项的值
+		item.setRate(this.getParent().getDocumentRate());
+		item.setCurrency(this.getParent().getDocumentCurrency());
 	}
 
 	@Override

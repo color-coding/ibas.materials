@@ -17,8 +17,11 @@ import org.colorcoding.ibas.bobas.logic.IBusinessLogicContract;
 import org.colorcoding.ibas.bobas.logic.IBusinessLogicsHost;
 import org.colorcoding.ibas.bobas.mapping.DbField;
 import org.colorcoding.ibas.bobas.mapping.DbFieldType;
+import org.colorcoding.ibas.bobas.rule.BusinessRuleException;
 import org.colorcoding.ibas.bobas.rule.IBusinessRule;
+import org.colorcoding.ibas.bobas.rule.common.BusinessRuleDivision;
 import org.colorcoding.ibas.bobas.rule.common.BusinessRuleMinValue;
+import org.colorcoding.ibas.bobas.rule.common.BusinessRuleMultiplication;
 import org.colorcoding.ibas.bobas.rule.common.BusinessRuleRequired;
 import org.colorcoding.ibas.materials.MyConfiguration;
 import org.colorcoding.ibas.materials.bo.materialbatch.IMaterialBatchItems;
@@ -27,7 +30,6 @@ import org.colorcoding.ibas.materials.bo.materialbatch.MaterialBatchItems;
 import org.colorcoding.ibas.materials.bo.materialserial.IMaterialSerialItems;
 import org.colorcoding.ibas.materials.bo.materialserial.MaterialSerialItem;
 import org.colorcoding.ibas.materials.bo.materialserial.MaterialSerialItems;
-import org.colorcoding.ibas.materials.data.emItemType;
 import org.colorcoding.ibas.materials.logic.IMaterialIssueContract;
 
 /**
@@ -896,38 +898,6 @@ public class GoodsIssueLine extends BusinessObject<GoodsIssueLine> implements IG
 	}
 
 	/**
-	 * 属性名称-物料类型
-	 */
-	private static final String PROPERTY_ITEMTYPE_NAME = "ItemType";
-
-	/**
-	 * 物料类型 属性
-	 */
-	@DbField(name = "ItemType", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME, primaryKey = false)
-	public static final IPropertyInfo<emItemType> PROPERTY_ITEMTYPE = registerProperty(PROPERTY_ITEMTYPE_NAME,
-			emItemType.class, MY_CLASS);
-
-	/**
-	 * 获取-物料类型
-	 * 
-	 * @return 值
-	 */
-	@XmlElement(name = PROPERTY_ITEMTYPE_NAME)
-	public final emItemType getItemType() {
-		return this.getProperty(PROPERTY_ITEMTYPE);
-	}
-
-	/**
-	 * 设置-物料类型
-	 * 
-	 * @param value
-	 *            值
-	 */
-	public final void setItemType(emItemType value) {
-		this.setProperty(PROPERTY_ITEMTYPE, value);
-	}
-
-	/**
 	 * 属性名称-序号管理
 	 */
 	private static final String PROPERTY_SERIALMANAGEMENT_NAME = "SerialManagement";
@@ -1452,7 +1422,17 @@ public class GoodsIssueLine extends BusinessObject<GoodsIssueLine> implements IG
 				new BusinessRuleMinValue<Decimal>(Decimal.ZERO, PROPERTY_QUANTITY), // 不能低于0
 				new BusinessRuleMinValue<Decimal>(Decimal.ZERO, PROPERTY_PRICE), // 不能低于0
 				new BusinessRuleMinValue<Decimal>(Decimal.ZERO, PROPERTY_LINETOTAL), // 不能低于0
+				new BusinessRuleMultiplication(PROPERTY_LINETOTAL, PROPERTY_QUANTITY, PROPERTY_PRICE), // 计算总计 = 数量 * 价格
+				new BusinessRuleDivision(PROPERTY_PRICE, PROPERTY_LINETOTAL, PROPERTY_QUANTITY), // 计算价格 = 总计 / 数量
 		};
+	}
+
+	@Override
+	public void check() throws BusinessRuleException {
+		// 批次检查
+		this.getMaterialBatches().check();
+		// 序列检查
+		this.getMaterialSerials().check();
 	}
 
 	/**
@@ -1530,4 +1510,5 @@ public class GoodsIssueLine extends BusinessObject<GoodsIssueLine> implements IG
 
 		} };
 	}
+
 }

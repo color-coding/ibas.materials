@@ -61,6 +61,8 @@ class BOConverter4MM extends ibas.BOConverter {
                 || property === bo.Material.PROPERTY_INVENTORYITEM_NAME
                 || property === bo.Material.PROPERTY_PHANTOMITEM_NAME) {
                 return ibas.enums.toString(ibas.emYesNo, value);
+            } else if (property === bo.Material.PROPERTY_ITEMTYPE_NAME) {
+                return ibas.enums.toString(bo.emItemType, value);
             }
         } else if (boName === bo.Product.name) {
             if (property === bo.Product.PROPERTY_SERIALMANAGEMENT_NAME
@@ -68,6 +70,8 @@ class BOConverter4MM extends ibas.BOConverter {
                 || property === bo.Product.PROPERTY_INVENTORYITEM_NAME
                 || property === bo.Product.PROPERTY_PHANTOMITEM_NAME) {
                 return ibas.enums.toString(ibas.emYesNo, value);
+            } else if (property === bo.Product.PROPERTY_ITEMTYPE_NAME) {
+                return ibas.enums.toString(bo.emItemType, value);
             }
         } else if (boName === bo.GoodsIssueLine.name) {
             if (property === bo.GoodsIssueLine.PROPERTY_SERIALMANAGEMENT_NAME
@@ -96,15 +100,7 @@ class BOConverter4MM extends ibas.BOConverter {
      * @returns 解析的值
      */
     protected parsingData(boName: string, property: string, value: any): any {
-        if (boName === bo.MaterialBatchJournal.name) {
-            if (property === bo.MaterialBatchJournal.PROPERTY_DIRECTION_NAME) {
-                return ibas.enums.valueOf(ibas.emDirection, value);
-            }
-        } else if (boName === bo.MaterialSerialJournal.name) {
-            if (property === bo.MaterialSerialJournal.PROPERTY_DIRECTION_NAME) {
-                return ibas.enums.valueOf(ibas.emDirection, value);
-            }
-        } else if (boName === bo.MaterialSerial.name) {
+        if (boName === bo.MaterialSerial.name) {
             if (property === bo.MaterialSerial.PROPERTY_INSTOCK_NAME) {
                 return ibas.enums.valueOf(ibas.emYesNo, value);
             }
@@ -117,13 +113,19 @@ class BOConverter4MM extends ibas.BOConverter {
                 || property === bo.Material.PROPERTY_INVENTORYITEM_NAME
                 || property === bo.Material.PROPERTY_PHANTOMITEM_NAME) {
                 return ibas.enums.valueOf(ibas.emYesNo, value);
+            } else if (property === bo.Material.PROPERTY_ITEMTYPE_NAME) {
+                return ibas.enums.valueOf(bo.emItemType, value);
             }
         } else if (boName === bo.Product.name) {
             if (property === bo.Product.PROPERTY_SERIALMANAGEMENT_NAME
                 || property === bo.Product.PROPERTY_BATCHMANAGEMENT_NAME
                 || property === bo.Product.PROPERTY_INVENTORYITEM_NAME
-                || property === bo.Product.PROPERTY_PHANTOMITEM_NAME) {
+                || property === bo.Product.PROPERTY_PHANTOMITEM_NAME
+                || property === bo.Product.PROPERTY_SALESITEM_NAME
+                || property === bo.Product.PROPERTY_PURCHASEITEM_NAME) {
                 return ibas.enums.valueOf(ibas.emYesNo, value);
+            } else if (property === bo.Product.PROPERTY_ITEMTYPE_NAME) {
+                return ibas.enums.valueOf(bo.emItemType, value);
             }
         } else if (boName === bo.GoodsIssueLine.name) {
             if (property === bo.GoodsIssueLine.PROPERTY_SERIALMANAGEMENT_NAME

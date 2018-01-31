@@ -188,13 +188,13 @@ export class Product extends BOMasterData<Product> implements IProduct {
         this.setProperty(Product.PROPERTY_PRICE_NAME, value);
     }
 
-    /** 映射的属性名称-币种 */
+    /** 映射的属性名称-货币 */
     static PROPERTY_CURRENCY_NAME: string = "Currency";
-    /** 获取-币种 */
+    /** 获取-货币 */
     get currency(): string {
         return this.getProperty<string>(Product.PROPERTY_CURRENCY_NAME);
     }
-    /** 设置-币种 */
+    /** 设置-货币 */
     set currency(value: string) {
         this.setProperty(Product.PROPERTY_CURRENCY_NAME, value);
     }

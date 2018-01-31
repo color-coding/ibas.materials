@@ -66,7 +66,7 @@ public class MaterialPriceContract extends MaterialBusinessLogic<IMaterialPriceC
 	protected void impact(IMaterialPriceContract contract) {
 		IMaterialPriceList materialPriceList = this.getBeAffected();
 		if (contract.getCurrency() != null && !contract.getCurrency().isEmpty()) {
-			// 设置了币种，则比较币种是否匹配
+			// 设置了货币，则比较货币是否匹配
 			if (!contract.getCurrency().equals(materialPriceList.getCurrency())) {
 				throw new BusinessLogicException(I18N.prop("msg_mm_wrong_currency_of_price_list",
 						materialPriceList.getName() != null ? materialPriceList.getName()

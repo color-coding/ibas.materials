@@ -7,7 +7,7 @@
   "bo_materialinventoryjournal_quantity": "数量",
   "bo_materialinventoryjournal_price": "价格",
   "bo_materialinventoryjournal_linestatus": "单据状态",
-  "bo_materialinventoryjournal_currency": "币种",
+  "bo_materialinventoryjournal_currency": "货币",
   "bo_materialinventoryjournal_rate": "汇率",
   "bo_materialinventoryjournal_postingdate": "过账日期",
   "bo_materialinventoryjournal_deliverydate": "到期日",

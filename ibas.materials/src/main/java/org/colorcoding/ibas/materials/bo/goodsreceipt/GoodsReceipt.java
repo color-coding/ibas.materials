@@ -20,6 +20,10 @@ import org.colorcoding.ibas.bobas.mapping.BOCode;
 import org.colorcoding.ibas.bobas.mapping.DbField;
 import org.colorcoding.ibas.bobas.mapping.DbFieldType;
 import org.colorcoding.ibas.bobas.ownership.IDataOwnership;
+import org.colorcoding.ibas.bobas.rule.IBusinessRule;
+import org.colorcoding.ibas.bobas.rule.common.BusinessRuleMinValue;
+import org.colorcoding.ibas.bobas.rule.common.BusinessRuleRequiredElements;
+import org.colorcoding.ibas.bobas.rule.common.BusinessRuleSumElements;
 import org.colorcoding.ibas.materials.MyConfiguration;
 
 /**
@@ -1018,19 +1022,19 @@ public class GoodsReceipt extends BusinessObject<GoodsReceipt> implements IGoods
 	}
 
 	/**
-	 * 属性名称-单据交换率
+	 * 属性名称-单据汇率
 	 */
 	private static final String PROPERTY_DOCUMENTRATE_NAME = "DocumentRate";
 
 	/**
-	 * 单据交换率 属性
+	 * 单据汇率 属性
 	 */
 	@DbField(name = "DocRate", type = DbFieldType.DECIMAL, table = DB_TABLE_NAME, primaryKey = false)
 	public static final IPropertyInfo<Decimal> PROPERTY_DOCUMENTRATE = registerProperty(PROPERTY_DOCUMENTRATE_NAME,
 			Decimal.class, MY_CLASS);
 
 	/**
-	 * 获取-单据交换率
+	 * 获取-单据汇率
 	 * 
 	 * @return 值
 	 */
@@ -1040,7 +1044,7 @@ public class GoodsReceipt extends BusinessObject<GoodsReceipt> implements IGoods
 	}
 
 	/**
-	 * 设置-单据交换率
+	 * 设置-单据汇率
 	 * 
 	 * @param value
 	 *            值
@@ -1050,7 +1054,7 @@ public class GoodsReceipt extends BusinessObject<GoodsReceipt> implements IGoods
 	}
 
 	/**
-	 * 设置-单据交换率
+	 * 设置-单据汇率
 	 * 
 	 * @param value
 	 *            值
@@ -1060,7 +1064,7 @@ public class GoodsReceipt extends BusinessObject<GoodsReceipt> implements IGoods
 	}
 
 	/**
-	 * 设置-单据交换率
+	 * 设置-单据汇率
 	 * 
 	 * @param value
 	 *            值
@@ -1070,7 +1074,7 @@ public class GoodsReceipt extends BusinessObject<GoodsReceipt> implements IGoods
 	}
 
 	/**
-	 * 设置-单据交换率
+	 * 设置-单据汇率
 	 * 
 	 * @param value
 	 *            值
@@ -1251,6 +1255,16 @@ public class GoodsReceipt extends BusinessObject<GoodsReceipt> implements IGoods
 		this.setDeliveryDate(DateTime.getToday());
 		this.setDocumentStatus(emDocumentStatus.RELEASED);
 
+	}
+
+	@Override
+	protected IBusinessRule[] registerRules() {
+		return new IBusinessRule[] { // 注册的业务规则
+				new BusinessRuleMinValue<Decimal>(Decimal.ZERO, PROPERTY_DOCUMENTTOTAL), // 不能低于0
+				new BusinessRuleRequiredElements(PROPERTY_GOODSRECEIPTLINES), // 要求有元素
+				new BusinessRuleSumElements(PROPERTY_DOCUMENTTOTAL, PROPERTY_GOODSRECEIPTLINES,
+						GoodsReceiptLine.PROPERTY_LINETOTAL), // 计算单据总计
+		};
 	}
 
 }

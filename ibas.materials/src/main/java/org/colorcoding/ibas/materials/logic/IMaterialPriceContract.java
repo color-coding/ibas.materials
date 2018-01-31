@@ -29,7 +29,7 @@ public interface IMaterialPriceContract extends IBusinessLogicContract {
 	Decimal getPrice();
 
 	/**
-	 * 币种
+	 * 货币
 	 * 
 	 * @return 值
 	 */

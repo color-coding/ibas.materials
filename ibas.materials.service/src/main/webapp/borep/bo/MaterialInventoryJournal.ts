@@ -133,13 +133,13 @@ export class MaterialInventoryJournal extends BOSimple<MaterialInventoryJournal>
         this.setProperty(MaterialInventoryJournal.PROPERTY_PRICE_NAME, value);
     }
 
-    /** 映射的属性名称-币种 */
+    /** 映射的属性名称-货币 */
     static PROPERTY_CURRENCY_NAME: string = "Currency";
-    /** 获取-币种 */
+    /** 获取-货币 */
     get currency(): string {
         return this.getProperty<string>(MaterialInventoryJournal.PROPERTY_CURRENCY_NAME);
     }
-    /** 设置-币种 */
+    /** 设置-货币 */
     set currency(value: string) {
         this.setProperty(MaterialInventoryJournal.PROPERTY_CURRENCY_NAME, value);
     }
