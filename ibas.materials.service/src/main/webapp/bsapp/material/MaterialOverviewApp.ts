@@ -34,12 +34,13 @@ export class MaterialOverviewApp extends ibas.BOListApplication<IMaterialOvervie
         super.registerView();
         // 其他事件
         this.view.editDataEvent = this.editData;
+        this.view.fetchMaterialAllInformationEvent = this.fetchMaterialAllInformation;
     }
     /** 视图显示后 */
     protected viewShowed(): void {
         // 视图加载完成
     }
-    /** 查询数据 */
+    /** 查询物料清单 */
     protected fetchData(criteria: ibas.ICriteria): void {
         this.busy(true);
         let that: this = this;
@@ -67,6 +68,114 @@ export class MaterialOverviewApp extends ibas.BOListApplication<IMaterialOvervie
         });
         this.proceeding(ibas.emMessageType.INFORMATION, ibas.i18n.prop("shell_fetching_data"));
     }
+
+    /** 查询物料所有相关信息 */
+    protected fetchMaterialAllInformation(data: bo.Material): void {
+        this.busy(true);
+        let that: this = this;
+        let boRepository: BORepositoryMaterials = new BORepositoryMaterials();
+        boRepository.fetchProduct({
+            criteria: [
+                new ibas.Condition("ItemCode",
+                    ibas.emConditionOperation.EQUAL, ibas.strings.valueOf(data.code)),
+            ],
+            onCompleted(opRslt: ibas.IOperationResult<bo.Product>): void {
+                try {
+                    if (opRslt.resultCode !== 0) {
+                        throw new Error(opRslt.message);
+                    }
+                    if (!that.isViewShowed()) {
+                        // 没显示视图，先显示
+                        that.show();
+                    }
+                    if (opRslt.resultObjects.length === 0) {
+                        that.proceeding(ibas.emMessageType.INFORMATION, ibas.i18n.prop("shell_data_fetched_none"));
+                    }
+                    that.view.showMaterialPrices(opRslt.resultObjects);
+                    that.busy(false);
+                } catch (error) {
+                    that.messages(error);
+                }
+            }
+        });
+        // 查询物料库存
+        /* boRepository.fetchMaterialInventory({
+            criteria: [
+                new ibas.Condition("ItemCode",
+                    ibas.emConditionOperation.EQUAL, ibas.strings.valueOf(data.code)),
+            ],
+            onCompleted(opRslt: ibas.IOperationResult<bo.MaterialInventory>): void {
+                try {
+                    if (opRslt.resultCode !== 0) {
+                        throw new Error(opRslt.message);
+                    }
+                    if (!that.isViewShowed()) {
+                        // 没显示视图，先显示
+                        that.show();
+                    }
+                    if (opRslt.resultObjects.length === 0) {
+                        that.proceeding(ibas.emMessageType.INFORMATION, ibas.i18n.prop("shell_data_fetched_none"));
+                    }
+                    that.view.showMaterialInventory(opRslt.resultObjects);
+                    that.busy(false);
+                } catch (error) {
+                    that.messages(error);
+                }
+            }
+        }); */
+        // 查询物料批次
+        /* boRepository.fetchMaterialBatch({
+            criteria: [
+                new ibas.Condition("ItemCode",
+                    ibas.emConditionOperation.EQUAL, ibas.strings.valueOf(data.code)),
+            ],
+            onCompleted(opRslt: ibas.IOperationResult<bo.MaterialBatch>): void {
+                try {
+                    if (opRslt.resultCode !== 0) {
+                        throw new Error(opRslt.message);
+                    }
+                    if (!that.isViewShowed()) {
+                        // 没显示视图，先显示
+                        that.show();
+                    }
+                    if (opRslt.resultObjects.length === 0) {
+                        that.proceeding(ibas.emMessageType.INFORMATION, ibas.i18n.prop("shell_data_fetched_none"));
+                    }
+                    that.view.showMaterialBatch(opRslt.resultObjects);
+                    that.busy(false);
+                } catch (error) {
+                    that.messages(error);
+                }
+            }
+        }); */
+        // 查询物料序列
+        /* boRepository.fetchMaterialSerial({
+            criteria: [
+                new ibas.Condition("ItemCode",
+                    ibas.emConditionOperation.EQUAL, ibas.strings.valueOf(data.code)),
+            ],
+            onCompleted(opRslt: ibas.IOperationResult<bo.MaterialSerial>): void {
+                try {
+                    if (opRslt.resultCode !== 0) {
+                        throw new Error(opRslt.message);
+                    }
+                    if (!that.isViewShowed()) {
+                        // 没显示视图，先显示
+                        that.show();
+                    }
+                    if (opRslt.resultObjects.length === 0) {
+                        that.proceeding(ibas.emMessageType.INFORMATION, ibas.i18n.prop("shell_data_fetched_none"));
+                    }
+                    that.view.showMaterialSerial(opRslt.resultObjects);
+                    that.busy(false);
+                } catch (error) {
+                    that.messages(error);
+                }
+            }
+        }); */
+        this.proceeding(ibas.emMessageType.INFORMATION, ibas.i18n.prop("shell_fetching_data"));
+    }
+
     /** 新建数据 */
     protected newData(): void {
         let app: MaterialEditApp = new MaterialEditApp();
@@ -101,6 +210,16 @@ export class MaterialOverviewApp extends ibas.BOListApplication<IMaterialOvervie
 export interface IMaterialOverviewView extends ibas.IBOListView {
     /** 编辑物料事件，参数：编辑对象 */
     editDataEvent: Function;
-    /** 显示数据 */
+    /** 显示物料清单 */
     showMaterials(datas: bo.Material[]): void;
+    /** 显示物料价格 */
+    showMaterialPrices(datas: bo.Product[]): void;
+    /** 显示物料库存 */
+    showMaterialInventory(datas: bo.MaterialInventory[]): void;
+    /** 显示物料批次 */
+    showMaterialBatch(datas: bo.MaterialBatch[]): void;
+    /** 显示物料序列 */
+    showMaterialSerial(datas: bo.MaterialSerial[]): void;
+    /** 查询物料所有相关信息 */
+    fetchMaterialAllInformationEvent: Function;
 }
