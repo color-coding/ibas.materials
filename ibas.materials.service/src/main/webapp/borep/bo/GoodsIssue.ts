@@ -33,7 +33,6 @@ import {
     MaterialSerialItems,
     MaterialBatchItems,
     BO_CODE_GOODSISSUE,
-    emItemType,
 } from "../../api/index";
 /** 库存发货 */
 export class GoodsIssue extends BODocument<GoodsIssue> implements IGoodsIssue {
@@ -740,17 +739,6 @@ export class GoodsIssueLine extends BODocumentLine<GoodsIssueLine> implements IG
     /** 设置-物料/服务描述 */
     set itemDescription(value: string) {
         this.setProperty(GoodsIssueLine.PROPERTY_ITEMDESCRIPTION_NAME, value);
-    }
-
-    /** 映射的属性名称-物料类型 */
-    static PROPERTY_ITEMTYPE_NAME: string = "ItemType";
-    /** 获取-物料类型 */
-    get itemType(): emItemType {
-        return this.getProperty<emItemType>(GoodsIssueLine.PROPERTY_ITEMTYPE_NAME);
-    }
-    /** 设置-物料类型 */
-    set itemType(value: emItemType) {
-        this.setProperty(GoodsIssueLine.PROPERTY_ITEMTYPE_NAME, value);
     }
 
     /** 映射的属性名称-序号管理 */

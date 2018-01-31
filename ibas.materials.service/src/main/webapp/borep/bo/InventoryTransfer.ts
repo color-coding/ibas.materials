@@ -34,7 +34,6 @@ import {
     MaterialSerialItems,
     MaterialBatchItems,
     BO_CODE_INVENTORYTRANSFER,
-    emItemType,
 } from "../../api/index";
 /** 库存转储 */
 export class InventoryTransfer extends BODocument<InventoryTransfer> implements IInventoryTransfer {
@@ -751,17 +750,6 @@ export class InventoryTransferLine extends BODocumentLine<InventoryTransferLine>
     /** 设置-物料/服务描述 */
     set itemDescription(value: string) {
         this.setProperty(InventoryTransferLine.PROPERTY_ITEMDESCRIPTION_NAME, value);
-    }
-
-    /** 映射的属性名称-物料类型 */
-    static PROPERTY_ITEMTYPE_NAME: string = "ItemType";
-    /** 获取-物料类型 */
-    get itemType(): emItemType {
-        return this.getProperty<emItemType>(InventoryTransferLine.PROPERTY_ITEMTYPE_NAME);
-    }
-    /** 设置-物料类型 */
-    set itemType(value: emItemType) {
-        this.setProperty(InventoryTransferLine.PROPERTY_ITEMTYPE_NAME, value);
     }
 
     /** 映射的属性名称-序号管理 */

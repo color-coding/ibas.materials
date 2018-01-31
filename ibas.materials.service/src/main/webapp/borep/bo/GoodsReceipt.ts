@@ -36,7 +36,6 @@ import {
     MaterialSerialItems,
     MaterialBatchItems,
     BO_CODE_GOODSRECEIPT,
-    emItemType,
 } from "../../api/index";
 /** 库存收货 */
 export class GoodsReceipt extends BODocument<GoodsReceipt> implements IGoodsReceipt {
@@ -741,17 +740,6 @@ export class GoodsReceiptLine extends BODocumentLine<GoodsReceiptLine> implement
     /** 设置-物料/服务描述 */
     set itemDescription(value: string) {
         this.setProperty(GoodsReceiptLine.PROPERTY_ITEMDESCRIPTION_NAME, value);
-    }
-
-    /** 映射的属性名称-物料类型 */
-    static PROPERTY_ITEMTYPE_NAME: string = "ItemType";
-    /** 获取-物料类型 */
-    get itemType(): emItemType {
-        return this.getProperty<emItemType>(GoodsReceiptLine.PROPERTY_ITEMTYPE_NAME);
-    }
-    /** 设置-物料类型 */
-    set itemType(value: emItemType) {
-        this.setProperty(GoodsReceiptLine.PROPERTY_ITEMTYPE_NAME, value);
     }
 
     /** 映射的属性名称-序号管理 */

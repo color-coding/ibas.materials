@@ -11,6 +11,10 @@ import org.colorcoding.ibas.bobas.common.ConditionRelationship;
 import org.colorcoding.ibas.bobas.common.Criteria;
 import org.colorcoding.ibas.bobas.common.ICondition;
 import org.colorcoding.ibas.bobas.common.ICriteria;
+import org.colorcoding.ibas.bobas.data.Decimal;
+import org.colorcoding.ibas.bobas.data.emYesNo;
+import org.colorcoding.ibas.bobas.i18n.I18N;
+import org.colorcoding.ibas.bobas.rule.BusinessRuleException;
 import org.colorcoding.ibas.materials.MyConfiguration;
 
 @XmlType(name = MaterialSerialItems.BUSINESS_OBJECT_NAME, namespace = MyConfiguration.NAMESPACE_BO)
@@ -123,4 +127,25 @@ public class MaterialSerialItems extends BusinessObjects<IMaterialSerialItem, IM
 		return item;
 	}
 
+	/**
+	 * 业务规则校验
+	 * 
+	 * @throws BusinessRuleException
+	 */
+	public void check() throws BusinessRuleException {
+		if (this.getParent() == null) {
+			return;
+		}
+		if (this.getParent().getSerialManagement() == emYesNo.NO) {
+			return;
+		}
+		Decimal total = Decimal.ZERO;
+		for (@SuppressWarnings("unused")
+		IMaterialSerialItem item : this) {
+			total = total.add(Decimal.ONE);
+		}
+		if (total.compareTo(this.getParent().getQuantity()) != 0) {
+			throw new BusinessRuleException(I18N.prop("msg_mm_material_serial_quantity_deviates", this.getParent()));
+		}
+	}
 }

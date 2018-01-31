@@ -21,7 +21,6 @@ import {
     IBOSimpleLine
 } from "ibas/index";
 import {
-    emItemType,
 } from "../Datas";
 import {
     IMaterialSerialItemParent,
@@ -227,9 +226,6 @@ export interface IGoodsReceiptLine extends IBODocumentLine, IMaterialSerialItemP
 
     /** 物料/服务描述 */
     itemDescription: string;
-
-    /** 物料类型 */
-    itemType: emItemType;
 
     /** 序号管理 */
     serialManagement: emYesNo;

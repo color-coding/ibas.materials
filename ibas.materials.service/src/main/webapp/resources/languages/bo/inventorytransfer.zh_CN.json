@@ -63,7 +63,6 @@
   "bo_inventorytransferline_basedocumentlineid": "基于行号",
   "bo_inventorytransferline_itemcode": "物料编号",
   "bo_inventorytransferline_itemdescription": "物料/服务描述",
-  "bo_inventorytransferline_itemtype": "物料类型",
   "bo_inventorytransferline_serialmanagement": "序号管理",
   "bo_inventorytransferline_batchmanagement": "批号管理",
   "bo_inventorytransferline_quantity": "数量",

@@ -2,6 +2,7 @@ package org.colorcoding.ibas.materials.bo.materialserial;
 
 import org.colorcoding.ibas.bobas.bo.IBusinessObject;
 import org.colorcoding.ibas.bobas.data.Decimal;
+import org.colorcoding.ibas.bobas.data.emYesNo;
 
 /**
  * 物料序列项目父项（此接口仅数据存储，不影响库存）
@@ -34,6 +35,13 @@ public interface IMaterialSerialItemParent extends IBusinessObject {
 	 * 物料
 	 */
 	String getItemCode();
+
+	/**
+	 * 序号管理
+	 * 
+	 * @return 值
+	 */
+	emYesNo getSerialManagement();
 
 	/**
 	 * 仓库

@@ -71,6 +71,7 @@ public class GoodsReceiptLines extends BusinessObjects<IGoodsReceiptLine, IGoods
 		}
 		// 记录父项的值
 		item.setRate(this.getParent().getDocumentRate());
+		item.setCurrency(this.getParent().getDocumentCurrency());
 	}
 
 	@Override

@@ -62,7 +62,6 @@
   "bo_goodsissueline_basedocumentlineid": "基于行号",
   "bo_goodsissueline_itemcode": "物料编号",
   "bo_goodsissueline_itemdescription": "物料/服务描述",
-  "bo_goodsissueline_itemtype": "物料类型",
   "bo_goodsissueline_serialmanagement": "序号管理",
   "bo_goodsissueline_batchmanagement": "批号管理",
   "bo_goodsissueline_quantity": "数量",

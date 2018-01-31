@@ -62,7 +62,6 @@
   "bo_goodsreceiptline_basedocumentlineid": "基于行号",
   "bo_goodsreceiptline_itemcode": "物料编号",
   "bo_goodsreceiptline_itemdescription": "物料/服务描述",
-  "bo_goodsreceiptline_itemtype": "物料类型",
   "bo_goodsreceiptline_serialmanagement": "序号管理",
   "bo_goodsreceiptline_batchmanagement": "批号管理",
   "bo_goodsreceiptline_quantity": "数量",
