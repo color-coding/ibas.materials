@@ -87,5 +87,7 @@
   "materials_picture_view": "图片预览",
   "materials_invalid_upload_remote_repository": "无效的上传方法实现",
   "materials_msg_upload_type_miss_match": "文件格式错误，只可上传{0}的文件",
+  "material_status_can_use": "可用",
+  "material_status_can_not_use": "不可用",
   "materials_closing_delimiter": "----结束----"
 }
