@@ -72,12 +72,13 @@ public class testGoodsReceipt extends TestCase {
 		batchLine.setSerialManagement(bMaterial.getSerialManagement());
 		batchLine.setQuantity(100);
 		batchLine.setWarehouse(warehouse.getCode());
+		batchLine.setPrice(99.99);
 		IMaterialBatchItem batchItem = batchLine.getMaterialBatches().create();
 		batchItem.setQuantity(78);
 		batchItem.setBatchCode("B00001");
 		batchItem = batchLine.getMaterialBatches().create();
 		batchItem.setQuantity(22);
-		batchItem.setBatchCode("B00001");
+		batchItem.setBatchCode("B00002");
 		// 序列编码物料
 		IGoodsReceiptLine serialLine = bo.getGoodsReceiptLines().create();
 		serialLine.setItemCode(sMaterial.getCode());
@@ -85,6 +86,7 @@ public class testGoodsReceipt extends TestCase {
 		serialLine.setSerialManagement(sMaterial.getSerialManagement());
 		serialLine.setQuantity(2);
 		serialLine.setWarehouse(warehouse.getCode());
+		serialLine.setPrice(233.33);
 		IMaterialSerialItem serialItem = serialLine.getMaterialSerials().create();
 		serialItem.setSerialCode("S00001");
 		serialItem = serialLine.getMaterialSerials().create();
