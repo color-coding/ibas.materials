@@ -55,5 +55,7 @@
   "bo_materialprice_itemname": "物料名称",
   "bo_materialprice_price": "价格",
   "bo_materialprice_currency": "货币",
+  "bo_material_can_use": "可用",
+  "bo_material_can_not_use": "不可用",
   "bo_material_closing_delimiter": "----结束----"
 }

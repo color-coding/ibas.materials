@@ -10,6 +10,7 @@ import * as ibas from "ibas/index";
 import * as bo from "./bo/index";
 import { IBORepositoryMaterials, BO_REPOSITORY_MATERIALS } from "../api/index";
 import { DataConverter4MM } from "./DataConverters";
+import * as dm from "3rdparty/documents/index";
 
 /** 业务对象仓库 */
 export class BORepositoryMaterials extends ibas.BORepositoryApplication implements IBORepositoryMaterials {
@@ -24,12 +25,34 @@ export class BORepositoryMaterials extends ibas.BORepositoryApplication implemen
      * @param caller 调用者
      */
     upload(caller: ibas.UploadFileCaller<ibas.FileData>): void {
-        if (!this.address.endsWith("/")) { this.address += "/"; }
-        let fileRepository: ibas.FileRepositoryUploadAjax = new ibas.FileRepositoryUploadAjax();
-        fileRepository.address = this.address.replace("/services/rest/data/", "/services/rest/file/");
-        fileRepository.token = this.token;
-        fileRepository.converter = this.createConverter();
-        fileRepository.upload("upload", caller);
+        // 通过文档模块上传图片
+        let boRepository: dm.IBORepositoryDocuments =
+            ibas.boFactory.create<dm.IBORepositoryDocuments>(dm.BO_REPOSITORY_DOCUMENTS);
+        if (ibas.objects.isNull(boRepository)) {
+            let opRslt: ibas.IOperationResult<ibas.FileData> = new ibas.OperationResult<ibas.FileData>();
+            opRslt.resultCode = -1;
+            opRslt.message = ibas.i18n.prop("materials_invalid_upload_remote_repository");
+            caller.onCompleted(opRslt);
+        } else {
+            let newCaller: ibas.UploadFileCaller<ibas.FileData> = {
+                fileData: caller.fileData,
+                onCompleted(opRslt: ibas.IOperationResult<ibas.FileData>): void {
+                    let documentsAddress: string = ibas.config.get(
+                        ibas.strings.format(ibas.CONFIG_ITEM_TEMPLATE_REMOTE_REPOSITORY_ADDRESS,
+                            dm.BO_REPOSITORY_DOCUMENTS));
+                    if (!ibas.objects.isNull(documentsAddress)) {
+                        documentsAddress = ibas.urls.normalize(documentsAddress);
+                        if (!documentsAddress.endsWith("/")) { documentsAddress += "/"; }
+                        documentsAddress = documentsAddress.replace("/services/rest/data/", "/services/rest/file/");
+                    }
+                    for (let fileData of opRslt.resultObjects) {
+                        fileData.fileName = ibas.strings.format("{0}{1}", documentsAddress, fileData.fileName);
+                    }
+                    caller.onCompleted(opRslt);
+                }
+            };
+            boRepository.upload(newCaller);
+        }
     }
     /**
      * 下载文件

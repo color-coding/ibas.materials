@@ -29,11 +29,13 @@ export class MaterialGroupEditView extends ibas.BOEditView implements IMaterialG
                 new sap.ui.core.Title("", { text: ibas.i18n.prop("materials_title_general") }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_materialgroup_code") }),
                 new sap.m.Input("", {
+                    editable: { path: "isNew" }
                 }).bindProperty("value", {
                     path: "code",
                 }),
                 new sap.m.ex.SeriesSelect("", {
                     objectCode: ibas.config.applyVariables(bo.BO_CODE_MATERIALGROUP),
+                    enabled: { path: "isNew" },
                     bindingValue: {
                         path: "series",
                         type: "sap.ui.model.type.Integer",

@@ -29,6 +29,9 @@ export class MaterialBatchListView extends ibas.BOQueryViewWithPanel implements 
     callServicesEvent: Function;
     /** 查询物料批次交易记录 */
     fetchBatchJournalEvent: Function;
+
+    private isActivated: sap.m.ObjectStatus;
+
     /** 绘制视图 */
     draw(): any {
         let that: this = this;
@@ -42,17 +45,18 @@ export class MaterialBatchListView extends ibas.BOQueryViewWithPanel implements 
                 path: "/rows",
                 template: new sap.m.ObjectListItem("", {
                     title: "{batchCode}",
-                    markLocked: {
-                        path: "locked",
-                        formatter(data: any): any {
-                            if (data === ibas.emYesNo.YES) {
-                                return true;
+                    number: "{quantity}",
+                    markers: new sap.m.ObjectMarker("", {
+                        type: {
+                            path: "locked",
+                            formatter(data: any): any {
+                                if (data === ibas.emYesNo.YES) {
+                                    return sap.m.ObjectMarkerType.Locked;
+                                } else {
+                                    return null;
+                                }
                             }
-                            return false;
                         }
-                    },
-                    firstStatus: new sap.m.ObjectStatus("", {
-                        text: "{quantity}"
                     }),
                     attributes: [
                         new sap.m.ObjectAttribute("", {
