@@ -26,6 +26,7 @@ export class MaterialOverviewView extends ibas.BOQueryViewWithPanel implements I
     private tableMaterialInventory: sap.ui.table.Table;
     private tableMaterialBatch: sap.ui.table.Table;
     private tableMaterialSerial: sap.ui.table.Table;
+    private labelMaterialInventory: sap.m.Label;
 
     /** 编辑物料事件，参数：编辑对象 */
     editDataEvent: Function;
@@ -394,6 +395,33 @@ export class MaterialOverviewView extends ibas.BOQueryViewWithPanel implements I
                             content: [
                                 new sap.m.SearchField("", {
                                 }),
+                                new sap.m.Toolbar("", {
+                                    content: [
+                                        that.labelMaterialInventory = new sap.m.Label("", {
+                                        }),
+                                        new sap.m.ToolbarSeparator("", {}),
+                                        new sap.m.MultiComboBox("", {
+                                            width: "20%",
+                                            Deselected: true,
+                                            filterSecondaryValues: false,
+                                            showSecondaryValues: true,
+                                            placement: sap.m.PlacementType.Auto,
+                                            selectionFinish: function (oEvent: any): void {
+                                                let selectedItems: any = oEvent.getParameter("selectedItems");
+                                                let messageText: any[] = [];
+                                                for (let i: number = 0; i < selectedItems.length; i++) {
+                                                    messageText.push(selectedItems[i].getText());
+                                                }
+                                                // that.groupsTranslateReports(messageText);
+                                            },
+                                            items: [
+                                                new sap.ui.core.Item("", {
+                                                    text: "默认全部仓库"
+                                                })
+                                            ]
+                                        })
+                                    ]
+                                }),
                                 that.tableMaterialInventory
                             ]
                         }),
@@ -459,17 +487,28 @@ export class MaterialOverviewView extends ibas.BOQueryViewWithPanel implements I
     }
 
     /** 显示物料价格 */
-    showMaterialPrices(datas: bo.Product[]): void {
+    showMaterialPrices(datas: bo.MaterialPrice[]): void {
         this.tableMaterialPrice.setModel(new sap.ui.model.json.JSONModel({ rows: datas }));
         // 监听属性改变，并更新控件
         openui5.utils.refreshModelChanged(this.tableMaterialPrice, datas);
     }
 
+    /** 显示物料库存行 */
     /** 显示物料库存 */
-    showMaterialInventory(datas: bo.MaterialInventory[]): void {
-        this.tableMaterialInventory.setModel(new sap.ui.model.json.JSONModel({ rows: datas }));
+    showMaterialInventoryJournal(itemdatas: bo.MaterialInventoryJournal[], datas: bo.MaterialInventory[]): void {
+        this.tableMaterialInventory.setModel(new sap.ui.model.json.JSONModel({ rows: itemdatas }));
         // 监听属性改变，并更新控件
-        openui5.utils.refreshModelChanged(this.tableMaterialInventory, datas);
+        openui5.utils.refreshModelChanged(this.tableMaterialInventory, itemdatas);
+        let onHandCount: any = 0;
+        let onCommitedCount: any = 0;
+        let onOrderedCount: any = 0;
+        for (let data of datas) {
+            onHandCount += data.onHand;
+            onCommitedCount += data.onCommited;
+            onOrderedCount += data.onOrdered;
+        }
+        this.labelMaterialInventory.setText(ibas.strings.format("当前库存总量：{0}，当前仓库量：{1}，已承诺：{2}，已订购：{3}",
+            onHandCount, 0, onCommitedCount, onOrderedCount), );
     }
 
     /** 显示物料批次 */

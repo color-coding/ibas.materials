@@ -74,12 +74,13 @@ export class MaterialOverviewApp extends ibas.BOListApplication<IMaterialOvervie
         this.busy(true);
         let that: this = this;
         let boRepository: BORepositoryMaterials = new BORepositoryMaterials();
-        boRepository.fetchProduct({
+        // 查询物料价格
+        /* boRepository.fetchMaterialPrice({
             criteria: [
                 new ibas.Condition("ItemCode",
                     ibas.emConditionOperation.EQUAL, ibas.strings.valueOf(data.code)),
             ],
-            onCompleted(opRslt: ibas.IOperationResult<bo.Product>): void {
+            onCompleted(opRslt: ibas.IOperationResult<bo.MaterialPrice>): void {
                 try {
                     if (opRslt.resultCode !== 0) {
                         throw new Error(opRslt.message);
@@ -97,7 +98,7 @@ export class MaterialOverviewApp extends ibas.BOListApplication<IMaterialOvervie
                     that.messages(error);
                 }
             }
-        });
+        }); */
         // 查询物料库存
         /* boRepository.fetchMaterialInventory({
             criteria: [
@@ -123,8 +124,51 @@ export class MaterialOverviewApp extends ibas.BOListApplication<IMaterialOvervie
                 }
             }
         }); */
+        let inventoryCount: bo.MaterialInventory[];
+        // 查询物料库存行
+        boRepository.fetchMaterialInventory({
+            criteria: [
+                new ibas.Condition("ItemCode",
+                    ibas.emConditionOperation.EQUAL, ibas.strings.valueOf(data.code)),
+            ],
+            onCompleted(opRslt: ibas.IOperationResult<bo.MaterialInventory>): void {
+                try {
+                    that.busy(false);
+                    if (opRslt.resultCode !== 0) {
+                        throw new Error(opRslt.message);
+                    }
+                    if (opRslt.resultObjects.length === 0) {
+                        that.proceeding(ibas.emMessageType.INFORMATION, ibas.i18n.prop("shell_data_fetched_none"));
+                    }
+                    inventoryCount = opRslt.resultObjects;
+                } catch (error) {
+                    that.messages(error);
+                }
+            }
+        });
+        // 查询物料库存行
+        boRepository.fetchMaterialInventoryJournal({
+            criteria: [
+                new ibas.Condition("ItemCode",
+                    ibas.emConditionOperation.EQUAL, ibas.strings.valueOf(data.code)),
+            ],
+            onCompleted(opRslt: ibas.IOperationResult<bo.MaterialInventoryJournal>): void {
+                try {
+                    that.busy(false);
+                    if (opRslt.resultCode !== 0) {
+                        throw new Error(opRslt.message);
+                    }
+                    if (opRslt.resultObjects.length === 0) {
+                        that.proceeding(ibas.emMessageType.INFORMATION, ibas.i18n.prop("shell_data_fetched_none"));
+                    }
+                    that.view.showMaterialInventoryJournal(opRslt.resultObjects, inventoryCount);
+                } catch (error) {
+                    that.messages(error);
+                }
+            }
+        });
         // 查询物料批次
-        /* boRepository.fetchMaterialBatch({
+        boRepository.fetchMaterialBatch({
             criteria: [
                 new ibas.Condition("ItemCode",
                     ibas.emConditionOperation.EQUAL, ibas.strings.valueOf(data.code)),
@@ -147,9 +191,9 @@ export class MaterialOverviewApp extends ibas.BOListApplication<IMaterialOvervie
                     that.messages(error);
                 }
             }
-        }); */
+        });
         // 查询物料序列
-        /* boRepository.fetchMaterialSerial({
+        boRepository.fetchMaterialSerial({
             criteria: [
                 new ibas.Condition("ItemCode",
                     ibas.emConditionOperation.EQUAL, ibas.strings.valueOf(data.code)),
@@ -172,7 +216,7 @@ export class MaterialOverviewApp extends ibas.BOListApplication<IMaterialOvervie
                     that.messages(error);
                 }
             }
-        }); */
+        });
         this.proceeding(ibas.emMessageType.INFORMATION, ibas.i18n.prop("shell_fetching_data"));
     }
 
@@ -213,9 +257,9 @@ export interface IMaterialOverviewView extends ibas.IBOListView {
     /** 显示物料清单 */
     showMaterials(datas: bo.Material[]): void;
     /** 显示物料价格 */
-    showMaterialPrices(datas: bo.Product[]): void;
+    showMaterialPrices(datas: bo.MaterialPrice[]): void;
     /** 显示物料库存 */
-    showMaterialInventory(datas: bo.MaterialInventory[]): void;
+    showMaterialInventoryJournal(itemdatas: bo.MaterialInventoryJournal[], datas: bo.MaterialInventory[]): void;
     /** 显示物料批次 */
     showMaterialBatch(datas: bo.MaterialBatch[]): void;
     /** 显示物料序列 */
