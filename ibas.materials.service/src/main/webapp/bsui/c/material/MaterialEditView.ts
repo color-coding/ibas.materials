@@ -23,6 +23,8 @@ export class MaterialEditView extends ibas.BOEditView implements IMaterialEditVi
     chooseMaterialWarehouseEvent: Function;
     /** 选择物料组事件 */
     chooseMaterialGroupEvent: Function;
+    /** 上传图片事件 */
+    uploadPictureEvent: Function;
     /** 绘制视图 */
     public draw(): any {
         const that: this = this;
@@ -151,8 +153,63 @@ export class MaterialEditView extends ibas.BOEditView implements IMaterialEditVi
                 }).bindProperty("value", {
                     path: "defaultWarehouse"
                 }),
-                new sap.ui.core.Title("", {}),
-            ],
+                new sap.ui.core.Title("", { text: ibas.i18n.prop("materials_picture_upload") }),
+                new sap.m.Label("", {
+                    text: ibas.i18n.prop("bo_material_picture")
+                }),
+                new sap.ui.unified.FileUploader("", {
+                    buttonOnly: false,
+                    style: "Emphasized",
+                    multiple: false,
+                    uploadOnChange: false,
+                    width: "100%",
+                    fileType: ["jpg", "jpeg", "png", "bmp"],
+                    mimeType: ["image/jpeg", "image/png", "image/bmp"],
+                    typeMissmatch: function (oEvent: sap.ui.base.Event): void {
+                        var sType: string[] = this.getFileType();
+                        let caller: ibas.IMessgesCaller = {
+                            title: ibas.i18n.prop(that.application.name),
+                            type: ibas.emMessageType.WARNING,
+                            message: ibas.i18n.prop("materials_msg_upload_type_miss_match", sType)
+                        };
+                        that.application.viewShower.messages(caller);
+                    },
+                    change: function (oEvent: sap.ui.base.Event): void {
+                        let files: File[] = oEvent.getParameter("files");
+                        if (ibas.objects.isNull(files) || files.length === 0) {
+                            return;
+                        }
+                        let fileData: FormData = new FormData();
+                        fileData.append("file", files[0]);
+                        that.fireViewEvents(that.uploadPictureEvent,
+                            this.getBindingContext().getObject(),
+                            fileData
+                        );
+                    },
+                }).bindProperty("value", {
+                    path: "picture",
+                }),
+                new sap.m.Label("", { text: ibas.i18n.prop("materials_picture_view"), }),
+                new sap.m.Image("", {
+                    decorative: false,
+                    densityAware: false,
+                    width: "90px",
+                    src: "{picture}",
+                    press: function (oEvent: sap.ui.base.Event): void {
+                        let src: string = this.getSrc();
+                        if (!ibas.objects.isNull(src)) {
+                            let lightBox: sap.m.LightBox = new sap.m.LightBox("", {
+                                imageContent: [
+                                    new sap.m.LightBoxItem("", {
+                                        imageSrc: src
+                                    })
+                                ]
+                            });
+                            lightBox.open();
+                        }
+                    }
+                })
+            ]
         });
         this.page = new sap.m.Page("", {
             showHeader: false,

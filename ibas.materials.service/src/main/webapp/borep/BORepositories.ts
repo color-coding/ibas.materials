@@ -18,7 +18,15 @@ export class BORepositoryMaterials extends ibas.BORepositoryApplication implemen
     protected createConverter(): ibas.IDataConverter {
         return new DataConverter4MM;
     }
-
+    /**
+     * 获取地址
+     */
+    toUrl(filename: string): string {
+        if (!this.address.endsWith("/")) { this.address += "/"; }
+        let url: string = this.address.replace("/services/rest/data/", "/services/rest/file/");
+        url += ibas.strings.format("{0}", filename);
+        return encodeURI(url);
+    }
     /**
      * 上传文件
      * @param caller 调用者
