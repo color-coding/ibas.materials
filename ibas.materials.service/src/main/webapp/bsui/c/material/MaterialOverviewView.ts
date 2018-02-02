@@ -51,26 +51,26 @@ export class MaterialOverviewView extends ibas.BOQueryViewWithPanel implements I
                                             let today: Date = ibas.dates.now();
                                             // 已激活-无生效日期-无失效日期
                                             if (ibas.objects.isNull(material.validDate) && ibas.objects.isNull(material.invalidDate)) {
-                                                return ibas.i18n.prop("material_status_can_use");
+                                                return ibas.i18n.prop("shell_available");
                                             } else if (ibas.objects.isNull(material.validDate) &&
                                                 // 已激活-无生效日期-失效日期大于等于当前日期
                                                 material.invalidDate >= today) {
-                                                return ibas.i18n.prop("material_status_can_use");
+                                                return ibas.i18n.prop("shell_available");
                                             } else if (material.validDate < today &&
                                                 // 已激活-生效日期小于等于当前日期-失效日期大于等于当前日期
                                                 material.invalidDate >= today) {
-                                                return ibas.i18n.prop("material_status_can_use");
+                                                return ibas.i18n.prop("shell_available");
                                             } else if (material.validDate <= today &&
                                                 // 已激活-生效日期小于等于当前日期-无失效日期
                                                 ibas.objects.isNull(material.invalidDate)) {
-                                                return ibas.i18n.prop("material_status_can_use");
+                                                return ibas.i18n.prop("shell_available");
                                             } else {
                                                 // 已激活-其他
-                                                return ibas.i18n.prop("material_status_can_not_use");
+                                                return ibas.i18n.prop("shell_unavailable");
                                             }
                                         } else {
                                             // 未激活
-                                            return ibas.i18n.prop("material_status_can_not_use");
+                                            return ibas.i18n.prop("shell_unavailable");
                                         }
                                     }
                                 }

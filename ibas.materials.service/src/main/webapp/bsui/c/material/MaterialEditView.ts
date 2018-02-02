@@ -81,9 +81,15 @@ export class MaterialEditView extends ibas.BOEditView implements IMaterialEditVi
                 }).bindProperty("value", {
                     path: "barCode",
                 }),
-                new sap.m.Label("", { text: ibas.i18n.prop("materials_picture_view"), }),
-                new sap.m.Link("", {
-                    text: "{picture}",
+                new sap.m.Label("", { text: ibas.i18n.prop("bo_material_picture"), }),
+                new sap.m.Input("", {
+                    type: sap.m.InputType.Text,
+                    editable: false
+                }).bindProperty("value", {
+                    path: "picture",
+                }),
+                new sap.m.Button("", {
+                    text: ibas.i18n.prop("shell_data_view"),
                     press: function (): void {
                         let src: string = that.form.getBindingContext().getObject().picture;
                         if (!ibas.objects.isNull(src)) {
@@ -228,8 +234,6 @@ export class MaterialEditView extends ibas.BOEditView implements IMaterialEditVi
                         multiple: false,
                         uploadOnChange: false,
                         width: "80px",
-                        fileType: ["jpg", "jpeg", "png", "bmp"],
-                        mimeType: ["image/jpeg", "image/png", "image/bmp"],
                         buttonText: ibas.i18n.prop("materials_picture_upload"),
                         typeMissmatch: function (oEvent: sap.ui.base.Event): void {
                             var sType: string[] = this.getFileType();
