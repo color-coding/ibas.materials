@@ -10,6 +10,7 @@ import * as ibas from "ibas/index";
 import * as openui5 from "openui5/index";
 import * as bo from "../../../borep/bo/index";
 import { IMaterialEditView } from "../../../bsapp/material/index";
+import { BORepositoryMaterials } from "../../../borep/BORepositories";
 
 /**
  * 编辑视图-物料
@@ -23,6 +24,8 @@ export class MaterialEditView extends ibas.BOEditView implements IMaterialEditVi
     chooseMaterialWarehouseEvent: Function;
     /** 选择物料组事件 */
     chooseMaterialGroupEvent: Function;
+    /** 上传图片事件 */
+    uploadPictureEvent: Function;
     /** 绘制视图 */
     public draw(): any {
         const that: this = this;
@@ -77,6 +80,23 @@ export class MaterialEditView extends ibas.BOEditView implements IMaterialEditVi
                     type: sap.m.InputType.Text,
                 }).bindProperty("value", {
                     path: "barCode",
+                }),
+                new sap.m.Label("", { text: ibas.i18n.prop("materials_picture_view"), }),
+                new sap.m.Link("", {
+                    text: "{picture}",
+                    press: function (): void {
+                        let src: string = that.form.getBindingContext().getObject().picture;
+                        if (!ibas.objects.isNull(src)) {
+                            let lightBox: sap.m.LightBox = new sap.m.LightBox("", {
+                                imageContent: [
+                                    new sap.m.LightBoxItem("", {
+                                        imageSrc: new BORepositoryMaterials().toUrl(src)
+                                    })
+                                ]
+                            });
+                            lightBox.open();
+                        }
+                    }
                 }),
                 new sap.ui.core.Title("", { text: ibas.i18n.prop("materials_title_status") }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_material_activated") }),
@@ -152,7 +172,7 @@ export class MaterialEditView extends ibas.BOEditView implements IMaterialEditVi
                     path: "defaultWarehouse"
                 }),
                 new sap.ui.core.Title("", {}),
-            ],
+            ]
         });
         this.page = new sap.m.Page("", {
             showHeader: false,
@@ -200,6 +220,37 @@ export class MaterialEditView extends ibas.BOEditView implements IMaterialEditVi
                                 }),
                             ],
                         })
+                    }),
+                    new sap.m.ToolbarSeparator(""),
+                    new sap.ui.unified.FileUploader("", {
+                        buttonOnly: true,
+                        style: "Emphasized",
+                        multiple: false,
+                        uploadOnChange: false,
+                        width: "80px",
+                        fileType: ["jpg", "jpeg", "png", "bmp"],
+                        mimeType: ["image/jpeg", "image/png", "image/bmp"],
+                        buttonText: ibas.i18n.prop("materials_picture_upload"),
+                        typeMissmatch: function (oEvent: sap.ui.base.Event): void {
+                            var sType: string[] = this.getFileType();
+                            let caller: ibas.IMessgesCaller = {
+                                title: ibas.i18n.prop(that.application.name),
+                                type: ibas.emMessageType.WARNING,
+                                message: ibas.i18n.prop("materials_msg_upload_type_miss_match", sType)
+                            };
+                            that.application.viewShower.messages(caller);
+                        },
+                        change: function (oEvent: sap.ui.base.Event): void {
+                            let files: File[] = oEvent.getParameter("files");
+                            if (ibas.objects.isNull(files) || files.length === 0) {
+                                return;
+                            }
+                            let fileData: FormData = new FormData();
+                            fileData.append("file", files[0]);
+                            that.fireViewEvents(that.uploadPictureEvent, that.form.getBindingContext().getObject(), fileData);
+                        },
+                    }).bindProperty("value", {
+                        path: "picture",
                     }),
                 ]
             }),

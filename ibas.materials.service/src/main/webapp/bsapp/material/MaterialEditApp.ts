@@ -35,6 +35,7 @@ export class MaterialEditApp extends ibas.BOEditApplication<IMaterialEditView, b
         this.view.createDataEvent = this.createData;
         this.view.chooseMaterialWarehouseEvent = this.chooseMaterialWarehouse;
         this.view.chooseMaterialGroupEvent = this.chooseMaterialGroup;
+        this.view.uploadPictureEvent = this.uploadPicture;
     }
     /** 视图显示后 */
     protected viewShowed(): void {
@@ -205,6 +206,31 @@ export class MaterialEditApp extends ibas.BOEditApplication<IMaterialEditView, b
             }
         });
     }
+    /** 上传图片事件 */
+    uploadPicture(item: bo.Material, formData: FormData): void {
+        let that: this = this;
+        this.proceeding(ibas.emMessageType.INFORMATION, ibas.i18n.prop("shell_uploading_file"));
+        this.busy(true);
+        let boRepository: BORepositoryMaterials = new BORepositoryMaterials();
+        boRepository.upload({
+            fileData: formData,
+            onCompleted(opRslt: ibas.IOperationResult<ibas.FileData>): void {
+                try {
+                    that.busy(false);
+                    if (opRslt.resultCode !== 0) {
+                        throw new Error(opRslt.message);
+                    }
+                    that.proceeding(ibas.emMessageType.INFORMATION,
+                        ibas.i18n.prop("shell_upload") + ibas.i18n.prop("shell_sucessful"));
+                    let fileData: ibas.FileData = opRslt.resultObjects.firstOrDefault();
+                    that.view.showMaterial(item);
+                    that.editData.picture = fileData.fileName;
+                } catch (error) {
+                    that.messages(error);
+                }
+            }
+        });
+    }
 }
 /** 视图-物料 */
 export interface IMaterialEditView extends ibas.IBOEditView {
@@ -218,4 +244,6 @@ export interface IMaterialEditView extends ibas.IBOEditView {
     chooseMaterialWarehouseEvent: Function;
     /** 选择物料组事件 */
     chooseMaterialGroupEvent: Function;
+    /** 上传图片事件 */
+    uploadPictureEvent: Function;
 }
