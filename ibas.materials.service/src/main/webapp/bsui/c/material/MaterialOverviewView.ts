@@ -41,21 +41,51 @@ export class MaterialOverviewView extends ibas.BOQueryViewWithPanel implements I
                 template: new sap.m.ObjectListItem("", {
                     title: "{name}",
                     firstStatus: new sap.m.ObjectStatus("", {
-                        text: "{group}"
-                    }),
-                    markLocked: {
-                        path: "activated",
-                        formatter(data: any): any {
-                            if (data === ibas.emYesNo.NO) {
-                                return true;
+                        text: {
+                            path: "activated",
+                            formatter(): any {
+                                if (!ibas.objects.isNull(this.getBindingContext())) {
+                                    let material: bo.Material = this.getBindingContext().getObject();
+                                    if (material) {
+                                        if (material.activated === ibas.emYesNo.YES) {
+                                            let today: Date = ibas.dates.now();
+                                            // 已激活-无生效日期-无失效日期
+                                            if (ibas.objects.isNull(material.validDate) && ibas.objects.isNull(material.invalidDate)) {
+                                                return ibas.i18n.prop("shell_available");
+                                            } else if (ibas.objects.isNull(material.validDate) &&
+                                                // 已激活-无生效日期-失效日期大于等于当前日期
+                                                material.invalidDate >= today) {
+                                                return ibas.i18n.prop("shell_available");
+                                            } else if (material.validDate < today &&
+                                                // 已激活-生效日期小于等于当前日期-失效日期大于等于当前日期
+                                                material.invalidDate >= today) {
+                                                return ibas.i18n.prop("shell_available");
+                                            } else if (material.validDate <= today &&
+                                                // 已激活-生效日期小于等于当前日期-无失效日期
+                                                ibas.objects.isNull(material.invalidDate)) {
+                                                return ibas.i18n.prop("shell_available");
+                                            } else {
+                                                // 已激活-其他
+                                                return ibas.i18n.prop("shell_unavailable");
+                                            }
+                                        } else {
+                                            // 未激活
+                                            return ibas.i18n.prop("shell_unavailable");
+                                        }
+                                    }
+                                }
                             }
-                            return false;
-                        }
-                    },
+                        },
+                        state: sap.ui.core.ValueState.Success
+                    }),
                     attributes: [
                         new sap.m.ObjectAttribute("", {
                             title: ibas.i18n.prop("bo_material_code"),
                             text: "{code}"
+                        }),
+                        new sap.m.ObjectAttribute("", {
+                            title: ibas.i18n.prop("bo_material_group"),
+                            text: "{group}"
                         }),
                     ]
                 })
@@ -118,6 +148,7 @@ export class MaterialOverviewView extends ibas.BOQueryViewWithPanel implements I
                         boCode: ibas.config.applyVariables(bo.BO_CODE_MATERIALPRICELIST),
                         repositoryName: bo.BO_REPOSITORY_MATERIALS,
                         valueHelpRequest: function (): void {
+                            //
                         },
                         bindingValue: {
                             path: "priceList"
