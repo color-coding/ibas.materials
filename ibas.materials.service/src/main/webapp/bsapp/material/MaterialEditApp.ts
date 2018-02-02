@@ -224,7 +224,7 @@ export class MaterialEditApp extends ibas.BOEditApplication<IMaterialEditView, b
                         ibas.i18n.prop("shell_upload") + ibas.i18n.prop("shell_sucessful"));
                     let fileData: ibas.FileData = opRslt.resultObjects.firstOrDefault();
                     that.view.showMaterial(item);
-                    that.editData.picture = new BORepositoryMaterials().toUrl(fileData.fileName);
+                    that.editData.picture = fileData.fileName;
                 } catch (error) {
                     that.messages(error);
                 }

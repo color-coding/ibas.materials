@@ -84,7 +84,7 @@
   "materials_no_work_datas_for_material_batch": "没有需要物料批次服务的数据",
   "materials_no_work_datas_for_material_serial": "没有需要物料序列服务的数据",
   "materials_picture_upload": "图片上传",
-  "materials_picture_view": "图片预览",
+  "materials_picture_view": "图片查看",
   "materials_invalid_upload_remote_repository": "无效的上传方法实现",
   "materials_msg_upload_type_miss_match": "文件格式错误，只可上传{0}的文件",
   "material_status_can_use": "可用",
