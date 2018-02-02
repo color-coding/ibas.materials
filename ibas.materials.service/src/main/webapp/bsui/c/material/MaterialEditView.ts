@@ -89,19 +89,55 @@ export class MaterialEditView extends ibas.BOEditView implements IMaterialEditVi
                     path: "picture",
                 }),
                 new sap.m.Button("", {
-                    text: ibas.i18n.prop("shell_data_view"),
-                    press: function (): void {
-                        let src: string = that.form.getBindingContext().getObject().picture;
-                        if (!ibas.objects.isNull(src)) {
-                            let lightBox: sap.m.LightBox = new sap.m.LightBox("", {
-                                imageContent: [
-                                    new sap.m.LightBoxItem("", {
-                                        imageSrc: new BORepositoryMaterials().toUrl(src)
-                                    })
-                                ]
-                            });
-                            lightBox.open();
-                        }
+                    text: ibas.strings.format("{0}/{1}",
+                        ibas.i18n.prop("shell_upload"), ibas.i18n.prop("shell_data_view")),
+                    icon: "sap-icon://picture",
+                    press: function (event: any): void {
+                        let popover: sap.m.Popover = new sap.m.Popover("", {
+                            showHeader: false,
+                            placement: sap.m.PlacementType.Bottom,
+                            content: [
+                                new sap.ui.unified.FileUploader("", {
+                                    buttonOnly: true,
+                                    multiple: false,
+                                    uploadOnChange: false,
+                                    width: "100%",
+                                    style: "Transparent",
+                                    icon: "sap-icon://upload-to-cloud",
+                                    buttonText: ibas.i18n.prop("shell_upload"),
+                                    change: function (oEvent: sap.ui.base.Event): void {
+                                        let files: File[] = oEvent.getParameter("files");
+                                        if (ibas.objects.isNull(files) || files.length === 0) {
+                                            return;
+                                        }
+                                        let fileData: FormData = new FormData();
+                                        fileData.append("file", files[0]);
+                                        that.fireViewEvents(that.uploadPictureEvent, fileData);
+                                    },
+                                }),
+                                new sap.m.Button("", {
+                                    text: ibas.i18n.prop("shell_data_view"),
+                                    icon: "sap-icon://show",
+                                    type: sap.m.ButtonType.Transparent,
+                                    width: "auto",
+                                    press: function (): void {
+                                        let src: string = that.form.getBindingContext().getObject().picture;
+                                        if (!ibas.objects.isNull(src)) {
+                                            let lightBox: sap.m.LightBox = new sap.m.LightBox("", {
+                                                imageContent: [
+                                                    new sap.m.LightBoxItem("", {
+                                                        imageSrc: new BORepositoryMaterials().toUrl(src)
+                                                    })
+                                                ]
+                                            });
+                                            lightBox.open();
+                                        }
+                                    }
+                                }),
+                            ]
+                        });
+                        (<any>popover).addStyleClass("sapMOTAPopover sapTntToolHeaderPopover");
+                        popover.openBy(event.getSource(), true);
                     }
                 }),
                 new sap.ui.core.Title("", { text: ibas.i18n.prop("materials_title_status") }),
@@ -226,35 +262,6 @@ export class MaterialEditView extends ibas.BOEditView implements IMaterialEditVi
                                 }),
                             ],
                         })
-                    }),
-                    new sap.m.ToolbarSeparator(""),
-                    new sap.ui.unified.FileUploader("", {
-                        buttonOnly: true,
-                        style: "Emphasized",
-                        multiple: false,
-                        uploadOnChange: false,
-                        width: "80px",
-                        buttonText: ibas.i18n.prop("materials_picture_upload"),
-                        typeMissmatch: function (oEvent: sap.ui.base.Event): void {
-                            var sType: string[] = this.getFileType();
-                            let caller: ibas.IMessgesCaller = {
-                                title: ibas.i18n.prop(that.application.name),
-                                type: ibas.emMessageType.WARNING,
-                                message: ibas.i18n.prop("materials_msg_upload_type_miss_match", sType)
-                            };
-                            that.application.viewShower.messages(caller);
-                        },
-                        change: function (oEvent: sap.ui.base.Event): void {
-                            let files: File[] = oEvent.getParameter("files");
-                            if (ibas.objects.isNull(files) || files.length === 0) {
-                                return;
-                            }
-                            let fileData: FormData = new FormData();
-                            fileData.append("file", files[0]);
-                            that.fireViewEvents(that.uploadPictureEvent, that.form.getBindingContext().getObject(), fileData);
-                        },
-                    }).bindProperty("value", {
-                        path: "picture",
                     }),
                 ]
             }),

@@ -207,7 +207,7 @@ export class MaterialEditApp extends ibas.BOEditApplication<IMaterialEditView, b
         });
     }
     /** 上传图片事件 */
-    uploadPicture(item: bo.Material, formData: FormData): void {
+    uploadPicture(formData: FormData): void {
         let that: this = this;
         this.proceeding(ibas.emMessageType.INFORMATION, ibas.i18n.prop("shell_uploading_file"));
         this.busy(true);
@@ -223,7 +223,6 @@ export class MaterialEditApp extends ibas.BOEditApplication<IMaterialEditView, b
                     that.proceeding(ibas.emMessageType.INFORMATION,
                         ibas.i18n.prop("shell_upload") + ibas.i18n.prop("shell_sucessful"));
                     let fileData: ibas.FileData = opRslt.resultObjects.firstOrDefault();
-                    that.view.showMaterial(item);
                     that.editData.picture = fileData.fileName;
                 } catch (error) {
                     that.messages(error);

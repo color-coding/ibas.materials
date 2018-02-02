@@ -243,10 +243,10 @@ export class GoodsIssueEditView extends ibas.BOEditView implements IGoodsIssueEd
                 }),
                 new sap.ui.table.Column("", {
                     label: ibas.i18n.prop("bo_goodsissueline_linetotal"),
-                    template: new sap.m.Input("", {
+                    template: new sap.m.Text("", {
                         width: "100%",
-                        type: sap.m.InputType.Number
-                    }).bindProperty("value", {
+                        wrapping: false
+                    }).bindProperty("text", {
                         path: "lineTotal"
                     })
                 }),

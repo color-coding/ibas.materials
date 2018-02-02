@@ -1260,10 +1260,10 @@ public class GoodsIssue extends BusinessObject<GoodsIssue> implements IGoodsIssu
 	@Override
 	protected IBusinessRule[] registerRules() {
 		return new IBusinessRule[] { // 注册的业务规则
-				new BusinessRuleMinValue<Decimal>(Decimal.ZERO, PROPERTY_DOCUMENTTOTAL), // 不能低于0
 				new BusinessRuleRequiredElements(PROPERTY_GOODSISSUELINES), // 要求有元素
 				new BusinessRuleSumElements(PROPERTY_DOCUMENTTOTAL, PROPERTY_GOODSISSUELINES,
 						GoodsIssueLine.PROPERTY_LINETOTAL), // 计算单据总计
+				new BusinessRuleMinValue<Decimal>(Decimal.ZERO, PROPERTY_DOCUMENTTOTAL), // 不能低于0
 		};
 	}
 }

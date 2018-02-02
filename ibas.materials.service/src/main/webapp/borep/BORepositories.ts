@@ -24,7 +24,7 @@ export class BORepositoryMaterials extends ibas.BORepositoryApplication implemen
     toUrl(filename: string): string {
         if (!this.address.endsWith("/")) { this.address += "/"; }
         let url: string = this.address.replace("/services/rest/data/", "/services/rest/file/");
-        url += ibas.strings.format("{0}", filename);
+        url += ibas.strings.format("{0}?token={1}", filename, this.token);
         return encodeURI(url);
     }
     /**
