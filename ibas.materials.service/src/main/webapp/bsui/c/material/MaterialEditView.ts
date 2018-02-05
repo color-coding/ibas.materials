@@ -148,6 +148,20 @@ export class MaterialEditView extends ibas.BOEditView implements IMaterialEditVi
                     path: "activated",
                     type: "sap.ui.model.type.Integer",
                 }),
+                new sap.m.Label("", { text: ibas.i18n.prop("bo_material_validdate") }),
+                new sap.m.DatePicker("", {
+                    valueFormat: ibas.config.get(ibas.CONFIG_ITEM_FORMAT_DATE),
+                    displayFormat: ibas.config.get(ibas.CONFIG_ITEM_FORMAT_DATE),
+                }).bindProperty("dateValue", {
+                    path: "validDate"
+                }),
+                new sap.m.Label("", { text: ibas.i18n.prop("bo_material_invaliddate") }),
+                new sap.m.DatePicker("", {
+                    valueFormat: ibas.config.get(ibas.CONFIG_ITEM_FORMAT_DATE),
+                    displayFormat: ibas.config.get(ibas.CONFIG_ITEM_FORMAT_DATE),
+                }).bindProperty("dateValue", {
+                    path: "invalidDate"
+                }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_material_purchaseitem") }),
                 new sap.m.Select("", {
                     items: openui5.utils.createComboBoxItems(ibas.emYesNo),

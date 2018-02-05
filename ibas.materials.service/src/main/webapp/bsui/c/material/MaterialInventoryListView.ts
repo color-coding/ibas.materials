@@ -40,6 +40,7 @@ export class MaterialInventoryListView extends ibas.BOQueryViewWithPanel impleme
                 path: "/rows",
                 template: new sap.m.ObjectListItem("", {
                     title: "{itemCode}",
+                    number: "{onHand}",
                     firstStatus: new sap.m.ObjectStatus("", {
                         text: "{warehouse}"
                     }),
@@ -153,7 +154,7 @@ export class MaterialInventoryListView extends ibas.BOQueryViewWithPanel impleme
                 if (ibas.objects.isNull(Inventory)) {
                     that.application.viewShower.messages({
                         title: that.application.description,
-                        message: ibas.i18n.prop("shell_please_chooose_data", ibas.i18n.prop("bo_materialInventory")),
+                        message: ibas.i18n.prop("shell_please_chooose_data", ibas.i18n.prop("bo_materialinventory")),
                         type: ibas.emMessageType.WARNING
                     });
                     return;
