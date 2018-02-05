@@ -42,6 +42,7 @@ export class MaterialBatchListView extends ibas.BOQueryViewWithPanel implements 
                 path: "/rows",
                 template: new sap.m.ObjectListItem("", {
                     title: "{batchCode}",
+                    number: "{quantity}",
                     markers: new sap.m.ObjectMarker("", {
                         type: {
                             path: "locked",

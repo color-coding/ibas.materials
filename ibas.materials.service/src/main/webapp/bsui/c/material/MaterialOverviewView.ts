@@ -40,6 +40,7 @@ export class MaterialOverviewView extends ibas.BOQueryViewWithPanel implements I
                 path: "/rows",
                 template: new sap.m.ObjectListItem("", {
                     title: "{name}",
+                    number: "{onHand}",
                     firstStatus: new sap.m.ObjectStatus("", {
                         text: {
                             path: "activated",
@@ -86,7 +87,7 @@ export class MaterialOverviewView extends ibas.BOQueryViewWithPanel implements I
                         new sap.m.ObjectAttribute("", {
                             title: ibas.i18n.prop("bo_material_group"),
                             text: "{group}"
-                        }),
+                        })
                     ]
                 })
             }

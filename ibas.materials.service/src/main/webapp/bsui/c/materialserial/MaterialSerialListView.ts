@@ -42,6 +42,14 @@ export class MaterialSerialListView extends ibas.BOQueryViewWithPanel implements
                 path: "/rows",
                 template: new sap.m.ObjectListItem("", {
                     title: "{serialCode}",
+                    number: {
+                        path: "inStock",
+                        formatter(data: any): any {
+                            if (data === ibas.emYesNo.YES) {
+                                return ibas.i18n.prop("bo_materialserial_instock");
+                            }
+                        }
+                    },
                     markers: new sap.m.ObjectMarker("", {
                         type: {
                             path: "locked",
@@ -53,9 +61,6 @@ export class MaterialSerialListView extends ibas.BOQueryViewWithPanel implements
                                 }
                             }
                         }
-                    }),
-                    firstStatus: new sap.m.ObjectStatus("", {
-                        text: "{quantity}"
                     }),
                     attributes: [
                         new sap.m.ObjectAttribute("", {
