@@ -63,7 +63,7 @@ export class InventoryTransferChooseView extends ibas.BOChooseView implements II
             rows: "{/rows}",
             columns: [
                 new sap.ui.table.Column("", {
-                    label: ibas.i18n.prop("bo_goodsreceipt_docentry"),
+                    label: ibas.i18n.prop("bo_inventorytransfer_docentry"),
                     template: new sap.m.Text("", {
                         wrapping: false,
                     }).bindProperty("text", {
@@ -71,7 +71,18 @@ export class InventoryTransferChooseView extends ibas.BOChooseView implements II
                     }),
                 }),
                 new sap.ui.table.Column("", {
-                    label: ibas.i18n.prop("bo_goodsreceipt_documentstatus"),
+                    label: ibas.i18n.prop("bo_inventorytransfer_approvalstatus"),
+                    template: new sap.m.Text("", {
+                        wrapping: false
+                    }).bindProperty("text", {
+                        path: "approvalStatus",
+                        formatter(data: any): any {
+                            return ibas.enums.describe(ibas.emApprovalStatus, data);
+                        }
+                    })
+                }),
+                new sap.ui.table.Column("", {
+                    label: ibas.i18n.prop("bo_inventorytransfer_documentstatus"),
                     template: new sap.m.Text("", {
                         wrapping: false
                     }).bindProperty("text", {
@@ -82,7 +93,7 @@ export class InventoryTransferChooseView extends ibas.BOChooseView implements II
                     })
                 }),
                 new sap.ui.table.Column("", {
-                    label: ibas.i18n.prop("bo_goodsreceipt_documentdate"),
+                    label: ibas.i18n.prop("bo_inventorytransfer_documentdate"),
                     template: new sap.m.Text("", {
                         wrapping: false,
                     }).bindProperty("text", {
@@ -102,7 +113,23 @@ export class InventoryTransferChooseView extends ibas.BOChooseView implements II
                     }),
                 }),
                 new sap.ui.table.Column("", {
-                    label: ibas.i18n.prop("bo_goodsreceipt_reference1"),
+                    label: ibas.i18n.prop("bo_inventorytransfer_documenttotal"),
+                    template: new sap.m.Text("", {
+                        wrapping: false,
+                    }).bindProperty("text", {
+                        path: "documentTotal",
+                    }),
+                }),
+                new sap.ui.table.Column("", {
+                    label: ibas.i18n.prop("bo_inventorytransfer_documentcurrency"),
+                    template: new sap.m.Text("", {
+                        wrapping: false,
+                    }).bindProperty("text", {
+                        path: "documentCurrency",
+                    }),
+                }),
+                new sap.ui.table.Column("", {
+                    label: ibas.i18n.prop("bo_inventorytransfer_reference1"),
                     template: new sap.m.Text("", {
                         wrapping: false,
                     }).bindProperty("text", {
@@ -110,7 +137,7 @@ export class InventoryTransferChooseView extends ibas.BOChooseView implements II
                     }),
                 }),
                 new sap.ui.table.Column("", {
-                    label: ibas.i18n.prop("bo_goodsreceipt_reference2"),
+                    label: ibas.i18n.prop("bo_inventorytransfer_reference2"),
                     template: new sap.m.Text("", {
                         wrapping: false,
                     }).bindProperty("text", {

@@ -43,6 +43,17 @@ export class GoodsIssueListView extends ibas.BOListView implements IGoodsIssueLi
                     }),
                 }),
                 new sap.ui.table.Column("", {
+                    label: ibas.i18n.prop("bo_goodsissue_approvalstatus"),
+                    template: new sap.m.Text("", {
+                        wrapping: false
+                    }).bindProperty("text", {
+                        path: "approvalStatus",
+                        formatter(data: any): any {
+                            return ibas.enums.describe(ibas.emApprovalStatus, data);
+                        }
+                    })
+                }),
+                new sap.ui.table.Column("", {
                     label: ibas.i18n.prop("bo_goodsissue_documentstatus"),
                     template: new sap.m.Text("", {
                         wrapping: false
@@ -63,6 +74,22 @@ export class GoodsIssueListView extends ibas.BOListView implements IGoodsIssueLi
                             pattern: "yyyy-MM-dd",
                             strictParsing: true,
                         })
+                    }),
+                }),
+                new sap.ui.table.Column("", {
+                    label: ibas.i18n.prop("bo_goodsissue_documenttotal"),
+                    template: new sap.m.Text("", {
+                        wrapping: false,
+                    }).bindProperty("text", {
+                        path: "documentTotal",
+                    }),
+                }),
+                new sap.ui.table.Column("", {
+                    label: ibas.i18n.prop("bo_goodsissue_documentcurrency"),
+                    template: new sap.m.Text("", {
+                        wrapping: false,
+                    }).bindProperty("text", {
+                        path: "documentCurrency",
                     }),
                 }),
                 new sap.ui.table.Column("", {

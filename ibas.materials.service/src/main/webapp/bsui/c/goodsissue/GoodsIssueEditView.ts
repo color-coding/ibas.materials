@@ -124,24 +124,22 @@ export class GoodsIssueEditView extends ibas.BOEditView implements IGoodsIssueEd
                     new sap.m.MenuButton("", {
                         text: ibas.strings.format("{0}/{1}",
                             ibas.i18n.prop("materials_material_batch"), ibas.i18n.prop("materials_material_serial")),
-                        menu: [
-                            new sap.m.Menu("", {
-                                items: [
-                                    new sap.m.MenuItem("", {
-                                        text: ibas.i18n.prop("materials_material_batch"),
-                                        press: function (): void {
-                                            that.fireViewEvents(that.chooseGoodsIssueLineMaterialBatchEvent);
-                                        }
-                                    }),
-                                    new sap.m.MenuItem("", {
-                                        text: ibas.i18n.prop("materials_material_serial"),
-                                        press: function (): void {
-                                            that.fireViewEvents(that.chooseGoodsIssueLineMaterialSerialEvent);
-                                        }
-                                    }),
-                                ]
-                            })
-                        ]
+                        menu: new sap.m.Menu("", {
+                            items: [
+                                new sap.m.MenuItem("", {
+                                    text: ibas.i18n.prop("materials_material_batch"),
+                                    press: function (): void {
+                                        that.fireViewEvents(that.chooseGoodsIssueLineMaterialBatchEvent);
+                                    }
+                                }),
+                                new sap.m.MenuItem("", {
+                                    text: ibas.i18n.prop("materials_material_serial"),
+                                    press: function (): void {
+                                        that.fireViewEvents(that.chooseGoodsIssueLineMaterialSerialEvent);
+                                    }
+                                }),
+                            ]
+                        })
                     })
                 ]
             }),
@@ -274,6 +272,11 @@ export class GoodsIssueEditView extends ibas.BOEditView implements IGoodsIssueEd
                     editable: false,
                 }).bindProperty("value", {
                     path: "documentTotal"
+                }),
+                new sap.m.Input("", {
+                    editable: false,
+                }).bindProperty("value", {
+                    path: "documentCurrency"
                 }),
             ]
         });

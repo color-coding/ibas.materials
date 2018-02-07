@@ -134,24 +134,22 @@ export class InventoryTransferEditView extends ibas.BOEditView implements IInven
                     new sap.m.MenuButton("", {
                         text: ibas.strings.format("{0}/{1}",
                             ibas.i18n.prop("materials_material_batch"), ibas.i18n.prop("materials_material_serial")),
-                        menu: [
-                            new sap.m.Menu("", {
-                                items: [
-                                    new sap.m.MenuItem("", {
-                                        text: ibas.i18n.prop("materials_material_batch"),
-                                        press: function (): void {
-                                            that.fireViewEvents(that.chooseInventoryTransferLineMaterialBatchEvent);
-                                        }
-                                    }),
-                                    new sap.m.MenuItem("", {
-                                        text: ibas.i18n.prop("materials_material_serial"),
-                                        press: function (): void {
-                                            that.fireViewEvents(that.chooseInventoryTransferLineMaterialSerialEvent);
-                                        }
-                                    }),
-                                ]
-                            })
-                        ]
+                        menu: new sap.m.Menu("", {
+                            items: [
+                                new sap.m.MenuItem("", {
+                                    text: ibas.i18n.prop("materials_material_batch"),
+                                    press: function (): void {
+                                        that.fireViewEvents(that.chooseInventoryTransferLineMaterialBatchEvent);
+                                    }
+                                }),
+                                new sap.m.MenuItem("", {
+                                    text: ibas.i18n.prop("materials_material_serial"),
+                                    press: function (): void {
+                                        that.fireViewEvents(that.chooseInventoryTransferLineMaterialSerialEvent);
+                                    }
+                                }),
+                            ]
+                        })
                     })
                 ]
             }),
@@ -284,6 +282,11 @@ export class InventoryTransferEditView extends ibas.BOEditView implements IInven
                     editable: false,
                 }).bindProperty("value", {
                     path: "documentTotal"
+                }),
+                new sap.m.Input("", {
+                    editable: false,
+                }).bindProperty("value", {
+                    path: "documentCurrency"
                 }),
             ]
         });
