@@ -83,22 +83,7 @@ export class Console extends ibas.ModuleConsole {
     run(): void {
         // 加载语言-框架默认
         ibas.i18n.load(this.rootUrl + "resources/languages/materials.json");
-        ibas.i18n.load(this.rootUrl + "resources/languages/enums.json");
-        ibas.i18n.load(this.rootUrl + "resources/languages/bo/goodsissue.json");
-        ibas.i18n.load(this.rootUrl + "resources/languages/bo/goodsreceipt.json");
-        ibas.i18n.load(this.rootUrl + "resources/languages/bo/inventorytransfer.json");
-        ibas.i18n.load(this.rootUrl + "resources/languages/bo/material.json");
-        ibas.i18n.load(this.rootUrl + "resources/languages/bo/materialgroup.json");
-        ibas.i18n.load(this.rootUrl + "resources/languages/bo/materialinventory.json");
-        ibas.i18n.load(this.rootUrl + "resources/languages/bo/materialinventoryjournal.json");
-        ibas.i18n.load(this.rootUrl + "resources/languages/bo/warehouse.json");
-        ibas.i18n.load(this.rootUrl + "resources/languages/bo/materialpricelist.json");
-        ibas.i18n.load(this.rootUrl + "resources/languages/bo/materialbatch.json");
-        ibas.i18n.load(this.rootUrl + "resources/languages/bo/materialserial.json");
-        ibas.i18n.load(this.rootUrl + "resources/languages/bo/materialbatchjournal.json");
-        ibas.i18n.load(this.rootUrl + "resources/languages/bo/materialserialjournal.json");
-        ibas.i18n.load(this.rootUrl + "resources/languages/bo/materialbatchitem.json");
-        ibas.i18n.load(this.rootUrl + "resources/languages/bo/materialserialitem.json");
+        ibas.i18n.load(this.rootUrl + "resources/languages/bos.json");
         // 设置资源属性
         this.description = ibas.i18n.prop(this.name.toLowerCase());
         this.icon = ibas.i18n.prop(this.name.toLowerCase() + "_icon");
