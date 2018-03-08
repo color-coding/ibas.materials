@@ -79,13 +79,13 @@ namespace materials {
             /** 批号管理 */
             batchManagement: ibas.emYesNo;
 
-            /**类型 */
+            /** 类型 */
             objectCode: string;
 
-            /**标识 */
-            docEntry: number
+            /** 标识 */
+            docEntry: number;
 
-            /**行号 */
+            /** 行号 */
             lineId: number;
 
             /** 物料 */

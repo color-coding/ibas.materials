@@ -76,13 +76,13 @@ namespace materials {
             /** 序号管理 */
             serialManagement: ibas.emYesNo;
 
-            /**类型 */
+            /** 类型 */
             objectCode: string;
 
-            /**标识 */
-            docEntry: number
+            /** 标识 */
+            docEntry: number;
 
-            /**行号 */
+            /** 行号 */
             lineId: number;
 
             /** 物料 */

@@ -31,10 +31,10 @@ namespace materials {
             /** 失效日期 */
             inValidDate: Date;
 
-            /**对象编号 */
+            /** 对象编号 */
             objectKey: number;
 
-            /**对象类型 */
+            /** 对象类型 */
             objectCode: string;
 
             /** 创建日期 */
@@ -58,17 +58,17 @@ namespace materials {
             /** 数据源 */
             dataSource: string;
 
-            /**创建用户 */
-            createUserSign: number
+            /** 创建用户 */
+            createUserSign: number;
 
-            /**更新用户 */
-            updateUserSign: number
+            /** 更新用户 */
+            updateUserSign: number;
 
-            /**创建动作标识 */
+            /** 创建动作标识 */
             createActionId: string;
 
-            /**更新动作标识 */
-            updateActionId: string
+            /** 更新动作标识 */
+            updateActionId: string;
 
             /** 价格清单-行集合 */
             materialPriceItems: IMaterialPriceItems;
@@ -104,17 +104,17 @@ namespace materials {
             /** 数据源 */
             dataSource: string;
 
-            /**创建用户 */
-            createUserSign: number
+            /** 创建用户 */
+            createUserSign: number;
 
-            /**更新用户 */
-            updateUserSign: number
+            /** 更新用户 */
+            updateUserSign: number;
 
-            /**创建动作标识 */
+            /** 创建动作标识 */
             createActionId: string;
 
-            /**更新动作标识 */
-            updateActionId: string
+            /** 更新动作标识 */
+            updateActionId: string;
         }
     }
 }

@@ -104,9 +104,9 @@ namespace materials {
              */
             saveWarehouse(saver: ibas.ISaveCaller<bo.IWarehouse>): void;
             /**
-                 * 查询 物料扩展
-                 * @param fetcher 查询者
-                 */
+             * 查询 物料扩展
+             * @param fetcher 查询者
+             */
             fetchProduct(fetcher: ibas.IFetchCaller<bo.IProduct>): void;
             /**
              * 查询 物料批次
@@ -125,9 +125,9 @@ namespace materials {
             fetchMaterialBatchJournal(fetcher: ibas.IFetchCaller<bo.IMaterialBatchJournal>): void;
 
             /**
-            * 查询 物料序列
-            * @param fetcher 查询者
-            */
+             * 查询 物料序列
+             * @param fetcher 查询者
+             */
             fetchMaterialSerial(fetcher: ibas.IFetchCaller<bo.IMaterialSerial>): void;
             /**
              * 保存 物料序列
@@ -141,9 +141,9 @@ namespace materials {
             fetchMaterialSerialJournal(fetcher: ibas.IFetchCaller<bo.IMaterialSerialJournal>): void;
 
             /**
-            * 查询 物料价格清单
-            * @param fetcher 查询者
-            */
+             * 查询 物料价格清单
+             * @param fetcher 查询者
+             */
             fetchMaterialPriceList(fetcher: ibas.IFetchCaller<bo.IMaterialPriceList>): void;
             /**
              * 保存 物料价格清单

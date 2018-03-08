@@ -20,13 +20,13 @@ namespace materials {
             /** 仓库编号 */
             warehouse: string;
 
-            /**基于类型 */
+            /** 基于类型 */
             baseDocumentType: string;
 
-            /**基于标识 */
-            baseDocumentEntry: number
+            /** 基于标识 */
+            baseDocumentEntry: number;
 
-            /**基于行号 */
+            /** 基于行号 */
             baseDocumentLineId: number;
 
             /** 方向 */
