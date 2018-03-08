@@ -1,6 +1,6 @@
 /**
  * @license
- * Copyright color-coding studio. All Rights Reserved.
+ * Copyright Color-Coding Studio. All Rights Reserved.
  *
  * Use of this source code is governed by an Apache License, Version 2.0
  * that can be found in the LICENSE file at http://www.apache.org/licenses/LICENSE-2.0
@@ -84,7 +84,7 @@ export class MaterialPriceListListView extends ibas.BOQueryViewWithPanel impleme
         });
         // 添加列表自动查询事件
         openui5.utils.triggerNextResults({
-            listener: this.tablePriceList,
+            ibas.IListener: this.tablePriceList,
             next(data: any): void {
                 if (ibas.objects.isNull(that.lastCriteria)) {
                     return;
@@ -180,7 +180,7 @@ export class MaterialPriceListListView extends ibas.BOQueryViewWithPanel impleme
         });
         // 添加列表自动查询事件
         openui5.utils.triggerNextResults({
-            listener: this.tablePrices,
+            ibas.IListener: this.tablePrices,
             next(data: any): void {
                 if (ibas.objects.isNull(that.lastPriceCriteria)) {
                     return;
@@ -210,15 +210,15 @@ export class MaterialPriceListListView extends ibas.BOQueryViewWithPanel impleme
                 let search: string = that.searchPrice.getValue();
                 if (!ibas.strings.isEmpty(search)) {
                     for (let item of criteria.conditions) {
-                        if (ibas.strings.equalsIgnoreCase(item.alias, bo.conditions.materialprice.CONDITION_ALIAS_ITEMCODE)
-                            || ibas.strings.equalsIgnoreCase(item.alias, bo.conditions.materialprice.CONDITION_ALIAS_ITEMNAME)) {
+                        if (ibas.strings.equalsIgnoreCase(item.alias, conditions.materialprice.CONDITION_ALIAS_ITEMCODE)
+                            || ibas.strings.equalsIgnoreCase(item.alias, conditions.materialprice.CONDITION_ALIAS_ITEMNAME)) {
                             item.value = search;
                         }
                     }
                 }
                 condition = criteria.conditions.create();
                 condition.relationship = ibas.emConditionRelationship.AND;
-                condition.alias = bo.conditions.materialprice.CONDITION_ALIAS_PRICELIST;
+                condition.alias = conditions.materialprice.CONDITION_ALIAS_PRICELIST;
                 condition.operation = ibas.emConditionOperation.EQUAL;
                 condition.value = priceList.objectKey.toLocaleString();
                 that.fireViewEvents(that.fetchPriceEvent, criteria);
@@ -301,7 +301,7 @@ export class MaterialPriceListListView extends ibas.BOQueryViewWithPanel impleme
                         icon: "sap-icon://save",
                         type: sap.m.ButtonType.Transparent,
                         press: function (): void {
-                            let datas: ibas.List<bo.MaterialPriceItem> = new ibas.ArrayList<bo.MaterialPriceItem>();
+                            let datas: ibas.IList<bo.MaterialPriceItem> = new ibas.ArrayList<bo.MaterialPriceItem>();
                             for (let item of openui5.utils.getSelecteds<bo.MaterialPrice>(that.tablePrices)) {
                                 if (!item.isDirty) {
                                     continue;
@@ -327,7 +327,7 @@ export class MaterialPriceListListView extends ibas.BOQueryViewWithPanel impleme
                         icon: "sap-icon://delete",
                         type: sap.m.ButtonType.Transparent,
                         press: function (): void {
-                            let datas: ibas.List<bo.MaterialPriceItem> = new ibas.ArrayList<bo.MaterialPriceItem>();
+                            let datas: ibas.IList<bo.MaterialPriceItem> = new ibas.ArrayList<bo.MaterialPriceItem>();
                             for (let item of openui5.utils.getSelecteds<bo.MaterialPrice>(that.tablePrices)) {
                                 if (!item.isDirty) {
                                     continue;
@@ -415,12 +415,12 @@ export class MaterialPriceListListView extends ibas.BOQueryViewWithPanel impleme
         // 添加默认查询条件
         condition = criteria.conditions.create();
         condition.bracketOpen = 1;
-        condition.alias = bo.conditions.materialprice.CONDITION_ALIAS_ITEMCODE;
+        condition.alias = conditions.materialprice.CONDITION_ALIAS_ITEMCODE;
         condition.operation = ibas.emConditionOperation.CONTAIN;
         condition.value = "";
         condition = criteria.conditions.create();
         condition.bracketClose = 1;
-        condition.alias = bo.conditions.materialprice.CONDITION_ALIAS_ITEMNAME;
+        condition.alias = conditions.materialprice.CONDITION_ALIAS_ITEMNAME;
         condition.operation = ibas.emConditionOperation.CONTAIN;
         condition.value = "";
         condition.relationship = ibas.emConditionRelationship.OR;

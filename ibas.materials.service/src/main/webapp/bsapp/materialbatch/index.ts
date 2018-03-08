@@ -1,12 +1,12 @@
 /**
  * @license
- * Copyright color-coding studio. All Rights Reserved.
+ * Copyright Color-Coding Studio. All Rights Reserved.
  *
  * Use of this source code is governed by an Apache License, Version 2.0
  * that can be found in the LICENSE file at http://www.apache.org/licenses/LICENSE-2.0
  */
-export * from "./MaterialBatchFunc";
-export * from "./MaterialBatchService";
-export * from "./MaterialBatchListApp";
-export * from "./MaterialBatchEditApp";
-export * from "./MaterialBatchChooseApp";
+/// <reference path="./MaterialBatchChooseApp.ts" />
+/// <reference path="./MaterialBatchEditApp.ts" />
+/// <reference path="./MaterialBatchFunc.ts" />
+/// <reference path="./MaterialBatchListApp.ts" />
+/// <reference path="./MaterialBatchService.ts" />

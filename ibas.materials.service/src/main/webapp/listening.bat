@@ -1,3 +1,0 @@
-SET STARTUP_FOLDER=%~dp0
-cd %STARTUP_FOLDER%
-tsc -w

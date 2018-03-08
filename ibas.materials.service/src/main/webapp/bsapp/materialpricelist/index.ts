@@ -1,11 +1,11 @@
 /**
  * @license
- * Copyright color-coding studio. All Rights Reserved.
+ * Copyright Color-Coding Studio. All Rights Reserved.
  * Use of this source code is governed by an Apache License, Version 2.0
  * that can be found in the LICENSE file at http://www.apache.org/licenses/LICENSE-2.0
  */
-export * from "./MaterialPriceListFunc";
-export * from "./MaterialPriceListListApp";
-export * from "./MaterialPriceListChooseApp";
-export * from "./MaterialPriceListViewApp";
-export * from "./MaterialPriceListEditApp";
+/// <reference path="./MaterialPriceListChooseApp.ts" />
+/// <reference path="./MaterialPriceListEditApp.ts" />
+/// <reference path="./MaterialPriceListFunc.ts" />
+/// <reference path="./MaterialPriceListListApp.ts" />
+/// <reference path="./MaterialPriceListViewApp.ts" />

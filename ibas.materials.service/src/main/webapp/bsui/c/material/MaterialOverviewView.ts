@@ -1,6 +1,6 @@
 /*
  * @license
- * Copyright color-coding studio. All Rights Reserved.
+ * Copyright Color-Coding Studio. All Rights Reserved.
  *
  * Use of this source code is governed by an Apache License, Version 2.0
  * that can be found in the LICENSE file at http://www.apache.org/licenses/LICENSE-2.0
@@ -94,7 +94,7 @@ export class MaterialOverviewView extends ibas.BOQueryViewWithPanel implements I
         });
         // 添加列表自动查询事件
         openui5.utils.triggerNextResults({
-            listener: this.tableMaterial,
+            ibas.IListener: this.tableMaterial,
             next(data: any): void {
                 if (ibas.objects.isNull(that.lastCriteria)) {
                     return;

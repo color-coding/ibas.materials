@@ -1,5 +1,5 @@
 /*
- * Copyright color-coding studio. All Rights Reserved.
+ * Copyright Color-Coding Studio. All Rights Reserved.
  *
  * Use of this source code is governed by an Apache License, Version 2.0
  * that can be found in the LICENSE file at http://www.apache.org/licenses/LICENSE-2.0
@@ -28,7 +28,7 @@ export class MaterialBatchIssueView extends ibas.BODialogView implements IMateri
             rowSelectionChange: function (event: any): void {
                 let table: sap.ui.table.Table = event.getSource();
                 that.fireViewEvents(that.changeWorkingDataEvent,
-                    openui5.utils.getSelecteds<bo.IMaterialBatchContract>(table).firstOrDefault());
+                    openui5.utils.getSelecteds<IMaterialBatchContract>(table).firstOrDefault());
             },
             rows: "{/rows}",
             columns: [
@@ -75,7 +75,7 @@ export class MaterialBatchIssueView extends ibas.BODialogView implements IMateri
                             if (ibas.objects.isNull(context)) {
                                 return data;
                             }
-                            let contract: bo.IMaterialBatchContract = context.getObject();
+                            let contract: IMaterialBatchContract = context.getObject();
                             if (ibas.objects.isNull(contract)) {
                                 return data;
                             } else {
@@ -273,7 +273,7 @@ export class MaterialBatchIssueView extends ibas.BODialogView implements IMateri
     private tableItems: sap.ui.table.Table;
     private tableInventories: sap.ui.table.Table;
     /** 显示待处理数据 */
-    showWorkDatas(datas: bo.IMaterialBatchContract[]): void {
+    showWorkDatas(datas: IMaterialBatchContract[]): void {
         this.tableWorkDatas.setModel(new sap.ui.model.json.JSONModel({ rows: datas }));
     }
     /** 显示物料批次记录 */
@@ -303,7 +303,7 @@ export class MaterialBatchReceiptView extends ibas.BODialogView implements IMate
             rowSelectionChange: function (event: any): void {
                 let table: sap.ui.table.Table = event.getSource();
                 that.fireViewEvents(that.changeWorkingDataEvent,
-                    openui5.utils.getSelecteds<bo.IMaterialBatchContract>(table).firstOrDefault());
+                    openui5.utils.getSelecteds<IMaterialBatchContract>(table).firstOrDefault());
             },
             rows: "{/rows}",
             columns: [
@@ -350,7 +350,7 @@ export class MaterialBatchReceiptView extends ibas.BODialogView implements IMate
                             if (ibas.objects.isNull(context)) {
                                 return data;
                             }
-                            let contract: bo.IMaterialBatchContract = context.getObject();
+                            let contract: IMaterialBatchContract = context.getObject();
                             if (ibas.objects.isNull(contract)) {
                                 return data;
                             } else {
@@ -381,7 +381,7 @@ export class MaterialBatchReceiptView extends ibas.BODialogView implements IMate
                         icon: "sap-icon://less",
                         press: function (): void {
                             that.fireViewEvents(that.deleteMaterialBatchItemEvent,
-                                openui5.utils.getSelecteds<bo.IMaterialBatchContract>(that.tableItems).firstOrDefault()
+                                openui5.utils.getSelecteds<IMaterialBatchContract>(that.tableItems).firstOrDefault()
                             );
                         }
                     }),
@@ -456,7 +456,7 @@ export class MaterialBatchReceiptView extends ibas.BODialogView implements IMate
     private tableItems: sap.ui.table.Table;
 
     /** 显示待处理数据 */
-    showWorkDatas(datas: bo.IMaterialBatchContract[]): void {
+    showWorkDatas(datas: IMaterialBatchContract[]): void {
         this.tableWorkDatas.setModel(new sap.ui.model.json.JSONModel({ rows: datas }));
     }
     /** 显示物料批次记录 */

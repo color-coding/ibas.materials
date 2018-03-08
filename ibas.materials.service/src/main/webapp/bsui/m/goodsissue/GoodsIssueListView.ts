@@ -1,6 +1,6 @@
 /**
  * @license
- * Copyright color-coding studio. All Rights Reserved.
+ * Copyright Color-Coding Studio. All Rights Reserved.
  *
  * Use of this source code is governed by an Apache License, Version 2.0
  * that can be found in the LICENSE file at http://www.apache.org/licenses/LICENSE-2.0
@@ -43,7 +43,7 @@ export class GoodsIssueListView extends ibas.BOListView implements IGoodsIssueLi
                         icon: "sap-icon://display",
                         press(oEvent: any): void {
                             let parentControl: any = oEvent.getSource().getParent().getParent();
-                            let selecteds: ibas.List<bo.GoodsIssue> = new ibas.ArrayList<bo.GoodsIssue>();
+                            let selecteds: ibas.IList<bo.GoodsIssue> = new ibas.ArrayList<bo.GoodsIssue>();
                             selecteds.push(parentControl.getSwipedItem().getBindingContext().getObject());
                             that.fireViewEvents(that.viewDataEvent,
                                 selecteds
@@ -70,7 +70,7 @@ export class GoodsIssueListView extends ibas.BOListView implements IGoodsIssueLi
                         icon: "sap-icon://delete",
                         press(oEvent: any): void {
                             let parentControl: any = oEvent.getSource().getParent().getParent();
-                            let selecteds: ibas.List<bo.GoodsIssue> = new ibas.ArrayList<bo.GoodsIssue>();
+                            let selecteds: ibas.IList<bo.GoodsIssue> = new ibas.ArrayList<bo.GoodsIssue>();
                             selecteds.push(parentControl.getSwipedItem().getBindingContext().getObject());
                             that.fireViewEvents(that.deleteDataEvent,
                                 selecteds
@@ -87,7 +87,7 @@ export class GoodsIssueListView extends ibas.BOListView implements IGoodsIssueLi
                 );
             },
         });
-        let list_item_object: sap.m.ObjectListItem = new sap.m.ObjectListItem("", {
+        let ibas.IList_item_object: sap.m.ObjectListItem = new sap.m.ObjectListItem("", {
             title: "{docEntry}",
             type: sap.m.ListType.Active,
             numberUnit: "{DocumentCurrency}",
@@ -118,14 +118,14 @@ export class GoodsIssueListView extends ibas.BOListView implements IGoodsIssueLi
                 }),
             ]
         });
-        list_item_object.bindProperty("number", {
+        ibas.IList_item_object.bindProperty("number", {
             parts: [{ path: "DocumentTotal" }],
             type: sap.ui.model.type.Currency,
             formatOptions: { showMeasure: false }
         });
         this.table.bindItems({
             path: "/rows",
-            template: list_item_object,
+            template: ibas.IList_item_object,
         });
         this.page = new sap.m.Page("", {
             showHeader: false,
@@ -178,7 +178,7 @@ export class GoodsIssueListView extends ibas.BOListView implements IGoodsIssueLi
         });
         this.id = this.page.getId();
         openui5.utils.triggerNextResults({
-            listener: this.table,
+            ibas.IListener: this.table,
             next(data: any): void {
                 if (ibas.objects.isNull(that.lastCriteria)) {
                     return;

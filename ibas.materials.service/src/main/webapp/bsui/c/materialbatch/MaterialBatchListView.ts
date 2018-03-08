@@ -1,6 +1,6 @@
 /*
  * @license
- * Copyright color-coding studio. All Rights Reserved.
+ * Copyright Color-Coding Studio. All Rights Reserved.
  *
  * Use of this source code is governed by an Apache License, Version 2.0
  * that can be found in the LICENSE file at http://www.apache.org/licenses/LICENSE-2.0
@@ -74,7 +74,7 @@ export class MaterialBatchListView extends ibas.BOQueryViewWithPanel implements 
         });
         // 添加列表自动查询事件
         openui5.utils.triggerNextResults({
-            listener: this.tableBatch,
+            ibas.IListener: this.tableBatch,
             next(data: any): void {
                 if (ibas.objects.isNull(that.lastCriteria)) {
                     return;
@@ -162,7 +162,7 @@ export class MaterialBatchListView extends ibas.BOQueryViewWithPanel implements 
         });
         // 添加列表自动查询事件
         openui5.utils.triggerNextResults({
-            listener: this.tableBatchJournal,
+            ibas.IListener: this.tableBatchJournal,
             next(data: any): void {
                 if (ibas.objects.isNull(that.lastJournalCriteria)) {
                     return;
