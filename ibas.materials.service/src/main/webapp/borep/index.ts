@@ -27,23 +27,23 @@
 namespace materials {
     export namespace bo {
         // 注册业务对象仓库到工厂
-        ibas.boFactory.register(BO_REPOSITORY_MATERIALS, BORepositoryMaterials);
+        boFactory.register(BO_REPOSITORY_MATERIALS, BORepositoryMaterials);
         // 注册业务对象到工厂
-        ibas.boFactory.register(MaterialPrice);
-        ibas.boFactory.register(MaterialQuantity);
-        ibas.boFactory.register(GoodsIssue.BUSINESS_OBJECT_CODE, GoodsIssue);
-        ibas.boFactory.register(GoodsReceipt.BUSINESS_OBJECT_CODE, GoodsReceipt);
-        ibas.boFactory.register(InventoryTransfer.BUSINESS_OBJECT_CODE, InventoryTransfer);
-        ibas.boFactory.register(Material.BUSINESS_OBJECT_CODE, Material);
-        ibas.boFactory.register(Product.BUSINESS_OBJECT_CODE, Product);
-        ibas.boFactory.register(MaterialGroup.BUSINESS_OBJECT_CODE, MaterialGroup);
-        ibas.boFactory.register(MaterialInventory.BUSINESS_OBJECT_CODE, MaterialInventory);
-        ibas.boFactory.register(MaterialInventoryJournal.BUSINESS_OBJECT_CODE, MaterialInventoryJournal);
-        ibas.boFactory.register(Warehouse.BUSINESS_OBJECT_CODE, Warehouse);
-        ibas.boFactory.register(MaterialBatch.BUSINESS_OBJECT_CODE, MaterialBatch);
-        ibas.boFactory.register(MaterialSerial.BUSINESS_OBJECT_CODE, MaterialSerial);
-        ibas.boFactory.register(MaterialPriceList.BUSINESS_OBJECT_CODE, MaterialPriceList);
-        ibas.boFactory.register(MaterialBatchJournal.BUSINESS_OBJECT_CODE, MaterialBatchJournal);
-        ibas.boFactory.register(MaterialSerialJournal.BUSINESS_OBJECT_CODE, MaterialSerialJournal);
+        boFactory.register(MaterialPrice);
+        boFactory.register(MaterialQuantity);
+        boFactory.register(GoodsIssue.BUSINESS_OBJECT_CODE, GoodsIssue);
+        boFactory.register(GoodsReceipt.BUSINESS_OBJECT_CODE, GoodsReceipt);
+        boFactory.register(InventoryTransfer.BUSINESS_OBJECT_CODE, InventoryTransfer);
+        boFactory.register(Material.BUSINESS_OBJECT_CODE, Material);
+        boFactory.register(Product.BUSINESS_OBJECT_CODE, Product);
+        boFactory.register(MaterialGroup.BUSINESS_OBJECT_CODE, MaterialGroup);
+        boFactory.register(MaterialInventory.BUSINESS_OBJECT_CODE, MaterialInventory);
+        boFactory.register(MaterialInventoryJournal.BUSINESS_OBJECT_CODE, MaterialInventoryJournal);
+        boFactory.register(Warehouse.BUSINESS_OBJECT_CODE, Warehouse);
+        boFactory.register(MaterialBatch.BUSINESS_OBJECT_CODE, MaterialBatch);
+        boFactory.register(MaterialSerial.BUSINESS_OBJECT_CODE, MaterialSerial);
+        boFactory.register(MaterialPriceList.BUSINESS_OBJECT_CODE, MaterialPriceList);
+        boFactory.register(MaterialBatchJournal.BUSINESS_OBJECT_CODE, MaterialBatchJournal);
+        boFactory.register(MaterialSerialJournal.BUSINESS_OBJECT_CODE, MaterialSerialJournal);
     }
 }
