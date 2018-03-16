@@ -551,6 +551,28 @@ namespace materials {
                 this.setProperty(MaterialQuantity.PROPERTY_ONHAND_NAME, value);
             }
 
+            /** 映射的属性名称-库存 */
+            static PROPERTY_ONORDERED_NAME: string = "OnOrdered";
+            /** 获取-库存 */
+            get onOrdered(): number {
+                return this.getProperty<number>(MaterialQuantity.PROPERTY_ONORDERED_NAME);
+            }
+            /** 设置-库存 */
+            set onOrdered(value: number) {
+                this.setProperty(MaterialQuantity.PROPERTY_ONORDERED_NAME, value);
+            }
+
+            /** 映射的属性名称-库存 */
+            static PROPERTY_ONCOMMITED_NAME: string = "OnCommited";
+            /** 获取-库存 */
+            get onCommited(): number {
+                return this.getProperty<number>(MaterialQuantity.PROPERTY_ONCOMMITED_NAME);
+            }
+            /** 设置-库存 */
+            set onCommited(value: number) {
+                this.setProperty(MaterialQuantity.PROPERTY_ONCOMMITED_NAME, value);
+            }
+
             /** 映射的属性名称-计量单位 */
             static PROPERTY_UOM_NAME: string = "UOM";
             /** 获取-计量单位 */
@@ -599,6 +621,7 @@ namespace materials {
             }
             /** 初始化数据 */
             protected init(): void {
+                //
             }
 
 
@@ -698,6 +721,7 @@ namespace materials {
             }
             /** 初始化数据 */
             protected init(): void {
+                //
             }
 
         }

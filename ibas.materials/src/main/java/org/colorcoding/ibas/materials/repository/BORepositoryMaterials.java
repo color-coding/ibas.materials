@@ -994,6 +994,8 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 					// 重新计算数量
 					for (IMaterialInventory inventory : opRsltInventory.getResultObjects()) {
 						item.setOnHand(item.getOnHand().add(inventory.getOnHand()));
+						item.setOnCommited(item.getOnCommited().add(inventory.getOnCommited()));
+						item.setOnOrdered(item.getOnOrdered().add(inventory.getOnOrdered()));
 					}
 				}
 			}
