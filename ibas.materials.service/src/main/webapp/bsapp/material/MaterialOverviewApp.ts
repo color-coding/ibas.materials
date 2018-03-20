@@ -71,11 +71,21 @@ namespace materials {
             protected fetchMaterialAllInformation(data: bo.Material): void {
                 this.busy(true);
                 let that: this = this;
+                if (ibas.objects.isNull(data)) {
+                    that.messages({
+                        type: ibas.emMessageType.WARNING,
+                        message: "请点击选择所需查看商品"
+                    });
+                    that.busy(false);
+                    return;
+                }
                 if (ibas.objects.isNull(this.beShowedPriceList)) {
                     that.messages({
                         type: ibas.emMessageType.WARNING,
-                        message: "feuwifhuief"
+                        message: "请选择查看所基于的商品价格清单"
                     });
+                    that.busy(false);
+                    return;
                 } else {
                     let boRepository: bo.BORepositoryMaterials = new bo.BORepositoryMaterials();
                     // 查询物料即时信息
