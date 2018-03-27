@@ -125,7 +125,7 @@ namespace materials {
                                     press: function (): void {
                                         that.fireViewEvents(that.editDataEvent,
                                             // 获取表格选中的对象
-                                            openui5.utils.getSelecteds<bo.MaterialPriceList>(that.tableMaterial).firstOrDefault()
+                                            openui5.utils.getSelecteds<bo.Material>(that.tableMaterial).firstOrDefault()
                                         );
                                     }
                                 }),

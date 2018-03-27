@@ -60,7 +60,7 @@ namespace materials {
                                 template: new sap.m.Text("", {
                                     wrapping: false
                                 }).bindProperty("text", {
-                                    path: "Group",
+                                    path: "group",
                                 }),
                             }),
                             new sap.ui.table.Column("", {

@@ -97,7 +97,7 @@ namespace materials {
                                     press: function (): void {
                                         that.fireViewEvents(that.editDataEvent,
                                             // 获取表格选中的对象
-                                            openui5.utils.getSelecteds<bo.MaterialPriceList>(that.tableBatch).firstOrDefault()
+                                            openui5.utils.getSelecteds<bo.MaterialBatch>(that.tableBatch).firstOrDefault()
                                         );
                                     }
                                 }),
@@ -305,6 +305,9 @@ namespace materials {
                     let condition: ibas.ICondition;
                     let criteria: ibas.ICriteria = new ibas.Criteria();
                     criteria.result = ibas.config.get(ibas.CONFIG_ITEM_CRITERIA_RESULT_COUNT, 30);
+                    let sort: ibas.ISort = criteria.sorts.create();
+                    sort.alias = bo.MaterialBatchJournal.PROPERTY_OBJECTKEY_NAME;
+                    sort.sortType = ibas.emSortType.DESCENDING;
                     this.journalCriteria = criteria;
                     return this.journalCriteria;
                 }
