@@ -39,7 +39,7 @@ namespace materials {
             protected registers(): void {
                 // 注册功能
                 this.register(new MaterialFunc());
-                this.register(new MaterialOverviewFunc());
+                // this.register(new MaterialOverviewFunc());
                 this.register(new MaterialPriceListFunc());
                 this.register(new GoodsReceiptFunc());
                 this.register(new GoodsIssueFunc());
