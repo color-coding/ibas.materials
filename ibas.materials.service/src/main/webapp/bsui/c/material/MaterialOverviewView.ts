@@ -187,7 +187,6 @@ namespace materials {
                             for (let i: number = 0; i < selectedItems.length; i++) {
                                 messageText.push(selectedItems[i].getText());
                             }
-                            // that.groupsTranslatePricelist(messageText);
                         }
                     });
                     that.pageOverview = new sap.m.Page("", {
@@ -662,9 +661,13 @@ namespace materials {
                     openui5.utils.refreshModelChanged(this.formOtherInformation, data);
                     if (data.serialManagement === 0) {
                         this.panelMaterialSerial.setVisible(false);
+                    } else {
+                        this.panelMaterialSerial.setVisible(true);
                     }
                     if (data.batchManagement === 0) {
                         this.panelMaterialBatch.setVisible(false);
+                    } else {
+                        this.panelMaterialBatch.setVisible(true);
                     }
                 }
 
@@ -763,14 +766,18 @@ namespace materials {
                                     beShowedesInventory.push(item);
                                 }
                             }
-                            for (let item of that.materialBatch) {
-                                if (warehousegroups[i] === item.warehouse) {
-                                    beShowedesBatch.push(item);
+                            if (!ibas.objects.isNull(that.materialBatch)) {
+                                for (let item of that.materialBatch) {
+                                    if (warehousegroups[i] === item.warehouse) {
+                                        beShowedesBatch.push(item);
+                                    }
                                 }
                             }
-                            for (let item of that.materialSerial) {
-                                if (warehousegroups[i] === item.warehouse) {
-                                    beShowedesSerial.push(item);
+                            if (!ibas.objects.isNull(that.materialSerial)) {
+                                for (let item of that.materialSerial) {
+                                    if (warehousegroups[i] === item.warehouse) {
+                                        beShowedesSerial.push(item);
+                                    }
                                 }
                             }
                         }
