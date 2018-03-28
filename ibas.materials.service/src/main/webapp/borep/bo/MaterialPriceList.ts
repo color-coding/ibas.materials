@@ -266,7 +266,7 @@ namespace materials {
             protected init(): void {
                 this.materialPriceItems = new MaterialPriceItems(this);
                 this.objectCode = ibas.config.applyVariables(MaterialPriceList.BUSINESS_OBJECT_CODE);
-                this.currency = ibas.config.get(ibas.CONFIG_ITEM_DEFAULT_CURRENCY, "CNY");
+                this.currency = ibas.config.get(ibas.CONFIG_ITEM_DEFAULT_CURRENCY);
                 this.factor = 1;
             }
         }
