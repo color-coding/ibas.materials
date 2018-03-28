@@ -49,6 +49,8 @@ public class MaterialQuantity extends Serializable implements IMaterialQuantity 
 		materialQuantity.setItemCode(material.getCode());
 		materialQuantity.setItemName(material.getName());
 		materialQuantity.setOnHand(material.getOnHand());
+		materialQuantity.setOnOrdered(material.getOnOrdered());
+		materialQuantity.setOnCommited(material.getOnCommited());
 		materialQuantity.setUOM(material.getInventoryUOM());
 		return materialQuantity;
 	}
@@ -58,6 +60,8 @@ public class MaterialQuantity extends Serializable implements IMaterialQuantity 
 		materialQuantity.setItemCode(material.getCode());
 		materialQuantity.setItemName(material.getName());
 		materialQuantity.setOnHand(material.getOnHand());
+		materialQuantity.setOnOrdered(material.getOnOrdered());
+		materialQuantity.setOnCommited(material.getOnCommited());
 		materialQuantity.setUOM(material.getInventoryUOM());
 		return materialQuantity;
 	}
@@ -113,6 +117,44 @@ public class MaterialQuantity extends Serializable implements IMaterialQuantity 
 
 	public final void setOnHand(double value) {
 		this.setOnHand(new Decimal(value));
+	}
+
+	private Decimal onOrdered;
+
+	@XmlElement(name = "OnOrdered")
+	public final Decimal getOnOrdered() {
+		return onOrdered;
+	}
+
+	public final void setOnOrdered(Decimal onOrdered) {
+		this.onOrdered = onOrdered;
+	}
+
+	public final void setOnOrdered(int value) {
+		this.setOnOrdered(new Decimal(value));
+	}
+
+	public final void setOnOrdered(double value) {
+		this.setOnOrdered(new Decimal(value));
+	}
+
+	private Decimal onCommited;
+
+	@XmlElement(name = "OnCommited")
+	public final Decimal getOnCommited() {
+		return onCommited;
+	}
+
+	public final void setOnCommited(Decimal onCommited) {
+		this.onCommited = onCommited;
+	}
+
+	public final void setOnCommited(int value) {
+		this.setOnCommited(new Decimal(value));
+	}
+
+	public final void setOnCommited(double value) {
+		this.setOnCommited(new Decimal(value));
 	}
 
 	private String uom;

@@ -65,6 +65,62 @@ public interface IMaterialQuantity {
 	void setOnHand(double value);
 
 	/**
+	 * 获取-已承诺
+	 *
+	 * @return
+	 */
+	Decimal getOnCommited();
+
+	/**
+	 * 设置已承诺
+	 *
+	 * @param value
+	 */
+	void setOnCommited(Decimal value);
+
+	/**
+	 * 设置已承诺
+	 *
+	 * @param value
+	 */
+	void setOnCommited(int value);
+
+	/**
+	 * 设置已承诺
+	 *
+	 * @param value
+	 */
+	void setOnCommited(double value);
+
+/**
+	 * 获取-已订购
+	 *
+	 * @return
+	 */
+	Decimal getOnOrdered();
+
+	/**
+	 * 设置已订购
+	 *
+	 * @param value
+	 */
+	void setOnOrdered(Decimal value);
+
+	/**
+	 * 设置已订购
+	 *
+	 * @param value
+	 */
+	void setOnOrdered(int value);
+
+	/**
+	 * 设置已订购
+	 *
+	 * @param value
+	 */
+	void setOnOrdered(double value);
+
+	/**
 	 * 获取库存单位
 	 * 
 	 * @return

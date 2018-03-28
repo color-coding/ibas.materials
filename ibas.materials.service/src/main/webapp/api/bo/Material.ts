@@ -155,6 +155,12 @@ namespace materials {
             /** 库存数量 */
             onHand: number;
 
+            /** 已承诺 */
+            onCommited: number;
+
+            /** 已订购 */
+            onOrdered: number;
+
             /** 单位 */
             uom: string;
 

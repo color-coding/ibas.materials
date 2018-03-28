@@ -54,7 +54,24 @@ namespace materials {
                             }).bindProperty("text", {
                                 path: "barCode"
                             }),
-                            new sap.ui.core.Title("", { text: ibas.i18n.prop("materials_type_information") }),
+                            new sap.m.Label("", { text: ibas.i18n.prop("bo_material_picture") }),
+                            new sap.m.Link("", {
+                                text: { path: "picture" },
+                                press: function (oEvent: sap.ui.base.Event): void {
+                                    let src: string = this.getText();
+                                    if (!ibas.objects.isNull(src)) {
+                                        let lightBox: sap.m.LightBox = new sap.m.LightBox("", {
+                                            imageContent: [
+                                                new sap.m.LightBoxItem("", {
+                                                    imageSrc: new bo.BORepositoryMaterials().toUrl(src)
+                                                })
+                                            ]
+                                        });
+                                        lightBox.open();
+                                    }
+                                }
+                            }),
+                            new sap.ui.core.Title("", { text: ibas.i18n.prop("materials_title_status") }),
                             new sap.m.Label("", { text: ibas.i18n.prop("bo_material_activated") }),
                             new sap.m.Text("", {
                                 wrapping: false
@@ -62,6 +79,24 @@ namespace materials {
                                 path: "activated",
                                 formatter(data: any): any {
                                     return ibas.enums.describe(ibas.emYesNo, data);
+                                }
+                            }),
+                            new sap.m.Label("", { text: ibas.i18n.prop("bo_material_validdate") }),
+                            new sap.m.Text("", {
+                            }).bindProperty("text", {
+                                path: "validDate",
+                                type: "sap.ui.model.type.Date",
+                                formatOptions: {
+                                    style: "medium"
+                                }
+                            }),
+                            new sap.m.Label("", { text: ibas.i18n.prop("bo_material_invaliddate") }),
+                            new sap.m.Text("", {
+                            }).bindProperty("text", {
+                                path: "invalidDate",
+                                type: "sap.ui.model.type.Date",
+                                formatOptions: {
+                                    style: "medium"
                                 }
                             }),
                             new sap.m.Label("", { text: ibas.i18n.prop("bo_material_purchaseitem") }),
@@ -91,26 +126,16 @@ namespace materials {
                                     return ibas.enums.describe(ibas.emYesNo, data);
                                 }
                             }),
-                            new sap.m.Label("", { text: ibas.i18n.prop("bo_material_fixedassets") }),
+                            new sap.m.Label("", { text: ibas.i18n.prop("bo_material_phantomitem") }),
                             new sap.m.Text("", {
                                 wrapping: false
                             }).bindProperty("text", {
-                                path: "fixedAssets",
+                                path: "phantomItem",
                                 formatter(data: any): any {
                                     return ibas.enums.describe(ibas.emYesNo, data);
                                 }
                             }),
-                            new sap.ui.core.Title("", { text: ibas.i18n.prop("materials_title_general") }),
-                            new sap.m.Label("", { text: ibas.i18n.prop("bo_material_remarks") }),
-                            new sap.m.Text("", {
-                            }).bindProperty("text", {
-                                path: "remarks"
-                            }),
-                            new sap.m.Label("", { text: ibas.i18n.prop("bo_material_picture") }),
-                            new sap.m.Text("", {
-                            }).bindProperty("text", {
-                                path: "picture"
-                            }),
+                            new sap.ui.core.Title("", { text: ibas.i18n.prop("materials_title_inventory") }),
                             new sap.m.Label("", { text: ibas.i18n.prop("bo_material_oncommited") }),
                             new sap.m.Text("", {
                             }).bindProperty("text", {
@@ -121,17 +146,16 @@ namespace materials {
                             }).bindProperty("text", {
                                 path: "onHand"
                             }),
-                            new sap.m.Label("", { text: ibas.i18n.prop("bo_material_onorder") }),
+                            new sap.m.Label("", { text: ibas.i18n.prop("bo_material_onordered") }),
                             new sap.m.Text("", {
                             }).bindProperty("text", {
-                                path: "onOrder"
+                                path: "onOrdered"
                             }),
                             new sap.m.Label("", { text: ibas.i18n.prop("bo_material_inventoryuom") }),
                             new sap.m.Text("", {
                             }).bindProperty("text", {
-                                path: "UOM"
+                                path: "inventoryUOM"
                             }),
-                            new sap.ui.core.Title("", { text: ibas.i18n.prop("materials_title_inventory") }),
                             new sap.m.Label("", { text: ibas.i18n.prop("bo_material_minimuminventory") }),
                             new sap.m.Text("", {
                             }).bindProperty("text", {
@@ -141,15 +165,6 @@ namespace materials {
                             new sap.m.Text("", {
                             }).bindProperty("text", {
                                 path: "defaultWarehouse"
-                            }),
-                            new sap.m.Label("", { text: ibas.i18n.prop("bo_material_phantomitem") }),
-                            new sap.m.Text("", {
-                                wrapping: false
-                            }).bindProperty("text", {
-                                path: "phantomItem",
-                                formatter(data: any): any {
-                                    return ibas.enums.describe(ibas.emYesNo, data);
-                                }
                             }),
                             new sap.m.Label("", { text: ibas.i18n.prop("bo_material_serialmanagement") }),
                             new sap.m.Text("", {
@@ -169,60 +184,7 @@ namespace materials {
                                     return ibas.enums.describe(ibas.emYesNo, data);
                                 }
                             }),
-                            new sap.ui.core.Title("", { text: ibas.i18n.prop("materials_technical_information") }),
-                            new sap.m.Label("", { text: ibas.i18n.prop("bo_material_createdate") }),
-                            new sap.m.Text("", {
-                            }).bindProperty("text", {
-                                path: "createDate",
-                                type: new sap.ui.model.type.Date({
-                                    pattern: "yyyy-MM-dd",
-                                    strictParsing: true,
-                                }),
-                            }),
-                            new sap.m.Label("", { text: ibas.i18n.prop("bo_material_createusersign") }),
-                            new sap.m.Text("", {
-                            }).bindProperty("text", {
-                                path: "createUserSign"
-                            }),
-                            new sap.m.Label("", { text: ibas.i18n.prop("bo_material_updatedate") }),
-                            new sap.m.Text("", {
-                            }).bindProperty("text", {
-                                path: "updateDate",
-                                type: new sap.ui.model.type.Date({
-                                    pattern: "yyyy-MM-dd",
-                                    strictParsing: true,
-                                }),
-                            }),
-                            new sap.m.Label("", { text: ibas.i18n.prop("bo_material_updateusersign") }),
-                            new sap.m.Text("", {
-                            }).bindProperty("text", {
-                                path: "updateUserSign"
-                            }),
-                            new sap.m.Label("", { text: ibas.i18n.prop("bo_material_objectcode") }),
-                            new sap.m.Text("", {
-                            }).bindProperty("text", {
-                                path: "objectCode"
-                            }),
-                            new sap.m.Label("", { text: ibas.i18n.prop("bo_material_docentry") }),
-                            new sap.m.Text("", {
-                            }).bindProperty("text", {
-                                path: "docEntry"
-                            }),
-                            new sap.m.Label("", { text: ibas.i18n.prop("bo_material_loginst") }),
-                            new sap.m.Text("", {
-                            }).bindProperty("text", {
-                                path: "logInst"
-                            }),
-                            new sap.m.Label("", { text: ibas.i18n.prop("bo_material_createactionid") }),
-                            new sap.m.Text("", {
-                            }).bindProperty("text", {
-                                path: "createActionId"
-                            }),
-                            new sap.m.Label("", { text: ibas.i18n.prop("bo_material_updateactionid") }),
-                            new sap.m.Text("", {
-                            }).bindProperty("text", {
-                                path: "updateActionId"
-                            }),
+                            new sap.ui.core.Title("", {}),
                         ],
                     });
                     this.page = new sap.m.Page("", {
