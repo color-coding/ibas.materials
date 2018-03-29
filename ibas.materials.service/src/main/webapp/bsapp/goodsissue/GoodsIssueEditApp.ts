@@ -295,6 +295,7 @@ namespace materials {
                     onCompleted(selecteds: ibas.IList<bo.MaterialPriceList>): void {
                         let selected: bo.MaterialPriceList = selecteds.firstOrDefault();
                         that.editData.priceList = selected.objectKey;
+                        that.editData.documentCurrency = selected.currency;
                     }
                 });
             }

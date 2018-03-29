@@ -94,6 +94,8 @@ namespace materials {
                             }),
                             new sap.m.Label("", { text: ibas.i18n.prop("bo_inventorytransfer_documentdate") }),
                             new sap.m.DatePicker("", {
+                                valueFormat: ibas.config.get(ibas.CONFIG_ITEM_FORMAT_DATE),
+                                displayFormat: ibas.config.get(ibas.CONFIG_ITEM_FORMAT_DATE),
                             }).bindProperty("dateValue", {
                                 path: "documentDate",
                             }),
