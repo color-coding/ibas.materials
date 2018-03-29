@@ -366,7 +366,7 @@
     },
     {
         "bo_materialgroup": "物料组",
-        "bo_materialgroup_code": "编号",
+        "bo_materialgroup_code": "编码",
         "bo_materialgroup_name": "名称",
         "bo_materialgroup_activated": "激活",
         "bo_materialgroup_docentry": "对象编号",
@@ -563,7 +563,7 @@
     },
     {
         "bo_warehouse": "仓库",
-        "bo_warehouse_code": "编号",
+        "bo_warehouse_code": "编码",
         "bo_warehouse_name": "名称",
         "bo_warehouse_activated": "激活",
         "bo_warehouse_referenced": "已引用",
