@@ -127,7 +127,7 @@ namespace materials {
                 this.messages({
                     type: ibas.emMessageType.QUESTION,
                     title: ibas.i18n.prop(this.name),
-                    message: ibas.i18n.prop("sys_whether_to_delete"),
+                    message: ibas.i18n.prop("shell_delete_continue"),
                     actions: [ibas.emMessageAction.YES, ibas.emMessageAction.NO],
                     onCompleted(action: ibas.emMessageAction): void {
                         if (action === ibas.emMessageAction.YES) {
