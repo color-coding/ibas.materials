@@ -2,7 +2,7 @@
 <!DOCTYPE Domain>
 <Domain Name="Materials" ShortName="MM">
   <Model Name="Material" Description="物料" ModelType="MasterData" Mapped="${Company}_MM_OITM">
-    <Property Name="Code" Description="编码" DataType="Alphanumeric" DataSubType="Default" EditSize="20" Mapped="Code" PrimaryKey="Yes" UniqueKey="Yes"/>
+    <Property Name="Code" Description="编码" DataType="Alphanumeric" DataSubType="Default" EditSize="20" Mapped="Code" UniqueKey="Yes"/>
     <Property Name="Name" Description="名称" DataType="Alphanumeric" DataSubType="Default" EditSize="100" Mapped="Name"/>
     <Property Name="ForeignName" Description="外文名称" DataType="Alphanumeric" DataSubType="Default" EditSize="200" Mapped="FrgnName"/>
     <Property Name="Group" Description="物料组" DataType="Alphanumeric" DataSubType="Default" EditSize="8" Mapped="Group"/>

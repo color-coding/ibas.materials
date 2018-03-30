@@ -2,7 +2,7 @@
 <!DOCTYPE Domain>
 <Domain Name="Materials" ShortName="MM">
   <Model Name="Warehouse" Description="仓库" ModelType="MasterData" Mapped="${Company}_MM_OWHS">
-    <Property Name="Code" Description="编码" DataType="Alphanumeric" DataSubType="Default" EditSize="8" Mapped="Code" PrimaryKey="Yes" UniqueKey="Yes"/>
+    <Property Name="Code" Description="编码" DataType="Alphanumeric" DataSubType="Default" EditSize="8" Mapped="Code" UniqueKey="Yes"/>
     <Property Name="Name" Description="名称" DataType="Alphanumeric" DataSubType="Default" EditSize="100" Mapped="Name"/>
     <Property Name="Activated" Description="激活" DataType="Alphanumeric" DataSubType="Default" EditSize="1" DeclaredType="emYesNo" Mapped="Activated"/>
     <Property Name="Referenced" Description="已引用" DataType="Alphanumeric" DataSubType="Default" EditSize="1" DeclaredType="emYesNo" Mapped="Refed"/>
