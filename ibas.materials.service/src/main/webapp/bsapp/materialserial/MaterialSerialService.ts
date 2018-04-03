@@ -240,7 +240,7 @@ namespace materials {
                     }
                     for (let index: number = 0; index < item.quantity; index++) {
                         let journal: bo.IMaterialSerialItem = item.materialSerials.create();
-                        journal.serialCode = ibas.dates.toString(ibas.dates.now(), "yyyyMMddhhmm") + ibas.strings.fill(index + 1, 4, "0");
+                        journal.serialCode = ibas.dates.toString(ibas.dates.now(), "yyyyMMddHHmm") + ibas.strings.fill(index + 1, 4, "0");
                         journals.add(journal);
                     }
                 }
