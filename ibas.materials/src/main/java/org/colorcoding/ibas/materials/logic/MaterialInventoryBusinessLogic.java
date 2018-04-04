@@ -16,7 +16,7 @@ import org.colorcoding.ibas.materials.repository.BORepositoryMaterials;
 public abstract class MaterialInventoryBusinessLogic<L extends IBusinessLogicContract, B extends IBusinessObject>
 		extends MaterialBusinessLogic<L, B> {
 
-	protected IWarehouse checkWarehose(String whsCode) {
+	protected IWarehouse checkWarehouse(String whsCode) {
 		ICriteria criteria = new Criteria();
 		ICondition condition = criteria.getConditions().create();
 		condition.setAlias(Material.PROPERTY_CODE.getName());

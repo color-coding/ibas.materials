@@ -41,7 +41,7 @@ public class MaterialWarehouseInventoryService
 					.format(I18N.prop("msg_mm_material_is_service_item_can't_create_journal"), material.getCode()));
 		}
 		// 检查仓库
-		this.checkWarehose(contract.getWarehouse());
+		this.checkWarehouse(contract.getWarehouse());
 		// 检查物料库存记录
 		ICriteria criteria = new Criteria();
 		ICondition condition = criteria.getConditions().create();

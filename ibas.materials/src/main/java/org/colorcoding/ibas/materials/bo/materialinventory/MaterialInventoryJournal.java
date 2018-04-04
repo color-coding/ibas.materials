@@ -22,6 +22,7 @@ import org.colorcoding.ibas.bobas.rule.common.BusinessRuleRequired;
 import org.colorcoding.ibas.materials.MyConfiguration;
 import org.colorcoding.ibas.materials.logic.IMaterialInventoryContract;
 import org.colorcoding.ibas.materials.logic.IMaterialWarehouseInventoryContract;
+import org.colorcoding.ibas.materials.logic.IWarehouseCheckContract;
 
 /**
  * 获取-仓库日记账
@@ -1033,51 +1034,64 @@ public class MaterialInventoryJournal extends BusinessObject<MaterialInventoryJo
 
 	@Override
 	public IBusinessLogicContract[] getContracts() {
-		return new IBusinessLogicContract[] { new IMaterialInventoryContract() {
-			@Override
-			public String getIdentifiers() {
-				return MaterialInventoryJournal.this.getIdentifiers();
-			}
+		return new IBusinessLogicContract[] {
 
-			@Override
-			public String getItemCode() {
-				return MaterialInventoryJournal.this.getItemCode();
-			}
+				new IWarehouseCheckContract() {
 
-			@Override
-			public Decimal getQuantity() {
-				return MaterialInventoryJournal.this.getQuantity();
-			}
+					@Override
+					public String getIdentifiers() {
+						return MaterialInventoryJournal.this.getIdentifiers();
+					}
 
-			@Override
-			public emDirection getDirection() {
-				return MaterialInventoryJournal.this.getDirection();
-			}
-		}, new IMaterialWarehouseInventoryContract() {
-			@Override
-			public String getIdentifiers() {
-				return MaterialInventoryJournal.this.getIdentifiers();
-			}
+					@Override
+					public String getWarehouseCode() {
+						return MaterialInventoryJournal.this.getWarehouse();
+					}
+				}, new IMaterialInventoryContract() {
+					@Override
+					public String getIdentifiers() {
+						return MaterialInventoryJournal.this.getIdentifiers();
+					}
 
-			@Override
-			public String getItemCode() {
-				return MaterialInventoryJournal.this.getItemCode();
-			}
+					@Override
+					public String getItemCode() {
+						return MaterialInventoryJournal.this.getItemCode();
+					}
 
-			@Override
-			public String getWarehouse() {
-				return MaterialInventoryJournal.this.getWarehouse();
-			}
+					@Override
+					public Decimal getQuantity() {
+						return MaterialInventoryJournal.this.getQuantity();
+					}
 
-			@Override
-			public Decimal getQuantity() {
-				return MaterialInventoryJournal.this.getQuantity();
-			}
+					@Override
+					public emDirection getDirection() {
+						return MaterialInventoryJournal.this.getDirection();
+					}
+				}, new IMaterialWarehouseInventoryContract() {
+					@Override
+					public String getIdentifiers() {
+						return MaterialInventoryJournal.this.getIdentifiers();
+					}
 
-			@Override
-			public emDirection getDirection() {
-				return MaterialInventoryJournal.this.getDirection();
-			}
-		} };
+					@Override
+					public String getItemCode() {
+						return MaterialInventoryJournal.this.getItemCode();
+					}
+
+					@Override
+					public String getWarehouse() {
+						return MaterialInventoryJournal.this.getWarehouse();
+					}
+
+					@Override
+					public Decimal getQuantity() {
+						return MaterialInventoryJournal.this.getQuantity();
+					}
+
+					@Override
+					public emDirection getDirection() {
+						return MaterialInventoryJournal.this.getDirection();
+					}
+				} };
 	}
 }

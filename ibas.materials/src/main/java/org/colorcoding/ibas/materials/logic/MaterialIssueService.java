@@ -64,7 +64,7 @@ public class MaterialIssueService
 					contract.getIdentifiers(), contract.getItemCode()));
 		}
 		// 检查仓库
-		this.checkWarehose(contract.getWarehouse());
+		this.checkWarehouse(contract.getWarehouse());
 		// 检查物料发货记录
 		ICriteria criteria = new Criteria();
 		ICondition condition = criteria.getConditions().create();

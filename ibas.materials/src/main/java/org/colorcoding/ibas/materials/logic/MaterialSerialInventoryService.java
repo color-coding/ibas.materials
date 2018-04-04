@@ -29,7 +29,7 @@ public class MaterialSerialInventoryService
 					String.format(I18N.prop("msg_mm_material_is_not_serialmanagement"), contract.getItemCode()));
 		}
 		// 检查仓库
-		this.checkWarehose(contract.getWarehouse());
+		this.checkWarehouse(contract.getWarehouse());
 		// 检查物料序列库存记录
 		ICriteria criteria = new Criteria();
 		ICondition condition = criteria.getConditions().create();
