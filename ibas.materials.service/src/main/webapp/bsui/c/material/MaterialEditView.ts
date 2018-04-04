@@ -192,7 +192,21 @@ namespace materials {
                                 type: sap.m.InputType.Text,
                                 editable: false,
                             }).bindProperty("value", {
-                                path: "onhand",
+                                path: "onHand",
+                            }),
+                            new sap.m.Label("", { text: ibas.i18n.prop("bo_material_onordered") }),
+                            new sap.m.Input("", {
+                                type: sap.m.InputType.Text,
+                                editable: false,
+                            }).bindProperty("value", {
+                                path: "onOrdered",
+                            }),
+                            new sap.m.Label("", { text: ibas.i18n.prop("bo_material_oncommited") }),
+                            new sap.m.Input("", {
+                                type: sap.m.InputType.Text,
+                                editable: false,
+                            }).bindProperty("value", {
+                                path: "onCommited",
                             }),
                             new sap.m.Label("", { text: ibas.i18n.prop("bo_material_inventoryuom") }),
                             new sap.m.Input("", {
