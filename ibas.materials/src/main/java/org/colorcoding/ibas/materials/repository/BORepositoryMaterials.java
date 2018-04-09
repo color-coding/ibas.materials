@@ -782,7 +782,8 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 					itemCodes.add(item.getItemCode());
 				}
 				// 重新查询价格
-				List<IMaterialPrice> newPrices = this.getMaterialPrices(itemCodes, plCondition.getValue());
+				List<IMaterialPrice> newPrices = this.getMaterialPrices(itemCodes,
+						Integer.valueOf(plCondition.getValue()));
 				for (IMaterialPrice item : operationResult.getResultObjects()) {
 					item.setPrice(Decimal.MINUS_ONE);// 设置到未初始价格
 					item.setSource(plCondition.getValue());
@@ -812,7 +813,7 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 	 * @return
 	 * @throws Exception
 	 */
-	private List<IMaterialPrice> getMaterialPrices(List<String> itemCodes, String priceList) throws Exception {
+	private List<IMaterialPrice> getMaterialPrices(List<String> itemCodes, Integer priceList) throws Exception {
 		return this.getMaterialPrices(itemCodes, priceList, 0);
 	}
 
@@ -828,7 +829,7 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 	 * @return
 	 * @throws Exception
 	 */
-	private List<IMaterialPrice> getMaterialPrices(List<String> itemCodes, String priceList, int level)
+	private List<IMaterialPrice> getMaterialPrices(List<String> itemCodes, Integer priceList, int level)
 			throws Exception {
 		level++;
 		if (level > MyConfiguration.getConfigValue(MyConfiguration.CONFIG_ITEM_PRICE_LIST_MAX_LEVEL, 3)) {
@@ -897,9 +898,9 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 				}
 			}
 			if (!noItemCodes.isEmpty() && materialPriceList.getBasedOnList() != null
-					&& materialPriceList.getBasedOnList() > 0) {
-				List<IMaterialPrice> tmpPrices = this.getMaterialPrices(noItemCodes,
-						Integer.toString(materialPriceList.getBasedOnList()));
+					&& materialPriceList.getBasedOnList() > 0 && materialPriceList.getBasedOnList() != priceList) {
+				List<IMaterialPrice> tmpPrices = this.getMaterialPrices(noItemCodes, materialPriceList.getBasedOnList(),
+						level);
 				for (IMaterialPrice newPrice : tmpPrices) {
 					if (!materialPriceList.getFactor().isZero()) {
 						newPrice.setPrice(newPrice.getPrice().multiply(materialPriceList.getFactor()));
@@ -1083,7 +1084,8 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 					itemCodes.add(item.getCode());
 				}
 				// 重新查询价格
-				List<IMaterialPrice> newPrices = this.getMaterialPrices(itemCodes, plCondition.getValue());
+				List<IMaterialPrice> newPrices = this.getMaterialPrices(itemCodes,
+						Integer.valueOf(plCondition.getValue()));
 				for (IProduct item : operationResult.getResultObjects()) {
 					item.setPrice(Decimal.MINUS_ONE);// 设置到未初始价格
 					for (IMaterialPrice newPrice : newPrices) {
