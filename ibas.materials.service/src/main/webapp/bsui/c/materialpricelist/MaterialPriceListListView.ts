@@ -24,8 +24,6 @@ namespace materials {
                 editDataEvent: Function;
                 /** 删除数据事件，参数：删除对象集合 */
                 deleteDataEvent: Function;
-                /** 调用服务事件，参数1 IServicesShower显示服务者 */
-                callServicesEvent: Function;
                 /** 查询价格事件 */
                 fetchPriceEvent: Function;
                 /** 保存价格项目事件 */

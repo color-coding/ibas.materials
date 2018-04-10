@@ -22,8 +22,6 @@ namespace materials {
                 editDataEvent: Function;
                 /** 显示数据，参数：目标数据 */
                 viewDataEvent: Function;
-                /** 调用服务事件，参数1 IServicesShower显示服务者 */
-                callServicesEvent: Function;
                 /** 查询物料批次交易记录 */
                 fetchBatchJournalEvent: Function;
                 /** 绘制视图 */

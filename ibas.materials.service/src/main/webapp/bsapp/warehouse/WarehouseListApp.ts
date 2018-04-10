@@ -167,15 +167,6 @@ namespace materials {
                     }
                 });
             }
-            /** 获取服务的契约 */
-            protected getServiceProxies(): ibas.IServiceProxy<ibas.IServiceContract>[] {
-                return [
-                    new ibas.BOListServiceProxy({
-                        data: this.view.getSelecteds(),
-                        converter: new bo.DataConverter()
-                    })
-                ];
-            }
         }
         /** 视图-仓库 */
         export interface IWarehouseListView extends ibas.IBOListView {
@@ -185,8 +176,6 @@ namespace materials {
             deleteDataEvent: Function;
             /** 显示数据 */
             showData(datas: bo.Warehouse[]): void;
-            /** 获取选择的数据 */
-            getSelecteds(): bo.Warehouse[];
         }
     }
 }

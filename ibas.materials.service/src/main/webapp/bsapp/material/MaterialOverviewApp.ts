@@ -245,12 +245,6 @@ namespace materials {
                 app.viewShower = this.viewShower;
                 app.run(data);
             }
-
-            /** 获取服务的契约 */
-            protected getServiceProxies(): ibas.IServiceProxy<ibas.IServiceContract>[] {
-                return [];
-            }
-
             protected beShowedPriceList: bo.MaterialPriceList;
             /** 物料总览选择价格清单 */
             private chooseMaterialOverViewPriceList(): void {

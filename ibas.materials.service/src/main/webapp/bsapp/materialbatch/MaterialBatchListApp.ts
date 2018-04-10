@@ -90,11 +90,6 @@ namespace materials {
                 app.viewShower = this.viewShower;
                 app.run(data);
             }
-            /** 获取服务的契约 */
-            protected getServiceProxies(): ibas.IServiceProxy<ibas.IServiceContract>[] {
-                return [
-                ];
-            }
             /** 查询物料批次交易记录 */
             protected fetchBatchJournal(criteria: ibas.ICriteria): void {
                 // 检查目标数据

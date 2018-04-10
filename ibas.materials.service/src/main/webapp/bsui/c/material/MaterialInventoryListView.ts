@@ -20,8 +20,6 @@ namespace materials {
                 newDataEvent: Function;
                 /** 查看数据事件，参数：目标数据 */
                 viewDataEvent: Function;
-                /** 调用服务事件，参数1 IServicesShower显示服务者 */
-                callServicesEvent: Function;
                 /** 查询物料库存交易记录 */
                 fetchInventoryJournalEvent: Function;
                 /** 绘制视图 */

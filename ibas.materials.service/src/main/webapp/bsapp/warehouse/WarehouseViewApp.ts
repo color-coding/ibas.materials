@@ -84,15 +84,6 @@ namespace materials {
                 });
                 this.proceeding(ibas.emMessageType.INFORMATION, ibas.i18n.prop("shell_fetching_data"));
             }
-            /** 获取服务的契约 */
-            protected getServiceProxies(): ibas.IServiceProxy<ibas.IServiceContract>[] {
-                return [
-                    new ibas.BOServiceProxy({
-                        data: this.viewData,
-                        converter: new bo.DataConverter()
-                    })
-                ];
-            }
         }
         /** 视图-仓库 */
         export interface IWarehouseViewView extends ibas.IBOViewView {

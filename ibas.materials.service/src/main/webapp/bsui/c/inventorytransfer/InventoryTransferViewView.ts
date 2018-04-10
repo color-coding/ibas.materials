@@ -180,7 +180,11 @@ namespace materials {
                                     type: sap.m.ButtonType.Transparent,
                                     icon: "sap-icon://action",
                                     press: function (event: any): void {
-                                        that.fireViewEvents(that.callServicesEvent, {
+                                        ibas.servicesManager.showServices({
+                                            proxy: new ibas.BOListServiceProxy({
+                                                data: (<any>that.layoutMain.getModel()).getObject(),
+                                                converter: new bo.DataConverter(),
+                                            }),
                                             displayServices(services: ibas.IServiceAgent[]): void {
                                                 if (ibas.objects.isNull(services) || services.length === 0) {
                                                     return;

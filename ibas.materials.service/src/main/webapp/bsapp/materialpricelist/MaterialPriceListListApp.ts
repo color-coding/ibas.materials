@@ -174,10 +174,6 @@ namespace materials {
                     }
                 });
             }
-            /** 获取服务的契约 */
-            protected getServiceProxies(): ibas.IServiceProxy<ibas.IServiceContract>[] {
-                return [];
-            }
             /** 查询价格 */
             protected fetchPrice(criteria: ibas.ICriteria): void {
                 // 检查目标数据
