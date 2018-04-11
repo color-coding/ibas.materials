@@ -98,5 +98,18 @@ namespace materials {
                 super.run();
             }
         }
+        /** 模块控制台，手机端 */
+        export class ConsolePhone extends Console {
+            /** 初始化 */
+            protected registers(): void {
+                // 注册服务应用
+                this.register(new MaterialChooseServiceMapping());
+                this.register(new WarehouseChooseServiceMapping());
+                this.register(new ProductChooseServiceMapping());
+                this.register(new MaterialPriceListChooseServiceMapping);
+                this.register(new MaterialSerialChooseServiceMapping);
+                this.register(new MaterialBatchChooseServiceMapping);
+            }
+        }
     }
 }
