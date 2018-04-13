@@ -410,6 +410,13 @@ namespace materials {
                 this.documentStatus = ibas.emDocumentStatus.RELEASED;
                 this.documentCurrency = ibas.config.get(ibas.CONFIG_ITEM_DEFAULT_CURRENCY);
             }
+            protected registerRules(): ibas.IBusinessRule[] {
+                return [
+                    // 计算项目-行总计
+                    new ibas.BusinessRuleSumElements(
+                        GoodsReceipt.PROPERTY_DOCUMENTTOTAL_NAME, GoodsReceipt.PROPERTY_GOODSRECEIPTLINES_NAME, GoodsReceiptLine.PROPERTY_LINETOTAL_NAME),
+                ];
+            }
         }
         /** 库存收货-行 集合 */
         export class GoodsReceiptLines extends ibas.BusinessObjects<GoodsReceiptLine, GoodsReceipt> implements IGoodsReceiptLines {
@@ -851,6 +858,14 @@ namespace materials {
                 this.materialSerials = new MaterialSerialItems(this);
                 this.objectCode = ibas.config.applyVariables(GoodsReceipt.BUSINESS_OBJECT_CODE);
                 this.currency = ibas.config.get(ibas.CONFIG_ITEM_DEFAULT_CURRENCY);
+            }
+
+            protected registerRules(): ibas.IBusinessRule[] {
+                return [
+                    // 计算总计 = 数量 * 价格
+                    new ibas.BusinessRuleMultiplication(
+                        GoodsReceiptLine.PROPERTY_LINETOTAL_NAME, GoodsReceiptLine.PROPERTY_QUANTITY_NAME, GoodsReceiptLine.PROPERTY_PRICE_NAME),
+                ];
             }
 
         }

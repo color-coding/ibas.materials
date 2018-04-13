@@ -402,13 +402,18 @@ namespace materials {
                 this.setProperty(GoodsIssue.PROPERTY_GOODSISSUELINES_NAME, value);
             }
 
-
             /** 初始化数据 */
             protected init(): void {
                 this.goodsIssueLines = new GoodsIssueLines(this);
                 this.objectCode = ibas.config.applyVariables(GoodsIssue.BUSINESS_OBJECT_CODE);
                 this.documentStatus = ibas.emDocumentStatus.RELEASED;
                 this.documentCurrency = ibas.config.get(ibas.CONFIG_ITEM_DEFAULT_CURRENCY);
+            }
+            protected registerRules(): ibas.IBusinessRule[] {
+                return [
+                    // 计算项目-行总计
+                    new ibas.BusinessRuleSumElements(GoodsIssue.PROPERTY_DOCUMENTTOTAL_NAME, GoodsIssue.PROPERTY_GOODSISSUELINES_NAME, GoodsIssueLine.PROPERTY_LINETOTAL_NAME),
+                ];
             }
         }
         /** 库存发货-行 集合 */
@@ -853,6 +858,14 @@ namespace materials {
                 this.materialSerials = new MaterialSerialItems(this);
                 this.objectCode = ibas.config.applyVariables(GoodsIssue.BUSINESS_OBJECT_CODE);
                 this.currency = ibas.config.get(ibas.CONFIG_ITEM_DEFAULT_CURRENCY);
+            }
+
+            protected registerRules(): ibas.IBusinessRule[] {
+                return [
+                    // 计算总计 = 数量 * 价格
+                    new ibas.BusinessRuleMultiplication(
+                        GoodsIssueLine.PROPERTY_LINETOTAL_NAME, GoodsIssueLine.PROPERTY_QUANTITY_NAME, GoodsIssueLine.PROPERTY_PRICE_NAME),
+                ];
             }
 
         }
