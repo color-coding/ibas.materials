@@ -12,6 +12,8 @@ import org.colorcoding.ibas.bobas.data.emYesNo;
 import org.colorcoding.ibas.bobas.i18n.I18N;
 import org.colorcoding.ibas.bobas.logic.BusinessLogicException;
 import org.colorcoding.ibas.bobas.mapping.LogicContract;
+import org.colorcoding.ibas.bobas.message.Logger;
+import org.colorcoding.ibas.bobas.message.MessageLevel;
 import org.colorcoding.ibas.materials.bo.material.IMaterial;
 import org.colorcoding.ibas.materials.bo.materialinventory.IMaterialInventory;
 import org.colorcoding.ibas.materials.bo.materialinventory.MaterialInventory;
@@ -21,6 +23,19 @@ import org.colorcoding.ibas.materials.repository.BORepositoryMaterials;
 @LogicContract(IMaterialWarehouseCommitedContract.class)
 public class MaterialWarehouseCommitedService
 		extends MaterialInventoryBusinessLogic<IMaterialWarehouseCommitedContract, IMaterialInventory> {
+
+	@Override
+	protected boolean checkDataStatus(Object data) {
+		if (data instanceof IMaterialWarehouseCommitedContract) {
+			IMaterialWarehouseCommitedContract contract = (IMaterialWarehouseCommitedContract) data;
+			if (contract.getQuantity().compareTo(Decimal.ZERO) <= 0) {
+				Logger.log(MessageLevel.DEBUG, MSG_LOGICS_SKIP_LOGIC_EXECUTION, this.getClass().getName(), "Quantity",
+						contract.getQuantity());
+				return false;
+			}
+		}
+		return super.checkDataStatus(data);
+	}
 
 	@Override
 	protected IMaterialInventory fetchBeAffected(IMaterialWarehouseCommitedContract contract) {
