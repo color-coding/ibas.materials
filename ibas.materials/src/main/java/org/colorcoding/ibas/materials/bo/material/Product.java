@@ -6,6 +6,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
+import org.colorcoding.ibas.bobas.bo.IBOUserFields;
 import org.colorcoding.ibas.bobas.core.IPropertyInfo;
 import org.colorcoding.ibas.bobas.data.Decimal;
 import org.colorcoding.ibas.bobas.ownership.IDataOwnership;
@@ -17,7 +18,7 @@ import org.colorcoding.ibas.materials.MyConfiguration;
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlType(name = Product.BUSINESS_OBJECT_NAME, namespace = MyConfiguration.NAMESPACE_BO)
 @XmlRootElement(name = Product.BUSINESS_OBJECT_NAME, namespace = MyConfiguration.NAMESPACE_BO)
-public class Product extends MaterialBase<Product> implements IProduct, IDataOwnership {
+public class Product extends MaterialBase<Product> implements IProduct, IDataOwnership, IBOUserFields {
 	/**
 	 * 查询条件字段-仓库
 	 */

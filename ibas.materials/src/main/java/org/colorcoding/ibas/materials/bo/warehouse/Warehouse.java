@@ -10,6 +10,7 @@ import org.colorcoding.ibas.bobas.approval.IApprovalData;
 import org.colorcoding.ibas.bobas.bo.BusinessObject;
 import org.colorcoding.ibas.bobas.bo.IBOSeriesKey;
 import org.colorcoding.ibas.bobas.bo.IBOTagDeleted;
+import org.colorcoding.ibas.bobas.bo.IBOUserFields;
 import org.colorcoding.ibas.bobas.core.IPropertyInfo;
 import org.colorcoding.ibas.bobas.data.DateTime;
 import org.colorcoding.ibas.bobas.data.emApprovalStatus;
@@ -31,7 +32,7 @@ import org.colorcoding.ibas.materials.MyConfiguration;
 @XmlRootElement(name = Warehouse.BUSINESS_OBJECT_NAME, namespace = MyConfiguration.NAMESPACE_BO)
 @BOCode(Warehouse.BUSINESS_OBJECT_CODE)
 public class Warehouse extends BusinessObject<Warehouse>
-		implements IWarehouse, IDataOwnership, IApprovalData, IBOSeriesKey, IBOTagDeleted {
+		implements IWarehouse, IDataOwnership, IApprovalData, IBOSeriesKey, IBOTagDeleted, IBOUserFields {
 
 	/**
 	 * 序列化版本标记
