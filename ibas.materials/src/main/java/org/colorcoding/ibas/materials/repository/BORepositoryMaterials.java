@@ -994,9 +994,11 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 					item.setOnHand(Decimal.ZERO);
 					// 重新计算数量
 					for (IMaterialInventory inventory : opRsltInventory.getResultObjects()) {
-						item.setOnHand(item.getOnHand().add(inventory.getOnHand()));
-						item.setOnCommited(item.getOnCommited().add(inventory.getOnCommited()));
-						item.setOnOrdered(item.getOnOrdered().add(inventory.getOnOrdered()));
+						if (item.getItemCode().equals(inventory.getItemCode())) {
+							item.setOnHand(item.getOnHand().add(inventory.getOnHand()));
+							item.setOnCommited(item.getOnCommited().add(inventory.getOnCommited()));
+							item.setOnOrdered(item.getOnOrdered().add(inventory.getOnOrdered()));
+						}
 					}
 				}
 			}
@@ -1071,7 +1073,9 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 					item.setOnHand(Decimal.ZERO);
 					// 重新计算数量
 					for (IMaterialInventory inventory : opRsltInventory.getResultObjects()) {
-						item.setOnHand(item.getOnHand().add(inventory.getOnHand()));
+						if (item.getCode().equals(inventory.getItemCode())) {
+							item.setOnHand(item.getOnHand().add(inventory.getOnHand()));
+						}
 					}
 				}
 			}
