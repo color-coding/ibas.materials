@@ -992,6 +992,8 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 				for (IMaterialQuantity item : operationResult.getResultObjects()) {
 					// 数量清零
 					item.setOnHand(Decimal.ZERO);
+					item.setOnCommited(Decimal.ZERO);
+					item.setOnOrdered(Decimal.ZERO);
 					// 重新计算数量
 					for (IMaterialInventory inventory : opRsltInventory.getResultObjects()) {
 						if (item.getItemCode().equals(inventory.getItemCode())) {
@@ -1071,10 +1073,14 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 				for (IProduct item : operationResult.getResultObjects()) {
 					// 数量清零
 					item.setOnHand(Decimal.ZERO);
+					item.setOnCommited(Decimal.ZERO);
+					item.setOnOrdered(Decimal.ZERO);
 					// 重新计算数量
 					for (IMaterialInventory inventory : opRsltInventory.getResultObjects()) {
 						if (item.getCode().equals(inventory.getItemCode())) {
 							item.setOnHand(item.getOnHand().add(inventory.getOnHand()));
+							item.setOnCommited(item.getOnCommited().add(inventory.getOnCommited()));
+							item.setOnOrdered(item.getOnOrdered().add(inventory.getOnOrdered()));
 						}
 					}
 				}

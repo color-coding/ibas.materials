@@ -49,6 +49,7 @@ namespace materials {
                                     path: "currency",
                                 })
                             }),
+                            /*
                             new sap.ui.table.Column("", {
                                 label: ibas.i18n.prop("bo_materialpricelist_basedonlist"),
                                 template: new sap.m.Text("", {
@@ -65,16 +66,17 @@ namespace materials {
                                     path: "factor",
                                 })
                             }),
+                            */
                             new sap.ui.table.Column("", {
                                 label: ibas.i18n.prop("bo_materialpricelist_validdate"),
                                 template: new sap.m.Text("", {
                                     wrapping: false,
                                 }).bindProperty("text", {
                                     path: "validDate",
-                                    type: "sap.ui.model.type.Date",
-                                    formatOptions: {
-                                        style: "short"
-                                    }
+                                    type: new sap.ui.model.type.Date({
+                                        pattern: "yyyy-MM-dd",
+                                        strictParsing: true,
+                                    })
                                 }),
                             }),
                             new sap.ui.table.Column("", {
@@ -83,10 +85,10 @@ namespace materials {
                                     wrapping: false,
                                 }).bindProperty("text", {
                                     path: "invalidDate",
-                                    type: "sap.ui.model.type.Date",
-                                    formatOptions: {
-                                        style: "short"
-                                    }
+                                    type: new sap.ui.model.type.Date({
+                                        pattern: "yyyy-MM-dd",
+                                        strictParsing: true,
+                                    })
                                 }),
                             }),
                         ]
