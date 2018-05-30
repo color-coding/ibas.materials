@@ -14,7 +14,7 @@ namespace materials {
             export class ProductChooseView extends ibas.BOChooseView implements app.IProductChooseView {
                 /** 返回查询的对象 */
                 get queryTarget(): any {
-                    return bo.Product;
+                    return bo.Material;
                 }
                 /** 绘制工具条 */
                 drawBars(): any {
