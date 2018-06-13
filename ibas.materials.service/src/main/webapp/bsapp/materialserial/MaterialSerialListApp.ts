@@ -43,6 +43,7 @@ namespace materials {
                     criteria: criteria,
                     onCompleted(opRslt: ibas.IOperationResult<bo.MaterialSerial>): void {
                         try {
+                            that.busy(false);
                             if (opRslt.resultCode !== 0) {
                                 throw new Error(opRslt.message);
                             }
@@ -53,8 +54,7 @@ namespace materials {
                             if (opRslt.resultObjects.length === 0) {
                                 that.proceeding(ibas.emMessageType.INFORMATION, ibas.i18n.prop("shell_data_fetched_none"));
                             }
-                            that.view.showSerials(opRslt.resultObjects);
-                            that.busy(false);
+                            that.view.showSerials(opRslt.resultObjects);                            
                         } catch (error) {
                             that.messages(error);
                         }

@@ -8,7 +8,7 @@
 namespace materials {
     export namespace app {
         /** 查看应用-库存收货 */
-        export class GoodsReceiptViewApp extends ibas.BOViewService<IGoodsReceiptViewView> {
+        export class GoodsReceiptViewApp extends ibas.BOViewService<IGoodsReceiptViewView, bo.GoodsReceipt> {
             /** 应用标识 */
             static APPLICATION_ID: string = "ccd77fe9-0291-4f9f-9387-883632bbb5ec";
             /** 应用名称 */
@@ -58,13 +58,15 @@ namespace materials {
                     super.run.apply(this, arguments);
                 }
             }
-            private viewData: bo.GoodsReceipt;
+            protected viewData: bo.GoodsReceipt;
             /** 查询数据 */
             protected fetchData(criteria: ibas.ICriteria | string): void {
                 this.busy(true);
                 let that: this = this;
                 if (typeof criteria === "string") {
+                    let value: string = criteria;
                     criteria = new ibas.Criteria();
+                    criteria.result = 1;
                     // 添加查询条件
 
                 }
@@ -77,7 +79,11 @@ namespace materials {
                                 throw new Error(opRslt.message);
                             }
                             that.viewData = opRslt.resultObjects.firstOrDefault();
-                            that.viewShowed();
+                            if (!that.isViewShowed()) {
+                                that.show();
+                            } else {
+                                that.viewShowed();
+                            }
                         } catch (error) {
                             that.messages(error);
                         }

@@ -46,6 +46,7 @@ namespace materials {
                     criteria: criteria,
                     onCompleted(opRslt: ibas.IOperationResult<bo.MaterialPriceList>): void {
                         try {
+                            that.busy(false);
                             if (opRslt.resultCode !== 0) {
                                 throw new Error(opRslt.message);
                             }
@@ -57,7 +58,6 @@ namespace materials {
                                 that.proceeding(ibas.emMessageType.INFORMATION, ibas.i18n.prop("shell_data_fetched_none"));
                             }
                             that.view.showPriceList(opRslt.resultObjects);
-                            that.busy(false);
                         } catch (error) {
                             that.messages(error);
                         }

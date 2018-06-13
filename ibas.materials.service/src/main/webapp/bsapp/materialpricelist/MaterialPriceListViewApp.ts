@@ -8,7 +8,7 @@
 namespace materials {
     export namespace app {
         /** 查看应用-物料价格清单 */
-        export class MaterialPriceListViewApp extends ibas.BOViewService<IMaterialPriceListViewView> {
+        export class MaterialPriceListViewApp extends ibas.BOViewService<IMaterialPriceListViewView, bo.MaterialPriceList> {
             /** 应用标识 */
             static APPLICATION_ID: string = "e6349f36-c032-41f2-9d44-b0a81efba9b1";
             /** 应用名称 */
@@ -51,13 +51,15 @@ namespace materials {
                     super.run.apply(this, arguments);
                 }
             }
-            private viewData: bo.MaterialPriceList;
+            protected viewData: bo.MaterialPriceList;
             /** 查询数据 */
             protected fetchData(criteria: ibas.ICriteria | string): void {
                 this.busy(true);
                 let that: this = this;
                 if (typeof criteria === "string") {
+                    let value: string = criteria;
                     criteria = new ibas.Criteria();
+                    criteria.result = 1;
                     // 添加查询条件
 
                 }
@@ -70,7 +72,11 @@ namespace materials {
                                 throw new Error(opRslt.message);
                             }
                             that.viewData = opRslt.resultObjects.firstOrDefault();
-                            that.viewShowed();
+                            if (!that.isViewShowed()) {
+                                that.show();
+                            } else {
+                                that.viewShowed();
+                            }
                         } catch (error) {
                             that.messages(error);
                         }
