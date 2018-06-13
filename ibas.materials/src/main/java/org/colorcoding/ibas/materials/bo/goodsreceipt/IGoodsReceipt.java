@@ -573,6 +573,21 @@ public interface IGoodsReceipt extends IBODocument {
 	void setProject(String value);
 
 	/**
+	 * 获取-单据类型
+	 * 
+	 * @return 值
+	 */
+	String getOrderType();
+
+	/**
+	 * 设置-单据类型
+	 * 
+	 * @param value
+	 *            值
+	 */
+	void setOrderType(String value);
+
+	/**
 	 * 获取-库存收货-行集合
 	 * 
 	 * @return 值

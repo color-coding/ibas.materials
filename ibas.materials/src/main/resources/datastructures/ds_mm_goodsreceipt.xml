@@ -36,6 +36,7 @@
     <Property Name="DocumentTotal" Description="单据总计" DataType="Decimal" DataSubType="Sum" EditSize="8" Mapped="DocTotal"/>
     <Property Name="PriceList" Description="价格清单" DataType="Numeric" DataSubType="Default" EditSize="8" Mapped="PriceList"/>
     <Property Name="Project" Description="项目代码" DataType="Alphanumeric" DataSubType="Default" EditSize="8" Mapped="Project"/>
+    <Property Name="OrderType" Description="单据类型" DataType="Alphanumeric" DataSubType="Default" EditSize="8" Mapped="OrderType"/>
   </Model>
   <Model Name="GoodsReceiptLine" Description="库存收货-行" ModelType="DocumentLine" Mapped="${Company}_MM_IGN1">
     <Property Name="DocEntry" Description="编码" DataType="Numeric" DataSubType="Default" EditSize="8" Mapped="DocEntry" PrimaryKey="Yes"/>

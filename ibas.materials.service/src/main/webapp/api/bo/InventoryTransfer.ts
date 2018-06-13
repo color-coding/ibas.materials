@@ -113,6 +113,9 @@ namespace materials {
             /** 项目代码 */
             project: string;
 
+            /** 单据类型 */
+            orderType: string;
+
             /** 从仓库 */
             fromWarehouse: string;
 

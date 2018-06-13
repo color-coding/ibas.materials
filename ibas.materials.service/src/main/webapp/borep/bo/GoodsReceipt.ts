@@ -390,6 +390,16 @@ namespace materials {
                 this.setProperty(GoodsReceipt.PROPERTY_PROJECT_NAME, value);
             }
 
+            /** 映射的属性名称-单据类型 */
+            static PROPERTY_ORDERTYPE_NAME: string = "OrderType";
+            /** 获取-单据类型 */
+            get orderType(): string {
+                return this.getProperty<string>(GoodsReceipt.PROPERTY_ORDERTYPE_NAME);
+            }
+            /** 设置-单据类型 */
+            set orderType(value: string) {
+                this.setProperty(GoodsReceipt.PROPERTY_ORDERTYPE_NAME, value);
+            }
 
             /** 映射的属性名称-库存收货-行集合 */
             static PROPERTY_GOODSRECEIPTLINES_NAME: string = "GoodsReceiptLines";

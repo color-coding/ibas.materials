@@ -37,6 +37,7 @@
     <Property Name="PriceList" Description="价格清单" DataType="Numeric" DataSubType="Default" EditSize="8" Mapped="PriceList"/>
     <Property Name="Project" Description="项目代码" DataType="Alphanumeric" DataSubType="Default" EditSize="8" Mapped="Project"/>
     <Property Name="FromWarehouse" Description="从仓库" DataType="Alphanumeric" DataSubType="Default" EditSize="8" Mapped="FormWHS"/>
+    <Property Name="OrderType" Description="单据类型" DataType="Alphanumeric" DataSubType="Default" EditSize="8" Mapped="OrderType"/>
   </Model>
   <Model Name="InventoryTransferLine" Description="库存转储-行" ModelType="DocumentLine" Mapped="${Company}_MM_WTR1">
     <Property Name="DocEntry" Description="编码" DataType="Numeric" DataSubType="Default" EditSize="8" Mapped="DocEntry" PrimaryKey="Yes"/>

@@ -1212,6 +1212,38 @@ public class InventoryTransfer extends BusinessObject<InventoryTransfer>
 	}
 
 	/**
+	 * 属性名称-单据类型
+	 */
+	private static final String PROPERTY_ORDERTYPE_NAME = "OrderType";
+
+	/**
+	 * 单据类型 属性
+	 */
+	@DbField(name = "OrderType", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME, primaryKey = false)
+	public static final IPropertyInfo<String> PROPERTY_ORDERTYPE = registerProperty(PROPERTY_ORDERTYPE_NAME,
+			String.class, MY_CLASS);
+
+	/**
+	 * 获取-单据类型
+	 * 
+	 * @return 值
+	 */
+	@XmlElement(name = PROPERTY_ORDERTYPE_NAME)
+	public final String getOrderType() {
+		return this.getProperty(PROPERTY_ORDERTYPE);
+	}
+
+	/**
+	 * 设置-单据类型
+	 * 
+	 * @param value
+	 *            值
+	 */
+	public final void setOrderType(String value) {
+		this.setProperty(PROPERTY_ORDERTYPE, value);
+	}
+
+	/**
 	 * 属性名称-从仓库
 	 */
 	private static final String PROPERTY_FROMWAREHOUSE_NAME = "FromWarehouse";

@@ -390,6 +390,17 @@ namespace materials {
                 this.setProperty(InventoryTransfer.PROPERTY_PROJECT_NAME, value);
             }
 
+            /** 映射的属性名称-单据类型 */
+            static PROPERTY_ORDERTYPE_NAME: string = "OrderType";
+            /** 获取-单据类型 */
+            get orderType(): string {
+                return this.getProperty<string>(InventoryTransfer.PROPERTY_ORDERTYPE_NAME);
+            }
+            /** 设置-单据类型 */
+            set orderType(value: string) {
+                this.setProperty(InventoryTransfer.PROPERTY_ORDERTYPE_NAME, value);
+            }
+
             /** 映射的属性名称-从仓库 */
             static PROPERTY_FROMWAREHOUSE_NAME: string = "FromWarehouse";
             /** 获取-从仓库 */
