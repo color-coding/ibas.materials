@@ -55,6 +55,7 @@ namespace materials {
                                 editable: false,
                             }).bindProperty("value", {
                                 path: "quantity",
+                                type: new openui5.datatype.Quantity(),
                             }),
                             new sap.m.Label("", { text: ibas.i18n.prop("bo_materialbatch_supplierserial") }),
                             new sap.m.Input("", {

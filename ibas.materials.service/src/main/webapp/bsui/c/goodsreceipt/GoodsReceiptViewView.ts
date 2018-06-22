@@ -117,7 +117,8 @@ namespace materials {
                                     width: "100%",
                                     type: sap.m.InputType.Number,
                                 }).bindProperty("text", {
-                                    path: "quantity"
+                                    path: "quantity",
+                                    type: new openui5.datatype.Quantity(),
                                 })
                             }),
                             new sap.ui.table.Column("", {

@@ -68,6 +68,12 @@ namespace materials {
                                 path: "reference2"
                             }),
                             new sap.ui.core.Title("", { text: ibas.i18n.prop("materials_title_status") }),
+                            new sap.m.Label("", { text: ibas.i18n.prop("bo_goodsreceipt_docentry") }),
+                            new sap.m.Input("", {
+                                editable: false,
+                            }).bindProperty("value", {
+                                path: "docEntry"
+                            }),
                             new sap.m.Label("", { text: ibas.i18n.prop("bo_goodsreceipt_documentstatus") }),
                             new sap.m.Select("", {
                                 items: openui5.utils.createComboBoxItems(ibas.emDocumentStatus),
@@ -88,12 +94,6 @@ namespace materials {
                                 displayFormat: ibas.config.get(ibas.CONFIG_ITEM_FORMAT_DATE),
                             }).bindProperty("dateValue", {
                                 path: "documentDate",
-                            }),
-                            new sap.m.Label("", { text: ibas.i18n.prop("bo_goodsreceipt_dataowner") }),
-                            new sap.m.ex.DataOwnerInput("", {
-                                bindingValue: {
-                                    path: "dataOwner"
-                                }
                             }),
                         ]
                     });
@@ -210,7 +210,8 @@ namespace materials {
                                     width: "100%",
                                     type: sap.m.InputType.Number
                                 }).bindProperty("value", {
-                                    path: "quantity"
+                                    path: "quantity",
+                                    type: new openui5.datatype.Quantity(),
                                 })
                             }),
                             new sap.ui.table.Column("", {
@@ -228,7 +229,8 @@ namespace materials {
                                     width: "100%",
                                     type: sap.m.InputType.Number
                                 }).bindProperty("value", {
-                                    path: "price"
+                                    path: "price",
+                                    type: new openui5.datatype.Price(),
                                 })
                             }),
                             new sap.ui.table.Column("", {
@@ -245,7 +247,8 @@ namespace materials {
                                     width: "100%",
                                     wrapping: false
                                 }).bindProperty("text", {
-                                    path: "lineTotal"
+                                    path: "lineTotal",
+                                    type: new openui5.datatype.Sum(),
                                 })
                             }),
                         ]
@@ -260,9 +263,16 @@ namespace materials {
                     let formBottom: sap.ui.layout.form.SimpleForm = new sap.ui.layout.form.SimpleForm("", {
                         editable: true,
                         content: [
-                            new sap.ui.core.Title("", { text: ibas.i18n.prop("materials_title_remarks") }),
+                            new sap.ui.core.Title("", { text: ibas.i18n.prop("materials_title_others") }),
+                            new sap.m.Label("", { text: ibas.i18n.prop("bo_goodsreceipt_dataowner") }),
+                            new sap.m.ex.DataOwnerInput("", {
+                                bindingValue: {
+                                    path: "dataOwner"
+                                }
+                            }),
+                            new sap.m.Label("", { text: ibas.i18n.prop("bo_goodsreceipt_remarks") }),
                             new sap.m.TextArea("", {
-                                rows: 5,
+                                rows: 3,
                             }).bindProperty("value", {
                                 path: "remarks",
                             }),
@@ -271,7 +281,8 @@ namespace materials {
                             new sap.m.Input("", {
                                 editable: false,
                             }).bindProperty("value", {
-                                path: "documentTotal"
+                                path: "documentTotal",
+                                type: new openui5.datatype.Sum(),
                             }),
                             new sap.m.Input("", {
                                 editable: false,

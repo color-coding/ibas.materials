@@ -79,6 +79,7 @@ namespace materials {
                                     wrapping: false,
                                 }).bindProperty("text", {
                                     path: "documentTotal",
+                                    type: new openui5.datatype.Sum(),
                                 }),
                             }),
                             new sap.ui.table.Column("", {

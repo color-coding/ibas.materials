@@ -59,6 +59,7 @@ namespace materials {
                                     wrapping: false,
                                 }).bindProperty("text", {
                                     path: "quantity",
+                                    type: new openui5.datatype.Quantity(),
                                 }),
                             }),
                             new sap.ui.table.Column("", {
@@ -67,6 +68,7 @@ namespace materials {
                                     wrapping: false,
                                 }).bindProperty("text", {
                                     path: "quantity",
+                                    type: new openui5.datatype.Quantity(),
                                     formatter(data: any): any {
                                         let context: any = this.getBindingInfo("text").binding.getContext();
                                         if (ibas.objects.isNull(context)) {
@@ -326,6 +328,7 @@ namespace materials {
                                     wrapping: false,
                                 }).bindProperty("text", {
                                     path: "quantity",
+                                    type: new openui5.datatype.Quantity(),
                                 }),
                             }),
                             new sap.ui.table.Column("", {
@@ -334,6 +337,7 @@ namespace materials {
                                     wrapping: false,
                                 }).bindProperty("text", {
                                     path: "quantity",
+                                    type: new openui5.datatype.Quantity(),
                                     formatter(data: any): any {
                                         let context: any = this.getBindingInfo("text").binding.getContext();
                                         if (ibas.objects.isNull(context)) {

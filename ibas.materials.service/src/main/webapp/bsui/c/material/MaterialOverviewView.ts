@@ -420,6 +420,7 @@ namespace materials {
                                                     wrapping: false
                                                 }).bindProperty("text", {
                                                     path: "price",
+                                                    type: new openui5.datatype.Price(),
                                                 })
                                             }),
                                             new sap.ui.table.Column("", {
@@ -572,7 +573,8 @@ namespace materials {
                                                 template: new sap.m.Text("", {
                                                     width: "100%",
                                                 }).bindProperty("text", {
-                                                    path: "quantity"
+                                                    path: "quantity",
+                                                    type: new openui5.datatype.Quantity(),
                                                 })
                                             }),
                                             new sap.ui.table.Column("", {
