@@ -8,7 +8,7 @@
 namespace materials {
     export namespace bo {
 
-        export interface IMaterialBatch extends ibas.IBOSimple {
+        export interface IMaterialBatch extends ibas.IBOSimple, ibas.IBOUserFields {
             /** 物料编号 */
             itemCode: string;
 

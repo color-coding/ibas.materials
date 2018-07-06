@@ -8,7 +8,7 @@
 namespace materials {
     export namespace bo {
         /** 库存收货 */
-        export interface IGoodsReceipt extends ibas.IBODocument {
+        export interface IGoodsReceipt extends ibas.IBODocument, ibas.IBOUserFields {
 
             /** 凭证编号 */
             docEntry: number;
@@ -129,7 +129,7 @@ namespace materials {
         }
 
         /** 库存收货-行 */
-        export interface IGoodsReceiptLine extends ibas.IBODocumentLine, IMaterialSerialItemParent, IMaterialBatchItemParent {
+        export interface IGoodsReceiptLine extends ibas.IBODocumentLine, IMaterialSerialItemParent, IMaterialBatchItemParent, ibas.IBOUserFields {
             /** 编码 */
             docEntry: number;
 

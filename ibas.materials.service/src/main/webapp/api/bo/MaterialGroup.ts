@@ -9,7 +9,7 @@ namespace materials {
     export namespace bo {
 
         /** 物料组 */
-        export interface IMaterialGroup extends ibas.IBOMasterData {
+        export interface IMaterialGroup extends ibas.IBOMasterData, ibas.IBOUserFields {
 
             /** 编号 */
             code: string;

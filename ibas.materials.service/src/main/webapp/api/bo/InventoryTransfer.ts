@@ -9,7 +9,7 @@ namespace materials {
     export namespace bo {
 
         /** 库存转储 */
-        export interface IInventoryTransfer extends ibas.IBODocument {
+        export interface IInventoryTransfer extends ibas.IBODocument, ibas.IBOUserFields {
 
             /** 凭证编号 */
             docEntry: number;
@@ -131,7 +131,7 @@ namespace materials {
         }
 
         /** 库存转储-行 */
-        export interface IInventoryTransferLine extends ibas.IBODocumentLine, IMaterialSerialItemParent, IMaterialBatchItemParent {
+        export interface IInventoryTransferLine extends ibas.IBODocumentLine, IMaterialSerialItemParent, IMaterialBatchItemParent, ibas.IBOUserFields {
 
             /** 编码 */
             docEntry: number;
