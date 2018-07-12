@@ -144,8 +144,7 @@ namespace materials {
                     boCode: bo.MaterialPriceList.BUSINESS_OBJECT_CODE,
                     chooseType: ibas.emChooseType.SINGLE,
                     criteria: [
-                        new ibas.Condition(
-                            bo.MaterialPriceList.PROPERTY_OBJECTKEY_NAME, ibas.emConditionOperation.NOT_EQUAL, this.editData.objectKey)
+                        new ibas.Condition(bo.MaterialPriceList.PROPERTY_OBJECTKEY_NAME, ibas.emConditionOperation.NOT_EQUAL, this.editData.objectKey)
                     ],
                     onCompleted(selecteds: ibas.IList<bo.MaterialPriceList>): void {
                         that.editData.basedOnList = selecteds.firstOrDefault().objectKey;

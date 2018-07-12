@@ -195,7 +195,9 @@ namespace materials {
                 ibas.servicesManager.runChooseService<bo.MaterialGroup>({
                     boCode: bo.MaterialGroup.BUSINESS_OBJECT_CODE,
                     chooseType: ibas.emChooseType.SINGLE,
-                    criteria: [],
+                    criteria: [
+                        new ibas.Condition(bo.MaterialGroup.PROPERTY_ACTIVATED_NAME, ibas.emConditionOperation.EQUAL, ibas.emYesNo.YES)
+                    ],
                     onCompleted(selecteds: ibas.IList<bo.MaterialGroup>): void {
                         let selected: bo.MaterialGroup = selecteds.firstOrDefault();
                         that.editData.group = selected.code;
