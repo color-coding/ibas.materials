@@ -107,6 +107,14 @@ namespace materials {
                             }),
                         ]
                     });
+                    this.selectWarehouse = new sap.m.ex.BOSelect("", {
+                        boText: "name",
+                        boKey: "code",
+                        blank: true,
+                        boCode: ibas.config.applyVariables(bo.BO_CODE_WAREHOUSE),
+                        repositoryName: bo.BO_REPOSITORY_MATERIALS,
+                        criteria: app.conditions.warehouse.create(),
+                    });
                     this.tableInventoryTransferLine = new sap.ui.table.Table("", {
                         toolbar: new sap.m.Toolbar("", {
                             content: [
@@ -149,7 +157,13 @@ namespace materials {
                                             }),
                                         ]
                                     })
-                                })
+                                }),
+                                new sap.m.ToolbarSpacer(""),
+                                new sap.m.Label("", {
+                                    wrapping: false,
+                                    text: ibas.i18n.prop("bo_warehouse")
+                                }),
+                                this.selectWarehouse,
                             ]
                         }),
                         enableSelectAll: false,
@@ -362,6 +376,13 @@ namespace materials {
                 }
                 private page: sap.m.Page;
                 private layoutMain: sap.ui.layout.VerticalLayout;
+                private selectWarehouse: sap.m.Select;
+                get defaultWarehouse(): string {
+                    return this.selectWarehouse.getSelectedKey();
+                }
+                set defaultWarehouse(value: string) {
+                    this.selectWarehouse.setSelectedKey(value);
+                }
                 /** 改变视图状态 */
                 private changeViewStatus(data: bo.InventoryTransfer): void {
                     if (ibas.objects.isNull(data)) {

@@ -175,7 +175,7 @@ namespace materials {
             }
 
             /** 选择物料缺省仓库事件 */
-            chooseMaterialWarehouse(): void {
+            private chooseMaterialWarehouse(): void {
                 let that: this = this;
                 ibas.servicesManager.runChooseService<bo.Warehouse>({
                     boCode: bo.Warehouse.BUSINESS_OBJECT_CODE,
@@ -190,7 +190,7 @@ namespace materials {
                 });
             }
             /** 选择物料组事件 */
-            chooseMaterialGroup(): void {
+            private chooseMaterialGroup(): void {
                 let that: this = this;
                 ibas.servicesManager.runChooseService<bo.MaterialGroup>({
                     boCode: bo.MaterialGroup.BUSINESS_OBJECT_CODE,
@@ -205,7 +205,7 @@ namespace materials {
                 });
             }
             /** 上传图片事件 */
-            uploadPicture(formData: FormData): void {
+            private uploadPicture(formData: FormData): void {
                 let that: this = this;
                 this.proceeding(ibas.emMessageType.INFORMATION, ibas.i18n.prop("shell_uploading_file"));
                 this.busy(true);

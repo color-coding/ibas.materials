@@ -138,7 +138,7 @@ namespace materials {
                 });
             }
             /** 选择基于的价格清单 */
-            chooseBasedOnMaterialPriceList(): void {
+            private chooseBasedOnMaterialPriceList(): void {
                 let that: this = this;
                 ibas.servicesManager.runChooseService<bo.MaterialPriceList>({
                     boCode: bo.MaterialPriceList.BUSINESS_OBJECT_CODE,

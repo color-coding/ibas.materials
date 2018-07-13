@@ -139,17 +139,20 @@ namespace materials {
                             new sap.m.Label("", { text: ibas.i18n.prop("bo_material_oncommited") }),
                             new sap.m.Text("", {
                             }).bindProperty("text", {
-                                path: "onCommited"
+                                path: "onCommited",
+                                type: new openui5.datatype.Quantity(),
                             }),
                             new sap.m.Label("", { text: ibas.i18n.prop("bo_material_onhand") }),
                             new sap.m.Text("", {
                             }).bindProperty("text", {
-                                path: "onHand"
+                                path: "onHand",
+                                type: new openui5.datatype.Quantity(),
                             }),
                             new sap.m.Label("", { text: ibas.i18n.prop("bo_material_onordered") }),
                             new sap.m.Text("", {
                             }).bindProperty("text", {
-                                path: "onOrdered"
+                                path: "onOrdered",
+                                type: new openui5.datatype.Quantity(),
                             }),
                             new sap.m.Label("", { text: ibas.i18n.prop("bo_material_inventoryuom") }),
                             new sap.m.Text("", {
@@ -159,7 +162,8 @@ namespace materials {
                             new sap.m.Label("", { text: ibas.i18n.prop("bo_material_minimuminventory") }),
                             new sap.m.Text("", {
                             }).bindProperty("text", {
-                                path: "minimumInventory"
+                                path: "minimumInventory",
+                                type: new openui5.datatype.Quantity(),
                             }),
                             new sap.m.Label("", { text: ibas.i18n.prop("bo_material_defaultwarehouse") }),
                             new sap.m.Text("", {

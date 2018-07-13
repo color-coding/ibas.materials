@@ -32,6 +32,8 @@ namespace materials {
                         break;
                     case app.MaterialChooseApp.APPLICATION_ID:
                         view = new m.MaterialChooseView();
+                    case app.ProductChooseApp.APPLICATION_ID:
+                        view = new m.ProductChooseView();
                     default:
                         break;
                 }

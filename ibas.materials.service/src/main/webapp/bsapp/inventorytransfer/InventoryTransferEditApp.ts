@@ -180,13 +180,13 @@ namespace materials {
                 }
             }
             /** 添加库存转储-行事件 */
-            addInventoryTransferLine(): void {
+            private addInventoryTransferLine(): void {
                 this.editData.inventoryTransferLines.create();
                 // 仅显示没有标记删除的
                 this.view.showInventoryTransferLines(this.editData.inventoryTransferLines.filterDeleted());
             }
             /** 删除库存转储-行事件 */
-            removeInventoryTransferLine(items: bo.InventoryTransferLine[]): void {
+            private removeInventoryTransferLine(items: bo.InventoryTransferLine[]): void {
                 // 非数组，转为数组
                 if (!(items instanceof Array)) {
                     items = [items];
@@ -210,7 +210,7 @@ namespace materials {
                 this.view.showInventoryTransferLines(this.editData.inventoryTransferLines.filterDeleted());
             }
             /** 选择库存转储订单行物料事件 */
-            chooseInventoryTransferWarehouse(): void {
+            private chooseInventoryTransferWarehouse(): void {
                 let that: this = this;
                 ibas.servicesManager.runChooseService<bo.Warehouse>({
                     boCode: bo.Warehouse.BUSINESS_OBJECT_CODE,
@@ -223,7 +223,7 @@ namespace materials {
                 });
             }
             /** 选择库存转储订单行物料事件 */
-            chooseInventoryTransferLineMaterial(caller: bo.InventoryTransferLine): void {
+            private chooseInventoryTransferLineMaterial(caller: bo.InventoryTransferLine): void {
                 let that: this = this;
                 let condition: ibas.ICondition;
                 let conditions: ibas.IList<ibas.ICondition> = app.conditions.material.create();
@@ -257,6 +257,9 @@ namespace materials {
                             item.quantity = 1;
                             item.uom = selected.inventoryUOM;
                             item.price = selected.avgPrice;
+                            if (!ibas.strings.isEmpty(that.view.defaultWarehouse)) {
+                                item.warehouse = that.view.defaultWarehouse;
+                            }
                             item = null;
                         }
                         if (created) {
@@ -267,7 +270,7 @@ namespace materials {
                 });
             }
             /** 选择库存转储订单物料价格清单事件 */
-            chooseeInventoryTransferMaterialPriceList(): void {
+            private chooseeInventoryTransferMaterialPriceList(): void {
                 let that: this = this;
                 ibas.servicesManager.runChooseService<bo.MaterialPriceList>({
                     boCode: bo.MaterialPriceList.BUSINESS_OBJECT_CODE,
@@ -281,7 +284,7 @@ namespace materials {
                 });
             }
             /** 选择库存转储订单行物料事件 */
-            chooseInventoryTransferLineWarehouse(caller: bo.InventoryTransferLine): void {
+            private chooseInventoryTransferLineWarehouse(caller: bo.InventoryTransferLine): void {
                 let that: this = this;
                 ibas.servicesManager.runChooseService<bo.Warehouse>({
                     boCode: bo.Warehouse.BUSINESS_OBJECT_CODE,
@@ -299,6 +302,7 @@ namespace materials {
                                 created = true;
                             }
                             item.warehouse = selected.code;
+                            that.view.defaultWarehouse = item.warehouse;
                             item = null;
                         }
                         if (created) {
@@ -309,7 +313,7 @@ namespace materials {
                 });
             }
 
-            chooseInventoryTransferLineMaterialBatch(): void {
+            private chooseInventoryTransferLineMaterialBatch(): void {
                 let contracts: ibas.ArrayList<IMaterialBatchContract> = new ibas.ArrayList<IMaterialBatchContract>();
                 for (let item of this.editData.inventoryTransferLines) {
                     contracts.add({
@@ -326,7 +330,7 @@ namespace materials {
                     proxy: new MaterialBatchIssueServiceProxy(contracts)
                 });
             }
-            chooseInventoryTransferLineMaterialSerial(): void {
+            private chooseInventoryTransferLineMaterialSerial(): void {
                 let contracts: ibas.ArrayList<IMaterialSerialContract> = new ibas.ArrayList<IMaterialSerialContract>();
                 for (let item of this.editData.inventoryTransferLines) {
                     contracts.add({
@@ -371,6 +375,8 @@ namespace materials {
             chooseInventoryTransferLineMaterialBatchEvent: Function;
             /** 选择库存转储单行物料序列事件 */
             chooseInventoryTransferLineMaterialSerialEvent: Function;
+            /** 默认仓库 */
+            defaultWarehouse: string;
         }
     }
 }

@@ -462,7 +462,8 @@ namespace materials {
                                                 template: new sap.m.Text("", {
                                                     width: "100%",
                                                 }).bindProperty("text", {
-                                                    path: "avgPrice"
+                                                    path: "avgPrice",
+                                                    type: new openui5.datatype.Price(),
                                                 })
                                             }),
                                             new sap.ui.table.Column("", {
@@ -470,7 +471,8 @@ namespace materials {
                                                 template: new sap.m.Text("", {
                                                     width: "100%",
                                                 }).bindProperty("text", {
-                                                    path: "onHand"
+                                                    path: "onHand",
+                                                    type: new openui5.datatype.Quantity(),
                                                 })
                                             }),
                                             new sap.ui.table.Column("", {
@@ -478,7 +480,8 @@ namespace materials {
                                                 template: new sap.m.Text("", {
                                                     width: "100%",
                                                 }).bindProperty("text", {
-                                                    path: "onCommited"
+                                                    path: "onCommited",
+                                                    type: new openui5.datatype.Quantity(),
                                                 })
                                             }),
                                             new sap.ui.table.Column("", {
@@ -486,7 +489,8 @@ namespace materials {
                                                 template: new sap.m.Text("", {
                                                     width: "100%",
                                                 }).bindProperty("text", {
-                                                    path: "onOrdered"
+                                                    path: "onOrdered",
+                                                    type: new openui5.datatype.Quantity(),
                                                 })
                                             })
                                         ]

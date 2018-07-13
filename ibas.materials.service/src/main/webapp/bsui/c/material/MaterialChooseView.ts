@@ -106,6 +106,7 @@ namespace materials {
                                     wrapping: false,
                                 }).bindProperty("text", {
                                     path: "onHand",
+                                    type: new openui5.datatype.Quantity(),
                                 }),
                             }),
                             new sap.ui.table.Column("", {

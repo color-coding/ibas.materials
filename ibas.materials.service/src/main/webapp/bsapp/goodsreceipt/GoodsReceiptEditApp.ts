@@ -179,13 +179,13 @@ namespace materials {
                 }
             }
             /** 添加库存收货-行事件 */
-            addGoodsReceiptLine(): void {
+            private addGoodsReceiptLine(): void {
                 this.editData.goodsReceiptLines.create();
                 // 仅显示没有标记删除的
                 this.view.showGoodsReceiptLines(this.editData.goodsReceiptLines.filterDeleted());
             }
             /** 删除库存收货-行事件 */
-            removeGoodsReceiptLine(items: bo.GoodsReceiptLine[]): void {
+            private removeGoodsReceiptLine(items: bo.GoodsReceiptLine[]): void {
                 // 非数组，转为数组
                 if (!(items instanceof Array)) {
                     items = [items];
@@ -210,7 +210,7 @@ namespace materials {
             }
 
             /** 选择库存收货订单行物料事件 */
-            chooseGoodsReceiptLineMaterial(caller: bo.GoodsReceiptLine): void {
+            private chooseGoodsReceiptLineMaterial(caller: bo.GoodsReceiptLine): void {
                 let that: this = this;
                 let condition: ibas.ICondition;
                 let conditions: ibas.IList<ibas.ICondition> = app.conditions.material.create();
@@ -244,6 +244,9 @@ namespace materials {
                             item.quantity = 1;
                             item.uom = selected.inventoryUOM;
                             item.price = selected.avgPrice;
+                            if (!ibas.strings.isEmpty(that.view.defaultWarehouse)) {
+                                item.warehouse = that.view.defaultWarehouse;
+                            }
                             item = null;
                         }
                         if (created) {
@@ -254,7 +257,7 @@ namespace materials {
                 });
             }
             /** 选择库存收货订单物料价格清单事件 */
-            chooseeGoodsReceiptMaterialPriceList(): void {
+            private chooseeGoodsReceiptMaterialPriceList(): void {
                 let that: this = this;
                 ibas.servicesManager.runChooseService<bo.MaterialPriceList>({
                     boCode: bo.MaterialPriceList.BUSINESS_OBJECT_CODE,
@@ -269,7 +272,7 @@ namespace materials {
             }
 
             /** 选择库存收货订单行物料事件 */
-            chooseGoodsReceiptlineWarehouse(caller: bo.GoodsReceiptLine): void {
+            private chooseGoodsReceiptlineWarehouse(caller: bo.GoodsReceiptLine): void {
                 let that: this = this;
                 ibas.servicesManager.runChooseService<bo.Warehouse>({
                     boCode: bo.Warehouse.BUSINESS_OBJECT_CODE,
@@ -287,6 +290,7 @@ namespace materials {
                                 created = true;
                             }
                             item.warehouse = selected.code;
+                            that.view.defaultWarehouse = item.warehouse;
                             item = null;
                         }
                         if (created) {
@@ -297,7 +301,7 @@ namespace materials {
                 });
             }
             /** 选择物料批次信息 */
-            chooseGoodsReceiptLineMaterialBatch(): void {
+            private chooseGoodsReceiptLineMaterialBatch(): void {
                 let contracts: ibas.ArrayList<IMaterialBatchContract> = new ibas.ArrayList<IMaterialBatchContract>();
                 for (let item of this.editData.goodsReceiptLines) {
                     contracts.add({
@@ -315,7 +319,7 @@ namespace materials {
                 });
             }
             /** 选择物料序列信息 */
-            createGoodsReceiptLineMaterialSerial(): void {
+            private createGoodsReceiptLineMaterialSerial(): void {
                 let contracts: ibas.ArrayList<IMaterialSerialContract> = new ibas.ArrayList<IMaterialSerialContract>();
                 for (let item of this.editData.goodsReceiptLines) {
                     contracts.add({
@@ -357,6 +361,8 @@ namespace materials {
             chooseGoodsReceiptLineMaterialBatchEvent: Function;
             /** 批次管理物料新建序列 */
             chooseGoodsReceiptLineMaterialSerialEvent: Function;
+            /** 默认仓库 */
+            defaultWarehouse: string;
         }
     }
 }

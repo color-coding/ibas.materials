@@ -193,6 +193,7 @@ namespace materials {
                                 editable: false,
                             }).bindProperty("value", {
                                 path: "onHand",
+                                type: new openui5.datatype.Quantity(),
                             }),
                             new sap.m.Label("", { text: ibas.i18n.prop("bo_material_onordered") }),
                             new sap.m.Input("", {
@@ -200,6 +201,7 @@ namespace materials {
                                 editable: false,
                             }).bindProperty("value", {
                                 path: "onOrdered",
+                                type: new openui5.datatype.Quantity(),
                             }),
                             new sap.m.Label("", { text: ibas.i18n.prop("bo_material_oncommited") }),
                             new sap.m.Input("", {
@@ -207,6 +209,7 @@ namespace materials {
                                 editable: false,
                             }).bindProperty("value", {
                                 path: "onCommited",
+                                type: new openui5.datatype.Quantity(),
                             }),
                             new sap.m.Label("", { text: ibas.i18n.prop("bo_material_inventoryuom") }),
                             new sap.m.Input("", {

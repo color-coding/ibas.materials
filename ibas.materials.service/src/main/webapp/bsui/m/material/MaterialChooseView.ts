@@ -85,7 +85,7 @@ namespace materials {
                                 template: new sap.m.Text("", {
                                     wrapping: false
                                 }).bindProperty("text", {
-                                    path: "Group",
+                                    path: "group",
                                 }),
                             }),
                             new sap.ui.table.Column("", {
@@ -93,7 +93,7 @@ namespace materials {
                                 template: new sap.m.Text("", {
                                     wrapping: false
                                 }).bindProperty("text", {
-                                    path: "ItemType",
+                                    path: "itemType",
                                     formatter(data: any): any {
                                         return ibas.enums.describe(bo.emItemType, data);
                                     }
@@ -104,7 +104,7 @@ namespace materials {
                                 template: new sap.m.Text("", {
                                     wrapping: false,
                                 }).bindProperty("text", {
-                                    path: "OnHand",
+                                    path: "onHand",
                                 }),
                             }),
                             new sap.ui.table.Column("", {
@@ -112,7 +112,7 @@ namespace materials {
                                 template: new sap.m.Text("", {
                                     wrapping: false,
                                 }).bindProperty("text", {
-                                    path: "UOM",
+                                    path: "inventoryUOM",
                                 }),
                             }),
                             new sap.ui.table.Column("", {
@@ -120,19 +120,7 @@ namespace materials {
                                 template: new sap.m.Text("", {
                                     wrapping: false,
                                 }).bindProperty("text", {
-                                    path: "Remarks",
-                                }),
-                            }),
-                            new sap.ui.table.Column("", {
-                                label: ibas.i18n.prop("bo_material_createdate"),
-                                template: new sap.m.Text("", {
-                                    wrapping: false,
-                                }).bindProperty("text", {
-                                    path: "CreateDate",
-                                    type: "sap.ui.model.type.Date",
-                                    formatOptions: {
-                                        style: "short"
-                                    }
+                                    path: "remarks",
                                 }),
                             }),
                         ]

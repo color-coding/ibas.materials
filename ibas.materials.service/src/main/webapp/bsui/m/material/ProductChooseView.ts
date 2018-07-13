@@ -7,7 +7,7 @@
  */
 namespace materials {
     export namespace ui {
-        export namespace c {
+        export namespace m {
             /**
              * 选择视图-物料
              */
@@ -35,7 +35,7 @@ namespace materials {
                             press: function (): void {
                                 that.fireViewEvents(that.chooseDataEvent,
                                     // 获取表格选中的对象
-                                    openui5.utils.getSelecteds<bo.Product>(that.table)
+                                    openui5.utils.getSelecteds<bo.Material>(that.table)
                                 );
                             }
                         }),
@@ -81,12 +81,30 @@ namespace materials {
                                 }),
                             }),
                             new sap.ui.table.Column("", {
+                                label: ibas.i18n.prop("bo_material_group"),
+                                template: new sap.m.Text("", {
+                                    wrapping: false
+                                }).bindProperty("text", {
+                                    path: "group",
+                                }),
+                            }),
+                            new sap.ui.table.Column("", {
+                                label: ibas.i18n.prop("bo_material_itemtype"),
+                                template: new sap.m.Text("", {
+                                    wrapping: false
+                                }).bindProperty("text", {
+                                    path: "itemType",
+                                    formatter(data: any): any {
+                                        return ibas.enums.describe(bo.emItemType, data);
+                                    }
+                                })
+                            }),
+                            new sap.ui.table.Column("", {
                                 label: ibas.i18n.prop("bo_material_onhand"),
                                 template: new sap.m.Text("", {
                                     wrapping: false,
                                 }).bindProperty("text", {
                                     path: "onHand",
-                                    type: new openui5.datatype.Quantity(),
                                 }),
                             }),
                             new sap.ui.table.Column("", {
@@ -98,26 +116,16 @@ namespace materials {
                                 }),
                             }),
                             new sap.ui.table.Column("", {
-                                label: ibas.i18n.prop("bo_materialpriceitem_price"),
+                                label: ibas.i18n.prop("bo_material_remarks"),
                                 template: new sap.m.Text("", {
                                     wrapping: false,
                                 }).bindProperty("text", {
-                                    path: "price",
-                                    type: new openui5.datatype.Price(),
-                                }),
-                            }),
-                            new sap.ui.table.Column("", {
-                                label: ibas.i18n.prop("bo_materialpricelist_currency"),
-                                template: new sap.m.Text("", {
-                                    wrapping: false,
-                                }).bindProperty("text", {
-                                    path: "currency",
+                                    path: "remarks",
                                 }),
                             }),
                         ]
                     });
-                    // 调整选择样式风格
-                    openui5.utils.changeSelectionStyle(this.table, this.chooseType);
+                    this.id = this.table.getId();
                     // 添加列表自动查询事件
                     openui5.utils.triggerNextResults({
                         listener: this.table,
@@ -141,35 +149,7 @@ namespace materials {
                         horizontalScrolling: true,
                         verticalScrolling: true,
                         content: [this.table],
-                        buttons: [
-                            new sap.m.Button("", {
-                                text: ibas.i18n.prop("shell_data_new"),
-                                type: sap.m.ButtonType.Transparent,
-                                // icon: "sap-icon://create",
-                                press: function (): void {
-                                    that.fireViewEvents(that.newDataEvent);
-                                }
-                            }),
-                            new sap.m.Button("", {
-                                text: ibas.i18n.prop("shell_data_choose"),
-                                type: sap.m.ButtonType.Transparent,
-                                // icon: "sap-icon://accept",
-                                press: function (): void {
-                                    that.fireViewEvents(that.chooseDataEvent,
-                                        // 获取表格选中的对象
-                                        openui5.utils.getSelecteds<bo.Product>(that.table)
-                                    );
-                                }
-                            }),
-                            new sap.m.Button("", {
-                                text: ibas.i18n.prop("shell_exit"),
-                                type: sap.m.ButtonType.Transparent,
-                                // icon: "sap-icon://inspect-down",
-                                press: function (): void {
-                                    that.fireViewEvents(that.closeEvent);
-                                }
-                            }),
-                        ]
+                        buttons: [this.drawBars()]
                     });
                 }
                 private table: sap.ui.table.Table;
@@ -186,7 +166,6 @@ namespace materials {
                             }
                             model.refresh(false);
                             done = true;
-                            done = true;
                         }
                     }
                     if (!done) {
@@ -195,6 +174,7 @@ namespace materials {
                     }
                     this.table.setBusy(false);
                 }
+
                 /** 记录上次查询条件，表格滚动时自动触发 */
                 query(criteria: ibas.ICriteria): void {
                     super.query(criteria);
