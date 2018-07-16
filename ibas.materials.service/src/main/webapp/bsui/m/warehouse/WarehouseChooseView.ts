@@ -13,39 +13,6 @@ namespace materials {
                 get queryTarget(): any {
                     return bo.Warehouse;
                 }
-                /** 绘制工具条 */
-                drawBars(): any {
-                    let that: this = this;
-                    return [
-                        new sap.m.Button("", {
-                            text: ibas.i18n.prop("shell_data_new"),
-                            type: sap.m.ButtonType.Transparent,
-                            // icon: "sap-icon://create",
-                            press: function (): void {
-                                that.fireViewEvents(that.newDataEvent);
-                            }
-                        }),
-                        new sap.m.Button("", {
-                            text: ibas.i18n.prop("shell_data_choose"),
-                            type: sap.m.ButtonType.Transparent,
-                            // icon: "sap-icon://accept",
-                            press: function (): void {
-                                that.fireViewEvents(that.chooseDataEvent,
-                                    // 获取表格选中的对象
-                                    openui5.utils.getSelecteds<bo.Warehouse>(that.table)
-                                );
-                            }
-                        }),
-                        new sap.m.Button("", {
-                            text: ibas.i18n.prop("shell_exit"),
-                            type: sap.m.ButtonType.Transparent,
-                            // icon: "sap-icon://inspect-down",
-                            press: function (): void {
-                                that.fireViewEvents(that.closeEvent);
-                            }
-                        }),
-                    ];
-                }
                 /** 绘制视图 */
                 draw(): any {
                     let that: this = this;
@@ -97,7 +64,35 @@ namespace materials {
                         horizontalScrolling: true,
                         verticalScrolling: true,
                         content: [this.table],
-                        buttons: [this.drawBars()]
+                        buttons: [
+                            new sap.m.Button("", {
+                                text: ibas.i18n.prop("shell_data_new"),
+                                type: sap.m.ButtonType.Transparent,
+                                // icon: "sap-icon://create",
+                                press: function (): void {
+                                    that.fireViewEvents(that.newDataEvent);
+                                }
+                            }),
+                            new sap.m.Button("", {
+                                text: ibas.i18n.prop("shell_data_choose"),
+                                type: sap.m.ButtonType.Transparent,
+                                // icon: "sap-icon://accept",
+                                press: function (): void {
+                                    that.fireViewEvents(that.chooseDataEvent,
+                                        // 获取表格选中的对象
+                                        openui5.utils.getSelecteds<bo.Warehouse>(that.table)
+                                    );
+                                }
+                            }),
+                            new sap.m.Button("", {
+                                text: ibas.i18n.prop("shell_exit"),
+                                type: sap.m.ButtonType.Transparent,
+                                // icon: "sap-icon://inspect-down",
+                                press: function (): void {
+                                    that.fireViewEvents(that.closeEvent);
+                                }
+                            }),
+                        ]
                     });
                 }
                 private table: sap.ui.table.Table;
