@@ -69,6 +69,15 @@ namespace materials {
                                 }
                             }),
                             */
+                            new sap.m.Label("", { text: ibas.i18n.prop("bo_inventorytransfer_ordertype") }),
+                            new sap.m.ex.SmartField("", {
+                                width: "100%",
+                                boType: bo.InventoryTransfer.name,
+                                propertyName: "orderType",
+                                bindingValue: {
+                                    path: "orderType"
+                                }
+                            }),
                             new sap.m.Label("", { text: ibas.i18n.prop("bo_inventorytransfer_reference1") }),
                             new sap.m.Input("", {}).bindProperty("value", {
                                 path: "reference1"

@@ -59,6 +59,15 @@ namespace materials {
                                 }
                             }),
                             */
+                            new sap.m.Label("", { text: ibas.i18n.prop("bo_goodsreceipt_ordertype") }),
+                            new sap.m.ex.SmartField("", {
+                                width: "100%",
+                                boType: bo.GoodsReceipt.name,
+                                propertyName: "orderType",
+                                bindingValue: {
+                                    path: "orderType"
+                                }
+                            }),
                             new sap.m.Label("", { text: ibas.i18n.prop("bo_goodsreceipt_reference1") }),
                             new sap.m.Input("", {}).bindProperty("value", {
                                 path: "reference1"
