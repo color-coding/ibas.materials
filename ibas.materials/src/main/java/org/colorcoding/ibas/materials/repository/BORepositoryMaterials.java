@@ -672,6 +672,7 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 			return criteria;
 		}
 		ICriteria tmpCriteria = criteria.clone();
+		int cIndex = -1;
 		criteria = new Criteria();
 		for (int i = 0; i < tmpCriteria.getConditions().size(); i++) {
 			ICondition condition = tmpCriteria.getConditions().get(i);
@@ -679,6 +680,7 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 			for (String item : alias) {
 				if (item.equalsIgnoreCase(condition.getAlias())) {
 					exist = true;
+					cIndex = i;
 					break;
 				}
 			}
@@ -691,13 +693,25 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 			if (used) {
 				criteria.getConditions().add(condition);
 			} else {
-				if (condition.getBracketOpen() > 0 && i + 1 < tmpCriteria.getConditions().size()) {
-					ICondition tmpCondition = tmpCriteria.getConditions().get(i + 1);
-					tmpCondition.setBracketOpen(tmpCondition.getBracketOpen() + condition.getBracketOpen());
-				}
-				if (condition.getBracketClose() > 0 && i + 1 < tmpCriteria.getConditions().size()) {
-					ICondition tmpCondition = tmpCriteria.getConditions().get(i + 1);
-					tmpCondition.setBracketClose(tmpCondition.getBracketClose() + condition.getBracketClose());
+				if (cIndex < i && cIndex >= 0) {
+					// 使用的查询以后条件，括号归集到最近使用查询
+					if (condition.getBracketOpen() > 0) {
+						ICondition tmpCondition = tmpCriteria.getConditions().get(cIndex);
+						tmpCondition.setBracketOpen(tmpCondition.getBracketOpen() + condition.getBracketOpen());
+					}
+					if (condition.getBracketClose() > 0) {
+						ICondition tmpCondition = tmpCriteria.getConditions().get(cIndex);
+						tmpCondition.setBracketClose(tmpCondition.getBracketClose() + condition.getBracketClose());
+					}
+				} else {
+					if (condition.getBracketOpen() > 0 && i + 1 < tmpCriteria.getConditions().size()) {
+						ICondition tmpCondition = tmpCriteria.getConditions().get(i + 1);
+						tmpCondition.setBracketOpen(tmpCondition.getBracketOpen() + condition.getBracketOpen());
+					}
+					if (condition.getBracketClose() > 0 && i + 1 < tmpCriteria.getConditions().size()) {
+						ICondition tmpCondition = tmpCriteria.getConditions().get(i + 1);
+						tmpCondition.setBracketClose(tmpCondition.getBracketClose() + condition.getBracketClose());
+					}
 				}
 			}
 		}
