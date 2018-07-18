@@ -183,7 +183,7 @@ public interface IMaterial extends IBOMasterData {
 	 * 
 	 * @return 值
 	 */
-	emYesNo getFixedAssets();
+	emYesNo getFixedAsset();
 
 	/**
 	 * 设置-固定资产
@@ -191,7 +191,22 @@ public interface IMaterial extends IBOMasterData {
 	 * @param value
 	 *            值
 	 */
-	void setFixedAssets(emYesNo value);
+	void setFixedAsset(emYesNo value);
+
+	/**
+	 * 获取-产品单元
+	 * 
+	 * @return 值
+	 */
+	emYesNo getProductUnit();
+
+	/**
+	 * 设置-产品单元
+	 * 
+	 * @param value
+	 *            值
+	 */
+	void setProductUnit(emYesNo value);
 
 	/**
 	 * 获取-缺省仓库

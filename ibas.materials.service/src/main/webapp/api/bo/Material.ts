@@ -44,7 +44,10 @@ namespace materials {
             phantomItem: ibas.emYesNo;
 
             /** 固定资产 */
-            fixedAssets: ibas.emYesNo;
+            fixedAsset: ibas.emYesNo;
+
+            /** 产品单元 */
+            productUnit: ibas.emYesNo;
 
             /** 缺省仓库 */
             defaultWarehouse: string;

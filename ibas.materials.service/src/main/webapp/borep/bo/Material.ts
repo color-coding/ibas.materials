@@ -139,14 +139,25 @@ namespace materials {
             }
 
             /** 映射的属性名称-固定资产 */
-            static PROPERTY_FIXEDASSETS_NAME: string = "FixedAssets";
+            static PROPERTY_FIXEDASSET_NAME: string = "FixedAsset";
             /** 获取-固定资产 */
-            get fixedAssets(): ibas.emYesNo {
-                return this.getProperty<ibas.emYesNo>(Material.PROPERTY_FIXEDASSETS_NAME);
+            get fixedAsset(): ibas.emYesNo {
+                return this.getProperty<ibas.emYesNo>(Material.PROPERTY_FIXEDASSET_NAME);
             }
             /** 设置-固定资产 */
-            set fixedAssets(value: ibas.emYesNo) {
-                this.setProperty(Material.PROPERTY_FIXEDASSETS_NAME, value);
+            set fixedAsset(value: ibas.emYesNo) {
+                this.setProperty(Material.PROPERTY_FIXEDASSET_NAME, value);
+            }
+
+            /** 映射的属性名称-产品单元 */
+            static PROPERTY_PRODUCTUNIT_NAME: string = "ProductUnit";
+            /** 获取-产品单元 */
+            get productUnit(): ibas.emYesNo {
+                return this.getProperty<ibas.emYesNo>(Material.PROPERTY_PRODUCTUNIT_NAME);
+            }
+            /** 设置-产品单元 */
+            set productUnit(value: ibas.emYesNo) {
+                this.setProperty(Material.PROPERTY_PRODUCTUNIT_NAME, value);
             }
 
             /** 映射的属性名称-缺省仓库 */

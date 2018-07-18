@@ -13,7 +13,8 @@
     <Property Name="SalesItem" Description="销售物料" DataType="Alphanumeric" DataSubType="Default" EditSize="1" DeclaredType="emYesNo" Mapped="SalesItem"/>
     <Property Name="InventoryItem" Description="库存物料" DataType="Alphanumeric" DataSubType="Default" EditSize="1" DeclaredType="emYesNo" Mapped="InvntItem"/>
     <Property Name="PhantomItem" Description="虚拟物料" DataType="Alphanumeric" DataSubType="Default" EditSize="1" DeclaredType="emYesNo" Mapped="PhantomItem"/>
-    <Property Name="FixedAssets" Description="固定资产" DataType="Alphanumeric" DataSubType="Default" EditSize="1" DeclaredType="emYesNo" Mapped="AssetItem"/>
+    <Property Name="FixedAsset" Description="固定资产" DataType="Alphanumeric" DataSubType="Default" EditSize="1" DeclaredType="emYesNo" Mapped="AssetItem"/>
+    <Property Name="ProductUnit" Description="产品单元" DataType="Alphanumeric" DataSubType="Default" EditSize="1" DeclaredType="emYesNo" Mapped="PrdUnitItem"/>
     <Property Name="DefaultWarehouse" Description="缺省仓库" DataType="Alphanumeric" DataSubType="Default" EditSize="8" Mapped="DfltWhs"/>
     <Property Name="PreferredVendor" Description="首选供应商" DataType="Alphanumeric" DataSubType="Default" EditSize="20" Mapped="Vendor"/>
     <Property Name="InventoryUOM" Description="库存单位" DataType="Alphanumeric" DataSubType="Default" EditSize="8" Mapped="InvntUom"/>

@@ -53,13 +53,13 @@ public class Material extends MaterialBase<Material>
 	/**
 	 * 属性名称-固定资产
 	 */
-	private static final String PROPERTY_FIXEDASSETS_NAME = "FixedAssets";
+	private static final String PROPERTY_FIXEDASSET_NAME = "FixedAsset";
 
 	/**
 	 * 固定资产 属性
 	 */
 	@DbField(name = "AssetItem", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME, primaryKey = false)
-	public static final IPropertyInfo<emYesNo> PROPERTY_FIXEDASSETS = registerProperty(PROPERTY_FIXEDASSETS_NAME,
+	public static final IPropertyInfo<emYesNo> PROPERTY_FIXEDASSET = registerProperty(PROPERTY_FIXEDASSET_NAME,
 			emYesNo.class, MY_CLASS);
 
 	/**
@@ -67,9 +67,9 @@ public class Material extends MaterialBase<Material>
 	 * 
 	 * @return 值
 	 */
-	@XmlElement(name = PROPERTY_FIXEDASSETS_NAME)
-	public final emYesNo getFixedAssets() {
-		return this.getProperty(PROPERTY_FIXEDASSETS);
+	@XmlElement(name = PROPERTY_FIXEDASSET_NAME)
+	public final emYesNo getFixedAsset() {
+		return this.getProperty(PROPERTY_FIXEDASSET);
 	}
 
 	/**
@@ -78,8 +78,40 @@ public class Material extends MaterialBase<Material>
 	 * @param value
 	 *            值
 	 */
-	public final void setFixedAssets(emYesNo value) {
-		this.setProperty(PROPERTY_FIXEDASSETS, value);
+	public final void setFixedAsset(emYesNo value) {
+		this.setProperty(PROPERTY_FIXEDASSET, value);
+	}
+
+	/**
+	 * 属性名称-产品单元
+	 */
+	private static final String PROPERTY_PRODUCTUNIT_NAME = "ProductUnit";
+
+	/**
+	 * 产品单元 属性
+	 */
+	@DbField(name = "PrdUnitItem", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME, primaryKey = false)
+	public static final IPropertyInfo<emYesNo> PROPERTY_PRODUCTUNIT = registerProperty(PROPERTY_PRODUCTUNIT_NAME,
+			emYesNo.class, MY_CLASS);
+
+	/**
+	 * 获取-产品单元
+	 * 
+	 * @return 值
+	 */
+	@XmlElement(name = PROPERTY_PRODUCTUNIT_NAME)
+	public final emYesNo getProductUnit() {
+		return this.getProperty(PROPERTY_PRODUCTUNIT);
+	}
+
+	/**
+	 * 设置-产品单元
+	 * 
+	 * @param value
+	 *            值
+	 */
+	public final void setProductUnit(emYesNo value) {
+		this.setProperty(PROPERTY_PRODUCTUNIT, value);
 	}
 
 	/**
