@@ -63,7 +63,7 @@ namespace materials {
                             new sap.m.ex.SmartField("", {
                                 width: "100%",
                                 boType: bo.GoodsReceipt.name,
-                                propertyName: "orderType",
+                                propertyName: "OrderType",
                                 bindingValue: {
                                     path: "orderType"
                                 }

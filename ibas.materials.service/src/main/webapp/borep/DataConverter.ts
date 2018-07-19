@@ -57,12 +57,13 @@ namespace materials {
                     }
                 } else if (boName === bo.Material.name) {
                     if (property === bo.Material.PROPERTY_SERIALMANAGEMENT_NAME
-                        || property === bo.Material.PROPERTY_FIXEDASSETS_NAME
+                        || property === bo.Material.PROPERTY_FIXEDASSET_NAME
                         || property === bo.Material.PROPERTY_BATCHMANAGEMENT_NAME
                         || property === bo.Material.PROPERTY_SALESITEM_NAME
                         || property === bo.Material.PROPERTY_PURCHASEITEM_NAME
                         || property === bo.Material.PROPERTY_INVENTORYITEM_NAME
-                        || property === bo.Material.PROPERTY_PHANTOMITEM_NAME) {
+                        || property === bo.Material.PROPERTY_PHANTOMITEM_NAME
+                        || property === bo.Material.PROPERTY_PRODUCTUNIT_NAME) {
                         return ibas.enums.toString(ibas.emYesNo, value);
                     } else if (property === bo.Material.PROPERTY_ITEMTYPE_NAME) {
                         return ibas.enums.toString(bo.emItemType, value);
@@ -109,12 +110,13 @@ namespace materials {
                     }
                 } else if (boName === bo.Material.name) {
                     if (property === bo.Material.PROPERTY_SERIALMANAGEMENT_NAME
-                        || property === bo.Material.PROPERTY_FIXEDASSETS_NAME
+                        || property === bo.Material.PROPERTY_FIXEDASSET_NAME
                         || property === bo.Material.PROPERTY_BATCHMANAGEMENT_NAME
                         || property === bo.Material.PROPERTY_SALESITEM_NAME
                         || property === bo.Material.PROPERTY_PURCHASEITEM_NAME
                         || property === bo.Material.PROPERTY_INVENTORYITEM_NAME
-                        || property === bo.Material.PROPERTY_PHANTOMITEM_NAME) {
+                        || property === bo.Material.PROPERTY_PHANTOMITEM_NAME
+                        || property === bo.Material.PROPERTY_PRODUCTUNIT_NAME) {
                         return ibas.enums.valueOf(ibas.emYesNo, value);
                     } else if (property === bo.Material.PROPERTY_ITEMTYPE_NAME) {
                         return ibas.enums.valueOf(bo.emItemType, value);
