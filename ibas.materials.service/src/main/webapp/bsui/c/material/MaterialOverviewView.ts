@@ -108,7 +108,7 @@ namespace materials {
                             })
                         },
                         /* itemPress(oEvent: any): void {
-                            var oItem: any = oEvent.getParameter("listItem");
+                            let oItem: any = oEvent.getParameter("listItem");
                             that.fireViewEvents(that.fetchMaterialAllInformationEvent,
                                 oItem.getBindingContext().getObject()
                             );

@@ -186,6 +186,13 @@ namespace materials {
                                 path: "phantomItem",
                                 type: "sap.ui.model.type.Integer",
                             }),
+                            new sap.m.Label("", { text: ibas.i18n.prop("bo_material_productunit") }),
+                            new sap.m.Select("", {
+                                items: openui5.utils.createComboBoxItems(ibas.emYesNo),
+                            }).bindProperty("selectedKey", {
+                                path: "productUnit",
+                                type: "sap.ui.model.type.Integer",
+                            }),
                             new sap.ui.core.Title("", { text: ibas.i18n.prop("materials_title_inventory") }),
                             new sap.m.Label("", { text: ibas.i18n.prop("bo_material_onhand") }),
                             new sap.m.Input("", {
