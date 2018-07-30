@@ -17,13 +17,13 @@ namespace materials {
                     return bo.Material;
                 }
                 /** 编辑数据，参数：目标数据 */
-                // tslint:disable-next-line:ban-types
-                public editDataEvent: Function;
+                editDataEvent: Function;
                 /** 删除数据事件，参数：删除对象集合 */
-                // tslint:disable-next-line:ban-types
-                public deleteDataEvent: Function;
+                deleteDataEvent: Function;
+                /** 物料组事件 */
+                materialGroupEvent: Function;
                 /** 绘制视图 */
-                public draw(): any {
+                draw(): any {
                     const that: this = this;
                     this.form = new sap.ui.layout.form.SimpleForm("");
                     this.table = new sap.ui.table.Table("", {
@@ -149,6 +149,15 @@ namespace materials {
                                             // 获取表格选中的对象
                                             openui5.utils.getSelecteds<bo.Material>(that.table)
                                         );
+                                    }
+                                }),
+                                new sap.m.ToolbarSeparator(""),
+                                new sap.m.Button("", {
+                                    text: ibas.i18n.prop("materials_func_materialgroup"),
+                                    type: sap.m.ButtonType.Transparent,
+                                    icon: "sap-icon://dimension",
+                                    press: function (): void {
+                                        that.fireViewEvents(that.materialGroupEvent);
                                     }
                                 }),
                                 new sap.m.ToolbarSpacer(""),

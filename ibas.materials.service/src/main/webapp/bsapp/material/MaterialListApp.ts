@@ -29,6 +29,7 @@ namespace materials {
                 // 其他事件
                 this.view.editDataEvent = this.editData;
                 this.view.deleteDataEvent = this.deleteData;
+                this.view.materialGroupEvent = this.materialGroup;
             }
             /** 视图显示后 */
             protected viewShowed(): void {
@@ -167,6 +168,12 @@ namespace materials {
                     }
                 });
             }
+            private materialGroup(): void {
+                let app: MaterialGroupListApp = new MaterialGroupListApp();
+                app.navigation = this.navigation;
+                app.viewShower = this.viewShower;
+                app.run();
+            }
         }
         /** 视图-物料 */
         export interface IMaterialListView extends ibas.IBOListView {
@@ -174,6 +181,8 @@ namespace materials {
             editDataEvent: Function;
             /** 删除数据事件，参数：删除对象集合 */
             deleteDataEvent: Function;
+            /** 物料组事件 */
+            materialGroupEvent: Function;
             /** 显示数据 */
             showData(datas: bo.Material[]): void;
         }
