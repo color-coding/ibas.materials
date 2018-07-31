@@ -116,6 +116,9 @@ namespace materials {
                                     wrapping: false
                                 }).bindProperty("text", {
                                     path: "baseDocumentType",
+                                    formatter(data: any): any {
+                                        return openui5.utils.describeBOCode(data);
+                                    }
                                 }),
                             }),
                             new sap.ui.table.Column("", {
