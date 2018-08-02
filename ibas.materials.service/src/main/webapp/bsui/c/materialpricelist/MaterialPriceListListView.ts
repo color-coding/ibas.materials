@@ -207,14 +207,14 @@ namespace materials {
                             if (!ibas.strings.isEmpty(search)) {
                                 for (let item of criteria.conditions) {
                                     if (ibas.strings.equalsIgnoreCase(item.alias, app.conditions.materialprice.CONDITION_ALIAS_ITEMCODE)
-                                        || ibas.strings.equalsIgnoreCase(item.alias,app. conditions.materialprice.CONDITION_ALIAS_ITEMNAME)) {
+                                        || ibas.strings.equalsIgnoreCase(item.alias, app.conditions.materialprice.CONDITION_ALIAS_ITEMNAME)) {
                                         item.value = search;
                                     }
                                 }
                             }
                             condition = criteria.conditions.create();
                             condition.relationship = ibas.emConditionRelationship.AND;
-                            condition.alias =app. conditions.materialprice.CONDITION_ALIAS_PRICELIST;
+                            condition.alias = app.conditions.materialprice.CONDITION_ALIAS_PRICELIST;
                             condition.operation = ibas.emConditionOperation.EQUAL;
                             condition.value = priceList.objectKey.toLocaleString();
                             that.fireViewEvents(that.fetchPriceEvent, criteria);
@@ -286,6 +286,9 @@ namespace materials {
                                                         value: {
                                                             path: "price"
                                                         },
+                                                        change(event: any): void {
+                                                            that.tablePrices.addSelectionInterval(this.getParent().getIndex(), this.getParent().getIndex());
+                                                        }
                                                     })
                                                 );
                                             }
@@ -416,7 +419,7 @@ namespace materials {
                     condition.value = "";
                     condition = criteria.conditions.create();
                     condition.bracketClose = 1;
-                    condition.alias =app. conditions.materialprice.CONDITION_ALIAS_ITEMNAME;
+                    condition.alias = app.conditions.materialprice.CONDITION_ALIAS_ITEMNAME;
                     condition.operation = ibas.emConditionOperation.CONTAIN;
                     condition.value = "";
                     condition.relationship = ibas.emConditionRelationship.OR;
