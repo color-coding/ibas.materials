@@ -1,4 +1,4 @@
-package org.colorcoding.ibas.materials.test.bo;
+package org.colorcoding.ibas.materials.test;
 
 import junit.framework.TestCase;
 import org.colorcoding.ibas.bobas.common.*;
@@ -22,7 +22,7 @@ import org.colorcoding.ibas.materials.repository.IBORepositoryMaterialsApp;
  * 库存转储 测试
  * 
  */
-public class testInventoryTransfer extends TestCase {
+public class TestInventoryTransfer extends TestCase {
 	/**
 	 * 获取连接口令
 	 */

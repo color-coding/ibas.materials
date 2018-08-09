@@ -1,4 +1,4 @@
-package org.colorcoding.ibas.materials.test.bo;
+package org.colorcoding.ibas.materials.test;
 
 import org.colorcoding.ibas.bobas.common.ConditionOperation;
 import org.colorcoding.ibas.bobas.common.ConditionRelationship;
@@ -30,7 +30,7 @@ import junit.framework.TestCase;
  * 库存收货 测试
  * 
  */
-public class testGoodsReceipt extends TestCase {
+public class TestGoodsReceipt extends TestCase {
 	/**
 	 * 获取连接口令
 	 */
@@ -52,15 +52,15 @@ public class testGoodsReceipt extends TestCase {
 		// 设置用户口令
 		boRepository.setUserToken(this.getToken());
 
-		IMaterial bMaterial = new testMaterial().create();
+		IMaterial bMaterial = new TestMaterial().create();
 		bMaterial.setBatchManagement(emYesNo.YES);
 		operationResult = boRepository.saveMaterial(bMaterial);
 		assertEquals(operationResult.getMessage(), operationResult.getResultCode(), 0);
-		IMaterial sMaterial = new testMaterial().create();
+		IMaterial sMaterial = new TestMaterial().create();
 		sMaterial.setSerialManagement(emYesNo.YES);
 		operationResult = boRepository.saveMaterial(sMaterial);
 		assertEquals(operationResult.getMessage(), operationResult.getResultCode(), 0);
-		IWarehouse warehouse = new testWarehouse().create();
+		IWarehouse warehouse = new TestWarehouse().create();
 		operationResult = boRepository.saveWarehouse(warehouse);
 		assertEquals(operationResult.getMessage(), operationResult.getResultCode(), 0);
 

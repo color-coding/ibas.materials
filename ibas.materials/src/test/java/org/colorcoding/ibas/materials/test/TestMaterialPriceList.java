@@ -1,4 +1,4 @@
-package org.colorcoding.ibas.materials.test.bo;
+package org.colorcoding.ibas.materials.test;
 
 import junit.framework.TestCase;
 import org.colorcoding.ibas.bobas.common.*;
@@ -10,7 +10,7 @@ import org.colorcoding.ibas.materials.bo.materialpricelist.MaterialPriceList;
 import org.colorcoding.ibas.materials.repository.BORepositoryMaterials;
 import org.colorcoding.ibas.materials.repository.IBORepositoryMaterialsApp;
 
-public class testMaterialPriceList extends TestCase {
+public class TestMaterialPriceList extends TestCase {
     /**
      * 获取连接口令
      */

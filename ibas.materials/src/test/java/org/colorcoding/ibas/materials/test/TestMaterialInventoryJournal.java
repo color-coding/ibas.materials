@@ -1,4 +1,4 @@
-package org.colorcoding.ibas.materials.test.bo;
+package org.colorcoding.ibas.materials.test;
 
 import org.colorcoding.ibas.bobas.common.Criteria;
 import org.colorcoding.ibas.bobas.common.ICondition;
@@ -24,7 +24,7 @@ import junit.framework.TestCase;
  * 仓库日记账 测试
  * 
  */
-public class testMaterialInventoryJournal extends TestCase {
+public class TestMaterialInventoryJournal extends TestCase {
 	/**
 	 * 获取连接口令
 	 */
@@ -52,7 +52,7 @@ public class testMaterialInventoryJournal extends TestCase {
 	}
 
 	public void checkMaterial(String code, Decimal quantity) throws InvalidTokenException {
-		new testMaterial().checkMaterial(code, quantity);
+		new TestMaterial().checkMaterial(code, quantity);
 	}
 
 	/**
@@ -67,10 +67,10 @@ public class testMaterialInventoryJournal extends TestCase {
 		// 设置用户口令
 		boRepository.setUserToken(this.getToken());
 
-		IMaterial material = new testMaterial().create();
+		IMaterial material = new TestMaterial().create();
 		operationResult = boRepository.saveMaterial(material);
 		assertEquals(operationResult.getMessage(), operationResult.getResultCode(), 0);
-		IWarehouse warehouse = new testWarehouse().create();
+		IWarehouse warehouse = new TestWarehouse().create();
 		operationResult = boRepository.saveWarehouse(warehouse);
 		assertEquals(operationResult.getMessage(), operationResult.getResultCode(), 0);
 

@@ -1,4 +1,4 @@
-package org.colorcoding.ibas.materials.test.bo;
+package org.colorcoding.ibas.materials.test;
 
 import org.colorcoding.ibas.bobas.common.ConditionOperation;
 import org.colorcoding.ibas.bobas.common.ConditionRelationship;
@@ -32,7 +32,7 @@ import org.colorcoding.ibas.materials.repository.IBORepositoryMaterialsApp;
 
 import junit.framework.TestCase;
 
-public class testProduct extends TestCase {
+public class TestProduct extends TestCase {
 	/**
 	 * 获取连接口令
 	 */
