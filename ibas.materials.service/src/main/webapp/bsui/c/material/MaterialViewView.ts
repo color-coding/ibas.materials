@@ -17,7 +17,7 @@ namespace materials {
                 public draw(): any {
                     let that: this = this;
                     this.form = new sap.ui.layout.form.SimpleForm("", {
-                        editable: false,
+                        editable: true,
                         content: [
                             new sap.ui.core.Title("", { text: ibas.i18n.prop("materials_title_general") }),
                             new sap.m.Label("", { text: ibas.i18n.prop("bo_material_code") }),
@@ -70,6 +70,12 @@ namespace materials {
                                         lightBox.open();
                                     }
                                 }
+                            }),
+                            new sap.m.Label("", { text: ibas.i18n.prop("bo_material_remarks") }),
+                            new sap.m.Text("", {
+                                rows: 3,
+                            }).bindProperty("text", {
+                                path: "remarks",
                             }),
                             new sap.ui.core.Title("", { text: ibas.i18n.prop("materials_title_status") }),
                             new sap.m.Label("", { text: ibas.i18n.prop("bo_material_activated") }),
@@ -135,6 +141,15 @@ namespace materials {
                                     return ibas.enums.describe(ibas.emYesNo, data);
                                 }
                             }),
+                            new sap.m.Label("", { text: ibas.i18n.prop("bo_material_productunit") }),
+                            new sap.m.Text("", {
+                                wrapping: false
+                            }).bindProperty("text", {
+                                path: "productUnit",
+                                formatter(data: any): any {
+                                    return ibas.enums.describe(ibas.emYesNo, data);
+                                }
+                            }),
                             new sap.ui.core.Title("", { text: ibas.i18n.prop("materials_title_inventory") }),
                             new sap.m.Label("", { text: ibas.i18n.prop("bo_material_oncommited") }),
                             new sap.m.Text("", {
@@ -159,17 +174,6 @@ namespace materials {
                             }).bindProperty("text", {
                                 path: "inventoryUOM"
                             }),
-                            new sap.m.Label("", { text: ibas.i18n.prop("bo_material_minimuminventory") }),
-                            new sap.m.Text("", {
-                            }).bindProperty("text", {
-                                path: "minimumInventory",
-                                type: new openui5.datatype.Quantity(),
-                            }),
-                            new sap.m.Label("", { text: ibas.i18n.prop("bo_material_defaultwarehouse") }),
-                            new sap.m.Text("", {
-                            }).bindProperty("text", {
-                                path: "defaultWarehouse"
-                            }),
                             new sap.m.Label("", { text: ibas.i18n.prop("bo_material_serialmanagement") }),
                             new sap.m.Text("", {
                                 wrapping: false
@@ -187,6 +191,11 @@ namespace materials {
                                 formatter(data: any): any {
                                     return ibas.enums.describe(ibas.emYesNo, data);
                                 }
+                            }),
+                            new sap.m.Label("", { text: ibas.i18n.prop("bo_material_defaultwarehouse") }),
+                            new sap.m.Text("", {
+                            }).bindProperty("text", {
+                                path: "defaultWarehouse"
                             }),
                             new sap.ui.core.Title("", {}),
                         ],
@@ -211,7 +220,7 @@ namespace materials {
                                     press: function (event: any): void {
                                         ibas.servicesManager.showServices({
                                             proxy: new ibas.BOServiceProxy({
-                                                data: (<any>that.form.getModel()).getObject(),
+                                                data: (<any>that.form.getModel()).getData(),
                                                 converter: new bo.DataConverter(),
                                             }),
                                             displayServices(services: ibas.IServiceAgent[]): void {

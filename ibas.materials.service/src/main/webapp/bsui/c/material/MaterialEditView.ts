@@ -136,6 +136,12 @@ namespace materials {
                                     popover.openBy(event.getSource(), true);
                                 }
                             }),
+                            new sap.m.Label("", { text: ibas.i18n.prop("bo_material_remarks") }),
+                            new sap.m.TextArea("", {
+                                rows: 3,
+                            }).bindProperty("value", {
+                                path: "remarks",
+                            }),
                             new sap.ui.core.Title("", { text: ibas.i18n.prop("materials_title_status") }),
                             new sap.m.Label("", { text: ibas.i18n.prop("bo_material_activated") }),
                             new sap.m.Select("", {
