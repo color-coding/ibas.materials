@@ -28,6 +28,11 @@ namespace materials {
                             new sap.m.Input("", {
                             }).bindProperty("value", {
                                 path: "code",
+                            }).bindProperty("editable", {
+                                path: "series",
+                                formatter(data: any): any {
+                                    return data > 0 ? false : true;
+                                }
                             }),
                             new sap.m.ex.SeriesSelect("", {
                                 objectCode: ibas.config.applyVariables(bo.BO_CODE_MATERIALGROUP),

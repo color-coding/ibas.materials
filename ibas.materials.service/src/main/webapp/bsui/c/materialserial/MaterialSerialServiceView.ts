@@ -19,6 +19,7 @@ namespace materials {
                 draw(): any {
                     let that: this = this;
                     this.tableWorkDatas = new sap.ui.table.Table("", {
+                        enableSelectAll: false,
                         selectionBehavior: sap.ui.table.SelectionBehavior.Row,
                         selectionMode: sap.ui.table.SelectionMode.Single,
                         visibleRowCount: ibas.config.get(openui5.utils.CONFIG_ITEM_LIST_TABLE_VISIBLE_ROW_COUNT, 5),
@@ -85,7 +86,9 @@ namespace materials {
                             }),
                         ]
                     });
+                    openui5.utils.changeSelectionStyle(this.tableWorkDatas, ibas.emChooseType.SINGLE);
                     this.tableItems = new sap.ui.table.Table("", {
+                        enableSelectAll: false,
                         selectionBehavior: sap.ui.table.SelectionBehavior.Row,
                         selectionMode: sap.ui.table.SelectionMode.Single,
                         visibleRowCount: ibas.config.get(openui5.utils.CONFIG_ITEM_LIST_TABLE_VISIBLE_ROW_COUNT, 6),
@@ -101,7 +104,9 @@ namespace materials {
                             }),
                         ]
                     });
+                    openui5.utils.changeSelectionStyle(this.tableItems, ibas.emChooseType.SINGLE);
                     this.tableInventories = new sap.ui.table.Table("", {
+                        enableSelectAll: false,
                         selectionBehavior: sap.ui.table.SelectionBehavior.Row,
                         selectionMode: sap.ui.table.SelectionMode.Single,
                         visibleRowCount: ibas.config.get(openui5.utils.CONFIG_ITEM_LIST_TABLE_VISIBLE_ROW_COUNT, 6),
@@ -167,6 +172,7 @@ namespace materials {
                             */
                         ]
                     });
+                    openui5.utils.changeSelectionStyle(this.tableInventories, ibas.emChooseType.SINGLE);
                     return new sap.m.Dialog("", {
                         title: this.title,
                         type: sap.m.DialogType.Standard,
@@ -212,10 +218,12 @@ namespace materials {
                                             new sap.m.VBox("", {
                                                 widht: "20px",
                                                 fitContainer: true,
+                                                justifyContent: sap.m.FlexJustifyContent.Center,
+                                                alignItems: sap.m.FlexAlignItems.Center,
                                                 items: [
                                                     new sap.m.Button("", {
                                                         text: ">",
-                                                        type: sap.m.ButtonType.Transparent,
+                                                        type: sap.m.ButtonType.Accept,
                                                         press: function (): void {
                                                             that.fireViewEvents(that.useMaterialSerialInventoryEvent,
                                                                 openui5.utils.getSelecteds(that.tableInventories).firstOrDefault());
@@ -223,9 +231,10 @@ namespace materials {
                                                     }),
                                                     new sap.m.Button("", {
                                                         text: "<",
-                                                        type: sap.m.ButtonType.Transparent,
+                                                        type: sap.m.ButtonType.Reject,
                                                         press: function (): void {
-                                                            that.fireViewEvents(that.removeMaterialSerialItemEvent);
+                                                            that.fireViewEvents(that.removeMaterialSerialItemEvent,
+                                                                openui5.utils.getSelecteds(that.tableItems).firstOrDefault());
                                                         }
                                                     }),
                                                 ]
@@ -270,6 +279,10 @@ namespace materials {
                 /** 显示物料序列记录 */
                 showMaterialSerialItems(datas: bo.IMaterialSerialItem[]): void {
                     this.tableItems.setModel(new sap.ui.model.json.JSONModel({ rows: datas }));
+                    let model: sap.ui.model.Model = this.tableWorkDatas.getModel(undefined);
+                    if (!ibas.objects.isNull(model)) {
+                        model.refresh(true);
+                    }
                 }
                 /** 显示物料序列库存 */
                 showMaterialSerialInventories(datas: bo.MaterialSerial[]): void {
@@ -288,6 +301,7 @@ namespace materials {
                 draw(): any {
                     let that: this = this;
                     this.tableWorkDatas = new sap.ui.table.Table("", {
+                        enableSelectAll: false,
                         selectionBehavior: sap.ui.table.SelectionBehavior.Row,
                         selectionMode: sap.ui.table.SelectionMode.Single,
                         visibleRowCount: ibas.config.get(openui5.utils.CONFIG_ITEM_LIST_TABLE_VISIBLE_ROW_COUNT, 5),
@@ -354,7 +368,9 @@ namespace materials {
                             }),
                         ]
                     });
+                    openui5.utils.changeSelectionStyle(this.tableWorkDatas, ibas.emChooseType.SINGLE);
                     this.tableItems = new sap.ui.table.Table("", {
+                        enableSelectAll: false,
                         selectionBehavior: sap.ui.table.SelectionBehavior.Row,
                         selectionMode: sap.ui.table.SelectionMode.Single,
                         visibleRowCount: ibas.config.get(openui5.utils.CONFIG_ITEM_LIST_TABLE_VISIBLE_ROW_COUNT, 4),
@@ -392,6 +408,7 @@ namespace materials {
                             }),
                         ]
                     });
+                    openui5.utils.changeSelectionStyle(this.tableItems, ibas.emChooseType.SINGLE);
                     return new sap.m.Dialog("", {
                         title: this.title,
                         type: sap.m.DialogType.Standard,
@@ -447,6 +464,10 @@ namespace materials {
                 /** 显示物料序列记录 */
                 showMaterialSerialItems(datas: bo.IMaterialSerialItem[]): void {
                     this.tableItems.setModel(new sap.ui.model.json.JSONModel({ rows: datas }));
+                    let model: sap.ui.model.Model = this.tableWorkDatas.getModel(undefined);
+                    if (!ibas.objects.isNull(model)) {
+                        model.refresh(true);
+                    }
                 }
             }
         }

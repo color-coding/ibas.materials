@@ -34,6 +34,11 @@ namespace materials {
                                 type: sap.m.InputType.Text,
                             }).bindProperty("value", {
                                 path: "code",
+                            }).bindProperty("editable", {
+                                path: "series",
+                                formatter(data: any): any {
+                                    return data > 0 ? false : true;
+                                }
                             }),
                             new sap.m.ex.SeriesSelect("", {
                                 objectCode: ibas.config.applyVariables(bo.BO_CODE_MATERIAL),
@@ -202,7 +207,6 @@ namespace materials {
                             new sap.ui.core.Title("", { text: ibas.i18n.prop("materials_title_inventory") }),
                             new sap.m.Label("", { text: ibas.i18n.prop("bo_material_onhand") }),
                             new sap.m.Input("", {
-                                type: sap.m.InputType.Text,
                                 editable: false,
                             }).bindProperty("value", {
                                 path: "onHand",
@@ -210,7 +214,6 @@ namespace materials {
                             }),
                             new sap.m.Label("", { text: ibas.i18n.prop("bo_material_onordered") }),
                             new sap.m.Input("", {
-                                type: sap.m.InputType.Text,
                                 editable: false,
                             }).bindProperty("value", {
                                 path: "onOrdered",
@@ -218,7 +221,6 @@ namespace materials {
                             }),
                             new sap.m.Label("", { text: ibas.i18n.prop("bo_material_oncommited") }),
                             new sap.m.Input("", {
-                                type: sap.m.InputType.Text,
                                 editable: false,
                             }).bindProperty("value", {
                                 path: "onCommited",

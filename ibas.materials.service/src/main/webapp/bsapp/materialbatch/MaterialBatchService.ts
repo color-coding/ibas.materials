@@ -169,18 +169,32 @@ namespace materials {
             protected removeMaterialBatchItem(data: bo.IMaterialBatchItem): void {
                 if (ibas.objects.isNull(data)) {
                     this.messages(ibas.emMessageType.WARNING,
-                        ibas.i18n.prop("shell_please_chooose_data", ibas.i18n.prop("shell_using")));
+                        ibas.i18n.prop("shell_please_chooose_data", ibas.i18n.prop("shell_data_remove")));
                     return;
                 }
-                if (ibas.objects.isNull(this.workingData)) {
-                    throw new Error(ibas.i18n.prop("sys_invalid_parameter", "workingData"));
-                }
                 if (data.isNew) {
-                    this.workingData.materialBatches.remove(data);
+                    if (ibas.objects.isNull(this.workingData)) {
+                        for (let wData of this.workDatas) {
+                            if (wData.materialBatches.contain(data)) {
+                                wData.materialBatches.remove(data);
+                                break;
+                            }
+                        }
+                    } else {
+                        this.workingData.materialBatches.remove(data);
+                    }
                 } else {
                     data.delete();
                 }
-                this.view.showMaterialBatchItems(this.workingData.materialBatches.filterDeleted());
+                if (ibas.objects.isNull(this.workingData)) {
+                    let datas: ibas.IList<bo.IMaterialBatchItem> = new ibas.ArrayList<bo.IMaterialBatchItem>();
+                    for (let wData of this.workDatas) {
+                        datas.add(wData.materialBatches.filterDeleted());
+                    }
+                    this.view.showMaterialBatchItems(datas);
+                } else {
+                    this.view.showMaterialBatchItems(this.workingData.materialBatches.filterDeleted());
+                }
             }
         }
         /** 物料批次收货服务 */
@@ -206,18 +220,32 @@ namespace materials {
             protected deleteMaterialBatchItem(data: bo.IMaterialBatchItem): void {
                 if (ibas.objects.isNull(data)) {
                     this.messages(ibas.emMessageType.WARNING,
-                        ibas.i18n.prop("shell_please_chooose_data", ibas.i18n.prop("shell_using")));
+                        ibas.i18n.prop("shell_please_chooose_data", ibas.i18n.prop("shell_data_remove")));
                     return;
                 }
-                if (ibas.objects.isNull(this.workingData)) {
-                    throw new Error(ibas.i18n.prop("sys_invalid_parameter", "workingData"));
-                }
                 if (data.isNew) {
-                    this.workingData.materialBatches.remove(data);
+                    if (ibas.objects.isNull(this.workingData)) {
+                        for (let wData of this.workDatas) {
+                            if (wData.materialBatches.contain(data)) {
+                                wData.materialBatches.remove(data);
+                                break;
+                            }
+                        }
+                    } else {
+                        this.workingData.materialBatches.remove(data);
+                    }
                 } else {
                     data.delete();
                 }
-                this.view.showMaterialBatchItems(this.workingData.materialBatches.filterDeleted());
+                if (ibas.objects.isNull(this.workingData)) {
+                    let datas: ibas.IList<bo.IMaterialBatchItem> = new ibas.ArrayList<bo.IMaterialBatchItem>();
+                    for (let wData of this.workDatas) {
+                        datas.add(wData.materialBatches.filterDeleted());
+                    }
+                    this.view.showMaterialBatchItems(datas);
+                } else {
+                    this.view.showMaterialBatchItems(this.workingData.materialBatches.filterDeleted());
+                }
             }
             protected createMaterialBatchItem(): void {
                 let datas: ibas.IList<IMaterialBatchContract> = new ibas.ArrayList<IMaterialBatchContract>();

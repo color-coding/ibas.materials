@@ -168,18 +168,32 @@ namespace materials {
             protected removeMaterialSerialItem(data: bo.IMaterialSerialItem): void {
                 if (ibas.objects.isNull(data)) {
                     this.messages(ibas.emMessageType.WARNING,
-                        ibas.i18n.prop("shell_please_chooose_data", ibas.i18n.prop("shell_using")));
+                        ibas.i18n.prop("shell_please_chooose_data", ibas.i18n.prop("shell_data_remove")));
                     return;
                 }
-                if (ibas.objects.isNull(this.workingData)) {
-                    throw new Error(ibas.i18n.prop("sys_invalid_parameter", "workingData"));
-                }
                 if (data.isNew) {
-                    this.workingData.materialSerials.remove(data);
+                    if (ibas.objects.isNull(this.workingData)) {
+                        for (let wData of this.workDatas) {
+                            if (wData.materialSerials.contain(data)) {
+                                wData.materialSerials.remove(data);
+                                break;
+                            }
+                        }
+                    } else {
+                        this.workingData.materialSerials.remove(data);
+                    }
                 } else {
                     data.delete();
                 }
-                this.view.showMaterialSerialItems(this.workingData.materialSerials.filterDeleted());
+                if (ibas.objects.isNull(this.workingData)) {
+                    let datas: ibas.IList<bo.IMaterialSerialItem> = new ibas.ArrayList<bo.IMaterialSerialItem>();
+                    for (let wData of this.workDatas) {
+                        datas.add(wData.materialSerials.filterDeleted());
+                    }
+                    this.view.showMaterialSerialItems(datas);
+                } else {
+                    this.view.showMaterialSerialItems(this.workingData.materialSerials.filterDeleted());
+                }
             }
         }
         /** 物料序列收货服务 */
@@ -205,18 +219,32 @@ namespace materials {
             protected deleteMaterialSerialItem(data: bo.IMaterialSerialItem): void {
                 if (ibas.objects.isNull(data)) {
                     this.messages(ibas.emMessageType.WARNING,
-                        ibas.i18n.prop("shell_please_chooose_data", ibas.i18n.prop("shell_using")));
+                        ibas.i18n.prop("shell_please_chooose_data", ibas.i18n.prop("shell_data_remove")));
                     return;
                 }
-                if (ibas.objects.isNull(this.workingData)) {
-                    throw new Error(ibas.i18n.prop("sys_invalid_parameter", "workingData"));
-                }
                 if (data.isNew) {
-                    this.workingData.materialSerials.remove(data);
+                    if (ibas.objects.isNull(this.workingData)) {
+                        for (let wData of this.workDatas) {
+                            if (wData.materialSerials.contain(data)) {
+                                wData.materialSerials.remove(data);
+                                break;
+                            }
+                        }
+                    } else {
+                        this.workingData.materialSerials.remove(data);
+                    }
                 } else {
                     data.delete();
                 }
-                this.view.showMaterialSerialItems(this.workingData.materialSerials.filterDeleted());
+                if (ibas.objects.isNull(this.workingData)) {
+                    let datas: ibas.IList<bo.IMaterialSerialItem> = new ibas.ArrayList<bo.IMaterialSerialItem>();
+                    for (let wData of this.workDatas) {
+                        datas.add(wData.materialSerials.filterDeleted());
+                    }
+                    this.view.showMaterialSerialItems(datas);
+                } else {
+                    this.view.showMaterialSerialItems(this.workingData.materialSerials.filterDeleted());
+                }
             }
             protected createMaterialSerialItem(): void {
                 let datas: ibas.IList<IMaterialSerialContract> = new ibas.ArrayList<IMaterialSerialContract>();
