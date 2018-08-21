@@ -32,7 +32,8 @@ namespace materials {
             /** 视图显示后 */
             protected viewShowed(): void {
                 // 视图加载完成
-                if (ibas.objects.isNull(this.editData)) {
+                super.viewShowed();
+                if (ibas.objects.isNull(this.viewData)) {
                     // 创建编辑对象实例
                     this.viewData = new bo.Material();
                     this.proceeding(ibas.emMessageType.WARNING, ibas.i18n.prop("shell_data_created_new"));
@@ -67,7 +68,9 @@ namespace materials {
                     criteria = new ibas.Criteria();
                     criteria.result = 1;
                     // 添加查询条件
-
+                    let condition: ibas.ICondition = criteria.conditions.create();
+                    condition.alias = bo.Material.PROPERTY_CODE_NAME;
+                    condition.value = value;
                 }
                 let boRepository: bo.BORepositoryMaterials = new bo.BORepositoryMaterials();
                 boRepository.fetchMaterial({

@@ -77,13 +77,13 @@ namespace materials {
                 this.setProperty(MaterialPriceList.PROPERTY_VALIDDATE_NAME, value);
             }
             /** 映射的属性名称-失效日期 */
-            static PROPERTY_INVALIDDATE_NAME: string = "InValidDate";
+            static PROPERTY_INVALIDDATE_NAME: string = "InvalidDate";
             /** 获取-失效日期 */
-            get inValidDate(): Date {
+            get invalidDate(): Date {
                 return this.getProperty<Date>(MaterialPriceList.PROPERTY_INVALIDDATE_NAME);
             }
             /** 设置-失效日期 */
-            set inValidDate(value: Date) {
+            set invalidDate(value: Date) {
                 this.setProperty(MaterialPriceList.PROPERTY_INVALIDDATE_NAME, value);
             }
             /** 映射的属性名称-对象编号 */

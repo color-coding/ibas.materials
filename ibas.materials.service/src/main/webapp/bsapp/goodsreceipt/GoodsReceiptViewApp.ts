@@ -32,7 +32,8 @@ namespace materials {
             /** 视图显示后 */
             protected viewShowed(): void {
                 // 视图加载完成
-                if (ibas.objects.isNull(this.editData)) {
+                super.viewShowed();
+                if (ibas.objects.isNull(this.viewData)) {
                     // 创建编辑对象实例
                     this.viewData = new bo.GoodsReceipt();
                     this.proceeding(ibas.emMessageType.WARNING, ibas.i18n.prop("shell_data_created_new"));

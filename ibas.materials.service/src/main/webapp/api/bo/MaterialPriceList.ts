@@ -29,7 +29,7 @@ namespace materials {
             validDate: Date;
 
             /** 失效日期 */
-            inValidDate: Date;
+            invalidDate: Date;
 
             /** 对象编号 */
             objectKey: number;

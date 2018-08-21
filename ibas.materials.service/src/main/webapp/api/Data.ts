@@ -37,7 +37,7 @@ namespace materials {
         /** 业务对象编码-物料组 */
         export const BO_CODE_MATERIALGROUP: string = "${Company}_MM_MATERIALGROUP";
         /** 业务对象编码-物料库存 */
-        export const BO_CODE_MATERIALINVENTORY: string = "${Company}_MM_MATERIALINVENTORY";
+        export const BO_CODE_MATERIALINVENTORY: string = "${Company}_MM_INVENTORY";
         /** 业务对象编码-仓库日记账 */
         export const BO_CODE_MATERIALJOURNAL: string = "${Company}_MM_MATERIALJOURNAL";
         /** 业务对象编码-仓库 */
