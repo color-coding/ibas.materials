@@ -31,6 +31,7 @@ namespace materials {
             /** 视图显示后 */
             protected viewShowed(): void {
                 // 视图加载完成
+                super.viewShowed();
                 this.view.showMaterialBatch(this.editData);
             }
             run(): void;

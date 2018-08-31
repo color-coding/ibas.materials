@@ -32,6 +32,7 @@ namespace materials {
             /** 视图显示后 */
             protected viewShowed(): void {
                 // 视图加载完成
+                super.viewShowed();
                 if (ibas.objects.isNull(this.viewData)) {
                     // 创建编辑对象实例
                     this.viewData = new bo.Warehouse();
