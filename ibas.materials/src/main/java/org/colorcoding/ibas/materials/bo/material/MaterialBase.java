@@ -54,8 +54,7 @@ public abstract class MaterialBase<T extends MaterialBase<T>> extends BusinessOb
 	/**
 	 * 设置-编码
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setCode(String value) {
 		this.setProperty(PROPERTY_CODE, value);
@@ -86,8 +85,7 @@ public abstract class MaterialBase<T extends MaterialBase<T>> extends BusinessOb
 	/**
 	 * 设置-名称
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setName(String value) {
 		this.setProperty(PROPERTY_NAME, value);
@@ -118,8 +116,7 @@ public abstract class MaterialBase<T extends MaterialBase<T>> extends BusinessOb
 	/**
 	 * 设置-外文名称
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setForeignName(String value) {
 		this.setProperty(PROPERTY_FOREIGNNAME, value);
@@ -150,8 +147,7 @@ public abstract class MaterialBase<T extends MaterialBase<T>> extends BusinessOb
 	/**
 	 * 设置-物料组
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setGroup(String value) {
 		this.setProperty(PROPERTY_GROUP, value);
@@ -182,8 +178,7 @@ public abstract class MaterialBase<T extends MaterialBase<T>> extends BusinessOb
 	/**
 	 * 设置-激活
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setActivated(emYesNo value) {
 		this.setProperty(PROPERTY_ACTIVATED, value);
@@ -214,8 +209,7 @@ public abstract class MaterialBase<T extends MaterialBase<T>> extends BusinessOb
 	/**
 	 * 设置-条形码
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setBarCode(String value) {
 		this.setProperty(PROPERTY_BARCODE, value);
@@ -246,8 +240,7 @@ public abstract class MaterialBase<T extends MaterialBase<T>> extends BusinessOb
 	/**
 	 * 设置-物料类型
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setItemType(emItemType value) {
 		this.setProperty(PROPERTY_ITEMTYPE, value);
@@ -278,8 +271,7 @@ public abstract class MaterialBase<T extends MaterialBase<T>> extends BusinessOb
 	/**
 	 * 设置-采购物料
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setPurchaseItem(emYesNo value) {
 		this.setProperty(PROPERTY_PURCHASEITEM, value);
@@ -310,8 +302,7 @@ public abstract class MaterialBase<T extends MaterialBase<T>> extends BusinessOb
 	/**
 	 * 设置-销售物料
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setSalesItem(emYesNo value) {
 		this.setProperty(PROPERTY_SALESITEM, value);
@@ -342,8 +333,7 @@ public abstract class MaterialBase<T extends MaterialBase<T>> extends BusinessOb
 	/**
 	 * 设置-库存物料
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setInventoryItem(emYesNo value) {
 		this.setProperty(PROPERTY_INVENTORYITEM, value);
@@ -374,8 +364,7 @@ public abstract class MaterialBase<T extends MaterialBase<T>> extends BusinessOb
 	/**
 	 * 设置-虚拟物料
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setPhantomItem(emYesNo value) {
 		this.setProperty(PROPERTY_PHANTOMITEM, value);
@@ -406,8 +395,7 @@ public abstract class MaterialBase<T extends MaterialBase<T>> extends BusinessOb
 	/**
 	 * 设置-库存单位
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setInventoryUOM(String value) {
 		this.setProperty(PROPERTY_INVENTORYUOM, value);
@@ -438,8 +426,7 @@ public abstract class MaterialBase<T extends MaterialBase<T>> extends BusinessOb
 	/**
 	 * 设置-库存
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setOnHand(Decimal value) {
 		this.setProperty(PROPERTY_ONHAND, value);
@@ -448,8 +435,7 @@ public abstract class MaterialBase<T extends MaterialBase<T>> extends BusinessOb
 	/**
 	 * 设置-库存
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setOnHand(String value) {
 		this.setOnHand(new Decimal(value));
@@ -458,8 +444,7 @@ public abstract class MaterialBase<T extends MaterialBase<T>> extends BusinessOb
 	/**
 	 * 设置-库存
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setOnHand(int value) {
 		this.setOnHand(new Decimal(value));
@@ -468,8 +453,7 @@ public abstract class MaterialBase<T extends MaterialBase<T>> extends BusinessOb
 	/**
 	 * 设置-库存
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setOnHand(double value) {
 		this.setOnHand(new Decimal(value));
@@ -500,8 +484,7 @@ public abstract class MaterialBase<T extends MaterialBase<T>> extends BusinessOb
 	/**
 	 * 设置-已承诺
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setOnCommited(Decimal value) {
 		this.setProperty(PROPERTY_ONCOMMITED, value);
@@ -510,8 +493,7 @@ public abstract class MaterialBase<T extends MaterialBase<T>> extends BusinessOb
 	/**
 	 * 设置-已承诺
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setOnCommited(String value) {
 		this.setOnCommited(new Decimal(value));
@@ -520,8 +502,7 @@ public abstract class MaterialBase<T extends MaterialBase<T>> extends BusinessOb
 	/**
 	 * 设置-已承诺
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setOnCommited(int value) {
 		this.setOnCommited(new Decimal(value));
@@ -530,8 +511,7 @@ public abstract class MaterialBase<T extends MaterialBase<T>> extends BusinessOb
 	/**
 	 * 设置-已承诺
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setOnCommited(double value) {
 		this.setOnCommited(new Decimal(value));
@@ -562,8 +542,7 @@ public abstract class MaterialBase<T extends MaterialBase<T>> extends BusinessOb
 	/**
 	 * 设置-已订购
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setOnOrdered(Decimal value) {
 		this.setProperty(PROPERTY_ONORDERED, value);
@@ -572,8 +551,7 @@ public abstract class MaterialBase<T extends MaterialBase<T>> extends BusinessOb
 	/**
 	 * 设置-已订购
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setOnOrdered(String value) {
 		this.setOnOrdered(new Decimal(value));
@@ -582,8 +560,7 @@ public abstract class MaterialBase<T extends MaterialBase<T>> extends BusinessOb
 	/**
 	 * 设置-已订购
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setOnOrdered(int value) {
 		this.setOnOrdered(new Decimal(value));
@@ -592,11 +569,41 @@ public abstract class MaterialBase<T extends MaterialBase<T>> extends BusinessOb
 	/**
 	 * 设置-已订购
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setOnOrdered(double value) {
 		this.setOnOrdered(new Decimal(value));
+	}
+
+	/**
+	 * 属性名称-提前期（天）
+	 */
+	private static final String PROPERTY_LEADTIME_NAME = "LeadTime";
+
+	/**
+	 * 提前期（天） 属性
+	 */
+	@DbField(name = "LeadTime", type = DbFieldType.NUMERIC, table = DB_TABLE_NAME, primaryKey = false)
+	public static final IPropertyInfo<Integer> PROPERTY_LEADTIME = registerProperty(PROPERTY_LEADTIME_NAME,
+			Integer.class, MY_CLASS);
+
+	/**
+	 * 获取-提前期（天）
+	 * 
+	 * @return 值
+	 */
+	@XmlElement(name = PROPERTY_LEADTIME_NAME)
+	public final Integer getLeadTime() {
+		return this.getProperty(PROPERTY_LEADTIME);
+	}
+
+	/**
+	 * 设置-提前期（天）
+	 * 
+	 * @param value 值
+	 */
+	public final void setLeadTime(Integer value) {
+		this.setProperty(PROPERTY_LEADTIME, value);
 	}
 
 	/**
@@ -624,8 +631,7 @@ public abstract class MaterialBase<T extends MaterialBase<T>> extends BusinessOb
 	/**
 	 * 设置-序号管理
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setSerialManagement(emYesNo value) {
 		this.setProperty(PROPERTY_SERIALMANAGEMENT, value);
@@ -656,8 +662,7 @@ public abstract class MaterialBase<T extends MaterialBase<T>> extends BusinessOb
 	/**
 	 * 设置-批号管理
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setBatchManagement(emYesNo value) {
 		this.setProperty(PROPERTY_BATCHMANAGEMENT, value);
@@ -688,8 +693,7 @@ public abstract class MaterialBase<T extends MaterialBase<T>> extends BusinessOb
 	/**
 	 * 设置-生效日期
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setValidDate(DateTime value) {
 		this.setProperty(PROPERTY_VALIDDATE, value);
@@ -720,8 +724,7 @@ public abstract class MaterialBase<T extends MaterialBase<T>> extends BusinessOb
 	/**
 	 * 设置-失效日期
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setInvalidDate(DateTime value) {
 		this.setProperty(PROPERTY_INVALIDDATE, value);
@@ -752,8 +755,7 @@ public abstract class MaterialBase<T extends MaterialBase<T>> extends BusinessOb
 	/**
 	 * 设置-图片
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setPicture(String value) {
 		this.setProperty(PROPERTY_PICTURE, value);
@@ -784,8 +786,7 @@ public abstract class MaterialBase<T extends MaterialBase<T>> extends BusinessOb
 	/**
 	 * 设置-备注
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setRemarks(String value) {
 		this.setProperty(PROPERTY_REMARKS, value);
@@ -816,8 +817,7 @@ public abstract class MaterialBase<T extends MaterialBase<T>> extends BusinessOb
 	/**
 	 * 设置-已删除
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setDeleted(emYesNo value) {
 		this.setProperty(PROPERTY_DELETED, value);
@@ -848,8 +848,7 @@ public abstract class MaterialBase<T extends MaterialBase<T>> extends BusinessOb
 	/**
 	 * 设置-对象编号
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setDocEntry(Integer value) {
 		this.setProperty(PROPERTY_DOCENTRY, value);
@@ -880,8 +879,7 @@ public abstract class MaterialBase<T extends MaterialBase<T>> extends BusinessOb
 	/**
 	 * 设置-对象类型
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setObjectCode(String value) {
 		this.setProperty(PROPERTY_OBJECTCODE, value);
@@ -912,8 +910,7 @@ public abstract class MaterialBase<T extends MaterialBase<T>> extends BusinessOb
 	/**
 	 * 设置-数据所有者
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setDataOwner(Integer value) {
 		this.setProperty(PROPERTY_DATAOWNER, value);
@@ -944,8 +941,7 @@ public abstract class MaterialBase<T extends MaterialBase<T>> extends BusinessOb
 	/**
 	 * 设置-数据所属组织
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setOrganization(String value) {
 		this.setProperty(PROPERTY_ORGANIZATION, value);

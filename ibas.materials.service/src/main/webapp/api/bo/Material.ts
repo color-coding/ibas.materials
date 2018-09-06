@@ -73,6 +73,9 @@ namespace materials {
             /** 最低库存量 */
             minimumInventory: number;
 
+            /** 提前期（天） */
+            leadTime: number;
+
             /** 序号管理 */
             serialManagement: ibas.emYesNo;
 

@@ -61,6 +61,9 @@ namespace materials {
             /** 已订购 */
             onOrdered: number;
 
+            /** 提前期（天） */
+            leadTime: number;
+
             /** 库存单位 */
             inventoryUOM: string;
 

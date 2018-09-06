@@ -254,6 +254,7 @@
         "bo_material_oncommited": "已承诺",
         "bo_material_onordered": "已订购",
         "bo_material_minimuminventory": "最低库存量",
+        "bo_material_leadtime": "提前期（天）",
         "bo_material_serialmanagement": "序号管理",
         "bo_material_batchmanagement": "批号管理",
         "bo_material_validdate": "生效日期",

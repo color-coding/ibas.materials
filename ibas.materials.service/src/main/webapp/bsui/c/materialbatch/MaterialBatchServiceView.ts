@@ -95,6 +95,7 @@ namespace materials {
                         rows: "{/rows}",
                         columns: [
                             new sap.ui.table.Column("", {
+                                width: "70%",
                                 label: ibas.i18n.prop("bo_materialbatchitem_batchcode"),
                                 template: new sap.m.Text("", {
                                     wrapping: false,
@@ -103,6 +104,7 @@ namespace materials {
                                 }),
                             }),
                             new sap.ui.table.Column("", {
+                                width: "30%",
                                 label: ibas.i18n.prop("bo_materialbatchitem_quantity"),
                                 template: new sap.m.Input("", {
                                     wrapping: false,
@@ -122,6 +124,7 @@ namespace materials {
                         rows: "{/rows}",
                         columns: [
                             new sap.ui.table.Column("", {
+                                width: "70%",
                                 label: ibas.i18n.prop("bo_materialbatch_batchcode"),
                                 template: new sap.m.Text("", {
                                     wrapping: false,
@@ -130,6 +133,7 @@ namespace materials {
                                 }),
                             }),
                             new sap.ui.table.Column("", {
+                                width: "30%",
                                 label: ibas.i18n.prop("bo_materialbatch_quantity"),
                                 template: new sap.m.Text("", {
                                     wrapping: false,
@@ -210,38 +214,24 @@ namespace materials {
                                     new sap.m.HBox("", {
                                         height: "40%",
                                         fitContainer: true,
+                                        renderType: sap.m.FlexRendertype.Bare,
                                         items: [
+                                            this.tableInventories,
                                             new sap.m.VBox("", {
-                                                widht: "40%",
-                                                fitContainer: true,
-                                                items: [
-                                                    new sap.m.ScrollContainer("", {
-                                                        width: "100%",
-                                                        height: "100%",
-                                                        horizontal: true,
-                                                        content: [
-                                                            this.tableInventories
-                                                        ]
-                                                    })
-                                                ]
-                                            }),
-                                            new sap.m.VBox("", {
-                                                widht: "20px",
-                                                fitContainer: true,
                                                 justifyContent: sap.m.FlexJustifyContent.Center,
-                                                alignItems: sap.m.FlexAlignItems.Center,
+                                                class: "sapUiTinyMarginBeginEnd",
                                                 items: [
                                                     new sap.m.Button("", {
-                                                        text: ">",
-                                                        type: sap.m.ButtonType.Accept,
+                                                        class: "sapUiTinyMarginBottom",
+                                                        icon: "sap-icon://navigation-right-arrow",
                                                         press: function (): void {
                                                             that.fireViewEvents(that.useMaterialBatchInventoryEvent,
                                                                 openui5.utils.getSelecteds(that.tableInventories).firstOrDefault());
                                                         }
                                                     }),
                                                     new sap.m.Button("", {
-                                                        text: "<",
-                                                        type: sap.m.ButtonType.Reject,
+                                                        icon: "sap-icon://navigation-left-arrow",
+                                                        class: "sapUiTinyMarginBottom",
                                                         press: function (): void {
                                                             that.fireViewEvents(that.removeMaterialBatchItemEvent,
                                                                 openui5.utils.getSelecteds(that.tableItems).firstOrDefault());
@@ -249,20 +239,7 @@ namespace materials {
                                                     }),
                                                 ]
                                             }),
-                                            new sap.m.VBox("", {
-                                                widht: "40%",
-                                                fitContainer: true,
-                                                items: [
-                                                    new sap.m.ScrollContainer("", {
-                                                        width: "100%",
-                                                        height: "100%",
-                                                        horizontal: true,
-                                                        content: [
-                                                            this.tableItems
-                                                        ]
-                                                    })
-                                                ]
-                                            }),
+                                            this.tableItems,
                                         ]
                                     }),
                                 ]

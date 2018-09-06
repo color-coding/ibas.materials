@@ -248,6 +248,18 @@ namespace materials {
                 this.setProperty(Material.PROPERTY_MINIMUMINVENTORY_NAME, value);
             }
 
+
+            /** 映射的属性名称-提前期（天） */
+            static PROPERTY_LEADTIME_NAME: string = "LeadTime";
+            /** 获取-提前期（天） */
+            get leadTime(): number {
+                return this.getProperty<number>(Material.PROPERTY_LEADTIME_NAME);
+            }
+            /** 设置-提前期（天） */
+            set leadTime(value: number) {
+                this.setProperty(Material.PROPERTY_LEADTIME_NAME, value);
+            }
+
             /** 映射的属性名称-序号管理 */
             static PROPERTY_SERIALMANAGEMENT_NAME: string = "SerialManagement";
             /** 获取-序号管理 */

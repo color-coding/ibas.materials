@@ -23,6 +23,7 @@
     <Property Name="OnCommited" Description="已承诺" DataType="Decimal" DataSubType="Quantity" EditSize="8" Mapped="OnCommited"/>
     <Property Name="OnOrdered" Description="已订购" DataType="Decimal" DataSubType="Quantity" EditSize="8" Mapped="OnOrdered"/>
     <Property Name="MinimumInventory" Description="最低库存量" DataType="Decimal" DataSubType="Quantity" EditSize="8" Mapped="MinInvnt"/>
+    <Property Name="LeadTime" Description="提前期（天）" DataType="Numeric" DataSubType="Default" EditSize="8" Mapped="LeadTime"/>
     <Property Name="SerialManagement" Description="序号管理" DataType="Alphanumeric" DataSubType="Default" EditSize="1" DeclaredType="emYesNo" Mapped="SerialMgment"/>
     <Property Name="BatchManagement" Description="批号管理" DataType="Alphanumeric" DataSubType="Default" EditSize="1" DeclaredType="emYesNo" Mapped="BatchMgment"/>
     <Property Name="ValidDate" Description="生效日期" DataType="Date" DataSubType="Default" EditSize="8" Mapped="ValidDate"/>

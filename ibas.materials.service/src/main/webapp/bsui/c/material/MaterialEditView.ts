@@ -255,6 +255,12 @@ namespace materials {
                             }).bindProperty("value", {
                                 path: "defaultWarehouse"
                             }),
+                            new sap.m.Label("", { text: ibas.i18n.prop("bo_material_leadtime") }),
+                            new sap.m.Input("", {
+                                type: sap.m.InputType.Number,
+                            }).bindProperty("value", {
+                                path: "leadTime",
+                            }),
                             new sap.ui.core.Title("", {}),
                         ]
                     });
