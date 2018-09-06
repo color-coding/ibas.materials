@@ -150,6 +150,7 @@ namespace materials {
                         buttons: [
                             new sap.m.Button("", {
                                 text: ibas.i18n.prop("shell_data_new"),
+                                visible: this.mode === ibas.emViewMode.VIEW ? false : true,
                                 type: sap.m.ButtonType.Transparent,
                                 // icon: "sap-icon://create",
                                 press: function (): void {
