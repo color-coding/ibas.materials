@@ -253,7 +253,7 @@ namespace materials {
                 ibas.servicesManager.runChooseService<bo.MaterialPriceList>({
                     boCode: bo.BO_CODE_MATERIALPRICELIST,
                     chooseType: ibas.emChooseType.SINGLE,
-                    criteria: [],
+                    criteria: conditions.materialpricelist.create(),
                     onCompleted(selecteds: ibas.IList<bo.MaterialPriceList>): void {
                         that.view.showBeShowedPriceList(selecteds);
                         that.beShowedPriceList = selecteds.firstOrDefault();

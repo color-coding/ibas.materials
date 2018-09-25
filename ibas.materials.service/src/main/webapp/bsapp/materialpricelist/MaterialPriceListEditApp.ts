@@ -141,12 +141,16 @@ namespace materials {
             /** 选择基于的价格清单 */
             private chooseBasedOnMaterialPriceList(): void {
                 let that: this = this;
+                let criteria: ibas.ICriteria = new ibas.Criteria();
+                criteria.noChilds = true;
+                let condition: ibas.ICondition = criteria.conditions.create();
+                condition.alias = bo.MaterialPriceList.PROPERTY_OBJECTKEY_NAME;
+                condition.operation = ibas.emConditionOperation.NOT_EQUAL;
+                condition.value = ibas.strings.valueOf(this.editData.objectKey);
                 ibas.servicesManager.runChooseService<bo.MaterialPriceList>({
                     boCode: bo.MaterialPriceList.BUSINESS_OBJECT_CODE,
                     chooseType: ibas.emChooseType.SINGLE,
-                    criteria: [
-                        new ibas.Condition(bo.MaterialPriceList.PROPERTY_OBJECTKEY_NAME, ibas.emConditionOperation.NOT_EQUAL, this.editData.objectKey)
-                    ],
+                    criteria: criteria,
                     onCompleted(selecteds: ibas.IList<bo.MaterialPriceList>): void {
                         that.editData.basedOnList = selecteds.firstOrDefault().objectKey;
                         that.editData.factor = 1;

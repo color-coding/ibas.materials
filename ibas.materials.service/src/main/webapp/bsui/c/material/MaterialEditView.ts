@@ -83,63 +83,52 @@ namespace materials {
                                 path: "barCode",
                             }),
                             new sap.m.Label("", { text: ibas.i18n.prop("bo_material_picture"), }),
-                            new sap.m.Input("", {
-                                type: sap.m.InputType.Text,
-                                editable: false
-                            }).bindProperty("value", {
-                                path: "picture",
-                            }),
-                            new sap.m.Button("", {
-                                text: ibas.strings.format("{0}/{1}",
-                                    ibas.i18n.prop("shell_upload"), ibas.i18n.prop("shell_data_view")),
-                                icon: "sap-icon://picture",
-                                press: function (event: any): void {
-                                    let popover: sap.m.Popover = new sap.m.Popover("", {
-                                        showHeader: false,
-                                        placement: sap.m.PlacementType.Bottom,
-                                        content: [
-                                            new sap.ui.unified.FileUploader("", {
-                                                buttonOnly: true,
-                                                multiple: false,
-                                                uploadOnChange: false,
-                                                width: "100%",
-                                                style: "Transparent",
-                                                icon: "sap-icon://upload-to-cloud",
-                                                buttonText: ibas.i18n.prop("shell_upload"),
-                                                change: function (oEvent: sap.ui.base.Event): void {
-                                                    let files: File[] = oEvent.getParameter("files");
-                                                    if (ibas.objects.isNull(files) || files.length === 0) {
-                                                        return;
-                                                    }
-                                                    let fileData: FormData = new FormData();
-                                                    fileData.append("file", files[0]);
-                                                    that.fireViewEvents(that.uploadPictureEvent, fileData);
-                                                },
-                                            }),
-                                            new sap.m.Button("", {
-                                                text: ibas.i18n.prop("shell_data_view"),
-                                                icon: "sap-icon://show",
-                                                type: sap.m.ButtonType.Transparent,
-                                                width: "auto",
-                                                press: function (): void {
-                                                    let src: string = that.form.getBindingContext().getObject().picture;
-                                                    if (!ibas.objects.isNull(src)) {
-                                                        let lightBox: sap.m.LightBox = new sap.m.LightBox("", {
-                                                            imageContent: [
-                                                                new sap.m.LightBoxItem("", {
-                                                                    imageSrc: new bo.BORepositoryMaterials().toUrl(src)
-                                                                })
-                                                            ]
-                                                        });
-                                                        lightBox.open();
-                                                    }
-                                                }
-                                            }),
-                                        ]
-                                    });
-                                    (<any>popover).addStyleClass("sapMOTAPopover sapTntToolHeaderPopover");
-                                    popover.openBy(event.getSource(), true);
-                                }
+                            new sap.m.FlexBox("", {
+                                width: "100%",
+                                direction: sap.m.FlexDirection.Row,
+                                renderType: sap.m.FlexRendertype.Bare,
+                                items: [
+                                    new sap.ui.unified.FileUploader("", {
+                                        buttonOnly: false,
+                                        multiple: false,
+                                        uploadOnChange: false,
+                                        iconOnly: true,
+                                        width: "100%",
+                                        style: "Transparent",
+                                        icon: "sap-icon://upload",
+                                        change: function (oEvent: sap.ui.base.Event): void {
+                                            let files: File[] = oEvent.getParameter("files");
+                                            if (ibas.objects.isNull(files) || files.length === 0) {
+                                                return;
+                                            }
+                                            let fileData: FormData = new FormData();
+                                            fileData.append("file", files[0]);
+                                            that.fireViewEvents(that.uploadPictureEvent, fileData);
+                                        },
+                                    }).bindProperty("value", {
+                                        path: "picture",
+                                    }),
+                                    new sap.m.Button("", {
+                                        icon: "sap-icon://show",
+                                        type: sap.m.ButtonType.Transparent,
+                                        width: "auto",
+                                        press: function (): void {
+                                            let material: bo.IMaterial = that.form.getBindingContext().getObject();
+                                            if (!ibas.objects.isNull(material)) {
+                                                let lightBox: sap.m.LightBox = new sap.m.LightBox("", {
+                                                    imageContent: [
+                                                        new sap.m.LightBoxItem("", {
+                                                            imageSrc: new bo.BORepositoryMaterials().toUrl(material.picture),
+                                                            title: material.name,
+                                                            subtitle: material.code,
+                                                        })
+                                                    ]
+                                                });
+                                                lightBox.open();
+                                            }
+                                        }
+                                    }),
+                                ]
                             }),
                             new sap.m.Label("", { text: ibas.i18n.prop("bo_material_remarks") }),
                             new sap.m.TextArea("", {
