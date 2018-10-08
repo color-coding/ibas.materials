@@ -148,6 +148,7 @@ namespace materials {
                                 }),
                                 new sap.m.ToolbarSeparator(""),
                                 new sap.m.MenuButton("", {
+                                    icon: "sap-icon://tags",
                                     text: ibas.strings.format("{0}/{1}",
                                         ibas.i18n.prop("materials_material_batch"), ibas.i18n.prop("materials_material_serial")),
                                     menu: new sap.m.Menu("", {
