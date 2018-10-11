@@ -235,9 +235,6 @@ namespace materials {
             /** 行总计 */
             lineTotal: number;
 
-            /** 项目代码 */
-            project: string;
-
         }
     }
 

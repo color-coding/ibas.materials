@@ -842,17 +842,6 @@ namespace materials {
                 this.setProperty(InventoryTransferLine.PROPERTY_LINETOTAL_NAME, value);
             }
 
-            /** 映射的属性名称-项目代码 */
-            static PROPERTY_PROJECT_NAME: string = "Project";
-            /** 获取-项目代码 */
-            get project(): string {
-                return this.getProperty<string>(InventoryTransferLine.PROPERTY_PROJECT_NAME);
-            }
-            /** 设置-项目代码 */
-            set project(value: string) {
-                this.setProperty(InventoryTransferLine.PROPERTY_PROJECT_NAME, value);
-            }
-
             /** 映射的属性名称-物料批次集合 */
             static PROPERTY_MATERIALBATCHES_NAME: string = "MaterialBatches";
             /** 获取-物料批次集合 */

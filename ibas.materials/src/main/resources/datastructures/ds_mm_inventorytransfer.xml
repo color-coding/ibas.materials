@@ -75,7 +75,6 @@
     <Property Name="Currency" Description="货币" DataType="Alphanumeric" DataSubType="Default" EditSize="8" Mapped="Currency"/>
     <Property Name="Rate" Description="汇率" DataType="Decimal" DataSubType="Rate" EditSize="8" Mapped="Rate"/>
     <Property Name="LineTotal" Description="行总计" DataType="Decimal" DataSubType="Sum" EditSize="8" Mapped="LineTotal"/>
-    <Property Name="Project" Description="项目代码" DataType="Alphanumeric" DataSubType="Default" EditSize="8" Mapped="Project"/>
   </Model>
   <BusinessObject MappedModel="InventoryTransfer" ShortName="${Company}_MM_INVENTORYTRANSFER">
     <RelatedBO Relation="OneToMany" MappedModel="InventoryTransferLine"/>

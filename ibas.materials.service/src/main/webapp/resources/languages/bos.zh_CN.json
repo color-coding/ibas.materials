@@ -73,7 +73,6 @@
         "bo_goodsissueline_currency": "货币",
         "bo_goodsissueline_rate": "汇率",
         "bo_goodsissueline_linetotal": "行总计",
-        "bo_goodsissueline_project": "项目代码",
         "bo_goodsissue_closing_delimiter": "----结束----"
     },
     {
@@ -150,7 +149,6 @@
         "bo_goodsreceiptline_currency": "货币",
         "bo_goodsreceiptline_rate": "汇率",
         "bo_goodsreceiptline_linetotal": "行总计",
-        "bo_goodsreceiptline_project": "项目代码",
         "bo_goodsreceipt_closing_delimiter": "----结束----"
     },
     {
@@ -228,7 +226,6 @@
         "bo_inventorytransferline_currency": "货币",
         "bo_inventorytransferline_rate": "汇率",
         "bo_inventorytransferline_linetotal": "行总计",
-        "bo_inventorytransferline_project": "项目代码",
         "bo_inventorytransfer_closing_delimiter": "----结束----"
     },
     {

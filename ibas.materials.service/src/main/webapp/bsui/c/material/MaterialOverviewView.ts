@@ -26,8 +26,12 @@ namespace materials {
                 fetchMaterialInventoryEvent: Function;
                 /** 查询批次信息 */
                 fetchMaterialBatchEvent: Function;
+                /** 编辑批次信息 */
+                editMaterialBatchEvent: Function;
                 /** 查询序列信息 */
                 fetchMaterialSerialEvent: Function;
+                /** 编辑序列信息 */
+                editMaterialSerialEvent: Function;
                 /** 绘制视图 */
                 draw(): any {
                     let that: this = this;
@@ -41,7 +45,6 @@ namespace materials {
                             path: "/rows",
                             template: new sap.m.ObjectListItem("", {
                                 title: "{name}",
-                                number: "{onHand}",
                                 firstStatus: new sap.m.ObjectStatus("", {
                                     text: {
                                         path: "activated",
@@ -193,7 +196,7 @@ namespace materials {
                                 }),
                                 new sap.m.ToolbarSpacer(""),
                                 new sap.m.Button("", {
-                                    icon: "sap-icon://search",
+                                    icon: "sap-icon://refresh",
                                     press: function (): void {
                                         that.fireViewEvents(that.fetchMaterialInventoryEvent,
                                             openui5.utils.getSelecteds<bo.Material>(that.tableMaterials).firstOrDefault());
@@ -264,7 +267,7 @@ namespace materials {
                                 }),
                                 new sap.m.ToolbarSpacer(""),
                                 new sap.m.Button("", {
-                                    icon: "sap-icon://search",
+                                    icon: "sap-icon://refresh",
                                     press: function (): void {
                                         that.fireViewEvents(that.fetchMaterialBatchEvent,
                                             openui5.utils.getSelecteds<bo.Material>(that.tableMaterials).firstOrDefault());
@@ -278,6 +281,19 @@ namespace materials {
                                 selectionBehavior: sap.ui.table.SelectionBehavior.Row,
                                 visibleRowCount: 8,
                                 rows: "{/rows}",
+                                rowActionCount: 1,
+                                rowActionTemplate: new sap.ui.table.RowAction({
+                                    items: [
+                                        new sap.ui.table.RowActionItem({
+                                            icon: "sap-icon://show-edit",
+                                            press: function (oEvent: any): void {
+                                                that.fireViewEvents(that.editMaterialBatchEvent
+                                                    , this.getBindingContext().getObject()
+                                                );
+                                            },
+                                        }),
+                                    ]
+                                }),
                                 columns: [
                                     new sap.ui.table.Column("", {
                                         label: ibas.i18n.prop("bo_materialinventory_warehouse"),
@@ -374,7 +390,7 @@ namespace materials {
                                 }),
                                 new sap.m.ToolbarSpacer(""),
                                 new sap.m.Button("", {
-                                    icon: "sap-icon://search",
+                                    icon: "sap-icon://refresh",
                                     press: function (): void {
                                         that.fireViewEvents(that.fetchMaterialSerialEvent,
                                             openui5.utils.getSelecteds<bo.Material>(that.tableMaterials).firstOrDefault());
@@ -388,6 +404,19 @@ namespace materials {
                                 selectionBehavior: sap.ui.table.SelectionBehavior.Row,
                                 visibleRowCount: 8,
                                 rows: "{/rows}",
+                                rowActionCount: 1,
+                                rowActionTemplate: new sap.ui.table.RowAction({
+                                    items: [
+                                        new sap.ui.table.RowActionItem({
+                                            icon: "sap-icon://show-edit",
+                                            press: function (oEvent: any): void {
+                                                that.fireViewEvents(that.editMaterialSerialEvent
+                                                    , this.getBindingContext().getObject()
+                                                );
+                                            },
+                                        }),
+                                    ]
+                                }),
                                 columns: [
                                     new sap.ui.table.Column("", {
                                         label: ibas.i18n.prop("bo_materialserial_warehouse"),

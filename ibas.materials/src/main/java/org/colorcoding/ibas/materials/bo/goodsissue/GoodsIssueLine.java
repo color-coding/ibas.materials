@@ -91,8 +91,7 @@ public class GoodsIssueLine extends BusinessObject<GoodsIssueLine>
 	/**
 	 * 设置-编码
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setDocEntry(Integer value) {
 		this.setProperty(PROPERTY_DOCENTRY, value);
@@ -123,8 +122,7 @@ public class GoodsIssueLine extends BusinessObject<GoodsIssueLine>
 	/**
 	 * 设置-行号
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setLineId(Integer value) {
 		this.setProperty(PROPERTY_LINEID, value);
@@ -155,8 +153,7 @@ public class GoodsIssueLine extends BusinessObject<GoodsIssueLine>
 	/**
 	 * 设置-显示顺序
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setVisOrder(Integer value) {
 		this.setProperty(PROPERTY_VISORDER, value);
@@ -187,8 +184,7 @@ public class GoodsIssueLine extends BusinessObject<GoodsIssueLine>
 	/**
 	 * 设置-取消
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setCanceled(emYesNo value) {
 		this.setProperty(PROPERTY_CANCELED, value);
@@ -219,8 +215,7 @@ public class GoodsIssueLine extends BusinessObject<GoodsIssueLine>
 	/**
 	 * 设置-状态
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setStatus(emBOStatus value) {
 		this.setProperty(PROPERTY_STATUS, value);
@@ -251,8 +246,7 @@ public class GoodsIssueLine extends BusinessObject<GoodsIssueLine>
 	/**
 	 * 设置-单据状态
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setLineStatus(emDocumentStatus value) {
 		this.setProperty(PROPERTY_LINESTATUS, value);
@@ -283,8 +277,7 @@ public class GoodsIssueLine extends BusinessObject<GoodsIssueLine>
 	/**
 	 * 设置-类型
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setObjectCode(String value) {
 		this.setProperty(PROPERTY_OBJECTCODE, value);
@@ -315,8 +308,7 @@ public class GoodsIssueLine extends BusinessObject<GoodsIssueLine>
 	/**
 	 * 设置-创建日期
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setCreateDate(DateTime value) {
 		this.setProperty(PROPERTY_CREATEDATE, value);
@@ -347,8 +339,7 @@ public class GoodsIssueLine extends BusinessObject<GoodsIssueLine>
 	/**
 	 * 设置-创建时间
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setCreateTime(Short value) {
 		this.setProperty(PROPERTY_CREATETIME, value);
@@ -379,8 +370,7 @@ public class GoodsIssueLine extends BusinessObject<GoodsIssueLine>
 	/**
 	 * 设置-修改日期
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setUpdateDate(DateTime value) {
 		this.setProperty(PROPERTY_UPDATEDATE, value);
@@ -411,8 +401,7 @@ public class GoodsIssueLine extends BusinessObject<GoodsIssueLine>
 	/**
 	 * 设置-修改时间
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setUpdateTime(Short value) {
 		this.setProperty(PROPERTY_UPDATETIME, value);
@@ -443,8 +432,7 @@ public class GoodsIssueLine extends BusinessObject<GoodsIssueLine>
 	/**
 	 * 设置-版本
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setLogInst(Integer value) {
 		this.setProperty(PROPERTY_LOGINST, value);
@@ -475,8 +463,7 @@ public class GoodsIssueLine extends BusinessObject<GoodsIssueLine>
 	/**
 	 * 设置-服务系列
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setSeries(Integer value) {
 		this.setProperty(PROPERTY_SERIES, value);
@@ -507,8 +494,7 @@ public class GoodsIssueLine extends BusinessObject<GoodsIssueLine>
 	/**
 	 * 设置-数据源
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setDataSource(String value) {
 		this.setProperty(PROPERTY_DATASOURCE, value);
@@ -539,8 +525,7 @@ public class GoodsIssueLine extends BusinessObject<GoodsIssueLine>
 	/**
 	 * 设置-创建用户
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setCreateUserSign(Integer value) {
 		this.setProperty(PROPERTY_CREATEUSERSIGN, value);
@@ -571,8 +556,7 @@ public class GoodsIssueLine extends BusinessObject<GoodsIssueLine>
 	/**
 	 * 设置-修改用户
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setUpdateUserSign(Integer value) {
 		this.setProperty(PROPERTY_UPDATEUSERSIGN, value);
@@ -603,8 +587,7 @@ public class GoodsIssueLine extends BusinessObject<GoodsIssueLine>
 	/**
 	 * 设置-创建动作标识
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setCreateActionId(String value) {
 		this.setProperty(PROPERTY_CREATEACTIONID, value);
@@ -635,8 +618,7 @@ public class GoodsIssueLine extends BusinessObject<GoodsIssueLine>
 	/**
 	 * 设置-更新动作标识
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setUpdateActionId(String value) {
 		this.setProperty(PROPERTY_UPDATEACTIONID, value);
@@ -667,8 +649,7 @@ public class GoodsIssueLine extends BusinessObject<GoodsIssueLine>
 	/**
 	 * 设置-参考1
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setReference1(String value) {
 		this.setProperty(PROPERTY_REFERENCE1, value);
@@ -699,8 +680,7 @@ public class GoodsIssueLine extends BusinessObject<GoodsIssueLine>
 	/**
 	 * 设置-参考2
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setReference2(String value) {
 		this.setProperty(PROPERTY_REFERENCE2, value);
@@ -731,8 +711,7 @@ public class GoodsIssueLine extends BusinessObject<GoodsIssueLine>
 	/**
 	 * 设置-已引用
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setReferenced(emYesNo value) {
 		this.setProperty(PROPERTY_REFERENCED, value);
@@ -763,8 +742,7 @@ public class GoodsIssueLine extends BusinessObject<GoodsIssueLine>
 	/**
 	 * 设置-基于类型
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setBaseDocumentType(String value) {
 		this.setProperty(PROPERTY_BASEDOCUMENTTYPE, value);
@@ -795,8 +773,7 @@ public class GoodsIssueLine extends BusinessObject<GoodsIssueLine>
 	/**
 	 * 设置-基于标识
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setBaseDocumentEntry(Integer value) {
 		this.setProperty(PROPERTY_BASEDOCUMENTENTRY, value);
@@ -827,8 +804,7 @@ public class GoodsIssueLine extends BusinessObject<GoodsIssueLine>
 	/**
 	 * 设置-基于行号
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setBaseDocumentLineId(Integer value) {
 		this.setProperty(PROPERTY_BASEDOCUMENTLINEID, value);
@@ -859,8 +835,7 @@ public class GoodsIssueLine extends BusinessObject<GoodsIssueLine>
 	/**
 	 * 设置-物料编号
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setItemCode(String value) {
 		this.setProperty(PROPERTY_ITEMCODE, value);
@@ -891,8 +866,7 @@ public class GoodsIssueLine extends BusinessObject<GoodsIssueLine>
 	/**
 	 * 设置-物料/服务描述
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setItemDescription(String value) {
 		this.setProperty(PROPERTY_ITEMDESCRIPTION, value);
@@ -923,8 +897,7 @@ public class GoodsIssueLine extends BusinessObject<GoodsIssueLine>
 	/**
 	 * 设置-序号管理
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setSerialManagement(emYesNo value) {
 		this.setProperty(PROPERTY_SERIALMANAGEMENT, value);
@@ -955,8 +928,7 @@ public class GoodsIssueLine extends BusinessObject<GoodsIssueLine>
 	/**
 	 * 设置-批号管理
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setBatchManagement(emYesNo value) {
 		this.setProperty(PROPERTY_BATCHMANAGEMENT, value);
@@ -987,8 +959,7 @@ public class GoodsIssueLine extends BusinessObject<GoodsIssueLine>
 	/**
 	 * 设置-数量
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setQuantity(Decimal value) {
 		this.setProperty(PROPERTY_QUANTITY, value);
@@ -997,8 +968,7 @@ public class GoodsIssueLine extends BusinessObject<GoodsIssueLine>
 	/**
 	 * 设置-数量
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setQuantity(String value) {
 		this.setQuantity(new Decimal(value));
@@ -1007,8 +977,7 @@ public class GoodsIssueLine extends BusinessObject<GoodsIssueLine>
 	/**
 	 * 设置-数量
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setQuantity(int value) {
 		this.setQuantity(new Decimal(value));
@@ -1017,8 +986,7 @@ public class GoodsIssueLine extends BusinessObject<GoodsIssueLine>
 	/**
 	 * 设置-数量
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setQuantity(double value) {
 		this.setQuantity(new Decimal(value));
@@ -1049,8 +1017,7 @@ public class GoodsIssueLine extends BusinessObject<GoodsIssueLine>
 	/**
 	 * 设置-单位
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setUOM(String value) {
 		this.setProperty(PROPERTY_UOM, value);
@@ -1081,8 +1048,7 @@ public class GoodsIssueLine extends BusinessObject<GoodsIssueLine>
 	/**
 	 * 设置-仓库
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setWarehouse(String value) {
 		this.setProperty(PROPERTY_WAREHOUSE, value);
@@ -1113,8 +1079,7 @@ public class GoodsIssueLine extends BusinessObject<GoodsIssueLine>
 	/**
 	 * 设置-价格
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setPrice(Decimal value) {
 		this.setProperty(PROPERTY_PRICE, value);
@@ -1123,8 +1088,7 @@ public class GoodsIssueLine extends BusinessObject<GoodsIssueLine>
 	/**
 	 * 设置-价格
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setPrice(String value) {
 		this.setPrice(new Decimal(value));
@@ -1133,8 +1097,7 @@ public class GoodsIssueLine extends BusinessObject<GoodsIssueLine>
 	/**
 	 * 设置-价格
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setPrice(int value) {
 		this.setPrice(new Decimal(value));
@@ -1143,8 +1106,7 @@ public class GoodsIssueLine extends BusinessObject<GoodsIssueLine>
 	/**
 	 * 设置-价格
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setPrice(double value) {
 		this.setPrice(new Decimal(value));
@@ -1175,8 +1137,7 @@ public class GoodsIssueLine extends BusinessObject<GoodsIssueLine>
 	/**
 	 * 设置-货币
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setCurrency(String value) {
 		this.setProperty(PROPERTY_CURRENCY, value);
@@ -1207,8 +1168,7 @@ public class GoodsIssueLine extends BusinessObject<GoodsIssueLine>
 	/**
 	 * 设置-汇率
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setRate(Decimal value) {
 		this.setProperty(PROPERTY_RATE, value);
@@ -1217,8 +1177,7 @@ public class GoodsIssueLine extends BusinessObject<GoodsIssueLine>
 	/**
 	 * 设置-汇率
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setRate(String value) {
 		this.setRate(new Decimal(value));
@@ -1227,8 +1186,7 @@ public class GoodsIssueLine extends BusinessObject<GoodsIssueLine>
 	/**
 	 * 设置-汇率
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setRate(int value) {
 		this.setRate(new Decimal(value));
@@ -1237,8 +1195,7 @@ public class GoodsIssueLine extends BusinessObject<GoodsIssueLine>
 	/**
 	 * 设置-汇率
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setRate(double value) {
 		this.setRate(new Decimal(value));
@@ -1269,8 +1226,7 @@ public class GoodsIssueLine extends BusinessObject<GoodsIssueLine>
 	/**
 	 * 设置-行总计
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setLineTotal(Decimal value) {
 		this.setProperty(PROPERTY_LINETOTAL, value);
@@ -1279,8 +1235,7 @@ public class GoodsIssueLine extends BusinessObject<GoodsIssueLine>
 	/**
 	 * 设置-行总计
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setLineTotal(String value) {
 		this.setLineTotal(new Decimal(value));
@@ -1289,8 +1244,7 @@ public class GoodsIssueLine extends BusinessObject<GoodsIssueLine>
 	/**
 	 * 设置-行总计
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setLineTotal(int value) {
 		this.setLineTotal(new Decimal(value));
@@ -1299,43 +1253,10 @@ public class GoodsIssueLine extends BusinessObject<GoodsIssueLine>
 	/**
 	 * 设置-行总计
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setLineTotal(double value) {
 		this.setLineTotal(new Decimal(value));
-	}
-
-	/**
-	 * 属性名称-项目代码
-	 */
-	private static final String PROPERTY_PROJECT_NAME = "Project";
-
-	/**
-	 * 项目代码 属性
-	 */
-	@DbField(name = "Project", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME, primaryKey = false)
-	public static final IPropertyInfo<String> PROPERTY_PROJECT = registerProperty(PROPERTY_PROJECT_NAME, String.class,
-			MY_CLASS);
-
-	/**
-	 * 获取-项目代码
-	 * 
-	 * @return 值
-	 */
-	@XmlElement(name = PROPERTY_PROJECT_NAME)
-	public final String getProject() {
-		return this.getProperty(PROPERTY_PROJECT);
-	}
-
-	/**
-	 * 设置-项目代码
-	 * 
-	 * @param value
-	 *            值
-	 */
-	public final void setProject(String value) {
-		this.setProperty(PROPERTY_PROJECT, value);
 	}
 
 	/**
@@ -1364,8 +1285,7 @@ public class GoodsIssueLine extends BusinessObject<GoodsIssueLine>
 	/**
 	 * 设置-物料批次集合
 	 *
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setMaterialBatches(IMaterialBatchItems value) {
 		this.setProperty(PROPERTY_MATERIALBATCHES, value);
@@ -1397,8 +1317,7 @@ public class GoodsIssueLine extends BusinessObject<GoodsIssueLine>
 	/**
 	 * 设置-物料序列集合
 	 *
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setMaterialSerials(IMaterialSerialItems value) {
 		this.setProperty(PROPERTY_MATERIALSERIALS, value);

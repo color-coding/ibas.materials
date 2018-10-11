@@ -28,8 +28,7 @@ public interface IInventoryTransferLine extends IBODocumentLine, IMaterialBatchR
 	/**
 	 * 设置-编码
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setDocEntry(Integer value);
 
@@ -43,8 +42,7 @@ public interface IInventoryTransferLine extends IBODocumentLine, IMaterialBatchR
 	/**
 	 * 设置-行号
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setLineId(Integer value);
 
@@ -58,8 +56,7 @@ public interface IInventoryTransferLine extends IBODocumentLine, IMaterialBatchR
 	/**
 	 * 设置-显示顺序
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setVisOrder(Integer value);
 
@@ -73,8 +70,7 @@ public interface IInventoryTransferLine extends IBODocumentLine, IMaterialBatchR
 	/**
 	 * 设置-取消
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setCanceled(emYesNo value);
 
@@ -88,8 +84,7 @@ public interface IInventoryTransferLine extends IBODocumentLine, IMaterialBatchR
 	/**
 	 * 设置-状态
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setStatus(emBOStatus value);
 
@@ -103,8 +98,7 @@ public interface IInventoryTransferLine extends IBODocumentLine, IMaterialBatchR
 	/**
 	 * 设置-单据状态
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setLineStatus(emDocumentStatus value);
 
@@ -118,8 +112,7 @@ public interface IInventoryTransferLine extends IBODocumentLine, IMaterialBatchR
 	/**
 	 * 设置-类型
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setObjectCode(String value);
 
@@ -133,8 +126,7 @@ public interface IInventoryTransferLine extends IBODocumentLine, IMaterialBatchR
 	/**
 	 * 设置-创建日期
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setCreateDate(DateTime value);
 
@@ -148,8 +140,7 @@ public interface IInventoryTransferLine extends IBODocumentLine, IMaterialBatchR
 	/**
 	 * 设置-创建时间
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setCreateTime(Short value);
 
@@ -163,8 +154,7 @@ public interface IInventoryTransferLine extends IBODocumentLine, IMaterialBatchR
 	/**
 	 * 设置-修改日期
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setUpdateDate(DateTime value);
 
@@ -178,8 +168,7 @@ public interface IInventoryTransferLine extends IBODocumentLine, IMaterialBatchR
 	/**
 	 * 设置-修改时间
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setUpdateTime(Short value);
 
@@ -193,8 +182,7 @@ public interface IInventoryTransferLine extends IBODocumentLine, IMaterialBatchR
 	/**
 	 * 设置-版本
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setLogInst(Integer value);
 
@@ -208,8 +196,7 @@ public interface IInventoryTransferLine extends IBODocumentLine, IMaterialBatchR
 	/**
 	 * 设置-服务系列
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setSeries(Integer value);
 
@@ -223,8 +210,7 @@ public interface IInventoryTransferLine extends IBODocumentLine, IMaterialBatchR
 	/**
 	 * 设置-数据源
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setDataSource(String value);
 
@@ -238,8 +224,7 @@ public interface IInventoryTransferLine extends IBODocumentLine, IMaterialBatchR
 	/**
 	 * 设置-创建用户
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setCreateUserSign(Integer value);
 
@@ -253,8 +238,7 @@ public interface IInventoryTransferLine extends IBODocumentLine, IMaterialBatchR
 	/**
 	 * 设置-修改用户
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setUpdateUserSign(Integer value);
 
@@ -268,8 +252,7 @@ public interface IInventoryTransferLine extends IBODocumentLine, IMaterialBatchR
 	/**
 	 * 设置-创建动作标识
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setCreateActionId(String value);
 
@@ -283,8 +266,7 @@ public interface IInventoryTransferLine extends IBODocumentLine, IMaterialBatchR
 	/**
 	 * 设置-更新动作标识
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setUpdateActionId(String value);
 
@@ -298,8 +280,7 @@ public interface IInventoryTransferLine extends IBODocumentLine, IMaterialBatchR
 	/**
 	 * 设置-参考1
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setReference1(String value);
 
@@ -313,8 +294,7 @@ public interface IInventoryTransferLine extends IBODocumentLine, IMaterialBatchR
 	/**
 	 * 设置-参考2
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setReference2(String value);
 
@@ -328,8 +308,7 @@ public interface IInventoryTransferLine extends IBODocumentLine, IMaterialBatchR
 	/**
 	 * 设置-已引用
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setReferenced(emYesNo value);
 
@@ -343,8 +322,7 @@ public interface IInventoryTransferLine extends IBODocumentLine, IMaterialBatchR
 	/**
 	 * 设置-基于类型
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setBaseDocumentType(String value);
 
@@ -358,8 +336,7 @@ public interface IInventoryTransferLine extends IBODocumentLine, IMaterialBatchR
 	/**
 	 * 设置-基于标识
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setBaseDocumentEntry(Integer value);
 
@@ -373,8 +350,7 @@ public interface IInventoryTransferLine extends IBODocumentLine, IMaterialBatchR
 	/**
 	 * 设置-基于行号
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setBaseDocumentLineId(Integer value);
 
@@ -388,8 +364,7 @@ public interface IInventoryTransferLine extends IBODocumentLine, IMaterialBatchR
 	/**
 	 * 设置-物料编号
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setItemCode(String value);
 
@@ -403,8 +378,7 @@ public interface IInventoryTransferLine extends IBODocumentLine, IMaterialBatchR
 	/**
 	 * 设置-物料/服务描述
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setItemDescription(String value);
 
@@ -418,8 +392,7 @@ public interface IInventoryTransferLine extends IBODocumentLine, IMaterialBatchR
 	/**
 	 * 设置-序号管理
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setSerialManagement(emYesNo value);
 
@@ -433,8 +406,7 @@ public interface IInventoryTransferLine extends IBODocumentLine, IMaterialBatchR
 	/**
 	 * 设置-批号管理
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setBatchManagement(emYesNo value);
 
@@ -448,32 +420,28 @@ public interface IInventoryTransferLine extends IBODocumentLine, IMaterialBatchR
 	/**
 	 * 设置-数量
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setQuantity(Decimal value);
 
 	/**
 	 * 设置-数量
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setQuantity(String value);
 
 	/**
 	 * 设置-数量
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setQuantity(int value);
 
 	/**
 	 * 设置-数量
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setQuantity(double value);
 
@@ -487,8 +455,7 @@ public interface IInventoryTransferLine extends IBODocumentLine, IMaterialBatchR
 	/**
 	 * 设置-单位
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setUOM(String value);
 
@@ -502,8 +469,7 @@ public interface IInventoryTransferLine extends IBODocumentLine, IMaterialBatchR
 	/**
 	 * 设置-仓库
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setWarehouse(String value);
 
@@ -517,32 +483,28 @@ public interface IInventoryTransferLine extends IBODocumentLine, IMaterialBatchR
 	/**
 	 * 设置-价格
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setPrice(Decimal value);
 
 	/**
 	 * 设置-价格
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setPrice(String value);
 
 	/**
 	 * 设置-价格
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setPrice(int value);
 
 	/**
 	 * 设置-价格
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setPrice(double value);
 
@@ -556,8 +518,7 @@ public interface IInventoryTransferLine extends IBODocumentLine, IMaterialBatchR
 	/**
 	 * 设置-货币
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setCurrency(String value);
 
@@ -571,32 +532,28 @@ public interface IInventoryTransferLine extends IBODocumentLine, IMaterialBatchR
 	/**
 	 * 设置-汇率
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setRate(Decimal value);
 
 	/**
 	 * 设置-汇率
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setRate(String value);
 
 	/**
 	 * 设置-汇率
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setRate(int value);
 
 	/**
 	 * 设置-汇率
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setRate(double value);
 
@@ -610,48 +567,29 @@ public interface IInventoryTransferLine extends IBODocumentLine, IMaterialBatchR
 	/**
 	 * 设置-行总计
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setLineTotal(Decimal value);
 
 	/**
 	 * 设置-行总计
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setLineTotal(String value);
 
 	/**
 	 * 设置-行总计
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setLineTotal(int value);
 
 	/**
 	 * 设置-行总计
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setLineTotal(double value);
-
-	/**
-	 * 获取-项目代码
-	 * 
-	 * @return 值
-	 */
-	String getProject();
-
-	/**
-	 * 设置-项目代码
-	 * 
-	 * @param value
-	 *            值
-	 */
-	void setProject(String value);
 
 }

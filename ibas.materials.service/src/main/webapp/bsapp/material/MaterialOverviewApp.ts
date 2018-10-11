@@ -31,7 +31,9 @@ namespace materials {
                 this.view.viewDataEvent = this.viewData;
                 this.view.fetchMaterialInventoryEvent = this.fetchMaterialInventory;
                 this.view.fetchMaterialBatchEvent = this.fetchMaterialBatch;
+                this.view.editMaterialBatchEvent = this.editMaterialBatch;
                 this.view.fetchMaterialSerialEvent = this.fetchMaterialSerial;
+                this.view.editMaterialSerialEvent = this.editMaterialSerial;
             }
             /** 视图显示后 */
             protected viewShowed(): void {
@@ -162,6 +164,19 @@ namespace materials {
                     }
                 });
             }
+            private editMaterialBatch(data: bo.MaterialBatch): void {
+                // 检查目标数据
+                if (ibas.objects.isNull(data)) {
+                    this.messages(ibas.emMessageType.WARNING, ibas.i18n.prop("shell_please_chooose_data",
+                        ibas.i18n.prop("shell_data_edit")
+                    ));
+                    return;
+                }
+                let app: MaterialBatchEditApp = new MaterialBatchEditApp();
+                app.navigation = this.navigation;
+                app.viewShower = this.viewShower;
+                app.run(data);
+            }
             private fetchMaterialSerial(data: bo.IMaterial): void {
                 // 检查目标数据
                 if (ibas.objects.isNull(data)) {
@@ -195,6 +210,19 @@ namespace materials {
                     }
                 });
             }
+            private editMaterialSerial(data: bo.MaterialSerial): void {
+                // 检查目标数据
+                if (ibas.objects.isNull(data)) {
+                    this.messages(ibas.emMessageType.WARNING, ibas.i18n.prop("shell_please_chooose_data",
+                        ibas.i18n.prop("shell_data_edit")
+                    ));
+                    return;
+                }
+                let app: MaterialSerialEditApp = new MaterialSerialEditApp();
+                app.navigation = this.navigation;
+                app.viewShower = this.viewShower;
+                app.run(data);
+            }
         }
         /** 视图-物料 */
         export interface IMaterialOverviewView extends ibas.IBOListView {
@@ -210,10 +238,14 @@ namespace materials {
             showMaterialInventory(datas: bo.IMaterialInventory[]): void;
             /** 查询批次信息 */
             fetchMaterialBatchEvent: Function;
+            /** 编辑批次信息 */
+            editMaterialBatchEvent: Function;
             /** 显示物料批次信息 */
             showMaterialBatch(datas: bo.IMaterialBatch[]): void;
             /** 查询序列信息 */
             fetchMaterialSerialEvent: Function;
+            /** 编辑序列信息 */
+            editMaterialSerialEvent: Function;
             /** 显示物料序列信息 */
             showMaterialSerial(datas: bo.IMaterialSerial[]): void;
         }

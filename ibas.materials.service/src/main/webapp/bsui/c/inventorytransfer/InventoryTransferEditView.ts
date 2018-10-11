@@ -284,6 +284,22 @@ namespace materials {
                                     type: new openui5.datatype.Sum(),
                                 })
                             }),
+                            new sap.ui.table.Column("", {
+                                label: ibas.i18n.prop("bo_inventorytransferline_reference1"),
+                                template: new sap.m.Text("", {
+                                    wrapping: false,
+                                }).bindProperty("text", {
+                                    path: "reference1",
+                                }),
+                            }),
+                            new sap.ui.table.Column("", {
+                                label: ibas.i18n.prop("bo_inventorytransferline_reference2"),
+                                template: new sap.m.Text("", {
+                                    wrapping: false,
+                                }).bindProperty("text", {
+                                    path: "reference2",
+                                }),
+                            }),
                         ]
                     });
                     let formMiddle: sap.ui.layout.form.SimpleForm = new sap.ui.layout.form.SimpleForm("", {
@@ -301,6 +317,18 @@ namespace materials {
                             new sap.m.ex.DataOwnerInput("", {
                                 bindingValue: {
                                     path: "dataOwner"
+                                }
+                            }),
+                            new sap.m.Label("", { text: ibas.i18n.prop("bo_inventorytransfer_project") }),
+                            new sap.m.ex.ProjectInput("", {
+                                bindingValue: {
+                                    path: "project"
+                                }
+                            }),
+                            new sap.m.Label("", { text: ibas.i18n.prop("bo_inventorytransfer_organization") }),
+                            new sap.m.ex.OrganizationInput("", {
+                                bindingValue: {
+                                    path: "organization"
                                 }
                             }),
                             new sap.m.Label("", { text: ibas.i18n.prop("bo_inventorytransfer_remarks") }),

@@ -45,8 +45,8 @@ namespace materials {
                 this.register(new GoodsIssueFunc());
                 this.register(new InventoryTransferFunc());
                 // this.register(new MaterialInventoryFunc());
-                this.register(new MaterialBatchFunc());
-                this.register(new MaterialSerialFunc());
+                // this.register(new MaterialBatchFunc());
+                // this.register(new MaterialSerialFunc());
                 this.register(new WarehouseFunc());
                 // this.register(new MaterialGroupFunc());
                 // 注册服务应用

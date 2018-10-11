@@ -25,6 +25,7 @@ import org.colorcoding.ibas.bobas.rule.IBusinessRule;
 import org.colorcoding.ibas.bobas.rule.common.BusinessRuleMinValue;
 import org.colorcoding.ibas.bobas.rule.common.BusinessRuleRequiredElements;
 import org.colorcoding.ibas.bobas.rule.common.BusinessRuleSumElements;
+import org.colorcoding.ibas.initialfantasy.data.IProjectData;
 import org.colorcoding.ibas.materials.MyConfiguration;
 
 /**
@@ -36,7 +37,7 @@ import org.colorcoding.ibas.materials.MyConfiguration;
 @XmlRootElement(name = GoodsIssue.BUSINESS_OBJECT_NAME, namespace = MyConfiguration.NAMESPACE_BO)
 @BOCode(GoodsIssue.BUSINESS_OBJECT_CODE)
 public class GoodsIssue extends BusinessObject<GoodsIssue>
-		implements IGoodsIssue, IDataOwnership, IApprovalData, IBOUserFields {
+		implements IGoodsIssue, IDataOwnership, IApprovalData, IProjectData, IBOUserFields {
 
 	/**
 	 * 序列化版本标记
@@ -88,8 +89,7 @@ public class GoodsIssue extends BusinessObject<GoodsIssue>
 	/**
 	 * 设置-凭证编号
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setDocEntry(Integer value) {
 		this.setProperty(PROPERTY_DOCENTRY, value);
@@ -120,8 +120,7 @@ public class GoodsIssue extends BusinessObject<GoodsIssue>
 	/**
 	 * 设置-期间编号
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setDocNum(Integer value) {
 		this.setProperty(PROPERTY_DOCNUM, value);
@@ -152,8 +151,7 @@ public class GoodsIssue extends BusinessObject<GoodsIssue>
 	/**
 	 * 设置-期间
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setPeriod(Integer value) {
 		this.setProperty(PROPERTY_PERIOD, value);
@@ -184,8 +182,7 @@ public class GoodsIssue extends BusinessObject<GoodsIssue>
 	/**
 	 * 设置-取消
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setCanceled(emYesNo value) {
 		this.setProperty(PROPERTY_CANCELED, value);
@@ -216,8 +213,7 @@ public class GoodsIssue extends BusinessObject<GoodsIssue>
 	/**
 	 * 设置-状态
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setStatus(emBOStatus value) {
 		this.setProperty(PROPERTY_STATUS, value);
@@ -248,8 +244,7 @@ public class GoodsIssue extends BusinessObject<GoodsIssue>
 	/**
 	 * 设置-审批状态
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setApprovalStatus(emApprovalStatus value) {
 		this.setProperty(PROPERTY_APPROVALSTATUS, value);
@@ -280,8 +275,7 @@ public class GoodsIssue extends BusinessObject<GoodsIssue>
 	/**
 	 * 设置-单据状态
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setDocumentStatus(emDocumentStatus value) {
 		this.setProperty(PROPERTY_DOCUMENTSTATUS, value);
@@ -312,8 +306,7 @@ public class GoodsIssue extends BusinessObject<GoodsIssue>
 	/**
 	 * 设置-对象类型
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setObjectCode(String value) {
 		this.setProperty(PROPERTY_OBJECTCODE, value);
@@ -344,8 +337,7 @@ public class GoodsIssue extends BusinessObject<GoodsIssue>
 	/**
 	 * 设置-创建日期
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setCreateDate(DateTime value) {
 		this.setProperty(PROPERTY_CREATEDATE, value);
@@ -376,8 +368,7 @@ public class GoodsIssue extends BusinessObject<GoodsIssue>
 	/**
 	 * 设置-创建时间
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setCreateTime(Short value) {
 		this.setProperty(PROPERTY_CREATETIME, value);
@@ -408,8 +399,7 @@ public class GoodsIssue extends BusinessObject<GoodsIssue>
 	/**
 	 * 设置-修改日期
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setUpdateDate(DateTime value) {
 		this.setProperty(PROPERTY_UPDATEDATE, value);
@@ -440,8 +430,7 @@ public class GoodsIssue extends BusinessObject<GoodsIssue>
 	/**
 	 * 设置-修改时间
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setUpdateTime(Short value) {
 		this.setProperty(PROPERTY_UPDATETIME, value);
@@ -472,8 +461,7 @@ public class GoodsIssue extends BusinessObject<GoodsIssue>
 	/**
 	 * 设置-版本
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setLogInst(Integer value) {
 		this.setProperty(PROPERTY_LOGINST, value);
@@ -504,8 +492,7 @@ public class GoodsIssue extends BusinessObject<GoodsIssue>
 	/**
 	 * 设置-服务系列
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setSeries(Integer value) {
 		this.setProperty(PROPERTY_SERIES, value);
@@ -536,8 +523,7 @@ public class GoodsIssue extends BusinessObject<GoodsIssue>
 	/**
 	 * 设置-数据源
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setDataSource(String value) {
 		this.setProperty(PROPERTY_DATASOURCE, value);
@@ -568,8 +554,7 @@ public class GoodsIssue extends BusinessObject<GoodsIssue>
 	/**
 	 * 设置-创建用户
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setCreateUserSign(Integer value) {
 		this.setProperty(PROPERTY_CREATEUSERSIGN, value);
@@ -600,8 +585,7 @@ public class GoodsIssue extends BusinessObject<GoodsIssue>
 	/**
 	 * 设置-修改用户
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setUpdateUserSign(Integer value) {
 		this.setProperty(PROPERTY_UPDATEUSERSIGN, value);
@@ -632,8 +616,7 @@ public class GoodsIssue extends BusinessObject<GoodsIssue>
 	/**
 	 * 设置-创建动作标识
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setCreateActionId(String value) {
 		this.setProperty(PROPERTY_CREATEACTIONID, value);
@@ -664,8 +647,7 @@ public class GoodsIssue extends BusinessObject<GoodsIssue>
 	/**
 	 * 设置-更新动作标识
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setUpdateActionId(String value) {
 		this.setProperty(PROPERTY_UPDATEACTIONID, value);
@@ -696,8 +678,7 @@ public class GoodsIssue extends BusinessObject<GoodsIssue>
 	/**
 	 * 设置-数据所有者
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setDataOwner(Integer value) {
 		this.setProperty(PROPERTY_DATAOWNER, value);
@@ -728,8 +709,7 @@ public class GoodsIssue extends BusinessObject<GoodsIssue>
 	/**
 	 * 设置-团队成员
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setTeamMembers(String value) {
 		this.setProperty(PROPERTY_TEAMMEMBERS, value);
@@ -760,8 +740,7 @@ public class GoodsIssue extends BusinessObject<GoodsIssue>
 	/**
 	 * 设置-数据所属组织
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setOrganization(String value) {
 		this.setProperty(PROPERTY_ORGANIZATION, value);
@@ -792,8 +771,7 @@ public class GoodsIssue extends BusinessObject<GoodsIssue>
 	/**
 	 * 设置-过账日期
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setPostingDate(DateTime value) {
 		this.setProperty(PROPERTY_POSTINGDATE, value);
@@ -824,8 +802,7 @@ public class GoodsIssue extends BusinessObject<GoodsIssue>
 	/**
 	 * 设置-到期日
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setDeliveryDate(DateTime value) {
 		this.setProperty(PROPERTY_DELIVERYDATE, value);
@@ -856,8 +833,7 @@ public class GoodsIssue extends BusinessObject<GoodsIssue>
 	/**
 	 * 设置-凭证日期
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setDocumentDate(DateTime value) {
 		this.setProperty(PROPERTY_DOCUMENTDATE, value);
@@ -888,8 +864,7 @@ public class GoodsIssue extends BusinessObject<GoodsIssue>
 	/**
 	 * 设置-参考1
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setReference1(String value) {
 		this.setProperty(PROPERTY_REFERENCE1, value);
@@ -920,8 +895,7 @@ public class GoodsIssue extends BusinessObject<GoodsIssue>
 	/**
 	 * 设置-参考2
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setReference2(String value) {
 		this.setProperty(PROPERTY_REFERENCE2, value);
@@ -952,8 +926,7 @@ public class GoodsIssue extends BusinessObject<GoodsIssue>
 	/**
 	 * 设置-已引用
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setReferenced(emYesNo value) {
 		this.setProperty(PROPERTY_REFERENCED, value);
@@ -984,8 +957,7 @@ public class GoodsIssue extends BusinessObject<GoodsIssue>
 	/**
 	 * 设置-备注
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setRemarks(String value) {
 		this.setProperty(PROPERTY_REMARKS, value);
@@ -1016,8 +988,7 @@ public class GoodsIssue extends BusinessObject<GoodsIssue>
 	/**
 	 * 设置-单据货币
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setDocumentCurrency(String value) {
 		this.setProperty(PROPERTY_DOCUMENTCURRENCY, value);
@@ -1048,8 +1019,7 @@ public class GoodsIssue extends BusinessObject<GoodsIssue>
 	/**
 	 * 设置-单据汇率
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setDocumentRate(Decimal value) {
 		this.setProperty(PROPERTY_DOCUMENTRATE, value);
@@ -1058,8 +1028,7 @@ public class GoodsIssue extends BusinessObject<GoodsIssue>
 	/**
 	 * 设置-单据汇率
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setDocumentRate(String value) {
 		this.setDocumentRate(new Decimal(value));
@@ -1068,8 +1037,7 @@ public class GoodsIssue extends BusinessObject<GoodsIssue>
 	/**
 	 * 设置-单据汇率
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setDocumentRate(int value) {
 		this.setDocumentRate(new Decimal(value));
@@ -1078,8 +1046,7 @@ public class GoodsIssue extends BusinessObject<GoodsIssue>
 	/**
 	 * 设置-单据汇率
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setDocumentRate(double value) {
 		this.setDocumentRate(new Decimal(value));
@@ -1110,8 +1077,7 @@ public class GoodsIssue extends BusinessObject<GoodsIssue>
 	/**
 	 * 设置-单据总计
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setDocumentTotal(Decimal value) {
 		this.setProperty(PROPERTY_DOCUMENTTOTAL, value);
@@ -1120,8 +1086,7 @@ public class GoodsIssue extends BusinessObject<GoodsIssue>
 	/**
 	 * 设置-单据总计
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setDocumentTotal(String value) {
 		this.setDocumentTotal(new Decimal(value));
@@ -1130,8 +1095,7 @@ public class GoodsIssue extends BusinessObject<GoodsIssue>
 	/**
 	 * 设置-单据总计
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setDocumentTotal(int value) {
 		this.setDocumentTotal(new Decimal(value));
@@ -1140,8 +1104,7 @@ public class GoodsIssue extends BusinessObject<GoodsIssue>
 	/**
 	 * 设置-单据总计
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setDocumentTotal(double value) {
 		this.setDocumentTotal(new Decimal(value));
@@ -1172,8 +1135,7 @@ public class GoodsIssue extends BusinessObject<GoodsIssue>
 	/**
 	 * 设置-价格清单
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setPriceList(Integer value) {
 		this.setProperty(PROPERTY_PRICELIST, value);
@@ -1204,8 +1166,7 @@ public class GoodsIssue extends BusinessObject<GoodsIssue>
 	/**
 	 * 设置-项目代码
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setProject(String value) {
 		this.setProperty(PROPERTY_PROJECT, value);
@@ -1236,8 +1197,7 @@ public class GoodsIssue extends BusinessObject<GoodsIssue>
 	/**
 	 * 设置-单据类型
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setOrderType(String value) {
 		this.setProperty(PROPERTY_ORDERTYPE, value);
@@ -1269,8 +1229,7 @@ public class GoodsIssue extends BusinessObject<GoodsIssue>
 	/**
 	 * 设置-库存发货-行集合
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setGoodsIssueLines(IGoodsIssueLines value) {
 		this.setProperty(PROPERTY_GOODSISSUELINES, value);
