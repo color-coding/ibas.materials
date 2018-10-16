@@ -59,8 +59,6 @@ public class MaterialSerialJournalService
 		if (materialSerialJournal == null) {
 			materialSerialJournal = new MaterialSerialJournal();
 			materialSerialJournal.setSerialCode(contract.getSerialCode());
-			materialSerialJournal.setItemCode(contract.getItemCode());
-			materialSerialJournal.setWarehouse(contract.getWarehouse());
 			materialSerialJournal.setDirection(contract.getDirection());
 			materialSerialJournal.setBaseDocumentType(contract.getDocumentType());
 			materialSerialJournal.setBaseDocumentEntry(contract.getDocumentEntry());

@@ -376,7 +376,6 @@ namespace materials {
                             new sap.ui.table.Column("", {
                                 label: ibas.i18n.prop("bo_materialserialitem_serialcode"),
                                 template: new sap.m.Input("", {
-                                    wrapping: false,
                                 }).bindProperty("value", {
                                     path: "serialCode",
                                 }),

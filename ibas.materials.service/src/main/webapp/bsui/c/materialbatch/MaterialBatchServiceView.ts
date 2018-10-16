@@ -107,7 +107,6 @@ namespace materials {
                                 width: "30%",
                                 label: ibas.i18n.prop("bo_materialbatchitem_quantity"),
                                 template: new sap.m.Input("", {
-                                    wrapping: false,
                                 }).bindProperty("value", {
                                     path: "quantity",
                                     type: new openui5.datatype.Quantity(),
@@ -388,7 +387,6 @@ namespace materials {
                             new sap.ui.table.Column("", {
                                 label: ibas.i18n.prop("bo_materialbatchitem_batchcode"),
                                 template: new sap.m.Input("", {
-                                    wrapping: false,
                                 }).bindProperty("value", {
                                     path: "batchCode",
                                 }),
@@ -396,7 +394,6 @@ namespace materials {
                             new sap.ui.table.Column("", {
                                 label: ibas.i18n.prop("bo_materialbatchitem_quantity"),
                                 template: new sap.m.Input("", {
-                                    wrapping: false,
                                 }).bindProperty("value", {
                                     path: "quantity",
                                     type: new openui5.datatype.Quantity(),

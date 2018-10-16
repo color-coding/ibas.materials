@@ -18,5 +18,10 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
     <dependencies>
+        <dependency>
+            <groupId>org.colorcoding.apps</groupId>
+            <artifactId>ibas.finance</artifactId>
+            <version>0.1.0</version>
+        </dependency>
     </dependencies>
 </project>

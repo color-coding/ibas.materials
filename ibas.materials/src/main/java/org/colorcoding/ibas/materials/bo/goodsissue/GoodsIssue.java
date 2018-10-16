@@ -21,11 +21,12 @@ import org.colorcoding.ibas.bobas.mapping.BOCode;
 import org.colorcoding.ibas.bobas.mapping.DbField;
 import org.colorcoding.ibas.bobas.mapping.DbFieldType;
 import org.colorcoding.ibas.bobas.ownership.IDataOwnership;
+import org.colorcoding.ibas.bobas.period.IPeriodData;
 import org.colorcoding.ibas.bobas.rule.IBusinessRule;
 import org.colorcoding.ibas.bobas.rule.common.BusinessRuleMinValue;
 import org.colorcoding.ibas.bobas.rule.common.BusinessRuleRequiredElements;
 import org.colorcoding.ibas.bobas.rule.common.BusinessRuleSumElements;
-import org.colorcoding.ibas.initialfantasy.data.IProjectData;
+import org.colorcoding.ibas.finance.data.IProjectData;
 import org.colorcoding.ibas.materials.MyConfiguration;
 
 /**
@@ -37,7 +38,7 @@ import org.colorcoding.ibas.materials.MyConfiguration;
 @XmlRootElement(name = GoodsIssue.BUSINESS_OBJECT_NAME, namespace = MyConfiguration.NAMESPACE_BO)
 @BOCode(GoodsIssue.BUSINESS_OBJECT_CODE)
 public class GoodsIssue extends BusinessObject<GoodsIssue>
-		implements IGoodsIssue, IDataOwnership, IApprovalData, IProjectData, IBOUserFields {
+		implements IGoodsIssue, IDataOwnership, IApprovalData, IPeriodData, IProjectData, IBOUserFields {
 
 	/**
 	 * 序列化版本标记

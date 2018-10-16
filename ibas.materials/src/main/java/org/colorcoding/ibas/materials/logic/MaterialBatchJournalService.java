@@ -57,8 +57,6 @@ public class MaterialBatchJournalService extends BusinessLogic<IMaterialBatchJou
 		if (materialBatchJournal == null) {
 			materialBatchJournal = new MaterialBatchJournal();
 			materialBatchJournal.setBatchCode(contract.getBatchCode());
-			materialBatchJournal.setItemCode(contract.getItemCode());
-			materialBatchJournal.setWarehouse(contract.getWarehouse());
 			materialBatchJournal.setDirection(contract.getDirection());
 			materialBatchJournal.setBaseDocumentType(contract.getDocumentType());
 			materialBatchJournal.setBaseDocumentEntry(contract.getDocumentEntry());
