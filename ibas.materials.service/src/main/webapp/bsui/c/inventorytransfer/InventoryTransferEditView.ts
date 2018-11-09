@@ -72,7 +72,7 @@ namespace materials {
                             new sap.m.Label("", { text: ibas.i18n.prop("bo_inventorytransfer_ordertype") }),
                             new sap.m.ex.SmartField("", {
                                 width: "100%",
-                                boType: bo.InventoryTransfer.name,
+                                boCode: ibas.config.applyVariables(bo.InventoryTransfer.BUSINESS_OBJECT_CODE),
                                 propertyName: "OrderType",
                                 bindingValue: {
                                     path: "orderType"

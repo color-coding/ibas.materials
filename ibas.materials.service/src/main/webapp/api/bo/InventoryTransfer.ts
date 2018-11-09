@@ -205,7 +205,7 @@ namespace materials {
             /** 基于行号 */
             baseDocumentLineId: number;
 
-            /** 物料编号 */
+            /** 物料编码 */
             itemCode: string;
 
             /** 物料/服务描述 */

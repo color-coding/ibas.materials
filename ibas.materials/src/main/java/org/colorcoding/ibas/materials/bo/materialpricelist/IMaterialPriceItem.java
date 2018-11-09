@@ -10,14 +10,14 @@ import org.colorcoding.ibas.bobas.data.*;
 public interface IMaterialPriceItem extends IBOSimpleLine {
 
     /**
-    * 获取-物料编号
+    * 获取-物料编码
     * 
     * @return 值
     */
     String getItemCode();
 
     /**
-    * 设置-物料编号
+    * 设置-物料编码
     * 
     * @param value 值
     */

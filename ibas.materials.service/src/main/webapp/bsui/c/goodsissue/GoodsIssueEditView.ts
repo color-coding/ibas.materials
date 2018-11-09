@@ -62,7 +62,7 @@ namespace materials {
                             new sap.m.Label("", { text: ibas.i18n.prop("bo_goodsissue_ordertype") }),
                             new sap.m.ex.SmartField("", {
                                 width: "100%",
-                                boType: bo.GoodsIssue.name,
+                                boCode: ibas.config.applyVariables(bo.GoodsIssue.BUSINESS_OBJECT_CODE),
                                 propertyName: "OrderType",
                                 bindingValue: {
                                     path: "orderType"

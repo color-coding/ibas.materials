@@ -355,14 +355,14 @@ public interface IInventoryTransferLine extends IBODocumentLine, IMaterialBatchR
 	void setBaseDocumentLineId(Integer value);
 
 	/**
-	 * 获取-物料编号
+	 * 获取-物料编码
 	 * 
 	 * @return 值
 	 */
 	String getItemCode();
 
 	/**
-	 * 设置-物料编号
+	 * 设置-物料编码
 	 * 
 	 * @param value 值
 	 */

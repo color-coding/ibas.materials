@@ -56,6 +56,17 @@ namespace materials {
             /** 服务 */
             SERVICES,
         }
+        /** 预估类型 */
+        export enum emEstimateType {
+            /**
+             * 订购的
+             */
+            ORDERED,
+            /**
+             * 承诺的
+             */
+            COMMITED,
+        }
         /** 物料发货规则 */
         export enum emMaterialIssueRules {
             /** 先进先出 */
@@ -72,7 +83,7 @@ namespace materials {
         export interface IMaterialBatchContract extends ibas.IServiceContract {
             /** 批号管理 */
             batchManagement: ibas.emYesNo;
-            /** 物料编号 */
+            /** 物料编码 */
             itemCode: string;
             /** 物料描述 */
             itemDescription: string;
@@ -89,7 +100,7 @@ namespace materials {
         export interface IMaterialSerialContract extends ibas.IServiceContract {
             /** 序号管理 */
             serialManagement: ibas.emYesNo;
-            /** 物料编号 */
+            /** 物料编码 */
             itemCode: string;
             /** 物料描述 */
             itemDescription: string;

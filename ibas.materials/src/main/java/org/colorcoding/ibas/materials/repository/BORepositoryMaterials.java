@@ -36,8 +36,10 @@ import org.colorcoding.ibas.materials.bo.materialbatch.IMaterialBatch;
 import org.colorcoding.ibas.materials.bo.materialbatch.IMaterialBatchJournal;
 import org.colorcoding.ibas.materials.bo.materialbatch.MaterialBatch;
 import org.colorcoding.ibas.materials.bo.materialbatch.MaterialBatchJournal;
+import org.colorcoding.ibas.materials.bo.materialinventory.IMaterialEstimateJournal;
 import org.colorcoding.ibas.materials.bo.materialinventory.IMaterialInventory;
 import org.colorcoding.ibas.materials.bo.materialinventory.IMaterialInventoryJournal;
+import org.colorcoding.ibas.materials.bo.materialinventory.MaterialEstimateJournal;
 import org.colorcoding.ibas.materials.bo.materialinventory.MaterialInventory;
 import org.colorcoding.ibas.materials.bo.materialinventory.MaterialInventoryJournal;
 import org.colorcoding.ibas.materials.bo.materialpricelist.IMaterialPriceItem;
@@ -62,10 +64,8 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 	/**
 	 * 查询-库存发货
 	 *
-	 * @param criteria
-	 *            查询
-	 * @param token
-	 *            口令
+	 * @param criteria 查询
+	 * @param token    口令
 	 * @return 操作结果
 	 */
 	public OperationResult<GoodsIssue> fetchGoodsIssue(ICriteria criteria, String token) {
@@ -75,8 +75,7 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 	/**
 	 * 查询-库存发货（提前设置用户口令）
 	 *
-	 * @param criteria
-	 *            查询
+	 * @param criteria 查询
 	 * @return 操作结果
 	 */
 	public IOperationResult<IGoodsIssue> fetchGoodsIssue(ICriteria criteria) {
@@ -86,10 +85,8 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 	/**
 	 * 保存-库存发货
 	 *
-	 * @param bo
-	 *            对象实例
-	 * @param token
-	 *            口令
+	 * @param bo    对象实例
+	 * @param token 口令
 	 * @return 操作结果
 	 */
 	public OperationResult<GoodsIssue> saveGoodsIssue(GoodsIssue bo, String token) {
@@ -99,8 +96,7 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 	/**
 	 * 保存-库存发货（提前设置用户口令）
 	 *
-	 * @param bo
-	 *            对象实例
+	 * @param bo 对象实例
 	 * @return 操作结果
 	 */
 	public IOperationResult<IGoodsIssue> saveGoodsIssue(IGoodsIssue bo) {
@@ -112,10 +108,8 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 	/**
 	 * 查询-库存收货
 	 *
-	 * @param criteria
-	 *            查询
-	 * @param token
-	 *            口令
+	 * @param criteria 查询
+	 * @param token    口令
 	 * @return 操作结果
 	 */
 	public OperationResult<GoodsReceipt> fetchGoodsReceipt(ICriteria criteria, String token) {
@@ -125,8 +119,7 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 	/**
 	 * 查询-库存收货（提前设置用户口令）
 	 *
-	 * @param criteria
-	 *            查询
+	 * @param criteria 查询
 	 * @return 操作结果
 	 */
 	public IOperationResult<IGoodsReceipt> fetchGoodsReceipt(ICriteria criteria) {
@@ -136,10 +129,8 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 	/**
 	 * 保存-库存收货
 	 *
-	 * @param bo
-	 *            对象实例
-	 * @param token
-	 *            口令
+	 * @param bo    对象实例
+	 * @param token 口令
 	 * @return 操作结果
 	 */
 	public OperationResult<GoodsReceipt> saveGoodsReceipt(GoodsReceipt bo, String token) {
@@ -149,8 +140,7 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 	/**
 	 * 保存-库存收货（提前设置用户口令）
 	 *
-	 * @param bo
-	 *            对象实例
+	 * @param bo 对象实例
 	 * @return 操作结果
 	 */
 	public IOperationResult<IGoodsReceipt> saveGoodsReceipt(IGoodsReceipt bo) {
@@ -162,10 +152,8 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 	/**
 	 * 查询-库存转储
 	 *
-	 * @param criteria
-	 *            查询
-	 * @param token
-	 *            口令
+	 * @param criteria 查询
+	 * @param token    口令
 	 * @return 操作结果
 	 */
 	public OperationResult<InventoryTransfer> fetchInventoryTransfer(ICriteria criteria, String token) {
@@ -175,8 +163,7 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 	/**
 	 * 查询-库存转储（提前设置用户口令）
 	 *
-	 * @param criteria
-	 *            查询
+	 * @param criteria 查询
 	 * @return 操作结果
 	 */
 	public IOperationResult<IInventoryTransfer> fetchInventoryTransfer(ICriteria criteria) {
@@ -186,10 +173,8 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 	/**
 	 * 保存-库存转储
 	 *
-	 * @param bo
-	 *            对象实例
-	 * @param token
-	 *            口令
+	 * @param bo    对象实例
+	 * @param token 口令
 	 * @return 操作结果
 	 */
 	public OperationResult<InventoryTransfer> saveInventoryTransfer(InventoryTransfer bo, String token) {
@@ -199,8 +184,7 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 	/**
 	 * 保存-库存转储（提前设置用户口令）
 	 *
-	 * @param bo
-	 *            对象实例
+	 * @param bo 对象实例
 	 * @return 操作结果
 	 */
 	public IOperationResult<IInventoryTransfer> saveInventoryTransfer(IInventoryTransfer bo) {
@@ -213,10 +197,8 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 	/**
 	 * 查询-物料
 	 *
-	 * @param criteria
-	 *            查询
-	 * @param token
-	 *            口令
+	 * @param criteria 查询
+	 * @param token    口令
 	 * @return 操作结果
 	 */
 	public OperationResult<Material> fetchMaterial(ICriteria criteria, String token) {
@@ -226,8 +208,7 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 	/**
 	 * 查询-物料（提前设置用户口令）
 	 *
-	 * @param criteria
-	 *            查询
+	 * @param criteria 查询
 	 * @return 操作结果
 	 */
 	public IOperationResult<IMaterial> fetchMaterial(ICriteria criteria) {
@@ -237,10 +218,8 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 	/**
 	 * 保存-物料
 	 *
-	 * @param bo
-	 *            对象实例
-	 * @param token
-	 *            口令
+	 * @param bo    对象实例
+	 * @param token 口令
 	 * @return 操作结果
 	 */
 	public OperationResult<Material> saveMaterial(Material bo, String token) {
@@ -250,8 +229,7 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 	/**
 	 * 保存-物料（提前设置用户口令）
 	 *
-	 * @param bo
-	 *            对象实例
+	 * @param bo 对象实例
 	 * @return 操作结果
 	 */
 	public IOperationResult<IMaterial> saveMaterial(IMaterial bo) {
@@ -263,10 +241,8 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 	/**
 	 * 查询-物料组
 	 *
-	 * @param criteria
-	 *            查询
-	 * @param token
-	 *            口令
+	 * @param criteria 查询
+	 * @param token    口令
 	 * @return 操作结果
 	 */
 	public OperationResult<MaterialGroup> fetchMaterialGroup(ICriteria criteria, String token) {
@@ -276,8 +252,7 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 	/**
 	 * 查询-物料组（提前设置用户口令）
 	 *
-	 * @param criteria
-	 *            查询
+	 * @param criteria 查询
 	 * @return 操作结果
 	 */
 	public IOperationResult<IMaterialGroup> fetchMaterialGroup(ICriteria criteria) {
@@ -287,10 +262,8 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 	/**
 	 * 保存-物料组
 	 *
-	 * @param bo
-	 *            对象实例
-	 * @param token
-	 *            口令
+	 * @param bo    对象实例
+	 * @param token 口令
 	 * @return 操作结果
 	 */
 	public OperationResult<MaterialGroup> saveMaterialGroup(MaterialGroup bo, String token) {
@@ -300,8 +273,7 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 	/**
 	 * 保存-物料组（提前设置用户口令）
 	 *
-	 * @param bo
-	 *            对象实例
+	 * @param bo 对象实例
 	 * @return 操作结果
 	 */
 	public IOperationResult<IMaterialGroup> saveMaterialGroup(IMaterialGroup bo) {
@@ -313,10 +285,8 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 	/**
 	 * 查询-物料库存
 	 *
-	 * @param criteria
-	 *            查询
-	 * @param token
-	 *            口令
+	 * @param criteria 查询
+	 * @param token    口令
 	 * @return 操作结果
 	 */
 	public OperationResult<MaterialInventory> fetchMaterialInventory(ICriteria criteria, String token) {
@@ -326,8 +296,7 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 	/**
 	 * 查询-物料库存（提前设置用户口令）
 	 *
-	 * @param criteria
-	 *            查询
+	 * @param criteria 查询
 	 * @return 操作结果
 	 */
 	public IOperationResult<IMaterialInventory> fetchMaterialInventory(ICriteria criteria) {
@@ -339,10 +308,8 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 	/**
 	 * 查询-仓库日记账
 	 *
-	 * @param criteria
-	 *            查询
-	 * @param token
-	 *            口令
+	 * @param criteria 查询
+	 * @param token    口令
 	 * @return 操作结果
 	 */
 	public OperationResult<MaterialInventoryJournal> fetchMaterialInventoryJournal(ICriteria criteria, String token) {
@@ -352,8 +319,7 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 	/**
 	 * 查询-仓库日记账（提前设置用户口令）
 	 *
-	 * @param criteria
-	 *            查询
+	 * @param criteria 查询
 	 * @return 操作结果
 	 */
 	public IOperationResult<IMaterialInventoryJournal> fetchMaterialInventoryJournal(ICriteria criteria) {
@@ -364,10 +330,8 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 	/**
 	 * 保存-仓库日记账
 	 *
-	 * @param bo
-	 *            对象实例
-	 * @param token
-	 *            口令
+	 * @param bo    对象实例
+	 * @param token 口令
 	 * @return 操作结果
 	 */
 	public OperationResult<MaterialInventoryJournal> saveMaterialInventoryJournal(MaterialInventoryJournal bo,
@@ -378,8 +342,7 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 	/**
 	 * 保存-仓库日记账（提前设置用户口令）
 	 *
-	 * @param bo
-	 *            对象实例
+	 * @param bo 对象实例
 	 * @return 操作结果
 	 */
 	public IOperationResult<IMaterialInventoryJournal> saveMaterialInventoryJournal(IMaterialInventoryJournal bo) {
@@ -392,10 +355,8 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 	/**
 	 * 查询-物料价格清单
 	 *
-	 * @param criteria
-	 *            查询
-	 * @param token
-	 *            口令
+	 * @param criteria 查询
+	 * @param token    口令
 	 * @return 操作结果
 	 */
 	public OperationResult<MaterialPriceList> fetchMaterialPriceList(ICriteria criteria, String token) {
@@ -405,8 +366,7 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 	/**
 	 * 查询-物料价格清单（提前设置用户口令）
 	 *
-	 * @param criteria
-	 *            查询
+	 * @param criteria 查询
 	 * @return 操作结果
 	 */
 	public IOperationResult<IMaterialPriceList> fetchMaterialPriceList(ICriteria criteria) {
@@ -416,10 +376,8 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 	/**
 	 * 保存-物料价格清单
 	 *
-	 * @param bo
-	 *            对象实例
-	 * @param token
-	 *            口令
+	 * @param bo    对象实例
+	 * @param token 口令
 	 * @return 操作结果
 	 */
 	public OperationResult<MaterialPriceList> saveMaterialPriceList(MaterialPriceList bo, String token) {
@@ -429,8 +387,7 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 	/**
 	 * 保存-物料价格清单（提前设置用户口令）
 	 *
-	 * @param bo
-	 *            对象实例
+	 * @param bo 对象实例
 	 * @return 操作结果
 	 */
 	public IOperationResult<IMaterialPriceList> saveMaterialPriceList(IMaterialPriceList bo) {
@@ -443,10 +400,8 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 	/**
 	 * 查询-物料批次
 	 *
-	 * @param criteria
-	 *            查询
-	 * @param token
-	 *            口令
+	 * @param criteria 查询
+	 * @param token    口令
 	 * @return 操作结果
 	 */
 	public OperationResult<MaterialBatch> fetchMaterialBatch(ICriteria criteria, String token) {
@@ -456,8 +411,7 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 	/**
 	 * 查询-物料批次（提前设置用户口令）
 	 *
-	 * @param criteria
-	 *            查询
+	 * @param criteria 查询
 	 * @return 操作结果
 	 */
 	public IOperationResult<IMaterialBatch> fetchMaterialBatch(ICriteria criteria) {
@@ -467,10 +421,8 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 	/**
 	 * 保存-物料批次
 	 *
-	 * @param bo
-	 *            对象实例
-	 * @param token
-	 *            口令
+	 * @param bo    对象实例
+	 * @param token 口令
 	 * @return 操作结果
 	 */
 	public OperationResult<MaterialBatch> saveMaterialBatch(MaterialBatch bo, String token) {
@@ -480,8 +432,7 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 	/**
 	 * 保存-物料批次（提前设置用户口令）
 	 *
-	 * @param bo
-	 *            对象实例
+	 * @param bo 对象实例
 	 * @return 操作结果
 	 */
 	public IOperationResult<IMaterialBatch> saveMaterialBatch(IMaterialBatch bo) {
@@ -493,10 +444,8 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 	/**
 	 * 查询-物料批次日记账
 	 *
-	 * @param criteria
-	 *            查询
-	 * @param token
-	 *            口令
+	 * @param criteria 查询
+	 * @param token    口令
 	 * @return 操作结果
 	 */
 	@Override
@@ -507,8 +456,7 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 	/**
 	 * 查询-物料批次日记账（提前设置用户口令）
 	 *
-	 * @param criteria
-	 *            查询
+	 * @param criteria 查询
 	 * @return 操作结果
 	 */
 	@Override
@@ -522,10 +470,8 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 	/**
 	 * 查询-物料序列
 	 *
-	 * @param criteria
-	 *            查询
-	 * @param token
-	 *            口令
+	 * @param criteria 查询
+	 * @param token    口令
 	 * @return 操作结果
 	 */
 	@Override
@@ -536,8 +482,7 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 	/**
 	 * 查询-物料序列（提前设置用户口令）
 	 *
-	 * @param criteria
-	 *            查询
+	 * @param criteria 查询
 	 * @return 操作结果
 	 */
 	@Override
@@ -548,10 +493,8 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 	/**
 	 * 保存-物料序列
 	 *
-	 * @param bo
-	 *            对象实例
-	 * @param token
-	 *            口令
+	 * @param bo    对象实例
+	 * @param token 口令
 	 * @return 操作结果
 	 */
 	@Override
@@ -562,8 +505,7 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 	/**
 	 * 保存-物料序列（提前设置用户口令）
 	 *
-	 * @param bo
-	 *            对象实例
+	 * @param bo 对象实例
 	 * @return 操作结果
 	 */
 	@Override
@@ -576,10 +518,8 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 	/**
 	 * 查询-物料序列日记账
 	 *
-	 * @param criteria
-	 *            查询
-	 * @param token
-	 *            口令
+	 * @param criteria 查询
+	 * @param token    口令
 	 * @return 操作结果
 	 */
 	@Override
@@ -590,8 +530,7 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 	/**
 	 * 查询-物料序列日记账（提前设置用户口令）
 	 *
-	 * @param criteria
-	 *            查询
+	 * @param criteria 查询
 	 * @return 操作结果
 	 */
 	@Override
@@ -605,10 +544,8 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 	/**
 	 * 查询-仓库
 	 *
-	 * @param criteria
-	 *            查询
-	 * @param token
-	 *            口令
+	 * @param criteria 查询
+	 * @param token    口令
 	 * @return 操作结果
 	 */
 	@Override
@@ -619,8 +556,7 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 	/**
 	 * 查询-仓库（提前设置用户口令）
 	 *
-	 * @param criteria
-	 *            查询
+	 * @param criteria 查询
 	 * @return 操作结果
 	 */
 	@Override
@@ -631,10 +567,8 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 	/**
 	 * 保存-仓库
 	 *
-	 * @param bo
-	 *            对象实例
-	 * @param token
-	 *            口令
+	 * @param bo    对象实例
+	 * @param token 口令
 	 * @return 操作结果
 	 */
 	@Override
@@ -645,8 +579,7 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 	/**
 	 * 保存-仓库（提前设置用户口令）
 	 *
-	 * @param bo
-	 *            对象实例
+	 * @param bo 对象实例
 	 * @return 操作结果
 	 */
 	@Override
@@ -655,16 +588,59 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 	}
 
 	// --------------------------------------------------------------------------------------------//
+	/**
+	 * 查询-仓库预估日记账
+	 * 
+	 * @param criteria 查询
+	 * @param token    口令
+	 * @return 操作结果
+	 */
+	public OperationResult<MaterialEstimateJournal> fetchMaterialEstimateJournal(ICriteria criteria, String token) {
+		return super.fetch(criteria, token, MaterialEstimateJournal.class);
+	}
+
+	/**
+	 * 查询-仓库预估日记账（提前设置用户口令）
+	 * 
+	 * @param criteria 查询
+	 * @return 操作结果
+	 */
+	public IOperationResult<IMaterialEstimateJournal> fetchMaterialEstimateJournal(ICriteria criteria) {
+		return new OperationResult<IMaterialEstimateJournal>(
+				this.fetchMaterialEstimateJournal(criteria, this.getUserToken()));
+	}
+
+	/**
+	 * 保存-仓库预估日记账
+	 * 
+	 * @param bo    对象实例
+	 * @param token 口令
+	 * @return 操作结果
+	 */
+	public OperationResult<MaterialEstimateJournal> saveMaterialEstimateJournal(MaterialEstimateJournal bo,
+			String token) {
+		return super.save(bo, token);
+	}
+
+	/**
+	 * 保存-仓库预估日记账（提前设置用户口令）
+	 * 
+	 * @param bo 对象实例
+	 * @return 操作结果
+	 */
+	public IOperationResult<IMaterialEstimateJournal> saveMaterialEstimateJournal(IMaterialEstimateJournal bo) {
+		return new OperationResult<IMaterialEstimateJournal>(
+				this.saveMaterialEstimateJournal((MaterialEstimateJournal) bo, this.getUserToken()));
+	}
+
+	// --------------------------------------------------------------------------------------------//
 
 	/**
 	 * 过滤查询条件
 	 * 
-	 * @param criteria
-	 *            原始查询
-	 * @param include
-	 *            true，包含条件；false，不包含条件
-	 * @param alias
-	 *            条件名称
+	 * @param criteria 原始查询
+	 * @param include  true，包含条件；false，不包含条件
+	 * @param alias    条件名称
 	 * @return
 	 */
 	protected ICriteria filterConditions(ICriteria criteria, boolean include, String... alias) {
@@ -739,8 +715,7 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 	/**
 	 * 查询-物料价格（提前设置用户口令）
 	 *
-	 * @param criteria
-	 *            查询
+	 * @param criteria 查询
 	 * @return 操作结果
 	 */
 	@Override
@@ -751,10 +726,8 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 	/**
 	 * 查询-物料价格
 	 *
-	 * @param criteria
-	 *            查询（支持的查询条件，仅为ItemCode，ItemName，PriceList）
-	 * @param token
-	 *            口令
+	 * @param criteria 查询（支持的查询条件，仅为ItemCode，ItemName，PriceList）
+	 * @param token    口令
 	 * @return 物料价格
 	 */
 	@Override
@@ -818,12 +791,9 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 	/**
 	 * 查询物料对应价格清单的价格
 	 *
-	 * @param itemCodes
-	 *            物料编码
-	 * @param priceList
-	 *            价格清单
-	 * @param factory
-	 *            价格清单系数
+	 * @param itemCodes 物料编码
+	 * @param priceList 价格清单
+	 * @param factory   价格清单系数
 	 * @return
 	 * @throws Exception
 	 */
@@ -834,12 +804,9 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 	/**
 	 * 查询物料对应价格清单的价格
 	 *
-	 * @param itemCode
-	 *            物料
-	 * @param priceList
-	 *            价格清单
-	 * @param level
-	 *            层级
+	 * @param itemCode  物料
+	 * @param priceList 价格清单
+	 * @param level     层级
 	 * @return
 	 * @throws Exception
 	 */
@@ -929,8 +896,7 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 	/**
 	 * 查询-物料数量（提前设置用户口令）
 	 *
-	 * @param criteria
-	 *            查询
+	 * @param criteria 查询
 	 * @return 操作结果
 	 */
 	@Override
@@ -941,10 +907,8 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 	/**
 	 * 查询-物料数量
 	 *
-	 * @param criteria
-	 *            查询（支持的查询条件，仅为ItemCode，ItemName，WhsCode）
-	 * @param token
-	 *            口令
+	 * @param criteria 查询（支持的查询条件，仅为ItemCode，ItemName，WhsCode）
+	 * @param token    口令
 	 * @return 物料库存数量
 	 */
 	@Override
@@ -1027,8 +991,7 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 	/**
 	 * 查询-产品信息（提前设置用户口令）
 	 *
-	 * @param criteria
-	 *            查询
+	 * @param criteria 查询
 	 * @return 产品信息
 	 */
 	@Override
@@ -1039,10 +1002,8 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 	/**
 	 * 查询-产品信息
 	 *
-	 * @param criteria
-	 *            查询
-	 * @param token
-	 *            口令
+	 * @param criteria 查询
+	 * @param token    口令
 	 * @return 操作结果
 	 */
 	@Override

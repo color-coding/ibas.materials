@@ -50,19 +50,19 @@ public class MaterialPriceItem extends BusinessObject<MaterialPriceItem> impleme
 	public static final String BUSINESS_OBJECT_NAME = "MaterialPriceItem";
 
 	/**
-	 * 属性名称-物料编号
+	 * 属性名称-物料编码
 	 */
 	private static final String PROPERTY_ITEMCODE_NAME = "ItemCode";
 
 	/**
-	 * 物料编号 属性
+	 * 物料编码 属性
 	 */
 	@DbField(name = "ItemCode", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME, primaryKey = false, uniqueKey = true)
 	public static final IPropertyInfo<String> PROPERTY_ITEMCODE = registerProperty(PROPERTY_ITEMCODE_NAME, String.class,
 			MY_CLASS);
 
 	/**
-	 * 获取-物料编号
+	 * 获取-物料编码
 	 * 
 	 * @return 值
 	 */
@@ -72,7 +72,7 @@ public class MaterialPriceItem extends BusinessObject<MaterialPriceItem> impleme
 	}
 
 	/**
-	 * 设置-物料编号
+	 * 设置-物料编码
 	 * 
 	 * @param value
 	 *            值

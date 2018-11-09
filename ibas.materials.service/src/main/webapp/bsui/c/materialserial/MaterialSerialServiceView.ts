@@ -207,26 +207,23 @@ namespace materials {
                                             this.tableInventories,
                                             new sap.m.VBox("", {
                                                 justifyContent: sap.m.FlexJustifyContent.Center,
-                                                class: "sapUiTinyMarginBeginEnd",
                                                 items: [
                                                     new sap.m.Button("", {
-                                                        class: "sapUiTinyMarginBottom",
                                                         icon: "sap-icon://navigation-right-arrow",
                                                         press: function (): void {
                                                             that.fireViewEvents(that.useMaterialSerialInventoryEvent,
                                                                 openui5.utils.getSelecteds(that.tableInventories).firstOrDefault());
                                                         }
-                                                    }),
+                                                    }).addStyleClass("sapUiTinyMarginBottom"),
                                                     new sap.m.Button("", {
                                                         icon: "sap-icon://navigation-left-arrow",
-                                                        class: "sapUiTinyMarginBottom",
                                                         press: function (): void {
                                                             that.fireViewEvents(that.removeMaterialSerialItemEvent,
                                                                 openui5.utils.getSelecteds(that.tableItems).firstOrDefault());
                                                         }
-                                                    }),
+                                                    }).addStyleClass("sapUiTinyMarginBottom"),
                                                 ]
-                                            }),
+                                            }).addStyleClass("sapUiTinyMarginBeginEnd"),
                                             this.tableItems,
                                         ]
                                     }),

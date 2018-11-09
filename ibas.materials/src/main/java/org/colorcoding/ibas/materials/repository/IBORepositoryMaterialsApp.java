@@ -13,6 +13,7 @@ import org.colorcoding.ibas.materials.bo.material.IMaterialQuantity;
 import org.colorcoding.ibas.materials.bo.material.IProduct;
 import org.colorcoding.ibas.materials.bo.materialbatch.IMaterialBatch;
 import org.colorcoding.ibas.materials.bo.materialbatch.IMaterialBatchJournal;
+import org.colorcoding.ibas.materials.bo.materialinventory.IMaterialEstimateJournal;
 import org.colorcoding.ibas.materials.bo.materialinventory.IMaterialInventory;
 import org.colorcoding.ibas.materials.bo.materialinventory.IMaterialInventoryJournal;
 import org.colorcoding.ibas.materials.bo.materialpricelist.IMaterialPriceList;
@@ -29,8 +30,7 @@ public interface IBORepositoryMaterialsApp extends IBORepositoryApplication {
 	/**
 	 * 查询-库存发货
 	 * 
-	 * @param criteria
-	 *            查询
+	 * @param criteria 查询
 	 * @return 操作结果
 	 */
 	IOperationResult<IGoodsIssue> fetchGoodsIssue(ICriteria criteria);
@@ -38,8 +38,7 @@ public interface IBORepositoryMaterialsApp extends IBORepositoryApplication {
 	/**
 	 * 保存-库存发货
 	 * 
-	 * @param bo
-	 *            对象实例
+	 * @param bo 对象实例
 	 * @return 操作结果
 	 */
 	IOperationResult<IGoodsIssue> saveGoodsIssue(IGoodsIssue bo);
@@ -48,8 +47,7 @@ public interface IBORepositoryMaterialsApp extends IBORepositoryApplication {
 	/**
 	 * 查询-库存收货
 	 * 
-	 * @param criteria
-	 *            查询
+	 * @param criteria 查询
 	 * @return 操作结果
 	 */
 	IOperationResult<IGoodsReceipt> fetchGoodsReceipt(ICriteria criteria);
@@ -57,8 +55,7 @@ public interface IBORepositoryMaterialsApp extends IBORepositoryApplication {
 	/**
 	 * 保存-库存收货
 	 * 
-	 * @param bo
-	 *            对象实例
+	 * @param bo 对象实例
 	 * @return 操作结果
 	 */
 	IOperationResult<IGoodsReceipt> saveGoodsReceipt(IGoodsReceipt bo);
@@ -67,8 +64,7 @@ public interface IBORepositoryMaterialsApp extends IBORepositoryApplication {
 	/**
 	 * 查询-库存转储
 	 * 
-	 * @param criteria
-	 *            查询
+	 * @param criteria 查询
 	 * @return 操作结果
 	 */
 	IOperationResult<IInventoryTransfer> fetchInventoryTransfer(ICriteria criteria);
@@ -76,8 +72,7 @@ public interface IBORepositoryMaterialsApp extends IBORepositoryApplication {
 	/**
 	 * 保存-库存转储
 	 * 
-	 * @param bo
-	 *            对象实例
+	 * @param bo 对象实例
 	 * @return 操作结果
 	 */
 	IOperationResult<IInventoryTransfer> saveInventoryTransfer(IInventoryTransfer bo);
@@ -86,8 +81,7 @@ public interface IBORepositoryMaterialsApp extends IBORepositoryApplication {
 	/**
 	 * 查询-物料
 	 * 
-	 * @param criteria
-	 *            查询
+	 * @param criteria 查询
 	 * @return 操作结果
 	 */
 	IOperationResult<IMaterial> fetchMaterial(ICriteria criteria);
@@ -95,8 +89,7 @@ public interface IBORepositoryMaterialsApp extends IBORepositoryApplication {
 	/**
 	 * 保存-物料
 	 * 
-	 * @param bo
-	 *            对象实例
+	 * @param bo 对象实例
 	 * @return 操作结果
 	 */
 	IOperationResult<IMaterial> saveMaterial(IMaterial bo);
@@ -105,8 +98,7 @@ public interface IBORepositoryMaterialsApp extends IBORepositoryApplication {
 	/**
 	 * 查询-物料组
 	 * 
-	 * @param criteria
-	 *            查询
+	 * @param criteria 查询
 	 * @return 操作结果
 	 */
 	IOperationResult<IMaterialGroup> fetchMaterialGroup(ICriteria criteria);
@@ -114,8 +106,7 @@ public interface IBORepositoryMaterialsApp extends IBORepositoryApplication {
 	/**
 	 * 保存-物料组
 	 * 
-	 * @param bo
-	 *            对象实例
+	 * @param bo 对象实例
 	 * @return 操作结果
 	 */
 	IOperationResult<IMaterialGroup> saveMaterialGroup(IMaterialGroup bo);
@@ -124,8 +115,7 @@ public interface IBORepositoryMaterialsApp extends IBORepositoryApplication {
 	/**
 	 * 查询-物料库存
 	 * 
-	 * @param criteria
-	 *            查询
+	 * @param criteria 查询
 	 * @return 操作结果
 	 */
 	IOperationResult<IMaterialInventory> fetchMaterialInventory(ICriteria criteria);
@@ -134,8 +124,7 @@ public interface IBORepositoryMaterialsApp extends IBORepositoryApplication {
 	/**
 	 * 查询-仓库日记账
 	 * 
-	 * @param criteria
-	 *            查询
+	 * @param criteria 查询
 	 * @return 操作结果
 	 */
 	IOperationResult<IMaterialInventoryJournal> fetchMaterialInventoryJournal(ICriteria criteria);
@@ -143,8 +132,7 @@ public interface IBORepositoryMaterialsApp extends IBORepositoryApplication {
 	/**
 	 * 保存-仓库日记账
 	 * 
-	 * @param bo
-	 *            对象实例
+	 * @param bo 对象实例
 	 * @return 操作结果
 	 */
 	IOperationResult<IMaterialInventoryJournal> saveMaterialInventoryJournal(IMaterialInventoryJournal bo);
@@ -153,8 +141,7 @@ public interface IBORepositoryMaterialsApp extends IBORepositoryApplication {
 	/**
 	 * 查询-物料价格清单
 	 * 
-	 * @param criteria
-	 *            查询
+	 * @param criteria 查询
 	 * @return 操作结果
 	 */
 	IOperationResult<IMaterialPriceList> fetchMaterialPriceList(ICriteria criteria);
@@ -162,8 +149,7 @@ public interface IBORepositoryMaterialsApp extends IBORepositoryApplication {
 	/**
 	 * 保存-物料价格清单
 	 * 
-	 * @param bo
-	 *            对象实例
+	 * @param bo 对象实例
 	 * @return 操作结果
 	 */
 	IOperationResult<IMaterialPriceList> saveMaterialPriceList(IMaterialPriceList bo);
@@ -172,8 +158,7 @@ public interface IBORepositoryMaterialsApp extends IBORepositoryApplication {
 	/**
 	 * 查询-物料批次
 	 * 
-	 * @param criteria
-	 *            查询
+	 * @param criteria 查询
 	 * @return 操作结果
 	 */
 	IOperationResult<IMaterialBatch> fetchMaterialBatch(ICriteria criteria);
@@ -181,8 +166,7 @@ public interface IBORepositoryMaterialsApp extends IBORepositoryApplication {
 	/**
 	 * 保存-物料批次
 	 * 
-	 * @param bo
-	 *            对象实例
+	 * @param bo 对象实例
 	 * @return 操作结果
 	 */
 	IOperationResult<IMaterialBatch> saveMaterialBatch(IMaterialBatch bo);
@@ -191,8 +175,7 @@ public interface IBORepositoryMaterialsApp extends IBORepositoryApplication {
 	/**
 	 * 查询-物料批次日记账
 	 * 
-	 * @param criteria
-	 *            查询
+	 * @param criteria 查询
 	 * @return 操作结果
 	 */
 	IOperationResult<IMaterialBatchJournal> fetchMaterialBatchJournal(ICriteria criteria);
@@ -201,8 +184,7 @@ public interface IBORepositoryMaterialsApp extends IBORepositoryApplication {
 	/**
 	 * 查询-物料序列
 	 * 
-	 * @param criteria
-	 *            查询
+	 * @param criteria 查询
 	 * @return 操作结果
 	 */
 	IOperationResult<IMaterialSerial> fetchMaterialSerial(ICriteria criteria);
@@ -210,8 +192,7 @@ public interface IBORepositoryMaterialsApp extends IBORepositoryApplication {
 	/**
 	 * 保存-物料序列
 	 * 
-	 * @param bo
-	 *            对象实例
+	 * @param bo 对象实例
 	 * @return 操作结果
 	 */
 	IOperationResult<IMaterialSerial> saveMaterialSerial(IMaterialSerial bo);
@@ -220,8 +201,7 @@ public interface IBORepositoryMaterialsApp extends IBORepositoryApplication {
 	/**
 	 * 查询-物料序列日记账
 	 * 
-	 * @param criteria
-	 *            查询
+	 * @param criteria 查询
 	 * @return 操作结果
 	 */
 	IOperationResult<IMaterialSerialJournal> fetchMaterialSerialJournal(ICriteria criteria);
@@ -230,8 +210,7 @@ public interface IBORepositoryMaterialsApp extends IBORepositoryApplication {
 	/**
 	 * 查询-仓库
 	 * 
-	 * @param criteria
-	 *            查询
+	 * @param criteria 查询
 	 * @return 操作结果
 	 */
 	IOperationResult<IWarehouse> fetchWarehouse(ICriteria criteria);
@@ -239,8 +218,7 @@ public interface IBORepositoryMaterialsApp extends IBORepositoryApplication {
 	/**
 	 * 保存-仓库
 	 * 
-	 * @param bo
-	 *            对象实例
+	 * @param bo 对象实例
 	 * @return 操作结果
 	 */
 	IOperationResult<IWarehouse> saveWarehouse(IWarehouse bo);
@@ -250,8 +228,7 @@ public interface IBORepositoryMaterialsApp extends IBORepositoryApplication {
 	/**
 	 * 查询-物料扩展（仓库库存，价格清单）
 	 * 
-	 * @param criteria
-	 *            查询
+	 * @param criteria 查询
 	 * @return 操作结果
 	 */
 	IOperationResult<IProduct> fetchProduct(ICriteria criteria);
@@ -259,8 +236,7 @@ public interface IBORepositoryMaterialsApp extends IBORepositoryApplication {
 	/**
 	 * 查询-物料价格
 	 * 
-	 * @param criteria
-	 *            查询
+	 * @param criteria 查询
 	 * @return 操作结果
 	 */
 	IOperationResult<IMaterialPrice> fetchMaterialPrice(ICriteria criteria);
@@ -268,10 +244,26 @@ public interface IBORepositoryMaterialsApp extends IBORepositoryApplication {
 	/**
 	 * 查询-物料数量
 	 * 
-	 * @param criteria
-	 *            查询
+	 * @param criteria 查询
 	 * @return 操作结果
 	 */
 	IOperationResult<IMaterialQuantity> fetchMaterialQuantity(ICriteria criteria);
+
+	// --------------------------------------------------------------------------------------------//
+	/**
+	 * 查询-仓库预估日记账
+	 * 
+	 * @param criteria 查询
+	 * @return 操作结果
+	 */
+	IOperationResult<IMaterialEstimateJournal> fetchMaterialEstimateJournal(ICriteria criteria);
+
+	/**
+	 * 保存-仓库预估日记账
+	 * 
+	 * @param bo 对象实例
+	 * @return 操作结果
+	 */
+	IOperationResult<IMaterialEstimateJournal> saveMaterialEstimateJournal(IMaterialEstimateJournal bo);
 	// --------------------------------------------------------------------------------------------//
 }
