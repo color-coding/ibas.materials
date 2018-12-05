@@ -9,6 +9,7 @@ import javax.xml.bind.annotation.XmlType;
 
 import org.colorcoding.ibas.bobas.approval.IApprovalData;
 import org.colorcoding.ibas.bobas.bo.BusinessObject;
+import org.colorcoding.ibas.bobas.bo.IBOTagCanceled;
 import org.colorcoding.ibas.bobas.bo.IBOUserFields;
 import org.colorcoding.ibas.bobas.core.IPropertyInfo;
 import org.colorcoding.ibas.bobas.data.DateTime;
@@ -37,8 +38,8 @@ import org.colorcoding.ibas.materials.MyConfiguration;
 @XmlType(name = InventoryTransfer.BUSINESS_OBJECT_NAME, namespace = MyConfiguration.NAMESPACE_BO)
 @XmlRootElement(name = InventoryTransfer.BUSINESS_OBJECT_NAME, namespace = MyConfiguration.NAMESPACE_BO)
 @BOCode(InventoryTransfer.BUSINESS_OBJECT_CODE)
-public class InventoryTransfer extends BusinessObject<InventoryTransfer>
-		implements IInventoryTransfer, IDataOwnership, IApprovalData, IPeriodData, IProjectData, IBOUserFields {
+public class InventoryTransfer extends BusinessObject<InventoryTransfer> implements IInventoryTransfer, IDataOwnership,
+		IApprovalData, IBOTagCanceled, IPeriodData, IProjectData, IBOUserFields {
 
 	/**
 	 * 序列化版本标记

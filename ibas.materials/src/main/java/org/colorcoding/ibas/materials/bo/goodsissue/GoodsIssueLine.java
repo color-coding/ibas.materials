@@ -7,6 +7,7 @@ import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlType;
 
 import org.colorcoding.ibas.bobas.bo.BusinessObject;
+import org.colorcoding.ibas.bobas.bo.IBOTagCanceled;
 import org.colorcoding.ibas.bobas.bo.IBOUserFields;
 import org.colorcoding.ibas.bobas.core.IPropertyInfo;
 import org.colorcoding.ibas.bobas.data.DateTime;
@@ -39,7 +40,7 @@ import org.colorcoding.ibas.materials.logic.IMaterialIssueContract;
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlType(name = GoodsIssueLine.BUSINESS_OBJECT_NAME, namespace = MyConfiguration.NAMESPACE_BO)
 public class GoodsIssueLine extends BusinessObject<GoodsIssueLine>
-		implements IGoodsIssueLine, IBusinessLogicsHost, IBOUserFields {
+		implements IGoodsIssueLine, IBOTagCanceled, IBusinessLogicsHost, IBOUserFields {
 
 	/**
 	 * 序列化版本标记
