@@ -5,7 +5,6 @@
  * Use of this source code is governed by an Apache License, Version 2.0
  * that can be found in the LICENSE file at http://www.apache.org/licenses/LICENSE-2.0
  */
-/// <reference path="../3rdparty/ibas/index.d.ts" />
 /// <reference path="../borep/index.ts" />
 /// <reference path="./goodsissue/index.ts" />
 /// <reference path="./goodsreceipt/index.ts" />
@@ -16,7 +15,6 @@
 /// <reference path="./materialpricelist/index.ts" />
 /// <reference path="./materialserial/index.ts" />
 /// <reference path="./warehouse/index.ts" />
-
 namespace materials {
     export namespace app {
 
