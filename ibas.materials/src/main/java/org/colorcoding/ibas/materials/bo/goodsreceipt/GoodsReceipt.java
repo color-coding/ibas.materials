@@ -24,6 +24,7 @@ import org.colorcoding.ibas.bobas.mapping.DbFieldType;
 import org.colorcoding.ibas.bobas.ownership.IDataOwnership;
 import org.colorcoding.ibas.bobas.period.IPeriodData;
 import org.colorcoding.ibas.bobas.rule.IBusinessRule;
+import org.colorcoding.ibas.bobas.rule.common.BusinessRuleDocumentStatus;
 import org.colorcoding.ibas.bobas.rule.common.BusinessRuleMinValue;
 import org.colorcoding.ibas.bobas.rule.common.BusinessRuleRequiredElements;
 import org.colorcoding.ibas.bobas.rule.common.BusinessRuleSumElements;
@@ -1256,6 +1257,8 @@ public class GoodsReceipt extends BusinessObject<GoodsReceipt> implements IGoods
 	protected IBusinessRule[] registerRules() {
 		return new IBusinessRule[] { // 注册的业务规则
 				new BusinessRuleRequiredElements(PROPERTY_GOODSRECEIPTLINES), // 要求有元素
+				new BusinessRuleDocumentStatus(PROPERTY_DOCUMENTSTATUS, PROPERTY_GOODSRECEIPTLINES,
+						GoodsReceiptLine.PROPERTY_LINESTATUS), // 使用集合元素状态
 				new BusinessRuleSumElements(PROPERTY_DOCUMENTTOTAL, PROPERTY_GOODSRECEIPTLINES,
 						GoodsReceiptLine.PROPERTY_LINETOTAL), // 计算单据总计
 				new BusinessRuleMinValue<Decimal>(Decimal.ZERO, PROPERTY_DOCUMENTTOTAL), // 不能低于0
