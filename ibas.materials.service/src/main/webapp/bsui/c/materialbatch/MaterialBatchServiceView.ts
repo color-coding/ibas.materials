@@ -8,7 +8,7 @@ namespace materials {
     export namespace ui {
         export namespace c {
             /** 物料批次发货视图 */
-            export class MaterialBatchIssueView extends ibas.BODialogView implements app.IMaterialBatchIssueView {
+            export class MaterialBatchIssueView extends ibas.DialogView implements app.IMaterialBatchIssueView {
                 /** 切换工作数据 */
                 changeWorkingDataEvent: Function;
                 /** 使用物料批次库存 */
@@ -273,7 +273,7 @@ namespace materials {
                 }
             }
             /** 物料批次收货视图 */
-            export class MaterialBatchReceiptView extends ibas.BODialogView implements app.IMaterialBatchReceiptView {
+            export class MaterialBatchReceiptView extends ibas.DialogView implements app.IMaterialBatchReceiptView {
                 /** 切换工作数据 */
                 changeWorkingDataEvent: Function;
                 /** 创建批次记录 */

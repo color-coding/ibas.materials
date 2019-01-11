@@ -8,7 +8,7 @@ namespace materials {
     export namespace ui {
         export namespace c {
             /** 物料序列发货视图 */
-            export class MaterialSerialIssueView extends ibas.BODialogView implements app.IMaterialSerialIssueView {
+            export class MaterialSerialIssueView extends ibas.DialogView implements app.IMaterialSerialIssueView {
                 /** 切换工作数据 */
                 changeWorkingDataEvent: Function;
                 /** 使用物料序列库存 */
@@ -262,7 +262,7 @@ namespace materials {
                 }
             }
             /** 物料序列收货视图 */
-            export class MaterialSerialReceiptView extends ibas.BODialogView implements app.IMaterialSerialReceiptView {
+            export class MaterialSerialReceiptView extends ibas.DialogView implements app.IMaterialSerialReceiptView {
                 /** 切换工作数据 */
                 changeWorkingDataEvent: Function;
                 /** 创建序列编码记录 */

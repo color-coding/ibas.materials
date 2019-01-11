@@ -11,7 +11,7 @@ namespace materials {
             /**
              * 编辑视图-物料序列
              */
-            export class MaterialSerialEditView extends ibas.BODialogView implements app.IMaterialSerialEditView {
+            export class MaterialSerialEditView extends ibas.DialogView implements app.IMaterialSerialEditView {
                 /** 保存数据事件 */
                 saveDataEvent: Function;
 

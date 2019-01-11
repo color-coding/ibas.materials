@@ -11,7 +11,7 @@ namespace materials {
             /**
              * 编辑视图-物料批次
              */
-            export class MaterialBatchEditView extends ibas.BODialogView implements app.IMaterialBatchEditView {
+            export class MaterialBatchEditView extends ibas.DialogView implements app.IMaterialBatchEditView {
                 /** 保存数据事件 */
                 saveDataEvent: Function;
 

@@ -11,7 +11,7 @@ namespace materials {
             /**
              * 编辑视图-物料价格清单
              */
-            export class MaterialPriceListEditView extends ibas.BODialogView implements app.IMaterialPriceListEditView {
+            export class MaterialPriceListEditView extends ibas.DialogView implements app.IMaterialPriceListEditView {
                 /** 保存数据事件 */
                 saveDataEvent: Function;
                 /** 删除数据事件 */
