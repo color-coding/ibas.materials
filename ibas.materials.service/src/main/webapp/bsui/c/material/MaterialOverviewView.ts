@@ -282,9 +282,9 @@ namespace materials {
                                 visibleRowCount: 8,
                                 rows: "{/rows}",
                                 rowActionCount: 1,
-                                rowActionTemplate: new sap.ui.table.RowAction({
+                                rowActionTemplate: new sap.ui.table.RowAction("", {
                                     items: [
-                                        new sap.ui.table.RowActionItem({
+                                        new sap.ui.table.RowActionItem("", {
                                             icon: "sap-icon://show-edit",
                                             press: function (oEvent: any): void {
                                                 that.fireViewEvents(that.editMaterialBatchEvent
@@ -405,9 +405,9 @@ namespace materials {
                                 visibleRowCount: 8,
                                 rows: "{/rows}",
                                 rowActionCount: 1,
-                                rowActionTemplate: new sap.ui.table.RowAction({
+                                rowActionTemplate: new sap.ui.table.RowAction("", {
                                     items: [
-                                        new sap.ui.table.RowActionItem({
+                                        new sap.ui.table.RowActionItem("", {
                                             icon: "sap-icon://show-edit",
                                             press: function (oEvent: any): void {
                                                 that.fireViewEvents(that.editMaterialSerialEvent
@@ -610,7 +610,7 @@ namespace materials {
                 /** 显示物料基础信息 */
                 showMaterial(data: bo.IMaterial): void {
                     this.pageOverview.setModel(new sap.ui.model.json.JSONModel(data));
-                    this.pageOverview.bindContext("/");
+                    this.pageOverview.bindObject("/");
                     this.panelInventory.setVisible(data.itemType === bo.emItemType.ITEM ? true : false);
                     this.panelInventory.getContent()[0].setModel(undefined);
                     this.panelInventory.setExpanded(false);

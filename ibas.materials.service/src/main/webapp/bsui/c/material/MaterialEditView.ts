@@ -334,7 +334,7 @@ namespace materials {
                 /** 显示数据 */
                 showMaterial(data: bo.Material): void {
                     this.form.setModel(new sap.ui.model.json.JSONModel(data));
-                    this.form.bindContext("/");
+                    this.form.bindObject("/");
                     // 监听属性改变，并更新控件
                     openui5.utils.refreshModelChanged(this.form, data);
                     // 改变视图状态
