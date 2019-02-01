@@ -146,7 +146,7 @@ namespace materials {
                 let condition: ibas.ICondition = criteria.conditions.create();
                 condition.alias = bo.MaterialPriceList.PROPERTY_OBJECTKEY_NAME;
                 condition.operation = ibas.emConditionOperation.NOT_EQUAL;
-                condition.value = ibas.strings.valueOf(this.editData.objectKey);
+                condition.value = this.editData.objectKey ? ibas.strings.valueOf(this.editData.objectKey) : "0";
                 ibas.servicesManager.runChooseService<bo.MaterialPriceList>({
                     boCode: bo.MaterialPriceList.BUSINESS_OBJECT_CODE,
                     chooseType: ibas.emChooseType.SINGLE,

@@ -189,6 +189,7 @@ namespace materials {
                                             builder.append(ibas.i18n.prop("bo_materialinventory"));
                                             builder.append(": ");
                                             builder.append(material.onHand);
+                                            builder.append(" ");
                                             builder.append(material.inventoryUOM);
                                             return builder.toString();
                                         }
