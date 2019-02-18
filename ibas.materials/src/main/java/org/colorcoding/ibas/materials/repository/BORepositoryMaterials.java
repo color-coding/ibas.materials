@@ -20,6 +20,8 @@ import org.colorcoding.ibas.materials.bo.goodsissue.GoodsIssue;
 import org.colorcoding.ibas.materials.bo.goodsissue.IGoodsIssue;
 import org.colorcoding.ibas.materials.bo.goodsreceipt.GoodsReceipt;
 import org.colorcoding.ibas.materials.bo.goodsreceipt.IGoodsReceipt;
+import org.colorcoding.ibas.materials.bo.inventorycounting.IInventoryCounting;
+import org.colorcoding.ibas.materials.bo.inventorycounting.InventoryCounting;
 import org.colorcoding.ibas.materials.bo.inventorytransfer.IInventoryTransfer;
 import org.colorcoding.ibas.materials.bo.inventorytransfer.InventoryTransfer;
 import org.colorcoding.ibas.materials.bo.material.IMaterial;
@@ -633,6 +635,49 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 				this.saveMaterialEstimateJournal((MaterialEstimateJournal) bo, this.getUserToken()));
 	}
 
+	// --------------------------------------------------------------------------------------------//
+	/**
+	 * 查询-库存盘点
+	 * 
+	 * @param criteria 查询
+	 * @param token    口令
+	 * @return 操作结果
+	 */
+	public OperationResult<InventoryCounting> fetchInventoryCounting(ICriteria criteria, String token) {
+		return super.fetch(criteria, token, InventoryCounting.class);
+	}
+
+	/**
+	 * 查询-库存盘点（提前设置用户口令）
+	 * 
+	 * @param criteria 查询
+	 * @return 操作结果
+	 */
+	public IOperationResult<IInventoryCounting> fetchInventoryCounting(ICriteria criteria) {
+		return new OperationResult<IInventoryCounting>(this.fetchInventoryCounting(criteria, this.getUserToken()));
+	}
+
+	/**
+	 * 保存-库存盘点
+	 * 
+	 * @param bo    对象实例
+	 * @param token 口令
+	 * @return 操作结果
+	 */
+	public OperationResult<InventoryCounting> saveInventoryCounting(InventoryCounting bo, String token) {
+		return super.save(bo, token);
+	}
+
+	/**
+	 * 保存-库存盘点（提前设置用户口令）
+	 * 
+	 * @param bo 对象实例
+	 * @return 操作结果
+	 */
+	public IOperationResult<IInventoryCounting> saveInventoryCounting(IInventoryCounting bo) {
+		return new OperationResult<IInventoryCounting>(
+				this.saveInventoryCounting((InventoryCounting) bo, this.getUserToken()));
+	}
 	// --------------------------------------------------------------------------------------------//
 
 	/**

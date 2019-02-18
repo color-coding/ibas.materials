@@ -141,6 +141,17 @@ namespace materials {
             fetchMaterialSerialJournal(fetcher: ibas.IFetchCaller<bo.IMaterialSerialJournal>): void;
 
             /**
+             * 查询 库存盘点
+             * @param fetcher 查询者
+             */
+            fetchInventoryCounting(fetcher: ibas.IFetchCaller<bo.IInventoryCounting>): void;
+            /**
+             * 保存 库存盘点
+             * @param saver 保存者
+             */
+            saveInventoryCounting(saver: ibas.ISaveCaller<bo.IInventoryCounting>): void;
+
+            /**
              * 查询 物料价格清单
              * @param fetcher 查询者
              */

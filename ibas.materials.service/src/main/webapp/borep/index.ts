@@ -20,6 +20,7 @@
 /// <reference path="./bo/MaterialSerialJournal.ts" />
 /// <reference path="./bo/Product.ts" />
 /// <reference path="./bo/Warehouse.ts" />
+/// <reference path="./bo/InventoryCounting.ts" />
 /// <reference path="./DataConverter.ts" />
 /// <reference path="./BORepository.ts" />
 
@@ -44,5 +45,6 @@ namespace materials {
         boFactory.register(MaterialPriceList.BUSINESS_OBJECT_CODE, MaterialPriceList);
         boFactory.register(MaterialBatchJournal.BUSINESS_OBJECT_CODE, MaterialBatchJournal);
         boFactory.register(MaterialSerialJournal.BUSINESS_OBJECT_CODE, MaterialSerialJournal);
+        boFactory.register(InventoryCounting.BUSINESS_OBJECT_CODE, InventoryCounting);
     }
 }

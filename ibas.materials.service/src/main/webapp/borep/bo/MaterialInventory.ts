@@ -39,6 +39,17 @@ namespace materials {
                 this.setProperty(MaterialInventory.PROPERTY_WAREHOUSE_NAME, value);
             }
 
+            /** 映射的属性名称-冻结的 */
+            static PROPERTY_FROZEN_NAME: string = "Frozen";
+            /** 获取-冻结的 */
+            get frozen(): ibas.emYesNo {
+                return this.getProperty<ibas.emYesNo>(MaterialInventory.PROPERTY_FROZEN_NAME);
+            }
+            /** 设置-冻结的 */
+            set frozen(value: ibas.emYesNo) {
+                this.setProperty(MaterialInventory.PROPERTY_FROZEN_NAME, value);
+            }
+
             /** 映射的属性名称-价格 */
             static PROPERTY_AVGPRICE_NAME: string = "AvgPrice";
             /** 获取-价格 */

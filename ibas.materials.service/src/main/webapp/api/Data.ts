@@ -48,6 +48,8 @@ namespace materials {
         export const BO_CODE_MATERIALSERIALITEM: string = "${Company}_MM_SERIALITEM";
         /** 业务对象编码-物料批次项目 */
         export const BO_CODE_MATERIALBATCHITEM: string = "${Company}_MM_BATCHITEM";
+        /** 业务对象编码-库存盘点 */
+        export const BO_CODE_INVENTORYCOUNTING: string = "${Company}_MM_INVENTORYCOUNTING";
 
         /** 物料类型 */
         export enum emItemType {

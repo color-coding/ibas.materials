@@ -5,6 +5,7 @@ import org.colorcoding.ibas.bobas.common.OperationResult;
 import org.colorcoding.ibas.bobas.repository.IBORepositorySmartService;
 import org.colorcoding.ibas.materials.bo.goodsissue.GoodsIssue;
 import org.colorcoding.ibas.materials.bo.goodsreceipt.GoodsReceipt;
+import org.colorcoding.ibas.materials.bo.inventorycounting.InventoryCounting;
 import org.colorcoding.ibas.materials.bo.inventorytransfer.InventoryTransfer;
 import org.colorcoding.ibas.materials.bo.material.Material;
 import org.colorcoding.ibas.materials.bo.material.MaterialGroup;
@@ -294,5 +295,23 @@ public interface IBORepositoryMaterialsSvc extends IBORepositorySmartService {
 	 */
 	OperationResult<MaterialEstimateJournal> saveMaterialEstimateJournal(MaterialEstimateJournal bo, String token);
 
+	// --------------------------------------------------------------------------------------------//
+	/**
+	 * 查询-库存盘点
+	 * 
+	 * @param criteria 查询
+	 * @param token    口令
+	 * @return 操作结果
+	 */
+	OperationResult<InventoryCounting> fetchInventoryCounting(ICriteria criteria, String token);
+
+	/**
+	 * 保存-库存盘点
+	 * 
+	 * @param bo    对象实例
+	 * @param token 口令
+	 * @return 操作结果
+	 */
+	OperationResult<InventoryCounting> saveInventoryCounting(InventoryCounting bo, String token);
 	// --------------------------------------------------------------------------------------------//
 }

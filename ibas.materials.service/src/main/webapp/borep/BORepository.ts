@@ -239,6 +239,20 @@ namespace materials {
             fetchMaterialPrice(fetcher: ibas.IFetchCaller<bo.MaterialPrice>): void {
                 super.fetch(bo.MaterialPrice.name, fetcher);
             }
+            /**
+             * 查询 库存盘点
+             * @param fetcher 查询者
+             */
+            fetchInventoryCounting(fetcher: ibas.IFetchCaller<bo.InventoryCounting>): void {
+                super.fetch(bo.InventoryCounting.name, fetcher);
+            }
+            /**
+             * 保存 库存盘点
+             * @param saver 保存者
+             */
+            saveInventoryCounting(saver: ibas.ISaveCaller<bo.InventoryCounting>): void {
+                super.save(bo.InventoryCounting.name, saver);
+            }
         }
     }
 }

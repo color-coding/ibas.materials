@@ -21,5 +21,6 @@
 /// <reference path="./bo/MaterialSerialItem.ts" />
 /// <reference path="./bo/MaterialSerialJournal.ts" />
 /// <reference path="./bo/Product.ts" />
+/// <reference path="./bo/InventoryCounting.ts" />
 /// <reference path="./bo/Warehouse.ts" />
 /// <reference path="./BORepository.ts" />

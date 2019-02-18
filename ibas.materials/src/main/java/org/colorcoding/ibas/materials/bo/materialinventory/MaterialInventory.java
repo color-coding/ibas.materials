@@ -10,6 +10,7 @@ import org.colorcoding.ibas.bobas.bo.BusinessObject;
 import org.colorcoding.ibas.bobas.core.IPropertyInfo;
 import org.colorcoding.ibas.bobas.data.DateTime;
 import org.colorcoding.ibas.bobas.data.Decimal;
+import org.colorcoding.ibas.bobas.data.emYesNo;
 import org.colorcoding.ibas.bobas.mapping.BOCode;
 import org.colorcoding.ibas.bobas.mapping.DbField;
 import org.colorcoding.ibas.bobas.mapping.DbFieldType;
@@ -77,8 +78,7 @@ public class MaterialInventory extends BusinessObject<MaterialInventory> impleme
 	/**
 	 * 设置-物料编码
 	 *
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setItemCode(String value) {
 		this.setProperty(PROPERTY_ITEMCODE, value);
@@ -109,11 +109,41 @@ public class MaterialInventory extends BusinessObject<MaterialInventory> impleme
 	/**
 	 * 设置-仓库编号
 	 *
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setWarehouse(String value) {
 		this.setProperty(PROPERTY_WAREHOUSE, value);
+	}
+
+	/**
+	 * 属性名称-冻结的
+	 */
+	private static final String PROPERTY_FROZEN_NAME = "Frozen";
+
+	/**
+	 * 冻结的 属性
+	 */
+	@DbField(name = "Frozen", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME, primaryKey = false)
+	public static final IPropertyInfo<emYesNo> PROPERTY_FROZEN = registerProperty(PROPERTY_FROZEN_NAME, emYesNo.class,
+			MY_CLASS);
+
+	/**
+	 * 获取-冻结的
+	 * 
+	 * @return 值
+	 */
+	@XmlElement(name = PROPERTY_FROZEN_NAME)
+	public final emYesNo getFrozen() {
+		return this.getProperty(PROPERTY_FROZEN);
+	}
+
+	/**
+	 * 设置-冻结的
+	 * 
+	 * @param value 值
+	 */
+	public final void setFrozen(emYesNo value) {
+		this.setProperty(PROPERTY_FROZEN, value);
 	}
 
 	/**
@@ -141,8 +171,7 @@ public class MaterialInventory extends BusinessObject<MaterialInventory> impleme
 	/**
 	 * 设置-价格
 	 *
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setAvgPrice(Decimal value) {
 		this.setProperty(PROPERTY_AVGPRICE, value);
@@ -151,8 +180,7 @@ public class MaterialInventory extends BusinessObject<MaterialInventory> impleme
 	/**
 	 * 设置-价格
 	 *
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setAvgPrice(String value) {
 		this.setAvgPrice(new Decimal(value));
@@ -161,8 +189,7 @@ public class MaterialInventory extends BusinessObject<MaterialInventory> impleme
 	/**
 	 * 设置-价格
 	 *
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setAvgPrice(int value) {
 		this.setAvgPrice(new Decimal(value));
@@ -171,8 +198,7 @@ public class MaterialInventory extends BusinessObject<MaterialInventory> impleme
 	/**
 	 * 设置-价格
 	 *
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setAvgPrice(double value) {
 		this.setAvgPrice(new Decimal(value));
@@ -203,8 +229,7 @@ public class MaterialInventory extends BusinessObject<MaterialInventory> impleme
 	/**
 	 * 设置-库存
 	 *
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setOnHand(Decimal value) {
 		this.setProperty(PROPERTY_ONHAND, value);
@@ -213,8 +238,7 @@ public class MaterialInventory extends BusinessObject<MaterialInventory> impleme
 	/**
 	 * 设置-库存
 	 *
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setOnHand(String value) {
 		this.setOnHand(new Decimal(value));
@@ -223,8 +247,7 @@ public class MaterialInventory extends BusinessObject<MaterialInventory> impleme
 	/**
 	 * 设置-库存
 	 *
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setOnHand(int value) {
 		this.setOnHand(new Decimal(value));
@@ -233,8 +256,7 @@ public class MaterialInventory extends BusinessObject<MaterialInventory> impleme
 	/**
 	 * 设置-库存
 	 *
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setOnHand(double value) {
 		this.setOnHand(new Decimal(value));
@@ -265,8 +287,7 @@ public class MaterialInventory extends BusinessObject<MaterialInventory> impleme
 	/**
 	 * 设置-已承诺
 	 *
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setOnCommited(Decimal value) {
 		this.setProperty(PROPERTY_ONCOMMITED, value);
@@ -275,8 +296,7 @@ public class MaterialInventory extends BusinessObject<MaterialInventory> impleme
 	/**
 	 * 设置-已承诺
 	 *
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setOnCommited(String value) {
 		this.setOnCommited(new Decimal(value));
@@ -285,8 +305,7 @@ public class MaterialInventory extends BusinessObject<MaterialInventory> impleme
 	/**
 	 * 设置-已承诺
 	 *
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setOnCommited(int value) {
 		this.setOnCommited(new Decimal(value));
@@ -295,8 +314,7 @@ public class MaterialInventory extends BusinessObject<MaterialInventory> impleme
 	/**
 	 * 设置-已承诺
 	 *
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setOnCommited(double value) {
 		this.setOnCommited(new Decimal(value));
@@ -327,8 +345,7 @@ public class MaterialInventory extends BusinessObject<MaterialInventory> impleme
 	/**
 	 * 设置-已订购
 	 *
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setOnOrdered(Decimal value) {
 		this.setProperty(PROPERTY_ONORDERED, value);
@@ -337,8 +354,7 @@ public class MaterialInventory extends BusinessObject<MaterialInventory> impleme
 	/**
 	 * 设置-已订购
 	 *
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setOnOrdered(String value) {
 		this.setOnOrdered(new Decimal(value));
@@ -347,8 +363,7 @@ public class MaterialInventory extends BusinessObject<MaterialInventory> impleme
 	/**
 	 * 设置-已订购
 	 *
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setOnOrdered(int value) {
 		this.setOnOrdered(new Decimal(value));
@@ -357,8 +372,7 @@ public class MaterialInventory extends BusinessObject<MaterialInventory> impleme
 	/**
 	 * 设置-已订购
 	 *
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setOnOrdered(double value) {
 		this.setOnOrdered(new Decimal(value));
@@ -389,8 +403,7 @@ public class MaterialInventory extends BusinessObject<MaterialInventory> impleme
 	/**
 	 * 设置-对象编号
 	 *
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setObjectKey(Integer value) {
 		this.setProperty(PROPERTY_OBJECTKEY, value);
@@ -421,8 +434,7 @@ public class MaterialInventory extends BusinessObject<MaterialInventory> impleme
 	/**
 	 * 设置-对象类型
 	 *
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setObjectCode(String value) {
 		this.setProperty(PROPERTY_OBJECTCODE, value);
@@ -453,8 +465,7 @@ public class MaterialInventory extends BusinessObject<MaterialInventory> impleme
 	/**
 	 * 设置-创建日期
 	 *
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setCreateDate(DateTime value) {
 		this.setProperty(PROPERTY_CREATEDATE, value);
@@ -485,8 +496,7 @@ public class MaterialInventory extends BusinessObject<MaterialInventory> impleme
 	/**
 	 * 设置-创建时间
 	 *
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setCreateTime(Short value) {
 		this.setProperty(PROPERTY_CREATETIME, value);
@@ -517,8 +527,7 @@ public class MaterialInventory extends BusinessObject<MaterialInventory> impleme
 	/**
 	 * 设置-修改日期
 	 *
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setUpdateDate(DateTime value) {
 		this.setProperty(PROPERTY_UPDATEDATE, value);
@@ -549,8 +558,7 @@ public class MaterialInventory extends BusinessObject<MaterialInventory> impleme
 	/**
 	 * 设置-修改时间
 	 *
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setUpdateTime(Short value) {
 		this.setProperty(PROPERTY_UPDATETIME, value);
@@ -581,8 +589,7 @@ public class MaterialInventory extends BusinessObject<MaterialInventory> impleme
 	/**
 	 * 设置-版本
 	 *
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setLogInst(Integer value) {
 		this.setProperty(PROPERTY_LOGINST, value);
@@ -613,8 +620,7 @@ public class MaterialInventory extends BusinessObject<MaterialInventory> impleme
 	/**
 	 * 设置-服务系列
 	 *
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setSeries(Integer value) {
 		this.setProperty(PROPERTY_SERIES, value);
@@ -645,8 +651,7 @@ public class MaterialInventory extends BusinessObject<MaterialInventory> impleme
 	/**
 	 * 设置-数据源
 	 *
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setDataSource(String value) {
 		this.setProperty(PROPERTY_DATASOURCE, value);
@@ -677,8 +682,7 @@ public class MaterialInventory extends BusinessObject<MaterialInventory> impleme
 	/**
 	 * 设置-创建用户
 	 *
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setCreateUserSign(Integer value) {
 		this.setProperty(PROPERTY_CREATEUSERSIGN, value);
@@ -709,8 +713,7 @@ public class MaterialInventory extends BusinessObject<MaterialInventory> impleme
 	/**
 	 * 设置-修改用户
 	 *
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setUpdateUserSign(Integer value) {
 		this.setProperty(PROPERTY_UPDATEUSERSIGN, value);
@@ -741,8 +744,7 @@ public class MaterialInventory extends BusinessObject<MaterialInventory> impleme
 	/**
 	 * 设置-创建动作标识
 	 *
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setCreateActionId(String value) {
 		this.setProperty(PROPERTY_CREATEACTIONID, value);
@@ -773,8 +775,7 @@ public class MaterialInventory extends BusinessObject<MaterialInventory> impleme
 	/**
 	 * 设置-更新动作标识
 	 *
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setUpdateActionId(String value) {
 		this.setProperty(PROPERTY_UPDATEACTIONID, value);

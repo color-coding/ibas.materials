@@ -15,6 +15,7 @@
 /// <reference path="./materialbatch/index.ts" />
 /// <reference path="./materialserial/index.ts" />
 /// <reference path="./materialpricelist/index.ts" />
+/// <reference path="./inventorycounting/index.ts" />
 namespace materials {
     export namespace ui {
         /**
@@ -145,6 +146,15 @@ namespace materials {
                         break;
                     case app.MaterialPriceListEditApp.APPLICATION_ID:
                         view = new c.MaterialPriceListEditView();
+                        break;
+                    case app.InventoryCountingListApp.APPLICATION_ID:
+                        view = new c.InventoryCountingListView();
+                        break;
+                    case app.InventoryCountingChooseApp.APPLICATION_ID:
+                        view = new c.InventoryCountingChooseView();
+                        break;
+                    case app.InventoryCountingEditApp.APPLICATION_ID:
+                        view = new c.InventoryCountingEditView();
                         break;
                     default:
                         break;

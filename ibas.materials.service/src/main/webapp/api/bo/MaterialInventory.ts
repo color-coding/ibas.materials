@@ -17,6 +17,9 @@ namespace materials {
             /** 仓库编号 */
             warehouse: string;
 
+            /** 冻结的 */
+            frozen: ibas.emYesNo;
+
             /** 价格 */
             avgPrice: number;
 

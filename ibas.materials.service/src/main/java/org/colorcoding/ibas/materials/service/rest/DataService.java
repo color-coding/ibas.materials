@@ -11,6 +11,7 @@ import org.colorcoding.ibas.bobas.common.Criteria;
 import org.colorcoding.ibas.bobas.common.OperationResult;
 import org.colorcoding.ibas.materials.bo.goodsissue.GoodsIssue;
 import org.colorcoding.ibas.materials.bo.goodsreceipt.GoodsReceipt;
+import org.colorcoding.ibas.materials.bo.inventorycounting.InventoryCounting;
 import org.colorcoding.ibas.materials.bo.inventorytransfer.InventoryTransfer;
 import org.colorcoding.ibas.materials.bo.material.Material;
 import org.colorcoding.ibas.materials.bo.material.MaterialGroup;
@@ -37,10 +38,8 @@ public class DataService extends BORepositoryMaterials {
 	/**
 	 * 查询-库存发货
 	 * 
-	 * @param criteria
-	 *            查询
-	 * @param token
-	 *            口令
+	 * @param criteria 查询
+	 * @param token    口令
 	 * @return 操作结果
 	 */
 	@POST
@@ -54,10 +53,8 @@ public class DataService extends BORepositoryMaterials {
 	/**
 	 * 保存-库存发货
 	 * 
-	 * @param bo
-	 *            对象实例
-	 * @param token
-	 *            口令
+	 * @param bo    对象实例
+	 * @param token 口令
 	 * @return 操作结果
 	 */
 	@POST
@@ -72,10 +69,8 @@ public class DataService extends BORepositoryMaterials {
 	/**
 	 * 查询-库存收货
 	 * 
-	 * @param criteria
-	 *            查询
-	 * @param token
-	 *            口令
+	 * @param criteria 查询
+	 * @param token    口令
 	 * @return 操作结果
 	 */
 	@POST
@@ -89,10 +84,8 @@ public class DataService extends BORepositoryMaterials {
 	/**
 	 * 保存-库存收货
 	 * 
-	 * @param bo
-	 *            对象实例
-	 * @param token
-	 *            口令
+	 * @param bo    对象实例
+	 * @param token 口令
 	 * @return 操作结果
 	 */
 	@POST
@@ -107,10 +100,8 @@ public class DataService extends BORepositoryMaterials {
 	/**
 	 * 查询-库存转储
 	 * 
-	 * @param criteria
-	 *            查询
-	 * @param token
-	 *            口令
+	 * @param criteria 查询
+	 * @param token    口令
 	 * @return 操作结果
 	 */
 	@POST
@@ -125,10 +116,8 @@ public class DataService extends BORepositoryMaterials {
 	/**
 	 * 保存-库存转储
 	 * 
-	 * @param bo
-	 *            对象实例
-	 * @param token
-	 *            口令
+	 * @param bo    对象实例
+	 * @param token 口令
 	 * @return 操作结果
 	 */
 	@POST
@@ -144,10 +133,8 @@ public class DataService extends BORepositoryMaterials {
 	/**
 	 * 查询-物料
 	 * 
-	 * @param criteria
-	 *            查询
-	 * @param token
-	 *            口令
+	 * @param criteria 查询
+	 * @param token    口令
 	 * @return 操作结果
 	 */
 	@POST
@@ -161,10 +148,8 @@ public class DataService extends BORepositoryMaterials {
 	/**
 	 * 保存-物料
 	 * 
-	 * @param bo
-	 *            对象实例
-	 * @param token
-	 *            口令
+	 * @param bo    对象实例
+	 * @param token 口令
 	 * @return 操作结果
 	 */
 	@POST
@@ -179,10 +164,8 @@ public class DataService extends BORepositoryMaterials {
 	/**
 	 * 查询-物料批次
 	 * 
-	 * @param criteria
-	 *            查询
-	 * @param token
-	 *            口令
+	 * @param criteria 查询
+	 * @param token    口令
 	 * @return 操作结果
 	 */
 	@POST
@@ -196,10 +179,8 @@ public class DataService extends BORepositoryMaterials {
 	/**
 	 * 保存-物料批次
 	 * 
-	 * @param bo
-	 *            对象实例
-	 * @param token
-	 *            口令
+	 * @param bo    对象实例
+	 * @param token 口令
 	 * @return 操作结果
 	 */
 	@POST
@@ -214,10 +195,8 @@ public class DataService extends BORepositoryMaterials {
 	/**
 	 * 查询-物料批次日记账
 	 * 
-	 * @param criteria
-	 *            查询
-	 * @param token
-	 *            口令
+	 * @param criteria 查询
+	 * @param token    口令
 	 * @return 操作结果
 	 */
 	@POST
@@ -233,10 +212,8 @@ public class DataService extends BORepositoryMaterials {
 	/**
 	 * 查询-物料组
 	 * 
-	 * @param criteria
-	 *            查询
-	 * @param token
-	 *            口令
+	 * @param criteria 查询
+	 * @param token    口令
 	 * @return 操作结果
 	 */
 	@POST
@@ -250,10 +227,8 @@ public class DataService extends BORepositoryMaterials {
 	/**
 	 * 保存-物料组
 	 * 
-	 * @param bo
-	 *            对象实例
-	 * @param token
-	 *            口令
+	 * @param bo    对象实例
+	 * @param token 口令
 	 * @return 操作结果
 	 */
 	@POST
@@ -268,10 +243,8 @@ public class DataService extends BORepositoryMaterials {
 	/**
 	 * 查询-物料库存
 	 * 
-	 * @param criteria
-	 *            查询
-	 * @param token
-	 *            口令
+	 * @param criteria 查询
+	 * @param token    口令
 	 * @return 操作结果
 	 */
 	@POST
@@ -287,10 +260,8 @@ public class DataService extends BORepositoryMaterials {
 	/**
 	 * 查询-仓库日记账
 	 * 
-	 * @param criteria
-	 *            查询
-	 * @param token
-	 *            口令
+	 * @param criteria 查询
+	 * @param token    口令
 	 * @return 操作结果
 	 */
 	@POST
@@ -306,10 +277,8 @@ public class DataService extends BORepositoryMaterials {
 	/**
 	 * 查询-物料价格清单
 	 * 
-	 * @param criteria
-	 *            查询
-	 * @param token
-	 *            口令
+	 * @param criteria 查询
+	 * @param token    口令
 	 * @return 操作结果
 	 */
 	@POST
@@ -324,10 +293,8 @@ public class DataService extends BORepositoryMaterials {
 	/**
 	 * 保存-物料价格清单
 	 * 
-	 * @param bo
-	 *            对象实例
-	 * @param token
-	 *            口令
+	 * @param bo    对象实例
+	 * @param token 口令
 	 * @return 操作结果
 	 */
 	@POST
@@ -343,10 +310,8 @@ public class DataService extends BORepositoryMaterials {
 	/**
 	 * 查询-物料序列
 	 * 
-	 * @param criteria
-	 *            查询
-	 * @param token
-	 *            口令
+	 * @param criteria 查询
+	 * @param token    口令
 	 * @return 操作结果
 	 */
 	@POST
@@ -360,10 +325,8 @@ public class DataService extends BORepositoryMaterials {
 	/**
 	 * 保存-物料序列
 	 * 
-	 * @param bo
-	 *            对象实例
-	 * @param token
-	 *            口令
+	 * @param bo    对象实例
+	 * @param token 口令
 	 * @return 操作结果
 	 */
 	@POST
@@ -378,10 +341,8 @@ public class DataService extends BORepositoryMaterials {
 	/**
 	 * 查询-物料序列日记账
 	 * 
-	 * @param criteria
-	 *            查询
-	 * @param token
-	 *            口令
+	 * @param criteria 查询
+	 * @param token    口令
 	 * @return 操作结果
 	 */
 	@POST
@@ -397,10 +358,8 @@ public class DataService extends BORepositoryMaterials {
 	/**
 	 * 查询-仓库
 	 * 
-	 * @param criteria
-	 *            查询
-	 * @param token
-	 *            口令
+	 * @param criteria 查询
+	 * @param token    口令
 	 * @return 操作结果
 	 */
 	@POST
@@ -414,10 +373,8 @@ public class DataService extends BORepositoryMaterials {
 	/**
 	 * 保存-仓库
 	 * 
-	 * @param bo
-	 *            对象实例
-	 * @param token
-	 *            口令
+	 * @param bo    对象实例
+	 * @param token 口令
 	 * @return 操作结果
 	 */
 	@POST
@@ -433,10 +390,8 @@ public class DataService extends BORepositoryMaterials {
 	/**
 	 * 查询-产品（物料）（数量、价格）
 	 *
-	 * @param criteria
-	 *            查询
-	 * @param token
-	 *            口令
+	 * @param criteria 查询
+	 * @param token    口令
 	 * @return 操作结果
 	 */
 	@POST
@@ -450,10 +405,8 @@ public class DataService extends BORepositoryMaterials {
 	/**
 	 * 查询-物料数量
 	 *
-	 * @param criteria
-	 *            查询（支持的查询条件，仅为ItemCode，ItemName，WhsCode）
-	 * @param token
-	 *            口令
+	 * @param criteria 查询（支持的查询条件，仅为ItemCode，ItemName，WhsCode）
+	 * @param token    口令
 	 * @return 操作结果
 	 */
 	@POST
@@ -468,10 +421,8 @@ public class DataService extends BORepositoryMaterials {
 	/**
 	 * 查询-物料价格
 	 *
-	 * @param criteria
-	 *            查询（支持的查询条件，仅为ItemCode，ItemName，PriceList）
-	 * @param token
-	 *            口令
+	 * @param criteria 查询（支持的查询条件，仅为ItemCode，ItemName，PriceList）
+	 * @param token    口令
 	 * @return 物料价格
 	 */
 	@POST
@@ -481,5 +432,39 @@ public class DataService extends BORepositoryMaterials {
 	public OperationResult<MaterialPrice> fetchMaterialPrice(Criteria criteria, @QueryParam("token") String token) {
 		return super.fetchMaterialPrice(criteria, token);
 	}
+
+	// --------------------------------------------------------------------------------------------//
+	/**
+	 * 查询-库存盘点
+	 * 
+	 * @param criteria 查询
+	 * @param token    口令
+	 * @return 操作结果
+	 */
+	@POST
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Path("fetchInventoryCounting")
+	public OperationResult<InventoryCounting> fetchInventoryCounting(Criteria criteria,
+			@QueryParam("token") String token) {
+		return super.fetchInventoryCounting(criteria, token);
+	}
+
+	/**
+	 * 保存-库存盘点
+	 * 
+	 * @param bo    对象实例
+	 * @param token 口令
+	 * @return 操作结果
+	 */
+	@POST
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Path("saveInventoryCounting")
+	public OperationResult<InventoryCounting> saveInventoryCounting(InventoryCounting bo,
+			@QueryParam("token") String token) {
+		return super.saveInventoryCounting(bo, token);
+	}
+
 	// --------------------------------------------------------------------------------------------//
 }

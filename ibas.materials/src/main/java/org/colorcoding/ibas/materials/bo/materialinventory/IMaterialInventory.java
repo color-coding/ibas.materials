@@ -3,6 +3,7 @@ package org.colorcoding.ibas.materials.bo.materialinventory;
 import org.colorcoding.ibas.bobas.bo.IBOSimple;
 import org.colorcoding.ibas.bobas.data.DateTime;
 import org.colorcoding.ibas.bobas.data.Decimal;
+import org.colorcoding.ibas.bobas.data.emYesNo;
 
 /**
  * 物料库存 接口
@@ -20,8 +21,7 @@ public interface IMaterialInventory extends IBOSimple {
 	/**
 	 * 设置-物料编码
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setItemCode(String value);
 
@@ -35,10 +35,23 @@ public interface IMaterialInventory extends IBOSimple {
 	/**
 	 * 设置-仓库编号
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setWarehouse(String value);
+
+	/**
+	 * 获取-冻结的
+	 * 
+	 * @return 值
+	 */
+	emYesNo getFrozen();
+
+	/**
+	 * 设置-冻结的
+	 * 
+	 * @param value 值
+	 */
+	void setFrozen(emYesNo value);
 
 	/**
 	 * 获取-价格
@@ -50,32 +63,28 @@ public interface IMaterialInventory extends IBOSimple {
 	/**
 	 * 设置-价格
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setAvgPrice(Decimal value);
 
 	/**
 	 * 设置-价格
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setAvgPrice(String value);
 
 	/**
 	 * 设置-价格
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setAvgPrice(int value);
 
 	/**
 	 * 设置-价格
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setAvgPrice(double value);
 
@@ -89,32 +98,28 @@ public interface IMaterialInventory extends IBOSimple {
 	/**
 	 * 设置-库存
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setOnHand(Decimal value);
 
 	/**
 	 * 设置-库存
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setOnHand(String value);
 
 	/**
 	 * 设置-库存
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setOnHand(int value);
 
 	/**
 	 * 设置-库存
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setOnHand(double value);
 
@@ -128,32 +133,28 @@ public interface IMaterialInventory extends IBOSimple {
 	/**
 	 * 设置-已承诺
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setOnCommited(Decimal value);
 
 	/**
 	 * 设置-已承诺
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setOnCommited(String value);
 
 	/**
 	 * 设置-已承诺
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setOnCommited(int value);
 
 	/**
 	 * 设置-已承诺
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setOnCommited(double value);
 
@@ -167,32 +168,28 @@ public interface IMaterialInventory extends IBOSimple {
 	/**
 	 * 设置-已订购
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setOnOrdered(Decimal value);
 
 	/**
 	 * 设置-已订购
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setOnOrdered(String value);
 
 	/**
 	 * 设置-已订购
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setOnOrdered(int value);
 
 	/**
 	 * 设置-已订购
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setOnOrdered(double value);
 
@@ -206,8 +203,7 @@ public interface IMaterialInventory extends IBOSimple {
 	/**
 	 * 设置-对象编号
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setObjectKey(Integer value);
 
@@ -221,8 +217,7 @@ public interface IMaterialInventory extends IBOSimple {
 	/**
 	 * 设置-对象类型
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setObjectCode(String value);
 
@@ -236,8 +231,7 @@ public interface IMaterialInventory extends IBOSimple {
 	/**
 	 * 设置-创建日期
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setCreateDate(DateTime value);
 
@@ -251,8 +245,7 @@ public interface IMaterialInventory extends IBOSimple {
 	/**
 	 * 设置-创建时间
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setCreateTime(Short value);
 
@@ -266,8 +259,7 @@ public interface IMaterialInventory extends IBOSimple {
 	/**
 	 * 设置-修改日期
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setUpdateDate(DateTime value);
 
@@ -281,8 +273,7 @@ public interface IMaterialInventory extends IBOSimple {
 	/**
 	 * 设置-修改时间
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setUpdateTime(Short value);
 
@@ -296,8 +287,7 @@ public interface IMaterialInventory extends IBOSimple {
 	/**
 	 * 设置-版本
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setLogInst(Integer value);
 
@@ -311,8 +301,7 @@ public interface IMaterialInventory extends IBOSimple {
 	/**
 	 * 设置-服务系列
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setSeries(Integer value);
 
@@ -326,8 +315,7 @@ public interface IMaterialInventory extends IBOSimple {
 	/**
 	 * 设置-数据源
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setDataSource(String value);
 
@@ -341,8 +329,7 @@ public interface IMaterialInventory extends IBOSimple {
 	/**
 	 * 设置-创建用户
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setCreateUserSign(Integer value);
 
@@ -356,8 +343,7 @@ public interface IMaterialInventory extends IBOSimple {
 	/**
 	 * 设置-修改用户
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setUpdateUserSign(Integer value);
 
@@ -371,8 +357,7 @@ public interface IMaterialInventory extends IBOSimple {
 	/**
 	 * 设置-创建动作标识
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setCreateActionId(String value);
 
@@ -386,8 +371,7 @@ public interface IMaterialInventory extends IBOSimple {
 	/**
 	 * 设置-更新动作标识
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setUpdateActionId(String value);
 
