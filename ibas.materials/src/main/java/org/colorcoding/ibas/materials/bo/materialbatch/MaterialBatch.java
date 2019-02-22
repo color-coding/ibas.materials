@@ -1,5 +1,7 @@
 package org.colorcoding.ibas.materials.bo.materialbatch;
 
+import java.math.BigDecimal;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -80,8 +82,7 @@ public class MaterialBatch extends BusinessObject<MaterialBatch> implements IMat
 	/**
 	 * 设置-物料编码
 	 *
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setItemCode(String value) {
 		this.setProperty(PROPERTY_ITEMCODE, value);
@@ -112,8 +113,7 @@ public class MaterialBatch extends BusinessObject<MaterialBatch> implements IMat
 	/**
 	 * 设置-批次编码
 	 *
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setBatchCode(String value) {
 		this.setProperty(PROPERTY_BATCHCODE, value);
@@ -144,8 +144,7 @@ public class MaterialBatch extends BusinessObject<MaterialBatch> implements IMat
 	/**
 	 * 设置-仓库编码
 	 *
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setWarehouse(String value) {
 		this.setProperty(PROPERTY_WAREHOUSE, value);
@@ -160,8 +159,8 @@ public class MaterialBatch extends BusinessObject<MaterialBatch> implements IMat
 	 * 数量 属性
 	 */
 	@DbField(name = "Quantity", type = DbFieldType.DECIMAL, table = DB_TABLE_NAME, primaryKey = false)
-	public static final IPropertyInfo<Decimal> PROPERTY_QUANTITY = registerProperty(PROPERTY_QUANTITY_NAME,
-			Decimal.class, MY_CLASS);
+	public static final IPropertyInfo<BigDecimal> PROPERTY_QUANTITY = registerProperty(PROPERTY_QUANTITY_NAME,
+			BigDecimal.class, MY_CLASS);
 
 	/**
 	 * 获取-数量
@@ -169,48 +168,44 @@ public class MaterialBatch extends BusinessObject<MaterialBatch> implements IMat
 	 * @return 值
 	 */
 	@XmlElement(name = PROPERTY_QUANTITY_NAME)
-	public final Decimal getQuantity() {
+	public final BigDecimal getQuantity() {
 		return this.getProperty(PROPERTY_QUANTITY);
 	}
 
 	/**
 	 * 设置-数量
 	 *
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
-	public final void setQuantity(Decimal value) {
+	public final void setQuantity(BigDecimal value) {
 		this.setProperty(PROPERTY_QUANTITY, value);
 	}
 
 	/**
 	 * 设置-数量
 	 *
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setQuantity(String value) {
-		this.setQuantity(new Decimal(value));
+		this.setQuantity(Decimal.valueOf(value));
 	}
 
 	/**
 	 * 设置-数量
 	 *
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setQuantity(int value) {
-		this.setQuantity(new Decimal(value));
+		this.setQuantity(Decimal.valueOf(value));
 	}
 
 	/**
 	 * 设置-数量
 	 *
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setQuantity(double value) {
-		this.setQuantity(new Decimal(value));
+		this.setQuantity(Decimal.valueOf(value));
 	}
 
 	/**
@@ -238,8 +233,7 @@ public class MaterialBatch extends BusinessObject<MaterialBatch> implements IMat
 	/**
 	 * 设置-锁定
 	 *
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setLocked(emYesNo value) {
 		this.setProperty(PROPERTY_LOCKED, value);
@@ -270,8 +264,7 @@ public class MaterialBatch extends BusinessObject<MaterialBatch> implements IMat
 	/**
 	 * 设置-供应商序号
 	 *
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setSupplierSerial(String value) {
 		this.setProperty(PROPERTY_SUPPLIERSERIAL, value);
@@ -302,8 +295,7 @@ public class MaterialBatch extends BusinessObject<MaterialBatch> implements IMat
 	/**
 	 * 设置-过期日期
 	 *
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setExpirationDate(DateTime value) {
 		this.setProperty(PROPERTY_EXPIRATIONDATE, value);
@@ -334,8 +326,7 @@ public class MaterialBatch extends BusinessObject<MaterialBatch> implements IMat
 	/**
 	 * 设置-生产日期
 	 *
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setManufacturingDate(DateTime value) {
 		this.setProperty(PROPERTY_MANUFACTURINGDATE, value);
@@ -366,8 +357,7 @@ public class MaterialBatch extends BusinessObject<MaterialBatch> implements IMat
 	/**
 	 * 设置-准入日期
 	 *
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setAdmissionDate(DateTime value) {
 		this.setProperty(PROPERTY_ADMISSIONDATE, value);
@@ -398,8 +388,7 @@ public class MaterialBatch extends BusinessObject<MaterialBatch> implements IMat
 	/**
 	 * 设置-备注
 	 *
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setNotes(String value) {
 		this.setProperty(PROPERTY_NOTES, value);
@@ -430,8 +419,7 @@ public class MaterialBatch extends BusinessObject<MaterialBatch> implements IMat
 	/**
 	 * 设置-对象编号
 	 *
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setObjectKey(Integer value) {
 		this.setProperty(PROPERTY_OBJECTKEY, value);
@@ -462,8 +450,7 @@ public class MaterialBatch extends BusinessObject<MaterialBatch> implements IMat
 	/**
 	 * 设置-对象类型
 	 *
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setObjectCode(String value) {
 		this.setProperty(PROPERTY_OBJECTCODE, value);
@@ -494,8 +481,7 @@ public class MaterialBatch extends BusinessObject<MaterialBatch> implements IMat
 	/**
 	 * 设置-实例号
 	 *
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setLogInst(Integer value) {
 		this.setProperty(PROPERTY_LOGINST, value);
@@ -526,8 +512,7 @@ public class MaterialBatch extends BusinessObject<MaterialBatch> implements IMat
 	/**
 	 * 设置-服务系列
 	 *
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setSeries(Integer value) {
 		this.setProperty(PROPERTY_SERIES, value);
@@ -558,8 +543,7 @@ public class MaterialBatch extends BusinessObject<MaterialBatch> implements IMat
 	/**
 	 * 设置-数据源
 	 *
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setDataSource(String value) {
 		this.setProperty(PROPERTY_DATASOURCE, value);
@@ -590,8 +574,7 @@ public class MaterialBatch extends BusinessObject<MaterialBatch> implements IMat
 	/**
 	 * 设置-创建日期
 	 *
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setCreateDate(DateTime value) {
 		this.setProperty(PROPERTY_CREATEDATE, value);
@@ -622,8 +605,7 @@ public class MaterialBatch extends BusinessObject<MaterialBatch> implements IMat
 	/**
 	 * 设置-创建时间
 	 *
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setCreateTime(Short value) {
 		this.setProperty(PROPERTY_CREATETIME, value);
@@ -654,8 +636,7 @@ public class MaterialBatch extends BusinessObject<MaterialBatch> implements IMat
 	/**
 	 * 设置-更新日期
 	 *
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setUpdateDate(DateTime value) {
 		this.setProperty(PROPERTY_UPDATEDATE, value);
@@ -686,8 +667,7 @@ public class MaterialBatch extends BusinessObject<MaterialBatch> implements IMat
 	/**
 	 * 设置-更新时间
 	 *
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setUpdateTime(Short value) {
 		this.setProperty(PROPERTY_UPDATETIME, value);
@@ -718,8 +698,7 @@ public class MaterialBatch extends BusinessObject<MaterialBatch> implements IMat
 	/**
 	 * 设置-创建用户
 	 *
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setCreateUserSign(Integer value) {
 		this.setProperty(PROPERTY_CREATEUSERSIGN, value);
@@ -750,8 +729,7 @@ public class MaterialBatch extends BusinessObject<MaterialBatch> implements IMat
 	/**
 	 * 设置-更新用户
 	 *
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setUpdateUserSign(Integer value) {
 		this.setProperty(PROPERTY_UPDATEUSERSIGN, value);
@@ -782,8 +760,7 @@ public class MaterialBatch extends BusinessObject<MaterialBatch> implements IMat
 	/**
 	 * 设置-创建动作标识
 	 *
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setCreateActionId(String value) {
 		this.setProperty(PROPERTY_CREATEACTIONID, value);
@@ -814,8 +791,7 @@ public class MaterialBatch extends BusinessObject<MaterialBatch> implements IMat
 	/**
 	 * 设置-更新动作标识
 	 *
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setUpdateActionId(String value) {
 		this.setProperty(PROPERTY_UPDATEACTIONID, value);
@@ -837,7 +813,7 @@ public class MaterialBatch extends BusinessObject<MaterialBatch> implements IMat
 				new BusinessRuleRequired(PROPERTY_ITEMCODE), // 要求有值
 				new BusinessRuleRequired(PROPERTY_WAREHOUSE), // 要求有值
 				new BusinessRuleRequired(PROPERTY_BATCHCODE), // 要求有值
-				new BusinessRuleMinValue<Decimal>(Decimal.ZERO, PROPERTY_QUANTITY), // 不能低于0
+				new BusinessRuleMinValue<BigDecimal>(Decimal.ZERO, PROPERTY_QUANTITY), // 不能低于0
 		};
 	}
 }

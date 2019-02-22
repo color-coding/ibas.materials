@@ -1,6 +1,6 @@
 package org.colorcoding.ibas.materials.bo.material;
 
-import org.colorcoding.ibas.bobas.data.Decimal;
+import java.math.BigDecimal;
 
 /**
  * @author Fancy
@@ -44,8 +44,7 @@ public interface IMaterialPrice {
 	/**
 	 * 设置-物料名称
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setItemName(String value);
 
@@ -54,14 +53,14 @@ public interface IMaterialPrice {
 	 *
 	 * @return
 	 */
-	Decimal getPrice();
+	BigDecimal getPrice();
 
 	/**
 	 * 设置价格
 	 *
 	 * @param value
 	 */
-	void setPrice(Decimal value);
+	void setPrice(BigDecimal value);
 
 	/**
 	 * 设置价格

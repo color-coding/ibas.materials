@@ -1,5 +1,6 @@
 package org.colorcoding.ibas.materials.bo.material;
 
+import java.math.BigDecimal;
 import java.util.Collection;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -109,23 +110,23 @@ public class MaterialPrice extends Serializable implements IMaterialPrice {
 		this.itemName = value;
 	}
 
-	private Decimal price;
+	private BigDecimal price;
 
 	@XmlElement(name = "Price")
-	public final Decimal getPrice() {
+	public final BigDecimal getPrice() {
 		return price;
 	}
 
-	public final void setPrice(Decimal price) {
+	public final void setPrice(BigDecimal price) {
 		this.price = price;
 	}
 
 	public final void setPrice(int value) {
-		this.setPrice(new Decimal(value));
+		this.setPrice(Decimal.valueOf(value));
 	}
 
 	public final void setPrice(double value) {
-		this.setPrice(new Decimal(value));
+		this.setPrice(Decimal.valueOf(value));
 	}
 
 	private String currency;

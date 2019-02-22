@@ -1,5 +1,7 @@
 package org.colorcoding.ibas.materials.bo.materialinventory;
 
+import java.math.BigDecimal;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -194,8 +196,8 @@ public class MaterialEstimateJournal extends BusinessObject<MaterialEstimateJour
 	 * 数量 属性
 	 */
 	@DbField(name = "Quantity", type = DbFieldType.DECIMAL, table = DB_TABLE_NAME, primaryKey = false)
-	public static final IPropertyInfo<Decimal> PROPERTY_QUANTITY = registerProperty(PROPERTY_QUANTITY_NAME,
-			Decimal.class, MY_CLASS);
+	public static final IPropertyInfo<BigDecimal> PROPERTY_QUANTITY = registerProperty(PROPERTY_QUANTITY_NAME,
+			BigDecimal.class, MY_CLASS);
 
 	/**
 	 * 获取-数量
@@ -203,7 +205,7 @@ public class MaterialEstimateJournal extends BusinessObject<MaterialEstimateJour
 	 * @return 值
 	 */
 	@XmlElement(name = PROPERTY_QUANTITY_NAME)
-	public final Decimal getQuantity() {
+	public final BigDecimal getQuantity() {
 		return this.getProperty(PROPERTY_QUANTITY);
 	}
 
@@ -212,7 +214,7 @@ public class MaterialEstimateJournal extends BusinessObject<MaterialEstimateJour
 	 * 
 	 * @param value 值
 	 */
-	public final void setQuantity(Decimal value) {
+	public final void setQuantity(BigDecimal value) {
 		this.setProperty(PROPERTY_QUANTITY, value);
 	}
 
@@ -222,7 +224,7 @@ public class MaterialEstimateJournal extends BusinessObject<MaterialEstimateJour
 	 * @param value 值
 	 */
 	public final void setQuantity(String value) {
-		this.setQuantity(new Decimal(value));
+		this.setQuantity(Decimal.valueOf(value));
 	}
 
 	/**
@@ -231,7 +233,7 @@ public class MaterialEstimateJournal extends BusinessObject<MaterialEstimateJour
 	 * @param value 值
 	 */
 	public final void setQuantity(int value) {
-		this.setQuantity(new Decimal(value));
+		this.setQuantity(Decimal.valueOf(value));
 	}
 
 	/**
@@ -240,7 +242,7 @@ public class MaterialEstimateJournal extends BusinessObject<MaterialEstimateJour
 	 * @param value 值
 	 */
 	public final void setQuantity(double value) {
-		this.setQuantity(new Decimal(value));
+		this.setQuantity(Decimal.valueOf(value));
 	}
 
 	/**
@@ -754,7 +756,7 @@ public class MaterialEstimateJournal extends BusinessObject<MaterialEstimateJour
 		return new IBusinessRule[] { // 注册的业务规则
 				new BusinessRuleRequired(PROPERTY_ITEMCODE), // 要求有值
 				new BusinessRuleRequired(PROPERTY_WAREHOUSE), // 要求有值
-				new BusinessRuleMinValue<Decimal>(Decimal.ZERO, PROPERTY_QUANTITY), // 不能低于0
+				new BusinessRuleMinValue<BigDecimal>(Decimal.ZERO, PROPERTY_QUANTITY), // 不能低于0
 		};
 	}
 
@@ -777,7 +779,7 @@ public class MaterialEstimateJournal extends BusinessObject<MaterialEstimateJour
 						}
 
 						@Override
-						public Decimal getQuantity() {
+						public BigDecimal getQuantity() {
 							return MaterialEstimateJournal.this.getQuantity();
 						}
 
@@ -799,7 +801,7 @@ public class MaterialEstimateJournal extends BusinessObject<MaterialEstimateJour
 						}
 
 						@Override
-						public Decimal getQuantity() {
+						public BigDecimal getQuantity() {
 							return MaterialEstimateJournal.this.getQuantity();
 						}
 
@@ -823,7 +825,7 @@ public class MaterialEstimateJournal extends BusinessObject<MaterialEstimateJour
 						}
 
 						@Override
-						public Decimal getQuantity() {
+						public BigDecimal getQuantity() {
 							return MaterialEstimateJournal.this.getQuantity();
 						}
 
@@ -845,7 +847,7 @@ public class MaterialEstimateJournal extends BusinessObject<MaterialEstimateJour
 						}
 
 						@Override
-						public Decimal getQuantity() {
+						public BigDecimal getQuantity() {
 							return MaterialEstimateJournal.this.getQuantity();
 						}
 

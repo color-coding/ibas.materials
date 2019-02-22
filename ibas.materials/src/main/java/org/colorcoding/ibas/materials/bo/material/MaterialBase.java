@@ -1,5 +1,7 @@
 package org.colorcoding.ibas.materials.bo.material;
 
+import java.math.BigDecimal;
+
 import javax.xml.bind.annotation.XmlElement;
 
 import org.colorcoding.ibas.bobas.bo.BusinessObject;
@@ -410,8 +412,8 @@ public abstract class MaterialBase<T extends MaterialBase<T>> extends BusinessOb
 	 * 库存 属性
 	 */
 	@DbField(name = "OnHand", type = DbFieldType.DECIMAL, table = DB_TABLE_NAME, primaryKey = false)
-	public static final IPropertyInfo<Decimal> PROPERTY_ONHAND = registerProperty(PROPERTY_ONHAND_NAME, Decimal.class,
-			MY_CLASS);
+	public static final IPropertyInfo<BigDecimal> PROPERTY_ONHAND = registerProperty(PROPERTY_ONHAND_NAME,
+			BigDecimal.class, MY_CLASS);
 
 	/**
 	 * 获取-库存
@@ -419,7 +421,7 @@ public abstract class MaterialBase<T extends MaterialBase<T>> extends BusinessOb
 	 * @return 值
 	 */
 	@XmlElement(name = PROPERTY_ONHAND_NAME)
-	public final Decimal getOnHand() {
+	public final BigDecimal getOnHand() {
 		return this.getProperty(PROPERTY_ONHAND);
 	}
 
@@ -428,7 +430,7 @@ public abstract class MaterialBase<T extends MaterialBase<T>> extends BusinessOb
 	 * 
 	 * @param value 值
 	 */
-	public final void setOnHand(Decimal value) {
+	public final void setOnHand(BigDecimal value) {
 		this.setProperty(PROPERTY_ONHAND, value);
 	}
 
@@ -438,7 +440,7 @@ public abstract class MaterialBase<T extends MaterialBase<T>> extends BusinessOb
 	 * @param value 值
 	 */
 	public final void setOnHand(String value) {
-		this.setOnHand(new Decimal(value));
+		this.setOnHand(Decimal.valueOf(value));
 	}
 
 	/**
@@ -447,7 +449,7 @@ public abstract class MaterialBase<T extends MaterialBase<T>> extends BusinessOb
 	 * @param value 值
 	 */
 	public final void setOnHand(int value) {
-		this.setOnHand(new Decimal(value));
+		this.setOnHand(Decimal.valueOf(value));
 	}
 
 	/**
@@ -456,7 +458,7 @@ public abstract class MaterialBase<T extends MaterialBase<T>> extends BusinessOb
 	 * @param value 值
 	 */
 	public final void setOnHand(double value) {
-		this.setOnHand(new Decimal(value));
+		this.setOnHand(Decimal.valueOf(value));
 	}
 
 	/**
@@ -468,8 +470,8 @@ public abstract class MaterialBase<T extends MaterialBase<T>> extends BusinessOb
 	 * 已承诺 属性
 	 */
 	@DbField(name = "OnCommited", type = DbFieldType.DECIMAL, table = DB_TABLE_NAME, primaryKey = false)
-	public static final IPropertyInfo<Decimal> PROPERTY_ONCOMMITED = registerProperty(PROPERTY_ONCOMMITED_NAME,
-			Decimal.class, MY_CLASS);
+	public static final IPropertyInfo<BigDecimal> PROPERTY_ONCOMMITED = registerProperty(PROPERTY_ONCOMMITED_NAME,
+			BigDecimal.class, MY_CLASS);
 
 	/**
 	 * 获取-已承诺
@@ -477,7 +479,7 @@ public abstract class MaterialBase<T extends MaterialBase<T>> extends BusinessOb
 	 * @return 值
 	 */
 	@XmlElement(name = PROPERTY_ONCOMMITED_NAME)
-	public final Decimal getOnCommited() {
+	public final BigDecimal getOnCommited() {
 		return this.getProperty(PROPERTY_ONCOMMITED);
 	}
 
@@ -486,7 +488,7 @@ public abstract class MaterialBase<T extends MaterialBase<T>> extends BusinessOb
 	 * 
 	 * @param value 值
 	 */
-	public final void setOnCommited(Decimal value) {
+	public final void setOnCommited(BigDecimal value) {
 		this.setProperty(PROPERTY_ONCOMMITED, value);
 	}
 
@@ -496,7 +498,7 @@ public abstract class MaterialBase<T extends MaterialBase<T>> extends BusinessOb
 	 * @param value 值
 	 */
 	public final void setOnCommited(String value) {
-		this.setOnCommited(new Decimal(value));
+		this.setOnCommited(Decimal.valueOf(value));
 	}
 
 	/**
@@ -505,7 +507,7 @@ public abstract class MaterialBase<T extends MaterialBase<T>> extends BusinessOb
 	 * @param value 值
 	 */
 	public final void setOnCommited(int value) {
-		this.setOnCommited(new Decimal(value));
+		this.setOnCommited(Decimal.valueOf(value));
 	}
 
 	/**
@@ -514,7 +516,7 @@ public abstract class MaterialBase<T extends MaterialBase<T>> extends BusinessOb
 	 * @param value 值
 	 */
 	public final void setOnCommited(double value) {
-		this.setOnCommited(new Decimal(value));
+		this.setOnCommited(Decimal.valueOf(value));
 	}
 
 	/**
@@ -526,8 +528,8 @@ public abstract class MaterialBase<T extends MaterialBase<T>> extends BusinessOb
 	 * 已订购 属性
 	 */
 	@DbField(name = "OnOrdered", type = DbFieldType.DECIMAL, table = DB_TABLE_NAME, primaryKey = false)
-	public static final IPropertyInfo<Decimal> PROPERTY_ONORDERED = registerProperty(PROPERTY_ONORDERED_NAME,
-			Decimal.class, MY_CLASS);
+	public static final IPropertyInfo<BigDecimal> PROPERTY_ONORDERED = registerProperty(PROPERTY_ONORDERED_NAME,
+			BigDecimal.class, MY_CLASS);
 
 	/**
 	 * 获取-已订购
@@ -535,7 +537,7 @@ public abstract class MaterialBase<T extends MaterialBase<T>> extends BusinessOb
 	 * @return 值
 	 */
 	@XmlElement(name = PROPERTY_ONORDERED_NAME)
-	public final Decimal getOnOrdered() {
+	public final BigDecimal getOnOrdered() {
 		return this.getProperty(PROPERTY_ONORDERED);
 	}
 
@@ -544,7 +546,7 @@ public abstract class MaterialBase<T extends MaterialBase<T>> extends BusinessOb
 	 * 
 	 * @param value 值
 	 */
-	public final void setOnOrdered(Decimal value) {
+	public final void setOnOrdered(BigDecimal value) {
 		this.setProperty(PROPERTY_ONORDERED, value);
 	}
 
@@ -554,7 +556,7 @@ public abstract class MaterialBase<T extends MaterialBase<T>> extends BusinessOb
 	 * @param value 值
 	 */
 	public final void setOnOrdered(String value) {
-		this.setOnOrdered(new Decimal(value));
+		this.setOnOrdered(Decimal.valueOf(value));
 	}
 
 	/**
@@ -563,7 +565,7 @@ public abstract class MaterialBase<T extends MaterialBase<T>> extends BusinessOb
 	 * @param value 值
 	 */
 	public final void setOnOrdered(int value) {
-		this.setOnOrdered(new Decimal(value));
+		this.setOnOrdered(Decimal.valueOf(value));
 	}
 
 	/**
@@ -572,7 +574,7 @@ public abstract class MaterialBase<T extends MaterialBase<T>> extends BusinessOb
 	 * @param value 值
 	 */
 	public final void setOnOrdered(double value) {
-		this.setOnOrdered(new Decimal(value));
+		this.setOnOrdered(Decimal.valueOf(value));
 	}
 
 	/**

@@ -1,8 +1,9 @@
 package org.colorcoding.ibas.materials.bo.inventorycounting;
 
+import java.math.BigDecimal;
+
 import org.colorcoding.ibas.bobas.bo.IBODocumentLine;
 import org.colorcoding.ibas.bobas.data.DateTime;
-import org.colorcoding.ibas.bobas.data.Decimal;
 import org.colorcoding.ibas.bobas.data.emBOStatus;
 import org.colorcoding.ibas.bobas.data.emYesNo;
 import org.colorcoding.ibas.materials.bo.materialbatch.IMaterialBatchItemParent;
@@ -341,14 +342,14 @@ public interface IInventoryCountingLine extends IBODocumentLine, IMaterialBatchI
 	 * 
 	 * @return 值
 	 */
-	Decimal getInventoryQuantity();
+	BigDecimal getInventoryQuantity();
 
 	/**
 	 * 设置-库存数量
 	 * 
 	 * @param value 值
 	 */
-	void setInventoryQuantity(Decimal value);
+	void setInventoryQuantity(BigDecimal value);
 
 	/**
 	 * 设置-库存数量
@@ -376,14 +377,14 @@ public interface IInventoryCountingLine extends IBODocumentLine, IMaterialBatchI
 	 * 
 	 * @return 值
 	 */
-	Decimal getCountQuantity();
+	BigDecimal getCountQuantity();
 
 	/**
 	 * 设置-盘点数量
 	 * 
 	 * @param value 值
 	 */
-	void setCountQuantity(Decimal value);
+	void setCountQuantity(BigDecimal value);
 
 	/**
 	 * 设置-盘点数量
@@ -411,14 +412,14 @@ public interface IInventoryCountingLine extends IBODocumentLine, IMaterialBatchI
 	 * 
 	 * @return 值
 	 */
-	Decimal getDifference();
+	BigDecimal getDifference();
 
 	/**
 	 * 设置-差额
 	 * 
 	 * @param value 值
 	 */
-	void setDifference(Decimal value);
+	void setDifference(BigDecimal value);
 
 	/**
 	 * 设置-差额

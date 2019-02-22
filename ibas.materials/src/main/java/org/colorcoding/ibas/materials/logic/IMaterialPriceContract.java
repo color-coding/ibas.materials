@@ -1,6 +1,7 @@
 package org.colorcoding.ibas.materials.logic;
 
-import org.colorcoding.ibas.bobas.data.Decimal;
+import java.math.BigDecimal;
+
 import org.colorcoding.ibas.bobas.logic.IBusinessLogicContract;
 
 /**
@@ -26,7 +27,7 @@ public interface IMaterialPriceContract extends IBusinessLogicContract {
 	 *
 	 * @return
 	 */
-	Decimal getPrice();
+	BigDecimal getPrice();
 
 	/**
 	 * 货币

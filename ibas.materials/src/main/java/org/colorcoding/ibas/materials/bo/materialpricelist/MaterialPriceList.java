@@ -1,5 +1,7 @@
 package org.colorcoding.ibas.materials.bo.materialpricelist;
 
+import java.math.BigDecimal;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -79,8 +81,7 @@ public class MaterialPriceList extends BusinessObject<MaterialPriceList> impleme
 	/**
 	 * 设置-名称
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setName(String value) {
 		this.setProperty(PROPERTY_NAME, value);
@@ -111,8 +112,7 @@ public class MaterialPriceList extends BusinessObject<MaterialPriceList> impleme
 	/**
 	 * 设置-分组
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setGroup(String value) {
 		this.setProperty(PROPERTY_GROUP, value);
@@ -143,8 +143,7 @@ public class MaterialPriceList extends BusinessObject<MaterialPriceList> impleme
 	/**
 	 * 设置-货币
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setCurrency(String value) {
 		this.setProperty(PROPERTY_CURRENCY, value);
@@ -175,8 +174,7 @@ public class MaterialPriceList extends BusinessObject<MaterialPriceList> impleme
 	/**
 	 * 设置-基于的清单
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setBasedOnList(Integer value) {
 		this.setProperty(PROPERTY_BASEDONLIST, value);
@@ -191,8 +189,8 @@ public class MaterialPriceList extends BusinessObject<MaterialPriceList> impleme
 	 * 系数 属性
 	 */
 	@DbField(name = "Factor", type = DbFieldType.DECIMAL, table = DB_TABLE_NAME, primaryKey = false)
-	public static final IPropertyInfo<Decimal> PROPERTY_FACTOR = registerProperty(PROPERTY_FACTOR_NAME, Decimal.class,
-			MY_CLASS);
+	public static final IPropertyInfo<BigDecimal> PROPERTY_FACTOR = registerProperty(PROPERTY_FACTOR_NAME,
+			BigDecimal.class, MY_CLASS);
 
 	/**
 	 * 获取-系数
@@ -200,48 +198,44 @@ public class MaterialPriceList extends BusinessObject<MaterialPriceList> impleme
 	 * @return 值
 	 */
 	@XmlElement(name = PROPERTY_FACTOR_NAME)
-	public final Decimal getFactor() {
+	public final BigDecimal getFactor() {
 		return this.getProperty(PROPERTY_FACTOR);
 	}
 
 	/**
 	 * 设置-系数
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
-	public final void setFactor(Decimal value) {
+	public final void setFactor(BigDecimal value) {
 		this.setProperty(PROPERTY_FACTOR, value);
 	}
 
 	/**
 	 * 设置-系数
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setFactor(String value) {
-		this.setFactor(new Decimal(value));
+		this.setFactor(Decimal.valueOf(value));
 	}
 
 	/**
 	 * 设置-系数
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setFactor(int value) {
-		this.setFactor(new Decimal(value));
+		this.setFactor(Decimal.valueOf(value));
 	}
 
 	/**
 	 * 设置-系数
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setFactor(double value) {
-		this.setFactor(new Decimal(value));
+		this.setFactor(Decimal.valueOf(value));
 	}
 
 	/**
@@ -269,8 +263,7 @@ public class MaterialPriceList extends BusinessObject<MaterialPriceList> impleme
 	/**
 	 * 设置-生效日期
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setValidDate(DateTime value) {
 		this.setProperty(PROPERTY_VALIDDATE, value);
@@ -301,8 +294,7 @@ public class MaterialPriceList extends BusinessObject<MaterialPriceList> impleme
 	/**
 	 * 设置-失效日期
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setInvalidDate(DateTime value) {
 		this.setProperty(PROPERTY_INVALIDDATE, value);
@@ -333,8 +325,7 @@ public class MaterialPriceList extends BusinessObject<MaterialPriceList> impleme
 	/**
 	 * 设置-对象编号
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setObjectKey(Integer value) {
 		this.setProperty(PROPERTY_OBJECTKEY, value);
@@ -365,8 +356,7 @@ public class MaterialPriceList extends BusinessObject<MaterialPriceList> impleme
 	/**
 	 * 设置-对象类型
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setObjectCode(String value) {
 		this.setProperty(PROPERTY_OBJECTCODE, value);
@@ -397,8 +387,7 @@ public class MaterialPriceList extends BusinessObject<MaterialPriceList> impleme
 	/**
 	 * 设置-实例号
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setLogInst(Integer value) {
 		this.setProperty(PROPERTY_LOGINST, value);
@@ -429,8 +418,7 @@ public class MaterialPriceList extends BusinessObject<MaterialPriceList> impleme
 	/**
 	 * 设置-服务系列
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setSeries(Integer value) {
 		this.setProperty(PROPERTY_SERIES, value);
@@ -461,8 +449,7 @@ public class MaterialPriceList extends BusinessObject<MaterialPriceList> impleme
 	/**
 	 * 设置-数据源
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setDataSource(String value) {
 		this.setProperty(PROPERTY_DATASOURCE, value);
@@ -493,8 +480,7 @@ public class MaterialPriceList extends BusinessObject<MaterialPriceList> impleme
 	/**
 	 * 设置-创建日期
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setCreateDate(DateTime value) {
 		this.setProperty(PROPERTY_CREATEDATE, value);
@@ -525,8 +511,7 @@ public class MaterialPriceList extends BusinessObject<MaterialPriceList> impleme
 	/**
 	 * 设置-创建时间
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setCreateTime(Short value) {
 		this.setProperty(PROPERTY_CREATETIME, value);
@@ -557,8 +542,7 @@ public class MaterialPriceList extends BusinessObject<MaterialPriceList> impleme
 	/**
 	 * 设置-更新日期
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setUpdateDate(DateTime value) {
 		this.setProperty(PROPERTY_UPDATEDATE, value);
@@ -589,8 +573,7 @@ public class MaterialPriceList extends BusinessObject<MaterialPriceList> impleme
 	/**
 	 * 设置-更新时间
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setUpdateTime(Short value) {
 		this.setProperty(PROPERTY_UPDATETIME, value);
@@ -621,8 +604,7 @@ public class MaterialPriceList extends BusinessObject<MaterialPriceList> impleme
 	/**
 	 * 设置-创建用户
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setCreateUserSign(Integer value) {
 		this.setProperty(PROPERTY_CREATEUSERSIGN, value);
@@ -653,8 +635,7 @@ public class MaterialPriceList extends BusinessObject<MaterialPriceList> impleme
 	/**
 	 * 设置-更新用户
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setUpdateUserSign(Integer value) {
 		this.setProperty(PROPERTY_UPDATEUSERSIGN, value);
@@ -685,8 +666,7 @@ public class MaterialPriceList extends BusinessObject<MaterialPriceList> impleme
 	/**
 	 * 设置-创建动作标识
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setCreateActionId(String value) {
 		this.setProperty(PROPERTY_CREATEACTIONID, value);
@@ -717,8 +697,7 @@ public class MaterialPriceList extends BusinessObject<MaterialPriceList> impleme
 	/**
 	 * 设置-更新动作标识
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setUpdateActionId(String value) {
 		this.setProperty(PROPERTY_UPDATEACTIONID, value);
@@ -750,8 +729,7 @@ public class MaterialPriceList extends BusinessObject<MaterialPriceList> impleme
 	/**
 	 * 设置-物料价格项目集合
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setMaterialPriceItems(IMaterialPriceItems value) {
 		this.setProperty(PROPERTY_MATERIALPRICEITEMS, value);
@@ -772,6 +750,6 @@ public class MaterialPriceList extends BusinessObject<MaterialPriceList> impleme
 	@Override
 	protected IBusinessRule[] registerRules() {
 		return new IBusinessRule[] { // 注册的业务规则
-				new BusinessRuleMinValue<Decimal>(Decimal.ZERO, PROPERTY_FACTOR) };
+				new BusinessRuleMinValue<BigDecimal>(Decimal.ZERO, PROPERTY_FACTOR) };
 	}
 }

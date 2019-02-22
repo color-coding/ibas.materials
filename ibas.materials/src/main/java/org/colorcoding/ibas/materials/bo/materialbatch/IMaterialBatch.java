@@ -1,8 +1,9 @@
 package org.colorcoding.ibas.materials.bo.materialbatch;
 
+import java.math.BigDecimal;
+
 import org.colorcoding.ibas.bobas.bo.IBOSimple;
 import org.colorcoding.ibas.bobas.data.DateTime;
-import org.colorcoding.ibas.bobas.data.Decimal;
 import org.colorcoding.ibas.bobas.data.emYesNo;
 
 /**
@@ -21,8 +22,7 @@ public interface IMaterialBatch extends IBOSimple {
 	/**
 	 * 设置-物料编码
 	 *
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setItemCode(String value);
 
@@ -36,8 +36,7 @@ public interface IMaterialBatch extends IBOSimple {
 	/**
 	 * 设置-批次编码
 	 *
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setBatchCode(String value);
 
@@ -51,8 +50,7 @@ public interface IMaterialBatch extends IBOSimple {
 	/**
 	 * 设置-仓库编码
 	 *
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setWarehouse(String value);
 
@@ -61,37 +59,33 @@ public interface IMaterialBatch extends IBOSimple {
 	 *
 	 * @return 值
 	 */
-	Decimal getQuantity();
+	BigDecimal getQuantity();
 
 	/**
 	 * 设置-数量
 	 *
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
-	void setQuantity(Decimal value);
+	void setQuantity(BigDecimal value);
 
 	/**
 	 * 设置-数量
 	 *
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setQuantity(String value);
 
 	/**
 	 * 设置-数量
 	 *
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setQuantity(int value);
 
 	/**
 	 * 设置-数量
 	 *
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setQuantity(double value);
 
@@ -105,8 +99,7 @@ public interface IMaterialBatch extends IBOSimple {
 	/**
 	 * 设置-锁定
 	 *
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setLocked(emYesNo value);
 
@@ -120,8 +113,7 @@ public interface IMaterialBatch extends IBOSimple {
 	/**
 	 * 设置-供应商序号
 	 *
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setSupplierSerial(String value);
 
@@ -135,8 +127,7 @@ public interface IMaterialBatch extends IBOSimple {
 	/**
 	 * 设置-过期日期
 	 *
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setExpirationDate(DateTime value);
 
@@ -150,8 +141,7 @@ public interface IMaterialBatch extends IBOSimple {
 	/**
 	 * 设置-生产日期
 	 *
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setManufacturingDate(DateTime value);
 
@@ -165,8 +155,7 @@ public interface IMaterialBatch extends IBOSimple {
 	/**
 	 * 设置-准入日期
 	 *
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setAdmissionDate(DateTime value);
 
@@ -180,8 +169,7 @@ public interface IMaterialBatch extends IBOSimple {
 	/**
 	 * 设置-备注
 	 *
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setNotes(String value);
 
@@ -195,8 +183,7 @@ public interface IMaterialBatch extends IBOSimple {
 	/**
 	 * 设置-对象编号
 	 *
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setObjectKey(Integer value);
 
@@ -210,8 +197,7 @@ public interface IMaterialBatch extends IBOSimple {
 	/**
 	 * 设置-对象类型
 	 *
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setObjectCode(String value);
 
@@ -225,8 +211,7 @@ public interface IMaterialBatch extends IBOSimple {
 	/**
 	 * 设置-实例号
 	 *
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setLogInst(Integer value);
 
@@ -240,8 +225,7 @@ public interface IMaterialBatch extends IBOSimple {
 	/**
 	 * 设置-服务系列
 	 *
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setSeries(Integer value);
 
@@ -255,8 +239,7 @@ public interface IMaterialBatch extends IBOSimple {
 	/**
 	 * 设置-数据源
 	 *
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setDataSource(String value);
 
@@ -270,8 +253,7 @@ public interface IMaterialBatch extends IBOSimple {
 	/**
 	 * 设置-创建日期
 	 *
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setCreateDate(DateTime value);
 
@@ -285,8 +267,7 @@ public interface IMaterialBatch extends IBOSimple {
 	/**
 	 * 设置-创建时间
 	 *
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setCreateTime(Short value);
 
@@ -300,8 +281,7 @@ public interface IMaterialBatch extends IBOSimple {
 	/**
 	 * 设置-更新日期
 	 *
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setUpdateDate(DateTime value);
 
@@ -315,8 +295,7 @@ public interface IMaterialBatch extends IBOSimple {
 	/**
 	 * 设置-更新时间
 	 *
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setUpdateTime(Short value);
 
@@ -330,8 +309,7 @@ public interface IMaterialBatch extends IBOSimple {
 	/**
 	 * 设置-创建用户
 	 *
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setCreateUserSign(Integer value);
 
@@ -345,8 +323,7 @@ public interface IMaterialBatch extends IBOSimple {
 	/**
 	 * 设置-更新用户
 	 *
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setUpdateUserSign(Integer value);
 
@@ -360,8 +337,7 @@ public interface IMaterialBatch extends IBOSimple {
 	/**
 	 * 设置-创建动作标识
 	 *
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setCreateActionId(String value);
 
@@ -375,8 +351,7 @@ public interface IMaterialBatch extends IBOSimple {
 	/**
 	 * 设置-更新动作标识
 	 *
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setUpdateActionId(String value);
 

@@ -1,5 +1,7 @@
 package org.colorcoding.ibas.materials.test;
 
+import java.math.BigDecimal;
+
 import org.colorcoding.ibas.bobas.common.Criteria;
 import org.colorcoding.ibas.bobas.common.ICondition;
 import org.colorcoding.ibas.bobas.common.ICriteria;
@@ -32,7 +34,7 @@ public class TestMaterialInventoryJournal extends TestCase {
 		return OrganizationFactory.SYSTEM_USER.getToken();
 	}
 
-	public void checkMaterialInventory(String itemCode, String warehose, Decimal quantity)
+	public void checkMaterialInventory(String itemCode, String warehose, BigDecimal quantity)
 			throws InvalidTokenException {
 		ICriteria criteria = null;
 		ICondition condition = null;
@@ -51,7 +53,7 @@ public class TestMaterialInventoryJournal extends TestCase {
 		assertEquals("material inventory onhand error", quantity.compareTo(newMaterialInventory.getOnHand()), 0);
 	}
 
-	public void checkMaterial(String code, Decimal quantity) throws InvalidTokenException {
+	public void checkMaterial(String code, BigDecimal quantity) throws InvalidTokenException {
 		new TestMaterial().checkMaterial(code, quantity);
 	}
 
@@ -99,7 +101,7 @@ public class TestMaterialInventoryJournal extends TestCase {
 		this.checkMaterialInventory(boSaved.getItemCode(), boSaved.getWarehouse(), boSaved.getQuantity());
 		bo = new MaterialInventoryJournal();
 		// 测试出库
-		Decimal onhand = new Decimal("50");
+		BigDecimal onhand = Decimal.valueOf("50");
 		bo.setItemCode(material.getCode());
 		bo.setWarehouse(warehouse.getCode());
 		bo.setQuantity(boSaved.getQuantity().subtract(onhand));

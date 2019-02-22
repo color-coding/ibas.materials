@@ -1,5 +1,7 @@
 package org.colorcoding.ibas.materials.bo.material;
 
+import java.math.BigDecimal;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -67,8 +69,7 @@ public class Product extends MaterialBase<Product> implements IProduct, IDataOwn
 	/**
 	 * 设置-仓库
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setWarehouse(String value) {
 		this.setProperty(PROPERTY_WAREHOUSE, value);
@@ -82,8 +83,8 @@ public class Product extends MaterialBase<Product> implements IProduct, IDataOwn
 	/**
 	 * 价格 属性
 	 */
-	public static final IPropertyInfo<Decimal> PROPERTY_PRICE = registerProperty(PROPERTY_PRICE_NAME, Decimal.class,
-			MY_CLASS);
+	public static final IPropertyInfo<BigDecimal> PROPERTY_PRICE = registerProperty(PROPERTY_PRICE_NAME,
+			BigDecimal.class, MY_CLASS);
 
 	/**
 	 * 获取-价格
@@ -91,48 +92,44 @@ public class Product extends MaterialBase<Product> implements IProduct, IDataOwn
 	 * @return 值
 	 */
 	@XmlElement(name = PROPERTY_PRICE_NAME)
-	public final Decimal getPrice() {
+	public final BigDecimal getPrice() {
 		return this.getProperty(PROPERTY_PRICE);
 	}
 
 	/**
 	 * 设置-价格
 	 *
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
-	public final void setPrice(Decimal value) {
+	public final void setPrice(BigDecimal value) {
 		this.setProperty(PROPERTY_PRICE, value);
 	}
 
 	/**
 	 * 设置-价格
 	 *
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setPrice(String value) {
-		this.setPrice(new Decimal(value));
+		this.setPrice(Decimal.valueOf(value));
 	}
 
 	/**
 	 * 设置-价格
 	 *
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setPrice(int value) {
-		this.setPrice(new Decimal(value));
+		this.setPrice(Decimal.valueOf(value));
 	}
 
 	/**
 	 * 设置-价格
 	 *
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setPrice(double value) {
-		this.setPrice(new Decimal(value));
+		this.setPrice(Decimal.valueOf(value));
 	}
 
 	/**
@@ -159,8 +156,7 @@ public class Product extends MaterialBase<Product> implements IProduct, IDataOwn
 	/**
 	 * 设置-货币
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setCurrency(String value) {
 		this.setProperty(PROPERTY_CURRENCY, value);

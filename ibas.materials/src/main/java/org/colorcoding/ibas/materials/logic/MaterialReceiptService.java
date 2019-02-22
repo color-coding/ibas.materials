@@ -124,7 +124,7 @@ public class MaterialReceiptService
 	protected void revoke(IMaterialReceiptContract contract) {
 		IMaterialInventoryJournal materialJournal = this.getBeAffected();
 		materialJournal.setQuantity(Decimal.ZERO);
-		if (materialJournal.getQuantity().isZero()) {
+		if (Decimal.isZero(materialJournal.getQuantity())) {
 			// 已为0，则删除此条数据
 			materialJournal.delete();
 		}

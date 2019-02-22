@@ -1,5 +1,7 @@
 package org.colorcoding.ibas.materials.bo.goodsreceipt;
 
+import java.math.BigDecimal;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -944,8 +946,8 @@ public class GoodsReceiptLine extends BusinessObject<GoodsReceiptLine>
 	 * 数量 属性
 	 */
 	@DbField(name = "Quantity", type = DbFieldType.DECIMAL, table = DB_TABLE_NAME, primaryKey = false)
-	public static final IPropertyInfo<Decimal> PROPERTY_QUANTITY = registerProperty(PROPERTY_QUANTITY_NAME,
-			Decimal.class, MY_CLASS);
+	public static final IPropertyInfo<BigDecimal> PROPERTY_QUANTITY = registerProperty(PROPERTY_QUANTITY_NAME,
+			BigDecimal.class, MY_CLASS);
 
 	/**
 	 * 获取-数量
@@ -953,7 +955,7 @@ public class GoodsReceiptLine extends BusinessObject<GoodsReceiptLine>
 	 * @return 值
 	 */
 	@XmlElement(name = PROPERTY_QUANTITY_NAME)
-	public final Decimal getQuantity() {
+	public final BigDecimal getQuantity() {
 		return this.getProperty(PROPERTY_QUANTITY);
 	}
 
@@ -962,7 +964,7 @@ public class GoodsReceiptLine extends BusinessObject<GoodsReceiptLine>
 	 *
 	 * @param value 值
 	 */
-	public final void setQuantity(Decimal value) {
+	public final void setQuantity(BigDecimal value) {
 		this.setProperty(PROPERTY_QUANTITY, value);
 	}
 
@@ -972,7 +974,7 @@ public class GoodsReceiptLine extends BusinessObject<GoodsReceiptLine>
 	 * @param value 值
 	 */
 	public final void setQuantity(String value) {
-		this.setQuantity(new Decimal(value));
+		this.setQuantity(Decimal.valueOf(value));
 	}
 
 	/**
@@ -981,7 +983,7 @@ public class GoodsReceiptLine extends BusinessObject<GoodsReceiptLine>
 	 * @param value 值
 	 */
 	public final void setQuantity(int value) {
-		this.setQuantity(new Decimal(value));
+		this.setQuantity(Decimal.valueOf(value));
 	}
 
 	/**
@@ -990,7 +992,7 @@ public class GoodsReceiptLine extends BusinessObject<GoodsReceiptLine>
 	 * @param value 值
 	 */
 	public final void setQuantity(double value) {
-		this.setQuantity(new Decimal(value));
+		this.setQuantity(Decimal.valueOf(value));
 	}
 
 	/**
@@ -1064,8 +1066,8 @@ public class GoodsReceiptLine extends BusinessObject<GoodsReceiptLine>
 	 * 价格 属性
 	 */
 	@DbField(name = "Price", type = DbFieldType.DECIMAL, table = DB_TABLE_NAME, primaryKey = false)
-	public static final IPropertyInfo<Decimal> PROPERTY_PRICE = registerProperty(PROPERTY_PRICE_NAME, Decimal.class,
-			MY_CLASS);
+	public static final IPropertyInfo<BigDecimal> PROPERTY_PRICE = registerProperty(PROPERTY_PRICE_NAME,
+			BigDecimal.class, MY_CLASS);
 
 	/**
 	 * 获取-价格
@@ -1073,7 +1075,7 @@ public class GoodsReceiptLine extends BusinessObject<GoodsReceiptLine>
 	 * @return 值
 	 */
 	@XmlElement(name = PROPERTY_PRICE_NAME)
-	public final Decimal getPrice() {
+	public final BigDecimal getPrice() {
 		return this.getProperty(PROPERTY_PRICE);
 	}
 
@@ -1082,7 +1084,7 @@ public class GoodsReceiptLine extends BusinessObject<GoodsReceiptLine>
 	 *
 	 * @param value 值
 	 */
-	public final void setPrice(Decimal value) {
+	public final void setPrice(BigDecimal value) {
 		this.setProperty(PROPERTY_PRICE, value);
 	}
 
@@ -1092,7 +1094,7 @@ public class GoodsReceiptLine extends BusinessObject<GoodsReceiptLine>
 	 * @param value 值
 	 */
 	public final void setPrice(String value) {
-		this.setPrice(new Decimal(value));
+		this.setPrice(Decimal.valueOf(value));
 	}
 
 	/**
@@ -1101,7 +1103,7 @@ public class GoodsReceiptLine extends BusinessObject<GoodsReceiptLine>
 	 * @param value 值
 	 */
 	public final void setPrice(int value) {
-		this.setPrice(new Decimal(value));
+		this.setPrice(Decimal.valueOf(value));
 	}
 
 	/**
@@ -1110,7 +1112,7 @@ public class GoodsReceiptLine extends BusinessObject<GoodsReceiptLine>
 	 * @param value 值
 	 */
 	public final void setPrice(double value) {
-		this.setPrice(new Decimal(value));
+		this.setPrice(Decimal.valueOf(value));
 	}
 
 	/**
@@ -1153,7 +1155,7 @@ public class GoodsReceiptLine extends BusinessObject<GoodsReceiptLine>
 	 * 汇率 属性
 	 */
 	@DbField(name = "Rate", type = DbFieldType.DECIMAL, table = DB_TABLE_NAME, primaryKey = false)
-	public static final IPropertyInfo<Decimal> PROPERTY_RATE = registerProperty(PROPERTY_RATE_NAME, Decimal.class,
+	public static final IPropertyInfo<BigDecimal> PROPERTY_RATE = registerProperty(PROPERTY_RATE_NAME, BigDecimal.class,
 			MY_CLASS);
 
 	/**
@@ -1162,7 +1164,7 @@ public class GoodsReceiptLine extends BusinessObject<GoodsReceiptLine>
 	 * @return 值
 	 */
 	@XmlElement(name = PROPERTY_RATE_NAME)
-	public final Decimal getRate() {
+	public final BigDecimal getRate() {
 		return this.getProperty(PROPERTY_RATE);
 	}
 
@@ -1171,7 +1173,7 @@ public class GoodsReceiptLine extends BusinessObject<GoodsReceiptLine>
 	 *
 	 * @param value 值
 	 */
-	public final void setRate(Decimal value) {
+	public final void setRate(BigDecimal value) {
 		this.setProperty(PROPERTY_RATE, value);
 	}
 
@@ -1181,7 +1183,7 @@ public class GoodsReceiptLine extends BusinessObject<GoodsReceiptLine>
 	 * @param value 值
 	 */
 	public final void setRate(String value) {
-		this.setRate(new Decimal(value));
+		this.setRate(Decimal.valueOf(value));
 	}
 
 	/**
@@ -1190,7 +1192,7 @@ public class GoodsReceiptLine extends BusinessObject<GoodsReceiptLine>
 	 * @param value 值
 	 */
 	public final void setRate(int value) {
-		this.setRate(new Decimal(value));
+		this.setRate(Decimal.valueOf(value));
 	}
 
 	/**
@@ -1199,7 +1201,7 @@ public class GoodsReceiptLine extends BusinessObject<GoodsReceiptLine>
 	 * @param value 值
 	 */
 	public final void setRate(double value) {
-		this.setRate(new Decimal(value));
+		this.setRate(Decimal.valueOf(value));
 	}
 
 	/**
@@ -1211,8 +1213,8 @@ public class GoodsReceiptLine extends BusinessObject<GoodsReceiptLine>
 	 * 行总计 属性
 	 */
 	@DbField(name = "LineTotal", type = DbFieldType.DECIMAL, table = DB_TABLE_NAME, primaryKey = false)
-	public static final IPropertyInfo<Decimal> PROPERTY_LINETOTAL = registerProperty(PROPERTY_LINETOTAL_NAME,
-			Decimal.class, MY_CLASS);
+	public static final IPropertyInfo<BigDecimal> PROPERTY_LINETOTAL = registerProperty(PROPERTY_LINETOTAL_NAME,
+			BigDecimal.class, MY_CLASS);
 
 	/**
 	 * 获取-行总计
@@ -1220,7 +1222,7 @@ public class GoodsReceiptLine extends BusinessObject<GoodsReceiptLine>
 	 * @return 值
 	 */
 	@XmlElement(name = PROPERTY_LINETOTAL_NAME)
-	public final Decimal getLineTotal() {
+	public final BigDecimal getLineTotal() {
 		return this.getProperty(PROPERTY_LINETOTAL);
 	}
 
@@ -1229,7 +1231,7 @@ public class GoodsReceiptLine extends BusinessObject<GoodsReceiptLine>
 	 *
 	 * @param value 值
 	 */
-	public final void setLineTotal(Decimal value) {
+	public final void setLineTotal(BigDecimal value) {
 		this.setProperty(PROPERTY_LINETOTAL, value);
 	}
 
@@ -1239,7 +1241,7 @@ public class GoodsReceiptLine extends BusinessObject<GoodsReceiptLine>
 	 * @param value 值
 	 */
 	public final void setLineTotal(String value) {
-		this.setLineTotal(new Decimal(value));
+		this.setLineTotal(Decimal.valueOf(value));
 	}
 
 	/**
@@ -1248,7 +1250,7 @@ public class GoodsReceiptLine extends BusinessObject<GoodsReceiptLine>
 	 * @param value 值
 	 */
 	public final void setLineTotal(int value) {
-		this.setLineTotal(new Decimal(value));
+		this.setLineTotal(Decimal.valueOf(value));
 	}
 
 	/**
@@ -1257,7 +1259,7 @@ public class GoodsReceiptLine extends BusinessObject<GoodsReceiptLine>
 	 * @param value 值
 	 */
 	public final void setLineTotal(double value) {
-		this.setLineTotal(new Decimal(value));
+		this.setLineTotal(Decimal.valueOf(value));
 	}
 
 	/**
@@ -1340,10 +1342,10 @@ public class GoodsReceiptLine extends BusinessObject<GoodsReceiptLine>
 		return new IBusinessRule[] { // 注册的业务规则
 				new BusinessRuleRequired(PROPERTY_ITEMCODE), // 要求有值
 				new BusinessRuleRequired(PROPERTY_WAREHOUSE), // 要求有值
-				new BusinessRuleMinValue<Decimal>(Decimal.ZERO, PROPERTY_QUANTITY), // 不能低于0
-				new BusinessRuleMinValue<Decimal>(Decimal.ZERO, PROPERTY_PRICE), // 不能低于0
+				new BusinessRuleMinValue<BigDecimal>(Decimal.ZERO, PROPERTY_QUANTITY), // 不能低于0
+				new BusinessRuleMinValue<BigDecimal>(Decimal.ZERO, PROPERTY_PRICE), // 不能低于0
 				new BusinessRuleMultiplication(PROPERTY_LINETOTAL, PROPERTY_QUANTITY, PROPERTY_PRICE), // 计算总计 = 数量 * 价格
-				new BusinessRuleMinValue<Decimal>(Decimal.ZERO, PROPERTY_LINETOTAL), // 不能低于0
+				new BusinessRuleMinValue<BigDecimal>(Decimal.ZERO, PROPERTY_LINETOTAL), // 不能低于0
 		};
 	}
 
@@ -1400,7 +1402,7 @@ public class GoodsReceiptLine extends BusinessObject<GoodsReceiptLine>
 			}
 
 			@Override
-			public Decimal getQuantity() {
+			public BigDecimal getQuantity() {
 				return GoodsReceiptLine.this.getQuantity();
 			}
 

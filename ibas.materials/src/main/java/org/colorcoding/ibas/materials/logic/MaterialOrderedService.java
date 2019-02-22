@@ -1,5 +1,7 @@
 package org.colorcoding.ibas.materials.logic;
 
+import java.math.BigDecimal;
+
 import org.colorcoding.ibas.bobas.data.Decimal;
 import org.colorcoding.ibas.bobas.data.emDirection;
 import org.colorcoding.ibas.bobas.data.emYesNo;
@@ -52,7 +54,7 @@ public class MaterialOrderedService extends MaterialInventoryBusinessLogic<IMate
 	@Override
 	protected void impact(IMaterialOrderedContract contract) {
 		IMaterial material = this.getBeAffected();
-		Decimal onOrdered = material.getOnOrdered();
+		BigDecimal onOrdered = material.getOnOrdered();
 		if (contract.getDirection() == emDirection.OUT) {
 			onOrdered = onOrdered.subtract(contract.getQuantity());
 		} else {
@@ -64,7 +66,7 @@ public class MaterialOrderedService extends MaterialInventoryBusinessLogic<IMate
 	@Override
 	protected void revoke(IMaterialOrderedContract contract) {
 		IMaterial material = this.getBeAffected();
-		Decimal onOrdered = material.getOnOrdered();
+		BigDecimal onOrdered = material.getOnOrdered();
 		if (contract.getDirection() == emDirection.OUT) {
 			onOrdered = onOrdered.add(contract.getQuantity());
 		} else {

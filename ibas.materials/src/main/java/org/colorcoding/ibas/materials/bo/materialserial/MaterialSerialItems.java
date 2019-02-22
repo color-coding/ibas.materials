@@ -1,6 +1,7 @@
 package org.colorcoding.ibas.materials.bo.materialserial;
 
 import java.beans.PropertyChangeEvent;
+import java.math.BigDecimal;
 
 import javax.xml.bind.annotation.XmlSeeAlso;
 import javax.xml.bind.annotation.XmlType;
@@ -39,8 +40,7 @@ public class MaterialSerialItems extends BusinessObjects<IMaterialSerialItem, IM
 	/**
 	 * 构造方法P
 	 *
-	 * @param parent
-	 *            父项对象
+	 * @param parent 父项对象
 	 */
 	public MaterialSerialItems(IMaterialSerialItemParent parent) {
 		super(parent);
@@ -139,7 +139,7 @@ public class MaterialSerialItems extends BusinessObjects<IMaterialSerialItem, IM
 		if (this.getParent().getSerialManagement() == emYesNo.NO) {
 			return;
 		}
-		Decimal total = Decimal.ZERO;
+		BigDecimal total = Decimal.ZERO;
 		for (@SuppressWarnings("unused")
 		IMaterialSerialItem item : this) {
 			total = total.add(Decimal.ONE);

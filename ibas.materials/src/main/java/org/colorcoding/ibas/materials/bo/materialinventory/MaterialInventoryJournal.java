@@ -1,5 +1,7 @@
 package org.colorcoding.ibas.materials.bo.materialinventory;
 
+import java.math.BigDecimal;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -84,8 +86,7 @@ public class MaterialInventoryJournal extends BusinessObject<MaterialInventoryJo
 	/**
 	 * 设置-物料编码
 	 *
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setItemCode(String value) {
 		this.setProperty(PROPERTY_ITEMCODE, value);
@@ -116,8 +117,7 @@ public class MaterialInventoryJournal extends BusinessObject<MaterialInventoryJo
 	/**
 	 * 设置-物料名称
 	 *
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setItemName(String value) {
 		this.setProperty(PROPERTY_ITEMNAME, value);
@@ -148,8 +148,7 @@ public class MaterialInventoryJournal extends BusinessObject<MaterialInventoryJo
 	/**
 	 * 设置-仓库编号
 	 *
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setWarehouse(String value) {
 		this.setProperty(PROPERTY_WAREHOUSE, value);
@@ -180,8 +179,7 @@ public class MaterialInventoryJournal extends BusinessObject<MaterialInventoryJo
 	/**
 	 * 设置-方向
 	 *
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setDirection(emDirection value) {
 		this.setProperty(PROPERTY_DIRECTION, value);
@@ -196,8 +194,8 @@ public class MaterialInventoryJournal extends BusinessObject<MaterialInventoryJo
 	 * 数量 属性
 	 */
 	@DbField(name = "Quantity", type = DbFieldType.DECIMAL, table = DB_TABLE_NAME, primaryKey = false)
-	public static final IPropertyInfo<Decimal> PROPERTY_QUANTITY = registerProperty(PROPERTY_QUANTITY_NAME,
-			Decimal.class, MY_CLASS);
+	public static final IPropertyInfo<BigDecimal> PROPERTY_QUANTITY = registerProperty(PROPERTY_QUANTITY_NAME,
+			BigDecimal.class, MY_CLASS);
 
 	/**
 	 * 获取-数量
@@ -205,48 +203,44 @@ public class MaterialInventoryJournal extends BusinessObject<MaterialInventoryJo
 	 * @return 值
 	 */
 	@XmlElement(name = PROPERTY_QUANTITY_NAME)
-	public final Decimal getQuantity() {
+	public final BigDecimal getQuantity() {
 		return this.getProperty(PROPERTY_QUANTITY);
 	}
 
 	/**
 	 * 设置-数量
 	 *
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
-	public final void setQuantity(Decimal value) {
+	public final void setQuantity(BigDecimal value) {
 		this.setProperty(PROPERTY_QUANTITY, value);
 	}
 
 	/**
 	 * 设置-数量
 	 *
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setQuantity(String value) {
-		this.setQuantity(new Decimal(value));
+		this.setQuantity(Decimal.valueOf(value));
 	}
 
 	/**
 	 * 设置-数量
 	 *
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setQuantity(int value) {
-		this.setQuantity(new Decimal(value));
+		this.setQuantity(Decimal.valueOf(value));
 	}
 
 	/**
 	 * 设置-数量
 	 *
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setQuantity(double value) {
-		this.setQuantity(new Decimal(value));
+		this.setQuantity(Decimal.valueOf(value));
 	}
 
 	/**
@@ -258,8 +252,8 @@ public class MaterialInventoryJournal extends BusinessObject<MaterialInventoryJo
 	 * 价格 属性
 	 */
 	@DbField(name = "Price", type = DbFieldType.DECIMAL, table = DB_TABLE_NAME, primaryKey = false)
-	public static final IPropertyInfo<Decimal> PROPERTY_PRICE = registerProperty(PROPERTY_PRICE_NAME, Decimal.class,
-			MY_CLASS);
+	public static final IPropertyInfo<BigDecimal> PROPERTY_PRICE = registerProperty(PROPERTY_PRICE_NAME,
+			BigDecimal.class, MY_CLASS);
 
 	/**
 	 * 获取-价格
@@ -267,48 +261,44 @@ public class MaterialInventoryJournal extends BusinessObject<MaterialInventoryJo
 	 * @return 值
 	 */
 	@XmlElement(name = PROPERTY_PRICE_NAME)
-	public final Decimal getPrice() {
+	public final BigDecimal getPrice() {
 		return this.getProperty(PROPERTY_PRICE);
 	}
 
 	/**
 	 * 设置-价格
 	 *
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
-	public final void setPrice(Decimal value) {
+	public final void setPrice(BigDecimal value) {
 		this.setProperty(PROPERTY_PRICE, value);
 	}
 
 	/**
 	 * 设置-价格
 	 *
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setPrice(String value) {
-		this.setPrice(new Decimal(value));
+		this.setPrice(Decimal.valueOf(value));
 	}
 
 	/**
 	 * 设置-价格
 	 *
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setPrice(int value) {
-		this.setPrice(new Decimal(value));
+		this.setPrice(Decimal.valueOf(value));
 	}
 
 	/**
 	 * 设置-价格
 	 *
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setPrice(double value) {
-		this.setPrice(new Decimal(value));
+		this.setPrice(Decimal.valueOf(value));
 	}
 
 	/**
@@ -336,8 +326,7 @@ public class MaterialInventoryJournal extends BusinessObject<MaterialInventoryJo
 	/**
 	 * 设置-货币
 	 *
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setCurrency(String value) {
 		this.setProperty(PROPERTY_CURRENCY, value);
@@ -352,7 +341,7 @@ public class MaterialInventoryJournal extends BusinessObject<MaterialInventoryJo
 	 * 汇率 属性
 	 */
 	@DbField(name = "Rate", type = DbFieldType.DECIMAL, table = DB_TABLE_NAME, primaryKey = false)
-	public static final IPropertyInfo<Decimal> PROPERTY_RATE = registerProperty(PROPERTY_RATE_NAME, Decimal.class,
+	public static final IPropertyInfo<BigDecimal> PROPERTY_RATE = registerProperty(PROPERTY_RATE_NAME, BigDecimal.class,
 			MY_CLASS);
 
 	/**
@@ -361,48 +350,44 @@ public class MaterialInventoryJournal extends BusinessObject<MaterialInventoryJo
 	 * @return 值
 	 */
 	@XmlElement(name = PROPERTY_RATE_NAME)
-	public final Decimal getRate() {
+	public final BigDecimal getRate() {
 		return this.getProperty(PROPERTY_RATE);
 	}
 
 	/**
 	 * 设置-汇率
 	 *
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
-	public final void setRate(Decimal value) {
+	public final void setRate(BigDecimal value) {
 		this.setProperty(PROPERTY_RATE, value);
 	}
 
 	/**
 	 * 设置-汇率
 	 *
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setRate(String value) {
-		this.setRate(new Decimal(value));
+		this.setRate(Decimal.valueOf(value));
 	}
 
 	/**
 	 * 设置-汇率
 	 *
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setRate(int value) {
-		this.setRate(new Decimal(value));
+		this.setRate(Decimal.valueOf(value));
 	}
 
 	/**
 	 * 设置-汇率
 	 *
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setRate(double value) {
-		this.setRate(new Decimal(value));
+		this.setRate(Decimal.valueOf(value));
 	}
 
 	/**
@@ -430,8 +415,7 @@ public class MaterialInventoryJournal extends BusinessObject<MaterialInventoryJo
 	/**
 	 * 设置-过账日期
 	 *
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setPostingDate(DateTime value) {
 		this.setProperty(PROPERTY_POSTINGDATE, value);
@@ -462,8 +446,7 @@ public class MaterialInventoryJournal extends BusinessObject<MaterialInventoryJo
 	/**
 	 * 设置-到期日
 	 *
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setDeliveryDate(DateTime value) {
 		this.setProperty(PROPERTY_DELIVERYDATE, value);
@@ -494,8 +477,7 @@ public class MaterialInventoryJournal extends BusinessObject<MaterialInventoryJo
 	/**
 	 * 设置-凭证日期
 	 *
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setDocumentDate(DateTime value) {
 		this.setProperty(PROPERTY_DOCUMENTDATE, value);
@@ -526,8 +508,7 @@ public class MaterialInventoryJournal extends BusinessObject<MaterialInventoryJo
 	/**
 	 * 设置-基于类型
 	 *
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setBaseDocumentType(String value) {
 		this.setProperty(PROPERTY_BASEDOCUMENTTYPE, value);
@@ -558,8 +539,7 @@ public class MaterialInventoryJournal extends BusinessObject<MaterialInventoryJo
 	/**
 	 * 设置-基于标识
 	 *
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setBaseDocumentEntry(Integer value) {
 		this.setProperty(PROPERTY_BASEDOCUMENTENTRY, value);
@@ -590,8 +570,7 @@ public class MaterialInventoryJournal extends BusinessObject<MaterialInventoryJo
 	/**
 	 * 设置-基于行号
 	 *
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setBaseDocumentLineId(Integer value) {
 		this.setProperty(PROPERTY_BASEDOCUMENTLINEID, value);
@@ -622,8 +601,7 @@ public class MaterialInventoryJournal extends BusinessObject<MaterialInventoryJo
 	/**
 	 * 设置-对象编号
 	 *
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setObjectKey(Integer value) {
 		this.setProperty(PROPERTY_OBJECTKEY, value);
@@ -654,8 +632,7 @@ public class MaterialInventoryJournal extends BusinessObject<MaterialInventoryJo
 	/**
 	 * 设置-对象类型
 	 *
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setObjectCode(String value) {
 		this.setProperty(PROPERTY_OBJECTCODE, value);
@@ -686,8 +663,7 @@ public class MaterialInventoryJournal extends BusinessObject<MaterialInventoryJo
 	/**
 	 * 设置-创建日期
 	 *
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setCreateDate(DateTime value) {
 		this.setProperty(PROPERTY_CREATEDATE, value);
@@ -718,8 +694,7 @@ public class MaterialInventoryJournal extends BusinessObject<MaterialInventoryJo
 	/**
 	 * 设置-创建时间
 	 *
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setCreateTime(Short value) {
 		this.setProperty(PROPERTY_CREATETIME, value);
@@ -750,8 +725,7 @@ public class MaterialInventoryJournal extends BusinessObject<MaterialInventoryJo
 	/**
 	 * 设置-修改日期
 	 *
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setUpdateDate(DateTime value) {
 		this.setProperty(PROPERTY_UPDATEDATE, value);
@@ -782,8 +756,7 @@ public class MaterialInventoryJournal extends BusinessObject<MaterialInventoryJo
 	/**
 	 * 设置-修改时间
 	 *
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setUpdateTime(Short value) {
 		this.setProperty(PROPERTY_UPDATETIME, value);
@@ -814,8 +787,7 @@ public class MaterialInventoryJournal extends BusinessObject<MaterialInventoryJo
 	/**
 	 * 设置-版本
 	 *
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setLogInst(Integer value) {
 		this.setProperty(PROPERTY_LOGINST, value);
@@ -846,8 +818,7 @@ public class MaterialInventoryJournal extends BusinessObject<MaterialInventoryJo
 	/**
 	 * 设置-服务系列
 	 *
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setSeries(Integer value) {
 		this.setProperty(PROPERTY_SERIES, value);
@@ -878,8 +849,7 @@ public class MaterialInventoryJournal extends BusinessObject<MaterialInventoryJo
 	/**
 	 * 设置-数据源
 	 *
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setDataSource(String value) {
 		this.setProperty(PROPERTY_DATASOURCE, value);
@@ -910,8 +880,7 @@ public class MaterialInventoryJournal extends BusinessObject<MaterialInventoryJo
 	/**
 	 * 设置-创建用户
 	 *
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setCreateUserSign(Integer value) {
 		this.setProperty(PROPERTY_CREATEUSERSIGN, value);
@@ -942,8 +911,7 @@ public class MaterialInventoryJournal extends BusinessObject<MaterialInventoryJo
 	/**
 	 * 设置-修改用户
 	 *
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setUpdateUserSign(Integer value) {
 		this.setProperty(PROPERTY_UPDATEUSERSIGN, value);
@@ -974,8 +942,7 @@ public class MaterialInventoryJournal extends BusinessObject<MaterialInventoryJo
 	/**
 	 * 设置-创建动作标识
 	 *
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setCreateActionId(String value) {
 		this.setProperty(PROPERTY_CREATEACTIONID, value);
@@ -1006,8 +973,7 @@ public class MaterialInventoryJournal extends BusinessObject<MaterialInventoryJo
 	/**
 	 * 设置-更新动作标识
 	 *
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setUpdateActionId(String value) {
 		this.setProperty(PROPERTY_UPDATEACTIONID, value);
@@ -1027,8 +993,8 @@ public class MaterialInventoryJournal extends BusinessObject<MaterialInventoryJo
 		return new IBusinessRule[] { // 注册的业务规则
 				new BusinessRuleRequired(PROPERTY_ITEMCODE), // 要求有值
 				new BusinessRuleRequired(PROPERTY_WAREHOUSE), // 要求有值
-				new BusinessRuleMinValue<Decimal>(Decimal.ZERO, PROPERTY_QUANTITY), // 不能低于0
-				new BusinessRuleMinValue<Decimal>(Decimal.ZERO, PROPERTY_PRICE), // 不能低于0
+				new BusinessRuleMinValue<BigDecimal>(Decimal.ZERO, PROPERTY_QUANTITY), // 不能低于0
+				new BusinessRuleMinValue<BigDecimal>(Decimal.ZERO, PROPERTY_PRICE), // 不能低于0
 		};
 	}
 
@@ -1059,7 +1025,7 @@ public class MaterialInventoryJournal extends BusinessObject<MaterialInventoryJo
 					}
 
 					@Override
-					public Decimal getQuantity() {
+					public BigDecimal getQuantity() {
 						return MaterialInventoryJournal.this.getQuantity();
 					}
 
@@ -1084,7 +1050,7 @@ public class MaterialInventoryJournal extends BusinessObject<MaterialInventoryJo
 					}
 
 					@Override
-					public Decimal getQuantity() {
+					public BigDecimal getQuantity() {
 						return MaterialInventoryJournal.this.getQuantity();
 					}
 

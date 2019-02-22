@@ -1,8 +1,9 @@
 package org.colorcoding.ibas.materials.bo.material;
 
+import java.math.BigDecimal;
+
 import org.colorcoding.ibas.bobas.bo.IBOMasterData;
 import org.colorcoding.ibas.bobas.data.DateTime;
-import org.colorcoding.ibas.bobas.data.Decimal;
 import org.colorcoding.ibas.bobas.data.emApprovalStatus;
 import org.colorcoding.ibas.bobas.data.emYesNo;
 import org.colorcoding.ibas.materials.data.emItemType;
@@ -242,14 +243,14 @@ public interface IMaterial extends IBOMasterData {
 	 * 
 	 * @return 值
 	 */
-	Decimal getAvgPrice();
+	BigDecimal getAvgPrice();
 
 	/**
 	 * 设置-价格
 	 * 
 	 * @param value 值
 	 */
-	void setAvgPrice(Decimal value);
+	void setAvgPrice(BigDecimal value);
 
 	/**
 	 * 设置-价格
@@ -277,14 +278,14 @@ public interface IMaterial extends IBOMasterData {
 	 * 
 	 * @return 值
 	 */
-	Decimal getOnHand();
+	BigDecimal getOnHand();
 
 	/**
 	 * 设置-库存
 	 * 
 	 * @param value 值
 	 */
-	void setOnHand(Decimal value);
+	void setOnHand(BigDecimal value);
 
 	/**
 	 * 设置-库存
@@ -312,14 +313,14 @@ public interface IMaterial extends IBOMasterData {
 	 * 
 	 * @return 值
 	 */
-	Decimal getOnCommited();
+	BigDecimal getOnCommited();
 
 	/**
 	 * 设置-已承诺
 	 * 
 	 * @param value 值
 	 */
-	void setOnCommited(Decimal value);
+	void setOnCommited(BigDecimal value);
 
 	/**
 	 * 设置-已承诺
@@ -347,14 +348,14 @@ public interface IMaterial extends IBOMasterData {
 	 * 
 	 * @return 值
 	 */
-	Decimal getOnOrdered();
+	BigDecimal getOnOrdered();
 
 	/**
 	 * 设置-已订购
 	 * 
 	 * @param value 值
 	 */
-	void setOnOrdered(Decimal value);
+	void setOnOrdered(BigDecimal value);
 
 	/**
 	 * 设置-已订购
@@ -382,14 +383,14 @@ public interface IMaterial extends IBOMasterData {
 	 * 
 	 * @return 值
 	 */
-	Decimal getMinimumInventory();
+	BigDecimal getMinimumInventory();
 
 	/**
 	 * 设置-最低库存量
 	 * 
 	 * @param value 值
 	 */
-	void setMinimumInventory(Decimal value);
+	void setMinimumInventory(BigDecimal value);
 
 	/**
 	 * 设置-最低库存量

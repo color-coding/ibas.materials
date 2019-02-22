@@ -1,8 +1,9 @@
 package org.colorcoding.ibas.materials.bo.materialinventory;
 
+import java.math.BigDecimal;
+
 import org.colorcoding.ibas.bobas.bo.IBOSimple;
 import org.colorcoding.ibas.bobas.data.DateTime;
-import org.colorcoding.ibas.bobas.data.Decimal;
 import org.colorcoding.ibas.bobas.data.emDirection;
 
 /**
@@ -21,8 +22,7 @@ public interface IMaterialInventoryJournal extends IBOSimple {
 	/**
 	 * 设置-物料编码
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setItemCode(String value);
 
@@ -36,8 +36,7 @@ public interface IMaterialInventoryJournal extends IBOSimple {
 	/**
 	 * 设置-物料名称
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setItemName(String value);
 
@@ -51,8 +50,7 @@ public interface IMaterialInventoryJournal extends IBOSimple {
 	/**
 	 * 设置-仓库编号
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setWarehouse(String value);
 
@@ -66,8 +64,7 @@ public interface IMaterialInventoryJournal extends IBOSimple {
 	/**
 	 * 设置-方向
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setDirection(emDirection value);
 
@@ -76,37 +73,33 @@ public interface IMaterialInventoryJournal extends IBOSimple {
 	 * 
 	 * @return 值
 	 */
-	Decimal getQuantity();
+	BigDecimal getQuantity();
 
 	/**
 	 * 设置-数量
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
-	void setQuantity(Decimal value);
+	void setQuantity(BigDecimal value);
 
 	/**
 	 * 设置-数量
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setQuantity(String value);
 
 	/**
 	 * 设置-数量
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setQuantity(int value);
 
 	/**
 	 * 设置-数量
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setQuantity(double value);
 
@@ -115,37 +108,33 @@ public interface IMaterialInventoryJournal extends IBOSimple {
 	 * 
 	 * @return 值
 	 */
-	Decimal getPrice();
+	BigDecimal getPrice();
 
 	/**
 	 * 设置-价格
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
-	void setPrice(Decimal value);
+	void setPrice(BigDecimal value);
 
 	/**
 	 * 设置-价格
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setPrice(String value);
 
 	/**
 	 * 设置-价格
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setPrice(int value);
 
 	/**
 	 * 设置-价格
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setPrice(double value);
 
@@ -159,8 +148,7 @@ public interface IMaterialInventoryJournal extends IBOSimple {
 	/**
 	 * 设置-货币
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setCurrency(String value);
 
@@ -169,37 +157,33 @@ public interface IMaterialInventoryJournal extends IBOSimple {
 	 * 
 	 * @return 值
 	 */
-	Decimal getRate();
+	BigDecimal getRate();
 
 	/**
 	 * 设置-汇率
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
-	void setRate(Decimal value);
+	void setRate(BigDecimal value);
 
 	/**
 	 * 设置-汇率
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setRate(String value);
 
 	/**
 	 * 设置-汇率
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setRate(int value);
 
 	/**
 	 * 设置-汇率
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setRate(double value);
 
@@ -213,8 +197,7 @@ public interface IMaterialInventoryJournal extends IBOSimple {
 	/**
 	 * 设置-过账日期
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setPostingDate(DateTime value);
 
@@ -228,8 +211,7 @@ public interface IMaterialInventoryJournal extends IBOSimple {
 	/**
 	 * 设置-到期日
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setDeliveryDate(DateTime value);
 
@@ -243,8 +225,7 @@ public interface IMaterialInventoryJournal extends IBOSimple {
 	/**
 	 * 设置-凭证日期
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setDocumentDate(DateTime value);
 
@@ -258,8 +239,7 @@ public interface IMaterialInventoryJournal extends IBOSimple {
 	/**
 	 * 设置-基于类型
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setBaseDocumentType(String value);
 
@@ -273,8 +253,7 @@ public interface IMaterialInventoryJournal extends IBOSimple {
 	/**
 	 * 设置-基于标识
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setBaseDocumentEntry(Integer value);
 
@@ -288,8 +267,7 @@ public interface IMaterialInventoryJournal extends IBOSimple {
 	/**
 	 * 设置-基于行号
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setBaseDocumentLineId(Integer value);
 
@@ -303,8 +281,7 @@ public interface IMaterialInventoryJournal extends IBOSimple {
 	/**
 	 * 设置-对象编号
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setObjectKey(Integer value);
 
@@ -318,8 +295,7 @@ public interface IMaterialInventoryJournal extends IBOSimple {
 	/**
 	 * 设置-对象类型
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setObjectCode(String value);
 
@@ -333,8 +309,7 @@ public interface IMaterialInventoryJournal extends IBOSimple {
 	/**
 	 * 设置-创建日期
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setCreateDate(DateTime value);
 
@@ -348,8 +323,7 @@ public interface IMaterialInventoryJournal extends IBOSimple {
 	/**
 	 * 设置-创建时间
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setCreateTime(Short value);
 
@@ -363,8 +337,7 @@ public interface IMaterialInventoryJournal extends IBOSimple {
 	/**
 	 * 设置-修改日期
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setUpdateDate(DateTime value);
 
@@ -378,8 +351,7 @@ public interface IMaterialInventoryJournal extends IBOSimple {
 	/**
 	 * 设置-修改时间
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setUpdateTime(Short value);
 
@@ -393,8 +365,7 @@ public interface IMaterialInventoryJournal extends IBOSimple {
 	/**
 	 * 设置-版本
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setLogInst(Integer value);
 
@@ -408,8 +379,7 @@ public interface IMaterialInventoryJournal extends IBOSimple {
 	/**
 	 * 设置-服务系列
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setSeries(Integer value);
 
@@ -423,8 +393,7 @@ public interface IMaterialInventoryJournal extends IBOSimple {
 	/**
 	 * 设置-数据源
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setDataSource(String value);
 
@@ -438,8 +407,7 @@ public interface IMaterialInventoryJournal extends IBOSimple {
 	/**
 	 * 设置-创建用户
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setCreateUserSign(Integer value);
 
@@ -453,8 +421,7 @@ public interface IMaterialInventoryJournal extends IBOSimple {
 	/**
 	 * 设置-修改用户
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setUpdateUserSign(Integer value);
 
@@ -468,8 +435,7 @@ public interface IMaterialInventoryJournal extends IBOSimple {
 	/**
 	 * 设置-创建动作标识
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setCreateActionId(String value);
 
@@ -483,8 +449,7 @@ public interface IMaterialInventoryJournal extends IBOSimple {
 	/**
 	 * 设置-更新动作标识
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setUpdateActionId(String value);
 

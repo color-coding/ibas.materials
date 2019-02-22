@@ -1,8 +1,9 @@
 package org.colorcoding.ibas.materials.bo.inventorytransfer;
 
+import java.math.BigDecimal;
+
 import org.colorcoding.ibas.bobas.bo.IBODocumentLine;
 import org.colorcoding.ibas.bobas.data.DateTime;
-import org.colorcoding.ibas.bobas.data.Decimal;
 import org.colorcoding.ibas.bobas.data.emBOStatus;
 import org.colorcoding.ibas.bobas.data.emDocumentStatus;
 import org.colorcoding.ibas.bobas.data.emYesNo;
@@ -415,14 +416,14 @@ public interface IInventoryTransferLine extends IBODocumentLine, IMaterialBatchR
 	 * 
 	 * @return 值
 	 */
-	Decimal getQuantity();
+	BigDecimal getQuantity();
 
 	/**
 	 * 设置-数量
 	 * 
 	 * @param value 值
 	 */
-	void setQuantity(Decimal value);
+	void setQuantity(BigDecimal value);
 
 	/**
 	 * 设置-数量
@@ -478,14 +479,14 @@ public interface IInventoryTransferLine extends IBODocumentLine, IMaterialBatchR
 	 * 
 	 * @return 值
 	 */
-	Decimal getPrice();
+	BigDecimal getPrice();
 
 	/**
 	 * 设置-价格
 	 * 
 	 * @param value 值
 	 */
-	void setPrice(Decimal value);
+	void setPrice(BigDecimal value);
 
 	/**
 	 * 设置-价格
@@ -527,14 +528,14 @@ public interface IInventoryTransferLine extends IBODocumentLine, IMaterialBatchR
 	 * 
 	 * @return 值
 	 */
-	Decimal getRate();
+	BigDecimal getRate();
 
 	/**
 	 * 设置-汇率
 	 * 
 	 * @param value 值
 	 */
-	void setRate(Decimal value);
+	void setRate(BigDecimal value);
 
 	/**
 	 * 设置-汇率
@@ -562,14 +563,14 @@ public interface IInventoryTransferLine extends IBODocumentLine, IMaterialBatchR
 	 * 
 	 * @return 值
 	 */
-	Decimal getLineTotal();
+	BigDecimal getLineTotal();
 
 	/**
 	 * 设置-行总计
 	 * 
 	 * @param value 值
 	 */
-	void setLineTotal(Decimal value);
+	void setLineTotal(BigDecimal value);
 
 	/**
 	 * 设置-行总计

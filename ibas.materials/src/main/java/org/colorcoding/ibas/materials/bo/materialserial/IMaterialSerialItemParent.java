@@ -1,7 +1,8 @@
 package org.colorcoding.ibas.materials.bo.materialserial;
 
+import java.math.BigDecimal;
+
 import org.colorcoding.ibas.bobas.bo.IBusinessObject;
-import org.colorcoding.ibas.bobas.data.Decimal;
 import org.colorcoding.ibas.bobas.data.emYesNo;
 
 /**
@@ -51,7 +52,7 @@ public interface IMaterialSerialItemParent extends IBusinessObject {
 	/**
 	 * 数量
 	 */
-	Decimal getQuantity();
+	BigDecimal getQuantity();
 
 	/**
 	 * 物料序列集合

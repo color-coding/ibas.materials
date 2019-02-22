@@ -1,11 +1,12 @@
 package org.colorcoding.ibas.materials.test;
 
+import java.math.BigDecimal;
+
 import org.colorcoding.ibas.bobas.common.Criteria;
 import org.colorcoding.ibas.bobas.common.ICondition;
 import org.colorcoding.ibas.bobas.common.ICriteria;
 import org.colorcoding.ibas.bobas.common.IOperationResult;
 import org.colorcoding.ibas.bobas.data.DateTime;
-import org.colorcoding.ibas.bobas.data.Decimal;
 import org.colorcoding.ibas.bobas.organization.OrganizationFactory;
 import org.colorcoding.ibas.bobas.repository.InvalidTokenException;
 import org.colorcoding.ibas.materials.bo.material.IMaterial;
@@ -35,7 +36,7 @@ public class TestMaterial extends TestCase {
 		return material;
 	}
 
-	public void checkMaterial(String code, Decimal quantity) throws InvalidTokenException {
+	public void checkMaterial(String code, BigDecimal quantity) throws InvalidTokenException {
 		ICriteria criteria = null;
 		ICondition condition = null;
 		IBORepositoryMaterialsApp boRepository = new BORepositoryMaterials();

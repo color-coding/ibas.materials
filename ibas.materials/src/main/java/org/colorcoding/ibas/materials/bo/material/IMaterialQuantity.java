@@ -1,6 +1,6 @@
 package org.colorcoding.ibas.materials.bo.material;
 
-import org.colorcoding.ibas.bobas.data.Decimal;
+import java.math.BigDecimal;
 
 /**
  * @author Fancy
@@ -31,8 +31,7 @@ public interface IMaterialQuantity {
 	/**
 	 * 设置-物料名称
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setItemName(String value);
 
@@ -41,14 +40,14 @@ public interface IMaterialQuantity {
 	 *
 	 * @return
 	 */
-	Decimal getOnHand();
+	BigDecimal getOnHand();
 
 	/**
 	 * 设置库存
 	 *
 	 * @param value
 	 */
-	void setOnHand(Decimal value);
+	void setOnHand(BigDecimal value);
 
 	/**
 	 * 设置库存
@@ -69,14 +68,14 @@ public interface IMaterialQuantity {
 	 *
 	 * @return
 	 */
-	Decimal getOnCommited();
+	BigDecimal getOnCommited();
 
 	/**
 	 * 设置已承诺
 	 *
 	 * @param value
 	 */
-	void setOnCommited(Decimal value);
+	void setOnCommited(BigDecimal value);
 
 	/**
 	 * 设置已承诺
@@ -92,19 +91,19 @@ public interface IMaterialQuantity {
 	 */
 	void setOnCommited(double value);
 
-/**
+	/**
 	 * 获取-已订购
 	 *
 	 * @return
 	 */
-	Decimal getOnOrdered();
+	BigDecimal getOnOrdered();
 
 	/**
 	 * 设置已订购
 	 *
 	 * @param value
 	 */
-	void setOnOrdered(Decimal value);
+	void setOnOrdered(BigDecimal value);
 
 	/**
 	 * 设置已订购

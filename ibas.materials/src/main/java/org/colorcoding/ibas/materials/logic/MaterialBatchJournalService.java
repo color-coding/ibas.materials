@@ -6,6 +6,7 @@ import org.colorcoding.ibas.bobas.common.Criteria;
 import org.colorcoding.ibas.bobas.common.ICondition;
 import org.colorcoding.ibas.bobas.common.ICriteria;
 import org.colorcoding.ibas.bobas.common.IOperationResult;
+import org.colorcoding.ibas.bobas.data.Decimal;
 import org.colorcoding.ibas.bobas.logic.BusinessLogic;
 import org.colorcoding.ibas.bobas.logic.BusinessLogicException;
 import org.colorcoding.ibas.bobas.mapping.LogicContract;
@@ -77,7 +78,7 @@ public class MaterialBatchJournalService extends BusinessLogic<IMaterialBatchJou
 	protected void revoke(IMaterialBatchJournalContract contract) {
 		IMaterialBatchJournal materialBatchJournal = this.getBeAffected();
 		materialBatchJournal.setQuantity(materialBatchJournal.getQuantity().subtract(contract.getQuantity()));
-		if (materialBatchJournal.getQuantity().isZero()) {
+		if (Decimal.isZero(materialBatchJournal.getQuantity())) {
 			materialBatchJournal.delete();
 		}
 	}

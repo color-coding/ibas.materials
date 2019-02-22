@@ -1,6 +1,7 @@
 package org.colorcoding.ibas.materials.bo.materialbatch;
 
 import java.beans.PropertyChangeEvent;
+import java.math.BigDecimal;
 
 import javax.xml.bind.annotation.XmlSeeAlso;
 import javax.xml.bind.annotation.XmlType;
@@ -38,8 +39,7 @@ public class MaterialBatchItems extends BusinessObjects<IMaterialBatchItem, IMat
 	/**
 	 * 构造方法
 	 * 
-	 * @param parent
-	 *            父项对象
+	 * @param parent 父项对象
 	 */
 	public MaterialBatchItems(IMaterialBatchItemParent parent) {
 		super(parent);
@@ -138,7 +138,7 @@ public class MaterialBatchItems extends BusinessObjects<IMaterialBatchItem, IMat
 		if (this.getParent().getBatchManagement() == emYesNo.NO) {
 			return;
 		}
-		Decimal total = Decimal.ZERO;
+		BigDecimal total = Decimal.ZERO;
 		for (IMaterialBatchItem item : this) {
 			total = total.add(item.getQuantity());
 		}

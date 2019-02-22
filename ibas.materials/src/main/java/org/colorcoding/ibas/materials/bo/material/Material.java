@@ -1,5 +1,7 @@
 package org.colorcoding.ibas.materials.bo.material;
 
+import java.math.BigDecimal;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -75,8 +77,7 @@ public class Material extends MaterialBase<Material>
 	/**
 	 * 设置-固定资产
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setFixedAsset(emYesNo value) {
 		this.setProperty(PROPERTY_FIXEDASSET, value);
@@ -107,8 +108,7 @@ public class Material extends MaterialBase<Material>
 	/**
 	 * 设置-产品单元
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setProductUnit(emYesNo value) {
 		this.setProperty(PROPERTY_PRODUCTUNIT, value);
@@ -139,8 +139,7 @@ public class Material extends MaterialBase<Material>
 	/**
 	 * 设置-首选供应商
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setPreferredVendor(String value) {
 		this.setProperty(PROPERTY_PREFERREDVENDOR, value);
@@ -155,8 +154,8 @@ public class Material extends MaterialBase<Material>
 	 * 价格 属性
 	 */
 	@DbField(name = "AvgPrice", type = DbFieldType.DECIMAL, table = DB_TABLE_NAME, primaryKey = false)
-	public static final IPropertyInfo<Decimal> PROPERTY_AVGPRICE = registerProperty(PROPERTY_AVGPRICE_NAME,
-			Decimal.class, MY_CLASS);
+	public static final IPropertyInfo<BigDecimal> PROPERTY_AVGPRICE = registerProperty(PROPERTY_AVGPRICE_NAME,
+			BigDecimal.class, MY_CLASS);
 
 	/**
 	 * 获取-价格
@@ -164,48 +163,44 @@ public class Material extends MaterialBase<Material>
 	 * @return 值
 	 */
 	@XmlElement(name = PROPERTY_AVGPRICE_NAME)
-	public final Decimal getAvgPrice() {
+	public final BigDecimal getAvgPrice() {
 		return this.getProperty(PROPERTY_AVGPRICE);
 	}
 
 	/**
 	 * 设置-价格
 	 *
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
-	public final void setAvgPrice(Decimal value) {
+	public final void setAvgPrice(BigDecimal value) {
 		this.setProperty(PROPERTY_AVGPRICE, value);
 	}
 
 	/**
 	 * 设置-价格
 	 *
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setAvgPrice(String value) {
-		this.setAvgPrice(new Decimal(value));
+		this.setAvgPrice(Decimal.valueOf(value));
 	}
 
 	/**
 	 * 设置-价格
 	 *
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setAvgPrice(int value) {
-		this.setAvgPrice(new Decimal(value));
+		this.setAvgPrice(Decimal.valueOf(value));
 	}
 
 	/**
 	 * 设置-价格
 	 *
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setAvgPrice(double value) {
-		this.setAvgPrice(new Decimal(value));
+		this.setAvgPrice(Decimal.valueOf(value));
 	}
 
 	/**
@@ -233,8 +228,7 @@ public class Material extends MaterialBase<Material>
 	/**
 	 * 设置-缺省仓库
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setDefaultWarehouse(String value) {
 		this.setProperty(PROPERTY_DEFAULTWAREHOUSE, value);
@@ -249,8 +243,8 @@ public class Material extends MaterialBase<Material>
 	 * 最低库存量 属性
 	 */
 	@DbField(name = "MinInvnt", type = DbFieldType.DECIMAL, table = DB_TABLE_NAME, primaryKey = false)
-	public static final IPropertyInfo<Decimal> PROPERTY_MINIMUMINVENTORY = registerProperty(
-			PROPERTY_MINIMUMINVENTORY_NAME, Decimal.class, MY_CLASS);
+	public static final IPropertyInfo<BigDecimal> PROPERTY_MINIMUMINVENTORY = registerProperty(
+			PROPERTY_MINIMUMINVENTORY_NAME, BigDecimal.class, MY_CLASS);
 
 	/**
 	 * 获取-最低库存量
@@ -258,48 +252,44 @@ public class Material extends MaterialBase<Material>
 	 * @return 值
 	 */
 	@XmlElement(name = PROPERTY_MINIMUMINVENTORY_NAME)
-	public final Decimal getMinimumInventory() {
+	public final BigDecimal getMinimumInventory() {
 		return this.getProperty(PROPERTY_MINIMUMINVENTORY);
 	}
 
 	/**
 	 * 设置-最低库存量
 	 *
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
-	public final void setMinimumInventory(Decimal value) {
+	public final void setMinimumInventory(BigDecimal value) {
 		this.setProperty(PROPERTY_MINIMUMINVENTORY, value);
 	}
 
 	/**
 	 * 设置-最低库存量
 	 *
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setMinimumInventory(String value) {
-		this.setMinimumInventory(new Decimal(value));
+		this.setMinimumInventory(Decimal.valueOf(value));
 	}
 
 	/**
 	 * 设置-最低库存量
 	 *
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setMinimumInventory(int value) {
-		this.setMinimumInventory(new Decimal(value));
+		this.setMinimumInventory(Decimal.valueOf(value));
 	}
 
 	/**
 	 * 设置-最低库存量
 	 *
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setMinimumInventory(double value) {
-		this.setMinimumInventory(new Decimal(value));
+		this.setMinimumInventory(Decimal.valueOf(value));
 	}
 
 	/**
@@ -327,8 +317,7 @@ public class Material extends MaterialBase<Material>
 	/**
 	 * 设置-创建日期
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setCreateDate(DateTime value) {
 		this.setProperty(PROPERTY_CREATEDATE, value);
@@ -359,8 +348,7 @@ public class Material extends MaterialBase<Material>
 	/**
 	 * 设置-创建时间
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setCreateTime(Short value) {
 		this.setProperty(PROPERTY_CREATETIME, value);
@@ -391,8 +379,7 @@ public class Material extends MaterialBase<Material>
 	/**
 	 * 设置-修改日期
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setUpdateDate(DateTime value) {
 		this.setProperty(PROPERTY_UPDATEDATE, value);
@@ -423,8 +410,7 @@ public class Material extends MaterialBase<Material>
 	/**
 	 * 设置-修改时间
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setUpdateTime(Short value) {
 		this.setProperty(PROPERTY_UPDATETIME, value);
@@ -455,8 +441,7 @@ public class Material extends MaterialBase<Material>
 	/**
 	 * 设置-版本
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setLogInst(Integer value) {
 		this.setProperty(PROPERTY_LOGINST, value);
@@ -487,8 +472,7 @@ public class Material extends MaterialBase<Material>
 	/**
 	 * 设置-服务系列
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setSeries(Integer value) {
 		this.setProperty(PROPERTY_SERIES, value);
@@ -519,8 +503,7 @@ public class Material extends MaterialBase<Material>
 	/**
 	 * 设置-数据源
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setDataSource(String value) {
 		this.setProperty(PROPERTY_DATASOURCE, value);
@@ -551,8 +534,7 @@ public class Material extends MaterialBase<Material>
 	/**
 	 * 设置-创建用户
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setCreateUserSign(Integer value) {
 		this.setProperty(PROPERTY_CREATEUSERSIGN, value);
@@ -583,8 +565,7 @@ public class Material extends MaterialBase<Material>
 	/**
 	 * 设置-修改用户
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setUpdateUserSign(Integer value) {
 		this.setProperty(PROPERTY_UPDATEUSERSIGN, value);
@@ -615,8 +596,7 @@ public class Material extends MaterialBase<Material>
 	/**
 	 * 设置-创建动作标识
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setCreateActionId(String value) {
 		this.setProperty(PROPERTY_CREATEACTIONID, value);
@@ -647,8 +627,7 @@ public class Material extends MaterialBase<Material>
 	/**
 	 * 设置-更新动作标识
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setUpdateActionId(String value) {
 		this.setProperty(PROPERTY_UPDATEACTIONID, value);
@@ -679,8 +658,7 @@ public class Material extends MaterialBase<Material>
 	/**
 	 * 设置-审批状态
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setApprovalStatus(emApprovalStatus value) {
 		this.setProperty(PROPERTY_APPROVALSTATUS, value);
@@ -711,8 +689,7 @@ public class Material extends MaterialBase<Material>
 	/**
 	 * 设置-已引用
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setReferenced(emYesNo value) {
 		this.setProperty(PROPERTY_REFERENCED, value);
@@ -741,10 +718,10 @@ public class Material extends MaterialBase<Material>
 	protected IBusinessRule[] registerRules() {
 		return new IBusinessRule[] { // 注册的业务规则
 				new BusinessRuleRequired(PROPERTY_CODE), // 要求有值
-				new BusinessRuleMinValue<Decimal>(Decimal.ZERO, PROPERTY_ONHAND), // 不能低于0
-				new BusinessRuleMinValue<Decimal>(Decimal.ZERO, PROPERTY_ONORDERED), // 不能低于0
-				new BusinessRuleMinValue<Decimal>(Decimal.ZERO, PROPERTY_ONCOMMITED), // 不能低于0
-				new BusinessRuleMinValue<Decimal>(Decimal.ZERO, PROPERTY_AVGPRICE), // 不能低于0
+				new BusinessRuleMinValue<BigDecimal>(Decimal.ZERO, PROPERTY_ONHAND), // 不能低于0
+				new BusinessRuleMinValue<BigDecimal>(Decimal.ZERO, PROPERTY_ONORDERED), // 不能低于0
+				new BusinessRuleMinValue<BigDecimal>(Decimal.ZERO, PROPERTY_ONCOMMITED), // 不能低于0
+				new BusinessRuleMinValue<BigDecimal>(Decimal.ZERO, PROPERTY_AVGPRICE), // 不能低于0
 		};
 	}
 }

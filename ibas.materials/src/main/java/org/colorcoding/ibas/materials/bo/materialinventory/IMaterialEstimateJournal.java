@@ -1,8 +1,9 @@
 package org.colorcoding.ibas.materials.bo.materialinventory;
 
+import java.math.BigDecimal;
+
 import org.colorcoding.ibas.bobas.bo.IBOSimple;
 import org.colorcoding.ibas.bobas.data.DateTime;
-import org.colorcoding.ibas.bobas.data.Decimal;
 import org.colorcoding.ibas.materials.data.emEstimateType;
 
 /**
@@ -72,14 +73,14 @@ public interface IMaterialEstimateJournal extends IBOSimple {
 	 * 
 	 * @return 值
 	 */
-	Decimal getQuantity();
+	BigDecimal getQuantity();
 
 	/**
 	 * 设置-数量
 	 * 
 	 * @param value 值
 	 */
-	void setQuantity(Decimal value);
+	void setQuantity(BigDecimal value);
 
 	/**
 	 * 设置-数量

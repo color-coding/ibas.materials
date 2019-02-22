@@ -1,5 +1,6 @@
 package org.colorcoding.ibas.materials.bo.material;
 
+import java.math.BigDecimal;
 import java.util.Collection;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -100,61 +101,61 @@ public class MaterialQuantity extends Serializable implements IMaterialQuantity 
 		this.itemName = value;
 	}
 
-	private Decimal onHand;
+	private BigDecimal onHand;
 
 	@XmlElement(name = "OnHand")
-	public final Decimal getOnHand() {
+	public final BigDecimal getOnHand() {
 		return onHand;
 	}
 
-	public final void setOnHand(Decimal onHand) {
+	public final void setOnHand(BigDecimal onHand) {
 		this.onHand = onHand;
 	}
 
 	public final void setOnHand(int value) {
-		this.setOnHand(new Decimal(value));
+		this.setOnHand(Decimal.valueOf(value));
 	}
 
 	public final void setOnHand(double value) {
-		this.setOnHand(new Decimal(value));
+		this.setOnHand(Decimal.valueOf(value));
 	}
 
-	private Decimal onOrdered;
+	private BigDecimal onOrdered;
 
 	@XmlElement(name = "OnOrdered")
-	public final Decimal getOnOrdered() {
+	public final BigDecimal getOnOrdered() {
 		return onOrdered;
 	}
 
-	public final void setOnOrdered(Decimal onOrdered) {
+	public final void setOnOrdered(BigDecimal onOrdered) {
 		this.onOrdered = onOrdered;
 	}
 
 	public final void setOnOrdered(int value) {
-		this.setOnOrdered(new Decimal(value));
+		this.setOnOrdered(Decimal.valueOf(value));
 	}
 
 	public final void setOnOrdered(double value) {
-		this.setOnOrdered(new Decimal(value));
+		this.setOnOrdered(Decimal.valueOf(value));
 	}
 
-	private Decimal onCommited;
+	private BigDecimal onCommited;
 
 	@XmlElement(name = "OnCommited")
-	public final Decimal getOnCommited() {
+	public final BigDecimal getOnCommited() {
 		return onCommited;
 	}
 
-	public final void setOnCommited(Decimal onCommited) {
+	public final void setOnCommited(BigDecimal onCommited) {
 		this.onCommited = onCommited;
 	}
 
 	public final void setOnCommited(int value) {
-		this.setOnCommited(new Decimal(value));
+		this.setOnCommited(Decimal.valueOf(value));
 	}
 
 	public final void setOnCommited(double value) {
-		this.setOnCommited(new Decimal(value));
+		this.setOnCommited(Decimal.valueOf(value));
 	}
 
 	private String uom;

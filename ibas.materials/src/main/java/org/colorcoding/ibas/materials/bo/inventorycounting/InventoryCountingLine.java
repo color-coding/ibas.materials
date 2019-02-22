@@ -1,5 +1,7 @@
 package org.colorcoding.ibas.materials.bo.inventorycounting;
 
+import java.math.BigDecimal;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -817,8 +819,8 @@ public class InventoryCountingLine extends BusinessObject<InventoryCountingLine>
 	 * 库存数量 属性
 	 */
 	@DbField(name = "InvtQty", type = DbFieldType.DECIMAL, table = DB_TABLE_NAME, primaryKey = false)
-	public static final IPropertyInfo<Decimal> PROPERTY_INVENTORYQUANTITY = registerProperty(
-			PROPERTY_INVENTORYQUANTITY_NAME, Decimal.class, MY_CLASS);
+	public static final IPropertyInfo<BigDecimal> PROPERTY_INVENTORYQUANTITY = registerProperty(
+			PROPERTY_INVENTORYQUANTITY_NAME, BigDecimal.class, MY_CLASS);
 
 	/**
 	 * 获取-库存数量
@@ -826,7 +828,7 @@ public class InventoryCountingLine extends BusinessObject<InventoryCountingLine>
 	 * @return 值
 	 */
 	@XmlElement(name = PROPERTY_INVENTORYQUANTITY_NAME)
-	public final Decimal getInventoryQuantity() {
+	public final BigDecimal getInventoryQuantity() {
 		return this.getProperty(PROPERTY_INVENTORYQUANTITY);
 	}
 
@@ -835,7 +837,7 @@ public class InventoryCountingLine extends BusinessObject<InventoryCountingLine>
 	 * 
 	 * @param value 值
 	 */
-	public final void setInventoryQuantity(Decimal value) {
+	public final void setInventoryQuantity(BigDecimal value) {
 		this.setProperty(PROPERTY_INVENTORYQUANTITY, value);
 	}
 
@@ -845,7 +847,7 @@ public class InventoryCountingLine extends BusinessObject<InventoryCountingLine>
 	 * @param value 值
 	 */
 	public final void setInventoryQuantity(String value) {
-		this.setInventoryQuantity(new Decimal(value));
+		this.setInventoryQuantity(Decimal.valueOf(value));
 	}
 
 	/**
@@ -854,7 +856,7 @@ public class InventoryCountingLine extends BusinessObject<InventoryCountingLine>
 	 * @param value 值
 	 */
 	public final void setInventoryQuantity(int value) {
-		this.setInventoryQuantity(new Decimal(value));
+		this.setInventoryQuantity(Decimal.valueOf(value));
 	}
 
 	/**
@@ -863,7 +865,7 @@ public class InventoryCountingLine extends BusinessObject<InventoryCountingLine>
 	 * @param value 值
 	 */
 	public final void setInventoryQuantity(double value) {
-		this.setInventoryQuantity(new Decimal(value));
+		this.setInventoryQuantity(Decimal.valueOf(value));
 	}
 
 	/**
@@ -875,8 +877,8 @@ public class InventoryCountingLine extends BusinessObject<InventoryCountingLine>
 	 * 盘点数量 属性
 	 */
 	@DbField(name = "CountQty", type = DbFieldType.DECIMAL, table = DB_TABLE_NAME, primaryKey = false)
-	public static final IPropertyInfo<Decimal> PROPERTY_COUNTQUANTITY = registerProperty(PROPERTY_COUNTQUANTITY_NAME,
-			Decimal.class, MY_CLASS);
+	public static final IPropertyInfo<BigDecimal> PROPERTY_COUNTQUANTITY = registerProperty(PROPERTY_COUNTQUANTITY_NAME,
+			BigDecimal.class, MY_CLASS);
 
 	/**
 	 * 获取-盘点数量
@@ -884,7 +886,7 @@ public class InventoryCountingLine extends BusinessObject<InventoryCountingLine>
 	 * @return 值
 	 */
 	@XmlElement(name = PROPERTY_COUNTQUANTITY_NAME)
-	public final Decimal getCountQuantity() {
+	public final BigDecimal getCountQuantity() {
 		return this.getProperty(PROPERTY_COUNTQUANTITY);
 	}
 
@@ -893,7 +895,7 @@ public class InventoryCountingLine extends BusinessObject<InventoryCountingLine>
 	 * 
 	 * @param value 值
 	 */
-	public final void setCountQuantity(Decimal value) {
+	public final void setCountQuantity(BigDecimal value) {
 		this.setProperty(PROPERTY_COUNTQUANTITY, value);
 	}
 
@@ -903,7 +905,7 @@ public class InventoryCountingLine extends BusinessObject<InventoryCountingLine>
 	 * @param value 值
 	 */
 	public final void setCountQuantity(String value) {
-		this.setCountQuantity(new Decimal(value));
+		this.setCountQuantity(Decimal.valueOf(value));
 	}
 
 	/**
@@ -912,7 +914,7 @@ public class InventoryCountingLine extends BusinessObject<InventoryCountingLine>
 	 * @param value 值
 	 */
 	public final void setCountQuantity(int value) {
-		this.setCountQuantity(new Decimal(value));
+		this.setCountQuantity(Decimal.valueOf(value));
 	}
 
 	/**
@@ -921,7 +923,7 @@ public class InventoryCountingLine extends BusinessObject<InventoryCountingLine>
 	 * @param value 值
 	 */
 	public final void setCountQuantity(double value) {
-		this.setCountQuantity(new Decimal(value));
+		this.setCountQuantity(Decimal.valueOf(value));
 	}
 
 	/**
@@ -933,8 +935,8 @@ public class InventoryCountingLine extends BusinessObject<InventoryCountingLine>
 	 * 差额 属性
 	 */
 	@DbField(name = "Difference", type = DbFieldType.DECIMAL, table = DB_TABLE_NAME, primaryKey = false)
-	public static final IPropertyInfo<Decimal> PROPERTY_DIFFERENCE = registerProperty(PROPERTY_DIFFERENCE_NAME,
-			Decimal.class, MY_CLASS);
+	public static final IPropertyInfo<BigDecimal> PROPERTY_DIFFERENCE = registerProperty(PROPERTY_DIFFERENCE_NAME,
+			BigDecimal.class, MY_CLASS);
 
 	/**
 	 * 获取-差额
@@ -942,7 +944,7 @@ public class InventoryCountingLine extends BusinessObject<InventoryCountingLine>
 	 * @return 值
 	 */
 	@XmlElement(name = PROPERTY_DIFFERENCE_NAME)
-	public final Decimal getDifference() {
+	public final BigDecimal getDifference() {
 		return this.getProperty(PROPERTY_DIFFERENCE);
 	}
 
@@ -951,7 +953,7 @@ public class InventoryCountingLine extends BusinessObject<InventoryCountingLine>
 	 * 
 	 * @param value 值
 	 */
-	public final void setDifference(Decimal value) {
+	public final void setDifference(BigDecimal value) {
 		this.setProperty(PROPERTY_DIFFERENCE, value);
 	}
 
@@ -961,7 +963,7 @@ public class InventoryCountingLine extends BusinessObject<InventoryCountingLine>
 	 * @param value 值
 	 */
 	public final void setDifference(String value) {
-		this.setDifference(new Decimal(value));
+		this.setDifference(Decimal.valueOf(value));
 	}
 
 	/**
@@ -970,7 +972,7 @@ public class InventoryCountingLine extends BusinessObject<InventoryCountingLine>
 	 * @param value 值
 	 */
 	public final void setDifference(int value) {
-		this.setDifference(new Decimal(value));
+		this.setDifference(Decimal.valueOf(value));
 	}
 
 	/**
@@ -979,7 +981,7 @@ public class InventoryCountingLine extends BusinessObject<InventoryCountingLine>
 	 * @param value 值
 	 */
 	public final void setDifference(double value) {
-		this.setDifference(new Decimal(value));
+		this.setDifference(Decimal.valueOf(value));
 	}
 
 	/**
@@ -1140,7 +1142,7 @@ public class InventoryCountingLine extends BusinessObject<InventoryCountingLine>
 	}
 
 	@Override
-	public Decimal getQuantity() {
+	public BigDecimal getQuantity() {
 		return this.getDifference().abs();
 	}
 
@@ -1160,8 +1162,8 @@ public class InventoryCountingLine extends BusinessObject<InventoryCountingLine>
 		return new IBusinessRule[] { // 注册的业务规则
 				new BusinessRuleRequired(PROPERTY_ITEMCODE), // 要求有值
 				new BusinessRuleRequired(PROPERTY_WAREHOUSE), // 要求有值
-				new BusinessRuleMinValue<Decimal>(Decimal.ZERO, PROPERTY_INVENTORYQUANTITY), // 不能低于0
-				new BusinessRuleMinValue<Decimal>(Decimal.ZERO, PROPERTY_COUNTQUANTITY), // 不能低于0
+				new BusinessRuleMinValue<BigDecimal>(Decimal.ZERO, PROPERTY_INVENTORYQUANTITY), // 不能低于0
+				new BusinessRuleMinValue<BigDecimal>(Decimal.ZERO, PROPERTY_COUNTQUANTITY), // 不能低于0
 		};
 	}
 

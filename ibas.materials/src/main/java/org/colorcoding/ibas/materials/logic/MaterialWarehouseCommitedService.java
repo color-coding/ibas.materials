@@ -1,5 +1,7 @@
 package org.colorcoding.ibas.materials.logic;
 
+import java.math.BigDecimal;
+
 import org.colorcoding.ibas.bobas.common.ConditionOperation;
 import org.colorcoding.ibas.bobas.common.ConditionRelationship;
 import org.colorcoding.ibas.bobas.common.Criteria;
@@ -92,7 +94,7 @@ public class MaterialWarehouseCommitedService
 	@Override
 	protected void impact(IMaterialWarehouseCommitedContract contract) {
 		IMaterialInventory materialInventory = this.getBeAffected();
-		Decimal onCommited = materialInventory.getOnCommited();
+		BigDecimal onCommited = materialInventory.getOnCommited();
 		if (contract.getDirection() == emDirection.OUT) {
 			onCommited = onCommited.subtract(contract.getQuantity());
 		} else {
@@ -104,7 +106,7 @@ public class MaterialWarehouseCommitedService
 	@Override
 	protected void revoke(IMaterialWarehouseCommitedContract contract) {
 		IMaterialInventory materialInventory = this.getBeAffected();
-		Decimal onCommited = materialInventory.getOnCommited();
+		BigDecimal onCommited = materialInventory.getOnCommited();
 		if (contract.getDirection() == emDirection.OUT) {
 			onCommited = onCommited.add(contract.getQuantity());
 		} else {

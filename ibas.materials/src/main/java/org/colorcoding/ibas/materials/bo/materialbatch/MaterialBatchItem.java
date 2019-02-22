@@ -1,5 +1,7 @@
 package org.colorcoding.ibas.materials.bo.materialbatch;
 
+import java.math.BigDecimal;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -83,8 +85,7 @@ public class MaterialBatchItem extends BusinessObject<MaterialBatchItem>
 	/**
 	 * 设置-批次编码
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setBatchCode(String value) {
 		this.setProperty(PROPERTY_BATCHCODE, value);
@@ -99,8 +100,8 @@ public class MaterialBatchItem extends BusinessObject<MaterialBatchItem>
 	 * 数量 属性
 	 */
 	@DbField(name = "Quantity", type = DbFieldType.DECIMAL, table = DB_TABLE_NAME, primaryKey = false)
-	public static final IPropertyInfo<Decimal> PROPERTY_QUANTITY = registerProperty(PROPERTY_QUANTITY_NAME,
-			Decimal.class, MY_CLASS);
+	public static final IPropertyInfo<BigDecimal> PROPERTY_QUANTITY = registerProperty(PROPERTY_QUANTITY_NAME,
+			BigDecimal.class, MY_CLASS);
 
 	/**
 	 * 获取-数量
@@ -108,48 +109,44 @@ public class MaterialBatchItem extends BusinessObject<MaterialBatchItem>
 	 * @return 值
 	 */
 	@XmlElement(name = PROPERTY_QUANTITY_NAME)
-	public final Decimal getQuantity() {
+	public final BigDecimal getQuantity() {
 		return this.getProperty(PROPERTY_QUANTITY);
 	}
 
 	/**
 	 * 设置-数量
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
-	public final void setQuantity(Decimal value) {
+	public final void setQuantity(BigDecimal value) {
 		this.setProperty(PROPERTY_QUANTITY, value);
 	}
 
 	/**
 	 * 设置-数量
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setQuantity(String value) {
-		this.setQuantity(new Decimal(value));
+		this.setQuantity(Decimal.valueOf(value));
 	}
 
 	/**
 	 * 设置-数量
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setQuantity(int value) {
-		this.setQuantity(new Decimal(value));
+		this.setQuantity(Decimal.valueOf(value));
 	}
 
 	/**
 	 * 设置-数量
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setQuantity(double value) {
-		this.setQuantity(new Decimal(value));
+		this.setQuantity(Decimal.valueOf(value));
 	}
 
 	/**
@@ -177,8 +174,7 @@ public class MaterialBatchItem extends BusinessObject<MaterialBatchItem>
 	/**
 	 * 设置-基于类型
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setDocumentType(String value) {
 		this.setProperty(PROPERTY_DOCUMENTTYPE, value);
@@ -209,8 +205,7 @@ public class MaterialBatchItem extends BusinessObject<MaterialBatchItem>
 	/**
 	 * 设置-基于标识
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setDocumentEntry(Integer value) {
 		this.setProperty(PROPERTY_DOCUMENTENTRY, value);
@@ -241,8 +236,7 @@ public class MaterialBatchItem extends BusinessObject<MaterialBatchItem>
 	/**
 	 * 设置-基于行号
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setDocumentLineId(Integer value) {
 		this.setProperty(PROPERTY_DOCUMENTLINEID, value);
@@ -273,8 +267,7 @@ public class MaterialBatchItem extends BusinessObject<MaterialBatchItem>
 	/**
 	 * 设置-对象编号
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setObjectKey(Integer value) {
 		this.setProperty(PROPERTY_OBJECTKEY, value);
@@ -305,8 +298,7 @@ public class MaterialBatchItem extends BusinessObject<MaterialBatchItem>
 	/**
 	 * 设置-对象类型
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setObjectCode(String value) {
 		this.setProperty(PROPERTY_OBJECTCODE, value);
@@ -337,8 +329,7 @@ public class MaterialBatchItem extends BusinessObject<MaterialBatchItem>
 	/**
 	 * 设置-实例号
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setLogInst(Integer value) {
 		this.setProperty(PROPERTY_LOGINST, value);
@@ -369,8 +360,7 @@ public class MaterialBatchItem extends BusinessObject<MaterialBatchItem>
 	/**
 	 * 设置-数据源
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setDataSource(String value) {
 		this.setProperty(PROPERTY_DATASOURCE, value);
@@ -401,8 +391,7 @@ public class MaterialBatchItem extends BusinessObject<MaterialBatchItem>
 	/**
 	 * 设置-创建日期
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setCreateDate(DateTime value) {
 		this.setProperty(PROPERTY_CREATEDATE, value);
@@ -433,8 +422,7 @@ public class MaterialBatchItem extends BusinessObject<MaterialBatchItem>
 	/**
 	 * 设置-创建时间
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setCreateTime(Short value) {
 		this.setProperty(PROPERTY_CREATETIME, value);
@@ -465,8 +453,7 @@ public class MaterialBatchItem extends BusinessObject<MaterialBatchItem>
 	/**
 	 * 设置-更新日期
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setUpdateDate(DateTime value) {
 		this.setProperty(PROPERTY_UPDATEDATE, value);
@@ -497,8 +484,7 @@ public class MaterialBatchItem extends BusinessObject<MaterialBatchItem>
 	/**
 	 * 设置-更新时间
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setUpdateTime(Short value) {
 		this.setProperty(PROPERTY_UPDATETIME, value);
@@ -529,8 +515,7 @@ public class MaterialBatchItem extends BusinessObject<MaterialBatchItem>
 	/**
 	 * 设置-创建用户
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setCreateUserSign(Integer value) {
 		this.setProperty(PROPERTY_CREATEUSERSIGN, value);
@@ -561,8 +546,7 @@ public class MaterialBatchItem extends BusinessObject<MaterialBatchItem>
 	/**
 	 * 设置-更新用户
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setUpdateUserSign(Integer value) {
 		this.setProperty(PROPERTY_UPDATEUSERSIGN, value);
@@ -593,8 +577,7 @@ public class MaterialBatchItem extends BusinessObject<MaterialBatchItem>
 	/**
 	 * 设置-创建动作标识
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setCreateActionId(String value) {
 		this.setProperty(PROPERTY_CREATEACTIONID, value);
@@ -625,8 +608,7 @@ public class MaterialBatchItem extends BusinessObject<MaterialBatchItem>
 	/**
 	 * 设置-更新动作标识
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setUpdateActionId(String value) {
 		this.setProperty(PROPERTY_UPDATEACTIONID, value);
@@ -648,7 +630,7 @@ public class MaterialBatchItem extends BusinessObject<MaterialBatchItem>
 				new BusinessRuleRequired(PROPERTY_DOCUMENTTYPE), // 要求有值
 				new BusinessRuleRequired(PROPERTY_DOCUMENTENTRY), // 要求有值
 				new BusinessRuleRequired(PROPERTY_DOCUMENTLINEID), // 要求有值
-				new BusinessRuleMinValue<Decimal>(Decimal.ZERO, PROPERTY_QUANTITY), // 不能低于0
+				new BusinessRuleMinValue<BigDecimal>(Decimal.ZERO, PROPERTY_QUANTITY), // 不能低于0
 		};
 	}
 
@@ -685,7 +667,7 @@ public class MaterialBatchItem extends BusinessObject<MaterialBatchItem>
 				}
 
 				@Override
-				public Decimal getQuantity() {
+				public BigDecimal getQuantity() {
 					return MaterialBatchItem.this.getQuantity();
 				}
 
@@ -735,7 +717,7 @@ public class MaterialBatchItem extends BusinessObject<MaterialBatchItem>
 				}
 
 				@Override
-				public Decimal getQuantity() {
+				public BigDecimal getQuantity() {
 					return MaterialBatchItem.this.getQuantity();
 				}
 

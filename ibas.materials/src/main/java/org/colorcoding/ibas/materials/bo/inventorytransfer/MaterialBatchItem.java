@@ -1,10 +1,11 @@
 package org.colorcoding.ibas.materials.bo.inventorytransfer;
 
+import java.math.BigDecimal;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
 
-import org.colorcoding.ibas.bobas.data.Decimal;
 import org.colorcoding.ibas.bobas.data.emDirection;
 import org.colorcoding.ibas.bobas.logic.IBusinessLogicContract;
 import org.colorcoding.ibas.materials.MyConfiguration;
@@ -55,7 +56,7 @@ class MaterialBatchItem extends org.colorcoding.ibas.materials.bo.materialbatch.
 			}
 
 			@Override
-			public Decimal getQuantity() {
+			public BigDecimal getQuantity() {
 				return MaterialBatchItem.this.getQuantity();
 			}
 
@@ -102,7 +103,7 @@ class MaterialBatchItem extends org.colorcoding.ibas.materials.bo.materialbatch.
 			}
 
 			@Override
-			public Decimal getQuantity() {
+			public BigDecimal getQuantity() {
 				return MaterialBatchItem.this.getQuantity();
 			}
 

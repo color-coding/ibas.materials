@@ -114,7 +114,7 @@ public class MaterialOrderedJournalService extends MaterialEstimateService<IMate
 	protected void revoke(IMaterialOrderedJournalContract contract) {
 		IMaterialEstimateJournal materialJournal = this.getBeAffected();
 		materialJournal.setQuantity(Decimal.ZERO);
-		if (materialJournal.getQuantity().isZero()) {
+		if (Decimal.isZero(materialJournal.getQuantity())) {
 			// 已为0，则删除此条数据
 			materialJournal.delete();
 		}

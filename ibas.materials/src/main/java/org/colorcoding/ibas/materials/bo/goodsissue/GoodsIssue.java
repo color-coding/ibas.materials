@@ -1,5 +1,7 @@
 package org.colorcoding.ibas.materials.bo.goodsissue;
 
+import java.math.BigDecimal;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -7,6 +9,7 @@ import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
+import org.colorcoding.ibas.accounting.data.IProjectData;
 import org.colorcoding.ibas.bobas.approval.IApprovalData;
 import org.colorcoding.ibas.bobas.bo.BusinessObject;
 import org.colorcoding.ibas.bobas.bo.IBOTagCanceled;
@@ -28,7 +31,6 @@ import org.colorcoding.ibas.bobas.rule.common.BusinessRuleDocumentStatus;
 import org.colorcoding.ibas.bobas.rule.common.BusinessRuleMinValue;
 import org.colorcoding.ibas.bobas.rule.common.BusinessRuleRequiredElements;
 import org.colorcoding.ibas.bobas.rule.common.BusinessRuleSumElements;
-import org.colorcoding.ibas.accounting.data.IProjectData;
 import org.colorcoding.ibas.materials.MyConfiguration;
 
 /**
@@ -1006,8 +1008,8 @@ public class GoodsIssue extends BusinessObject<GoodsIssue> implements IGoodsIssu
 	 * 单据汇率 属性
 	 */
 	@DbField(name = "DocRate", type = DbFieldType.DECIMAL, table = DB_TABLE_NAME, primaryKey = false)
-	public static final IPropertyInfo<Decimal> PROPERTY_DOCUMENTRATE = registerProperty(PROPERTY_DOCUMENTRATE_NAME,
-			Decimal.class, MY_CLASS);
+	public static final IPropertyInfo<BigDecimal> PROPERTY_DOCUMENTRATE = registerProperty(PROPERTY_DOCUMENTRATE_NAME,
+			BigDecimal.class, MY_CLASS);
 
 	/**
 	 * 获取-单据汇率
@@ -1015,7 +1017,7 @@ public class GoodsIssue extends BusinessObject<GoodsIssue> implements IGoodsIssu
 	 * @return 值
 	 */
 	@XmlElement(name = PROPERTY_DOCUMENTRATE_NAME)
-	public final Decimal getDocumentRate() {
+	public final BigDecimal getDocumentRate() {
 		return this.getProperty(PROPERTY_DOCUMENTRATE);
 	}
 
@@ -1024,7 +1026,7 @@ public class GoodsIssue extends BusinessObject<GoodsIssue> implements IGoodsIssu
 	 * 
 	 * @param value 值
 	 */
-	public final void setDocumentRate(Decimal value) {
+	public final void setDocumentRate(BigDecimal value) {
 		this.setProperty(PROPERTY_DOCUMENTRATE, value);
 	}
 
@@ -1034,7 +1036,7 @@ public class GoodsIssue extends BusinessObject<GoodsIssue> implements IGoodsIssu
 	 * @param value 值
 	 */
 	public final void setDocumentRate(String value) {
-		this.setDocumentRate(new Decimal(value));
+		this.setDocumentRate(Decimal.valueOf(value));
 	}
 
 	/**
@@ -1043,7 +1045,7 @@ public class GoodsIssue extends BusinessObject<GoodsIssue> implements IGoodsIssu
 	 * @param value 值
 	 */
 	public final void setDocumentRate(int value) {
-		this.setDocumentRate(new Decimal(value));
+		this.setDocumentRate(Decimal.valueOf(value));
 	}
 
 	/**
@@ -1052,7 +1054,7 @@ public class GoodsIssue extends BusinessObject<GoodsIssue> implements IGoodsIssu
 	 * @param value 值
 	 */
 	public final void setDocumentRate(double value) {
-		this.setDocumentRate(new Decimal(value));
+		this.setDocumentRate(Decimal.valueOf(value));
 	}
 
 	/**
@@ -1064,8 +1066,8 @@ public class GoodsIssue extends BusinessObject<GoodsIssue> implements IGoodsIssu
 	 * 单据总计 属性
 	 */
 	@DbField(name = "DocTotal", type = DbFieldType.DECIMAL, table = DB_TABLE_NAME, primaryKey = false)
-	public static final IPropertyInfo<Decimal> PROPERTY_DOCUMENTTOTAL = registerProperty(PROPERTY_DOCUMENTTOTAL_NAME,
-			Decimal.class, MY_CLASS);
+	public static final IPropertyInfo<BigDecimal> PROPERTY_DOCUMENTTOTAL = registerProperty(PROPERTY_DOCUMENTTOTAL_NAME,
+			BigDecimal.class, MY_CLASS);
 
 	/**
 	 * 获取-单据总计
@@ -1073,7 +1075,7 @@ public class GoodsIssue extends BusinessObject<GoodsIssue> implements IGoodsIssu
 	 * @return 值
 	 */
 	@XmlElement(name = PROPERTY_DOCUMENTTOTAL_NAME)
-	public final Decimal getDocumentTotal() {
+	public final BigDecimal getDocumentTotal() {
 		return this.getProperty(PROPERTY_DOCUMENTTOTAL);
 	}
 
@@ -1082,7 +1084,7 @@ public class GoodsIssue extends BusinessObject<GoodsIssue> implements IGoodsIssu
 	 * 
 	 * @param value 值
 	 */
-	public final void setDocumentTotal(Decimal value) {
+	public final void setDocumentTotal(BigDecimal value) {
 		this.setProperty(PROPERTY_DOCUMENTTOTAL, value);
 	}
 
@@ -1092,7 +1094,7 @@ public class GoodsIssue extends BusinessObject<GoodsIssue> implements IGoodsIssu
 	 * @param value 值
 	 */
 	public final void setDocumentTotal(String value) {
-		this.setDocumentTotal(new Decimal(value));
+		this.setDocumentTotal(Decimal.valueOf(value));
 	}
 
 	/**
@@ -1101,7 +1103,7 @@ public class GoodsIssue extends BusinessObject<GoodsIssue> implements IGoodsIssu
 	 * @param value 值
 	 */
 	public final void setDocumentTotal(int value) {
-		this.setDocumentTotal(new Decimal(value));
+		this.setDocumentTotal(Decimal.valueOf(value));
 	}
 
 	/**
@@ -1110,7 +1112,7 @@ public class GoodsIssue extends BusinessObject<GoodsIssue> implements IGoodsIssu
 	 * @param value 值
 	 */
 	public final void setDocumentTotal(double value) {
-		this.setDocumentTotal(new Decimal(value));
+		this.setDocumentTotal(Decimal.valueOf(value));
 	}
 
 	/**
@@ -1261,7 +1263,7 @@ public class GoodsIssue extends BusinessObject<GoodsIssue> implements IGoodsIssu
 						GoodsIssueLine.PROPERTY_LINESTATUS), // 使用集合元素状态
 				new BusinessRuleSumElements(PROPERTY_DOCUMENTTOTAL, PROPERTY_GOODSISSUELINES,
 						GoodsIssueLine.PROPERTY_LINETOTAL), // 计算单据总计
-				new BusinessRuleMinValue<Decimal>(Decimal.ZERO, PROPERTY_DOCUMENTTOTAL), // 不能低于0
+				new BusinessRuleMinValue<BigDecimal>(Decimal.ZERO, PROPERTY_DOCUMENTTOTAL), // 不能低于0
 		};
 	}
 }

@@ -1,5 +1,7 @@
 package org.colorcoding.ibas.materials.bo.materialinventory;
 
+import java.math.BigDecimal;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -155,8 +157,8 @@ public class MaterialInventory extends BusinessObject<MaterialInventory> impleme
 	 * 价格 属性
 	 */
 	@DbField(name = "AvgPrice", type = DbFieldType.DECIMAL, table = DB_TABLE_NAME, primaryKey = false)
-	public static final IPropertyInfo<Decimal> PROPERTY_AVGPRICE = registerProperty(PROPERTY_AVGPRICE_NAME,
-			Decimal.class, MY_CLASS);
+	public static final IPropertyInfo<BigDecimal> PROPERTY_AVGPRICE = registerProperty(PROPERTY_AVGPRICE_NAME,
+			BigDecimal.class, MY_CLASS);
 
 	/**
 	 * 获取-价格
@@ -164,7 +166,7 @@ public class MaterialInventory extends BusinessObject<MaterialInventory> impleme
 	 * @return 值
 	 */
 	@XmlElement(name = PROPERTY_AVGPRICE_NAME)
-	public final Decimal getAvgPrice() {
+	public final BigDecimal getAvgPrice() {
 		return this.getProperty(PROPERTY_AVGPRICE);
 	}
 
@@ -173,7 +175,7 @@ public class MaterialInventory extends BusinessObject<MaterialInventory> impleme
 	 *
 	 * @param value 值
 	 */
-	public final void setAvgPrice(Decimal value) {
+	public final void setAvgPrice(BigDecimal value) {
 		this.setProperty(PROPERTY_AVGPRICE, value);
 	}
 
@@ -183,7 +185,7 @@ public class MaterialInventory extends BusinessObject<MaterialInventory> impleme
 	 * @param value 值
 	 */
 	public final void setAvgPrice(String value) {
-		this.setAvgPrice(new Decimal(value));
+		this.setAvgPrice(Decimal.valueOf(value));
 	}
 
 	/**
@@ -192,7 +194,7 @@ public class MaterialInventory extends BusinessObject<MaterialInventory> impleme
 	 * @param value 值
 	 */
 	public final void setAvgPrice(int value) {
-		this.setAvgPrice(new Decimal(value));
+		this.setAvgPrice(Decimal.valueOf(value));
 	}
 
 	/**
@@ -201,7 +203,7 @@ public class MaterialInventory extends BusinessObject<MaterialInventory> impleme
 	 * @param value 值
 	 */
 	public final void setAvgPrice(double value) {
-		this.setAvgPrice(new Decimal(value));
+		this.setAvgPrice(Decimal.valueOf(value));
 	}
 
 	/**
@@ -213,8 +215,8 @@ public class MaterialInventory extends BusinessObject<MaterialInventory> impleme
 	 * 库存 属性
 	 */
 	@DbField(name = "OnHand", type = DbFieldType.DECIMAL, table = DB_TABLE_NAME, primaryKey = false)
-	public static final IPropertyInfo<Decimal> PROPERTY_ONHAND = registerProperty(PROPERTY_ONHAND_NAME, Decimal.class,
-			MY_CLASS);
+	public static final IPropertyInfo<BigDecimal> PROPERTY_ONHAND = registerProperty(PROPERTY_ONHAND_NAME,
+			BigDecimal.class, MY_CLASS);
 
 	/**
 	 * 获取-库存
@@ -222,7 +224,7 @@ public class MaterialInventory extends BusinessObject<MaterialInventory> impleme
 	 * @return 值
 	 */
 	@XmlElement(name = PROPERTY_ONHAND_NAME)
-	public final Decimal getOnHand() {
+	public final BigDecimal getOnHand() {
 		return this.getProperty(PROPERTY_ONHAND);
 	}
 
@@ -231,7 +233,7 @@ public class MaterialInventory extends BusinessObject<MaterialInventory> impleme
 	 *
 	 * @param value 值
 	 */
-	public final void setOnHand(Decimal value) {
+	public final void setOnHand(BigDecimal value) {
 		this.setProperty(PROPERTY_ONHAND, value);
 	}
 
@@ -241,7 +243,7 @@ public class MaterialInventory extends BusinessObject<MaterialInventory> impleme
 	 * @param value 值
 	 */
 	public final void setOnHand(String value) {
-		this.setOnHand(new Decimal(value));
+		this.setOnHand(Decimal.valueOf(value));
 	}
 
 	/**
@@ -250,7 +252,7 @@ public class MaterialInventory extends BusinessObject<MaterialInventory> impleme
 	 * @param value 值
 	 */
 	public final void setOnHand(int value) {
-		this.setOnHand(new Decimal(value));
+		this.setOnHand(Decimal.valueOf(value));
 	}
 
 	/**
@@ -259,7 +261,7 @@ public class MaterialInventory extends BusinessObject<MaterialInventory> impleme
 	 * @param value 值
 	 */
 	public final void setOnHand(double value) {
-		this.setOnHand(new Decimal(value));
+		this.setOnHand(Decimal.valueOf(value));
 	}
 
 	/**
@@ -271,8 +273,8 @@ public class MaterialInventory extends BusinessObject<MaterialInventory> impleme
 	 * 已承诺 属性
 	 */
 	@DbField(name = "OnCommited", type = DbFieldType.DECIMAL, table = DB_TABLE_NAME, primaryKey = false)
-	public static final IPropertyInfo<Decimal> PROPERTY_ONCOMMITED = registerProperty(PROPERTY_ONCOMMITED_NAME,
-			Decimal.class, MY_CLASS);
+	public static final IPropertyInfo<BigDecimal> PROPERTY_ONCOMMITED = registerProperty(PROPERTY_ONCOMMITED_NAME,
+			BigDecimal.class, MY_CLASS);
 
 	/**
 	 * 获取-已承诺
@@ -280,7 +282,7 @@ public class MaterialInventory extends BusinessObject<MaterialInventory> impleme
 	 * @return 值
 	 */
 	@XmlElement(name = PROPERTY_ONCOMMITED_NAME)
-	public final Decimal getOnCommited() {
+	public final BigDecimal getOnCommited() {
 		return this.getProperty(PROPERTY_ONCOMMITED);
 	}
 
@@ -289,7 +291,7 @@ public class MaterialInventory extends BusinessObject<MaterialInventory> impleme
 	 *
 	 * @param value 值
 	 */
-	public final void setOnCommited(Decimal value) {
+	public final void setOnCommited(BigDecimal value) {
 		this.setProperty(PROPERTY_ONCOMMITED, value);
 	}
 
@@ -299,7 +301,7 @@ public class MaterialInventory extends BusinessObject<MaterialInventory> impleme
 	 * @param value 值
 	 */
 	public final void setOnCommited(String value) {
-		this.setOnCommited(new Decimal(value));
+		this.setOnCommited(Decimal.valueOf(value));
 	}
 
 	/**
@@ -308,7 +310,7 @@ public class MaterialInventory extends BusinessObject<MaterialInventory> impleme
 	 * @param value 值
 	 */
 	public final void setOnCommited(int value) {
-		this.setOnCommited(new Decimal(value));
+		this.setOnCommited(Decimal.valueOf(value));
 	}
 
 	/**
@@ -317,7 +319,7 @@ public class MaterialInventory extends BusinessObject<MaterialInventory> impleme
 	 * @param value 值
 	 */
 	public final void setOnCommited(double value) {
-		this.setOnCommited(new Decimal(value));
+		this.setOnCommited(Decimal.valueOf(value));
 	}
 
 	/**
@@ -329,8 +331,8 @@ public class MaterialInventory extends BusinessObject<MaterialInventory> impleme
 	 * 已订购 属性
 	 */
 	@DbField(name = "OnOrdered", type = DbFieldType.DECIMAL, table = DB_TABLE_NAME, primaryKey = false)
-	public static final IPropertyInfo<Decimal> PROPERTY_ONORDERED = registerProperty(PROPERTY_ONORDERED_NAME,
-			Decimal.class, MY_CLASS);
+	public static final IPropertyInfo<BigDecimal> PROPERTY_ONORDERED = registerProperty(PROPERTY_ONORDERED_NAME,
+			BigDecimal.class, MY_CLASS);
 
 	/**
 	 * 获取-已订购
@@ -338,7 +340,7 @@ public class MaterialInventory extends BusinessObject<MaterialInventory> impleme
 	 * @return 值
 	 */
 	@XmlElement(name = PROPERTY_ONORDERED_NAME)
-	public final Decimal getOnOrdered() {
+	public final BigDecimal getOnOrdered() {
 		return this.getProperty(PROPERTY_ONORDERED);
 	}
 
@@ -347,7 +349,7 @@ public class MaterialInventory extends BusinessObject<MaterialInventory> impleme
 	 *
 	 * @param value 值
 	 */
-	public final void setOnOrdered(Decimal value) {
+	public final void setOnOrdered(BigDecimal value) {
 		this.setProperty(PROPERTY_ONORDERED, value);
 	}
 
@@ -357,7 +359,7 @@ public class MaterialInventory extends BusinessObject<MaterialInventory> impleme
 	 * @param value 值
 	 */
 	public final void setOnOrdered(String value) {
-		this.setOnOrdered(new Decimal(value));
+		this.setOnOrdered(Decimal.valueOf(value));
 	}
 
 	/**
@@ -366,7 +368,7 @@ public class MaterialInventory extends BusinessObject<MaterialInventory> impleme
 	 * @param value 值
 	 */
 	public final void setOnOrdered(int value) {
-		this.setOnOrdered(new Decimal(value));
+		this.setOnOrdered(Decimal.valueOf(value));
 	}
 
 	/**
@@ -375,7 +377,7 @@ public class MaterialInventory extends BusinessObject<MaterialInventory> impleme
 	 * @param value 值
 	 */
 	public final void setOnOrdered(double value) {
-		this.setOnOrdered(new Decimal(value));
+		this.setOnOrdered(Decimal.valueOf(value));
 	}
 
 	/**
@@ -795,10 +797,10 @@ public class MaterialInventory extends BusinessObject<MaterialInventory> impleme
 		return new IBusinessRule[] { // 注册的业务规则
 				new BusinessRuleRequired(PROPERTY_ITEMCODE), // 要求有值
 				new BusinessRuleRequired(PROPERTY_WAREHOUSE), // 要求有值
-				new BusinessRuleMinValue<Decimal>(Decimal.ZERO, PROPERTY_ONHAND), // 不能低于0
-				new BusinessRuleMinValue<Decimal>(Decimal.ZERO, PROPERTY_ONORDERED), // 不能低于0
-				new BusinessRuleMinValue<Decimal>(Decimal.ZERO, PROPERTY_ONCOMMITED), // 不能低于0
-				new BusinessRuleMinValue<Decimal>(Decimal.ZERO, PROPERTY_AVGPRICE), // 不能低于0
+				new BusinessRuleMinValue<BigDecimal>(Decimal.ZERO, PROPERTY_ONHAND), // 不能低于0
+				new BusinessRuleMinValue<BigDecimal>(Decimal.ZERO, PROPERTY_ONORDERED), // 不能低于0
+				new BusinessRuleMinValue<BigDecimal>(Decimal.ZERO, PROPERTY_ONCOMMITED), // 不能低于0
+				new BusinessRuleMinValue<BigDecimal>(Decimal.ZERO, PROPERTY_AVGPRICE), // 不能低于0
 		};
 	}
 

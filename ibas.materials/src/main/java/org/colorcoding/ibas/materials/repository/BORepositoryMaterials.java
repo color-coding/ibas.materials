@@ -928,7 +928,7 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 				List<IMaterialPrice> tmpPrices = this.getMaterialPrices(noItemCodes, materialPriceList.getBasedOnList(),
 						level);
 				for (IMaterialPrice newPrice : tmpPrices) {
-					if (!materialPriceList.getFactor().isZero()) {
+					if (!Decimal.isZero(materialPriceList.getFactor())) {
 						newPrice.setPrice(newPrice.getPrice().multiply(materialPriceList.getFactor()));
 					}
 					newPrices.add(newPrice);

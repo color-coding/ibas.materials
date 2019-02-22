@@ -1,6 +1,7 @@
 package org.colorcoding.ibas.materials.logic;
 
-import org.colorcoding.ibas.bobas.data.Decimal;
+import java.math.BigDecimal;
+
 import org.colorcoding.ibas.bobas.data.emDirection;
 import org.colorcoding.ibas.bobas.logic.IBusinessLogicContract;
 
@@ -28,7 +29,7 @@ public interface IMaterialWarehouseCommitedContract extends IBusinessLogicContra
 	 *
 	 * @return
 	 */
-	Decimal getQuantity();
+	BigDecimal getQuantity();
 
 	/**
 	 * 方向

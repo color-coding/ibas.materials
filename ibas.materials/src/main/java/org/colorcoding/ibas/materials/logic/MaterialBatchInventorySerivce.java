@@ -1,12 +1,13 @@
 package org.colorcoding.ibas.materials.logic;
 
+import java.math.BigDecimal;
+
 import org.colorcoding.ibas.bobas.common.ConditionOperation;
 import org.colorcoding.ibas.bobas.common.ConditionRelationship;
 import org.colorcoding.ibas.bobas.common.Criteria;
 import org.colorcoding.ibas.bobas.common.ICondition;
 import org.colorcoding.ibas.bobas.common.ICriteria;
 import org.colorcoding.ibas.bobas.common.IOperationResult;
-import org.colorcoding.ibas.bobas.data.Decimal;
 import org.colorcoding.ibas.bobas.data.emDirection;
 import org.colorcoding.ibas.bobas.data.emYesNo;
 import org.colorcoding.ibas.bobas.i18n.I18N;
@@ -70,7 +71,7 @@ public class MaterialBatchInventorySerivce
 	@Override
 	protected void impact(IMaterialBatchInventoryContract contract) {
 		IMaterialBatch materialBatch = this.getBeAffected();
-		Decimal quantity = materialBatch.getQuantity();
+		BigDecimal quantity = materialBatch.getQuantity();
 		if (contract.getDirection().equals(emDirection.IN)) {
 			quantity = quantity.add(contract.getQuantity());
 		} else {
@@ -82,7 +83,7 @@ public class MaterialBatchInventorySerivce
 	@Override
 	protected void revoke(IMaterialBatchInventoryContract contract) {
 		IMaterialBatch materialBatch = this.getBeAffected();
-		Decimal quantity = materialBatch.getQuantity();
+		BigDecimal quantity = materialBatch.getQuantity();
 		if (contract.getDirection().equals(emDirection.IN)) {
 			quantity = quantity.subtract(contract.getQuantity());
 		} else {
