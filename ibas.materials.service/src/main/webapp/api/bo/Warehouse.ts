@@ -20,6 +20,24 @@ namespace materials {
             /** 激活 */
             activated: ibas.emYesNo;
 
+            /** 街道 */
+            street: string;
+
+            /** 县/区 */
+            district: string;
+
+            /** 市 */
+            city: string;
+
+            /** 省 */
+            province: string;
+
+            /** 国 */
+            country: string;
+
+            /** 邮编 */
+            zipCode: string;
+
             /** 已引用 */
             referenced: ibas.emYesNo;
 

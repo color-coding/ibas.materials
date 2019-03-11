@@ -147,6 +147,9 @@ namespace materials {
 
             /** 数据所属组织 */
             organization: string;
+
+            /** 可用量（库存+已订购-已承诺） */
+            onAvailable(): number;
         }
 
         /** 物料数量 */
@@ -169,6 +172,9 @@ namespace materials {
 
             /** 单位 */
             uom: string;
+
+            /** 可用量（库存+已订购-已承诺） */
+            onAvailable(): number;
 
         }
 

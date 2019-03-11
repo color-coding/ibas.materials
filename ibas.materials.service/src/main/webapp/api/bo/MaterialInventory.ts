@@ -71,6 +71,9 @@ namespace materials {
             /** 更新动作标识 */
             updateActionId: string;
 
+            /** 可用量（库存+已订购-已承诺） */
+            onAvailable(): number;
+
         }
     }
 }

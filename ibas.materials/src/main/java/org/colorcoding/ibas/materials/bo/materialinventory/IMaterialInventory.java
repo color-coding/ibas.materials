@@ -376,4 +376,10 @@ public interface IMaterialInventory extends IBOSimple {
 	 */
 	void setUpdateActionId(String value);
 
+	/**
+	 * 获取-可用数量（库存数+已订购-已承诺）
+	 * 
+	 * @return
+	 */
+	BigDecimal getOnAvailable();
 }

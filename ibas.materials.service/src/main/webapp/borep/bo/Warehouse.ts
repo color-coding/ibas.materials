@@ -50,6 +50,73 @@ namespace materials {
                 this.setProperty(Warehouse.PROPERTY_ACTIVATED_NAME, value);
             }
 
+            /** 映射的属性名称-街道 */
+            static PROPERTY_STREET_NAME: string = "Street";
+            /** 获取-街道 */
+            get street(): string {
+                return this.getProperty<string>(Warehouse.PROPERTY_STREET_NAME);
+            }
+            /** 设置-街道 */
+            set street(value: string) {
+                this.setProperty(Warehouse.PROPERTY_STREET_NAME, value);
+            }
+
+            /** 映射的属性名称-县/区 */
+            static PROPERTY_DISTRICT_NAME: string = "District";
+            /** 获取-县/区 */
+            get district(): string {
+                return this.getProperty<string>(Warehouse.PROPERTY_DISTRICT_NAME);
+            }
+            /** 设置-县/区 */
+            set district(value: string) {
+                this.setProperty(Warehouse.PROPERTY_DISTRICT_NAME, value);
+            }
+
+            /** 映射的属性名称-市 */
+            static PROPERTY_CITY_NAME: string = "City";
+            /** 获取-市 */
+            get city(): string {
+                return this.getProperty<string>(Warehouse.PROPERTY_CITY_NAME);
+            }
+            /** 设置-市 */
+            set city(value: string) {
+                this.setProperty(Warehouse.PROPERTY_CITY_NAME, value);
+            }
+
+            /** 映射的属性名称-省 */
+            static PROPERTY_PROVINCE_NAME: string = "Province";
+            /** 获取-省 */
+            get province(): string {
+                return this.getProperty<string>(Warehouse.PROPERTY_PROVINCE_NAME);
+            }
+            /** 设置-省 */
+            set province(value: string) {
+                this.setProperty(Warehouse.PROPERTY_PROVINCE_NAME, value);
+            }
+
+            /** 映射的属性名称-国 */
+            static PROPERTY_COUNTRY_NAME: string = "Country";
+            /** 获取-国 */
+            get country(): string {
+                return this.getProperty<string>(Warehouse.PROPERTY_COUNTRY_NAME);
+            }
+            /** 设置-国 */
+            set country(value: string) {
+                this.setProperty(Warehouse.PROPERTY_COUNTRY_NAME, value);
+            }
+
+            /** 映射的属性名称-邮编 */
+            static PROPERTY_ZIPCODE_NAME: string = "ZipCode";
+            /** 获取-邮编 */
+            get zipCode(): string {
+                return this.getProperty<string>(Warehouse.PROPERTY_ZIPCODE_NAME);
+            }
+            /** 设置-邮编 */
+            set zipCode(value: string) {
+                this.setProperty(Warehouse.PROPERTY_ZIPCODE_NAME, value);
+            }
+
+
             /** 映射的属性名称-已引用 */
             static PROPERTY_REFERENCED_NAME: string = "Referenced";
             /** 获取-已引用 */

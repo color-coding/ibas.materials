@@ -949,4 +949,7 @@ public abstract class MaterialBase<T extends MaterialBase<T>> extends BusinessOb
 		this.setProperty(PROPERTY_ORGANIZATION, value);
 	}
 
+	public BigDecimal getOnAvailable() {
+		return Decimal.add(this.getOnHand(), this.getOnOrdered(), this.getOnCommited().negate());
+	}
 }

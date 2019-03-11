@@ -804,4 +804,9 @@ public class MaterialInventory extends BusinessObject<MaterialInventory> impleme
 		};
 	}
 
+	@Override
+	public BigDecimal getOnAvailable() {
+		return Decimal.add(this.getOnHand(), this.getOnOrdered(), this.getOnCommited().negate());
+	}
+
 }

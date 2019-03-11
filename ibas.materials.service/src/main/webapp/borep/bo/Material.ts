@@ -524,8 +524,6 @@ namespace materials {
                 this.setProperty(Material.PROPERTY_ORGANIZATION_NAME, value);
             }
 
-
-
             /** 初始化数据 */
             protected init(): void {
                 this.objectCode = ibas.config.applyVariables(Material.BUSINESS_OBJECT_CODE);
@@ -534,6 +532,12 @@ namespace materials {
                 this.inventoryItem = ibas.emYesNo.YES;
                 this.purchaseItem = ibas.emYesNo.YES;
                 this.salesItem = ibas.emYesNo.YES;
+            }
+            /** 可用量（库存+已订购-已承诺） */
+            onAvailable(): number {
+                return ibas.numbers.valueOf(this.onHand)
+                    + ibas.numbers.valueOf(this.onOrdered)
+                    - ibas.numbers.valueOf(this.onCommited);
             }
         }
 
@@ -647,6 +651,12 @@ namespace materials {
                 //
             }
 
+            /** 可用量（库存+已订购-已承诺） */
+            onAvailable(): number {
+                return ibas.numbers.valueOf(this.onHand)
+                    + ibas.numbers.valueOf(this.onOrdered)
+                    - ibas.numbers.valueOf(this.onCommited);
+            }
 
         }
         /** 物料价格 */

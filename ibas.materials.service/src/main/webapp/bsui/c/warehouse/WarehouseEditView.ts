@@ -53,6 +53,32 @@ namespace materials {
                                 path: "/activated",
                                 type: "sap.ui.model.type.Integer"
                             }),
+                            new sap.m.Label("", {
+                                text: ibas.i18n.prop("bo_warehouse_country") +
+                                    "/" + ibas.i18n.prop("bo_warehouse_province") +
+                                    "/" + ibas.i18n.prop("bo_warehouse_city") +
+                                    "/" + ibas.i18n.prop("bo_warehouse_district")
+                            }),
+                            new sap.m.ex.ProvincesCityDistrict("", {
+                                width: "100%",
+                                direction: sap.m.FlexDirection.Column,
+                                country: { path: "/country" },
+                                province: { path: "/province" },
+                                city: { path: "/city" },
+                                district: { path: "/district" },
+                            }),
+                            new sap.m.Label("", { text: ibas.i18n.prop("bo_warehouse_street") }),
+                            new sap.m.Input("", {
+                                type: sap.m.InputType.Text
+                            }).bindProperty("value", {
+                                path: "/street"
+                            }),
+                            new sap.m.Label("", { text: ibas.i18n.prop("bo_warehouse_zipcode") }),
+                            new sap.m.Input("", {
+                                type: sap.m.InputType.Text
+                            }).bindProperty("value", {
+                                path: "/zipCode"
+                            }),
                             new sap.ui.core.Title("", { text: ibas.i18n.prop("materials_title_others") }),
                             new sap.m.Label("", { text: ibas.i18n.prop("bo_warehouse_docentry") }),
                             new sap.m.Input("", {

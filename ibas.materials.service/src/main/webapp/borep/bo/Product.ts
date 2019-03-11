@@ -333,6 +333,13 @@ namespace materials {
                 this.purchaseItem = ibas.emYesNo.YES;
                 this.inventoryItem = ibas.emYesNo.YES;
             }
+
+            /** 可用量（库存+已订购-已承诺） */
+            onAvailable(): number {
+                return ibas.numbers.valueOf(this.onHand)
+                    + ibas.numbers.valueOf(this.onOrdered)
+                    - ibas.numbers.valueOf(this.onCommited);
+            }
         }
     }
 }

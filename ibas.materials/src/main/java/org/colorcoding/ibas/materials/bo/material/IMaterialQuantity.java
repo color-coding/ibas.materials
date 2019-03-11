@@ -132,4 +132,11 @@ public interface IMaterialQuantity {
 	 * @param uom
 	 */
 	void setUOM(String uom);
+
+	/**
+	 * 获取-可用数量（库存数+已订购-已承诺）
+	 * 
+	 * @return
+	 */
+	BigDecimal getOnAvailable();
 }

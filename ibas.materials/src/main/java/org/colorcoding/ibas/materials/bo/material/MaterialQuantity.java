@@ -169,4 +169,8 @@ public class MaterialQuantity extends Serializable implements IMaterialQuantity 
 		this.uom = value;
 	}
 
+	@Override
+	public BigDecimal getOnAvailable() {
+		return Decimal.add(this.getOnHand(), this.getOnOrdered(), this.getOnCommited().negate());
+	}
 }

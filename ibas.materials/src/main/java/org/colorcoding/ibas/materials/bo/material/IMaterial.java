@@ -763,4 +763,10 @@ public interface IMaterial extends IBOMasterData {
 	 */
 	void setOrganization(String value);
 
+	/**
+	 * 获取-可用数量（库存数+已订购-已承诺）
+	 * 
+	 * @return
+	 */
+	BigDecimal getOnAvailable();
 }

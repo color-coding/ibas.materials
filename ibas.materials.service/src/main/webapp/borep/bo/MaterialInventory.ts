@@ -237,11 +237,16 @@ namespace materials {
                 this.setProperty(MaterialInventory.PROPERTY_UPDATEACTIONID_NAME, value);
             }
 
-
-
             /** 初始化数据 */
             protected init(): void {
                 this.objectCode = ibas.config.applyVariables(MaterialInventory.BUSINESS_OBJECT_CODE);
+            }
+
+            /** 可用量（库存+已订购-已承诺） */
+            onAvailable(): number {
+                return ibas.numbers.valueOf(this.onHand)
+                    + ibas.numbers.valueOf(this.onOrdered)
+                    - ibas.numbers.valueOf(this.onCommited);
             }
         }
     }

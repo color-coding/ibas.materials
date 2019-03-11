@@ -84,8 +84,7 @@ public class Warehouse extends BusinessObject<Warehouse>
 	/**
 	 * 设置-编号
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setCode(String value) {
 		this.setProperty(PROPERTY_CODE, value);
@@ -116,8 +115,7 @@ public class Warehouse extends BusinessObject<Warehouse>
 	/**
 	 * 设置-名称
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setName(String value) {
 		this.setProperty(PROPERTY_NAME, value);
@@ -148,11 +146,196 @@ public class Warehouse extends BusinessObject<Warehouse>
 	/**
 	 * 设置-激活
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setActivated(emYesNo value) {
 		this.setProperty(PROPERTY_ACTIVATED, value);
+	}
+
+	/**
+	 * 属性名称-街道
+	 */
+	private static final String PROPERTY_STREET_NAME = "Street";
+
+	/**
+	 * 街道 属性
+	 */
+	@DbField(name = "Street", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME, primaryKey = false)
+	public static final IPropertyInfo<String> PROPERTY_STREET = registerProperty(PROPERTY_STREET_NAME, String.class,
+			MY_CLASS);
+
+	/**
+	 * 获取-街道
+	 * 
+	 * @return 值
+	 */
+	@XmlElement(name = PROPERTY_STREET_NAME)
+	public final String getStreet() {
+		return this.getProperty(PROPERTY_STREET);
+	}
+
+	/**
+	 * 设置-街道
+	 * 
+	 * @param value 值
+	 */
+	public final void setStreet(String value) {
+		this.setProperty(PROPERTY_STREET, value);
+	}
+
+	/**
+	 * 属性名称-县/区
+	 */
+	private static final String PROPERTY_DISTRICT_NAME = "District";
+
+	/**
+	 * 县/区 属性
+	 */
+	@DbField(name = "District", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME, primaryKey = false)
+	public static final IPropertyInfo<String> PROPERTY_DISTRICT = registerProperty(PROPERTY_DISTRICT_NAME, String.class,
+			MY_CLASS);
+
+	/**
+	 * 获取-县/区
+	 * 
+	 * @return 值
+	 */
+	@XmlElement(name = PROPERTY_DISTRICT_NAME)
+	public final String getDistrict() {
+		return this.getProperty(PROPERTY_DISTRICT);
+	}
+
+	/**
+	 * 设置-县/区
+	 * 
+	 * @param value 值
+	 */
+	public final void setDistrict(String value) {
+		this.setProperty(PROPERTY_DISTRICT, value);
+	}
+
+	/**
+	 * 属性名称-市
+	 */
+	private static final String PROPERTY_CITY_NAME = "City";
+
+	/**
+	 * 市 属性
+	 */
+	@DbField(name = "City", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME, primaryKey = false)
+	public static final IPropertyInfo<String> PROPERTY_CITY = registerProperty(PROPERTY_CITY_NAME, String.class,
+			MY_CLASS);
+
+	/**
+	 * 获取-市
+	 * 
+	 * @return 值
+	 */
+	@XmlElement(name = PROPERTY_CITY_NAME)
+	public final String getCity() {
+		return this.getProperty(PROPERTY_CITY);
+	}
+
+	/**
+	 * 设置-市
+	 * 
+	 * @param value 值
+	 */
+	public final void setCity(String value) {
+		this.setProperty(PROPERTY_CITY, value);
+	}
+
+	/**
+	 * 属性名称-省
+	 */
+	private static final String PROPERTY_PROVINCE_NAME = "Province";
+
+	/**
+	 * 省 属性
+	 */
+	@DbField(name = "Province", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME, primaryKey = false)
+	public static final IPropertyInfo<String> PROPERTY_PROVINCE = registerProperty(PROPERTY_PROVINCE_NAME, String.class,
+			MY_CLASS);
+
+	/**
+	 * 获取-省
+	 * 
+	 * @return 值
+	 */
+	@XmlElement(name = PROPERTY_PROVINCE_NAME)
+	public final String getProvince() {
+		return this.getProperty(PROPERTY_PROVINCE);
+	}
+
+	/**
+	 * 设置-省
+	 * 
+	 * @param value 值
+	 */
+	public final void setProvince(String value) {
+		this.setProperty(PROPERTY_PROVINCE, value);
+	}
+
+	/**
+	 * 属性名称-国
+	 */
+	private static final String PROPERTY_COUNTRY_NAME = "Country";
+
+	/**
+	 * 国 属性
+	 */
+	@DbField(name = "Country", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME, primaryKey = false)
+	public static final IPropertyInfo<String> PROPERTY_COUNTRY = registerProperty(PROPERTY_COUNTRY_NAME, String.class,
+			MY_CLASS);
+
+	/**
+	 * 获取-国
+	 * 
+	 * @return 值
+	 */
+	@XmlElement(name = PROPERTY_COUNTRY_NAME)
+	public final String getCountry() {
+		return this.getProperty(PROPERTY_COUNTRY);
+	}
+
+	/**
+	 * 设置-国
+	 * 
+	 * @param value 值
+	 */
+	public final void setCountry(String value) {
+		this.setProperty(PROPERTY_COUNTRY, value);
+	}
+
+	/**
+	 * 属性名称-邮编
+	 */
+	private static final String PROPERTY_ZIPCODE_NAME = "ZipCode";
+
+	/**
+	 * 邮编 属性
+	 */
+	@DbField(name = "ZipCode", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME, primaryKey = false)
+	public static final IPropertyInfo<String> PROPERTY_ZIPCODE = registerProperty(PROPERTY_ZIPCODE_NAME, String.class,
+			MY_CLASS);
+
+	/**
+	 * 获取-邮编
+	 * 
+	 * @return 值
+	 */
+	@XmlElement(name = PROPERTY_ZIPCODE_NAME)
+	public final String getZipCode() {
+		return this.getProperty(PROPERTY_ZIPCODE);
+	}
+
+	/**
+	 * 设置-邮编
+	 * 
+	 * @param value 值
+	 */
+	public final void setZipCode(String value) {
+		this.setProperty(PROPERTY_ZIPCODE, value);
 	}
 
 	/**
@@ -180,8 +363,7 @@ public class Warehouse extends BusinessObject<Warehouse>
 	/**
 	 * 设置-已引用
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setReferenced(emYesNo value) {
 		this.setProperty(PROPERTY_REFERENCED, value);
@@ -212,8 +394,7 @@ public class Warehouse extends BusinessObject<Warehouse>
 	/**
 	 * 设置-已删除
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setDeleted(emYesNo value) {
 		this.setProperty(PROPERTY_DELETED, value);
@@ -244,8 +425,7 @@ public class Warehouse extends BusinessObject<Warehouse>
 	/**
 	 * 设置-对象编号
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setDocEntry(Integer value) {
 		this.setProperty(PROPERTY_DOCENTRY, value);
@@ -276,8 +456,7 @@ public class Warehouse extends BusinessObject<Warehouse>
 	/**
 	 * 设置-对象类型
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setObjectCode(String value) {
 		this.setProperty(PROPERTY_OBJECTCODE, value);
@@ -308,8 +487,7 @@ public class Warehouse extends BusinessObject<Warehouse>
 	/**
 	 * 设置-创建日期
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setCreateDate(DateTime value) {
 		this.setProperty(PROPERTY_CREATEDATE, value);
@@ -340,8 +518,7 @@ public class Warehouse extends BusinessObject<Warehouse>
 	/**
 	 * 设置-创建时间
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setCreateTime(Short value) {
 		this.setProperty(PROPERTY_CREATETIME, value);
@@ -372,8 +549,7 @@ public class Warehouse extends BusinessObject<Warehouse>
 	/**
 	 * 设置-修改日期
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setUpdateDate(DateTime value) {
 		this.setProperty(PROPERTY_UPDATEDATE, value);
@@ -404,8 +580,7 @@ public class Warehouse extends BusinessObject<Warehouse>
 	/**
 	 * 设置-修改时间
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setUpdateTime(Short value) {
 		this.setProperty(PROPERTY_UPDATETIME, value);
@@ -436,8 +611,7 @@ public class Warehouse extends BusinessObject<Warehouse>
 	/**
 	 * 设置-版本
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setLogInst(Integer value) {
 		this.setProperty(PROPERTY_LOGINST, value);
@@ -468,8 +642,7 @@ public class Warehouse extends BusinessObject<Warehouse>
 	/**
 	 * 设置-服务系列
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setSeries(Integer value) {
 		this.setProperty(PROPERTY_SERIES, value);
@@ -500,8 +673,7 @@ public class Warehouse extends BusinessObject<Warehouse>
 	/**
 	 * 设置-数据源
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setDataSource(String value) {
 		this.setProperty(PROPERTY_DATASOURCE, value);
@@ -532,8 +704,7 @@ public class Warehouse extends BusinessObject<Warehouse>
 	/**
 	 * 设置-创建用户
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setCreateUserSign(Integer value) {
 		this.setProperty(PROPERTY_CREATEUSERSIGN, value);
@@ -564,8 +735,7 @@ public class Warehouse extends BusinessObject<Warehouse>
 	/**
 	 * 设置-修改用户
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setUpdateUserSign(Integer value) {
 		this.setProperty(PROPERTY_UPDATEUSERSIGN, value);
@@ -596,8 +766,7 @@ public class Warehouse extends BusinessObject<Warehouse>
 	/**
 	 * 设置-创建动作标识
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setCreateActionId(String value) {
 		this.setProperty(PROPERTY_CREATEACTIONID, value);
@@ -628,8 +797,7 @@ public class Warehouse extends BusinessObject<Warehouse>
 	/**
 	 * 设置-更新动作标识
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setUpdateActionId(String value) {
 		this.setProperty(PROPERTY_UPDATEACTIONID, value);
@@ -660,8 +828,7 @@ public class Warehouse extends BusinessObject<Warehouse>
 	/**
 	 * 设置-审批状态
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setApprovalStatus(emApprovalStatus value) {
 		this.setProperty(PROPERTY_APPROVALSTATUS, value);
@@ -692,8 +859,7 @@ public class Warehouse extends BusinessObject<Warehouse>
 	/**
 	 * 设置-数据所有者
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setDataOwner(Integer value) {
 		this.setProperty(PROPERTY_DATAOWNER, value);
@@ -724,8 +890,7 @@ public class Warehouse extends BusinessObject<Warehouse>
 	/**
 	 * 设置-数据所属组织
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setOrganization(String value) {
 		this.setProperty(PROPERTY_ORGANIZATION, value);

@@ -93,6 +93,9 @@ namespace materials {
 
             /** 数据所属组织 */
             organization: string;
+
+            /** 可用量（库存+已订购-已承诺） */
+            onAvailable(): number;
         }
     }
 }
