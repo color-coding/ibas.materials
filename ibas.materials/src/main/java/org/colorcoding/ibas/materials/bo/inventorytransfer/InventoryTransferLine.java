@@ -17,12 +17,14 @@ import org.colorcoding.ibas.bobas.data.Decimal;
 import org.colorcoding.ibas.bobas.data.emBOStatus;
 import org.colorcoding.ibas.bobas.data.emDocumentStatus;
 import org.colorcoding.ibas.bobas.data.emYesNo;
+import org.colorcoding.ibas.bobas.i18n.I18N;
 import org.colorcoding.ibas.bobas.logic.IBusinessLogicContract;
 import org.colorcoding.ibas.bobas.logic.IBusinessLogicsHost;
 import org.colorcoding.ibas.bobas.mapping.DbField;
 import org.colorcoding.ibas.bobas.mapping.DbFieldType;
 import org.colorcoding.ibas.bobas.rule.BusinessRuleException;
 import org.colorcoding.ibas.bobas.rule.IBusinessRule;
+import org.colorcoding.ibas.bobas.rule.ICheckRules;
 import org.colorcoding.ibas.bobas.rule.common.BusinessRuleMinValue;
 import org.colorcoding.ibas.bobas.rule.common.BusinessRuleMultiplication;
 import org.colorcoding.ibas.bobas.rule.common.BusinessRuleRequired;
@@ -38,7 +40,7 @@ import org.colorcoding.ibas.materials.logic.IMaterialReceiptContract;
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlType(name = InventoryTransferLine.BUSINESS_OBJECT_NAME, namespace = MyConfiguration.NAMESPACE_BO)
 public class InventoryTransferLine extends BusinessObject<InventoryTransferLine>
-		implements IInventoryTransferLine, IBOTagCanceled, IBusinessLogicsHost, IBOUserFields {
+		implements IInventoryTransferLine, IBOTagCanceled, IBusinessLogicsHost, ICheckRules, IBOUserFields {
 
 	/**
 	 * 序列化版本标记
@@ -1347,6 +1349,13 @@ public class InventoryTransferLine extends BusinessObject<InventoryTransferLine>
 
 	@Override
 	public void check() throws BusinessRuleException {
+		// 转入仓库，不能与源仓库相同
+		if (this.parent != null && this.parent.getFromWarehouse() != null) {
+			if (this.parent.getFromWarehouse().equals(this.getWarehouse())) {
+				throw new BusinessRuleException(
+						I18N.prop("msg_mm_document_transfer_to_warehouse_is_same_as_original", this.toString()));
+			}
+		}
 		// 批次检查
 		this.getMaterialBatches().check();
 		// 序列检查
@@ -1360,138 +1369,140 @@ public class InventoryTransferLine extends BusinessObject<InventoryTransferLine>
 
 	@Override
 	public IBusinessLogicContract[] getContracts() {
-		return new IBusinessLogicContract[] { new IMaterialIssueContract() {
-			@Override
-			public String getIdentifiers() {
-				return InventoryTransferLine.this.getIdentifiers();
-			}
+		return new IBusinessLogicContract[] {
 
-			@Override
-			public String getItemCode() {
-				return InventoryTransferLine.this.getItemCode();
-			}
+				new IMaterialIssueContract() {
+					@Override
+					public String getIdentifiers() {
+						return InventoryTransferLine.this.getIdentifiers();
+					}
 
-			@Override
-			public String getItemName() {
-				return InventoryTransferLine.this.getItemDescription();
-			}
+					@Override
+					public String getItemCode() {
+						return InventoryTransferLine.this.getItemCode();
+					}
 
-			@Override
-			public String getWarehouse() {
-				return InventoryTransferLine.this.parent.getFromWarehouse();
-			}
+					@Override
+					public String getItemName() {
+						return InventoryTransferLine.this.getItemDescription();
+					}
 
-			@Override
-			public String getDocumentType() {
-				return InventoryTransferLine.this.getObjectCode();
-			}
+					@Override
+					public String getWarehouse() {
+						return InventoryTransferLine.this.parent.getFromWarehouse();
+					}
 
-			@Override
-			public Integer getDocumentEntry() {
-				return InventoryTransferLine.this.getDocEntry();
-			}
+					@Override
+					public String getDocumentType() {
+						return InventoryTransferLine.this.getObjectCode();
+					}
 
-			@Override
-			public Integer getDocumentLineId() {
-				return InventoryTransferLine.this.getLineId();
-			}
+					@Override
+					public Integer getDocumentEntry() {
+						return InventoryTransferLine.this.getDocEntry();
+					}
 
-			@Override
-			public BigDecimal getQuantity() {
-				return InventoryTransferLine.this.getQuantity();
-			}
+					@Override
+					public Integer getDocumentLineId() {
+						return InventoryTransferLine.this.getLineId();
+					}
 
-			@Override
-			public DateTime getPostingDate() {
-				return InventoryTransferLine.this.parent.getPostingDate();
-			}
+					@Override
+					public BigDecimal getQuantity() {
+						return InventoryTransferLine.this.getQuantity();
+					}
 
-			@Override
-			public DateTime getDeliveryDate() {
-				return InventoryTransferLine.this.parent.getDeliveryDate();
-			}
+					@Override
+					public DateTime getPostingDate() {
+						return InventoryTransferLine.this.parent.getPostingDate();
+					}
 
-			@Override
-			public DateTime getDocumentDate() {
-				return InventoryTransferLine.this.parent.getDocumentDate();
-			}
+					@Override
+					public DateTime getDeliveryDate() {
+						return InventoryTransferLine.this.parent.getDeliveryDate();
+					}
 
-			@Override
-			public emYesNo getBatchManagement() {
-				return InventoryTransferLine.this.getBatchManagement();
-			}
+					@Override
+					public DateTime getDocumentDate() {
+						return InventoryTransferLine.this.parent.getDocumentDate();
+					}
 
-			@Override
-			public emYesNo getSerialManagement() {
-				return InventoryTransferLine.this.getSerialManagement();
-			}
+					@Override
+					public emYesNo getBatchManagement() {
+						return InventoryTransferLine.this.getBatchManagement();
+					}
 
-		}, new IMaterialReceiptContract() {
-			@Override
-			public String getIdentifiers() {
-				return InventoryTransferLine.this.getIdentifiers();
-			}
+					@Override
+					public emYesNo getSerialManagement() {
+						return InventoryTransferLine.this.getSerialManagement();
+					}
 
-			@Override
-			public String getItemCode() {
-				return InventoryTransferLine.this.getItemCode();
-			}
+				}, new IMaterialReceiptContract() {
+					@Override
+					public String getIdentifiers() {
+						return InventoryTransferLine.this.getIdentifiers();
+					}
 
-			@Override
-			public String getItemName() {
-				return InventoryTransferLine.this.getItemDescription();
-			}
+					@Override
+					public String getItemCode() {
+						return InventoryTransferLine.this.getItemCode();
+					}
 
-			@Override
-			public String getWarehouse() {
-				return InventoryTransferLine.this.getWarehouse();
-			}
+					@Override
+					public String getItemName() {
+						return InventoryTransferLine.this.getItemDescription();
+					}
 
-			@Override
-			public String getDocumentType() {
-				return InventoryTransferLine.this.getObjectCode();
-			}
+					@Override
+					public String getWarehouse() {
+						return InventoryTransferLine.this.getWarehouse();
+					}
 
-			@Override
-			public Integer getDocumentEntry() {
-				return InventoryTransferLine.this.getDocEntry();
-			}
+					@Override
+					public String getDocumentType() {
+						return InventoryTransferLine.this.getObjectCode();
+					}
 
-			@Override
-			public Integer getDocumentLineId() {
-				return InventoryTransferLine.this.getLineId();
-			}
+					@Override
+					public Integer getDocumentEntry() {
+						return InventoryTransferLine.this.getDocEntry();
+					}
 
-			@Override
-			public BigDecimal getQuantity() {
-				return InventoryTransferLine.this.getQuantity();
-			}
+					@Override
+					public Integer getDocumentLineId() {
+						return InventoryTransferLine.this.getLineId();
+					}
 
-			@Override
-			public DateTime getPostingDate() {
-				return InventoryTransferLine.this.parent.getPostingDate();
-			}
+					@Override
+					public BigDecimal getQuantity() {
+						return InventoryTransferLine.this.getQuantity();
+					}
 
-			@Override
-			public DateTime getDeliveryDate() {
-				return InventoryTransferLine.this.parent.getDeliveryDate();
-			}
+					@Override
+					public DateTime getPostingDate() {
+						return InventoryTransferLine.this.parent.getPostingDate();
+					}
 
-			@Override
-			public DateTime getDocumentDate() {
-				return InventoryTransferLine.this.parent.getDocumentDate();
-			}
+					@Override
+					public DateTime getDeliveryDate() {
+						return InventoryTransferLine.this.parent.getDeliveryDate();
+					}
 
-			@Override
-			public emYesNo getBatchManagement() {
-				return InventoryTransferLine.this.getBatchManagement();
-			}
+					@Override
+					public DateTime getDocumentDate() {
+						return InventoryTransferLine.this.parent.getDocumentDate();
+					}
 
-			@Override
-			public emYesNo getSerialManagement() {
-				return InventoryTransferLine.this.getSerialManagement();
-			}
-		} };
+					@Override
+					public emYesNo getBatchManagement() {
+						return InventoryTransferLine.this.getBatchManagement();
+					}
+
+					@Override
+					public emYesNo getSerialManagement() {
+						return InventoryTransferLine.this.getSerialManagement();
+					}
+				} };
 	}
 
 }

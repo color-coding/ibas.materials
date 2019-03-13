@@ -14,6 +14,8 @@ namespace materials {
                 deleteDataEvent: Function;
                 /** 新建数据事件，参数1：是否克隆 */
                 createDataEvent: Function;
+                /** 关闭数据事件 */
+                closeDataEvent: Function;
                 /** 添加库存盘点-行事件 */
                 addInventoryCountingLineEvent: Function;
                 /** 删除库存盘点-行事件 */
@@ -26,6 +28,10 @@ namespace materials {
                 chooseInventoryCountingLineMaterialBatchEvent: Function;
                 /** 选择库存盘点行物料序列事件 */
                 chooseInventoryCountingLineMaterialSerialEvent: Function;
+                /** 选择库存盘点库存记录事件 */
+                chooseInventoryCountingMaterialInventoryEvent: Function;
+                /** 刷新库存 */
+                refreshMaterialInventoryEvent: Function;
 
                 /** 绘制视图 */
                 draw(): any {
@@ -74,6 +80,7 @@ namespace materials {
                             new sap.ui.core.Title("", { text: ibas.i18n.prop("materials_title_status") }),
                             new sap.m.Label("", { text: ibas.i18n.prop("bo_inventorycounting_documentstatus") }),
                             new sap.m.Select("", {
+                                enabled: false,
                                 items: openui5.utils.createComboBoxItems(ibas.emDocumentStatus),
                             }).bindProperty("selectedKey", {
                                 path: "documentStatus",
@@ -85,6 +92,14 @@ namespace materials {
                                 displayFormat: ibas.config.get(ibas.CONFIG_ITEM_FORMAT_DATE),
                             }).bindProperty("dateValue", {
                                 path: "documentDate",
+                            }),
+                            new sap.m.Label("", { text: ibas.i18n.prop("bo_inventorycounting_postingdate") }),
+                            new sap.m.DatePicker("", {
+                                editable: false,
+                                valueFormat: ibas.config.get(ibas.CONFIG_ITEM_FORMAT_DATE),
+                                displayFormat: ibas.config.get(ibas.CONFIG_ITEM_FORMAT_DATE),
+                            }).bindProperty("dateValue", {
+                                path: "postingDate",
                             }),
                             new sap.m.Label("", { text: ibas.i18n.prop("bo_inventorycounting_ordertype") }),
                             new sap.m.ex.SmartField("", {
@@ -100,13 +115,26 @@ namespace materials {
                     this.tableInventoryCountingLine = new sap.ui.table.Table("", {
                         toolbar: new sap.m.Toolbar("", {
                             content: [
-                                new sap.m.Button("", {
-                                    text: ibas.i18n.prop("shell_data_add"),
+                                new sap.m.MenuButton("", {
                                     type: sap.m.ButtonType.Transparent,
                                     icon: "sap-icon://add",
-                                    press: function (): void {
-                                        that.fireViewEvents(that.addInventoryCountingLineEvent);
-                                    }
+                                    text: ibas.i18n.prop("shell_data_add"),
+                                    menu: new sap.m.Menu("", {
+                                        items: [
+                                            new sap.m.MenuItem("", {
+                                                text: ibas.i18n.prop("shell_data_add"),
+                                                press: function (): void {
+                                                    that.fireViewEvents(that.addInventoryCountingLineEvent);
+                                                }
+                                            }),
+                                            new sap.m.MenuItem("", {
+                                                text: ibas.i18n.prop("bo_materialinventory"),
+                                                press: function (): void {
+                                                    that.fireViewEvents(that.chooseInventoryCountingMaterialInventoryEvent);
+                                                }
+                                            }),
+                                        ]
+                                    })
                                 }),
                                 new sap.m.Button("", {
                                     text: ibas.i18n.prop("shell_data_remove"),
@@ -128,18 +156,66 @@ namespace materials {
                                         items: [
                                             new sap.m.MenuItem("", {
                                                 text: ibas.i18n.prop("materials_material_batch"),
-                                                press: function (): void {
-                                                    that.fireViewEvents(that.chooseInventoryCountingLineMaterialBatchEvent);
-                                                }
+                                                items: [
+                                                    new sap.m.MenuItem("", {
+                                                        text: ibas.i18n.prop("em_over"),
+                                                        icon: "sap-icon://trend-up",
+                                                        press: function (): void {
+                                                            that.fireViewEvents(that.chooseInventoryCountingLineMaterialBatchEvent, bo.emInventoryAdjustment.OVER);
+                                                        }
+                                                    }),
+                                                    new sap.m.MenuItem("", {
+                                                        text: ibas.i18n.prop("em_short"),
+                                                        icon: "sap-icon://trend-down",
+                                                        press: function (): void {
+                                                            that.fireViewEvents(that.chooseInventoryCountingLineMaterialBatchEvent, bo.emInventoryAdjustment.SHORT);
+                                                        }
+                                                    }),
+                                                ]
                                             }),
                                             new sap.m.MenuItem("", {
                                                 text: ibas.i18n.prop("materials_material_serial"),
-                                                press: function (): void {
-                                                    that.fireViewEvents(that.chooseInventoryCountingLineMaterialSerialEvent);
-                                                }
+                                                items: [
+                                                    new sap.m.MenuItem("", {
+                                                        text: ibas.i18n.prop("em_over"),
+                                                        icon: "sap-icon://trend-up",
+                                                        press: function (): void {
+                                                            that.fireViewEvents(that.chooseInventoryCountingLineMaterialSerialEvent, bo.emInventoryAdjustment.OVER);
+                                                        }
+                                                    }),
+                                                    new sap.m.MenuItem("", {
+                                                        text: ibas.i18n.prop("em_short"),
+                                                        icon: "sap-icon://trend-down",
+                                                        press: function (): void {
+                                                            that.fireViewEvents(that.chooseInventoryCountingLineMaterialSerialEvent, bo.emInventoryAdjustment.SHORT);
+                                                        }
+                                                    }),
+                                                ]
                                             }),
                                         ]
                                     })
+                                }),
+                                new sap.m.ToolbarSeparator(""),
+                                new sap.m.Button("", {
+                                    text: ibas.i18n.prop("materials_refresh_inventory"),
+                                    type: sap.m.ButtonType.Transparent,
+                                    icon: "sap-icon://refresh",
+                                    press: function (): void {
+                                        that.fireViewEvents(that.refreshMaterialInventoryEvent);
+                                    }
+                                }),
+                                new sap.m.ToolbarSpacer(""),
+                                new sap.m.Label("", {
+                                    wrapping: false,
+                                    text: ibas.i18n.prop("bo_warehouse")
+                                }),
+                                this.selectWarehouse = new sap.m.ex.BOSelect("", {
+                                    boText: "name",
+                                    boKey: "code",
+                                    blank: true,
+                                    boCode: ibas.config.applyVariables(bo.BO_CODE_WAREHOUSE),
+                                    repositoryName: bo.BO_REPOSITORY_MATERIALS,
+                                    criteria: app.conditions.warehouse.create(),
                                 }),
                             ]
                         }),
@@ -187,7 +263,16 @@ namespace materials {
                                     path: "freeze",
                                     type: new openui5.datatype.Unknown({
                                         formatValue(oValue: any): any {
-                                            return oValue === ibas.emYesNo.YES ? true : false;
+                                            if (oValue === ibas.emYesNo.YES) {
+                                                return true;
+                                            }
+                                            if (typeof oValue === "string" &&
+                                                (oValue === String(ibas.emYesNo.YES)
+                                                    || oValue === String(ibas.emYesNo[ibas.emYesNo.YES]))
+                                            ) {
+                                                return true;
+                                            }
+                                            return false;
                                         },
                                         parseValue(oValue: any): any {
                                             return oValue === true ? ibas.emYesNo.YES : ibas.emYesNo.NO;
@@ -200,6 +285,7 @@ namespace materials {
                                 template: new sap.m.Input("", {
                                     width: "100%",
                                     showValueHelp: true,
+                                    editable: false,
                                     valueHelpRequest: function (): void {
                                         that.fireViewEvents(that.chooseInventoryCountingLineWarehouseEvent,
                                             // 获取当前对象
@@ -212,10 +298,10 @@ namespace materials {
                             }),
                             new sap.ui.table.Column("", {
                                 label: ibas.i18n.prop("bo_inventorycountingline_inventoryquantity"),
-                                template: new sap.m.Input("", {
+                                template: new sap.m.Text("", {
                                     width: "100%",
-                                    type: sap.m.InputType.Number
-                                }).bindProperty("value", {
+                                    wrapping: false
+                                }).bindProperty("text", {
                                     path: "inventoryQuantity",
                                     type: new openui5.datatype.Quantity(),
                                 })
@@ -237,7 +323,16 @@ namespace materials {
                                     path: "counted",
                                     type: new openui5.datatype.Unknown({
                                         formatValue(oValue: any): boolean {
-                                            return oValue === ibas.emYesNo.YES ? true : false;
+                                            if (oValue === ibas.emYesNo.YES) {
+                                                return true;
+                                            }
+                                            if (typeof oValue === "string" &&
+                                                (oValue === String(ibas.emYesNo.YES)
+                                                    || oValue === String(ibas.emYesNo[ibas.emYesNo.YES]))
+                                            ) {
+                                                return true;
+                                            }
+                                            return false;
                                         },
                                         parseValue(oValue: boolean): any {
                                             return oValue === true ? ibas.emYesNo.YES : ibas.emYesNo.NO;
@@ -257,14 +352,14 @@ namespace materials {
                             }),
                             new sap.ui.table.Column("", {
                                 label: ibas.i18n.prop("bo_inventorycountingline_difference"),
-                                template: new sap.m.Input("", {
-                                    width: "100%",
-                                    type: sap.m.InputType.Number
-                                }).bindProperty("value", {
+                                template: new sap.m.Text("", {
+                                    wrapping: false,
+                                }).bindProperty("text", {
                                     path: "difference",
                                     type: new openui5.datatype.Quantity(),
                                 })
                             }),
+                            /*
                             new sap.ui.table.Column("", {
                                 label: ibas.i18n.prop("bo_inventorycountingline_reference1"),
                                 template: new sap.m.Text("", {
@@ -281,6 +376,7 @@ namespace materials {
                                     path: "reference2",
                                 }),
                             }),
+                            */
                         ]
                     });
                     let formInventoryCountingLine: sap.ui.layout.form.SimpleForm = new sap.ui.layout.form.SimpleForm("", {
@@ -362,6 +458,15 @@ namespace materials {
                                         ],
                                     })
                                 }),
+                                new sap.m.ToolbarSeparator(""),
+                                new sap.m.Button("", {
+                                    text: ibas.i18n.prop("em_closed"),
+                                    type: sap.m.ButtonType.Transparent,
+                                    icon: "sap-icon://task",
+                                    press: function (): void {
+                                        that.fireViewEvents(that.closeDataEvent);
+                                    }
+                                }),
                             ]
                         }),
                         content: [
@@ -380,6 +485,13 @@ namespace materials {
 
                 private page: sap.m.Page;
                 private tableInventoryCountingLine: sap.ui.table.Table;
+                private selectWarehouse: sap.m.Select;
+                get defaultWarehouse(): string {
+                    return this.selectWarehouse.getSelectedKey();
+                }
+                set defaultWarehouse(value: string) {
+                    this.selectWarehouse.setSelectedKey(value);
+                }
 
                 /** 改变视图状态 */
                 private changeViewStatus(data: bo.InventoryCounting): void {
@@ -394,10 +506,15 @@ namespace materials {
                         }
                     }
                     // 不可编辑：已批准，
-                    if (data.approvalStatus === ibas.emApprovalStatus.APPROVED) {
-                        if (this.page.getSubHeader() instanceof sap.m.Toolbar) {
-                            openui5.utils.changeToolbarSavable(<sap.m.Toolbar>this.page.getSubHeader(), false);
-                            openui5.utils.changeToolbarDeletable(<sap.m.Toolbar>this.page.getSubHeader(), false);
+                    if (data.approvalStatus === ibas.emApprovalStatus.APPROVED
+                        || data.documentStatus === ibas.emDocumentStatus.CLOSED) {
+                        let toolbar: sap.m.IBar = this.page.getSubHeader();
+                        if (toolbar instanceof sap.m.Toolbar) {
+                            for (let item of toolbar.getContent()) {
+                                if (item instanceof sap.m.Button) {
+                                    item.setEnabled(false);
+                                }
+                            }
                         }
                         openui5.utils.changeFormEditable(this.page, false);
                     }

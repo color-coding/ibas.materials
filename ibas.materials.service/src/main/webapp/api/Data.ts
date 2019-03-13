@@ -78,6 +78,13 @@ namespace materials {
             /** 编码排序 */
             ORDER_BY_CODE,
         }
+        /** 库存调整 */
+        export enum emInventoryAdjustment {
+            /** 盘盈 */
+            OVER,
+            /** 盘亏 */
+            SHORT,
+        }
     }
 
     export namespace app {

@@ -866,8 +866,8 @@ namespace materials {
 
             /** 初始化数据 */
             protected init(): void {
-                this.materialBatches = new MaterialBatchItems(this);
-                this.materialSerials = new MaterialSerialItems(this);
+                this.materialBatches = new MaterialBatchItemTs(this);
+                this.materialSerials = new MaterialSerialItemTs(this);
                 this.objectCode = ibas.config.applyVariables(InventoryTransfer.BUSINESS_OBJECT_CODE);
                 this.currency = ibas.config.get(ibas.CONFIG_ITEM_DEFAULT_CURRENCY);
             }
@@ -878,6 +878,60 @@ namespace materials {
                     new ibas.BusinessRuleMultiplication(
                         InventoryTransferLine.PROPERTY_LINETOTAL_NAME, InventoryTransferLine.PROPERTY_QUANTITY_NAME, InventoryTransferLine.PROPERTY_PRICE_NAME),
                 ];
+            }
+        }
+        /** 物料批次项目（库存转储专用） */
+        class MaterialBatchItemT extends MaterialBatchItem {
+
+        }
+        /** 物料批次记录集合（库存转储专用） */
+        class MaterialBatchItemTs extends MaterialBatchItems {
+            /** 创建并添加子项 */
+            create(): IMaterialBatchItem;
+            /** 创建并添加子项，批次号 */
+            create(batchCode: string): IMaterialBatchItem;
+            create(): IMaterialBatchItem {
+                let batchCode: string = arguments[0];
+                if (!ibas.strings.isEmpty(batchCode)) {
+                    for (let item of this) {
+                        if (item.batchCode === batchCode) {
+                            return item;
+                        }
+                    }
+                }
+                let item: MaterialBatchItemT = new MaterialBatchItemT();
+                if (!ibas.strings.isEmpty(batchCode)) {
+                    item.batchCode = batchCode;
+                }
+                this.add(item);
+                return item;
+            }
+        }
+        /** 物料序列项目（库存转储专用） */
+        class MaterialSerialItemT extends MaterialSerialItem {
+
+        }
+        /** 物料序列记录集合（库存转储专用） */
+        class MaterialSerialItemTs extends MaterialSerialItems {
+            /** 创建并添加子项 */
+            create(): IMaterialSerialItem;
+            /** 创建并添加子项，序列编号 */
+            create(serialCode: string): IMaterialSerialItem;
+            create(): IMaterialSerialItem {
+                let serialCode: string = arguments[0];
+                if (!ibas.strings.isEmpty(serialCode)) {
+                    for (let item of this) {
+                        if (item.serialCode === serialCode) {
+                            return item;
+                        }
+                    }
+                }
+                let item: MaterialSerialItemT = new MaterialSerialItemT();
+                if (!ibas.strings.isEmpty(serialCode)) {
+                    item.serialCode = serialCode;
+                }
+                this.add(item);
+                return item;
             }
         }
     }

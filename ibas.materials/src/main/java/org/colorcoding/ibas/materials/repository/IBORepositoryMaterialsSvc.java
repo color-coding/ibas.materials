@@ -313,5 +313,14 @@ public interface IBORepositoryMaterialsSvc extends IBORepositorySmartService {
 	 * @return 操作结果
 	 */
 	OperationResult<InventoryCounting> saveInventoryCounting(InventoryCounting bo, String token);
+
+	/**
+	 * 结算-库存盘点
+	 * 
+	 * @param criteria 查询
+	 * @param token    口令
+	 * @return 操作结果
+	 */
+	OperationResult<String> closeInventoryCounting(ICriteria criteria, String token);
 	// --------------------------------------------------------------------------------------------//
 }

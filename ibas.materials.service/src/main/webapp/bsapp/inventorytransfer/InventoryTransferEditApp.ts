@@ -321,7 +321,7 @@ namespace materials {
                         batchManagement: item.batchManagement,
                         itemCode: item.itemCode,
                         itemDescription: item.itemDescription,
-                        warehouse: item.warehouse,
+                        warehouse: this.editData.fromWarehouse,
                         quantity: item.quantity,
                         uom: item.uom,
                         materialBatches: item.materialBatches
@@ -338,7 +338,7 @@ namespace materials {
                         serialManagement: item.serialManagement,
                         itemCode: item.itemCode,
                         itemDescription: item.itemDescription,
-                        warehouse: item.warehouse,
+                        warehouse: this.editData.fromWarehouse,
                         quantity: item.quantity,
                         uom: item.uom,
                         materialSerials: item.materialSerials

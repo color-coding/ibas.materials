@@ -43,9 +43,7 @@ namespace materials {
                 this.register(new GoodsReceiptFunc());
                 this.register(new GoodsIssueFunc());
                 this.register(new InventoryTransferFunc());
-                if (ibas.config.get(ibas.CONFIG_ITEM_DEBUG_MODE) === true) {
-                    this.register(new InventoryCountingFunc());
-                }
+                this.register(new InventoryCountingFunc());
                 // this.register(new MaterialInventoryFunc());
                 // this.register(new MaterialBatchFunc());
                 // this.register(new MaterialSerialFunc());

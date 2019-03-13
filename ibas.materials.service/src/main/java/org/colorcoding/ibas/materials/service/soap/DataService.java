@@ -399,6 +399,18 @@ public class DataService extends BORepositoryMaterials {
 		return super.saveInventoryCounting(bo, token);
 	}
 
+	/**
+	 * 关闭-库存盘点
+	 * 
+	 * @param criteria 查询
+	 * @param token    口令
+	 * @return 操作结果
+	 */
+	@WebMethod
+	public OperationResult<String> closeInventoryCounting(@WebParam(name = "criteria") Criteria criteria,
+			@WebParam(name = "token") String token) {
+		return super.closeInventoryCounting(criteria, token);
+	}
 	// --------------------------------------------------------------------------------------------//
 
 }

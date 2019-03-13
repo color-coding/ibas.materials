@@ -253,6 +253,36 @@ namespace materials {
             saveInventoryCounting(saver: ibas.ISaveCaller<bo.InventoryCounting>): void {
                 super.save(bo.InventoryCounting.name, saver);
             }
+            /**
+             * 结算 库存盘点
+             * @param fetcher 查询者
+             */
+            closeInventoryCounting(closer: ICloseCaller<bo.IInventoryCounting>): void {
+                let boRepository: ibas.BORepositoryAjax = new ibas.BORepositoryAjax();
+                boRepository.address = this.address;
+                boRepository.token = this.token;
+                boRepository.converter = this.createConverter();
+                if (closer.criteria instanceof Array) {
+                    // 替换查询条件数组
+                    let criteria: ibas.Criteria = new ibas.Criteria();
+                    for (let item of closer.criteria) {
+                        if (ibas.objects.instanceOf(item, ibas.Condition)) {
+                            criteria.conditions.add(item);
+                        } else {
+                            throw new Error(ibas.i18n.prop("sys_invalid_parameter", "criteria"));
+                        }
+                    }
+                    closer.criteria = criteria;
+                } else if (closer.criteria instanceof bo.InventoryCounting) {
+                    let criteria: ibas.Criteria = new ibas.Criteria();
+                    let condition: ibas.ICondition = criteria.conditions.create();
+                    condition.alias = bo.InventoryCounting.PROPERTY_DOCENTRY_NAME;
+                    condition.value = closer.criteria.docEntry.toString();
+                    closer.criteria = criteria;
+                }
+                let data: string = JSON.stringify(boRepository.converter.convert(closer.criteria, "closeInventoryCounting"));
+                boRepository.callRemoteMethod("closeInventoryCounting", data, closer);
+            }
         }
     }
 }

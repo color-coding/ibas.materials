@@ -20,16 +20,17 @@ import org.colorcoding.ibas.bobas.logic.IBusinessLogicContract;
 import org.colorcoding.ibas.bobas.logic.IBusinessLogicsHost;
 import org.colorcoding.ibas.bobas.mapping.DbField;
 import org.colorcoding.ibas.bobas.mapping.DbFieldType;
+import org.colorcoding.ibas.bobas.rule.BusinessRuleException;
 import org.colorcoding.ibas.bobas.rule.IBusinessRule;
+import org.colorcoding.ibas.bobas.rule.ICheckRules;
 import org.colorcoding.ibas.bobas.rule.common.BusinessRuleMinValue;
 import org.colorcoding.ibas.bobas.rule.common.BusinessRuleRequired;
+import org.colorcoding.ibas.bobas.rule.common.BusinessRuleSubtraction;
 import org.colorcoding.ibas.materials.MyConfiguration;
 import org.colorcoding.ibas.materials.bo.materialbatch.IMaterialBatchItems;
-import org.colorcoding.ibas.materials.bo.materialbatch.MaterialBatchItem;
-import org.colorcoding.ibas.materials.bo.materialbatch.MaterialBatchItems;
 import org.colorcoding.ibas.materials.bo.materialserial.IMaterialSerialItems;
-import org.colorcoding.ibas.materials.bo.materialserial.MaterialSerialItem;
-import org.colorcoding.ibas.materials.bo.materialserial.MaterialSerialItems;
+import org.colorcoding.ibas.materials.logic.IMaterialIssueContract;
+import org.colorcoding.ibas.materials.logic.IMaterialReceiptContract;
 import org.colorcoding.ibas.materials.logic.IMaterialWarehouseFrozenContract;
 
 /**
@@ -39,7 +40,7 @@ import org.colorcoding.ibas.materials.logic.IMaterialWarehouseFrozenContract;
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlType(name = InventoryCountingLine.BUSINESS_OBJECT_NAME, namespace = MyConfiguration.NAMESPACE_BO)
 public class InventoryCountingLine extends BusinessObject<InventoryCountingLine>
-		implements IInventoryCountingLine, IBusinessLogicsHost, IBOUserFields {
+		implements IInventoryCountingLine, IBusinessLogicsHost, ICheckRules, IBOUserFields {
 
 	/**
 	 * 序列化版本标记
@@ -1164,7 +1165,19 @@ public class InventoryCountingLine extends BusinessObject<InventoryCountingLine>
 				new BusinessRuleRequired(PROPERTY_WAREHOUSE), // 要求有值
 				new BusinessRuleMinValue<BigDecimal>(Decimal.ZERO, PROPERTY_INVENTORYQUANTITY), // 不能低于0
 				new BusinessRuleMinValue<BigDecimal>(Decimal.ZERO, PROPERTY_COUNTQUANTITY), // 不能低于0
+				new BusinessRuleSubtraction(PROPERTY_DIFFERENCE, PROPERTY_COUNTQUANTITY, PROPERTY_INVENTORYQUANTITY), // 求差异
 		};
+	}
+
+	@Override
+	public void check() throws BusinessRuleException {
+		// 已盘点时，检查数量是否匹配
+		if (this.getCounted() == emYesNo.YES) {
+			// 批次检查
+			this.getMaterialBatches().check();
+			// 序列检查
+			this.getMaterialSerials().check();
+		}
 	}
 
 	/**
@@ -1174,31 +1187,184 @@ public class InventoryCountingLine extends BusinessObject<InventoryCountingLine>
 
 	@Override
 	public IBusinessLogicContract[] getContracts() {
-		return new IBusinessLogicContract[] {
+		if (this.getLineStatus() == emDocumentStatus.CLOSED) {
+			if (Decimal.ZERO.compareTo(this.getDifference()) > 0) {
+				// 小于0，发货
+				return new IBusinessLogicContract[] {
 
-				new IMaterialWarehouseFrozenContract() {
+						new IMaterialIssueContract() {
 
-					@Override
-					public String getIdentifiers() {
-						return InventoryCountingLine.this.getIdentifiers();
+							@Override
+							public String getIdentifiers() {
+								return InventoryCountingLine.this.getIdentifiers();
+							}
+
+							@Override
+							public String getWarehouse() {
+								return InventoryCountingLine.this.getWarehouse();
+							}
+
+							@Override
+							public emYesNo getSerialManagement() {
+								return InventoryCountingLine.this.getSerialManagement();
+							}
+
+							@Override
+							public emYesNo getBatchManagement() {
+								return InventoryCountingLine.this.getBatchManagement();
+							}
+
+							@Override
+							public BigDecimal getQuantity() {
+								return InventoryCountingLine.this.getQuantity();
+							}
+
+							@Override
+							public String getItemName() {
+								return InventoryCountingLine.this.getItemDescription();
+							}
+
+							@Override
+							public String getItemCode() {
+								return InventoryCountingLine.this.getItemCode();
+							}
+
+							@Override
+							public String getDocumentType() {
+								return InventoryCountingLine.this.getObjectCode();
+							}
+
+							@Override
+							public Integer getDocumentLineId() {
+								return InventoryCountingLine.this.getLineId();
+							}
+
+							@Override
+							public Integer getDocumentEntry() {
+								return InventoryCountingLine.this.getDocEntry();
+							}
+
+							@Override
+							public DateTime getPostingDate() {
+								return InventoryCountingLine.this.parent.getPostingDate();
+							}
+
+							@Override
+							public DateTime getDocumentDate() {
+								return InventoryCountingLine.this.parent.getDocumentDate();
+							}
+
+							@Override
+							public DateTime getDeliveryDate() {
+								return InventoryCountingLine.this.parent.getDeliveryDate();
+							}
+
+						}
+
+				};
+			} else if (Decimal.ZERO.compareTo(this.getDifference()) < 0) {
+				// 大于0，收货
+				return new IBusinessLogicContract[] {
+
+						new IMaterialReceiptContract() {
+
+							@Override
+							public String getIdentifiers() {
+								return InventoryCountingLine.this.getIdentifiers();
+							}
+
+							@Override
+							public String getWarehouse() {
+								return InventoryCountingLine.this.getWarehouse();
+							}
+
+							@Override
+							public emYesNo getSerialManagement() {
+								return InventoryCountingLine.this.getSerialManagement();
+							}
+
+							@Override
+							public emYesNo getBatchManagement() {
+								return InventoryCountingLine.this.getBatchManagement();
+							}
+
+							@Override
+							public BigDecimal getQuantity() {
+								return InventoryCountingLine.this.getQuantity();
+							}
+
+							@Override
+							public String getItemName() {
+								return InventoryCountingLine.this.getItemDescription();
+							}
+
+							@Override
+							public String getItemCode() {
+								return InventoryCountingLine.this.getItemCode();
+							}
+
+							@Override
+							public String getDocumentType() {
+								return InventoryCountingLine.this.getObjectCode();
+							}
+
+							@Override
+							public Integer getDocumentLineId() {
+								return InventoryCountingLine.this.getLineId();
+							}
+
+							@Override
+							public Integer getDocumentEntry() {
+								return InventoryCountingLine.this.getDocEntry();
+							}
+
+							@Override
+							public DateTime getPostingDate() {
+								return InventoryCountingLine.this.parent.getPostingDate();
+							}
+
+							@Override
+							public DateTime getDocumentDate() {
+								return InventoryCountingLine.this.parent.getDocumentDate();
+							}
+
+							@Override
+							public DateTime getDeliveryDate() {
+								return InventoryCountingLine.this.parent.getDeliveryDate();
+							}
+
+						}
+
+				};
+			}
+		} else {
+			return new IBusinessLogicContract[] {
+
+					new IMaterialWarehouseFrozenContract() {
+
+						@Override
+						public String getIdentifiers() {
+							return InventoryCountingLine.this.getIdentifiers();
+						}
+
+						@Override
+						public String getItemCode() {
+							return InventoryCountingLine.this.getItemCode();
+						}
+
+						@Override
+						public String getWarehouse() {
+							return InventoryCountingLine.this.getWarehouse();
+						}
+
+						@Override
+						public emYesNo getFreeze() {
+							return InventoryCountingLine.this.getFreeze();
+						}
 					}
 
-					@Override
-					public String getItemCode() {
-						return InventoryCountingLine.this.getItemCode();
-					}
-
-					@Override
-					public String getWarehouse() {
-						return InventoryCountingLine.this.getWarehouse();
-					}
-
-					@Override
-					public emYesNo getFreeze() {
-						return InventoryCountingLine.this.getFreeze();
-					}
-				}
-
-		};
+			};
+		}
+		return null;
 	}
 }

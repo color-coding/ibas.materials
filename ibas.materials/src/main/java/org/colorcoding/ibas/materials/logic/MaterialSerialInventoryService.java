@@ -72,14 +72,14 @@ public class MaterialSerialInventoryService
 		IMaterialSerial materialSerial = this.getBeAffected();
 		if (contract.getDirection() == emDirection.IN) {
 			if (materialSerial.getInStock() == emYesNo.YES) {
-				throw new BusinessLogicException(
-						I18N.prop("msg_mm_material_serial_in_stock", contract.getItemCode(), contract.getSerialCode()));
+				throw new BusinessLogicException(I18N.prop("msg_mm_material_serial_in_stock", contract.getWarehouse(),
+						contract.getItemCode(), contract.getSerialCode()));
 			}
 			materialSerial.setInStock(emYesNo.YES);
 		} else {
 			if (materialSerial.getInStock() == emYesNo.NO) {
 				throw new BusinessLogicException(I18N.prop("msg_mm_material_serial_not_in_stock",
-						contract.getItemCode(), contract.getSerialCode()));
+						contract.getItemCode(), contract.getSerialCode(), contract.getWarehouse()));
 			}
 			materialSerial.setInStock(emYesNo.NO);
 		}
@@ -89,8 +89,16 @@ public class MaterialSerialInventoryService
 	protected void revoke(IMaterialSerialInventoryContract contract) {
 		IMaterialSerial materialSerial = this.getBeAffected();
 		if (contract.getDirection() == emDirection.IN) {
+			if (materialSerial.getInStock() == emYesNo.NO) {
+				throw new BusinessLogicException(I18N.prop("msg_mm_material_serial_not_in_stock",
+						contract.getItemCode(), contract.getSerialCode(), contract.getWarehouse()));
+			}
 			materialSerial.setInStock(emYesNo.NO);
 		} else {
+			if (materialSerial.getInStock() == emYesNo.YES) {
+				throw new BusinessLogicException(I18N.prop("msg_mm_material_serial_in_stock", contract.getWarehouse(),
+						contract.getItemCode(), contract.getSerialCode()));
+			}
 			materialSerial.setInStock(emYesNo.YES);
 		}
 	}

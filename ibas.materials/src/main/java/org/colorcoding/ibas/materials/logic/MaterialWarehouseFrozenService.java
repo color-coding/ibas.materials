@@ -7,7 +7,6 @@ import org.colorcoding.ibas.bobas.common.ICondition;
 import org.colorcoding.ibas.bobas.common.ICriteria;
 import org.colorcoding.ibas.bobas.common.IOperationResult;
 import org.colorcoding.ibas.bobas.data.emYesNo;
-import org.colorcoding.ibas.bobas.i18n.I18N;
 import org.colorcoding.ibas.bobas.logic.BusinessLogicException;
 import org.colorcoding.ibas.bobas.mapping.LogicContract;
 import org.colorcoding.ibas.materials.bo.materialinventory.IMaterialInventory;
@@ -49,10 +48,6 @@ public class MaterialWarehouseFrozenService
 			materialInventory = new MaterialInventory();
 			materialInventory.setItemCode(contract.getItemCode());
 			materialInventory.setWarehouse(contract.getWarehouse());
-		}
-		if (materialInventory.getFrozen() == emYesNo.YES) {
-			throw new BusinessLogicException(String.format(I18N.prop("msg_mm_material_is_frozen_in_warehouse"),
-					materialInventory.getItemCode(), materialInventory.getWarehouse()));
 		}
 		return materialInventory;
 	}

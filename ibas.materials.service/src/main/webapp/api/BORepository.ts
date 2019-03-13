@@ -150,7 +150,11 @@ namespace materials {
              * @param saver 保存者
              */
             saveInventoryCounting(saver: ibas.ISaveCaller<bo.IInventoryCounting>): void;
-
+            /**
+             * 结算 库存盘点
+             * @param fetcher 查询者
+             */
+            closeInventoryCounting(closer: ICloseCaller<bo.IInventoryCounting>): void;
             /**
              * 查询 物料价格清单
              * @param fetcher 查询者
@@ -171,6 +175,10 @@ namespace materials {
              * @param fetcher 查询者
              */
             fetchMaterialPrice(fetcher: ibas.IFetchCaller<bo.IMaterialPrice>): void;
+        }
+        export interface ICloseCaller<T> extends ibas.IMethodCaller<string> {
+            /** 查询条件 */
+            criteria: ibas.ICriteria | ibas.ICondition[] | T;
         }
     }
 }

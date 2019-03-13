@@ -122,6 +122,7 @@ public class MaterialBatchItems extends BusinessObjects<IMaterialBatchItem, IMat
 	/**
 	 * 元素类型
 	 */
+	@Override
 	public Class<?> getElementType() {
 		return MaterialBatchItem.class;
 	}
@@ -131,6 +132,7 @@ public class MaterialBatchItems extends BusinessObjects<IMaterialBatchItem, IMat
 	 * 
 	 * @throws BusinessRuleException
 	 */
+	@Override
 	public void check() throws BusinessRuleException {
 		if (this.getParent() == null) {
 			return;
@@ -143,7 +145,8 @@ public class MaterialBatchItems extends BusinessObjects<IMaterialBatchItem, IMat
 			total = total.add(item.getQuantity());
 		}
 		if (total.compareTo(this.getParent().getQuantity()) != 0) {
-			throw new BusinessRuleException(I18N.prop("msg_mm_material_batch_quantity_deviates", this.getParent()));
+			throw new BusinessRuleException(
+					I18N.prop("msg_mm_document_material_batch_quantity_deviates", this.getParent()));
 		}
 	}
 }

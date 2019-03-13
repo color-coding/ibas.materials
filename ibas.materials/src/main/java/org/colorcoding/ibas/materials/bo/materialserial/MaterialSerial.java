@@ -61,7 +61,7 @@ public class MaterialSerial extends BusinessObject<MaterialSerial> implements IM
 	/**
 	 * 物料编码 属性
 	 */
-	@DbField(name = "ItemCode", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME, primaryKey = false)
+	@DbField(name = "ItemCode", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME, uniqueKey = true)
 	public static final IPropertyInfo<String> PROPERTY_ITEMCODE = registerProperty(PROPERTY_ITEMCODE_NAME, String.class,
 			MY_CLASS);
 
@@ -78,8 +78,7 @@ public class MaterialSerial extends BusinessObject<MaterialSerial> implements IM
 	/**
 	 * 设置-物料编码
 	 *
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setItemCode(String value) {
 		this.setProperty(PROPERTY_ITEMCODE, value);
@@ -93,7 +92,7 @@ public class MaterialSerial extends BusinessObject<MaterialSerial> implements IM
 	/**
 	 * 序列编码 属性
 	 */
-	@DbField(name = "SerialCode", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME, primaryKey = false)
+	@DbField(name = "SerialCode", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME, uniqueKey = true)
 	public static final IPropertyInfo<String> PROPERTY_SERIALCODE = registerProperty(PROPERTY_SERIALCODE_NAME,
 			String.class, MY_CLASS);
 
@@ -110,8 +109,7 @@ public class MaterialSerial extends BusinessObject<MaterialSerial> implements IM
 	/**
 	 * 设置-序列编码
 	 *
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setSerialCode(String value) {
 		this.setProperty(PROPERTY_SERIALCODE, value);
@@ -125,7 +123,7 @@ public class MaterialSerial extends BusinessObject<MaterialSerial> implements IM
 	/**
 	 * 仓库编码 属性
 	 */
-	@DbField(name = "WhsCode", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME, primaryKey = false)
+	@DbField(name = "WhsCode", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME, uniqueKey = true)
 	public static final IPropertyInfo<String> PROPERTY_WAREHOUSE = registerProperty(PROPERTY_WAREHOUSE_NAME,
 			String.class, MY_CLASS);
 
@@ -142,8 +140,7 @@ public class MaterialSerial extends BusinessObject<MaterialSerial> implements IM
 	/**
 	 * 设置-仓库编码
 	 *
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setWarehouse(String value) {
 		this.setProperty(PROPERTY_WAREHOUSE, value);
@@ -174,8 +171,7 @@ public class MaterialSerial extends BusinessObject<MaterialSerial> implements IM
 	/**
 	 * 设置-在仓库
 	 *
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setInStock(emYesNo value) {
 		this.setProperty(PROPERTY_INSTOCK, value);
@@ -206,8 +202,7 @@ public class MaterialSerial extends BusinessObject<MaterialSerial> implements IM
 	/**
 	 * 设置-锁定
 	 *
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setLocked(emYesNo value) {
 		this.setProperty(PROPERTY_LOCKED, value);
@@ -238,8 +233,7 @@ public class MaterialSerial extends BusinessObject<MaterialSerial> implements IM
 	/**
 	 * 设置-供应商序号
 	 *
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setSupplierSerial(String value) {
 		this.setProperty(PROPERTY_SUPPLIERSERIAL, value);
@@ -270,8 +264,7 @@ public class MaterialSerial extends BusinessObject<MaterialSerial> implements IM
 	/**
 	 * 设置-批次序号
 	 *
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setBatchSerial(String value) {
 		this.setProperty(PROPERTY_BATCHSERIAL, value);
@@ -302,8 +295,7 @@ public class MaterialSerial extends BusinessObject<MaterialSerial> implements IM
 	/**
 	 * 设置-过期日期
 	 *
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setExpirationDate(DateTime value) {
 		this.setProperty(PROPERTY_EXPIRATIONDATE, value);
@@ -334,8 +326,7 @@ public class MaterialSerial extends BusinessObject<MaterialSerial> implements IM
 	/**
 	 * 设置-生产日期
 	 *
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setManufacturingDate(DateTime value) {
 		this.setProperty(PROPERTY_MANUFACTURINGDATE, value);
@@ -366,8 +357,7 @@ public class MaterialSerial extends BusinessObject<MaterialSerial> implements IM
 	/**
 	 * 设置-准入日期
 	 *
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setAdmissionDate(DateTime value) {
 		this.setProperty(PROPERTY_ADMISSIONDATE, value);
@@ -398,8 +388,7 @@ public class MaterialSerial extends BusinessObject<MaterialSerial> implements IM
 	/**
 	 * 设置-保修开始日期
 	 *
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setWarrantyStartDate(DateTime value) {
 		this.setProperty(PROPERTY_WARRANTYSTARTDATE, value);
@@ -430,8 +419,7 @@ public class MaterialSerial extends BusinessObject<MaterialSerial> implements IM
 	/**
 	 * 设置-保修结束日期
 	 *
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setWarrantyEndDate(DateTime value) {
 		this.setProperty(PROPERTY_WARRANTYENDDATE, value);
@@ -462,8 +450,7 @@ public class MaterialSerial extends BusinessObject<MaterialSerial> implements IM
 	/**
 	 * 设置-备注
 	 *
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setNotes(String value) {
 		this.setProperty(PROPERTY_NOTES, value);
@@ -494,8 +481,7 @@ public class MaterialSerial extends BusinessObject<MaterialSerial> implements IM
 	/**
 	 * 设置-对象编号
 	 *
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setObjectKey(Integer value) {
 		this.setProperty(PROPERTY_OBJECTKEY, value);
@@ -526,8 +512,7 @@ public class MaterialSerial extends BusinessObject<MaterialSerial> implements IM
 	/**
 	 * 设置-对象类型
 	 *
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setObjectCode(String value) {
 		this.setProperty(PROPERTY_OBJECTCODE, value);
@@ -558,8 +543,7 @@ public class MaterialSerial extends BusinessObject<MaterialSerial> implements IM
 	/**
 	 * 设置-实例号
 	 *
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setLogInst(Integer value) {
 		this.setProperty(PROPERTY_LOGINST, value);
@@ -590,8 +574,7 @@ public class MaterialSerial extends BusinessObject<MaterialSerial> implements IM
 	/**
 	 * 设置-服务系列
 	 *
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setSeries(Integer value) {
 		this.setProperty(PROPERTY_SERIES, value);
@@ -622,8 +605,7 @@ public class MaterialSerial extends BusinessObject<MaterialSerial> implements IM
 	/**
 	 * 设置-数据源
 	 *
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setDataSource(String value) {
 		this.setProperty(PROPERTY_DATASOURCE, value);
@@ -654,8 +636,7 @@ public class MaterialSerial extends BusinessObject<MaterialSerial> implements IM
 	/**
 	 * 设置-创建日期
 	 *
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setCreateDate(DateTime value) {
 		this.setProperty(PROPERTY_CREATEDATE, value);
@@ -686,8 +667,7 @@ public class MaterialSerial extends BusinessObject<MaterialSerial> implements IM
 	/**
 	 * 设置-创建时间
 	 *
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setCreateTime(Short value) {
 		this.setProperty(PROPERTY_CREATETIME, value);
@@ -718,8 +698,7 @@ public class MaterialSerial extends BusinessObject<MaterialSerial> implements IM
 	/**
 	 * 设置-更新日期
 	 *
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setUpdateDate(DateTime value) {
 		this.setProperty(PROPERTY_UPDATEDATE, value);
@@ -750,8 +729,7 @@ public class MaterialSerial extends BusinessObject<MaterialSerial> implements IM
 	/**
 	 * 设置-更新时间
 	 *
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setUpdateTime(Short value) {
 		this.setProperty(PROPERTY_UPDATETIME, value);
@@ -782,8 +760,7 @@ public class MaterialSerial extends BusinessObject<MaterialSerial> implements IM
 	/**
 	 * 设置-创建用户
 	 *
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setCreateUserSign(Integer value) {
 		this.setProperty(PROPERTY_CREATEUSERSIGN, value);
@@ -814,8 +791,7 @@ public class MaterialSerial extends BusinessObject<MaterialSerial> implements IM
 	/**
 	 * 设置-更新用户
 	 *
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setUpdateUserSign(Integer value) {
 		this.setProperty(PROPERTY_UPDATEUSERSIGN, value);
@@ -846,8 +822,7 @@ public class MaterialSerial extends BusinessObject<MaterialSerial> implements IM
 	/**
 	 * 设置-创建动作标识
 	 *
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setCreateActionId(String value) {
 		this.setProperty(PROPERTY_CREATEACTIONID, value);
@@ -878,8 +853,7 @@ public class MaterialSerial extends BusinessObject<MaterialSerial> implements IM
 	/**
 	 * 设置-更新动作标识
 	 *
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setUpdateActionId(String value) {
 		this.setProperty(PROPERTY_UPDATEACTIONID, value);

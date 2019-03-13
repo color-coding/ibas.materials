@@ -283,5 +283,13 @@ public interface IBORepositoryMaterialsApp extends IBORepositoryApplication {
 	 * @return 操作结果
 	 */
 	IOperationResult<IInventoryCounting> saveInventoryCounting(IInventoryCounting bo);
+
+	/**
+	 * 结算-库存盘点
+	 * 
+	 * @param criteria 查询
+	 * @return 操作结果
+	 */
+	IOperationResult<String> closeInventoryCounting(ICriteria criteria);
 	// --------------------------------------------------------------------------------------------//
 }

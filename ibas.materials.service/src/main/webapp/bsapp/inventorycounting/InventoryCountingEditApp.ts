@@ -29,8 +29,15 @@ namespace materials {
                 // 其他事件
                 this.view.deleteDataEvent = this.deleteData;
                 this.view.createDataEvent = this.createData;
+                this.view.closeDataEvent = this.closeData;
+                this.view.refreshMaterialInventoryEvent = this.refreshMaterialInventory;
                 this.view.addInventoryCountingLineEvent = this.addInventoryCountingLine;
                 this.view.removeInventoryCountingLineEvent = this.removeInventoryCountingLine;
+                this.view.chooseInventoryCountingLineMaterialEvent = this.chooseInventoryCountingLineMaterial;
+                this.view.chooseInventoryCountingLineWarehouseEvent = this.chooseInventoryCountingLineWarehouse;
+                this.view.chooseInventoryCountingLineMaterialBatchEvent = this.chooseInventoryCountingLineMaterialBatch;
+                this.view.chooseInventoryCountingLineMaterialSerialEvent = this.chooseInventoryCountingLineMaterialSerial;
+                this.view.chooseInventoryCountingMaterialInventoryEvent = this.chooseInventoryCountingMaterialInventory;
             }
             /** 视图显示后 */
             protected viewShowed(): void {
@@ -124,6 +131,32 @@ namespace materials {
                 });
                 this.proceeding(ibas.emMessageType.INFORMATION, ibas.i18n.prop("shell_saving_data"));
             }
+            /** 关闭数据 */
+            protected closeData(): void {
+                this.busy(true);
+                let that: this = this;
+                let boRepository: bo.BORepositoryMaterials = new bo.BORepositoryMaterials();
+                boRepository.closeInventoryCounting({
+                    criteria: this.editData,
+                    onCompleted(opRslt: ibas.IOperationResult<string>): void {
+                        try {
+                            that.busy(false);
+                            if (opRslt.resultCode !== 0) {
+                                throw new Error(opRslt.message);
+                            }
+                            that.messages(ibas.emMessageType.SUCCESS, ibas.i18n.prop("shell_sucessful"));
+                            // 刷新当前视图
+                            that.editData.isLoading = true;
+                            that.editData.documentStatus = ibas.emDocumentStatus.CLOSED;
+                            that.editData.isLoading = false;
+                            that.viewShowed();
+                        } catch (error) {
+                            that.messages(error);
+                        }
+                    }
+                });
+                this.proceeding(ibas.emMessageType.INFORMATION, ibas.i18n.prop("materials_closing_inventorycounting"));
+            }
             /** 删除数据 */
             protected deleteData(): void {
                 let that: this = this;
@@ -172,6 +205,58 @@ namespace materials {
                     createData();
                 }
             }
+            protected refreshMaterialInventory(): void {
+                this.busy(true);
+                let criteria: ibas.ICriteria = new ibas.Criteria();
+                for (let item of this.editData.inventoryCountingLines) {
+                    if (ibas.strings.isEmpty(item.itemCode)) {
+                        continue;
+                    }
+                    if (ibas.strings.isEmpty(item.warehouse)) {
+                        continue;
+                    }
+                    let condition: ibas.ICondition = criteria.conditions.create();
+                    condition.alias = bo.MaterialInventory.PROPERTY_ITEMCODE_NAME;
+                    condition.value = item.itemCode;
+                    condition.bracketOpen = 1;
+                    if (criteria.conditions.length > 1) {
+                        condition.relationship = ibas.emConditionRelationship.OR;
+                    }
+                    condition = criteria.conditions.create();
+                    condition.alias = bo.MaterialInventory.PROPERTY_WAREHOUSE_NAME;
+                    condition.value = item.warehouse;
+                    condition.bracketClose = 1;
+                }
+                let that: this = this;
+                let boRepository: bo.BORepositoryMaterials = new bo.BORepositoryMaterials();
+                boRepository.fetchMaterialInventory({
+                    criteria: criteria,
+                    onCompleted(opRslt: ibas.IOperationResult<bo.MaterialInventory>): void {
+                        try {
+                            if (opRslt.resultCode !== 0) {
+                                throw new Error(opRslt.message);
+                            }
+                            for (let item of opRslt.resultObjects) {
+                                for (let line of that.editData.inventoryCountingLines) {
+                                    if (item.itemCode !== line.itemCode) {
+                                        continue;
+                                    }
+                                    if (item.warehouse !== line.warehouse) {
+                                        continue;
+                                    }
+                                    line.inventoryQuantity = item.onHand;
+                                    break;
+                                }
+                            }
+                            that.view.showInventoryCountingLines(that.editData.inventoryCountingLines.filterDeleted());
+                        } catch (error) {
+                            that.messages(error);
+                        }
+                        that.busy(false);
+                    }
+                });
+                this.proceeding(ibas.emMessageType.INFORMATION, ibas.i18n.prop("shell_fetching_data"));
+            }
             /** 添加库存盘点-行事件 */
             protected addInventoryCountingLine(): void {
                 this.editData.inventoryCountingLines.create();
@@ -202,7 +287,236 @@ namespace materials {
                 // 仅显示没有标记删除的
                 this.view.showInventoryCountingLines(this.editData.inventoryCountingLines.filterDeleted());
             }
-
+            /** 选择库存盘点行物料事件 */
+            private chooseInventoryCountingLineMaterial(caller: bo.InventoryCountingLine): void {
+                if (ibas.strings.isEmpty(this.view.defaultWarehouse)) {
+                    throw new Error(ibas.i18n.prop("materials_please_choose_warehouse"));
+                }
+                let that: this = this;
+                let condition: ibas.ICondition;
+                let conditions: ibas.IList<ibas.ICondition> = materials.app.conditions.product.create();
+                // 添加仓库条件
+                if (!ibas.objects.isNull(caller) && !ibas.strings.isEmpty(caller.warehouse)) {
+                    condition = new ibas.Condition();
+                    condition.alias = materials.app.conditions.product.CONDITION_ALIAS_WAREHOUSE;
+                    condition.value = caller.warehouse;
+                    condition.operation = ibas.emConditionOperation.EQUAL;
+                    condition.relationship = ibas.emConditionRelationship.AND;
+                    conditions.add(condition);
+                } else if (!ibas.strings.isEmpty(this.view.defaultWarehouse)) {
+                    condition = new ibas.Condition();
+                    condition.alias = materials.app.conditions.product.CONDITION_ALIAS_WAREHOUSE;
+                    condition.value = this.view.defaultWarehouse;
+                    condition.operation = ibas.emConditionOperation.EQUAL;
+                    condition.relationship = ibas.emConditionRelationship.AND;
+                    conditions.add(condition);
+                }
+                // 库存物料
+                condition = new ibas.Condition();
+                condition.alias = materials.app.conditions.product.CONDITION_ALIAS_INVENTORY_ITEM;
+                condition.value = ibas.emYesNo.YES.toString();
+                condition.operation = ibas.emConditionOperation.EQUAL;
+                condition.relationship = ibas.emConditionRelationship.AND;
+                conditions.add(condition);
+                // 调用选择服务
+                ibas.servicesManager.runChooseService<bo.IProduct>({
+                    boCode: materials.bo.BO_CODE_PRODUCT,
+                    criteria: conditions,
+                    onCompleted(selecteds: ibas.IList<bo.IProduct>): void {
+                        // 获取触发的对象
+                        let index: number = that.editData.inventoryCountingLines.indexOf(caller);
+                        let item: bo.InventoryCountingLine = that.editData.inventoryCountingLines[index];
+                        // 选择返回数量多余触发数量时,自动创建新的项目
+                        let created: boolean = false;
+                        for (let selected of selecteds) {
+                            if (ibas.objects.isNull(item)) {
+                                item = that.editData.inventoryCountingLines.create();
+                                created = true;
+                            }
+                            item.isLoading = true;
+                            item.itemCode = selected.code;
+                            item.itemDescription = selected.name;
+                            item.serialManagement = selected.serialManagement;
+                            item.batchManagement = selected.batchManagement;
+                            item.warehouse = selected.warehouse;
+                            item.uom = selected.inventoryUOM;
+                            item.inventoryQuantity = selected.onHand;
+                            if (!ibas.strings.isEmpty(that.view.defaultWarehouse)) {
+                                item.warehouse = that.view.defaultWarehouse;
+                            }
+                            item.isLoading = false;
+                            item = null;
+                        }
+                        if (created) {
+                            // 创建了新的行项目
+                            that.view.showInventoryCountingLines(that.editData.inventoryCountingLines.filterDeleted());
+                        }
+                    }
+                });
+            }
+            /** 选择库存盘点行物料事件 */
+            private chooseInventoryCountingLineWarehouse(caller: bo.InventoryCountingLine): void {
+                let that: this = this;
+                ibas.servicesManager.runChooseService<bo.Warehouse>({
+                    boCode: bo.Warehouse.BUSINESS_OBJECT_CODE,
+                    chooseType: ibas.emChooseType.SINGLE,
+                    criteria: conditions.warehouse.create(),
+                    onCompleted(selecteds: ibas.IList<bo.Warehouse>): void {
+                        // 获取触发的对象
+                        let index: number = that.editData.inventoryCountingLines.indexOf(caller);
+                        let item: bo.InventoryCountingLine = that.editData.inventoryCountingLines[index];
+                        // 选择返回数量多余触发数量时,自动创建新的项目
+                        let created: boolean = false;
+                        for (let selected of selecteds) {
+                            if (ibas.objects.isNull(item)) {
+                                item = that.editData.inventoryCountingLines.create();
+                                created = true;
+                            }
+                            item.warehouse = selected.code;
+                            that.view.defaultWarehouse = item.warehouse;
+                            item = null;
+                        }
+                        if (created) {
+                            // 创建了新的行项目
+                            that.view.showInventoryCountingLines(that.editData.inventoryCountingLines.filterDeleted());
+                        }
+                    }
+                });
+            }
+            private chooseInventoryCountingLineMaterialBatch(type: bo.emInventoryAdjustment): void {
+                if (type === bo.emInventoryAdjustment.OVER) {
+                    // 盘盈，收货
+                    let contracts: ibas.ArrayList<IMaterialBatchContract> = new ibas.ArrayList<IMaterialBatchContract>();
+                    for (let item of this.editData.inventoryCountingLines) {
+                        if (item.difference <= 0) {
+                            continue;
+                        }
+                        contracts.add({
+                            batchManagement: item.batchManagement,
+                            itemCode: item.itemCode,
+                            itemDescription: item.itemDescription,
+                            warehouse: item.warehouse,
+                            quantity: Math.abs(item.quantity),
+                            uom: item.uom,
+                            materialBatches: item.materialBatches
+                        });
+                    }
+                    ibas.servicesManager.runApplicationService<IMaterialBatchContract[]>({
+                        proxy: new MaterialBatchReceiptServiceProxy(contracts)
+                    });
+                } else if (type === bo.emInventoryAdjustment.SHORT) {
+                    // 盘亏，发货
+                    let contracts: ibas.ArrayList<IMaterialBatchContract> = new ibas.ArrayList<IMaterialBatchContract>();
+                    for (let item of this.editData.inventoryCountingLines) {
+                        if (item.difference >= 0) {
+                            continue;
+                        }
+                        contracts.add({
+                            batchManagement: item.batchManagement,
+                            itemCode: item.itemCode,
+                            itemDescription: item.itemDescription,
+                            warehouse: item.warehouse,
+                            quantity: Math.abs(item.quantity),
+                            uom: item.uom,
+                            materialBatches: item.materialBatches
+                        });
+                    }
+                    ibas.servicesManager.runApplicationService<IMaterialBatchContract[]>({
+                        proxy: new MaterialBatchIssueServiceProxy(contracts)
+                    });
+                }
+            }
+            private chooseInventoryCountingLineMaterialSerial(type: bo.emInventoryAdjustment): void {
+                if (type === bo.emInventoryAdjustment.OVER) {
+                    // 盘盈，收货
+                    let contracts: ibas.ArrayList<IMaterialSerialContract> = new ibas.ArrayList<IMaterialSerialContract>();
+                    for (let item of this.editData.inventoryCountingLines) {
+                        if (item.difference <= 0) {
+                            continue;
+                        }
+                        contracts.add({
+                            serialManagement: item.serialManagement,
+                            itemCode: item.itemCode,
+                            itemDescription: item.itemDescription,
+                            warehouse: item.warehouse,
+                            quantity: Math.abs(item.quantity),
+                            uom: item.uom,
+                            materialSerials: item.materialSerials
+                        });
+                    }
+                    ibas.servicesManager.runApplicationService<IMaterialSerialContract[]>({
+                        proxy: new MaterialSerialReceiptServiceProxy(contracts)
+                    });
+                } else if (type === bo.emInventoryAdjustment.SHORT) {
+                    // 盘亏，发货
+                    let contracts: ibas.ArrayList<IMaterialSerialContract> = new ibas.ArrayList<IMaterialSerialContract>();
+                    for (let item of this.editData.inventoryCountingLines) {
+                        if (item.difference >= 0) {
+                            continue;
+                        }
+                        contracts.add({
+                            serialManagement: item.serialManagement,
+                            itemCode: item.itemCode,
+                            itemDescription: item.itemDescription,
+                            warehouse: item.warehouse,
+                            quantity: Math.abs(item.quantity),
+                            uom: item.uom,
+                            materialSerials: item.materialSerials
+                        });
+                    }
+                    ibas.servicesManager.runApplicationService<IMaterialSerialContract[]>({
+                        proxy: new MaterialSerialIssueServiceProxy(contracts)
+                    });
+                }
+            }
+            /** 选择库存盘点物料库存事件 */
+            private chooseInventoryCountingMaterialInventory(): void {
+                let that: this = this;
+                ibas.servicesManager.runChooseService<bo.MaterialInventory>({
+                    boCode: bo.MaterialInventory.BUSINESS_OBJECT_CODE,
+                    chooseType: ibas.emChooseType.MULTIPLE,
+                    criteria: [],
+                    onCompleted(selecteds: ibas.IList<bo.MaterialInventory>): void {
+                        let criteria: ibas.ICriteria = new ibas.Criteria();
+                        for (let selected of selecteds) {
+                            let item: bo.InventoryCountingLine = that.editData.inventoryCountingLines.create();
+                            item.itemCode = selected.itemCode;
+                            item.warehouse = selected.warehouse;
+                            item.inventoryQuantity = selected.onHand;
+                            that.view.defaultWarehouse = item.warehouse;
+                            if (criteria.conditions.firstOrDefault(c => c.value === item.itemCode) === null) {
+                                // 查询物料
+                                let condition: ibas.ICondition = criteria.conditions.create();
+                                condition.alias = bo.Material.PROPERTY_CODE_NAME;
+                                condition.value = item.itemCode;
+                            }
+                        }
+                        if (criteria.conditions.length > 0) {
+                            that.busy(true);
+                            let boRepository: bo.BORepositoryMaterials = new bo.BORepositoryMaterials();
+                            boRepository.fetchMaterial({
+                                criteria: criteria,
+                                onCompleted: (opRslt) => {
+                                    that.busy(false);
+                                    for (let item of that.editData.inventoryCountingLines) {
+                                        let material: bo.Material = opRslt.resultObjects.firstOrDefault(c => c.code === item.itemCode);
+                                        if (ibas.objects.isNull(material)) {
+                                            continue;
+                                        }
+                                        item.itemDescription = material.name;
+                                        item.batchManagement = material.batchManagement;
+                                        item.serialManagement = material.serialManagement;
+                                        item.uom = material.inventoryUOM;
+                                    }
+                                    that.view.showInventoryCountingLines(that.editData.inventoryCountingLines.filterDeleted());
+                                }
+                            });
+                        } else {
+                            that.view.showInventoryCountingLines(that.editData.inventoryCountingLines.filterDeleted());
+                        }
+                    }
+                });
+            }
         }
         /** 视图-库存盘点 */
         export interface IInventoryCountingEditView extends ibas.IBOEditView {
@@ -212,6 +526,8 @@ namespace materials {
             deleteDataEvent: Function;
             /** 新建数据事件，参数1：是否克隆 */
             createDataEvent: Function;
+            /** 关闭数据事件 */
+            closeDataEvent: Function;
             /** 添加库存盘点-行事件 */
             addInventoryCountingLineEvent: Function;
             /** 删除库存盘点-行事件 */
@@ -224,8 +540,14 @@ namespace materials {
             chooseInventoryCountingLineMaterialBatchEvent: Function;
             /** 选择库存盘点行物料序列事件 */
             chooseInventoryCountingLineMaterialSerialEvent: Function;
+            /** 选择库存盘点库存记录事件 */
+            chooseInventoryCountingMaterialInventoryEvent: Function;
             /** 显示数据 */
             showInventoryCountingLines(datas: bo.InventoryCountingLine[]): void;
+            /** 默认仓库 */
+            defaultWarehouse: string;
+            /** 刷新库存 */
+            refreshMaterialInventoryEvent: Function;
         }
     }
 }

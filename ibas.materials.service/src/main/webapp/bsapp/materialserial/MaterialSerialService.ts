@@ -33,6 +33,9 @@ namespace materials {
                     if (item.serialManagement !== ibas.emYesNo.YES) {
                         continue;
                     }
+                    if (!(item.quantity > 0)) {
+                        continue;
+                    }
                     this.workDatas.add(item);
                 }
                 if (this.workDatas.length > 0) {
@@ -154,6 +157,11 @@ namespace materials {
                         ibas.i18n.prop("shell_please_chooose_data", ibas.i18n.prop("shell_using")));
                     return;
                 }
+                if (data.inStock !== ibas.emYesNo.YES) {
+                    this.messages(ibas.emMessageType.WARNING,
+                        ibas.i18n.prop("shell_please_chooose_data", ibas.i18n.prop("shell_available")));
+                    return;
+                }
                 if (ibas.objects.isNull(this.workingData)) {
                     throw new Error(ibas.i18n.prop("sys_invalid_parameter", "workingData"));
                 }
@@ -163,6 +171,7 @@ namespace materials {
                     return;
                 }
                 let journal: bo.IMaterialSerialItem = this.workingData.materialSerials.create(data.serialCode);
+                data.inStock = ibas.emYesNo.NO;
                 this.view.showMaterialSerialItems(this.workingData.materialSerials.filterDeleted());
             }
             protected removeMaterialSerialItem(data: bo.IMaterialSerialItem): void {

@@ -84,9 +84,12 @@
   "materials_title_inventory": "库存",
   "materials_material_batch": "物料批次",
   "materials_material_serial": "物料序列",
+  "materials_closing_inventorycounting": "正在结算库存判断，请稍后",
   "materials_no_data_to_be_processed": "没有需要处理的数据",
   "materials_no_work_datas_for_material_batch": "没有需要物料批次服务的数据",
   "materials_no_work_datas_for_material_serial": "没有需要物料序列服务的数据",
+  "materials_please_choose_warehouse": "请先选择仓库",
+  "materials_refresh_inventory": "更新库存",
   "materials_picture_upload": "图片上传",
   "materials_closing_delimiter": "----结束----"
 }

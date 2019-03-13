@@ -33,6 +33,9 @@ namespace materials {
                     if (item.batchManagement !== ibas.emYesNo.YES) {
                         continue;
                     }
+                    if (!(item.quantity > 0)) {
+                        continue;
+                    }
                     this.workDatas.add(item);
                 }
                 if (this.workDatas.length > 0) {
@@ -154,6 +157,11 @@ namespace materials {
                         ibas.i18n.prop("shell_please_chooose_data", ibas.i18n.prop("shell_using")));
                     return;
                 }
+                if (data.quantity <= 0) {
+                    this.messages(ibas.emMessageType.WARNING,
+                        ibas.i18n.prop("shell_please_chooose_data", ibas.i18n.prop("shell_available")));
+                    return;
+                }
                 if (ibas.objects.isNull(this.workingData)) {
                     throw new Error(ibas.i18n.prop("sys_invalid_parameter", "workingData"));
                 }
@@ -162,8 +170,14 @@ namespace materials {
                     this.messages(ibas.emMessageType.WARNING, ibas.i18n.prop("materials_no_data_to_be_processed"));
                     return;
                 }
+                total = this.workingData.quantity - total;
                 let journal: bo.IMaterialBatchItem = this.workingData.materialBatches.create(data.batchCode);
-                journal.quantity = this.workingData.quantity - total;
+                if (total > data.quantity) {
+                    journal.quantity = data.quantity;
+                } else {
+                    journal.quantity = total;
+                }
+                data.quantity = data.quantity - total;
                 this.view.showMaterialBatchItems(this.workingData.materialBatches.filterDeleted());
             }
             protected removeMaterialBatchItem(data: bo.IMaterialBatchItem): void {

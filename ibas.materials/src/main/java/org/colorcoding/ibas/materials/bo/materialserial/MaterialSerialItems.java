@@ -49,6 +49,7 @@ public class MaterialSerialItems extends BusinessObjects<IMaterialSerialItem, IM
 	/**
 	 * P 元素类型
 	 */
+	@Override
 	public Class<?> getElementType() {
 		return MaterialSerialItem.class;
 	}
@@ -132,6 +133,7 @@ public class MaterialSerialItems extends BusinessObjects<IMaterialSerialItem, IM
 	 * 
 	 * @throws BusinessRuleException
 	 */
+	@Override
 	public void check() throws BusinessRuleException {
 		if (this.getParent() == null) {
 			return;
@@ -145,7 +147,8 @@ public class MaterialSerialItems extends BusinessObjects<IMaterialSerialItem, IM
 			total = total.add(Decimal.ONE);
 		}
 		if (total.compareTo(this.getParent().getQuantity()) != 0) {
-			throw new BusinessRuleException(I18N.prop("msg_mm_material_serial_quantity_deviates", this.getParent()));
+			throw new BusinessRuleException(
+					I18N.prop("msg_mm_document_material_serial_quantity_deviates", this.getParent()));
 		}
 	}
 }

@@ -466,5 +466,19 @@ public class DataService extends BORepositoryMaterials {
 		return super.saveInventoryCounting(bo, token);
 	}
 
+	/**
+	 * 结算-库存盘点
+	 * 
+	 * @param criteria 查询
+	 * @param token    口令
+	 * @return 操作结果
+	 */
+	@POST
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Path("closeInventoryCounting")
+	public OperationResult<String> closeInventoryCounting(Criteria criteria, @QueryParam("token") String token) {
+		return super.closeInventoryCounting(criteria, token);
+	}
 	// --------------------------------------------------------------------------------------------//
 }

@@ -739,22 +739,22 @@ namespace materials {
             static PROPERTY_MATERIALBATCHES_NAME: string = "MaterialBatches";
             /** 获取-物料批次集合 */
             get materialBatches(): MaterialBatchItems {
-                return this.getProperty<MaterialBatchItems>(GoodsReceiptLine.PROPERTY_MATERIALBATCHES_NAME);
+                return this.getProperty<MaterialBatchItems>(InventoryCountingLine.PROPERTY_MATERIALBATCHES_NAME);
             }
             /** 设置-物料批次集合 */
             set materialBatches(value: MaterialBatchItems) {
-                this.setProperty(GoodsReceiptLine.PROPERTY_MATERIALBATCHES_NAME, value);
+                this.setProperty(InventoryCountingLine.PROPERTY_MATERIALBATCHES_NAME, value);
             }
 
             /** 映射的属性名称-物料序列集合 */
             static PROPERTY_MATERIALSERIALS_NAME: string = "MaterialSerials";
             /** 获取-物料序列集合 */
             get materialSerials(): MaterialSerialItems {
-                return this.getProperty<MaterialSerialItems>(GoodsReceiptLine.PROPERTY_MATERIALSERIALS_NAME);
+                return this.getProperty<MaterialSerialItems>(InventoryCountingLine.PROPERTY_MATERIALSERIALS_NAME);
             }
             /** 设置-物料序列集合 */
             set materialSerials(value: MaterialSerialItems) {
-                this.setProperty(GoodsReceiptLine.PROPERTY_MATERIALSERIALS_NAME, value);
+                this.setProperty(InventoryCountingLine.PROPERTY_MATERIALSERIALS_NAME, value);
             }
 
             get quantity(): number {
@@ -767,10 +767,90 @@ namespace materials {
             /** 初始化数据 */
             protected init(): void {
                 this.objectCode = ibas.config.applyVariables(InventoryCounting.BUSINESS_OBJECT_CODE);
-                this.materialBatches = new MaterialBatchItems(this);
-                this.materialSerials = new MaterialSerialItems(this);
+                this.materialBatches = new MaterialBatchItemCs(this);
+                this.materialSerials = new MaterialSerialItemCs(this);
+            }
+
+            protected registerRules(): ibas.IBusinessRule[] {
+                return [
+                    // 差额 = 盘点数 - 库存数
+                    new ibas.BusinessRuleSubtraction(
+                        InventoryCountingLine.PROPERTY_DIFFERENCE_NAME, InventoryCountingLine.PROPERTY_COUNTQUANTITY_NAME, InventoryCountingLine.PROPERTY_INVENTORYQUANTITY_NAME),
+                ];
+            }
+            /** 属性改变时 */
+            protected onPropertyChanged(name: string): void {
+                super.onPropertyChanged(name);
+                // 已盘点，设置盘点数量为库存数量
+                if (ibas.strings.equalsIgnoreCase(InventoryCountingLine.PROPERTY_COUNTED_NAME, name)) {
+                    if (this.counted === ibas.emYesNo.YES) {
+                        if (isNaN(this.countQuantity) || this.countQuantity === 0) {
+                            this.countQuantity = this.inventoryQuantity;
+                        }
+                    }
+                }
+                // 设置库存数量，未盘点设置为已盘点
+                if (ibas.strings.equalsIgnoreCase(InventoryCountingLine.PROPERTY_DIFFERENCE_NAME, name)) {
+                    if (!isNaN(this.difference) && this.counted !== ibas.emYesNo.YES) {
+                        this.counted = ibas.emYesNo.YES;
+                    }
+                }
             }
         }
 
+        /** 物料批次项目（库存盘点专用） */
+        class MaterialBatchItemC extends MaterialBatchItem {
+
+        }
+        /** 物料批次记录集合（库存盘点专用） */
+        class MaterialBatchItemCs extends MaterialBatchItems {
+            /** 创建并添加子项 */
+            create(): IMaterialBatchItem;
+            /** 创建并添加子项，批次号 */
+            create(batchCode: string): IMaterialBatchItem;
+            create(): IMaterialBatchItem {
+                let batchCode: string = arguments[0];
+                if (!ibas.strings.isEmpty(batchCode)) {
+                    for (let item of this) {
+                        if (item.batchCode === batchCode) {
+                            return item;
+                        }
+                    }
+                }
+                let item: MaterialBatchItemC = new MaterialBatchItemC();
+                if (!ibas.strings.isEmpty(batchCode)) {
+                    item.batchCode = batchCode;
+                }
+                this.add(item);
+                return item;
+            }
+        }
+        /** 物料序列项目（库存盘点专用） */
+        class MaterialSerialItemC extends MaterialSerialItem {
+
+        }
+        /** 物料序列记录集合（库存盘点专用） */
+        class MaterialSerialItemCs extends MaterialSerialItems {
+            /** 创建并添加子项 */
+            create(): IMaterialSerialItem;
+            /** 创建并添加子项，序列编号 */
+            create(serialCode: string): IMaterialSerialItem;
+            create(): IMaterialSerialItem {
+                let serialCode: string = arguments[0];
+                if (!ibas.strings.isEmpty(serialCode)) {
+                    for (let item of this) {
+                        if (item.serialCode === serialCode) {
+                            return item;
+                        }
+                    }
+                }
+                let item: MaterialSerialItemC = new MaterialSerialItemC();
+                if (!ibas.strings.isEmpty(serialCode)) {
+                    item.serialCode = serialCode;
+                }
+                this.add(item);
+                return item;
+            }
+        }
     }
 }

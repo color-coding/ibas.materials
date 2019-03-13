@@ -277,6 +277,7 @@
         "bo_material_approvalstatus": "审批状态",
         "bo_material_dataowner": "数据所有者",
         "bo_material_organization": "数据所属组织",
+        "bo_material_warehouse": "仓库",
         "bo_materialquantity": "物料数量",
         "bo_materialquantity_itemcode": "物料编码",
         "bo_materialquantity_itemname": "物料名称",
@@ -667,9 +668,15 @@
     },
     {
         "em_item": "物料",
-        "em_services": "服务",
+        "em_services": "服务"
+    },
+    {
         "em_first_in_first_out": "先进先出",
         "em_first_in_last_out": "先进后出",
         "em_order_by_code": "编码排序"
+    },
+    {
+        "em_over": "盘盈",
+        "em_short": "盘亏"
     }
 ]

@@ -1,4 +1,4 @@
-package org.colorcoding.ibas.materials.bo.inventorytransfer;
+package org.colorcoding.ibas.materials.bo.inventorycounting;
 
 import javax.xml.bind.annotation.XmlSeeAlso;
 import javax.xml.bind.annotation.XmlType;
@@ -23,7 +23,6 @@ class MaterialBatchItems extends org.colorcoding.ibas.materials.bo.materialbatch
 		super(parent);
 	}
 
-	@Override
 	public Class<?> getElementType() {
 		return MaterialBatchItem.class;
 	}
@@ -41,7 +40,7 @@ class MaterialBatchItems extends org.colorcoding.ibas.materials.bo.materialbatch
 	protected void afterAddItem(IMaterialBatchItem item) {
 		super.afterAddItem(item);
 		if (item instanceof MaterialBatchItem) {
-			((MaterialBatchItem) item).parent = (InventoryTransferLine) this.getParent();
+			((MaterialBatchItem) item).parent = (InventoryCountingLine) this.getParent();
 		}
 	}
 }

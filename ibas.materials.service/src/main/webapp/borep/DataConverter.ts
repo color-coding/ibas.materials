@@ -92,6 +92,13 @@ namespace materials {
                         || property === bo.InventoryTransferLine.PROPERTY_BATCHMANAGEMENT_NAME) {
                         return ibas.enums.toString(ibas.emYesNo, value);
                     }
+                } else if (boName === bo.InventoryCountingLine.name) {
+                    if (property === bo.InventoryCountingLine.PROPERTY_COUNTED_NAME
+                        || property === bo.InventoryCountingLine.PROPERTY_FREEZE_NAME
+                        || property === bo.InventoryCountingLine.PROPERTY_SERIALMANAGEMENT_NAME
+                        || property === bo.InventoryCountingLine.PROPERTY_BATCHMANAGEMENT_NAME) {
+                        return ibas.enums.toString(ibas.emYesNo, value);
+                    }
                 }
                 return super.convertData(boName, property, value);
             }
@@ -145,6 +152,13 @@ namespace materials {
                 } else if (boName === bo.InventoryTransferLine.name) {
                     if (property === bo.InventoryTransferLine.PROPERTY_SERIALMANAGEMENT_NAME
                         || property === bo.InventoryTransferLine.PROPERTY_BATCHMANAGEMENT_NAME) {
+                        return ibas.enums.valueOf(ibas.emYesNo, value);
+                    }
+                } else if (boName === bo.InventoryCountingLine.name) {
+                    if (property === bo.InventoryCountingLine.PROPERTY_COUNTED_NAME
+                        || property === bo.InventoryCountingLine.PROPERTY_FREEZE_NAME
+                        || property === bo.InventoryCountingLine.PROPERTY_SERIALMANAGEMENT_NAME
+                        || property === bo.InventoryCountingLine.PROPERTY_BATCHMANAGEMENT_NAME) {
                         return ibas.enums.valueOf(ibas.emYesNo, value);
                     }
                 }

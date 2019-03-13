@@ -11,8 +11,12 @@ import org.colorcoding.ibas.bobas.common.ISort;
 import org.colorcoding.ibas.bobas.common.OperationResult;
 import org.colorcoding.ibas.bobas.common.SortType;
 import org.colorcoding.ibas.bobas.data.ArrayList;
+import org.colorcoding.ibas.bobas.data.DateTime;
 import org.colorcoding.ibas.bobas.data.Decimal;
 import org.colorcoding.ibas.bobas.data.List;
+import org.colorcoding.ibas.bobas.data.emApprovalStatus;
+import org.colorcoding.ibas.bobas.data.emDocumentStatus;
+import org.colorcoding.ibas.bobas.data.emYesNo;
 import org.colorcoding.ibas.bobas.i18n.I18N;
 import org.colorcoding.ibas.bobas.repository.BORepositoryServiceApplication;
 import org.colorcoding.ibas.materials.MyConfiguration;
@@ -21,6 +25,7 @@ import org.colorcoding.ibas.materials.bo.goodsissue.IGoodsIssue;
 import org.colorcoding.ibas.materials.bo.goodsreceipt.GoodsReceipt;
 import org.colorcoding.ibas.materials.bo.goodsreceipt.IGoodsReceipt;
 import org.colorcoding.ibas.materials.bo.inventorycounting.IInventoryCounting;
+import org.colorcoding.ibas.materials.bo.inventorycounting.IInventoryCountingLine;
 import org.colorcoding.ibas.materials.bo.inventorycounting.InventoryCounting;
 import org.colorcoding.ibas.materials.bo.inventorytransfer.IInventoryTransfer;
 import org.colorcoding.ibas.materials.bo.inventorytransfer.InventoryTransfer;
@@ -665,6 +670,9 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 	 * @return 操作结果
 	 */
 	public OperationResult<InventoryCounting> saveInventoryCounting(InventoryCounting bo, String token) {
+		if (bo != null && bo.getDocumentStatus() == emDocumentStatus.CLOSED) {
+			return new OperationResult<>(new Exception(I18N.prop("msg_mm_not_allowed_closed_data")));
+		}
 		return super.save(bo, token);
 	}
 
@@ -677,6 +685,76 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 	public IOperationResult<IInventoryCounting> saveInventoryCounting(IInventoryCounting bo) {
 		return new OperationResult<IInventoryCounting>(
 				this.saveInventoryCounting((InventoryCounting) bo, this.getUserToken()));
+	}
+
+	/**
+	 * 结算-库存盘点
+	 * 
+	 * @param criteria 查询
+	 * @param token    口令
+	 * @return 操作结果
+	 */
+	public OperationResult<String> closeInventoryCounting(ICriteria criteria, String token) {
+		try {
+			this.setCurrentUser(token);
+			if (criteria == null || criteria.getConditions().size() <= 0) {
+				throw new Exception(I18N.prop("msg_bobas_invaild_criteria"));
+			}
+			IOperationResult<IInventoryCounting> opRsltData = this.fetchInventoryCounting(criteria);
+			if (opRsltData.getError() != null) {
+				throw opRsltData.getError();
+			}
+			OperationResult<String> opRsltClose = new OperationResult<>();
+			boolean trans = this.beginTransaction();
+			try {
+				for (IInventoryCounting data : opRsltData.getResultObjects()) {
+					if (data.getDocumentStatus() == emDocumentStatus.CLOSED
+							|| data.getDocumentStatus() == emDocumentStatus.PLANNED
+							|| (data.getApprovalStatus() != emApprovalStatus.APPROVED
+									&& data.getApprovalStatus() != emApprovalStatus.UNAFFECTED)
+							|| data.getCanceled() == emYesNo.YES) {
+						continue;
+					}
+					for (IInventoryCountingLine dataLine : data.getInventoryCountingLines()) {
+						if (dataLine.getLineStatus() == emDocumentStatus.CLOSED
+								|| dataLine.getLineStatus() == emDocumentStatus.PLANNED) {
+							continue;
+						}
+						if (dataLine.getCounted() != emYesNo.YES) {
+							throw new Exception(I18N.prop("msg_mm_document_not_counted", dataLine));
+						}
+						dataLine.setLineStatus(emDocumentStatus.CLOSED);
+					}
+					data.setDocumentStatus(emDocumentStatus.CLOSED);
+					data.setPostingDate(DateTime.getToday());
+					IOperationResult<IInventoryCounting> opRsltSave = super.save(data, token);
+					if (opRsltSave.getError() != null) {
+						throw opRsltSave.getError();
+					}
+				}
+				if (trans) {
+					this.commitTransaction();
+				}
+			} catch (Exception e) {
+				if (trans) {
+					this.rollbackTransaction();
+				}
+				throw e;
+			}
+			return opRsltClose;
+		} catch (Exception e) {
+			return new OperationResult<>(e);
+		}
+	}
+
+	/**
+	 * 结算-库存盘点（提前设置用户口令）
+	 * 
+	 * @param criteria 查询
+	 * @return 操作结果
+	 */
+	public IOperationResult<String> closeInventoryCounting(ICriteria criteria) {
+		return this.closeInventoryCounting(criteria, this.getUserToken());
 	}
 	// --------------------------------------------------------------------------------------------//
 
@@ -1101,6 +1179,13 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 							item.setOnHand(item.getOnHand().add(inventory.getOnHand()));
 							item.setOnCommited(item.getOnCommited().add(inventory.getOnCommited()));
 							item.setOnOrdered(item.getOnOrdered().add(inventory.getOnOrdered()));
+							if (item.getWarehouse() == null) {
+								item.setWarehouse("");
+							}
+							if (!item.getWarehouse().isEmpty()) {
+								item.setWarehouse(item.getWarehouse() + ",");
+							}
+							item.setWarehouse(item.getWarehouse() + inventory.getWarehouse());
 						}
 					}
 				}

@@ -19,92 +19,96 @@ class MaterialSerialItem extends org.colorcoding.ibas.materials.bo.materialseria
 
 	private static final long serialVersionUID = -6784948562067908976L;
 
-	public static final String BUSINESS_OBJECT_NAME = "MaterialSerialItItem";
+	public static final String BUSINESS_OBJECT_NAME = "MaterialSerialItemT";
 
 	InventoryTransferLine parent;
 
 	@Override
 	public IBusinessLogicContract[] getContracts() {
-		return new IBusinessLogicContract[] { new IMaterialSerialJournalContract() {
-			@Override
-			public emDirection getDirection() {
-				return emDirection.OUT;
-			}
+		return new IBusinessLogicContract[] {
 
-			@Override
-			public String getWarehouse() {
-				return MaterialSerialItem.this.parent.parent.getFromWarehouse();
-			}
+				new IMaterialSerialJournalContract() {
+					@Override
+					public emDirection getDirection() {
+						return emDirection.OUT;
+					}
 
-			@Override
-			public String getIdentifiers() {
-				return MaterialSerialItem.this.getIdentifiers();
-			}
+					@Override
+					public String getWarehouse() {
+						return MaterialSerialItem.this.parent.parent.getFromWarehouse();
+					}
 
-			@Override
-			public String getSerialCode() {
-				return MaterialSerialItem.this.getSerialCode();
-			}
+					@Override
+					public String getIdentifiers() {
+						return MaterialSerialItem.this.getIdentifiers();
+					}
 
-			@Override
-			public String getItemCode() {
-				return MaterialSerialItem.this.parent.getItemCode();
-			}
+					@Override
+					public String getSerialCode() {
+						return MaterialSerialItem.this.getSerialCode();
+					}
 
-			@Override
-			public String getDocumentType() {
-				return MaterialSerialItem.this.getDocumentType();
-			}
+					@Override
+					public String getItemCode() {
+						return MaterialSerialItem.this.parent.getItemCode();
+					}
 
-			@Override
-			public Integer getDocumentLineId() {
-				return MaterialSerialItem.this.getDocumentLineId();
-			}
+					@Override
+					public String getDocumentType() {
+						return MaterialSerialItem.this.getDocumentType();
+					}
 
-			@Override
-			public Integer getDocumentEntry() {
-				return MaterialSerialItem.this.getDocumentEntry();
-			}
-		}, new IMaterialSerialJournalContract() {
-			@Override
-			public emDirection getDirection() {
-				return emDirection.IN;
-			}
+					@Override
+					public Integer getDocumentLineId() {
+						return MaterialSerialItem.this.getDocumentLineId();
+					}
 
-			@Override
-			public String getWarehouse() {
-				return MaterialSerialItem.this.parent.getWarehouse();
-			}
+					@Override
+					public Integer getDocumentEntry() {
+						return MaterialSerialItem.this.getDocumentEntry();
+					}
+				}, new IMaterialSerialJournalContract() {
+					@Override
+					public emDirection getDirection() {
+						return emDirection.IN;
+					}
 
-			@Override
-			public String getIdentifiers() {
-				return MaterialSerialItem.this.getIdentifiers();
-			}
+					@Override
+					public String getWarehouse() {
+						return MaterialSerialItem.this.parent.getWarehouse();
+					}
 
-			@Override
-			public String getSerialCode() {
-				return MaterialSerialItem.this.getSerialCode();
-			}
+					@Override
+					public String getIdentifiers() {
+						return MaterialSerialItem.this.getIdentifiers();
+					}
 
-			@Override
-			public String getItemCode() {
-				return MaterialSerialItem.this.parent.getItemCode();
-			}
+					@Override
+					public String getSerialCode() {
+						return MaterialSerialItem.this.getSerialCode();
+					}
 
-			@Override
-			public String getDocumentType() {
-				return MaterialSerialItem.this.getDocumentType();
-			}
+					@Override
+					public String getItemCode() {
+						return MaterialSerialItem.this.parent.getItemCode();
+					}
 
-			@Override
-			public Integer getDocumentLineId() {
-				return MaterialSerialItem.this.getDocumentLineId();
-			}
+					@Override
+					public String getDocumentType() {
+						return MaterialSerialItem.this.getDocumentType();
+					}
 
-			@Override
-			public Integer getDocumentEntry() {
-				return MaterialSerialItem.this.getDocumentEntry();
-			}
-		} };
+					@Override
+					public Integer getDocumentLineId() {
+						return MaterialSerialItem.this.getDocumentLineId();
+					}
+
+					@Override
+					public Integer getDocumentEntry() {
+						return MaterialSerialItem.this.getDocumentEntry();
+					}
+				}
+
+		};
 	}
 }
