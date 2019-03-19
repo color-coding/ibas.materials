@@ -17,6 +17,7 @@ import org.colorcoding.ibas.bobas.data.Decimal;
 import org.colorcoding.ibas.bobas.mapping.BOCode;
 import org.colorcoding.ibas.bobas.mapping.DbField;
 import org.colorcoding.ibas.bobas.mapping.DbFieldType;
+import org.colorcoding.ibas.bobas.ownership.IDataOwnership;
 import org.colorcoding.ibas.bobas.rule.IBusinessRule;
 import org.colorcoding.ibas.bobas.rule.common.BusinessRuleMinValue;
 import org.colorcoding.ibas.materials.MyConfiguration;
@@ -29,7 +30,8 @@ import org.colorcoding.ibas.materials.MyConfiguration;
 @XmlType(name = MaterialPriceList.BUSINESS_OBJECT_NAME, namespace = MyConfiguration.NAMESPACE_BO)
 @XmlRootElement(name = MaterialPriceList.BUSINESS_OBJECT_NAME, namespace = MyConfiguration.NAMESPACE_BO)
 @BOCode(MaterialPriceList.BUSINESS_OBJECT_CODE)
-public class MaterialPriceList extends BusinessObject<MaterialPriceList> implements IMaterialPriceList, IBOUserFields {
+public class MaterialPriceList extends BusinessObject<MaterialPriceList>
+		implements IMaterialPriceList, IDataOwnership, IBOUserFields {
 
 	/**
 	 * 序列化版本标记
@@ -704,6 +706,68 @@ public class MaterialPriceList extends BusinessObject<MaterialPriceList> impleme
 	}
 
 	/**
+	 * 属性名称-数据所有者
+	 */
+	private static final String PROPERTY_DATAOWNER_NAME = "DataOwner";
+
+	/**
+	 * 数据所有者 属性
+	 */
+	@DbField(name = "DataOwner", type = DbFieldType.NUMERIC, table = DB_TABLE_NAME, primaryKey = false)
+	public static final IPropertyInfo<Integer> PROPERTY_DATAOWNER = registerProperty(PROPERTY_DATAOWNER_NAME,
+			Integer.class, MY_CLASS);
+
+	/**
+	 * 获取-数据所有者
+	 * 
+	 * @return 值
+	 */
+	@XmlElement(name = PROPERTY_DATAOWNER_NAME)
+	public final Integer getDataOwner() {
+		return this.getProperty(PROPERTY_DATAOWNER);
+	}
+
+	/**
+	 * 设置-数据所有者
+	 * 
+	 * @param value 值
+	 */
+	public final void setDataOwner(Integer value) {
+		this.setProperty(PROPERTY_DATAOWNER, value);
+	}
+
+	/**
+	 * 属性名称-数据所属组织
+	 */
+	private static final String PROPERTY_ORGANIZATION_NAME = "Organization";
+
+	/**
+	 * 数据所属组织 属性
+	 */
+	@DbField(name = "OrgCode", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME, primaryKey = false)
+	public static final IPropertyInfo<String> PROPERTY_ORGANIZATION = registerProperty(PROPERTY_ORGANIZATION_NAME,
+			String.class, MY_CLASS);
+
+	/**
+	 * 获取-数据所属组织
+	 * 
+	 * @return 值
+	 */
+	@XmlElement(name = PROPERTY_ORGANIZATION_NAME)
+	public final String getOrganization() {
+		return this.getProperty(PROPERTY_ORGANIZATION);
+	}
+
+	/**
+	 * 设置-数据所属组织
+	 * 
+	 * @param value 值
+	 */
+	public final void setOrganization(String value) {
+		this.setProperty(PROPERTY_ORGANIZATION, value);
+	}
+
+	/**
 	 * 属性名称-物料价格项目
 	 */
 	private static final String PROPERTY_MATERIALPRICEITEMS_NAME = "MaterialPriceItems";
@@ -752,4 +816,5 @@ public class MaterialPriceList extends BusinessObject<MaterialPriceList> impleme
 		return new IBusinessRule[] { // 注册的业务规则
 				new BusinessRuleMinValue<BigDecimal>(Decimal.ZERO, PROPERTY_FACTOR) };
 	}
+
 }

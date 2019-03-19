@@ -469,6 +469,8 @@
         "bo_materialpricelist_updateusersign": "更新用户",
         "bo_materialpricelist_createactionid": "创建动作标识",
         "bo_materialpricelist_updateactionid": "更新动作标识",
+        "bo_materialpricelist_dataowner": "数据所有者",
+        "bo_materialpricelist_organization": "数据所属组织",
         "bo_materialpricelist_materialpriceitems": "物料价格项目集合",
         "bo_materialpriceitem": "物料价格项目",
         "bo_materialpriceitem_itemcode": "物料编码",

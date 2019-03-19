@@ -62,7 +62,7 @@ namespace materials {
                             }),
                             new sap.m.Label("", { text: ibas.i18n.prop("bo_materialpricelist_factor") }),
                             new sap.m.Input("", {
-                                type: sap.m.InputType.Text,
+                                type: sap.m.InputType.Number,
                             }).bindProperty("value", {
                                 path: "factor",
                             }),
