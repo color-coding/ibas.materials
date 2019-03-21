@@ -17,11 +17,14 @@ import org.colorcoding.ibas.bobas.data.DateTime;
 import org.colorcoding.ibas.bobas.data.Decimal;
 import org.colorcoding.ibas.bobas.data.emApprovalStatus;
 import org.colorcoding.ibas.bobas.data.emYesNo;
+import org.colorcoding.ibas.bobas.i18n.I18N;
 import org.colorcoding.ibas.bobas.mapping.BOCode;
 import org.colorcoding.ibas.bobas.mapping.DbField;
 import org.colorcoding.ibas.bobas.mapping.DbFieldType;
 import org.colorcoding.ibas.bobas.ownership.IDataOwnership;
+import org.colorcoding.ibas.bobas.rule.BusinessRuleException;
 import org.colorcoding.ibas.bobas.rule.IBusinessRule;
+import org.colorcoding.ibas.bobas.rule.ICheckRules;
 import org.colorcoding.ibas.bobas.rule.common.BusinessRuleMinValue;
 import org.colorcoding.ibas.bobas.rule.common.BusinessRuleRequired;
 import org.colorcoding.ibas.materials.MyConfiguration;
@@ -35,7 +38,7 @@ import org.colorcoding.ibas.materials.data.emItemType;
 @XmlRootElement(name = Material.BUSINESS_OBJECT_NAME, namespace = MyConfiguration.NAMESPACE_BO)
 @BOCode(Material.BUSINESS_OBJECT_CODE)
 public class Material extends MaterialBase<Material>
-		implements IMaterial, IDataOwnership, IApprovalData, IBOSeriesKey, IBOTagDeleted, IBOUserFields {
+		implements IMaterial, IDataOwnership, IApprovalData, IBOSeriesKey, IBOTagDeleted, ICheckRules, IBOUserFields {
 
 	/**
 	 * 序列化版本标记
@@ -723,5 +726,20 @@ public class Material extends MaterialBase<Material>
 				new BusinessRuleMinValue<BigDecimal>(Decimal.ZERO, PROPERTY_ONCOMMITED), // 不能低于0
 				new BusinessRuleMinValue<BigDecimal>(Decimal.ZERO, PROPERTY_AVGPRICE), // 不能低于0
 		};
+	}
+
+	@Override
+	public void check() throws BusinessRuleException {
+		if (this.getDeleted() == emYesNo.YES || this.isDeleted()) {
+			if (!Decimal.isZero(this.getOnHand())) {
+				throw new BusinessRuleException(I18N.prop("msg_mm_material_onhand_not_zero", this.getCode()));
+			}
+			if (!Decimal.isZero(this.getOnCommited())) {
+				throw new BusinessRuleException(I18N.prop("msg_mm_material_oncommited_not_zero", this.getCode()));
+			}
+			if (!Decimal.isZero(this.getOnOrdered())) {
+				throw new BusinessRuleException(I18N.prop("msg_mm_material_onordered_not_zero", this.getCode()));
+			}
+		}
 	}
 }

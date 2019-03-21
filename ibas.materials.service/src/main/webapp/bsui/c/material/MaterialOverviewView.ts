@@ -109,27 +109,7 @@ namespace materials {
                                     }),
                                     new sap.m.ObjectAttribute("", {
                                         title: ibas.i18n.prop("bo_material_onavailable"),
-                                        text: {
-                                            parts: [
-                                                {
-                                                    path: "onAvailable",
-                                                    formatter(data: Function): any {
-                                                        let model: any = this.getContext();
-                                                        if (ibas.objects.isNull(model)) {
-                                                            return 0.0;
-                                                        }
-                                                        model = model.getObject();
-                                                        if (ibas.objects.isNull(model)) {
-                                                            return 0.0;
-                                                        }
-                                                        return data instanceof Function ? data.apply(model) : 0.0;
-                                                    }
-                                                },
-                                                {
-                                                    path: "inventoryUOM",
-                                                }
-                                            ]
-                                        }
+                                        text: "{= ${}.onAvailable() + ${}.inventoryUOM }"
                                     })
                                 ],
                                 type: sap.m.ListType.Active

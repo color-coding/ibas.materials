@@ -80,6 +80,12 @@ namespace materials {
                             }).bindProperty("dateValue", {
                                 path: "invalidDate"
                             }),
+                            new sap.m.Label("", { text: ibas.i18n.prop("bo_materialpricelist_organization") }),
+                            new sap.m.ex.OrganizationInput("", {
+                                bindingValue: {
+                                    path: "organization"
+                                }
+                            }),
                         ]
                     });
                     return new sap.m.Dialog("", {

@@ -24,7 +24,6 @@ import org.colorcoding.ibas.bobas.rule.common.BusinessRuleRequired;
 import org.colorcoding.ibas.materials.MyConfiguration;
 import org.colorcoding.ibas.materials.logic.IMaterialInventoryContract;
 import org.colorcoding.ibas.materials.logic.IMaterialWarehouseInventoryContract;
-import org.colorcoding.ibas.materials.logic.IWarehouseCheckContract;
 
 /**
  * 获取-仓库日记账
@@ -1002,18 +1001,7 @@ public class MaterialInventoryJournal extends BusinessObject<MaterialInventoryJo
 	public IBusinessLogicContract[] getContracts() {
 		return new IBusinessLogicContract[] {
 
-				new IWarehouseCheckContract() {
-
-					@Override
-					public String getIdentifiers() {
-						return MaterialInventoryJournal.this.getIdentifiers();
-					}
-
-					@Override
-					public String getWarehouseCode() {
-						return MaterialInventoryJournal.this.getWarehouse();
-					}
-				}, new IMaterialInventoryContract() {
+				new IMaterialInventoryContract() {
 					@Override
 					public String getIdentifiers() {
 						return MaterialInventoryJournal.this.getIdentifiers();

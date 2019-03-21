@@ -64,6 +64,10 @@ public class MaterialSerialInventoryService
 			materialSerial.setWarehouse(contract.getWarehouse());
 			materialSerial.setInStock(emYesNo.NO);
 		}
+		if (materialSerial.getLocked() == emYesNo.YES) {
+			throw new BusinessLogicException(I18N.prop("msg_mm_material_serial_is_unavailable",
+					materialSerial.getWarehouse(), materialSerial.getItemCode(), materialSerial.getSerialCode()));
+		}
 		return materialSerial;
 	}
 

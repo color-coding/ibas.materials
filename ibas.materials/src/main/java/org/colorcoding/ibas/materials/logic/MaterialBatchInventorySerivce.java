@@ -29,7 +29,7 @@ public class MaterialBatchInventorySerivce
 		// 非批次管理物料
 		if (material.getBatchManagement() != emYesNo.YES) {
 			throw new BusinessLogicException(
-					String.format(I18N.prop("msg_mm_material_is_not_batchmanagement"), contract.getItemCode()));
+					I18N.prop("msg_mm_material_is_not_batchmanagement", contract.getItemCode()));
 		}
 		// 检查仓库
 		this.checkWarehouse(contract.getWarehouse());
@@ -65,6 +65,10 @@ public class MaterialBatchInventorySerivce
 			materialBatch.setBatchCode(contract.getBatchCode());
 			materialBatch.setItemCode(contract.getItemCode());
 			materialBatch.setWarehouse(contract.getWarehouse());
+		}
+		if (materialBatch.getLocked() == emYesNo.YES) {
+			throw new BusinessLogicException(I18N.prop("msg_mm_material_batch_is_unavailable",
+					materialBatch.getWarehouse(), materialBatch.getItemCode(), materialBatch.getBatchCode()));
 		}
 		return materialBatch;
 	}

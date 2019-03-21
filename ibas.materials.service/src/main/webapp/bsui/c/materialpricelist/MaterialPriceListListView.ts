@@ -61,6 +61,7 @@ namespace materials {
                                             path: "validDate",
                                             type: new sap.ui.model.type.Date("", {
                                                 pattern: "yyyy-MM-dd",
+                                                strictParsing: true,
                                             })
                                         }
                                     }),
@@ -70,6 +71,7 @@ namespace materials {
                                             path: "invalidDate",
                                             type: new sap.ui.model.type.Date("", {
                                                 pattern: "yyyy-MM-dd",
+                                                strictParsing: true,
                                             })
                                         }
                                     }),

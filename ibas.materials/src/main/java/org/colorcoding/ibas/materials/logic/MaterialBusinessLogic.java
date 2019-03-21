@@ -6,6 +6,7 @@ import org.colorcoding.ibas.bobas.common.Criteria;
 import org.colorcoding.ibas.bobas.common.ICondition;
 import org.colorcoding.ibas.bobas.common.ICriteria;
 import org.colorcoding.ibas.bobas.common.IOperationResult;
+import org.colorcoding.ibas.bobas.data.emYesNo;
 import org.colorcoding.ibas.bobas.i18n.I18N;
 import org.colorcoding.ibas.bobas.logic.BusinessLogic;
 import org.colorcoding.ibas.bobas.logic.BusinessLogicException;
@@ -36,7 +37,12 @@ public abstract class MaterialBusinessLogic<L extends IBusinessLogicContract, B 
 		// 物料不存在
 		if (material == null) {
 			throw new BusinessLogicException(
-					String.format(I18N.prop("msg_mm_material_is_not_exist"), itemCode == null ? "" : itemCode));
+					I18N.prop("msg_mm_material_is_not_exist", itemCode == null ? "" : itemCode));
+		}
+		// 检查物料可用状态
+		if (material.getActivated() == emYesNo.NO || material.getDeleted() == emYesNo.YES) {
+			throw new BusinessLogicException(
+					I18N.prop("msg_mm_material_is_unavailable", material.getCode(), material.getName()));
 		}
 		return material;
 	}

@@ -6,6 +6,7 @@ import org.colorcoding.ibas.bobas.common.Criteria;
 import org.colorcoding.ibas.bobas.common.ICondition;
 import org.colorcoding.ibas.bobas.common.ICriteria;
 import org.colorcoding.ibas.bobas.common.IOperationResult;
+import org.colorcoding.ibas.bobas.data.emYesNo;
 import org.colorcoding.ibas.bobas.i18n.I18N;
 import org.colorcoding.ibas.bobas.logic.BusinessLogicException;
 import org.colorcoding.ibas.bobas.logic.IBusinessLogicContract;
@@ -35,7 +36,12 @@ public abstract class MaterialInventoryBusinessLogic<L extends IBusinessLogicCon
 		// 仓库不存在
 		if (warehouse == null) {
 			throw new BusinessLogicException(
-					String.format(I18N.prop("msg_mm_warehouse_is_not_exist"), whsCode == null ? "" : whsCode));
+					I18N.prop("msg_mm_warehouse_is_not_exist", whsCode == null ? "" : whsCode));
+		}
+		// 检查仓库可用状态
+		if (warehouse.getActivated() == emYesNo.NO || warehouse.getDeleted() == emYesNo.YES) {
+			throw new BusinessLogicException(
+					I18N.prop("msg_mm_warehouse_is_unavailable", warehouse.getCode(), warehouse.getName()));
 		}
 		return warehouse;
 	}

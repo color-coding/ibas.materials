@@ -158,14 +158,14 @@ namespace materials {
                                                 text: ibas.i18n.prop("materials_material_batch"),
                                                 items: [
                                                     new sap.m.MenuItem("", {
-                                                        text: ibas.i18n.prop("em_over"),
+                                                        text: ibas.i18n.prop("em_inventoryadjustment_over"),
                                                         icon: "sap-icon://trend-up",
                                                         press: function (): void {
                                                             that.fireViewEvents(that.chooseInventoryCountingLineMaterialBatchEvent, bo.emInventoryAdjustment.OVER);
                                                         }
                                                     }),
                                                     new sap.m.MenuItem("", {
-                                                        text: ibas.i18n.prop("em_short"),
+                                                        text: ibas.i18n.prop("em_inventoryadjustment_short"),
                                                         icon: "sap-icon://trend-down",
                                                         press: function (): void {
                                                             that.fireViewEvents(that.chooseInventoryCountingLineMaterialBatchEvent, bo.emInventoryAdjustment.SHORT);
@@ -177,14 +177,14 @@ namespace materials {
                                                 text: ibas.i18n.prop("materials_material_serial"),
                                                 items: [
                                                     new sap.m.MenuItem("", {
-                                                        text: ibas.i18n.prop("em_over"),
+                                                        text: ibas.i18n.prop("em_inventoryadjustment_over"),
                                                         icon: "sap-icon://trend-up",
                                                         press: function (): void {
                                                             that.fireViewEvents(that.chooseInventoryCountingLineMaterialSerialEvent, bo.emInventoryAdjustment.OVER);
                                                         }
                                                     }),
                                                     new sap.m.MenuItem("", {
-                                                        text: ibas.i18n.prop("em_short"),
+                                                        text: ibas.i18n.prop("em_inventoryadjustment_short"),
                                                         icon: "sap-icon://trend-down",
                                                         press: function (): void {
                                                             that.fireViewEvents(that.chooseInventoryCountingLineMaterialSerialEvent, bo.emInventoryAdjustment.SHORT);
@@ -460,7 +460,7 @@ namespace materials {
                                 }),
                                 new sap.m.ToolbarSeparator(""),
                                 new sap.m.Button("", {
-                                    text: ibas.i18n.prop("em_closed"),
+                                    text: ibas.i18n.prop("em_documentstatus_closed"),
                                     type: sap.m.ButtonType.Transparent,
                                     icon: "sap-icon://task",
                                     press: function (): void {

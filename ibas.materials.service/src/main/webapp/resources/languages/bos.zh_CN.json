@@ -669,16 +669,20 @@
         "bo_inventorycounting_closing_delimiter": "----结束----"
     },
     {
-        "em_item": "物料",
-        "em_services": "服务"
+        "em_itemtype_item": "物料",
+        "em_itemtype_services": "服务"
     },
     {
-        "em_first_in_first_out": "先进先出",
-        "em_first_in_last_out": "先进后出",
-        "em_order_by_code": "编码排序"
+        "em_estimatetype_ordered": "订购的",
+        "em_estimatetype_commited": "承诺的"
     },
     {
-        "em_over": "盘盈",
-        "em_short": "盘亏"
+        "em_materialissuerules_first_in_first_out": "先进先出",
+        "em_materialissuerules_first_in_last_out": "先进后出",
+        "em_materialissuerules_order_by_code": "编码排序"
+    },
+    {
+        "em_inventoryadjustment_over": "盘盈",
+        "em_inventoryadjustment_short": "盘亏"
     }
 ]

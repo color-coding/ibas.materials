@@ -28,18 +28,18 @@ public class MaterialWarehouseInventoryService
 		IMaterial material = this.checkMaterial(contract.getItemCode());
 		// 虚拟物料，不生成库存记录
 		if (material.getPhantomItem() == emYesNo.YES) {
-			throw new BusinessLogicException(String
-					.format(I18N.prop("msg_mm_material_is_phantom_item_can't_create_journal"), material.getCode()));
+			throw new BusinessLogicException(
+					I18N.prop("msg_mm_material_is_phantom_item_can't_create_journal", material.getCode()));
 		}
 		// 非库存物料，不生成库存记录
 		if (material.getInventoryItem() == emYesNo.NO) {
-			throw new BusinessLogicException(String.format(
-					I18N.prop("msg_mm_material_is_not_inventory_item_can't_create_journal"), material.getCode()));
+			throw new BusinessLogicException(
+					I18N.prop("msg_mm_material_is_not_inventory_item_can't_create_journal", material.getCode()));
 		}
 		// 服务物料，不生成库存记录
 		if (material.getItemType() == emItemType.SERVICES) {
-			throw new BusinessLogicException(String
-					.format(I18N.prop("msg_mm_material_is_service_item_can't_create_journal"), material.getCode()));
+			throw new BusinessLogicException(
+					I18N.prop("msg_mm_material_is_service_item_can't_create_journal", material.getCode()));
 		}
 		// 检查仓库
 		this.checkWarehouse(contract.getWarehouse());
@@ -71,7 +71,7 @@ public class MaterialWarehouseInventoryService
 			materialInventory.setWarehouse(contract.getWarehouse());
 		}
 		if (materialInventory.getFrozen() == emYesNo.YES) {
-			throw new BusinessLogicException(String.format(I18N.prop("msg_mm_material_is_frozen_in_warehouse"),
+			throw new BusinessLogicException(I18N.prop("msg_mm_material_is_frozen_in_warehouse",
 					materialInventory.getItemCode(), materialInventory.getWarehouse()));
 		}
 		return materialInventory;
