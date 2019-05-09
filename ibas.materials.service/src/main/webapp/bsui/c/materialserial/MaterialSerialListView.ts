@@ -26,11 +26,9 @@ namespace materials {
                 /** 绘制视图 */
                 draw(): any {
                     let that: this = this;
-                    this.tableSerial = new sap.m.List("", {
-                        inset: false,
-                        growing: true,
-                        growingThreshold: ibas.config.get(openui5.utils.CONFIG_ITEM_LIST_TABLE_VISIBLE_ROW_COUNT, 15),
-                        growingScrollToLoad: true,
+                    this.tableSerial = new sap.extension.m.List("", {
+                        chooseType: ibas.emChooseType.SINGLE,
+                        growingThreshold: sap.extension.table.visibleRowCount(15),
                         mode: sap.m.ListMode.SingleSelectMaster,
                         items: {
                             path: "/rows",
@@ -71,12 +69,13 @@ namespace materials {
                                     }),
                                 ]
                             })
-                        }
-                    });
-                    // 添加列表自动查询事件
-                    openui5.utils.triggerNextResults({
-                        listener: this.tableSerial,
-                        next(data: any): void {
+                        },
+                        nextDataSet(event: sap.ui.base.Event): void {
+                            // 查询下一个数据集
+                            let data: any = event.getParameter("data");
+                            if (ibas.objects.isNull(data)) {
+                                return;
+                            }
                             if (ibas.objects.isNull(that.lastCriteria)) {
                                 return;
                             }
@@ -99,67 +98,60 @@ namespace materials {
                                     type: sap.m.ButtonType.Transparent,
                                     icon: "sap-icon://edit",
                                     press: function (): void {
-                                        that.fireViewEvents(that.editDataEvent,
-                                            // 获取表格选中的对象
-                                            openui5.utils.getSelecteds<bo.MaterialSerial>(that.tableSerial).firstOrDefault()
-                                        );
+                                        that.fireViewEvents(that.editDataEvent, that.tableSerial.getSelecteds().firstOrDefault());
                                     }
                                 }),
                             ]
                         }),
                         content: [this.tableSerial]
                     });
-                    this.tableSerialJournal = new sap.ui.table.Table("", {
+                    this.tableSerialJournal = new sap.extension.table.Table("", {
                         enableSelectAll: false,
-                        selectionBehavior: sap.ui.table.SelectionBehavior.Row,
-                        visibleRowCount: ibas.config.get(openui5.utils.CONFIG_ITEM_LIST_TABLE_VISIBLE_ROW_COUNT, 15),
+                        visibleRowCount: sap.extension.table.visibleRowCount(15),
                         visibleRowCountMode: sap.ui.table.VisibleRowCountMode.Interactive,
                         rows: "{/rows}",
                         columns: [
-                            new sap.ui.table.Column("", {
+                            new sap.extension.table.Column("", {
                                 label: ibas.i18n.prop("bo_materialserialjournal_basedocumenttype"),
-                                template: new sap.m.Text("", {
-                                    wrapping: false
-                                }).bindProperty("text", {
+                                template: new sap.extension.m.Text("", {
+                                }).bindProperty("bindingValue", {
                                     path: "baseDocumentType",
                                     formatter(data: any): any {
                                         return ibas.businessobjects.describe(data);
                                     }
                                 }),
                             }),
-                            new sap.ui.table.Column("", {
+                            new sap.extension.table.Column("", {
                                 label: ibas.i18n.prop("bo_materialserialjournal_basedocumententry"),
-                                template: new sap.m.Text("", {
-                                    wrapping: false
-                                }).bindProperty("text", {
+                                template: new sap.extension.m.Text("", {
+                                }).bindProperty("bindingValue", {
                                     path: "baseDocumentEntry",
+                                    type: new sap.extension.data.Numeric()
                                 }),
                             }),
-                            new sap.ui.table.Column("", {
+                            new sap.extension.table.Column("", {
                                 label: ibas.i18n.prop("bo_materialserialjournal_basedocumentlineid"),
-                                template: new sap.m.Text("", {
-                                    wrapping: false
-                                }).bindProperty("text", {
+                                template: new sap.extension.m.Text("", {
+                                }).bindProperty("bindingValue", {
                                     path: "baseDocumentLineId",
-                                })
+                                    type: new sap.extension.data.Numeric()
+                                }),
                             }),
-                            new sap.ui.table.Column("", {
+                            new sap.extension.table.Column("", {
                                 label: ibas.i18n.prop("bo_materialserialjournal_direction"),
-                                template: new sap.m.Text("", {
-                                    wrapping: false
-                                }).bindProperty("text", {
+                                template: new sap.extension.m.Text("", {
+                                }).bindProperty("bindingValue", {
                                     path: "direction",
-                                    formatter(data: any): any {
-                                        return ibas.enums.describe(ibas.emDirection, data);
-                                    }
-                                })
+                                    type: new sap.extension.data.Direction(true)
+                                }),
                             }),
-                        ]
-                    });
-                    // 添加列表自动查询事件
-                    openui5.utils.triggerNextResults({
-                        listener: this.tableSerialJournal,
-                        next(data: any): void {
+                        ],
+                        nextDataSet(event: sap.ui.base.Event): void {
+                            // 查询下一个数据集
+                            let data: any = event.getParameter("data");
+                            if (ibas.objects.isNull(data)) {
+                                return;
+                            }
                             if (ibas.objects.isNull(that.lastJournalCriteria)) {
                                 return;
                             }
@@ -173,8 +165,7 @@ namespace materials {
                     });
                     this.searchSerialJournal = new sap.m.SearchField("", {
                         search(): void {
-                            let batch: bo.MaterialSerial =
-                                openui5.utils.getSelecteds<bo.MaterialSerial>(that.tableSerial).firstOrDefault();
+                            let batch: bo.MaterialSerial = that.tableSerial.getSelecteds<bo.MaterialSerial>().firstOrDefault();
                             if (ibas.objects.isNull(batch)) {
                                 that.application.viewShower.messages({
                                     title: that.application.description,
@@ -258,26 +249,17 @@ namespace materials {
                     this.pageSerial.setShowHeader(true);
                 }
                 private pageSerial: sap.m.Page;
-                private tableSerial: sap.m.List;
+                private tableSerial: sap.extension.m.List;
 
                 /** 显示物料批次数据 */
                 showSerials(datas: bo.MaterialSerial[]): void {
-                    let done: boolean = false;
-                    let model: sap.ui.model.Model = this.tableSerial.getModel(undefined);
-                    if (!ibas.objects.isNull(model)) {
-                        // 已存在绑定数据，添加新的
-                        let hDatas: any = (<any>model).getData();
-                        if (!ibas.objects.isNull(hDatas) && hDatas.rows instanceof Array) {
-                            for (let item of datas) {
-                                hDatas.rows.push(item);
-                            }
-                            model.refresh(false);
-                            done = true;
-                        }
-                    }
-                    if (!done) {
-                        // 没有显示数据
-                        this.tableSerial.setModel(new sap.ui.model.json.JSONModel({ rows: datas }));
+                    let model: sap.ui.model.Model = this.tableSerial.getModel();
+                    if (model instanceof sap.extension.model.JSONModel) {
+                        // 已绑定过数据
+                        model.addData(datas);
+                    } else {
+                        // 未绑定过数据
+                        this.tableSerial.setModel(new sap.extension.model.JSONModel({ rows: datas }));
                     }
                     this.tableSerial.setBusy(false);
                 }
@@ -292,7 +274,7 @@ namespace materials {
                 }
                 private pageSerialJournal: sap.m.Page;
                 private searchSerialJournal: sap.m.SearchField;
-                private tableSerialJournal: sap.ui.table.Table;
+                private tableSerialJournal: sap.extension.table.Table;
                 /** 上一次使用的价格查询 */
                 private lastJournalCriteria: ibas.ICriteria;
                 /** 基础价格查询 */
@@ -312,22 +294,13 @@ namespace materials {
                 }
                 /** 显示物料批次交易数据 */
                 showSerialJournals(datas: bo.MaterialSerialJournal[]): void {
-                    let done: boolean = false;
-                    let model: sap.ui.model.Model = this.tableSerialJournal.getModel(undefined);
-                    if (!ibas.objects.isNull(model)) {
-                        // 已存在绑定数据，添加新的
-                        let hDatas: any = (<any>model).getData();
-                        if (!ibas.objects.isNull(hDatas) && hDatas.rows instanceof Array) {
-                            for (let item of datas) {
-                                hDatas.rows.push(item);
-                            }
-                            model.refresh(false);
-                            done = true;
-                        }
-                    }
-                    if (!done) {
-                        // 没有显示数据
-                        this.tableSerialJournal.setModel(new sap.ui.model.json.JSONModel({ rows: datas }));
+                    let model: sap.ui.model.Model = this.tableSerialJournal.getModel();
+                    if (model instanceof sap.extension.model.JSONModel) {
+                        // 已绑定过数据
+                        model.addData(datas);
+                    } else {
+                        // 未绑定过数据
+                        this.tableSerialJournal.setModel(new sap.extension.model.JSONModel({ rows: datas }));
                     }
                     this.tableSerialJournal.setBusy(false);
                 }

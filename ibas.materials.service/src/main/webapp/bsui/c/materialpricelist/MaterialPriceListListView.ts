@@ -31,16 +31,15 @@ namespace materials {
                 /** 绘制视图 */
                 draw(): any {
                     let that: this = this;
-                    this.tablePriceList = new sap.m.List("", {
-                        inset: false,
-                        growing: true,
-                        growingThreshold: ibas.config.get(openui5.utils.CONFIG_ITEM_LIST_TABLE_VISIBLE_ROW_COUNT, 15),
-                        growingScrollToLoad: true,
+                    this.tablePriceList = new sap.extension.m.List("", {
+                        chooseType: ibas.emChooseType.SINGLE,
+                        growingThreshold: sap.extension.table.visibleRowCount(15),
                         mode: sap.m.ListMode.SingleSelectMaster,
                         items: {
                             path: "/rows",
                             template: new sap.m.ObjectListItem("", {
                                 title: "# {objectKey}",
+                                tooltip: "{name}",
                                 firstStatus: new sap.m.ObjectStatus("", {
                                     text: "{currency}"
                                 }),
@@ -77,12 +76,13 @@ namespace materials {
                                     }),
                                 ]
                             })
-                        }
-                    });
-                    // 添加列表自动查询事件
-                    openui5.utils.triggerNextResults({
-                        listener: this.tablePriceList,
-                        next(data: any): void {
+                        },
+                        nextDataSet(event: sap.ui.base.Event): void {
+                            // 查询下一个数据集
+                            let data: any = event.getParameter("data");
+                            if (ibas.objects.isNull(data)) {
+                                return;
+                            }
                             if (ibas.objects.isNull(that.lastCriteria)) {
                                 return;
                             }
@@ -105,10 +105,7 @@ namespace materials {
                                     type: sap.m.ButtonType.Transparent,
                                     icon: "sap-icon://delete",
                                     press: function (): void {
-                                        that.fireViewEvents(that.deleteDataEvent,
-                                            // 获取表格选中的对象
-                                            openui5.utils.getSelecteds<bo.MaterialPriceList>(that.tablePriceList)
-                                        );
+                                        that.fireViewEvents(that.deleteDataEvent, that.tablePriceList.getSelecteds());
                                     }
                                 }),
                                 new sap.m.Button("", {
@@ -116,10 +113,7 @@ namespace materials {
                                     type: sap.m.ButtonType.Transparent,
                                     icon: "sap-icon://edit",
                                     press: function (): void {
-                                        that.fireViewEvents(that.editDataEvent,
-                                            // 获取表格选中的对象
-                                            openui5.utils.getSelecteds<bo.MaterialPriceList>(that.tablePriceList).firstOrDefault()
-                                        );
+                                        that.fireViewEvents(that.editDataEvent, that.tablePriceList.getSelecteds().firstOrDefault());
                                     }
                                 }),
                                 new sap.m.Button("", {
@@ -134,52 +128,52 @@ namespace materials {
                         }),
                         content: [this.tablePriceList]
                     });
-                    this.tablePrices = new sap.ui.table.Table("", {
-                        enableSelectAll: true,
-                        selectionBehavior: sap.ui.table.SelectionBehavior.Row,
-                        visibleRowCount: ibas.config.get(openui5.utils.CONFIG_ITEM_LIST_TABLE_VISIBLE_ROW_COUNT, 15),
+                    this.tablePrices = new sap.extension.table.Table("", {
+                        enableSelectAll: false,
+                        visibleRowCount: sap.extension.table.visibleRowCount(15),
                         visibleRowCountMode: sap.ui.table.VisibleRowCountMode.Interactive,
                         rows: "{/rows}",
                         columns: [
-                            new sap.ui.table.Column("", {
+                            new sap.extension.table.Column("", {
                                 label: ibas.i18n.prop("bo_materialprice_itemcode"),
-                                template: new sap.m.Text("", {
-                                    wrapping: false
-                                }).bindProperty("text", {
+                                template: new sap.extension.m.Text("", {
+                                }).bindProperty("bindingValue", {
                                     path: "itemCode",
+                                    type: new sap.extension.data.Alphanumeric()
                                 }),
                             }),
-                            new sap.ui.table.Column("", {
+                            new sap.extension.table.Column("", {
                                 label: ibas.i18n.prop("bo_materialprice_itemname"),
-                                template: new sap.m.Text("", {
-                                    wrapping: false
-                                }).bindProperty("text", {
+                                width: "20rem",
+                                template: new sap.extension.m.Text("", {
+                                }).bindProperty("bindingValue", {
                                     path: "itemName",
+                                    type: new sap.extension.data.Alphanumeric()
                                 }),
                             }),
-                            new sap.ui.table.Column("", {
+                            new sap.extension.table.Column("", {
                                 label: ibas.i18n.prop("bo_materialprice_price"),
-                                template: new sap.m.Text("", {
-                                    wrapping: false
-                                }).bindProperty("text", {
+                                template: new sap.extension.m.Text("", {
+                                }).bindProperty("bindingValue", {
                                     path: "price",
-                                    type: new openui5.datatype.Price(),
+                                    type: new sap.extension.data.Price()
                                 })
                             }),
-                            new sap.ui.table.Column("", {
+                            new sap.extension.table.Column("", {
                                 label: ibas.i18n.prop("bo_materialprice_currency"),
-                                template: new sap.m.Text("", {
-                                    wrapping: false
-                                }).bindProperty("text", {
+                                template: new sap.extension.m.Text("", {
+                                }).bindProperty("bindingValue", {
                                     path: "currency",
+                                    type: new sap.extension.data.Alphanumeric()
                                 })
                             }),
-                        ]
-                    });
-                    // 添加列表自动查询事件
-                    openui5.utils.triggerNextResults({
-                        listener: this.tablePrices,
-                        next(data: any): void {
+                        ],
+                        nextDataSet(event: sap.ui.base.Event): void {
+                            // 查询下一个数据集
+                            let data: any = event.getParameter("data");
+                            if (ibas.objects.isNull(data)) {
+                                return;
+                            }
                             if (ibas.objects.isNull(that.lastPriceCriteria)) {
                                 return;
                             }
@@ -193,8 +187,7 @@ namespace materials {
                     });
                     this.searchPrice = new sap.m.SearchField("", {
                         search(): void {
-                            let priceList: bo.MaterialPriceList =
-                                openui5.utils.getSelecteds<bo.MaterialPriceList>(that.tablePriceList).firstOrDefault();
+                            let priceList: bo.MaterialPriceList = that.tablePriceList.getSelecteds<bo.MaterialPriceList>().firstOrDefault();
                             if (ibas.objects.isNull(priceList)) {
                                 that.application.viewShower.messages({
                                     title: that.application.description,
@@ -225,7 +218,7 @@ namespace materials {
                             that.tablePrices.setModel(null);
                         }
                     });
-                    this.pagePrices = new sap.m.Page("", {
+                    this.pagePrices = new sap.extension.m.Page("", {
                         showHeader: true,
                         customHeader: new sap.m.Toolbar("", {
                             content: [
@@ -303,7 +296,7 @@ namespace materials {
                                     type: sap.m.ButtonType.Transparent,
                                     press: function (): void {
                                         let datas: ibas.IList<bo.MaterialPriceItem> = new ibas.ArrayList<bo.MaterialPriceItem>();
-                                        for (let item of openui5.utils.getSelecteds<bo.MaterialPrice>(that.tablePrices)) {
+                                        for (let item of that.tablePrices.getSelecteds<bo.MaterialPrice>()) {
                                             if (!item.isDirty) {
                                                 continue;
                                             }
@@ -329,7 +322,7 @@ namespace materials {
                                     type: sap.m.ButtonType.Transparent,
                                     press: function (): void {
                                         let datas: ibas.IList<bo.MaterialPriceItem> = new ibas.ArrayList<bo.MaterialPriceItem>();
-                                        for (let item of openui5.utils.getSelecteds<bo.MaterialPrice>(that.tablePrices)) {
+                                        for (let item of that.tablePrices.getSelecteds<bo.MaterialPrice>()) {
                                             if (!item.isDirty) {
                                                 continue;
                                             }
@@ -368,25 +361,16 @@ namespace materials {
                     this.pagePriceList.setShowHeader(true);
                 }
                 private pagePriceList: sap.m.Page;
-                private tablePriceList: sap.m.List;
+                private tablePriceList: sap.extension.m.List;
                 /** 显示数据 */
                 showPriceList(datas: bo.MaterialPriceList[]): void {
-                    let done: boolean = false;
-                    let model: sap.ui.model.Model = this.tablePriceList.getModel(undefined);
-                    if (!ibas.objects.isNull(model)) {
-                        // 已存在绑定数据，添加新的
-                        let hDatas: any = (<any>model).getData();
-                        if (!ibas.objects.isNull(hDatas) && hDatas.rows instanceof Array) {
-                            for (let item of datas) {
-                                hDatas.rows.push(item);
-                            }
-                            model.refresh(false);
-                            done = true;
-                        }
-                    }
-                    if (!done) {
-                        // 没有显示数据
-                        this.tablePriceList.setModel(new sap.ui.model.json.JSONModel({ rows: datas }));
+                    let model: sap.ui.model.Model = this.tablePriceList.getModel();
+                    if (model instanceof sap.extension.model.JSONModel) {
+                        // 已绑定过数据
+                        model.addData(datas);
+                    } else {
+                        // 未绑定过数据
+                        this.tablePriceList.setModel(new sap.extension.model.JSONModel({ rows: datas }));
                     }
                     this.tablePriceList.setBusy(false);
                 }
@@ -401,7 +385,7 @@ namespace materials {
                 }
                 private pagePrices: sap.m.Page;
                 private searchPrice: sap.m.SearchField;
-                private tablePrices: sap.ui.table.Table;
+                private tablePrices: sap.extension.table.Table;
                 /** 上一次使用的价格查询 */
                 private lastPriceCriteria: ibas.ICriteria;
                 /** 基础价格查询 */
@@ -430,22 +414,13 @@ namespace materials {
                 }
                 /** 显示数据 */
                 showPrices(datas: bo.MaterialPrice[]): void {
-                    let done: boolean = false;
-                    let model: sap.ui.model.Model = this.tablePrices.getModel(undefined);
-                    if (!ibas.objects.isNull(model)) {
-                        // 已存在绑定数据，添加新的
-                        let hDatas: any = (<any>model).getData();
-                        if (!ibas.objects.isNull(hDatas) && hDatas.rows instanceof Array) {
-                            for (let item of datas) {
-                                hDatas.rows.push(item);
-                            }
-                            model.refresh(false);
-                            done = true;
-                        }
-                    }
-                    if (!done) {
-                        // 没有显示数据
-                        this.tablePrices.setModel(new sap.ui.model.json.JSONModel({ rows: datas }));
+                    let model: sap.ui.model.Model = this.tablePrices.getModel();
+                    if (model instanceof sap.extension.model.JSONModel) {
+                        // 已绑定过数据
+                        model.addData(datas);
+                    } else {
+                        // 未绑定过数据
+                        this.tablePrices.setModel(new sap.extension.model.JSONModel({ rows: datas }));
                     }
                     this.tablePrices.setBusy(false);
                 }

@@ -25,11 +25,9 @@ namespace materials {
                 /** 绘制视图 */
                 draw(): any {
                     let that: this = this;
-                    this.tableInventory = new sap.m.List("", {
-                        inset: false,
-                        growing: true,
-                        growingThreshold: ibas.config.get(openui5.utils.CONFIG_ITEM_LIST_TABLE_VISIBLE_ROW_COUNT, 15),
-                        growingScrollToLoad: true,
+                    this.tableInventory = new sap.extension.m.List("", {
+                        chooseType: ibas.emChooseType.SINGLE,
+                        growingThreshold: sap.extension.table.visibleRowCount(15),
                         mode: sap.m.ListMode.SingleSelectMaster,
                         items: {
                             path: "/rows",
@@ -54,12 +52,13 @@ namespace materials {
                                     }),
                                 ]
                             })
-                        }
-                    });
-                    // 添加列表自动查询事件
-                    openui5.utils.triggerNextResults({
-                        listener: this.tableInventory,
-                        next(data: any): void {
+                        },
+                        nextDataSet(event: sap.ui.base.Event): void {
+                            // 查询下一个数据集
+                            let data: any = event.getParameter("data");
+                            if (ibas.objects.isNull(data)) {
+                                return;
+                            }
                             if (ibas.objects.isNull(that.lastCriteria)) {
                                 return;
                             }
@@ -75,66 +74,61 @@ namespace materials {
                         showHeader: false,
                         content: [this.tableInventory]
                     });
-                    this.tableInventoryJournal = new sap.ui.table.Table("", {
+                    this.tableInventoryJournal = new sap.extension.table.Table("", {
                         enableSelectAll: false,
-                        selectionBehavior: sap.ui.table.SelectionBehavior.Row,
-                        visibleRowCount: ibas.config.get(openui5.utils.CONFIG_ITEM_LIST_TABLE_VISIBLE_ROW_COUNT, 15),
+                        visibleRowCount: sap.extension.table.visibleRowCount(15),
                         visibleRowCountMode: sap.ui.table.VisibleRowCountMode.Interactive,
                         rows: "{/rows}",
                         columns: [
-                            new sap.ui.table.Column("", {
+                            new sap.extension.table.Column("", {
                                 label: ibas.i18n.prop("bo_materialinventoryjournal_basedocumenttype"),
-                                template: new sap.m.Text("", {
-                                    wrapping: false
-                                }).bindProperty("text", {
+                                template: new sap.extension.m.Text("", {
+                                }).bindProperty("bindingValue", {
                                     path: "baseDocumentType",
                                     formatter(data: any): any {
                                         return ibas.businessobjects.describe(data);
                                     }
                                 }),
                             }),
-                            new sap.ui.table.Column("", {
+                            new sap.extension.table.Column("", {
                                 label: ibas.i18n.prop("bo_materialinventoryjournal_basedocumententry"),
-                                template: new sap.m.Text("", {
-                                    wrapping: false
-                                }).bindProperty("text", {
+                                template: new sap.extension.m.Text("", {
+                                }).bindProperty("bindingValue", {
                                     path: "baseDocumentEntry",
+                                    type: new sap.extension.data.Numeric()
                                 }),
                             }),
-                            new sap.ui.table.Column("", {
+                            new sap.extension.table.Column("", {
                                 label: ibas.i18n.prop("bo_materialinventoryjournal_basedocumentlineid"),
-                                template: new sap.m.Text("", {
-                                    wrapping: false
-                                }).bindProperty("text", {
+                                template: new sap.extension.m.Text("", {
+                                }).bindProperty("bindingValue", {
                                     path: "baseDocumentLineId",
-                                })
+                                    type: new sap.extension.data.Numeric()
+                                }),
                             }),
-                            new sap.ui.table.Column("", {
+                            new sap.extension.table.Column("", {
                                 label: ibas.i18n.prop("bo_materialinventoryjournal_direction"),
-                                template: new sap.m.Text("", {
-                                    wrapping: false
-                                }).bindProperty("text", {
+                                template: new sap.extension.m.Text("", {
+                                }).bindProperty("bindingValue", {
                                     path: "direction",
-                                    formatter(data: any): any {
-                                        return ibas.enums.describe(ibas.emDirection, data);
-                                    }
-                                })
+                                    type: new sap.extension.data.Direction(true)
+                                }),
                             }),
-                            new sap.ui.table.Column("", {
+                            new sap.extension.table.Column("", {
                                 label: ibas.i18n.prop("bo_materialinventoryjournal_quantity"),
-                                template: new sap.m.Text("", {
-                                    wrapping: false
-                                }).bindProperty("text", {
+                                template: new sap.extension.m.Text("", {
+                                }).bindProperty("bindingValue", {
                                     path: "quantity",
-                                    type: new openui5.datatype.Quantity(),
-                                })
+                                    type: new sap.extension.data.Quantity()
+                                }),
                             }),
-                        ]
-                    });
-                    // 添加列表自动查询事件
-                    openui5.utils.triggerNextResults({
-                        listener: this.tableInventoryJournal,
-                        next(data: any): void {
+                        ],
+                        nextDataSet(event: sap.ui.base.Event): void {
+                            // 查询下一个数据集
+                            let data: any = event.getParameter("data");
+                            if (ibas.objects.isNull(data)) {
+                                return;
+                            }
                             if (ibas.objects.isNull(that.lastJournalCriteria)) {
                                 return;
                             }
@@ -148,8 +142,7 @@ namespace materials {
                     });
                     this.searchInventoryJournal = new sap.m.SearchField("", {
                         search(): void {
-                            let Inventory: bo.MaterialInventory =
-                                openui5.utils.getSelecteds<bo.MaterialInventory>(that.tableInventory).firstOrDefault();
+                            let Inventory: bo.MaterialInventory = that.tableInventory.getSelecteds<bo.MaterialInventory>().firstOrDefault();
                             if (ibas.objects.isNull(Inventory)) {
                                 that.application.viewShower.messages({
                                     title: that.application.description,
@@ -229,26 +222,17 @@ namespace materials {
                     this.pageInventory.setShowHeader(true);
                 }
                 private pageInventory: sap.m.Page;
-                private tableInventory: sap.m.List;
+                private tableInventory: sap.extension.m.List;
 
                 /** 显示物料库存数据 */
                 showInventories(datas: bo.MaterialInventory[]): void {
-                    let done: boolean = false;
-                    let model: sap.ui.model.Model = this.tableInventory.getModel(undefined);
-                    if (!ibas.objects.isNull(model)) {
-                        // 已存在绑定数据，添加新的
-                        let hDatas: any = (<any>model).getData();
-                        if (!ibas.objects.isNull(hDatas) && hDatas.rows instanceof Array) {
-                            for (let item of datas) {
-                                hDatas.rows.push(item);
-                            }
-                            model.refresh(false);
-                            done = true;
-                        }
-                    }
-                    if (!done) {
-                        // 没有显示数据
-                        this.tableInventory.setModel(new sap.ui.model.json.JSONModel({ rows: datas }));
+                    let model: sap.ui.model.Model = this.tableInventory.getModel();
+                    if (model instanceof sap.extension.model.JSONModel) {
+                        // 已绑定过数据
+                        model.addData(datas);
+                    } else {
+                        // 未绑定过数据
+                        this.tableInventory.setModel(new sap.extension.model.JSONModel({ rows: datas }));
                     }
                     this.tableInventory.setBusy(false);
                 }
@@ -263,7 +247,7 @@ namespace materials {
                 }
                 private pageInventoryJournal: sap.m.Page;
                 private searchInventoryJournal: sap.m.SearchField;
-                private tableInventoryJournal: sap.ui.table.Table;
+                private tableInventoryJournal: sap.extension.table.Table;
                 /** 上一次使用的价格查询 */
                 private lastJournalCriteria: ibas.ICriteria;
                 /** 基础价格查询 */
@@ -283,22 +267,13 @@ namespace materials {
                 }
                 /** 显示物料库存交易数据 */
                 showInventoryJournals(datas: bo.MaterialInventoryJournal[]): void {
-                    let done: boolean = false;
-                    let model: sap.ui.model.Model = this.tableInventoryJournal.getModel(undefined);
-                    if (!ibas.objects.isNull(model)) {
-                        // 已存在绑定数据，添加新的
-                        let hDatas: any = (<any>model).getData();
-                        if (!ibas.objects.isNull(hDatas) && hDatas.rows instanceof Array) {
-                            for (let item of datas) {
-                                hDatas.rows.push(item);
-                            }
-                            model.refresh(false);
-                            done = true;
-                        }
-                    }
-                    if (!done) {
-                        // 没有显示数据
-                        this.tableInventoryJournal.setModel(new sap.ui.model.json.JSONModel({ rows: datas }));
+                    let model: sap.ui.model.Model = this.tableInventoryJournal.getModel();
+                    if (model instanceof sap.extension.model.JSONModel) {
+                        // 已绑定过数据
+                        model.addData(datas);
+                    } else {
+                        // 未绑定过数据
+                        this.tableInventoryJournal.setModel(new sap.extension.model.JSONModel({ rows: datas }));
                     }
                     this.tableInventoryJournal.setBusy(false);
                 }

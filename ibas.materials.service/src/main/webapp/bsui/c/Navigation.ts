@@ -6,6 +6,8 @@
  * that can be found in the LICENSE file at http://www.apache.org/licenses/LICENSE-2.0
  */
 /// <reference path="../../index.d.ts" />
+/// <reference path="../Component.d.ts" />
+/// <reference path="../Component.ts" />
 /// <reference path="./goodsissue/index.ts" />
 /// <reference path="./goodsreceipt/index.ts" />
 /// <reference path="./inventorytransfer/index.ts" />
@@ -22,7 +24,6 @@ namespace materials {
          * 视图导航
          */
         export class Navigation extends ibas.ViewNavigation {
-
             /**
              * 创建实例
              * @param id 应用id
@@ -36,9 +37,6 @@ namespace materials {
                     case app.GoodsIssueChooseApp.APPLICATION_ID:
                         view = new c.GoodsIssueChooseView();
                         break;
-                    case app.GoodsIssueViewApp.APPLICATION_ID:
-                        view = new c.GoodsIssueViewView();
-                        break;
                     case app.GoodsIssueEditApp.APPLICATION_ID:
                         view = new c.GoodsIssueEditView();
                         break;
@@ -48,9 +46,6 @@ namespace materials {
                     case app.GoodsReceiptChooseApp.APPLICATION_ID:
                         view = new c.GoodsReceiptChooseView();
                         break;
-                    case app.GoodsReceiptViewApp.APPLICATION_ID:
-                        view = new c.GoodsReceiptViewView();
-                        break;
                     case app.GoodsReceiptEditApp.APPLICATION_ID:
                         view = new c.GoodsReceiptEditView();
                         break;
@@ -59,9 +54,6 @@ namespace materials {
                         break;
                     case app.InventoryTransferChooseApp.APPLICATION_ID:
                         view = new c.InventoryTransferChooseView();
-                        break;
-                    case app.InventoryTransferViewApp.APPLICATION_ID:
-                        view = new c.InventoryTransferViewView();
                         break;
                     case app.InventoryTransferEditApp.APPLICATION_ID:
                         view = new c.InventoryTransferEditView();
@@ -92,9 +84,6 @@ namespace materials {
                         break;
                     case app.WarehouseChooseApp.APPLICATION_ID:
                         view = new c.WarehouseChooseView();
-                        break;
-                    case app.WarehouseViewApp.APPLICATION_ID:
-                        view = new c.WarehouseViewView();
                         break;
                     case app.WarehouseEditApp.APPLICATION_ID:
                         view = new c.WarehouseEditView();

@@ -18,91 +18,111 @@ namespace materials {
                 /** 绘制视图 */
                 draw(): any {
                     let that: this = this;
-                    this.layoutMain = new sap.ui.layout.form.SimpleForm("", {
+                    this.formTop = new sap.ui.layout.form.SimpleForm("", {
                         editable: true,
                         content: [
                             new sap.m.Label("", { text: ibas.i18n.prop("bo_materialserial_itemcode") }),
-                            new sap.m.Input("", {
-                                type: sap.m.InputType.Text,
+                            new sap.extension.m.RepositoryInput("", {
                                 editable: false,
-                            }).bindProperty("value", {
-                                path: "itemCode",
+                                repository: bo.BORepositoryMaterials,
+                                dataInfo: {
+                                    type: bo.Material,
+                                    key: bo.Material.PROPERTY_CODE_NAME,
+                                    text: bo.Material.PROPERTY_NAME_NAME
+                                },
+                            }).bindProperty("bindingValue", {
+                                path: "/itemCode",
+                                type: new sap.extension.data.Alphanumeric()
+                            }),
+                            new sap.extension.m.Input("", {
+                                editable: false,
+                            }).bindProperty("bindingValue", {
+                                path: "/itemCode",
+                                type: new sap.extension.data.Alphanumeric({
+                                    maxLength: 20
+                                })
                             }),
                             new sap.m.Label("", { text: ibas.i18n.prop("bo_materialserial_warehouse") }),
-                            new sap.m.Input("", {
-                                type: sap.m.InputType.Text,
+                            new sap.extension.m.RepositoryInput("", {
                                 editable: false,
-                            }).bindProperty("value", {
-                                path: "warehouse",
+                                repository: bo.BORepositoryMaterials,
+                                dataInfo: {
+                                    type: bo.Warehouse,
+                                    key: bo.Warehouse.PROPERTY_CODE_NAME,
+                                    text: bo.Warehouse.PROPERTY_NAME_NAME
+                                },
+                            }).bindProperty("bindingValue", {
+                                path: "/warehouse",
+                                type: new sap.extension.data.Alphanumeric({
+                                    maxLength: 8
+                                })
                             }),
                             new sap.m.Label("", { text: ibas.i18n.prop("bo_materialserial_serialcode") }),
                             new sap.m.Input("", {
                                 type: sap.m.InputType.Text,
                                 editable: false,
                             }).bindProperty("value", {
-                                path: "serialCode",
+                                path: "/serialCode",
                             }),
                             new sap.m.Label("", { text: ibas.i18n.prop("bo_materialserial_locked") }),
-                            new sap.m.Select("", {
-                                items: openui5.utils.createComboBoxItems(ibas.emYesNo),
-                            }).bindProperty("selectedKey", {
-                                path: "locked",
-                                type: "sap.ui.model.type.Integer",
+                            new sap.extension.m.EnumSelect("", {
+                                enumType: ibas.emYesNo
+                            }).bindProperty("bindingValue", {
+                                path: "/locked",
+                                type: new sap.extension.data.YesNo()
                             }),
                             new sap.m.Label("", { text: ibas.i18n.prop("bo_materialserial_instock") }),
-                            new sap.m.Select("", {
-                                items: openui5.utils.createComboBoxItems(ibas.emYesNo),
-                                enabled: false,
-                            }).bindProperty("selectedKey", {
-                                path: "inStock",
-                                type: "sap.ui.model.type.Integer",
+                            new sap.extension.m.EnumSelect("", {
+                                enumType: ibas.emYesNo
+                            }).bindProperty("bindingValue", {
+                                path: "/inStock",
+                                type: new sap.extension.data.YesNo()
                             }),
                             new sap.m.Label("", { text: ibas.i18n.prop("bo_materialserial_supplierserial") }),
-                            new sap.m.Input("", {
-                                type: sap.m.InputType.Text,
-                            }).bindProperty("value", {
-                                path: "supplierSerial",
+                            new sap.extension.m.Input("", {
+                            }).bindProperty("bindingValue", {
+                                path: "/supplierSerial",
+                                type: new sap.extension.data.Alphanumeric({
+                                    maxLength: 60
+                                })
                             }),
                             new sap.m.Label("", { text: ibas.i18n.prop("bo_materialserial_batchserial") }),
-                            new sap.m.Input("", {
-                                type: sap.m.InputType.Text,
-                            }).bindProperty("value", {
-                                path: "batchSerial",
-                            }),
-                            new sap.m.Label("", { text: ibas.i18n.prop("bo_materialserial_manufacturingdate") }),
-                            new sap.m.DatePicker("", {
-                                valueFormat: ibas.config.get(ibas.CONFIG_ITEM_FORMAT_DATE),
-                                displayFormat: ibas.config.get(ibas.CONFIG_ITEM_FORMAT_DATE),
-                            }).bindProperty("dateValue", {
-                                path: "manufacturingDate"
+                            new sap.extension.m.Input("", {
+                            }).bindProperty("bindingValue", {
+                                path: "/batchSerial",
+                                type: new sap.extension.data.Alphanumeric({
+                                    maxLength: 60
+                                })
                             }),
                             new sap.m.Label("", { text: ibas.i18n.prop("bo_materialserial_expirationdate") }),
-                            new sap.m.DatePicker("", {
-                                valueFormat: ibas.config.get(ibas.CONFIG_ITEM_FORMAT_DATE),
-                                displayFormat: ibas.config.get(ibas.CONFIG_ITEM_FORMAT_DATE),
-                            }).bindProperty("dateValue", {
-                                path: "expirationDate"
+                            new sap.extension.m.DatePicker("", {
+                            }).bindProperty("bindingValue", {
+                                path: "/expirationDate",
+                                type: new sap.extension.data.Date()
+                            }),
+                            new sap.m.Label("", { text: ibas.i18n.prop("bo_materialserial_manufacturingdate") }),
+                            new sap.extension.m.DatePicker("", {
+                            }).bindProperty("bindingValue", {
+                                path: "/manufacturingDate",
+                                type: new sap.extension.data.Date()
                             }),
                             new sap.m.Label("", { text: ibas.i18n.prop("bo_materialserial_admissiondate") }),
-                            new sap.m.DatePicker("", {
-                                valueFormat: ibas.config.get(ibas.CONFIG_ITEM_FORMAT_DATE),
-                                displayFormat: ibas.config.get(ibas.CONFIG_ITEM_FORMAT_DATE),
-                            }).bindProperty("dateValue", {
-                                path: "admissionDate"
+                            new sap.extension.m.DatePicker("", {
+                            }).bindProperty("bindingValue", {
+                                path: "/admissionDate",
+                                type: new sap.extension.data.Date()
                             }),
                             new sap.m.Label("", { text: ibas.i18n.prop("bo_materialserial_warrantystartdate") }),
-                            new sap.m.DatePicker("", {
-                                valueFormat: ibas.config.get(ibas.CONFIG_ITEM_FORMAT_DATE),
-                                displayFormat: ibas.config.get(ibas.CONFIG_ITEM_FORMAT_DATE),
-                            }).bindProperty("dateValue", {
-                                path: "warrantyStartDate"
+                            new sap.extension.m.DatePicker("", {
+                            }).bindProperty("bindingValue", {
+                                path: "/warrantyStartDate",
+                                type: new sap.extension.data.Date()
                             }),
                             new sap.m.Label("", { text: ibas.i18n.prop("bo_materialserial_warrantyenddate") }),
-                            new sap.m.DatePicker("", {
-                                valueFormat: ibas.config.get(ibas.CONFIG_ITEM_FORMAT_DATE),
-                                displayFormat: ibas.config.get(ibas.CONFIG_ITEM_FORMAT_DATE),
-                            }).bindProperty("dateValue", {
-                                path: "warrantyEndDate"
+                            new sap.extension.m.DatePicker("", {
+                            }).bindProperty("bindingValue", {
+                                path: "/warrantyEndDate",
+                                type: new sap.extension.data.Date()
                             }),
                         ]
                     });
@@ -110,10 +130,11 @@ namespace materials {
                         title: this.title,
                         type: sap.m.DialogType.Standard,
                         state: sap.ui.core.ValueState.None,
-                        stretchOnPhone: true,
                         horizontalScrolling: true,
                         verticalScrolling: true,
-                        content: [this.layoutMain],
+                        content: [
+                            this.formTop
+                        ],
                         buttons: [
                             new sap.m.Button("", {
                                 text: ibas.i18n.prop("shell_data_save"),
@@ -135,14 +156,11 @@ namespace materials {
                     });
                 }
 
-                private layoutMain: sap.ui.layout.form.SimpleForm;
+                private formTop: sap.ui.layout.form.SimpleForm;
 
                 /** 显示数据 */
                 showMaterialSerial(data: bo.MaterialSerial): void {
-                    this.layoutMain.setModel(new sap.ui.model.json.JSONModel(data));
-                    this.layoutMain.bindObject("/");
-                    // 监听属性改变，并更新控件
-                    openui5.utils.refreshModelChanged(this.layoutMain, data);
+                    this.formTop.setModel(new sap.ui.model.json.JSONModel(data));
                 }
             }
         }

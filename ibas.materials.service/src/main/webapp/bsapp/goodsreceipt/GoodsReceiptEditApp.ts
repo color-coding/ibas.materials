@@ -32,7 +32,7 @@ namespace materials {
                 this.view.addGoodsReceiptLineEvent = this.addGoodsReceiptLine;
                 this.view.removeGoodsReceiptLineEvent = this.removeGoodsReceiptLine;
                 this.view.chooseGoodsReceiptLineMaterialEvent = this.chooseGoodsReceiptLineMaterial;
-                this.view.chooseGoodsReceiptlineWarehouseEvent = this.chooseGoodsReceiptlineWarehouse;
+                this.view.chooseGoodsReceiptLineWarehouseEvent = this.chooseGoodsReceiptLineWarehouse;
                 this.view.chooseGoodsReceiptLineMaterialBatchEvent = this.chooseGoodsReceiptLineMaterialBatch;
                 this.view.chooseGoodsReceiptLineMaterialSerialEvent = this.createGoodsReceiptLineMaterialSerial;
                 this.view.chooseGoodsReceiptMaterialPriceListEvent = this.chooseeGoodsReceiptMaterialPriceList;
@@ -273,7 +273,7 @@ namespace materials {
             }
 
             /** 选择库存收货订单行物料事件 */
-            private chooseGoodsReceiptlineWarehouse(caller: bo.GoodsReceiptLine): void {
+            private chooseGoodsReceiptLineWarehouse(caller: bo.GoodsReceiptLine): void {
                 let that: this = this;
                 ibas.servicesManager.runChooseService<bo.Warehouse>({
                     boCode: bo.Warehouse.BUSINESS_OBJECT_CODE,
@@ -357,7 +357,7 @@ namespace materials {
             /** 选择库存收货单行物料事件 */
             chooseGoodsReceiptLineMaterialEvent: Function;
             /** 选择库存收货单行仓库事件 */
-            chooseGoodsReceiptlineWarehouseEvent: Function;
+            chooseGoodsReceiptLineWarehouseEvent: Function;
             /** 批次管理物料新建批次 */
             chooseGoodsReceiptLineMaterialBatchEvent: Function;
             /** 批次管理物料新建序列 */

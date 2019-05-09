@@ -24,63 +24,85 @@ namespace materials {
                 uploadPictureEvent: Function;
                 /** 绘制视图 */
                 public draw(): any {
-                    const that: this = this;
-                    this.form = new sap.ui.layout.form.SimpleForm("", {
+                    let that: this = this;
+                    let formTop: sap.ui.layout.form.SimpleForm = new sap.ui.layout.form.SimpleForm("", {
                         editable: true,
                         content: [
                             new sap.ui.core.Title("", { text: ibas.i18n.prop("materials_title_general") }),
                             new sap.m.Label("", { text: ibas.i18n.prop("bo_material_code") }),
-                            new sap.m.Input("", {
-                                type: sap.m.InputType.Text,
-                            }).bindProperty("value", {
+                            new sap.extension.m.Input("", {
+                            }).bindProperty("bindingValue", {
                                 path: "code",
+                                type: new sap.extension.data.Alphanumeric({
+                                    maxLength: 20
+                                })
                             }).bindProperty("editable", {
                                 path: "series",
                                 formatter(data: any): any {
                                     return data > 0 ? false : true;
                                 }
                             }),
-                            new sap.m.ex.SeriesSelect("", {
+                            new sap.extension.m.SeriesSelect("", {
                                 objectCode: ibas.config.applyVariables(bo.BO_CODE_MATERIAL),
-                                bindingValue: {
-                                    path: "series",
-                                    type: "sap.ui.model.type.Integer",
+                            }).bindProperty("bindingValue", {
+                                path: "series",
+                                type: new sap.extension.data.Numeric()
+                            }).bindProperty("enabled", {
+                                path: "isNew",
+                                formatter(data: any): any {
+                                    return !!data ? true : false;
                                 }
                             }),
                             new sap.m.Label("", { text: ibas.i18n.prop("bo_material_name") }),
-                            new sap.m.Input("", {
-                                type: sap.m.InputType.Text,
-                            }).bindProperty("value", {
+                            new sap.extension.m.Input("", {
+                            }).bindProperty("bindingValue", {
                                 path: "name",
+                                type: new sap.extension.data.Alphanumeric({
+                                    maxLength: 100
+                                })
                             }),
                             new sap.m.Label("", { text: ibas.i18n.prop("bo_material_foreignname") }),
-                            new sap.m.Input("", {
-                                type: sap.m.InputType.Text,
-                            }).bindProperty("value", {
+                            new sap.extension.m.Input("", {
+                            }).bindProperty("bindingValue", {
                                 path: "foreignName",
+                                type: new sap.extension.data.Alphanumeric({
+                                    maxLength: 200
+                                })
                             }),
                             new sap.m.Label("", { text: ibas.i18n.prop("bo_material_itemtype") }),
-                            new sap.m.Select("", {
-                                items: openui5.utils.createComboBoxItems(bo.emItemType),
-                            }).bindProperty("selectedKey", {
+                            new sap.extension.m.EnumSelect("", {
+                                enumType: bo.emItemType
+                            }).bindProperty("bindingValue", {
                                 path: "itemType",
-                                type: "sap.ui.model.type.Integer",
+                                type: new sap.extension.data.Enum({
+                                    enumType: bo.emItemType
+                                })
                             }),
                             new sap.m.Label("", { text: ibas.i18n.prop("bo_material_group") }),
-                            new sap.m.Input("", {
-                                type: sap.m.InputType.Text,
+                            new sap.extension.m.RepositoryInput("", {
                                 showValueHelp: true,
+                                repository: bo.BORepositoryMaterials,
+                                dataInfo: {
+                                    type: bo.MaterialGroup,
+                                    key: bo.MaterialGroup.PROPERTY_CODE_NAME,
+                                    text: bo.MaterialGroup.PROPERTY_NAME_NAME
+                                },
                                 valueHelpRequest: function (): void {
                                     that.fireViewEvents(that.chooseMaterialGroupEvent);
                                 }
-                            }).bindProperty("value", {
+                            }).bindProperty("bindingValue", {
                                 path: "group",
+                                type: new sap.extension.data.Alphanumeric({
+                                    maxLength: 8
+                                })
                             }),
                             new sap.m.Label("", { text: ibas.i18n.prop("bo_material_barcode") }),
-                            new sap.m.Input("", {
-                                type: sap.m.InputType.Text,
-                            }).bindProperty("value", {
+                            new sap.extension.m.Input("", {
+                            }).bindProperty("bindingValue", {
                                 path: "barCode",
+                                type: new sap.extension.data.Alphanumeric({
+                                    maxLength: 15
+                                })
                             }),
                             new sap.m.Label("", { text: ibas.i18n.prop("bo_material_picture"), }),
                             new sap.m.FlexBox("", {
@@ -113,7 +135,7 @@ namespace materials {
                                         type: sap.m.ButtonType.Transparent,
                                         width: "auto",
                                         press: function (): void {
-                                            let material: bo.IMaterial = that.form.getBindingContext().getObject();
+                                            let material: bo.IMaterial = that.page.getBindingContext().getObject();
                                             if (!ibas.objects.isNull(material)) {
                                                 let lightBox: sap.m.LightBox = new sap.m.LightBox("", {
                                                     imageContent: [
@@ -131,130 +153,146 @@ namespace materials {
                                 ]
                             }),
                             new sap.m.Label("", { text: ibas.i18n.prop("bo_material_remarks") }),
-                            new sap.m.TextArea("", {
+                            new sap.extension.m.TextArea("", {
                                 rows: 3,
-                            }).bindProperty("value", {
+                            }).bindProperty("bindingValue", {
                                 path: "remarks",
+                                type: new sap.extension.data.Alphanumeric()
                             }),
                             new sap.ui.core.Title("", { text: ibas.i18n.prop("materials_title_status") }),
                             new sap.m.Label("", { text: ibas.i18n.prop("bo_material_activated") }),
-                            new sap.m.Select("", {
-                                items: openui5.utils.createComboBoxItems(ibas.emYesNo),
-                            }).bindProperty("selectedKey", {
+                            new sap.extension.m.EnumSelect("", {
+                                enumType: ibas.emYesNo
+                            }).bindProperty("bindingValue", {
                                 path: "activated",
-                                type: "sap.ui.model.type.Integer",
+                                type: new sap.extension.data.YesNo()
                             }),
                             new sap.m.Label("", { text: ibas.i18n.prop("bo_material_validdate") }),
-                            new sap.m.DatePicker("", {
-                                valueFormat: ibas.config.get(ibas.CONFIG_ITEM_FORMAT_DATE),
-                                displayFormat: ibas.config.get(ibas.CONFIG_ITEM_FORMAT_DATE),
-                            }).bindProperty("dateValue", {
-                                path: "validDate"
+                            new sap.extension.m.DatePicker("", {
+                            }).bindProperty("bindingValue", {
+                                path: "validDate",
+                                type: new sap.extension.data.Date()
                             }),
                             new sap.m.Label("", { text: ibas.i18n.prop("bo_material_invaliddate") }),
-                            new sap.m.DatePicker("", {
-                                valueFormat: ibas.config.get(ibas.CONFIG_ITEM_FORMAT_DATE),
-                                displayFormat: ibas.config.get(ibas.CONFIG_ITEM_FORMAT_DATE),
-                            }).bindProperty("dateValue", {
-                                path: "invalidDate"
+                            new sap.extension.m.DatePicker("", {
+                            }).bindProperty("bindingValue", {
+                                path: "invalidDate",
+                                type: new sap.extension.data.Date()
                             }),
                             new sap.m.Label("", { text: ibas.i18n.prop("bo_material_purchaseitem") }),
-                            new sap.m.Select("", {
-                                items: openui5.utils.createComboBoxItems(ibas.emYesNo),
-                            }).bindProperty("selectedKey", {
+                            new sap.extension.m.EnumSelect("", {
+                                enumType: ibas.emYesNo
+                            }).bindProperty("bindingValue", {
                                 path: "purchaseItem",
-                                type: "sap.ui.model.type.Integer",
+                                type: new sap.extension.data.YesNo()
                             }),
                             new sap.m.Label("", { text: ibas.i18n.prop("bo_material_salesitem") }),
-                            new sap.m.Select("", {
-                                items: openui5.utils.createComboBoxItems(ibas.emYesNo),
-                            }).bindProperty("selectedKey", {
+                            new sap.extension.m.EnumSelect("", {
+                                enumType: ibas.emYesNo
+                            }).bindProperty("bindingValue", {
                                 path: "salesItem",
-                                type: "sap.ui.model.type.Integer",
+                                type: new sap.extension.data.YesNo()
                             }),
                             new sap.m.Label("", { text: ibas.i18n.prop("bo_material_inventoryitem") }),
-                            new sap.m.Select("", {
-                                items: openui5.utils.createComboBoxItems(ibas.emYesNo),
-                            }).bindProperty("selectedKey", {
+                            new sap.extension.m.EnumSelect("", {
+                                enumType: ibas.emYesNo
+                            }).bindProperty("bindingValue", {
                                 path: "inventoryItem",
-                                type: "sap.ui.model.type.Integer",
+                                type: new sap.extension.data.YesNo()
                             }),
                             new sap.m.Label("", { text: ibas.i18n.prop("bo_material_phantomitem") }),
-                            new sap.m.Select("", {
-                                items: openui5.utils.createComboBoxItems(ibas.emYesNo),
-                            }).bindProperty("selectedKey", {
+                            new sap.extension.m.EnumSelect("", {
+                                enumType: ibas.emYesNo
+                            }).bindProperty("bindingValue", {
                                 path: "phantomItem",
-                                type: "sap.ui.model.type.Integer",
+                                type: new sap.extension.data.YesNo()
                             }),
                             new sap.m.Label("", { text: ibas.i18n.prop("bo_material_productunit") }),
-                            new sap.m.Select("", {
-                                items: openui5.utils.createComboBoxItems(ibas.emYesNo),
-                            }).bindProperty("selectedKey", {
+                            new sap.extension.m.EnumSelect("", {
+                                enumType: ibas.emYesNo
+                            }).bindProperty("bindingValue", {
                                 path: "productUnit",
-                                type: "sap.ui.model.type.Integer",
+                                type: new sap.extension.data.YesNo()
                             }),
                             new sap.ui.core.Title("", { text: ibas.i18n.prop("materials_title_inventory") }),
                             new sap.m.Label("", { text: ibas.i18n.prop("bo_material_onhand") }),
-                            new sap.m.Input("", {
+                            new sap.extension.m.Input("", {
                                 editable: false,
-                            }).bindProperty("value", {
+                                type: sap.m.InputType.Number
+                            }).bindProperty("bindingValue", {
                                 path: "onHand",
-                                type: new openui5.datatype.Quantity(),
-                            }),
-                            new sap.m.Label("", { text: ibas.i18n.prop("bo_material_onordered") }),
-                            new sap.m.Input("", {
-                                editable: false,
-                            }).bindProperty("value", {
-                                path: "onOrdered",
-                                type: new openui5.datatype.Quantity(),
+                                type: new sap.extension.data.Quantity()
                             }),
                             new sap.m.Label("", { text: ibas.i18n.prop("bo_material_oncommited") }),
-                            new sap.m.Input("", {
+                            new sap.extension.m.Input("", {
                                 editable: false,
-                            }).bindProperty("value", {
+                                type: sap.m.InputType.Number
+                            }).bindProperty("bindingValue", {
                                 path: "onCommited",
-                                type: new openui5.datatype.Quantity(),
+                                type: new sap.extension.data.Quantity()
                             }),
-                            new sap.m.Label("", { text: ibas.i18n.prop("bo_material_inventoryuom") }),
-                            new sap.m.Input("", {
-                                type: sap.m.InputType.Text,
-                            }).bindProperty("value", {
-                                path: "inventoryUOM",
+                            new sap.m.Label("", { text: ibas.i18n.prop("bo_material_onordered") }),
+                            new sap.extension.m.Input("", {
+                                editable: false,
+                                type: sap.m.InputType.Number
+                            }).bindProperty("bindingValue", {
+                                path: "onOrdered",
+                                type: new sap.extension.data.Quantity()
+                            }),
+                            new sap.m.Label("", { text: ibas.i18n.prop("bo_material_minimuminventory") }),
+                            new sap.extension.m.Input("", {
+                                type: sap.m.InputType.Number
+                            }).bindProperty("bindingValue", {
+                                path: "minimumInventory",
+                                type: new sap.extension.data.Quantity()
                             }),
                             new sap.m.Label("", { text: ibas.i18n.prop("bo_material_serialmanagement") }),
-                            new sap.m.Select("", {
-                                items: openui5.utils.createComboBoxItems(ibas.emYesNo),
-                            }).bindProperty("selectedKey", {
+                            new sap.extension.m.EnumSelect("", {
+                                enumType: ibas.emYesNo
+                            }).bindProperty("bindingValue", {
                                 path: "serialManagement",
-                                type: "sap.ui.model.type.Integer",
+                                type: new sap.extension.data.YesNo()
                             }),
                             new sap.m.Label("", { text: ibas.i18n.prop("bo_material_batchmanagement") }),
-                            new sap.m.Select("", {
-                                items: openui5.utils.createComboBoxItems(ibas.emYesNo),
-                            }).bindProperty("selectedKey", {
+                            new sap.extension.m.EnumSelect("", {
+                                enumType: ibas.emYesNo
+                            }).bindProperty("bindingValue", {
                                 path: "batchManagement",
-                                type: "sap.ui.model.type.Integer",
+                                type: new sap.extension.data.YesNo()
                             }),
                             new sap.m.Label("", { text: ibas.i18n.prop("bo_material_defaultwarehouse") }),
-                            new sap.m.Input("", {
+                            new sap.extension.m.RepositoryInput("", {
                                 showValueHelp: true,
+                                repository: bo.BORepositoryMaterials,
+                                dataInfo: {
+                                    type: bo.Warehouse,
+                                    key: bo.Warehouse.PROPERTY_CODE_NAME,
+                                    text: bo.Warehouse.PROPERTY_NAME_NAME
+                                },
                                 valueHelpRequest: function (): void {
                                     that.fireViewEvents(that.chooseMaterialWarehouseEvent);
                                 }
-                            }).bindProperty("value", {
-                                path: "defaultWarehouse"
+                            }).bindProperty("bindingValue", {
+                                path: "defaultWarehouse",
+                                type: new sap.extension.data.Alphanumeric({
+                                    maxLength: 8
+                                })
                             }),
                             new sap.m.Label("", { text: ibas.i18n.prop("bo_material_leadtime") }),
-                            new sap.m.Input("", {
-                                type: sap.m.InputType.Number,
-                            }).bindProperty("value", {
+                            new sap.extension.m.Input("", {
+                                type: sap.m.InputType.Number
+                            }).bindProperty("bindingValue", {
                                 path: "leadTime",
+                                type: new sap.extension.data.Numeric()
                             }),
                             new sap.ui.core.Title("", {}),
                         ]
                     });
-                    this.page = new sap.m.Page("", {
+                    return this.page = new sap.extension.m.DataPage("", {
                         showHeader: false,
+                        dataInfo: {
+                            code: bo.Material.BUSINESS_OBJECT_CODE,
+                        },
                         subHeader: new sap.m.Toolbar("", {
                             content: [
                                 new sap.m.Button("", {
@@ -302,43 +340,18 @@ namespace materials {
                                 }),
                             ]
                         }),
-                        content: [this.form]
+                        content: [
+                            formTop,
+                        ]
                     });
-                    this.id = this.page.getId();
-                    return this.page;
                 }
-                private page: sap.m.Page;
-                private form: sap.ui.layout.form.SimpleForm;
-                /** 改变视图状态 */
-                private changeViewStatus(data: bo.Material): void {
-                    if (ibas.objects.isNull(data)) {
-                        return;
-                    }
-                    // 新建时：禁用删除，
-                    if (data.isNew) {
-                        if (this.page.getSubHeader() instanceof sap.m.Toolbar) {
-                            openui5.utils.changeToolbarSavable(<sap.m.Toolbar>this.page.getSubHeader(), true);
-                            openui5.utils.changeToolbarDeletable(<sap.m.Toolbar>this.page.getSubHeader(), false);
-                        }
-                    }
-                    // 不可编辑：已批准，
-                    if (data.approvalStatus === ibas.emApprovalStatus.APPROVED) {
-                        if (this.page.getSubHeader() instanceof sap.m.Toolbar) {
-                            openui5.utils.changeToolbarSavable(<sap.m.Toolbar>this.page.getSubHeader(), false);
-                            openui5.utils.changeToolbarDeletable(<sap.m.Toolbar>this.page.getSubHeader(), false);
-                        }
-                        openui5.utils.changeFormEditable(this.form, false);
-                    }
-                }
+                private page: sap.extension.m.Page;
 
                 /** 显示数据 */
                 showMaterial(data: bo.Material): void {
-                    this.form.setModel(new sap.ui.model.json.JSONModel(data));
-                    this.form.bindObject("/");
-                    // 监听属性改变，并更新控件
-                    openui5.utils.refreshModelChanged(this.form, data);
-                    // 改变视图状态
-                    this.changeViewStatus(data);
+                    this.page.setModel(new sap.extension.model.JSONModel(data));
+                    // 改变页面状态
+                    sap.extension.pages.changeStatus(this.page);
                 }
 
             }

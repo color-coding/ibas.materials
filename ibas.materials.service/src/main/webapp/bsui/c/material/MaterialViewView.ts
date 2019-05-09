@@ -12,7 +12,6 @@ namespace materials {
              * 查看视图-物料
              */
             export class MaterialViewView extends ibas.BOViewView implements app.IMaterialViewView {
-
                 /** 绘制视图 */
                 public draw(): any {
                     let that: this = this;

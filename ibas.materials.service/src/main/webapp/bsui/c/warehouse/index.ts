@@ -8,4 +8,3 @@
 /// <reference path="./WarehouseChooseView.ts" />
 /// <reference path="./WarehouseEditView.ts" />
 /// <reference path="./WarehouseListView.ts" />
-/// <reference path="./WarehouseViewView.ts" />

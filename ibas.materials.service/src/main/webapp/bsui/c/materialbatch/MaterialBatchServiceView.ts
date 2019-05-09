@@ -18,60 +18,62 @@ namespace materials {
 
                 draw(): any {
                     let that: this = this;
-                    this.tableWorkDatas = new sap.ui.table.Table("", {
+                    this.tableWorkDatas = new sap.extension.table.Table("", {
                         enableSelectAll: false,
-                        selectionBehavior: sap.ui.table.SelectionBehavior.Row,
-                        selectionMode: sap.ui.table.SelectionMode.Single,
-                        visibleRowCount: ibas.config.get(openui5.utils.CONFIG_ITEM_LIST_TABLE_VISIBLE_ROW_COUNT, 5),
+                        chooseType: ibas.emChooseType.SINGLE,
+                        visibleRowCount: sap.extension.table.visibleRowCount(5),
                         rowSelectionChange: function (event: any): void {
-                            let table: sap.ui.table.Table = event.getSource();
-                            that.fireViewEvents(that.changeWorkingDataEvent,
-                                openui5.utils.getSelecteds<app.IMaterialBatchContract>(table).firstOrDefault());
+                            let table: sap.extension.table.Table = event.getSource();
+                            that.fireViewEvents(that.changeWorkingDataEvent, table.getSelecteds().firstOrDefault());
                         },
                         rows: "{/rows}",
                         columns: [
-                            new sap.ui.table.Column("", {
+                            new sap.extension.table.Column("", {
                                 label: ibas.i18n.prop("bo_materialbatchitem_itemcode"),
-                                template: new sap.m.Text("", {
-                                    wrapping: false,
-                                }).bindProperty("text", {
+                                template: new sap.extension.m.Text("", {
+                                }).bindProperty("bindingValue", {
                                     path: "itemCode",
+                                    type: new sap.extension.data.Alphanumeric()
                                 }),
                             }),
-                            new sap.ui.table.Column("", {
+                            new sap.extension.table.Column("", {
                                 label: ibas.i18n.prop("bo_materialbatchitem_itemdescription"),
-                                template: new sap.m.Text("", {
-                                    wrapping: false,
-                                }).bindProperty("text", {
+                                template: new sap.extension.m.Text("", {
+                                }).bindProperty("bindingValue", {
                                     path: "itemDescription",
+                                    type: new sap.extension.data.Alphanumeric()
                                 }),
                             }),
-                            new sap.ui.table.Column("", {
+                            new sap.extension.table.Column("", {
                                 label: ibas.i18n.prop("bo_materialbatchitem_warehouse"),
-                                template: new sap.m.Text("", {
-                                    wrapping: false,
-                                }).bindProperty("text", {
+                                template: new sap.extension.m.RepositoryText("", {
+                                    repository: bo.BORepositoryMaterials,
+                                    dataInfo: {
+                                        type: bo.Warehouse,
+                                        key: bo.Warehouse.PROPERTY_CODE_NAME,
+                                        text: bo.Warehouse.PROPERTY_NAME_NAME
+                                    },
+                                }).bindProperty("bindingValue", {
                                     path: "warehouse",
+                                    type: new sap.extension.data.Alphanumeric()
                                 }),
                             }),
-                            new sap.ui.table.Column("", {
+                            new sap.extension.table.Column("", {
                                 label: ibas.i18n.prop("bo_materialbatchitem_quantity"),
-                                template: new sap.m.Text("", {
-                                    wrapping: false,
-                                }).bindProperty("text", {
+                                template: new sap.extension.m.Text("", {
+                                }).bindProperty("bindingValue", {
                                     path: "quantity",
-                                    type: new openui5.datatype.Quantity(),
+                                    type: new sap.extension.data.Quantity()
                                 }),
                             }),
-                            new sap.ui.table.Column("", {
+                            new sap.extension.table.Column("", {
                                 label: ibas.i18n.prop("bo_materialbatchitem_unworked_quantity"),
-                                template: new sap.m.Text("", {
-                                    wrapping: false,
-                                }).bindProperty("text", {
+                                template: new sap.extension.m.Text("", {
+                                }).bindProperty("bindingValue", {
                                     path: "quantity",
-                                    type: new openui5.datatype.Quantity(),
+                                    type: new sap.extension.data.Quantity(),
                                     formatter(data: any): any {
-                                        let context: any = this.getBindingInfo("text").binding.getContext();
+                                        let context: any = this.getBindingInfo("bindingValue").binding.getContext();
                                         if (ibas.objects.isNull(context)) {
                                             return data;
                                         }
@@ -86,111 +88,58 @@ namespace materials {
                             }),
                         ]
                     });
-                    openui5.utils.changeSelectionStyle(this.tableWorkDatas, ibas.emChooseType.SINGLE);
-                    this.tableItems = new sap.ui.table.Table("", {
+                    this.tableItems = new sap.extension.table.Table("", {
                         enableSelectAll: false,
-                        selectionBehavior: sap.ui.table.SelectionBehavior.Row,
-                        selectionMode: sap.ui.table.SelectionMode.Single,
-                        visibleRowCount: ibas.config.get(openui5.utils.CONFIG_ITEM_LIST_TABLE_VISIBLE_ROW_COUNT, 6),
+                        chooseType: ibas.emChooseType.SINGLE,
+                        visibleRowCount: sap.extension.table.visibleRowCount(6),
                         rows: "{/rows}",
                         columns: [
-                            new sap.ui.table.Column("", {
-                                width: "70%",
+                            new sap.extension.table.Column("", {
                                 label: ibas.i18n.prop("bo_materialbatchitem_batchcode"),
-                                template: new sap.m.Text("", {
-                                    wrapping: false,
-                                }).bindProperty("text", {
+                                template: new sap.extension.m.Text("", {
+                                }).bindProperty("bindingValue", {
                                     path: "batchCode",
+                                    type: new sap.extension.data.Alphanumeric(),
                                 }),
                             }),
-                            new sap.ui.table.Column("", {
-                                width: "30%",
+                            new sap.extension.table.Column("", {
                                 label: ibas.i18n.prop("bo_materialbatchitem_quantity"),
-                                template: new sap.m.Input("", {
-                                }).bindProperty("value", {
+                                template: new sap.extension.m.Input("", {
+                                }).bindProperty("bindingValue", {
                                     path: "quantity",
-                                    type: new openui5.datatype.Quantity(),
+                                    type: new sap.extension.data.Quantity(),
                                 }),
                             }),
                         ]
                     });
-                    openui5.utils.changeSelectionStyle(this.tableItems, ibas.emChooseType.SINGLE);
-                    this.tableInventories = new sap.ui.table.Table("", {
+                    this.tableInventories = new sap.extension.table.Table("", {
                         enableSelectAll: false,
-                        selectionBehavior: sap.ui.table.SelectionBehavior.Row,
-                        selectionMode: sap.ui.table.SelectionMode.Single,
-                        visibleRowCount: ibas.config.get(openui5.utils.CONFIG_ITEM_LIST_TABLE_VISIBLE_ROW_COUNT, 6),
+                        chooseType: ibas.emChooseType.SINGLE,
+                        visibleRowCount: sap.extension.table.visibleRowCount(6),
                         rows: "{/rows}",
                         columns: [
-                            new sap.ui.table.Column("", {
-                                width: "70%",
+                            new sap.extension.table.Column("", {
                                 label: ibas.i18n.prop("bo_materialbatch_batchcode"),
-                                template: new sap.m.Text("", {
-                                    wrapping: false,
-                                }).bindProperty("text", {
+                                template: new sap.extension.m.Text("", {
+                                }).bindProperty("bindingValue", {
                                     path: "batchCode",
+                                    type: new sap.extension.data.Alphanumeric()
                                 }),
                             }),
-                            new sap.ui.table.Column("", {
-                                width: "30%",
+                            new sap.extension.table.Column("", {
                                 label: ibas.i18n.prop("bo_materialbatch_quantity"),
-                                template: new sap.m.Text("", {
-                                    wrapping: false,
-                                }).bindProperty("text", {
+                                template: new sap.extension.m.Text("", {
+                                }).bindProperty("bindingValue", {
                                     path: "quantity",
-                                    type: new openui5.datatype.Quantity(),
+                                    type: new sap.extension.data.Quantity(),
                                 }),
                             }),
-                            /*
-                            new sap.ui.table.Column("", {
-                                label: ibas.i18n.prop("bo_materialbatch_supplierserial"),
-                                template: new sap.m.Text("", {
-                                    wrapping: false,
-                                }).bindProperty("text", {
-                                    path: "supplierSerial",
-                                }),
-                            }),
-                            new sap.ui.table.Column("", {
-                                label: ibas.i18n.prop("bo_materialbatch_internalserial"),
-                                template: new sap.m.Text("", {
-                                    wrapping: false,
-                                }).bindProperty("text", {
-                                    path: "internalSerial",
-                                }),
-                            }),
-                            new sap.ui.table.Column("", {
-                                label: ibas.i18n.prop("bo_materialbatch_expirationdate"),
-                                template: new sap.m.Text("", {
-                                    wrapping: false,
-                                }).bindProperty("text", {
-                                    path: "expirationDate",
-                                }),
-                            }),
-                            new sap.ui.table.Column("", {
-                                label: ibas.i18n.prop("bo_materialbatch_manufacturingdate"),
-                                template: new sap.m.Text("", {
-                                    wrapping: false,
-                                }).bindProperty("text", {
-                                    path: "manufacturingDate",
-                                }),
-                            }),
-                            new sap.ui.table.Column("", {
-                                label: ibas.i18n.prop("bo_materialbatch_admissiondate"),
-                                template: new sap.m.Text("", {
-                                    wrapping: false,
-                                }).bindProperty("text", {
-                                    path: "admissionDate",
-                                }),
-                            }),
-                            */
                         ]
                     });
-                    openui5.utils.changeSelectionStyle(this.tableInventories, ibas.emChooseType.SINGLE);
                     return new sap.m.Dialog("", {
                         title: this.title,
                         type: sap.m.DialogType.Standard,
                         state: sap.ui.core.ValueState.None,
-                        stretchOnPhone: true,
                         horizontalScrolling: false,
                         verticalScrolling: false,
                         content: [
@@ -222,15 +171,13 @@ namespace materials {
                                                     new sap.m.Button("", {
                                                         icon: "sap-icon://navigation-right-arrow",
                                                         press: function (): void {
-                                                            that.fireViewEvents(that.useMaterialBatchInventoryEvent,
-                                                                openui5.utils.getSelecteds(that.tableInventories).firstOrDefault());
+                                                            that.fireViewEvents(that.useMaterialBatchInventoryEvent, that.tableInventories.getSelecteds().firstOrDefault());
                                                         }
                                                     }).addStyleClass("sapUiTinyMarginBottom"),
                                                     new sap.m.Button("", {
                                                         icon: "sap-icon://navigation-left-arrow",
                                                         press: function (): void {
-                                                            that.fireViewEvents(that.removeMaterialBatchItemEvent,
-                                                                openui5.utils.getSelecteds(that.tableItems).firstOrDefault());
+                                                            that.fireViewEvents(that.removeMaterialBatchItemEvent, that.tableItems.getSelecteds().firstOrDefault());
                                                         }
                                                     }).addStyleClass("sapUiTinyMarginBottom"),
                                                 ]
@@ -252,16 +199,16 @@ namespace materials {
                         ]
                     });
                 }
-                private tableWorkDatas: sap.ui.table.Table;
-                private tableItems: sap.ui.table.Table;
-                private tableInventories: sap.ui.table.Table;
+                private tableWorkDatas: sap.extension.table.Table;
+                private tableItems: sap.extension.table.Table;
+                private tableInventories: sap.extension.table.Table;
                 /** 显示待处理数据 */
                 showWorkDatas(datas: app.IMaterialBatchContract[]): void {
-                    this.tableWorkDatas.setModel(new sap.ui.model.json.JSONModel({ rows: datas }));
+                    this.tableWorkDatas.setModel(new sap.extension.model.JSONModel({ rows: datas }));
                 }
                 /** 显示物料批次记录 */
                 showMaterialBatchItems(datas: bo.IMaterialBatchItem[]): void {
-                    this.tableItems.setModel(new sap.ui.model.json.JSONModel({ rows: datas }));
+                    this.tableItems.setModel(new sap.extension.model.JSONModel({ rows: datas }));
                     let model: sap.ui.model.Model = this.tableWorkDatas.getModel(undefined);
                     if (!ibas.objects.isNull(model)) {
                         model.refresh(true);
@@ -269,7 +216,7 @@ namespace materials {
                 }
                 /** 显示物料批次库存 */
                 showMaterialBatchInventories(datas: bo.MaterialBatch[]): void {
-                    this.tableInventories.setModel(new sap.ui.model.json.JSONModel({ rows: datas }));
+                    this.tableInventories.setModel(new sap.extension.model.JSONModel({ rows: datas }));
                 }
             }
             /** 物料批次收货视图 */
@@ -283,60 +230,62 @@ namespace materials {
 
                 draw(): any {
                     let that: this = this;
-                    this.tableWorkDatas = new sap.ui.table.Table("", {
+                    this.tableWorkDatas = new sap.extension.table.Table("", {
                         enableSelectAll: false,
-                        selectionBehavior: sap.ui.table.SelectionBehavior.Row,
-                        selectionMode: sap.ui.table.SelectionMode.Single,
-                        visibleRowCount: ibas.config.get(openui5.utils.CONFIG_ITEM_LIST_TABLE_VISIBLE_ROW_COUNT, 5),
+                        chooseType: ibas.emChooseType.SINGLE,
+                        visibleRowCount: sap.extension.table.visibleRowCount(5),
                         rowSelectionChange: function (event: any): void {
-                            let table: sap.ui.table.Table = event.getSource();
-                            that.fireViewEvents(that.changeWorkingDataEvent,
-                                openui5.utils.getSelecteds<app.IMaterialBatchContract>(table).firstOrDefault());
+                            let table: sap.extension.table.Table = event.getSource();
+                            that.fireViewEvents(that.changeWorkingDataEvent, table.getSelecteds().firstOrDefault());
                         },
                         rows: "{/rows}",
                         columns: [
-                            new sap.ui.table.Column("", {
+                            new sap.extension.table.Column("", {
                                 label: ibas.i18n.prop("bo_materialbatchitem_itemcode"),
-                                template: new sap.m.Text("", {
-                                    wrapping: false,
-                                }).bindProperty("text", {
+                                template: new sap.extension.m.Text("", {
+                                }).bindProperty("bindingValue", {
                                     path: "itemCode",
+                                    type: new sap.extension.data.Alphanumeric(),
                                 }),
                             }),
-                            new sap.ui.table.Column("", {
+                            new sap.extension.table.Column("", {
                                 label: ibas.i18n.prop("bo_materialbatchitem_itemdescription"),
-                                template: new sap.m.Text("", {
-                                    wrapping: false,
-                                }).bindProperty("text", {
+                                template: new sap.extension.m.Text("", {
+                                }).bindProperty("bindingValue", {
                                     path: "itemDescription",
+                                    type: new sap.extension.data.Alphanumeric(),
                                 }),
                             }),
-                            new sap.ui.table.Column("", {
+                            new sap.extension.table.Column("", {
                                 label: ibas.i18n.prop("bo_materialbatchitem_warehouse"),
-                                template: new sap.m.Text("", {
-                                    wrapping: false,
-                                }).bindProperty("text", {
+                                template: new sap.extension.m.RepositoryText("", {
+                                    repository: bo.BORepositoryMaterials,
+                                    dataInfo: {
+                                        type: bo.Warehouse,
+                                        key: bo.Warehouse.PROPERTY_CODE_NAME,
+                                        text: bo.Warehouse.PROPERTY_NAME_NAME
+                                    },
+                                }).bindProperty("bindingValue", {
                                     path: "warehouse",
+                                    type: new sap.extension.data.Alphanumeric(),
                                 }),
                             }),
-                            new sap.ui.table.Column("", {
+                            new sap.extension.table.Column("", {
                                 label: ibas.i18n.prop("bo_materialbatchitem_quantity"),
-                                template: new sap.m.Text("", {
-                                    wrapping: false,
-                                }).bindProperty("text", {
+                                template: new sap.extension.m.Text("", {
+                                }).bindProperty("bindingValue", {
                                     path: "quantity",
-                                    type: new openui5.datatype.Quantity(),
+                                    type: new sap.extension.data.Quantity(),
                                 }),
                             }),
-                            new sap.ui.table.Column("", {
+                            new sap.extension.table.Column("", {
                                 label: ibas.i18n.prop("bo_materialbatchitem_unworked_quantity"),
-                                template: new sap.m.Text("", {
-                                    wrapping: false,
-                                }).bindProperty("text", {
+                                template: new sap.extension.m.Text("", {
+                                }).bindProperty("bindingValue", {
                                     path: "quantity",
-                                    type: new openui5.datatype.Quantity(),
+                                    type: new sap.extension.data.Quantity(),
                                     formatter(data: any): any {
-                                        let context: any = this.getBindingInfo("text").binding.getContext();
+                                        let context: any = this.getBindingInfo("bindingValue").binding.getContext();
                                         if (ibas.objects.isNull(context)) {
                                             return data;
                                         }
@@ -351,12 +300,10 @@ namespace materials {
                             }),
                         ]
                     });
-                    openui5.utils.changeSelectionStyle(this.tableWorkDatas, ibas.emChooseType.SINGLE);
-                    this.tableItems = new sap.ui.table.Table("", {
+                    this.tableItems = new sap.extension.table.Table("", {
                         enableSelectAll: false,
-                        selectionBehavior: sap.ui.table.SelectionBehavior.Row,
-                        selectionMode: sap.ui.table.SelectionMode.Single,
-                        visibleRowCount: ibas.config.get(openui5.utils.CONFIG_ITEM_LIST_TABLE_VISIBLE_ROW_COUNT, 4),
+                        chooseType: ibas.emChooseType.SINGLE,
+                        visibleRowCount: sap.extension.table.visibleRowCount(4),
                         toolbar: new sap.m.Toolbar("", {
                             content: [
                                 new sap.m.Button("", {
@@ -372,38 +319,35 @@ namespace materials {
                                     type: sap.m.ButtonType.Transparent,
                                     icon: "sap-icon://less",
                                     press: function (): void {
-                                        that.fireViewEvents(that.deleteMaterialBatchItemEvent,
-                                            openui5.utils.getSelecteds<app.IMaterialBatchContract>(that.tableItems).firstOrDefault()
-                                        );
+                                        that.fireViewEvents(that.deleteMaterialBatchItemEvent, that.tableItems.getSelecteds().firstOrDefault());
                                     }
                                 }),
                             ]
                         }),
                         rows: "{/rows}",
                         columns: [
-                            new sap.ui.table.Column("", {
+                            new sap.extension.table.Column("", {
                                 label: ibas.i18n.prop("bo_materialbatchitem_batchcode"),
-                                template: new sap.m.Input("", {
-                                }).bindProperty("value", {
+                                template: new sap.extension.m.Input("", {
+                                }).bindProperty("bindingValue", {
                                     path: "batchCode",
+                                    type: new sap.extension.data.Alphanumeric(),
                                 }),
                             }),
-                            new sap.ui.table.Column("", {
+                            new sap.extension.table.Column("", {
                                 label: ibas.i18n.prop("bo_materialbatchitem_quantity"),
-                                template: new sap.m.Input("", {
-                                }).bindProperty("value", {
+                                template: new sap.extension.m.Input("", {
+                                }).bindProperty("bindingValue", {
                                     path: "quantity",
-                                    type: new openui5.datatype.Quantity(),
+                                    type: new sap.extension.data.Quantity(),
                                 }),
                             }),
                         ]
                     });
-                    openui5.utils.changeSelectionStyle(this.tableItems, ibas.emChooseType.SINGLE);
                     return new sap.m.Dialog("", {
                         title: this.title,
                         type: sap.m.DialogType.Standard,
                         state: sap.ui.core.ValueState.None,
-                        stretchOnPhone: true,
                         horizontalScrolling: false,
                         verticalScrolling: false,
                         content: [
@@ -444,16 +388,16 @@ namespace materials {
                         ]
                     });
                 }
-                private tableWorkDatas: sap.ui.table.Table;
-                private tableItems: sap.ui.table.Table;
+                private tableWorkDatas: sap.extension.table.Table;
+                private tableItems: sap.extension.table.Table;
 
                 /** 显示待处理数据 */
                 showWorkDatas(datas: app.IMaterialBatchContract[]): void {
-                    this.tableWorkDatas.setModel(new sap.ui.model.json.JSONModel({ rows: datas }));
+                    this.tableWorkDatas.setModel(new sap.extension.model.JSONModel({ rows: datas }));
                 }
                 /** 显示物料批次记录 */
                 showMaterialBatchItems(datas: bo.IMaterialBatchItem[]): void {
-                    this.tableItems.setModel(new sap.ui.model.json.JSONModel({ rows: datas }));
+                    this.tableItems.setModel(new sap.extension.model.JSONModel({ rows: datas }));
                     let model: sap.ui.model.Model = this.tableWorkDatas.getModel(undefined);
                     if (!ibas.objects.isNull(model)) {
                         model.refresh(true);

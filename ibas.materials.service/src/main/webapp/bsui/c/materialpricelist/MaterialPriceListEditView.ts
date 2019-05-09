@@ -22,69 +22,76 @@ namespace materials {
                 /** 绘制视图 */
                 draw(): any {
                     let that: this = this;
-                    this.layoutMain = new sap.ui.layout.form.SimpleForm("", {
+                    this.formTop = new sap.ui.layout.form.SimpleForm("", {
                         editable: true,
                         content: [
-                            new sap.m.Label("", { text: ibas.i18n.prop("bo_materialpricelist_objectkey") }),
-                            new sap.m.Input("", {
-                                type: sap.m.InputType.Text,
-                                editable: false,
-                            }).bindProperty("value", {
-                                path: "objectKey",
-                            }),
                             new sap.m.Label("", { text: ibas.i18n.prop("bo_materialpricelist_name") }),
-                            new sap.m.Input("", {
-                                type: sap.m.InputType.Text,
-                            }).bindProperty("value", {
-                                path: "name",
+                            new sap.extension.m.Input("", {
+                            }).bindProperty("bindingValue", {
+                                path: "/name",
+                                type: new sap.extension.data.Alphanumeric({
+                                    maxLength: 20
+                                })
                             }),
                             new sap.m.Label("", { text: ibas.i18n.prop("bo_materialpricelist_group") }),
-                            new sap.m.Input("", {
-                                type: sap.m.InputType.Text,
-                            }).bindProperty("value", {
-                                path: "group",
+                            new sap.extension.m.Input("", {
+                            }).bindProperty("bindingValue", {
+                                path: "/group",
+                                type: new sap.extension.data.Alphanumeric({
+                                    maxLength: 8
+                                })
                             }),
                             new sap.m.Label("", { text: ibas.i18n.prop("bo_materialpricelist_currency") }),
-                            new sap.m.Input("", {
-                                type: sap.m.InputType.Text,
-                            }).bindProperty("value", {
-                                path: "currency",
+                            new sap.extension.m.Input("", {
+                            }).bindProperty("bindingValue", {
+                                path: "/currency",
+                                type: new sap.extension.data.Alphanumeric({
+                                    maxLength: 8
+                                })
                             }),
                             new sap.m.Label("", { text: ibas.i18n.prop("bo_materialpricelist_basedonlist") }),
-                            new sap.m.Input("", {
-                                type: sap.m.InputType.Text,
+                            new sap.extension.m.RepositoryInput("", {
                                 showValueHelp: true,
+                                repository: bo.BORepositoryMaterials,
+                                dataInfo: {
+                                    type: bo.MaterialPriceList,
+                                    key: bo.MaterialPriceList.PROPERTY_OBJECTKEY_NAME,
+                                    text: bo.MaterialPriceList.PROPERTY_NAME_NAME
+                                },
                                 valueHelpRequest: function (): void {
                                     that.fireViewEvents(that.chooseBasedOnMaterialPriceListEvent);
                                 }
-                            }).bindProperty("value", {
-                                path: "basedOnList",
+                            }).bindProperty("bindingValue", {
+                                path: "/basedOnList",
+                                type: new sap.extension.data.Numeric()
                             }),
                             new sap.m.Label("", { text: ibas.i18n.prop("bo_materialpricelist_factor") }),
-                            new sap.m.Input("", {
-                                type: sap.m.InputType.Number,
-                            }).bindProperty("value", {
-                                path: "factor",
+                            new sap.extension.m.Input("", {
+                                type: sap.m.InputType.Text
+                            }).bindProperty("bindingValue", {
+                                path: "/factor",
+                                type: new sap.extension.data.Percentage()
                             }),
                             new sap.m.Label("", { text: ibas.i18n.prop("bo_materialpricelist_validdate") }),
-                            new sap.m.DatePicker("", {
-                                valueFormat: ibas.config.get(ibas.CONFIG_ITEM_FORMAT_DATE),
-                                displayFormat: ibas.config.get(ibas.CONFIG_ITEM_FORMAT_DATE),
-                            }).bindProperty("dateValue", {
-                                path: "validDate"
+                            new sap.extension.m.DatePicker("", {
+                            }).bindProperty("bindingValue", {
+                                path: "/validDate",
+                                type: new sap.extension.data.Date()
                             }),
                             new sap.m.Label("", { text: ibas.i18n.prop("bo_materialpricelist_invaliddate") }),
-                            new sap.m.DatePicker("", {
-                                valueFormat: ibas.config.get(ibas.CONFIG_ITEM_FORMAT_DATE),
-                                displayFormat: ibas.config.get(ibas.CONFIG_ITEM_FORMAT_DATE),
-                            }).bindProperty("dateValue", {
-                                path: "invalidDate"
+                            new sap.extension.m.DatePicker("", {
+                            }).bindProperty("bindingValue", {
+                                path: "/invalidDate",
+                                type: new sap.extension.data.Date()
                             }),
                             new sap.m.Label("", { text: ibas.i18n.prop("bo_materialpricelist_organization") }),
-                            new sap.m.ex.OrganizationInput("", {
-                                bindingValue: {
-                                    path: "organization"
-                                }
+                            new sap.extension.m.OrganizationInput("", {
+                                showValueHelp: true,
+                            }).bindProperty("bindingValue", {
+                                path: "/organization",
+                                type: new sap.extension.data.Alphanumeric({
+                                    maxLength: 8
+                                })
                             }),
                         ]
                     });
@@ -92,10 +99,11 @@ namespace materials {
                         title: this.title,
                         type: sap.m.DialogType.Standard,
                         state: sap.ui.core.ValueState.None,
-                        stretchOnPhone: true,
                         horizontalScrolling: true,
                         verticalScrolling: true,
-                        content: [this.layoutMain],
+                        content: [
+                            this.formTop
+                        ],
                         buttons: [
                             new sap.m.Button("", {
                                 text: ibas.i18n.prop("shell_data_delete"),
@@ -124,15 +132,10 @@ namespace materials {
                         ]
                     });
                 }
-
-                private layoutMain: sap.ui.layout.form.SimpleForm;
-
+                private formTop: sap.ui.layout.form.SimpleForm;
                 /** 显示数据 */
                 showMaterialPriceList(data: bo.MaterialPriceList): void {
-                    this.layoutMain.setModel(new sap.ui.model.json.JSONModel(data));
-                    this.layoutMain.bindObject("/");
-                    // 监听属性改变，并更新控件
-                    openui5.utils.refreshModelChanged(this.layoutMain, data);
+                    this.formTop.setModel(new sap.ui.model.json.JSONModel(data));
                 }
             }
         }
