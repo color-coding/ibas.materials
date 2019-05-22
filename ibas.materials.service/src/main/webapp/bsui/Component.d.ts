@@ -13,6 +13,15 @@ declare namespace materials {
              */
             class WarehouseSelect extends sap.extension.m.RepositorySelect {
             }
+            /**
+             * 物料或物料组-文本框
+             */
+            class MaterialOrMaterialGroupText extends sap.extension.m.ConversionText {
+                /** 获取-用户或角色类型属性 */
+                getTypeProperty(): string;
+                /** 设置-用户或角色类型属性 */
+                setTypeProperty(value: string): this;
+            }
         }
     }
 }

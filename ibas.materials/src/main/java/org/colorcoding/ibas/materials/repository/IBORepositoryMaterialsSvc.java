@@ -20,6 +20,9 @@ import org.colorcoding.ibas.materials.bo.materialinventory.MaterialInventoryJour
 import org.colorcoding.ibas.materials.bo.materialpricelist.MaterialPriceList;
 import org.colorcoding.ibas.materials.bo.materialserial.MaterialSerial;
 import org.colorcoding.ibas.materials.bo.materialserial.MaterialSerialJournal;
+import org.colorcoding.ibas.materials.bo.materialspecification.MaterialSpecification;
+import org.colorcoding.ibas.materials.bo.specification.Specification;
+import org.colorcoding.ibas.materials.bo.specification.SpecificationTree;
 import org.colorcoding.ibas.materials.bo.warehouse.Warehouse;
 
 /**
@@ -322,5 +325,52 @@ public interface IBORepositoryMaterialsSvc extends IBORepositorySmartService {
 	 * @return 操作结果
 	 */
 	OperationResult<String> closeInventoryCounting(ICriteria criteria, String token);
+
+	// --------------------------------------------------------------------------------------------//
+	/**
+	 * 查询-物料规格
+	 * 
+	 * @param criteria 查询
+	 * @param token    口令
+	 * @return 操作结果
+	 */
+	OperationResult<MaterialSpecification> fetchMaterialSpecification(ICriteria criteria, String token);
+
+	/**
+	 * 保存-物料规格
+	 * 
+	 * @param bo    对象实例
+	 * @param token 口令
+	 * @return 操作结果
+	 */
+	OperationResult<MaterialSpecification> saveMaterialSpecification(MaterialSpecification bo, String token);
+
+	// --------------------------------------------------------------------------------------------//
+	/**
+	 * 查询-规格模板
+	 * 
+	 * @param criteria 查询
+	 * @param token    口令
+	 * @return 操作结果
+	 */
+	OperationResult<Specification> fetchSpecification(ICriteria criteria, String token);
+
+	/**
+	 * 保存-规格模板
+	 * 
+	 * @param bo    对象实例
+	 * @param token 口令
+	 * @return 操作结果
+	 */
+	OperationResult<Specification> saveSpecification(Specification bo, String token);
+
+	/**
+	 * 查询-规格树
+	 * 
+	 * @param criteria 查询
+	 * @param token    口令
+	 * @return 操作结果
+	 */
+	OperationResult<SpecificationTree> fetchSpecificationTree(ICriteria criteria, String token);
 	// --------------------------------------------------------------------------------------------//
 }

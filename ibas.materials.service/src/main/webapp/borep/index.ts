@@ -21,6 +21,9 @@
 /// <reference path="./bo/Product.ts" />
 /// <reference path="./bo/Warehouse.ts" />
 /// <reference path="./bo/InventoryCounting.ts" />
+/// <reference path="./bo/MaterialSpecification.ts" />
+/// <reference path="./bo/Specification.ts" />
+/// <reference path="./bo/SpecificationTree.ts" />
 /// <reference path="./DataConverter.ts" />
 /// <reference path="./BORepository.ts" />
 
@@ -46,5 +49,7 @@ namespace materials {
         boFactory.register(MaterialBatchJournal.BUSINESS_OBJECT_CODE, MaterialBatchJournal);
         boFactory.register(MaterialSerialJournal.BUSINESS_OBJECT_CODE, MaterialSerialJournal);
         boFactory.register(InventoryCounting.BUSINESS_OBJECT_CODE, InventoryCounting);
+        boFactory.register(MaterialSpecification.BUSINESS_OBJECT_CODE, MaterialSpecification);
+        boFactory.register(Specification.BUSINESS_OBJECT_CODE, Specification);
     }
 }

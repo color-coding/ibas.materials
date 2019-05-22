@@ -18,6 +18,8 @@ import org.colorcoding.ibas.bobas.data.emApprovalStatus;
 import org.colorcoding.ibas.bobas.data.emDocumentStatus;
 import org.colorcoding.ibas.bobas.data.emYesNo;
 import org.colorcoding.ibas.bobas.i18n.I18N;
+import org.colorcoding.ibas.bobas.message.Logger;
+import org.colorcoding.ibas.bobas.organization.OrganizationFactory;
 import org.colorcoding.ibas.bobas.repository.BORepositoryServiceApplication;
 import org.colorcoding.ibas.materials.MyConfiguration;
 import org.colorcoding.ibas.materials.bo.goodsissue.GoodsIssue;
@@ -57,8 +59,14 @@ import org.colorcoding.ibas.materials.bo.materialserial.IMaterialSerial;
 import org.colorcoding.ibas.materials.bo.materialserial.IMaterialSerialJournal;
 import org.colorcoding.ibas.materials.bo.materialserial.MaterialSerial;
 import org.colorcoding.ibas.materials.bo.materialserial.MaterialSerialJournal;
+import org.colorcoding.ibas.materials.bo.materialspecification.IMaterialSpecification;
+import org.colorcoding.ibas.materials.bo.materialspecification.MaterialSpecification;
+import org.colorcoding.ibas.materials.bo.specification.ISpecification;
+import org.colorcoding.ibas.materials.bo.specification.Specification;
+import org.colorcoding.ibas.materials.bo.specification.SpecificationTree;
 import org.colorcoding.ibas.materials.bo.warehouse.IWarehouse;
 import org.colorcoding.ibas.materials.bo.warehouse.Warehouse;
+import org.colorcoding.ibas.materials.data.emSpecificationTarget;
 
 /**
  * Materials仓库
@@ -1213,6 +1221,173 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 			}
 			return operationResult;
 		} catch (Exception e) {
+			return new OperationResult<>(e);
+		}
+	}
+
+	// --------------------------------------------------------------------------------------------//
+	/**
+	 * 查询-物料规格
+	 * 
+	 * @param criteria 查询
+	 * @param token    口令
+	 * @return 操作结果
+	 */
+	public OperationResult<MaterialSpecification> fetchMaterialSpecification(ICriteria criteria, String token) {
+		return super.fetch(criteria, token, MaterialSpecification.class);
+	}
+
+	/**
+	 * 查询-物料规格（提前设置用户口令）
+	 * 
+	 * @param criteria 查询
+	 * @return 操作结果
+	 */
+	public IOperationResult<IMaterialSpecification> fetchMaterialSpecification(ICriteria criteria) {
+		return new OperationResult<IMaterialSpecification>(
+				this.fetchMaterialSpecification(criteria, this.getUserToken()));
+	}
+
+	/**
+	 * 保存-物料规格
+	 * 
+	 * @param bo    对象实例
+	 * @param token 口令
+	 * @return 操作结果
+	 */
+	public OperationResult<MaterialSpecification> saveMaterialSpecification(MaterialSpecification bo, String token) {
+		return super.save(bo, token);
+	}
+
+	/**
+	 * 保存-物料规格（提前设置用户口令）
+	 * 
+	 * @param bo 对象实例
+	 * @return 操作结果
+	 */
+	public IOperationResult<IMaterialSpecification> saveMaterialSpecification(IMaterialSpecification bo) {
+		return new OperationResult<IMaterialSpecification>(
+				this.saveMaterialSpecification((MaterialSpecification) bo, this.getUserToken()));
+	}
+
+	// --------------------------------------------------------------------------------------------//
+	/**
+	 * 查询-规格模板
+	 * 
+	 * @param criteria 查询
+	 * @param token    口令
+	 * @return 操作结果
+	 */
+	public OperationResult<Specification> fetchSpecification(ICriteria criteria, String token) {
+		return super.fetch(criteria, token, Specification.class);
+	}
+
+	/**
+	 * 查询-规格模板（提前设置用户口令）
+	 * 
+	 * @param criteria 查询
+	 * @return 操作结果
+	 */
+	public IOperationResult<ISpecification> fetchSpecification(ICriteria criteria) {
+		return new OperationResult<ISpecification>(this.fetchSpecification(criteria, this.getUserToken()));
+	}
+
+	/**
+	 * 保存-规格模板
+	 * 
+	 * @param bo    对象实例
+	 * @param token 口令
+	 * @return 操作结果
+	 */
+	public OperationResult<Specification> saveSpecification(Specification bo, String token) {
+		return super.save(bo, token);
+	}
+
+	/**
+	 * 保存-规格模板（提前设置用户口令）
+	 * 
+	 * @param bo 对象实例
+	 * @return 操作结果
+	 */
+	public IOperationResult<ISpecification> saveSpecification(ISpecification bo) {
+		return new OperationResult<ISpecification>(this.saveSpecification((Specification) bo, this.getUserToken()));
+	}
+
+	@Override
+	public IOperationResult<SpecificationTree> fetchSpecificationTree(ICriteria criteria) {
+		return this.fetchSpecificationTree(criteria, this.getUserToken());
+	}
+
+	@Override
+	public OperationResult<SpecificationTree> fetchSpecificationTree(ICriteria criteria, String token) {
+		try {
+			this.setUserToken(token);
+			if (criteria == null) {
+				throw new Exception(I18N.prop("msg_bobas_invaild_criteria"));
+			}
+			// 模板查询
+			ICriteria tCriteria = new Criteria();
+			for (ICondition item : criteria.getConditions()) {
+				if (!item.getAlias().equalsIgnoreCase("Template")) {
+					continue;
+				}
+				ICondition condition = tCriteria.getConditions().create();
+				condition.setAlias(Specification.PROPERTY_OBJECTKEY.getName());
+				condition.setValue(item.getValue());
+			}
+			// 没有明确模板编号
+			if (tCriteria.getConditions().isEmpty()) {
+				for (ICondition item : criteria.getConditions()) {
+					if (item.getAlias().equalsIgnoreCase("Material")) {
+						// 物料条件
+						ICondition condition = tCriteria.getConditions().create();
+						condition.setBracketOpen(1);
+						condition.setAlias(Specification.PROPERTY_TARGETTYPE.getName());
+						condition.setValue(emSpecificationTarget.MATERIAL);
+						condition = tCriteria.getConditions().create();
+						condition.setBracketClose(1);
+						condition.setAlias(Specification.PROPERTY_TARGET.getName());
+						condition.setValue(item.getValue());
+						// 物料的组
+						ICriteria mCriteria = new Criteria();
+						ICondition mCondition = mCriteria.getConditions().create();
+						mCondition.setAlias(Material.PROPERTY_CODE.getName());
+						mCondition.setValue(item.getValue());
+						BORepositoryMaterials boRepository = new BORepositoryMaterials();
+						boRepository.setUserToken(OrganizationFactory.SYSTEM_USER.getToken());
+						IMaterial material = boRepository.fetchMaterial(mCriteria).getResultObjects().firstOrDefault();
+						if (material != null && material.getGroup() != null) {
+							condition = tCriteria.getConditions().create();
+							condition.setBracketOpen(1);
+							condition.setAlias(Specification.PROPERTY_TARGETTYPE.getName());
+							condition.setValue(emSpecificationTarget.MATERIAL_GROUP);
+							condition.setRelationship(ConditionRelationship.OR);
+							condition = tCriteria.getConditions().create();
+							condition.setBracketClose(1);
+							condition.setAlias(Specification.PROPERTY_TARGET.getName());
+							condition.setValue(material.getGroup());
+						}
+					} else if (item.getAlias().equalsIgnoreCase("MaterialGroup")) {
+						ICondition condition = tCriteria.getConditions().create();
+						condition.setAlias(Specification.PROPERTY_TARGETTYPE.getName());
+						condition.setValue(emSpecificationTarget.MATERIAL_GROUP);
+						condition = tCriteria.getConditions().create();
+						condition.setAlias(Specification.PROPERTY_TARGET.getName());
+						condition.setValue(item.getValue());
+					}
+				}
+			}
+			IOperationResult<ISpecification> opRsltSpec = this.fetchSpecification(tCriteria);
+			if (opRsltSpec.getError() != null) {
+				throw opRsltSpec.getError();
+			}
+			OperationResult<SpecificationTree> operationResult = new OperationResult<>();
+			for (ISpecification item : opRsltSpec.getResultObjects()) {
+				operationResult.addResultObjects(SpecificationTree.create(item));
+			}
+			return operationResult;
+		} catch (Exception e) {
+			Logger.log(e);
 			return new OperationResult<>(e);
 		}
 	}

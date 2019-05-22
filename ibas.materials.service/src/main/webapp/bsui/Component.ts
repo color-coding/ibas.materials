@@ -85,6 +85,94 @@ namespace materials {
                 }
             });
             const SELECT_ITEM_CACHE: Map<string, string> = new Map<string, string>();
+            /**
+             * 物料或物料组-文本框
+             */
+            sap.extension.m.ConversionText.extend("materials.ui.component.MaterialOrMaterialGroupText", {
+                metadata: {
+                    properties: {
+                        typeProperty: { type: "string" },
+                    },
+                    events: {
+                    },
+                },
+                renderer: {
+                },
+                getTypeProperty(this: MaterialOrMaterialGroupText): string {
+                    return this.getProperty("typeProperty");
+                },
+                setTypeProperty(this: MaterialOrMaterialGroupText, value: string): MaterialOrMaterialGroupText {
+                    return this.setProperty("typeProperty", value);
+                },
+                init(this: MaterialOrMaterialGroupText): void {
+                    (<any>sap.extension.m.ConversionText.prototype).init.apply(this, arguments);
+                    this.attachConvert(undefined, (event: sap.ui.base.Event) => {
+                        let value: string = event.getParameter("value");
+                        let done: (newValue: string) => void = event.getParameter("done");
+                        let bindingData: any = event.getParameter("bindingData");
+                        let type: bo.emSpecificationTarget = bindingData[this.getTypeProperty()];
+                        if (ibas.objects.isNull(type) || ibas.strings.isEmpty(value)) {
+                            return;
+                        }
+                        let criteria: ibas.ICriteria = new ibas.Criteria();
+                        let condition: ibas.ICondition = criteria.conditions.create();
+                        condition.alias = "Code";
+                        condition.value = value;
+                        let fetched: (values: ibas.IList<ibas.KeyText> | Error) => void = (values) => {
+                            if (values instanceof Error) {
+                                ibas.logger.log(values);
+                            } else {
+                                let keyBudilder: ibas.StringBuilder = new ibas.StringBuilder();
+                                keyBudilder.map(null, "");
+                                keyBudilder.map(undefined, "");
+                                let textBudilder: ibas.StringBuilder = new ibas.StringBuilder();
+                                textBudilder.map(null, "");
+                                textBudilder.map(undefined, "");
+                                for (let item of values) {
+                                    if (keyBudilder.length > 0) {
+                                        keyBudilder.append(ibas.DATA_SEPARATOR);
+                                    }
+                                    if (textBudilder.length > 0) {
+                                        textBudilder.append(ibas.DATA_SEPARATOR);
+                                        textBudilder.append(" ");
+                                    }
+                                    keyBudilder.append(item.key);
+                                    textBudilder.append(item.text);
+                                }
+                                done(textBudilder.toString());
+                            }
+                        };
+                        let boRepository: materials.bo.BORepositoryMaterials = sap.extension.variables.get(MaterialOrMaterialGroupText, "repository");
+                        if (ibas.objects.isNull(boRepository)) {
+                            boRepository = new materials.bo.BORepositoryMaterials();
+                            sap.extension.variables.set(boRepository, MaterialOrMaterialGroupText, "repository");
+                        }
+                        if (type === bo.emSpecificationTarget.MATERIAL) {
+                            let materialInfo: any = sap.extension.variables.get(MaterialOrMaterialGroupText, "materialInfo");
+                            if (ibas.objects.isNull(materialInfo)) {
+                                materialInfo = {
+                                    type: materials.bo.Material,
+                                    key: "Code",
+                                    text: "Name"
+                                };
+                                sap.extension.variables.set(materialInfo, MaterialOrMaterialGroupText, "materialInfo");
+                            }
+                            sap.extension.repository.batchFetch(boRepository, materialInfo, criteria, fetched);
+                        } else if (type === bo.emSpecificationTarget.MATERIAL_GROUP) {
+                            let groupInfo: any = sap.extension.variables.get(MaterialOrMaterialGroupText, "groupInfo");
+                            if (ibas.objects.isNull(groupInfo)) {
+                                groupInfo = {
+                                    type: materials.bo.MaterialGroup,
+                                    key: "Code",
+                                    text: "Name"
+                                };
+                                sap.extension.variables.set(groupInfo, MaterialOrMaterialGroupText, "groupInfo");
+                            }
+                            sap.extension.repository.batchFetch(boRepository, groupInfo, criteria, fetched);
+                        }
+                    });
+                }
+            });
         }
     }
 }

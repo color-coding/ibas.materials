@@ -15,6 +15,51 @@ namespace materials {
             protected createConverter(): ibas.BOConverter {
                 return new BOConverter;
             }
+            /**
+             * 解析业务对象数据
+             * @param data 目标类型
+             * @param sign 特殊标记
+             * @returns 本地类型
+             */
+            parsing(data: any, sign: string): any {
+                if (data.type === bo.SpecificationTree.name) {
+                    let remote: bo4j.ISpecificationTree = data;
+                    let newData: bo.SpecificationTree = new bo.SpecificationTree();
+                    newData.name = remote.Name;
+                    newData.remarks = remote.Remarks;
+                    newData.template = remote.Template;
+                    if (remote.Items instanceof Array) {
+                        for (let item of remote.Items) {
+                            item.type = bo.SpecificationTreeItem.name;
+                            newData.items.add(this.parsing(item, sign));
+                        }
+                    }
+                    return newData;
+                } else if (data.type === bo.SpecificationTreeItem.name) {
+                    let remote: bo4j.ISpecificationTreeItem = data;
+                    let newData: bo.SpecificationTreeItem = new bo.SpecificationTreeItem();
+                    newData.sign = remote.Sign;
+                    newData.description = remote.Description;
+                    newData.content = remote.Content;
+                    newData.note = remote.Note;
+                    newData.editable = remote.Editable;
+                    if (remote.VaildValues instanceof Array) {
+                        for (let item of remote.VaildValues) {
+                            (<any>item).type = ibas.KeyText.name;
+                            newData.vaildValues.add(this.parsing(item, sign));
+                        }
+                    }
+                    if (remote.Items instanceof Array) {
+                        for (let item of remote.Items) {
+                            item.type = bo.SpecificationTreeItem.name;
+                            newData.items.add(this.parsing(item, sign));
+                        }
+                    }
+                    return newData;
+                } else {
+                    return super.parsing(data, sign);
+                }
+            }
         }
 
         /** 模块业务对象工厂 */
@@ -99,6 +144,14 @@ namespace materials {
                         || property === bo.InventoryCountingLine.PROPERTY_BATCHMANAGEMENT_NAME) {
                         return ibas.enums.toString(ibas.emYesNo, value);
                     }
+                } else if (boName === bo.Specification.name) {
+                    if (property === bo.Specification.PROPERTY_TARGETTYPE_NAME) {
+                        return ibas.enums.toString(emSpecificationTarget, value);
+                    }
+                } else if (boName === bo.SpecificationItem.name) {
+                    if (property === bo.SpecificationItem.PROPERTY_EDITABLE_NAME) {
+                        return ibas.enums.toString(ibas.emYesNo, value);
+                    }
                 }
                 return super.convertData(boName, property, value);
             }
@@ -161,8 +214,51 @@ namespace materials {
                         || property === bo.InventoryCountingLine.PROPERTY_BATCHMANAGEMENT_NAME) {
                         return ibas.enums.valueOf(ibas.emYesNo, value);
                     }
+                } else if (boName === bo.Specification.name) {
+                    if (property === bo.Specification.PROPERTY_TARGETTYPE_NAME) {
+                        return ibas.enums.valueOf(emSpecificationTarget, value);
+                    }
+                } else if (boName === bo.SpecificationItem.name) {
+                    if (property === bo.SpecificationItem.PROPERTY_EDITABLE_NAME) {
+                        return ibas.enums.valueOf(ibas.emYesNo, value);
+                    }
                 }
                 return super.parsingData(boName, property, value);
+            }
+        }
+        export namespace bo4j {
+            /** 操作消息 */
+            export interface IDataDeclaration {
+                /** 数据类型 */
+                type: string;
+            }
+            /** 规格树 */
+            export interface ISpecificationTree extends IDataDeclaration {
+                /** 模板 */
+                Template: number;
+                /** 名称 */
+                Name: string;
+                /** 备注 */
+                Remarks: string;
+                /** 规格模板-项目集合 */
+                Items: ISpecificationTreeItem[];
+            }
+            /** 规格模板-项目 */
+            export interface ISpecificationTreeItem extends IDataDeclaration {
+                /** 标记 */
+                Sign: string;
+                /** 描述 */
+                Description: string;
+                /** 内容 */
+                Content: string;
+                /** 备注 */
+                Note: string;
+                /** 可编辑 */
+                Editable: boolean;
+                /** 可选值 */
+                VaildValues: ibas.KeyText[];
+                /** 规格模板-项目集合 */
+                Items: ISpecificationTreeItem[];
             }
         }
     }

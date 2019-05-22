@@ -16,6 +16,8 @@
 /// <reference path="./materialserial/index.ts" />
 /// <reference path="./warehouse/index.ts" />
 /// <reference path="./inventorycounting/index.ts" />
+/// <reference path="./materialspecification/index.ts" />
+/// <reference path="./specification/index.ts" />
 namespace materials {
     export namespace app {
         /** 属性-导航 */
@@ -40,6 +42,7 @@ namespace materials {
                 this.register(new MaterialFunc());
                 this.register(new MaterialOverviewFunc());
                 this.register(new MaterialPriceListFunc());
+                this.register(new MaterialSpecificationFunc());
                 this.register(new GoodsReceiptFunc());
                 this.register(new GoodsIssueFunc());
                 this.register(new InventoryTransferFunc());
@@ -64,6 +67,10 @@ namespace materials {
                 this.register(new MaterialSerialChooseServiceMapping);
                 this.register(new MaterialBatchChooseServiceMapping);
                 this.register(new InventoryCountingChooseServiceMapping());
+                this.register(new MaterialSpecificationChooseServiceMapping());
+                this.register(new MaterialSpecificationLinkServiceMapping());
+                this.register(new SpecificationChooseServiceMapping());
+                this.register(new SpecificationTreeServiceMapping());
                 // 注册常驻应用
 
             }

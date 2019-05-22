@@ -283,6 +283,41 @@ namespace materials {
                 let data: string = JSON.stringify(boRepository.converter.convert(closer.criteria, "closeInventoryCounting"));
                 boRepository.callRemoteMethod("closeInventoryCounting", data, closer);
             }
+            /**
+             * 查询 规格模板
+             * @param fetcher 查询者
+             */
+            fetchSpecification(fetcher: ibas.IFetchCaller<bo.Specification>): void {
+                super.fetch(bo.Specification.name, fetcher);
+            }
+            /**
+             * 保存 规格模板
+             * @param saver 保存者
+             */
+            saveSpecification(saver: ibas.ISaveCaller<bo.Specification>): void {
+                super.save(bo.Specification.name, saver);
+            }
+            /**
+             * 查询 规格树
+             * @param fetcher 查询者
+             */
+            fetchSpecificationTree(fetcher: ibas.IFetchCaller<bo.SpecificationTree>): void {
+                super.fetch(bo.SpecificationTree.name, fetcher);
+            }
+            /**
+             * 查询 物料规格
+             * @param fetcher 查询者
+             */
+            fetchMaterialSpecification(fetcher: ibas.IFetchCaller<bo.MaterialSpecification>): void {
+                super.fetch(bo.MaterialSpecification.name, fetcher);
+            }
+            /**
+             * 保存 物料规格
+             * @param saver 保存者
+             */
+            saveMaterialSpecification(saver: ibas.ISaveCaller<bo.MaterialSpecification>): void {
+                super.save(bo.MaterialSpecification.name, saver);
+            }
         }
     }
 }

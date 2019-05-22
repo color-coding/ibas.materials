@@ -135,7 +135,7 @@ namespace materials {
                 private formTop: sap.ui.layout.form.SimpleForm;
                 /** 显示数据 */
                 showMaterialPriceList(data: bo.MaterialPriceList): void {
-                    this.formTop.setModel(new sap.ui.model.json.JSONModel(data));
+                    this.formTop.setModel(new sap.extension.model.JSONModel(data));
                 }
             }
         }

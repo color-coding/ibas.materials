@@ -23,6 +23,9 @@ import org.colorcoding.ibas.materials.bo.materialinventory.MaterialInventoryJour
 import org.colorcoding.ibas.materials.bo.materialpricelist.MaterialPriceList;
 import org.colorcoding.ibas.materials.bo.materialserial.MaterialSerial;
 import org.colorcoding.ibas.materials.bo.materialserial.MaterialSerialJournal;
+import org.colorcoding.ibas.materials.bo.materialspecification.MaterialSpecification;
+import org.colorcoding.ibas.materials.bo.specification.Specification;
+import org.colorcoding.ibas.materials.bo.specification.SpecificationTree;
 import org.colorcoding.ibas.materials.bo.warehouse.Warehouse;
 import org.colorcoding.ibas.materials.repository.BORepositoryMaterials;
 
@@ -410,6 +413,73 @@ public class DataService extends BORepositoryMaterials {
 	public OperationResult<String> closeInventoryCounting(@WebParam(name = "criteria") Criteria criteria,
 			@WebParam(name = "token") String token) {
 		return super.closeInventoryCounting(criteria, token);
+	}
+
+	// --------------------------------------------------------------------------------------------//
+	/**
+	 * 查询-产品规格
+	 * 
+	 * @param criteria 查询
+	 * @param token    口令
+	 * @return 操作结果
+	 */
+	@WebMethod
+	public OperationResult<MaterialSpecification> fetchMaterialSpecification(
+			@WebParam(name = "criteria") Criteria criteria, @WebParam(name = "token") String token) {
+		return super.fetchMaterialSpecification(criteria, token);
+	}
+
+	/**
+	 * 保存-产品规格
+	 * 
+	 * @param bo    对象实例
+	 * @param token 口令
+	 * @return 操作结果
+	 */
+	@WebMethod
+	public OperationResult<MaterialSpecification> saveMaterialSpecification(
+			@WebParam(name = "bo") MaterialSpecification bo, @WebParam(name = "token") String token) {
+		return super.saveMaterialSpecification(bo, token);
+	}
+
+	// --------------------------------------------------------------------------------------------//
+	/**
+	 * 查询-规格模板
+	 * 
+	 * @param criteria 查询
+	 * @param token    口令
+	 * @return 操作结果
+	 */
+	@WebMethod
+	public OperationResult<Specification> fetchSpecification(@WebParam(name = "criteria") Criteria criteria,
+			@WebParam(name = "token") String token) {
+		return super.fetchSpecification(criteria, token);
+	}
+
+	/**
+	 * 保存-规格模板
+	 * 
+	 * @param bo    对象实例
+	 * @param token 口令
+	 * @return 操作结果
+	 */
+	@WebMethod
+	public OperationResult<Specification> saveSpecification(@WebParam(name = "bo") Specification bo,
+			@WebParam(name = "token") String token) {
+		return super.saveSpecification(bo, token);
+	}
+
+	/**
+	 * 查询-规格树
+	 * 
+	 * @param criteria 查询
+	 * @param token    口令
+	 * @return 操作结果
+	 */
+	@WebMethod
+	public OperationResult<SpecificationTree> fetchSpecificationTree(@WebParam(name = "criteria") Criteria criteria,
+			@WebParam(name = "token") String token) {
+		return super.fetchSpecificationTree(criteria, token);
 	}
 	// --------------------------------------------------------------------------------------------//
 

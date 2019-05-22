@@ -18,6 +18,8 @@
 /// <reference path="./materialserial/index.ts" />
 /// <reference path="./materialpricelist/index.ts" />
 /// <reference path="./inventorycounting/index.ts" />
+/// <reference path="./materialspecification/index.ts" />
+/// <reference path="./specification/index.ts" />
 namespace materials {
     export namespace ui {
         /**
@@ -144,6 +146,30 @@ namespace materials {
                         break;
                     case app.InventoryCountingEditApp.APPLICATION_ID:
                         view = new c.InventoryCountingEditView();
+                        break;
+                    case app.SpecificationListApp.APPLICATION_ID:
+                        view = new c.SpecificationListView();
+                        break;
+                    case app.SpecificationChooseApp.APPLICATION_ID:
+                        view = new c.SpecificationChooseView();
+                        break;
+                    case app.SpecificationTreeService.APPLICATION_ID:
+                        view = new c.SpecificationTreeView();
+                        break;
+                    case app.SpecificationEditApp.APPLICATION_ID:
+                        view = new c.SpecificationEditView();
+                        break;
+                    case app.MaterialSpecificationListApp.APPLICATION_ID:
+                        view = new c.MaterialSpecificationListView();
+                        break;
+                    case app.MaterialSpecificationChooseApp.APPLICATION_ID:
+                        view = new c.MaterialSpecificationChooseView();
+                        break;
+                    case app.MaterialSpecificationViewApp.APPLICATION_ID:
+                        view = new c.MaterialSpecificationViewView();
+                        break;
+                    case app.MaterialSpecificationEditApp.APPLICATION_ID:
+                        view = new c.MaterialSpecificationEditView();
                         break;
                     default:
                         break;

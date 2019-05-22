@@ -50,6 +50,10 @@ namespace materials {
         export const BO_CODE_MATERIALBATCHITEM: string = "${Company}_MM_BATCHITEM";
         /** 业务对象编码-库存盘点 */
         export const BO_CODE_INVENTORYCOUNTING: string = "${Company}_MM_INVENTORYCOUNTING";
+        /** 业务对象编码-物料规格 */
+        export const BO_CODE_MATERIALSPECIFICATION: string = "${Company}_MM_MATERIALSPEC";
+        /** 业务对象编码-规格模板 */
+        export const BO_CODE_SPECIFICATION: string = "${Company}_MM_SPEC";
 
         /** 物料类型 */
         export enum emItemType {
@@ -84,6 +88,17 @@ namespace materials {
             OVER,
             /** 盘亏 */
             SHORT,
+        }
+        /** 规格目标 */
+        export enum emSpecificationTarget {
+            /**
+             * 物料
+             */
+            MATERIAL,
+            /**
+             * 物料组
+             */
+            MATERIAL_GROUP,
         }
     }
 
@@ -136,6 +151,19 @@ namespace materials {
         }
         /** 物料序列选择服务代理 */
         export class MaterialSerialIssueServiceProxy extends ibas.ServiceProxy<IMaterialSerialContract[]> {
+
+        }
+        /** 规格服务契约 */
+        export interface ISpecificationTreeContract extends ibas.IServiceContract {
+            /** 目标（物料编码或物料规格） */
+            target: string | bo.IMaterialSpecification;
+            /** 名称 */
+            name?: string;
+            /** 备注 */
+            remarks?: string;
+        }
+        /** 规格服务代理 */
+        export class SpecificationTreeServiceProxy extends ibas.ServiceProxy<ISpecificationTreeContract> {
 
         }
         /** 查询条件 */

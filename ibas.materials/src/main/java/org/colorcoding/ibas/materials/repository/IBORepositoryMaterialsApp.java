@@ -20,6 +20,9 @@ import org.colorcoding.ibas.materials.bo.materialinventory.IMaterialInventoryJou
 import org.colorcoding.ibas.materials.bo.materialpricelist.IMaterialPriceList;
 import org.colorcoding.ibas.materials.bo.materialserial.IMaterialSerial;
 import org.colorcoding.ibas.materials.bo.materialserial.IMaterialSerialJournal;
+import org.colorcoding.ibas.materials.bo.materialspecification.IMaterialSpecification;
+import org.colorcoding.ibas.materials.bo.specification.ISpecification;
+import org.colorcoding.ibas.materials.bo.specification.SpecificationTree;
 import org.colorcoding.ibas.materials.bo.warehouse.IWarehouse;
 
 /**
@@ -291,5 +294,47 @@ public interface IBORepositoryMaterialsApp extends IBORepositoryApplication {
 	 * @return 操作结果
 	 */
 	IOperationResult<String> closeInventoryCounting(ICriteria criteria);
+
+	// --------------------------------------------------------------------------------------------//
+	/**
+	 * 查询-物料规格
+	 * 
+	 * @param criteria 查询
+	 * @return 操作结果
+	 */
+	IOperationResult<IMaterialSpecification> fetchMaterialSpecification(ICriteria criteria);
+
+	/**
+	 * 保存-物料规格
+	 * 
+	 * @param bo 对象实例
+	 * @return 操作结果
+	 */
+	IOperationResult<IMaterialSpecification> saveMaterialSpecification(IMaterialSpecification bo);
+
+	// --------------------------------------------------------------------------------------------//
+	/**
+	 * 查询-规格模板
+	 * 
+	 * @param criteria 查询
+	 * @return 操作结果
+	 */
+	IOperationResult<ISpecification> fetchSpecification(ICriteria criteria);
+
+	/**
+	 * 保存-规格模板
+	 * 
+	 * @param bo 对象实例
+	 * @return 操作结果
+	 */
+	IOperationResult<ISpecification> saveSpecification(ISpecification bo);
+
+	/**
+	 * 查询-规格树
+	 * 
+	 * @param criteria 查询
+	 * @return 操作结果
+	 */
+	IOperationResult<SpecificationTree> fetchSpecificationTree(ICriteria criteria);
 	// --------------------------------------------------------------------------------------------//
 }

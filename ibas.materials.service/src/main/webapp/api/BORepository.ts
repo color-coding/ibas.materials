@@ -175,6 +175,31 @@ namespace materials {
              * @param fetcher 查询者
              */
             fetchMaterialPrice(fetcher: ibas.IFetchCaller<bo.IMaterialPrice>): void;
+            /**
+             * 查询 物料规格
+             * @param fetcher 查询者
+             */
+            fetchMaterialSpecification(fetcher: ibas.IFetchCaller<bo.IMaterialSpecification>): void;
+            /**
+             * 保存 物料规格
+             * @param saver 保存者
+             */
+            saveMaterialSpecification(saver: ibas.ISaveCaller<bo.IMaterialSpecification>): void;
+            /**
+             * 查询 规格模板
+             * @param fetcher 查询者
+             */
+            fetchSpecification(fetcher: ibas.IFetchCaller<bo.ISpecification>): void;
+            /**
+             * 保存 规格模板
+             * @param saver 保存者
+             */
+            saveSpecification(saver: ibas.ISaveCaller<bo.ISpecification>): void;
+            /**
+             * 查询 规格树
+             * @param fetcher 查询者
+             */
+            fetchSpecificationTree(fetcher: ibas.IFetchCaller<bo.ISpecificationTree>): void;
         }
         export interface ICloseCaller<T> extends ibas.IMethodCaller<string> {
             /** 查询条件 */

@@ -23,4 +23,7 @@
 /// <reference path="./bo/Product.ts" />
 /// <reference path="./bo/InventoryCounting.ts" />
 /// <reference path="./bo/Warehouse.ts" />
+/// <reference path="./bo/MaterialSpecification.ts" />
+/// <reference path="./bo/Specification.ts" />
+/// <reference path="./bo/SpecificationTree.ts" />
 /// <reference path="./BORepository.ts" />
