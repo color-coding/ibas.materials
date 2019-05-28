@@ -19,6 +19,9 @@ namespace materials {
             /** 外文名称 */
             foreignName: string;
 
+            /** 标识 */
+            sign: string;
+
             /** 物料组 */
             group: string;
 

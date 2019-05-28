@@ -743,6 +743,17 @@ namespace materials {
                 this.setProperty(InventoryTransferLine.PROPERTY_ITEMDESCRIPTION_NAME, value);
             }
 
+            /** 映射的属性名称-物料标识 */
+            static PROPERTY_ITEMSIGN_NAME: string = "ItemSign";
+            /** 获取-物料标识 */
+            get itemSign(): string {
+                return this.getProperty<string>(InventoryTransferLine.PROPERTY_ITEMSIGN_NAME);
+            }
+            /** 设置-物料标识 */
+            set itemSign(value: string) {
+                this.setProperty(InventoryTransferLine.PROPERTY_ITEMSIGN_NAME, value);
+            }
+
             /** 映射的属性名称-序号管理 */
             static PROPERTY_SERIALMANAGEMENT_NAME: string = "SerialManagement";
             /** 获取-序号管理 */

@@ -125,6 +125,37 @@ public abstract class MaterialBase<T extends MaterialBase<T>> extends BusinessOb
 	}
 
 	/**
+	 * 属性名称-标识
+	 */
+	private static final String PROPERTY_SIGN_NAME = "Sign";
+
+	/**
+	 * 标识 属性
+	 */
+	@DbField(name = "Sign", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME, primaryKey = false)
+	public static final IPropertyInfo<String> PROPERTY_SIGN = registerProperty(PROPERTY_SIGN_NAME, String.class,
+			MY_CLASS);
+
+	/**
+	 * 获取-标识
+	 * 
+	 * @return 值
+	 */
+	@XmlElement(name = PROPERTY_SIGN_NAME)
+	public final String getSign() {
+		return this.getProperty(PROPERTY_SIGN);
+	}
+
+	/**
+	 * 设置-标识
+	 * 
+	 * @param value 值
+	 */
+	public final void setSign(String value) {
+		this.setProperty(PROPERTY_SIGN, value);
+	}
+
+	/**
 	 * 属性名称-物料组
 	 */
 	private static final String PROPERTY_GROUP_NAME = "Group";

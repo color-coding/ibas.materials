@@ -48,6 +48,17 @@ namespace materials {
                 this.setProperty(Product.PROPERTY_FOREIGNNAME_NAME, value);
             }
 
+            /** 映射的属性名称-标识 */
+            static PROPERTY_SIGN_NAME: string = "Sign";
+            /** 获取-标识 */
+            get sign(): string {
+                return this.getProperty<string>(Product.PROPERTY_SIGN_NAME);
+            }
+            /** 设置-标识 */
+            set sign(value: string) {
+                this.setProperty(Product.PROPERTY_SIGN_NAME, value);
+            }
+
             /** 映射的属性名称-物料组 */
             static PROPERTY_GROUP_NAME: string = "Group";
             /** 获取-物料组 */

@@ -5,6 +5,7 @@
     <Property Name="Code" Description="编码" DataType="Alphanumeric" DataSubType="Default" EditSize="20" Mapped="Code" UniqueKey="Yes"/>
     <Property Name="Name" Description="名称" DataType="Alphanumeric" DataSubType="Default" EditSize="100" Mapped="Name"/>
     <Property Name="ForeignName" Description="外文名称" DataType="Alphanumeric" DataSubType="Default" EditSize="200" Mapped="FrgnName"/>
+    <Property Name="Sign" Description="标识" DataType="Alphanumeric" DataSubType="Default" EditSize="60" Mapped="Sign"/>
     <Property Name="Group" Description="物料组" DataType="Alphanumeric" DataSubType="Default" EditSize="8" Mapped="Group"/>
     <Property Name="Activated" Description="激活" DataType="Alphanumeric" DataSubType="Default" EditSize="1" DeclaredType="emYesNo" Mapped="Activated"/>
     <Property Name="BarCode" Description="条形码" DataType="Alphanumeric" DataSubType="Default" EditSize="15" Mapped="BarCode"/>

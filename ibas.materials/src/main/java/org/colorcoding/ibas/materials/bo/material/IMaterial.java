@@ -57,6 +57,20 @@ public interface IMaterial extends IBOMasterData {
 	void setForeignName(String value);
 
 	/**
+	 * 获取-标识
+	 * 
+	 * @return 值
+	 */
+	String getSign();
+
+	/**
+	 * 设置-标识
+	 * 
+	 * @param value 值
+	 */
+	void setSign(String value);
+
+	/**
 	 * 获取-物料组
 	 * 
 	 * @return 值

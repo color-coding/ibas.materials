@@ -876,6 +876,37 @@ public class GoodsIssueLine extends BusinessObject<GoodsIssueLine>
 	}
 
 	/**
+	 * 属性名称-物料标识
+	 */
+	private static final String PROPERTY_ITEMSIGN_NAME = "ItemSign";
+
+	/**
+	 * 物料标识 属性
+	 */
+	@DbField(name = "ItemSign", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME, primaryKey = false)
+	public static final IPropertyInfo<String> PROPERTY_ITEMSIGN = registerProperty(PROPERTY_ITEMSIGN_NAME, String.class,
+			MY_CLASS);
+
+	/**
+	 * 获取-物料标识
+	 * 
+	 * @return 值
+	 */
+	@XmlElement(name = PROPERTY_ITEMSIGN_NAME)
+	public final String getItemSign() {
+		return this.getProperty(PROPERTY_ITEMSIGN);
+	}
+
+	/**
+	 * 设置-物料标识
+	 * 
+	 * @param value 值
+	 */
+	public final void setItemSign(String value) {
+		this.setProperty(PROPERTY_ITEMSIGN, value);
+	}
+
+	/**
 	 * 属性名称-序号管理
 	 */
 	private static final String PROPERTY_SERIALMANAGEMENT_NAME = "SerialManagement";

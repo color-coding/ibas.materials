@@ -381,6 +381,20 @@ public interface IInventoryTransferLine extends IBODocumentLine, IMaterialBatchI
 	void setItemDescription(String value);
 
 	/**
+	 * 获取-物料标识
+	 * 
+	 * @return 值
+	 */
+	String getItemSign();
+
+	/**
+	 * 设置-物料标识
+	 * 
+	 * @param value 值
+	 */
+	void setItemSign(String value);
+
+	/**
 	 * 获取-序号管理
 	 * 
 	 * @return 值
