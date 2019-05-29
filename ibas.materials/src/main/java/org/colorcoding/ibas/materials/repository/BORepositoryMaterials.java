@@ -1017,6 +1017,7 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 					if (!Decimal.isZero(materialPriceList.getFactor())) {
 						newPrice.setPrice(newPrice.getPrice().multiply(materialPriceList.getFactor()));
 					}
+					newPrice.setCurrency(materialPriceList.getCurrency());
 					newPrices.add(newPrice);
 				}
 			}

@@ -36,8 +36,7 @@ public class GoodsReceiptLines extends BusinessObjects<IGoodsReceiptLine, IGoods
 	/**
 	 * 构造方法
 	 * 
-	 * @param parent
-	 *            父项对象
+	 * @param parent 父项对象
 	 */
 	public GoodsReceiptLines(IGoodsReceipt parent) {
 		super(parent);
@@ -83,5 +82,10 @@ public class GoodsReceiptLines extends BusinessObjects<IGoodsReceiptLine, IGoods
 	@Override
 	public void onParentPropertyChanged(PropertyChangeEvent evt) {
 		super.onParentPropertyChanged(evt);
+		if (GoodsReceipt.PROPERTY_DOCUMENTCURRENCY.getName().equals(evt.getPropertyName())) {
+			this.forEach(c -> c.setCurrency(this.getParent().getDocumentCurrency()));
+		} else if (GoodsReceipt.PROPERTY_DOCUMENTRATE.getName().equals(evt.getPropertyName())) {
+			this.forEach(c -> c.setRate(this.getParent().getDocumentRate()));
+		}
 	}
 }

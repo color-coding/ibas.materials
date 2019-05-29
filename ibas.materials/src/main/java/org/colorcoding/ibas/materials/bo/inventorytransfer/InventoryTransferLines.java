@@ -37,8 +37,7 @@ public class InventoryTransferLines extends BusinessObjects<IInventoryTransferLi
 	/**
 	 * 构造方法
 	 * 
-	 * @param parent
-	 *            父项对象
+	 * @param parent 父项对象
 	 */
 	public InventoryTransferLines(IInventoryTransfer parent) {
 		super(parent);
@@ -84,5 +83,10 @@ public class InventoryTransferLines extends BusinessObjects<IInventoryTransferLi
 	@Override
 	public void onParentPropertyChanged(PropertyChangeEvent evt) {
 		super.onParentPropertyChanged(evt);
+		if (InventoryTransfer.PROPERTY_DOCUMENTCURRENCY.getName().equals(evt.getPropertyName())) {
+			this.forEach(c -> c.setCurrency(this.getParent().getDocumentCurrency()));
+		} else if (InventoryTransfer.PROPERTY_DOCUMENTRATE.getName().equals(evt.getPropertyName())) {
+			this.forEach(c -> c.setRate(this.getParent().getDocumentRate()));
+		}
 	}
 }

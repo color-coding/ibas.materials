@@ -36,8 +36,7 @@ public class GoodsIssueLines extends BusinessObjects<IGoodsIssueLine, IGoodsIssu
 	/**
 	 * 构造方法
 	 * 
-	 * @param parent
-	 *            父项对象
+	 * @param parent 父项对象
 	 */
 	public GoodsIssueLines(IGoodsIssue parent) {
 		super(parent);
@@ -83,5 +82,10 @@ public class GoodsIssueLines extends BusinessObjects<IGoodsIssueLine, IGoodsIssu
 	@Override
 	public void onParentPropertyChanged(PropertyChangeEvent evt) {
 		super.onParentPropertyChanged(evt);
+		if (GoodsIssue.PROPERTY_DOCUMENTCURRENCY.getName().equals(evt.getPropertyName())) {
+			this.forEach(c -> c.setCurrency(this.getParent().getDocumentCurrency()));
+		} else if (GoodsIssue.PROPERTY_DOCUMENTRATE.getName().equals(evt.getPropertyName())) {
+			this.forEach(c -> c.setRate(this.getParent().getDocumentRate()));
+		}
 	}
 }
