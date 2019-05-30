@@ -21,7 +21,7 @@ import org.colorcoding.ibas.bobas.data.emApprovalStatus;
 import org.colorcoding.ibas.bobas.data.emBOStatus;
 import org.colorcoding.ibas.bobas.data.emDocumentStatus;
 import org.colorcoding.ibas.bobas.data.emYesNo;
-import org.colorcoding.ibas.bobas.mapping.BOCode;
+import org.colorcoding.ibas.bobas.mapping.BusinessObjectUnit;
 import org.colorcoding.ibas.bobas.mapping.DbField;
 import org.colorcoding.ibas.bobas.mapping.DbFieldType;
 import org.colorcoding.ibas.bobas.ownership.IDataOwnership;
@@ -40,7 +40,7 @@ import org.colorcoding.ibas.materials.MyConfiguration;
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlType(name = InventoryTransfer.BUSINESS_OBJECT_NAME, namespace = MyConfiguration.NAMESPACE_BO)
 @XmlRootElement(name = InventoryTransfer.BUSINESS_OBJECT_NAME, namespace = MyConfiguration.NAMESPACE_BO)
-@BOCode(InventoryTransfer.BUSINESS_OBJECT_CODE)
+@BusinessObjectUnit(code = InventoryTransfer.BUSINESS_OBJECT_CODE)
 public class InventoryTransfer extends BusinessObject<InventoryTransfer> implements IInventoryTransfer, IDataOwnership,
 		IApprovalData, IBOTagCanceled, IPeriodData, IProjectData, IBOUserFields {
 

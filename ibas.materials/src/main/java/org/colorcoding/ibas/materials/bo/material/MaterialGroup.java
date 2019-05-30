@@ -12,7 +12,7 @@ import org.colorcoding.ibas.bobas.bo.IBOUserFields;
 import org.colorcoding.ibas.bobas.core.IPropertyInfo;
 import org.colorcoding.ibas.bobas.data.DateTime;
 import org.colorcoding.ibas.bobas.data.emYesNo;
-import org.colorcoding.ibas.bobas.mapping.BOCode;
+import org.colorcoding.ibas.bobas.mapping.BusinessObjectUnit;
 import org.colorcoding.ibas.bobas.mapping.DbField;
 import org.colorcoding.ibas.bobas.mapping.DbFieldType;
 import org.colorcoding.ibas.bobas.rule.IBusinessRule;
@@ -26,7 +26,7 @@ import org.colorcoding.ibas.materials.MyConfiguration;
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlType(name = MaterialGroup.BUSINESS_OBJECT_NAME, namespace = MyConfiguration.NAMESPACE_BO)
 @XmlRootElement(name = MaterialGroup.BUSINESS_OBJECT_NAME, namespace = MyConfiguration.NAMESPACE_BO)
-@BOCode(MaterialGroup.BUSINESS_OBJECT_CODE)
+@BusinessObjectUnit(code = MaterialGroup.BUSINESS_OBJECT_CODE)
 public class MaterialGroup extends BusinessObject<MaterialGroup>
 		implements IMaterialGroup, IBOSeriesKey, IBOUserFields {
 

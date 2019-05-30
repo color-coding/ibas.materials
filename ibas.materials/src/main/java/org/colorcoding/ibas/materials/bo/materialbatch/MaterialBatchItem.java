@@ -15,7 +15,7 @@ import org.colorcoding.ibas.bobas.data.Decimal;
 import org.colorcoding.ibas.bobas.data.emDirection;
 import org.colorcoding.ibas.bobas.logic.IBusinessLogicContract;
 import org.colorcoding.ibas.bobas.logic.IBusinessLogicsHost;
-import org.colorcoding.ibas.bobas.mapping.BOCode;
+import org.colorcoding.ibas.bobas.mapping.BusinessObjectUnit;
 import org.colorcoding.ibas.bobas.mapping.DbField;
 import org.colorcoding.ibas.bobas.mapping.DbFieldType;
 import org.colorcoding.ibas.bobas.rule.IBusinessRule;
@@ -31,7 +31,7 @@ import org.colorcoding.ibas.materials.logic.IMaterialBatchJournalContract;
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlType(name = MaterialBatchItem.BUSINESS_OBJECT_NAME, namespace = MyConfiguration.NAMESPACE_BO)
 @XmlRootElement(name = MaterialBatchItem.BUSINESS_OBJECT_NAME, namespace = MyConfiguration.NAMESPACE_BO)
-@BOCode(MaterialBatchItem.BUSINESS_OBJECT_CODE)
+@BusinessObjectUnit(code = MaterialBatchItem.BUSINESS_OBJECT_CODE)
 public class MaterialBatchItem extends BusinessObject<MaterialBatchItem>
 		implements IMaterialBatchItem, IBusinessLogicsHost {
 

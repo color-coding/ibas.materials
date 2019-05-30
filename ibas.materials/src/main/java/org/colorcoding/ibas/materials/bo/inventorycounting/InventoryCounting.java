@@ -16,7 +16,7 @@ import org.colorcoding.ibas.bobas.data.emApprovalStatus;
 import org.colorcoding.ibas.bobas.data.emBOStatus;
 import org.colorcoding.ibas.bobas.data.emDocumentStatus;
 import org.colorcoding.ibas.bobas.data.emYesNo;
-import org.colorcoding.ibas.bobas.mapping.BOCode;
+import org.colorcoding.ibas.bobas.mapping.BusinessObjectUnit;
 import org.colorcoding.ibas.bobas.mapping.DbField;
 import org.colorcoding.ibas.bobas.mapping.DbFieldType;
 import org.colorcoding.ibas.bobas.ownership.IDataOwnership;
@@ -33,7 +33,7 @@ import org.colorcoding.ibas.materials.MyConfiguration;
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlType(name = InventoryCounting.BUSINESS_OBJECT_NAME, namespace = MyConfiguration.NAMESPACE_BO)
 @XmlRootElement(name = InventoryCounting.BUSINESS_OBJECT_NAME, namespace = MyConfiguration.NAMESPACE_BO)
-@BOCode(InventoryCounting.BUSINESS_OBJECT_CODE)
+@BusinessObjectUnit(code = InventoryCounting.BUSINESS_OBJECT_CODE)
 public class InventoryCounting extends BusinessObject<InventoryCounting>
 		implements IInventoryCounting, IDataOwnership, IApprovalData, IPeriodData, IBOUserFields {
 

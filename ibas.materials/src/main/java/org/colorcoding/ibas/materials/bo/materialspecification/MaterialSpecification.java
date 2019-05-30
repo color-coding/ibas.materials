@@ -13,7 +13,7 @@ import org.colorcoding.ibas.bobas.bo.IBOUserFields;
 import org.colorcoding.ibas.bobas.core.IPropertyInfo;
 import org.colorcoding.ibas.bobas.data.DateTime;
 import org.colorcoding.ibas.bobas.data.emApprovalStatus;
-import org.colorcoding.ibas.bobas.mapping.BOCode;
+import org.colorcoding.ibas.bobas.mapping.BusinessObjectUnit;
 import org.colorcoding.ibas.bobas.mapping.DbField;
 import org.colorcoding.ibas.bobas.mapping.DbFieldType;
 import org.colorcoding.ibas.bobas.ownership.IDataOwnership;
@@ -26,7 +26,7 @@ import org.colorcoding.ibas.materials.MyConfiguration;
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlType(name = MaterialSpecification.BUSINESS_OBJECT_NAME, namespace = MyConfiguration.NAMESPACE_BO)
 @XmlRootElement(name = MaterialSpecification.BUSINESS_OBJECT_NAME, namespace = MyConfiguration.NAMESPACE_BO)
-@BOCode(MaterialSpecification.BUSINESS_OBJECT_CODE)
+@BusinessObjectUnit(code = MaterialSpecification.BUSINESS_OBJECT_CODE)
 public class MaterialSpecification extends BusinessObject<MaterialSpecification>
 		implements IMaterialSpecification, IDataOwnership, IApprovalData, IBOUserFields {
 

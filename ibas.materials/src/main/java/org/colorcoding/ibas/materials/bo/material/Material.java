@@ -18,7 +18,7 @@ import org.colorcoding.ibas.bobas.data.Decimal;
 import org.colorcoding.ibas.bobas.data.emApprovalStatus;
 import org.colorcoding.ibas.bobas.data.emYesNo;
 import org.colorcoding.ibas.bobas.i18n.I18N;
-import org.colorcoding.ibas.bobas.mapping.BOCode;
+import org.colorcoding.ibas.bobas.mapping.BusinessObjectUnit;
 import org.colorcoding.ibas.bobas.mapping.DbField;
 import org.colorcoding.ibas.bobas.mapping.DbFieldType;
 import org.colorcoding.ibas.bobas.ownership.IDataOwnership;
@@ -36,7 +36,7 @@ import org.colorcoding.ibas.materials.data.emItemType;
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlType(name = Material.BUSINESS_OBJECT_NAME, namespace = MyConfiguration.NAMESPACE_BO)
 @XmlRootElement(name = Material.BUSINESS_OBJECT_NAME, namespace = MyConfiguration.NAMESPACE_BO)
-@BOCode(Material.BUSINESS_OBJECT_CODE)
+@BusinessObjectUnit(code = Material.BUSINESS_OBJECT_CODE)
 public class Material extends MaterialBase<Material>
 		implements IMaterial, IDataOwnership, IApprovalData, IBOSeriesKey, IBOTagDeleted, ICheckRules, IBOUserFields {
 

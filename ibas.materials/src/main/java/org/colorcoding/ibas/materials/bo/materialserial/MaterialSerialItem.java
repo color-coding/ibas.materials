@@ -12,7 +12,7 @@ import org.colorcoding.ibas.bobas.data.DateTime;
 import org.colorcoding.ibas.bobas.data.emDirection;
 import org.colorcoding.ibas.bobas.logic.IBusinessLogicContract;
 import org.colorcoding.ibas.bobas.logic.IBusinessLogicsHost;
-import org.colorcoding.ibas.bobas.mapping.BOCode;
+import org.colorcoding.ibas.bobas.mapping.BusinessObjectUnit;
 import org.colorcoding.ibas.bobas.mapping.DbField;
 import org.colorcoding.ibas.bobas.mapping.DbFieldType;
 import org.colorcoding.ibas.bobas.rule.IBusinessRule;
@@ -27,7 +27,7 @@ import org.colorcoding.ibas.materials.logic.IMaterialSerialJournalContract;
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlType(name = MaterialSerialItem.BUSINESS_OBJECT_NAME, namespace = MyConfiguration.NAMESPACE_BO)
 @XmlRootElement(name = MaterialSerialItem.BUSINESS_OBJECT_NAME, namespace = MyConfiguration.NAMESPACE_BO)
-@BOCode(MaterialSerialItem.BUSINESS_OBJECT_CODE)
+@BusinessObjectUnit(code = MaterialSerialItem.BUSINESS_OBJECT_CODE)
 public class MaterialSerialItem extends BusinessObject<MaterialSerialItem>
 		implements IMaterialSerialItem, IBusinessLogicsHost {
 
