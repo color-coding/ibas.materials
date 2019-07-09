@@ -327,11 +327,9 @@ namespace materials {
                         let index: number = that.editData.inventoryCountingLines.indexOf(caller);
                         let item: bo.InventoryCountingLine = that.editData.inventoryCountingLines[index];
                         // 选择返回数量多余触发数量时,自动创建新的项目
-                        let created: boolean = false;
                         for (let selected of selecteds) {
                             if (ibas.objects.isNull(item)) {
                                 item = that.editData.inventoryCountingLines.create();
-                                created = true;
                             }
                             item.isLoading = true;
                             item.itemCode = selected.code;
@@ -348,10 +346,8 @@ namespace materials {
                             item.isLoading = false;
                             item = null;
                         }
-                        if (created) {
-                            // 创建了新的行项目
-                            that.view.showInventoryCountingLines(that.editData.inventoryCountingLines.filterDeleted());
-                        }
+                        // 始终刷新
+                        that.view.showInventoryCountingLines(that.editData.inventoryCountingLines.filterDeleted());
                     }
                 });
             }

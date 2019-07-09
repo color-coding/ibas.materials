@@ -723,8 +723,8 @@ public class Material extends MaterialBase<Material>
 				new BusinessRuleRequired(PROPERTY_CODE), // 要求有值
 				new BusinessRuleMinValue<BigDecimal>(Decimal.ZERO, PROPERTY_ONHAND), // 不能低于0
 				new BusinessRuleMinValue<BigDecimal>(Decimal.ZERO, PROPERTY_ONORDERED), // 不能低于0
-				new BusinessRuleMinValue<BigDecimal>(Decimal.ZERO, PROPERTY_ONCOMMITED), // 不能低于0
 				new BusinessRuleMinValue<BigDecimal>(Decimal.ZERO, PROPERTY_AVGPRICE), // 不能低于0
+				// 存在先下单再订购，已承诺不做最低值控制
 		};
 	}
 
