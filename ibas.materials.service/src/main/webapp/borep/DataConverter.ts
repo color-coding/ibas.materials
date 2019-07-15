@@ -152,6 +152,10 @@ namespace materials {
                     if (property === bo.SpecificationItem.PROPERTY_EDITABLE_NAME) {
                         return ibas.enums.toString(ibas.emYesNo, value);
                     }
+                } else if (boName === bo.MaterialPriceList.name) {
+                    if (property === bo.MaterialPriceList.PROPERTY_PRICECHECK_NAME) {
+                        return ibas.enums.toString(ibas.emYesNo, value);
+                    }
                 }
                 return super.convertData(boName, property, value);
             }
@@ -220,6 +224,10 @@ namespace materials {
                     }
                 } else if (boName === bo.SpecificationItem.name) {
                     if (property === bo.SpecificationItem.PROPERTY_EDITABLE_NAME) {
+                        return ibas.enums.valueOf(ibas.emYesNo, value);
+                    }
+                } else if (boName === bo.MaterialPriceList.name) {
+                    if (property === bo.MaterialPriceList.PROPERTY_PRICECHECK_NAME) {
                         return ibas.enums.valueOf(ibas.emYesNo, value);
                     }
                 }

@@ -61,6 +61,41 @@ public interface IMaterialPriceItem extends IBOSimpleLine {
 	void setPrice(double value);
 
 	/**
+	 * 获取-底价
+	 * 
+	 * @return 值
+	 */
+	BigDecimal getFloorPrice();
+
+	/**
+	 * 设置-底价
+	 * 
+	 * @param value 值
+	 */
+	void setFloorPrice(BigDecimal value);
+
+	/**
+	 * 设置-底价
+	 * 
+	 * @param value 值
+	 */
+	void setFloorPrice(String value);
+
+	/**
+	 * 设置-底价
+	 * 
+	 * @param value 值
+	 */
+	void setFloorPrice(int value);
+
+	/**
+	 * 设置-底价
+	 * 
+	 * @param value 值
+	 */
+	void setFloorPrice(double value);
+
+	/**
 	 * 获取-对象编号
 	 * 
 	 * @return 值

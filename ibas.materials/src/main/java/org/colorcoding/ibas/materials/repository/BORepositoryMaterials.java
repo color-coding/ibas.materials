@@ -902,13 +902,21 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 				// 重新查询价格
 				List<IMaterialPrice> newPrices = new BORepositoryMaterialsPrice().getMaterialPrices(itemCodes,
 						Integer.valueOf(plCondition.getValue()));
+				// 获取默认币种
+				String currency = null;
+				if (!newPrices.isEmpty()) {
+					currency = newPrices.firstOrDefault().getCurrency();
+				}
 				for (IMaterialPrice item : operationResult.getResultObjects()) {
-					item.setPrice(Decimal.MINUS_ONE);// 设置到未初始价格
 					item.setSource(plCondition.getValue());
+					item.setPrice(Decimal.MINUS_ONE);// 设置到未初始价格
+					item.setCurrency(currency);
 					for (IMaterialPrice newPrice : newPrices) {
 						if (item.getItemCode().equals(newPrice.getItemCode())) {
 							item.setPrice(newPrice.getPrice());
+							item.setFloorPrice(newPrice.getFloorPrice());
 							item.setCurrency(newPrice.getCurrency());
+							break;
 						}
 					}
 				}
@@ -1104,12 +1112,19 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 				// 重新查询价格
 				List<IMaterialPrice> newPrices = new BORepositoryMaterialsPrice().getMaterialPrices(itemCodes,
 						Integer.valueOf(plCondition.getValue()));
+				// 获取默认币种
+				String currency = null;
+				if (!newPrices.isEmpty()) {
+					currency = newPrices.firstOrDefault().getCurrency();
+				}
 				for (IProduct item : operationResult.getResultObjects()) {
 					item.setPrice(Decimal.MINUS_ONE);// 设置到未初始价格
+					item.setCurrency(currency);
 					for (IMaterialPrice newPrice : newPrices) {
 						if (item.getCode().equals(newPrice.getItemCode())) {
 							item.setPrice(newPrice.getPrice());
 							item.setCurrency(newPrice.getCurrency());
+							break;
 						}
 					}
 				}
@@ -1377,10 +1392,14 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 						continue;
 					}
 					IMaterialPriceItem priceItem = materialPriceList.getMaterialPriceItems()
-							.firstOrDefault(c -> itemCode.equalsIgnoreCase(c.getItemCode()));
+							.firstOrDefault(c -> itemCode.equals(c.getItemCode()));
 					if (priceItem != null) {
 						// 价格清单定义了价格
-						newPrices.add(MaterialPrice.create(priceItem, materialPriceList.getCurrency()));
+						IMaterialPrice newPrice = MaterialPrice.create(priceItem, materialPriceList.getCurrency());
+						if (materialPriceList.getPriceCheck() != emYesNo.YES) {
+							newPrice.setFloorPrice(Decimal.ZERO);
+						}
+						newPrices.add(newPrice);
 					} else {
 						noItemCodes.add(itemCode);
 					}
@@ -1392,6 +1411,10 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 					for (IMaterialPrice newPrice : tmpPrices) {
 						if (!Decimal.isZero(materialPriceList.getFactor())) {
 							newPrice.setPrice(newPrice.getPrice().multiply(materialPriceList.getFactor()));
+							newPrice.setFloorPrice(newPrice.getFloorPrice().multiply(materialPriceList.getFactor()));
+						}
+						if (materialPriceList.getPriceCheck() != emYesNo.YES) {
+							newPrice.setFloorPrice(Decimal.ZERO);
 						}
 						newPrice.setCurrency(materialPriceList.getCurrency());
 						newPrices.add(newPrice);

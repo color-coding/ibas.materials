@@ -168,6 +168,23 @@ namespace materials {
                                 })
                             }),
                             new sap.extension.table.Column("", {
+                                label: ibas.i18n.prop("bo_materialprice_floorprice"),
+                                visible: false,
+                                template: new sap.extension.m.Text("", {
+                                }).bindProperty("bindingValue", {
+                                    path: "floorPrice",
+                                    type: new sap.extension.data.Price()
+                                })
+                            }).bindProperty("visible", {
+                                path: "/rows/0/floorPrice",
+                                formatter(data: any): boolean {
+                                    if (Number(data) > 0) {
+                                        return true;
+                                    }
+                                    return false;
+                                }
+                            }),
+                            new sap.extension.table.Column("", {
                                 label: ibas.i18n.prop("bo_materialprice_currency"),
                                 template: new sap.extension.m.Text("", {
                                 }).bindProperty("bindingValue", {
@@ -279,6 +296,15 @@ namespace materials {
                                                         },
                                                     })
                                                 );
+                                                that.tablePrices.getColumns()[4].setTemplate(
+                                                    new sap.m.Text("", {
+                                                        wrapping: false,
+                                                        text: {
+                                                            path: "floorPrice",
+                                                            type: new sap.extension.data.Price()
+                                                        },
+                                                    })
+                                                );
                                             }
                                         }),
                                         new sap.m.SegmentedButtonItem("", {
@@ -292,7 +318,19 @@ namespace materials {
                                                             type: new sap.extension.data.Price()
                                                         },
                                                         change(event: any): void {
-                                                            that.tablePrices.addSelectionInterval(this.getParent().getIndex(), this.getParent().getIndex());
+                                                            this.getParent().getParent().addSelectionInterval(this.getParent().getIndex(), this.getParent().getIndex());
+                                                        }
+                                                    })
+                                                );
+                                                that.tablePrices.getColumns()[4].setTemplate(
+                                                    new sap.m.Input("", {
+                                                        type: sap.m.InputType.Number,
+                                                        value: {
+                                                            path: "floorPrice",
+                                                            type: new sap.extension.data.Price()
+                                                        },
+                                                        change(event: any): void {
+                                                            this.getParent().getParent().addSelectionInterval(this.getParent().getIndex(), this.getParent().getIndex());
                                                         }
                                                     })
                                                 );
@@ -314,7 +352,6 @@ namespace materials {
                                             let data: bo.MaterialPriceItem = new bo.MaterialPriceItem();
                                             data.objectKey = Number(item.source);
                                             data.itemCode = item.itemCode;
-                                            data.price = item.price;
                                             data.delete();
                                             datas.add(data);
                                             // 再添加
@@ -322,6 +359,7 @@ namespace materials {
                                             data.objectKey = Number(item.source);
                                             data.itemCode = item.itemCode;
                                             data.price = item.price;
+                                            data.floorPrice = item.floorPrice;
                                             datas.add(data);
                                         }
                                         that.fireViewEvents(that.savePriceListItemEvent, datas);

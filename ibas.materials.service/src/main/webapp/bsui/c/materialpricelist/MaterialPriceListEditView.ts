@@ -93,6 +93,13 @@ namespace materials {
                                     maxLength: 8
                                 })
                             }),
+                            new sap.m.Label("", { text: ibas.i18n.prop("bo_materialpricelist_pricecheck") }),
+                            new sap.extension.m.EnumSelect("", {
+                                enumType: ibas.emYesNo
+                            }).bindProperty("bindingValue", {
+                                path: "/priceCheck",
+                                type: new sap.extension.data.YesNo()
+                            }),
                         ]
                     });
                     return new sap.m.Dialog("", {

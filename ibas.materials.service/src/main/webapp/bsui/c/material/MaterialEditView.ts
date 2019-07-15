@@ -69,6 +69,14 @@ namespace materials {
                                     maxLength: 200
                                 })
                             }),
+                            new sap.m.Label("", { text: ibas.i18n.prop("bo_material_sign") }),
+                            new sap.extension.m.Input("", {
+                            }).bindProperty("bindingValue", {
+                                path: "sign",
+                                type: new sap.extension.data.Alphanumeric({
+                                    maxLength: 60
+                                })
+                            }),
                             new sap.m.Label("", { text: ibas.i18n.prop("bo_material_itemtype") }),
                             new sap.extension.m.EnumSelect("", {
                                 enumType: bo.emItemType

@@ -31,6 +31,9 @@ namespace materials {
             /** 失效日期 */
             invalidDate: Date;
 
+            /** 价格检查 */
+            priceCheck: ibas.emYesNo;
+
             /** 对象编号 */
             objectKey: number;
 
@@ -91,6 +94,9 @@ namespace materials {
 
             /** 价格 */
             price: number;
+
+            /** 底价 */
+            floorPrice: number;
 
             /** 对象编号 */
             objectKey: number;

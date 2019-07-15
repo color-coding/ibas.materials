@@ -86,6 +86,16 @@ namespace materials {
             set invalidDate(value: Date) {
                 this.setProperty(MaterialPriceList.PROPERTY_INVALIDDATE_NAME, value);
             }
+            /** 映射的属性名称-价格检查 */
+            static PROPERTY_PRICECHECK_NAME: string = "PriceCheck";
+            /** 获取-价格检查 */
+            get priceCheck(): ibas.emYesNo {
+                return this.getProperty<ibas.emYesNo>(MaterialPriceList.PROPERTY_PRICECHECK_NAME);
+            }
+            /** 设置-价格检查 */
+            set priceCheck(value: ibas.emYesNo) {
+                this.setProperty(MaterialPriceList.PROPERTY_PRICECHECK_NAME, value);
+            }
             /** 映射的属性名称-对象编号 */
             static PROPERTY_OBJECTKEY_NAME: string = "ObjectKey";
             /** 获取-对象编号 */
@@ -266,6 +276,7 @@ namespace materials {
             protected init(): void {
                 this.materialPriceItems = new MaterialPriceItems(this);
                 this.objectCode = ibas.config.applyVariables(MaterialPriceList.BUSINESS_OBJECT_CODE);
+                this.priceCheck = ibas.emYesNo.NO;
                 this.currency = ibas.config.get(ibas.CONFIG_ITEM_DEFAULT_CURRENCY);
                 this.factor = 1;
             }
@@ -303,6 +314,16 @@ namespace materials {
             /** 设置-价格 */
             set price(value: number) {
                 this.setProperty(MaterialPriceItem.PROPERTY_PRICE_NAME, value);
+            }
+            /** 映射的属性名称-底价 */
+            static PROPERTY_FLOORPRICE_NAME: string = "FloorPrice";
+            /** 获取-底价 */
+            get floorPrice(): number {
+                return this.getProperty<number>(MaterialPriceItem.PROPERTY_FLOORPRICE_NAME);
+            }
+            /** 设置-底价 */
+            set floorPrice(value: number) {
+                this.setProperty(MaterialPriceItem.PROPERTY_FLOORPRICE_NAME, value);
             }
             /** 映射的属性名称-对象编号 */
             static PROPERT_OBJECTKEY_NAME: string = "ObjectKey";

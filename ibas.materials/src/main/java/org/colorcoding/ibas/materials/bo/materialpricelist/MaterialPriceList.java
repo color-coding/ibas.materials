@@ -14,6 +14,7 @@ import org.colorcoding.ibas.bobas.bo.IBOUserFields;
 import org.colorcoding.ibas.bobas.core.IPropertyInfo;
 import org.colorcoding.ibas.bobas.data.DateTime;
 import org.colorcoding.ibas.bobas.data.Decimal;
+import org.colorcoding.ibas.bobas.data.emYesNo;
 import org.colorcoding.ibas.bobas.mapping.BusinessObjectUnit;
 import org.colorcoding.ibas.bobas.mapping.DbField;
 import org.colorcoding.ibas.bobas.mapping.DbFieldType;
@@ -300,6 +301,37 @@ public class MaterialPriceList extends BusinessObject<MaterialPriceList>
 	 */
 	public final void setInvalidDate(DateTime value) {
 		this.setProperty(PROPERTY_INVALIDDATE, value);
+	}
+
+	/**
+	 * 属性名称-价格检查
+	 */
+	private static final String PROPERTY_PRICECHECK_NAME = "PriceCheck";
+
+	/**
+	 * 价格检查 属性
+	 */
+	@DbField(name = "PriceCheck", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME, primaryKey = false)
+	public static final IPropertyInfo<emYesNo> PROPERTY_PRICECHECK = registerProperty(PROPERTY_PRICECHECK_NAME,
+			emYesNo.class, MY_CLASS);
+
+	/**
+	 * 获取-价格检查
+	 * 
+	 * @return 值
+	 */
+	@XmlElement(name = PROPERTY_PRICECHECK_NAME)
+	public final emYesNo getPriceCheck() {
+		return this.getProperty(PROPERTY_PRICECHECK);
+	}
+
+	/**
+	 * 设置-价格检查
+	 * 
+	 * @param value 值
+	 */
+	public final void setPriceCheck(emYesNo value) {
+		this.setProperty(PROPERTY_PRICECHECK, value);
 	}
 
 	/**
@@ -809,6 +841,7 @@ public class MaterialPriceList extends BusinessObject<MaterialPriceList>
 		this.setObjectCode(MyConfiguration.applyVariables(BUSINESS_OBJECT_CODE));
 		this.setCurrency(MyConfiguration.getConfigValue(MyConfiguration.CONFIG_ITEM_DEFAULT_CURRENCY, "CNY"));
 		this.setFactor(Decimal.ONE);
+		this.setPriceCheck(emYesNo.NO);
 	}
 
 	@Override
