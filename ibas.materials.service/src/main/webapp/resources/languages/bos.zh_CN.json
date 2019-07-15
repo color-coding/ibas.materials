@@ -291,6 +291,7 @@
         "bo_materialprice_source": "价格来源",
         "bo_materialprice_itemcode": "物料编码",
         "bo_materialprice_itemname": "物料名称",
+        "bo_materialprice_itemsign": "物料标识",
         "bo_materialprice_price": "价格",
         "bo_materialprice_currency": "货币",
         "bo_material_closing_delimiter": "----结束----"

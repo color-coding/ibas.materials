@@ -33,6 +33,7 @@ import org.colorcoding.ibas.materials.bo.materialbatch.MaterialBatchItems;
 import org.colorcoding.ibas.materials.bo.materialserial.IMaterialSerialItems;
 import org.colorcoding.ibas.materials.bo.materialserial.MaterialSerialItem;
 import org.colorcoding.ibas.materials.bo.materialserial.MaterialSerialItems;
+import org.colorcoding.ibas.materials.logic.IMaterialCompletionContract;
 import org.colorcoding.ibas.materials.logic.IMaterialIssueContract;
 
 /**
@@ -1395,73 +1396,109 @@ public class GoodsIssueLine extends BusinessObject<GoodsIssueLine>
 
 	@Override
 	public IBusinessLogicContract[] getContracts() {
-		return new IBusinessLogicContract[] { new IMaterialIssueContract() {
-			@Override
-			public String getIdentifiers() {
-				return GoodsIssueLine.this.getIdentifiers();
-			}
+		return new IBusinessLogicContract[] {
+				// 物料发货
+				new IMaterialIssueContract() {
+					@Override
+					public String getIdentifiers() {
+						return GoodsIssueLine.this.getIdentifiers();
+					}
 
-			@Override
-			public String getItemCode() {
-				return GoodsIssueLine.this.getItemCode();
-			}
+					@Override
+					public String getItemCode() {
+						return GoodsIssueLine.this.getItemCode();
+					}
 
-			@Override
-			public String getItemName() {
-				return GoodsIssueLine.this.getItemDescription();
-			}
+					@Override
+					public String getItemName() {
+						return GoodsIssueLine.this.getItemDescription();
+					}
 
-			@Override
-			public String getWarehouse() {
-				return GoodsIssueLine.this.getWarehouse();
-			}
+					@Override
+					public String getWarehouse() {
+						return GoodsIssueLine.this.getWarehouse();
+					}
 
-			@Override
-			public String getDocumentType() {
-				return GoodsIssueLine.this.getObjectCode();
-			}
+					@Override
+					public String getDocumentType() {
+						return GoodsIssueLine.this.getObjectCode();
+					}
 
-			@Override
-			public Integer getDocumentEntry() {
-				return GoodsIssueLine.this.getDocEntry();
-			}
+					@Override
+					public Integer getDocumentEntry() {
+						return GoodsIssueLine.this.getDocEntry();
+					}
 
-			@Override
-			public Integer getDocumentLineId() {
-				return GoodsIssueLine.this.getLineId();
-			}
+					@Override
+					public Integer getDocumentLineId() {
+						return GoodsIssueLine.this.getLineId();
+					}
 
-			@Override
-			public BigDecimal getQuantity() {
-				return GoodsIssueLine.this.getQuantity();
-			}
+					@Override
+					public BigDecimal getQuantity() {
+						return GoodsIssueLine.this.getQuantity();
+					}
 
-			@Override
-			public DateTime getPostingDate() {
-				return GoodsIssueLine.this.parent.getPostingDate();
-			}
+					@Override
+					public DateTime getPostingDate() {
+						return GoodsIssueLine.this.parent.getPostingDate();
+					}
 
-			@Override
-			public DateTime getDeliveryDate() {
-				return GoodsIssueLine.this.parent.getDeliveryDate();
-			}
+					@Override
+					public DateTime getDeliveryDate() {
+						return GoodsIssueLine.this.parent.getDeliveryDate();
+					}
 
-			@Override
-			public DateTime getDocumentDate() {
-				return GoodsIssueLine.this.parent.getDocumentDate();
-			}
+					@Override
+					public DateTime getDocumentDate() {
+						return GoodsIssueLine.this.parent.getDocumentDate();
+					}
 
-			@Override
-			public emYesNo getBatchManagement() {
-				return GoodsIssueLine.this.getBatchManagement();
-			}
+					@Override
+					public emYesNo getBatchManagement() {
+						return GoodsIssueLine.this.getBatchManagement();
+					}
 
-			@Override
-			public emYesNo getSerialManagement() {
-				return GoodsIssueLine.this.getSerialManagement();
-			}
+					@Override
+					public emYesNo getSerialManagement() {
+						return GoodsIssueLine.this.getSerialManagement();
+					}
 
-		} };
+				},
+				// 物料信息补全
+				new IMaterialCompletionContract() {
+					@Override
+					public String getIdentifiers() {
+						return GoodsIssueLine.this.getIdentifiers();
+					}
+
+					@Override
+					public String getItemCode() {
+						return GoodsIssueLine.this.getItemCode();
+					}
+
+					@Override
+					public String getItemSign() {
+						return GoodsIssueLine.this.getItemSign();
+					}
+
+					@Override
+					public void setItemSign(String value) {
+						GoodsIssueLine.this.setItemSign(value);
+					}
+
+					@Override
+					public String getItemDescription() {
+						return GoodsIssueLine.this.getItemDescription();
+					}
+
+					@Override
+					public void setItemDescription(String value) {
+						GoodsIssueLine.this.setItemDescription(value);
+					}
+				}
+
+		};
 	}
 
 }

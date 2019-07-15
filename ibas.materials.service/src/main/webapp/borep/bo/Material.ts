@@ -706,6 +706,17 @@ namespace materials {
                 this.setProperty(MaterialPrice.PROPERTY_ITEMNAME_NAME, value);
             }
 
+            /** 映射的属性名称-物料标识 */
+            static PROPERTY_ITEMSIGN_NAME: string = "ItemSign";
+            /** 获取-物料标识 */
+            get itemSign(): string {
+                return this.getProperty<string>(MaterialPrice.PROPERTY_ITEMSIGN_NAME);
+            }
+            /** 设置-物料标识 */
+            set itemSign(value: string) {
+                this.setProperty(MaterialPrice.PROPERTY_ITEMSIGN_NAME, value);
+            }
+
             /** 映射的属性名称-价格 */
             static PROPERTY_PRICE_NAME: string = "Price";
             /** 获取-价格 */

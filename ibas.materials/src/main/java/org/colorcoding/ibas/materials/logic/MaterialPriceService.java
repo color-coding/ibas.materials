@@ -17,7 +17,7 @@ import org.colorcoding.ibas.materials.bo.materialpricelist.MaterialPriceList;
 import org.colorcoding.ibas.materials.repository.BORepositoryMaterials;
 
 @LogicContract(IMaterialPriceContract.class)
-public class MaterialPriceContract extends MaterialBusinessLogic<IMaterialPriceContract, IMaterialPriceList> {
+public class MaterialPriceService extends MaterialBusinessLogic<IMaterialPriceContract, IMaterialPriceList> {
 
 	@Override
 	protected IMaterialPriceList fetchBeAffected(IMaterialPriceContract contract) {

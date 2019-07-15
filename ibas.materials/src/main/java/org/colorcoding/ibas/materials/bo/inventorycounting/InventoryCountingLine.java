@@ -29,6 +29,7 @@ import org.colorcoding.ibas.bobas.rule.common.BusinessRuleSubtraction;
 import org.colorcoding.ibas.materials.MyConfiguration;
 import org.colorcoding.ibas.materials.bo.materialbatch.IMaterialBatchItems;
 import org.colorcoding.ibas.materials.bo.materialserial.IMaterialSerialItems;
+import org.colorcoding.ibas.materials.logic.IMaterialCompletionContract;
 import org.colorcoding.ibas.materials.logic.IMaterialIssueContract;
 import org.colorcoding.ibas.materials.logic.IMaterialReceiptContract;
 import org.colorcoding.ibas.materials.logic.IMaterialWarehouseFrozenContract;
@@ -1222,7 +1223,7 @@ public class InventoryCountingLine extends BusinessObject<InventoryCountingLine>
 			if (Decimal.ZERO.compareTo(this.getDifference()) > 0) {
 				// 小于0，发货
 				return new IBusinessLogicContract[] {
-
+						// 物料发货
 						new IMaterialIssueContract() {
 
 							@Override
@@ -1290,13 +1291,11 @@ public class InventoryCountingLine extends BusinessObject<InventoryCountingLine>
 								return InventoryCountingLine.this.parent.getDeliveryDate();
 							}
 
-						}
-
-				};
+						} };
 			} else if (Decimal.ZERO.compareTo(this.getDifference()) < 0) {
 				// 大于0，收货
 				return new IBusinessLogicContract[] {
-
+						// 物料收货
 						new IMaterialReceiptContract() {
 
 							@Override
@@ -1364,13 +1363,11 @@ public class InventoryCountingLine extends BusinessObject<InventoryCountingLine>
 								return InventoryCountingLine.this.parent.getDeliveryDate();
 							}
 
-						}
-
-				};
+						} };
 			}
 		} else {
 			return new IBusinessLogicContract[] {
-
+					// 物料仓库冻结
 					new IMaterialWarehouseFrozenContract() {
 
 						@Override
@@ -1391,6 +1388,38 @@ public class InventoryCountingLine extends BusinessObject<InventoryCountingLine>
 						@Override
 						public emYesNo getFreeze() {
 							return InventoryCountingLine.this.getFreeze();
+						}
+					},
+					// 物料信息补全
+					new IMaterialCompletionContract() {
+						@Override
+						public String getIdentifiers() {
+							return InventoryCountingLine.this.getIdentifiers();
+						}
+
+						@Override
+						public String getItemCode() {
+							return InventoryCountingLine.this.getItemCode();
+						}
+
+						@Override
+						public String getItemSign() {
+							return InventoryCountingLine.this.getItemSign();
+						}
+
+						@Override
+						public void setItemSign(String value) {
+							InventoryCountingLine.this.setItemSign(value);
+						}
+
+						@Override
+						public String getItemDescription() {
+							return InventoryCountingLine.this.getItemDescription();
+						}
+
+						@Override
+						public void setItemDescription(String value) {
+							InventoryCountingLine.this.setItemDescription(value);
 						}
 					}
 

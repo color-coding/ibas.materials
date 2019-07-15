@@ -39,6 +39,7 @@ public class MaterialPrice extends Serializable implements IMaterialPrice {
 		MaterialPrice materialPrice = new MaterialPrice();
 		materialPrice.setItemCode(material.getCode());
 		materialPrice.setItemName(material.getName());
+		materialPrice.setItemSign(material.getSign());
 		materialPrice.setPrice(material.getAvgPrice());
 		return materialPrice;
 	}
@@ -47,6 +48,7 @@ public class MaterialPrice extends Serializable implements IMaterialPrice {
 		MaterialPrice materialPrice = new MaterialPrice();
 		materialPrice.setItemCode(material.getCode());
 		materialPrice.setItemName(material.getName());
+		materialPrice.setItemSign(material.getSign());
 		materialPrice.setPrice(material.getPrice());
 		return materialPrice;
 	}
@@ -108,6 +110,17 @@ public class MaterialPrice extends Serializable implements IMaterialPrice {
 
 	public void setItemName(String value) {
 		this.itemName = value;
+	}
+
+	private String itemSign;
+
+	@XmlElement(name = "ItemSign")
+	public final String getItemSign() {
+		return itemSign;
+	}
+
+	public final void setItemSign(String itemSign) {
+		this.itemSign = itemSign;
 	}
 
 	private BigDecimal price;

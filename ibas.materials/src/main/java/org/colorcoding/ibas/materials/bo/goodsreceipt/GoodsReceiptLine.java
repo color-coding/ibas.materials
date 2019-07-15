@@ -33,6 +33,7 @@ import org.colorcoding.ibas.materials.bo.materialbatch.MaterialBatchItems;
 import org.colorcoding.ibas.materials.bo.materialserial.IMaterialSerialItems;
 import org.colorcoding.ibas.materials.bo.materialserial.MaterialSerialItem;
 import org.colorcoding.ibas.materials.bo.materialserial.MaterialSerialItems;
+import org.colorcoding.ibas.materials.logic.IMaterialCompletionContract;
 import org.colorcoding.ibas.materials.logic.IMaterialReceiptContract;
 
 /**
@@ -1395,73 +1396,109 @@ public class GoodsReceiptLine extends BusinessObject<GoodsReceiptLine>
 
 	@Override
 	public IBusinessLogicContract[] getContracts() {
-		return new IBusinessLogicContract[] { new IMaterialReceiptContract() {
+		return new IBusinessLogicContract[] {
+				// 物料收货
+				new IMaterialReceiptContract() {
 
-			@Override
-			public String getIdentifiers() {
-				return GoodsReceiptLine.this.getIdentifiers();
-			}
+					@Override
+					public String getIdentifiers() {
+						return GoodsReceiptLine.this.getIdentifiers();
+					}
 
-			@Override
-			public String getItemCode() {
-				return GoodsReceiptLine.this.getItemCode();
-			}
+					@Override
+					public String getItemCode() {
+						return GoodsReceiptLine.this.getItemCode();
+					}
 
-			@Override
-			public String getItemName() {
-				return GoodsReceiptLine.this.getItemDescription();
-			}
+					@Override
+					public String getItemName() {
+						return GoodsReceiptLine.this.getItemDescription();
+					}
 
-			@Override
-			public String getWarehouse() {
-				return GoodsReceiptLine.this.getWarehouse();
-			}
+					@Override
+					public String getWarehouse() {
+						return GoodsReceiptLine.this.getWarehouse();
+					}
 
-			@Override
-			public String getDocumentType() {
-				return GoodsReceiptLine.this.getObjectCode();
-			}
+					@Override
+					public String getDocumentType() {
+						return GoodsReceiptLine.this.getObjectCode();
+					}
 
-			@Override
-			public Integer getDocumentEntry() {
-				return GoodsReceiptLine.this.getDocEntry();
-			}
+					@Override
+					public Integer getDocumentEntry() {
+						return GoodsReceiptLine.this.getDocEntry();
+					}
 
-			@Override
-			public Integer getDocumentLineId() {
-				return GoodsReceiptLine.this.getLineId();
-			}
+					@Override
+					public Integer getDocumentLineId() {
+						return GoodsReceiptLine.this.getLineId();
+					}
 
-			@Override
-			public BigDecimal getQuantity() {
-				return GoodsReceiptLine.this.getQuantity();
-			}
+					@Override
+					public BigDecimal getQuantity() {
+						return GoodsReceiptLine.this.getQuantity();
+					}
 
-			@Override
-			public DateTime getPostingDate() {
-				return GoodsReceiptLine.this.parent.getPostingDate();
-			}
+					@Override
+					public DateTime getPostingDate() {
+						return GoodsReceiptLine.this.parent.getPostingDate();
+					}
 
-			@Override
-			public DateTime getDeliveryDate() {
-				return GoodsReceiptLine.this.parent.getDeliveryDate();
-			}
+					@Override
+					public DateTime getDeliveryDate() {
+						return GoodsReceiptLine.this.parent.getDeliveryDate();
+					}
 
-			@Override
-			public DateTime getDocumentDate() {
-				return GoodsReceiptLine.this.parent.getDocumentDate();
-			}
+					@Override
+					public DateTime getDocumentDate() {
+						return GoodsReceiptLine.this.parent.getDocumentDate();
+					}
 
-			@Override
-			public emYesNo getBatchManagement() {
-				return GoodsReceiptLine.this.getBatchManagement();
-			}
+					@Override
+					public emYesNo getBatchManagement() {
+						return GoodsReceiptLine.this.getBatchManagement();
+					}
 
-			@Override
-			public emYesNo getSerialManagement() {
-				return GoodsReceiptLine.this.getSerialManagement();
-			}
+					@Override
+					public emYesNo getSerialManagement() {
+						return GoodsReceiptLine.this.getSerialManagement();
+					}
 
-		} };
+				},
+				// 物料信息补全
+				new IMaterialCompletionContract() {
+					@Override
+					public String getIdentifiers() {
+						return GoodsReceiptLine.this.getIdentifiers();
+					}
+
+					@Override
+					public String getItemCode() {
+						return GoodsReceiptLine.this.getItemCode();
+					}
+
+					@Override
+					public String getItemSign() {
+						return GoodsReceiptLine.this.getItemSign();
+					}
+
+					@Override
+					public void setItemSign(String value) {
+						GoodsReceiptLine.this.setItemSign(value);
+					}
+
+					@Override
+					public String getItemDescription() {
+						return GoodsReceiptLine.this.getItemDescription();
+					}
+
+					@Override
+					public void setItemDescription(String value) {
+						GoodsReceiptLine.this.setItemDescription(value);
+					}
+				}
+
+		};
 	}
 }

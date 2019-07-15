@@ -152,6 +152,14 @@ namespace materials {
                                 }),
                             }),
                             new sap.extension.table.Column("", {
+                                label: ibas.i18n.prop("bo_materialprice_itemsign"),
+                                template: new sap.extension.m.Text("", {
+                                }).bindProperty("bindingValue", {
+                                    path: "itemSign",
+                                    type: new sap.extension.data.Alphanumeric()
+                                }),
+                            }),
+                            new sap.extension.table.Column("", {
                                 label: ibas.i18n.prop("bo_materialprice_price"),
                                 template: new sap.extension.m.Text("", {
                                 }).bindProperty("bindingValue", {
@@ -262,11 +270,12 @@ namespace materials {
                                         new sap.m.SegmentedButtonItem("", {
                                             icon: "sap-icon://show",
                                             press(): void {
-                                                that.tablePrices.getColumns()[2].setTemplate(
+                                                that.tablePrices.getColumns()[3].setTemplate(
                                                     new sap.m.Text("", {
                                                         wrapping: false,
                                                         text: {
-                                                            path: "price"
+                                                            path: "price",
+                                                            type: new sap.extension.data.Price()
                                                         },
                                                     })
                                                 );
@@ -275,11 +284,12 @@ namespace materials {
                                         new sap.m.SegmentedButtonItem("", {
                                             icon: "sap-icon://edit",
                                             press(): void {
-                                                that.tablePrices.getColumns()[2].setTemplate(
+                                                that.tablePrices.getColumns()[3].setTemplate(
                                                     new sap.m.Input("", {
                                                         type: sap.m.InputType.Number,
                                                         value: {
-                                                            path: "price"
+                                                            path: "price",
+                                                            type: new sap.extension.data.Price()
                                                         },
                                                         change(event: any): void {
                                                             that.tablePrices.addSelectionInterval(this.getParent().getIndex(), this.getParent().getIndex());

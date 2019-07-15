@@ -193,6 +193,9 @@ namespace materials {
             /** 物料名称 */
             itemName: string;
 
+            /** 物料标记 */
+            itemSign: string;
+
             /** 价格 */
             price: number;
 
