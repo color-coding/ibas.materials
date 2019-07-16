@@ -14,7 +14,6 @@ import org.colorcoding.ibas.bobas.bo.IBOUserFields;
 import org.colorcoding.ibas.bobas.core.IPropertyInfo;
 import org.colorcoding.ibas.bobas.data.DateTime;
 import org.colorcoding.ibas.bobas.data.Decimal;
-import org.colorcoding.ibas.bobas.data.emYesNo;
 import org.colorcoding.ibas.bobas.mapping.BusinessObjectUnit;
 import org.colorcoding.ibas.bobas.mapping.DbField;
 import org.colorcoding.ibas.bobas.mapping.DbFieldType;
@@ -304,34 +303,34 @@ public class MaterialPriceList extends BusinessObject<MaterialPriceList>
 	}
 
 	/**
-	 * 属性名称-价格检查
+	 * 属性名称-底价清单
 	 */
-	private static final String PROPERTY_PRICECHECK_NAME = "PriceCheck";
+	private static final String PROPERTY_FLOORLIST_NAME = "FloorList";
 
 	/**
-	 * 价格检查 属性
+	 * 底价清单 属性
 	 */
-	@DbField(name = "PriceCheck", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME, primaryKey = false)
-	public static final IPropertyInfo<emYesNo> PROPERTY_PRICECHECK = registerProperty(PROPERTY_PRICECHECK_NAME,
-			emYesNo.class, MY_CLASS);
+	@DbField(name = "FloorList", type = DbFieldType.NUMERIC, table = DB_TABLE_NAME, primaryKey = false)
+	public static final IPropertyInfo<Integer> PROPERTY_FLOORLIST = registerProperty(PROPERTY_FLOORLIST_NAME,
+			Integer.class, MY_CLASS);
 
 	/**
-	 * 获取-价格检查
+	 * 获取-底价清单
 	 * 
 	 * @return 值
 	 */
-	@XmlElement(name = PROPERTY_PRICECHECK_NAME)
-	public final emYesNo getPriceCheck() {
-		return this.getProperty(PROPERTY_PRICECHECK);
+	@XmlElement(name = PROPERTY_FLOORLIST_NAME)
+	public final Integer getFloorList() {
+		return this.getProperty(PROPERTY_FLOORLIST);
 	}
 
 	/**
-	 * 设置-价格检查
+	 * 设置-底价清单
 	 * 
 	 * @param value 值
 	 */
-	public final void setPriceCheck(emYesNo value) {
-		this.setProperty(PROPERTY_PRICECHECK, value);
+	public final void setFloorList(Integer value) {
+		this.setProperty(PROPERTY_FLOORLIST, value);
 	}
 
 	/**
@@ -841,7 +840,6 @@ public class MaterialPriceList extends BusinessObject<MaterialPriceList>
 		this.setObjectCode(MyConfiguration.applyVariables(BUSINESS_OBJECT_CODE));
 		this.setCurrency(MyConfiguration.getConfigValue(MyConfiguration.CONFIG_ITEM_DEFAULT_CURRENCY, "CNY"));
 		this.setFactor(Decimal.ONE);
-		this.setPriceCheck(emYesNo.NO);
 	}
 
 	@Override

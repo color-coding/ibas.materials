@@ -199,9 +199,6 @@ namespace materials {
             /** 价格 */
             price: number;
 
-            /** 底价 */
-            floorPrice: number;
-
             /** 货币 */
             currency: string;
 

@@ -816,4 +816,10 @@ public class MaterialBatch extends BusinessObject<MaterialBatch> implements IMat
 				new BusinessRuleMinValue<BigDecimal>(Decimal.ZERO, PROPERTY_QUANTITY), // 不能低于0
 		};
 	}
+
+	@Override
+	public void resetStatus() {
+		super.resetStatus();
+		this.setQuantity(Decimal.ZERO);
+	}
 }

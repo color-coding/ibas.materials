@@ -29,6 +29,7 @@ namespace materials {
                 // 其他事件
                 this.view.deleteDataEvent = this.deleteData;
                 this.view.chooseBasedOnMaterialPriceListEvent = this.chooseBasedOnMaterialPriceList;
+                this.view.chooseFloorMaterialPriceListEvent = this.chooseFloorOnMaterialPriceList;
             }
             /** 视图显示后 */
             protected viewShowed(): void {
@@ -157,6 +158,24 @@ namespace materials {
                     }
                 });
             }
+            /** 选择底价价格清单 */
+            private chooseFloorOnMaterialPriceList(): void {
+                let that: this = this;
+                let criteria: ibas.ICriteria = new ibas.Criteria();
+                criteria.noChilds = true;
+                let condition: ibas.ICondition = criteria.conditions.create();
+                condition.alias = bo.MaterialPriceList.PROPERTY_OBJECTKEY_NAME;
+                condition.operation = ibas.emConditionOperation.NOT_EQUAL;
+                condition.value = "0";
+                ibas.servicesManager.runChooseService<bo.MaterialPriceList>({
+                    boCode: bo.MaterialPriceList.BUSINESS_OBJECT_CODE,
+                    chooseType: ibas.emChooseType.SINGLE,
+                    criteria: criteria,
+                    onCompleted(selecteds: ibas.IList<bo.MaterialPriceList>): void {
+                        that.editData.floorList = selecteds.firstOrDefault().objectKey;
+                    }
+                });
+            }
 
         }
         /** 视图-物料价格清单 */
@@ -167,6 +186,8 @@ namespace materials {
             deleteDataEvent: Function;
             /** 选择基于的价格清单 */
             chooseBasedOnMaterialPriceListEvent: Function;
+            /** 选择底价价格清单 */
+            chooseFloorMaterialPriceListEvent: Function;
         }
     }
 }

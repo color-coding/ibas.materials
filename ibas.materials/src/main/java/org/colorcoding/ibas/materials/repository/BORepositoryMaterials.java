@@ -914,7 +914,6 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 					for (IMaterialPrice newPrice : newPrices) {
 						if (item.getItemCode().equals(newPrice.getItemCode())) {
 							item.setPrice(newPrice.getPrice());
-							item.setFloorPrice(newPrice.getFloorPrice());
 							item.setCurrency(newPrice.getCurrency());
 							break;
 						}
@@ -1396,9 +1395,6 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 					if (priceItem != null) {
 						// 价格清单定义了价格
 						IMaterialPrice newPrice = MaterialPrice.create(priceItem, materialPriceList.getCurrency());
-						if (materialPriceList.getPriceCheck() != emYesNo.YES) {
-							newPrice.setFloorPrice(Decimal.ZERO);
-						}
 						newPrices.add(newPrice);
 					} else {
 						noItemCodes.add(itemCode);
@@ -1411,10 +1407,6 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 					for (IMaterialPrice newPrice : tmpPrices) {
 						if (!Decimal.isZero(materialPriceList.getFactor())) {
 							newPrice.setPrice(newPrice.getPrice().multiply(materialPriceList.getFactor()));
-							newPrice.setFloorPrice(newPrice.getFloorPrice().multiply(materialPriceList.getFactor()));
-						}
-						if (materialPriceList.getPriceCheck() != emYesNo.YES) {
-							newPrice.setFloorPrice(Decimal.ZERO);
 						}
 						newPrice.setCurrency(materialPriceList.getCurrency());
 						newPrices.add(newPrice);

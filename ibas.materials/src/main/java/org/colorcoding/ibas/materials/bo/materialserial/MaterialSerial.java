@@ -878,4 +878,10 @@ public class MaterialSerial extends BusinessObject<MaterialSerial> implements IM
 				new BusinessRuleRequired(PROPERTY_SERIALCODE), // 要求有值
 		};
 	}
+
+	@Override
+	public void resetStatus() {
+		super.resetStatus();
+		this.setInStock(emYesNo.NO);
+	}
 }

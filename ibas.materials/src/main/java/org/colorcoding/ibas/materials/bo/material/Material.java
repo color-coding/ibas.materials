@@ -729,6 +729,14 @@ public class Material extends MaterialBase<Material>
 	}
 
 	@Override
+	public void resetStatus() {
+		super.resetStatus();
+		this.setOnCommited(Decimal.ZERO);
+		this.setOnOrdered(Decimal.ZERO);
+		this.setOnHand(Decimal.ZERO);
+	}
+
+	@Override
 	public void check() throws BusinessRuleException {
 		if (this.getDeleted() == emYesNo.YES || this.isDeleted()) {
 			if (!Decimal.isZero(this.getOnHand())) {

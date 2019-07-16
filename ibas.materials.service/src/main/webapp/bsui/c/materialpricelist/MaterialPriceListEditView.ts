@@ -18,6 +18,8 @@ namespace materials {
                 deleteDataEvent: Function;
                 /** 选择基于的价格清单 */
                 chooseBasedOnMaterialPriceListEvent: Function;
+                /** 选择底价价格清单 */
+                chooseFloorMaterialPriceListEvent: Function;
 
                 /** 绘制视图 */
                 draw(): any {
@@ -93,12 +95,21 @@ namespace materials {
                                     maxLength: 8
                                 })
                             }),
-                            new sap.m.Label("", { text: ibas.i18n.prop("bo_materialpricelist_pricecheck") }),
-                            new sap.extension.m.EnumSelect("", {
-                                enumType: ibas.emYesNo
+                            new sap.m.Label("", { text: ibas.i18n.prop("bo_materialpricelist_floorlist") }),
+                            new sap.extension.m.RepositoryInput("", {
+                                showValueHelp: true,
+                                repository: bo.BORepositoryMaterials,
+                                dataInfo: {
+                                    type: bo.MaterialPriceList,
+                                    key: bo.MaterialPriceList.PROPERTY_OBJECTKEY_NAME,
+                                    text: bo.MaterialPriceList.PROPERTY_NAME_NAME
+                                },
+                                valueHelpRequest: function (): void {
+                                    that.fireViewEvents(that.chooseFloorMaterialPriceListEvent);
+                                }
                             }).bindProperty("bindingValue", {
-                                path: "/priceCheck",
-                                type: new sap.extension.data.YesNo()
+                                path: "/floorList",
+                                type: new sap.extension.data.Numeric()
                             }),
                         ]
                     });

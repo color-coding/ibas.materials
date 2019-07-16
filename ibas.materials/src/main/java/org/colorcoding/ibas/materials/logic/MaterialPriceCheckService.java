@@ -21,6 +21,18 @@ public class MaterialPriceCheckService
 		extends MaterialBusinessLogic<IMaterialPriceCheckContract, IBusinessObjectProxy> {
 
 	@Override
+	protected boolean checkDataStatus(Object data) {
+		// 无价格清单属性不执行逻辑
+		if (data instanceof IMaterialPriceCheckContract) {
+			IMaterialPriceCheckContract contract = (IMaterialPriceCheckContract) data;
+			if (contract.getPriceList() == null || Integer.compare(contract.getPriceList(), 0) <= 0) {
+				return false;
+			}
+		}
+		return super.checkDataStatus(data);
+	}
+
+	@Override
 	protected IBusinessObjectProxy fetchBeAffected(IMaterialPriceCheckContract contract) {
 		return new IBusinessObjectProxy() {
 			private static final long serialVersionUID = 1L;
@@ -114,15 +126,15 @@ public class MaterialPriceCheckService
 			org.colorcoding.ibas.materials.bo.material.IMaterialPrice priceItem = operationResult.getResultObjects()
 					.firstOrDefault(c -> c.getItemCode().equals(item.getItemCode()));
 			if (priceItem != null) {
-				if (Decimal.ZERO.compareTo(priceItem.getFloorPrice()) < 0) {
-					if (priceItem.getFloorPrice().compareTo(item.getPrice()) > 0) {
+				if (priceItem.getCurrency() != null && !priceItem.getCurrency().equals(item.getCurrency())) {
+					throw new BusinessLogicException(I18N.prop("msg_mm_material_price_currency_mismatch",
+							priceItem.getItemName() == null ? priceItem.getItemCode() : priceItem.getItemName()));
+				}
+				if (priceItem.getPrice() != null && priceItem.getPrice().compareTo(Decimal.ZERO) >= 0) {
+					if (priceItem.getPrice().compareTo(item.getPrice()) > 0) {
 						throw new BusinessLogicException(I18N.prop("msg_mm_material_price_too_low",
 								priceItem.getItemName() == null ? priceItem.getItemCode() : priceItem.getItemName()));
 					}
-				}
-				if (!priceItem.getCurrency().equals(item.getCurrency())) {
-					throw new BusinessLogicException(I18N.prop("msg_mm_material_price_currency_mismatch",
-							priceItem.getItemName() == null ? priceItem.getItemCode() : priceItem.getItemName()));
 				}
 			}
 		}
@@ -130,8 +142,6 @@ public class MaterialPriceCheckService
 
 	@Override
 	protected void revoke(IMaterialPriceCheckContract contract) {
-		// TODO Auto-generated method stub
-
 	}
 
 }

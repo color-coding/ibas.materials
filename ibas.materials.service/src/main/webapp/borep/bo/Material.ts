@@ -728,17 +728,6 @@ namespace materials {
                 this.setProperty(MaterialPrice.PROPERTY_PRICE_NAME, value);
             }
 
-            /** 映射的属性名称-底价 */
-            static PROPERTY_FLOORPRICE_NAME: string = "FloorPrice";
-            /** 获取-底价 */
-            get floorPrice(): number {
-                return this.getProperty<number>(MaterialPriceItem.PROPERTY_FLOORPRICE_NAME);
-            }
-            /** 设置-底价 */
-            set floorPrice(value: number) {
-                this.setProperty(MaterialPriceItem.PROPERTY_FLOORPRICE_NAME, value);
-            }
-
             /** 映射的属性名称-货币 */
             static PROPERTY_CURRENCY_NAME: string = "Currency";
             /** 获取-货币 */

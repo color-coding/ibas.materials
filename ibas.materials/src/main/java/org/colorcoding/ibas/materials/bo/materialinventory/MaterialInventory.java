@@ -805,6 +805,14 @@ public class MaterialInventory extends BusinessObject<MaterialInventory> impleme
 	}
 
 	@Override
+	public void resetStatus() {
+		super.resetStatus();
+		this.setOnCommited(Decimal.ZERO);
+		this.setOnOrdered(Decimal.ZERO);
+		this.setOnHand(Decimal.ZERO);
+	}
+
+	@Override
 	public BigDecimal getOnAvailable() {
 		return Decimal.add(this.getOnHand(), this.getOnOrdered(), this.getOnCommited().negate());
 	}

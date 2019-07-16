@@ -141,64 +141,6 @@ public class MaterialPriceItem extends BusinessObject<MaterialPriceItem> impleme
 	}
 
 	/**
-	 * 属性名称-底价
-	 */
-	private static final String PROPERTY_FLOORPRICE_NAME = "FloorPrice";
-
-	/**
-	 * 底价 属性
-	 */
-	@DbField(name = "FloorPrice", type = DbFieldType.DECIMAL, table = DB_TABLE_NAME, primaryKey = false)
-	public static final IPropertyInfo<BigDecimal> PROPERTY_FLOORPRICE = registerProperty(PROPERTY_FLOORPRICE_NAME,
-			BigDecimal.class, MY_CLASS);
-
-	/**
-	 * 获取-底价
-	 * 
-	 * @return 值
-	 */
-	@XmlElement(name = PROPERTY_FLOORPRICE_NAME)
-	public final BigDecimal getFloorPrice() {
-		return this.getProperty(PROPERTY_FLOORPRICE);
-	}
-
-	/**
-	 * 设置-底价
-	 * 
-	 * @param value 值
-	 */
-	public final void setFloorPrice(BigDecimal value) {
-		this.setProperty(PROPERTY_FLOORPRICE, value);
-	}
-
-	/**
-	 * 设置-底价
-	 * 
-	 * @param value 值
-	 */
-	public final void setFloorPrice(String value) {
-		this.setFloorPrice(Decimal.valueOf(value));
-	}
-
-	/**
-	 * 设置-底价
-	 * 
-	 * @param value 值
-	 */
-	public final void setFloorPrice(int value) {
-		this.setFloorPrice(Decimal.valueOf(value));
-	}
-
-	/**
-	 * 设置-底价
-	 * 
-	 * @param value 值
-	 */
-	public final void setFloorPrice(double value) {
-		this.setFloorPrice(Decimal.valueOf(value));
-	}
-
-	/**
 	 * 属性名称-对象编号
 	 */
 	private static final String PROPERTY_OBJECTKEY_NAME = "ObjectKey";

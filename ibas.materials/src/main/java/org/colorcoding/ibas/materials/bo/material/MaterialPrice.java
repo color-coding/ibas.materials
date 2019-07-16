@@ -57,7 +57,6 @@ public class MaterialPrice extends Serializable implements IMaterialPrice {
 		MaterialPrice materialPrice = new MaterialPrice();
 		materialPrice.setItemCode(materialPriceItem.getItemCode());
 		materialPrice.setPrice(materialPriceItem.getPrice());
-		materialPrice.setFloorPrice(materialPriceItem.getFloorPrice());
 		materialPrice.setSource(Integer.toString(materialPriceItem.getObjectKey()));
 		return materialPrice;
 	}
@@ -141,25 +140,6 @@ public class MaterialPrice extends Serializable implements IMaterialPrice {
 
 	public final void setPrice(double value) {
 		this.setPrice(Decimal.valueOf(value));
-	}
-
-	private BigDecimal floorPrice;
-
-	@XmlElement(name = "FloorPrice")
-	public final BigDecimal getFloorPrice() {
-		return floorPrice;
-	}
-
-	public final void setFloorPrice(BigDecimal floorPrice) {
-		this.floorPrice = floorPrice;
-	}
-
-	public final void setFloorPrice(int value) {
-		this.setFloorPrice(Decimal.valueOf(value));
-	}
-
-	public final void setFloorPrice(double value) {
-		this.setFloorPrice(Decimal.valueOf(value));
 	}
 
 	private String currency;
