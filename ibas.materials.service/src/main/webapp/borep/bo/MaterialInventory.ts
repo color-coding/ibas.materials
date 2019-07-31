@@ -241,6 +241,13 @@ namespace materials {
             protected init(): void {
                 this.objectCode = ibas.config.applyVariables(MaterialInventory.BUSINESS_OBJECT_CODE);
             }
+            /** 重置 */
+            reset(): void {
+                super.reset();
+                this.onCommited = 0;
+                this.onHand = 0;
+                this.onOrdered = 0;
+            }
 
             /** 可用量（库存+已订购-已承诺） */
             onAvailable(): number {

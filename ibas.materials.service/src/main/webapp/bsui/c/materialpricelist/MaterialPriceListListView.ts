@@ -130,7 +130,7 @@ namespace materials {
                     });
                     this.tablePrices = new sap.extension.table.Table("", {
                         enableSelectAll: false,
-                        visibleRowCount: sap.extension.table.visibleRowCount(15),
+                        visibleRowCount: sap.extension.table.visibleRowCount(15) - 1,
                         visibleRowCountMode: sap.ui.table.VisibleRowCountMode.Interactive,
                         rows: "{/rows}",
                         columns: [
@@ -279,6 +279,7 @@ namespace materials {
                                                         },
                                                     })
                                                 );
+                                                that.pagePrices.destroyFooter();
                                             }
                                         }),
                                         new sap.m.SegmentedButtonItem("", {
@@ -296,6 +297,118 @@ namespace materials {
                                                         }
                                                     })
                                                 );
+                                                let input: sap.m.Input;
+                                                let label: sap.m.Label;
+                                                that.pagePrices.setFooter(new sap.m.Toolbar("", {
+                                                    content: [
+                                                        new sap.m.MenuButton("", {
+                                                            text: ibas.i18n.prop("shell_data_choose"),
+                                                            icon: "sap-icon://bullet-text",
+                                                            type: sap.m.ButtonType.Transparent,
+                                                            menu: new sap.m.Menu("", {
+                                                                items: [
+                                                                    new sap.m.MenuItem("", {
+                                                                        text: ibas.i18n.prop("shell_all"),
+                                                                        icon: "sap-icon://multiselect-all",
+                                                                        press: function (): void {
+                                                                            let model: any = that.tablePrices.getModel();
+                                                                            if (model instanceof sap.extension.model.JSONModel) {
+                                                                                for (let index: number = 0; index < model.size(); index++) {
+                                                                                    if (!that.tablePrices.isIndexSelected(index)) {
+                                                                                        that.tablePrices.addSelectionInterval(index, index);
+                                                                                    }
+                                                                                }
+                                                                            }
+                                                                        }
+                                                                    }),
+                                                                    new sap.m.MenuItem("", {
+                                                                        text: ibas.i18n.prop("shell_reverse"),
+                                                                        icon: "sap-icon://multi-select",
+                                                                        press: function (): void {
+                                                                            let model: any = that.tablePrices.getModel();
+                                                                            if (model instanceof sap.extension.model.JSONModel) {
+                                                                                let selects: ibas.IList<number> = ibas.arrays.create(that.tablePrices.getSelectedIndices());
+                                                                                that.tablePrices.clearSelection();
+                                                                                for (let index: number = 0; index < model.size(); index++) {
+                                                                                    if (!selects.contain(index)) {
+                                                                                        that.tablePrices.addSelectionInterval(index, index);
+                                                                                    }
+                                                                                }
+                                                                            }
+                                                                        }
+                                                                    }),
+                                                                ],
+                                                            })
+                                                        }),
+                                                        new sap.m.ToolbarSpacer(""),
+                                                        new sap.m.Label("", {
+                                                            text: ibas.i18n.prop("shell_batch"),
+                                                        }),
+                                                        new sap.m.ToolbarSeparator(""),
+                                                        new sap.m.Label("", {
+                                                            width: "auto",
+                                                            text: ibas.i18n.prop("bo_materialprice_price"),
+                                                        }),
+                                                        label = new sap.m.Label("", {
+                                                            width: "auto",
+                                                            text: "+",
+                                                        }),
+                                                        input = new sap.m.Input("", {
+                                                            width: "6rem",
+                                                            type: sap.m.InputType.Number,
+                                                            textAlign: sap.ui.core.TextAlign.Right,
+                                                            valueState: sap.ui.core.ValueState.Success,
+                                                            value: "0",
+                                                        }),
+                                                        new sap.m.MenuButton("", {
+                                                            text: ibas.i18n.prop("shell_apply"),
+                                                            type: sap.m.ButtonType.Accept,
+                                                            menuPosition: sap.ui.core.Popup.Dock.BeginTop,
+                                                            buttonMode: sap.m.MenuButtonMode.Split,
+                                                            width: "auto",
+                                                            menu: new sap.m.Menu("", {
+                                                                items: [
+                                                                    new sap.m.MenuItem("", {
+                                                                        text: ibas.i18n.prop("materials_adjust_price_add"),
+                                                                        icon: "sap-icon://add",
+                                                                        press: function (): void {
+                                                                            label.setText("+");
+                                                                        }
+                                                                    }),
+                                                                    new sap.m.MenuItem("", {
+                                                                        text: ibas.i18n.prop("materials_adjust_price_less"),
+                                                                        icon: "sap-icon://less",
+                                                                        press: function (): void {
+                                                                            label.setText("-");
+                                                                        }
+                                                                    }),
+                                                                    new sap.m.MenuItem("", {
+                                                                        text: ibas.i18n.prop("materials_adjust_price_multiply"),
+                                                                        icon: "sap-icon://decline",
+                                                                        press: function (): void {
+                                                                            label.setText("×");
+                                                                        }
+                                                                    }),
+                                                                ],
+                                                            }),
+                                                            useDefaultActionOnly: true,
+                                                            defaultAction(event: sap.ui.base.Event): void {
+                                                                let value: number = ibas.numbers.valueOf(input.getValue());
+                                                                let operation: string | "+" | "-" | "×" = label.getText();
+                                                                for (let item of that.tablePrices.getSelecteds<bo.MaterialPrice>()) {
+                                                                    if (operation === "-") {
+                                                                        item.price = item.price - value;
+                                                                    } else if (operation === "×") {
+                                                                        item.price = item.price * value;
+                                                                    } else {
+                                                                        item.price = item.price + value;
+                                                                    }
+                                                                }
+                                                                that.tablePrices.getModel().updateBindings(false);
+                                                            },
+                                                        }),
+                                                    ]
+                                                }));
                                             }
                                         }),
                                     ]
@@ -349,7 +462,8 @@ namespace materials {
                         }),
                         content: [
                             this.tablePrices
-                        ]
+                        ],
+                        floatingFooter: true,
                     });
                     return new sap.m.SplitContainer("", {
                         masterPages: [

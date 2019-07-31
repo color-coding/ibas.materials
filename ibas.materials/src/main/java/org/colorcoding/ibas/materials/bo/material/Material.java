@@ -729,8 +729,8 @@ public class Material extends MaterialBase<Material>
 	}
 
 	@Override
-	public void resetStatus() {
-		super.resetStatus();
+	public void reset() {
+		super.reset();
 		this.setOnCommited(Decimal.ZERO);
 		this.setOnOrdered(Decimal.ZERO);
 		this.setOnHand(Decimal.ZERO);

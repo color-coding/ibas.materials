@@ -333,6 +333,11 @@ namespace materials {
                 this.objectCode = ibas.config.applyVariables(MaterialSerial.BUSINESS_OBJECT_CODE);
                 this.locked = ibas.emYesNo.NO;
             }
+            /** 重置 */
+            reset(): void {
+                super.reset();
+                this.inStock = ibas.emYesNo.NO;
+            }
         }
     }
 }

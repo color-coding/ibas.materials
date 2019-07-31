@@ -11,8 +11,6 @@ namespace materials {
 
             /** 业务对象编码 */
             static BUSINESS_OBJECT_CODE: string = BO_CODE_MATERIALBATCH;
-            // static BUSINESS_OBJECT_RECEIEPT_CODE: string = BO_CODE_RECEIPT_MATERIALBATCH;
-            // static BUSINESS_OBJECT_ISSUE_CODE: string = BO_CODE_ISSUE_MATERIALBATCH;
             /** 构造函数 */
             constructor() {
                 super();
@@ -303,6 +301,11 @@ namespace materials {
             protected init(): void {
                 this.objectCode = ibas.config.applyVariables(MaterialBatch.BUSINESS_OBJECT_CODE);
                 this.locked = ibas.emYesNo.NO;
+            }
+            /** 重置 */
+            reset(): void {
+                super.reset();
+                this.quantity = 0;
             }
         }
     }

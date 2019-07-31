@@ -254,6 +254,14 @@ namespace materials {
                                 path: "minimumInventory",
                                 type: new sap.extension.data.Quantity()
                             }),
+                            new sap.m.Label("", { text: ibas.i18n.prop("bo_material_inventoryuom") }),
+                            new sap.extension.m.Input("", {
+                            }).bindProperty("bindingValue", {
+                                path: "inventoryUOM",
+                                type: new sap.extension.data.Alphanumeric({
+                                    maxLength: 8
+                                }),
+                            }),
                             new sap.m.Label("", { text: ibas.i18n.prop("bo_material_serialmanagement") }),
                             new sap.extension.m.EnumSelect("", {
                                 enumType: ibas.emYesNo

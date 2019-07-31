@@ -544,6 +544,13 @@ namespace materials {
                 this.purchaseItem = ibas.emYesNo.YES;
                 this.salesItem = ibas.emYesNo.YES;
             }
+            /** 重置 */
+            reset(): void {
+                super.reset();
+                this.onCommited = 0;
+                this.onHand = 0;
+                this.onOrdered = 0;
+            }
             /** 可用量（库存+已订购-已承诺） */
             onAvailable(): number {
                 return ibas.numbers.valueOf(this.onHand)

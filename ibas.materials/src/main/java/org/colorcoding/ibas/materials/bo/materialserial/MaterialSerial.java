@@ -880,8 +880,8 @@ public class MaterialSerial extends BusinessObject<MaterialSerial> implements IM
 	}
 
 	@Override
-	public void resetStatus() {
-		super.resetStatus();
+	public void reset() {
+		super.reset();
 		this.setInStock(emYesNo.NO);
 	}
 }
