@@ -33,7 +33,6 @@ import org.colorcoding.ibas.materials.bo.materialbatch.MaterialBatchItems;
 import org.colorcoding.ibas.materials.bo.materialserial.IMaterialSerialItems;
 import org.colorcoding.ibas.materials.bo.materialserial.MaterialSerialItem;
 import org.colorcoding.ibas.materials.bo.materialserial.MaterialSerialItems;
-import org.colorcoding.ibas.materials.logic.IMaterialCompletionContract;
 import org.colorcoding.ibas.materials.logic.IMaterialIssueContract;
 
 /**
@@ -1464,41 +1463,7 @@ public class GoodsIssueLine extends BusinessObject<GoodsIssueLine>
 						return GoodsIssueLine.this.getSerialManagement();
 					}
 
-				},
-				// 物料信息补全
-				new IMaterialCompletionContract() {
-					@Override
-					public String getIdentifiers() {
-						return GoodsIssueLine.this.getIdentifiers();
-					}
-
-					@Override
-					public String getItemCode() {
-						return GoodsIssueLine.this.getItemCode();
-					}
-
-					@Override
-					public String getItemSign() {
-						return GoodsIssueLine.this.getItemSign();
-					}
-
-					@Override
-					public void setItemSign(String value) {
-						GoodsIssueLine.this.setItemSign(value);
-					}
-
-					@Override
-					public String getItemDescription() {
-						return GoodsIssueLine.this.getItemDescription();
-					}
-
-					@Override
-					public void setItemDescription(String value) {
-						GoodsIssueLine.this.setItemDescription(value);
-					}
-				}
-
-		};
+				} };
 	}
 
 }

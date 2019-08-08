@@ -31,7 +31,6 @@ import org.colorcoding.ibas.bobas.rule.common.BusinessRuleRequired;
 import org.colorcoding.ibas.materials.MyConfiguration;
 import org.colorcoding.ibas.materials.bo.materialbatch.IMaterialBatchItems;
 import org.colorcoding.ibas.materials.bo.materialserial.IMaterialSerialItems;
-import org.colorcoding.ibas.materials.logic.IMaterialCompletionContract;
 import org.colorcoding.ibas.materials.logic.IMaterialIssueContract;
 import org.colorcoding.ibas.materials.logic.IMaterialReceiptContract;
 
@@ -1535,38 +1534,6 @@ public class InventoryTransferLine extends BusinessObject<InventoryTransferLine>
 					@Override
 					public emYesNo getSerialManagement() {
 						return InventoryTransferLine.this.getSerialManagement();
-					}
-				},
-				// 物料信息补全
-				new IMaterialCompletionContract() {
-					@Override
-					public String getIdentifiers() {
-						return InventoryTransferLine.this.getIdentifiers();
-					}
-
-					@Override
-					public String getItemCode() {
-						return InventoryTransferLine.this.getItemCode();
-					}
-
-					@Override
-					public String getItemSign() {
-						return InventoryTransferLine.this.getItemSign();
-					}
-
-					@Override
-					public void setItemSign(String value) {
-						InventoryTransferLine.this.setItemSign(value);
-					}
-
-					@Override
-					public String getItemDescription() {
-						return InventoryTransferLine.this.getItemDescription();
-					}
-
-					@Override
-					public void setItemDescription(String value) {
-						InventoryTransferLine.this.setItemDescription(value);
 					}
 				}
 

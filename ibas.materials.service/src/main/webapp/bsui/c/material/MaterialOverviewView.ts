@@ -206,6 +206,12 @@ namespace materials {
                                 }),
                             ]
                         }),
+                        expand(event: sap.ui.base.Event): void {
+                            let expand: boolean = event.getParameter("expand");
+                            if (expand === true) {
+                                that.fireViewEvents(that.fetchMaterialInventoryEvent, that.tableMaterials.getSelecteds().firstOrDefault());
+                            }
+                        },
                         content: [
                             new sap.extension.table.Table("", {
                                 chooseType: ibas.emChooseType.NONE,
@@ -284,6 +290,12 @@ namespace materials {
                                 }),
                             ]
                         }),
+                        expand(event: sap.ui.base.Event): void {
+                            let expand: boolean = event.getParameter("expand");
+                            if (expand === true) {
+                                that.fireViewEvents(that.fetchMaterialBatchEvent, that.tableMaterials.getSelecteds().firstOrDefault());
+                            }
+                        },
                         content: [
                             new sap.extension.table.Table("", {
                                 chooseType: ibas.emChooseType.NONE,
@@ -405,6 +417,12 @@ namespace materials {
                                 }),
                             ]
                         }),
+                        expand(event: sap.ui.base.Event): void {
+                            let expand: boolean = event.getParameter("expand");
+                            if (expand === true) {
+                                that.fireViewEvents(that.fetchMaterialSerialEvent, that.tableMaterials.getSelecteds().firstOrDefault());
+                            }
+                        },
                         content: [
                             new sap.extension.table.Table("", {
                                 chooseType: ibas.emChooseType.NONE,
@@ -538,10 +556,13 @@ namespace materials {
                                     new sap.ui.core.Title("", { text: ibas.i18n.prop("bo_material_picture") }),
                                     new sap.m.Image("", {
                                         width: "100%",
-                                        height: "100%",
+                                        height: "16rem",
                                     }).bindProperty("src", {
                                         path: "picture",
                                         formatter(data: any): any {
+                                            if (ibas.strings.isWith(data, "http", undefined)) {
+                                                return ibas.urls.normalize(data);
+                                            }
                                             return new bo.BORepositoryMaterials().toUrl(data);
                                         }
                                     }),

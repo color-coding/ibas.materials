@@ -771,24 +771,24 @@ public class MaterialSpecification extends BusinessObject<MaterialSpecification>
 	/**
 	 * 属性名称-物料规格-项目
 	 */
-	private static final String PROPERTY_MaterialSPECIFICATIONITEMS_NAME = "MaterialSpecificationItems";
+	private static final String PROPERTY_MATERIALSPECIFICATIONITEMS_NAME = "MaterialSpecificationItems";
 
 	/**
 	 * 物料规格-项目的集合属性
 	 * 
 	 */
-	public static final IPropertyInfo<IMaterialSpecificationItems> PROPERTY_MaterialSPECIFICATIONITEMS = registerProperty(
-			PROPERTY_MaterialSPECIFICATIONITEMS_NAME, IMaterialSpecificationItems.class, MY_CLASS);
+	public static final IPropertyInfo<IMaterialSpecificationItems> PROPERTY_MATERIALSPECIFICATIONITEMS = registerProperty(
+			PROPERTY_MATERIALSPECIFICATIONITEMS_NAME, IMaterialSpecificationItems.class, MY_CLASS);
 
 	/**
 	 * 获取-物料规格-项目集合
 	 * 
 	 * @return 值
 	 */
-	@XmlElementWrapper(name = PROPERTY_MaterialSPECIFICATIONITEMS_NAME)
+	@XmlElementWrapper(name = PROPERTY_MATERIALSPECIFICATIONITEMS_NAME)
 	@XmlElement(name = MaterialSpecificationItem.BUSINESS_OBJECT_NAME, type = MaterialSpecificationItem.class)
 	public final IMaterialSpecificationItems getMaterialSpecificationItems() {
-		return this.getProperty(PROPERTY_MaterialSPECIFICATIONITEMS);
+		return this.getProperty(PROPERTY_MATERIALSPECIFICATIONITEMS);
 	}
 
 	/**
@@ -797,7 +797,7 @@ public class MaterialSpecification extends BusinessObject<MaterialSpecification>
 	 * @param value 值
 	 */
 	public final void setMaterialSpecificationItems(IMaterialSpecificationItems value) {
-		this.setProperty(PROPERTY_MaterialSPECIFICATIONITEMS, value);
+		this.setProperty(PROPERTY_MATERIALSPECIFICATIONITEMS, value);
 	}
 
 	/**

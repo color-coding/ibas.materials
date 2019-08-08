@@ -29,7 +29,6 @@ import org.colorcoding.ibas.bobas.rule.common.BusinessRuleSubtraction;
 import org.colorcoding.ibas.materials.MyConfiguration;
 import org.colorcoding.ibas.materials.bo.materialbatch.IMaterialBatchItems;
 import org.colorcoding.ibas.materials.bo.materialserial.IMaterialSerialItems;
-import org.colorcoding.ibas.materials.logic.IMaterialCompletionContract;
 import org.colorcoding.ibas.materials.logic.IMaterialIssueContract;
 import org.colorcoding.ibas.materials.logic.IMaterialReceiptContract;
 import org.colorcoding.ibas.materials.logic.IMaterialWarehouseFrozenContract;
@@ -1389,41 +1388,7 @@ public class InventoryCountingLine extends BusinessObject<InventoryCountingLine>
 						public emYesNo getFreeze() {
 							return InventoryCountingLine.this.getFreeze();
 						}
-					},
-					// 物料信息补全
-					new IMaterialCompletionContract() {
-						@Override
-						public String getIdentifiers() {
-							return InventoryCountingLine.this.getIdentifiers();
-						}
-
-						@Override
-						public String getItemCode() {
-							return InventoryCountingLine.this.getItemCode();
-						}
-
-						@Override
-						public String getItemSign() {
-							return InventoryCountingLine.this.getItemSign();
-						}
-
-						@Override
-						public void setItemSign(String value) {
-							InventoryCountingLine.this.setItemSign(value);
-						}
-
-						@Override
-						public String getItemDescription() {
-							return InventoryCountingLine.this.getItemDescription();
-						}
-
-						@Override
-						public void setItemDescription(String value) {
-							InventoryCountingLine.this.setItemDescription(value);
-						}
-					}
-
-			};
+					} };
 		}
 		return null;
 	}
