@@ -60,7 +60,7 @@ namespace materials {
                             }),
                             new sap.extension.table.DataColumn("", {
                                 label: ibas.i18n.prop("bo_specification_target"),
-                                width: "16rem",
+                                width: "20rem",
                                 template: new component.MaterialOrMaterialGroupText("", {
                                     typeProperty: "targetType",
                                 }).bindProperty("bindingValue", {

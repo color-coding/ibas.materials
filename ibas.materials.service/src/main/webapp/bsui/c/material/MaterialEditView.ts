@@ -43,7 +43,7 @@ namespace materials {
                                 }
                             }),
                             new sap.extension.m.SeriesSelect("", {
-                                objectCode: ibas.config.applyVariables(bo.BO_CODE_MATERIAL),
+                                objectCode: bo.BO_CODE_MATERIAL,
                             }).bindProperty("bindingValue", {
                                 path: "series",
                                 type: new sap.extension.data.Numeric()
@@ -159,6 +159,24 @@ namespace materials {
                                         }
                                     }),
                                 ]
+                            }),
+                            new sap.m.Label("", { text: ibas.i18n.prop("bo_material_preferredvendor") }),
+                            new sap.extension.m.SelectionInput("", {
+                                showValueHelp: true,
+                                repository: businesspartner.bo.BORepositoryBusinessPartner,
+                                dataInfo: {
+                                    type: businesspartner.bo.Supplier,
+                                    key: businesspartner.bo.Supplier.PROPERTY_CODE_NAME,
+                                    text: businesspartner.bo.Supplier.PROPERTY_NAME_NAME,
+                                },
+                                criteria: [
+                                    new ibas.Condition(businesspartner.bo.Supplier.PROPERTY_ACTIVATED_NAME, ibas.emConditionOperation.EQUAL, ibas.emYesNo.YES.toString())
+                                ]
+                            }).bindProperty("bindingValue", {
+                                path: "preferredVendor",
+                                type: new sap.extension.data.Alphanumeric({
+                                    maxLength: 20
+                                }),
                             }),
                             new sap.m.Label("", { text: ibas.i18n.prop("bo_material_remarks") }),
                             new sap.extension.m.TextArea("", {

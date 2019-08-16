@@ -56,9 +56,13 @@ namespace materials {
                     if (ibas.objects.isNull(criteria)) {
                         criteria = sap.extension.variables.get(WarehouseSelect, "criteria");
                         if (ibas.objects.isNull(criteria)) {
-                            criteria = [
-                                new ibas.Condition("Activated", ibas.emConditionOperation.EQUAL, ibas.emYesNo.YES.toString())
-                            ];
+                            criteria = new ibas.Criteria();
+                            let condition: ibas.ICondition = criteria.conditions.create();
+                            condition.alias = "Activated";
+                            condition.value = ibas.emYesNo.YES.toString();
+                            let sort: ibas.ISort = criteria.sorts.create();
+                            sort.alias = "DocEntry";
+                            sort.sortType = ibas.emSortType.DESCENDING;
                             sap.extension.variables.set(criteria, WarehouseSelect, "criteria");
                         }
                         this.setCriteria(criteria);
@@ -139,7 +143,7 @@ namespace materials {
                                     keyBudilder.append(item.key);
                                     textBudilder.append(item.text);
                                 }
-                                done(textBudilder.toString());
+                                done(ibas.strings.format("{0} - {1}", keyBudilder.toString(), textBudilder.toString()));
                             }
                         };
                         let boRepository: materials.bo.BORepositoryMaterials = sap.extension.variables.get(MaterialOrMaterialGroupText, "repository");

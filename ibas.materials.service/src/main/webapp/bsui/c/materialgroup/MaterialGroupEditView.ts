@@ -38,7 +38,7 @@ namespace materials {
                                 }
                             }),
                             new sap.extension.m.SeriesSelect("", {
-                                objectCode: ibas.config.applyVariables(bo.BO_CODE_MATERIALGROUP),
+                                objectCode: bo.BO_CODE_MATERIALGROUP,
                             }).bindProperty("bindingValue", {
                                 path: "series",
                                 type: new sap.extension.data.Numeric()

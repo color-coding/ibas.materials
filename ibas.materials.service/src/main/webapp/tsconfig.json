@@ -12,7 +12,8 @@
     "./3rdparty/ibas/index.d.ts",
     "./3rdparty/shell/index.d.ts",
     "./3rdparty/openui5/index.d.ts",
-    "./3rdparty/accounting/index.d.ts"
+    "./3rdparty/accounting/index.d.ts",
+    "./3rdparty/businesspartner/index.d.ts"
   ],
   "files": [
     "./bsapp/Console.ts"
