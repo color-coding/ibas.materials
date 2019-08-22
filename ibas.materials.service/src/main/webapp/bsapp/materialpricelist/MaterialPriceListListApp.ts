@@ -30,6 +30,7 @@ namespace materials {
                 this.view.editDataEvent = this.editData;
                 this.view.deleteDataEvent = this.deleteData;
                 this.view.fetchPriceEvent = this.fetchPrice;
+                this.view.exportPriceEvent = this.exportPrice;
                 this.view.savePriceListItemEvent = this.savePriceListItem;
             }
             /** 视图显示后 */
@@ -224,6 +225,34 @@ namespace materials {
                 });
                 this.proceeding(ibas.emMessageType.INFORMATION, ibas.i18n.prop("shell_saving_data"));
             }
+            /** 导出价格 */
+            protected exportPrice(criteria: ibas.ICriteria): void {
+                // 检查目标数据
+                if (ibas.objects.isNull(criteria) || criteria.conditions.length === 0) {
+                    throw new Error(ibas.i18n.prop("sys_invalid_parameter", "criteria"));
+                }
+                this.busy(true);
+                let that: this = this;
+                let boRepository: bo.BORepositoryMaterials = new bo.BORepositoryMaterials();
+                boRepository.fetchMaterialPrice({
+                    criteria: criteria,
+                    onCompleted(opRslt: ibas.IOperationResult<bo.MaterialPrice>): void {
+                        try {
+                            that.busy(false);
+                            if (opRslt.resultCode !== 0) {
+                                throw new Error(opRslt.message);
+                            }
+                            if (opRslt.resultObjects.length === 0) {
+                                that.proceeding(ibas.emMessageType.INFORMATION, ibas.i18n.prop("shell_data_fetched_none"));
+                            }
+                            that.view.savePrices(opRslt.resultObjects);
+                        } catch (error) {
+                            that.messages(error);
+                        }
+                    }
+                });
+                this.proceeding(ibas.emMessageType.INFORMATION, ibas.i18n.prop("shell_fetching_data"));
+            }
         }
         /** 视图-物料价格清单 */
         export interface IMaterialPriceListListView extends ibas.IBOListView {
@@ -239,6 +268,10 @@ namespace materials {
             showPrices(datas: bo.MaterialPrice[]): void;
             /** 保存价格项目事件 */
             savePriceListItemEvent: Function;
+            /** 导出价格事件 */
+            exportPriceEvent: Function;
+            /** 保存数据 */
+            savePrices(datas: bo.MaterialPrice[]): void;
         }
     }
 }

@@ -870,13 +870,15 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 			}
 			// 查询物料
 			ICriteria maCriteria = this.filterConditions(criteria, true, MaterialPrice.CONDITION_ALIAS_ITEMCODE,
-					MaterialPrice.CONDITION_ALIAS_ITEMNAME);
+					MaterialPrice.CONDITION_ALIAS_ITEMNAME, MaterialPrice.CONDITION_ALIAS_ITEMSIGN);
 			maCriteria.setResultCount(criteria.getResultCount());
 			for (ICondition condition : maCriteria.getConditions()) {
 				if (MaterialPrice.CONDITION_ALIAS_ITEMCODE.equalsIgnoreCase(condition.getAlias())) {
 					condition.setAlias(Material.PROPERTY_CODE.getName());
 				} else if (MaterialPrice.CONDITION_ALIAS_ITEMNAME.equalsIgnoreCase(condition.getAlias())) {
 					condition.setAlias(Material.PROPERTY_NAME.getName());
+				} else if (MaterialPrice.CONDITION_ALIAS_ITEMSIGN.equalsIgnoreCase(condition.getAlias())) {
+					condition.setAlias(Material.PROPERTY_SIGN.getName());
 				}
 			}
 			if (maCriteria.getSorts()

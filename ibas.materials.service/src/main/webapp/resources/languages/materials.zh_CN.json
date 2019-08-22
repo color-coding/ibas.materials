@@ -106,5 +106,7 @@
   "materials_adjust_price_add": "价格增加",
   "materials_adjust_price_less": "价格减少",
   "materials_adjust_price_multiply": "价格乘以",
+  "materials_export_prices": "导出价格",
+  "materials_import_prices": "导入价格",
   "materials_closing_delimiter": "----结束----"
 }

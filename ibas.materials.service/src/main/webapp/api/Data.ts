@@ -372,6 +372,8 @@ namespace materials {
                 export const CONDITION_ALIAS_ITEMCODE: string = "ItemCode";
                 /** 查询条件字段-物料名称 */
                 export const CONDITION_ALIAS_ITEMNAME: string = "ItemName";
+                /** 查询条件字段-物料标记 */
+                export const CONDITION_ALIAS_ITEMSIGN: string = "ItemSign";
                 /** 查询条件字段-价格清单 */
                 export const CONDITION_ALIAS_PRICELIST: string = "PriceList";
             }

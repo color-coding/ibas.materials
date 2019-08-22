@@ -31,6 +31,10 @@ public class MaterialPrice extends Serializable implements IMaterialPrice {
 	 */
 	public static final String CONDITION_ALIAS_ITEMNAME = "ItemName";
 	/**
+	 * 查询条件字段-物料标记
+	 */
+	public static final String CONDITION_ALIAS_ITEMSIGN = "ItemSign";
+	/**
 	 * 查询条件字段-价格清单
 	 */
 	public static final String CONDITION_ALIAS_PRICELIST = "PriceList";
