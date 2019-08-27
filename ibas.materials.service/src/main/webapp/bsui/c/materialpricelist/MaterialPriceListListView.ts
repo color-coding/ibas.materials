@@ -185,6 +185,12 @@ namespace materials {
                                 return;
                             }
                             if (ibas.objects.isNull(that.lastPriceCriteria)) {
+                                let source: any = event.getSource();
+                                if (source instanceof sap.extension.table.Table) {
+                                    if (source.getBusy() === true) {
+                                        source.setBusy(false);
+                                    }
+                                }
                                 return;
                             }
                             let criteria: ibas.ICriteria = that.lastPriceCriteria.next(data);
@@ -287,12 +293,10 @@ namespace materials {
                                             icon: "sap-icon://show",
                                             press(): void {
                                                 that.tablePrices.getColumns()[3].setTemplate(
-                                                    new sap.m.Text("", {
-                                                        wrapping: false,
-                                                        text: {
-                                                            path: "price",
-                                                            type: new sap.extension.data.Price()
-                                                        },
+                                                    new sap.extension.m.Text("", {
+                                                    }).bindProperty("bindingValue", {
+                                                        path: "price",
+                                                        type: new sap.extension.data.Price()
                                                     })
                                                 );
                                                 that.pagePrices.destroyFooter();
@@ -302,15 +306,14 @@ namespace materials {
                                             icon: "sap-icon://edit",
                                             press(): void {
                                                 that.tablePrices.getColumns()[3].setTemplate(
-                                                    new sap.m.Input("", {
+                                                    new sap.extension.m.Input("", {
                                                         type: sap.m.InputType.Number,
-                                                        value: {
-                                                            path: "price",
-                                                            type: new sap.extension.data.Price()
-                                                        },
                                                         change(event: any): void {
                                                             this.getParent().getParent().addSelectionInterval(this.getParent().getIndex(), this.getParent().getIndex());
                                                         }
+                                                    }).bindProperty("bindingValue", {
+                                                        path: "price",
+                                                        type: new sap.extension.data.Price()
                                                     })
                                                 );
                                                 let input: sap.m.Input;
@@ -398,25 +401,37 @@ namespace materials {
                                                                                     type: ibas.emMessageType.WARNING
                                                                                 }); return;
                                                                             }
-                                                                            let source: any = event.getSource();
-                                                                            if (source instanceof sap.ui.core.Element) {
-                                                                                let parent: HTMLElement = document.getElementById(that.pagePrices.getId());
-                                                                                if (parent instanceof HTMLElement) {
-                                                                                    let input: HTMLInputElement = document.createElement("input");
-                                                                                    input.id = parent.id + "_input";
-                                                                                    input.type = "file";
-                                                                                    input.accept = ".csv";
-                                                                                    input.style.visibility = "hidden";
-                                                                                    input.onchange = function (ev: Event): void {
-
-
-                                                                                        input.remove();
-                                                                                        input = null;
-                                                                                        parent = null;
-                                                                                    };
-                                                                                    input.click();
-                                                                                }
-                                                                            }
+                                                                            ibas.files.open((files) => {
+                                                                                let require: Require = ibas.requires.create({
+                                                                                    context: ibas.requires.naming(materials.CONSOLE_NAME),
+                                                                                });
+                                                                                require([
+                                                                                    "3rdparty/papaparse/papaparse.min"
+                                                                                ], function (Papa: any): void {
+                                                                                    Papa.parse(files.firstOrDefault(), {
+                                                                                        complete(results: Papa.ParseResult, file?: File): void {
+                                                                                            that.tablePrices.setModel(null);
+                                                                                            let datas: bo.MaterialPrice[] = sap.extension.tables.parseObject(
+                                                                                                that.tablePrices, results.data, bo.MaterialPrice);
+                                                                                            datas.forEach(c => c.source = String(priceList.objectKey));
+                                                                                            that.showPrices(datas);
+                                                                                        },
+                                                                                        error(error: Papa.ParseError, file?: File): void {
+                                                                                            that.application.viewShower.messages({
+                                                                                                title: that.application.description,
+                                                                                                message: error.message,
+                                                                                                type: ibas.emMessageType.ERROR
+                                                                                            });
+                                                                                        }
+                                                                                    });
+                                                                                }, function (error: RequireError): void {
+                                                                                    that.application.viewShower.messages({
+                                                                                        title: that.application.description,
+                                                                                        message: error.message,
+                                                                                        type: ibas.emMessageType.ERROR
+                                                                                    });
+                                                                                });
+                                                                            }, { accept: ".csv" });
                                                                         }
                                                                     }),
                                                                 ],

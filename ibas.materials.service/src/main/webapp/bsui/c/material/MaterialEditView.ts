@@ -115,33 +115,31 @@ namespace materials {
                             new sap.m.Label("", { text: ibas.i18n.prop("bo_material_picture"), }),
                             new sap.m.FlexBox("", {
                                 width: "100%",
-                                direction: sap.m.FlexDirection.Row,
+                                justifyContent: sap.m.FlexJustifyContent.Start,
                                 renderType: sap.m.FlexRendertype.Bare,
                                 items: [
-                                    new sap.ui.unified.FileUploader("", {
-                                        buttonOnly: false,
-                                        multiple: false,
-                                        uploadOnChange: false,
-                                        iconOnly: true,
+                                    new sap.extension.m.Input("", {
+                                        showValueHelp: true,
                                         width: "100%",
-                                        style: "Transparent",
-                                        icon: "sap-icon://upload",
-                                        change: function (oEvent: sap.ui.base.Event): void {
-                                            let files: File[] = oEvent.getParameter("files");
-                                            if (ibas.objects.isNull(files) || files.length === 0) {
-                                                return;
-                                            }
-                                            let fileData: FormData = new FormData();
-                                            fileData.append("file", files[0]);
-                                            that.fireViewEvents(that.uploadPictureEvent, fileData);
-                                        },
-                                    }).bindProperty("value", {
+                                        valueHelpRequest: function (): void {
+                                            ibas.files.open((files) => {
+                                                if (files.length > 0) {
+                                                    let fileData: FormData = new FormData();
+                                                    fileData.append("file", files[0]);
+                                                    that.fireViewEvents(that.uploadPictureEvent, fileData);
+                                                }
+                                            }, { accept: "image/gif,image/jpeg,image/jpg,image/png" });
+                                        }
+                                    }).bindProperty("bindingValue", {
                                         path: "picture",
+                                        type: new sap.extension.data.Alphanumeric({
+                                            maxLength: 250
+                                        })
                                     }),
                                     new sap.m.Button("", {
                                         icon: "sap-icon://show",
-                                        type: sap.m.ButtonType.Transparent,
                                         width: "auto",
+                                        type: sap.m.ButtonType.Transparent,
                                         press: function (): void {
                                             let material: bo.IMaterial = that.page.getBindingContext().getObject();
                                             if (!ibas.objects.isNull(material)) {
