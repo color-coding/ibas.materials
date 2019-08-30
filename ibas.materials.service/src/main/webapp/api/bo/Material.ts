@@ -85,6 +85,12 @@ namespace materials {
             /** 批号管理 */
             batchManagement: ibas.emYesNo;
 
+            /** 采购税收组 */
+            purchaseTaxGroup: string;
+
+            /** 销售税收组 */
+            salesTaxGroup: string;
+
             /** 生效日期 */
             validDate: Date;
 

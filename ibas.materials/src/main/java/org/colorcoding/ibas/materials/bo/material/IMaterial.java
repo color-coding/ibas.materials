@@ -470,6 +470,34 @@ public interface IMaterial extends IBOMasterData {
 	void setBatchManagement(emYesNo value);
 
 	/**
+	 * 获取-采购税收组
+	 * 
+	 * @return 值
+	 */
+	String getPurchaseTaxGroup();
+
+	/**
+	 * 设置-采购税收组
+	 * 
+	 * @param value 值
+	 */
+	void setPurchaseTaxGroup(String value);
+
+	/**
+	 * 获取-销售税收组
+	 * 
+	 * @return 值
+	 */
+	String getSalesTaxGroup();
+
+	/**
+	 * 设置-销售税收组
+	 * 
+	 * @param value 值
+	 */
+	void setSalesTaxGroup(String value);
+
+	/**
 	 * 获取-生效日期
 	 * 
 	 * @return 值

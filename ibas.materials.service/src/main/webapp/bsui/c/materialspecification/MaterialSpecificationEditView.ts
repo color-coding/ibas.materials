@@ -40,8 +40,8 @@ namespace materials {
                                 repository: bo.BORepositoryMaterials,
                                 dataInfo: {
                                     type: bo.Specification,
-                                    key: "ObjectKey",
-                                    text: "Name"
+                                    key: bo.Specification.PROPERTY_OBJECTKEY_NAME,
+                                    text: bo.Specification.PROPERTY_NAME_NAME
                                 },
                             }).bindProperty("bindingValue", {
                                 path: "specification",
@@ -53,8 +53,8 @@ namespace materials {
                                 repository: accounting.bo.BORepositoryAccounting,
                                 dataInfo: {
                                     type: accounting.bo.Project,
-                                    key: "Code",
-                                    text: "Name"
+                                    key:accounting.bo.Project.PROPERTY_CODE_NAME,
+                                    text:accounting.bo.Project.PROPERTY_NAME_NAME
                                 },
                                 criteria: [
                                     new ibas.Condition(accounting.bo.Project.PROPERTY_ACTIVATED_NAME, ibas.emConditionOperation.EQUAL, ibas.emYesNo.YES.toString())

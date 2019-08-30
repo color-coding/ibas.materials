@@ -21,6 +21,8 @@ declare namespace accounting {
         const BO_CODE_PROJECT: string;
         /** 业务对象编码-维度 */
         const BO_CODE_DIMENSION: string;
+        /** 业务对象编码-税组 */
+        const BO_CODE_TAXGROUP: string;
         /**
          * 期间状态
          */
@@ -41,6 +43,15 @@ declare namespace accounting {
             /** 选择服务 */
             CHOOSE_LIST = 1
         }
+        /**
+         * 税组类型
+         */
+        enum emTaxGroupCategory {
+            /** 销项税 */
+            OUTPUT = 0,
+            /** 进项税 */
+            INPUT = 1
+        }
     }
     namespace app {
         /**
@@ -60,6 +71,13 @@ declare namespace accounting {
         }
         /** 维度服务代理 */
         class DimensionDataServiceProxy extends ibas.ServiceProxy<IDimensionDataServiceContract> {
+        }
+        /** 查询条件 */
+        namespace conditions {
+            namespace taxgroup {
+                /** 默认查询条件 */
+                function create(category?: bo.emTaxGroupCategory): ibas.IList<ibas.ICondition>;
+            }
         }
     }
 }
@@ -276,6 +294,62 @@ declare namespace accounting {
  */
 declare namespace accounting {
     namespace bo {
+        /** 税组 */
+        interface ITaxGroup extends ibas.IBOMasterData {
+            /** 编码 */
+            code: string;
+            /** 名称 */
+            name: string;
+            /** 激活 */
+            activated: ibas.emYesNo;
+            /** 生效日期 */
+            validDate: Date;
+            /** 类型 */
+            category: emTaxGroupCategory;
+            /** 税率 */
+            rate: number;
+            /** 参考1 */
+            reference1: string;
+            /** 参考2 */
+            reference2: string;
+            /** 对象编号 */
+            docEntry: number;
+            /** 对象类型 */
+            objectCode: string;
+            /** 创建日期 */
+            createDate: Date;
+            /** 创建时间 */
+            createTime: number;
+            /** 修改日期 */
+            updateDate: Date;
+            /** 修改时间 */
+            updateTime: number;
+            /** 数据源 */
+            dataSource: string;
+            /** 实例号（版本） */
+            logInst: number;
+            /** 服务系列 */
+            series: number;
+            /** 创建用户 */
+            createUserSign: number;
+            /** 修改用户 */
+            updateUserSign: number;
+            /** 创建动作标识 */
+            createActionId: string;
+            /** 更新动作标识 */
+            updateActionId: string;
+        }
+    }
+}
+/**
+ * @license
+ * Copyright Color-Coding Studio. All Rights Reserved.
+ *
+ * Use of this source code is governed by an Apache License, Version 2.0
+ * that can be found in the LICENSE file at http://www.apache.org/licenses/LICENSE-2.0
+ */
+declare namespace accounting {
+    namespace bo {
         /** 业务仓库 */
         interface IBORepositoryAccounting extends ibas.IBORepositoryApplication {
             /**
@@ -318,6 +392,16 @@ declare namespace accounting {
              * @param saver 保存者
              */
             saveDimension(saver: ibas.ISaveCaller<bo.IDimension>): void;
+            /**
+             * 查询 税组
+             * @param fetcher 查询者
+             */
+            fetchTaxGroup(fetcher: ibas.IFetchCaller<bo.ITaxGroup>): void;
+            /**
+             * 保存 税组
+             * @param saver 保存者
+             */
+            saveTaxGroup(saver: ibas.ISaveCaller<bo.ITaxGroup>): void;
         }
     }
 }
@@ -799,6 +883,131 @@ declare namespace accounting {
  */
 declare namespace accounting {
     namespace bo {
+        /** 税组 */
+        class TaxGroup extends ibas.BOMasterData<TaxGroup> implements ITaxGroup {
+            /** 业务对象编码 */
+            static BUSINESS_OBJECT_CODE: string;
+            /** 构造函数 */
+            constructor();
+            /** 映射的属性名称-编码 */
+            static PROPERTY_CODE_NAME: string;
+            /** 获取-编码 */
+            /** 设置-编码 */
+            code: string;
+            /** 映射的属性名称-名称 */
+            static PROPERTY_NAME_NAME: string;
+            /** 获取-名称 */
+            /** 设置-名称 */
+            name: string;
+            /** 映射的属性名称-激活 */
+            static PROPERTY_ACTIVATED_NAME: string;
+            /** 获取-激活 */
+            /** 设置-激活 */
+            activated: ibas.emYesNo;
+            /** 映射的属性名称-生效日期 */
+            static PROPERTY_VALIDDATE_NAME: string;
+            /** 获取-生效日期 */
+            /** 设置-生效日期 */
+            validDate: Date;
+            /** 映射的属性名称-类型 */
+            static PROPERTY_CATEGORY_NAME: string;
+            /** 获取-类型 */
+            /** 设置-类型 */
+            category: emTaxGroupCategory;
+            /** 映射的属性名称-税率 */
+            static PROPERTY_RATE_NAME: string;
+            /** 获取-税率 */
+            /** 设置-税率 */
+            rate: number;
+            /** 映射的属性名称-参考1 */
+            static PROPERTY_REFERENCE1_NAME: string;
+            /** 获取-参考1 */
+            /** 设置-参考1 */
+            reference1: string;
+            /** 映射的属性名称-参考2 */
+            static PROPERTY_REFERENCE2_NAME: string;
+            /** 获取-参考2 */
+            /** 设置-参考2 */
+            reference2: string;
+            /** 映射的属性名称-对象编号 */
+            static PROPERTY_DOCENTRY_NAME: string;
+            /** 获取-对象编号 */
+            /** 设置-对象编号 */
+            docEntry: number;
+            /** 映射的属性名称-对象类型 */
+            static PROPERTY_OBJECTCODE_NAME: string;
+            /** 获取-对象类型 */
+            /** 设置-对象类型 */
+            objectCode: string;
+            /** 映射的属性名称-创建日期 */
+            static PROPERTY_CREATEDATE_NAME: string;
+            /** 获取-创建日期 */
+            /** 设置-创建日期 */
+            createDate: Date;
+            /** 映射的属性名称-创建时间 */
+            static PROPERTY_CREATETIME_NAME: string;
+            /** 获取-创建时间 */
+            /** 设置-创建时间 */
+            createTime: number;
+            /** 映射的属性名称-修改日期 */
+            static PROPERTY_UPDATEDATE_NAME: string;
+            /** 获取-修改日期 */
+            /** 设置-修改日期 */
+            updateDate: Date;
+            /** 映射的属性名称-修改时间 */
+            static PROPERTY_UPDATETIME_NAME: string;
+            /** 获取-修改时间 */
+            /** 设置-修改时间 */
+            updateTime: number;
+            /** 映射的属性名称-数据源 */
+            static PROPERTY_DATASOURCE_NAME: string;
+            /** 获取-数据源 */
+            /** 设置-数据源 */
+            dataSource: string;
+            /** 映射的属性名称-实例号（版本） */
+            static PROPERTY_LOGINST_NAME: string;
+            /** 获取-实例号（版本） */
+            /** 设置-实例号（版本） */
+            logInst: number;
+            /** 映射的属性名称-服务系列 */
+            static PROPERTY_SERIES_NAME: string;
+            /** 获取-服务系列 */
+            /** 设置-服务系列 */
+            series: number;
+            /** 映射的属性名称-创建用户 */
+            static PROPERTY_CREATEUSERSIGN_NAME: string;
+            /** 获取-创建用户 */
+            /** 设置-创建用户 */
+            createUserSign: number;
+            /** 映射的属性名称-修改用户 */
+            static PROPERTY_UPDATEUSERSIGN_NAME: string;
+            /** 获取-修改用户 */
+            /** 设置-修改用户 */
+            updateUserSign: number;
+            /** 映射的属性名称-创建动作标识 */
+            static PROPERTY_CREATEACTIONID_NAME: string;
+            /** 获取-创建动作标识 */
+            /** 设置-创建动作标识 */
+            createActionId: string;
+            /** 映射的属性名称-更新动作标识 */
+            static PROPERTY_UPDATEACTIONID_NAME: string;
+            /** 获取-更新动作标识 */
+            /** 设置-更新动作标识 */
+            updateActionId: string;
+            /** 初始化数据 */
+            protected init(): void;
+        }
+    }
+}
+/**
+ * @license
+ * Copyright Color-Coding Studio. All Rights Reserved.
+ *
+ * Use of this source code is governed by an Apache License, Version 2.0
+ * that can be found in the LICENSE file at http://www.apache.org/licenses/LICENSE-2.0
+ */
+declare namespace accounting {
+    namespace bo {
         /** 数据转换者 */
         class DataConverter extends ibas.DataConverter4j {
             /** 创建业务对象转换者 */
@@ -861,6 +1070,16 @@ declare namespace accounting {
              * @param saver 保存者
              */
             saveDimension(saver: ibas.ISaveCaller<bo.Dimension>): void;
+            /**
+             * 查询 税组
+             * @param fetcher 查询者
+             */
+            fetchTaxGroup(fetcher: ibas.IFetchCaller<bo.TaxGroup>): void;
+            /**
+             * 保存 税组
+             * @param saver 保存者
+             */
+            saveTaxGroup(saver: ibas.ISaveCaller<bo.TaxGroup>): void;
         }
     }
 }
@@ -1402,6 +1621,166 @@ declare namespace accounting {
             constructor();
             /** 创建服务实例 */
             create(): ibas.IService<ibas.IServiceContract>;
+        }
+    }
+}
+/**
+ * @license
+ * Copyright Color-Coding Studio. All Rights Reserved.
+ *
+ * Use of this source code is governed by an Apache License, Version 2.0
+ * that can be found in the LICENSE file at http://www.apache.org/licenses/LICENSE-2.0
+ */
+/**
+ * @license
+ * Copyright Color-Coding Studio. All Rights Reserved.
+ *
+ * Use of this source code is governed by an Apache License, Version 2.0
+ * that can be found in the LICENSE file at http://www.apache.org/licenses/LICENSE-2.0
+ */
+declare namespace accounting {
+    namespace app {
+        class TaxGroupFunc extends ibas.ModuleFunction {
+            /** 功能标识 */
+            static FUNCTION_ID: string;
+            /** 功能名称 */
+            static FUNCTION_NAME: string;
+            /** 构造函数 */
+            constructor();
+            /** 默认功能 */
+            default(): ibas.IApplication<ibas.IView>;
+        }
+    }
+}
+/**
+ * @license
+ * Copyright Color-Coding Studio. All Rights Reserved.
+ *
+ * Use of this source code is governed by an Apache License, Version 2.0
+ * that can be found in the LICENSE file at http://www.apache.org/licenses/LICENSE-2.0
+ */
+declare namespace accounting {
+    namespace app {
+        /** 列表应用-税组 */
+        class TaxGroupListApp extends ibas.BOListApplication<ITaxGroupListView, bo.TaxGroup> {
+            /** 应用标识 */
+            static APPLICATION_ID: string;
+            /** 应用名称 */
+            static APPLICATION_NAME: string;
+            /** 业务对象编码 */
+            static BUSINESS_OBJECT_CODE: string;
+            /** 构造函数 */
+            constructor();
+            /** 注册视图 */
+            protected registerView(): void;
+            /** 视图显示后 */
+            protected viewShowed(): void;
+            /** 查询数据 */
+            protected fetchData(criteria: ibas.ICriteria): void;
+            /** 新建数据 */
+            protected newData(): void;
+            /** 查看数据，参数：目标数据 */
+            protected viewData(data: bo.TaxGroup): void;
+            /** 编辑数据，参数：目标数据 */
+            protected editData(data: bo.TaxGroup): void;
+            /** 删除数据，参数：目标数据集合 */
+            protected deleteData(data: bo.TaxGroup | bo.TaxGroup[]): void;
+        }
+        /** 视图-税组 */
+        interface ITaxGroupListView extends ibas.IBOListView {
+            /** 编辑数据事件，参数：编辑对象 */
+            editDataEvent: Function;
+            /** 删除数据事件，参数：删除对象集合 */
+            deleteDataEvent: Function;
+            /** 显示数据 */
+            showData(datas: bo.TaxGroup[]): void;
+        }
+    }
+}
+/**
+ * @license
+ * Copyright Color-Coding Studio. All Rights Reserved.
+ *
+ * Use of this source code is governed by an Apache License, Version 2.0
+ * that can be found in the LICENSE file at http://www.apache.org/licenses/LICENSE-2.0
+ */
+declare namespace accounting {
+    namespace app {
+        /** 选择应用-税组 */
+        class TaxGroupChooseApp extends ibas.BOChooseService<ITaxGroupChooseView, bo.TaxGroup> {
+            /** 应用标识 */
+            static APPLICATION_ID: string;
+            /** 应用名称 */
+            static APPLICATION_NAME: string;
+            /** 业务对象编码 */
+            static BUSINESS_OBJECT_CODE: string;
+            /** 构造函数 */
+            constructor();
+            /** 注册视图 */
+            protected registerView(): void;
+            /** 视图显示后 */
+            protected viewShowed(): void;
+            /** 查询数据 */
+            protected fetchData(criteria: ibas.ICriteria): void;
+            /** 新建数据 */
+            protected newData(): void;
+        }
+        /** 视图-税组 */
+        interface ITaxGroupChooseView extends ibas.IBOChooseView {
+            /** 显示数据 */
+            showData(datas: bo.TaxGroup[]): void;
+        }
+        /** 税组选择服务映射 */
+        class TaxGroupChooseServiceMapping extends ibas.BOChooseServiceMapping {
+            /** 构造函数 */
+            constructor();
+            /** 创建服务实例 */
+            create(): ibas.IBOChooseService<bo.TaxGroup>;
+        }
+    }
+}
+/**
+ * @license
+ * Copyright Color-Coding Studio. All Rights Reserved.
+ *
+ * Use of this source code is governed by an Apache License, Version 2.0
+ * that can be found in the LICENSE file at http://www.apache.org/licenses/LICENSE-2.0
+ */
+declare namespace accounting {
+    namespace app {
+        /** 编辑应用-税组 */
+        class TaxGroupEditApp extends ibas.BOEditApplication<ITaxGroupEditView, bo.TaxGroup> {
+            /** 应用标识 */
+            static APPLICATION_ID: string;
+            /** 应用名称 */
+            static APPLICATION_NAME: string;
+            /** 业务对象编码 */
+            static BUSINESS_OBJECT_CODE: string;
+            /** 构造函数 */
+            constructor();
+            /** 注册视图 */
+            protected registerView(): void;
+            /** 视图显示后 */
+            protected viewShowed(): void;
+            run(): void;
+            run(data: bo.TaxGroup): void;
+            /** 待编辑的数据 */
+            protected editData: bo.TaxGroup;
+            /** 保存数据 */
+            protected saveData(): void;
+            /** 删除数据 */
+            protected deleteData(): void;
+            /** 新建数据，参数1：是否克隆 */
+            protected createData(clone: boolean): void;
+        }
+        /** 视图-税组 */
+        interface ITaxGroupEditView extends ibas.IBOEditView {
+            /** 显示数据 */
+            showTaxGroup(data: bo.TaxGroup): void;
+            /** 删除数据事件 */
+            deleteDataEvent: Function;
+            /** 新建数据事件，参数1：是否克隆 */
+            createDataEvent: Function;
         }
     }
 }

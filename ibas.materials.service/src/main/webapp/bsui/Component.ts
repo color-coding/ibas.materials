@@ -177,6 +177,57 @@ namespace materials {
                     });
                 }
             });
+            /**
+             * 组织数据-输入框
+             */
+            sap.extension.m.SelectionInput.extend("materials.ui.component.TaxGroupInput", {
+                metadata: {
+                    properties: {
+                        /** 显示选择钮 */
+                        showValueHelp: { type: "boolean", defaultValue: true },
+                    },
+                    events: {}
+                },
+                renderer: {},
+                /** 重构设置 */
+                applySettings(this: TaxGroupInput): TaxGroupInput {
+                    sap.extension.m.SelectionInput.prototype.applySettings.apply(this, arguments);
+                    let boRepository: ibas.BORepositoryApplication = this.getRepository();
+                    if (ibas.objects.isNull(boRepository)) {
+                        boRepository = sap.extension.variables.get(TaxGroupInput, "repository");
+                        if (ibas.objects.isNull(boRepository)) {
+                            boRepository = new accounting.bo.BORepositoryAccounting();
+                            sap.extension.variables.set(boRepository, TaxGroupInput, "repository");
+                        }
+                        this.setRepository(boRepository);
+                    }
+                    let dataInfo: sap.extension.repository.IDataInfo = this.getDataInfo();
+                    if (ibas.objects.isNull(dataInfo)) {
+                        dataInfo = sap.extension.variables.get(TaxGroupInput, "dataInfo");
+                        if (ibas.objects.isNull(dataInfo)) {
+                            dataInfo = {
+                                type: accounting.bo.TaxGroup,
+                                key: "Code",
+                                text: "Name",
+                            };
+                            sap.extension.variables.set(dataInfo, TaxGroupInput, "dataInfo");
+                        }
+                        this.setDataInfo(dataInfo);
+                    }
+                    let criteria: ibas.ICriteria | ibas.ICondition[] = this.getCriteria();
+                    if (ibas.objects.isNull(criteria)) {
+                        criteria = sap.extension.variables.get(TaxGroupInput, "criteria");
+                        if (ibas.objects.isNull(criteria)) {
+                            criteria = [
+                                new ibas.Condition("Activated", ibas.emConditionOperation.EQUAL, ibas.emYesNo.YES.toString())
+                            ];
+                            sap.extension.variables.set(criteria, TaxGroupInput, "criteria");
+                        }
+                        this.setCriteria(criteria);
+                    }
+                    return this;
+                }
+            });
         }
     }
 }

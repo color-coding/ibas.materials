@@ -258,6 +258,28 @@ namespace materials {
                 this.setProperty(Product.PROPERTY_BATCHMANAGEMENT_NAME, value);
             }
 
+            /** 映射的属性名称-采购税收组 */
+            static PROPERTY_PURCHASETAXGROUP_NAME: string = "PurchaseTaxGroup";
+            /** 获取-采购税收组 */
+            get purchaseTaxGroup(): string {
+                return this.getProperty<string>(Material.PROPERTY_PURCHASETAXGROUP_NAME);
+            }
+            /** 设置-采购税收组 */
+            set purchaseTaxGroup(value: string) {
+                this.setProperty(Material.PROPERTY_PURCHASETAXGROUP_NAME, value);
+            }
+
+            /** 映射的属性名称-销售税收组 */
+            static PROPERTY_SALESTAXGROUP_NAME: string = "SalesTaxGroup";
+            /** 获取-销售税收组 */
+            get salesTaxGroup(): string {
+                return this.getProperty<string>(Material.PROPERTY_SALESTAXGROUP_NAME);
+            }
+            /** 设置-销售税收组 */
+            set salesTaxGroup(value: string) {
+                this.setProperty(Material.PROPERTY_SALESTAXGROUP_NAME, value);
+            }
+
             /** 映射的属性名称-生效日期 */
             static PROPERTY_VALIDDATE_NAME: string = "ValidDate";
             /** 获取-生效日期 */

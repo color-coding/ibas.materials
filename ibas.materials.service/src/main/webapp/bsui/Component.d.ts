@@ -22,6 +22,11 @@ declare namespace materials {
                 /** 设置-用户或角色类型属性 */
                 setTypeProperty(value: string): this;
             }
+            /**
+             * 税收组-输入框
+             */
+            class TaxGroupInput extends sap.extension.m.SelectionInput {
+            }
         }
     }
 }

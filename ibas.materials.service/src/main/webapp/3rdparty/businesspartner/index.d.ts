@@ -359,6 +359,8 @@ declare namespace businesspartner {
             billAddress: number;
             /** 送货地址 */
             shipAddress: number;
+            /** 注册地址 */
+            registrationAddress: number;
             /** 电话 1 */
             telephone1: string;
             /** 电话 2 */
@@ -369,6 +371,14 @@ declare namespace businesspartner {
             faxNumber: string;
             /** 国税编号 */
             taxId: string;
+            /** 开户银行 */
+            bank: string;
+            /** 银行账户 */
+            bankAccount: string;
+            /** 发票地址 */
+            invoiceAddress: string;
+            /** 发票电话 */
+            invoiceTelephone: string;
             /** 价格清单 */
             priceList: number;
             /** 货币 */
@@ -381,6 +391,8 @@ declare namespace businesspartner {
             invalidDate: Date;
             /** 底价清单 */
             floorList: number;
+            /** 税收组 */
+            taxGroup: string;
             /** 备注 */
             remarks: string;
             /** 已引用 */
@@ -455,6 +467,8 @@ declare namespace businesspartner {
             billAddress: number;
             /** 送货地址 */
             shipAddress: number;
+            /** 注册地址 */
+            registrationAddress: number;
             /** 电话 1 */
             telephone1: string;
             /** 电话 2 */
@@ -465,6 +479,14 @@ declare namespace businesspartner {
             faxNumber: string;
             /** 国税编号 */
             taxId: string;
+            /** 开户银行 */
+            bank: string;
+            /** 银行账户 */
+            bankAccount: string;
+            /** 发票地址 */
+            invoiceAddress: string;
+            /** 发票电话 */
+            invoiceTelephone: string;
             /** 价格清单 */
             priceList: number;
             /** 仓库 */
@@ -475,6 +497,8 @@ declare namespace businesspartner {
             validDate: Date;
             /** 失效日期 */
             invalidDate: Date;
+            /** 税收组 */
+            taxGroup: string;
             /** 备注 */
             remarks: string;
             /** 已引用 */
@@ -1374,6 +1398,11 @@ declare namespace businesspartner {
             /** 获取-送货地址 */
             /** 设置-送货地址 */
             shipAddress: number;
+            /** 映射的属性名称-注册地址 */
+            static PROPERTY_REGISTRATIONADDRESS_NAME: string;
+            /** 获取-注册地址 */
+            /** 设置-注册地址 */
+            registrationAddress: number;
             /** 映射的属性名称-电话 1 */
             static PROPERTY_TELEPHONE1_NAME: string;
             /** 获取-电话 1 */
@@ -1399,6 +1428,26 @@ declare namespace businesspartner {
             /** 获取-国税编号 */
             /** 设置-国税编号 */
             taxId: string;
+            /** 映射的属性名称-开户银行 */
+            static PROPERTY_BANK_NAME: string;
+            /** 获取-开户银行 */
+            /** 设置-开户银行 */
+            bank: string;
+            /** 映射的属性名称-银行账户 */
+            static PROPERTY_BANKACCOUNT_NAME: string;
+            /** 获取-银行账户 */
+            /** 设置-银行账户 */
+            bankAccount: string;
+            /** 映射的属性名称-发票地址 */
+            static PROPERTY_INVOICEADDRESS_NAME: string;
+            /** 获取-发票地址 */
+            /** 设置-发票地址 */
+            invoiceAddress: string;
+            /** 映射的属性名称-发票电话 */
+            static PROPERTY_INVOICETELEPHONE_NAME: string;
+            /** 获取-发票电话 */
+            /** 设置-发票电话 */
+            invoiceTelephone: string;
             /** 映射的属性名称-价格清单 */
             static PROPERTY_PRICELIST_NAME: string;
             /** 获取-价格清单 */
@@ -1429,6 +1478,11 @@ declare namespace businesspartner {
             /** 获取-底价清单 */
             /** 设置-底价清单 */
             floorList: number;
+            /** 映射的属性名称-税收组 */
+            static PROPERTY_TAXGROUP_NAME: string;
+            /** 获取-税收组 */
+            /** 设置-税收组 */
+            taxGroup: string;
             /** 映射的属性名称-备注 */
             static PROPERTY_REMARKS_NAME: string;
             /** 获取-备注 */
@@ -1599,6 +1653,11 @@ declare namespace businesspartner {
             /** 获取-送货地址 */
             /** 设置-送货地址 */
             shipAddress: number;
+            /** 映射的属性名称-注册地址 */
+            static PROPERTY_REGISTRATIONADDRESS_NAME: string;
+            /** 获取-注册地址 */
+            /** 设置-注册地址 */
+            registrationAddress: number;
             /** 映射的属性名称-电话 1 */
             static PROPERTY_TELEPHONE1_NAME: string;
             /** 获取-电话 1 */
@@ -1624,6 +1683,26 @@ declare namespace businesspartner {
             /** 获取-国税编号 */
             /** 设置-国税编号 */
             taxId: string;
+            /** 映射的属性名称-开户银行 */
+            static PROPERTY_BANK_NAME: string;
+            /** 获取-开户银行 */
+            /** 设置-开户银行 */
+            bank: string;
+            /** 映射的属性名称-银行账户 */
+            static PROPERTY_BANKACCOUNT_NAME: string;
+            /** 获取-银行账户 */
+            /** 设置-银行账户 */
+            bankAccount: string;
+            /** 映射的属性名称-发票地址 */
+            static PROPERTY_INVOICEADDRESS_NAME: string;
+            /** 获取-发票地址 */
+            /** 设置-发票地址 */
+            invoiceAddress: string;
+            /** 映射的属性名称-发票电话 */
+            static PROPERTY_INVOICETELEPHONE_NAME: string;
+            /** 获取-发票电话 */
+            /** 设置-发票电话 */
+            invoiceTelephone: string;
             /** 映射的属性名称-价格清单 */
             static PROPERTY_PRICELIST_NAME: string;
             /** 获取-价格清单 */
@@ -1649,6 +1728,11 @@ declare namespace businesspartner {
             /** 获取-失效日期 */
             /** 设置-失效日期 */
             invalidDate: Date;
+            /** 映射的属性名称-税收组 */
+            static PROPERTY_TAXGROUP_NAME: string;
+            /** 获取-税收组 */
+            /** 设置-税收组 */
+            taxGroup: string;
             /** 映射的属性名称-备注 */
             static PROPERTY_REMARKS_NAME: string;
             /** 获取-备注 */
@@ -3076,6 +3160,7 @@ declare namespace businesspartner {
             private chooseCustomerContactPerson;
             private chooseCustomerShipAddress;
             private chooseCustomerBillAddress;
+            private chooseCustomerRegistrationAddress;
             private chooseCustomerPriceList;
             private chooseCustomerFloorList;
             private chooseCustomerWarehouse;
@@ -3098,6 +3183,8 @@ declare namespace businesspartner {
             chooseCustomerShipAddressEvent: Function;
             /** 选择客户账单地址事件 */
             chooseCustomerBillAddressEvent: Function;
+            /** 选择客户注册地址事件 */
+            chooseCustomerRegistrationAddress: Function;
             /** 选择客户价格清单事件 */
             chooseCustomerPriceListEvent: Function;
             /** 选择客户底价清单事件 */
@@ -3312,6 +3399,7 @@ declare namespace businesspartner {
             private chooseSupplierContactPerson;
             private chooseSupplierShipAddress;
             private chooseSupplierBillAddress;
+            private chooseSupplierRegistrationAddress;
             private chooseSupplierPriceList;
             private chooseSupplierWarehouse;
             private createContactPerson;
@@ -3333,6 +3421,8 @@ declare namespace businesspartner {
             chooseSupplierShipAddressEvent: Function;
             /** 选择供应商账单地址事件 */
             chooseSupplierBillAddressEvent: Function;
+            /** 选择客供应商注册地址事件 */
+            chooseSupplierRegistrationAddress: Function;
             /** 选择供应商价格清单事件 */
             chooseSupplierPriceListEvent: Function;
             /** 选择供应商仓库事件 */

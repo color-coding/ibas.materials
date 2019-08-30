@@ -259,6 +259,8 @@
         "bo_material_leadtime": "提前期（天）",
         "bo_material_serialmanagement": "序号管理",
         "bo_material_batchmanagement": "批号管理",
+        "bo_material_purchasetaxgroup": "采购税收组",
+        "bo_material_salestaxgroup": "销售税收组",
         "bo_material_validdate": "生效日期",
         "bo_material_invaliddate": "失效日期",
         "bo_material_picture": "图片",

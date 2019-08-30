@@ -46,8 +46,8 @@ namespace materials {
                                         repository: materials.bo.BORepositoryMaterials,
                                         dataInfo: {
                                             type: materials.bo.Material,
-                                            key: "Code",
-                                            text: "Name"
+                                            key: materials.bo.Material.PROPERTY_CODE_NAME,
+                                            text:  materials.bo.Material.PROPERTY_NAME_NAME
                                         },
                                         valueHelpRequest: function (): void {
                                             that.fireViewEvents(that.chooseSpecificationTargetEvent);
@@ -77,8 +77,8 @@ namespace materials {
                                         repository: materials.bo.BORepositoryMaterials,
                                         dataInfo: {
                                             type: materials.bo.MaterialGroup,
-                                            key: "Code",
-                                            text: "Name"
+                                            key: materials.bo.MaterialGroup.PROPERTY_CODE_NAME,
+                                            text:  materials.bo.MaterialGroup.PROPERTY_NAME_NAME
                                         },
                                         valueHelpRequest: function (): void {
                                             that.fireViewEvents(that.chooseSpecificationTargetEvent);

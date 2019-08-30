@@ -331,8 +331,8 @@ namespace materials {
                                 repository: accounting.bo.BORepositoryAccounting,
                                 dataInfo: {
                                     type: accounting.bo.Project,
-                                    key: "Code",
-                                    text: "Name"
+                                    key: accounting.bo.Project.PROPERTY_CODE_NAME,
+                                    text: accounting.bo.Project.PROPERTY_NAME_NAME
                                 },
                                 criteria: [
                                     new ibas.Condition(accounting.bo.Project.PROPERTY_ACTIVATED_NAME, ibas.emConditionOperation.EQUAL, ibas.emYesNo.YES.toString())

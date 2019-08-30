@@ -46,8 +46,8 @@ namespace materials {
                                     repository: bo.BORepositoryMaterials,
                                     dataInfo: {
                                         type: bo.Specification,
-                                        key: "ObjectKey",
-                                        text: "Name"
+                                        key: bo.Specification.PROPERTY_OBJECTKEY_NAME,
+                                        text: bo.Specification.PROPERTY_NAME_NAME
                                     },
                                 }).bindProperty("bindingValue", {
                                     path: "specification",

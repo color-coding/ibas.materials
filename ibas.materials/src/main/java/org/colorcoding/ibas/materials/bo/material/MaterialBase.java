@@ -702,6 +702,68 @@ public abstract class MaterialBase<T extends MaterialBase<T>> extends BusinessOb
 	}
 
 	/**
+	 * 属性名称-采购税收组
+	 */
+	private static final String PROPERTY_PURCHASETAXGROUP_NAME = "PurchaseTaxGroup";
+
+	/**
+	 * 采购税收组 属性
+	 */
+	@DbField(name = "PrchseTax", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME, primaryKey = false)
+	public static final IPropertyInfo<String> PROPERTY_PURCHASETAXGROUP = registerProperty(
+			PROPERTY_PURCHASETAXGROUP_NAME, String.class, MY_CLASS);
+
+	/**
+	 * 获取-采购税收组
+	 * 
+	 * @return 值
+	 */
+	@XmlElement(name = PROPERTY_PURCHASETAXGROUP_NAME)
+	public final String getPurchaseTaxGroup() {
+		return this.getProperty(PROPERTY_PURCHASETAXGROUP);
+	}
+
+	/**
+	 * 设置-采购税收组
+	 * 
+	 * @param value 值
+	 */
+	public final void setPurchaseTaxGroup(String value) {
+		this.setProperty(PROPERTY_PURCHASETAXGROUP, value);
+	}
+
+	/**
+	 * 属性名称-销售税收组
+	 */
+	private static final String PROPERTY_SALESTAXGROUP_NAME = "SalesTaxGroup";
+
+	/**
+	 * 销售税收组 属性
+	 */
+	@DbField(name = "SalesTax", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME, primaryKey = false)
+	public static final IPropertyInfo<String> PROPERTY_SALESTAXGROUP = registerProperty(PROPERTY_SALESTAXGROUP_NAME,
+			String.class, MY_CLASS);
+
+	/**
+	 * 获取-销售税收组
+	 * 
+	 * @return 值
+	 */
+	@XmlElement(name = PROPERTY_SALESTAXGROUP_NAME)
+	public final String getSalesTaxGroup() {
+		return this.getProperty(PROPERTY_SALESTAXGROUP);
+	}
+
+	/**
+	 * 设置-销售税收组
+	 * 
+	 * @param value 值
+	 */
+	public final void setSalesTaxGroup(String value) {
+		this.setProperty(PROPERTY_SALESTAXGROUP, value);
+	}
+
+	/**
 	 * 属性名称-生效日期
 	 */
 	private static final String PROPERTY_VALIDDATE_NAME = "ValidDate";

@@ -238,6 +238,28 @@ namespace materials {
                                 path: "productUnit",
                                 type: new sap.extension.data.YesNo()
                             }),
+                            new sap.m.Label("", { text: ibas.i18n.prop("bo_material_purchasetaxgroup") }),
+                            new component.TaxGroupInput("", {
+                                criteria: [
+                                    new ibas.Condition(accounting.bo.TaxGroup.PROPERTY_CATEGORY_NAME, ibas.emConditionOperation.EQUAL, accounting.bo.emTaxGroupCategory.INPUT)
+                                ]
+                            }).bindProperty("bindingValue", {
+                                path: "purchaseTaxGroup",
+                                type: new sap.extension.data.Alphanumeric({
+                                    maxLength: 8
+                                }),
+                            }),
+                            new sap.m.Label("", { text: ibas.i18n.prop("bo_material_salestaxgroup") }),
+                            new component.TaxGroupInput("", {
+                                criteria: [
+                                    new ibas.Condition(accounting.bo.TaxGroup.PROPERTY_CATEGORY_NAME, ibas.emConditionOperation.EQUAL, accounting.bo.emTaxGroupCategory.OUTPUT)
+                                ]
+                            }).bindProperty("bindingValue", {
+                                path: "salesTaxGroup",
+                                type: new sap.extension.data.Alphanumeric({
+                                    maxLength: 8
+                                }),
+                            }),
                             new sap.ui.core.Title("", { text: ibas.i18n.prop("materials_title_inventory") }),
                             new sap.m.Label("", { text: ibas.i18n.prop("bo_material_onhand") }),
                             new sap.extension.m.Input("", {
