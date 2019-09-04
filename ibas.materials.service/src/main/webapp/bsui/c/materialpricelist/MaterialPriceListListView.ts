@@ -648,8 +648,6 @@ namespace materials {
                 /** 保存数据 */
                 savePrices(datas: bo.MaterialPrice[]): void {
                     let builder: StringBuilder = new StringBuilder();
-                    builder.map(undefined, "");
-                    builder.map(null, "");
                     builder.append(
                         ibas.i18n.prop(ibas.strings.format("bo_{0}_{1}", bo.MaterialPrice.name.toLowerCase(), bo.MaterialPrice.PROPERTY_ITEMCODE_NAME.toLowerCase())));
                     builder.separator();
@@ -683,7 +681,7 @@ namespace materials {
                     if (!ibas.objects.isNull(priceList)) {
                         fileName = ibas.strings.format("{0}_{1}_{2}", priceList.objectKey, priceList.name, fileName);
                     }
-                    sap.ui.core.util.File.save(builder.toString(), fileName, "csv", "text/plain", "utf-8");
+                    sap.ui.core.util.File.save(builder.toString(), fileName, "csv", "text/csv", "utf-8", true);
                 }
             }
             class StringBuilder extends ibas.StringBuilder {
@@ -698,13 +696,19 @@ namespace materials {
                     }
                 }();
                 static SEPARATOR: string = ",";
+
+                constructor() {
+                    super();
+                    this.map(undefined, "");
+                    this.map(null, "");
+                }
                 /**
                  * 添加字符
                  */
                 append(value: any): void {
                     if (typeof value === "string") {
-                        if (value.indexOf("\"") > 0) {
-                            value = value.replace("\"", "\"\"");
+                        if (value.indexOf("\"") >= 0) {
+                            value = ibas.strings.replace(value, "\"", "\"\"");
                         }
                         value = "\"" + value + "\"";
                     }

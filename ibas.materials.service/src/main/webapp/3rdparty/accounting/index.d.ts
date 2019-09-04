@@ -21,7 +21,7 @@ declare namespace accounting {
         const BO_CODE_PROJECT: string;
         /** 业务对象编码-维度 */
         const BO_CODE_DIMENSION: string;
-        /** 业务对象编码-税组 */
+        /** 业务对象编码-税收组 */
         const BO_CODE_TAXGROUP: string;
         /**
          * 期间状态
@@ -44,7 +44,7 @@ declare namespace accounting {
             CHOOSE_LIST = 1
         }
         /**
-         * 税组类型
+         * 税收组类型
          */
         enum emTaxGroupCategory {
             /** 销项税 */
@@ -294,7 +294,7 @@ declare namespace accounting {
  */
 declare namespace accounting {
     namespace bo {
-        /** 税组 */
+        /** 税收组 */
         interface ITaxGroup extends ibas.IBOMasterData {
             /** 编码 */
             code: string;
@@ -393,12 +393,12 @@ declare namespace accounting {
              */
             saveDimension(saver: ibas.ISaveCaller<bo.IDimension>): void;
             /**
-             * 查询 税组
+             * 查询 税收组
              * @param fetcher 查询者
              */
             fetchTaxGroup(fetcher: ibas.IFetchCaller<bo.ITaxGroup>): void;
             /**
-             * 保存 税组
+             * 保存 税收组
              * @param saver 保存者
              */
             saveTaxGroup(saver: ibas.ISaveCaller<bo.ITaxGroup>): void;
@@ -883,7 +883,7 @@ declare namespace accounting {
  */
 declare namespace accounting {
     namespace bo {
-        /** 税组 */
+        /** 税收组 */
         class TaxGroup extends ibas.BOMasterData<TaxGroup> implements ITaxGroup {
             /** 业务对象编码 */
             static BUSINESS_OBJECT_CODE: string;
@@ -1071,12 +1071,12 @@ declare namespace accounting {
              */
             saveDimension(saver: ibas.ISaveCaller<bo.Dimension>): void;
             /**
-             * 查询 税组
+             * 查询 税收组
              * @param fetcher 查询者
              */
             fetchTaxGroup(fetcher: ibas.IFetchCaller<bo.TaxGroup>): void;
             /**
-             * 保存 税组
+             * 保存 税收组
              * @param saver 保存者
              */
             saveTaxGroup(saver: ibas.ISaveCaller<bo.TaxGroup>): void;
@@ -1661,7 +1661,7 @@ declare namespace accounting {
  */
 declare namespace accounting {
     namespace app {
-        /** 列表应用-税组 */
+        /** 列表应用-税收组 */
         class TaxGroupListApp extends ibas.BOListApplication<ITaxGroupListView, bo.TaxGroup> {
             /** 应用标识 */
             static APPLICATION_ID: string;
@@ -1686,7 +1686,7 @@ declare namespace accounting {
             /** 删除数据，参数：目标数据集合 */
             protected deleteData(data: bo.TaxGroup | bo.TaxGroup[]): void;
         }
-        /** 视图-税组 */
+        /** 视图-税收组 */
         interface ITaxGroupListView extends ibas.IBOListView {
             /** 编辑数据事件，参数：编辑对象 */
             editDataEvent: Function;
@@ -1706,7 +1706,7 @@ declare namespace accounting {
  */
 declare namespace accounting {
     namespace app {
-        /** 选择应用-税组 */
+        /** 选择应用-税收组 */
         class TaxGroupChooseApp extends ibas.BOChooseService<ITaxGroupChooseView, bo.TaxGroup> {
             /** 应用标识 */
             static APPLICATION_ID: string;
@@ -1725,12 +1725,12 @@ declare namespace accounting {
             /** 新建数据 */
             protected newData(): void;
         }
-        /** 视图-税组 */
+        /** 视图-税收组 */
         interface ITaxGroupChooseView extends ibas.IBOChooseView {
             /** 显示数据 */
             showData(datas: bo.TaxGroup[]): void;
         }
-        /** 税组选择服务映射 */
+        /** 税收组选择服务映射 */
         class TaxGroupChooseServiceMapping extends ibas.BOChooseServiceMapping {
             /** 构造函数 */
             constructor();
@@ -1748,7 +1748,7 @@ declare namespace accounting {
  */
 declare namespace accounting {
     namespace app {
-        /** 编辑应用-税组 */
+        /** 编辑应用-税收组 */
         class TaxGroupEditApp extends ibas.BOEditApplication<ITaxGroupEditView, bo.TaxGroup> {
             /** 应用标识 */
             static APPLICATION_ID: string;
@@ -1773,7 +1773,7 @@ declare namespace accounting {
             /** 新建数据，参数1：是否克隆 */
             protected createData(clone: boolean): void;
         }
-        /** 视图-税组 */
+        /** 视图-税收组 */
         interface ITaxGroupEditView extends ibas.IBOEditView {
             /** 显示数据 */
             showTaxGroup(data: bo.TaxGroup): void;
