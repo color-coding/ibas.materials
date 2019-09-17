@@ -281,7 +281,9 @@ namespace materials {
                     closer.criteria = criteria;
                 }
                 let data: string = JSON.stringify(boRepository.converter.convert(closer.criteria, "closeInventoryCounting"));
-                boRepository.callRemoteMethod("closeInventoryCounting", data, closer);
+                boRepository.callRemoteMethod("closeInventoryCounting", data, (opRslt) => {
+                    closer.onCompleted.call(ibas.objects.isNull(closer.caller) ? closer : closer.caller, opRslt);
+                });
             }
             /**
              * 查询 规格模板
