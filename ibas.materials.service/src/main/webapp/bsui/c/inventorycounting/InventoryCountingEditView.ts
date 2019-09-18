@@ -148,17 +148,19 @@ namespace materials {
                                             menu: new sap.m.Menu("", {
                                                 items: [
                                                     new sap.m.MenuItem("", {
-                                                        text: ibas.i18n.prop("shell_data_add"),
+                                                        text: ibas.i18n.prop("bo_material"),
                                                         press: function (): void {
                                                             that.fireViewEvents(that.addInventoryCountingLineEvent);
                                                         }
                                                     }),
+                                                    /*
                                                     new sap.m.MenuItem("", {
                                                         text: ibas.i18n.prop("bo_materialinventory"),
                                                         press: function (): void {
                                                             that.fireViewEvents(that.chooseInventoryCountingMaterialInventoryEvent);
                                                         }
                                                     }),
+                                                    */
                                                 ]
                                             })
                                         }),
@@ -226,6 +228,14 @@ namespace materials {
                                             press: function (): void {
                                                 that.fireViewEvents(that.refreshMaterialInventoryEvent);
                                             }
+                                        }).bindProperty("enabled", {
+                                            path: "/rows/0/lineStatus",
+                                            formatter(data: any): boolean {
+                                                if (data === ibas.emDocumentStatus.CLOSED) {
+                                                    return false;
+                                                }
+                                                return true;
+                                            }
                                         }),
                                         new sap.m.ToolbarSpacer(""),
                                         new sap.m.Label("", {
@@ -241,6 +251,7 @@ namespace materials {
                                 columns: [
                                     new sap.extension.table.DataColumn("", {
                                         label: ibas.i18n.prop("bo_inventorycountingline_lineid"),
+                                        width: "6rem",
                                         template: new sap.extension.m.Text("", {
                                         }).bindProperty("bindingValue", {
                                             path: "lineId",
@@ -274,6 +285,7 @@ namespace materials {
                                     }),
                                     new sap.extension.table.DataColumn("", {
                                         label: ibas.i18n.prop("bo_inventorycountingline_freeze"),
+                                        width: "6rem",
                                         template: new sap.extension.m.CheckBox("", {
                                         }).bindProperty("bindingValue", {
                                             path: "freeze",
@@ -282,21 +294,13 @@ namespace materials {
                                     }),
                                     new sap.extension.table.DataColumn("", {
                                         label: ibas.i18n.prop("bo_inventorycountingline_warehouse"),
-                                        template: new sap.extension.m.RepositoryInput("", {
-                                            editable: false,
-                                            showValueHelp: true,
+                                        template: new sap.extension.m.RepositoryText("", {
                                             repository: bo.BORepositoryMaterials,
                                             dataInfo: {
                                                 type: bo.Warehouse,
                                                 key: bo.Warehouse.PROPERTY_CODE_NAME,
                                                 text: bo.Warehouse.PROPERTY_NAME_NAME
                                             },
-                                            valueHelpRequest: function (): void {
-                                                that.fireViewEvents(that.chooseInventoryCountingLineWarehouseEvent,
-                                                    // 获取当前对象
-                                                    this.getBindingContext().getObject()
-                                                );
-                                            }
                                         }).bindProperty("bindingValue", {
                                             path: "warehouse",
                                             type: new sap.extension.data.Alphanumeric({
@@ -306,8 +310,7 @@ namespace materials {
                                     }),
                                     new sap.extension.table.DataColumn("", {
                                         label: ibas.i18n.prop("bo_inventorycountingline_inventoryquantity"),
-                                        template: new sap.extension.m.Input("", {
-                                            type: sap.m.InputType.Number
+                                        template: new sap.extension.m.Text("", {
                                         }).bindProperty("bindingValue", {
                                             path: "inventoryQuantity",
                                             type: new sap.extension.data.Quantity()
@@ -315,6 +318,7 @@ namespace materials {
                                     }),
                                     new sap.extension.table.DataColumn("", {
                                         label: ibas.i18n.prop("bo_inventorycountingline_uom"),
+                                        width: "8rem",
                                         template: new sap.extension.m.Text("", {
                                         }).bindProperty("bindingValue", {
                                             path: "uom",
@@ -323,6 +327,7 @@ namespace materials {
                                     }),
                                     new sap.extension.table.DataColumn("", {
                                         label: ibas.i18n.prop("bo_inventorycountingline_counted"),
+                                        width: "6rem",
                                         template: new sap.extension.m.CheckBox("", {
                                         }).bindProperty("bindingValue", {
                                             path: "counted",
@@ -457,6 +462,15 @@ namespace materials {
                                     icon: "sap-icon://task",
                                     press: function (): void {
                                         that.fireViewEvents(that.closeDataEvent);
+                                    }
+                                }).bindProperty("enabled", {
+                                    path: "documentStatus",
+                                    formatter(data: any): boolean {
+                                        if (data === ibas.emDocumentStatus.CLOSED
+                                            || data === ibas.emDocumentStatus.PLANNED) {
+                                            return false;
+                                        }
+                                        return true;
                                     }
                                 }),
                             ]

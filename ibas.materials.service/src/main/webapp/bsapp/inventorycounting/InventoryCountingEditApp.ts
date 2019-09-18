@@ -78,7 +78,11 @@ namespace materials {
                                 if (ibas.objects.instanceOf(data, bo.InventoryCounting)) {
                                     // 查询到了有效数据
                                     that.editData = data;
-                                    that.show();
+                                    if (that.isViewShowed()) {
+                                        that.viewShowed();
+                                    } else {
+                                        that.show();
+                                    }
                                 } else {
                                     // 数据重新检索无效
                                     that.messages({
@@ -145,11 +149,8 @@ namespace materials {
                                 throw new Error(opRslt.message);
                             }
                             that.messages(ibas.emMessageType.SUCCESS, ibas.i18n.prop("shell_sucessful"));
-                            // 刷新当前视图
-                            that.editData.isLoading = true;
-                            that.editData.documentStatus = ibas.emDocumentStatus.CLOSED;
-                            that.editData.isLoading = false;
-                            that.viewShowed();
+                            // 重新加载数据，刷新当前视图
+                            that.run(that.editData);
                         } catch (error) {
                             that.messages(error);
                         }
@@ -259,9 +260,7 @@ namespace materials {
             }
             /** 添加库存盘点-行事件 */
             protected addInventoryCountingLine(): void {
-                this.editData.inventoryCountingLines.create();
-                // 仅显示没有标记删除的
-                this.view.showInventoryCountingLines(this.editData.inventoryCountingLines.filterDeleted());
+                this.chooseInventoryCountingLineMaterial(undefined);
             }
             /** 删除库存盘点-行事件 */
             protected removeInventoryCountingLine(items: bo.InventoryCountingLine[]): void {

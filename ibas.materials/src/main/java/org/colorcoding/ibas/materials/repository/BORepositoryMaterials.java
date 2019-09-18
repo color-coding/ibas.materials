@@ -731,6 +731,24 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 						if (dataLine.getCounted() != emYesNo.YES) {
 							throw new Exception(I18N.prop("msg_mm_document_not_counted", dataLine));
 						}
+						// 重新检查库存
+						ICriteria iCriteria = new Criteria();
+						iCriteria.setResultCount(1);
+						ICondition iCondition = iCriteria.getConditions().create();
+						iCondition.setAlias(MaterialInventory.PROPERTY_ITEMCODE.getName());
+						iCondition.setValue(dataLine.getItemCode());
+						iCondition = iCriteria.getConditions().create();
+						iCondition.setAlias(MaterialInventory.PROPERTY_WAREHOUSE.getName());
+						iCondition.setValue(dataLine.getWarehouse());
+						IMaterialInventory materialInventory = this.fetchMaterialInventory(iCriteria).getResultObjects()
+								.firstOrDefault();
+						if (materialInventory == null) {
+							dataLine.setInventoryQuantity(Decimal.ZERO);
+						} else {
+							dataLine.setInventoryQuantity(materialInventory.getOnHand());
+						}
+						// 保存时自动计算差异数量
+						// 修改状态
 						dataLine.setLineStatus(emDocumentStatus.CLOSED);
 					}
 					data.setDocumentStatus(emDocumentStatus.CLOSED);
@@ -739,6 +757,7 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 					if (opRsltSave.getError() != null) {
 						throw opRsltSave.getError();
 					}
+					opRsltClose.addResultObjects(data.toString());
 				}
 				if (trans) {
 					this.commitTransaction();
