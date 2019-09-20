@@ -32,7 +32,7 @@ namespace materials {
                             }).bindProperty("bindingValue", {
                                 path: "/name",
                                 type: new sap.extension.data.Alphanumeric({
-                                    maxLength: 20
+                                    maxLength: 60
                                 })
                             }),
                             new sap.m.Label("", { text: ibas.i18n.prop("bo_materialpricelist_group") }),

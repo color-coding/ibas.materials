@@ -2,7 +2,7 @@
 <!DOCTYPE Domain>
 <Domain Name="Materials" ShortName="MM">
   <Model Name="MaterialPriceList" Description="物料价格清单" ModelType="Simple" Mapped="${Company}_MM_OMPL">
-    <Property Name="Name" Description="名称" DataType="Alphanumeric" DataSubType="Default" EditSize="20" Mapped="Name" UniqueKey="Yes"/>
+    <Property Name="Name" Description="名称" DataType="Alphanumeric" DataSubType="Default" EditSize="60" Mapped="Name" UniqueKey="Yes"/>
     <Property Name="Group" Description="分组" DataType="Alphanumeric" DataSubType="Default" EditSize="8" Mapped="Group"/>
     <Property Name="Currency" Description="货币" DataType="Alphanumeric" DataSubType="Default" EditSize="8" Mapped="Currency" UniqueKey="Yes"/>
     <Property Name="BasedOnList" Description="基于的清单" DataType="Numeric" DataSubType="Default" EditSize="8" Mapped="BasedOn"/>
