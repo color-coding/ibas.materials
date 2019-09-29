@@ -17,6 +17,8 @@ namespace materials {
             remarks: string;
             /** 规格模板-项目集合 */
             items: ibas.IList<ISpecificationTreeItem>;
+            /** 转换对象 */
+            convert(): IMaterialSpecification;
         }
         /** 规格模板-项目 */
         export interface ISpecificationTreeItem {
@@ -31,9 +33,18 @@ namespace materials {
             /** 可编辑 */
             editable: boolean;
             /** 可选值 */
-            vaildValues: ibas.IList<ibas.KeyText>;
+            vaildValues: ibas.IList<ISpecificationTreeItemValue>;
             /** 规格模板-项目集合 */
             items: ibas.IList<ISpecificationTreeItem>;
+        }
+        /** 规格模板-项目值 */
+        export interface ISpecificationTreeItemValue {
+            /** 值 */
+            value: string;
+            /** 描述 */
+            description: string;
+            /** 关联 */
+            associated: string;
         }
 
     }

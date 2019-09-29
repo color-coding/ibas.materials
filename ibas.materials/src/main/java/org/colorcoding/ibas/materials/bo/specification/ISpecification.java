@@ -4,6 +4,7 @@ import org.colorcoding.ibas.bobas.bo.IBOSimple;
 import org.colorcoding.ibas.bobas.data.DateTime;
 import org.colorcoding.ibas.bobas.data.emApprovalStatus;
 import org.colorcoding.ibas.bobas.data.emYesNo;
+import org.colorcoding.ibas.materials.data.emSpecificationAssigned;
 import org.colorcoding.ibas.materials.data.emSpecificationTarget;
 
 /**
@@ -305,6 +306,62 @@ public interface ISpecification extends IBOSimple {
 	 * @param value 值
 	 */
 	void setActivated(emYesNo value);
+
+	/**
+	 * 获取-生效日期
+	 * 
+	 * @return 值
+	 */
+	DateTime getValidDate();
+
+	/**
+	 * 设置-生效日期
+	 * 
+	 * @param value 值
+	 */
+	void setValidDate(DateTime value);
+
+	/**
+	 * 获取-失效日期
+	 * 
+	 * @return 值
+	 */
+	DateTime getInvalidDate();
+
+	/**
+	 * 设置-失效日期
+	 * 
+	 * @param value 值
+	 */
+	void setInvalidDate(DateTime value);
+
+	/**
+	 * 获取-分配类型
+	 * 
+	 * @return 值
+	 */
+	emSpecificationAssigned getAssignedType();
+
+	/**
+	 * 设置-分配类型
+	 * 
+	 * @param value 值
+	 */
+	void setAssignedType(emSpecificationAssigned value);
+
+	/**
+	 * 获取-分配目标
+	 * 
+	 * @return 值
+	 */
+	String getAssigned();
+
+	/**
+	 * 设置-分配目标
+	 * 
+	 * @param value 值
+	 */
+	void setAssigned(String value);
 
 	/**
 	 * 获取-备注

@@ -31,31 +31,55 @@ namespace materials {
             protected viewShowed(): void {
                 // 视图加载完成
             }
+            private specification: bo.SpecificationTree;
+            private extraData: {
+                customer: string;
+                supplier: string;
+                name: string,
+                project: string,
+                remarks: string
+            };
             /** 运行服务 */
             runService(contract: ISpecificationTreeContract): void {
-                this.extraData = { name: contract.name, remarks: contract.remarks };
-                this.name = contract.name;
+                if (!(contract.target instanceof bo.MaterialSpecification
+                    || (typeof contract.target === "string" && !ibas.strings.isEmpty(contract.target)))) {
+                    throw new Error(ibas.i18n.prop("sys_invalid_parameter", "target"));
+                }
+                this.extraData = {
+                    customer: contract.customer,
+                    supplier: contract.supplier,
+                    name: contract.name,
+                    project: contract.project,
+                    remarks: contract.remarks
+                };
                 if (contract.target instanceof bo.MaterialSpecification) {
+                    // 模板查询
                     let criteria: ibas.ICriteria = new ibas.Criteria();
-                    criteria.result = 1;
                     let condition: ibas.ICondition = criteria.conditions.create();
-                    condition.alias = "template";
+                    condition.alias = conditions.specificationtree.CONDITION_ALIAS_TEMPLATE;
                     condition.value = contract.target.specification.toString();
                     this.showSpecification(criteria);
                 } else if (typeof contract.target === "string") {
+                    // 物料查询
                     let criteria: ibas.ICriteria = new ibas.Criteria();
-                    criteria.result = 1;
                     let condition: ibas.ICondition = criteria.conditions.create();
-                    condition.alias = "material";
+                    condition.alias = conditions.specificationtree.CONDITION_ALIAS_MATERIAL;
                     condition.value = contract.target;
+                    condition = criteria.conditions.create();
+                    condition.alias = conditions.specificationtree.CONDITION_ALIAS_DATE;
+                    condition.value = ibas.dates.toString(contract.date ? contract.date : ibas.dates.today(), "yyyy-MM-dd");
+                    if (!ibas.strings.isEmpty(contract.customer)) {
+                        condition = criteria.conditions.create();
+                        condition.alias = conditions.specificationtree.CONDITION_ALIAS_CUSTOMER;
+                        condition.value = contract.customer;
+                    } else if (!ibas.strings.isEmpty(contract.supplier)) {
+                        condition = criteria.conditions.create();
+                        condition.alias = conditions.specificationtree.CONDITION_ALIAS_SUPPLIER;
+                        condition.value = contract.supplier;
+                    }
                     this.showSpecification(criteria);
-                } else {
-                    throw new Error(ibas.i18n.prop("sys_invalid_parameter", "target"));
                 }
             }
-            private extraData: { remarks: string, name: string };
-            private specification: bo.SpecificationTree;
-
             private showSpecification(criteria: ibas.ICriteria): void {
                 let that: this = this;
                 let boRepository: bo.BORepositoryMaterials = new bo.BORepositoryMaterials();
@@ -88,33 +112,30 @@ namespace materials {
             }
             private save(): void {
                 this.busy(true);
-                let data: bo.MaterialSpecification = new bo.MaterialSpecification();
-                data.name = (this.extraData.name ? this.extraData.name : "") + this.specification.name;
-                data.specification = this.specification.template;
-                data.remarks = this.extraData.remarks;
-                let createItem: Function = function (item: bo.SpecificationTreeItem, parentSign: string = undefined): void {
-                    let dataItem: bo.MaterialSpecificationItem = data.materialSpecificationItems.create();
-                    dataItem.parentSign = parentSign;
-                    dataItem.sign = item.sign;
-                    dataItem.description = item.description;
-                    dataItem.content = item.content;
-                    dataItem.note = item.note;
-                    if (item.items instanceof Array) {
-                        for (let sItem of item.items) {
-                            createItem(sItem, item.sign);
-                        }
+                let data: bo.IMaterialSpecification = this.specification.convert();
+                if (this.extraData) {
+                    if (!ibas.strings.isEmpty(this.extraData.name)) {
+                        data.name = this.extraData.name;
                     }
-                };
-                if (this.specification.items instanceof Array) {
-                    for (let sItem of this.specification.items) {
-                        createItem(sItem);
+                    if (!ibas.strings.isEmpty(this.extraData.project)) {
+                        data.project = this.extraData.project;
+                    }
+                    if (!ibas.strings.isEmpty(this.extraData.remarks)) {
+                        data.remarks = this.extraData.remarks;
+                    }
+                    if (!ibas.strings.isEmpty(this.extraData.customer)) {
+                        data.businessPartnerType = businesspartner.bo.emBusinessPartnerType.CUSTOMER;
+                        data.businessPartnerCode = this.extraData.customer;
+                    } else if (!ibas.strings.isEmpty(this.extraData.supplier)) {
+                        data.businessPartnerType = businesspartner.bo.emBusinessPartnerType.SUPPLIER;
+                        data.businessPartnerCode = this.extraData.supplier;
                     }
                 }
                 let that: this = this;
-                let boRepository: bo.BORepositoryMaterials = new bo.BORepositoryMaterials();
+                let boRepository: bo.IBORepositoryMaterials = new bo.BORepositoryMaterials();
                 boRepository.saveMaterialSpecification({
                     beSaved: data,
-                    onCompleted(opRslt: ibas.IOperationResult<bo.MaterialSpecification>): void {
+                    onCompleted(opRslt: ibas.IOperationResult<bo.IMaterialSpecification>): void {
                         try {
                             that.busy(false);
                             if (opRslt.resultCode !== 0) {
@@ -141,6 +162,8 @@ namespace materials {
             saveEvent: Function;
             /** 显示规格 */
             showSpecificationTree(data: bo.SpecificationTree): void;
+        }
+        class DoneError extends Error {
         }
         /** 规格模板连接服务映射 */
         export class SpecificationTreeServiceMapping extends ibas.ServiceMapping {

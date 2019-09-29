@@ -67,8 +67,8 @@ namespace materials {
                         }
                         this.setCriteria(criteria);
                     }
-                    if (SELECT_ITEM_CACHE.size > 0) {
-                        SELECT_ITEM_CACHE.forEach((value, key) => {
+                    if (WAREHOUSE_ITEM_CACHE.size > 0) {
+                        WAREHOUSE_ITEM_CACHE.forEach((value, key) => {
                             sap.extension.m.RepositorySelect.prototype.addItem.call(this,
                                 new sap.ui.core.ListItem("", {
                                     key: key,
@@ -81,14 +81,14 @@ namespace materials {
                     return this;
                 },
                 addItem(this: WarehouseSelect, oItem: sap.ui.core.Item): WarehouseSelect {
-                    if (!SELECT_ITEM_CACHE.has(oItem.getKey())) {
-                        SELECT_ITEM_CACHE.set(oItem.getKey(), oItem.getText());
+                    if (!WAREHOUSE_ITEM_CACHE.has(oItem.getKey())) {
+                        WAREHOUSE_ITEM_CACHE.set(oItem.getKey(), oItem.getText());
                     }
                     sap.extension.m.RepositorySelect.prototype.addItem.apply(this, arguments);
                     return this;
                 }
             });
-            const SELECT_ITEM_CACHE: Map<string, string> = new Map<string, string>();
+            const WAREHOUSE_ITEM_CACHE: Map<string, string> = new Map<string, string>();
             /**
              * 物料或物料组-文本框
              */
@@ -173,6 +173,196 @@ namespace materials {
                                 sap.extension.variables.set(groupInfo, MaterialOrMaterialGroupText, "groupInfo");
                             }
                             sap.extension.repository.batchFetch(boRepository, groupInfo, criteria, fetched);
+                        }
+                    });
+                }
+            });
+            /**
+             * 业务伙伴或组-文本框
+             */
+            sap.extension.m.ConversionText.extend("materials.ui.component.BusinessPartnerOrGroupText", {
+                metadata: {
+                    properties: {
+                        typeProperty: { type: "string" },
+                    },
+                    events: {
+                    },
+                },
+                renderer: {
+                },
+                getTypeProperty(this: BusinessPartnerOrGroupText): string {
+                    return this.getProperty("typeProperty");
+                },
+                setTypeProperty(this: BusinessPartnerOrGroupText, value: string): BusinessPartnerOrGroupText {
+                    return this.setProperty("typeProperty", value);
+                },
+                init(this: BusinessPartnerOrGroupText): void {
+                    (<any>sap.extension.m.ConversionText.prototype).init.apply(this, arguments);
+                    this.attachConvert(undefined, (event: sap.ui.base.Event) => {
+                        let value: string = event.getParameter("value");
+                        let done: (newValue: string) => void = event.getParameter("done");
+                        let bindingData: any = event.getParameter("bindingData");
+                        let type: bo.emSpecificationAssigned = bindingData[this.getTypeProperty()];
+                        if (ibas.objects.isNull(type) || ibas.strings.isEmpty(value)) {
+                            return;
+                        }
+                        let criteria: ibas.ICriteria = new ibas.Criteria();
+                        let condition: ibas.ICondition = criteria.conditions.create();
+                        condition.alias = "Code";
+                        condition.value = value;
+                        let fetched: (values: ibas.IList<ibas.KeyText> | Error) => void = (values) => {
+                            if (values instanceof Error) {
+                                ibas.logger.log(values);
+                            } else {
+                                let keyBudilder: ibas.StringBuilder = new ibas.StringBuilder();
+                                keyBudilder.map(null, "");
+                                keyBudilder.map(undefined, "");
+                                let textBudilder: ibas.StringBuilder = new ibas.StringBuilder();
+                                textBudilder.map(null, "");
+                                textBudilder.map(undefined, "");
+                                for (let item of values) {
+                                    if (keyBudilder.length > 0) {
+                                        keyBudilder.append(ibas.DATA_SEPARATOR);
+                                    }
+                                    if (textBudilder.length > 0) {
+                                        textBudilder.append(ibas.DATA_SEPARATOR);
+                                        textBudilder.append(" ");
+                                    }
+                                    keyBudilder.append(item.key);
+                                    textBudilder.append(item.text);
+                                }
+                                done(textBudilder.toString());
+                            }
+                        };
+                        let boRepository: businesspartner.bo.BORepositoryBusinessPartner = sap.extension.variables.get(BusinessPartnerOrGroupText, "repository");
+                        if (ibas.objects.isNull(boRepository)) {
+                            boRepository = new businesspartner.bo.BORepositoryBusinessPartner();
+                            sap.extension.variables.set(boRepository, BusinessPartnerOrGroupText, "repository");
+                        }
+                        if (type === bo.emSpecificationAssigned.BUSINESS_PARTNER_GROUP) {
+                            let groupInfo: any = sap.extension.variables.get(BusinessPartnerOrGroupText, "groupInfo");
+                            if (ibas.objects.isNull(groupInfo)) {
+                                groupInfo = {
+                                    type: businesspartner.bo.BusinessPartnerGroup,
+                                    key: "Code",
+                                    text: "Name"
+                                };
+                                sap.extension.variables.set(groupInfo, BusinessPartnerOrGroupText, "groupInfo");
+                            }
+                            sap.extension.repository.batchFetch(boRepository, groupInfo, criteria, fetched);
+                        } else if (type === bo.emSpecificationAssigned.CUSTOMER) {
+                            let customerInfo: any = sap.extension.variables.get(BusinessPartnerOrGroupText, "customerInfo");
+                            if (ibas.objects.isNull(customerInfo)) {
+                                customerInfo = {
+                                    type: businesspartner.bo.Customer,
+                                    key: "Code",
+                                    text: "Name"
+                                };
+                                sap.extension.variables.set(customerInfo, BusinessPartnerOrGroupText, "customerInfo");
+                            }
+                            sap.extension.repository.batchFetch(boRepository, customerInfo, criteria, fetched);
+                        } else if (type === bo.emSpecificationAssigned.SUPPLIER) {
+                            let supplierInfo: any = sap.extension.variables.get(BusinessPartnerOrGroupText, "supplierInfo");
+                            if (ibas.objects.isNull(supplierInfo)) {
+                                supplierInfo = {
+                                    type: businesspartner.bo.Supplier,
+                                    key: "Code",
+                                    text: "Name"
+                                };
+                                sap.extension.variables.set(supplierInfo, BusinessPartnerOrGroupText, "supplierInfo");
+                            }
+                            sap.extension.repository.batchFetch(boRepository, supplierInfo, criteria, fetched);
+                        }
+                    });
+                }
+            });
+            /**
+             * 业务伙伴-文本框
+             */
+            sap.extension.m.ConversionText.extend("materials.ui.component.BusinessPartnerText", {
+                metadata: {
+                    properties: {
+                        /** 业务伙伴类型属性名 */
+                        typeProperty: { type: "string" },
+                    },
+                    events: {
+                    },
+                },
+                renderer: {
+                },
+                /** 获取-业务伙伴类型属性名 */
+                getTypeProperty(this: BusinessPartnerText): string {
+                    return this.getProperty("typeProperty");
+                },
+                /** 设置-业务伙伴类型属性名 */
+                setTypeProperty(this: BusinessPartnerText, value: string): BusinessPartnerText {
+                    return this.setProperty("typeProperty", value);
+                },
+                init(this: BusinessPartnerText): void {
+                    (<any>sap.extension.m.ConversionText.prototype).init.apply(this, arguments);
+                    this.attachConvert(undefined, (event: sap.ui.base.Event) => {
+                        let value: string = event.getParameter("value");
+                        let done: (newValue: string) => void = event.getParameter("done");
+                        let bindingData: any = event.getParameter("bindingData");
+                        let type: businesspartner.bo.emBusinessPartnerType = bindingData[this.getTypeProperty()];
+                        if (ibas.objects.isNull(type) || ibas.strings.isEmpty(value)) {
+                            return;
+                        }
+                        let criteria: ibas.ICriteria = new ibas.Criteria();
+                        let condition: ibas.ICondition = criteria.conditions.create();
+                        condition.alias = "Code";
+                        condition.value = value;
+                        let fetched: (values: ibas.IList<ibas.KeyText> | Error) => void = (values) => {
+                            if (values instanceof Error) {
+                                ibas.logger.log(values);
+                            } else {
+                                let keyBudilder: ibas.StringBuilder = new ibas.StringBuilder();
+                                keyBudilder.map(null, "");
+                                keyBudilder.map(undefined, "");
+                                let textBudilder: ibas.StringBuilder = new ibas.StringBuilder();
+                                textBudilder.map(null, "");
+                                textBudilder.map(undefined, "");
+                                for (let item of values) {
+                                    if (keyBudilder.length > 0) {
+                                        keyBudilder.append(ibas.DATA_SEPARATOR);
+                                    }
+                                    if (textBudilder.length > 0) {
+                                        textBudilder.append(ibas.DATA_SEPARATOR);
+                                        textBudilder.append(" ");
+                                    }
+                                    keyBudilder.append(item.key);
+                                    textBudilder.append(item.text);
+                                }
+                                done(textBudilder.toString());
+                            }
+                        };
+                        let boRepository: businesspartner.bo.BORepositoryBusinessPartner = sap.extension.variables.get(BusinessPartnerText, "repository");
+                        if (ibas.objects.isNull(boRepository)) {
+                            boRepository = new businesspartner.bo.BORepositoryBusinessPartner();
+                            sap.extension.variables.set(boRepository, BusinessPartnerText, "repository");
+                        }
+                        if (type === businesspartner.bo.emBusinessPartnerType.CUSTOMER) {
+                            let customerInfo: any = sap.extension.variables.get(BusinessPartnerText, "customerInfo");
+                            if (ibas.objects.isNull(customerInfo)) {
+                                customerInfo = {
+                                    type: businesspartner.bo.Customer,
+                                    key: "Code",
+                                    text: "Name"
+                                };
+                                sap.extension.variables.set(customerInfo, BusinessPartnerText, "customerInfo");
+                            }
+                            sap.extension.repository.batchFetch(boRepository, customerInfo, criteria, fetched);
+                        } else if (type === businesspartner.bo.emBusinessPartnerType.SUPPLIER) {
+                            let supplierInfo: any = sap.extension.variables.get(BusinessPartnerText, "supplierInfo");
+                            if (ibas.objects.isNull(supplierInfo)) {
+                                supplierInfo = {
+                                    type: businesspartner.bo.Supplier,
+                                    key: "Code",
+                                    text: "Name"
+                                };
+                                sap.extension.variables.set(supplierInfo, BusinessPartnerText, "supplierInfo");
+                            }
+                            sap.extension.repository.batchFetch(boRepository, supplierInfo, criteria, fetched);
                         }
                     });
                 }

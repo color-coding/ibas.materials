@@ -21,6 +21,8 @@
     <Property Name="Organization" Description="数据所属组织" DataType="Alphanumeric" DataSubType="Default" EditSize="8" Mapped="OrgCode"/>
     <Property Name="Name" Description="名称" DataType="Alphanumeric" DataSubType="Default" EditSize="200" Mapped="Name"/>
     <Property Name="Specification" Description="规格模板" DataType="Numeric" DataSubType="Default" EditSize="8" Mapped="Specification"/>
+    <Property Name="BusinessPartnerType" Description="业务伙伴类型" DataType="Alphanumeric" DataSubType="Default" EditSize="1" DeclaredType="emBusinessPartnerType" Mapped="CardType"/>
+    <Property Name="BusinessPartnerCode" Description="业务伙伴" DataType="Alphanumeric" DataSubType="Default" EditSize="20" Mapped="CardCode"/>
     <Property Name="Project" Description="项目代码" DataType="Alphanumeric" DataSubType="Default" EditSize="8" Mapped="Project"/>
     <Property Name="Reference1" Description="参考1" DataType="Alphanumeric" DataSubType="Default" EditSize="100" Mapped="Ref1"/>
     <Property Name="Reference2" Description="参考2" DataType="Alphanumeric" DataSubType="Default" EditSize="200" Mapped="Ref2"/>
@@ -44,6 +46,8 @@
     <Property Name="Sign" Description="标记" DataType="Alphanumeric" DataSubType="Default" EditSize="8" Mapped="Sign"/>
     <Property Name="Description" Description="描述" DataType="Alphanumeric" DataSubType="Default" EditSize="100" Mapped="Description"/>
     <Property Name="Content" Description="内容" DataType="Alphanumeric" DataSubType="Default" EditSize="60" Mapped="Content"/>
+    <Property Name="Value" Description="值" DataType="Alphanumeric" DataSubType="Default" EditSize="30" Mapped="Value"/>
+    <Property Name="Associated" Description="关联的" DataType="Alphanumeric" DataSubType="Default" EditSize="20" Mapped="Associated"/>
     <Property Name="Note" Description="备注" DataType="Alphanumeric" DataSubType="Default" EditSize="200" Mapped="Note"/>
   </Model>
   <BusinessObject MappedModel="MaterialSpecification" ShortName="${Company}_MM_MATERIALSPEC">

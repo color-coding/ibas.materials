@@ -32,6 +32,7 @@ namespace materials {
                 this.view.createDataEvent = this.createData;
                 this.view.addMaterialSpecificationItemEvent = this.addMaterialSpecificationItem;
                 this.view.removeMaterialSpecificationItemEvent = this.removeMaterialSpecificationItem;
+                this.view.chooseBusinessPartnerEvent = this.chooseBusinessPartner;
             }
             /** 视图显示后 */
             protected viewShowed(): void {
@@ -203,6 +204,31 @@ namespace materials {
                 // 仅显示没有标记删除的
                 this.view.showMaterialSpecificationItems(this.editData.materialSpecificationItems.filterDeleted());
             }
+            /** 选择业务伙伴事件 */
+            private chooseBusinessPartner(): void {
+                let that: this = this;
+                if (this.editData.businessPartnerType === businesspartner.bo.emBusinessPartnerType.CUSTOMER) {
+                    ibas.servicesManager.runChooseService<businesspartner.bo.ICustomer>({
+                        boCode: businesspartner.bo.BO_CODE_CUSTOMER,
+                        chooseType: ibas.emChooseType.SINGLE,
+                        criteria: businesspartner.app.conditions.customer.create(),
+                        onCompleted(selecteds: ibas.IList<businesspartner.bo.ICustomer>): void {
+                            let selected: businesspartner.bo.ICustomer = selecteds.firstOrDefault();
+                            that.editData.businessPartnerCode = selected.code;
+                        }
+                    });
+                } else if (this.editData.businessPartnerType === businesspartner.bo.emBusinessPartnerType.SUPPLIER) {
+                    ibas.servicesManager.runChooseService<businesspartner.bo.ISupplier>({
+                        boCode: businesspartner.bo.BO_CODE_SUPPLIER,
+                        chooseType: ibas.emChooseType.SINGLE,
+                        criteria: businesspartner.app.conditions.supplier.create(),
+                        onCompleted(selecteds: ibas.IList<businesspartner.bo.ISupplier>): void {
+                            let selected: businesspartner.bo.ISupplier = selecteds.firstOrDefault();
+                            that.editData.businessPartnerCode = selected.code;
+                        }
+                    });
+                }
+            }
 
         }
         /** 视图-物料规格 */
@@ -217,6 +243,8 @@ namespace materials {
             addMaterialSpecificationItemEvent: Function;
             /** 删除物料规格-项目事件 */
             removeMaterialSpecificationItemEvent: Function;
+            /** 选择业务伙伴事件 */
+            chooseBusinessPartnerEvent: Function;
             /** 显示数据 */
             showMaterialSpecificationItems(datas: bo.MaterialSpecificationItem[]): void;
         }

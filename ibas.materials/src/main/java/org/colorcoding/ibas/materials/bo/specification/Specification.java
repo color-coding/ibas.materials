@@ -19,6 +19,7 @@ import org.colorcoding.ibas.bobas.mapping.DbField;
 import org.colorcoding.ibas.bobas.mapping.DbFieldType;
 import org.colorcoding.ibas.bobas.ownership.IDataOwnership;
 import org.colorcoding.ibas.materials.MyConfiguration;
+import org.colorcoding.ibas.materials.data.emSpecificationAssigned;
 import org.colorcoding.ibas.materials.data.emSpecificationTarget;
 
 /**
@@ -706,6 +707,130 @@ public class Specification extends BusinessObject<Specification>
 	 */
 	public final void setActivated(emYesNo value) {
 		this.setProperty(PROPERTY_ACTIVATED, value);
+	}
+
+	/**
+	 * 属性名称-生效日期
+	 */
+	private static final String PROPERTY_VALIDDATE_NAME = "ValidDate";
+
+	/**
+	 * 生效日期 属性
+	 */
+	@DbField(name = "ValidDate", type = DbFieldType.DATE, table = DB_TABLE_NAME, primaryKey = false)
+	public static final IPropertyInfo<DateTime> PROPERTY_VALIDDATE = registerProperty(PROPERTY_VALIDDATE_NAME,
+			DateTime.class, MY_CLASS);
+
+	/**
+	 * 获取-生效日期
+	 * 
+	 * @return 值
+	 */
+	@XmlElement(name = PROPERTY_VALIDDATE_NAME)
+	public final DateTime getValidDate() {
+		return this.getProperty(PROPERTY_VALIDDATE);
+	}
+
+	/**
+	 * 设置-生效日期
+	 * 
+	 * @param value 值
+	 */
+	public final void setValidDate(DateTime value) {
+		this.setProperty(PROPERTY_VALIDDATE, value);
+	}
+
+	/**
+	 * 属性名称-失效日期
+	 */
+	private static final String PROPERTY_INVALIDDATE_NAME = "InvalidDate";
+
+	/**
+	 * 失效日期 属性
+	 */
+	@DbField(name = "InvalidDate", type = DbFieldType.DATE, table = DB_TABLE_NAME, primaryKey = false)
+	public static final IPropertyInfo<DateTime> PROPERTY_INVALIDDATE = registerProperty(PROPERTY_INVALIDDATE_NAME,
+			DateTime.class, MY_CLASS);
+
+	/**
+	 * 获取-失效日期
+	 * 
+	 * @return 值
+	 */
+	@XmlElement(name = PROPERTY_INVALIDDATE_NAME)
+	public final DateTime getInvalidDate() {
+		return this.getProperty(PROPERTY_INVALIDDATE);
+	}
+
+	/**
+	 * 设置-失效日期
+	 * 
+	 * @param value 值
+	 */
+	public final void setInvalidDate(DateTime value) {
+		this.setProperty(PROPERTY_INVALIDDATE, value);
+	}
+
+	/**
+	 * 属性名称-分配类型
+	 */
+	private static final String PROPERTY_ASSIGNEDTYPE_NAME = "AssignedType";
+
+	/**
+	 * 分配类型 属性
+	 */
+	@DbField(name = "AssignedType", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME, primaryKey = false)
+	public static final IPropertyInfo<emSpecificationAssigned> PROPERTY_ASSIGNEDTYPE = registerProperty(
+			PROPERTY_ASSIGNEDTYPE_NAME, emSpecificationAssigned.class, MY_CLASS);
+
+	/**
+	 * 获取-分配类型
+	 * 
+	 * @return 值
+	 */
+	@XmlElement(name = PROPERTY_ASSIGNEDTYPE_NAME)
+	public final emSpecificationAssigned getAssignedType() {
+		return this.getProperty(PROPERTY_ASSIGNEDTYPE);
+	}
+
+	/**
+	 * 设置-分配类型
+	 * 
+	 * @param value 值
+	 */
+	public final void setAssignedType(emSpecificationAssigned value) {
+		this.setProperty(PROPERTY_ASSIGNEDTYPE, value);
+	}
+
+	/**
+	 * 属性名称-分配目标
+	 */
+	private static final String PROPERTY_ASSIGNED_NAME = "Assigned";
+
+	/**
+	 * 分配目标 属性
+	 */
+	@DbField(name = "Assigned", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME, primaryKey = false)
+	public static final IPropertyInfo<String> PROPERTY_ASSIGNED = registerProperty(PROPERTY_ASSIGNED_NAME, String.class,
+			MY_CLASS);
+
+	/**
+	 * 获取-分配目标
+	 * 
+	 * @return 值
+	 */
+	@XmlElement(name = PROPERTY_ASSIGNED_NAME)
+	public final String getAssigned() {
+		return this.getProperty(PROPERTY_ASSIGNED);
+	}
+
+	/**
+	 * 设置-分配目标
+	 * 
+	 * @param value 值
+	 */
+	public final void setAssigned(String value) {
+		this.setProperty(PROPERTY_ASSIGNED, value);
 	}
 
 	/**

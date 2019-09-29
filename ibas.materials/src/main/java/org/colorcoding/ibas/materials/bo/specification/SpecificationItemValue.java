@@ -533,6 +533,37 @@ public class SpecificationItemValue extends BusinessObject<SpecificationItemValu
 	}
 
 	/**
+	 * 属性名称-关联的
+	 */
+	private static final String PROPERTY_ASSOCIATED_NAME = "Associated";
+
+	/**
+	 * 关联的 属性
+	 */
+	@DbField(name = "Associated", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME, primaryKey = false)
+	public static final IPropertyInfo<String> PROPERTY_ASSOCIATED = registerProperty(PROPERTY_ASSOCIATED_NAME,
+			String.class, MY_CLASS);
+
+	/**
+	 * 获取-关联的
+	 * 
+	 * @return 值
+	 */
+	@XmlElement(name = PROPERTY_ASSOCIATED_NAME)
+	public final String getAssociated() {
+		return this.getProperty(PROPERTY_ASSOCIATED);
+	}
+
+	/**
+	 * 设置-关联的
+	 * 
+	 * @param value 值
+	 */
+	public final void setAssociated(String value) {
+		this.setProperty(PROPERTY_ASSOCIATED, value);
+	}
+
+	/**
 	 * 设置-描述
 	 * 
 	 * @param value 值

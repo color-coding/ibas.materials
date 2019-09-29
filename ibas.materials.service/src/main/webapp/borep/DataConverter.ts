@@ -45,7 +45,7 @@ namespace materials {
                     newData.editable = remote.Editable;
                     if (remote.VaildValues instanceof Array) {
                         for (let item of remote.VaildValues) {
-                            (<any>item).type = ibas.KeyText.name;
+                            item.type = bo.SpecificationTreeItemValue.name;
                             newData.vaildValues.add(this.parsing(item, sign));
                         }
                     }
@@ -55,6 +55,13 @@ namespace materials {
                             newData.items.add(this.parsing(item, sign));
                         }
                     }
+                    return newData;
+                } else if (data.type === bo.SpecificationTreeItemValue.name) {
+                    let remote: bo4j.ISpecificationTreeItemValue = data;
+                    let newData: bo.SpecificationTreeItemValue = new bo.SpecificationTreeItemValue();
+                    newData.value = remote.Value;
+                    newData.description = remote.Description;
+                    newData.associated = remote.Associated;
                     return newData;
                 } else {
                     return super.parsing(data, sign);
@@ -147,10 +154,16 @@ namespace materials {
                 } else if (boName === bo.Specification.name) {
                     if (property === bo.Specification.PROPERTY_TARGETTYPE_NAME) {
                         return ibas.enums.toString(emSpecificationTarget, value);
+                    } else if (property === bo.Specification.PROPERTY_ASSIGNEDTYPE_NAME) {
+                        return ibas.enums.toString(emSpecificationAssigned, value);
                     }
                 } else if (boName === bo.SpecificationItem.name) {
                     if (property === bo.SpecificationItem.PROPERTY_EDITABLE_NAME) {
                         return ibas.enums.toString(ibas.emYesNo, value);
+                    }
+                } else if (boName === bo.MaterialSpecification.name) {
+                    if (property === bo.MaterialSpecification.PROPERTY_BUSINESSPARTNERTYPE_NAME) {
+                        return ibas.enums.toString(businesspartner.bo.emBusinessPartnerType, value);
                     }
                 }
                 return super.convertData(boName, property, value);
@@ -217,10 +230,16 @@ namespace materials {
                 } else if (boName === bo.Specification.name) {
                     if (property === bo.Specification.PROPERTY_TARGETTYPE_NAME) {
                         return ibas.enums.valueOf(emSpecificationTarget, value);
+                    } else if (property === bo.Specification.PROPERTY_ASSIGNEDTYPE_NAME) {
+                        return ibas.enums.valueOf(emSpecificationAssigned, value);
                     }
                 } else if (boName === bo.SpecificationItem.name) {
                     if (property === bo.SpecificationItem.PROPERTY_EDITABLE_NAME) {
                         return ibas.enums.valueOf(ibas.emYesNo, value);
+                    }
+                } else if (boName === bo.MaterialSpecification.name) {
+                    if (property === bo.MaterialSpecification.PROPERTY_BUSINESSPARTNERTYPE_NAME) {
+                        return ibas.enums.valueOf(businesspartner.bo.emBusinessPartnerType, value);
                     }
                 }
                 return super.parsingData(boName, property, value);
@@ -256,9 +275,18 @@ namespace materials {
                 /** 可编辑 */
                 Editable: boolean;
                 /** 可选值 */
-                VaildValues: ibas.KeyText[];
+                VaildValues: ISpecificationTreeItemValue[];
                 /** 规格模板-项目集合 */
                 Items: ISpecificationTreeItem[];
+            }
+            /** 规格模板-项目值 */
+            export interface ISpecificationTreeItemValue extends IDataDeclaration {
+                /** 标记 */
+                Value: string;
+                /** 描述 */
+                Description: string;
+                /** 关联 */
+                Associated: string;
             }
         }
     }

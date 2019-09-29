@@ -8,7 +8,6 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
 import org.colorcoding.ibas.bobas.data.ArrayList;
-import org.colorcoding.ibas.bobas.data.KeyText;
 import org.colorcoding.ibas.bobas.data.List;
 import org.colorcoding.ibas.bobas.data.emYesNo;
 import org.colorcoding.ibas.bobas.serialization.Serializable;
@@ -32,7 +31,8 @@ public class SpecificationTreeItem extends Serializable {
 		item.setNote(specificationItem.getNote());
 		item.setEditable(specificationItem.getEditable() == emYesNo.YES ? true : false);
 		for (ISpecificationItemValue value : specificationItem.getSpecificationItemValues()) {
-			item.getVaildValues().add(new KeyText(value.getValue(), value.getDescription()));
+			item.getVaildValues().add(
+					new SpecificationTreeItemValue(value.getValue(), value.getDescription(), value.getAssociated()));
 		}
 		return item;
 	}
@@ -95,10 +95,10 @@ public class SpecificationTreeItem extends Serializable {
 	}
 
 	@XmlElementWrapper(name = "VaildValues")
-	@XmlElement(name = "VaildValue", type = KeyText.class)
-	private ArrayList<KeyText> vaildValues;
+	@XmlElement(name = "VaildValue", type = SpecificationTreeItemValue.class)
+	private ArrayList<SpecificationTreeItemValue> vaildValues;
 
-	public final List<KeyText> getVaildValues() {
+	public final List<SpecificationTreeItemValue> getVaildValues() {
 		if (this.vaildValues == null) {
 			this.vaildValues = new ArrayList<>();
 		}

@@ -574,6 +574,68 @@ public class MaterialSpecificationItem extends BusinessObject<MaterialSpecificat
 	}
 
 	/**
+	 * 属性名称-值
+	 */
+	private static final String PROPERTY_VALUE_NAME = "Value";
+
+	/**
+	 * 值 属性
+	 */
+	@DbField(name = "Value", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME, primaryKey = false)
+	public static final IPropertyInfo<String> PROPERTY_VALUE = registerProperty(PROPERTY_VALUE_NAME, String.class,
+			MY_CLASS);
+
+	/**
+	 * 获取-值
+	 * 
+	 * @return 值
+	 */
+	@XmlElement(name = PROPERTY_VALUE_NAME)
+	public final String getValue() {
+		return this.getProperty(PROPERTY_VALUE);
+	}
+
+	/**
+	 * 设置-值
+	 * 
+	 * @param value 值
+	 */
+	public final void setValue(String value) {
+		this.setProperty(PROPERTY_VALUE, value);
+	}
+
+	/**
+	 * 属性名称-关联的
+	 */
+	private static final String PROPERTY_ASSOCIATED_NAME = "Associated";
+
+	/**
+	 * 关联的 属性
+	 */
+	@DbField(name = "Associated", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME, primaryKey = false)
+	public static final IPropertyInfo<String> PROPERTY_ASSOCIATED = registerProperty(PROPERTY_ASSOCIATED_NAME,
+			String.class, MY_CLASS);
+
+	/**
+	 * 获取-关联的
+	 * 
+	 * @return 值
+	 */
+	@XmlElement(name = PROPERTY_ASSOCIATED_NAME)
+	public final String getAssociated() {
+		return this.getProperty(PROPERTY_ASSOCIATED);
+	}
+
+	/**
+	 * 设置-关联的
+	 * 
+	 * @param value 值
+	 */
+	public final void setAssociated(String value) {
+		this.setProperty(PROPERTY_ASSOCIATED, value);
+	}
+
+	/**
 	 * 属性名称-备注
 	 */
 	private static final String PROPERTY_NOTE_NAME = "Note";

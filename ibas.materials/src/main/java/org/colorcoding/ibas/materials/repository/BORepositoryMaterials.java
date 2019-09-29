@@ -21,6 +21,11 @@ import org.colorcoding.ibas.bobas.i18n.I18N;
 import org.colorcoding.ibas.bobas.message.Logger;
 import org.colorcoding.ibas.bobas.organization.OrganizationFactory;
 import org.colorcoding.ibas.bobas.repository.BORepositoryServiceApplication;
+import org.colorcoding.ibas.businesspartner.bo.customer.Customer;
+import org.colorcoding.ibas.businesspartner.bo.customer.ICustomer;
+import org.colorcoding.ibas.businesspartner.bo.supplier.ISupplier;
+import org.colorcoding.ibas.businesspartner.bo.supplier.Supplier;
+import org.colorcoding.ibas.businesspartner.repository.BORepositoryBusinessPartner;
 import org.colorcoding.ibas.materials.MyConfiguration;
 import org.colorcoding.ibas.materials.bo.goodsissue.GoodsIssue;
 import org.colorcoding.ibas.materials.bo.goodsissue.IGoodsIssue;
@@ -66,6 +71,7 @@ import org.colorcoding.ibas.materials.bo.specification.Specification;
 import org.colorcoding.ibas.materials.bo.specification.SpecificationTree;
 import org.colorcoding.ibas.materials.bo.warehouse.IWarehouse;
 import org.colorcoding.ibas.materials.bo.warehouse.Warehouse;
+import org.colorcoding.ibas.materials.data.emSpecificationAssigned;
 import org.colorcoding.ibas.materials.data.emSpecificationTarget;
 
 /**
@@ -1255,6 +1261,8 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 			if (criteria == null) {
 				throw new Exception(I18N.prop("msg_bobas_invaild_criteria"));
 			}
+			OperationResult<SpecificationTree> operationResult;
+			IOperationResult<ISpecification> opRsltSpec;
 			// 模板查询
 			ICriteria tCriteria = new Criteria();
 			for (ICondition item : criteria.getConditions()) {
@@ -1265,53 +1273,202 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 				condition.setAlias(Specification.PROPERTY_OBJECTKEY.getName());
 				condition.setValue(item.getValue());
 			}
+			if (!tCriteria.getConditions().isEmpty()) {
+				// 通过模板查询
+				opRsltSpec = this.fetchSpecification(tCriteria);
+				if (opRsltSpec.getError() != null) {
+					throw opRsltSpec.getError();
+				}
+				operationResult = new OperationResult<>();
+				for (ISpecification item : opRsltSpec.getResultObjects()) {
+					operationResult.addResultObjects(SpecificationTree.create(item));
+				}
+				return operationResult;
+			}
 			// 没有明确模板编号
-			if (tCriteria.getConditions().isEmpty()) {
-				for (ICondition item : criteria.getConditions()) {
-					if (item.getAlias().equalsIgnoreCase("Material")) {
-						// 物料条件
-						ICondition condition = tCriteria.getConditions().create();
+			ICondition condition = null;
+			// 物料查询
+			ICriteria mCriteria = new Criteria();
+			// 客户查询
+			ICriteria cCriteria = new Criteria();
+			// 供应商查询
+			ICriteria sCriteria = new Criteria();
+			// 当前日期
+			String date = DateTime.getToday().toString();
+			for (ICondition item : criteria.getConditions()) {
+				if (item.getAlias().equalsIgnoreCase("Material")) {
+					// 物料条件
+					condition = mCriteria.getConditions().create();
+					condition.setBracketOpen(1);
+					condition.setAlias(Specification.PROPERTY_TARGETTYPE.getName());
+					condition.setValue(emSpecificationTarget.MATERIAL);
+					condition = mCriteria.getConditions().create();
+					condition.setBracketClose(1);
+					condition.setAlias(Specification.PROPERTY_TARGET.getName());
+					condition.setValue(item.getValue());
+					// 物料的组
+					ICriteria iCriteria = new Criteria();
+					condition = iCriteria.getConditions().create();
+					condition.setAlias(Material.PROPERTY_CODE.getName());
+					condition.setValue(item.getValue());
+					BORepositoryMaterials boRepository = new BORepositoryMaterials();
+					boRepository.setUserToken(OrganizationFactory.SYSTEM_USER.getToken());
+					IMaterial material = boRepository.fetchMaterial(iCriteria).getResultObjects().firstOrDefault();
+					if (material != null && material.getGroup() != null && !material.getGroup().isEmpty()) {
+						condition = mCriteria.getConditions().create();
 						condition.setBracketOpen(1);
 						condition.setAlias(Specification.PROPERTY_TARGETTYPE.getName());
-						condition.setValue(emSpecificationTarget.MATERIAL);
-						condition = tCriteria.getConditions().create();
+						condition.setValue(emSpecificationTarget.MATERIAL_GROUP);
+						condition.setRelationship(ConditionRelationship.OR);
+						condition = mCriteria.getConditions().create();
 						condition.setBracketClose(1);
 						condition.setAlias(Specification.PROPERTY_TARGET.getName());
-						condition.setValue(item.getValue());
-						// 物料的组
-						ICriteria mCriteria = new Criteria();
-						ICondition mCondition = mCriteria.getConditions().create();
-						mCondition.setAlias(Material.PROPERTY_CODE.getName());
-						mCondition.setValue(item.getValue());
-						BORepositoryMaterials boRepository = new BORepositoryMaterials();
-						boRepository.setUserToken(OrganizationFactory.SYSTEM_USER.getToken());
-						IMaterial material = boRepository.fetchMaterial(mCriteria).getResultObjects().firstOrDefault();
-						if (material != null && material.getGroup() != null) {
-							condition = tCriteria.getConditions().create();
-							condition.setBracketOpen(1);
-							condition.setAlias(Specification.PROPERTY_TARGETTYPE.getName());
-							condition.setValue(emSpecificationTarget.MATERIAL_GROUP);
-							condition.setRelationship(ConditionRelationship.OR);
-							condition = tCriteria.getConditions().create();
-							condition.setBracketClose(1);
-							condition.setAlias(Specification.PROPERTY_TARGET.getName());
-							condition.setValue(material.getGroup());
-						}
-					} else if (item.getAlias().equalsIgnoreCase("MaterialGroup")) {
-						ICondition condition = tCriteria.getConditions().create();
-						condition.setAlias(Specification.PROPERTY_TARGETTYPE.getName());
-						condition.setValue(emSpecificationTarget.MATERIAL_GROUP);
-						condition = tCriteria.getConditions().create();
-						condition.setAlias(Specification.PROPERTY_TARGET.getName());
-						condition.setValue(item.getValue());
+						condition.setValue(material.getGroup());
 					}
+				} else if (item.getAlias().equalsIgnoreCase("Customer")) {
+					// 客户
+					condition = cCriteria.getConditions().create();
+					condition.setBracketOpen(1);
+					condition.setAlias(Specification.PROPERTY_ASSIGNEDTYPE.getName());
+					condition.setValue(emSpecificationAssigned.CUSTOMER);
+					condition = cCriteria.getConditions().create();
+					condition.setBracketClose(1);
+					condition.setAlias(Specification.PROPERTY_ASSIGNED.getName());
+					condition.setValue(item.getValue());
+					// 业务伙伴组
+					ICriteria iCriteria = new Criteria();
+					condition = iCriteria.getConditions().create();
+					condition.setAlias(Customer.PROPERTY_CODE.getName());
+					condition.setValue(item.getValue());
+					BORepositoryBusinessPartner boRepository = new BORepositoryBusinessPartner();
+					boRepository.setUserToken(OrganizationFactory.SYSTEM_USER.getToken());
+					ICustomer customer = boRepository.fetchCustomer(iCriteria).getResultObjects().firstOrDefault();
+					if (customer != null && customer.getGroup() != null && !customer.getGroup().isEmpty()) {
+						condition = cCriteria.getConditions().create();
+						condition.setBracketOpen(1);
+						condition.setAlias(Specification.PROPERTY_ASSIGNEDTYPE.getName());
+						condition.setValue(emSpecificationAssigned.CUSTOMER);
+						condition.setRelationship(ConditionRelationship.OR);
+						condition = cCriteria.getConditions().create();
+						condition.setBracketClose(1);
+						condition.setAlias(Specification.PROPERTY_ASSIGNED.getName());
+						condition.setValue(customer.getGroup());
+					}
+				} else if (item.getAlias().equalsIgnoreCase("Supplier")) {
+					// 供应商
+					condition = sCriteria.getConditions().create();
+					condition.setBracketOpen(1);
+					condition.setAlias(Specification.PROPERTY_ASSIGNEDTYPE.getName());
+					condition.setValue(emSpecificationAssigned.SUPPLIER);
+					condition = sCriteria.getConditions().create();
+					condition.setBracketClose(1);
+					condition.setAlias(Specification.PROPERTY_ASSIGNED.getName());
+					condition.setValue(item.getValue());
+					// 业务伙伴组
+					ICriteria iCriteria = new Criteria();
+					condition = iCriteria.getConditions().create();
+					condition.setAlias(Supplier.PROPERTY_CODE.getName());
+					condition.setValue(item.getValue());
+					BORepositoryBusinessPartner boRepository = new BORepositoryBusinessPartner();
+					boRepository.setUserToken(OrganizationFactory.SYSTEM_USER.getToken());
+					ISupplier supplier = boRepository.fetchSupplier(iCriteria).getResultObjects().firstOrDefault();
+					if (supplier != null && supplier.getGroup() != null && !supplier.getGroup().isEmpty()) {
+						condition = sCriteria.getConditions().create();
+						condition.setBracketOpen(1);
+						condition.setAlias(Specification.PROPERTY_ASSIGNEDTYPE.getName());
+						condition.setValue(emSpecificationAssigned.SUPPLIER);
+						condition.setRelationship(ConditionRelationship.OR);
+						condition = sCriteria.getConditions().create();
+						condition.setBracketClose(1);
+						condition.setAlias(Specification.PROPERTY_ASSIGNED.getName());
+						condition.setValue(supplier.getGroup());
+					}
+				} else if (item.getAlias().equalsIgnoreCase("Date")) {
+					date = item.getValue();
 				}
 			}
-			IOperationResult<ISpecification> opRsltSpec = this.fetchSpecification(tCriteria);
+			// 激活的
+			condition = tCriteria.getConditions().create();
+			condition.setAlias(Specification.PROPERTY_ACTIVATED.getName());
+			condition.setValue(emYesNo.YES);
+			// 有效日期
+			condition = tCriteria.getConditions().create();
+			condition.setBracketOpen(1);
+			condition.setAlias(Specification.PROPERTY_VALIDDATE.getName());
+			condition.setOperation(ConditionOperation.IS_NULL);
+			condition = tCriteria.getConditions().create();
+			condition.setRelationship(ConditionRelationship.OR);
+			condition.setBracketOpen(1);
+			condition.setAlias(Specification.PROPERTY_VALIDDATE.getName());
+			condition.setOperation(ConditionOperation.NOT_NULL);
+			condition = tCriteria.getConditions().create();
+			condition.setBracketClose(2);
+			condition.setAlias(Specification.PROPERTY_VALIDDATE.getName());
+			condition.setOperation(ConditionOperation.LESS_EQUAL);
+			condition.setValue(date);
+			// 失效日期
+			condition = tCriteria.getConditions().create();
+			condition.setBracketOpen(1);
+			condition.setAlias(Specification.PROPERTY_INVALIDDATE.getName());
+			condition.setOperation(ConditionOperation.IS_NULL);
+			condition = tCriteria.getConditions().create();
+			condition.setRelationship(ConditionRelationship.OR);
+			condition.setBracketOpen(1);
+			condition.setAlias(Specification.PROPERTY_INVALIDDATE.getName());
+			condition.setOperation(ConditionOperation.NOT_NULL);
+			condition = tCriteria.getConditions().create();
+			condition.setBracketClose(2);
+			condition.setAlias(Specification.PROPERTY_INVALIDDATE.getName());
+			condition.setOperation(ConditionOperation.GRATER_EQUAL);
+			condition.setValue(date);
+			ISort sort = tCriteria.getSorts().create();
+			sort.setAlias(Specification.PROPERTY_OBJECTKEY.getName());
+			sort.setSortType(SortType.DESCENDING);
+			if (mCriteria.getConditions().isEmpty()) {
+				throw new Exception(I18N.prop("msg_mm_not_specified_material"));
+			}
+			// 构建查询
+			tCriteria.setResultCount(criteria.getResultCount());
+			tCriteria.getConditions().addAll(mCriteria.getConditions());
+			criteria = tCriteria.clone();
+			// 客户查询
+			if (!cCriteria.getConditions().isEmpty()) {
+				criteria.getConditions().addAll(cCriteria.getConditions());
+			}
+			// 供应商查询
+			if (!sCriteria.getConditions().isEmpty()) {
+				criteria.getConditions().addAll(sCriteria.getConditions());
+			}
+			opRsltSpec = this.fetchSpecification(criteria);
 			if (opRsltSpec.getError() != null) {
 				throw opRsltSpec.getError();
 			}
-			OperationResult<SpecificationTree> operationResult = new OperationResult<>();
+			// 有结果
+			if (!opRsltSpec.getResultObjects().isEmpty()) {
+				operationResult = new OperationResult<>();
+				for (ISpecification item : opRsltSpec.getResultObjects()) {
+					operationResult.addResultObjects(SpecificationTree.create(item));
+				}
+				return operationResult;
+			}
+			// 不带合作伙伴的查询
+			criteria = tCriteria.clone();
+			condition = criteria.getConditions().create();
+			condition.setRelationship(ConditionRelationship.AND);
+			condition.setBracketOpen(1);
+			condition.setAlias(Specification.PROPERTY_ASSIGNED.getName());
+			condition.setOperation(ConditionOperation.IS_NULL);
+			condition = criteria.getConditions().create();
+			condition.setRelationship(ConditionRelationship.OR);
+			condition.setBracketClose(1);
+			condition.setAlias(Specification.PROPERTY_ASSIGNED.getName());
+			condition.setOperation(ConditionOperation.EQUAL);
+			condition.setValue("");
+			opRsltSpec = this.fetchSpecification(criteria);
+			if (opRsltSpec.getError() != null) {
+				throw opRsltSpec.getError();
+			}
+			operationResult = new OperationResult<>();
 			for (ISpecification item : opRsltSpec.getResultObjects()) {
 				operationResult.addResultObjects(SpecificationTree.create(item));
 			}

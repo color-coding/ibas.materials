@@ -23,5 +23,10 @@
             <artifactId>ibas.accounting</artifactId>
             <version>0.1.0</version>
         </dependency>
+        <dependency>
+            <groupId>org.colorcoding.apps</groupId>
+            <artifactId>ibas.businesspartner</artifactId>
+            <version>0.1.0</version>
+        </dependency>
     </dependencies>
 </project>

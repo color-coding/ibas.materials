@@ -33,6 +33,7 @@ namespace materials {
                             }),
                             new sap.extension.table.DataColumn("", {
                                 label: ibas.i18n.prop("bo_specification_name"),
+                                width: "16rem",
                                 template: new sap.extension.m.Text("", {
                                 }).bindProperty("bindingValue", {
                                     path: "name",
@@ -66,6 +67,43 @@ namespace materials {
                                 }).bindProperty("bindingValue", {
                                     path: "target",
                                     type: new sap.extension.data.Alphanumeric()
+                                }),
+                            }),
+                            new sap.extension.table.DataColumn("", {
+                                label: ibas.i18n.prop("bo_specification_assignedtype"),
+                                template: new sap.extension.m.Text("", {
+                                }).bindProperty("bindingValue", {
+                                    path: "assignedType",
+                                    type: new sap.extension.data.Enum({
+                                        enumType: bo.emSpecificationAssigned,
+                                        describe: true,
+                                    }),
+                                }),
+                            }),
+                            new sap.extension.table.DataColumn("", {
+                                label: ibas.i18n.prop("bo_specification_assigned"),
+                                width: "15rem",
+                                template: new component.BusinessPartnerOrGroupText("", {
+                                    typeProperty: "assignedType",
+                                }).bindProperty("bindingValue", {
+                                    path: "assigned",
+                                    type: new sap.extension.data.Alphanumeric()
+                                }),
+                            }),
+                            new sap.extension.table.DataColumn("", {
+                                label: ibas.i18n.prop("bo_specification_validdate"),
+                                template: new sap.extension.m.Text("", {
+                                }).bindProperty("bindingValue", {
+                                    path: "validDate",
+                                    type: new sap.extension.data.Date(),
+                                }),
+                            }),
+                            new sap.extension.table.DataColumn("", {
+                                label: ibas.i18n.prop("bo_specification_invaliddate"),
+                                template: new sap.extension.m.Text("", {
+                                }).bindProperty("bindingValue", {
+                                    path: "invalidDate",
+                                    type: new sap.extension.data.Date(),
                                 }),
                             }),
                         ],

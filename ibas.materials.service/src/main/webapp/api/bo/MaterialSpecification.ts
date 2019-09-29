@@ -47,6 +47,10 @@ namespace materials {
             name: string;
             /** 规格模板 */
             specification: number;
+            /** 业务伙伴类型 */
+            businessPartnerType: businesspartner.bo.emBusinessPartnerType;
+            /** 业务伙伴编码 */
+            businessPartnerCode: string;
             /** 项目代码 */
             project: string;
             /** 参考1 */
@@ -101,6 +105,10 @@ namespace materials {
             description: string;
             /** 内容 */
             content: string;
+            /** 值 */
+            value: string;
+            /** 关联的 */
+            associated: string;
             /** 备注 */
             note: string;
         }

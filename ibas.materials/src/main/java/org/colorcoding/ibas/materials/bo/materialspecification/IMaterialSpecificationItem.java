@@ -248,6 +248,34 @@ public interface IMaterialSpecificationItem extends IBOSimpleLine {
 	void setContent(String value);
 
 	/**
+	 * 获取-值
+	 * 
+	 * @return 值
+	 */
+	String getValue();
+
+	/**
+	 * 设置-值
+	 * 
+	 * @param value 值
+	 */
+	void setValue(String value);
+
+	/**
+	 * 获取-关联的
+	 * 
+	 * @return 值
+	 */
+	String getAssociated();
+
+	/**
+	 * 设置-关联的
+	 * 
+	 * @param value 值
+	 */
+	void setAssociated(String value);
+
+	/**
 	 * 获取-备注
 	 * 
 	 * @return 值

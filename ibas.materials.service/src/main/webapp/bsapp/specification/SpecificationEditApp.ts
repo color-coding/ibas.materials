@@ -36,6 +36,7 @@ namespace materials {
                 this.view.removeSpecificationItemValueEvent = this.removeSpecificationItemValue;
                 this.view.editSpecificationItemEvent = this.editSpecificationItem;
                 this.view.chooseSpecificationTargetEvent = this.chooseSpecificationTarget;
+                this.view.chooseSpecificationAssignedEvent = this.chooseSpecificationAssigned;
             }
             /** 视图显示后 */
             protected viewShowed(): void {
@@ -238,6 +239,73 @@ namespace materials {
                     });
                 }
             }
+            private chooseSpecificationAssigned(): void {
+                if (ibas.strings.isEmpty(this.editData.target)) {
+                    this.messages(ibas.emMessageType.WARNING, ibas.i18n.prop("shell_please_chooose_data", ibas.i18n.prop("bo_specification_target")));
+                    return;
+                }
+                let that: this = this;
+                let naming: (original: string, value: string) => string = function (original: string, value: string): string {
+                    if (ibas.strings.isEmpty(original) || ibas.strings.isEmpty(value)) {
+                        return original;
+                    }
+                    let ends: string = ibas.i18n.prop("bo_specification");
+                    if (ibas.strings.isWith(original, undefined, "-" + ends)) {
+                        let tmps: string[] = original.split("-");
+                        if (tmps.length > 1) {
+                            let builder: ibas.StringBuilder = new ibas.StringBuilder();
+                            for (let i: number = 0; i < (tmps.length - (tmps.length > 2 ? 2 : 1)); i++) {
+                                if (i > 0) {
+                                    builder.append("-");
+                                }
+                                builder.append(tmps[i]);
+                            }
+                            builder.append("-");
+                            builder.append(value);
+                            builder.append("-");
+                            builder.append(ends);
+                            return builder.toString();
+                        }
+                    }
+                    return original;
+                };
+                if (this.editData.assignedType === bo.emSpecificationAssigned.BUSINESS_PARTNER_GROUP) {
+                    ibas.servicesManager.runChooseService<businesspartner.bo.IBusinessPartnerGroup>({
+                        boCode: businesspartner.bo.BO_CODE_BUSINESSPARTNERGROUP,
+                        chooseType: ibas.emChooseType.SINGLE,
+                        criteria: [
+                            new ibas.Condition(businesspartner.bo.BusinessPartnerGroup.PROPERTY_ACTIVATED_NAME, ibas.emConditionOperation.EQUAL, ibas.emYesNo.YES)
+                        ],
+                        onCompleted(selecteds: ibas.IList<businesspartner.bo.IBusinessPartnerGroup>): void {
+                            let selected: businesspartner.bo.IBusinessPartnerGroup = selecteds.firstOrDefault();
+                            that.editData.assigned = selected.code;
+                            that.editData.name = naming(that.editData.name, selected.name);
+                        }
+                    });
+                } else if (this.editData.assignedType === bo.emSpecificationAssigned.CUSTOMER) {
+                    ibas.servicesManager.runChooseService<businesspartner.bo.ICustomer>({
+                        boCode: businesspartner.bo.BO_CODE_CUSTOMER,
+                        chooseType: ibas.emChooseType.SINGLE,
+                        criteria: businesspartner.app.conditions.customer.create(),
+                        onCompleted(selecteds: ibas.IList<businesspartner.bo.ICustomer>): void {
+                            let selected: businesspartner.bo.ICustomer = selecteds.firstOrDefault();
+                            that.editData.assigned = selected.code;
+                            that.editData.name = naming(that.editData.name, selected.name);
+                        }
+                    });
+                } else if (this.editData.assignedType === bo.emSpecificationAssigned.SUPPLIER) {
+                    ibas.servicesManager.runChooseService<businesspartner.bo.ISupplier>({
+                        boCode: businesspartner.bo.BO_CODE_SUPPLIER,
+                        chooseType: ibas.emChooseType.SINGLE,
+                        criteria: businesspartner.app.conditions.supplier.create(),
+                        onCompleted(selecteds: ibas.IList<businesspartner.bo.ISupplier>): void {
+                            let selected: businesspartner.bo.ISupplier = selecteds.firstOrDefault();
+                            that.editData.assigned = selected.code;
+                            that.editData.name = naming(that.editData.name, selected.name);
+                        }
+                    });
+                }
+            }
 
             private editSpecificationItemData: bo.SpecificationItem;
             /** 编辑属性值事件 */
@@ -306,6 +374,8 @@ namespace materials {
             removeSpecificationItemEvent: Function;
             /** 选择规格模板目标事件 */
             chooseSpecificationTargetEvent: Function;
+            /** 选择规格模板分配事件 */
+            chooseSpecificationAssignedEvent: Function;
             /** 显示数据 */
             showSpecificationItems(datas: bo.SpecificationItem[]): void;
             /** 编辑规格模事件 */

@@ -100,6 +100,21 @@ namespace materials {
              */
             MATERIAL_GROUP,
         }
+        /** 规格分配 */
+        export enum emSpecificationAssigned {
+            /**
+             * 业务伙伴组
+             */
+            BUSINESS_PARTNER_GROUP,
+            /**
+             * 客户
+             */
+            CUSTOMER,
+            /**
+             * 供应商
+             */
+            SUPPLIER,
+        }
     }
 
     export namespace app {
@@ -155,10 +170,18 @@ namespace materials {
         }
         /** 规格服务契约 */
         export interface ISpecificationTreeContract extends ibas.IServiceContract {
-            /** 目标（物料编码或物料规格） */
+            /** 目标：物料编码或物料规格 */
             target: string | bo.IMaterialSpecification;
+            /** 目标：客户 */
+            customer?: string;
+            /** 目标：供应商 */
+            supplier?: string;
+            /** 目标：日期 */
+            date?: Date;
             /** 名称 */
             name?: string;
+            /** 项目 */
+            project?: string;
             /** 备注 */
             remarks?: string;
         }
@@ -384,6 +407,19 @@ namespace materials {
                 export const CONDITION_ALIAS_ITEMNAME: string = "ItemName";
                 /** 查询条件字段-仓库（关系为或） */
                 export const CONDITION_ALIAS_WAREHOUSE: string = "WhsCode";
+            }
+            export namespace specificationtree {
+                /** 查询条件字段-规格模板 */
+                export const CONDITION_ALIAS_TEMPLATE: string = "Template";
+                /** 查询条件字段-物料 */
+                export const CONDITION_ALIAS_MATERIAL: string = "Material";
+                /** 查询条件字段-日期 */
+                export const CONDITION_ALIAS_DATE: string = "Date";
+                /** 查询条件字段-客户 */
+                export const CONDITION_ALIAS_CUSTOMER: string = "Customer";
+                /** 查询条件字段-供应商 */
+                export const CONDITION_ALIAS_SUPPLIER: string = "Supplier";
+
             }
         }
     }

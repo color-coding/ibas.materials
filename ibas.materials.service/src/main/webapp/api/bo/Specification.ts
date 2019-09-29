@@ -51,6 +51,14 @@ namespace materials {
             target: string;
             /** 是否激活 */
             activated: ibas.emYesNo;
+            /** 生效日期 */
+            validDate: Date;
+            /** 失效日期 */
+            invalidDate: Date;
+            /** 分配类型 */
+            assignedType: emSpecificationAssigned;
+            /** 分配目标 */
+            assigned: string;
             /** 备注 */
             remarks: string;
 
@@ -151,6 +159,8 @@ namespace materials {
             value: string;
             /** 描述 */
             description: string;
+            /** 关联的 */
+            associated: string;
 
         }
 

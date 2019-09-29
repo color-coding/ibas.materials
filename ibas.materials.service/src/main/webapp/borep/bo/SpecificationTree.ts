@@ -20,11 +20,45 @@ namespace materials {
             remarks: string;
             /** 规格模板-项目集合 */
             items: ibas.IList<ISpecificationTreeItem>;
+            /** 转换对象 */
+            convert(): MaterialSpecification {
+                let data: bo.MaterialSpecification = new bo.MaterialSpecification();
+                data.specification = this.template;
+                data.name = this.name;
+                let createItem: Function = function (item: bo.SpecificationTreeItem, parentSign: string = undefined): void {
+                    let dataItem: bo.MaterialSpecificationItem = data.materialSpecificationItems.create();
+                    dataItem.parentSign = parentSign;
+                    dataItem.sign = item.sign;
+                    dataItem.description = item.description;
+                    dataItem.content = item.content;
+                    dataItem.note = item.note;
+                    if (item.vaildValues instanceof Array) {
+                        for (let value of item.vaildValues) {
+                            if (ibas.strings.equals(dataItem.content, value.description)) {
+                                dataItem.value = value.value;
+                                dataItem.associated = value.associated;
+                                break;
+                            }
+                        }
+                    }
+                    if (item.items instanceof Array) {
+                        for (let sItem of item.items) {
+                            createItem(sItem, item.sign);
+                        }
+                    }
+                };
+                if (this.items instanceof Array) {
+                    for (let sItem of this.items) {
+                        createItem(sItem);
+                    }
+                }
+                return data;
+            }
         }
         /** 规格模板-项目 */
         export class SpecificationTreeItem implements ISpecificationTreeItem {
             constructor() {
-                this.vaildValues = new ibas.ArrayList<ibas.KeyText>();
+                this.vaildValues = new ibas.ArrayList<SpecificationTreeItemValue>();
                 this.items = new ibas.ArrayList<SpecificationTreeItem>();
             }
             /** 标记 */
@@ -38,9 +72,18 @@ namespace materials {
             /** 可编辑 */
             editable: boolean;
             /** 可选值 */
-            vaildValues: ibas.IList<ibas.KeyText>;
+            vaildValues: ibas.IList<ISpecificationTreeItemValue>;
             /** 规格模板-项目集合 */
             items: ibas.IList<ISpecificationTreeItem>;
+        }
+        /** 规格模板-项目值 */
+        export class SpecificationTreeItemValue implements ISpecificationTreeItemValue {
+            /** 值 */
+            value: string;
+            /** 描述 */
+            description: string;
+            /** 关联 */
+            associated: string;
         }
 
     }

@@ -53,12 +53,33 @@ namespace materials {
                                     repository: bo.BORepositoryMaterials,
                                     dataInfo: {
                                         type: bo.Specification,
-                                        key:  bo.Specification.PROPERTY_OBJECTKEY_NAME,
-                                        text:  bo.Specification.PROPERTY_NAME_NAME
+                                        key: bo.Specification.PROPERTY_OBJECTKEY_NAME,
+                                        text: bo.Specification.PROPERTY_NAME_NAME
                                     },
                                 }).bindProperty("bindingValue", {
                                     path: "specification",
                                     type: new sap.extension.data.Numeric()
+                                }),
+                            }),
+                            new sap.extension.table.DataColumn("", {
+                                label: ibas.i18n.prop("bo_materialspecification_businesspartnertype"),
+                                template: new sap.extension.m.Text("", {
+                                }).bindProperty("bindingValue", {
+                                    path: "businessPartnerType",
+                                    type: new sap.extension.data.Enum({
+                                        enumType: businesspartner.bo.emBusinessPartnerType,
+                                        describe: true,
+                                    })
+                                }),
+                            }),
+                            new sap.extension.table.DataColumn("", {
+                                label: ibas.i18n.prop("bo_materialspecification_businesspartnercode"),
+                                width: "16rem",
+                                template: new component.BusinessPartnerText("", {
+                                    typeProperty: "businessPartnerType",
+                                }).bindProperty("bindingValue", {
+                                    path: "businessPartnerCode",
+                                    type: new sap.extension.data.Alphanumeric()
                                 }),
                             }),
                             new sap.extension.table.DataColumn("", {

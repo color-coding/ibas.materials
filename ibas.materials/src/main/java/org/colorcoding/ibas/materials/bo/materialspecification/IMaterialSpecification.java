@@ -3,6 +3,7 @@ package org.colorcoding.ibas.materials.bo.materialspecification;
 import org.colorcoding.ibas.bobas.bo.IBOSimple;
 import org.colorcoding.ibas.bobas.data.DateTime;
 import org.colorcoding.ibas.bobas.data.emApprovalStatus;
+import org.colorcoding.ibas.businesspartner.data.emBusinessPartnerType;
 
 /**
  * 物料规格 接口
@@ -289,6 +290,34 @@ public interface IMaterialSpecification extends IBOSimple {
 	 * @param value 值
 	 */
 	void setProject(String value);
+
+	/**
+	 * 获取-业务伙伴类型
+	 * 
+	 * @return 值
+	 */
+	emBusinessPartnerType getBusinessPartnerType();
+
+	/**
+	 * 设置-业务伙伴类型
+	 * 
+	 * @param value 值
+	 */
+	void setBusinessPartnerType(emBusinessPartnerType value);
+
+	/**
+	 * 获取-业务伙伴编码
+	 * 
+	 * @return 值
+	 */
+	String getBusinessPartnerCode();
+
+	/**
+	 * 设置-业务伙伴编码
+	 * 
+	 * @param value 值
+	 */
+	void setBusinessPartnerCode(String value);
 
 	/**
 	 * 获取-参考1

@@ -64,8 +64,9 @@ namespace materials {
                                     path: "vaildValues",
                                     templateShareable: false,
                                     template: new sap.ui.core.ListItem("", {
-                                        key: "{key}",
-                                        text: "{text}",
+                                        key: "{value}",
+                                        text: "{description}",
+                                        additionalText: "{associated}",
                                     })
                                 }).bindProperty("value", {
                                     path: "content",

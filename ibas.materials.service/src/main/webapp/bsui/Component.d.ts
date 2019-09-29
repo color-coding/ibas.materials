@@ -17,10 +17,28 @@ declare namespace materials {
              * 物料或物料组-文本框
              */
             class MaterialOrMaterialGroupText extends sap.extension.m.ConversionText {
-                /** 获取-用户或角色类型属性 */
+                /** 获取-类型属性 */
                 getTypeProperty(): string;
-                /** 设置-用户或角色类型属性 */
+                /** 设置-类型属性 */
                 setTypeProperty(value: string): this;
+            }
+            /**
+             * 业务伙伴或组-文本框
+             */
+            class BusinessPartnerOrGroupText extends sap.extension.m.ConversionText {
+                /** 获取-类型属性 */
+                getTypeProperty(): string;
+                /** 设置-类型属性 */
+                setTypeProperty(value: string): this;
+            }
+            /**
+             * 业务伙伴描述（根据类型加载客户或供应商）
+             */
+            class BusinessPartnerText extends sap.extension.m.ConversionText {
+                /** 获取-业务伙伴类型属性 */
+                getTypeProperty(): string;
+                /** 设置-业务伙伴类型属性 */
+                setTypeProperty(value: string): BusinessPartnerText;
             }
             /**
              * 税收组-输入框

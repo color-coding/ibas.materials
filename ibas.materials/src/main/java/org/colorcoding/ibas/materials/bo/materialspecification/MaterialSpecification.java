@@ -17,6 +17,7 @@ import org.colorcoding.ibas.bobas.mapping.BusinessObjectUnit;
 import org.colorcoding.ibas.bobas.mapping.DbField;
 import org.colorcoding.ibas.bobas.mapping.DbFieldType;
 import org.colorcoding.ibas.bobas.ownership.IDataOwnership;
+import org.colorcoding.ibas.businesspartner.data.emBusinessPartnerType;
 import org.colorcoding.ibas.materials.MyConfiguration;
 
 /**
@@ -642,6 +643,68 @@ public class MaterialSpecification extends BusinessObject<MaterialSpecification>
 	 */
 	public final void setSpecification(Integer value) {
 		this.setProperty(PROPERTY_SPECIFICATION, value);
+	}
+
+	/**
+	 * 属性名称-业务伙伴类型
+	 */
+	private static final String PROPERTY_BUSINESSPARTNERTYPE_NAME = "BusinessPartnerType";
+
+	/**
+	 * 业务伙伴类型 属性
+	 */
+	@DbField(name = "CardType", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME, primaryKey = false)
+	public static final IPropertyInfo<emBusinessPartnerType> PROPERTY_BUSINESSPARTNERTYPE = registerProperty(
+			PROPERTY_BUSINESSPARTNERTYPE_NAME, emBusinessPartnerType.class, MY_CLASS);
+
+	/**
+	 * 获取-业务伙伴类型
+	 * 
+	 * @return 值
+	 */
+	@XmlElement(name = PROPERTY_BUSINESSPARTNERTYPE_NAME)
+	public final emBusinessPartnerType getBusinessPartnerType() {
+		return this.getProperty(PROPERTY_BUSINESSPARTNERTYPE);
+	}
+
+	/**
+	 * 设置-业务伙伴类型
+	 * 
+	 * @param value 值
+	 */
+	public final void setBusinessPartnerType(emBusinessPartnerType value) {
+		this.setProperty(PROPERTY_BUSINESSPARTNERTYPE, value);
+	}
+
+	/**
+	 * 属性名称-业务伙伴编码
+	 */
+	private static final String PROPERTY_BUSINESSPARTNERCODE_NAME = "BusinessPartnerCode";
+
+	/**
+	 * 业务伙伴编码 属性
+	 */
+	@DbField(name = "CardCode", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME, primaryKey = false)
+	public static final IPropertyInfo<String> PROPERTY_BUSINESSPARTNERCODE = registerProperty(
+			PROPERTY_BUSINESSPARTNERCODE_NAME, String.class, MY_CLASS);
+
+	/**
+	 * 获取-业务伙伴编码
+	 * 
+	 * @return 值
+	 */
+	@XmlElement(name = PROPERTY_BUSINESSPARTNERCODE_NAME)
+	public final String getBusinessPartnerCode() {
+		return this.getProperty(PROPERTY_BUSINESSPARTNERCODE);
+	}
+
+	/**
+	 * 设置-业务伙伴编码
+	 * 
+	 * @param value 值
+	 */
+	public final void setBusinessPartnerCode(String value) {
+		this.setProperty(PROPERTY_BUSINESSPARTNERCODE, value);
 	}
 
 	/**

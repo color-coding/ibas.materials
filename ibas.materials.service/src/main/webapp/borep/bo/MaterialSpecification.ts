@@ -224,6 +224,28 @@ namespace materials {
                 this.setProperty(MaterialSpecification.PROPERTY_SPECIFICATION_NAME, value);
             }
 
+            /** 映射的属性名称-业务伙伴类型 */
+            static PROPERTY_BUSINESSPARTNERTYPE_NAME: string = "BusinessPartnerType";
+            /** 获取-业务伙伴类型 */
+            get businessPartnerType(): businesspartner.bo.emBusinessPartnerType {
+                return this.getProperty<businesspartner.bo.emBusinessPartnerType>(MaterialSpecification.PROPERTY_BUSINESSPARTNERTYPE_NAME);
+            }
+            /** 设置-业务伙伴类型 */
+            set businessPartnerType(value: businesspartner.bo.emBusinessPartnerType) {
+                this.setProperty(MaterialSpecification.PROPERTY_BUSINESSPARTNERTYPE_NAME, value);
+            }
+
+            /** 映射的属性名称-业务伙伴编码 */
+            static PROPERTY_BUSINESSPARTNERCODE_NAME: string = "BusinessPartnerCode";
+            /** 获取-业务伙伴编码 */
+            get businessPartnerCode(): string {
+                return this.getProperty<string>(MaterialSpecification.PROPERTY_BUSINESSPARTNERCODE_NAME);
+            }
+            /** 设置-业务伙伴编码 */
+            set businessPartnerCode(value: string) {
+                this.setProperty(MaterialSpecification.PROPERTY_BUSINESSPARTNERCODE_NAME, value);
+            }
+
             /** 映射的属性名称-项目代码 */
             static PROPERTY_PROJECT_NAME: string = "Project";
             /** 获取-项目代码 */
@@ -284,6 +306,7 @@ namespace materials {
             protected init(): void {
                 this.materialSpecificationItems = new MaterialSpecificationItems(this);
                 this.objectCode = ibas.config.applyVariables(MaterialSpecification.BUSINESS_OBJECT_CODE);
+                this.businessPartnerType = businesspartner.bo.emBusinessPartnerType.CUSTOMER;
             }
         }
 
@@ -488,6 +511,28 @@ namespace materials {
             /** 设置-内容 */
             set content(value: string) {
                 this.setProperty(MaterialSpecificationItem.PROPERTY_CONTENT_NAME, value);
+            }
+
+            /** 映射的属性名称-值 */
+            static PROPERTY_VALUE_NAME: string = "Value";
+            /** 获取-值 */
+            get value(): string {
+                return this.getProperty<string>(MaterialSpecificationItem.PROPERTY_VALUE_NAME);
+            }
+            /** 设置-值 */
+            set value(value: string) {
+                this.setProperty(MaterialSpecificationItem.PROPERTY_VALUE_NAME, value);
+            }
+
+            /** 映射的属性名称-关联的 */
+            static PROPERTY_ASSOCIATED_NAME: string = "Associated";
+            /** 获取-关联的 */
+            get associated(): string {
+                return this.getProperty<string>(MaterialSpecificationItem.PROPERTY_ASSOCIATED_NAME);
+            }
+            /** 设置-关联的 */
+            set associated(value: string) {
+                this.setProperty(MaterialSpecificationItem.PROPERTY_ASSOCIATED_NAME, value);
             }
 
             /** 映射的属性名称-备注 */

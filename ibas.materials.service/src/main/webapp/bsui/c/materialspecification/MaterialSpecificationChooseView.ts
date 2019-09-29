@@ -55,6 +55,27 @@ namespace materials {
                                 }),
                             }),
                             new sap.extension.table.DataColumn("", {
+                                label: ibas.i18n.prop("bo_materialspecification_businesspartnertype"),
+                                template: new sap.extension.m.Text("", {
+                                }).bindProperty("bindingValue", {
+                                    path: "businessPartnerType",
+                                    type: new sap.extension.data.Enum({
+                                        enumType: businesspartner.bo.emBusinessPartnerType,
+                                        describe: true,
+                                    })
+                                }),
+                            }),
+                            new sap.extension.table.DataColumn("", {
+                                label: ibas.i18n.prop("bo_materialspecification_businesspartnercode"),
+                                width: "16rem",
+                                template: new component.BusinessPartnerText("", {
+                                    typeProperty: "businessPartnerType",
+                                }).bindProperty("bindingValue", {
+                                    path: "businessPartnerCode",
+                                    type: new sap.extension.data.Alphanumeric()
+                                }),
+                            }),
+                            new sap.extension.table.DataColumn("", {
                                 label: ibas.i18n.prop("bo_materialspecification_reference1"),
                                 template: new sap.extension.m.Text("", {
                                 }).bindProperty("bindingValue", {

@@ -20,6 +20,8 @@ namespace materials {
                 removeSpecificationItemEvent: Function;
                 /** 选择规格模板目标事件 */
                 chooseSpecificationTargetEvent: Function;
+                /** 选择规格模板分配事件 */
+                chooseSpecificationAssignedEvent: Function;
                 /** 添加规格模板-项目值事件 */
                 addSpecificationItemValueEvent: Function;
                 /** 删除规格模板-项目值事件 */
@@ -47,7 +49,7 @@ namespace materials {
                                         dataInfo: {
                                             type: materials.bo.Material,
                                             key: materials.bo.Material.PROPERTY_CODE_NAME,
-                                            text:  materials.bo.Material.PROPERTY_NAME_NAME
+                                            text: materials.bo.Material.PROPERTY_NAME_NAME
                                         },
                                         valueHelpRequest: function (): void {
                                             that.fireViewEvents(that.chooseSpecificationTargetEvent);
@@ -57,8 +59,6 @@ namespace materials {
                                         formatter(data: any): any {
                                             if (data === bo.emSpecificationTarget.MATERIAL) {
                                                 return true;
-                                            } else if (data === bo.emSpecificationTarget.MATERIAL_GROUP) {
-                                                return false;
                                             }
                                             return false;
                                         }
@@ -78,7 +78,7 @@ namespace materials {
                                         dataInfo: {
                                             type: materials.bo.MaterialGroup,
                                             key: materials.bo.MaterialGroup.PROPERTY_CODE_NAME,
-                                            text:  materials.bo.MaterialGroup.PROPERTY_NAME_NAME
+                                            text: materials.bo.MaterialGroup.PROPERTY_NAME_NAME
                                         },
                                         valueHelpRequest: function (): void {
                                             that.fireViewEvents(that.chooseSpecificationTargetEvent);
@@ -86,9 +86,7 @@ namespace materials {
                                     }).bindProperty("visible", {
                                         path: "targetType",
                                         formatter(data: any): any {
-                                            if (data === bo.emSpecificationTarget.MATERIAL) {
-                                                return false;
-                                            } else if (data === bo.emSpecificationTarget.MATERIAL_GROUP) {
+                                            if (data === bo.emSpecificationTarget.MATERIAL_GROUP) {
                                                 return true;
                                             }
                                             return false;
@@ -124,7 +122,119 @@ namespace materials {
                                 path: "activated",
                                 type: new sap.extension.data.YesNo()
                             }),
-                            new sap.ui.core.Title("", {}),
+                            new sap.ui.core.Title("", { text: ibas.i18n.prop("materials_title_others") }),
+                            new sap.m.Label("", { text: ibas.i18n.prop("bo_specification_assigned") }),
+                            new sap.m.FlexBox("", {
+                                items: [
+                                    new sap.extension.m.RepositoryInput("", {
+                                        showValueHelp: true,
+                                        width: "100%",
+                                        layoutData: new sap.m.FlexItemData("", {
+                                            growFactor: 1,
+                                        }),
+                                        repository: businesspartner.bo.BORepositoryBusinessPartner,
+                                        dataInfo: {
+                                            type: businesspartner.bo.BusinessPartnerGroup,
+                                            key: businesspartner.bo.BusinessPartnerGroup.PROPERTY_CODE_NAME,
+                                            text: businesspartner.bo.BusinessPartnerGroup.PROPERTY_NAME_NAME
+                                        },
+                                        valueHelpRequest: function (): void {
+                                            that.fireViewEvents(that.chooseSpecificationAssignedEvent);
+                                        }
+                                    }).bindProperty("visible", {
+                                        path: "assignedType",
+                                        formatter(data: any): any {
+                                            if (data === bo.emSpecificationAssigned.BUSINESS_PARTNER_GROUP) {
+                                                return true;
+                                            }
+                                            return false;
+                                        }
+                                    }).bindProperty("bindingValue", {
+                                        path: "assigned",
+                                        type: new sap.extension.data.Alphanumeric({
+                                            maxLength: 20
+                                        })
+                                    }),
+                                    new sap.extension.m.RepositoryInput("", {
+                                        showValueHelp: true,
+                                        width: "100%",
+                                        layoutData: new sap.m.FlexItemData("", {
+                                            growFactor: 1,
+                                        }),
+                                        repository: businesspartner.bo.BORepositoryBusinessPartner,
+                                        dataInfo: {
+                                            type: businesspartner.bo.Customer,
+                                            key: businesspartner.bo.Customer.PROPERTY_CODE_NAME,
+                                            text: businesspartner.bo.Customer.PROPERTY_NAME_NAME
+                                        },
+                                        valueHelpRequest: function (): void {
+                                            that.fireViewEvents(that.chooseSpecificationAssignedEvent);
+                                        }
+                                    }).bindProperty("visible", {
+                                        path: "assignedType",
+                                        formatter(data: any): any {
+                                            if (data === bo.emSpecificationAssigned.CUSTOMER) {
+                                                return true;
+                                            }
+                                            return false;
+                                        }
+                                    }).bindProperty("bindingValue", {
+                                        path: "assigned",
+                                        type: new sap.extension.data.Alphanumeric({
+                                            maxLength: 20
+                                        })
+                                    }),
+                                    new sap.extension.m.RepositoryInput("", {
+                                        showValueHelp: true,
+                                        width: "100%",
+                                        layoutData: new sap.m.FlexItemData("", {
+                                            growFactor: 1,
+                                        }),
+                                        repository: businesspartner.bo.BORepositoryBusinessPartner,
+                                        dataInfo: {
+                                            type: businesspartner.bo.Supplier,
+                                            key: businesspartner.bo.Supplier.PROPERTY_CODE_NAME,
+                                            text: businesspartner.bo.Supplier.PROPERTY_NAME_NAME
+                                        },
+                                        valueHelpRequest: function (): void {
+                                            that.fireViewEvents(that.chooseSpecificationAssignedEvent);
+                                        }
+                                    }).bindProperty("visible", {
+                                        path: "assignedType",
+                                        formatter(data: any): any {
+                                            if (data === bo.emSpecificationAssigned.SUPPLIER) {
+                                                return true;
+                                            }
+                                            return false;
+                                        }
+                                    }).bindProperty("bindingValue", {
+                                        path: "assigned",
+                                        type: new sap.extension.data.Alphanumeric({
+                                            maxLength: 20
+                                        })
+                                    }),
+                                ]
+                            }),
+                            new sap.extension.m.EnumSelect("", {
+                                enumType: bo.emSpecificationAssigned
+                            }).bindProperty("bindingValue", {
+                                path: "assignedType",
+                                type: new sap.extension.data.Enum({
+                                    enumType: bo.emSpecificationAssigned
+                                })
+                            }),
+                            new sap.m.Label("", { text: ibas.i18n.prop("bo_specification_validdate") }),
+                            new sap.extension.m.DatePicker("", {
+                            }).bindProperty("bindingValue", {
+                                path: "validDate",
+                                type: new sap.extension.data.Date()
+                            }),
+                            new sap.m.Label("", { text: ibas.i18n.prop("bo_specification_invaliddate") }),
+                            new sap.extension.m.DatePicker("", {
+                            }).bindProperty("bindingValue", {
+                                path: "invalidDate",
+                                type: new sap.extension.data.Date()
+                            }),
                         ]
                     });
                     this.tableSpecificationItem = new sap.extension.table.DataTable("", {
@@ -294,6 +404,25 @@ namespace materials {
                                         maxLength: 100
                                     })
                                 })
+                            }),
+                            new sap.extension.table.DataColumn("", {
+                                label: ibas.i18n.prop("bo_specificationitemvalue_associated"),
+                                width: "20rem",
+                                template: new sap.extension.m.SelectionInput("", {
+                                    showValueHelp: true,
+                                    repository: bo.BORepositoryMaterials,
+                                    dataInfo: {
+                                        type: bo.Material,
+                                        key: bo.Material.PROPERTY_CODE_NAME,
+                                        text: bo.Material.PROPERTY_NAME_NAME
+                                    },
+                                    criteria: app.conditions.material.create()
+                                }).bindProperty("bindingValue", {
+                                    path: "associated",
+                                    type: new sap.extension.data.Alphanumeric({
+                                        maxLength: 20
+                                    })
+                                }),
                             }),
                         ]
                     });

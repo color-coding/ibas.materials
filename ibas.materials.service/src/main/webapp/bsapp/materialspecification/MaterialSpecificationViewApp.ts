@@ -35,7 +35,7 @@ namespace materials {
                 super.viewShowed();
                 let criteria: ibas.Criteria = new ibas.Criteria();
                 let condition: ibas.ICondition = criteria.conditions.create();
-                condition.alias = "template";
+                condition.alias = conditions.specificationtree.CONDITION_ALIAS_TEMPLATE;
                 condition.value = this.viewData.specification.toString();
                 let that: this = this;
                 let boRepository: bo.BORepositoryMaterials = new bo.BORepositoryMaterials();
@@ -207,11 +207,15 @@ namespace materials {
             }
             /** 项目集合 */
             items: ibas.IList<bo.ISpecificationTreeItem>;
+            /** 转换 */
+            convert(): bo.MaterialSpecification {
+                return this.data;
+            }
         }
         export class MaterialSpecificationTreeItem implements bo.ISpecificationTreeItem {
             constructor(data: bo.MaterialSpecificationItem) {
                 this.data = data;
-                this.vaildValues = new ibas.ArrayList<ibas.KeyText>();
+                this.vaildValues = new ibas.ArrayList<bo.ISpecificationTreeItemValue>();
                 this.items = new ibas.ArrayList<MaterialSpecificationTreeItem>();
             }
             data: bo.MaterialSpecificationItem;
@@ -238,6 +242,13 @@ namespace materials {
             set content(value: string) {
                 this.data.content = value;
             }
+            /** 关联 */
+            get associated(): string {
+                return this.data.associated;
+            }
+            set associated(value: string) {
+                this.data.associated = value;
+            }
             /** 备注 */
             get note(): string {
                 return this.data.note;
@@ -246,7 +257,7 @@ namespace materials {
                 this.data.note = value;
             }
             /** 可选值 */
-            vaildValues: ibas.IList<ibas.KeyText>;
+            vaildValues: ibas.IList<bo.ISpecificationTreeItemValue>;
             /** 项目集合 */
             items: ibas.IList<bo.ISpecificationTreeItem>;
         }

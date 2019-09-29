@@ -18,6 +18,8 @@ namespace materials {
                 addMaterialSpecificationItemEvent: Function;
                 /** 删除物料规格-项目事件 */
                 removeMaterialSpecificationItemEvent: Function;
+                /** 选择业务伙伴事件 */
+                chooseBusinessPartnerEvent: Function;
 
                 /** 绘制视图 */
                 draw(): any {
@@ -47,24 +49,6 @@ namespace materials {
                                 path: "specification",
                                 type: new sap.extension.data.Numeric()
                             }),
-                            new sap.m.Label("", { text: ibas.i18n.prop("bo_materialspecification_project") }),
-                            new sap.extension.m.SelectionInput("", {
-                                showValueHelp: true,
-                                repository: accounting.bo.BORepositoryAccounting,
-                                dataInfo: {
-                                    type: accounting.bo.Project,
-                                    key:accounting.bo.Project.PROPERTY_CODE_NAME,
-                                    text:accounting.bo.Project.PROPERTY_NAME_NAME
-                                },
-                                criteria: [
-                                    new ibas.Condition(accounting.bo.Project.PROPERTY_ACTIVATED_NAME, ibas.emConditionOperation.EQUAL, ibas.emYesNo.YES.toString())
-                                ]
-                            }).bindProperty("bindingValue", {
-                                path: "project",
-                                type: new sap.extension.data.Alphanumeric({
-                                    maxLength: 8
-                                })
-                            }),
                             new sap.m.Label("", { text: ibas.i18n.prop("bo_materialspecification_reference1") }),
                             new sap.extension.m.Input("", {
                             }).bindProperty("bindingValue", {
@@ -81,7 +65,94 @@ namespace materials {
                                     maxLength: 200
                                 })
                             }),
-                            new sap.ui.core.Title("", {}),
+                            new sap.ui.core.Title("", { text: ibas.i18n.prop("materials_title_others") }),
+                            new sap.m.Label("", { text: ibas.i18n.prop("bo_materialspecification_businesspartnercode") }),
+                            new sap.m.FlexBox("", {
+                                items: [
+                                    // 客户
+                                    new sap.extension.m.RepositoryInput("", {
+                                        showValueHelp: true,
+                                        width: "100%",
+                                        layoutData: new sap.m.FlexItemData("", {
+                                            growFactor: 1,
+                                        }),
+                                        repository: businesspartner.bo.BORepositoryBusinessPartner,
+                                        dataInfo: {
+                                            type: businesspartner.bo.Customer,
+                                            key: businesspartner.bo.Customer.PROPERTY_CODE_NAME,
+                                            text: businesspartner.bo.Customer.PROPERTY_NAME_NAME
+                                        },
+                                        valueHelpRequest: function (): void {
+                                            that.fireViewEvents(that.chooseBusinessPartnerEvent);
+                                        }
+                                    }).bindProperty("visible", {
+                                        path: "businessPartnerType",
+                                        formatter(data: any): any {
+                                            if (data === businesspartner.bo.emBusinessPartnerType.CUSTOMER) {
+                                                return true;
+                                            }
+                                            return false;
+                                        }
+                                    }).bindProperty("bindingValue", {
+                                        path: "businessPartnerCode",
+                                        type: new sap.extension.data.Alphanumeric()
+                                    }),
+                                    // 供应商
+                                    new sap.extension.m.RepositoryInput("", {
+                                        showValueHelp: true,
+                                        width: "100%",
+                                        layoutData: new sap.m.FlexItemData("", {
+                                            growFactor: 1,
+                                        }),
+                                        repository: businesspartner.bo.BORepositoryBusinessPartner,
+                                        dataInfo: {
+                                            type: businesspartner.bo.Supplier,
+                                            key: businesspartner.bo.Supplier.PROPERTY_CODE_NAME,
+                                            text: businesspartner.bo.Supplier.PROPERTY_NAME_NAME
+                                        },
+                                        valueHelpRequest: function (): void {
+                                            that.fireViewEvents(that.chooseBusinessPartnerEvent);
+                                        }
+                                    }).bindProperty("visible", {
+                                        path: "businessPartnerType",
+                                        formatter(data: any): any {
+                                            if (data === businesspartner.bo.emBusinessPartnerType.SUPPLIER) {
+                                                return true;
+                                            }
+                                            return false;
+                                        }
+                                    }).bindProperty("bindingValue", {
+                                        path: "businessPartnerCode",
+                                        type: new sap.extension.data.Alphanumeric()
+                                    }),
+                                ]
+                            }),
+                            new sap.extension.m.EnumSelect("", {
+                                enumType: businesspartner.bo.emBusinessPartnerType
+                            }).bindProperty("bindingValue", {
+                                path: "businessPartnerType",
+                                type: new sap.extension.data.Enum({
+                                    enumType: businesspartner.bo.emBusinessPartnerType
+                                })
+                            }),
+                            new sap.m.Label("", { text: ibas.i18n.prop("bo_materialspecification_project") }),
+                            new sap.extension.m.SelectionInput("", {
+                                showValueHelp: true,
+                                repository: accounting.bo.BORepositoryAccounting,
+                                dataInfo: {
+                                    type: accounting.bo.Project,
+                                    key: accounting.bo.Project.PROPERTY_CODE_NAME,
+                                    text: accounting.bo.Project.PROPERTY_NAME_NAME
+                                },
+                                criteria: [
+                                    new ibas.Condition(accounting.bo.Project.PROPERTY_ACTIVATED_NAME, ibas.emConditionOperation.EQUAL, ibas.emYesNo.YES.toString())
+                                ]
+                            }).bindProperty("bindingValue", {
+                                path: "project",
+                                type: new sap.extension.data.Alphanumeric({
+                                    maxLength: 8
+                                })
+                            }),
                         ]
                     });
                     let formMaterialSpecificationItem: sap.ui.layout.form.SimpleForm = new sap.ui.layout.form.SimpleForm("", {
@@ -167,6 +238,37 @@ namespace materials {
                                             })
                                         }),
                                     }),
+                                    /*
+                                    new sap.extension.table.DataColumn("", {
+                                        label: ibas.i18n.prop("bo_materialspecificationitem_value"),
+                                        template: new sap.extension.m.Input("", {
+                                        }).bindProperty("bindingValue", {
+                                            path: "value",
+                                            type: new sap.extension.data.Alphanumeric({
+                                                maxLength: 30
+                                            })
+                                        }),
+                                    }),
+                                    new sap.extension.table.DataColumn("", {
+                                        label: ibas.i18n.prop("bo_materialspecificationitem_associated"),
+                                        width: "20rem",
+                                        template: new sap.extension.m.SelectionInput("", {
+                                            showValueHelp: true,
+                                            repository: bo.BORepositoryMaterials,
+                                            dataInfo: {
+                                                type: bo.Material,
+                                                key: bo.Material.PROPERTY_CODE_NAME,
+                                                text: bo.Material.PROPERTY_NAME_NAME
+                                            },
+                                            criteria: app.conditions.material.create()
+                                        }).bindProperty("bindingValue", {
+                                            path: "associated",
+                                            type: new sap.extension.data.Alphanumeric({
+                                                maxLength: 20
+                                            })
+                                        }),
+                                    }),
+                                    */
                                     new sap.extension.table.DataColumn("", {
                                         label: ibas.i18n.prop("bo_materialspecificationitem_note"),
                                         width: "16rem",

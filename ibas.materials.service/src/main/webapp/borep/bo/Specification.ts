@@ -245,6 +245,49 @@ namespace materials {
             set activated(value: ibas.emYesNo) {
                 this.setProperty(Specification.PROPERTY_ACTIVATED_NAME, value);
             }
+            /** 映射的属性名称-生效日期 */
+            static PROPERTY_VALIDDATE_NAME: string = "ValidDate";
+            /** 获取-生效日期 */
+            get validDate(): Date {
+                return this.getProperty<Date>(Specification.PROPERTY_VALIDDATE_NAME);
+            }
+            /** 设置-生效日期 */
+            set validDate(value: Date) {
+                this.setProperty(Specification.PROPERTY_VALIDDATE_NAME, value);
+            }
+
+            /** 映射的属性名称-失效日期 */
+            static PROPERTY_INVALIDDATE_NAME: string = "InvalidDate";
+            /** 获取-失效日期 */
+            get invalidDate(): Date {
+                return this.getProperty<Date>(Specification.PROPERTY_INVALIDDATE_NAME);
+            }
+            /** 设置-失效日期 */
+            set invalidDate(value: Date) {
+                this.setProperty(Specification.PROPERTY_INVALIDDATE_NAME, value);
+            }
+
+            /** 映射的属性名称-分配类型 */
+            static PROPERTY_ASSIGNEDTYPE_NAME: string = "AssignedType";
+            /** 获取-分配类型 */
+            get assignedType(): emSpecificationAssigned {
+                return this.getProperty<emSpecificationAssigned>(Specification.PROPERTY_ASSIGNEDTYPE_NAME);
+            }
+            /** 设置-分配类型 */
+            set assignedType(value: emSpecificationAssigned) {
+                this.setProperty(Specification.PROPERTY_ASSIGNEDTYPE_NAME, value);
+            }
+
+            /** 映射的属性名称-分配目标 */
+            static PROPERTY_ASSIGNED_NAME: string = "Assigned";
+            /** 获取-分配目标 */
+            get assigned(): string {
+                return this.getProperty<string>(Specification.PROPERTY_ASSIGNED_NAME);
+            }
+            /** 设置-分配目标 */
+            set assigned(value: string) {
+                this.setProperty(Specification.PROPERTY_ASSIGNED_NAME, value);
+            }
 
             /** 映射的属性名称-备注 */
             static PROPERTY_REMARKS_NAME: string = "Remarks";
@@ -274,6 +317,7 @@ namespace materials {
                 this.specificationItems = new SpecificationItems(this);
                 this.objectCode = ibas.config.applyVariables(Specification.BUSINESS_OBJECT_CODE);
                 this.targetType = emSpecificationTarget.MATERIAL;
+                this.assignedType = emSpecificationAssigned.BUSINESS_PARTNER_GROUP;
                 this.activated = ibas.emYesNo.YES;
             }
         }
@@ -712,6 +756,17 @@ namespace materials {
             /** 设置-描述 */
             set description(value: string) {
                 this.setProperty(SpecificationItemValue.PROPERTY_DESCRIPTION_NAME, value);
+            }
+
+            /** 映射的属性名称-关联的 */
+            static PROPERTY_ASSOCIATED_NAME: string = "Associated";
+            /** 获取-关联的 */
+            get associated(): string {
+                return this.getProperty<string>(SpecificationItemValue.PROPERTY_ASSOCIATED_NAME);
+            }
+            /** 设置-关联的 */
+            set associated(value: string) {
+                this.setProperty(SpecificationItemValue.PROPERTY_ASSOCIATED_NAME, value);
             }
 
             /** 初始化数据 */
