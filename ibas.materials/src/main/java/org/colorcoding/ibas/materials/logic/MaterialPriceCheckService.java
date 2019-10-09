@@ -131,7 +131,7 @@ public class MaterialPriceCheckService
 							priceItem.getItemName() == null ? priceItem.getItemCode() : priceItem.getItemName()));
 				}
 				if (priceItem.getPrice() != null && priceItem.getPrice().compareTo(Decimal.ZERO) >= 0) {
-					if (priceItem.getPrice().compareTo(item.getPrice()) > 0) {
+					if (item.getPrice().compareTo(priceItem.getPrice()) > 0) {
 						throw new BusinessLogicException(I18N.prop("msg_mm_material_price_too_low",
 								priceItem.getItemName() == null ? priceItem.getItemCode() : priceItem.getItemName()));
 					}
