@@ -887,7 +887,8 @@ namespace materials {
                 return [
                     // 计算总计 = 数量 * 价格
                     new ibas.BusinessRuleMultiplication(
-                        InventoryTransferLine.PROPERTY_LINETOTAL_NAME, InventoryTransferLine.PROPERTY_QUANTITY_NAME, InventoryTransferLine.PROPERTY_PRICE_NAME),
+                        InventoryTransferLine.PROPERTY_LINETOTAL_NAME, InventoryTransferLine.PROPERTY_QUANTITY_NAME, InventoryTransferLine.PROPERTY_PRICE_NAME
+                        , ibas.config.get(ibas.CONFIG_ITEM_DECIMAL_PLACES_SUM)),
                 ];
             }
         }
