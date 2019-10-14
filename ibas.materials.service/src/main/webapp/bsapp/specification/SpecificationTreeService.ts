@@ -33,6 +33,7 @@ namespace materials {
             }
             private specification: bo.SpecificationTree;
             private extraData: {
+                material: string;
                 customer: string;
                 supplier: string;
                 name: string,
@@ -46,6 +47,7 @@ namespace materials {
                     throw new Error(ibas.i18n.prop("sys_invalid_parameter", "target"));
                 }
                 this.extraData = {
+                    material: typeof contract.target === "string" ? contract.target : undefined,
                     customer: contract.customer,
                     supplier: contract.supplier,
                     name: contract.name,
@@ -114,6 +116,9 @@ namespace materials {
                 this.busy(true);
                 let data: bo.IMaterialSpecification = this.specification.convert();
                 if (this.extraData) {
+                    if (!ibas.strings.isEmpty(this.extraData.material)) {
+                        data.itemCode = this.extraData.material;
+                    }
                     if (!ibas.strings.isEmpty(this.extraData.name)) {
                         data.name = this.extraData.name;
                     }

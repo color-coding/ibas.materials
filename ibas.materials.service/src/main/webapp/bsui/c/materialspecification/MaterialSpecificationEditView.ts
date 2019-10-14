@@ -36,18 +36,18 @@ namespace materials {
                                     maxLength: 100
                                 })
                             }),
-                            new sap.m.Label("", { text: ibas.i18n.prop("bo_materialspecification_specification") }),
+                            new sap.m.Label("", { text: ibas.i18n.prop("bo_materialspecification_itemcode") }),
                             new sap.extension.m.RepositoryInput("", {
                                 editable: false,
                                 repository: bo.BORepositoryMaterials,
                                 dataInfo: {
-                                    type: bo.Specification,
-                                    key: bo.Specification.PROPERTY_OBJECTKEY_NAME,
-                                    text: bo.Specification.PROPERTY_NAME_NAME
+                                    type: bo.Material,
+                                    key: bo.Material.PROPERTY_CODE_NAME,
+                                    text: bo.Material.PROPERTY_NAME_NAME
                                 },
                             }).bindProperty("bindingValue", {
-                                path: "specification",
-                                type: new sap.extension.data.Numeric()
+                                path: "itemCode",
+                                type: new sap.extension.data.Alphanumeric()
                             }),
                             new sap.m.Label("", { text: ibas.i18n.prop("bo_materialspecification_reference1") }),
                             new sap.extension.m.Input("", {
@@ -152,6 +152,19 @@ namespace materials {
                                 type: new sap.extension.data.Alphanumeric({
                                     maxLength: 8
                                 })
+                            }),
+                            new sap.m.Label("", { text: ibas.i18n.prop("bo_materialspecification_specification") }),
+                            new sap.extension.m.RepositoryInput("", {
+                                editable: false,
+                                repository: bo.BORepositoryMaterials,
+                                dataInfo: {
+                                    type: bo.Specification,
+                                    key: bo.Specification.PROPERTY_OBJECTKEY_NAME,
+                                    text: bo.Specification.PROPERTY_NAME_NAME
+                                },
+                            }).bindProperty("bindingValue", {
+                                path: "specification",
+                                type: new sap.extension.data.Numeric()
                             }),
                         ]
                     });

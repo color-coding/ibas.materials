@@ -259,6 +259,16 @@ namespace materials {
                 this.setProperty(Material.PROPERTY_MINIMUMINVENTORY_NAME, value);
             }
 
+            /** 映射的属性名称-最低订购数量 */
+            static PROPERTY_MINIMUMORDERQUANTITY_NAME: string = "MinimumOrderQuantity";
+            /** 获取-最低订购数量 */
+            get minimumOrderQuantity(): number {
+                return this.getProperty<number>(Material.PROPERTY_MINIMUMORDERQUANTITY_NAME);
+            }
+            /** 设置-最低订购数量 */
+            set minimumOrderQuantity(value: number) {
+                this.setProperty(Material.PROPERTY_MINIMUMORDERQUANTITY_NAME, value);
+            }
 
             /** 映射的属性名称-提前期（天） */
             static PROPERTY_LEADTIME_NAME: string = "LeadTime";

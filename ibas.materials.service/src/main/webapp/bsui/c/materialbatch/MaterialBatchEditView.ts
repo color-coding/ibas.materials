@@ -105,6 +105,31 @@ namespace materials {
                                 path: "/admissionDate",
                                 type: new sap.extension.data.Date()
                             }),
+                            new sap.m.Label("", { text: ibas.i18n.prop("bo_materialbatch_admissiondate") }),
+                            new sap.extension.m.DatePicker("", {
+                            }).bindProperty("bindingValue", {
+                                path: "/admissionDate",
+                                type: new sap.extension.data.Date()
+                            }),
+                            new sap.m.Label("", { text: ibas.i18n.prop("bo_materialbatch_specification") }),
+                            new sap.extension.m.SelectionInput("", {
+                                showValueHelp: true,
+                                repository: bo.BORepositoryMaterials,
+                                dataInfo: {
+                                    type: bo.MaterialSpecification,
+                                    key: bo.MaterialSpecification.PROPERTY_OBJECTKEY_NAME,
+                                    text: bo.MaterialSpecification.PROPERTY_NAME_NAME
+                                },
+                            }).bindProperty("bindingValue", {
+                                path: "/specification",
+                                type: new sap.extension.data.Numeric()
+                            }),
+                            new sap.m.Label("", { text: ibas.i18n.prop("bo_materialbatch_location") }),
+                            new sap.extension.m.Input("", {
+                            }).bindProperty("bindingValue", {
+                                path: "/location",
+                                type: new sap.extension.data.Numeric()
+                            }),
                         ]
                     });
                     return new sap.m.Dialog("", {

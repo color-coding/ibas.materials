@@ -615,6 +615,37 @@ public class MaterialSpecification extends BusinessObject<MaterialSpecification>
 	}
 
 	/**
+	 * 属性名称-物料编码
+	 */
+	private static final String PROPERTY_ITEMCODE_NAME = "ItemCode";
+
+	/**
+	 * 物料编码 属性
+	 */
+	@DbField(name = "ItemCode", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME, primaryKey = false)
+	public static final IPropertyInfo<String> PROPERTY_ITEMCODE = registerProperty(PROPERTY_ITEMCODE_NAME, String.class,
+			MY_CLASS);
+
+	/**
+	 * 获取-物料编码
+	 * 
+	 * @return 值
+	 */
+	@XmlElement(name = PROPERTY_ITEMCODE_NAME)
+	public final String getItemCode() {
+		return this.getProperty(PROPERTY_ITEMCODE);
+	}
+
+	/**
+	 * 设置-物料编码
+	 * 
+	 * @param value 值
+	 */
+	public final void setItemCode(String value) {
+		this.setProperty(PROPERTY_ITEMCODE, value);
+	}
+
+	/**
 	 * 属性名称-规格模板
 	 */
 	private static final String PROPERTY_SPECIFICATION_NAME = "Specification";

@@ -33,10 +33,25 @@ namespace materials {
                             }),
                             new sap.extension.table.DataColumn("", {
                                 label: ibas.i18n.prop("bo_materialspecification_name"),
-                                width: "20rem",
+                                width: "16rem",
                                 template: new sap.extension.m.Text("", {
                                 }).bindProperty("bindingValue", {
                                     path: "name",
+                                    type: new sap.extension.data.Alphanumeric()
+                                }),
+                            }),
+                            new sap.extension.table.DataColumn("", {
+                                label: ibas.i18n.prop("bo_materialspecification_itemcode"),
+                                width: "16rem",
+                                template: new sap.extension.m.RepositoryText("", {
+                                    repository: bo.BORepositoryMaterials,
+                                    dataInfo: {
+                                        type: bo.Material,
+                                        key: bo.Material.PROPERTY_CODE_NAME,
+                                        text: bo.Material.PROPERTY_NAME_NAME
+                                    },
+                                }).bindProperty("bindingValue", {
+                                    path: "itemCode",
                                     type: new sap.extension.data.Alphanumeric()
                                 }),
                             }),
@@ -67,7 +82,7 @@ namespace materials {
                             }),
                             new sap.extension.table.DataColumn("", {
                                 label: ibas.i18n.prop("bo_materialspecification_businesspartnercode"),
-                                width: "16rem",
+                                width: "12rem",
                                 template: new component.BusinessPartnerText("", {
                                     typeProperty: "businessPartnerType",
                                 }).bindProperty("bindingValue", {

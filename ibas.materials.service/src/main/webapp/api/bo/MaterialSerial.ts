@@ -45,6 +45,12 @@ namespace materials {
             /** 保修结束日期 */
             warrantyEndDate: Date;
 
+            /** 物料规格 */
+            specification: number;
+
+            /** 位置 */
+            location: string;
+
             /** 备注 */
             notes: string;
 

@@ -296,6 +296,64 @@ public class Material extends MaterialBase<Material>
 	}
 
 	/**
+	 * 属性名称-最低订购数量
+	 */
+	private static final String PROPERTY_MINIMUMORDERQUANTITY_NAME = "MinimumOrderQuantity";
+
+	/**
+	 * 最低订购数量 属性
+	 */
+	@DbField(name = "MinOrdrQty", type = DbFieldType.DECIMAL, table = DB_TABLE_NAME, primaryKey = false)
+	public static final IPropertyInfo<BigDecimal> PROPERTY_MINIMUMORDERQUANTITY = registerProperty(
+			PROPERTY_MINIMUMORDERQUANTITY_NAME, BigDecimal.class, MY_CLASS);
+
+	/**
+	 * 获取-最低订购数量
+	 * 
+	 * @return 值
+	 */
+	@XmlElement(name = PROPERTY_MINIMUMORDERQUANTITY_NAME)
+	public final BigDecimal getMinimumOrderQuantity() {
+		return this.getProperty(PROPERTY_MINIMUMORDERQUANTITY);
+	}
+
+	/**
+	 * 设置-最低订购数量
+	 * 
+	 * @param value 值
+	 */
+	public final void setMinimumOrderQuantity(BigDecimal value) {
+		this.setProperty(PROPERTY_MINIMUMORDERQUANTITY, value);
+	}
+
+	/**
+	 * 设置-最低订购数量
+	 * 
+	 * @param value 值
+	 */
+	public final void setMinimumOrderQuantity(String value) {
+		this.setMinimumOrderQuantity(Decimal.valueOf(value));
+	}
+
+	/**
+	 * 设置-最低订购数量
+	 * 
+	 * @param value 值
+	 */
+	public final void setMinimumOrderQuantity(int value) {
+		this.setMinimumOrderQuantity(Decimal.valueOf(value));
+	}
+
+	/**
+	 * 设置-最低订购数量
+	 * 
+	 * @param value 值
+	 */
+	public final void setMinimumOrderQuantity(double value) {
+		this.setMinimumOrderQuantity(Decimal.valueOf(value));
+	}
+
+	/**
 	 * 属性名称-创建日期
 	 */
 	private static final String PROPERTY_CREATEDATE_NAME = "CreateDate";

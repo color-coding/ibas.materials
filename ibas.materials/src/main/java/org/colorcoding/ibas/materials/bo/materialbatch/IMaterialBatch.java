@@ -160,6 +160,34 @@ public interface IMaterialBatch extends IBOSimple {
 	void setAdmissionDate(DateTime value);
 
 	/**
+	 * 获取-物料规格
+	 * 
+	 * @return 值
+	 */
+	Integer getSpecification();
+
+	/**
+	 * 设置-物料规格
+	 * 
+	 * @param value 值
+	 */
+	void setSpecification(Integer value);
+
+	/**
+	 * 获取-位置
+	 * 
+	 * @return 值
+	 */
+	String getLocation();
+
+	/**
+	 * 设置-位置
+	 * 
+	 * @param value 值
+	 */
+	void setLocation(String value);
+
+	/**
 	 * 获取-备注
 	 *
 	 * @return 值

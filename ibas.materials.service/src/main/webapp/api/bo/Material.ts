@@ -76,6 +76,9 @@ namespace materials {
             /** 最低库存量 */
             minimumInventory: number;
 
+            /** 最低订购数量 */
+            minimumOrderQuantity: number;
+
             /** 提前期（天） */
             leadTime: number;
 

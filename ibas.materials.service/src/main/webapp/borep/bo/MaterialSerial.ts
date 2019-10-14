@@ -144,6 +144,28 @@ namespace materials {
                 this.setProperty(MaterialSerial.PROPERTY_WARRANTYENDDATE_NAME, value);
             }
 
+            /** 映射的属性名称-物料规格 */
+            static PROPERTY_SPECIFICATION_NAME: string = "Specification";
+            /** 获取-物料规格 */
+            get specification(): number {
+                return this.getProperty<number>(MaterialSerial.PROPERTY_SPECIFICATION_NAME);
+            }
+            /** 设置-物料规格 */
+            set specification(value: number) {
+                this.setProperty(MaterialSerial.PROPERTY_SPECIFICATION_NAME, value);
+            }
+
+            /** 映射的属性名称-位置 */
+            static PROPERTY_LOCATION_NAME: string = "Location";
+            /** 获取-位置 */
+            get location(): string {
+                return this.getProperty<string>(MaterialSerial.PROPERTY_LOCATION_NAME);
+            }
+            /** 设置-位置 */
+            set location(value: string) {
+                this.setProperty(MaterialSerial.PROPERTY_LOCATION_NAME, value);
+            }
+
             /** 映射的属性名称-备注 */
             static PROPERTY_NOTES_NAME: string = "Notes";
             /** 获取-备注 */

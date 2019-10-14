@@ -213,6 +213,17 @@ namespace materials {
                 this.setProperty(MaterialSpecification.PROPERTY_NAME_NAME, value);
             }
 
+            /** 映射的属性名称-物料编码 */
+            static PROPERTY_ITEMCODE_NAME: string = "ItemCode";
+            /** 获取-物料编码 */
+            get itemCode(): string {
+                return this.getProperty<string>(MaterialSpecification.PROPERTY_ITEMCODE_NAME);
+            }
+            /** 设置-物料编码 */
+            set itemCode(value: string) {
+                this.setProperty(MaterialSpecification.PROPERTY_ITEMCODE_NAME, value);
+            }
+
             /** 映射的属性名称-规格模板 */
             static PROPERTY_SPECIFICATION_NAME: string = "Specification";
             /** 获取-规格模板 */

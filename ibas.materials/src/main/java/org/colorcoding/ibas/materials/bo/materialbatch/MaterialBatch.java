@@ -364,6 +364,68 @@ public class MaterialBatch extends BusinessObject<MaterialBatch> implements IMat
 	}
 
 	/**
+	 * 属性名称-物料规格
+	 */
+	private static final String PROPERTY_SPECIFICATION_NAME = "Specification";
+
+	/**
+	 * 物料规格 属性
+	 */
+	@DbField(name = "Specification", type = DbFieldType.NUMERIC, table = DB_TABLE_NAME, primaryKey = false)
+	public static final IPropertyInfo<Integer> PROPERTY_SPECIFICATION = registerProperty(PROPERTY_SPECIFICATION_NAME,
+			Integer.class, MY_CLASS);
+
+	/**
+	 * 获取-物料规格
+	 * 
+	 * @return 值
+	 */
+	@XmlElement(name = PROPERTY_SPECIFICATION_NAME)
+	public final Integer getSpecification() {
+		return this.getProperty(PROPERTY_SPECIFICATION);
+	}
+
+	/**
+	 * 设置-物料规格
+	 * 
+	 * @param value 值
+	 */
+	public final void setSpecification(Integer value) {
+		this.setProperty(PROPERTY_SPECIFICATION, value);
+	}
+
+	/**
+	 * 属性名称-位置
+	 */
+	private static final String PROPERTY_LOCATION_NAME = "Location";
+
+	/**
+	 * 位置 属性
+	 */
+	@DbField(name = "Location", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME, primaryKey = false)
+	public static final IPropertyInfo<String> PROPERTY_LOCATION = registerProperty(PROPERTY_LOCATION_NAME, String.class,
+			MY_CLASS);
+
+	/**
+	 * 获取-位置
+	 * 
+	 * @return 值
+	 */
+	@XmlElement(name = PROPERTY_LOCATION_NAME)
+	public final String getLocation() {
+		return this.getProperty(PROPERTY_LOCATION);
+	}
+
+	/**
+	 * 设置-位置
+	 * 
+	 * @param value 值
+	 */
+	public final void setLocation(String value) {
+		this.setProperty(PROPERTY_LOCATION, value);
+	}
+
+	/**
 	 * 属性名称-备注
 	 */
 	private static final String PROPERTY_NOTES_NAME = "Notes";

@@ -20,6 +20,7 @@
     <Property Name="TeamMembers" Description="团队成员" DataType="Alphanumeric" DataSubType="Default" EditSize="100" Mapped="TeamMembers"/>
     <Property Name="Organization" Description="数据所属组织" DataType="Alphanumeric" DataSubType="Default" EditSize="8" Mapped="OrgCode"/>
     <Property Name="Name" Description="名称" DataType="Alphanumeric" DataSubType="Default" EditSize="200" Mapped="Name"/>
+    <Property Name="ItemCode" Description="物料编码" DataType="Alphanumeric" DataSubType="Default" EditSize="20" Mapped="ItemCode"/>
     <Property Name="Specification" Description="规格模板" DataType="Numeric" DataSubType="Default" EditSize="8" Mapped="Specification"/>
     <Property Name="BusinessPartnerType" Description="业务伙伴类型" DataType="Alphanumeric" DataSubType="Default" EditSize="1" DeclaredType="emBusinessPartnerType" Mapped="CardType"/>
     <Property Name="BusinessPartnerCode" Description="业务伙伴" DataType="Alphanumeric" DataSubType="Default" EditSize="20" Mapped="CardCode"/>

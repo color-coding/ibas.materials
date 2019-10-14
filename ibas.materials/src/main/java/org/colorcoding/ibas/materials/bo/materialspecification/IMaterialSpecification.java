@@ -264,6 +264,20 @@ public interface IMaterialSpecification extends IBOSimple {
 	void setName(String value);
 
 	/**
+	 * 获取-物料编码
+	 * 
+	 * @return 值
+	 */
+	String getItemCode();
+
+	/**
+	 * 设置-物料编码
+	 * 
+	 * @param value 值
+	 */
+	void setItemCode(String value);
+
+	/**
 	 * 获取-规格模板
 	 * 
 	 * @return 值

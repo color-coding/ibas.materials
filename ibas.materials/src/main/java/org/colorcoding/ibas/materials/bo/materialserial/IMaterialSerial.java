@@ -20,8 +20,7 @@ public interface IMaterialSerial extends IBOSimple {
 	/**
 	 * 设置-物料编码
 	 *
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setItemCode(String value);
 
@@ -35,8 +34,7 @@ public interface IMaterialSerial extends IBOSimple {
 	/**
 	 * 设置-序列编码
 	 *
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setSerialCode(String value);
 
@@ -50,8 +48,7 @@ public interface IMaterialSerial extends IBOSimple {
 	/**
 	 * 设置-仓库编码
 	 *
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setWarehouse(String value);
 
@@ -65,8 +62,7 @@ public interface IMaterialSerial extends IBOSimple {
 	/**
 	 * 设置-在仓库
 	 *
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setInStock(emYesNo value);
 
@@ -80,8 +76,7 @@ public interface IMaterialSerial extends IBOSimple {
 	/**
 	 * 设置-锁定
 	 *
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setLocked(emYesNo value);
 
@@ -95,8 +90,7 @@ public interface IMaterialSerial extends IBOSimple {
 	/**
 	 * 设置-供应商序号
 	 *
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setSupplierSerial(String value);
 
@@ -110,8 +104,7 @@ public interface IMaterialSerial extends IBOSimple {
 	/**
 	 * 设置-批次序号
 	 *
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setBatchSerial(String value);
 
@@ -125,8 +118,7 @@ public interface IMaterialSerial extends IBOSimple {
 	/**
 	 * 设置-过期日期
 	 *
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setExpirationDate(DateTime value);
 
@@ -140,8 +132,7 @@ public interface IMaterialSerial extends IBOSimple {
 	/**
 	 * 设置-生产日期
 	 *
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setManufacturingDate(DateTime value);
 
@@ -155,8 +146,7 @@ public interface IMaterialSerial extends IBOSimple {
 	/**
 	 * 设置-准入日期
 	 *
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setAdmissionDate(DateTime value);
 
@@ -170,8 +160,7 @@ public interface IMaterialSerial extends IBOSimple {
 	/**
 	 * 设置-保修开始日期
 	 *
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setWarrantyStartDate(DateTime value);
 
@@ -185,10 +174,37 @@ public interface IMaterialSerial extends IBOSimple {
 	/**
 	 * 设置-保修结束日期
 	 *
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setWarrantyEndDate(DateTime value);
+
+	/**
+	 * 获取-物料规格
+	 * 
+	 * @return 值
+	 */
+	Integer getSpecification();
+
+	/**
+	 * 设置-物料规格
+	 * 
+	 * @param value 值
+	 */
+	void setSpecification(Integer value);
+
+	/**
+	 * 获取-位置
+	 * 
+	 * @return 值
+	 */
+	String getLocation();
+
+	/**
+	 * 设置-位置
+	 * 
+	 * @param value 值
+	 */
+	void setLocation(String value);
 
 	/**
 	 * 获取-备注
@@ -200,8 +216,7 @@ public interface IMaterialSerial extends IBOSimple {
 	/**
 	 * 设置-备注
 	 *
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setNotes(String value);
 
@@ -215,8 +230,7 @@ public interface IMaterialSerial extends IBOSimple {
 	/**
 	 * 设置-对象编号
 	 *
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setObjectKey(Integer value);
 
@@ -230,8 +244,7 @@ public interface IMaterialSerial extends IBOSimple {
 	/**
 	 * 设置-对象类型
 	 *
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setObjectCode(String value);
 
@@ -245,8 +258,7 @@ public interface IMaterialSerial extends IBOSimple {
 	/**
 	 * 设置-实例号
 	 *
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setLogInst(Integer value);
 
@@ -260,8 +272,7 @@ public interface IMaterialSerial extends IBOSimple {
 	/**
 	 * 设置-服务系列
 	 *
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setSeries(Integer value);
 
@@ -275,8 +286,7 @@ public interface IMaterialSerial extends IBOSimple {
 	/**
 	 * 设置-数据源
 	 *
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setDataSource(String value);
 
@@ -290,8 +300,7 @@ public interface IMaterialSerial extends IBOSimple {
 	/**
 	 * 设置-创建日期
 	 *
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setCreateDate(DateTime value);
 
@@ -305,8 +314,7 @@ public interface IMaterialSerial extends IBOSimple {
 	/**
 	 * 设置-创建时间
 	 *
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setCreateTime(Short value);
 
@@ -320,8 +328,7 @@ public interface IMaterialSerial extends IBOSimple {
 	/**
 	 * 设置-更新日期
 	 *
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setUpdateDate(DateTime value);
 
@@ -335,8 +342,7 @@ public interface IMaterialSerial extends IBOSimple {
 	/**
 	 * 设置-更新时间
 	 *
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setUpdateTime(Short value);
 
@@ -350,8 +356,7 @@ public interface IMaterialSerial extends IBOSimple {
 	/**
 	 * 设置-创建用户
 	 *
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setCreateUserSign(Integer value);
 
@@ -365,8 +370,7 @@ public interface IMaterialSerial extends IBOSimple {
 	/**
 	 * 设置-更新用户
 	 *
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setUpdateUserSign(Integer value);
 
@@ -380,8 +384,7 @@ public interface IMaterialSerial extends IBOSimple {
 	/**
 	 * 设置-创建动作标识
 	 *
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setCreateActionId(String value);
 
@@ -395,8 +398,7 @@ public interface IMaterialSerial extends IBOSimple {
 	/**
 	 * 设置-更新动作标识
 	 *
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setUpdateActionId(String value);
 

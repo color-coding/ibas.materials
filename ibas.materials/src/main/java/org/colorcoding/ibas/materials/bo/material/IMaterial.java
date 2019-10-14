@@ -428,6 +428,41 @@ public interface IMaterial extends IBOMasterData {
 	void setMinimumInventory(double value);
 
 	/**
+	 * 获取-最低订购数量
+	 * 
+	 * @return 值
+	 */
+	BigDecimal getMinimumOrderQuantity();
+
+	/**
+	 * 设置-最低订购数量
+	 * 
+	 * @param value 值
+	 */
+	void setMinimumOrderQuantity(BigDecimal value);
+
+	/**
+	 * 设置-最低订购数量
+	 * 
+	 * @param value 值
+	 */
+	void setMinimumOrderQuantity(String value);
+
+	/**
+	 * 设置-最低订购数量
+	 * 
+	 * @param value 值
+	 */
+	void setMinimumOrderQuantity(int value);
+
+	/**
+	 * 设置-最低订购数量
+	 * 
+	 * @param value 值
+	 */
+	void setMinimumOrderQuantity(double value);
+
+	/**
 	 * 获取-提前期（天）
 	 * 
 	 * @return 值

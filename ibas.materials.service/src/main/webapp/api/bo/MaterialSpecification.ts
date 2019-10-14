@@ -45,6 +45,8 @@ namespace materials {
             organization: string;
             /** 名称 */
             name: string;
+            /** 物料编码 */
+            itemCode: string;
             /** 规格模板 */
             specification: number;
             /** 业务伙伴类型 */

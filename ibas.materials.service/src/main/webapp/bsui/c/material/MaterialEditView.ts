@@ -292,6 +292,13 @@ namespace materials {
                                 path: "minimumInventory",
                                 type: new sap.extension.data.Quantity()
                             }),
+                            new sap.m.Label("", { text: ibas.i18n.prop("bo_material_minimumorderquantity") }),
+                            new sap.extension.m.Input("", {
+                                type: sap.m.InputType.Number
+                            }).bindProperty("bindingValue", {
+                                path: "minimumOrderQuantity",
+                                type: new sap.extension.data.Quantity()
+                            }),
                             new sap.m.Label("", { text: ibas.i18n.prop("bo_material_inventoryuom") }),
                             new sap.extension.m.Input("", {
                             }).bindProperty("bindingValue", {
