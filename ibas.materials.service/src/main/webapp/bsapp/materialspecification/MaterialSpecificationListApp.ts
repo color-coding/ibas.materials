@@ -66,11 +66,42 @@ namespace materials {
                 this.proceeding(ibas.emMessageType.INFORMATION, ibas.i18n.prop("shell_fetching_data"));
             }
             /** 新建数据 */
-            protected newData(): void {
+            protected newData(smart: boolean = false): void {
                 let app: MaterialSpecificationEditApp = new MaterialSpecificationEditApp();
                 app.navigation = this.navigation;
                 app.viewShower = this.viewShower;
-                app.run();
+                if (smart === true) {
+                    // 创建编辑对象实例
+                    let condition: ibas.ICondition;
+                    let conditions: ibas.IList<ibas.ICondition> = materials.app.conditions.material.create();
+                    // 销售物料
+                    condition = new ibas.Condition();
+                    condition.alias = bo.Material.PROPERTY_SALESITEM_NAME;
+                    condition.value = ibas.emYesNo.YES.toString();
+                    condition.operation = ibas.emConditionOperation.EQUAL;
+                    condition.relationship = ibas.emConditionRelationship.AND;
+                    conditions.add(condition);
+                    // 调用选择服务
+                    ibas.servicesManager.runChooseService<bo.Material>({
+                        chooseType: ibas.emChooseType.SINGLE,
+                        boCode: bo.BO_CODE_MATERIAL,
+                        criteria: conditions,
+                        onCompleted(selecteds: ibas.IList<bo.Material>): void {
+                            // 获取触发的对象
+                            let material: bo.IMaterial = selecteds.firstOrDefault();
+                            ibas.servicesManager.runApplicationService<materials.app.ISpecificationTreeContract, materials.bo.MaterialSpecification>({
+                                proxy: new materials.app.SpecificationTreeServiceProxy({
+                                    target: material.code,
+                                }),
+                                onCompleted(result: materials.bo.MaterialSpecification): void {
+                                    app.run(result);
+                                }
+                            });
+                        }
+                    });
+                } else {
+                    app.run();
+                }
             }
             /** 查看数据，参数：目标数据 */
             protected viewData(data: bo.MaterialSpecification): void {

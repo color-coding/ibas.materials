@@ -135,13 +135,34 @@ namespace materials {
                         showHeader: false,
                         subHeader: new sap.m.Toolbar("", {
                             content: [
-                                new sap.m.Button("", {
+                                new sap.m.MenuButton("", {
                                     text: ibas.i18n.prop("shell_data_new"),
-                                    type: sap.m.ButtonType.Transparent,
                                     icon: "sap-icon://create",
-                                    press: function (): void {
-                                        that.fireViewEvents(that.newDataEvent);
-                                    }
+                                    type: sap.m.ButtonType.Transparent,
+                                    buttonMode: sap.m.MenuButtonMode.Regular,
+                                    useDefaultActionOnly: true,
+                                    menuPosition: sap.ui.core.Popup.Dock.EndBottom,
+                                    width: "6rem",
+                                    menu: new sap.m.Menu("", {
+                                        items: [
+                                            new sap.m.MenuItem("", {
+                                                text: ibas.i18n.prop("bo_materialspecification"),
+                                                icon: "sap-icon://notes",
+                                                press: function (): void {
+                                                    // 复制当前对象
+                                                    that.fireViewEvents(that.newDataEvent, false);
+                                                }
+                                            }),
+                                            new sap.m.MenuItem("", {
+                                                text: ibas.i18n.prop("bo_specification"),
+                                                icon: "sap-icon://palette",
+                                                press: function (): void {
+                                                    // 复制当前对象
+                                                    that.fireViewEvents(that.newDataEvent, true);
+                                                }
+                                            }),
+                                        ],
+                                    }),
                                 }),
                                 new sap.m.Button("", {
                                     text: ibas.i18n.prop("shell_data_edit"),

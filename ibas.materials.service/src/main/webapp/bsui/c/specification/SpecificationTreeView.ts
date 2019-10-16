@@ -74,10 +74,10 @@ namespace materials {
                         this.select.addItem(sItem);
                     }
                     this.dialog.addContent(
-                        new sap.m.VBox("", {
-                            items: [
-                                new sap.m.Title("", {
-                                    width: "100%",
+                        new sap.ui.layout.form.SimpleForm("", {
+                            editable: true,
+                            content: [
+                                new sap.m.Label("", {
                                     text: ibas.i18n.prop("materials_please_specification"),
                                 }),
                                 this.select,

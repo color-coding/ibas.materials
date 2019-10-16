@@ -149,7 +149,18 @@ namespace materials {
                             if (opRslt.resultObjects.length === 0) {
                                 throw new Error(ibas.i18n.prop("sys_invalid_parameter", "result"));
                             }
-                            that.fireCompleted(opRslt.resultObjects.firstOrDefault());
+                            let data: bo.IMaterialSpecification = opRslt.resultObjects.firstOrDefault();
+                            if (data) {
+                                that.proceeding(ibas.emMessageType.SUCCESS,
+                                    ibas.strings.format("{0}{1}[{2} - {3}]{4}",
+                                        ibas.i18n.prop("shell_data_save"),
+                                        ibas.i18n.prop("bo_materialspecification"),
+                                        data.objectKey,
+                                        data.name,
+                                        ibas.i18n.prop("shell_sucessful")
+                                    ));
+                                that.fireCompleted(opRslt.resultObjects.firstOrDefault());
+                            }
                         } catch (error) {
                             that.messages(error);
                         }
