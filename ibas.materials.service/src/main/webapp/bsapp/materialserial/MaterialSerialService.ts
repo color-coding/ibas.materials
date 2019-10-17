@@ -284,6 +284,102 @@ namespace materials {
                 this.view.showMaterialSerialItems(journals);
             }
         }
+        /** 物料序列列表服务 */
+        export class MaterialSerialListService extends MaterialSerialService<IMaterialSerialListsView> {
+            /** 应用标识 */
+            static APPLICATION_ID: string = "d15aab9e-4eb2-4e62-8564-946341e987b1";
+            /** 应用名称 */
+            static APPLICATION_NAME: string = "materials_app_materialserial_list";
+            /** 构造函数 */
+            constructor() {
+                super();
+                this.id = MaterialSerialListService.APPLICATION_ID;
+                this.name = MaterialSerialListService.APPLICATION_NAME;
+                this.description = ibas.i18n.prop(this.name);
+            }
+            /** 注册视图 */
+            protected registerView(): void {
+                super.registerView();
+                // 其他事件
+                this.view.addMaterialSerialItemEvent = this.addMaterialSerialItem;
+                this.view.removeMaterialSerialItemEvent = this.removeMaterialSerialItem;
+            }
+            protected removeMaterialSerialItem(data: bo.IMaterialSerialItem[]): void {
+                if (ibas.objects.isNull(data) || !(data instanceof Array)) {
+                    this.messages(ibas.emMessageType.WARNING,
+                        ibas.i18n.prop("shell_please_chooose_data", ibas.i18n.prop("shell_data_remove")));
+                    return;
+                }
+                for (let item of data) {
+                    if (item.isNew) {
+                        if (ibas.objects.isNull(this.workingData)) {
+                            for (let wData of this.workDatas) {
+                                if (wData.materialSerials.contain(item)) {
+                                    wData.materialSerials.remove(item);
+                                    break;
+                                }
+                            }
+                        } else {
+                            this.workingData.materialSerials.remove(item);
+                        }
+                    } else {
+                        item.delete();
+                    }
+                }
+                if (ibas.objects.isNull(this.workingData)) {
+                    let datas: ibas.IList<bo.IMaterialSerialItem> = new ibas.ArrayList<bo.IMaterialSerialItem>();
+                    for (let wData of this.workDatas) {
+                        datas.add(wData.materialSerials.filterDeleted());
+                    }
+                    this.view.showMaterialSerialItems(datas);
+                } else {
+                    this.view.showMaterialSerialItems(this.workingData.materialSerials.filterDeleted());
+                }
+            }
+            protected addMaterialSerialItem(createNew: boolean = true): void {
+                if (ibas.objects.isNull(this.workingData)) {
+                    this.messages(ibas.emMessageType.WARNING, ibas.i18n.prop("shell_please_chooose_data",
+                        ibas.i18n.prop("shell_data_edit")
+                    ));
+                    return;
+                }
+                let total: number = this.workingData.quantity - this.workingData.materialSerials.total();
+                if (total <= 0) {
+                    return;
+                }
+                if (createNew === true) {
+                    for (let index: number = 0; index < total; index++) {
+                        let journal: bo.IMaterialSerialItem = this.workingData.materialSerials.create();
+                        journal.serialCode = ibas.dates.toString(ibas.dates.now(), "yyyyMMddHHmm") + ibas.strings.fill(index + 1, 4, "0");
+                    }
+                    this.view.showMaterialSerialItems(this.workingData.materialSerials.filterDeleted());
+                } else {
+                    let that: this = this;
+                    let criteria: ibas.ICriteria = new ibas.Criteria();
+                    let condition: ibas.ICondition = criteria.conditions.create();
+                    condition.alias = bo.MaterialSerial.PROPERTY_ITEMCODE_NAME;
+                    condition.value = this.workingData.itemCode;
+                    condition = criteria.conditions.create();
+                    condition.alias = bo.MaterialSerial.PROPERTY_WAREHOUSE_NAME;
+                    condition.value = this.workingData.warehouse;
+                    ibas.servicesManager.runChooseService<bo.MaterialSerial>({
+                        boCode: bo.BO_CODE_MATERIALSERIAL,
+                        criteria: criteria,
+                        onCompleted(selecteds: ibas.IList<bo.MaterialSerial>): void {
+                            for (let selected of selecteds) {
+                                if (total <= 0) {
+                                    break;
+                                }
+                                let item: bo.IMaterialSerialItem = that.workingData.materialSerials.create();
+                                item.serialCode = selected.serialCode;
+                                total -= 1;
+                            }
+                            that.view.showMaterialSerialItems(that.workingData.materialSerials.filterDeleted());
+                        }
+                    });
+                }
+            }
+        }
         /** 视图-物料序列服务 */
         export interface IMaterialSerialServiceView extends ibas.IBOView {
             /** 显示待处理数据 */
@@ -308,6 +404,13 @@ namespace materials {
             createMaterialSerialItemEvent: Function;
             /** 删除物料序列库存 */
             deleteMaterialSerialItemEvent: Function;
+        }
+        /** 视图-物料序列列表 */
+        export interface IMaterialSerialListsView extends IMaterialSerialServiceView {
+            /** 添加序列编码记录 */
+            addMaterialSerialItemEvent: Function;
+            /** 移出物料序列库存 */
+            removeMaterialSerialItemEvent: Function;
         }
         /** 物料序列发货服务映射 */
         export class MaterialSerialIssueServiceMapping extends ibas.ServiceMapping {
@@ -337,6 +440,21 @@ namespace materials {
             /** 创建服务实例 */
             create(): ibas.IService<ibas.IServiceContract> {
                 return new MaterialSerialReceiptService();
+            }
+        }
+        /** 物料序列列表服务映射 */
+        export class MaterialSerialListServiceMapping extends ibas.ServiceMapping {
+            /** 构造函数 */
+            constructor() {
+                super();
+                this.id = MaterialSerialListService.APPLICATION_ID;
+                this.name = MaterialSerialListService.APPLICATION_NAME;
+                this.description = ibas.i18n.prop(this.name);
+                this.proxy = MaterialSerialListServiceProxy;
+            }
+            /** 创建服务实例 */
+            create(): ibas.IService<ibas.IServiceContract> {
+                return new MaterialSerialListService();
             }
         }
 

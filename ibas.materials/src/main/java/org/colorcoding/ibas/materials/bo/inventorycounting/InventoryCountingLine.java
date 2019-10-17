@@ -1175,7 +1175,7 @@ public class InventoryCountingLine extends BusinessObject<InventoryCountingLine>
 
 	@Override
 	public BigDecimal getQuantity() {
-		return this.getDifference().abs();
+		return this.getCountQuantity();
 	}
 
 	/**

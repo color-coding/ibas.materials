@@ -105,11 +105,17 @@ namespace materials {
                     case app.MaterialBatchIssueService.APPLICATION_ID:
                         view = new c.MaterialBatchIssueView();
                         break;
+                    case app.MaterialBatchListService.APPLICATION_ID:
+                        view = new c.MaterialBatchListsView();
+                        break;
                     case app.MaterialSerialIssueService.APPLICATION_ID:
                         view = new c.MaterialSerialIssueView();
                         break;
                     case app.MaterialSerialReceiptService.APPLICATION_ID:
                         view = new c.MaterialSerialReceiptView();
+                        break;
+                    case app.MaterialSerialListService.APPLICATION_ID:
+                        view = new c.MaterialSerialListsView();
                         break;
                     case app.MaterialSerialListApp.APPLICATION_ID:
                         view = new c.MaterialSerialListView();

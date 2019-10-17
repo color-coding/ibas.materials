@@ -25,7 +25,15 @@ namespace materials {
                         rows: "{/rows}",
                         columns: [
                             new sap.extension.table.DataColumn("", {
-                                label: ibas.i18n.prop("bo_material_name"),
+                                label: ibas.i18n.prop("bo_materialserial_itemcode"),
+                                template: new sap.extension.m.Text("", {
+                                }).bindProperty("bindingValue", {
+                                    path: "itemCode",
+                                    type: new sap.extension.data.Alphanumeric()
+                                }),
+                            }),
+                            new sap.extension.table.DataColumn("", {
+                                label: ibas.i18n.prop("bo_material") + ibas.i18n.prop("bo_material_name"),
                                 template: new sap.extension.m.RepositoryText("", {
                                     repository: bo.BORepositoryMaterials,
                                     dataInfo: {
@@ -39,7 +47,7 @@ namespace materials {
                                 }),
                             }),
                             new sap.extension.table.DataColumn("", {
-                                label: ibas.i18n.prop("bo_materialbatch_warehouse"),
+                                label: ibas.i18n.prop("bo_warehouse"),
                                 template: new sap.extension.m.RepositoryText("", {
                                     repository: bo.BORepositoryMaterials,
                                     dataInfo: {

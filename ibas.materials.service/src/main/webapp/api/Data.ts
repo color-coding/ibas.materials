@@ -160,12 +160,20 @@ namespace materials {
         export class MaterialBatchIssueServiceProxy extends ibas.ServiceProxy<IMaterialBatchContract[]> {
 
         }
+        /** 物料批次列表服务代理 */
+        export class MaterialBatchListServiceProxy extends ibas.ServiceProxy<IMaterialBatchContract[]> {
+
+        }
         /** 物料序列创建服务代理 */
         export class MaterialSerialReceiptServiceProxy extends ibas.ServiceProxy<IMaterialSerialContract[]> {
 
         }
         /** 物料序列选择服务代理 */
         export class MaterialSerialIssueServiceProxy extends ibas.ServiceProxy<IMaterialSerialContract[]> {
+
+        }
+        /** 物料序列列表服务代理 */
+        export class MaterialSerialListServiceProxy extends ibas.ServiceProxy<IMaterialSerialContract[]> {
 
         }
         /** 规格服务契约 */

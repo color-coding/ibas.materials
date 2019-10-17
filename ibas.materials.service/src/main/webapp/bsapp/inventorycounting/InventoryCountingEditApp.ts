@@ -289,7 +289,8 @@ namespace materials {
             /** 选择库存盘点行物料事件 */
             private chooseInventoryCountingLineMaterial(caller: bo.InventoryCountingLine): void {
                 if (ibas.strings.isEmpty(this.view.defaultWarehouse)) {
-                    throw new Error(ibas.i18n.prop("materials_please_choose_warehouse"));
+                    this.messages(ibas.emMessageType.WARNING, ibas.i18n.prop("materials_please_choose_warehouse"));
+                    return;
                 }
                 let that: this = this;
                 let condition: ibas.ICondition;
@@ -379,91 +380,45 @@ namespace materials {
                     }
                 });
             }
-            private chooseInventoryCountingLineMaterialBatch(type: bo.emInventoryAdjustment): void {
-                if (type === bo.emInventoryAdjustment.OVER) {
-                    // 盘盈，收货
-                    let contracts: ibas.ArrayList<IMaterialBatchContract> = new ibas.ArrayList<IMaterialBatchContract>();
-                    for (let item of this.editData.inventoryCountingLines) {
-                        if (item.difference <= 0) {
-                            continue;
-                        }
-                        contracts.add({
-                            batchManagement: item.batchManagement,
-                            itemCode: item.itemCode,
-                            itemDescription: item.itemDescription,
-                            warehouse: item.warehouse,
-                            quantity: Math.abs(item.quantity),
-                            uom: item.uom,
-                            materialBatches: item.materialBatches
-                        });
+            private chooseInventoryCountingLineMaterialBatch(): void {
+                let contracts: ibas.ArrayList<IMaterialBatchContract> = new ibas.ArrayList<IMaterialBatchContract>();
+                for (let item of this.editData.inventoryCountingLines) {
+                    if (item.countQuantity <= 0) {
+                        continue;
                     }
-                    ibas.servicesManager.runApplicationService<IMaterialBatchContract[]>({
-                        proxy: new MaterialBatchReceiptServiceProxy(contracts)
-                    });
-                } else if (type === bo.emInventoryAdjustment.SHORT) {
-                    // 盘亏，发货
-                    let contracts: ibas.ArrayList<IMaterialBatchContract> = new ibas.ArrayList<IMaterialBatchContract>();
-                    for (let item of this.editData.inventoryCountingLines) {
-                        if (item.difference >= 0) {
-                            continue;
-                        }
-                        contracts.add({
-                            batchManagement: item.batchManagement,
-                            itemCode: item.itemCode,
-                            itemDescription: item.itemDescription,
-                            warehouse: item.warehouse,
-                            quantity: Math.abs(item.quantity),
-                            uom: item.uom,
-                            materialBatches: item.materialBatches
-                        });
-                    }
-                    ibas.servicesManager.runApplicationService<IMaterialBatchContract[]>({
-                        proxy: new MaterialBatchIssueServiceProxy(contracts)
+                    contracts.add({
+                        batchManagement: item.batchManagement,
+                        itemCode: item.itemCode,
+                        itemDescription: item.itemDescription,
+                        warehouse: item.warehouse,
+                        quantity: item.countQuantity,
+                        uom: item.uom,
+                        materialBatches: item.materialBatches
                     });
                 }
+                ibas.servicesManager.runApplicationService<IMaterialBatchContract[]>({
+                    proxy: new MaterialBatchListServiceProxy(contracts)
+                });
             }
-            private chooseInventoryCountingLineMaterialSerial(type: bo.emInventoryAdjustment): void {
-                if (type === bo.emInventoryAdjustment.OVER) {
-                    // 盘盈，收货
-                    let contracts: ibas.ArrayList<IMaterialSerialContract> = new ibas.ArrayList<IMaterialSerialContract>();
-                    for (let item of this.editData.inventoryCountingLines) {
-                        if (item.difference <= 0) {
-                            continue;
-                        }
-                        contracts.add({
-                            serialManagement: item.serialManagement,
-                            itemCode: item.itemCode,
-                            itemDescription: item.itemDescription,
-                            warehouse: item.warehouse,
-                            quantity: Math.abs(item.quantity),
-                            uom: item.uom,
-                            materialSerials: item.materialSerials
-                        });
+            private chooseInventoryCountingLineMaterialSerial(): void {
+                let contracts: ibas.ArrayList<IMaterialSerialContract> = new ibas.ArrayList<IMaterialSerialContract>();
+                for (let item of this.editData.inventoryCountingLines) {
+                    if (item.countQuantity <= 0) {
+                        continue;
                     }
-                    ibas.servicesManager.runApplicationService<IMaterialSerialContract[]>({
-                        proxy: new MaterialSerialReceiptServiceProxy(contracts)
-                    });
-                } else if (type === bo.emInventoryAdjustment.SHORT) {
-                    // 盘亏，发货
-                    let contracts: ibas.ArrayList<IMaterialSerialContract> = new ibas.ArrayList<IMaterialSerialContract>();
-                    for (let item of this.editData.inventoryCountingLines) {
-                        if (item.difference >= 0) {
-                            continue;
-                        }
-                        contracts.add({
-                            serialManagement: item.serialManagement,
-                            itemCode: item.itemCode,
-                            itemDescription: item.itemDescription,
-                            warehouse: item.warehouse,
-                            quantity: Math.abs(item.quantity),
-                            uom: item.uom,
-                            materialSerials: item.materialSerials
-                        });
-                    }
-                    ibas.servicesManager.runApplicationService<IMaterialSerialContract[]>({
-                        proxy: new MaterialSerialIssueServiceProxy(contracts)
+                    contracts.add({
+                        serialManagement: item.serialManagement,
+                        itemCode: item.itemCode,
+                        itemDescription: item.itemDescription,
+                        warehouse: item.warehouse,
+                        quantity: item.countQuantity,
+                        uom: item.uom,
+                        materialSerials: item.materialSerials
                     });
                 }
+                ibas.servicesManager.runApplicationService<IMaterialSerialContract[]>({
+                    proxy: new MaterialSerialListServiceProxy(contracts)
+                });
             }
             /** 选择库存盘点物料库存事件 */
             private chooseInventoryCountingMaterialInventory(): void {

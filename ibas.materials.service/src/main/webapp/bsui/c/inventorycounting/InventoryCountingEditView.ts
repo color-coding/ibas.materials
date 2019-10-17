@@ -141,28 +141,13 @@ namespace materials {
                                 },
                                 toolbar: new sap.m.Toolbar("", {
                                     content: [
-                                        new sap.m.MenuButton("", {
+                                        new sap.m.Button("", {
+                                            text: ibas.i18n.prop("shell_data_add"),
                                             type: sap.m.ButtonType.Transparent,
                                             icon: "sap-icon://add",
-                                            text: ibas.i18n.prop("shell_data_add"),
-                                            menu: new sap.m.Menu("", {
-                                                items: [
-                                                    new sap.m.MenuItem("", {
-                                                        text: ibas.i18n.prop("bo_material"),
-                                                        press: function (): void {
-                                                            that.fireViewEvents(that.addInventoryCountingLineEvent);
-                                                        }
-                                                    }),
-                                                    /*
-                                                    new sap.m.MenuItem("", {
-                                                        text: ibas.i18n.prop("bo_materialinventory"),
-                                                        press: function (): void {
-                                                            that.fireViewEvents(that.chooseInventoryCountingMaterialInventoryEvent);
-                                                        }
-                                                    }),
-                                                    */
-                                                ]
-                                            })
+                                            press: function (): void {
+                                                that.fireViewEvents(that.addInventoryCountingLineEvent);
+                                            }
                                         }),
                                         new sap.m.Button("", {
                                             text: ibas.i18n.prop("shell_data_remove"),
@@ -181,41 +166,15 @@ namespace materials {
                                                 items: [
                                                     new sap.m.MenuItem("", {
                                                         text: ibas.i18n.prop("materials_material_batch"),
-                                                        items: [
-                                                            new sap.m.MenuItem("", {
-                                                                text: ibas.i18n.prop("em_inventoryadjustment_over"),
-                                                                icon: "sap-icon://trend-up",
-                                                                press: function (): void {
-                                                                    that.fireViewEvents(that.chooseInventoryCountingLineMaterialBatchEvent, bo.emInventoryAdjustment.OVER);
-                                                                }
-                                                            }),
-                                                            new sap.m.MenuItem("", {
-                                                                text: ibas.i18n.prop("em_inventoryadjustment_short"),
-                                                                icon: "sap-icon://trend-down",
-                                                                press: function (): void {
-                                                                    that.fireViewEvents(that.chooseInventoryCountingLineMaterialBatchEvent, bo.emInventoryAdjustment.SHORT);
-                                                                }
-                                                            }),
-                                                        ]
+                                                        press: function (): void {
+                                                            that.fireViewEvents(that.chooseInventoryCountingLineMaterialBatchEvent);
+                                                        }
                                                     }),
                                                     new sap.m.MenuItem("", {
                                                         text: ibas.i18n.prop("materials_material_serial"),
-                                                        items: [
-                                                            new sap.m.MenuItem("", {
-                                                                text: ibas.i18n.prop("em_inventoryadjustment_over"),
-                                                                icon: "sap-icon://trend-up",
-                                                                press: function (): void {
-                                                                    that.fireViewEvents(that.chooseInventoryCountingLineMaterialSerialEvent, bo.emInventoryAdjustment.OVER);
-                                                                }
-                                                            }),
-                                                            new sap.m.MenuItem("", {
-                                                                text: ibas.i18n.prop("em_inventoryadjustment_short"),
-                                                                icon: "sap-icon://trend-down",
-                                                                press: function (): void {
-                                                                    that.fireViewEvents(that.chooseInventoryCountingLineMaterialSerialEvent, bo.emInventoryAdjustment.SHORT);
-                                                                }
-                                                            }),
-                                                        ]
+                                                        press: function (): void {
+                                                            that.fireViewEvents(that.chooseInventoryCountingLineMaterialSerialEvent);
+                                                        }
                                                     }),
                                                 ]
                                             })

@@ -289,6 +289,102 @@ namespace materials {
                 this.view.showMaterialBatchItems(journals);
             }
         }
+        /** 物料批次列表服务 */
+        export class MaterialBatchListService extends MaterialBatchService<IMaterialBatchListsView> {
+            /** 应用标识 */
+            static APPLICATION_ID: string = "5cf7bf70-fbc6-4655-90be-38cc48f2bfac";
+            /** 应用名称 */
+            static APPLICATION_NAME: string = "materials_app_materialbatch_list";
+            /** 构造函数 */
+            constructor() {
+                super();
+                this.id = MaterialBatchListService.APPLICATION_ID;
+                this.name = MaterialBatchListService.APPLICATION_NAME;
+                this.description = ibas.i18n.prop(this.name);
+            }
+            /** 注册视图 */
+            protected registerView(): void {
+                super.registerView();
+                // 其他事件
+                this.view.addMaterialBatchItemEvent = this.addMaterialBatchItem;
+                this.view.removeMaterialBatchItemEvent = this.removeMaterialBatchItem;
+            }
+            protected removeMaterialBatchItem(data: bo.IMaterialBatchItem[]): void {
+                if (ibas.objects.isNull(data) || !(data instanceof Array)) {
+                    this.messages(ibas.emMessageType.WARNING,
+                        ibas.i18n.prop("shell_please_chooose_data", ibas.i18n.prop("shell_data_remove")));
+                    return;
+                }
+                for (let item of data) {
+                    if (item.isNew) {
+                        if (ibas.objects.isNull(this.workingData)) {
+                            for (let wData of this.workDatas) {
+                                if (wData.materialBatches.contain(item)) {
+                                    wData.materialBatches.remove(item);
+                                    break;
+                                }
+                            }
+                        } else {
+                            this.workingData.materialBatches.remove(item);
+                        }
+                    } else {
+                        item.delete();
+                    }
+                }
+                if (ibas.objects.isNull(this.workingData)) {
+                    let datas: ibas.IList<bo.IMaterialBatchItem> = new ibas.ArrayList<bo.IMaterialBatchItem>();
+                    for (let wData of this.workDatas) {
+                        datas.add(wData.materialBatches.filterDeleted());
+                    }
+                    this.view.showMaterialBatchItems(datas);
+                } else {
+                    this.view.showMaterialBatchItems(this.workingData.materialBatches.filterDeleted());
+                }
+            }
+            protected addMaterialBatchItem(createNew: boolean = true): void {
+                if (ibas.objects.isNull(this.workingData)) {
+                    this.messages(ibas.emMessageType.WARNING, ibas.i18n.prop("shell_please_chooose_data",
+                        ibas.i18n.prop("shell_data_edit")
+                    ));
+                    return;
+                }
+                let total: number = this.workingData.quantity - this.workingData.materialBatches.total();
+                if (total <= 0) {
+                    return;
+                }
+                if (createNew === true) {
+                    let journal: bo.IMaterialBatchItem = this.workingData.materialBatches.create();
+                    journal.quantity = total;
+                    journal.batchCode = ibas.dates.toString(ibas.dates.now(), "yyyyMMdd");
+                    this.view.showMaterialBatchItems(this.workingData.materialBatches.filterDeleted());
+                } else {
+                    let that: this = this;
+                    let criteria: ibas.ICriteria = new ibas.Criteria();
+                    let condition: ibas.ICondition = criteria.conditions.create();
+                    condition.alias = bo.MaterialBatch.PROPERTY_ITEMCODE_NAME;
+                    condition.value = this.workingData.itemCode;
+                    condition = criteria.conditions.create();
+                    condition.alias = bo.MaterialBatch.PROPERTY_WAREHOUSE_NAME;
+                    condition.value = this.workingData.warehouse;
+                    ibas.servicesManager.runChooseService<bo.MaterialBatch>({
+                        boCode: bo.BO_CODE_MATERIALBATCH,
+                        criteria: criteria,
+                        onCompleted(selecteds: ibas.IList<bo.MaterialBatch>): void {
+                            for (let selected of selecteds) {
+                                if (total <= 0) {
+                                    break;
+                                }
+                                let item: bo.IMaterialBatchItem = that.workingData.materialBatches.create();
+                                item.batchCode = selected.batchCode;
+                                item.quantity = selected.quantity > total ? total : selected.quantity;
+                                total -= item.quantity;
+                            }
+                            that.view.showMaterialBatchItems(that.workingData.materialBatches.filterDeleted());
+                        }
+                    });
+                }
+            }
+        }
         /** 视图-物料批次服务 */
         export interface IMaterialBatchServiceView extends ibas.IBOView {
             /** 显示待处理数据 */
@@ -313,6 +409,13 @@ namespace materials {
             createMaterialBatchItemEvent: Function;
             /** 删除物料批次库存 */
             deleteMaterialBatchItemEvent: Function;
+        }
+        /** 视图-物料批次列表 */
+        export interface IMaterialBatchListsView extends IMaterialBatchServiceView {
+            /** 添加批次记录 */
+            addMaterialBatchItemEvent: Function;
+            /** 移出物料批次库存 */
+            removeMaterialBatchItemEvent: Function;
         }
         /** 物料批次发货服务映射 */
         export class MaterialBatchIssueServiceMapping extends ibas.ServiceMapping {
@@ -342,6 +445,21 @@ namespace materials {
             /** 创建服务实例 */
             create(): ibas.IService<ibas.IServiceContract> {
                 return new MaterialBatchReceiptService();
+            }
+        }
+        /** 物料批次列表服务映射 */
+        export class MaterialBatchListServiceMapping extends ibas.ServiceMapping {
+            /** 构造函数 */
+            constructor() {
+                super();
+                this.id = MaterialBatchListService.APPLICATION_ID;
+                this.name = MaterialBatchListService.APPLICATION_NAME;
+                this.description = ibas.i18n.prop(this.name);
+                this.proxy = MaterialBatchListServiceProxy;
+            }
+            /** 创建服务实例 */
+            create(): ibas.IService<ibas.IServiceContract> {
+                return new MaterialBatchListService();
             }
         }
 
