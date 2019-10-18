@@ -15,6 +15,7 @@ import org.colorcoding.ibas.bobas.data.DateTime;
 import org.colorcoding.ibas.bobas.data.Decimal;
 import org.colorcoding.ibas.bobas.data.List;
 import org.colorcoding.ibas.bobas.data.emApprovalStatus;
+import org.colorcoding.ibas.bobas.data.emDirection;
 import org.colorcoding.ibas.bobas.data.emDocumentStatus;
 import org.colorcoding.ibas.bobas.data.emYesNo;
 import org.colorcoding.ibas.bobas.i18n.I18N;
@@ -47,6 +48,7 @@ import org.colorcoding.ibas.materials.bo.material.MaterialPrice;
 import org.colorcoding.ibas.materials.bo.material.MaterialQuantity;
 import org.colorcoding.ibas.materials.bo.material.Product;
 import org.colorcoding.ibas.materials.bo.materialbatch.IMaterialBatch;
+import org.colorcoding.ibas.materials.bo.materialbatch.IMaterialBatchItem;
 import org.colorcoding.ibas.materials.bo.materialbatch.IMaterialBatchJournal;
 import org.colorcoding.ibas.materials.bo.materialbatch.MaterialBatch;
 import org.colorcoding.ibas.materials.bo.materialbatch.MaterialBatchJournal;
@@ -61,6 +63,7 @@ import org.colorcoding.ibas.materials.bo.materialpricelist.IMaterialPriceList;
 import org.colorcoding.ibas.materials.bo.materialpricelist.MaterialPriceItem;
 import org.colorcoding.ibas.materials.bo.materialpricelist.MaterialPriceList;
 import org.colorcoding.ibas.materials.bo.materialserial.IMaterialSerial;
+import org.colorcoding.ibas.materials.bo.materialserial.IMaterialSerialItem;
 import org.colorcoding.ibas.materials.bo.materialserial.IMaterialSerialJournal;
 import org.colorcoding.ibas.materials.bo.materialserial.MaterialSerial;
 import org.colorcoding.ibas.materials.bo.materialserial.MaterialSerialJournal;
@@ -718,63 +721,245 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 			if (opRsltData.getError() != null) {
 				throw opRsltData.getError();
 			}
-			OperationResult<String> opRsltClose = new OperationResult<>();
 			boolean trans = this.beginTransaction();
 			try {
-				for (IInventoryCounting data : opRsltData.getResultObjects()) {
-					if (data.getDocumentStatus() == emDocumentStatus.CLOSED
-							|| data.getDocumentStatus() == emDocumentStatus.PLANNED
-							|| (data.getApprovalStatus() != emApprovalStatus.APPROVED
-									&& data.getApprovalStatus() != emApprovalStatus.UNAFFECTED)
-							|| data.getCanceled() == emYesNo.YES) {
+				List<IMaterialBatchJournal> batchJournals;
+				List<IMaterialSerialJournal> serialJournals;
+				List<IMaterialInventoryJournal> inventoryJournals;
+				IOperationResult<?> opRsltSave;
+				IOperationResult<IMaterialSerial> opRsltSerial;
+				IOperationResult<IMaterialBatch> opRsltBatch;
+				IOperationResult<IMaterialInventory> opRsltInventory;
+				OperationResult<String> opRsltClosing = new OperationResult<>();
+				ICriteria iCriteria = new Criteria();
+				ICondition itemCondition = iCriteria.getConditions().create();
+				itemCondition.setAlias(MaterialInventory.PROPERTY_ITEMCODE.getName());
+				ICondition whsCondition = iCriteria.getConditions().create();
+				whsCondition.setAlias(MaterialInventory.PROPERTY_WAREHOUSE.getName());
+				for (IInventoryCounting counting : opRsltData.getResultObjects()) {
+					if (counting.getDocumentStatus() == emDocumentStatus.CLOSED
+							|| counting.getDocumentStatus() == emDocumentStatus.PLANNED
+							|| (counting.getApprovalStatus() != emApprovalStatus.APPROVED
+									&& counting.getApprovalStatus() != emApprovalStatus.UNAFFECTED)
+							|| counting.getCanceled() == emYesNo.YES) {
 						continue;
 					}
-					for (IInventoryCountingLine dataLine : data.getInventoryCountingLines()) {
-						if (dataLine.getLineStatus() == emDocumentStatus.CLOSED
-								|| dataLine.getLineStatus() == emDocumentStatus.PLANNED) {
+					inventoryJournals = new ArrayList<>();
+					batchJournals = new ArrayList<>();
+					serialJournals = new ArrayList<>();
+					for (IInventoryCountingLine countingLine : counting.getInventoryCountingLines()) {
+						if (countingLine.getLineStatus() == emDocumentStatus.CLOSED
+								|| countingLine.getLineStatus() == emDocumentStatus.PLANNED) {
 							continue;
 						}
-						if (dataLine.getCounted() != emYesNo.YES) {
-							throw new Exception(I18N.prop("msg_mm_document_not_counted", dataLine));
+						if (countingLine.getCounted() != emYesNo.YES) {
+							throw new Exception(I18N.prop("msg_mm_document_not_counted", countingLine));
 						}
-						// 重新检查库存
-						ICriteria iCriteria = new Criteria();
-						iCriteria.setResultCount(1);
-						ICondition iCondition = iCriteria.getConditions().create();
-						iCondition.setAlias(MaterialInventory.PROPERTY_ITEMCODE.getName());
-						iCondition.setValue(dataLine.getItemCode());
-						iCondition = iCriteria.getConditions().create();
-						iCondition.setAlias(MaterialInventory.PROPERTY_WAREHOUSE.getName());
-						iCondition.setValue(dataLine.getWarehouse());
-						IMaterialInventory materialInventory = this.fetchMaterialInventory(iCriteria).getResultObjects()
-								.firstOrDefault();
-						if (materialInventory == null) {
-							dataLine.setInventoryQuantity(Decimal.ZERO);
-						} else {
-							dataLine.setInventoryQuantity(materialInventory.getOnHand());
+						// 检查库存，保存时自动计算差异数量
+						itemCondition.setValue(countingLine.getItemCode());
+						whsCondition.setValue(countingLine.getWarehouse());
+						opRsltInventory = this.fetchMaterialInventory(iCriteria);
+						if (opRsltInventory.getError() != null) {
+							throw opRsltInventory.getError();
 						}
-						// 保存时自动计算差异数量
+						countingLine.setInventoryQuantity(Decimal.ZERO);
+						for (IMaterialInventory invItem : opRsltInventory.getResultObjects()) {
+							countingLine
+									.setInventoryQuantity(countingLine.getInventoryQuantity().add(invItem.getOnHand()));
+						}
+						// 检查库存记录
+						countingLine.setDifference(
+								countingLine.getCountQuantity().subtract(countingLine.getInventoryQuantity()));
+						if (countingLine.getDifference().compareTo(Decimal.ZERO) > 0) {
+							// 盘盈，入库
+							IMaterialInventoryJournal journal = new MaterialInventoryJournal();
+							journal.setBaseDocumentType(countingLine.getObjectCode());
+							journal.setBaseDocumentEntry(countingLine.getDocEntry());
+							journal.setBaseDocumentLineId(countingLine.getLineId());
+							journal.setItemCode(countingLine.getItemCode());
+							journal.setWarehouse(countingLine.getWarehouse());
+							journal.setQuantity(countingLine.getDifference());
+							journal.setDirection(emDirection.IN);
+							inventoryJournals.add(journal);
+						} else if (countingLine.getDifference().compareTo(Decimal.ZERO) < 0) {
+							// 盘亏，出库
+							IMaterialInventoryJournal journal = new MaterialInventoryJournal();
+							journal.setBaseDocumentType(countingLine.getObjectCode());
+							journal.setBaseDocumentEntry(countingLine.getDocEntry());
+							journal.setBaseDocumentLineId(countingLine.getLineId());
+							journal.setItemCode(countingLine.getItemCode());
+							journal.setWarehouse(countingLine.getWarehouse());
+							journal.setQuantity(countingLine.getDifference().abs());
+							journal.setDirection(emDirection.OUT);
+							inventoryJournals.add(journal);
+						}
+						// 检查序列记录
+						if (countingLine.getSerialManagement() == emYesNo.YES) {
+							opRsltSerial = this.fetchMaterialSerial(iCriteria);
+							if (opRsltSerial.getError() != null) {
+								throw opRsltSerial.getError();
+							}
+							// 库中没有的序列，则使用盘点入库
+							for (IMaterialSerialItem lineItem : countingLine.getMaterialSerials()) {
+								IMaterialSerial opSerial = opRsltSerial.getResultObjects()
+										.firstOrDefault(c -> c.getSerialCode().equals(lineItem.getSerialCode()));
+								if (opSerial == null) {
+									IMaterialSerialJournal journal = new MaterialSerialJournal();
+									journal.setBaseDocumentType(countingLine.getObjectCode());
+									journal.setBaseDocumentEntry(countingLine.getDocEntry());
+									journal.setBaseDocumentLineId(countingLine.getLineId());
+									journal.setItemCode(countingLine.getItemCode());
+									journal.setWarehouse(countingLine.getWarehouse());
+									journal.setSerialCode(lineItem.getSerialCode());
+									journal.setDirection(emDirection.IN);
+									serialJournals.add(journal);
+								}
+							}
+							// 库中有序列，则比较数量状态
+							for (IMaterialSerial opSerial : opRsltSerial.getResultObjects()) {
+								IMaterialSerialItem dataSerial = countingLine.getMaterialSerials()
+										.firstOrDefault(c -> opSerial.getSerialCode().equals(c.getSerialCode()));
+								if (dataSerial == null) {
+									// 没有出现在盘点里，清理当前数量
+									if (opSerial.getInStock() == emYesNo.YES) {
+										IMaterialSerialJournal journal = new MaterialSerialJournal();
+										journal.setBaseDocumentType(countingLine.getObjectCode());
+										journal.setBaseDocumentEntry(countingLine.getDocEntry());
+										journal.setBaseDocumentLineId(countingLine.getLineId());
+										journal.setItemCode(countingLine.getItemCode());
+										journal.setWarehouse(countingLine.getWarehouse());
+										journal.setSerialCode(opSerial.getSerialCode());
+										journal.setDirection(emDirection.OUT);
+										serialJournals.add(journal);
+									}
+								} else {
+									// 出现在盘点里，判断库存数量是否一致
+									if (opSerial.getInStock() == emYesNo.NO) {
+										IMaterialSerialJournal journal = new MaterialSerialJournal();
+										journal.setBaseDocumentType(countingLine.getObjectCode());
+										journal.setBaseDocumentEntry(countingLine.getDocEntry());
+										journal.setBaseDocumentLineId(countingLine.getLineId());
+										journal.setItemCode(countingLine.getItemCode());
+										journal.setWarehouse(countingLine.getWarehouse());
+										journal.setSerialCode(opSerial.getSerialCode());
+										journal.setDirection(emDirection.IN);
+										serialJournals.add(journal);
+									}
+								}
+							}
+						}
+						// 检查批次记录
+						if (countingLine.getBatchManagement() == emYesNo.YES) {
+							opRsltBatch = this.fetchMaterialBatch(iCriteria);
+							if (opRsltBatch.getError() != null) {
+								throw opRsltBatch.getError();
+							}
+							// 库中没有的批次，则使用盘点入库
+							for (IMaterialBatchItem lineItem : countingLine.getMaterialBatches()) {
+								IMaterialBatch opBatch = opRsltBatch.getResultObjects()
+										.firstOrDefault(c -> c.getBatchCode().equals(lineItem.getBatchCode()));
+								if (opBatch == null) {
+									IMaterialBatchJournal journal = new MaterialBatchJournal();
+									journal.setBaseDocumentType(countingLine.getObjectCode());
+									journal.setBaseDocumentEntry(countingLine.getDocEntry());
+									journal.setBaseDocumentLineId(countingLine.getLineId());
+									journal.setItemCode(countingLine.getItemCode());
+									journal.setWarehouse(countingLine.getWarehouse());
+									journal.setBatchCode(lineItem.getBatchCode());
+									journal.setQuantity(lineItem.getQuantity());
+									journal.setDirection(emDirection.IN);
+									batchJournals.add(journal);
+								}
+							}
+							// 库中有批次，则比较数量状态
+							for (IMaterialBatch opBatch : opRsltBatch.getResultObjects()) {
+								IMaterialBatchItem dataBatch = countingLine.getMaterialBatches()
+										.firstOrDefault(c -> opBatch.getBatchCode().equals(c.getBatchCode()));
+								if (dataBatch == null) {
+									// 没有出现在盘点里，清理当前数量
+									if (opBatch.getQuantity().compareTo(Decimal.ZERO) > 0) {
+										IMaterialBatchJournal journal = new MaterialBatchJournal();
+										journal.setBaseDocumentType(countingLine.getObjectCode());
+										journal.setBaseDocumentEntry(countingLine.getDocEntry());
+										journal.setBaseDocumentLineId(countingLine.getLineId());
+										journal.setItemCode(countingLine.getItemCode());
+										journal.setWarehouse(countingLine.getWarehouse());
+										journal.setBatchCode(opBatch.getBatchCode());
+										journal.setQuantity(opBatch.getQuantity());
+										journal.setDirection(emDirection.OUT);
+										batchJournals.add(journal);
+									}
+								} else {
+									// 出现在盘点里，判断库存数量是否一致
+									if (opBatch.getQuantity().compareTo(dataBatch.getQuantity()) > 0) {
+										IMaterialBatchJournal journal = new MaterialBatchJournal();
+										journal.setBaseDocumentType(countingLine.getObjectCode());
+										journal.setBaseDocumentEntry(countingLine.getDocEntry());
+										journal.setBaseDocumentLineId(countingLine.getLineId());
+										journal.setItemCode(countingLine.getItemCode());
+										journal.setWarehouse(countingLine.getWarehouse());
+										journal.setBatchCode(opBatch.getBatchCode());
+										journal.setQuantity(opBatch.getQuantity().subtract(dataBatch.getQuantity()));
+										journal.setDirection(emDirection.OUT);
+										batchJournals.add(journal);
+									} else if (opBatch.getQuantity().compareTo(dataBatch.getQuantity()) < 0) {
+										IMaterialBatchJournal journal = new MaterialBatchJournal();
+										journal.setBaseDocumentType(countingLine.getObjectCode());
+										journal.setBaseDocumentEntry(countingLine.getDocEntry());
+										journal.setBaseDocumentLineId(countingLine.getLineId());
+										journal.setItemCode(countingLine.getItemCode());
+										journal.setWarehouse(countingLine.getWarehouse());
+										journal.setBatchCode(opBatch.getBatchCode());
+										journal.setQuantity(dataBatch.getQuantity().subtract(opBatch.getQuantity()));
+										journal.setDirection(emDirection.IN);
+										batchJournals.add(journal);
+									}
+								}
+							}
+						}
 						// 修改状态
-						dataLine.setLineStatus(emDocumentStatus.CLOSED);
+						countingLine.setLineStatus(emDocumentStatus.CLOSED);
 					}
-					data.setDocumentStatus(emDocumentStatus.CLOSED);
-					data.setPostingDate(DateTime.getToday());
-					IOperationResult<IInventoryCounting> opRsltSave = super.save(data, token);
+					counting.setDocumentStatus(emDocumentStatus.CLOSED);
+					counting.setPostingDate(DateTime.getToday());
+					// 保存盘点单据
+					opRsltSave = super.save(counting, token);
 					if (opRsltSave.getError() != null) {
 						throw opRsltSave.getError();
 					}
-					opRsltClose.addResultObjects(data.toString());
+					// 保存被影响的库存记录
+					for (IMaterialInventoryJournal journal : inventoryJournals) {
+						opRsltSave = super.save(journal, token);
+						if (opRsltSave.getError() != null) {
+							throw opRsltSave.getError();
+						}
+					}
+					// 保存被影响的序列记录
+					for (IMaterialSerialJournal journal : serialJournals) {
+						opRsltSave = super.save(journal, token);
+						if (opRsltSave.getError() != null) {
+							throw opRsltSave.getError();
+						}
+					}
+					// 保存被影响的批次记录
+					for (IMaterialBatchJournal journal : batchJournals) {
+						opRsltSave = super.save(journal, token);
+						if (opRsltSave.getError() != null) {
+							throw opRsltSave.getError();
+						}
+					}
+					opRsltClosing.addResultObjects(counting.toString());
 				}
 				if (trans) {
 					this.commitTransaction();
 				}
+				return opRsltClosing;
 			} catch (Exception e) {
 				if (trans) {
 					this.rollbackTransaction();
 				}
 				throw e;
 			}
-			return opRsltClose;
 		} catch (Exception e) {
 			return new OperationResult<>(e);
 		}

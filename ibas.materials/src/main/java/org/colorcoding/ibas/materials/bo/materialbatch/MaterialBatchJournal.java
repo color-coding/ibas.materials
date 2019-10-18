@@ -729,52 +729,42 @@ public class MaterialBatchJournal extends BusinessObject<MaterialBatchJournal>
 
 	@Override
 	public IBusinessLogicContract[] getContracts() {
-		return new IBusinessLogicContract[] { new IMaterialBatchInventoryContract() {
+		return new IBusinessLogicContract[] {
 
-			@Override
-			public String getIdentifiers() {
-				return MaterialBatchJournal.this.getIdentifiers();
-			}
+				new IMaterialBatchInventoryContract() {
 
-			@Override
-			public String getBatchCode() {
-				return MaterialBatchJournal.this.getBatchCode();
-			}
+					@Override
+					public String getIdentifiers() {
+						return MaterialBatchJournal.this.getIdentifiers();
+					}
 
-			@Override
-			public String getItemCode() {
-				return MaterialBatchJournal.this.getItemCode();
-			}
+					@Override
+					public String getBatchCode() {
+						return MaterialBatchJournal.this.getBatchCode();
+					}
 
-			@Override
-			public String getWarehouse() {
-				return MaterialBatchJournal.this.getWarehouse();
-			}
+					@Override
+					public String getItemCode() {
+						return MaterialBatchJournal.this.getItemCode();
+					}
 
-			@Override
-			public BigDecimal getQuantity() {
-				return MaterialBatchJournal.this.getQuantity();
-			}
+					@Override
+					public String getWarehouse() {
+						return MaterialBatchJournal.this.getWarehouse();
+					}
 
-			@Override
-			public emDirection getDirection() {
-				return MaterialBatchJournal.this.getDirection();
-			}
+					@Override
+					public BigDecimal getQuantity() {
+						return MaterialBatchJournal.this.getQuantity();
+					}
 
-			@Override
-			public String getBaseDocumentType() {
-				return MaterialBatchJournal.this.getBaseDocumentType();
-			}
+					@Override
+					public emDirection getDirection() {
+						return MaterialBatchJournal.this.getDirection();
+					}
 
-			@Override
-			public Integer getBaseDocumentEntry() {
-				return MaterialBatchJournal.this.getBaseDocumentEntry();
-			}
+				}
 
-			@Override
-			public Integer getBaseDocumentLineId() {
-				return MaterialBatchJournal.this.getBaseDocumentLineId();
-			}
-		} };
+		};
 	}
 }

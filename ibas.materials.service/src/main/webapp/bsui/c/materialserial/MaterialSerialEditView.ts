@@ -73,6 +73,7 @@ namespace materials {
                             }),
                             new sap.m.Label("", { text: ibas.i18n.prop("bo_materialserial_instock") }),
                             new sap.extension.m.EnumSelect("", {
+                                editable: false,
                                 enumType: ibas.emYesNo
                             }).bindProperty("bindingValue", {
                                 path: "/inStock",

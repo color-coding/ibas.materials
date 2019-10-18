@@ -38,24 +38,4 @@ public interface IMaterialSerialInventoryContract extends IBusinessLogicContract
 	 */
 	emDirection getDirection();
 
-	/**
-	 * 单据类型
-	 *
-	 * @return
-	 */
-	String getBaseDocumentType();
-
-	/**
-	 * 单据号
-	 *
-	 * @return
-	 */
-	Integer getBaseDocumentEntry();
-
-	/**
-	 * 单据行号
-	 *
-	 * @return
-	 */
-	Integer getBaseDocumentLineId();
 }

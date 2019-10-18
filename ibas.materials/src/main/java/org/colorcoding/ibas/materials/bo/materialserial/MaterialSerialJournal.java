@@ -81,8 +81,7 @@ public class MaterialSerialJournal extends BusinessObject<MaterialSerialJournal>
 	/**
 	 * 设置-物料编码
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setItemCode(String value) {
 		this.setProperty(PROPERTY_ITEMCODE, value);
@@ -113,8 +112,7 @@ public class MaterialSerialJournal extends BusinessObject<MaterialSerialJournal>
 	/**
 	 * 设置-序列编码
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setSerialCode(String value) {
 		this.setProperty(PROPERTY_SERIALCODE, value);
@@ -145,8 +143,7 @@ public class MaterialSerialJournal extends BusinessObject<MaterialSerialJournal>
 	/**
 	 * 设置-仓库编码
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setWarehouse(String value) {
 		this.setProperty(PROPERTY_WAREHOUSE, value);
@@ -177,8 +174,7 @@ public class MaterialSerialJournal extends BusinessObject<MaterialSerialJournal>
 	/**
 	 * 设置-方向
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setDirection(emDirection value) {
 		this.setProperty(PROPERTY_DIRECTION, value);
@@ -209,8 +205,7 @@ public class MaterialSerialJournal extends BusinessObject<MaterialSerialJournal>
 	/**
 	 * 设置-基于类型
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setBaseDocumentType(String value) {
 		this.setProperty(PROPERTY_BASEDOCUMENTTYPE, value);
@@ -241,8 +236,7 @@ public class MaterialSerialJournal extends BusinessObject<MaterialSerialJournal>
 	/**
 	 * 设置-基于标识
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setBaseDocumentEntry(Integer value) {
 		this.setProperty(PROPERTY_BASEDOCUMENTENTRY, value);
@@ -273,8 +267,7 @@ public class MaterialSerialJournal extends BusinessObject<MaterialSerialJournal>
 	/**
 	 * 设置-基于行号
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setBaseDocumentLineId(Integer value) {
 		this.setProperty(PROPERTY_BASEDOCUMENTLINEID, value);
@@ -305,8 +298,7 @@ public class MaterialSerialJournal extends BusinessObject<MaterialSerialJournal>
 	/**
 	 * 设置-对象编号
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setObjectKey(Integer value) {
 		this.setProperty(PROPERTY_OBJECTKEY, value);
@@ -337,8 +329,7 @@ public class MaterialSerialJournal extends BusinessObject<MaterialSerialJournal>
 	/**
 	 * 设置-对象类型
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setObjectCode(String value) {
 		this.setProperty(PROPERTY_OBJECTCODE, value);
@@ -369,8 +360,7 @@ public class MaterialSerialJournal extends BusinessObject<MaterialSerialJournal>
 	/**
 	 * 设置-实例号
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setLogInst(Integer value) {
 		this.setProperty(PROPERTY_LOGINST, value);
@@ -401,8 +391,7 @@ public class MaterialSerialJournal extends BusinessObject<MaterialSerialJournal>
 	/**
 	 * 设置-数据源
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setDataSource(String value) {
 		this.setProperty(PROPERTY_DATASOURCE, value);
@@ -433,8 +422,7 @@ public class MaterialSerialJournal extends BusinessObject<MaterialSerialJournal>
 	/**
 	 * 设置-创建日期
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setCreateDate(DateTime value) {
 		this.setProperty(PROPERTY_CREATEDATE, value);
@@ -465,8 +453,7 @@ public class MaterialSerialJournal extends BusinessObject<MaterialSerialJournal>
 	/**
 	 * 设置-创建时间
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setCreateTime(Short value) {
 		this.setProperty(PROPERTY_CREATETIME, value);
@@ -497,8 +484,7 @@ public class MaterialSerialJournal extends BusinessObject<MaterialSerialJournal>
 	/**
 	 * 设置-更新日期
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setUpdateDate(DateTime value) {
 		this.setProperty(PROPERTY_UPDATEDATE, value);
@@ -529,8 +515,7 @@ public class MaterialSerialJournal extends BusinessObject<MaterialSerialJournal>
 	/**
 	 * 设置-更新时间
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setUpdateTime(Short value) {
 		this.setProperty(PROPERTY_UPDATETIME, value);
@@ -561,8 +546,7 @@ public class MaterialSerialJournal extends BusinessObject<MaterialSerialJournal>
 	/**
 	 * 设置-创建用户
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setCreateUserSign(Integer value) {
 		this.setProperty(PROPERTY_CREATEUSERSIGN, value);
@@ -593,8 +577,7 @@ public class MaterialSerialJournal extends BusinessObject<MaterialSerialJournal>
 	/**
 	 * 设置-更新用户
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setUpdateUserSign(Integer value) {
 		this.setProperty(PROPERTY_UPDATEUSERSIGN, value);
@@ -625,8 +608,7 @@ public class MaterialSerialJournal extends BusinessObject<MaterialSerialJournal>
 	/**
 	 * 设置-创建动作标识
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setCreateActionId(String value) {
 		this.setProperty(PROPERTY_CREATEACTIONID, value);
@@ -657,8 +639,7 @@ public class MaterialSerialJournal extends BusinessObject<MaterialSerialJournal>
 	/**
 	 * 设置-更新动作标识
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setUpdateActionId(String value) {
 		this.setProperty(PROPERTY_UPDATEACTIONID, value);
@@ -685,47 +666,37 @@ public class MaterialSerialJournal extends BusinessObject<MaterialSerialJournal>
 
 	@Override
 	public IBusinessLogicContract[] getContracts() {
-		return new IBusinessLogicContract[] { new IMaterialSerialInventoryContract() {
+		return new IBusinessLogicContract[] {
 
-			@Override
-			public String getIdentifiers() {
-				return MaterialSerialJournal.this.getIdentifiers();
-			}
+				new IMaterialSerialInventoryContract() {
 
-			@Override
-			public String getSerialCode() {
-				return MaterialSerialJournal.this.getSerialCode();
-			}
+					@Override
+					public String getIdentifiers() {
+						return MaterialSerialJournal.this.getIdentifiers();
+					}
 
-			@Override
-			public String getItemCode() {
-				return MaterialSerialJournal.this.getItemCode();
-			}
+					@Override
+					public String getSerialCode() {
+						return MaterialSerialJournal.this.getSerialCode();
+					}
 
-			@Override
-			public String getWarehouse() {
-				return MaterialSerialJournal.this.getWarehouse();
-			}
+					@Override
+					public String getItemCode() {
+						return MaterialSerialJournal.this.getItemCode();
+					}
 
-			@Override
-			public emDirection getDirection() {
-				return MaterialSerialJournal.this.getDirection();
-			}
+					@Override
+					public String getWarehouse() {
+						return MaterialSerialJournal.this.getWarehouse();
+					}
 
-			@Override
-			public String getBaseDocumentType() {
-				return MaterialSerialJournal.this.getBaseDocumentType();
-			}
+					@Override
+					public emDirection getDirection() {
+						return MaterialSerialJournal.this.getDirection();
+					}
 
-			@Override
-			public Integer getBaseDocumentEntry() {
-				return MaterialSerialJournal.this.getBaseDocumentEntry();
-			}
+				}
 
-			@Override
-			public Integer getBaseDocumentLineId() {
-				return MaterialSerialJournal.this.getBaseDocumentLineId();
-			}
-		} };
+		};
 	}
 }

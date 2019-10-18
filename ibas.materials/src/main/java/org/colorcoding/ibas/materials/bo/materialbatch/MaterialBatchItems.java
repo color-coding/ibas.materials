@@ -142,6 +142,18 @@ public class MaterialBatchItems extends BusinessObjects<IMaterialBatchItem, IMat
 		}
 		BigDecimal total = Decimal.ZERO;
 		for (IMaterialBatchItem item : this) {
+			if (item.isDeleted()) {
+				continue;
+			}
+			if (item.getBatchCode() == null || item.getBatchCode().isEmpty()) {
+				throw new BusinessRuleException(
+						I18N.prop("msg_mm_document_material_batch_empty_code", this.getParent()));
+			}
+			IMaterialBatchItem tmpItem = this.lastOrDefault(c -> item.getBatchCode().equals(c.getBatchCode()));
+			if (item != tmpItem) {
+				throw new BusinessRuleException(I18N.prop("msg_mm_document_material_batch_duplicate_code",
+						this.getParent(), tmpItem.getBatchCode()));
+			}
 			total = total.add(item.getQuantity());
 		}
 		if (total.compareTo(this.getParent().getQuantity()) != 0) {

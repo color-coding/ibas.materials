@@ -769,7 +769,7 @@ namespace materials {
             }
 
             get quantity(): number {
-                return this.difference;
+                return this.countQuantity;
             }
             set quantity(value: number) {
                 throw new Error("Method not implemented.");
@@ -781,7 +781,6 @@ namespace materials {
                 this.materialBatches = new MaterialBatchItemCs(this);
                 this.materialSerials = new MaterialSerialItemCs(this);
             }
-
             protected registerRules(): ibas.IBusinessRule[] {
                 return [
                     // 差额 = 盘点数 - 库存数

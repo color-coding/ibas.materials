@@ -142,8 +142,19 @@ public class MaterialSerialItems extends BusinessObjects<IMaterialSerialItem, IM
 			return;
 		}
 		BigDecimal total = Decimal.ZERO;
-		for (@SuppressWarnings("unused")
-		IMaterialSerialItem item : this) {
+		for (IMaterialSerialItem item : this) {
+			if (item.isDeleted()) {
+				continue;
+			}
+			if (item.getSerialCode() == null || item.getSerialCode().isEmpty()) {
+				throw new BusinessRuleException(
+						I18N.prop("msg_mm_document_material_serial_empty_code", this.getParent()));
+			}
+			IMaterialSerialItem tmpItem = this.lastOrDefault(c -> item.getSerialCode().equals(c.getSerialCode()));
+			if (item != tmpItem) {
+				throw new BusinessRuleException(I18N.prop("msg_mm_document_material_serial_duplicate_code",
+						this.getParent(), tmpItem.getSerialCode()));
+			}
 			total = total.add(Decimal.ONE);
 		}
 		if (total.compareTo(this.getParent().getQuantity()) != 0) {

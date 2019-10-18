@@ -1109,4 +1109,5 @@ public class InventoryCounting extends BusinessObject<InventoryCounting>
 						InventoryCountingLine.PROPERTY_LINESTATUS), // 使用集合元素状态
 		};
 	}
+
 }

@@ -276,6 +276,8 @@ namespace materials {
                 export const CONDITION_ALIAS_PURCHASE_ITEM: string = "PurchaseItem";
                 /** 查询条件字段-库存物料 */
                 export const CONDITION_ALIAS_INVENTORY_ITEM: string = "InventoryItem";
+                /** 查询条件字段-虚拟物料 */
+                export const CONDITION_ALIAS_PHANTOM_ITEM: string = "PhantomItem";
                 /** 查询条件字段-物料类型 */
                 export const CONDITION_ALIAS_ITEM_TYPE: string = "ItemType";
                 /** 默认查询条件 */

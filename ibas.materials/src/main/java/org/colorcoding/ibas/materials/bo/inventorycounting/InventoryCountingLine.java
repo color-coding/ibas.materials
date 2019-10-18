@@ -25,12 +25,9 @@ import org.colorcoding.ibas.bobas.rule.IBusinessRule;
 import org.colorcoding.ibas.bobas.rule.ICheckRules;
 import org.colorcoding.ibas.bobas.rule.common.BusinessRuleMinValue;
 import org.colorcoding.ibas.bobas.rule.common.BusinessRuleRequired;
-import org.colorcoding.ibas.bobas.rule.common.BusinessRuleSubtraction;
 import org.colorcoding.ibas.materials.MyConfiguration;
 import org.colorcoding.ibas.materials.bo.materialbatch.IMaterialBatchItems;
 import org.colorcoding.ibas.materials.bo.materialserial.IMaterialSerialItems;
-import org.colorcoding.ibas.materials.logic.IMaterialIssueContract;
-import org.colorcoding.ibas.materials.logic.IMaterialReceiptContract;
 import org.colorcoding.ibas.materials.logic.IMaterialWarehouseFrozenContract;
 
 /**
@@ -1196,7 +1193,6 @@ public class InventoryCountingLine extends BusinessObject<InventoryCountingLine>
 				new BusinessRuleRequired(PROPERTY_WAREHOUSE), // 要求有值
 				new BusinessRuleMinValue<BigDecimal>(Decimal.ZERO, PROPERTY_INVENTORYQUANTITY), // 不能低于0
 				new BusinessRuleMinValue<BigDecimal>(Decimal.ZERO, PROPERTY_COUNTQUANTITY), // 不能低于0
-				new BusinessRuleSubtraction(PROPERTY_DIFFERENCE, PROPERTY_COUNTQUANTITY, PROPERTY_INVENTORYQUANTITY), // 求差异
 		};
 	}
 
@@ -1218,153 +1214,7 @@ public class InventoryCountingLine extends BusinessObject<InventoryCountingLine>
 
 	@Override
 	public IBusinessLogicContract[] getContracts() {
-		if (this.getLineStatus() == emDocumentStatus.CLOSED) {
-			if (Decimal.ZERO.compareTo(this.getDifference()) > 0) {
-				// 小于0，发货
-				return new IBusinessLogicContract[] {
-						// 物料发货
-						new IMaterialIssueContract() {
-
-							@Override
-							public String getIdentifiers() {
-								return InventoryCountingLine.this.getIdentifiers();
-							}
-
-							@Override
-							public String getWarehouse() {
-								return InventoryCountingLine.this.getWarehouse();
-							}
-
-							@Override
-							public emYesNo getSerialManagement() {
-								return InventoryCountingLine.this.getSerialManagement();
-							}
-
-							@Override
-							public emYesNo getBatchManagement() {
-								return InventoryCountingLine.this.getBatchManagement();
-							}
-
-							@Override
-							public BigDecimal getQuantity() {
-								return InventoryCountingLine.this.getQuantity();
-							}
-
-							@Override
-							public String getItemName() {
-								return InventoryCountingLine.this.getItemDescription();
-							}
-
-							@Override
-							public String getItemCode() {
-								return InventoryCountingLine.this.getItemCode();
-							}
-
-							@Override
-							public String getDocumentType() {
-								return InventoryCountingLine.this.getObjectCode();
-							}
-
-							@Override
-							public Integer getDocumentLineId() {
-								return InventoryCountingLine.this.getLineId();
-							}
-
-							@Override
-							public Integer getDocumentEntry() {
-								return InventoryCountingLine.this.getDocEntry();
-							}
-
-							@Override
-							public DateTime getPostingDate() {
-								return InventoryCountingLine.this.parent.getPostingDate();
-							}
-
-							@Override
-							public DateTime getDocumentDate() {
-								return InventoryCountingLine.this.parent.getDocumentDate();
-							}
-
-							@Override
-							public DateTime getDeliveryDate() {
-								return InventoryCountingLine.this.parent.getDeliveryDate();
-							}
-
-						} };
-			} else if (Decimal.ZERO.compareTo(this.getDifference()) < 0) {
-				// 大于0，收货
-				return new IBusinessLogicContract[] {
-						// 物料收货
-						new IMaterialReceiptContract() {
-
-							@Override
-							public String getIdentifiers() {
-								return InventoryCountingLine.this.getIdentifiers();
-							}
-
-							@Override
-							public String getWarehouse() {
-								return InventoryCountingLine.this.getWarehouse();
-							}
-
-							@Override
-							public emYesNo getSerialManagement() {
-								return InventoryCountingLine.this.getSerialManagement();
-							}
-
-							@Override
-							public emYesNo getBatchManagement() {
-								return InventoryCountingLine.this.getBatchManagement();
-							}
-
-							@Override
-							public BigDecimal getQuantity() {
-								return InventoryCountingLine.this.getQuantity();
-							}
-
-							@Override
-							public String getItemName() {
-								return InventoryCountingLine.this.getItemDescription();
-							}
-
-							@Override
-							public String getItemCode() {
-								return InventoryCountingLine.this.getItemCode();
-							}
-
-							@Override
-							public String getDocumentType() {
-								return InventoryCountingLine.this.getObjectCode();
-							}
-
-							@Override
-							public Integer getDocumentLineId() {
-								return InventoryCountingLine.this.getLineId();
-							}
-
-							@Override
-							public Integer getDocumentEntry() {
-								return InventoryCountingLine.this.getDocEntry();
-							}
-
-							@Override
-							public DateTime getPostingDate() {
-								return InventoryCountingLine.this.parent.getPostingDate();
-							}
-
-							@Override
-							public DateTime getDocumentDate() {
-								return InventoryCountingLine.this.parent.getDocumentDate();
-							}
-
-							@Override
-							public DateTime getDeliveryDate() {
-								return InventoryCountingLine.this.parent.getDeliveryDate();
-							}
-
-						} };
-			}
-		} else {
+		if (this.getLineStatus() != emDocumentStatus.CLOSED) {
 			return new IBusinessLogicContract[] {
 					// 物料仓库冻结
 					new IMaterialWarehouseFrozenContract() {
@@ -1388,7 +1238,9 @@ public class InventoryCountingLine extends BusinessObject<InventoryCountingLine>
 						public emYesNo getFreeze() {
 							return InventoryCountingLine.this.getFreeze();
 						}
-					} };
+					}
+
+			};
 		}
 		return null;
 	}
