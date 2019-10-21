@@ -40,6 +40,20 @@ public interface IWarehouse extends IBOMasterData {
 	void setName(String value);
 
 	/**
+	 * 获取-条形码
+	 * 
+	 * @return 值
+	 */
+	String getBarCode();
+
+	/**
+	 * 设置-条形码
+	 * 
+	 * @param value 值
+	 */
+	void setBarCode(String value);
+
+	/**
 	 * 获取-激活
 	 * 
 	 * @return 值

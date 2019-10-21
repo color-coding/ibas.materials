@@ -17,6 +17,9 @@ namespace materials {
             /** 名称 */
             name: string;
 
+            /** 条形码 */
+            barCode: string;
+
             /** 激活 */
             activated: ibas.emYesNo;
 

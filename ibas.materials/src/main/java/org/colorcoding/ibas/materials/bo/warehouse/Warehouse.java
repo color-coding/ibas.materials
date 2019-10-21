@@ -122,6 +122,37 @@ public class Warehouse extends BusinessObject<Warehouse>
 	}
 
 	/**
+	 * 属性名称-条形码
+	 */
+	private static final String PROPERTY_BARCODE_NAME = "BarCode";
+
+	/**
+	 * 条形码 属性
+	 */
+	@DbField(name = "BarCode", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME, primaryKey = false)
+	public static final IPropertyInfo<String> PROPERTY_BARCODE = registerProperty(PROPERTY_BARCODE_NAME, String.class,
+			MY_CLASS);
+
+	/**
+	 * 获取-条形码
+	 * 
+	 * @return 值
+	 */
+	@XmlElement(name = PROPERTY_BARCODE_NAME)
+	public final String getBarCode() {
+		return this.getProperty(PROPERTY_BARCODE);
+	}
+
+	/**
+	 * 设置-条形码
+	 * 
+	 * @param value 值
+	 */
+	public final void setBarCode(String value) {
+		this.setProperty(PROPERTY_BARCODE, value);
+	}
+
+	/**
 	 * 属性名称-激活
 	 */
 	private static final String PROPERTY_ACTIVATED_NAME = "Activated";

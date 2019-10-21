@@ -56,6 +56,14 @@ namespace materials {
                                     maxLength: 100
                                 })
                             }),
+                            new sap.m.Label("", { text: ibas.i18n.prop("bo_warehouse_barcode") }),
+                            new sap.extension.m.Input("", {
+                            }).bindProperty("bindingValue", {
+                                path: "barCode",
+                                type: new sap.extension.data.Alphanumeric({
+                                    maxLength: 15
+                                })
+                            }),
                             new sap.m.Label("", { text: ibas.i18n.prop("bo_warehouse_activated") }),
                             new sap.extension.m.EnumSelect("", {
                                 enumType: ibas.emYesNo
@@ -72,6 +80,7 @@ namespace materials {
                                     maxLength: 8
                                 })
                             }),
+                            new sap.ui.core.Title("", { text: ibas.i18n.prop("materials_title_others") }),
                             new sap.m.Label("", {
                                 text: ibas.i18n.prop("openui5_address")
                             }),
@@ -91,7 +100,6 @@ namespace materials {
                             }).bindProperty("zipCode", {
                                 path: "zipCode",
                             }),
-                            new sap.ui.core.Title("", {}),
                         ]
                     });
                     return this.page = new sap.extension.m.DataPage("", {

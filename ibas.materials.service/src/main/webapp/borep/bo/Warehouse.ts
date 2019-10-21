@@ -39,6 +39,17 @@ namespace materials {
                 this.setProperty(Warehouse.PROPERTY_NAME_NAME, value);
             }
 
+            /** 映射的属性名称-条形码 */
+            static PROPERTY_BARCODE_NAME: string = "BarCode";
+            /** 获取-条形码 */
+            get barCode(): string {
+                return this.getProperty<string>(Warehouse.PROPERTY_BARCODE_NAME);
+            }
+            /** 设置-条形码 */
+            set barCode(value: string) {
+                this.setProperty(Warehouse.PROPERTY_BARCODE_NAME, value);
+            }
+
             /** 映射的属性名称-激活 */
             static PROPERTY_ACTIVATED_NAME: string = "Activated";
             /** 获取-激活 */

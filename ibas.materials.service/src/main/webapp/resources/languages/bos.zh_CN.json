@@ -588,6 +588,7 @@
         "bo_warehouse": "仓库",
         "bo_warehouse_code": "编码",
         "bo_warehouse_name": "名称",
+        "bo_warehouse_barcode": "条形码",
         "bo_warehouse_activated": "激活",
         "bo_warehouse_street": "街道",
         "bo_warehouse_district": "县/区",

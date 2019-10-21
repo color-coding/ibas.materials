@@ -4,6 +4,7 @@
   <Model Name="Warehouse" Description="仓库" ModelType="MasterData" Mapped="${Company}_MM_OWHS">
     <Property Name="Code" Description="编码" DataType="Alphanumeric" DataSubType="Default" EditSize="8" Mapped="Code" UniqueKey="Yes"/>
     <Property Name="Name" Description="名称" DataType="Alphanumeric" DataSubType="Default" EditSize="100" Mapped="Name"/>
+    <Property Name="BarCode" Description="条形码" DataType="Alphanumeric" DataSubType="Default" EditSize="15" Mapped="BarCode"/>
     <Property Name="Activated" Description="激活" DataType="Alphanumeric" DataSubType="Default" EditSize="1" DeclaredType="emYesNo" Mapped="Activated"/>
     <Property Name="Street" Description="街道" DataType="Alphanumeric" DataSubType="Default" EditSize="100" Mapped="Street"/>
     <Property Name="District" Description="县/区" DataType="Alphanumeric" DataSubType="Default" EditSize="100" Mapped="District"/>
