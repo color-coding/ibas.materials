@@ -127,6 +127,7 @@ namespace materials {
                             }),
                             new sap.m.Label("", { text: ibas.i18n.prop("bo_materialbatch_specification") }),
                             new sap.extension.m.SelectionInput("", {
+                                showValueHelp: true,
                                 repository: bo.BORepositoryMaterials,
                                 dataInfo: {
                                     type: bo.MaterialSpecification,

@@ -27,14 +27,14 @@ namespace materials {
             }
 
             /** 映射的属性名称-批次编号 */
-            static PROPERTY_BATCH_NAME: string = "BatchCode";
+            static PROPERTY_BATCHCODE_NAME: string = "BatchCode";
             /** 获取-批次编号 */
             get batchCode(): string {
-                return this.getProperty<string>(MaterialBatch.PROPERTY_BATCH_NAME);
+                return this.getProperty<string>(MaterialBatch.PROPERTY_BATCHCODE_NAME);
             }
             /** 设置-批次编号 */
             set batchCode(value: string) {
-                this.setProperty(MaterialBatch.PROPERTY_BATCH_NAME, value);
+                this.setProperty(MaterialBatch.PROPERTY_BATCHCODE_NAME, value);
             }
 
             /** 映射的属性名称-仓库编号 */

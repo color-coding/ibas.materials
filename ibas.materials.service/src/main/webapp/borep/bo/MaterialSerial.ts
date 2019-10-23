@@ -28,14 +28,14 @@ namespace materials {
             }
 
             /** 映射的属性名称-序列编号 */
-            static PROPERTY_BATCH_NAME: string = "SerialCode";
+            static PROPERTY_SERIALCODE_NAME: string = "SerialCode";
             /** 获取-序列编号 */
             get serialCode(): string {
-                return this.getProperty<string>(MaterialSerial.PROPERTY_BATCH_NAME);
+                return this.getProperty<string>(MaterialSerial.PROPERTY_SERIALCODE_NAME);
             }
             /** 设置-序列编号 */
             set serialCode(value: string) {
-                this.setProperty(MaterialSerial.PROPERTY_BATCH_NAME, value);
+                this.setProperty(MaterialSerial.PROPERTY_SERIALCODE_NAME, value);
             }
 
             /** 映射的属性名称-仓库编号 */

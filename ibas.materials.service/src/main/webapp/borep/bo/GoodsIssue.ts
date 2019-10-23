@@ -419,6 +419,11 @@ namespace materials {
                 this.documentStatus = ibas.emDocumentStatus.RELEASED;
                 this.documentCurrency = ibas.config.get(ibas.CONFIG_ITEM_DEFAULT_CURRENCY);
             }
+            /** 重置 */
+            reset(): void {
+                super.reset();
+                this.documentStatus = ibas.emDocumentStatus.RELEASED;
+            }
             protected registerRules(): ibas.IBusinessRule[] {
                 return [
                     // 计算项目-行总计

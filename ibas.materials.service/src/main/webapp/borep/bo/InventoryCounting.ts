@@ -387,6 +387,11 @@ namespace materials {
                 this.countDate = ibas.dates.today();
                 this.countTime = ibas.dates.time();
             }
+            /** 重置 */
+            reset(): void {
+                super.reset();
+                this.documentStatus = ibas.emDocumentStatus.RELEASED;
+            }
         }
 
         /** 库存盘点-行 集合 */

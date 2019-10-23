@@ -424,13 +424,17 @@ namespace materials {
                 this.setProperty(InventoryTransfer.PROPERTY_INVENTORYTRANSFERLINES_NAME, value);
             }
 
-
             /** 初始化数据 */
             protected init(): void {
                 this.inventoryTransferLines = new InventoryTransferLines(this);
                 this.objectCode = ibas.config.applyVariables(InventoryTransfer.BUSINESS_OBJECT_CODE);
                 this.documentStatus = ibas.emDocumentStatus.RELEASED;
                 this.documentCurrency = ibas.config.get(ibas.CONFIG_ITEM_DEFAULT_CURRENCY);
+            }
+            /** 重置 */
+            reset(): void {
+                super.reset();
+                this.documentStatus = ibas.emDocumentStatus.RELEASED;
             }
             protected registerRules(): ibas.IBusinessRule[] {
                 return [
