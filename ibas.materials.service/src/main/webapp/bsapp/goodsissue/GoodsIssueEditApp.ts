@@ -184,9 +184,7 @@ namespace materials {
             }
             /** 添加库存发货-行事件 */
             private addGoodsIssueLine(): void {
-                this.editData.goodsIssueLines.create();
-                // 仅显示没有标记删除的
-                this.view.showGoodsIssueLines(this.editData.goodsIssueLines.filterDeleted());
+                this.chooseGoodsIssueLineMaterial(undefined);
             }
             /** 删除库存发货-行事件 */
             private removeGoodsIssueLine(items: bo.GoodsIssueLine[]): void {

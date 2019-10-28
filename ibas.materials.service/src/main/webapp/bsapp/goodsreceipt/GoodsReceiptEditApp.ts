@@ -181,9 +181,7 @@ namespace materials {
             }
             /** 添加库存收货-行事件 */
             private addGoodsReceiptLine(): void {
-                this.editData.goodsReceiptLines.create();
-                // 仅显示没有标记删除的
-                this.view.showGoodsReceiptLines(this.editData.goodsReceiptLines.filterDeleted());
+                this.chooseGoodsReceiptLineMaterial(undefined);
             }
             /** 删除库存收货-行事件 */
             private removeGoodsReceiptLine(items: bo.GoodsReceiptLine[]): void {

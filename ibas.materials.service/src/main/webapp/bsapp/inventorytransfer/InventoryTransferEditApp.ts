@@ -182,9 +182,7 @@ namespace materials {
             }
             /** 添加库存转储-行事件 */
             private addInventoryTransferLine(): void {
-                this.editData.inventoryTransferLines.create();
-                // 仅显示没有标记删除的
-                this.view.showInventoryTransferLines(this.editData.inventoryTransferLines.filterDeleted());
+                this.chooseInventoryTransferLineMaterial(undefined);
             }
             /** 删除库存转储-行事件 */
             private removeInventoryTransferLine(items: bo.InventoryTransferLine[]): void {
