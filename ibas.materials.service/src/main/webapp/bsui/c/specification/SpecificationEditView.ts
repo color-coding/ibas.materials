@@ -331,7 +331,7 @@ namespace materials {
                                 }).bindProperty("bindingValue", {
                                     path: "content",
                                     type: new sap.extension.data.Alphanumeric({
-                                        maxLength: 60
+                                        maxLength: 100
                                     })
                                 }),
                             }),
