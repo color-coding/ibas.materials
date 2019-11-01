@@ -223,6 +223,20 @@ namespace materials {
                 condition.operation = ibas.emConditionOperation.EQUAL;
                 condition.relationship = ibas.emConditionRelationship.AND;
                 conditions.add(condition);
+                // 物料类型
+                condition = new ibas.Condition();
+                condition.alias = app.conditions.material.CONDITION_ALIAS_ITEM_TYPE;
+                condition.value = bo.emItemType.ITEM.toString();
+                condition.operation = ibas.emConditionOperation.EQUAL;
+                condition.relationship = ibas.emConditionRelationship.AND;
+                conditions.add(condition);
+                // 非虚拟的
+                condition = new ibas.Condition();
+                condition.alias = app.conditions.material.CONDITION_ALIAS_PHANTOM_ITEM;
+                condition.value = ibas.emYesNo.NO.toString();
+                condition.operation = ibas.emConditionOperation.EQUAL;
+                condition.relationship = ibas.emConditionRelationship.AND;
+                conditions.add(condition);
                 // 调用选择服务
                 ibas.servicesManager.runChooseService<bo.Material>({
                     boCode: bo.BO_CODE_MATERIAL,

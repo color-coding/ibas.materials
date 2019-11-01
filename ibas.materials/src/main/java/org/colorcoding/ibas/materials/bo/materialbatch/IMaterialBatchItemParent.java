@@ -3,6 +3,7 @@ package org.colorcoding.ibas.materials.bo.materialbatch;
 import java.math.BigDecimal;
 
 import org.colorcoding.ibas.bobas.bo.IBusinessObject;
+import org.colorcoding.ibas.bobas.data.emDocumentStatus;
 import org.colorcoding.ibas.bobas.data.emYesNo;
 
 /**
@@ -31,6 +32,11 @@ public interface IMaterialBatchItemParent extends IBusinessObject {
 	 */
 
 	Integer getLineId();
+
+	/**
+	 * 基于行状态
+	 */
+	emDocumentStatus getLineStatus();
 
 	/**
 	 * 物料

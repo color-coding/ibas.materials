@@ -13,6 +13,7 @@ import org.colorcoding.ibas.bobas.common.Criteria;
 import org.colorcoding.ibas.bobas.common.ICondition;
 import org.colorcoding.ibas.bobas.common.ICriteria;
 import org.colorcoding.ibas.bobas.data.Decimal;
+import org.colorcoding.ibas.bobas.data.emDocumentStatus;
 import org.colorcoding.ibas.bobas.data.emYesNo;
 import org.colorcoding.ibas.bobas.i18n.I18N;
 import org.colorcoding.ibas.bobas.rule.BusinessRuleException;
@@ -137,7 +138,13 @@ public class MaterialBatchItems extends BusinessObjects<IMaterialBatchItem, IMat
 		if (this.getParent() == null) {
 			return;
 		}
+		if (this.getParent().isDeleted()) {
+			return;
+		}
 		if (this.getParent().getBatchManagement() == emYesNo.NO) {
+			return;
+		}
+		if (this.getParent().getLineStatus() == emDocumentStatus.PLANNED) {
 			return;
 		}
 		BigDecimal total = Decimal.ZERO;

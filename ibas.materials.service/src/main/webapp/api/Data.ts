@@ -208,6 +208,8 @@ namespace materials {
                 export const CONDITION_ALIAS_INVENTORY_ITEM: string = "InventoryItem";
                 /** 查询条件字段-物料类型 */
                 export const CONDITION_ALIAS_ITEM_TYPE: string = "ItemType";
+                /** 查询条件字段-虚拟物料 */
+                export const CONDITION_ALIAS_PHANTOM_ITEM: string = "PhantomItem";
                 /** 默认查询条件 */
                 export function create(): ibas.IList<ibas.ICondition> {
                     let today: string = ibas.dates.toString(ibas.dates.today(), "yyyy-MM-dd");
@@ -352,7 +354,7 @@ namespace materials {
                     // 没删除
                     condition = new ibas.Condition();
                     condition.bracketClose = 1;
-                    condition.alias =  bo.Warehouse.PROPERTY_DELETED_NAME;
+                    condition.alias = bo.Warehouse.PROPERTY_DELETED_NAME;
                     condition.operation = ibas.emConditionOperation.EQUAL;
                     condition.value = ibas.emYesNo.NO.toString();
                     conditions.add(condition);
@@ -375,7 +377,7 @@ namespace materials {
                     condition = criteria.conditions.create();
                     condition.relationship = ibas.emConditionRelationship.OR;
                     condition.bracketOpen = 1;
-                    condition.alias =  bo.MaterialPriceList.PROPERTY_VALIDDATE_NAME;
+                    condition.alias = bo.MaterialPriceList.PROPERTY_VALIDDATE_NAME;
                     condition.operation = ibas.emConditionOperation.NOT_NULL;
                     condition = criteria.conditions.create();
                     condition.bracketClose = 2;
@@ -385,7 +387,7 @@ namespace materials {
                     // 失效日期
                     condition = criteria.conditions.create();
                     condition.bracketOpen = 1;
-                    condition.alias =  bo.MaterialPriceList.PROPERTY_INVALIDDATE_NAME;
+                    condition.alias = bo.MaterialPriceList.PROPERTY_INVALIDDATE_NAME;
                     condition.operation = ibas.emConditionOperation.IS_NULL;
                     condition = criteria.conditions.create();
                     condition.relationship = ibas.emConditionRelationship.OR;
