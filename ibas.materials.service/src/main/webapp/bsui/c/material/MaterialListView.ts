@@ -43,11 +43,22 @@ namespace materials {
                             }),
                             new sap.extension.table.DataColumn("", {
                                 label: ibas.i18n.prop("bo_material_name"),
-                                width: "16rem",
+                                width: "20rem",
                                 template: new sap.extension.m.Text("", {
                                 }).bindProperty("bindingValue", {
-                                    path: "name",
-                                    type: new sap.extension.data.Alphanumeric()
+                                    parts: [
+                                        {
+                                            path: "name",
+                                            type: new sap.extension.data.Alphanumeric()
+                                        },
+                                        {
+                                            path: "sign",
+                                            type: new sap.extension.data.Alphanumeric(),
+                                            formatter(data: string): string {
+                                                return ibas.strings.isEmpty(data) ? "" : ibas.strings.format(" ({0})", data);
+                                            }
+                                        },
+                                    ]
                                 }),
                             }),
                             new sap.extension.table.DataColumn("", {

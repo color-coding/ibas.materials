@@ -42,7 +42,21 @@ namespace materials {
                         items: {
                             path: "/rows",
                             template: new sap.m.ObjectListItem("", {
-                                title: "{name}",
+                                title: {
+                                    parts: [
+                                        {
+                                            path: "name",
+                                            type: new sap.extension.data.Alphanumeric()
+                                        },
+                                        {
+                                            path: "sign",
+                                            type: new sap.extension.data.Alphanumeric(),
+                                            formatter(data: string): string {
+                                                return ibas.strings.isEmpty(data) ? "" : ibas.strings.format(" ({0})", data);
+                                            }
+                                        },
+                                    ]
+                                },
                                 firstStatus: new sap.m.ObjectStatus("", {
                                     text: {
                                         path: "activated",
@@ -592,6 +606,7 @@ namespace materials {
                 embedded(view: any): void {
                     if (view instanceof sap.m.Toolbar) {
                         view.setDesign(sap.m.ToolbarDesign.Transparent);
+                        view.setStyle(sap.m.ToolbarStyle.Clear);
                         view.setHeight("100%");
                     }
                     this.pageMaterials.addHeaderContent(view);

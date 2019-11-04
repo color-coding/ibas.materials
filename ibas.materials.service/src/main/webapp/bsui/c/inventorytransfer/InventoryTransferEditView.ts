@@ -219,8 +219,19 @@ namespace materials {
                                         label: ibas.i18n.prop("bo_inventorytransferline_itemdescription"),
                                         template: new sap.extension.m.Text("", {
                                         }).bindProperty("bindingValue", {
-                                            path: "itemDescription",
-                                            type: new sap.extension.data.Alphanumeric(),
+                                            parts: [
+                                                {
+                                                    path: "itemDescription",
+                                                    type: new sap.extension.data.Alphanumeric()
+                                                },
+                                                {
+                                                    path: "itemSign",
+                                                    type: new sap.extension.data.Alphanumeric(),
+                                                    formatter(data: string): string {
+                                                        return ibas.strings.isEmpty(data) ? "" : ibas.strings.format(" ({0})", data);
+                                                    }
+                                                },
+                                            ]
                                         })
                                     }),
                                     new sap.extension.table.DataColumn("", {

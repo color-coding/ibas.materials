@@ -157,6 +157,17 @@ namespace materials {
                     });
                     this.dialog.addContent(this.tree);
                     this.tree.setModel(new sap.ui.model.json.JSONModel({ data: data }));
+                    setTimeout(() => {
+                        for (let row of this.tree.getRows()) {
+                            for (let cell of row.getCells()) {
+                                if (cell instanceof sap.m.ComboBox) {
+                                    if (cell.getItems().length === 1) {
+                                        cell.setSelectedItem(cell.getFirstItem());
+                                    }
+                                }
+                            }
+                        }
+                    }, 100);
                 }
             }
         }
