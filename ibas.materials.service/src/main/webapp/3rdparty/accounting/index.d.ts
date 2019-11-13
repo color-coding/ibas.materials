@@ -430,98 +430,117 @@ declare namespace accounting {
             /** 映射的属性名称-名称 */
             static PROPERTY_NAME_NAME: string;
             /** 获取-名称 */
+            get name(): string;
             /** 设置-名称 */
-            name: string;
+            set name(value: string);
             /** 映射的属性名称-类别 */
             static PROPERTY_CATEGORY_NAME: string;
             /** 获取-类别 */
+            get category(): string;
             /** 设置-类别 */
-            category: string;
+            set category(value: string);
             /** 映射的属性名称-状态 */
             static PROPERTY_STATUS_NAME: string;
             /** 获取-状态 */
+            get status(): emPeriodStatus;
             /** 设置-状态 */
-            status: emPeriodStatus;
+            set status(value: emPeriodStatus);
             /** 映射的属性名称-账期开始日期 */
             static PROPERTY_POSTINGDATEFROM_NAME: string;
             /** 获取-账期开始日期 */
+            get postingDateFrom(): Date;
             /** 设置-账期开始日期 */
-            postingDateFrom: Date;
+            set postingDateFrom(value: Date);
             /** 映射的属性名称-账期结束日期 */
             static PROPERTY_POSTINGDATETO_NAME: string;
             /** 获取-账期结束日期 */
+            get postingDateTo(): Date;
             /** 设置-账期结束日期 */
-            postingDateTo: Date;
+            set postingDateTo(value: Date);
             /** 映射的属性名称-对象编号 */
             static PROPERTY_OBJECTKEY_NAME: string;
             /** 获取-对象编号 */
+            get objectKey(): number;
             /** 设置-对象编号 */
-            objectKey: number;
+            set objectKey(value: number);
             /** 映射的属性名称-对象类型 */
             static PROPERTY_OBJECTCODE_NAME: string;
             /** 获取-对象类型 */
+            get objectCode(): string;
             /** 设置-对象类型 */
-            objectCode: string;
+            set objectCode(value: string);
             /** 映射的属性名称-创建日期 */
             static PROPERTY_CREATEDATE_NAME: string;
             /** 获取-创建日期 */
+            get createDate(): Date;
             /** 设置-创建日期 */
-            createDate: Date;
+            set createDate(value: Date);
             /** 映射的属性名称-创建时间 */
             static PROPERTY_CREATETIME_NAME: string;
             /** 获取-创建时间 */
+            get createTime(): number;
             /** 设置-创建时间 */
-            createTime: number;
+            set createTime(value: number);
             /** 映射的属性名称-修改日期 */
             static PROPERTY_UPDATEDATE_NAME: string;
             /** 获取-修改日期 */
+            get updateDate(): Date;
             /** 设置-修改日期 */
-            updateDate: Date;
+            set updateDate(value: Date);
             /** 映射的属性名称-修改时间 */
             static PROPERTY_UPDATETIME_NAME: string;
             /** 获取-修改时间 */
+            get updateTime(): number;
             /** 设置-修改时间 */
-            updateTime: number;
+            set updateTime(value: number);
             /** 映射的属性名称-实例号（版本） */
             static PROPERTY_LOGINST_NAME: string;
             /** 获取-实例号（版本） */
+            get logInst(): number;
             /** 设置-实例号（版本） */
-            logInst: number;
+            set logInst(value: number);
             /** 映射的属性名称-服务系列 */
             static PROPERTY_SERIES_NAME: string;
             /** 获取-服务系列 */
+            get series(): number;
             /** 设置-服务系列 */
-            series: number;
+            set series(value: number);
             /** 映射的属性名称-数据源 */
             static PROPERTY_DATASOURCE_NAME: string;
             /** 获取-数据源 */
+            get dataSource(): string;
             /** 设置-数据源 */
-            dataSource: string;
+            set dataSource(value: string);
             /** 映射的属性名称-创建用户 */
             static PROPERTY_CREATEUSERSIGN_NAME: string;
             /** 获取-创建用户 */
+            get createUserSign(): number;
             /** 设置-创建用户 */
-            createUserSign: number;
+            set createUserSign(value: number);
             /** 映射的属性名称-修改用户 */
             static PROPERTY_UPDATEUSERSIGN_NAME: string;
             /** 获取-修改用户 */
+            get updateUserSign(): number;
             /** 设置-修改用户 */
-            updateUserSign: number;
+            set updateUserSign(value: number);
             /** 映射的属性名称-创建动作标识 */
             static PROPERTY_CREATEACTIONID_NAME: string;
             /** 获取-创建动作标识 */
+            get createActionId(): string;
             /** 设置-创建动作标识 */
-            createActionId: string;
+            set createActionId(value: string);
             /** 映射的属性名称-更新动作标识 */
             static PROPERTY_UPDATEACTIONID_NAME: string;
             /** 获取-更新动作标识 */
+            get updateActionId(): string;
             /** 设置-更新动作标识 */
-            updateActionId: string;
+            set updateActionId(value: string);
             /** 映射的属性名称-过账期间-项目集合 */
             static PROPERTY_POSTINGPERIODITEMS_NAME: string;
             /** 获取-过账期间-项目集合 */
+            get postingPeriodItems(): PostingPeriodItems;
             /** 设置-过账期间-项目集合 */
-            postingPeriodItems: PostingPeriodItems;
+            set postingPeriodItems(value: PostingPeriodItems);
             /** 初始化数据 */
             protected init(): void;
         }
@@ -542,78 +561,93 @@ declare namespace accounting {
             /** 映射的属性名称-业务对象 */
             static PROPERTY_BUSINESSOBJECT_NAME: string;
             /** 获取-业务对象 */
+            get businessObject(): string;
             /** 设置-业务对象 */
-            businessObject: string;
+            set businessObject(value: string);
             /** 映射的属性名称-状态 */
             static PROPERTY_STATUS_NAME: string;
             /** 获取-状态 */
+            get status(): emPeriodStatus;
             /** 设置-状态 */
-            status: emPeriodStatus;
+            set status(value: emPeriodStatus);
             /** 映射的属性名称-对象编号 */
             static PROPERTY_OBJECTKEY_NAME: string;
             /** 获取-对象编号 */
+            get objectKey(): number;
             /** 设置-对象编号 */
-            objectKey: number;
+            set objectKey(value: number);
             /** 映射的属性名称-对象行号 */
             static PROPERTY_LINEID_NAME: string;
             /** 获取-对象行号 */
+            get lineId(): number;
             /** 设置-对象行号 */
-            lineId: number;
+            set lineId(value: number);
             /** 映射的属性名称-对象类型 */
             static PROPERTY_OBJECTCODE_NAME: string;
             /** 获取-对象类型 */
+            get objectCode(): string;
             /** 设置-对象类型 */
-            objectCode: string;
+            set objectCode(value: string);
             /** 映射的属性名称-实例号 */
             static PROPERTY_LOGINST_NAME: string;
             /** 获取-实例号 */
+            get logInst(): number;
             /** 设置-实例号 */
-            logInst: number;
+            set logInst(value: number);
             /** 映射的属性名称-数据源 */
             static PROPERTY_DATASOURCE_NAME: string;
             /** 获取-数据源 */
+            get dataSource(): string;
             /** 设置-数据源 */
-            dataSource: string;
+            set dataSource(value: string);
             /** 映射的属性名称-创建日期 */
             static PROPERTY_CREATEDATE_NAME: string;
             /** 获取-创建日期 */
+            get createDate(): Date;
             /** 设置-创建日期 */
-            createDate: Date;
+            set createDate(value: Date);
             /** 映射的属性名称-创建时间 */
             static PROPERTY_CREATETIME_NAME: string;
             /** 获取-创建时间 */
+            get createTime(): number;
             /** 设置-创建时间 */
-            createTime: number;
+            set createTime(value: number);
             /** 映射的属性名称-更新日期 */
             static PROPERTY_UPDATEDATE_NAME: string;
             /** 获取-更新日期 */
+            get updateDate(): Date;
             /** 设置-更新日期 */
-            updateDate: Date;
+            set updateDate(value: Date);
             /** 映射的属性名称-更新时间 */
             static PROPERTY_UPDATETIME_NAME: string;
             /** 获取-更新时间 */
+            get updateTime(): number;
             /** 设置-更新时间 */
-            updateTime: number;
+            set updateTime(value: number);
             /** 映射的属性名称-创建用户 */
             static PROPERTY_CREATEUSERSIGN_NAME: string;
             /** 获取-创建用户 */
+            get createUserSign(): number;
             /** 设置-创建用户 */
-            createUserSign: number;
+            set createUserSign(value: number);
             /** 映射的属性名称-更新用户 */
             static PROPERTY_UPDATEUSERSIGN_NAME: string;
             /** 获取-更新用户 */
+            get updateUserSign(): number;
             /** 设置-更新用户 */
-            updateUserSign: number;
+            set updateUserSign(value: number);
             /** 映射的属性名称-创建动作标识 */
             static PROPERTY_CREATEACTIONID_NAME: string;
             /** 获取-创建动作标识 */
+            get createActionId(): string;
             /** 设置-创建动作标识 */
-            createActionId: string;
+            set createActionId(value: string);
             /** 映射的属性名称-更新动作标识 */
             static PROPERTY_UPDATEACTIONID_NAME: string;
             /** 获取-更新动作标识 */
+            get updateActionId(): string;
             /** 设置-更新动作标识 */
-            updateActionId: string;
+            set updateActionId(value: string);
             /** 初始化数据 */
             protected init(): void;
         }
@@ -637,118 +671,141 @@ declare namespace accounting {
             /** 映射的属性名称-编码 */
             static PROPERTY_CODE_NAME: string;
             /** 获取-编码 */
+            get code(): string;
             /** 设置-编码 */
-            code: string;
+            set code(value: string);
             /** 映射的属性名称-名称 */
             static PROPERTY_NAME_NAME: string;
             /** 获取-名称 */
+            get name(): string;
             /** 设置-名称 */
-            name: string;
+            set name(value: string);
             /** 映射的属性名称-激活 */
             static PROPERTY_ACTIVATED_NAME: string;
             /** 获取-激活 */
+            get activated(): ibas.emYesNo;
             /** 设置-激活 */
-            activated: ibas.emYesNo;
+            set activated(value: ibas.emYesNo);
             /** 映射的属性名称-项目经理 */
             static PROPERTY_MANAGER_NAME: string;
             /** 获取-项目经理 */
+            get manager(): number;
             /** 设置-项目经理 */
-            manager: number;
+            set manager(value: number);
             /** 映射的属性名称-数据所有者 */
             static PROPERTY_DATAOWNER_NAME: string;
             /** 获取-数据所有者 */
+            get dataOwner(): number;
             /** 设置-数据所有者 */
-            dataOwner: number;
+            set dataOwner(value: number);
             /** 映射的属性名称-数据所属组织 */
             static PROPERTY_ORGANIZATION_NAME: string;
             /** 获取-数据所属组织 */
+            get organization(): string;
             /** 设置-数据所属组织 */
-            organization: string;
+            set organization(value: string);
             /** 映射的属性名称-已引用 */
             static PROPERTY_REFERENCED_NAME: string;
             /** 获取-已引用 */
+            get referenced(): ibas.emYesNo;
             /** 设置-已引用 */
-            referenced: ibas.emYesNo;
+            set referenced(value: ibas.emYesNo);
             /** 映射的属性名称-删除的 */
             static PROPERTY_DELETED_NAME: string;
             /** 获取-删除的 */
+            get deleted(): ibas.emYesNo;
             /** 设置-删除的 */
-            deleted: ibas.emYesNo;
+            set deleted(value: ibas.emYesNo);
             /** 映射的属性名称-参考1 */
             static PROPERTY_REFERENCE1_NAME: string;
             /** 获取-参考1 */
+            get reference1(): string;
             /** 设置-参考1 */
-            reference1: string;
+            set reference1(value: string);
             /** 映射的属性名称-参考2 */
             static PROPERTY_REFERENCE2_NAME: string;
             /** 获取-参考2 */
+            get reference2(): string;
             /** 设置-参考2 */
-            reference2: string;
+            set reference2(value: string);
             /** 映射的属性名称-对象编号 */
             static PROPERTY_DOCENTRY_NAME: string;
             /** 获取-对象编号 */
+            get docEntry(): number;
             /** 设置-对象编号 */
-            docEntry: number;
+            set docEntry(value: number);
             /** 映射的属性名称-对象类型 */
             static PROPERTY_OBJECTCODE_NAME: string;
             /** 获取-对象类型 */
+            get objectCode(): string;
             /** 设置-对象类型 */
-            objectCode: string;
+            set objectCode(value: string);
             /** 映射的属性名称-创建日期 */
             static PROPERTY_CREATEDATE_NAME: string;
             /** 获取-创建日期 */
+            get createDate(): Date;
             /** 设置-创建日期 */
-            createDate: Date;
+            set createDate(value: Date);
             /** 映射的属性名称-创建时间 */
             static PROPERTY_CREATETIME_NAME: string;
             /** 获取-创建时间 */
+            get createTime(): number;
             /** 设置-创建时间 */
-            createTime: number;
+            set createTime(value: number);
             /** 映射的属性名称-修改日期 */
             static PROPERTY_UPDATEDATE_NAME: string;
             /** 获取-修改日期 */
+            get updateDate(): Date;
             /** 设置-修改日期 */
-            updateDate: Date;
+            set updateDate(value: Date);
             /** 映射的属性名称-修改时间 */
             static PROPERTY_UPDATETIME_NAME: string;
             /** 获取-修改时间 */
+            get updateTime(): number;
             /** 设置-修改时间 */
-            updateTime: number;
+            set updateTime(value: number);
             /** 映射的属性名称-数据源 */
             static PROPERTY_DATASOURCE_NAME: string;
             /** 获取-数据源 */
+            get dataSource(): string;
             /** 设置-数据源 */
-            dataSource: string;
+            set dataSource(value: string);
             /** 映射的属性名称-实例号（版本） */
             static PROPERTY_LOGINST_NAME: string;
             /** 获取-实例号（版本） */
+            get logInst(): number;
             /** 设置-实例号（版本） */
-            logInst: number;
+            set logInst(value: number);
             /** 映射的属性名称-服务系列 */
             static PROPERTY_SERIES_NAME: string;
             /** 获取-服务系列 */
+            get series(): number;
             /** 设置-服务系列 */
-            series: number;
+            set series(value: number);
             /** 映射的属性名称-创建用户 */
             static PROPERTY_CREATEUSERSIGN_NAME: string;
             /** 获取-创建用户 */
+            get createUserSign(): number;
             /** 设置-创建用户 */
-            createUserSign: number;
+            set createUserSign(value: number);
             /** 映射的属性名称-修改用户 */
             static PROPERTY_UPDATEUSERSIGN_NAME: string;
             /** 获取-修改用户 */
+            get updateUserSign(): number;
             /** 设置-修改用户 */
-            updateUserSign: number;
+            set updateUserSign(value: number);
             /** 映射的属性名称-创建动作标识 */
             static PROPERTY_CREATEACTIONID_NAME: string;
             /** 获取-创建动作标识 */
+            get createActionId(): string;
             /** 设置-创建动作标识 */
-            createActionId: string;
+            set createActionId(value: string);
             /** 映射的属性名称-更新动作标识 */
             static PROPERTY_UPDATEACTIONID_NAME: string;
             /** 获取-更新动作标识 */
+            get updateActionId(): string;
             /** 设置-更新动作标识 */
-            updateActionId: string;
+            set updateActionId(value: string);
             /** 初始化数据 */
             protected init(): void;
         }
@@ -772,103 +829,123 @@ declare namespace accounting {
             /** 映射的属性名称-编码 */
             static PROPERTY_CODE_NAME: string;
             /** 获取-编码 */
+            get code(): string;
             /** 设置-编码 */
-            code: string;
+            set code(value: string);
             /** 映射的属性名称-名称 */
             static PROPERTY_NAME_NAME: string;
             /** 获取-名称 */
+            get name(): string;
             /** 设置-名称 */
-            name: string;
+            set name(value: string);
             /** 映射的属性名称-激活 */
             static PROPERTY_ACTIVATED_NAME: string;
             /** 获取-激活 */
+            get activated(): ibas.emYesNo;
             /** 设置-激活 */
-            activated: ibas.emYesNo;
+            set activated(value: ibas.emYesNo);
             /** 映射的属性名称-来源类型 */
             static PROPERTY_SOURCETYPE_NAME: string;
             /** 获取-来源类型 */
+            get sourceType(): emDimensionSource;
             /** 设置-来源类型 */
-            sourceType: emDimensionSource;
+            set sourceType(value: emDimensionSource);
             /** 映射的属性名称-来源 */
             static PROPERTY_SOURCE_NAME: string;
             /** 获取-来源 */
+            get source(): string;
             /** 设置-来源 */
-            source: string;
+            set source(value: string);
             /** 映射的属性名称-参考1 */
             static PROPERTY_REFERENCE1_NAME: string;
             /** 获取-参考1 */
+            get reference1(): string;
             /** 设置-参考1 */
-            reference1: string;
+            set reference1(value: string);
             /** 映射的属性名称-参考2 */
             static PROPERTY_REFERENCE2_NAME: string;
             /** 获取-参考2 */
+            get reference2(): string;
             /** 设置-参考2 */
-            reference2: string;
+            set reference2(value: string);
             /** 映射的属性名称-对象编号 */
             static PROPERTY_DOCENTRY_NAME: string;
             /** 获取-对象编号 */
+            get docEntry(): number;
             /** 设置-对象编号 */
-            docEntry: number;
+            set docEntry(value: number);
             /** 映射的属性名称-对象类型 */
             static PROPERTY_OBJECTCODE_NAME: string;
             /** 获取-对象类型 */
+            get objectCode(): string;
             /** 设置-对象类型 */
-            objectCode: string;
+            set objectCode(value: string);
             /** 映射的属性名称-创建日期 */
             static PROPERTY_CREATEDATE_NAME: string;
             /** 获取-创建日期 */
+            get createDate(): Date;
             /** 设置-创建日期 */
-            createDate: Date;
+            set createDate(value: Date);
             /** 映射的属性名称-创建时间 */
             static PROPERTY_CREATETIME_NAME: string;
             /** 获取-创建时间 */
+            get createTime(): number;
             /** 设置-创建时间 */
-            createTime: number;
+            set createTime(value: number);
             /** 映射的属性名称-修改日期 */
             static PROPERTY_UPDATEDATE_NAME: string;
             /** 获取-修改日期 */
+            get updateDate(): Date;
             /** 设置-修改日期 */
-            updateDate: Date;
+            set updateDate(value: Date);
             /** 映射的属性名称-修改时间 */
             static PROPERTY_UPDATETIME_NAME: string;
             /** 获取-修改时间 */
+            get updateTime(): number;
             /** 设置-修改时间 */
-            updateTime: number;
+            set updateTime(value: number);
             /** 映射的属性名称-数据源 */
             static PROPERTY_DATASOURCE_NAME: string;
             /** 获取-数据源 */
+            get dataSource(): string;
             /** 设置-数据源 */
-            dataSource: string;
+            set dataSource(value: string);
             /** 映射的属性名称-实例号（版本） */
             static PROPERTY_LOGINST_NAME: string;
             /** 获取-实例号（版本） */
+            get logInst(): number;
             /** 设置-实例号（版本） */
-            logInst: number;
+            set logInst(value: number);
             /** 映射的属性名称-服务系列 */
             static PROPERTY_SERIES_NAME: string;
             /** 获取-服务系列 */
+            get series(): number;
             /** 设置-服务系列 */
-            series: number;
+            set series(value: number);
             /** 映射的属性名称-创建用户 */
             static PROPERTY_CREATEUSERSIGN_NAME: string;
             /** 获取-创建用户 */
+            get createUserSign(): number;
             /** 设置-创建用户 */
-            createUserSign: number;
+            set createUserSign(value: number);
             /** 映射的属性名称-修改用户 */
             static PROPERTY_UPDATEUSERSIGN_NAME: string;
             /** 获取-修改用户 */
+            get updateUserSign(): number;
             /** 设置-修改用户 */
-            updateUserSign: number;
+            set updateUserSign(value: number);
             /** 映射的属性名称-创建动作标识 */
             static PROPERTY_CREATEACTIONID_NAME: string;
             /** 获取-创建动作标识 */
+            get createActionId(): string;
             /** 设置-创建动作标识 */
-            createActionId: string;
+            set createActionId(value: string);
             /** 映射的属性名称-更新动作标识 */
             static PROPERTY_UPDATEACTIONID_NAME: string;
             /** 获取-更新动作标识 */
+            get updateActionId(): string;
             /** 设置-更新动作标识 */
-            updateActionId: string;
+            set updateActionId(value: string);
             /** 初始化数据 */
             protected init(): void;
         }
@@ -892,108 +969,129 @@ declare namespace accounting {
             /** 映射的属性名称-编码 */
             static PROPERTY_CODE_NAME: string;
             /** 获取-编码 */
+            get code(): string;
             /** 设置-编码 */
-            code: string;
+            set code(value: string);
             /** 映射的属性名称-名称 */
             static PROPERTY_NAME_NAME: string;
             /** 获取-名称 */
+            get name(): string;
             /** 设置-名称 */
-            name: string;
+            set name(value: string);
             /** 映射的属性名称-激活 */
             static PROPERTY_ACTIVATED_NAME: string;
             /** 获取-激活 */
+            get activated(): ibas.emYesNo;
             /** 设置-激活 */
-            activated: ibas.emYesNo;
+            set activated(value: ibas.emYesNo);
             /** 映射的属性名称-生效日期 */
             static PROPERTY_VALIDDATE_NAME: string;
             /** 获取-生效日期 */
+            get validDate(): Date;
             /** 设置-生效日期 */
-            validDate: Date;
+            set validDate(value: Date);
             /** 映射的属性名称-类型 */
             static PROPERTY_CATEGORY_NAME: string;
             /** 获取-类型 */
+            get category(): emTaxGroupCategory;
             /** 设置-类型 */
-            category: emTaxGroupCategory;
+            set category(value: emTaxGroupCategory);
             /** 映射的属性名称-税率 */
             static PROPERTY_RATE_NAME: string;
             /** 获取-税率 */
+            get rate(): number;
             /** 设置-税率 */
-            rate: number;
+            set rate(value: number);
             /** 映射的属性名称-参考1 */
             static PROPERTY_REFERENCE1_NAME: string;
             /** 获取-参考1 */
+            get reference1(): string;
             /** 设置-参考1 */
-            reference1: string;
+            set reference1(value: string);
             /** 映射的属性名称-参考2 */
             static PROPERTY_REFERENCE2_NAME: string;
             /** 获取-参考2 */
+            get reference2(): string;
             /** 设置-参考2 */
-            reference2: string;
+            set reference2(value: string);
             /** 映射的属性名称-对象编号 */
             static PROPERTY_DOCENTRY_NAME: string;
             /** 获取-对象编号 */
+            get docEntry(): number;
             /** 设置-对象编号 */
-            docEntry: number;
+            set docEntry(value: number);
             /** 映射的属性名称-对象类型 */
             static PROPERTY_OBJECTCODE_NAME: string;
             /** 获取-对象类型 */
+            get objectCode(): string;
             /** 设置-对象类型 */
-            objectCode: string;
+            set objectCode(value: string);
             /** 映射的属性名称-创建日期 */
             static PROPERTY_CREATEDATE_NAME: string;
             /** 获取-创建日期 */
+            get createDate(): Date;
             /** 设置-创建日期 */
-            createDate: Date;
+            set createDate(value: Date);
             /** 映射的属性名称-创建时间 */
             static PROPERTY_CREATETIME_NAME: string;
             /** 获取-创建时间 */
+            get createTime(): number;
             /** 设置-创建时间 */
-            createTime: number;
+            set createTime(value: number);
             /** 映射的属性名称-修改日期 */
             static PROPERTY_UPDATEDATE_NAME: string;
             /** 获取-修改日期 */
+            get updateDate(): Date;
             /** 设置-修改日期 */
-            updateDate: Date;
+            set updateDate(value: Date);
             /** 映射的属性名称-修改时间 */
             static PROPERTY_UPDATETIME_NAME: string;
             /** 获取-修改时间 */
+            get updateTime(): number;
             /** 设置-修改时间 */
-            updateTime: number;
+            set updateTime(value: number);
             /** 映射的属性名称-数据源 */
             static PROPERTY_DATASOURCE_NAME: string;
             /** 获取-数据源 */
+            get dataSource(): string;
             /** 设置-数据源 */
-            dataSource: string;
+            set dataSource(value: string);
             /** 映射的属性名称-实例号（版本） */
             static PROPERTY_LOGINST_NAME: string;
             /** 获取-实例号（版本） */
+            get logInst(): number;
             /** 设置-实例号（版本） */
-            logInst: number;
+            set logInst(value: number);
             /** 映射的属性名称-服务系列 */
             static PROPERTY_SERIES_NAME: string;
             /** 获取-服务系列 */
+            get series(): number;
             /** 设置-服务系列 */
-            series: number;
+            set series(value: number);
             /** 映射的属性名称-创建用户 */
             static PROPERTY_CREATEUSERSIGN_NAME: string;
             /** 获取-创建用户 */
+            get createUserSign(): number;
             /** 设置-创建用户 */
-            createUserSign: number;
+            set createUserSign(value: number);
             /** 映射的属性名称-修改用户 */
             static PROPERTY_UPDATEUSERSIGN_NAME: string;
             /** 获取-修改用户 */
+            get updateUserSign(): number;
             /** 设置-修改用户 */
-            updateUserSign: number;
+            set updateUserSign(value: number);
             /** 映射的属性名称-创建动作标识 */
             static PROPERTY_CREATEACTIONID_NAME: string;
             /** 获取-创建动作标识 */
+            get createActionId(): string;
             /** 设置-创建动作标识 */
-            createActionId: string;
+            set createActionId(value: string);
             /** 映射的属性名称-更新动作标识 */
             static PROPERTY_UPDATEACTIONID_NAME: string;
             /** 获取-更新动作标识 */
+            get updateActionId(): string;
             /** 设置-更新动作标识 */
-            updateActionId: string;
+            set updateActionId(value: string);
             /** 初始化数据 */
             protected init(): void;
         }
