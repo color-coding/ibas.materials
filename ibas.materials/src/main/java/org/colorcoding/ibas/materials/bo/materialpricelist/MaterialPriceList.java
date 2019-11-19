@@ -14,6 +14,7 @@ import org.colorcoding.ibas.bobas.bo.IBOUserFields;
 import org.colorcoding.ibas.bobas.core.IPropertyInfo;
 import org.colorcoding.ibas.bobas.data.DateTime;
 import org.colorcoding.ibas.bobas.data.Decimal;
+import org.colorcoding.ibas.bobas.data.emYesNo;
 import org.colorcoding.ibas.bobas.mapping.BusinessObjectUnit;
 import org.colorcoding.ibas.bobas.mapping.DbField;
 import org.colorcoding.ibas.bobas.mapping.DbFieldType;
@@ -238,6 +239,37 @@ public class MaterialPriceList extends BusinessObject<MaterialPriceList>
 	 */
 	public final void setFactor(double value) {
 		this.setFactor(Decimal.valueOf(value));
+	}
+
+	/**
+	 * 属性名称-含税
+	 */
+	private static final String PROPERTY_TAXED_NAME = "Taxed";
+
+	/**
+	 * 含税 属性
+	 */
+	@DbField(name = "Taxed", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME, primaryKey = false)
+	public static final IPropertyInfo<emYesNo> PROPERTY_TAXED = registerProperty(PROPERTY_TAXED_NAME, emYesNo.class,
+			MY_CLASS);
+
+	/**
+	 * 获取-含税
+	 * 
+	 * @return 值
+	 */
+	@XmlElement(name = PROPERTY_TAXED_NAME)
+	public final emYesNo getTaxed() {
+		return this.getProperty(PROPERTY_TAXED);
+	}
+
+	/**
+	 * 设置-含税
+	 * 
+	 * @param value 值
+	 */
+	public final void setTaxed(emYesNo value) {
+		this.setProperty(PROPERTY_TAXED, value);
 	}
 
 	/**
@@ -840,6 +872,7 @@ public class MaterialPriceList extends BusinessObject<MaterialPriceList>
 		this.setObjectCode(MyConfiguration.applyVariables(BUSINESS_OBJECT_CODE));
 		this.setCurrency(MyConfiguration.getConfigValue(MyConfiguration.CONFIG_ITEM_DEFAULT_CURRENCY, "CNY"));
 		this.setFactor(Decimal.ONE);
+		this.setTaxed(emYesNo.YES);
 	}
 
 	@Override

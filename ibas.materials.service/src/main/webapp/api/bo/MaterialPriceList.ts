@@ -25,6 +25,9 @@ namespace materials {
             /** 系数 */
             factor: number;
 
+            /** 含税 */
+            taxed: ibas.emYesNo;
+
             /** 生效日期 */
             validDate: Date;
 

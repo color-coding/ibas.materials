@@ -887,6 +887,14 @@ namespace materials {
                 this.currency = ibas.config.get(ibas.CONFIG_ITEM_DEFAULT_CURRENCY);
             }
 
+            /** 赋值物料 */
+            baseMaterial(source: materials.bo.IMaterial): void {
+                if (ibas.objects.isNull(source)) {
+                    return;
+                }
+                bo.baseMaterial(this, source);
+            }
+
             protected registerRules(): ibas.IBusinessRule[] {
                 return [
                     // 计算总计 = 数量 * 价格

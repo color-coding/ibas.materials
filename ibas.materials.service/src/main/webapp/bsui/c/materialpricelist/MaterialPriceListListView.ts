@@ -46,7 +46,15 @@ namespace materials {
                                     text: "{currency}"
                                 }),
                                 secondStatus: new sap.m.ObjectStatus("", {
-                                    text: ibas.i18n.prop("bo_materialpricelist_factor") + ": " + "{factor}"
+                                    text: {
+                                        path: "taxed",
+                                        formatter(data: ibas.emYesNo): string {
+                                            if (data === ibas.emYesNo.YES) {
+                                                return ibas.i18n.prop("materials_taxed");
+                                            }
+                                            return ibas.i18n.prop("materials_no_tax");
+                                        }
+                                    }
                                 }),
                                 attributes: [
                                     new sap.m.ObjectAttribute("", {
@@ -54,7 +62,15 @@ namespace materials {
                                     }),
                                     new sap.m.ObjectAttribute("", {
                                         title: ibas.i18n.prop("bo_materialpricelist_basedonlist"),
-                                        text: "# {basedOnList}"
+                                        text: "#{basedOnList} × {factor}"
+                                    }).bindProperty("visible", {
+                                        path: "basedOnList",
+                                        formatter(data: number): boolean {
+                                            if (data > 0) {
+                                                return true;
+                                            }
+                                            return false;
+                                        }
                                     }),
                                     new sap.m.ObjectAttribute("", {
                                         title: ibas.i18n.prop("bo_materialpricelist_validdate"),
@@ -65,6 +81,14 @@ namespace materials {
                                                 strictParsing: true,
                                             })
                                         }
+                                    }).bindProperty("visible", {
+                                        path: "validDate",
+                                        formatter(data: Date): boolean {
+                                            if (data instanceof Date) {
+                                                return true;
+                                            }
+                                            return false;
+                                        }
                                     }),
                                     new sap.m.ObjectAttribute("", {
                                         title: ibas.i18n.prop("bo_materialpricelist_invaliddate"),
@@ -74,6 +98,14 @@ namespace materials {
                                                 pattern: "yyyy-MM-dd",
                                                 strictParsing: true,
                                             })
+                                        }
+                                    }).bindProperty("visible", {
+                                        path: "invalidDate",
+                                        formatter(data: Date): boolean {
+                                            if (data instanceof Date) {
+                                                return true;
+                                            }
+                                            return false;
                                         }
                                     }),
                                 ]

@@ -191,6 +191,17 @@ namespace materials {
                 this.setProperty(Product.PROPERTY_CURRENCY_NAME, value);
             }
 
+            /** 映射的属性名称-含税 */
+            static PROPERTY_TAXED_NAME: string = "Taxed";
+            /** 获取-含税 */
+            get taxed(): ibas.emYesNo {
+                return this.getProperty<ibas.emYesNo>(Product.PROPERTY_TAXED_NAME);
+            }
+            /** 设置-含税 */
+            set taxed(value: ibas.emYesNo) {
+                this.setProperty(Product.PROPERTY_TAXED_NAME, value);
+            }
+
             /** 映射的属性名称-库存 */
             static PROPERTY_ONHAND_NAME: string = "OnHand";
             /** 获取-库存 */

@@ -7,6 +7,7 @@
     <Property Name="Currency" Description="货币" DataType="Alphanumeric" DataSubType="Default" EditSize="8" Mapped="Currency" UniqueKey="Yes"/>
     <Property Name="BasedOnList" Description="基于的清单" DataType="Numeric" DataSubType="Default" EditSize="8" Mapped="BasedOn"/>
     <Property Name="Factor" Description="系数" DataType="Decimal" DataSubType="Percentage" EditSize="8" Mapped="Factor"/>
+    <Property Name="Taxed" Description="含税" DataType="Alphanumeric" DataSubType="Default" EditSize="1" DeclaredType="emYesNo" Mapped="Taxed"/>
     <Property Name="ValidDate" Description="生效日期" DataType="Date" DataSubType="Default" EditSize="8" Mapped="ValidDate"/>
     <Property Name="InvalidDate" Description="失效日期" DataType="Date" DataSubType="Default" EditSize="8" Mapped="InvalidDate"/>
     <Property Name="FloorList" Description="底价清单" DataType="Numeric" DataSubType="Default" EditSize="8" Mapped="FloorList"/>

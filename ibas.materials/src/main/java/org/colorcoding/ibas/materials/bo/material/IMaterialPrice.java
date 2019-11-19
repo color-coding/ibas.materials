@@ -2,6 +2,8 @@ package org.colorcoding.ibas.materials.bo.material;
 
 import java.math.BigDecimal;
 
+import org.colorcoding.ibas.bobas.data.emYesNo;
+
 /**
  * @author Fancy
  */
@@ -103,5 +105,19 @@ public interface IMaterialPrice {
 	 * @param value
 	 */
 	void setCurrency(String value);
+
+	/**
+	 * 获取-含税
+	 * 
+	 * @return 值
+	 */
+	emYesNo getTaxed();
+
+	/**
+	 * 设置-含税
+	 * 
+	 * @param value 值
+	 */
+	void setTaxed(emYesNo value);
 
 }

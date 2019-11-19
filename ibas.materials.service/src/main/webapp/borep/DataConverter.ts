@@ -124,7 +124,8 @@ namespace materials {
                     if (property === bo.Product.PROPERTY_SERIALMANAGEMENT_NAME
                         || property === bo.Product.PROPERTY_BATCHMANAGEMENT_NAME
                         || property === bo.Product.PROPERTY_INVENTORYITEM_NAME
-                        || property === bo.Product.PROPERTY_PHANTOMITEM_NAME) {
+                        || property === bo.Product.PROPERTY_PHANTOMITEM_NAME
+                        || property === bo.Product.PROPERTY_TAXED_NAME) {
                         return ibas.enums.toString(ibas.emYesNo, value);
                     } else if (property === bo.Product.PROPERTY_ITEMTYPE_NAME) {
                         return ibas.enums.toString(bo.emItemType, value);
@@ -165,6 +166,14 @@ namespace materials {
                     if (property === bo.MaterialSpecification.PROPERTY_BUSINESSPARTNERTYPE_NAME) {
                         return ibas.enums.toString(businesspartner.bo.emBusinessPartnerType, value);
                     }
+                } else if (boName === bo.MaterialPriceList.name) {
+                    if (property === bo.MaterialPriceList.PROPERTY_TAXED_NAME) {
+                        return ibas.enums.toString(ibas.emYesNo, value);
+                    }
+                } else if (boName === bo.MaterialPrice.name) {
+                    if (property === bo.MaterialPrice.PROPERTY_TAXED_NAME) {
+                        return ibas.enums.toString(ibas.emYesNo, value);
+                    }
                 }
                 return super.convertData(boName, property, value);
             }
@@ -200,7 +209,8 @@ namespace materials {
                         || property === bo.Product.PROPERTY_INVENTORYITEM_NAME
                         || property === bo.Product.PROPERTY_PHANTOMITEM_NAME
                         || property === bo.Product.PROPERTY_SALESITEM_NAME
-                        || property === bo.Product.PROPERTY_PURCHASEITEM_NAME) {
+                        || property === bo.Product.PROPERTY_PURCHASEITEM_NAME
+                        || property === bo.Product.PROPERTY_TAXED_NAME) {
                         return ibas.enums.valueOf(ibas.emYesNo, value);
                     } else if (property === bo.Product.PROPERTY_ITEMTYPE_NAME) {
                         return ibas.enums.valueOf(bo.emItemType, value);
@@ -241,10 +251,34 @@ namespace materials {
                     if (property === bo.MaterialSpecification.PROPERTY_BUSINESSPARTNERTYPE_NAME) {
                         return ibas.enums.valueOf(businesspartner.bo.emBusinessPartnerType, value);
                     }
+                } else if (boName === bo.MaterialPriceList.name) {
+                    if (property === bo.MaterialPriceList.PROPERTY_TAXED_NAME) {
+                        return ibas.enums.valueOf(ibas.emYesNo, value);
+                    }
+                } else if (boName === bo.MaterialPrice.name) {
+                    if (property === bo.MaterialPrice.PROPERTY_TAXED_NAME) {
+                        return ibas.enums.valueOf(ibas.emYesNo, value);
+                    }
                 }
                 return super.parsingData(boName, property, value);
             }
         }
+
+        export function baseMaterial(
+            target: IGoodsIssueLine | IGoodsReceiptLine | IInventoryTransferLine,
+            source: materials.bo.IMaterial
+        ): void {
+            target.itemCode = source.code;
+            target.itemDescription = source.name;
+            target.itemSign = source.sign;
+            target.serialManagement = source.serialManagement;
+            target.batchManagement = source.batchManagement;
+            target.warehouse = source.defaultWarehouse;
+            target.quantity = 1;
+            target.uom = source.inventoryUOM;
+            target.price = source.avgPrice;
+        }
+
         export namespace bo4j {
             /** 操作消息 */
             export interface IDataDeclaration {

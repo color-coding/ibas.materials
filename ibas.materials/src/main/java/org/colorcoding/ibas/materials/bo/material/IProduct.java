@@ -258,6 +258,20 @@ public interface IProduct {
 	void setCurrency(String value);
 
 	/**
+	 * 获取-含税
+	 * 
+	 * @return 值
+	 */
+	emYesNo getTaxed();
+
+	/**
+	 * 设置-含税
+	 * 
+	 * @param value 值
+	 */
+	void setTaxed(emYesNo value);
+
+	/**
 	 * 获取-库存
 	 * 
 	 * @return 值

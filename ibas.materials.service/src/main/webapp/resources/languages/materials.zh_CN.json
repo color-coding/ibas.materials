@@ -108,5 +108,7 @@
   "materials_adjust_price_multiply": "价格乘以",
   "materials_export_prices": "导出价格",
   "materials_import_prices": "导入价格",
+  "materials_no_tax": "不含税",
+  "materials_taxed": "含税",
   "materials_closing_delimiter": "----结束----"
 }

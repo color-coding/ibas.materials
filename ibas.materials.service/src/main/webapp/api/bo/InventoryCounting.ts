@@ -148,7 +148,6 @@ namespace materials {
             counted: ibas.emYesNo;
             /** 冻结物料 */
             freeze: ibas.emYesNo;
-
         }
 
 

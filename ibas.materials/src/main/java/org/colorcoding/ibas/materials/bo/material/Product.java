@@ -11,6 +11,9 @@ import javax.xml.bind.annotation.XmlType;
 import org.colorcoding.ibas.bobas.bo.IBOUserFields;
 import org.colorcoding.ibas.bobas.core.IPropertyInfo;
 import org.colorcoding.ibas.bobas.data.Decimal;
+import org.colorcoding.ibas.bobas.data.emYesNo;
+import org.colorcoding.ibas.bobas.mapping.DbField;
+import org.colorcoding.ibas.bobas.mapping.DbFieldType;
 import org.colorcoding.ibas.bobas.ownership.IDataOwnership;
 import org.colorcoding.ibas.materials.MyConfiguration;
 
@@ -162,10 +165,42 @@ public class Product extends MaterialBase<Product> implements IProduct, IDataOwn
 		this.setProperty(PROPERTY_CURRENCY, value);
 	}
 
+	/**
+	 * 属性名称-含税
+	 */
+	private static final String PROPERTY_TAXED_NAME = "Taxed";
+
+	/**
+	 * 含税 属性
+	 */
+	@DbField(name = "Taxed", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME, primaryKey = false)
+	public static final IPropertyInfo<emYesNo> PROPERTY_TAXED = registerProperty(PROPERTY_TAXED_NAME, emYesNo.class,
+			MY_CLASS);
+
+	/**
+	 * 获取-含税
+	 * 
+	 * @return 值
+	 */
+	@XmlElement(name = PROPERTY_TAXED_NAME)
+	public final emYesNo getTaxed() {
+		return this.getProperty(PROPERTY_TAXED);
+	}
+
+	/**
+	 * 设置-含税
+	 * 
+	 * @param value 值
+	 */
+	public final void setTaxed(emYesNo value) {
+		this.setProperty(PROPERTY_TAXED, value);
+	}
+
 	@Override
 	protected void initialize() {
 		super.initialize();// 基类初始化，不可去除
 		this.setObjectCode(MyConfiguration.applyVariables(BUSINESS_OBJECT_CODE));
+		this.setTaxed(emYesNo.YES);
 	}
 
 }

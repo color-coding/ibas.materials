@@ -1127,6 +1127,7 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 						if (item.getItemCode().equals(newPrice.getItemCode())) {
 							item.setPrice(newPrice.getPrice());
 							item.setCurrency(newPrice.getCurrency());
+							item.setTaxed(newPrice.getTaxed());
 							break;
 						}
 					}
@@ -1335,6 +1336,7 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 						if (item.getCode().equals(newPrice.getItemCode())) {
 							item.setPrice(newPrice.getPrice());
 							item.setCurrency(newPrice.getCurrency());
+							item.setTaxed(newPrice.getTaxed());
 							break;
 						}
 					}
@@ -1757,7 +1759,9 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 							.firstOrDefault(c -> itemCode.equals(c.getItemCode()));
 					if (priceItem != null) {
 						// 价格清单定义了价格
-						IMaterialPrice newPrice = MaterialPrice.create(priceItem, materialPriceList.getCurrency());
+						IMaterialPrice newPrice = MaterialPrice.create(priceItem);
+						newPrice.setCurrency(materialPriceList.getCurrency());
+						newPrice.setTaxed(materialPriceList.getTaxed());
 						newPrices.add(newPrice);
 					} else {
 						noItemCodes.add(itemCode);
@@ -1772,6 +1776,7 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 							newPrice.setPrice(newPrice.getPrice().multiply(materialPriceList.getFactor()));
 						}
 						newPrice.setCurrency(materialPriceList.getCurrency());
+						newPrice.setTaxed(materialPriceList.getTaxed());
 						newPrices.add(newPrice);
 					}
 				}

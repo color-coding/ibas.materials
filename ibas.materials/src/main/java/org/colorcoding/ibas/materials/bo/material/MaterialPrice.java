@@ -12,6 +12,7 @@ import javax.xml.bind.annotation.XmlType;
 import org.colorcoding.ibas.bobas.data.ArrayList;
 import org.colorcoding.ibas.bobas.data.Decimal;
 import org.colorcoding.ibas.bobas.data.List;
+import org.colorcoding.ibas.bobas.data.emYesNo;
 import org.colorcoding.ibas.bobas.serialization.Serializable;
 import org.colorcoding.ibas.materials.MyConfiguration;
 import org.colorcoding.ibas.materials.bo.materialpricelist.IMaterialPriceItem;
@@ -45,6 +46,7 @@ public class MaterialPrice extends Serializable implements IMaterialPrice {
 		materialPrice.setItemName(material.getName());
 		materialPrice.setItemSign(material.getSign());
 		materialPrice.setPrice(material.getAvgPrice());
+		materialPrice.setTaxed(emYesNo.NO);
 		return materialPrice;
 	}
 
@@ -54,6 +56,7 @@ public class MaterialPrice extends Serializable implements IMaterialPrice {
 		materialPrice.setItemName(material.getName());
 		materialPrice.setItemSign(material.getSign());
 		materialPrice.setPrice(material.getPrice());
+		materialPrice.setTaxed(material.getTaxed());
 		return materialPrice;
 	}
 
@@ -62,12 +65,6 @@ public class MaterialPrice extends Serializable implements IMaterialPrice {
 		materialPrice.setItemCode(materialPriceItem.getItemCode());
 		materialPrice.setPrice(materialPriceItem.getPrice());
 		materialPrice.setSource(Integer.toString(materialPriceItem.getObjectKey()));
-		return materialPrice;
-	}
-
-	public static IMaterialPrice create(IMaterialPriceItem materialPriceItem, String currency) {
-		IMaterialPrice materialPrice = create(materialPriceItem);
-		materialPrice.setCurrency(currency);
 		return materialPrice;
 	}
 
@@ -155,6 +152,22 @@ public class MaterialPrice extends Serializable implements IMaterialPrice {
 
 	public final void setCurrency(String currency) {
 		this.currency = currency;
+	}
+
+	private emYesNo taxed;
+
+	@XmlElement(name = "Taxed")
+	public final emYesNo getTaxed() {
+		return taxed;
+	}
+
+	public final void setTaxed(emYesNo taxed) {
+		this.taxed = taxed;
+	}
+
+	@Override
+	public final String toString() {
+		return String.format("{materialPrice: %s %s%s}", this.getItemCode(), this.getPrice(), this.getCurrency());
 	}
 
 }

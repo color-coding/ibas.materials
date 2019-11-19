@@ -55,6 +55,9 @@ namespace materials {
             /** 货币 */
             currency: string;
 
+            /** 含税 */
+            taxed: ibas.emYesNo;
+
             /** 库存 */
             onHand: number;
 

@@ -74,6 +74,13 @@ namespace materials {
                                 path: "/factor",
                                 type: new sap.extension.data.Percentage()
                             }),
+                            new sap.m.Label("", { text: ibas.i18n.prop("bo_materialpricelist_taxed") }),
+                            new sap.extension.m.EnumSelect("", {
+                                enumType: ibas.emYesNo
+                            }).bindProperty("bindingValue", {
+                                path: "/taxed",
+                                type: new sap.extension.data.YesNo(),
+                            }),
                             new sap.m.Label("", { text: ibas.i18n.prop("bo_materialpricelist_validdate") }),
                             new sap.extension.m.DatePicker("", {
                             }).bindProperty("bindingValue", {

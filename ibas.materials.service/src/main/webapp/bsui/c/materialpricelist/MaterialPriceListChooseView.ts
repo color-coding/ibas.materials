@@ -57,6 +57,14 @@ namespace materials {
                                 }),
                             }),
                             new sap.extension.table.DataColumn("", {
+                                label: ibas.i18n.prop("bo_materialpricelist_taxed"),
+                                template: new sap.extension.m.Text("", {
+                                }).bindProperty("bindingValue", {
+                                    path: "taxed",
+                                    type: new sap.extension.data.YesNo(true),
+                                }),
+                            }),
+                            new sap.extension.table.DataColumn("", {
                                 label: ibas.i18n.prop("bo_materialpricelist_validdate"),
                                 template: new sap.extension.m.Text("", {
                                 }).bindProperty("bindingValue", {

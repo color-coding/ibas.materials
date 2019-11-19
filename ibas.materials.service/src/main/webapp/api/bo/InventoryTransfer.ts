@@ -240,6 +240,9 @@ namespace materials {
 
             /** 行总计 */
             lineTotal: number;
+
+            /** 赋值物料 */
+            baseMaterial(source: materials.bo.IMaterial): void;
         }
     }
 

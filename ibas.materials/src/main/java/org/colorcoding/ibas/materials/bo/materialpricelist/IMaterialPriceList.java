@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 
 import org.colorcoding.ibas.bobas.bo.IBOSimple;
 import org.colorcoding.ibas.bobas.data.DateTime;
+import org.colorcoding.ibas.bobas.data.emYesNo;
 
 /**
  * 物料价格清单 接口
@@ -101,6 +102,20 @@ public interface IMaterialPriceList extends IBOSimple {
 	 * @param value 值
 	 */
 	void setFactor(double value);
+
+	/**
+	 * 获取-含税
+	 * 
+	 * @return 值
+	 */
+	emYesNo getTaxed();
+
+	/**
+	 * 设置-含税
+	 * 
+	 * @param value 值
+	 */
+	void setTaxed(emYesNo value);
 
 	/**
 	 * 获取-生效日期

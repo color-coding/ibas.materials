@@ -173,4 +173,10 @@ public class MaterialQuantity extends Serializable implements IMaterialQuantity 
 	public BigDecimal getOnAvailable() {
 		return Decimal.add(this.getOnHand(), this.getOnOrdered(), this.getOnCommited().negate());
 	}
+
+	@Override
+	public final String toString() {
+		return String.format("{materialQuantity: %s %s}", this.getItemCode(), this.getOnAvailable());
+	}
+
 }

@@ -66,6 +66,16 @@ namespace materials {
             set factor(value: number) {
                 this.setProperty(MaterialPriceList.PROPERTY_FACTOR_NAME, value);
             }
+            /** 映射的属性名称-含税 */
+            static PROPERTY_TAXED_NAME: string = "Taxed";
+            /** 获取-含税 */
+            get taxed(): ibas.emYesNo {
+                return this.getProperty<ibas.emYesNo>(MaterialPriceList.PROPERTY_TAXED_NAME);
+            }
+            /** 设置-含税 */
+            set taxed(value: ibas.emYesNo) {
+                this.setProperty(MaterialPriceList.PROPERTY_TAXED_NAME, value);
+            }
             /** 映射的属性名称-生效日期 */
             static PROPERTY_VALIDDATE_NAME: string = "ValidDate";
             /** 获取-生效日期 */
@@ -278,6 +288,7 @@ namespace materials {
                 this.objectCode = ibas.config.applyVariables(MaterialPriceList.BUSINESS_OBJECT_CODE);
                 this.currency = ibas.config.get(ibas.CONFIG_ITEM_DEFAULT_CURRENCY);
                 this.factor = 1;
+                this.taxed = ibas.emYesNo.YES;
             }
         }
         export class MaterialPriceItems extends ibas.BusinessObjects<MaterialPriceItem, MaterialPriceList> implements IMaterialPriceItems {
