@@ -80,6 +80,24 @@ declare namespace accounting {
             }
         }
     }
+    namespace taxrate {
+        /**
+         * 分配税率
+         * @param taxCode 税码
+         * @param onCompeleted 完成
+         */
+        function assign(taxCode: string, onCompeleted: (rate: number) => void): void;
+        /**
+         * 获取税组
+         * @param category 类型
+         * @param onCompeleted 完成
+         */
+        function gain(category: bo.emTaxGroupCategory, onCompeleted: (tax: {
+            code: string;
+            name: string;
+            rate: number;
+        }[]) => void): void;
+    }
 }
 /**
  * @license
