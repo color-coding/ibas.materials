@@ -203,7 +203,7 @@ namespace materials {
                                             builder.map(null, "");
                                             builder.map(undefined, "");
                                             builder.append(ibas.i18n.prop("bo_materialinventory"));
-                                            builder.append(": ");
+                                            builder.append(" - ");
                                             builder.append(material.onHand);
                                             builder.append(" ");
                                             builder.append(material.inventoryUOM);
@@ -296,15 +296,26 @@ namespace materials {
                                     text: ibas.i18n.prop("bo_materialbatch"),
                                 }),
                                 new sap.m.ToolbarSpacer(""),
+                                new sap.m.CheckBox("", {
+                                    text: ibas.i18n.prop("materials_valid_data_only"),
+                                    selected: true,
+                                }),
+                                new sap.m.ToolbarSeparator(""),
                                 new sap.m.Button("", {
                                     icon: "sap-icon://refresh",
                                     press: function (): void {
-                                        that.fireViewEvents(that.fetchMaterialBatchEvent, that.tableMaterials.getSelecteds().firstOrDefault());
+                                        that.fireViewEvents(that.fetchMaterialBatchEvent,
+                                            that.tableMaterials.getSelecteds().firstOrDefault(),
+                                            (<sap.m.CheckBox>(<sap.m.Toolbar>this.getParent()).getContent()[2]).getSelected()
+                                        );
                                     }
                                 }),
                             ]
                         }),
-                        expand(event: sap.ui.base.Event): void {
+                        expand(this: sap.m.Panel, event: sap.ui.base.Event): void {
+                            if (this.getBusy() === true) {
+                                return;
+                            }
                             let expand: boolean = event.getParameter("expand");
                             if (expand === true) {
                                 that.fireViewEvents(that.fetchMaterialBatchEvent, that.tableMaterials.getSelecteds().firstOrDefault());
@@ -388,6 +399,20 @@ namespace materials {
                                         filterProperty: "supplierSerial"
                                     }),
                                     new sap.extension.table.Column("", {
+                                        label: ibas.i18n.prop("bo_materialbatch_specification"),
+                                        template: new sap.extension.m.RepositoryText("", {
+                                            repository: bo.BORepositoryMaterials,
+                                            dataInfo: {
+                                                type: bo.MaterialSpecification,
+                                                key: bo.MaterialSpecification.PROPERTY_OBJECTKEY_NAME,
+                                                text: bo.MaterialSpecification.PROPERTY_NAME_NAME
+                                            },
+                                        }).bindProperty("bindingValue", {
+                                            path: "specification",
+                                            type: new sap.extension.data.Alphanumeric(),
+                                        }),
+                                    }),
+                                    new sap.extension.table.Column("", {
                                         label: ibas.i18n.prop("bo_materialbatch_expirationdate"),
                                         template: new sap.extension.m.Text("", {
                                         }).bindProperty("bindingValue", {
@@ -423,15 +448,26 @@ namespace materials {
                                     text: ibas.i18n.prop("bo_materialserial"),
                                 }),
                                 new sap.m.ToolbarSpacer(""),
+                                new sap.m.CheckBox("", {
+                                    text: ibas.i18n.prop("materials_valid_data_only"),
+                                    selected: true,
+                                }),
+                                new sap.m.ToolbarSeparator(""),
                                 new sap.m.Button("", {
                                     icon: "sap-icon://refresh",
-                                    press: function (): void {
-                                        that.fireViewEvents(that.fetchMaterialSerialEvent, that.tableMaterials.getSelecteds().firstOrDefault());
+                                    press: function (this: sap.m.Button): void {
+                                        that.fireViewEvents(that.fetchMaterialSerialEvent,
+                                            that.tableMaterials.getSelecteds().firstOrDefault(),
+                                            (<sap.m.CheckBox>(<sap.m.Toolbar>this.getParent()).getContent()[2]).getSelected()
+                                        );
                                     }
                                 }),
                             ]
                         }),
-                        expand(event: sap.ui.base.Event): void {
+                        expand(this: sap.m.Panel, event: sap.ui.base.Event): void {
+                            if (this.getBusy() === true) {
+                                return;
+                            }
                             let expand: boolean = event.getParameter("expand");
                             if (expand === true) {
                                 that.fireViewEvents(that.fetchMaterialSerialEvent, that.tableMaterials.getSelecteds().firstOrDefault());
@@ -458,6 +494,14 @@ namespace materials {
                                 columns: [
                                     new sap.extension.table.Column("", {
                                         label: ibas.i18n.prop("bo_materialserial_warehouse"),
+                                        template: new sap.extension.m.Text("", {
+                                        }).bindProperty("bindingValue", {
+                                            path: "warehouse",
+                                            type: new sap.extension.data.Alphanumeric(),
+                                        }),
+                                    }),
+                                    new sap.extension.table.Column("", {
+                                        label: ibas.i18n.prop("bo_warehouse") + ibas.i18n.prop("bo_warehouse_name"),
                                         template: new sap.extension.m.RepositoryText("", {
                                             repository: bo.BORepositoryMaterials,
                                             dataInfo: {
@@ -507,6 +551,20 @@ namespace materials {
                                         }),
                                         sortProperty: "batchSerial",
                                         filterProperty: "batchSerial"
+                                    }),
+                                    new sap.extension.table.Column("", {
+                                        label: ibas.i18n.prop("bo_materialserial_specification"),
+                                        template: new sap.extension.m.RepositoryText("", {
+                                            repository: bo.BORepositoryMaterials,
+                                            dataInfo: {
+                                                type: bo.MaterialSpecification,
+                                                key: bo.MaterialSpecification.PROPERTY_OBJECTKEY_NAME,
+                                                text: bo.MaterialSpecification.PROPERTY_NAME_NAME
+                                            },
+                                        }).bindProperty("bindingValue", {
+                                            path: "specification",
+                                            type: new sap.extension.data.Alphanumeric(),
+                                        }),
                                     }),
                                     new sap.extension.table.Column("", {
                                         label: ibas.i18n.prop("bo_materialserial_expirationdate"),
@@ -656,14 +714,18 @@ namespace materials {
                 /** 显示物料批次信息 */
                 showMaterialBatch(datas: bo.IMaterialBatch[]): void {
                     this.panelBatch.setVisible(true);
+                    this.panelBatch.setBusy(true);
                     this.panelBatch.getContent()[0].setModel(new sap.ui.model.json.JSONModel({ rows: datas }));
                     this.panelBatch.setExpanded(true);
+                    this.panelBatch.setBusy(false);
                 }
                 /** 显示物料序列信息 */
                 showMaterialSerial(datas: bo.IMaterialSerial[]): void {
                     this.panelSerial.setVisible(true);
+                    this.panelSerial.setBusy(true);
                     this.panelSerial.getContent()[0].setModel(new sap.ui.model.json.JSONModel({ rows: datas }));
                     this.panelSerial.setExpanded(true);
+                    this.panelSerial.setBusy(false);
                 }
             }
         }

@@ -130,7 +130,7 @@ namespace materials {
                     }
                 });
             }
-            private fetchMaterialBatch(data: bo.IMaterial): void {
+            private fetchMaterialBatch(data: bo.IMaterial, validOnly: boolean = true): void {
                 // 检查目标数据
                 if (ibas.objects.isNull(data)) {
                     this.proceeding(ibas.emMessageType.WARNING, ibas.i18n.prop("shell_please_chooose_data", ""));
@@ -140,10 +140,12 @@ namespace materials {
                 let condition: ibas.ICondition = criteria.conditions.create();
                 condition.alias = bo.MaterialBatch.PROPERTY_ITEMCODE_NAME;
                 condition.value = data.code;
-                condition = criteria.conditions.create();
-                condition.alias = bo.MaterialBatch.PROPERTY_QUANTITY_NAME;
-                condition.operation = ibas.emConditionOperation.GRATER_THAN;
-                condition.value = "0";
+                if (validOnly !== false) {
+                    condition = criteria.conditions.create();
+                    condition.alias = bo.MaterialBatch.PROPERTY_QUANTITY_NAME;
+                    condition.operation = ibas.emConditionOperation.GRATER_THAN;
+                    condition.value = "0";
+                }
                 let that: this = this;
                 let boRepository: bo.BORepositoryMaterials = new bo.BORepositoryMaterials();
                 boRepository.fetchMaterialBatch({
@@ -177,7 +179,7 @@ namespace materials {
                 app.viewShower = this.viewShower;
                 app.run(data);
             }
-            private fetchMaterialSerial(data: bo.IMaterial): void {
+            private fetchMaterialSerial(data: bo.IMaterial, validOnly: boolean = true): void {
                 // 检查目标数据
                 if (ibas.objects.isNull(data)) {
                     this.proceeding(ibas.emMessageType.WARNING, ibas.i18n.prop("shell_please_chooose_data", ""));
@@ -187,9 +189,11 @@ namespace materials {
                 let condition: ibas.ICondition = criteria.conditions.create();
                 condition.alias = bo.MaterialSerial.PROPERTY_ITEMCODE_NAME;
                 condition.value = data.code;
-                condition = criteria.conditions.create();
-                condition.alias = bo.MaterialSerial.PROPERTY_INSTOCK_NAME;
-                condition.value = ibas.emYesNo.YES.toString();
+                if (validOnly !== false) {
+                    condition = criteria.conditions.create();
+                    condition.alias = bo.MaterialSerial.PROPERTY_INSTOCK_NAME;
+                    condition.value = ibas.emYesNo.YES.toString();
+                }
                 let that: this = this;
                 let boRepository: bo.BORepositoryMaterials = new bo.BORepositoryMaterials();
                 boRepository.fetchMaterialSerial({

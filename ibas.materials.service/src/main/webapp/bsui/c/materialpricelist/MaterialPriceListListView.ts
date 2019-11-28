@@ -40,8 +40,8 @@ namespace materials {
                         items: {
                             path: "/rows",
                             template: new sap.m.ObjectListItem("", {
-                                title: "# {objectKey}",
-                                tooltip: "{name}",
+                                title: "{name}",
+                                tooltip: "# {objectKey} - {name}",
                                 firstStatus: new sap.m.ObjectStatus("", {
                                     text: "{currency}"
                                 }),
@@ -58,7 +58,8 @@ namespace materials {
                                 }),
                                 attributes: [
                                     new sap.m.ObjectAttribute("", {
-                                        text: "{name}"
+                                        title: ibas.i18n.prop("bo_materialpriceitem_objectkey"),
+                                        text: "{objectKey}"
                                     }),
                                     new sap.m.ObjectAttribute("", {
                                         title: ibas.i18n.prop("bo_materialpricelist_basedonlist"),
@@ -547,6 +548,9 @@ namespace materials {
                                         let datas: ibas.IList<bo.MaterialPriceItem> = new ibas.ArrayList<bo.MaterialPriceItem>();
                                         for (let item of that.tablePrices.getSelecteds<bo.MaterialPrice>()) {
                                             if (!item.isDirty) {
+                                                continue;
+                                            }
+                                            if (item.price < 0) {
                                                 continue;
                                             }
                                             // 先删除

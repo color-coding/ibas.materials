@@ -110,5 +110,7 @@
   "materials_import_prices": "导入价格",
   "materials_no_tax": "不含税",
   "materials_taxed": "含税",
+  "materials_some_count": "{0} - {1}行",
+  "materials_valid_data_only": "仅有效数据",
   "materials_closing_delimiter": "----结束----"
 }

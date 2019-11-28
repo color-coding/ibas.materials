@@ -188,17 +188,15 @@ namespace materials {
                 let beSaved: bo.MaterialPriceList = new bo.MaterialPriceList();
                 beSaved.isSavable = false;// 主对象不保存
                 beSaved.markOld(true);
-                if (data instanceof Array) {
-                    for (let item of data) {
-                        if (!ibas.objects.instanceOf(item, bo.MaterialPriceItem)) {
-                            continue;
-                        }
-                        beSaved.materialPriceItems.add(item);
-                        beSaved.objectKey = item.objectKey;
+                for (let item of ibas.arrays.create(data)) {
+                    if (!(item instanceof bo.MaterialPriceItem)) {
+                        continue;
                     }
-                } else if (ibas.objects.instanceOf(data, bo.MaterialPriceItem)) {
-                    beSaved.objectKey = data.objectKey;
-                    beSaved.materialPriceItems.add(data);
+                    if (item.price < 0) {
+                        continue;
+                    }
+                    beSaved.materialPriceItems.add(item);
+                    beSaved.objectKey = item.objectKey;
                 }
                 // 没有选择删除的对象
                 if (beSaved.materialPriceItems.length === 0) {
