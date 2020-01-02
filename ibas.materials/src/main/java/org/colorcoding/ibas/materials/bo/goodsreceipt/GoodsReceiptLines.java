@@ -80,7 +80,7 @@ public class GoodsReceiptLines extends BusinessObjects<IGoodsReceiptLine, IGoods
 	}
 
 	@Override
-	public void onParentPropertyChanged(PropertyChangeEvent evt) {
+	protected void onParentPropertyChanged(PropertyChangeEvent evt) {
 		super.onParentPropertyChanged(evt);
 		if (GoodsReceipt.PROPERTY_DOCUMENTCURRENCY.getName().equals(evt.getPropertyName())) {
 			this.forEach(c -> c.setCurrency(this.getParent().getDocumentCurrency()));

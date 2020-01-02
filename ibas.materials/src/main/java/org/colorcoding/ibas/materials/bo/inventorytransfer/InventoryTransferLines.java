@@ -81,7 +81,7 @@ public class InventoryTransferLines extends BusinessObjects<IInventoryTransferLi
 	}
 
 	@Override
-	public void onParentPropertyChanged(PropertyChangeEvent evt) {
+	protected void onParentPropertyChanged(PropertyChangeEvent evt) {
 		super.onParentPropertyChanged(evt);
 		if (InventoryTransfer.PROPERTY_DOCUMENTCURRENCY.getName().equals(evt.getPropertyName())) {
 			this.forEach(c -> c.setCurrency(this.getParent().getDocumentCurrency()));

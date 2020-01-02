@@ -84,7 +84,7 @@ public class SpecificationItemValues extends BusinessObjects<ISpecificationItemV
 	}
 
 	@Override
-	public void onParentPropertyChanged(PropertyChangeEvent evt) {
+	protected void onParentPropertyChanged(PropertyChangeEvent evt) {
 		super.onParentPropertyChanged(evt);
 		if (evt.getPropertyName().equals(SpecificationItem.PROPERTY_LINEID.getName())) {
 			for (ISpecificationItemValue item : this) {

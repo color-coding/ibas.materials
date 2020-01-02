@@ -505,6 +505,8 @@ declare namespace businesspartner {
             validDate: Date;
             /** 失效日期 */
             invalidDate: Date;
+            /** 底价清单 */
+            floorList: number;
             /** 税收组 */
             taxGroup: string;
             /** 备注 */
@@ -1881,6 +1883,12 @@ declare namespace businesspartner {
             get invalidDate(): Date;
             /** 设置-失效日期 */
             set invalidDate(value: Date);
+            /** 映射的属性名称-底价清单 */
+            static PROPERTY_FLOORLIST_NAME: string;
+            /** 获取-底价清单 */
+            get floorList(): number;
+            /** 设置-底价清单 */
+            set floorList(value: number);
             /** 映射的属性名称-税收组 */
             static PROPERTY_TAXGROUP_NAME: string;
             /** 获取-税收组 */
@@ -3664,6 +3672,7 @@ declare namespace businesspartner {
             private chooseSupplierRegistrationAddress;
             private chooseSupplierPriceList;
             private chooseSupplierWarehouse;
+            private chooseSupplierFloorList;
             private createContactPerson;
             private createAddress;
         }
@@ -3689,6 +3698,8 @@ declare namespace businesspartner {
             chooseSupplierPriceListEvent: Function;
             /** 选择供应商仓库事件 */
             chooseSupplierWarehouseEvent: Function;
+            /** 选择客户底价清单事件 */
+            chooseSupplierFloorListEvent: Function;
             /** 创建联系人 */
             createContactPersonEvent: Function;
             /** 创建地址 */

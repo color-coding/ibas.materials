@@ -76,7 +76,7 @@ public class MaterialPriceItems extends BusinessObjects<IMaterialPriceItem, IMat
 	}
 
 	@Override
-	public void onParentPropertyChanged(PropertyChangeEvent evt) {
+	protected void onParentPropertyChanged(PropertyChangeEvent evt) {
 		super.onParentPropertyChanged(evt);
 	}
 }

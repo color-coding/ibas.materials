@@ -19,5 +19,5 @@
     <Property Name="CreateActionId" Description="创建动作标识" DataType="Alphanumeric" DataSubType="Default" EditSize="36" Mapped="CreateActId"/>
     <Property Name="UpdateActionId" Description="更新动作标识" DataType="Alphanumeric" DataSubType="Default" EditSize="36" Mapped="UpdateActId"/>
   </Model>
-  <BusinessObject MappedModel="MaterialSerialItem" ShortName="${COMPANY}_MM_SERIALITEM"/>
+  <BusinessObject MappedModel="MaterialSerialItem" ShortName="${Company}_MM_SERIALITEM"/>
 </Domain>

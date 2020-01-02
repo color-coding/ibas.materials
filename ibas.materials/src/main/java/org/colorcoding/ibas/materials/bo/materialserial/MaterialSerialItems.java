@@ -87,7 +87,7 @@ public class MaterialSerialItems extends BusinessObjects<IMaterialSerialItem, IM
 	}
 
 	@Override
-	public void onParentPropertyChanged(PropertyChangeEvent evt) {
+	protected void onParentPropertyChanged(PropertyChangeEvent evt) {
 		super.onParentPropertyChanged(evt);
 		if (evt.getPropertyName().equalsIgnoreCase("ObjectCode")) {
 			for (IMaterialSerialItem item : this) {
@@ -148,11 +148,33 @@ public class MaterialSerialItems extends BusinessObjects<IMaterialSerialItem, IM
 		if (this.getParent().getLineStatus() == emDocumentStatus.PLANNED) {
 			return;
 		}
+		String baseType = this.getParent().getObjectCode();
+		Integer docEntry = this.getParent().getDocEntry(), lineId = this.getParent().getLineId();
+		if (baseType == null) {
+			baseType = "";
+		}
+		if (docEntry == null) {
+			docEntry = 0;
+		}
+		if (lineId == null) {
+			lineId = 0;
+		}
 		BigDecimal total = Decimal.ZERO;
 		for (IMaterialSerialItem item : this) {
 			if (item.isDeleted()) {
 				continue;
 			}
+			// 检查关联关系
+			if (!baseType.equals(item.getDocumentType())) {
+				item.setDocumentType(baseType);
+			}
+			if (docEntry.compareTo(item.getDocumentEntry()) != 0) {
+				item.setDocumentEntry(docEntry);
+			}
+			if (lineId.compareTo(item.getDocumentLineId()) != 0) {
+				item.setDocumentLineId(lineId);
+			}
+			// 检查序列号
 			if (item.getSerialCode() == null || item.getSerialCode().isEmpty()) {
 				throw new BusinessRuleException(
 						I18N.prop("msg_mm_document_material_serial_empty_code", this.getParent()));

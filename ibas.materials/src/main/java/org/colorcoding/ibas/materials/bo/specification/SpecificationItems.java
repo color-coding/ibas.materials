@@ -75,7 +75,7 @@ public class SpecificationItems extends BusinessObjects<ISpecificationItem, ISpe
 	}
 
 	@Override
-	public void onParentPropertyChanged(PropertyChangeEvent evt) {
+	protected void onParentPropertyChanged(PropertyChangeEvent evt) {
 		super.onParentPropertyChanged(evt);
 	}
 }

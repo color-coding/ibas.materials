@@ -75,7 +75,7 @@ public class MaterialSpecificationItems extends BusinessObjects<IMaterialSpecifi
 	}
 
 	@Override
-	public void onParentPropertyChanged(PropertyChangeEvent evt) {
+	protected void onParentPropertyChanged(PropertyChangeEvent evt) {
 		super.onParentPropertyChanged(evt);
 	}
 }

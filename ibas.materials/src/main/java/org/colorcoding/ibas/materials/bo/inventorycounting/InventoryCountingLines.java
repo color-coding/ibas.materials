@@ -78,7 +78,7 @@ public class InventoryCountingLines extends BusinessObjects<IInventoryCountingLi
 	}
 
 	@Override
-	public void onParentPropertyChanged(PropertyChangeEvent evt) {
+	protected void onParentPropertyChanged(PropertyChangeEvent evt) {
 		super.onParentPropertyChanged(evt);
 	}
 }

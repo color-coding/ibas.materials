@@ -73,6 +73,8 @@ namespace materials {
                 this.register(new MaterialSpecificationLinkServiceMapping());
                 this.register(new SpecificationChooseServiceMapping());
                 this.register(new SpecificationTreeServiceMapping());
+                this.register(new GoodsIssueChooseServiceMapping());
+                this.register(new GoodsReceiptChooseServiceMapping());
                 // 注册常驻应用
 
             }

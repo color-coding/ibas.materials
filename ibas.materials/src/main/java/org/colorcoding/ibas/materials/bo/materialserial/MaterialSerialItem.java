@@ -81,8 +81,7 @@ public class MaterialSerialItem extends BusinessObject<MaterialSerialItem>
 	/**
 	 * 设置-序列编码
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setSerialCode(String value) {
 		this.setProperty(PROPERTY_SERIALCODE, value);
@@ -113,8 +112,7 @@ public class MaterialSerialItem extends BusinessObject<MaterialSerialItem>
 	/**
 	 * 设置-基于类型
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setDocumentType(String value) {
 		this.setProperty(PROPERTY_DOCUMENTTYPE, value);
@@ -145,8 +143,7 @@ public class MaterialSerialItem extends BusinessObject<MaterialSerialItem>
 	/**
 	 * 设置-基于标识
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setDocumentEntry(Integer value) {
 		this.setProperty(PROPERTY_DOCUMENTENTRY, value);
@@ -177,8 +174,7 @@ public class MaterialSerialItem extends BusinessObject<MaterialSerialItem>
 	/**
 	 * 设置-基于行号
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setDocumentLineId(Integer value) {
 		this.setProperty(PROPERTY_DOCUMENTLINEID, value);
@@ -209,8 +205,7 @@ public class MaterialSerialItem extends BusinessObject<MaterialSerialItem>
 	/**
 	 * 设置-对象编号
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setObjectKey(Integer value) {
 		this.setProperty(PROPERTY_OBJECTKEY, value);
@@ -241,8 +236,7 @@ public class MaterialSerialItem extends BusinessObject<MaterialSerialItem>
 	/**
 	 * 设置-对象类型
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setObjectCode(String value) {
 		this.setProperty(PROPERTY_OBJECTCODE, value);
@@ -273,8 +267,7 @@ public class MaterialSerialItem extends BusinessObject<MaterialSerialItem>
 	/**
 	 * 设置-实例号
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setLogInst(Integer value) {
 		this.setProperty(PROPERTY_LOGINST, value);
@@ -305,8 +298,7 @@ public class MaterialSerialItem extends BusinessObject<MaterialSerialItem>
 	/**
 	 * 设置-数据源
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setDataSource(String value) {
 		this.setProperty(PROPERTY_DATASOURCE, value);
@@ -337,8 +329,7 @@ public class MaterialSerialItem extends BusinessObject<MaterialSerialItem>
 	/**
 	 * 设置-创建日期
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setCreateDate(DateTime value) {
 		this.setProperty(PROPERTY_CREATEDATE, value);
@@ -369,8 +360,7 @@ public class MaterialSerialItem extends BusinessObject<MaterialSerialItem>
 	/**
 	 * 设置-创建时间
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setCreateTime(Short value) {
 		this.setProperty(PROPERTY_CREATETIME, value);
@@ -401,8 +391,7 @@ public class MaterialSerialItem extends BusinessObject<MaterialSerialItem>
 	/**
 	 * 设置-更新日期
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setUpdateDate(DateTime value) {
 		this.setProperty(PROPERTY_UPDATEDATE, value);
@@ -433,8 +422,7 @@ public class MaterialSerialItem extends BusinessObject<MaterialSerialItem>
 	/**
 	 * 设置-更新时间
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setUpdateTime(Short value) {
 		this.setProperty(PROPERTY_UPDATETIME, value);
@@ -465,8 +453,7 @@ public class MaterialSerialItem extends BusinessObject<MaterialSerialItem>
 	/**
 	 * 设置-创建用户
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setCreateUserSign(Integer value) {
 		this.setProperty(PROPERTY_CREATEUSERSIGN, value);
@@ -497,8 +484,7 @@ public class MaterialSerialItem extends BusinessObject<MaterialSerialItem>
 	/**
 	 * 设置-更新用户
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setUpdateUserSign(Integer value) {
 		this.setProperty(PROPERTY_UPDATEUSERSIGN, value);
@@ -529,8 +515,7 @@ public class MaterialSerialItem extends BusinessObject<MaterialSerialItem>
 	/**
 	 * 设置-创建动作标识
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setCreateActionId(String value) {
 		this.setProperty(PROPERTY_CREATEACTIONID, value);
@@ -561,8 +546,7 @@ public class MaterialSerialItem extends BusinessObject<MaterialSerialItem>
 	/**
 	 * 设置-更新动作标识
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setUpdateActionId(String value) {
 		this.setProperty(PROPERTY_UPDATEACTIONID, value);
@@ -586,6 +570,14 @@ public class MaterialSerialItem extends BusinessObject<MaterialSerialItem>
 				new BusinessRuleRequired(PROPERTY_DOCUMENTENTRY), // 要求有值
 				new BusinessRuleRequired(PROPERTY_DOCUMENTLINEID), // 要求有值
 		};
+	}
+
+	@Override
+	public void reset() {
+		super.reset();
+		this.setDocumentType(null);
+		this.setDocumentEntry(null);
+		this.setDocumentLineId(null);
 	}
 
 	IMaterialSerialItemParent parent;
