@@ -16,6 +16,7 @@ import org.colorcoding.ibas.bobas.logic.BusinessLogicException;
 import org.colorcoding.ibas.bobas.mapping.LogicContract;
 import org.colorcoding.ibas.materials.bo.material.IMaterial;
 import org.colorcoding.ibas.materials.bo.materialbatch.IMaterialBatch;
+import org.colorcoding.ibas.materials.bo.materialbatch.IMaterialBatchJournal;
 import org.colorcoding.ibas.materials.bo.materialbatch.MaterialBatch;
 import org.colorcoding.ibas.materials.repository.BORepositoryMaterials;
 
@@ -98,10 +99,20 @@ public class MaterialBatchInventorySerivce
 		} else {
 			quantity = quantity.add(contract.getQuantity());
 		}
-		if (Decimal.ZERO.compareTo(quantity) > 0) {
+		if (Decimal.ZERO.compareTo(quantity) > 0 && !this.isSafeUpdate()) {
 			throw new BusinessLogicException(I18N.prop("msg_mm_material_batch_not_enough_in_stock",
 					contract.getWarehouse(), contract.getItemCode(), contract.getBatchCode()));
 		}
 		materialBatch.setQuantity(quantity);
+	}
+
+	private boolean isSafeUpdate() {
+		if (this.getLogicChain().getTrigger() instanceof IMaterialBatchJournal) {
+			IMaterialBatchJournal triggerJournal = (IMaterialBatchJournal) this.getLogicChain().getTrigger();
+			if (!triggerJournal.isDeleted()) {
+				return true;
+			}
+		}
+		return false;
 	}
 }

@@ -225,25 +225,27 @@ namespace materials {
                 this.view.createMaterialSerialItemEvent = this.createMaterialSerialItem;
                 this.view.deleteMaterialSerialItemEvent = this.deleteMaterialSerialItem;
             }
-            protected deleteMaterialSerialItem(data: bo.IMaterialSerialItem): void {
+            protected deleteMaterialSerialItem(data: bo.IMaterialSerialItem | bo.IMaterialSerialItem[]): void {
                 if (ibas.objects.isNull(data)) {
                     this.messages(ibas.emMessageType.WARNING,
                         ibas.i18n.prop("shell_please_chooose_data", ibas.i18n.prop("shell_data_remove")));
                     return;
                 }
-                if (data.isNew) {
-                    if (ibas.objects.isNull(this.workingData)) {
-                        for (let wData of this.workDatas) {
-                            if (wData.materialSerials.contain(data)) {
-                                wData.materialSerials.remove(data);
-                                break;
+                for (let item of ibas.arrays.create(data)) {
+                    if (item.isNew) {
+                        if (ibas.objects.isNull(this.workingData)) {
+                            for (let wData of this.workDatas) {
+                                if (wData.materialSerials.contain(item)) {
+                                    wData.materialSerials.remove(item);
+                                    break;
+                                }
                             }
+                        } else {
+                            this.workingData.materialSerials.remove(item);
                         }
                     } else {
-                        this.workingData.materialSerials.remove(data);
+                        item.delete();
                     }
-                } else {
-                    data.delete();
                 }
                 if (ibas.objects.isNull(this.workingData)) {
                     let datas: ibas.IList<bo.IMaterialSerialItem> = new ibas.ArrayList<bo.IMaterialSerialItem>();

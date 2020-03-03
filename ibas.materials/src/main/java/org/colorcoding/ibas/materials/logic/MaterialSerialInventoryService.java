@@ -1,5 +1,6 @@
 package org.colorcoding.ibas.materials.logic;
 
+import org.colorcoding.ibas.bobas.bo.BusinessObject;
 import org.colorcoding.ibas.bobas.common.ConditionOperation;
 import org.colorcoding.ibas.bobas.common.ConditionRelationship;
 import org.colorcoding.ibas.bobas.common.Criteria;
@@ -13,6 +14,7 @@ import org.colorcoding.ibas.bobas.logic.BusinessLogicException;
 import org.colorcoding.ibas.bobas.mapping.LogicContract;
 import org.colorcoding.ibas.materials.bo.material.IMaterial;
 import org.colorcoding.ibas.materials.bo.materialserial.IMaterialSerial;
+import org.colorcoding.ibas.materials.bo.materialserial.IMaterialSerialJournal;
 import org.colorcoding.ibas.materials.bo.materialserial.MaterialSerial;
 import org.colorcoding.ibas.materials.repository.BORepositoryMaterials;
 
@@ -74,37 +76,66 @@ public class MaterialSerialInventoryService
 	@Override
 	protected void impact(IMaterialSerialInventoryContract contract) {
 		IMaterialSerial materialSerial = this.getBeAffected();
-		if (contract.getDirection() == emDirection.IN) {
-			if (materialSerial.getInStock() == emYesNo.YES) {
-				throw new BusinessLogicException(I18N.prop("msg_mm_material_serial_in_stock", contract.getWarehouse(),
-						contract.getItemCode(), contract.getSerialCode()));
+		if (materialSerial.isSavable()) {
+			// 反向逻辑可能置对象无变化（无需保存），则不执行逻辑
+			if (contract.getDirection() == emDirection.IN) {
+				if (materialSerial.getInStock() == emYesNo.YES) {
+					throw new BusinessLogicException(I18N.prop("msg_mm_material_serial_in_stock",
+							contract.getWarehouse(), contract.getItemCode(), contract.getSerialCode()));
+				}
+				materialSerial.setInStock(emYesNo.YES);
+			} else {
+				if (materialSerial.getInStock() == emYesNo.NO) {
+					throw new BusinessLogicException(I18N.prop("msg_mm_material_serial_not_in_stock",
+							contract.getItemCode(), contract.getSerialCode(), contract.getWarehouse()));
+				}
+				materialSerial.setInStock(emYesNo.NO);
 			}
-			materialSerial.setInStock(emYesNo.YES);
-		} else {
-			if (materialSerial.getInStock() == emYesNo.NO) {
-				throw new BusinessLogicException(I18N.prop("msg_mm_material_serial_not_in_stock",
-						contract.getItemCode(), contract.getSerialCode(), contract.getWarehouse()));
-			}
-			materialSerial.setInStock(emYesNo.NO);
 		}
 	}
 
 	@Override
 	protected void revoke(IMaterialSerialInventoryContract contract) {
 		IMaterialSerial materialSerial = this.getBeAffected();
-		if (contract.getDirection() == emDirection.IN) {
-			if (materialSerial.getInStock() == emYesNo.NO) {
-				throw new BusinessLogicException(I18N.prop("msg_mm_material_serial_not_in_stock",
-						contract.getItemCode(), contract.getSerialCode(), contract.getWarehouse()));
+		if (this.isSafeUpdate()) {
+			if (materialSerial instanceof BusinessObject) {
+				BusinessObject<?> bo = (BusinessObject<?>) materialSerial;
+				bo.unsavable();
 			}
-			materialSerial.setInStock(emYesNo.NO);
-		} else {
-			if (materialSerial.getInStock() == emYesNo.YES) {
-				throw new BusinessLogicException(I18N.prop("msg_mm_material_serial_in_stock", contract.getWarehouse(),
-						contract.getItemCode(), contract.getSerialCode()));
-			}
-			materialSerial.setInStock(emYesNo.YES);
 		}
+		if (materialSerial.isSavable()) {
+			// 无需保存则不执行逻辑
+			if (contract.getDirection() == emDirection.IN) {
+				if (materialSerial.getInStock() == emYesNo.NO) {
+					throw new BusinessLogicException(I18N.prop("msg_mm_material_serial_not_in_stock",
+							contract.getItemCode(), contract.getSerialCode(), contract.getWarehouse()));
+				}
+				materialSerial.setInStock(emYesNo.NO);
+			} else {
+				if (materialSerial.getInStock() == emYesNo.YES) {
+					throw new BusinessLogicException(I18N.prop("msg_mm_material_serial_in_stock",
+							contract.getWarehouse(), contract.getItemCode(), contract.getSerialCode()));
+				}
+				materialSerial.setInStock(emYesNo.YES);
+			}
+		}
+	}
+
+	private boolean isSafeUpdate() {
+		if (this.getLogicChain().getTrigger() instanceof IMaterialSerialJournal) {
+			IMaterialSerialJournal triggerJournal = (IMaterialSerialJournal) this.getLogicChain().getTrigger();
+			if (this.getHost() instanceof IMaterialSerialJournal) {
+				IMaterialSerialJournal hostJournal = (IMaterialSerialJournal) this.getHost();
+				if (triggerJournal != hostJournal && !triggerJournal.isDeleted()
+						&& triggerJournal.getSerialCode().equals(hostJournal.getSerialCode())
+						&& triggerJournal.getItemCode().equals(hostJournal.getItemCode())
+						&& triggerJournal.getWarehouse().equals(hostJournal.getWarehouse())
+						&& triggerJournal.getDirection().equals(hostJournal.getDirection())) {
+					return true;
+				}
+			}
+		}
+		return false;
 	}
 
 }

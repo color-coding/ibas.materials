@@ -302,7 +302,7 @@ namespace materials {
                     });
                     this.tableItems = new sap.extension.table.Table("", {
                         enableSelectAll: false,
-                        chooseType: ibas.emChooseType.SINGLE,
+                        chooseType: ibas.emChooseType.MULTIPLE,
                         visibleRowCount: sap.extension.table.visibleRowCount(4),
                         toolbar: new sap.m.Toolbar("", {
                             content: [
@@ -319,7 +319,7 @@ namespace materials {
                                     type: sap.m.ButtonType.Transparent,
                                     icon: "sap-icon://less",
                                     press: function (): void {
-                                        that.fireViewEvents(that.deleteMaterialBatchItemEvent, that.tableItems.getSelecteds().firstOrDefault());
+                                        that.fireViewEvents(that.deleteMaterialBatchItemEvent, that.tableItems.getSelecteds());
                                     }
                                 }),
                             ]

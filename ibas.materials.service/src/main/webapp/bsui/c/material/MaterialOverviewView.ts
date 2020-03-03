@@ -203,7 +203,7 @@ namespace materials {
                                             builder.map(null, "");
                                             builder.map(undefined, "");
                                             builder.append(ibas.i18n.prop("bo_materialinventory"));
-                                            builder.append(" - ");
+                                            builder.append(": ");
                                             builder.append(material.onHand);
                                             builder.append(" ");
                                             builder.append(material.inventoryUOM);
@@ -373,6 +373,7 @@ namespace materials {
                                         filterProperty: "batchCode"
                                     }),
                                     new sap.extension.table.Column("", {
+                                        width: "4rem",
                                         label: ibas.i18n.prop("bo_materialbatch_locked"),
                                         template: new sap.extension.m.Text("", {
                                         }).bindProperty("bindingValue", {
@@ -525,10 +526,20 @@ namespace materials {
                                         filterProperty: "serialCode"
                                     }),
                                     new sap.extension.table.Column("", {
-                                        label: ibas.i18n.prop("bo_materialbatch_locked"),
+                                        width: "4rem",
+                                        label: ibas.i18n.prop("bo_materialserial_locked"),
                                         template: new sap.extension.m.Text("", {
                                         }).bindProperty("bindingValue", {
                                             path: "locked",
+                                            type: new sap.extension.data.YesNo(true),
+                                        }),
+                                    }),
+                                    new sap.extension.table.Column("", {
+                                        width: "4rem",
+                                        label: ibas.i18n.prop("bo_materialserial_instock"),
+                                        template: new sap.extension.m.Text("", {
+                                        }).bindProperty("bindingValue", {
+                                            path: "inStock",
                                             type: new sap.extension.data.YesNo(true),
                                         }),
                                     }),

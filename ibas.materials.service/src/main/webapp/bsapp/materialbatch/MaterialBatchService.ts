@@ -231,25 +231,27 @@ namespace materials {
                 this.view.createMaterialBatchItemEvent = this.createMaterialBatchItem;
                 this.view.deleteMaterialBatchItemEvent = this.deleteMaterialBatchItem;
             }
-            protected deleteMaterialBatchItem(data: bo.IMaterialBatchItem): void {
+            protected deleteMaterialBatchItem(data: bo.IMaterialBatchItem | bo.IMaterialBatchItem[]): void {
                 if (ibas.objects.isNull(data)) {
                     this.messages(ibas.emMessageType.WARNING,
                         ibas.i18n.prop("shell_please_chooose_data", ibas.i18n.prop("shell_data_remove")));
                     return;
                 }
-                if (data.isNew) {
-                    if (ibas.objects.isNull(this.workingData)) {
-                        for (let wData of this.workDatas) {
-                            if (wData.materialBatches.contain(data)) {
-                                wData.materialBatches.remove(data);
-                                break;
+                for (let item of ibas.arrays.create(data)) {
+                    if (item.isNew) {
+                        if (ibas.objects.isNull(this.workingData)) {
+                            for (let wData of this.workDatas) {
+                                if (wData.materialBatches.contain(item)) {
+                                    wData.materialBatches.remove(item);
+                                    break;
+                                }
                             }
+                        } else {
+                            this.workingData.materialBatches.remove(item);
                         }
                     } else {
-                        this.workingData.materialBatches.remove(data);
+                        item.delete();
                     }
-                } else {
-                    data.delete();
                 }
                 if (ibas.objects.isNull(this.workingData)) {
                     let datas: ibas.IList<bo.IMaterialBatchItem> = new ibas.ArrayList<bo.IMaterialBatchItem>();
