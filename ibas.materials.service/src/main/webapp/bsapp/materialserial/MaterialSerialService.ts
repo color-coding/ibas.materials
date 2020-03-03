@@ -275,7 +275,8 @@ namespace materials {
                     if (total >= item.quantity) {
                         continue;
                     }
-                    for (let index: number = 0; index < item.quantity; index++) {
+                    total = item.quantity - total;
+                    for (let index: number = 0; index < total; index++) {
                         let journal: bo.IMaterialSerialItem = item.materialSerials.create();
                         journal.serialCode = ibas.dates.toString(ibas.dates.now(), "yyyyMMddHHmm") + ibas.strings.fill(index + 1, 4, "0");
                         journals.add(journal);

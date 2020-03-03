@@ -71,6 +71,14 @@ namespace materials {
                                 }),
                             }),
                             new sap.extension.table.DataColumn("", {
+                                label: ibas.i18n.prop("bo_inventorytransfer_deliverydate"),
+                                template: new sap.extension.m.Text("", {
+                                }).bindProperty("bindingValue", {
+                                    path: "deliveryDate",
+                                    type: new sap.extension.data.Date()
+                                }),
+                            }),
+                            new sap.extension.table.DataColumn("", {
                                 label: ibas.i18n.prop("bo_inventorytransfer_fromwarehouse"),
                                 template: new sap.extension.m.RepositoryText("", {
                                     repository: bo.BORepositoryMaterials,

@@ -94,6 +94,12 @@ namespace materials {
                                 path: "documentDate",
                                 type: new sap.extension.data.Date()
                             }),
+                            new sap.m.Label("", { text: ibas.i18n.prop("bo_goodsissue_deliverydate") }),
+                            new sap.extension.m.DatePicker("", {
+                            }).bindProperty("bindingValue", {
+                                path: "deliveryDate",
+                                type: new sap.extension.data.Date()
+                            }),
                         ]
                     });
                     let formGoodsIssueLine: sap.ui.layout.form.SimpleForm = new sap.ui.layout.form.SimpleForm("", {
