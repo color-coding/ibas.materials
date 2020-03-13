@@ -82,8 +82,9 @@ namespace materials {
                                 path: "documentStatus",
                                 type: new sap.extension.data.DocumentStatus()
                             }),
-                            new sap.extension.m.CheckBox("", {
-                                text: ibas.i18n.prop("bo_goodsissue_canceled")
+                            new sap.extension.m.TipsCheckBox("", {
+                                text: ibas.i18n.prop("bo_goodsissue_canceled"),
+                                tipsOnSelection: ibas.i18n.prop(["shell_data_cancel", "shell_data_status"]),
                             }).bindProperty("bindingValue", {
                                 path: "canceled",
                                 type: new sap.extension.data.YesNo()
