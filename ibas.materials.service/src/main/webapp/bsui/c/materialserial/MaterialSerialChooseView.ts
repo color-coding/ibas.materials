@@ -108,6 +108,14 @@ namespace materials {
                                     type: new sap.extension.data.Date()
                                 }),
                             }),
+                            new sap.extension.table.DataColumn("", {
+                                label: ibas.i18n.prop("bo_materialserial_notes"),
+                                template: new sap.extension.m.Text("", {
+                                }).bindProperty("bindingValue", {
+                                    path: "notes",
+                                    type: new sap.extension.data.Alphanumeric()
+                                }),
+                            }),
                         ],
                         nextDataSet(event: sap.ui.base.Event): void {
                             // 查询下一个数据集

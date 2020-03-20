@@ -324,6 +324,7 @@ namespace materials {
                     proxy: new MaterialBatchReceiptServiceProxy(contracts)
                 });
             }
+            private serials: IExtraResultMaterialSerial[];
             /** 选择物料序列信息 */
             private createGoodsReceiptLineMaterialSerial(): void {
                 let contracts: ibas.ArrayList<IMaterialSerialContract> = new ibas.ArrayList<IMaterialSerialContract>();
@@ -335,11 +336,15 @@ namespace materials {
                         warehouse: item.warehouse,
                         quantity: item.quantity,
                         uom: item.uom,
-                        materialSerials: item.materialSerials
+                        materialSerials: item.materialSerials,
+                        serials: this.serials,
                     });
                 }
-                ibas.servicesManager.runApplicationService<IMaterialSerialContract[]>({
-                    proxy: new MaterialSerialReceiptServiceProxy(contracts)
+                ibas.servicesManager.runApplicationService<IMaterialSerialContract[], IExtraResultMaterialSerial[]>({
+                    proxy: new MaterialSerialReceiptServiceProxy(contracts),
+                    onCompleted: (results) => {
+                        this.serials = results;
+                    }
                 });
             }
         }

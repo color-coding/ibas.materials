@@ -118,6 +118,63 @@ namespace materials {
     }
 
     export namespace app {
+        /** 服务额外结果 */
+        export interface IServiceExtraResult<T> extends ibas.IList<T> {
+            /** 保存额外结果 */
+            save(fnBack: (error?: Error) => void): void;
+        };
+        /** 额外数据-序列 */
+        export interface IExtraResultMaterialSerial {
+            /** 物料编码 */
+            readonly itemCode: string;
+            /** 仓库编码 */
+            readonly warehouse: string;
+            /** 序列编号 */
+            readonly serialCode: string;
+            /** 供应商序号 */
+            supplierSerial: string;
+            /** 批次序号 */
+            batchSerial: string;
+            /** 过期日期 */
+            expirationDate: Date;
+            /** 生产日期 */
+            manufacturingDate: Date;
+            /** 物料规格 */
+            specification: number;
+            /** 准入日期 */
+            admissionDate: Date;
+            /** 保修开始日期 */
+            warrantyStartDate: Date;
+            /** 保修结束日期 */
+            warrantyEndDate: Date;
+            /** 位置 */
+            location: string;
+            /** 备注 */
+            notes: string;
+        }
+        /** 额外数据-批次 */
+        export interface IExtraResultMaterialBatch {
+            /** 物料编码 */
+            readonly itemCode: string;
+            /** 仓库编码 */
+            readonly warehouse: string;
+            /** 批次编号 */
+            readonly batchCode: string;
+            /** 供应商序号 */
+            supplierSerial: string;
+            /** 过期日期 */
+            expirationDate: Date;
+            /** 生产日期 */
+            manufacturingDate: Date;
+            /** 准入日期 */
+            admissionDate: Date;
+            /** 物料规格 */
+            specification: number;
+            /** 位置 */
+            location: string;
+            /** 备注 */
+            notes: string;
+        }
         /** 批次服务契约 */
         export interface IMaterialBatchContract extends ibas.IServiceContract {
             /** 批号管理 */
@@ -134,6 +191,8 @@ namespace materials {
             uom: string;
             /** 物料批次 */
             materialBatches: bo.IMaterialBatchItems;
+            /** 物料批次数据 */
+            batches?: IExtraResultMaterialBatch[];
         }
         /** 序列服务契约 */
         export interface IMaterialSerialContract extends ibas.IServiceContract {
@@ -151,6 +210,8 @@ namespace materials {
             uom: string;
             /** 物料序列 */
             materialSerials: bo.IMaterialSerialItems;
+            /** 物料序列数据 */
+            serials?: IExtraResultMaterialSerial[];
         }
         /** 物料批次创建服务代理 */
         export class MaterialBatchReceiptServiceProxy extends ibas.ServiceProxy<IMaterialBatchContract[]> {
