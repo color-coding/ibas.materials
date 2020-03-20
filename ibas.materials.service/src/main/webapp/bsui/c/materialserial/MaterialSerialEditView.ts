@@ -125,7 +125,7 @@ namespace materials {
                                 path: "/warrantyEndDate",
                                 type: new sap.extension.data.Date()
                             }),
-                            new sap.m.Label("", { text: ibas.i18n.prop("bo_materialbatch_specification") }),
+                            new sap.m.Label("", { text: ibas.i18n.prop("bo_materialserial_specification") }),
                             new sap.extension.m.SelectionInput("", {
                                 showValueHelp: true,
                                 repository: bo.BORepositoryMaterials,
@@ -138,7 +138,14 @@ namespace materials {
                                 path: "/specification",
                                 type: new sap.extension.data.Numeric()
                             }),
-                            new sap.m.Label("", { text: ibas.i18n.prop("bo_materialbatch_location") }),
+                            new sap.m.Label("", { text: ibas.i18n.prop("bo_materialserial_notes") }),
+                            new sap.extension.m.TextArea("", {
+                                rows: 3,
+                            }).bindProperty("bindingValue", {
+                                path: "/notes",
+                                type: new sap.extension.data.Alphanumeric()
+                            }),
+                            new sap.m.Label("", { text: ibas.i18n.prop("bo_materialserial_location") }),
                             new sap.extension.m.Input("", {
                             }).bindProperty("bindingValue", {
                                 path: "/location",

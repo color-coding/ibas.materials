@@ -431,6 +431,15 @@ namespace materials {
                                         }),
                                         sortProperty: "manufacturingDate",
                                     }),
+                                    new sap.extension.table.Column("", {
+                                        label: ibas.i18n.prop("bo_materialbatch_notes"),
+                                        template: new sap.extension.m.Text("", {
+                                        }).bindProperty("bindingValue", {
+                                            path: "notes",
+                                            type: new sap.extension.data.Alphanumeric(),
+                                        }),
+                                        filterProperty: "notes"
+                                    }),
                                 ],
                             })
                         ],
@@ -594,6 +603,15 @@ namespace materials {
                                             type: new sap.extension.data.Date(),
                                         }),
                                         sortProperty: "manufacturingDate",
+                                    }),
+                                    new sap.extension.table.Column("", {
+                                        label: ibas.i18n.prop("bo_materialserial_notes"),
+                                        template: new sap.extension.m.Text("", {
+                                        }).bindProperty("bindingValue", {
+                                            path: "notes",
+                                            type: new sap.extension.data.Alphanumeric(),
+                                        }),
+                                        filterProperty: "notes"
                                     }),
                                 ],
                             })

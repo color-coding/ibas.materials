@@ -125,6 +125,13 @@ namespace materials {
                                 path: "/specification",
                                 type: new sap.extension.data.Numeric()
                             }),
+                            new sap.m.Label("", { text: ibas.i18n.prop("bo_materialbatch_notes") }),
+                            new sap.extension.m.TextArea("", {
+                                rows: 3,
+                            }).bindProperty("bindingValue", {
+                                path: "/notes",
+                                type: new sap.extension.data.Alphanumeric()
+                            }),
                             new sap.m.Label("", { text: ibas.i18n.prop("bo_materialbatch_location") }),
                             new sap.extension.m.Input("", {
                             }).bindProperty("bindingValue", {
