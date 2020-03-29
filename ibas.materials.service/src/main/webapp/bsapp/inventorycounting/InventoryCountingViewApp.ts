@@ -7,20 +7,20 @@
  */
 namespace materials {
     export namespace app {
-        /** 查看应用-库存收货 */
-        export class GoodsReceiptViewApp extends ibas.BOViewService<IGoodsReceiptViewView, bo.GoodsReceipt> {
+        /** 查看应用-库存盘点 */
+        export class InventoryCountingViewApp extends ibas.BOViewService<IInventoryCountingViewView, bo.InventoryCounting> {
             /** 应用标识 */
-            static APPLICATION_ID: string = "d6493626-d5c9-43f5-ad83-7d423a8827cc";
+            static APPLICATION_ID: string = "8c855a6d-5d59-4690-9c26-079200ac4e0e";
             /** 应用名称 */
-            static APPLICATION_NAME: string = "materials_app_goodsreceipt_view";
+            static APPLICATION_NAME: string = "materials_app_inventorycounting_view";
             /** 业务对象编码 */
-            static BUSINESS_OBJECT_CODE: string = bo.GoodsReceipt.BUSINESS_OBJECT_CODE;
+            static BUSINESS_OBJECT_CODE: string = bo.InventoryCounting.BUSINESS_OBJECT_CODE;
             /** 构造函数 */
             constructor() {
                 super();
-                this.id = GoodsReceiptViewApp.APPLICATION_ID;
-                this.name = GoodsReceiptViewApp.APPLICATION_NAME;
-                this.boCode = GoodsReceiptViewApp.BUSINESS_OBJECT_CODE;
+                this.id = InventoryCountingViewApp.APPLICATION_ID;
+                this.name = InventoryCountingViewApp.APPLICATION_NAME;
+                this.boCode = InventoryCountingViewApp.BUSINESS_OBJECT_CODE;
                 this.description = ibas.i18n.prop(this.name);
             }
             /** 注册视图 */
@@ -35,31 +35,31 @@ namespace materials {
                 super.viewShowed();
                 if (ibas.objects.isNull(this.viewData)) {
                     // 创建编辑对象实例
-                    this.viewData = new bo.GoodsReceipt();
+                    this.viewData = new bo.InventoryCounting();
                     this.proceeding(ibas.emMessageType.WARNING, ibas.i18n.prop("shell_data_created_new"));
                 }
-                this.view.showGoodsReceipt(this.viewData);
-                this.view.showGoodsReceiptLines(this.viewData.goodsReceiptLines.filterDeleted());
+                this.view.showInventoryCounting(this.viewData);
+                this.view.showInventoryCountingLines(this.viewData.inventoryCountingLines.filterDeleted());
             }
             /** 编辑数据，参数：目标数据 */
             protected editData(): void {
-                let app: GoodsReceiptEditApp = new GoodsReceiptEditApp();
+                let app: InventoryCountingEditApp = new InventoryCountingEditApp();
                 app.navigation = this.navigation;
                 app.viewShower = this.viewShower;
                 app.run(this.viewData);
             }
             run(): void;
-            run(data: bo.GoodsReceipt): void;
+            run(data: bo.InventoryCounting): void;
             /** 运行 */
             run(): void {
-                if (ibas.objects.instanceOf(arguments[0], bo.GoodsReceipt)) {
+                if (ibas.objects.instanceOf(arguments[0], bo.InventoryCounting)) {
                     this.viewData = arguments[0];
                     this.show();
                 } else {
                     super.run.apply(this, arguments);
                 }
             }
-            protected viewData: bo.GoodsReceipt;
+            protected viewData: bo.InventoryCounting;
             /** 查询数据 */
             protected fetchData(criteria: ibas.ICriteria | string): void {
                 this.busy(true);
@@ -70,13 +70,13 @@ namespace materials {
                     criteria = new ibas.Criteria();
                     criteria.result = 1;
                     condition = criteria.conditions.create();
-                    condition.alias = bo.GoodsReceipt.PROPERTY_DOCENTRY_NAME;
+                    condition.alias = bo.InventoryCounting.PROPERTY_DOCENTRY_NAME;
                     condition.value = value;
                 }
                 let boRepository: bo.BORepositoryMaterials = new bo.BORepositoryMaterials();
-                boRepository.fetchGoodsReceipt({
+                boRepository.fetchInventoryCounting({
                     criteria: criteria,
-                    onCompleted(opRslt: ibas.IOperationResult<bo.GoodsReceipt>): void {
+                    onCompleted(opRslt: ibas.IOperationResult<bo.InventoryCounting>): void {
                         try {
                             that.busy(false);
                             if (opRslt.resultCode !== 0) {
@@ -97,27 +97,27 @@ namespace materials {
                 this.proceeding(ibas.emMessageType.INFORMATION, ibas.i18n.prop("shell_fetching_data"));
             }
         }
-        /** 视图-库存收货 */
-        export interface IGoodsReceiptViewView extends ibas.IBOViewView {
+        /** 视图-库存盘点 */
+        export interface IInventoryCountingViewView extends ibas.IBOViewView {
             /** 显示数据 */
-            showGoodsReceipt(data: bo.GoodsReceipt): void;
-            /** 显示数据-库存收货-行 */
-            showGoodsReceiptLines(datas: bo.GoodsReceiptLine[]): void;
+            showInventoryCounting(data: bo.InventoryCounting): void;
+            /** 显示数据-库存盘点-行 */
+            showInventoryCountingLines(datas: bo.InventoryCountingLine[]): void;
 
         }
-        /** 库存收货连接服务映射 */
-        export class GoodsReceiptLinkServiceMapping extends ibas.BOLinkServiceMapping {
+        /** 库存盘点连接服务映射 */
+        export class InventoryCountingLinkServiceMapping extends ibas.BOLinkServiceMapping {
             /** 构造函数 */
             constructor() {
                 super();
-                this.id = GoodsReceiptViewApp.APPLICATION_ID;
-                this.name = GoodsReceiptViewApp.APPLICATION_NAME;
-                this.boCode = GoodsReceiptViewApp.BUSINESS_OBJECT_CODE;
+                this.id = InventoryCountingViewApp.APPLICATION_ID;
+                this.name = InventoryCountingViewApp.APPLICATION_NAME;
+                this.boCode = InventoryCountingViewApp.BUSINESS_OBJECT_CODE;
                 this.description = ibas.i18n.prop(this.name);
             }
             /** 创建服务实例 */
             create(): ibas.IBOLinkService {
-                return new GoodsReceiptViewApp();
+                return new InventoryCountingViewApp();
             }
         }
     }

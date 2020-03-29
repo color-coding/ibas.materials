@@ -10,7 +10,7 @@ namespace materials {
         /** 查看应用-库存转储 */
         export class InventoryTransferViewApp extends ibas.BOViewService<IInventoryTransferViewView, bo.InventoryTransfer> {
             /** 应用标识 */
-            static APPLICATION_ID: string = "13faf01a-9596-423f-9596-81843d8b81b7";
+            static APPLICATION_ID: string = "bf1b603d-e03a-4bbe-ae31-ebd9b302e58a";
             /** 应用名称 */
             static APPLICATION_NAME: string = "materials_app_inventorytransfer_view";
             /** 业务对象编码 */
@@ -31,7 +31,7 @@ namespace materials {
             }
             /** 视图显示后 */
             protected viewShowed(): void {
-                // 视图加载完成
+                // 视图加载完成，基类方法更新地址
                 super.viewShowed();
                 if (ibas.objects.isNull(this.viewData)) {
                     // 创建编辑对象实例
@@ -48,9 +48,9 @@ namespace materials {
                 app.viewShower = this.viewShower;
                 app.run(this.viewData);
             }
-            /** 运行,覆盖原方法 */
             run(): void;
             run(data: bo.InventoryTransfer): void;
+            /** 运行 */
             run(): void {
                 if (ibas.objects.instanceOf(arguments[0], bo.InventoryTransfer)) {
                     this.viewData = arguments[0];
@@ -65,22 +65,26 @@ namespace materials {
                 this.busy(true);
                 let that: this = this;
                 if (typeof criteria === "string") {
+                    let condition: ibas.ICondition;
                     let value: string = criteria;
                     criteria = new ibas.Criteria();
                     criteria.result = 1;
-                    // 添加查询条件
-
+                    condition = criteria.conditions.create();
+                    condition.alias = bo.InventoryTransfer.PROPERTY_DOCENTRY_NAME;
+                    condition.value = value;
                 }
                 let boRepository: bo.BORepositoryMaterials = new bo.BORepositoryMaterials();
                 boRepository.fetchInventoryTransfer({
                     criteria: criteria,
                     onCompleted(opRslt: ibas.IOperationResult<bo.InventoryTransfer>): void {
                         try {
+                            that.busy(false);
                             if (opRslt.resultCode !== 0) {
                                 throw new Error(opRslt.message);
                             }
                             that.viewData = opRslt.resultObjects.firstOrDefault();
                             if (!that.isViewShowed()) {
+                                // 没显示视图，先显示
                                 that.show();
                             } else {
                                 that.viewShowed();
@@ -97,8 +101,9 @@ namespace materials {
         export interface IInventoryTransferViewView extends ibas.IBOViewView {
             /** 显示数据 */
             showInventoryTransfer(data: bo.InventoryTransfer): void;
-            /** 显示数据 */
+            /** 显示数据-库存转储-行 */
             showInventoryTransferLines(datas: bo.InventoryTransferLine[]): void;
+
         }
         /** 库存转储连接服务映射 */
         export class InventoryTransferLinkServiceMapping extends ibas.BOLinkServiceMapping {
@@ -111,7 +116,7 @@ namespace materials {
                 this.description = ibas.i18n.prop(this.name);
             }
             /** 创建服务实例 */
-            create(): ibas.IService<ibas.IBOLinkServiceCaller> {
+            create(): ibas.IBOLinkService {
                 return new InventoryTransferViewApp();
             }
         }

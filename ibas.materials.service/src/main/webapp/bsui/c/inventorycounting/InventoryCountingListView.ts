@@ -127,6 +127,14 @@ namespace materials {
                                     }
                                 }),
                                 new sap.m.Button("", {
+                                    text: ibas.i18n.prop("shell_data_view"),
+                                    type: sap.m.ButtonType.Transparent,
+                                    icon: "sap-icon://display",
+                                    press: function (): void {
+                                        that.fireViewEvents(that.viewDataEvent, that.table.getSelecteds().firstOrDefault());
+                                    }
+                                }),
+                                new sap.m.Button("", {
                                     text: ibas.i18n.prop("shell_data_edit"),
                                     type: sap.m.ButtonType.Transparent,
                                     icon: "sap-icon://edit",

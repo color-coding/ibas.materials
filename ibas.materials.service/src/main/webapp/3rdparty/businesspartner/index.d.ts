@@ -569,6 +569,8 @@ declare namespace businesspartner {
             code: string;
             /** 名称 */
             name: string;
+            /** 组 */
+            group: string;
             /** 激活 */
             activated: ibas.emYesNo;
             /** 已引用 */
@@ -689,6 +691,8 @@ declare namespace businesspartner {
             businessPartnerCode: string;
             /** 资产项目 */
             assetCode: string;
+            /** 资产项目组 */
+            assetGroup: string;
             /** 激活 */
             activated: ibas.emYesNo;
             /** 获得日期 */
@@ -2053,6 +2057,12 @@ declare namespace businesspartner {
             get name(): string;
             /** 设置-名称 */
             set name(value: string);
+            /** 映射的属性名称-组 */
+            static PROPERTY_GROUP_NAME: string;
+            /** 获取-组 */
+            get group(): string;
+            /** 设置-组 */
+            set group(value: string);
             /** 映射的属性名称-激活 */
             static PROPERTY_ACTIVATED_NAME: string;
             /** 获取-激活 */
@@ -2391,6 +2401,12 @@ declare namespace businesspartner {
             get assetCode(): string;
             /** 设置-资产项目 */
             set assetCode(value: string);
+            /** 映射的属性名称-资产项目组 */
+            static PROPERTY_ASSETGROUP_NAME: string;
+            /** 获取-资产项目组 */
+            get assetGroup(): string;
+            /** 设置-资产项目组 */
+            set assetGroup(value: string);
             /** 映射的属性名称-激活 */
             static PROPERTY_ACTIVATED_NAME: string;
             /** 获取-激活 */

@@ -8,3 +8,4 @@
 /// <reference path="./GoodsReceiptChooseView.ts" />
 /// <reference path="./GoodsReceiptEditView.ts" />
 /// <reference path="./GoodsReceiptListView.ts" />
+/// <reference path="./GoodsReceiptViewView.ts" />

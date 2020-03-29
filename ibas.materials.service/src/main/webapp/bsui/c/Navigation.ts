@@ -42,6 +42,9 @@ namespace materials {
                     case app.GoodsIssueEditApp.APPLICATION_ID:
                         view = new c.GoodsIssueEditView();
                         break;
+                    case app.GoodsIssueViewApp.APPLICATION_ID:
+                        view = new c.GoodsIssueViewView();
+                        break;
                     case app.GoodsReceiptListApp.APPLICATION_ID:
                         view = new c.GoodsReceiptListView();
                         break;
@@ -51,6 +54,9 @@ namespace materials {
                     case app.GoodsReceiptEditApp.APPLICATION_ID:
                         view = new c.GoodsReceiptEditView();
                         break;
+                    case app.GoodsReceiptViewApp.APPLICATION_ID:
+                        view = new c.GoodsReceiptViewView();
+                        break;
                     case app.InventoryTransferListApp.APPLICATION_ID:
                         view = new c.InventoryTransferListView();
                         break;
@@ -59,6 +65,9 @@ namespace materials {
                         break;
                     case app.InventoryTransferEditApp.APPLICATION_ID:
                         view = new c.InventoryTransferEditView();
+                        break;
+                    case app.InventoryTransferViewApp.APPLICATION_ID:
+                        view = new c.InventoryTransferViewView();
                         break;
                     case app.MaterialListApp.APPLICATION_ID:
                         view = new c.MaterialListView();
@@ -152,6 +161,9 @@ namespace materials {
                         break;
                     case app.InventoryCountingEditApp.APPLICATION_ID:
                         view = new c.InventoryCountingEditView();
+                        break;
+                    case app.InventoryCountingViewApp.APPLICATION_ID:
+                        view = new c.InventoryCountingViewView();
                         break;
                     case app.SpecificationListApp.APPLICATION_ID:
                         view = new c.SpecificationListView();

@@ -8,3 +8,4 @@
 /// <reference path="./InventoryTransferChooseView.ts" />
 /// <reference path="./InventoryTransferEditView.ts" />
 /// <reference path="./InventoryTransferListView.ts" />
+/// <reference path="./InventoryTransferViewView.ts" />

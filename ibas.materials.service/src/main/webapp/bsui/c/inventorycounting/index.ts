@@ -8,3 +8,4 @@
 /// <reference path="./InventoryCountingListView.ts" />
 /// <reference path="./InventoryCountingChooseView.ts" />
 /// <reference path="./InventoryCountingEditView.ts" />
+/// <reference path="./InventoryCountingViewView.ts" />

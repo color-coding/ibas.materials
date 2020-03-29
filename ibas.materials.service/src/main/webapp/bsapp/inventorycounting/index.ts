@@ -9,3 +9,4 @@
 /// <reference path="./InventoryCountingListApp.ts" />
 /// <reference path="./InventoryCountingChooseApp.ts" />
 /// <reference path="./InventoryCountingEditApp.ts" />
+/// <reference path="./InventoryCountingViewApp.ts" />

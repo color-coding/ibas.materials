@@ -79,6 +79,10 @@ namespace materials {
                     ));
                     return;
                 }
+                let app: InventoryCountingViewApp = new InventoryCountingViewApp();
+                app.navigation = this.navigation;
+                app.viewShower = this.viewShower;
+                app.run(data);
             }
             /** 编辑数据，参数：目标数据 */
             protected editData(data: bo.InventoryCounting): void {
