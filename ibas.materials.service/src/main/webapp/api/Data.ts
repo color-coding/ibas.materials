@@ -152,6 +152,9 @@ namespace materials {
             /** 备注 */
             notes: string;
         }
+        /** 服务额外结果-序列 */
+        export interface IServiceExtraSerials extends IServiceExtraResult<IExtraResultMaterialSerial> {
+        }
         /** 额外数据-批次 */
         export interface IExtraResultMaterialBatch {
             /** 物料编码 */
@@ -174,6 +177,9 @@ namespace materials {
             location: string;
             /** 备注 */
             notes: string;
+        }
+        /** 服务额外结果-批次 */
+        export interface IServiceExtraBatches extends IServiceExtraResult<IExtraResultMaterialBatch> {
         }
         /** 批次服务契约 */
         export interface IMaterialBatchContract extends ibas.IServiceContract {

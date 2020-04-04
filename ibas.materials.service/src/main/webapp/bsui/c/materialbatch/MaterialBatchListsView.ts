@@ -7,14 +7,14 @@
 namespace materials {
     export namespace ui {
         export namespace c {
-            /** 物料序列收货视图 */
-            export class MaterialSerialReceiptView extends ibas.DialogView implements app.IMaterialSerialReceiptView {
+            /** 物料批次收货视图 */
+            export class MaterialBatchListsView extends ibas.DialogView implements app.IMaterialBatchListsView {
                 /** 切换工作数据 */
                 changeWorkingDataEvent: Function;
-                /** 创建序列编码记录 */
-                createMaterialSerialItemEvent: Function;
-                /** 移出物料序列库存 */
-                removeMaterialSerialItemEvent: Function;
+                /** 创建批次编码记录 */
+                addMaterialBatchItemEvent: Function;
+                /** 删除物料批次库存 */
+                removeMaterialBatchItemEvent: Function;
 
                 draw(): any {
                     let that: this = this;
@@ -70,7 +70,7 @@ namespace materials {
                                 }),
                                 attributes: [
                                     new sap.extension.m.ObjectAttribute("", {
-                                        title: ibas.i18n.prop("bo_materialserialitem_itemcode"),
+                                        title: ibas.i18n.prop("bo_materialbatchitem_itemcode"),
                                         text: {
                                             path: "itemCode",
                                             mode: sap.ui.model.BindingMode.OneTime,
@@ -106,7 +106,7 @@ namespace materials {
                         chooseType: ibas.emChooseType.MULTIPLE,
                         mode: sap.m.ListMode.MultiSelect,
                         growing: false,
-                        noDataText: ibas.i18n.prop(["shell_please", "shell_data_create", "bo_materialserial"]),
+                        noDataText: ibas.i18n.prop(["shell_please", "shell_data_create", "bo_materialbatch"]),
                         items: {
                             path: "/rows",
                             template: new sap.m.CustomListItem("", {
@@ -119,10 +119,26 @@ namespace materials {
                                         headerToolbar: new sap.m.Toolbar("", {
                                             content: [
                                                 new sap.extension.m.Input("", {
+                                                    width: "70%",
                                                 }).bindProperty("bindingValue", {
-                                                    path: "serialCode",
+                                                    path: "batchCode",
                                                     type: new sap.extension.data.Alphanumeric({
                                                         maxLength: 36
+                                                    })
+                                                }),
+                                                new sap.m.Label("", {
+                                                    text: " × ",
+                                                    width: "3rem",
+                                                    textAlign: sap.ui.core.TextAlign.Center,
+                                                }),
+                                                new sap.extension.m.Input("", {
+                                                    textAlign: sap.ui.core.TextAlign.Right,
+                                                    type: sap.m.InputType.Number,
+                                                    width: "30%",
+                                                }).bindProperty("bindingValue", {
+                                                    path: "quantity",
+                                                    type: new sap.extension.data.Quantity({
+                                                        minValue: 0
                                                     })
                                                 }),
                                                 new sap.m.ToolbarSpacer(""),
@@ -154,15 +170,7 @@ namespace materials {
                                                     new sap.ui.layout.form.SimpleForm("", {
                                                         editable: true,
                                                         content: [
-                                                            new sap.m.Label("", { text: ibas.i18n.prop("bo_materialserial_batchserial") }),
-                                                            new sap.extension.m.Input("", {
-                                                            }).bindProperty("bindingValue", {
-                                                                path: "batchSerial",
-                                                                type: new sap.extension.data.Alphanumeric({
-                                                                    maxLength: 60
-                                                                })
-                                                            }),
-                                                            new sap.m.Label("", { text: ibas.i18n.prop("bo_materialserial_supplierserial") }),
+                                                            new sap.m.Label("", { text: ibas.i18n.prop("bo_materialbatch_supplierserial") }),
                                                             new sap.extension.m.Input("", {
                                                             }).bindProperty("bindingValue", {
                                                                 path: "supplierSerial",
@@ -170,8 +178,9 @@ namespace materials {
                                                                     maxLength: 60
                                                                 })
                                                             }),
-                                                            new sap.m.Label("", { text: ibas.i18n.prop("bo_materialserial_notes") }),
-                                                            new sap.extension.m.Input("", {
+                                                            new sap.m.Label("", { text: ibas.i18n.prop("bo_materialbatch_notes") }),
+                                                            new sap.extension.m.TextArea("", {
+                                                                rows: 3,
                                                             }).bindProperty("bindingValue", {
                                                                 path: "notes",
                                                                 type: new sap.extension.data.Alphanumeric()
@@ -181,19 +190,19 @@ namespace materials {
                                                     new sap.ui.layout.form.SimpleForm("", {
                                                         editable: true,
                                                         content: [
-                                                            new sap.m.Label("", { text: ibas.i18n.prop("bo_materialserial_manufacturingdate") }),
+                                                            new sap.m.Label("", { text: ibas.i18n.prop("bo_materialbatch_manufacturingdate") }),
                                                             new sap.extension.m.DatePicker("", {
                                                             }).bindProperty("bindingValue", {
                                                                 path: "manufacturingDate",
                                                                 type: new sap.extension.data.Date()
                                                             }),
-                                                            new sap.m.Label("", { text: ibas.i18n.prop("bo_materialserial_admissiondate") }),
+                                                            new sap.m.Label("", { text: ibas.i18n.prop("bo_materialbatch_admissiondate") }),
                                                             new sap.extension.m.DatePicker("", {
                                                             }).bindProperty("bindingValue", {
                                                                 path: "admissionDate",
                                                                 type: new sap.extension.data.Date()
                                                             }),
-                                                            new sap.m.Label("", { text: ibas.i18n.prop("bo_materialserial_expirationdate") }),
+                                                            new sap.m.Label("", { text: ibas.i18n.prop("bo_materialbatch_expirationdate") }),
                                                             new sap.extension.m.DatePicker("", {
                                                             }).bindProperty("bindingValue", {
                                                                 path: "expirationDate",
@@ -367,7 +376,7 @@ namespace materials {
                                                     type: sap.m.ButtonType.Transparent,
                                                     icon: "sap-icon://delete",
                                                     press: function (): void {
-                                                        that.fireViewEvents(that.removeMaterialSerialItemEvent, that.tableItems.getSelecteds());
+                                                        that.fireViewEvents(that.removeMaterialBatchItemEvent, that.tableItems.getSelecteds());
                                                     }
                                                 }),
                                                 new sap.m.MenuButton("", {
@@ -378,17 +387,17 @@ namespace materials {
                                                     menu: new sap.m.Menu("", {
                                                         items: [
                                                             new sap.m.MenuItem("", {
-                                                                text: ibas.i18n.prop("materials_auto_by_datetime"),
-                                                                icon: "sap-icon://timesheet",
+                                                                text: ibas.i18n.prop("shell_data_new") + ibas.i18n.prop("bo_materialbatch"),
+                                                                icon: "sap-icon://create",
                                                                 press: function (): void {
-                                                                    that.fireViewEvents(that.createMaterialSerialItemEvent, "TIME_CODE");
+                                                                    that.fireViewEvents(that.addMaterialBatchItemEvent, true);
                                                                 }
                                                             }),
                                                             new sap.m.MenuItem("", {
-                                                                text: ibas.i18n.prop("materials_select_used"),
-                                                                icon: "sap-icon://documents",
+                                                                text: ibas.i18n.prop("shell_data_choose") + ibas.i18n.prop("bo_materialbatch"),
+                                                                icon: "sap-icon://copy",
                                                                 press: function (): void {
-                                                                    that.fireViewEvents(that.createMaterialSerialItemEvent, "USED_CODE");
+                                                                    that.fireViewEvents(that.addMaterialBatchItemEvent, false);
                                                                 }
                                                             }),
                                                         ],
@@ -506,11 +515,11 @@ namespace materials {
                 private tableItems: sap.extension.m.List;
 
                 /** 显示待处理数据 */
-                showWorkDatas(datas: app.SerialWorkingItem[]): void {
+                showWorkDatas(datas: app.BatchWorkingItem[]): void {
                     this.tableWorkDatas.setModel(new sap.extension.model.JSONModel({ rows: datas }));
                 }
-                /** 显示物料序列记录 */
-                showMaterialSerialItems(datas: app.SerialWorkingItemResult[]): void {
+                /** 显示物料批次记录 */
+                showMaterialBatchItems(datas: app.BatchWorkingItemResult[]): void {
                     this.tableItems.setModel(new sap.extension.model.JSONModel({ rows: datas }));
                     let model: sap.ui.model.Model = this.tableWorkDatas.getModel(undefined);
                     if (!ibas.objects.isNull(model)) {

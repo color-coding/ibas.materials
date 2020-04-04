@@ -7,6 +7,349 @@
  */
 namespace materials {
     export namespace app {
+        const PROPERTY_DATA: symbol = Symbol("data");
+        const PROPERTY_RESULTS: symbol = Symbol("results");
+        const PROPERTY_PARENT: symbol = Symbol("parent");
+        const PROPERTY_EXTEND: symbol = Symbol("extend");
+        const PROPERTY_ISDIRTY: symbol = Symbol("isDirty");
+        export class BatchWorkingItem extends ibas.Bindable {
+            constructor(data: IMaterialBatchContract) {
+                super();
+                this[PROPERTY_DATA] = data;
+                this[PROPERTY_RESULTS] = new BatchWorkingItemResults(this);
+            }
+            get data(): IMaterialBatchContract {
+                return this[PROPERTY_DATA];
+            }
+            /** 物料编码 */
+            get itemCode(): string {
+                return this.data.itemCode;
+            }
+            /** 物料描述 */
+            get itemDescription(): string {
+                return this.data.itemDescription;
+            }
+            /** 仓库编码 */
+            get warehouse(): string {
+                return this.data.warehouse;
+            }
+            /** 数量 */
+            get quantity(): number {
+                return this.data.quantity;
+            }
+            /** 单位 */
+            get uom(): string {
+                return this.data.uom;
+            }
+            /** 剩余数量 */
+            get remaining(): number {
+                return this.quantity - this.results.total();
+            }
+            /** 操作结果 */
+            get results(): BatchWorkingItemResults {
+                return this[PROPERTY_RESULTS];
+            }
+            fireProcessing(): void {
+                this.firePropertyChanged("remaining");
+            }
+        }
+        export class BatchWorkingItemResults extends ibas.ArrayList<BatchWorkingItemResult> {
+            constructor(parent: BatchWorkingItem) {
+                super();
+                this[PROPERTY_PARENT] = parent;
+                let batches: ibas.IList<IExtraResultMaterialBatch> = ibas.arrays.create(this.parent.data.batches);
+                for (let data of this.parent.data.materialBatches) {
+                    let extend: IExtraResultMaterialBatch = batches.firstOrDefault(c =>
+                        c.itemCode === this.parent.itemCode &&
+                        c.warehouse === this.parent.warehouse &&
+                        c.batchCode === data.batchCode);
+                    if (ibas.objects.isNull(extend)) {
+                        extend = new ExtraResultMaterialBatch(this.parent.itemCode, this.parent.warehouse);
+                    }
+                    this.add(new BatchWorkingItemResult(data, extend));
+                }
+            }
+            protected get parent(): BatchWorkingItem {
+                return this[PROPERTY_PARENT];
+            }
+            create(batch?: bo.IMaterialBatch): BatchWorkingItemResult {
+                let item: BatchWorkingItemResult = new BatchWorkingItemResult(
+                    this.parent.data.materialBatches.create(),
+                    new ExtraResultMaterialBatch(this.parent.itemCode, this.parent.warehouse)
+                );
+                if (!ibas.objects.isNull(batch)) {
+                    item.batchCode = batch.batchCode;
+                    item.supplierSerial = batch.supplierSerial;
+                    item.expirationDate = batch.expirationDate;
+                    item.manufacturingDate = batch.manufacturingDate;
+                    item.specification = batch.specification;
+                    item.admissionDate = batch.admissionDate;
+                    item.location = batch.location;
+                    item.notes = batch.notes;
+                    item.quantity = batch.quantity;
+                }
+                this.add(item);
+                this.parent.fireProcessing();
+                return item;
+            }
+            add(item: BatchWorkingItemResult | BatchWorkingItemResult[]): void {
+                super.add.apply(this, arguments);
+                for (let one of ibas.arrays.create(item)) {
+                    one.registerListener(this.listener);
+                }
+            }
+            private listener: ibas.IPropertyChangedListener = {
+                caller: this,
+                propertyChanged: (property) => {
+                    if (property === "quantity") {
+                        this.parent.fireProcessing();
+                    }
+                }
+            };
+            remove(item: BatchWorkingItemResult): boolean {
+                if (!(this.contain(item))) {
+                    throw new RangeError();
+                }
+                item.removeListener(this.listener);
+                if (item.data.isNew) {
+                    super.remove(item);
+                    this.parent.data.materialBatches.remove(item.data);
+                    this.parent.fireProcessing();
+                    return true;
+                } else {
+                    item.data.delete();
+                    this.parent.fireProcessing();
+                    return false;
+                }
+            }
+            filterDeleted(): BatchWorkingItemResult[] {
+                return this.where(c => c.data.isDeleted === false);
+            }
+            total(): number {
+                let total: number = 0;
+                for (let item of this.filterDeleted()) {
+                    total += item.quantity;
+                }
+                return total;
+            }
+        }
+        export class BatchWorkingItemResult extends ibas.Bindable {
+            constructor(data: bo.IMaterialBatchItem, extend: IExtraResultMaterialBatch) {
+                super();
+                this[PROPERTY_DATA] = data;
+                this[PROPERTY_EXTEND] = extend;
+            }
+            get data(): bo.IMaterialBatchItem {
+                return this[PROPERTY_DATA];
+            }
+            get extend(): ExtraResultMaterialBatch {
+                return this[PROPERTY_EXTEND];
+            }
+            itemCode(): string {
+                return this.extend.itemCode;
+            }
+            warehouse(): string {
+                return this.extend.warehouse;
+            }
+            get batchCode(): string {
+                return this.data.batchCode;
+            }
+            set batchCode(value: string) {
+                this.data.batchCode = value;
+                this.extend.batchCode = value;
+                this.firePropertyChanged("batchCode");
+            }
+            /** 数量 */
+            get quantity(): number {
+                return this.data.quantity;
+            }
+            set quantity(value: number) {
+                this.data.quantity = value;
+                this.firePropertyChanged("quantity");
+            }
+            /** 供应商序号 */
+            get supplierSerial(): string {
+                return this.extend.supplierSerial;
+            }
+            set supplierSerial(value: string) {
+                this.extend.supplierSerial = value;
+                this.extend[PROPERTY_ISDIRTY] = true;
+                this.firePropertyChanged("supplierSerial");
+            }
+            /** 过期日期 */
+            get expirationDate(): Date {
+                return this.extend.expirationDate;
+            }
+            set expirationDate(value: Date) {
+                this.extend.expirationDate = value;
+                this.extend[PROPERTY_ISDIRTY] = true;
+                this.firePropertyChanged("expirationDate");
+            }
+            /** 生产日期 */
+            get manufacturingDate(): Date {
+                return this.extend.manufacturingDate;
+            }
+            set manufacturingDate(value: Date) {
+                this.extend.manufacturingDate = value;
+                this.extend[PROPERTY_ISDIRTY] = true;
+                this.firePropertyChanged("manufacturingDate");
+            }
+            /** 物料规格 */
+            get specification(): number {
+                return this.extend.specification;
+            }
+            set specification(value: number) {
+                this.extend.specification = value;
+                this.extend[PROPERTY_ISDIRTY] = true;
+                this.firePropertyChanged("specification");
+            }
+            /** 准入日期 */
+            get admissionDate(): Date {
+                return this.extend.admissionDate;
+            }
+            set admissionDate(value: Date) {
+                this.extend.admissionDate = value;
+                this.extend[PROPERTY_ISDIRTY] = true;
+                this.firePropertyChanged("admissionDate");
+            }
+            /** 位置 */
+            get location(): string {
+                return this.extend.location;
+            }
+            set location(value: string) {
+                this.extend.location = value;
+                this.extend[PROPERTY_ISDIRTY] = true;
+                this.firePropertyChanged("location");
+            }
+            /** 备注 */
+            get notes(): string {
+                return this.extend.notes;
+            }
+            set notes(value: string) {
+                this.extend.notes = value;
+                this.extend[PROPERTY_ISDIRTY] = true;
+                this.firePropertyChanged("notes");
+            }
+        }
+        class ExtraResultMaterialBatch implements IExtraResultMaterialBatch {
+            constructor(itemCode: string, warehouse: string) {
+                this.itemCode = itemCode;
+                this.warehouse = warehouse;
+            }
+            get isDirty(): boolean {
+                return this[PROPERTY_ISDIRTY];
+            }
+            /** 物料编码 */
+            itemCode: string;
+            /** 仓库编码 */
+            warehouse: string;
+            /** 批次编号 */
+            batchCode: string;
+            /** 供应商序号 */
+            supplierSerial: string;
+            /** 过期日期 */
+            expirationDate: Date;
+            /** 生产日期 */
+            manufacturingDate: Date;
+            /** 物料规格 */
+            specification: number;
+            /** 准入日期 */
+            admissionDate: Date;
+            /** 位置 */
+            location: string;
+            /** 备注 */
+            notes: string;
+        }
+        class ServiceExtraResult extends ibas.ArrayList<IExtraResultMaterialBatch> implements IServiceExtraBatches {
+            constructor() {
+                super();
+            }
+            save(fnBack: (error?: Error) => void): void {
+                super.push()
+                let boRepository: materials.bo.BORepositoryMaterials = new materials.bo.BORepositoryMaterials();
+                ibas.queues.execute(this, (data, next) => {
+                    let criteria: ibas.ICriteria = new ibas.Criteria();
+                    let condition: ibas.ICondition = criteria.conditions.create();
+                    condition.alias = bo.MaterialBatch.PROPERTY_ITEMCODE_NAME;
+                    condition.value = data.itemCode;
+                    condition = criteria.conditions.create();
+                    condition.alias = bo.MaterialBatch.PROPERTY_WAREHOUSE_NAME;
+                    condition.value = data.warehouse;
+                    condition = criteria.conditions.create();
+                    condition.alias = bo.MaterialBatch.PROPERTY_BATCHCODE_NAME;
+                    condition.value = data.batchCode;
+                    boRepository.fetchMaterialBatch({
+                        criteria: criteria,
+                        onCompleted: (opRslt) => {
+                            if (opRslt.resultCode === 0) {
+                                let batch: materials.bo.MaterialBatch = opRslt.resultObjects.firstOrDefault();
+                                if (ibas.objects.isNull(batch)) {
+                                    // 没有则新建对象，解决计划状态单据保存
+                                    batch = new materials.bo.MaterialBatch();
+                                    batch.itemCode = data.itemCode;
+                                    batch.warehouse = data.warehouse;
+                                    batch.batchCode = data.batchCode;
+                                }
+                                if (!ibas.strings.isEmpty(data.supplierSerial))
+                                    batch.supplierSerial = data.supplierSerial;
+                                if (ibas.dates.isDate(data.manufacturingDate))
+                                    batch.manufacturingDate = data.manufacturingDate;
+                                if (ibas.dates.isDate(data.expirationDate))
+                                    batch.expirationDate = data.expirationDate;
+                                if (data.specification > 0)
+                                    batch.specification = data.specification;
+                                if (ibas.dates.isDate(data.admissionDate))
+                                    batch.admissionDate = data.admissionDate;
+                                if (!ibas.strings.isEmpty(data.location))
+                                    batch.location = data.location;
+                                if (!ibas.strings.isEmpty(data.notes))
+                                    batch.notes = data.notes;
+                                if (batch.isDirty) {
+                                    boRepository.saveMaterialBatch({
+                                        beSaved: batch,
+                                        onCompleted: (opRslt) => {
+                                            if (opRslt.resultCode === 0) {
+                                                next();
+                                            } else {
+                                                if (fnBack instanceof Function) {
+                                                    next(new Error(opRslt.message));
+                                                }
+                                            }
+                                        }
+                                    });
+                                } else {
+                                    next();
+                                }
+                            } else {
+                                if (fnBack instanceof Function) {
+                                    next(new Error(opRslt.message));
+                                }
+                            }
+                        }
+                    });
+                }, (error) => {
+                    if (fnBack instanceof Function) {
+                        fnBack(error);
+                    }
+                });
+            }
+            add(item: IExtraResultMaterialBatch): void;
+            add(items: IExtraResultMaterialBatch[]): void;
+            add(): void {
+                for (let item of ibas.arrays.create(arguments[0])) {
+                    let eItem: IExtraResultMaterialBatch = <IExtraResultMaterialBatch>item;
+                    let tmp: any = this.firstOrDefault(c => c.itemCode === eItem.itemCode
+                        && c.warehouse === eItem.warehouse
+                        && c.batchCode === eItem.batchCode);
+                    if (ibas.objects.isNull(tmp)) {
+                        super.add(eItem);
+                    } else {
+                        this.removeAt(tmp);
+                        super.add(eItem);
+                    }
+                }
+            }
+        }
         /** 物料批次服务 */
         export abstract class MaterialBatchService<T extends IMaterialBatchServiceView>
             extends ibas.ServiceApplication<T, IMaterialBatchContract[]> {
@@ -15,17 +358,18 @@ namespace materials {
                 super.registerView();
                 // 其他事件
                 this.view.changeWorkingDataEvent = this.changeWorkingData;
+                this.view.removeMaterialBatchItemEvent = this.removeMaterialBatchItem;
             }
             /** 视图显示后 */
             protected viewShowed(): void {
                 // 视图加载完成
                 this.view.showWorkDatas(this.workDatas);
             }
-            protected workDatas: ibas.IList<IMaterialBatchContract>;
-            protected workingData: IMaterialBatchContract;
+            protected workDatas: ibas.IList<BatchWorkingItem>;
+            protected workingData: BatchWorkingItem;
             /** 运行服务 */
             runService(contracts: IMaterialBatchContract[]): void {
-                this.workDatas = new ibas.ArrayList<IMaterialBatchContract>();
+                this.workDatas = new ibas.ArrayList<BatchWorkingItem>();
                 for (let item of contracts) {
                     if (ibas.objects.isNull(item)) {
                         continue;
@@ -36,7 +380,7 @@ namespace materials {
                     if (!(item.quantity > 0)) {
                         continue;
                     }
-                    this.workDatas.add(item);
+                    this.workDatas.add(new BatchWorkingItem(item));
                 }
                 if (this.workDatas.length > 0) {
                     super.show();
@@ -45,7 +389,7 @@ namespace materials {
                     this.proceeding(ibas.emMessageType.WARNING, ibas.i18n.prop("materials_no_work_datas_for_material_batch"));
                 }
             }
-            protected changeWorkingData(data: IMaterialBatchContract): void {
+            protected changeWorkingData(data: BatchWorkingItem): void {
                 if (!ibas.objects.isNull(data) && !this.workDatas.concat(data)) {
                     throw new Error(ibas.i18n.prop("sys_invalid_parameter", "data"));
                 }
@@ -53,7 +397,39 @@ namespace materials {
                 if (ibas.objects.isNull(this.workingData)) {
                     this.view.showMaterialBatchItems([]);
                 } else {
-                    this.view.showMaterialBatchItems(this.workingData.materialBatches.filterDeleted());
+                    this.view.showMaterialBatchItems(this.workingData.results.filterDeleted());
+                }
+            }
+            protected removeMaterialBatchItem(data: BatchWorkingItemResult | BatchWorkingItemResult[]): void {
+                if (ibas.objects.isNull(data)) {
+                    this.messages(ibas.emMessageType.WARNING,
+                        ibas.i18n.prop("shell_please_chooose_data", ibas.i18n.prop("shell_data_remove")));
+                    return;
+                }
+                for (let item of ibas.arrays.create(data)) {
+                    if (item.data.isNew) {
+                        if (ibas.objects.isNull(this.workingData)) {
+                            for (let wData of this.workDatas) {
+                                if (wData.results.contain(item)) {
+                                    wData.results.remove(item);
+                                    break;
+                                }
+                            }
+                        } else {
+                            this.workingData.results.remove(item);
+                        }
+                    } else {
+                        item.data.delete();
+                    }
+                }
+                if (ibas.objects.isNull(this.workingData)) {
+                    let datas: ibas.IList<BatchWorkingItemResult> = new ibas.ArrayList<BatchWorkingItemResult>();
+                    for (let wData of this.workDatas) {
+                        datas.add(wData.results.filterDeleted());
+                    }
+                    this.view.showMaterialBatchItems(datas);
+                } else {
+                    this.view.showMaterialBatchItems(this.workingData.results.filterDeleted());
                 }
             }
         }
@@ -76,9 +452,8 @@ namespace materials {
                 super.registerView();
                 // 其他事件
                 this.view.useMaterialBatchInventoryEvent = this.useMaterialBatchInventory;
-                this.view.removeMaterialBatchItemEvent = this.removeMaterialBatchItem;
             }
-            protected changeWorkingData(data: IMaterialBatchContract): void {
+            protected changeWorkingData(data: BatchWorkingItem): void {
                 super.changeWorkingData(data);
                 if (ibas.objects.isNull(this.workingData)) {
                     this.view.showMaterialBatchInventories([]);
@@ -116,7 +491,7 @@ namespace materials {
                             // 修正可用的数量
                             for (let item of opRslt.resultObjects) {
                                 for (let wItem of that.workDatas) {
-                                    for (let jItem of wItem.materialBatches) {
+                                    for (let jItem of wItem.results) {
                                         if (item.warehouse !== wItem.warehouse) {
                                             continue;
                                         }
@@ -165,54 +540,24 @@ namespace materials {
                 if (ibas.objects.isNull(this.workingData)) {
                     throw new Error(ibas.i18n.prop("sys_invalid_parameter", "workingData"));
                 }
-                let total: number = this.workingData.materialBatches.total();
-                if (total >= this.workingData.quantity) {
+                let total: number = this.workingData.remaining;
+                if (total <= 0) {
                     this.messages(ibas.emMessageType.WARNING, ibas.i18n.prop("materials_no_data_to_be_processed"));
                     return;
                 }
-                total = this.workingData.quantity - total;
-                let journal: bo.IMaterialBatchItem = this.workingData.materialBatches.create(data.batchCode);
+                let journal: BatchWorkingItemResult = this.workingData.results.create(data);
                 if (total > data.quantity) {
                     journal.quantity = data.quantity;
                 } else {
                     journal.quantity = total;
                 }
-                data.quantity = data.quantity - total;
-                this.view.showMaterialBatchItems(this.workingData.materialBatches.filterDeleted());
-            }
-            protected removeMaterialBatchItem(data: bo.IMaterialBatchItem): void {
-                if (ibas.objects.isNull(data)) {
-                    this.messages(ibas.emMessageType.WARNING,
-                        ibas.i18n.prop("shell_please_chooose_data", ibas.i18n.prop("shell_data_remove")));
-                    return;
-                }
-                if (data.isNew) {
-                    if (ibas.objects.isNull(this.workingData)) {
-                        for (let wData of this.workDatas) {
-                            if (wData.materialBatches.contain(data)) {
-                                wData.materialBatches.remove(data);
-                                break;
-                            }
-                        }
-                    } else {
-                        this.workingData.materialBatches.remove(data);
-                    }
-                } else {
-                    data.delete();
-                }
-                if (ibas.objects.isNull(this.workingData)) {
-                    let datas: ibas.IList<bo.IMaterialBatchItem> = new ibas.ArrayList<bo.IMaterialBatchItem>();
-                    for (let wData of this.workDatas) {
-                        datas.add(wData.materialBatches.filterDeleted());
-                    }
-                    this.view.showMaterialBatchItems(datas);
-                } else {
-                    this.view.showMaterialBatchItems(this.workingData.materialBatches.filterDeleted());
-                }
+                data.quantity = data.quantity - journal.quantity;
+                this.view.showMaterialBatchItems(this.workingData.results.filterDeleted());
             }
         }
         /** 物料批次收货服务 */
-        export class MaterialBatchReceiptService extends MaterialBatchService<IMaterialBatchReceiptView> {
+        export class MaterialBatchReceiptService extends MaterialBatchService<IMaterialBatchReceiptView>
+            implements ibas.IService<ibas.IServiceWithResultCaller<IMaterialBatchContract[], IServiceExtraBatches>>  {
             /** 应用标识 */
             static APPLICATION_ID: string = "f4448871-b03a-48f5-bf6d-9418259fab9d";
             /** 应用名称 */
@@ -229,66 +574,116 @@ namespace materials {
                 super.registerView();
                 // 其他事件
                 this.view.createMaterialBatchItemEvent = this.createMaterialBatchItem;
-                this.view.deleteMaterialBatchItemEvent = this.deleteMaterialBatchItem;
+                this.view.closeEvent = this.fireCompleted;
             }
-            protected deleteMaterialBatchItem(data: bo.IMaterialBatchItem | bo.IMaterialBatchItem[]): void {
-                if (ibas.objects.isNull(data)) {
-                    this.messages(ibas.emMessageType.WARNING,
-                        ibas.i18n.prop("shell_please_chooose_data", ibas.i18n.prop("shell_data_remove")));
-                    return;
-                }
-                for (let item of ibas.arrays.create(data)) {
-                    if (item.isNew) {
-                        if (ibas.objects.isNull(this.workingData)) {
-                            for (let wData of this.workDatas) {
-                                if (wData.materialBatches.contain(item)) {
-                                    wData.materialBatches.remove(item);
-                                    break;
-                                }
+            protected createMaterialBatchItem(mode: string): void {
+                if (mode === "TIME_CODE") {
+                    let datas: ibas.IList<BatchWorkingItem> = new ibas.ArrayList<BatchWorkingItem>();
+                    if (ibas.objects.isNull(this.workingData)) {
+                        // 没有工作的，全部创建
+                        for (let item of this.workDatas) {
+                            if (item.quantity === item.results.total()) {
+                                continue;
                             }
-                        } else {
-                            this.workingData.materialBatches.remove(item);
+                            datas.add(item);
                         }
                     } else {
-                        item.delete();
+                        // 仅创建工作的
+                        datas.add(this.workingData);
                     }
-                }
-                if (ibas.objects.isNull(this.workingData)) {
-                    let datas: ibas.IList<bo.IMaterialBatchItem> = new ibas.ArrayList<bo.IMaterialBatchItem>();
-                    for (let wData of this.workDatas) {
-                        datas.add(wData.materialBatches.filterDeleted());
-                    }
-                    this.view.showMaterialBatchItems(datas);
-                } else {
-                    this.view.showMaterialBatchItems(this.workingData.materialBatches.filterDeleted());
-                }
-            }
-            protected createMaterialBatchItem(): void {
-                let datas: ibas.IList<IMaterialBatchContract> = new ibas.ArrayList<IMaterialBatchContract>();
-                if (ibas.objects.isNull(this.workingData)) {
-                    // 没有工作的，全部创建
-                    for (let item of this.workDatas) {
-                        if (item.quantity === item.materialBatches.total()) {
+                    let journals: ibas.IList<BatchWorkingItemResult> = new ibas.ArrayList<BatchWorkingItemResult>();
+                    for (let item of datas) {
+                        let total: number = item.results.total();
+                        if (total >= item.quantity) {
                             continue;
                         }
-                        datas.add(item);
+                        let journal: BatchWorkingItemResult = item.results.create();
+                        journal.quantity = item.quantity - total;
+                        journal.batchCode = ibas.dates.toString(ibas.dates.now(), "yyyyMMdd");
+                        journals.add(journal);
                     }
-                } else {
-                    // 仅创建工作的
-                    datas.add(this.workingData);
-                }
-                let journals: ibas.IList<bo.IMaterialBatchItem> = new ibas.ArrayList<bo.IMaterialBatchItem>();
-                for (let item of datas) {
-                    let total: number = item.materialBatches.total();
-                    if (total >= item.quantity) {
-                        continue;
+                    if (ibas.objects.isNull(this.workingData)) {
+                        // 没选中工作内容，则显示新创建的
+                        this.view.showMaterialBatchItems(journals);
+                    } else {
+                        // 选中工作内容，怎显示工作内容的
+                        this.view.showMaterialBatchItems(this.workingData.results.filterDeleted());
                     }
-                    let journal: bo.IMaterialBatchItem = item.materialBatches.create();
-                    journal.quantity = item.quantity - total;
-                    journal.batchCode = ibas.dates.toString(ibas.dates.now(), "yyyyMMdd");
-                    journals.add(journal);
+                } else if (mode === "USED_CODE") {
+                    if (ibas.objects.isNull(this.workingData)) {
+                        this.messages(ibas.emMessageType.WARNING, ibas.i18n.prop("shell_please_chooose_data",
+                            ibas.i18n.prop("shell_data_edit")
+                        ));
+                        return;
+                    }
+                    let that: this = this;
+                    let criteria: ibas.ICriteria = new ibas.Criteria();
+                    let condition: ibas.ICondition = criteria.conditions.create();
+                    condition.alias = bo.MaterialBatch.PROPERTY_ITEMCODE_NAME;
+                    condition.value = this.workingData.itemCode;
+                    condition = criteria.conditions.create();
+                    condition.alias = bo.MaterialBatch.PROPERTY_WAREHOUSE_NAME;
+                    condition.value = this.workingData.warehouse;
+                    condition = criteria.conditions.create();
+                    condition.alias = bo.MaterialBatch.PROPERTY_LOCKED_NAME;
+                    condition.value = ibas.emYesNo.NO.toString();
+                    ibas.servicesManager.runChooseService<bo.MaterialBatch>({
+                        boCode: bo.BO_CODE_MATERIALBATCH,
+                        chooseType: ibas.emChooseType.SINGLE,
+                        criteria: criteria,
+                        onCompleted(selecteds: ibas.IList<bo.MaterialBatch>): void {
+                            for (let selected of selecteds) {
+                                if (that.workingData.results.firstOrDefault(
+                                    c => c.batchCode === selected.batchCode) !== null) {
+                                    continue;
+                                }
+                                selected.quantity = that.workingData.remaining;
+                                that.workingData.results.create(selected);
+                            }
+                            that.view.showMaterialBatchItems(that.workingData.results.filterDeleted());
+                        }
+                    });
                 }
-                this.view.showMaterialBatchItems(journals);
+            }
+            run(): void {
+                if (arguments.length === 1) {
+                    // 判断是否为选择契约
+                    let caller: ibas.IServiceWithResultCaller<IMaterialBatchContract[], IServiceExtraBatches> = arguments[0];
+                    if (ibas.objects.instanceOf(caller.proxy, ibas.ServiceProxy)) {
+                        this.onCompleted = caller.onCompleted;
+                    }
+                }
+                // 保持参数原样传递
+                super.run.apply(this, arguments);
+            }
+            /** 完成事件 */
+            private onCompleted: Function;
+            /** 触发完成事件 */
+            protected fireCompleted(): void {
+                // 关闭视图
+                this.close();
+                if (!(this.onCompleted instanceof Function)) {
+                    return;
+                }
+                try {
+                    let result: ServiceExtraResult = new ServiceExtraResult();
+                    for (let wItem of this.workDatas) {
+                        for (let rItem of wItem.results) {
+                            if (rItem.data.isDeleted === true) {
+                                continue;
+                            }
+                            if (rItem.extend.isDirty !== true) {
+                                continue;
+                            }
+                            result.add(rItem.extend);
+                        }
+                    }
+                    // 调用完成事件
+                    this.onCompleted.call(this.onCompleted, result);
+                } catch (error) {
+                    // 完成事件出错
+                    this.messages(error);
+                }
             }
         }
         /** 物料批次列表服务 */
@@ -309,39 +704,6 @@ namespace materials {
                 super.registerView();
                 // 其他事件
                 this.view.addMaterialBatchItemEvent = this.addMaterialBatchItem;
-                this.view.removeMaterialBatchItemEvent = this.removeMaterialBatchItem;
-            }
-            protected removeMaterialBatchItem(data: bo.IMaterialBatchItem[]): void {
-                if (ibas.objects.isNull(data) || !(data instanceof Array)) {
-                    this.messages(ibas.emMessageType.WARNING,
-                        ibas.i18n.prop("shell_please_chooose_data", ibas.i18n.prop("shell_data_remove")));
-                    return;
-                }
-                for (let item of data) {
-                    if (item.isNew) {
-                        if (ibas.objects.isNull(this.workingData)) {
-                            for (let wData of this.workDatas) {
-                                if (wData.materialBatches.contain(item)) {
-                                    wData.materialBatches.remove(item);
-                                    break;
-                                }
-                            }
-                        } else {
-                            this.workingData.materialBatches.remove(item);
-                        }
-                    } else {
-                        item.delete();
-                    }
-                }
-                if (ibas.objects.isNull(this.workingData)) {
-                    let datas: ibas.IList<bo.IMaterialBatchItem> = new ibas.ArrayList<bo.IMaterialBatchItem>();
-                    for (let wData of this.workDatas) {
-                        datas.add(wData.materialBatches.filterDeleted());
-                    }
-                    this.view.showMaterialBatchItems(datas);
-                } else {
-                    this.view.showMaterialBatchItems(this.workingData.materialBatches.filterDeleted());
-                }
             }
             protected addMaterialBatchItem(createNew: boolean = true): void {
                 if (ibas.objects.isNull(this.workingData)) {
@@ -350,15 +712,15 @@ namespace materials {
                     ));
                     return;
                 }
-                let total: number = this.workingData.quantity - this.workingData.materialBatches.total();
+                let total: number = this.workingData.quantity - this.workingData.results.total();
                 if (total <= 0) {
                     return;
                 }
                 if (createNew === true) {
-                    let journal: bo.IMaterialBatchItem = this.workingData.materialBatches.create();
+                    let journal: BatchWorkingItemResult = this.workingData.results.create();
                     journal.quantity = total;
                     journal.batchCode = ibas.dates.toString(ibas.dates.now(), "yyyyMMdd");
-                    this.view.showMaterialBatchItems(this.workingData.materialBatches.filterDeleted());
+                    this.view.showMaterialBatchItems(this.workingData.results.filterDeleted());
                 } else {
                     let that: this = this;
                     let criteria: ibas.ICriteria = new ibas.Criteria();
@@ -376,12 +738,12 @@ namespace materials {
                                 if (total <= 0) {
                                     break;
                                 }
-                                let item: bo.IMaterialBatchItem = that.workingData.materialBatches.create();
+                                let item: BatchWorkingItemResult = that.workingData.results.create();
                                 item.batchCode = selected.batchCode;
                                 item.quantity = selected.quantity > total ? total : selected.quantity;
                                 total -= item.quantity;
                             }
-                            that.view.showMaterialBatchItems(that.workingData.materialBatches.filterDeleted());
+                            that.view.showMaterialBatchItems(that.workingData.results.filterDeleted());
                         }
                     });
                 }
@@ -390,11 +752,13 @@ namespace materials {
         /** 视图-物料批次服务 */
         export interface IMaterialBatchServiceView extends ibas.IBOView {
             /** 显示待处理数据 */
-            showWorkDatas(datas: IMaterialBatchContract[]): void;
+            showWorkDatas(datas: BatchWorkingItem[]): void;
             /** 切换工作数据 */
             changeWorkingDataEvent: Function;
             /** 显示物料批次记录 */
-            showMaterialBatchItems(datas: bo.IMaterialBatchItem[]): void;
+            showMaterialBatchItems(datas: BatchWorkingItemResult[]): void;
+            /** 移出物料批次库存 */
+            removeMaterialBatchItemEvent: Function;
         }
         /** 视图-物料批次发货 */
         export interface IMaterialBatchIssueView extends IMaterialBatchServiceView {
@@ -402,22 +766,16 @@ namespace materials {
             showMaterialBatchInventories(datas: bo.MaterialBatch[]): void;
             /** 使用物料批次库存 */
             useMaterialBatchInventoryEvent: Function;
-            /** 移出物料批次库存 */
-            removeMaterialBatchItemEvent: Function;
         }
         /** 视图-物料批次收货 */
         export interface IMaterialBatchReceiptView extends IMaterialBatchServiceView {
             /** 创建批次记录 */
             createMaterialBatchItemEvent: Function;
-            /** 删除物料批次库存 */
-            deleteMaterialBatchItemEvent: Function;
         }
         /** 视图-物料批次列表 */
         export interface IMaterialBatchListsView extends IMaterialBatchServiceView {
             /** 添加批次记录 */
             addMaterialBatchItemEvent: Function;
-            /** 移出物料批次库存 */
-            removeMaterialBatchItemEvent: Function;
         }
         /** 物料批次发货服务映射 */
         export class MaterialBatchIssueServiceMapping extends ibas.ServiceMapping {

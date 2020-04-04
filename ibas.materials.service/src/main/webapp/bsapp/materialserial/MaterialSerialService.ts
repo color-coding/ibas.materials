@@ -113,7 +113,7 @@ namespace materials {
                 return this.where(c => c.data.isDeleted === false);
             }
             total(): number {
-                return this.length;
+                return this.filterDeleted().length;
             }
         }
         export class SerialWorkingItemResult extends ibas.Bindable {
@@ -268,7 +268,7 @@ namespace materials {
             /** 备注 */
             notes: string;
         }
-        class ServiceExtraResult extends ibas.ArrayList<IExtraResultMaterialSerial> implements IServiceExtraResult<IExtraResultMaterialSerial>{
+        class ServiceExtraResult extends ibas.ArrayList<IExtraResultMaterialSerial> implements IServiceExtraSerials {
             constructor() {
                 super();
             }
@@ -298,16 +298,26 @@ namespace materials {
                                     serial.warehouse = data.warehouse;
                                     serial.serialCode = data.serialCode;
                                 }
-                                serial.supplierSerial = data.supplierSerial ? data.supplierSerial : undefined;
-                                serial.batchSerial = data.batchSerial ? data.batchSerial : undefined;
-                                serial.manufacturingDate = data.manufacturingDate ? data.manufacturingDate : undefined;
-                                serial.expirationDate = data.expirationDate ? data.expirationDate : undefined;
-                                serial.specification = data.specification ? data.specification : undefined;
-                                serial.admissionDate = data.admissionDate ? data.admissionDate : undefined;
-                                serial.warrantyStartDate = data.warrantyStartDate ? data.warrantyStartDate : undefined;
-                                serial.warrantyEndDate = data.warrantyEndDate ? data.warrantyEndDate : undefined;
-                                serial.location = data.location ? data.location : undefined;
-                                serial.notes = data.notes ? data.notes : undefined;
+                                if (!ibas.strings.isEmpty(data.supplierSerial))
+                                    serial.supplierSerial = data.supplierSerial;
+                                if (!ibas.strings.isEmpty(data.batchSerial))
+                                    serial.batchSerial = data.batchSerial;
+                                if (ibas.dates.isDate(data.manufacturingDate))
+                                    serial.manufacturingDate = data.manufacturingDate;
+                                if (ibas.dates.isDate(data.expirationDate))
+                                    serial.expirationDate = data.expirationDate;
+                                if (data.specification > 0)
+                                    serial.specification = data.specification;
+                                if (ibas.dates.isDate(data.admissionDate))
+                                    serial.admissionDate = data.admissionDate;
+                                if (ibas.dates.isDate(data.warrantyStartDate))
+                                    serial.warrantyStartDate = data.warrantyStartDate;
+                                if (ibas.dates.isDate(data.warrantyEndDate))
+                                    serial.warrantyEndDate = data.warrantyEndDate;
+                                if (!ibas.strings.isEmpty(data.location))
+                                    serial.location = data.location;
+                                if (!ibas.strings.isEmpty(data.notes))
+                                    serial.notes = data.notes;
                                 if (serial.isDirty) {
                                     boRepository.saveMaterialSerial({
                                         beSaved: serial,
@@ -544,8 +554,7 @@ namespace materials {
                 if (ibas.objects.isNull(this.workingData)) {
                     throw new Error(ibas.i18n.prop("sys_invalid_parameter", "workingData"));
                 }
-                let total: number = this.workingData.results.total();
-                if (total >= this.workingData.quantity) {
+                if (this.workingData.remaining <= 0) {
                     this.messages(ibas.emMessageType.WARNING, ibas.i18n.prop("materials_no_data_to_be_processed"));
                     return;
                 }
@@ -556,7 +565,7 @@ namespace materials {
         }
         /** 物料序列收货服务 */
         export class MaterialSerialReceiptService extends MaterialSerialService<IMaterialSerialReceiptView>
-            implements ibas.IService<ibas.IServiceWithResultCaller<IMaterialSerialContract[], IServiceExtraResult<IExtraResultMaterialSerial>>>  {
+            implements ibas.IService<ibas.IServiceWithResultCaller<IMaterialSerialContract[], IServiceExtraSerials>>  {
             /** 应用标识 */
             static APPLICATION_ID: string = "ff8f4173-77f6-4f92-bfc5-697e6d8ff545";
             /** 应用名称 */
@@ -575,39 +584,83 @@ namespace materials {
                 this.view.createMaterialSerialItemEvent = this.createMaterialSerialItem;
                 this.view.closeEvent = this.fireCompleted;
             }
-            protected createMaterialSerialItem(): void {
-                let datas: ibas.IList<SerialWorkingItem> = new ibas.ArrayList<SerialWorkingItem>();
-                if (ibas.objects.isNull(this.workingData)) {
-                    // 没有工作的，全部创建
-                    for (let item of this.workDatas) {
-                        if (item.quantity === item.results.total()) {
+            protected createMaterialSerialItem(mode: string): void {
+                if (mode === "TIME_CODE") {
+                    let datas: ibas.IList<SerialWorkingItem> = new ibas.ArrayList<SerialWorkingItem>();
+                    if (ibas.objects.isNull(this.workingData)) {
+                        // 没有工作的，全部创建
+                        for (let item of this.workDatas) {
+                            if (item.quantity === item.results.total()) {
+                                continue;
+                            }
+                            datas.add(item);
+                        }
+                    } else {
+                        // 仅创建工作的
+                        datas.add(this.workingData);
+                    }
+                    let journals: ibas.IList<SerialWorkingItemResult> = new ibas.ArrayList<SerialWorkingItemResult>();
+                    for (let item of datas) {
+                        let total: number = item.results.total();
+                        if (total >= item.quantity) {
                             continue;
                         }
-                        datas.add(item);
+                        total = item.quantity - total;
+                        for (let index: number = 0; index < total; index++) {
+                            let journal: SerialWorkingItemResult = item.results.create();
+                            journal.serialCode = ibas.dates.toString(ibas.dates.now(), "yyyyMMddHHmm") + ibas.strings.fill(index + 1, 4, "0");
+                            journals.add(journal);
+                        }
                     }
-                } else {
-                    // 仅创建工作的
-                    datas.add(this.workingData);
+                    if (ibas.objects.isNull(this.workingData)) {
+                        // 没选中工作内容，则显示新创建的
+                        this.view.showMaterialSerialItems(journals);
+                    } else {
+                        // 选中工作内容，怎显示工作内容的
+                        this.view.showMaterialSerialItems(this.workingData.results.filterDeleted());
+                    }
+                } else if (mode === "USED_CODE") {
+                    if (ibas.objects.isNull(this.workingData)) {
+                        this.messages(ibas.emMessageType.WARNING, ibas.i18n.prop("shell_please_chooose_data",
+                            ibas.i18n.prop("shell_data_edit")
+                        ));
+                        return;
+                    }
+                    let that: this = this;
+                    let criteria: ibas.ICriteria = new ibas.Criteria();
+                    let condition: ibas.ICondition = criteria.conditions.create();
+                    condition.alias = bo.MaterialSerial.PROPERTY_ITEMCODE_NAME;
+                    condition.value = this.workingData.itemCode;
+                    condition = criteria.conditions.create();
+                    condition.alias = bo.MaterialSerial.PROPERTY_WAREHOUSE_NAME;
+                    condition.value = this.workingData.warehouse;
+                    condition = criteria.conditions.create();
+                    condition.alias = bo.MaterialSerial.PROPERTY_INSTOCK_NAME;
+                    condition.value = ibas.emYesNo.NO.toString();
+                    condition = criteria.conditions.create();
+                    condition.alias = bo.MaterialSerial.PROPERTY_LOCKED_NAME;
+                    condition.value = ibas.emYesNo.NO.toString();
+                    ibas.servicesManager.runChooseService<bo.MaterialSerial>({
+                        boCode: bo.BO_CODE_MATERIALSERIAL,
+                        chooseType: ibas.emChooseType.MULTIPLE,
+                        criteria: criteria,
+                        onCompleted(selecteds: ibas.IList<bo.MaterialSerial>): void {
+                            for (let selected of selecteds) {
+                                if (that.workingData.results.firstOrDefault(
+                                    c => c.serialCode === selected.serialCode) !== null) {
+                                    continue;
+                                }
+                                that.workingData.results.create(selected);
+                            }
+                            that.view.showMaterialSerialItems(that.workingData.results.filterDeleted());
+                        }
+                    });
                 }
-                let journals: ibas.IList<SerialWorkingItemResult> = new ibas.ArrayList<SerialWorkingItemResult>();
-                for (let item of datas) {
-                    let total: number = item.results.total();
-                    if (total >= item.quantity) {
-                        continue;
-                    }
-                    total = item.quantity - total;
-                    for (let index: number = 0; index < total; index++) {
-                        let journal: SerialWorkingItemResult = item.results.create();
-                        journal.serialCode = ibas.dates.toString(ibas.dates.now(), "yyyyMMddHHmm") + ibas.strings.fill(index + 1, 4, "0");
-                        journals.add(journal);
-                    }
-                }
-                this.view.showMaterialSerialItems(journals);
             }
             run(): void {
                 if (arguments.length === 1) {
                     // 判断是否为选择契约
-                    let caller: ibas.IServiceWithResultCaller<IMaterialSerialContract[], bo.IMaterialSerial> = arguments[0];
+                    let caller: ibas.IServiceWithResultCaller<IMaterialSerialContract[], IServiceExtraSerials> = arguments[0];
                     if (ibas.objects.instanceOf(caller.proxy, ibas.ServiceProxy)) {
                         this.onCompleted = caller.onCompleted;
                     }
