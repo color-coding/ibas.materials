@@ -8,4 +8,6 @@
 /// <reference path="./MaterialSerialChooseView.ts" />
 /// <reference path="./MaterialSerialEditView.ts" />
 /// <reference path="./MaterialSerialListView.ts" />
-/// <reference path="./MaterialSerialServiceView.ts" />
+/// <reference path="./MaterialSerialIssueView.ts" />
+/// <reference path="./MaterialSerialListsView.ts" />
+/// <reference path="./MaterialSerialReceiptView.ts" />

@@ -45,6 +45,31 @@ declare namespace materials {
              */
             class TaxGroupInput extends sap.extension.m.SelectionInput {
             }
+            /**
+             * 物料规格-输入框
+             */
+            class SpecificationInput extends sap.extension.core.EditableControl {
+                /**
+                 * 获取物料
+                 */
+                getMaterial(): string;
+                /**
+                 * 设置物料
+                 * @param value 值
+                 */
+                setMaterial(value: string): this;
+                /**
+                 * 获取规格
+                 */
+                getSpecification(): number;
+                /**
+                 * 设置规格
+                 * @param value 值
+                 */
+                setSpecification(value: number): this;
+                /** 设置物料规格内容 */
+                protected setSpecificationContent(specification: materials.bo.IMaterialSpecification): this;
+            }
         }
     }
 }

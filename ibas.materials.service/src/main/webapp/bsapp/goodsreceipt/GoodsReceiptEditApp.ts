@@ -121,6 +121,26 @@ namespace materials {
                                 that.editData = opRslt.resultObjects.firstOrDefault();
                                 that.messages(ibas.emMessageType.SUCCESS,
                                     ibas.i18n.prop("shell_data_save") + ibas.i18n.prop("shell_sucessful"));
+                                // 保存序列号信息
+                                if (!ibas.objects.isNull(that.serials) && that.serials.save instanceof Function) {
+                                    that.serials.save(
+                                        (error) => {
+                                            if (error instanceof Error) {
+                                                that.messages(error);
+                                            }
+                                        }
+                                    )
+                                }
+                                // 保存批次号信息
+                                if (!ibas.objects.isNull(that.batches) && that.batches.save instanceof Function) {
+                                    that.batches.save(
+                                        (error) => {
+                                            if (error instanceof Error) {
+                                                that.messages(error);
+                                            }
+                                        }
+                                    )
+                                }
                             }
                             // 刷新当前视图
                             that.viewShowed();
@@ -306,6 +326,7 @@ namespace materials {
                     }
                 });
             }
+            private batches: IServiceExtraBatches;
             /** 选择物料批次信息 */
             private chooseGoodsReceiptLineMaterialBatch(): void {
                 let contracts: ibas.ArrayList<IMaterialBatchContract> = new ibas.ArrayList<IMaterialBatchContract>();
@@ -318,12 +339,17 @@ namespace materials {
                         quantity: item.quantity,
                         uom: item.uom,
                         materialBatches: item.materialBatches,
+                        batches: this.batches,
                     });
                 }
-                ibas.servicesManager.runApplicationService<IMaterialBatchContract[]>({
-                    proxy: new MaterialBatchReceiptServiceProxy(contracts)
+                ibas.servicesManager.runApplicationService<IMaterialBatchContract[], IServiceExtraBatches>({
+                    proxy: new MaterialBatchReceiptServiceProxy(contracts),
+                    onCompleted: (results) => {
+                        this.batches = results;
+                    }
                 });
             }
+            private serials: IServiceExtraSerials;
             /** 选择物料序列信息 */
             private createGoodsReceiptLineMaterialSerial(): void {
                 let contracts: ibas.ArrayList<IMaterialSerialContract> = new ibas.ArrayList<IMaterialSerialContract>();
@@ -335,11 +361,15 @@ namespace materials {
                         warehouse: item.warehouse,
                         quantity: item.quantity,
                         uom: item.uom,
-                        materialSerials: item.materialSerials
+                        materialSerials: item.materialSerials,
+                        serials: this.serials,
                     });
                 }
-                ibas.servicesManager.runApplicationService<IMaterialSerialContract[]>({
-                    proxy: new MaterialSerialReceiptServiceProxy(contracts)
+                ibas.servicesManager.runApplicationService<IMaterialSerialContract[], IServiceExtraSerials>({
+                    proxy: new MaterialSerialReceiptServiceProxy(contracts),
+                    onCompleted: (results) => {
+                        this.serials = results;
+                    }
                 });
             }
         }

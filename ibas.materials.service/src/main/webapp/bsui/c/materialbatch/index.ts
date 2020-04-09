@@ -8,4 +8,6 @@
 /// <reference path="./MaterialBatchChooseView.ts" />
 /// <reference path="./MaterialBatchEditView.ts" />
 /// <reference path="./MaterialBatchListView.ts" />
-/// <reference path="./MaterialBatchServiceView.ts" />
+/// <reference path="./MaterialBatchReceiptView.ts" />
+/// <reference path="./MaterialBatchIssueView.ts" />
+/// <reference path="./MaterialBatchListsView.ts" />

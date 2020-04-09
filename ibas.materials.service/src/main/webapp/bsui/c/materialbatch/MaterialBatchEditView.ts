@@ -106,12 +106,6 @@ namespace materials {
                                 path: "/admissionDate",
                                 type: new sap.extension.data.Date()
                             }),
-                            new sap.m.Label("", { text: ibas.i18n.prop("bo_materialbatch_admissiondate") }),
-                            new sap.extension.m.DatePicker("", {
-                            }).bindProperty("bindingValue", {
-                                path: "/admissionDate",
-                                type: new sap.extension.data.Date()
-                            }),
                             new sap.m.Label("", { text: ibas.i18n.prop("bo_materialbatch_specification") }),
                             new sap.extension.m.SelectionInput("", {
                                 showValueHelp: true,
