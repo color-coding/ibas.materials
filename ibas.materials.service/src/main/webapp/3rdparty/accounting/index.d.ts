@@ -1351,8 +1351,6 @@ declare namespace accounting {
             protected viewShowed(): void;
             run(): void;
             run(data: bo.PostingPeriod): void;
-            /** 待编辑的数据 */
-            protected editData: bo.PostingPeriod;
             /** 保存数据 */
             protected saveData(): void;
             /** 删除数据 */
@@ -1525,8 +1523,6 @@ declare namespace accounting {
             protected viewShowed(): void;
             run(): void;
             run(data: bo.Project): void;
-            /** 待编辑的数据 */
-            protected editData: bo.Project;
             /** 保存数据 */
             protected saveData(): void;
             /** 删除数据 */
@@ -1693,8 +1689,6 @@ declare namespace accounting {
             protected viewShowed(): void;
             run(): void;
             run(data: bo.Dimension): void;
-            /** 待编辑的数据 */
-            protected editData: bo.Dimension;
             /** 保存数据 */
             protected saveData(): void;
             /** 编辑源 */
@@ -1888,8 +1882,6 @@ declare namespace accounting {
             protected viewShowed(): void;
             run(): void;
             run(data: bo.TaxGroup): void;
-            /** 待编辑的数据 */
-            protected editData: bo.TaxGroup;
             /** 保存数据 */
             protected saveData(): void;
             /** 删除数据 */

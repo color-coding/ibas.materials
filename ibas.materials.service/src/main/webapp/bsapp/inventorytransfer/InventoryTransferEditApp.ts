@@ -8,7 +8,7 @@
 namespace materials {
     export namespace app {
         /** 编辑应用-库存转储 */
-        export class InventoryTransferEditApp extends ibas.BOEditApplication<IInventoryTransferEditView, bo.InventoryTransfer> {
+        export class InventoryTransferEditApp extends ibas.BOEditService<IInventoryTransferEditView, bo.InventoryTransfer> {
             /** 应用标识 */
             static APPLICATION_ID: string = "91629c3b-f1de-4b5e-a836-2ac7e443eb1d";
             /** 应用名称 */
@@ -97,8 +97,6 @@ namespace materials {
                 }
                 super.run.apply(this, arguments);
             }
-            /** 待编辑的数据 */
-            protected editData: bo.InventoryTransfer;
             /** 保存数据 */
             protected saveData(): void {
                 this.busy(true);
@@ -383,6 +381,21 @@ namespace materials {
             chooseInventoryTransferLineMaterialSerialEvent: Function;
             /** 默认仓库 */
             defaultWarehouse: string;
+        }
+        /** 库存转储编辑服务映射 */
+        export class InventoryTransferEditServiceMapping extends ibas.BOEditServiceMapping {
+            /** 构造函数 */
+            constructor() {
+                super();
+                this.id = InventoryTransferEditApp.APPLICATION_ID;
+                this.name = InventoryTransferEditApp.APPLICATION_NAME;
+                this.boCode = InventoryTransferEditApp.BUSINESS_OBJECT_CODE;
+                this.description = ibas.i18n.prop(this.name);
+            }
+            /** 创建服务实例 */
+            create(): ibas.IService<ibas.IBOEditServiceCaller<bo.InventoryTransfer>> {
+                return new InventoryTransferEditApp();
+            }
         }
     }
 }

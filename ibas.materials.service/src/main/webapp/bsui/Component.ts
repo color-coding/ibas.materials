@@ -601,6 +601,26 @@ namespace materials {
                     return sap.extension.core.EditableControl.prototype.applySettings.apply(this, arguments);
                 }
             });
+            /**
+             * 区域
+             */
+            sap.ui.layout.Splitter.extend("materials.ui.component.Splitter", {
+                metadata: {
+                    properties: {
+                    },
+                    events: {
+                    },
+                },
+                renderer: {
+                },
+                onAfterRendering(this: Splitter): void {
+                    (<any>sap.ui.layout.Splitter.prototype).onAfterRendering.apply(this, arguments);
+                    let dom: JQuery = this.$();
+                    if (dom) {
+                        dom.css("white-space", "normal");
+                    }
+                }
+            });
         }
     }
 }

@@ -8,7 +8,7 @@
 namespace materials {
     export namespace app {
         /** 编辑应用-库存发货 */
-        export class GoodsIssueEditApp extends ibas.BOEditApplication<IGoodsIssueEditView, bo.GoodsIssue> {
+        export class GoodsIssueEditApp extends ibas.BOEditService<IGoodsIssueEditView, bo.GoodsIssue> {
             /** 应用标识 */
             static APPLICATION_ID: string = "61acb506-7555-453c-8085-9245d90ed625";
             /** 应用名称 */
@@ -96,11 +96,7 @@ namespace materials {
                 }
                 super.run.apply(this, arguments);
             }
-
             protected priceListData: bo.MaterialPriceList[];
-
-            /** 待编辑的数据 */
-            protected editData: bo.GoodsIssue;
             /** 保存数据 */
             protected saveData(): void {
                 this.busy(true);
@@ -346,7 +342,6 @@ namespace materials {
                 });
             }
         }
-
         /** 视图-库存发货 */
         export interface IGoodsIssueEditView extends ibas.IBOEditView {
             /** 显示数据 */
@@ -373,6 +368,21 @@ namespace materials {
             chooseGoodsIssueLineMaterialSerialEvent: Function;
             /** 默认仓库 */
             defaultWarehouse: string;
+        }
+        /** 库存发货单编辑服务映射 */
+        export class GoodsIssueEditServiceMapping extends ibas.BOEditServiceMapping {
+            /** 构造函数 */
+            constructor() {
+                super();
+                this.id = GoodsIssueEditApp.APPLICATION_ID;
+                this.name = GoodsIssueEditApp.APPLICATION_NAME;
+                this.boCode = GoodsIssueEditApp.BUSINESS_OBJECT_CODE;
+                this.description = ibas.i18n.prop(this.name);
+            }
+            /** 创建服务实例 */
+            create(): ibas.IService<ibas.IBOEditServiceCaller<bo.GoodsIssue>> {
+                return new GoodsIssueEditApp();
+            }
         }
     }
 }

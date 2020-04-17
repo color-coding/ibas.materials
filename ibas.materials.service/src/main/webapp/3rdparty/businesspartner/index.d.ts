@@ -2951,8 +2951,6 @@ declare namespace businesspartner {
             protected viewShowed(): void;
             run(): void;
             run(data: bo.Address): void;
-            /** 待编辑的数据 */
-            protected editData: bo.Address;
             /** 保存数据 */
             protected saveData(): void;
             /** 删除数据 */
@@ -3115,8 +3113,6 @@ declare namespace businesspartner {
             /** 运行,覆盖原方法 */
             run(): void;
             run(data: bo.BusinessPartnerGroup): void;
-            /** 待编辑的数据 */
-            protected editData: bo.BusinessPartnerGroup;
             /** 保存数据 */
             protected saveData(): void;
             /** 删除数据 */
@@ -3276,8 +3272,6 @@ declare namespace businesspartner {
             /** 运行,覆盖原方法 */
             run(): void;
             run(data: bo.ContactPerson): void;
-            /** 待编辑的数据 */
-            protected editData: bo.ContactPerson;
             /** 保存数据 */
             protected saveData(): void;
             /** 删除数据 */
@@ -3442,8 +3436,6 @@ declare namespace businesspartner {
             /** 运行,覆盖原方法 */
             run(): void;
             run(data: bo.Customer): void;
-            /** 待编辑的数据 */
-            protected editData: bo.Customer;
             /** 保存数据 */
             protected saveData(): void;
             /** 删除数据 */
@@ -3589,7 +3581,6 @@ declare namespace businesspartner {
             /** 运行,覆盖原方法 */
             run(): void;
             run(data: bo.Customer): void;
-            protected viewData: bo.Customer;
             /** 查询数据 */
             protected fetchData(criteria: ibas.ICriteria | string): void;
         }
@@ -3681,8 +3672,6 @@ declare namespace businesspartner {
             /** 运行,覆盖原方法 */
             run(): void;
             run(data: bo.Supplier): void;
-            /** 待编辑的数据 */
-            protected editData: bo.Supplier;
             /** 保存数据 */
             protected saveData(): void;
             /** 删除数据 */
@@ -3828,7 +3817,6 @@ declare namespace businesspartner {
             /** 运行,覆盖原方法 */
             run(): void;
             run(data: bo.Supplier): void;
-            protected viewData: bo.Supplier;
             /** 查询数据 */
             protected fetchData(criteria: ibas.ICriteria | string): void;
         }
@@ -3987,7 +3975,6 @@ declare namespace businesspartner {
             protected editData(): void;
             run(): void;
             run(data: bo.AssetItem): void;
-            protected viewData: bo.AssetItem;
             /** 查询数据 */
             protected fetchData(criteria: ibas.ICriteria | string): void;
         }
@@ -4028,8 +4015,6 @@ declare namespace businesspartner {
             protected viewShowed(): void;
             run(): void;
             run(data: bo.AssetItem): void;
-            /** 待编辑的数据 */
-            protected editData: bo.AssetItem;
             /** 保存数据 */
             protected saveData(): void;
             /** 删除数据 */
@@ -4193,7 +4178,6 @@ declare namespace businesspartner {
             protected editData(): void;
             run(): void;
             run(data: bo.BusinessPartnerAsset): void;
-            protected viewData: bo.BusinessPartnerAsset;
             /** 查询数据 */
             protected fetchData(criteria: ibas.ICriteria | string): void;
         }
@@ -4234,8 +4218,6 @@ declare namespace businesspartner {
             protected viewShowed(): void;
             run(): void;
             run(data: bo.BusinessPartnerAsset): void;
-            /** 待编辑的数据 */
-            protected editData: bo.BusinessPartnerAsset;
             /** 保存数据 */
             protected saveData(): void;
             /** 删除数据 */
@@ -4336,8 +4318,6 @@ declare namespace businesspartner {
             protected viewShowed(): void;
             run(): void;
             run(data: bo.BusinessPartnerAssetJournal): void;
-            /** 待编辑的数据 */
-            protected editData: bo.BusinessPartnerAssetJournal;
             /** 保存数据 */
             protected saveData(): void;
         }

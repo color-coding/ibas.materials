@@ -70,6 +70,12 @@ declare namespace materials {
                 /** 设置物料规格内容 */
                 protected setSpecificationContent(specification: materials.bo.IMaterialSpecification): this;
             }
+            /**
+             * 区域
+             */
+            class Splitter extends sap.ui.layout.Splitter {
+
+            }
         }
     }
 }

@@ -436,7 +436,7 @@ namespace materials {
                                                     size: "auto",
                                                 }),
                                                 contentAreas: [
-                                                    new sap.ui.layout.Splitter("", {
+                                                    new component.Splitter("", {
                                                         layoutData: new sap.ui.layout.SplitterLayoutData("", {
                                                             resizable: true,
                                                             size: "50%",
@@ -531,7 +531,7 @@ namespace materials {
                                                             }),
                                                         ]
                                                     }),
-                                                    new sap.ui.layout.Splitter("", {
+                                                    new component.Splitter("", {
                                                         layoutData: new sap.ui.layout.SplitterLayoutData("", {
                                                             resizable: true,
                                                         }),

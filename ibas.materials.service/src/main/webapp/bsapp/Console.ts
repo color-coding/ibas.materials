@@ -69,12 +69,16 @@ namespace materials {
                 this.register(new MaterialSerialChooseServiceMapping);
                 this.register(new MaterialBatchChooseServiceMapping);
                 this.register(new InventoryCountingChooseServiceMapping());
+                this.register(new InventoryTransferChooseServiceMapping());
+                this.register(new InventoryTransferEditServiceMapping());
                 this.register(new MaterialSpecificationChooseServiceMapping());
                 this.register(new MaterialSpecificationLinkServiceMapping());
                 this.register(new SpecificationChooseServiceMapping());
                 this.register(new SpecificationTreeServiceMapping());
                 this.register(new GoodsIssueChooseServiceMapping());
+                this.register(new GoodsIssueEditServiceMapping());
                 this.register(new GoodsReceiptChooseServiceMapping());
+                this.register(new GoodsReceiptEditServiceMapping());
                 // 注册常驻应用
 
             }

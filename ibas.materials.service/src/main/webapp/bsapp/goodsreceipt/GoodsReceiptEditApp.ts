@@ -8,7 +8,7 @@
 namespace materials {
     export namespace app {
         /** 编辑应用-库存收货 */
-        export class GoodsReceiptEditApp extends ibas.BOEditApplication<IGoodsReceiptEditView, bo.GoodsReceipt> {
+        export class GoodsReceiptEditApp extends ibas.BOEditService<IGoodsReceiptEditView, bo.GoodsReceipt> {
             /** 应用标识 */
             static APPLICATION_ID: string = "86721b86-fcbc-4adf-9e1e-c308373fb7cc";
             /** 应用名称 */
@@ -96,8 +96,6 @@ namespace materials {
                 }
                 super.run.apply(this, arguments);
             }
-            /** 待编辑的数据 */
-            protected editData: bo.GoodsReceipt;
             /** 保存数据 */
             protected saveData(): void {
                 this.busy(true);
@@ -399,6 +397,21 @@ namespace materials {
             chooseGoodsReceiptLineMaterialSerialEvent: Function;
             /** 默认仓库 */
             defaultWarehouse: string;
+        }
+        /** 库存收货编辑服务映射 */
+        export class GoodsReceiptEditServiceMapping extends ibas.BOEditServiceMapping {
+            /** 构造函数 */
+            constructor() {
+                super();
+                this.id = GoodsReceiptEditApp.APPLICATION_ID;
+                this.name = GoodsReceiptEditApp.APPLICATION_NAME;
+                this.boCode = GoodsReceiptEditApp.BUSINESS_OBJECT_CODE;
+                this.description = ibas.i18n.prop(this.name);
+            }
+            /** 创建服务实例 */
+            create(): ibas.IService<ibas.IBOEditServiceCaller<bo.GoodsReceipt>> {
+                return new GoodsReceiptEditApp();
+            }
         }
     }
 }
