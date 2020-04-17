@@ -12,6 +12,14 @@ declare namespace businesspartner {
     const CONSOLE_NAME: string;
     /** 模块-版本 */
     const CONSOLE_VERSION: string;
+    namespace config {
+        /**
+         * 获取此模块配置
+         * @param key 配置项
+         * @param defalut 默认值
+         */
+        function get<T>(key: string, defalut?: T): T;
+    }
     namespace bo {
         /** 业务仓库名称 */
         const BO_REPOSITORY_BUSINESSPARTNER: string;
