@@ -113,7 +113,6 @@ namespace materials {
                 this.busy(false);
             }
             private save(): void {
-                this.busy(true);
                 let data: bo.IMaterialSpecification = this.specification.convert();
                 if (this.extraData) {
                     if (!ibas.strings.isEmpty(this.extraData.material)) {
@@ -136,6 +135,7 @@ namespace materials {
                         data.businessPartnerCode = this.extraData.supplier;
                     }
                 }
+                this.busy(true);
                 let that: this = this;
                 let boRepository: bo.IBORepositoryMaterials = new bo.BORepositoryMaterials();
                 boRepository.saveMaterialSpecification({

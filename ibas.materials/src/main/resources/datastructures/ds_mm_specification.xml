@@ -49,6 +49,7 @@
     <Property Name="Content" Description="内容" DataType="Alphanumeric" DataSubType="Default" EditSize="100" Mapped="Content"/>
     <Property Name="Note" Description="备注" DataType="Alphanumeric" DataSubType="Default" EditSize="200" Mapped="Note"/>
     <Property Name="Editable" Description="可编辑" DataType="Alphanumeric" DataSubType="Default" EditSize="1" DeclaredType="emYesNo" Mapped="Editable"/>
+    <Property Name="Required" Description="必填的" DataType="Alphanumeric" DataSubType="Default" EditSize="1" DeclaredType="emYesNo" Mapped="Required"/>
   </Model>
   <Model Name="SpecificationItemValue" Description="规格模板-项目值" ModelType="SimpleLine" Mapped="${Company}_MM_SPC2">
     <Property Name="ObjectKey" Description="对象编号" DataType="Numeric" DataSubType="Default" EditSize="8" Mapped="ObjectKey" PrimaryKey="Yes"/>

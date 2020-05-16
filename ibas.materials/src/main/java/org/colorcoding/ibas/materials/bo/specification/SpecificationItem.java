@@ -637,6 +637,37 @@ public class SpecificationItem extends BusinessObject<SpecificationItem> impleme
 	}
 
 	/**
+	 * 属性名称-必填的
+	 */
+	private static final String PROPERTY_REQUIRED_NAME = "Required";
+
+	/**
+	 * 必填的 属性
+	 */
+	@DbField(name = "Required", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME, primaryKey = false)
+	public static final IPropertyInfo<emYesNo> PROPERTY_REQUIRED = registerProperty(PROPERTY_REQUIRED_NAME,
+			emYesNo.class, MY_CLASS);
+
+	/**
+	 * 获取-必填的
+	 * 
+	 * @return 值
+	 */
+	@XmlElement(name = PROPERTY_REQUIRED_NAME)
+	public final emYesNo getRequired() {
+		return this.getProperty(PROPERTY_REQUIRED);
+	}
+
+	/**
+	 * 设置-必填的
+	 * 
+	 * @param value 值
+	 */
+	public final void setRequired(emYesNo value) {
+		this.setProperty(PROPERTY_REQUIRED, value);
+	}
+
+	/**
 	 * 属性名称-规格模板-项目值
 	 */
 	private static final String PROPERTY_SPECIFICATIONITEMVALUES_NAME = "SpecificationItemValues";

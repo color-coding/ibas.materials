@@ -326,6 +326,14 @@ namespace materials {
                                 }),
                             }),
                             new sap.extension.table.DataColumn("", {
+                                label: ibas.i18n.prop("bo_specificationitem_required"),
+                                template: new sap.extension.m.CheckBox("", {
+                                }).bindProperty("bindingValue", {
+                                    path: "required",
+                                    type: new sap.extension.data.YesNo()
+                                }),
+                            }),
+                            new sap.extension.table.DataColumn("", {
                                 label: ibas.i18n.prop("bo_specificationitem_content"),
                                 template: new sap.extension.m.Input("", {
                                 }).bindProperty("bindingValue", {

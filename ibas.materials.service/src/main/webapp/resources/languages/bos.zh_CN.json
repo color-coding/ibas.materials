@@ -788,6 +788,7 @@
         "bo_specificationitem_content": "内容",
         "bo_specificationitem_note": "备注",
         "bo_specificationitem_editable": "可编辑",
+        "bo_specificationitem_required": "必填的",
         "bo_specificationitem_specificationitemvalues": "规格模板-项目值集合",
         "bo_specificationitemvalue": "规格模板-项目值",
         "bo_specificationitemvalue_objectkey": "对象编号",

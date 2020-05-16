@@ -548,6 +548,16 @@ namespace materials {
                 this.setProperty(SpecificationItem.PROPERTY_EDITABLE_NAME, value);
             }
 
+            /** 映射的属性名称-必填的 */
+            static PROPERTY_REQUIRED_NAME: string = "Required";
+            /** 获取-必填的 */
+            get required(): ibas.emYesNo {
+                return this.getProperty<ibas.emYesNo>(SpecificationItem.PROPERTY_REQUIRED_NAME);
+            }
+            /** 设置-必填的 */
+            set required(value: ibas.emYesNo) {
+                this.setProperty(SpecificationItem.PROPERTY_REQUIRED_NAME, value);
+            }
 
             /** 映射的属性名称-规格模板-项目值集合 */
             static PROPERTY_SPECIFICATIONITEMVALUES_NAME: string = "SpecificationItemValues";

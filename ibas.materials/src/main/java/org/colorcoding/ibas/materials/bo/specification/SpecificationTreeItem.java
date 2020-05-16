@@ -30,6 +30,7 @@ public class SpecificationTreeItem extends Serializable {
 		item.setContent(specificationItem.getContent());
 		item.setNote(specificationItem.getNote());
 		item.setEditable(specificationItem.getEditable() == emYesNo.YES ? true : false);
+		item.setRequired(specificationItem.getRequired() == emYesNo.YES ? true : false);
 		for (ISpecificationItemValue value : specificationItem.getSpecificationItemValues()) {
 			item.getVaildValues().add(
 					new SpecificationTreeItemValue(value.getValue(), value.getDescription(), value.getAssociated()));
@@ -92,6 +93,17 @@ public class SpecificationTreeItem extends Serializable {
 
 	public final void setEditable(boolean editable) {
 		this.editable = editable;
+	}
+
+	@XmlElement(name = "Required")
+	private boolean required;
+
+	public final boolean isRequired() {
+		return required;
+	}
+
+	public final void setRequired(boolean required) {
+		this.required = required;
 	}
 
 	@XmlElementWrapper(name = "VaildValues")

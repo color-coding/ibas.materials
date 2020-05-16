@@ -113,6 +113,8 @@ namespace materials {
             note: string;
             /** 可编辑 */
             editable: ibas.emYesNo;
+            /** 必填的 */
+            required: ibas.emYesNo;
 
             /** 规格模板-项目值集合 */
             specificationItemValues: ISpecificationItemValues;

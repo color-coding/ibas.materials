@@ -57,6 +57,7 @@ namespace materials {
                                     if (!ibas.objects.isNull(item)) {
                                         let prdItem: MaterialSpecificationTreeItem = new MaterialSpecificationTreeItem(item);
                                         prdItem.editable = specItem.editable;
+                                        prdItem.required = specItem.required;
                                         prdItem.vaildValues = specItem.vaildValues;
                                         for (let sItem of specItem.items) {
                                             let nItem: MaterialSpecificationTreeItem = createItem(sItem);
@@ -234,6 +235,8 @@ namespace materials {
             }
             /** 可编辑 */
             editable: boolean;
+            /** 必填的 */
+            required: boolean;
             /** 内容 */
             get content(): string {
                 return this.data.content;

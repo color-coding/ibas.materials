@@ -43,6 +43,7 @@ namespace materials {
                     newData.content = remote.Content;
                     newData.note = remote.Note;
                     newData.editable = remote.Editable;
+                    newData.required = remote.Required;
                     if (remote.VaildValues instanceof Array) {
                         for (let item of remote.VaildValues) {
                             item.type = bo.SpecificationTreeItemValue.name;
@@ -161,6 +162,8 @@ namespace materials {
                 } else if (boName === bo.SpecificationItem.name) {
                     if (property === bo.SpecificationItem.PROPERTY_EDITABLE_NAME) {
                         return ibas.enums.toString(ibas.emYesNo, value);
+                    } else if (property === bo.SpecificationItem.PROPERTY_REQUIRED_NAME) {
+                        return ibas.enums.toString(ibas.emYesNo, value);
                     }
                 } else if (boName === bo.MaterialSpecification.name) {
                     if (property === bo.MaterialSpecification.PROPERTY_BUSINESSPARTNERTYPE_NAME) {
@@ -246,6 +249,8 @@ namespace materials {
                 } else if (boName === bo.SpecificationItem.name) {
                     if (property === bo.SpecificationItem.PROPERTY_EDITABLE_NAME) {
                         return ibas.enums.valueOf(ibas.emYesNo, value);
+                    } else if (property === bo.SpecificationItem.PROPERTY_REQUIRED_NAME) {
+                        return ibas.enums.valueOf(ibas.emYesNo, value);
                     }
                 } else if (boName === bo.MaterialSpecification.name) {
                     if (property === bo.MaterialSpecification.PROPERTY_BUSINESSPARTNERTYPE_NAME) {
@@ -308,6 +313,8 @@ namespace materials {
                 Note: string;
                 /** 可编辑 */
                 Editable: boolean;
+                /** 必填的 */
+                Required: boolean;
                 /** 可选值 */
                 VaildValues: ISpecificationTreeItemValue[];
                 /** 规格模板-项目集合 */

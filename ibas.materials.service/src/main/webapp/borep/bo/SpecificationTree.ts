@@ -41,6 +41,9 @@ namespace materials {
                             }
                         }
                     }
+                    if (item.required === true && ibas.objects.isNull(dataItem.content)) {
+                        throw new Error(ibas.i18n.prop("materials_specification_item_required_value", item.description));
+                    }
                     if (item.items instanceof Array) {
                         for (let sItem of item.items) {
                             createItem(sItem, item.sign);
@@ -71,6 +74,8 @@ namespace materials {
             note: string;
             /** 可编辑 */
             editable: boolean;
+            /** 必填的 */
+            required: boolean;
             /** 可选值 */
             vaildValues: ibas.IList<ISpecificationTreeItemValue>;
             /** 规格模板-项目集合 */

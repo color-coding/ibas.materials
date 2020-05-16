@@ -14,6 +14,8 @@ namespace materials {
             export class MaterialBatchEditView extends ibas.DialogView implements app.IMaterialBatchEditView {
                 /** 保存数据事件 */
                 saveDataEvent: Function;
+                /** 选择物料规格 */
+                chooseSpecificationEvent: Function;
                 /** 绘制视图 */
                 draw(): any {
                     let that: this = this;
@@ -107,7 +109,7 @@ namespace materials {
                                 type: new sap.extension.data.Date()
                             }),
                             new sap.m.Label("", { text: ibas.i18n.prop("bo_materialbatch_specification") }),
-                            new sap.extension.m.SelectionInput("", {
+                            new sap.extension.m.RepositoryInput("", {
                                 showValueHelp: true,
                                 repository: bo.BORepositoryMaterials,
                                 dataInfo: {
@@ -115,6 +117,9 @@ namespace materials {
                                     key: bo.MaterialSpecification.PROPERTY_OBJECTKEY_NAME,
                                     text: bo.MaterialSpecification.PROPERTY_NAME_NAME
                                 },
+                                valueHelpRequest: function (): void {
+                                    that.fireViewEvents(that.chooseSpecificationEvent);
+                                }
                             }).bindProperty("bindingValue", {
                                 path: "/specification",
                                 type: new sap.extension.data.Numeric()

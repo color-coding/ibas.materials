@@ -102,9 +102,18 @@ namespace materials {
                                 new sap.m.ToolbarSpacer(""),
                                 new sap.m.Button("", {
                                     type: sap.m.ButtonType.Transparent,
-                                    icon: "sap-icon://collapse",
-                                    press: function (): void {
-                                        that.tree.collapseAll();
+                                    icon: "sap-icon://expand",
+                                    press: function (event: sap.ui.base.Event): void {
+                                        let source: any = event.getSource();
+                                        if (source instanceof sap.m.Button) {
+                                            if (source.getIcon() === "sap-icon://collapse") {
+                                                that.tree.collapseAll();
+                                                source.setIcon("sap-icon://expand");
+                                            } else {
+                                                that.tree.expandToLevel(2);
+                                                source.setIcon("sap-icon://collapse");
+                                            }
+                                        }
                                     }
                                 }),
                             ]
@@ -126,6 +135,15 @@ namespace materials {
                                 }).bindProperty("text", {
                                     path: "description",
                                 })
+                            }),
+                            new sap.ui.table.Column("", {
+                                label: ibas.i18n.prop("bo_specificationitem_required"),
+                                template: new sap.m.CheckBox("", {
+                                    editable: false,
+                                }).bindProperty("selected", {
+                                    path: "required",
+                                }),
+                                width: "4rem",
                             }),
                             new sap.ui.table.Column("", {
                                 label: ibas.i18n.prop("bo_specificationitem_content"),
@@ -159,15 +177,18 @@ namespace materials {
                     this.tree.setModel(new sap.ui.model.json.JSONModel({ data: data }));
                     setTimeout(() => {
                         for (let row of this.tree.getRows()) {
-                            for (let cell of row.getCells()) {
-                                if (cell instanceof sap.m.ComboBox) {
-                                    if (cell.getItems().length === 1) {
+                            let cells: any = row.getCells();
+                            if (cells instanceof Array && cells.length > 3) {
+                                let cell: any = cells[1];
+                                if (cell instanceof sap.m.CheckBox && cell.getSelected() === true) {
+                                    cell = cells[2];
+                                    if (cell instanceof sap.m.ComboBox && cell.getItems().length === 1) {
                                         cell.setSelectedItem(cell.getFirstItem());
                                     }
                                 }
                             }
                         }
-                    }, 100);
+                    }, 600);
                 }
             }
         }

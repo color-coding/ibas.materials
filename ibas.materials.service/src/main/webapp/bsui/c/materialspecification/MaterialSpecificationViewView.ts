@@ -31,9 +31,18 @@ namespace materials {
                                 new sap.m.ToolbarSpacer(""),
                                 new sap.m.Button("", {
                                     type: sap.m.ButtonType.Transparent,
-                                    icon: "sap-icon://collapse",
-                                    press: function (): void {
-                                        that.tree.collapseAll();
+                                    icon: "sap-icon://expand",
+                                    press: function (event: sap.ui.base.Event): void {
+                                        let source: any = event.getSource();
+                                        if (source instanceof sap.m.Button) {
+                                            if (source.getIcon() === "sap-icon://collapse") {
+                                                that.tree.collapseAll();
+                                                source.setIcon("sap-icon://expand");
+                                            } else {
+                                                that.tree.expandToLevel(2);
+                                                source.setIcon("sap-icon://collapse");
+                                            }
+                                        }
                                     }
                                 }),
                             ]

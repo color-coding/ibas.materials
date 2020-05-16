@@ -27,6 +27,7 @@ namespace materials {
             protected registerView(): void {
                 super.registerView();
                 // 其他事件
+                this.view.chooseSpecificationEvent = this.chooseSpecification;
             }
             /** 视图显示后 */
             protected viewShowed(): void {
@@ -114,11 +115,53 @@ namespace materials {
                 });
                 this.proceeding(ibas.emMessageType.INFORMATION, ibas.i18n.prop("shell_saving_data"));
             }
+            /** 选择物料规格 */
+            private chooseSpecification(): void {
+                let that: this = this;
+                this.messages({
+                    message: ibas.i18n.prop("materials_create_continue", ibas.i18n.prop("bo_materialspecification")),
+                    type: ibas.emMessageType.QUESTION,
+                    actions: [
+                        ibas.emMessageAction.YES,
+                        ibas.emMessageAction.NO
+                    ],
+                    /** 调用完成 */
+                    onCompleted(action: ibas.emMessageAction): void {
+                        if (action === ibas.emMessageAction.YES) {
+                            ibas.servicesManager.runApplicationService<materials.app.ISpecificationTreeContract, materials.bo.MaterialSpecification>({
+                                proxy: new materials.app.SpecificationTreeServiceProxy({
+                                    target: that.editData.itemCode,
+                                }),
+                                onCompleted(result: materials.bo.MaterialSpecification): void {
+                                    that.editData.specification = result.objectKey;
+                                }
+                            });
+                        } else {
+                            ibas.servicesManager.runChooseService<materials.bo.IMaterialSpecification>({
+                                boCode: materials.bo.BO_CODE_MATERIALSPECIFICATION,
+                                chooseType: ibas.emChooseType.SINGLE,
+                                criteria: [
+                                    new ibas.Condition(materials.bo.MaterialSpecification.PROPERTY_OBJECTKEY_NAME,
+                                        ibas.emConditionOperation.GRATER_THAN, "0"),
+                                    new ibas.Condition(materials.bo.MaterialSpecification.PROPERTY_ITEMCODE_NAME,
+                                        ibas.emConditionOperation.EQUAL, that.editData.itemCode),
+                                ],
+                                onCompleted(selecteds: ibas.IList<materials.bo.IMaterialSpecification>): void {
+                                    let selected: materials.bo.IMaterialSpecification = selecteds.firstOrDefault();
+                                    that.editData.specification = selected.objectKey;
+                                }
+                            });
+                        }
+                    }
+                });
+            }
         }
         /** 视图-物料序列 */
         export interface IMaterialSerialEditView extends ibas.IBOEditView {
             /** 显示数据 */
             showMaterialSerial(data: bo.MaterialSerial): void;
+            /** 选择物料规格 */
+            chooseSpecificationEvent: Function;
         }
     }
 }
