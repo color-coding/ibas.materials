@@ -50,6 +50,28 @@ namespace materials {
                 this.setProperty(MaterialGroup.PROPERTY_ACTIVATED_NAME, value);
             }
 
+            /** 映射的属性名称-虚拟的 */
+            static PROPERTY_PHANTOM_NAME: string = "Phantom";
+            /** 获取-虚拟的 */
+            get phantom(): ibas.emYesNo {
+                return this.getProperty<ibas.emYesNo>(MaterialGroup.PROPERTY_PHANTOM_NAME);
+            }
+            /** 设置-虚拟的 */
+            set phantom(value: ibas.emYesNo) {
+                this.setProperty(MaterialGroup.PROPERTY_PHANTOM_NAME, value);
+            }
+
+            /** 映射的属性名称-父项 */
+            static PROPERTY_PARENTS_NAME: string = "Parents";
+            /** 获取-父项 */
+            get parents(): string {
+                return this.getProperty<string>(MaterialGroup.PROPERTY_PARENTS_NAME);
+            }
+            /** 设置-父项 */
+            set parents(value: string) {
+                this.setProperty(MaterialGroup.PROPERTY_PARENTS_NAME, value);
+            }
+
             /** 映射的属性名称-对象编号 */
             static PROPERTY_DOCENTRY_NAME: string = "DocEntry";
             /** 获取-对象编号 */

@@ -386,6 +386,8 @@
         "bo_materialgroup_code": "编码",
         "bo_materialgroup_name": "名称",
         "bo_materialgroup_activated": "激活",
+        "bo_materialgroup_phantom": "虚拟的",
+        "bo_materialgroup_parents": "父项",
         "bo_materialgroup_docentry": "对象编号",
         "bo_materialgroup_objectcode": "对象类型",
         "bo_materialgroup_createdate": "创建日期",

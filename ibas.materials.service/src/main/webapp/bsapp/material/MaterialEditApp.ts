@@ -195,7 +195,8 @@ namespace materials {
                     boCode: bo.MaterialGroup.BUSINESS_OBJECT_CODE,
                     chooseType: ibas.emChooseType.SINGLE,
                     criteria: [
-                        new ibas.Condition(bo.MaterialGroup.PROPERTY_ACTIVATED_NAME, ibas.emConditionOperation.EQUAL, ibas.emYesNo.YES)
+                        new ibas.Condition(bo.MaterialGroup.PROPERTY_ACTIVATED_NAME, ibas.emConditionOperation.EQUAL, ibas.emYesNo.YES),
+                        new ibas.Condition(bo.MaterialGroup.PROPERTY_PHANTOM_NAME, ibas.emConditionOperation.NOT_EQUAL, ibas.emYesNo.YES)
                     ],
                     onCompleted(selecteds: ibas.IList<bo.MaterialGroup>): void {
                         let selected: bo.MaterialGroup = selecteds.firstOrDefault();

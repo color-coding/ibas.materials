@@ -16,6 +16,8 @@ namespace materials {
                 deleteDataEvent: Function;
                 /** 新建数据事件，参数1：是否克隆 */
                 createDataEvent: Function;
+                /** 选择父项 */
+                chooseParentsEvent: Function;
 
                 /** 绘制视图 */
                 draw(): any {
@@ -62,6 +64,31 @@ namespace materials {
                             }).bindProperty("bindingValue", {
                                 path: "activated",
                                 type: new sap.extension.data.YesNo()
+                            }),
+                            new sap.m.Label("", { text: ibas.i18n.prop("bo_materialgroup_phantom") }),
+                            new sap.extension.m.EnumSelect("", {
+                                enumType: ibas.emYesNo
+                            }).bindProperty("bindingValue", {
+                                path: "phantom",
+                                type: new sap.extension.data.YesNo(),
+                            }),
+                            new sap.m.Label("", { text: ibas.i18n.prop("bo_materialgroup_parents") }),
+                            new sap.extension.m.RepositoryInput("", {
+                                showValueHelp: true,
+                                repository: bo.BORepositoryMaterials,
+                                dataInfo: {
+                                    type: bo.MaterialGroup,
+                                    key: bo.MaterialGroup.PROPERTY_CODE_NAME,
+                                    text: bo.MaterialGroup.PROPERTY_NAME_NAME
+                                },
+                                valueHelpRequest: function (): void {
+                                    that.fireViewEvents(that.chooseParentsEvent);
+                                },
+                            }).bindProperty("bindingValue", {
+                                path: "parents",
+                                type: new sap.extension.data.Alphanumeric({
+                                    maxLength: 60
+                                })
                             }),
                             new sap.ui.core.Title("", {}),
                         ]

@@ -80,8 +80,7 @@ public class MaterialGroup extends BusinessObject<MaterialGroup>
 	/**
 	 * 设置-编号
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setCode(String value) {
 		this.setProperty(PROPERTY_CODE, value);
@@ -112,8 +111,7 @@ public class MaterialGroup extends BusinessObject<MaterialGroup>
 	/**
 	 * 设置-名称
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setName(String value) {
 		this.setProperty(PROPERTY_NAME, value);
@@ -144,11 +142,72 @@ public class MaterialGroup extends BusinessObject<MaterialGroup>
 	/**
 	 * 设置-激活
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setActivated(emYesNo value) {
 		this.setProperty(PROPERTY_ACTIVATED, value);
+	}
+
+	/**
+	 * 属性名称-虚拟的
+	 */
+	private static final String PROPERTY_PHANTOM_NAME = "Phantom";
+
+	/**
+	 * 虚拟的 属性
+	 */
+	@DbField(name = "Phantom", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME, primaryKey = false)
+	public static final IPropertyInfo<emYesNo> PROPERTY_PHANTOM = registerProperty(PROPERTY_PHANTOM_NAME, emYesNo.class,
+			MY_CLASS);
+
+	/**
+	 * 获取-虚拟的
+	 * 
+	 * @return 值
+	 */
+	@XmlElement(name = PROPERTY_PHANTOM_NAME)
+	public final emYesNo getPhantom() {
+		return this.getProperty(PROPERTY_PHANTOM);
+	}
+
+	/**
+	 * 设置-虚拟的
+	 * 
+	 * @param value 值
+	 */
+	public final void setPhantom(emYesNo value) {
+		this.setProperty(PROPERTY_PHANTOM, value);
+	}
+
+	/**
+	 * 属性名称-父项
+	 */
+	private static final String PROPERTY_PARENTS_NAME = "Parents";
+
+	/**
+	 * 父项 属性
+	 */
+	@DbField(name = "Parents", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME, primaryKey = false)
+	public static final IPropertyInfo<String> PROPERTY_PARENTS = registerProperty(PROPERTY_PARENTS_NAME, String.class,
+			MY_CLASS);
+
+	/**
+	 * 获取-父项
+	 * 
+	 * @return 值
+	 */
+	@XmlElement(name = PROPERTY_PARENTS_NAME)
+	public final String getParents() {
+		return this.getProperty(PROPERTY_PARENTS);
+	}
+
+	/**
+	 * 设置-父项
+	 * 
+	 * @param value 值
+	 */
+	public final void setParents(String value) {
+		this.setProperty(PROPERTY_PARENTS, value);
 	}
 
 	/**
@@ -176,8 +235,7 @@ public class MaterialGroup extends BusinessObject<MaterialGroup>
 	/**
 	 * 设置-对象编号
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setDocEntry(Integer value) {
 		this.setProperty(PROPERTY_DOCENTRY, value);
@@ -208,8 +266,7 @@ public class MaterialGroup extends BusinessObject<MaterialGroup>
 	/**
 	 * 设置-对象类型
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setObjectCode(String value) {
 		this.setProperty(PROPERTY_OBJECTCODE, value);
@@ -240,8 +297,7 @@ public class MaterialGroup extends BusinessObject<MaterialGroup>
 	/**
 	 * 设置-创建日期
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setCreateDate(DateTime value) {
 		this.setProperty(PROPERTY_CREATEDATE, value);
@@ -272,8 +328,7 @@ public class MaterialGroup extends BusinessObject<MaterialGroup>
 	/**
 	 * 设置-创建时间
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setCreateTime(Short value) {
 		this.setProperty(PROPERTY_CREATETIME, value);
@@ -304,8 +359,7 @@ public class MaterialGroup extends BusinessObject<MaterialGroup>
 	/**
 	 * 设置-修改日期
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setUpdateDate(DateTime value) {
 		this.setProperty(PROPERTY_UPDATEDATE, value);
@@ -336,8 +390,7 @@ public class MaterialGroup extends BusinessObject<MaterialGroup>
 	/**
 	 * 设置-修改时间
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setUpdateTime(Short value) {
 		this.setProperty(PROPERTY_UPDATETIME, value);
@@ -368,8 +421,7 @@ public class MaterialGroup extends BusinessObject<MaterialGroup>
 	/**
 	 * 设置-版本
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setLogInst(Integer value) {
 		this.setProperty(PROPERTY_LOGINST, value);
@@ -400,8 +452,7 @@ public class MaterialGroup extends BusinessObject<MaterialGroup>
 	/**
 	 * 设置-服务系列
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setSeries(Integer value) {
 		this.setProperty(PROPERTY_SERIES, value);
@@ -432,8 +483,7 @@ public class MaterialGroup extends BusinessObject<MaterialGroup>
 	/**
 	 * 设置-数据源
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setDataSource(String value) {
 		this.setProperty(PROPERTY_DATASOURCE, value);
@@ -464,8 +514,7 @@ public class MaterialGroup extends BusinessObject<MaterialGroup>
 	/**
 	 * 设置-创建用户
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setCreateUserSign(Integer value) {
 		this.setProperty(PROPERTY_CREATEUSERSIGN, value);
@@ -496,8 +545,7 @@ public class MaterialGroup extends BusinessObject<MaterialGroup>
 	/**
 	 * 设置-修改用户
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setUpdateUserSign(Integer value) {
 		this.setProperty(PROPERTY_UPDATEUSERSIGN, value);
@@ -528,8 +576,7 @@ public class MaterialGroup extends BusinessObject<MaterialGroup>
 	/**
 	 * 设置-创建动作标识
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setCreateActionId(String value) {
 		this.setProperty(PROPERTY_CREATEACTIONID, value);
@@ -560,8 +607,7 @@ public class MaterialGroup extends BusinessObject<MaterialGroup>
 	/**
 	 * 设置-更新动作标识
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setUpdateActionId(String value) {
 		this.setProperty(PROPERTY_UPDATEACTIONID, value);
@@ -592,8 +638,7 @@ public class MaterialGroup extends BusinessObject<MaterialGroup>
 	/**
 	 * 设置-数据所有者
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setDataOwner(Integer value) {
 		this.setProperty(PROPERTY_DATAOWNER, value);
@@ -624,8 +669,7 @@ public class MaterialGroup extends BusinessObject<MaterialGroup>
 	/**
 	 * 设置-数据所属组织
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setOrganization(String value) {
 		this.setProperty(PROPERTY_ORGANIZATION, value);

@@ -29,6 +29,7 @@ namespace materials {
                 // 其他事件
                 this.view.deleteDataEvent = this.deleteData;
                 this.view.createDataEvent = this.createData;
+                this.view.chooseParentsEvent = this.chooseParents;
             }
             /** 视图显示后 */
             protected viewShowed(): void {
@@ -169,6 +170,32 @@ namespace materials {
                     createData();
                 }
             }
+            /** 选择父项 */
+            protected chooseParents(): void {
+                ibas.servicesManager.runChooseService<bo.IMaterialGroup>({
+                    boCode: bo.BO_CODE_MATERIALGROUP,
+                    chooseType: ibas.emChooseType.MULTIPLE,
+                    criteria: [
+                        new ibas.Condition(bo.MaterialGroup.PROPERTY_PHANTOM_NAME, ibas.emConditionOperation.EQUAL, ibas.emYesNo.YES)
+                    ],
+                    onCompleted: (selecteds) => {
+                        let builder: ibas.StringBuilder = new ibas.StringBuilder();
+                        for (let item of selecteds) {
+                            if (ibas.strings.isEmpty(item.code)) {
+                                continue;
+                            }
+                            if (ibas.strings.equalsIgnoreCase(this.editData.code, item.code)) {
+                                continue;
+                            }
+                            if (builder.length > 0) {
+                                builder.append(ibas.DATA_SEPARATOR);
+                            }
+                            builder.append(item.code);
+                        }
+                        this.editData.parents = builder.toString();
+                    }
+                });
+            }
         }
         /** 视图-物料组 */
         export interface IMaterialGroupEditView extends ibas.IBOEditView {
@@ -178,6 +205,8 @@ namespace materials {
             deleteDataEvent: Function;
             /** 新建数据事件，参数1：是否克隆 */
             createDataEvent: Function;
+            /** 选择父项 */
+            chooseParentsEvent: Function;
         }
     }
 }
