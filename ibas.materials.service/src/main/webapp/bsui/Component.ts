@@ -621,6 +621,27 @@ namespace materials {
                     }
                 }
             });
+            /**
+             * 自定义列表项目
+             */
+            sap.m.CustomListItem.extend("materials.ui.component.CustomListItem", {
+                metadata: {
+                    properties: {
+                    },
+                    events: {
+                    },
+                },
+                renderer: {
+                },
+                onAfterRendering(this: CustomListItem): void {
+                    (<any>sap.m.CustomListItem.prototype).onAfterRendering.apply(this, arguments);
+                    let typeCtrl: any = (<any>this).getTypeControl();
+                    if (typeCtrl instanceof sap.m.Button) {
+                        typeCtrl.setIcon("sap-icon://complete");
+                        typeCtrl.setTooltip(ibas.i18n.prop("shell_using"));
+                    }
+                }
+            });
         }
     }
 }

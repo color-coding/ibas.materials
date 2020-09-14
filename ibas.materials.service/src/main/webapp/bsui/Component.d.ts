@@ -76,6 +76,12 @@ declare namespace materials {
             class Splitter extends sap.ui.layout.Splitter {
 
             }
+            /**
+             * 自定义列表项目
+             */
+            class CustomListItem extends sap.m.CustomListItem {
+
+            }
         }
     }
 }

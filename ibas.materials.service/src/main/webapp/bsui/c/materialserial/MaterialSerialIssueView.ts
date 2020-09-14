@@ -254,7 +254,7 @@ namespace materials {
                         noDataText: ibas.i18n.prop(["shell_please", "shell_data_choose", "bo_material"]),
                         items: {
                             path: "/rows",
-                            template: new sap.m.CustomListItem("", {
+                            template: new component.CustomListItem("", {
                                 content: [
                                     new sap.m.ObjectHeader("", {
                                         responsive: true,
