@@ -128,37 +128,9 @@ namespace materials {
                     });
                     this.pagePriceList = new sap.m.Page("", {
                         showHeader: false,
-                        floatingFooter: true,
-                        footer: new sap.m.Toolbar("", {
-                            content: [
-                                new sap.m.ToolbarSpacer(""),
-                                new sap.m.Button("", {
-                                    text: ibas.i18n.prop("shell_data_delete"),
-                                    type: sap.m.ButtonType.Transparent,
-                                    icon: "sap-icon://delete",
-                                    press: function (): void {
-                                        that.fireViewEvents(that.deleteDataEvent, that.tablePriceList.getSelecteds());
-                                    }
-                                }),
-                                new sap.m.Button("", {
-                                    text: ibas.i18n.prop("shell_data_edit"),
-                                    type: sap.m.ButtonType.Transparent,
-                                    icon: "sap-icon://edit",
-                                    press: function (): void {
-                                        that.fireViewEvents(that.editDataEvent, that.tablePriceList.getSelecteds().firstOrDefault());
-                                    }
-                                }),
-                                new sap.m.Button("", {
-                                    text: ibas.i18n.prop("shell_data_new"),
-                                    type: sap.m.ButtonType.Transparent,
-                                    icon: "sap-icon://create",
-                                    press: function (): void {
-                                        that.fireViewEvents(that.newDataEvent);
-                                    }
-                                }),
-                            ]
-                        }),
-                        content: [this.tablePriceList]
+                        content: [
+                            this.tablePriceList
+                        ]
                     });
                     this.tablePrices = new sap.extension.table.Table("", {
                         enableSelectAll: false,

@@ -71,7 +71,7 @@ namespace materials {
                                 attributes: [
                                     new sap.extension.m.ObjectAttribute("", {
                                         title: ibas.i18n.prop("bo_materialbatchitem_itemcode"),
-                                        text: {
+                                        bindingValue: {
                                             path: "itemCode",
                                             mode: sap.ui.model.BindingMode.OneTime,
                                             type: new sap.extension.data.Alphanumeric()
@@ -79,7 +79,7 @@ namespace materials {
                                     }),
                                     new sap.extension.m.RepositoryObjectAttribute("", {
                                         title: ibas.i18n.prop("bo_warehouse"),
-                                        text: {
+                                        bindingValue: {
                                             path: "warehouse",
                                             mode: sap.ui.model.BindingMode.OneTime,
                                             type: new sap.extension.data.Alphanumeric()

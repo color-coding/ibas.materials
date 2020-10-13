@@ -43,19 +43,8 @@ namespace materials {
                             path: "/rows",
                             template: new sap.m.ObjectListItem("", {
                                 title: {
-                                    parts: [
-                                        {
-                                            path: "name",
-                                            type: new sap.extension.data.Alphanumeric()
-                                        },
-                                        {
-                                            path: "sign",
-                                            type: new sap.extension.data.Alphanumeric(),
-                                            formatter(data: string): string {
-                                                return ibas.strings.isEmpty(data) ? "" : ibas.strings.format(" ({0})", data);
-                                            }
-                                        },
-                                    ]
+                                    path: "name",
+                                    type: new sap.extension.data.Alphanumeric()
                                 },
                                 firstStatus: new sap.m.ObjectStatus("", {
                                     text: {
@@ -111,17 +100,41 @@ namespace materials {
                                     },
                                 }),
                                 attributes: [
-                                    new sap.m.ObjectAttribute("", {
+                                    new sap.extension.m.ObjectAttribute("", {
                                         title: ibas.i18n.prop("bo_material_code"),
-                                        text: "{code}"
+                                        bindingValue: {
+                                            path: "code",
+                                            type: new sap.extension.data.Alphanumeric(),
+                                        },
                                     }),
-                                    new sap.m.ObjectAttribute("", {
+                                    new sap.extension.m.ObjectAttribute("", {
+                                        title: ibas.i18n.prop("bo_material_sign"),
+                                        bindingValue: {
+                                            path: "sign",
+                                            type: new sap.extension.data.Alphanumeric(),
+                                        },
+                                    }).bindProperty("visible", {
+                                        path: "sign",
+                                        formatter(data: any): boolean {
+                                            return ibas.strings.isEmpty(data) ? false : true;
+                                        },
+                                    }),
+                                    new sap.extension.m.RepositoryObjectAttribute("", {
                                         title: ibas.i18n.prop("bo_material_group"),
-                                        text: "{group}"
+                                        repository: bo.BORepositoryMaterials,
+                                        dataInfo: {
+                                            type: bo.MaterialGroup,
+                                            key: bo.MaterialGroup.PROPERTY_CODE_NAME,
+                                            text: bo.MaterialGroup.PROPERTY_NAME_NAME
+                                        },
+                                        bindingValue: {
+                                            path: "group",
+                                            type: new sap.extension.data.Alphanumeric(),
+                                        },
                                     }),
-                                    new sap.m.ObjectAttribute("", {
+                                    new sap.extension.m.ObjectAttribute("", {
                                         title: ibas.i18n.prop("bo_material_onavailable"),
-                                        text: "{=${}.onAvailable()} {inventoryUOM}",
+                                        bindingValue: "{=${}.onAvailable()} {inventoryUOM}",
                                     }),
                                 ],
                                 type: sap.m.ListType.Active
@@ -228,7 +241,7 @@ namespace materials {
                         },
                         content: [
                             new sap.extension.table.Table("", {
-                                chooseType: ibas.emChooseType.NONE,
+                                chooseType: ibas.emChooseType.MULTIPLE,
                                 visibleRowCount: 4,
                                 rows: "{/rows}",
                                 columns: [
@@ -323,7 +336,7 @@ namespace materials {
                         },
                         content: [
                             new sap.extension.table.Table("", {
-                                chooseType: ibas.emChooseType.NONE,
+                                chooseType: ibas.emChooseType.MULTIPLE,
                                 visibleRowCount: 8,
                                 rows: "{/rows}",
                                 rowActionCount: 1,
@@ -485,7 +498,7 @@ namespace materials {
                         },
                         content: [
                             new sap.extension.table.Table("", {
-                                chooseType: ibas.emChooseType.NONE,
+                                chooseType: ibas.emChooseType.MULTIPLE,
                                 visibleRowCount: 8,
                                 rows: "{/rows}",
                                 rowActionCount: 1,
@@ -617,17 +630,11 @@ namespace materials {
                             })
                         ],
                     });
-                    this.pageOverview = new sap.m.Page("", {
+                    this.pageOverview = new sap.extension.m.Page("", {
+                        showHeader: false,
                         content: [
                             new sap.ui.layout.form.SimpleForm("", {
                                 editable: false,
-                                layout: "ResponsiveGridLayout",
-                                labelSpanL: 3,
-                                labelSpanM: 3,
-                                emptySpanL: 4,
-                                emptySpanM: 4,
-                                columnsL: 2,
-                                columnsM: 2,
                                 content: [
                                     new sap.ui.core.Title("", { text: ibas.i18n.prop("materials_title_general") }),
                                     new sap.m.Label("", { text: ibas.i18n.prop("bo_material_code") }),
@@ -635,6 +642,26 @@ namespace materials {
                                     }).bindProperty("bindingValue", {
                                         path: "code",
                                         type: new sap.extension.data.Alphanumeric(),
+                                    }),
+                                    new sap.m.Label("", {
+                                        text: ibas.i18n.prop("bo_material_sign"),
+                                        visible: false,
+                                    }).bindProperty("visible", {
+                                        path: "sign",
+                                        formatter(data: any): boolean {
+                                            return ibas.strings.isEmpty(data) ? false : true;
+                                        },
+                                    }),
+                                    new sap.extension.m.Text("", {
+                                        visible: false,
+                                    }).bindProperty("bindingValue", {
+                                        path: "sign",
+                                        type: new sap.extension.data.Alphanumeric(),
+                                    }).bindProperty("visible", {
+                                        path: "sign",
+                                        formatter(data: any): boolean {
+                                            return ibas.strings.isEmpty(data) ? false : true;
+                                        },
                                     }),
                                     new sap.m.Label("", { text: ibas.i18n.prop("bo_material_name") }),
                                     new sap.extension.m.Text("", {
@@ -654,10 +681,52 @@ namespace materials {
                                         path: "barCode",
                                         type: new sap.extension.data.Alphanumeric(),
                                     }),
-                                    new sap.ui.core.Title("", { text: ibas.i18n.prop("bo_material_picture") }),
+                                    new sap.m.Label("", { text: ibas.i18n.prop("bo_material_preferredvendor") }),
+                                    new sap.extension.m.RepositoryText("", {
+                                        bindingValue: {
+                                            path: "preferredVendor",
+                                            type: new sap.extension.data.Alphanumeric(),
+                                        },
+                                        repository: businesspartner.bo.BORepositoryBusinessPartner,
+                                        dataInfo: {
+                                            type: businesspartner.bo.Supplier,
+                                            key: businesspartner.bo.Supplier.PROPERTY_CODE_NAME,
+                                            text: businesspartner.bo.Supplier.PROPERTY_NAME_NAME
+                                        },
+                                    }),
+                                    new sap.ui.core.Title("", {
+                                        text: {
+                                            path: "picture",
+                                            formatter(data: any): string {
+                                                return ibas.strings.isEmpty(data) ? "" : ibas.i18n.prop("bo_material_picture");
+                                            },
+                                        }
+                                    }),
                                     new sap.m.Image("", {
-                                        width: "100%",
-                                        height: "16rem",
+                                        width: "auto",
+                                        height: "10rem",
+                                        visible: {
+                                            path: "picture",
+                                            formatter(data: any): boolean {
+                                                return ibas.strings.isEmpty(data) ? false : true;
+                                            },
+                                        },
+                                        press(event: sap.ui.base.Event): void {
+                                            let source: any = event.getSource();
+                                            if (source instanceof sap.m.Image) {
+                                                let url: string = source.getSrc();
+                                                if (!ibas.strings.isEmpty(url)) {
+                                                    let lightBox: sap.m.LightBox = new sap.m.LightBox("", {
+                                                        imageContent: [
+                                                            new sap.m.LightBoxItem("", {
+                                                                imageSrc: url,
+                                                            })
+                                                        ]
+                                                    });
+                                                    lightBox.open();
+                                                }
+                                            }
+                                        },
                                     }).bindProperty("src", {
                                         path: "picture",
                                         formatter(data: any): any {
@@ -722,8 +791,7 @@ namespace materials {
                 }
                 /** 显示物料基础信息 */
                 showMaterial(data: bo.IMaterial): void {
-                    this.pageOverview.setModel(new sap.ui.model.json.JSONModel(data));
-                    this.pageOverview.bindObject("/");
+                    this.pageOverview.setModel(new sap.extension.model.JSONModel(data));
                     this.panelInventory.setVisible(data.itemType === bo.emItemType.ITEM ? true : false);
                     this.panelInventory.getContent()[0].setModel(undefined);
                     this.panelInventory.setExpanded(false);

@@ -38,17 +38,26 @@ namespace materials {
                                     text: "{warehouse}"
                                 }),
                                 attributes: [
-                                    new sap.m.ObjectAttribute("", {
+                                    new sap.extension.m.ObjectAttribute("", {
                                         title: ibas.i18n.prop("bo_materialinventory_onhand"),
-                                        text: "{onHand}"
+                                        bindingValue: {
+                                            path: "onHand",
+                                            type: new sap.extension.data.Quantity(),
+                                        },
                                     }),
-                                    new sap.m.ObjectAttribute("", {
+                                    new sap.extension.m.ObjectAttribute("", {
                                         title: ibas.i18n.prop("bo_materialinventory_oncommited"),
-                                        text: "{onCommited}"
+                                        bindingValue: {
+                                            path: "onCommited",
+                                            type: new sap.extension.data.Quantity(),
+                                        },
                                     }),
-                                    new sap.m.ObjectAttribute("", {
+                                    new sap.extension.m.ObjectAttribute("", {
                                         title: ibas.i18n.prop("bo_materialinventory_onordered"),
-                                        text: "{onOrdered}"
+                                        bindingValue: {
+                                            path: "onOrdered",
+                                            type: new sap.extension.data.Quantity(),
+                                        },
                                     }),
                                 ]
                             })

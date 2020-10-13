@@ -245,6 +245,10 @@ declare namespace businesspartner {
             name: string;
             /** 激活 */
             activated: ibas.emYesNo;
+            /** 虚拟的 */
+            phantom: ibas.emYesNo;
+            /** 父项 */
+            parents: string;
             /** 对象编号 */
             docEntry: number;
             /** 对象类型 */
@@ -1156,6 +1160,18 @@ declare namespace businesspartner {
             get activated(): ibas.emYesNo;
             /** 设置-激活 */
             set activated(value: ibas.emYesNo);
+            /** 映射的属性名称-虚拟的 */
+            static PROPERTY_PHANTOM_NAME: string;
+            /** 获取-虚拟的 */
+            get phantom(): ibas.emYesNo;
+            /** 设置-虚拟的 */
+            set phantom(value: ibas.emYesNo);
+            /** 映射的属性名称-父项 */
+            static PROPERTY_PARENTS_NAME: string;
+            /** 获取-父项 */
+            get parents(): string;
+            /** 设置-父项 */
+            set parents(value: string);
             /** 映射的属性名称-对象编号 */
             static PROPERTY_DOCENTRY_NAME: string;
             /** 获取-对象编号 */
@@ -3119,6 +3135,8 @@ declare namespace businesspartner {
             protected deleteData(): void;
             /** 新建数据，参数1：是否克隆 */
             protected createData(clone: boolean): void;
+            /** 选择父项 */
+            protected chooseParents(): void;
         }
         /** 视图-业务伙伴组 */
         interface IBusinessPartnerGroupEditView extends ibas.IBOEditView {
@@ -3128,6 +3146,8 @@ declare namespace businesspartner {
             deleteDataEvent: Function;
             /** 新建数据事件，参数1：是否克隆 */
             createDataEvent: Function;
+            /** 选择父项 */
+            chooseParentsEvent: Function;
         }
     }
 }

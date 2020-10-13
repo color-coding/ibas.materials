@@ -9,6 +9,9 @@
 /// <reference path="./material/index.ts" />
 /// <reference path="./materialgroup/index.ts" />
 /// <reference path="./warehouse/index.ts" />
+/// <reference path="./materialbatch/index.ts" />
+/// <reference path="./materialserial/index.ts" />
+/// <reference path="./materialpricelist/index.ts" />
 namespace materials {
     export namespace ui {
         /**
@@ -22,16 +25,33 @@ namespace materials {
             protected newView(id: string): ibas.IView {
                 let view: ibas.IView = null;
                 switch (id) {
+                    case app.MaterialOverviewApp.APPLICATION_ID:
+                        view = new c.MaterialOverviewView();
+                        break;
+                    case app.MaterialChooseApp.APPLICATION_ID:
+                        view = new m.MaterialChooseView();
+                        break;
+                    case app.ProductChooseApp.APPLICATION_ID:
+                        view = new m.ProductChooseView();
+                        break;
                     case app.MaterialGroupChooseApp.APPLICATION_ID:
                         view = new m.MaterialGroupChooseView();
                         break;
                     case app.WarehouseChooseApp.APPLICATION_ID:
                         view = new m.WarehouseChooseView();
                         break;
-                    case app.MaterialChooseApp.APPLICATION_ID:
-                        view = new m.MaterialChooseView();
-                    case app.ProductChooseApp.APPLICATION_ID:
-                        view = new m.ProductChooseView();
+                    case app.MaterialPriceListChooseApp.APPLICATION_ID:
+                        view = new m.MaterialPriceListChooseView();
+                        break;
+                    case app.MaterialPriceListListApp.APPLICATION_ID:
+                        view = new c.MaterialPriceListListView();
+                        break;
+                    case app.MaterialBatchChooseApp.APPLICATION_ID:
+                        view = new m.MaterialBatchChooseView();
+                        break;
+                    case app.MaterialSerialChooseApp.APPLICATION_ID:
+                        view = new m.MaterialSerialChooseView();
+                        break;
                     default:
                         break;
                 }

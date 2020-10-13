@@ -23,6 +23,8 @@ declare namespace accounting {
     namespace bo {
         /** 业务仓库名称 */
         const BO_REPOSITORY_ACCOUNTING: string;
+        /** 业务对象编码-期间类型 */
+        const BO_CODE_PERIODCATEGORY: string;
         /** 业务对象编码-过账期间 */
         const BO_CODE_POSTINGPERIOD: string;
         /** 业务对象编码-项目 */
@@ -116,18 +118,68 @@ declare namespace accounting {
  */
 declare namespace accounting {
     namespace bo {
+        /** 期间类型 */
+        interface IPeriodCategory extends ibas.IBOSimple {
+            /** 名称 */
+            name: string;
+            /** 状态 */
+            status: emPeriodStatus;
+            /** 起始日期 */
+            startDate: Date;
+            /** 结束日期 */
+            endDate: Date;
+            /** 编号 */
+            objectKey: number;
+            /** 类型 */
+            objectCode: string;
+            /** 实例号（版本） */
+            logInst: number;
+            /** 数据源 */
+            dataSource: string;
+            /** 编号系列 */
+            series: number;
+            /** 创建日期 */
+            createDate: Date;
+            /** 创建时间 */
+            createTime: number;
+            /** 修改日期 */
+            updateDate: Date;
+            /** 修改时间 */
+            updateTime: number;
+            /** 创建用户 */
+            createUserSign: number;
+            /** 修改用户 */
+            updateUserSign: number;
+            /** 创建动作标识 */
+            createActionId: string;
+            /** 更新动作标识 */
+            updateActionId: string;
+        }
+    }
+}
+/**
+ * @license
+ * Copyright Color-Coding Studio. All Rights Reserved.
+ *
+ * Use of this source code is governed by an Apache License, Version 2.0
+ * that can be found in the LICENSE file at http://www.apache.org/licenses/LICENSE-2.0
+ */
+declare namespace accounting {
+    namespace bo {
         /** 过账期间 */
         interface IPostingPeriod extends ibas.IBOSimple {
             /** 名称 */
             name: string;
             /** 类别 */
-            category: string;
+            category: number;
+            /** 序号 */
+            order: number;
             /** 状态 */
             status: emPeriodStatus;
-            /** 账期开始日期 */
-            postingDateFrom: Date;
-            /** 账期结束日期 */
-            postingDateTo: Date;
+            /** 起始日期 */
+            startDate: Date;
+            /** 结束日期 */
+            endDate: Date;
             /** 对象编号 */
             objectKey: number;
             /** 对象类型 */
@@ -164,8 +216,8 @@ declare namespace accounting {
         }
         /** 过账期间-项目 */
         interface IPostingPeriodItem extends ibas.IBOSimpleLine {
-            /** 业务对象 */
-            businessObject: string;
+            /** 单据类型 */
+            documentType: string;
             /** 状态 */
             status: emPeriodStatus;
             /** 对象编号 */
@@ -389,6 +441,16 @@ declare namespace accounting {
              */
             download(caller: ibas.IDownloadFileCaller<Blob>): void;
             /**
+             * 查询 期间类型
+             * @param fetcher 查询者
+             */
+            fetchPeriodCategory(fetcher: ibas.IFetchCaller<bo.IPeriodCategory>): void;
+            /**
+             * 保存 期间类型
+             * @param saver 保存者
+             */
+            savePeriodCategory(saver: ibas.ISaveCaller<bo.IPeriodCategory>): void;
+            /**
              * 查询 过账期间
              * @param fetcher 查询者
              */
@@ -447,6 +509,128 @@ declare namespace accounting {
  */
 declare namespace accounting {
     namespace bo {
+        /** 期间类型 */
+        class PeriodCategory extends ibas.BOSimple<PeriodCategory> implements IPeriodCategory {
+            /** 业务对象编码 */
+            static BUSINESS_OBJECT_CODE: string;
+            /** 构造函数 */
+            constructor();
+            /** 映射的属性名称-名称 */
+            static PROPERTY_NAME_NAME: string;
+            /** 获取-名称 */
+            get name(): string;
+            /** 设置-名称 */
+            set name(value: string);
+            /** 映射的属性名称-状态 */
+            static PROPERTY_STATUS_NAME: string;
+            /** 获取-状态 */
+            get status(): emPeriodStatus;
+            /** 设置-状态 */
+            set status(value: emPeriodStatus);
+            /** 映射的属性名称-起始日期 */
+            static PROPERTY_STARTDATE_NAME: string;
+            /** 获取-起始日期 */
+            get startDate(): Date;
+            /** 设置-起始日期 */
+            set startDate(value: Date);
+            /** 映射的属性名称-结束日期 */
+            static PROPERTY_ENDDATE_NAME: string;
+            /** 获取-结束日期 */
+            get endDate(): Date;
+            /** 设置-结束日期 */
+            set endDate(value: Date);
+            /** 映射的属性名称-编号 */
+            static PROPERTY_OBJECTKEY_NAME: string;
+            /** 获取-编号 */
+            get objectKey(): number;
+            /** 设置-编号 */
+            set objectKey(value: number);
+            /** 映射的属性名称-类型 */
+            static PROPERTY_OBJECTCODE_NAME: string;
+            /** 获取-类型 */
+            get objectCode(): string;
+            /** 设置-类型 */
+            set objectCode(value: string);
+            /** 映射的属性名称-实例号（版本） */
+            static PROPERTY_LOGINST_NAME: string;
+            /** 获取-实例号（版本） */
+            get logInst(): number;
+            /** 设置-实例号（版本） */
+            set logInst(value: number);
+            /** 映射的属性名称-数据源 */
+            static PROPERTY_DATASOURCE_NAME: string;
+            /** 获取-数据源 */
+            get dataSource(): string;
+            /** 设置-数据源 */
+            set dataSource(value: string);
+            /** 映射的属性名称-编号系列 */
+            static PROPERTY_SERIES_NAME: string;
+            /** 获取-编号系列 */
+            get series(): number;
+            /** 设置-编号系列 */
+            set series(value: number);
+            /** 映射的属性名称-创建日期 */
+            static PROPERTY_CREATEDATE_NAME: string;
+            /** 获取-创建日期 */
+            get createDate(): Date;
+            /** 设置-创建日期 */
+            set createDate(value: Date);
+            /** 映射的属性名称-创建时间 */
+            static PROPERTY_CREATETIME_NAME: string;
+            /** 获取-创建时间 */
+            get createTime(): number;
+            /** 设置-创建时间 */
+            set createTime(value: number);
+            /** 映射的属性名称-修改日期 */
+            static PROPERTY_UPDATEDATE_NAME: string;
+            /** 获取-修改日期 */
+            get updateDate(): Date;
+            /** 设置-修改日期 */
+            set updateDate(value: Date);
+            /** 映射的属性名称-修改时间 */
+            static PROPERTY_UPDATETIME_NAME: string;
+            /** 获取-修改时间 */
+            get updateTime(): number;
+            /** 设置-修改时间 */
+            set updateTime(value: number);
+            /** 映射的属性名称-创建用户 */
+            static PROPERTY_CREATEUSERSIGN_NAME: string;
+            /** 获取-创建用户 */
+            get createUserSign(): number;
+            /** 设置-创建用户 */
+            set createUserSign(value: number);
+            /** 映射的属性名称-修改用户 */
+            static PROPERTY_UPDATEUSERSIGN_NAME: string;
+            /** 获取-修改用户 */
+            get updateUserSign(): number;
+            /** 设置-修改用户 */
+            set updateUserSign(value: number);
+            /** 映射的属性名称-创建动作标识 */
+            static PROPERTY_CREATEACTIONID_NAME: string;
+            /** 获取-创建动作标识 */
+            get createActionId(): string;
+            /** 设置-创建动作标识 */
+            set createActionId(value: string);
+            /** 映射的属性名称-更新动作标识 */
+            static PROPERTY_UPDATEACTIONID_NAME: string;
+            /** 获取-更新动作标识 */
+            get updateActionId(): string;
+            /** 设置-更新动作标识 */
+            set updateActionId(value: string);
+            /** 初始化数据 */
+            protected init(): void;
+        }
+    }
+}
+/**
+ * @license
+ * Copyright Color-Coding Studio. All Rights Reserved.
+ *
+ * Use of this source code is governed by an Apache License, Version 2.0
+ * that can be found in the LICENSE file at http://www.apache.org/licenses/LICENSE-2.0
+ */
+declare namespace accounting {
+    namespace bo {
         /** 过账期间 */
         class PostingPeriod extends ibas.BOSimple<PostingPeriod> implements IPostingPeriod {
             /** 业务对象编码 */
@@ -462,27 +646,33 @@ declare namespace accounting {
             /** 映射的属性名称-类别 */
             static PROPERTY_CATEGORY_NAME: string;
             /** 获取-类别 */
-            get category(): string;
+            get category(): number;
             /** 设置-类别 */
-            set category(value: string);
+            set category(value: number);
+            /** 映射的属性名称-序号 */
+            static PROPERTY_ORDER_NAME: string;
+            /** 获取-序号 */
+            get order(): number;
+            /** 设置-序号 */
+            set order(value: number);
             /** 映射的属性名称-状态 */
             static PROPERTY_STATUS_NAME: string;
             /** 获取-状态 */
             get status(): emPeriodStatus;
             /** 设置-状态 */
             set status(value: emPeriodStatus);
-            /** 映射的属性名称-账期开始日期 */
-            static PROPERTY_POSTINGDATEFROM_NAME: string;
-            /** 获取-账期开始日期 */
-            get postingDateFrom(): Date;
-            /** 设置-账期开始日期 */
-            set postingDateFrom(value: Date);
-            /** 映射的属性名称-账期结束日期 */
-            static PROPERTY_POSTINGDATETO_NAME: string;
-            /** 获取-账期结束日期 */
-            get postingDateTo(): Date;
-            /** 设置-账期结束日期 */
-            set postingDateTo(value: Date);
+            /** 映射的属性名称-起始日期 */
+            static PROPERTY_STARTDATE_NAME: string;
+            /** 获取-起始日期 */
+            get startDate(): Date;
+            /** 设置-起始日期 */
+            set startDate(value: Date);
+            /** 映射的属性名称-结束日期 */
+            static PROPERTY_ENDDATE_NAME: string;
+            /** 获取-结束日期 */
+            get endDate(): Date;
+            /** 设置-结束日期 */
+            set endDate(value: Date);
             /** 映射的属性名称-对象编号 */
             static PROPERTY_OBJECTKEY_NAME: string;
             /** 获取-对象编号 */
@@ -574,22 +764,19 @@ declare namespace accounting {
         class PostingPeriodItems extends ibas.BusinessObjects<PostingPeriodItem, PostingPeriod> implements IPostingPeriodItems {
             /** 创建并添加子项 */
             create(): PostingPeriodItem;
-            /**
-             * 添加项目后
-             * @param item 项目
-             */
-            protected afterAdd(item: PostingPeriodItem): void;
+            /** 子项属性改变时 */
+            protected onItemPropertyChanged(item: PostingPeriodItem, name: string): void;
         }
         /** 过账期间-项目 */
         class PostingPeriodItem extends ibas.BOSimpleLine<PostingPeriodItem> implements IPostingPeriodItem {
             /** 构造函数 */
             constructor();
-            /** 映射的属性名称-业务对象 */
-            static PROPERTY_BUSINESSOBJECT_NAME: string;
-            /** 获取-业务对象 */
-            get businessObject(): string;
-            /** 设置-业务对象 */
-            set businessObject(value: string);
+            /** 映射的属性名称-单据类型 */
+            static PROPERTY_DOCUMENTTYPE_NAME: string;
+            /** 获取-单据类型 */
+            get documentType(): string;
+            /** 设置-单据类型 */
+            set documentType(value: string);
             /** 映射的属性名称-状态 */
             static PROPERTY_STATUS_NAME: string;
             /** 获取-状态 */
@@ -1165,6 +1352,16 @@ declare namespace accounting {
              */
             download(caller: ibas.IDownloadFileCaller<Blob>): void;
             /**
+             * 查询 期间类型
+             * @param fetcher 查询者
+             */
+            fetchPeriodCategory(fetcher: ibas.IFetchCaller<bo.PeriodCategory>): void;
+            /**
+             * 保存 期间类型
+             * @param saver 保存者
+             */
+            savePeriodCategory(saver: ibas.ISaveCaller<bo.PeriodCategory>): void;
+            /**
              * 查询 过账期间
              * @param fetcher 查询者
              */
@@ -1248,8 +1445,8 @@ declare namespace accounting {
  */
 declare namespace accounting {
     namespace app {
-        /** 列表应用-过账期间 */
-        class PostingPeriodListApp extends ibas.BOListApplication<IPostingPeriodListView, bo.PostingPeriod> {
+        /** 列表应用-期间类型 */
+        class PeriodCategoryListApp extends ibas.BOListApplication<IPeriodCategoryListView, bo.PeriodCategory> {
             /** 应用标识 */
             static APPLICATION_ID: string;
             /** 应用名称 */
@@ -1267,20 +1464,81 @@ declare namespace accounting {
             /** 新建数据 */
             protected newData(): void;
             /** 查看数据，参数：目标数据 */
-            protected viewData(data: bo.PostingPeriod): void;
+            protected viewData(data: bo.PeriodCategory): void;
             /** 编辑数据，参数：目标数据 */
-            protected editData(data: bo.PostingPeriod): void;
+            protected editData(data: bo.PeriodCategory): void;
             /** 删除数据，参数：目标数据集合 */
-            protected deleteData(data: bo.PostingPeriod | bo.PostingPeriod[]): void;
+            protected deleteData(data: bo.PeriodCategory | bo.PeriodCategory[]): void;
         }
-        /** 视图-过账期间 */
-        interface IPostingPeriodListView extends ibas.IBOListView {
+        /** 视图-期间类型 */
+        interface IPeriodCategoryListView extends ibas.IBOListView {
             /** 编辑数据事件，参数：编辑对象 */
             editDataEvent: Function;
             /** 删除数据事件，参数：删除对象集合 */
             deleteDataEvent: Function;
             /** 显示数据 */
-            showData(datas: bo.PostingPeriod[]): void;
+            showData(datas: bo.PeriodCategory[]): void;
+        }
+    }
+}
+/**
+ * @license
+ * Copyright Color-Coding Studio. All Rights Reserved.
+ *
+ * Use of this source code is governed by an Apache License, Version 2.0
+ * that can be found in the LICENSE file at http://www.apache.org/licenses/LICENSE-2.0
+ */
+declare namespace accounting {
+    namespace app {
+        /** 编辑应用-期间类型 */
+        class PeriodCategoryEditApp extends ibas.BOEditApplication<IPeriodCategoryEditView, bo.PeriodCategory> {
+            /** 应用标识 */
+            static APPLICATION_ID: string;
+            /** 应用名称 */
+            static APPLICATION_NAME: string;
+            /** 业务对象编码 */
+            static BUSINESS_OBJECT_CODE: string;
+            /** 构造函数 */
+            constructor();
+            /** 注册视图 */
+            protected registerView(): void;
+            /** 视图显示后 */
+            protected viewShowed(): void;
+            run(): void;
+            run(data: bo.PeriodCategory): void;
+            protected editPostingPeriods: ibas.IList<bo.PostingPeriod>;
+            /** 保存数据 */
+            protected saveData(): void;
+            /** 删除数据 */
+            protected deleteData(): void;
+            /** 新建数据，参数1：是否克隆 */
+            protected createData(clone: boolean): void;
+            private addPostingPeriod;
+            private removePostingPeriod;
+            private resetPostingPeriodOrder;
+            private addPostingPeriodItem;
+            private removePostingPeriodItem;
+        }
+        /** 视图-期间类型 */
+        interface IPeriodCategoryEditView extends ibas.IBOEditView {
+            /** 显示数据 */
+            showPeriodCategory(data: bo.PeriodCategory): void;
+            /** 删除数据事件 */
+            deleteDataEvent: Function;
+            /** 新建数据事件，参数1：是否克隆 */
+            createDataEvent: Function;
+            /** 添加过账期间事件 */
+            addPostingPeriodEvent: Function;
+            /** 移除过账期间事件 */
+            removePostingPeriodEvent: Function;
+            /** 显示过账期间 */
+            showPostingPeriods(datas: bo.PostingPeriod[]): void;
+            /** 添加过账期间项目事件 */
+            addPostingPeriodItemEvent: Function;
+            /** 移除过账期间项目事件 */
+            removePostingPeriodItemEvent: Function;
+            /** 显示过账期间项目 */
+            showPostingPeriodItems(data: bo.PostingPeriod): void;
         }
     }
 }
@@ -1335,8 +1593,8 @@ declare namespace accounting {
  */
 declare namespace accounting {
     namespace app {
-        /** 编辑应用-过账期间 */
-        class PostingPeriodEditApp extends ibas.BOEditApplication<IPostingPeriodEditView, bo.PostingPeriod> {
+        /** 选择应用-期间类型 */
+        class PeriodCategoryChooseApp extends ibas.BOChooseService<IPeriodCategoryChooseView, bo.PeriodCategory> {
             /** 应用标识 */
             static APPLICATION_ID: string;
             /** 应用名称 */
@@ -1349,37 +1607,22 @@ declare namespace accounting {
             protected registerView(): void;
             /** 视图显示后 */
             protected viewShowed(): void;
-            run(): void;
-            run(data: bo.PostingPeriod): void;
-            /** 保存数据 */
-            protected saveData(): void;
-            /** 删除数据 */
-            protected deleteData(): void;
-            /** 新建数据，参数1：是否克隆 */
-            protected createData(clone: boolean): void;
-            /** 添加过账期间-项目事件 */
-            protected addPostingPeriodItem(): void;
-            /** 删除过账期间-项目事件 */
-            protected removePostingPeriodItem(items: bo.PostingPeriodItem[]): void;
-            /** 选择业务对象标识 */
-            private chooseBusinessObject;
+            /** 查询数据 */
+            protected fetchData(criteria: ibas.ICriteria): void;
+            /** 新建数据 */
+            protected newData(): void;
         }
-        /** 视图-过账期间 */
-        interface IPostingPeriodEditView extends ibas.IBOEditView {
-            /** 选择业务对象事件 */
-            chooseBusinessObjectEvent: Function;
+        /** 视图-期间类型 */
+        interface IPeriodCategoryChooseView extends ibas.IBOChooseView {
             /** 显示数据 */
-            showPostingPeriod(data: bo.PostingPeriod): void;
-            /** 删除数据事件 */
-            deleteDataEvent: Function;
-            /** 新建数据事件，参数1：是否克隆 */
-            createDataEvent: Function;
-            /** 添加过账期间-项目事件 */
-            addPostingPeriodItemEvent: Function;
-            /** 删除过账期间-项目事件 */
-            removePostingPeriodItemEvent: Function;
-            /** 显示数据 */
-            showPostingPeriodItems(datas: bo.PostingPeriodItem[]): void;
+            showData(datas: bo.PeriodCategory[]): void;
+        }
+        /** 期间类型选择服务映射 */
+        class PeriodCategoryChooseServiceMapping extends ibas.BOChooseServiceMapping {
+            /** 构造函数 */
+            constructor();
+            /** 创建服务实例 */
+            create(): ibas.IBOChooseService<bo.PeriodCategory>;
         }
     }
 }

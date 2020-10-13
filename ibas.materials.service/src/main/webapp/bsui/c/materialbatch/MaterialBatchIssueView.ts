@@ -71,7 +71,7 @@ namespace materials {
                                 attributes: [
                                     new sap.extension.m.ObjectAttribute("", {
                                         title: ibas.i18n.prop("bo_materialbatchitem_itemcode"),
-                                        text: {
+                                        bindingValue: {
                                             path: "itemCode",
                                             mode: sap.ui.model.BindingMode.OneTime,
                                             type: new sap.extension.data.Alphanumeric()
@@ -79,7 +79,7 @@ namespace materials {
                                     }),
                                     new sap.extension.m.RepositoryObjectAttribute("", {
                                         title: ibas.i18n.prop("bo_warehouse"),
-                                        text: {
+                                        bindingValue: {
                                             path: "warehouse",
                                             mode: sap.ui.model.BindingMode.OneTime,
                                             type: new sap.extension.data.Alphanumeric()
@@ -139,7 +139,7 @@ namespace materials {
                                                 let end: number = specification ? specification.indexOf("]") : -1;
                                                 if (begin > 0 && end > begin) {
                                                     specification = specification.substring(begin + 1, end);
-                                                    if (parseInt(specification) > 0) {
+                                                    if (parseInt(specification, 10) > 0) {
                                                         source.setIntroActive(false);
                                                         let criteria: ibas.ICriteria = new ibas.Criteria();
                                                         let condition: ibas.ICondition = criteria.conditions.create();
@@ -184,7 +184,7 @@ namespace materials {
                                         attributes: [
                                             new sap.extension.m.ObjectAttribute("", {
                                                 title: ibas.i18n.prop("bo_materialbatch_supplierserial"),
-                                                text: {
+                                                bindingValue: {
                                                     path: "supplierSerial",
                                                     mode: sap.ui.model.BindingMode.OneTime,
                                                     type: new sap.extension.data.Alphanumeric()
@@ -192,7 +192,7 @@ namespace materials {
                                             }),
                                             new sap.extension.m.ObjectAttribute("", {
                                                 title: ibas.i18n.prop("bo_materialbatch_notes"),
-                                                text: {
+                                                bindingValue: {
                                                     path: "notes",
                                                     mode: sap.ui.model.BindingMode.OneTime,
                                                     type: new sap.extension.data.Alphanumeric()
@@ -200,7 +200,7 @@ namespace materials {
                                             }),
                                             new sap.extension.m.ObjectAttribute("", {
                                                 title: ibas.i18n.prop("bo_materialbatch_expirationdate"),
-                                                text: {
+                                                bindingValue: {
                                                     path: "expirationDate",
                                                     mode: sap.ui.model.BindingMode.OneTime,
                                                     type: new sap.extension.data.Date()
@@ -208,7 +208,7 @@ namespace materials {
                                             }),
                                             new sap.extension.m.ObjectAttribute("", {
                                                 title: ibas.i18n.prop("bo_materialbatch_manufacturingdate"),
-                                                text: {
+                                                bindingValue: {
                                                     path: "manufacturingDate",
                                                     mode: sap.ui.model.BindingMode.OneTime,
                                                     type: new sap.extension.data.Date()
@@ -216,7 +216,7 @@ namespace materials {
                                             }),
                                             new sap.extension.m.ObjectAttribute("", {
                                                 title: ibas.i18n.prop("bo_materialbatch_admissiondate"),
-                                                text: {
+                                                bindingValue: {
                                                     path: "admissionDate",
                                                     mode: sap.ui.model.BindingMode.OneTime,
                                                     type: new sap.extension.data.Date()
@@ -266,7 +266,7 @@ namespace materials {
                                                 let end: number = specification ? specification.indexOf("]") : -1;
                                                 if (begin > 0 && end > begin) {
                                                     specification = specification.substring(begin + 1, end);
-                                                    if (parseInt(specification) > 0) {
+                                                    if (parseInt(specification, 10) > 0) {
                                                         source.setIntroActive(false);
                                                         let criteria: ibas.ICriteria = new ibas.Criteria();
                                                         let condition: ibas.ICondition = criteria.conditions.create();
@@ -311,7 +311,7 @@ namespace materials {
                                         attributes: [
                                             new sap.extension.m.ObjectAttribute("", {
                                                 title: ibas.i18n.prop("bo_materialbatch_supplierserial"),
-                                                text: {
+                                                bindingValue: {
                                                     path: "supplierSerial",
                                                     mode: sap.ui.model.BindingMode.OneTime,
                                                     type: new sap.extension.data.Alphanumeric()
@@ -319,7 +319,7 @@ namespace materials {
                                             }),
                                             new sap.extension.m.ObjectAttribute("", {
                                                 title: ibas.i18n.prop("bo_materialbatch_notes"),
-                                                text: {
+                                                bindingValue: {
                                                     path: "notes",
                                                     mode: sap.ui.model.BindingMode.OneTime,
                                                     type: new sap.extension.data.Alphanumeric()
@@ -327,7 +327,7 @@ namespace materials {
                                             }),
                                             new sap.extension.m.ObjectAttribute("", {
                                                 title: ibas.i18n.prop("bo_materialbatch_manufacturingdate"),
-                                                text: {
+                                                bindingValue: {
                                                     path: "manufacturingDate",
                                                     mode: sap.ui.model.BindingMode.OneTime,
                                                     type: new sap.extension.data.Date()
@@ -335,7 +335,7 @@ namespace materials {
                                             }),
                                             new sap.extension.m.ObjectAttribute("", {
                                                 title: ibas.i18n.prop("bo_materialbatch_admissiondate"),
-                                                text: {
+                                                bindingValue: {
                                                     path: "admissionDate",
                                                     mode: sap.ui.model.BindingMode.OneTime,
                                                     type: new sap.extension.data.Date()
@@ -343,7 +343,7 @@ namespace materials {
                                             }),
                                             new sap.extension.m.ObjectAttribute("", {
                                                 title: ibas.i18n.prop("bo_materialbatch_expirationdate"),
-                                                text: {
+                                                bindingValue: {
                                                     path: "expirationDate",
                                                     mode: sap.ui.model.BindingMode.OneTime,
                                                     type: new sap.extension.data.Date()
@@ -465,15 +465,18 @@ namespace materials {
                                                                                             let done: boolean;
                                                                                             let header: any = item.getContent()[0];
                                                                                             if (header instanceof sap.m.ObjectHeader) {
-                                                                                                content = header.getTitle(); if (content && content.toLowerCase().indexOf(search) >= 0) {
+                                                                                                content = header.getTitle();
+                                                                                                if (content && content.toLowerCase().indexOf(search) >= 0) {
                                                                                                     continue;
                                                                                                 }
-                                                                                                content = header.getIntro(); if (content && content.toLowerCase().indexOf(search) >= 0) {
+                                                                                                content = header.getIntro();
+                                                                                                if (content && content.toLowerCase().indexOf(search) >= 0) {
                                                                                                     continue;
                                                                                                 }
                                                                                                 done = false;
                                                                                                 for (let hItem of header.getAttributes()) {
-                                                                                                    content = hItem.getText(); if (content && content.toLowerCase().indexOf(search) >= 0) {
+                                                                                                    content = hItem.getText();
+                                                                                                    if (content && content.toLowerCase().indexOf(search) >= 0) {
                                                                                                         done = true;
                                                                                                         break;
                                                                                                     }
@@ -560,15 +563,18 @@ namespace materials {
                                                                                             let done: boolean;
                                                                                             let header: any = item.getContent()[0];
                                                                                             if (header instanceof sap.m.ObjectHeader) {
-                                                                                                content = header.getTitle(); if (content && content.toLowerCase().indexOf(search) >= 0) {
+                                                                                                content = header.getTitle();
+                                                                                                if (content && content.toLowerCase().indexOf(search) >= 0) {
                                                                                                     continue;
                                                                                                 }
-                                                                                                content = header.getIntro(); if (content && content.toLowerCase().indexOf(search) >= 0) {
+                                                                                                content = header.getIntro();
+                                                                                                if (content && content.toLowerCase().indexOf(search) >= 0) {
                                                                                                     continue;
                                                                                                 }
                                                                                                 done = false;
                                                                                                 for (let hItem of header.getAttributes()) {
-                                                                                                    content = hItem.getText(); if (content && content.toLowerCase().indexOf(search) >= 0) {
+                                                                                                    content = hItem.getText();
+                                                                                                    if (content && content.toLowerCase().indexOf(search) >= 0) {
                                                                                                         done = true;
                                                                                                         break;
                                                                                                     }

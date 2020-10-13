@@ -49,17 +49,26 @@ namespace materials {
                                     }
                                 }),
                                 attributes: [
-                                    new sap.m.ObjectAttribute("", {
+                                    new sap.extension.m.ObjectAttribute("", {
                                         title: ibas.i18n.prop("bo_materialbatch_itemcode"),
-                                        text: "{itemCode}"
+                                        bindingValue: {
+                                            path: "itemCode",
+                                            type: new sap.extension.data.Alphanumeric(),
+                                        },
                                     }),
-                                    new sap.m.ObjectAttribute("", {
+                                    new sap.extension.m.ObjectAttribute("", {
                                         title: ibas.i18n.prop("bo_materialbatch_warehouse"),
-                                        text: "{warehouse}"
+                                        bindingValue: {
+                                            path: "warehouse",
+                                            type: new sap.extension.data.Alphanumeric(),
+                                        },
                                     }),
-                                    new sap.m.ObjectAttribute("", {
+                                    new sap.extension.m.ObjectAttribute("", {
                                         title: ibas.i18n.prop("bo_materialbatch_supplierserial"),
-                                        text: "{supplierSerial}"
+                                        bindingValue: {
+                                            path: "supplierSerial",
+                                            type: new sap.extension.data.Alphanumeric(),
+                                        },
                                     }),
                                 ]
                             })

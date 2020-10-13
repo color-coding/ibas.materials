@@ -54,7 +54,7 @@ namespace materials {
                             template: new sap.m.ColumnListItem("", {
                                 cells: [
                                     new sap.extension.m.ObjectAttribute("", {
-                                        text: {
+                                        bindingValue: {
                                             path: "lineId",
                                             type: new sap.extension.data.Numeric(),
                                         }
@@ -76,7 +76,7 @@ namespace materials {
                                         }
                                     }),
                                     new sap.extension.m.RepositoryObjectAttribute("", {
-                                        text: {
+                                        bindingValue: {
                                             path: "warehouse",
                                             type: new sap.extension.data.Alphanumeric(),
                                         },
@@ -118,13 +118,13 @@ namespace materials {
                                         }
                                     }),
                                     new sap.extension.m.ObjectAttribute("", {
-                                        text: {
+                                        bindingValue: {
                                             path: "reference1",
                                             type: new sap.extension.data.Alphanumeric(),
                                         }
                                     }),
                                     new sap.extension.m.ObjectAttribute("", {
-                                        text: {
+                                        bindingValue: {
                                             path: "reference2",
                                             type: new sap.extension.data.Alphanumeric(),
                                         }
@@ -218,7 +218,7 @@ namespace materials {
                                 content: [
                                     new sap.extension.m.PropertyObjectAttribute("", {
                                         title: ibas.i18n.prop("bo_inventorycounting_counttype"),
-                                        text: {
+                                        bindingValue: {
                                             path: "countType",
                                             type: new sap.extension.data.Alphanumeric(),
                                         },
@@ -229,7 +229,7 @@ namespace materials {
                                     }),
                                     new sap.extension.m.PropertyObjectAttribute("", {
                                         title: ibas.i18n.prop("bo_inventorycounting_ordertype"),
-                                        text: {
+                                        bindingValue: {
                                             path: "orderType",
                                             type: new sap.extension.data.Alphanumeric(),
                                         },
@@ -245,21 +245,21 @@ namespace materials {
                                 content: [
                                     new sap.extension.m.ObjectAttribute("", {
                                         title: ibas.i18n.prop("bo_inventorycounting_documentdate"),
-                                        text: {
+                                        bindingValue: {
                                             path: "documentDate",
                                             type: new sap.extension.data.Date(),
                                         }
                                     }),
                                     new sap.extension.m.ObjectAttribute("", {
                                         title: ibas.i18n.prop("bo_inventorycounting_countdate"),
-                                        text: {
+                                        bindingValue: {
                                             path: "countDate",
                                             type: new sap.extension.data.Date(),
                                         }
                                     }),
                                     new sap.extension.m.ObjectAttribute("", {
                                         title: ibas.i18n.prop("bo_inventorycounting_postingdate"),
-                                        text: {
+                                        bindingValue: {
                                             path: "postingDate",
                                             type: new sap.extension.data.Date(),
                                         }
@@ -287,21 +287,21 @@ namespace materials {
                                                 content: [
                                                     new sap.extension.m.ObjectAttribute("", {
                                                         title: ibas.i18n.prop("bo_inventorycounting_remarks"),
-                                                        text: {
+                                                        bindingValue: {
                                                             path: "remarks",
                                                             type: new sap.extension.data.Alphanumeric(),
                                                         }
                                                     }),
                                                     new sap.extension.m.ObjectAttribute("", {
                                                         title: ibas.i18n.prop("bo_inventorycounting_reference1"),
-                                                        text: {
+                                                        bindingValue: {
                                                             path: "reference1",
                                                             type: new sap.extension.data.Alphanumeric(),
                                                         }
                                                     }),
                                                     new sap.extension.m.ObjectAttribute("", {
                                                         title: ibas.i18n.prop("bo_inventorycounting_reference2"),
-                                                        text: {
+                                                        bindingValue: {
                                                             path: "reference2",
                                                             type: new sap.extension.data.Alphanumeric(),
                                                         }
@@ -312,14 +312,14 @@ namespace materials {
                                                 content: [
                                                     new sap.extension.m.UserObjectAttribute("", {
                                                         title: ibas.i18n.prop("bo_inventorycounting_dataowner"),
-                                                        text: {
+                                                        bindingValue: {
                                                             path: "dataOwner",
                                                             type: new sap.extension.data.Alphanumeric(),
                                                         }
                                                     }),
                                                     new sap.extension.m.OrganizationObjectAttribute("", {
                                                         title: ibas.i18n.prop("bo_inventorycounting_organization"),
-                                                        text: {
+                                                        bindingValue: {
                                                             path: "organization",
                                                             type: new sap.extension.data.Alphanumeric(),
                                                         }

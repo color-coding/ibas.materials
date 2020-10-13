@@ -107,21 +107,21 @@ namespace materials {
                                 content: [
                                     new sap.extension.m.ObjectAttribute("", {
                                         title: ibas.i18n.prop("bo_material_sign"),
-                                        text: {
+                                        bindingValue: {
                                             path: "sign",
                                             type: new sap.extension.data.Alphanumeric(),
                                         }
                                     }),
                                     new sap.extension.m.ObjectAttribute("", {
                                         title: ibas.i18n.prop("bo_material_foreignname"),
-                                        text: {
+                                        bindingValue: {
                                             path: "foreignName",
                                             type: new sap.extension.data.Alphanumeric(),
                                         }
                                     }),
                                     new sap.extension.m.RepositoryObjectAttribute("", {
                                         title: ibas.i18n.prop("bo_material_group"),
-                                        text: {
+                                        bindingValue: {
                                             path: "group",
                                             type: new sap.extension.data.Alphanumeric(),
                                         },
@@ -139,14 +139,14 @@ namespace materials {
                                 content: [
                                     new sap.extension.m.ObjectAttribute("", {
                                         title: ibas.i18n.prop("bo_material_preferredvendor"),
-                                        text: {
+                                        bindingValue: {
                                             path: "preferredVendor",
                                             type: new sap.extension.data.Alphanumeric(),
                                         }
                                     }),
                                     new sap.extension.m.ObjectAttribute("", {
                                         title: ibas.i18n.prop("bo_material_barcode"),
-                                        text: {
+                                        bindingValue: {
                                             path: "barCode",
                                             type: new sap.extension.data.Alphanumeric(),
                                         }
@@ -158,14 +158,14 @@ namespace materials {
                                 content: [
                                     new sap.extension.m.ObjectAttribute("", {
                                         title: ibas.i18n.prop("bo_material_validdate"),
-                                        text: {
+                                        bindingValue: {
                                             path: "validDate",
                                             type: new sap.extension.data.Date(),
                                         }
                                     }),
                                     new sap.extension.m.ObjectAttribute("", {
                                         title: ibas.i18n.prop("bo_material_invaliddate"),
-                                        text: {
+                                        bindingValue: {
                                             path: "invalidDate",
                                             type: new sap.extension.data.Date(),
                                         }
@@ -181,7 +181,7 @@ namespace materials {
                                         blocks: [
                                             new sap.extension.m.ObjectAttribute("", {
                                                 title: ibas.i18n.prop("bo_material_onhand"),
-                                                text: {
+                                                bindingValue: {
                                                     parts: [
                                                         {
                                                             path: "onHand",
@@ -196,7 +196,7 @@ namespace materials {
                                             }),
                                             new sap.extension.m.ObjectAttribute("", {
                                                 title: ibas.i18n.prop("bo_material_oncommited"),
-                                                text: {
+                                                bindingValue: {
                                                     parts: [
                                                         {
                                                             path: "onCommited",
@@ -211,7 +211,7 @@ namespace materials {
                                             }),
                                             new sap.extension.m.ObjectAttribute("", {
                                                 title: ibas.i18n.prop("bo_material_onordered"),
-                                                text: {
+                                                bindingValue: {
                                                     parts: [
                                                         {
                                                             path: "onOrdered",
@@ -226,7 +226,7 @@ namespace materials {
                                             }),
                                             new sap.extension.m.ObjectAttribute("", {
                                                 title: ibas.i18n.prop("bo_material_minimuminventory"),
-                                                text: {
+                                                bindingValue: {
                                                     parts: [
                                                         {
                                                             path: "minimumInventory",
@@ -250,7 +250,7 @@ namespace materials {
                                         blocks: [
                                             new sap.extension.m.ObjectAttribute("", {
                                                 title: ibas.i18n.prop("bo_material_remarks"),
-                                                text: {
+                                                bindingValue: {
                                                     path: "remarks",
                                                     type: new sap.extension.data.Alphanumeric(),
                                                 }
