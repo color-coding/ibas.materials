@@ -438,9 +438,9 @@ namespace materials {
                         editable: true,
                         content: [
                             this.tableTitle = new sap.ui.core.Title("", { text: ibas.i18n.prop("bo_specificationitem") }),
-                            this.splitContainer = new sap.m.SplitContainer("", {
-                                mode: sap.m.SplitAppMode.HideMode,
-                                detailPages: [
+                            this.container = new sap.m.NavContainer("", {
+                                height: "22rem",
+                                pages: [
                                     this.tableSpecificationItem,
                                     this.tableSpecificationItemValue
                                 ]
@@ -522,7 +522,7 @@ namespace materials {
                 }
                 private page: sap.extension.m.Page;
                 private tableTitle: sap.ui.core.Title;
-                private splitContainer: sap.m.SplitContainer;
+                private container: sap.m.NavContainer;
                 private tableSpecificationItem: sap.extension.table.Table;
                 private tableSpecificationItemValue: sap.extension.table.Table;
 
@@ -535,13 +535,13 @@ namespace materials {
                 /** 显示数据 */
                 showSpecificationItems(datas: bo.SpecificationItem[]): void {
                     this.tableTitle.setText(ibas.i18n.prop("bo_specificationitem"));
-                    this.splitContainer.backToTopDetail(null, null);
+                    this.container.backToTop();
                     this.tableSpecificationItem.setModel(new sap.extension.model.JSONModel({ rows: datas }));
                 }
                 /** 显示数据 */
                 showSpecificationItemValues(datas: bo.SpecificationItemValue[]): void {
                     this.tableTitle.setText(ibas.i18n.prop("bo_specificationitemvalue"));
-                    this.splitContainer.toDetail(this.tableSpecificationItemValue.getId(), null, null, null);
+                    this.container.to(this.tableSpecificationItemValue.getId());
                     this.tableSpecificationItemValue.setModel(new sap.extension.model.JSONModel({ rows: datas }));
                 }
             }

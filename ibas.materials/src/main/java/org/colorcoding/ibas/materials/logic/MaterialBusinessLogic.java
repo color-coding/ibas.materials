@@ -2,6 +2,7 @@ package org.colorcoding.ibas.materials.logic;
 
 import org.colorcoding.ibas.bobas.bo.IBusinessObject;
 import org.colorcoding.ibas.bobas.common.ConditionOperation;
+import org.colorcoding.ibas.bobas.common.ConditionRelationship;
 import org.colorcoding.ibas.bobas.common.Criteria;
 import org.colorcoding.ibas.bobas.common.ICondition;
 import org.colorcoding.ibas.bobas.common.ICriteria;
@@ -24,6 +25,21 @@ public abstract class MaterialBusinessLogic<L extends IBusinessLogicContract, B 
 		condition.setAlias(Material.PROPERTY_CODE.getName());
 		condition.setValue(itemCode);
 		condition.setOperation(ConditionOperation.EQUAL);
+		condition = criteria.getConditions().create();
+		condition.setBracketOpen(1);
+		condition.setAlias(Material.PROPERTY_DELETED.getName());
+		condition.setValue(emYesNo.YES);
+		condition.setOperation(ConditionOperation.EQUAL);
+		condition = criteria.getConditions().create();
+		condition.setAlias(Material.PROPERTY_DELETED.getName());
+		condition.setValue(emYesNo.NO);
+		condition.setOperation(ConditionOperation.EQUAL);
+		condition.setRelationship(ConditionRelationship.OR);
+		condition = criteria.getConditions().create();
+		condition.setBracketClose(1);
+		condition.setAlias(Material.PROPERTY_DELETED.getName());
+		condition.setOperation(ConditionOperation.IS_NULL);
+		condition.setRelationship(ConditionRelationship.OR);
 		IMaterial material = super.fetchBeAffected(criteria, IMaterial.class);
 		if (material == null) {
 			BORepositoryMaterials boRepository = new BORepositoryMaterials();

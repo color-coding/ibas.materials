@@ -42,7 +42,7 @@ namespace materials {
                             }).bindProperty("bindingValue", {
                                 path: "series",
                                 type: new sap.extension.data.Numeric()
-                            }).bindProperty("enabled", {
+                            }).bindProperty("editable", {
                                 path: "isNew",
                                 formatter(data: any): any {
                                     return !!data ? true : false;

@@ -2,6 +2,7 @@ package org.colorcoding.ibas.materials.logic;
 
 import org.colorcoding.ibas.bobas.bo.IBusinessObject;
 import org.colorcoding.ibas.bobas.common.ConditionOperation;
+import org.colorcoding.ibas.bobas.common.ConditionRelationship;
 import org.colorcoding.ibas.bobas.common.Criteria;
 import org.colorcoding.ibas.bobas.common.ICondition;
 import org.colorcoding.ibas.bobas.common.ICriteria;
@@ -10,8 +11,8 @@ import org.colorcoding.ibas.bobas.data.emYesNo;
 import org.colorcoding.ibas.bobas.i18n.I18N;
 import org.colorcoding.ibas.bobas.logic.BusinessLogicException;
 import org.colorcoding.ibas.bobas.logic.IBusinessLogicContract;
-import org.colorcoding.ibas.materials.bo.material.Material;
 import org.colorcoding.ibas.materials.bo.warehouse.IWarehouse;
+import org.colorcoding.ibas.materials.bo.warehouse.Warehouse;
 import org.colorcoding.ibas.materials.repository.BORepositoryMaterials;
 
 public abstract class MaterialInventoryBusinessLogic<L extends IBusinessLogicContract, B extends IBusinessObject>
@@ -20,9 +21,24 @@ public abstract class MaterialInventoryBusinessLogic<L extends IBusinessLogicCon
 	protected IWarehouse checkWarehouse(String whsCode) {
 		ICriteria criteria = new Criteria();
 		ICondition condition = criteria.getConditions().create();
-		condition.setAlias(Material.PROPERTY_CODE.getName());
+		condition.setAlias(Warehouse.PROPERTY_CODE.getName());
 		condition.setValue(whsCode);
 		condition.setOperation(ConditionOperation.EQUAL);
+		condition = criteria.getConditions().create();
+		condition.setBracketOpen(1);
+		condition.setAlias(Warehouse.PROPERTY_DELETED.getName());
+		condition.setValue(emYesNo.YES);
+		condition.setOperation(ConditionOperation.EQUAL);
+		condition = criteria.getConditions().create();
+		condition.setAlias(Warehouse.PROPERTY_DELETED.getName());
+		condition.setValue(emYesNo.NO);
+		condition.setOperation(ConditionOperation.EQUAL);
+		condition.setRelationship(ConditionRelationship.OR);
+		condition = criteria.getConditions().create();
+		condition.setBracketClose(1);
+		condition.setAlias(Warehouse.PROPERTY_DELETED.getName());
+		condition.setOperation(ConditionOperation.IS_NULL);
+		condition.setRelationship(ConditionRelationship.OR);
 		IWarehouse warehouse = super.fetchBeAffected(criteria, IWarehouse.class);
 		if (warehouse == null) {
 			BORepositoryMaterials boRepository = new BORepositoryMaterials();

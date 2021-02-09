@@ -239,19 +239,8 @@ namespace materials {
                                         label: ibas.i18n.prop("bo_inventorycountingline_itemdescription"),
                                         template: new sap.extension.m.Text("", {
                                         }).bindProperty("bindingValue", {
-                                            parts: [
-                                                {
-                                                    path: "itemDescription",
-                                                    type: new sap.extension.data.Alphanumeric()
-                                                },
-                                                {
-                                                    path: "itemSign",
-                                                    type: new sap.extension.data.Alphanumeric(),
-                                                    formatter(data: string): string {
-                                                        return ibas.strings.isEmpty(data) ? "" : ibas.strings.format(" ({0})", data);
-                                                    }
-                                                },
-                                            ]
+                                            path: "itemDescription",
+                                            type: new sap.extension.data.Alphanumeric()
                                         })
                                     }),
                                     new sap.extension.table.DataColumn("", {
@@ -358,7 +347,7 @@ namespace materials {
                                 type: new sap.extension.data.Numeric()
                             }),
                             new sap.m.Label("", { text: ibas.i18n.prop("bo_inventorycounting_organization") }),
-                            new sap.extension.m.OrganizationInput("", {
+                            new sap.extension.m.DataOrganizationInput("", {
                                 showValueHelp: true,
                             }).bindProperty("bindingValue", {
                                 path: "organization",

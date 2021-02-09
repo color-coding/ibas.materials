@@ -158,12 +158,14 @@ namespace materials {
                             }),
                         ]
                     });
-                    return new sap.extension.m.Dialog("", {
+                    return new sap.m.Dialog("", {
                         title: this.title,
                         type: sap.m.DialogType.Standard,
                         state: sap.ui.core.ValueState.None,
+                        contentWidth: "40%",
                         horizontalScrolling: true,
                         verticalScrolling: true,
+                        stretch: ibas.config.get(ibas.CONFIG_ITEM_PLANTFORM) === ibas.emPlantform.PHONE ? true : false,
                         content: [
                             this.formTop
                         ],
@@ -185,7 +187,7 @@ namespace materials {
                                 }
                             }),
                         ]
-                    });
+                    }).addStyleClass("sapUiNoContentPadding");
                 }
 
                 private formTop: sap.ui.layout.form.SimpleForm;

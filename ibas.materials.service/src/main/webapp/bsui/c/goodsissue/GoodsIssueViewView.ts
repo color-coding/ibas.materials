@@ -15,6 +15,7 @@ namespace materials {
                 draw(): any {
                     let that: this = this;
                     this.tableGoodsIssueLine = new sap.extension.m.DataTable("", {
+                        autoPopinMode: true,
                         dataInfo: {
                             code: bo.GoodsIssue.BUSINESS_OBJECT_CODE,
                             name: bo.GoodsIssueLine.name
@@ -22,9 +23,7 @@ namespace materials {
                         columns: [
                             new sap.extension.m.Column("", {
                                 header: ibas.i18n.prop("bo_goodsissueline_lineid"),
-                            }),
-                            new sap.extension.m.Column("", {
-                                header: ibas.i18n.prop("bo_goodsissueline_linestatus"),
+                                width: "5rem",
                             }),
                             new sap.extension.m.Column("", {
                                 header: ibas.i18n.prop("bo_goodsissueline_itemdescription"),
@@ -57,12 +56,6 @@ namespace materials {
                                         bindingValue: {
                                             path: "lineId",
                                             type: new sap.extension.data.Numeric(),
-                                        }
-                                    }),
-                                    new sap.extension.m.ObjectDocumentStatus("", {
-                                        text: {
-                                            path: "lineStatus",
-                                            type: new sap.extension.data.DocumentStatus(true),
                                         }
                                     }),
                                     new sap.extension.m.ObjectIdentifier("", {

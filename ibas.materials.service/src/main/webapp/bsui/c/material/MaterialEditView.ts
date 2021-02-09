@@ -47,7 +47,7 @@ namespace materials {
                             }).bindProperty("bindingValue", {
                                 path: "series",
                                 type: new sap.extension.data.Numeric()
-                            }).bindProperty("enabled", {
+                            }).bindProperty("editable", {
                                 path: "isNew",
                                 formatter(data: any): any {
                                     return !!data ? true : false;
@@ -125,7 +125,7 @@ namespace materials {
                                             ibas.files.open((files) => {
                                                 if (files.length > 0) {
                                                     let fileData: FormData = new FormData();
-                                                    fileData.append("file", files[0]);
+                                                    fileData.append("file", files[0], encodeURI(files[0].name));
                                                     that.fireViewEvents(that.uploadPictureEvent, fileData);
                                                 }
                                             }, { accept: "image/gif,image/jpeg,image/jpg,image/png" });

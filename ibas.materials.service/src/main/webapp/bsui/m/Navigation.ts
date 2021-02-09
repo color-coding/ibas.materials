@@ -44,7 +44,7 @@ namespace materials {
                         view = new m.MaterialPriceListChooseView();
                         break;
                     case app.MaterialPriceListListApp.APPLICATION_ID:
-                        view = new c.MaterialPriceListListView();
+                        view = new m.MaterialPriceListListView();
                         break;
                     case app.MaterialBatchChooseApp.APPLICATION_ID:
                         view = new m.MaterialBatchChooseView();
