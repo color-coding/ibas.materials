@@ -106,7 +106,7 @@ namespace materials {
                             that.fireViewEvents(that.fetchDataEvent, criteria);
                         }
                     });
-                    return new sap.extension.m.Dialog("", {
+                    return new sap.m.Dialog("", {
                         title: this.title,
                         type: sap.m.DialogType.Standard,
                         state: sap.ui.core.ValueState.None,
@@ -143,7 +143,7 @@ namespace materials {
                                 })
                             })
                         ],
-                    });
+                    }).addStyleClass("sapUiNoContentPadding");
                 }
                 private page: sap.m.Page;
                 private list: sap.extension.m.List;

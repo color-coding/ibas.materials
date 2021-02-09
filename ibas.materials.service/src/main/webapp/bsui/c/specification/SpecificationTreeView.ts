@@ -17,7 +17,7 @@ namespace materials {
                 /** 绘制视图 */
                 draw(): any {
                     let that: this = this;
-                    this.dialog = new sap.extension.m.Dialog("", {
+                    return this.dialog = new sap.m.Dialog("", {
                         title: this.title,
                         type: sap.m.DialogType.Standard,
                         state: sap.ui.core.ValueState.None,
@@ -54,8 +54,7 @@ namespace materials {
                                 }
                             }),
                         ],
-                    });
-                    return this.dialog;
+                    }).addStyleClass("sapUiNoContentPadding");
                 }
                 private dialog: sap.m.Dialog;
                 private select: sap.m.Select;

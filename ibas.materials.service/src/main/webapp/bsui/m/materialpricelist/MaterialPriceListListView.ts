@@ -7,7 +7,7 @@
  */
 namespace materials {
     export namespace ui {
-        export namespace c {
+        export namespace m {
             /**
              * 列表视图-物料价格清单
              */
@@ -106,8 +106,12 @@ namespace materials {
                                             return false;
                                         }
                                     }),
-                                ]
+                                ],
+                                type: sap.m.ListType.Inactive,
                             })
+                        },
+                        select: function (oEvent: sap.ui.base.Event): void {
+                            that.container.to(that.pagePrices.getId());
                         },
                         nextDataSet(event: sap.ui.base.Event): void {
                             // 查询下一个数据集
@@ -132,122 +136,64 @@ namespace materials {
                             this.tablePriceList
                         ]
                     });
-                    this.tablePrices = new sap.extension.table.Table("", {
-                        enableSelectAll: false,
-                        visibleRowCount: sap.extension.table.visibleRowCount(15) - 1,
-                        visibleRowCountMode: sap.ui.table.VisibleRowCountMode.Interactive,
-                        rows: "{/rows}",
-                        columns: [
-                            new sap.extension.table.Column("", {
-                                label: ibas.i18n.prop("bo_materialprice_itemcode"),
-                                template: new sap.extension.m.Text("", {
-                                }).bindProperty("bindingValue", {
-                                    path: "itemCode",
-                                    type: new sap.extension.data.Alphanumeric()
-                                }),
-                            }),
-                            new sap.extension.table.Column("", {
-                                label: ibas.i18n.prop("bo_materialprice_itemname"),
-                                width: "20rem",
-                                template: new sap.extension.m.Text("", {
-                                }).bindProperty("bindingValue", {
-                                    path: "itemName",
-                                    type: new sap.extension.data.Alphanumeric()
-                                }),
-                            }),
-                            new sap.extension.table.Column("", {
-                                label: ibas.i18n.prop("bo_materialprice_itemsign"),
-                                template: new sap.extension.m.Text("", {
-                                }).bindProperty("bindingValue", {
-                                    path: "itemSign",
-                                    type: new sap.extension.data.Alphanumeric()
-                                }),
-                            }),
-                            new sap.extension.table.Column("", {
-                                label: ibas.i18n.prop("bo_materialprice_price"),
-                                template: new sap.extension.m.Text("", {
-                                }).bindProperty("bindingValue", {
-                                    path: "price",
-                                    type: new sap.extension.data.Price()
-                                })
-                            }),
-                            new sap.extension.table.Column("", {
-                                label: ibas.i18n.prop("bo_materialprice_currency"),
-                                template: new sap.extension.m.Text("", {
-                                }).bindProperty("bindingValue", {
-                                    path: "currency",
-                                    type: new sap.extension.data.Alphanumeric()
-                                })
-                            }),
-                        ],
-                        nextDataSet(event: sap.ui.base.Event): void {
-                            // 查询下一个数据集
-                            let data: any = event.getParameter("data");
-                            if (ibas.objects.isNull(data)) {
-                                return;
-                            }
-                            if (ibas.objects.isNull(that.lastPriceCriteria)) {
-                                let source: any = event.getSource();
-                                if (source instanceof sap.extension.table.Table) {
-                                    if (source.getBusy() === true) {
-                                        source.setBusy(false);
-                                    }
-                                }
-                                return;
-                            }
-                            let criteria: ibas.ICriteria = that.lastPriceCriteria.next(data);
-                            if (ibas.objects.isNull(criteria)) {
-                                return;
-                            }
-                            ibas.logger.log(ibas.emMessageLevel.DEBUG, "result: {0}", criteria.toString());
-                            that.fireViewEvents(that.fetchPriceEvent, criteria);
-                        }
-                    });
                     this.searchPrice = new sap.m.SearchField("", {
                         search(): void {
-                            let priceList: bo.MaterialPriceList = that.tablePriceList.getSelecteds<bo.MaterialPriceList>().firstOrDefault();
-                            if (ibas.objects.isNull(priceList)) {
-                                that.application.viewShower.messages({
-                                    title: that.application.description,
-                                    message: ibas.i18n.prop("shell_please_chooose_data", ibas.i18n.prop("bo_materialpricelist")),
-                                    type: ibas.emMessageType.WARNING
-                                });
-                                return;
-                            }
-                            let criteria: ibas.ICriteria;
-                            let condition: ibas.ICondition;
-                            let search: string = that.searchPrice.getValue();
-                            if (!ibas.strings.isEmpty(search)) {
-                                criteria = that.getPriceCriteria().clone();
-                                for (let item of criteria.conditions) {
-                                    if (ibas.strings.equalsIgnoreCase(item.alias, app.conditions.materialprice.CONDITION_ALIAS_ITEMCODE)
-                                        || ibas.strings.equalsIgnoreCase(item.alias, app.conditions.materialprice.CONDITION_ALIAS_ITEMNAME)
-                                        || ibas.strings.equalsIgnoreCase(item.alias, app.conditions.materialprice.CONDITION_ALIAS_ITEMSIGN)) {
-                                        item.value = search;
-                                    }
-                                }
-                            } else {
-                                criteria = new ibas.Criteria();
-                                criteria.result = ibas.config.get(ibas.CONFIG_ITEM_CRITERIA_RESULT_COUNT, 30);
-                            }
-                            condition = criteria.conditions.create();
-                            if (criteria.conditions.length > 0) {
-                                condition.relationship = ibas.emConditionRelationship.AND;
-                            }
-                            condition.alias = app.conditions.materialprice.CONDITION_ALIAS_PRICELIST;
-                            condition.operation = ibas.emConditionOperation.EQUAL;
-                            condition.value = priceList.objectKey.toString();
-                            that.fireViewEvents(that.fetchPriceEvent, criteria);
-                            that.lastPriceCriteria = criteria;
-                            that.tablePrices.setFirstVisibleRow(0);
-                            that.tablePrices.setModel(null);
+                            that.searchPrices();
                         }
                     });
+                    this.listPrices = new sap.extension.m.List("", {
+                        inset: false,
+                        growing: false,
+                        mode: sap.m.ListMode.None,
+                        backgroundDesign: sap.m.BackgroundDesign.Transparent,
+                        showNoData: true,
+                        width: "auto",
+                        items: {
+                            path: "/rows",
+                            template: new sap.m.ObjectListItem("", {
+                                title: {
+                                    path: "itemCode",
+                                    type: new sap.extension.data.Alphanumeric()
+                                },
+                                number: {
+                                    path: "price",
+                                    type: new sap.extension.data.Price()
+                                },
+                                numberUnit: {
+                                    path: "currency",
+                                    type: new sap.extension.data.Alphanumeric()
+                                },
+                                attributes: [
+                                    new sap.extension.m.ObjectAttribute("", {
+                                        title: ibas.i18n.prop("bo_materialprice_itemname"),
+                                        bindingValue: {
+                                            path: "itemName",
+                                            type: new sap.extension.data.Alphanumeric()
+                                        },
+                                    }),
+                                    new sap.extension.m.ObjectAttribute("", {
+                                        title: ibas.i18n.prop("bo_materialprice_itemsign"),
+                                        bindingValue: {
+                                            path: "itemSign",
+                                            type: new sap.extension.data.Alphanumeric()
+                                        },
+                                    }).bindProperty("visible", {
+                                        path: "itemSign",
+                                        formatter(data: string): boolean {
+                                            return !ibas.strings.isEmpty(data);
+                                        }
+                                    }),
+                                ],
+                            })
+                        },
+                    }).addStyleClass("sapUxAPObjectPageSubSectionAlignContent");
                     this.pagePrices = new sap.extension.m.Page("", {
-                        showHeader: true,
-                        customHeader: new sap.m.Toolbar("", {
+                        showHeader: false,
+                        showSubHeader: true,
+                        subHeader: new sap.m.Toolbar("", {
                             content: [
                                 this.searchPrice,
+                                /*
                                 new sap.m.Button("", {
                                     icon: "sap-icon://filter",
                                     type: sap.m.ButtonType.Transparent,
@@ -289,280 +235,37 @@ namespace materials {
                                         });
                                     }
                                 }),
+                                */
                                 new sap.m.ToolbarSpacer(""),
-                                new sap.m.SegmentedButton("", {
-                                    items: [
-                                        new sap.m.SegmentedButtonItem("", {
-                                            icon: "sap-icon://show",
-                                            press(): void {
-                                                that.tablePrices.getColumns()[3].setTemplate(
-                                                    new sap.extension.m.Text("", {
-                                                    }).bindProperty("bindingValue", {
-                                                        path: "price",
-                                                        type: new sap.extension.data.Price()
-                                                    })
-                                                );
-                                                that.pagePrices.destroyFooter();
-                                            }
-                                        }),
-                                        new sap.m.SegmentedButtonItem("", {
-                                            icon: "sap-icon://edit",
-                                            press(): void {
-                                                that.tablePrices.getColumns()[3].setTemplate(
-                                                    new sap.extension.m.Input("", {
-                                                        type: sap.m.InputType.Number,
-                                                        change(event: any): void {
-                                                            this.getParent().getParent().addSelectionInterval(this.getParent().getIndex(), this.getParent().getIndex());
-                                                        }
-                                                    }).bindProperty("bindingValue", {
-                                                        path: "price",
-                                                        type: new sap.extension.data.Price()
-                                                    })
-                                                );
-                                                let input: sap.m.Input;
-                                                let label: sap.m.Label;
-                                                that.pagePrices.setFooter(new sap.m.Toolbar("", {
-                                                    content: [
-                                                        new sap.m.MenuButton("", {
-                                                            text: ibas.i18n.prop("shell_data_choose"),
-                                                            icon: "sap-icon://bullet-text",
-                                                            type: sap.m.ButtonType.Transparent,
-                                                            menu: new sap.m.Menu("", {
-                                                                items: [
-                                                                    new sap.m.MenuItem("", {
-                                                                        text: ibas.i18n.prop("shell_all"),
-                                                                        icon: "sap-icon://multiselect-all",
-                                                                        press: function (): void {
-                                                                            let model: any = that.tablePrices.getModel();
-                                                                            if (model instanceof sap.extension.model.JSONModel) {
-                                                                                for (let index: number = 0; index < model.size(); index++) {
-                                                                                    if (!that.tablePrices.isIndexSelected(index)) {
-                                                                                        that.tablePrices.addSelectionInterval(index, index);
-                                                                                    }
-                                                                                }
-                                                                            }
-                                                                        }
-                                                                    }),
-                                                                    new sap.m.MenuItem("", {
-                                                                        text: ibas.i18n.prop("shell_reverse"),
-                                                                        icon: "sap-icon://multi-select",
-                                                                        press: function (): void {
-                                                                            let model: any = that.tablePrices.getModel();
-                                                                            if (model instanceof sap.extension.model.JSONModel) {
-                                                                                let selects: ibas.IList<number> = ibas.arrays.create(that.tablePrices.getSelectedIndices());
-                                                                                that.tablePrices.clearSelection();
-                                                                                for (let index: number = 0; index < model.size(); index++) {
-                                                                                    if (!selects.contain(index)) {
-                                                                                        that.tablePrices.addSelectionInterval(index, index);
-                                                                                    }
-                                                                                }
-                                                                            }
-                                                                        }
-                                                                    }),
-                                                                ],
-                                                            })
-                                                        }),
-                                                        new sap.m.ToolbarSpacer(""),
-                                                        new sap.m.MenuButton("", {
-                                                            text: ibas.i18n.prop("shell_batch"),
-                                                            type: sap.m.ButtonType.Transparent,
-                                                            menuPosition: sap.ui.core.Popup.Dock.BeginTop,
-                                                            buttonMode: sap.m.MenuButtonMode.Regular,
-                                                            menu: new sap.m.Menu("", {
-                                                                items: [
-                                                                    new sap.m.MenuItem("", {
-                                                                        text: ibas.i18n.prop("materials_export_prices"),
-                                                                        icon: "sap-icon://action",
-                                                                        press: function (): void {
-                                                                            let priceList: bo.MaterialPriceList
-                                                                                = that.tablePriceList.getSelecteds<bo.MaterialPriceList>().firstOrDefault();
-                                                                            if (ibas.objects.isNull(priceList)) {
-                                                                                that.application.viewShower.messages({
-                                                                                    title: that.application.description,
-                                                                                    message: ibas.i18n.prop("shell_please_chooose_data", ibas.i18n.prop("bo_materialpricelist")),
-                                                                                    type: ibas.emMessageType.WARNING
-                                                                                }); return;
-                                                                            }
-                                                                            let criteria: ibas.ICriteria = new ibas.Criteria();
-                                                                            let condition: ibas.ICondition = criteria.conditions.create();
-                                                                            condition.alias = app.conditions.materialprice.CONDITION_ALIAS_PRICELIST;
-                                                                            condition.operation = ibas.emConditionOperation.EQUAL;
-                                                                            condition.value = priceList.objectKey.toString();
-                                                                            that.fireViewEvents(that.exportPriceEvent, criteria);
-                                                                        }
-                                                                    }),
-                                                                    new sap.m.MenuItem("", {
-                                                                        text: ibas.i18n.prop("materials_import_prices"),
-                                                                        icon: "sap-icon://cause",
-                                                                        press: function (event: sap.ui.base.Event): void {
-                                                                            let priceList: bo.MaterialPriceList
-                                                                                = that.tablePriceList.getSelecteds<bo.MaterialPriceList>().firstOrDefault();
-                                                                            if (ibas.objects.isNull(priceList)) {
-                                                                                that.application.viewShower.messages({
-                                                                                    title: that.application.description,
-                                                                                    message: ibas.i18n.prop("shell_please_chooose_data", ibas.i18n.prop("bo_materialpricelist")),
-                                                                                    type: ibas.emMessageType.WARNING
-                                                                                }); return;
-                                                                            }
-
-                                                                            ibas.servicesManager.runApplicationService<any, ibas.DataTable>({
-                                                                                proxy: new importexport.app.FileParsingServiceProxy({
-                                                                                    outType: "array"
-                                                                                }),
-                                                                                onCompleted(result: any): void {
-                                                                                    try {
-                                                                                        that.tablePrices.setModel(null);
-                                                                                        let datas: bo.MaterialPrice[] =
-                                                                                            sap.extension.tables.parseObject(that.tablePrices, result, bo.MaterialPrice);
-                                                                                        datas.forEach(c => c.source = String(priceList.objectKey));
-                                                                                        that.showPrices(datas);
-                                                                                    } catch (error) {
-                                                                                        that.application.viewShower.messages({
-                                                                                            title: that.application.description,
-                                                                                            message: error.message,
-                                                                                            type: ibas.emMessageType.ERROR
-                                                                                        });
-                                                                                    }
-                                                                                }
-                                                                            });
-                                                                        }
-                                                                    }),
-                                                                ],
-                                                            }),
-                                                        }),
-                                                        new sap.m.ToolbarSeparator(""),
-                                                        new sap.m.Label("", {
-                                                            width: "auto",
-                                                            text: ibas.i18n.prop("bo_materialprice_price"),
-                                                        }),
-                                                        label = new sap.m.Label("", {
-                                                            width: "auto",
-                                                            text: "+",
-                                                        }),
-                                                        input = new sap.m.Input("", {
-                                                            width: "6rem",
-                                                            type: sap.m.InputType.Number,
-                                                            textAlign: sap.ui.core.TextAlign.Right,
-                                                            valueState: sap.ui.core.ValueState.Success,
-                                                            value: "0",
-                                                        }),
-                                                        new sap.m.MenuButton("", {
-                                                            text: ibas.i18n.prop("shell_apply"),
-                                                            type: sap.m.ButtonType.Accept,
-                                                            menuPosition: sap.ui.core.Popup.Dock.BeginTop,
-                                                            buttonMode: sap.m.MenuButtonMode.Split,
-                                                            width: "auto",
-                                                            menu: new sap.m.Menu("", {
-                                                                items: [
-                                                                    new sap.m.MenuItem("", {
-                                                                        text: ibas.i18n.prop("materials_adjust_price_add"),
-                                                                        icon: "sap-icon://add",
-                                                                        press: function (): void {
-                                                                            label.setText("+");
-                                                                        }
-                                                                    }),
-                                                                    new sap.m.MenuItem("", {
-                                                                        text: ibas.i18n.prop("materials_adjust_price_less"),
-                                                                        icon: "sap-icon://less",
-                                                                        press: function (): void {
-                                                                            label.setText("-");
-                                                                        }
-                                                                    }),
-                                                                    new sap.m.MenuItem("", {
-                                                                        text: ibas.i18n.prop("materials_adjust_price_multiply"),
-                                                                        icon: "sap-icon://decline",
-                                                                        press: function (): void {
-                                                                            label.setText("×");
-                                                                        }
-                                                                    }),
-                                                                ],
-                                                            }),
-                                                            useDefaultActionOnly: true,
-                                                            defaultAction(event: sap.ui.base.Event): void {
-                                                                let value: number = ibas.numbers.valueOf(input.getValue());
-                                                                let operation: string | "+" | "-" | "×" = label.getText();
-                                                                for (let item of that.tablePrices.getSelecteds<bo.MaterialPrice>()) {
-                                                                    if (operation === "-") {
-                                                                        item.price = item.price - value;
-                                                                    } else if (operation === "×") {
-                                                                        item.price = item.price * value;
-                                                                    } else {
-                                                                        item.price = item.price + value;
-                                                                    }
-                                                                }
-                                                                that.tablePrices.getModel().updateBindings(false);
-                                                            },
-                                                        }),
-                                                    ]
-                                                }));
-                                            }
-                                        }),
-                                    ]
-                                }),
-                                new sap.m.ToolbarSeparator(""),
                                 new sap.m.Button("", {
-                                    icon: "sap-icon://save",
+                                    icon: "sap-icon://navigation-left-arrow",
                                     type: sap.m.ButtonType.Transparent,
                                     press: function (): void {
-                                        let datas: ibas.IList<bo.MaterialPriceItem> = new ibas.ArrayList<bo.MaterialPriceItem>();
-                                        for (let item of that.tablePrices.getSelecteds<bo.MaterialPrice>()) {
-                                            if (!item.isDirty) {
-                                                continue;
-                                            }
-                                            if (item.price < 0) {
-                                                continue;
-                                            }
-                                            // 先删除
-                                            let data: bo.MaterialPriceItem = new bo.MaterialPriceItem();
-                                            data.objectKey = Number(item.source);
-                                            data.itemCode = item.itemCode;
-                                            data.delete();
-                                            datas.add(data);
-                                            // 再添加
-                                            data = new bo.MaterialPriceItem();
-                                            data.objectKey = Number(item.source);
-                                            data.itemCode = item.itemCode;
-                                            data.price = item.price;
-                                            datas.add(data);
-                                        }
-                                        that.fireViewEvents(that.savePriceListItemEvent, datas);
+                                        that.container.to(that.pagePriceList.getId());
+                                        that.listPrices.setModel(null);
+                                        that.listPrices.destroyItems();
                                     }
                                 }),
-                                new sap.m.Button("", {
-                                    icon: "sap-icon://delete",
-                                    type: sap.m.ButtonType.Transparent,
-                                    press: function (): void {
-                                        let datas: ibas.IList<bo.MaterialPriceItem> = new ibas.ArrayList<bo.MaterialPriceItem>();
-                                        for (let item of that.tablePrices.getSelecteds<bo.MaterialPrice>()) {
-                                            if (!item.isDirty) {
-                                                continue;
-                                            }
-                                            let data: bo.MaterialPriceItem = new bo.MaterialPriceItem();
-                                            data.objectKey = Number(item.source);
-                                            data.itemCode = item.itemCode;
-                                            data.price = item.price;
-                                            data.delete();
-                                            datas.add(data);
-                                        }
-                                        that.fireViewEvents(that.savePriceListItemEvent, datas);
-                                    }
-                                })
                             ]
                         }),
                         content: [
-                            this.tablePrices
+                            this.pullToRefresh2 = new sap.m.PullToRefresh("", {
+                                refresh: function (event: sap.ui.base.Event): void {
+                                    that.searchPrices();
+                                }
+                            }),
+                            this.listPrices
                         ],
-                        floatingFooter: true,
                     });
-                    return new sap.m.SplitContainer("", {
-                        masterPages: [
+                    return this.container = new sap.m.NavContainer("", {
+                        autoFocus: false,
+                        pages: [
                             this.pagePriceList,
-                        ],
-                        detailPages: [
                             this.pagePrices
                         ],
                     });
                 }
+                private container: sap.m.NavContainer;
                 /** 嵌入查询面板 */
                 embedded(view: any): void {
                     if (view instanceof sap.m.Toolbar) {
@@ -573,19 +276,16 @@ namespace materials {
                     this.pagePriceList.addHeaderContent(view);
                     this.pagePriceList.setShowHeader(true);
                 }
-                private pagePriceList: sap.m.Page;
-                private tablePriceList: sap.extension.m.List;
-                /** 显示数据 */
-                showPriceList(datas: bo.MaterialPriceList[]): void {
-                    let model: sap.ui.model.Model = this.tablePriceList.getModel();
-                    if (model instanceof sap.extension.model.JSONModel) {
-                        // 已绑定过数据
-                        model.addData(datas);
-                    } else {
-                        // 未绑定过数据
-                        this.tablePriceList.setModel(new sap.extension.model.JSONModel({ rows: datas }));
+                private pullToRefresh: sap.m.PullToRefresh;
+                private pullToRefresh2: sap.m.PullToRefresh;
+                /** 嵌入下拉条 */
+                embeddedPuller(view: any): void {
+                    if (view instanceof sap.m.PullToRefresh) {
+                        if (!ibas.objects.isNull(this.pagePriceList)) {
+                            this.pagePriceList.insertContent(view, 0);
+                            this.pullToRefresh = view;
+                        }
                     }
-                    this.tablePriceList.setBusy(false);
                 }
                 /** 记录上次查询条件，表格滚动时自动触发 */
                 query(criteria: ibas.ICriteria): void {
@@ -596,9 +296,27 @@ namespace materials {
                         this.tablePriceList.setModel(null);
                     }
                 }
+                private pagePriceList: sap.m.Page;
+                private tablePriceList: sap.extension.m.List;
+                /** 显示数据 */
+                showPriceList(datas: bo.MaterialPriceList[]): void {
+                    if (!ibas.objects.isNull(this.pullToRefresh)) {
+                        this.pullToRefresh.hide();
+                    }
+                    this.container.to(this.pagePriceList.getId());
+                    let model: sap.ui.model.Model = this.tablePriceList.getModel();
+                    if (model instanceof sap.extension.model.JSONModel) {
+                        // 已绑定过数据
+                        model.addData(datas);
+                    } else {
+                        // 未绑定过数据
+                        this.tablePriceList.setModel(new sap.extension.model.JSONModel({ rows: datas }));
+                    }
+                    this.tablePriceList.setBusy(false);
+                }
                 private pagePrices: sap.m.Page;
                 private searchPrice: sap.m.SearchField;
-                private tablePrices: sap.extension.table.Table;
+                private listPrices: sap.extension.m.List;
                 /** 上一次使用的价格查询 */
                 private lastPriceCriteria: ibas.ICriteria;
                 /** 基础价格查询 */
@@ -632,58 +350,59 @@ namespace materials {
                 }
                 /** 显示数据 */
                 showPrices(datas: bo.MaterialPrice[]): void {
-                    let model: sap.ui.model.Model = this.tablePrices.getModel();
+                    if (!ibas.objects.isNull(this.pullToRefresh2)) {
+                        this.pullToRefresh2.hide();
+                    }
+                    this.container.to(this.pagePrices.getId());
+                    let model: sap.ui.model.Model = this.listPrices.getModel();
                     if (model instanceof sap.extension.model.JSONModel) {
                         // 已绑定过数据
                         model.addData(datas);
                     } else {
                         // 未绑定过数据
-                        this.tablePrices.setModel(new sap.extension.model.JSONModel({ rows: datas }));
+                        this.listPrices.setModel(new sap.extension.model.JSONModel({ rows: datas }));
                     }
-                    this.tablePrices.setBusy(false);
+                    this.listPrices.setBusy(false);
+                }
+                private searchPrices(): void {
+                    let priceList: bo.MaterialPriceList = this.tablePriceList.getSelecteds<bo.MaterialPriceList>().firstOrDefault();
+                    if (ibas.objects.isNull(priceList)) {
+                        this.application.viewShower.messages({
+                            title: this.application.description,
+                            message: ibas.i18n.prop("shell_please_chooose_data", ibas.i18n.prop("bo_materialpricelist")),
+                            type: ibas.emMessageType.WARNING
+                        });
+                        return;
+                    }
+                    let criteria: ibas.ICriteria;
+                    let condition: ibas.ICondition;
+                    let search: string = this.searchPrice.getValue();
+                    if (!ibas.strings.isEmpty(search)) {
+                        criteria = this.getPriceCriteria().clone();
+                        for (let item of criteria.conditions) {
+                            if (ibas.strings.equalsIgnoreCase(item.alias, app.conditions.materialprice.CONDITION_ALIAS_ITEMCODE)
+                                || ibas.strings.equalsIgnoreCase(item.alias, app.conditions.materialprice.CONDITION_ALIAS_ITEMNAME)
+                                || ibas.strings.equalsIgnoreCase(item.alias, app.conditions.materialprice.CONDITION_ALIAS_ITEMSIGN)) {
+                                item.value = search;
+                            }
+                        }
+                    } else {
+                        criteria = new ibas.Criteria();
+                        criteria.result = ibas.config.get(ibas.CONFIG_ITEM_CRITERIA_RESULT_COUNT, 30);
+                    }
+                    condition = criteria.conditions.create();
+                    if (criteria.conditions.length > 0) {
+                        condition.relationship = ibas.emConditionRelationship.AND;
+                    }
+                    condition.alias = app.conditions.materialprice.CONDITION_ALIAS_PRICELIST;
+                    condition.operation = ibas.emConditionOperation.EQUAL;
+                    condition.value = priceList.objectKey.toString();
+                    this.fireViewEvents(this.fetchPriceEvent, criteria);
+                    this.lastPriceCriteria = criteria;
+                    this.listPrices.setModel(null);
                 }
                 /** 保存数据 */
                 savePrices(datas: bo.MaterialPrice[]): void {
-                    let table: ibas.DataTable;
-                    let column: ibas.DataTableColumn;
-
-                    table = new ibas.DataTable();
-                    table.name = bo.MaterialPrice.name;
-                    table.description = ibas.i18n.prop(ibas.strings.format("bo_{0}", bo.MaterialPrice.name).toLowerCase());
-                    column = new ibas.DataTableColumn();
-                    column.name = bo.MaterialPrice.PROPERTY_ITEMCODE_NAME;
-                    column.description = ibas.i18n.prop(ibas.strings.format("bo_{0}_{1}", table.name, column.name).toLowerCase());
-                    table.columns.add(column);
-                    column = new ibas.DataTableColumn();
-                    column.name = bo.MaterialPrice.PROPERTY_ITEMNAME_NAME;
-                    column.description = ibas.i18n.prop(ibas.strings.format("bo_{0}_{1}", table.name, column.name).toLowerCase());
-                    table.columns.add(column);
-                    column = new ibas.DataTableColumn();
-                    column.name = bo.MaterialPrice.PROPERTY_ITEMSIGN_NAME;
-                    column.description = ibas.i18n.prop(ibas.strings.format("bo_{0}_{1}", table.name, column.name).toLowerCase());
-                    table.columns.add(column);
-                    column = new ibas.DataTableColumn();
-                    column.name = bo.MaterialPrice.PROPERTY_PRICE_NAME;
-                    column.description = ibas.i18n.prop(ibas.strings.format("bo_{0}_{1}", table.name, column.name).toLowerCase());
-                    table.columns.add(column);
-                    column = new ibas.DataTableColumn();
-                    column.name = bo.MaterialPrice.PROPERTY_CURRENCY_NAME;
-                    column.description = ibas.i18n.prop(ibas.strings.format("bo_{0}_{1}", table.name, column.name).toLowerCase());
-                    table.columns.add(column);
-
-                    for (let item of datas) {
-                        let row: ibas.DataTableRow = new ibas.DataTableRow();
-                        for (let col of table.columns) {
-                            row.cells.add(item[col.name]);
-                        }
-                        table.rows.add(row);
-                    }
-
-                    ibas.servicesManager.runApplicationService({
-                        proxy: new importexport.app.DataTableServiceProxy({
-                            data: table
-                        }),
-                    });
                 }
             }
         }

@@ -2275,5 +2275,10 @@ declare namespace importexport {
             /** 运行 */
             run(): void;
         }
+        /** 模块控制台，手机端 */
+        class ConsolePhone extends Console {
+            /** 初始化 */
+            protected registers(): void;
+        }
     }
 }
