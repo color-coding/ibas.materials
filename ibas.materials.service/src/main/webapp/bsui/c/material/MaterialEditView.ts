@@ -50,7 +50,7 @@ namespace materials {
                             }).bindProperty("editable", {
                                 path: "isNew",
                                 formatter(data: any): any {
-                                    return !!data ? true : false;
+                                    return data === false ? false : true;
                                 }
                             }),
                             new sap.m.Label("", { text: ibas.i18n.prop("bo_material_name") }),
@@ -120,7 +120,6 @@ namespace materials {
                                 items: [
                                     new sap.extension.m.Input("", {
                                         showValueHelp: true,
-                                        width: "100%",
                                         valueHelpRequest: function (): void {
                                             ibas.files.open((files) => {
                                                 if (files.length > 0) {
@@ -137,9 +136,8 @@ namespace materials {
                                         })
                                     }),
                                     new sap.m.Button("", {
-                                        icon: "sap-icon://show",
                                         width: "auto",
-                                        type: sap.m.ButtonType.Transparent,
+                                        icon: "sap-icon://show",
                                         press: function (): void {
                                             let material: bo.IMaterial = that.page.getBindingContext().getObject();
                                             if (!ibas.objects.isNull(material)) {
@@ -155,7 +153,7 @@ namespace materials {
                                                 lightBox.open();
                                             }
                                         }
-                                    }),
+                                    }).addStyleClass("sapUiSmallMarginBegin"),
                                 ]
                             }),
                             new sap.m.Label("", { text: ibas.i18n.prop("bo_material_preferredvendor") }),

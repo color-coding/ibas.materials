@@ -48,42 +48,109 @@ namespace materials {
                                 },
                                 firstStatus: new sap.m.ObjectStatus("", {
                                     text: {
-                                        path: "activated",
-                                        formatter(): any {
-                                            if (!ibas.objects.isNull(this.getBindingContext())) {
-                                                let material: bo.Material = this.getBindingContext().getObject();
-                                                if (material) {
-                                                    if (material.activated === ibas.emYesNo.YES) {
-                                                        let today: Date = ibas.dates.now();
-                                                        // 已激活-无生效日期-无失效日期
-                                                        if (ibas.objects.isNull(material.validDate) &&
-                                                            ibas.objects.isNull(material.invalidDate)) {
-                                                            return ibas.i18n.prop("shell_available");
-                                                        } else if (ibas.objects.isNull(material.validDate) &&
-                                                            // 已激活-无生效日期-失效日期大于等于当前日期
-                                                            material.invalidDate >= today) {
-                                                            return ibas.i18n.prop("shell_available");
-                                                        } else if (material.validDate < today &&
-                                                            // 已激活-生效日期小于等于当前日期-失效日期大于等于当前日期
-                                                            material.invalidDate >= today) {
-                                                            return ibas.i18n.prop("shell_available");
-                                                        } else if (material.validDate <= today &&
-                                                            // 已激活-生效日期小于等于当前日期-无失效日期
-                                                            ibas.objects.isNull(material.invalidDate)) {
-                                                            return ibas.i18n.prop("shell_available");
-                                                        } else {
-                                                            // 已激活-其他
-                                                            return ibas.i18n.prop("shell_unavailable");
-                                                        }
-                                                    } else {
-                                                        // 未激活
-                                                        return ibas.i18n.prop("shell_unavailable");
-                                                    }
+                                        parts: [
+                                            {
+                                                path: "deleted",
+                                                type: new sap.extension.data.YesNo(),
+                                            },
+                                            {
+                                                path: "approvalStatus",
+                                                type: new sap.extension.data.ApprovalStatus(),
+                                            },
+                                            {
+                                                path: "activated",
+                                                type: new sap.extension.data.YesNo(),
+                                            },
+                                            {
+                                                path: "validDate",
+                                                type: new sap.extension.data.Date(),
+                                            },
+                                            {
+                                                path: "invalidDate",
+                                                type: new sap.extension.data.Date(),
+                                            },
+                                        ],
+                                        formatter(deleted: ibas.emYesNo, approvalStatus: ibas.emApprovalStatus,
+                                            activated: ibas.emYesNo, validDate: Date, invalidDate: Date): string {
+                                            if (ibas.enums.equals(ibas.emYesNo, deleted, ibas.emYesNo.YES)) {
+                                                return ibas.i18n.prop("shell_unavailable");
+                                            }
+                                            if (ibas.enums.equals(ibas.emApprovalStatus, approvalStatus, ibas.emApprovalStatus.PROCESSING)
+                                                || ibas.enums.equals(ibas.emApprovalStatus, approvalStatus, ibas.emApprovalStatus.REJECTED)
+                                                || ibas.enums.equals(ibas.emApprovalStatus, approvalStatus, ibas.emApprovalStatus.CANCELLED)) {
+                                                return ibas.i18n.prop("shell_unavailable");
+                                            }
+                                            if (ibas.enums.equals(ibas.emYesNo, activated, ibas.emYesNo.NO)) {
+                                                return ibas.i18n.prop("shell_unavailable");
+                                            }
+                                            let today: Date = ibas.dates.today();
+                                            validDate = ibas.dates.valueOf(validDate);
+                                            invalidDate = ibas.dates.valueOf(invalidDate);
+                                            if (validDate instanceof Date) {
+                                                if (ibas.dates.compare(validDate, today) > 0) {
+                                                    return ibas.i18n.prop("shell_unavailable");
                                                 }
                                             }
-                                        }
+                                            if (invalidDate instanceof Date) {
+                                                if (ibas.dates.compare(today, invalidDate) > 0) {
+                                                    return ibas.i18n.prop("shell_unavailable");
+                                                }
+                                            }
+                                            return ibas.i18n.prop("shell_available");
+                                        },
                                     },
-                                    state: sap.ui.core.ValueState.Success
+                                    state: {
+                                        parts: [
+                                            {
+                                                path: "deleted",
+                                                type: new sap.extension.data.YesNo(),
+                                            },
+                                            {
+                                                path: "approvalStatus",
+                                                type: new sap.extension.data.ApprovalStatus(),
+                                            },
+                                            {
+                                                path: "activated",
+                                                type: new sap.extension.data.YesNo(),
+                                            },
+                                            {
+                                                path: "validDate",
+                                                type: new sap.extension.data.Date(),
+                                            },
+                                            {
+                                                path: "invalidDate",
+                                                type: new sap.extension.data.Date(),
+                                            },
+                                        ],
+                                        formatter(deleted: ibas.emYesNo, approvalStatus: ibas.emApprovalStatus,
+                                            activated: ibas.emYesNo, validDate: Date, invalidDate: Date): string {
+                                            if (ibas.enums.equals(ibas.emYesNo, deleted, ibas.emYesNo.YES)) {
+                                                return sap.ui.core.ValueState.Error;
+                                            }
+                                            if (ibas.enums.equals(ibas.emApprovalStatus, approvalStatus, ibas.emApprovalStatus.PROCESSING)
+                                                || ibas.enums.equals(ibas.emApprovalStatus, approvalStatus, ibas.emApprovalStatus.REJECTED)
+                                                || ibas.enums.equals(ibas.emApprovalStatus, approvalStatus, ibas.emApprovalStatus.CANCELLED)) {
+                                                return sap.ui.core.ValueState.Error;
+                                            }
+                                            if (ibas.enums.equals(ibas.emYesNo, activated, ibas.emYesNo.NO)) {
+                                                return sap.ui.core.ValueState.Error;
+                                            }
+                                            let today: Date = ibas.dates.today();
+                                            validDate = ibas.dates.valueOf(validDate);
+                                            invalidDate = ibas.dates.valueOf(invalidDate);
+                                            if (validDate instanceof Date) {
+                                                if (ibas.dates.compare(validDate, today) > 0) {
+                                                    return sap.ui.core.ValueState.Error;
+                                                }
+                                            }
+                                            if (invalidDate instanceof Date) {
+                                                if (ibas.dates.compare(today, invalidDate) > 0) {
+                                                    return sap.ui.core.ValueState.Error;
+                                                }
+                                            }
+                                            return sap.ui.core.ValueState.Success;
+                                        },
+                                    },
                                 }),
                                 secondStatus: new sap.m.ObjectStatus("", {
                                     text: {

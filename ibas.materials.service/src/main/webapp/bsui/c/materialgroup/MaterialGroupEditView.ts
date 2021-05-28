@@ -47,7 +47,7 @@ namespace materials {
                             }).bindProperty("editable", {
                                 path: "isNew",
                                 formatter(data: any): any {
-                                    return !!data ? true : false;
+                                    return data === false ? false : true;
                                 }
                             }),
                             new sap.m.Label("", { text: ibas.i18n.prop("bo_materialgroup_name") }),

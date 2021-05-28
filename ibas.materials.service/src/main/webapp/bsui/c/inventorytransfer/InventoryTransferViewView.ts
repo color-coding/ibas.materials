@@ -53,8 +53,8 @@ namespace materials {
                             template: new sap.m.ColumnListItem("", {
                                 cells: [
                                     new sap.extension.m.ObjectAttribute("", {
-                                        text: {
-                                            bindingValue: "lineId",
+                                        bindingValue: {
+                                            path: "lineId",
                                             type: new sap.extension.data.Numeric(),
                                         }
                                     }),

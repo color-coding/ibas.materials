@@ -71,14 +71,17 @@ namespace materials {
                 this.register(new InventoryCountingChooseServiceMapping());
                 this.register(new InventoryTransferChooseServiceMapping());
                 this.register(new InventoryTransferEditServiceMapping());
+                this.register(new InventoryTransferLinkServiceMapping());
                 this.register(new MaterialSpecificationChooseServiceMapping());
                 this.register(new MaterialSpecificationLinkServiceMapping());
                 this.register(new SpecificationChooseServiceMapping());
                 this.register(new SpecificationTreeServiceMapping());
                 this.register(new GoodsIssueChooseServiceMapping());
                 this.register(new GoodsIssueEditServiceMapping());
+                this.register(new GoodsIssueLinkServiceMapping());
                 this.register(new GoodsReceiptChooseServiceMapping());
                 this.register(new GoodsReceiptEditServiceMapping());
+                this.register(new GoodsReceiptLinkServiceMapping());
                 // 注册常驻应用
 
             }
@@ -124,6 +127,9 @@ namespace materials {
                 // 注册功能
                 this.register(new MaterialOverviewFunc());
                 this.register(new MaterialPriceListFunc());
+                this.register(new GoodsReceiptFunc());
+                this.register(new GoodsIssueFunc());
+                this.register(new InventoryTransferFunc());
                 // 注册服务应用
                 this.register(new ProductChooseServiceMapping());
                 this.register(new MaterialChooseServiceMapping());
@@ -132,6 +138,15 @@ namespace materials {
                 this.register(new MaterialSerialChooseServiceMapping);
                 this.register(new MaterialBatchChooseServiceMapping);
                 this.register(new MaterialPriceListChooseServiceMapping);
+                this.register(new InventoryTransferChooseServiceMapping());
+                this.register(new InventoryTransferEditServiceMapping());
+                this.register(new InventoryTransferLinkServiceMapping());
+                this.register(new GoodsIssueChooseServiceMapping());
+                this.register(new GoodsIssueEditServiceMapping());
+                this.register(new GoodsIssueLinkServiceMapping());
+                this.register(new GoodsReceiptChooseServiceMapping());
+                this.register(new GoodsReceiptEditServiceMapping());
+                this.register(new GoodsReceiptLinkServiceMapping());
             }
         }
     }

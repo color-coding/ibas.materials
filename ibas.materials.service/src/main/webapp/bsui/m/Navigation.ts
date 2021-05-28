@@ -6,6 +6,9 @@
  * that can be found in the LICENSE file at http://www.apache.org/licenses/LICENSE-2.0
  */
 /// <reference path="../../index.d.ts" />
+/// <reference path="./goodsissue/index.ts" />
+/// <reference path="./goodsreceipt/index.ts" />
+/// <reference path="./inventorytransfer/index.ts" />
 /// <reference path="./material/index.ts" />
 /// <reference path="./materialgroup/index.ts" />
 /// <reference path="./warehouse/index.ts" />
@@ -25,6 +28,42 @@ namespace materials {
             protected newView(id: string): ibas.IView {
                 let view: ibas.IView = null;
                 switch (id) {
+                    case app.GoodsIssueListApp.APPLICATION_ID:
+                        view = new m.GoodsIssueListView();
+                        break;
+                    case app.GoodsIssueChooseApp.APPLICATION_ID:
+                        view = new m.GoodsIssueChooseView();
+                        break;
+                    case app.GoodsIssueEditApp.APPLICATION_ID:
+                        view = new m.GoodsIssueEditView();
+                        break;
+                    case app.GoodsIssueViewApp.APPLICATION_ID:
+                        view = new m.GoodsIssueViewView();
+                        break;
+                    case app.GoodsReceiptListApp.APPLICATION_ID:
+                        view = new m.GoodsReceiptListView();
+                        break;
+                    case app.GoodsReceiptChooseApp.APPLICATION_ID:
+                        view = new m.GoodsReceiptChooseView();
+                        break;
+                    case app.GoodsReceiptEditApp.APPLICATION_ID:
+                        view = new m.GoodsReceiptEditView();
+                        break;
+                    case app.GoodsReceiptViewApp.APPLICATION_ID:
+                        view = new m.GoodsReceiptViewView();
+                        break;
+                    case app.InventoryTransferListApp.APPLICATION_ID:
+                        view = new m.InventoryTransferListView();
+                        break;
+                    case app.InventoryTransferChooseApp.APPLICATION_ID:
+                        view = new m.InventoryTransferChooseView();
+                        break;
+                    case app.InventoryTransferEditApp.APPLICATION_ID:
+                        view = new m.InventoryTransferEditView();
+                        break;
+                    case app.InventoryTransferViewApp.APPLICATION_ID:
+                        view = new m.InventoryTransferViewView();
+                        break;
                     case app.MaterialOverviewApp.APPLICATION_ID:
                         view = new c.MaterialOverviewView();
                         break;
