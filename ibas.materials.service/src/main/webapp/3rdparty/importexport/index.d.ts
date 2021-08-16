@@ -191,7 +191,7 @@ declare namespace importexport {
         /** 文件解析服务契约 */
         interface IFileParsingServiceContract extends ibas.IServiceContract {
             /** 文件 */
-            file?: string | File;
+            file?: string | Blob;
             /** 输出类型 */
             outType: "json" | "table" | "array" | "string" | "blob";
         }
@@ -257,6 +257,13 @@ declare namespace importexport {
          * 文件导入调用者
          */
         interface IImportFileCaller extends ibas.IUploadFileCaller<string> {
+        }
+        /**
+         * 文件解析调用者
+         */
+        interface IParseFileCaller<T> extends ibas.IUploadFileCaller<T> {
+            /** 数据转换者 */
+            converter: ibas.IDataConverter;
         }
         /**
          * 数据导出调用者
@@ -1647,6 +1654,11 @@ declare namespace importexport {
              */
             export(caller: IExportFileCaller): void;
             /**
+             * 解析
+             * @param caller 调用者
+             */
+            parse<T>(caller: IParseFileCaller<T>): void;
+            /**
              * 获取业务对象架构
              * @param caller 调用者
              */
@@ -2231,7 +2243,7 @@ declare namespace importexport {
             private outType;
             /** 视图显示后 */
             protected viewShowed(): void;
-            protected parsing(file: File): void;
+            protected parsing(file: Blob): void;
         }
         /** 文件解析服务-视图 */
         interface IFileParsingServiceView extends ibas.IView {

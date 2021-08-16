@@ -55,23 +55,37 @@ namespace materials {
                                                 if (ibas.objects.isNull(services) || services.length === 0) {
                                                     return;
                                                 }
-                                                let popover: sap.m.Popover = new sap.m.Popover("", {
-                                                    showHeader: false,
+                                                let actionSheet: sap.m.ActionSheet = new sap.m.ActionSheet("", {
                                                     placement: sap.m.PlacementType.Bottom,
+                                                    buttons: {
+                                                        path: "/",
+                                                        template: new sap.m.Button("", {
+                                                            type: sap.m.ButtonType.Transparent,
+                                                            text: {
+                                                                path: "name",
+                                                                type: new sap.extension.data.Alphanumeric(),
+                                                                formatter(data: string): string {
+                                                                    return data ? ibas.i18n.prop(data) : "";
+                                                                }
+                                                            },
+                                                            icon: {
+                                                                path: "icon",
+                                                                type: new sap.extension.data.Alphanumeric(),
+                                                                formatter(data: string): string {
+                                                                    return data ? data : "sap-icon://e-care";
+                                                                }
+                                                            },
+                                                            press(this: sap.m.Button): void {
+                                                                let service: ibas.IServiceAgent = this.getBindingContext().getObject();
+                                                                if (service) {
+                                                                    service.run();
+                                                                }
+                                                            }
+                                                        })
+                                                    }
                                                 });
-                                                for (let service of services) {
-                                                    popover.addContent(new sap.m.Button("", {
-                                                        text: ibas.i18n.prop(service.name),
-                                                        type: sap.m.ButtonType.Transparent,
-                                                        icon: service.icon,
-                                                        press(): void {
-                                                            service.run();
-                                                            popover.close();
-                                                        }
-                                                    }));
-                                                }
-                                                popover.addStyleClass("sapMOTAPopover sapTntToolHeaderPopover");
-                                                popover.openBy(event.getSource(), true);
+                                                actionSheet.setModel(new sap.extension.model.JSONModel(services));
+                                                actionSheet.openBy(event.getSource());
                                             }
                                         });
                                     }
@@ -418,13 +432,7 @@ namespace materials {
                 viewGoodsReceiptLine(data: bo.GoodsReceiptLine): void {
                     let that: this = this;
                     let editForm: sap.m.Dialog = new sap.m.Dialog("", {
-                        title: {
-                            path: "lineId",
-                            type: new sap.extension.data.Numeric(),
-                            formatter(data: string): string {
-                                return ibas.strings.format("{0} - {1}", ibas.i18n.prop("bo_goodsreceiptline"), data);
-                            }
-                        },
+                        title: ibas.strings.format("{0} - {1}", ibas.i18n.prop("bo_goodsreceiptline"), data.lineId),
                         type: sap.m.DialogType.Standard,
                         state: sap.ui.core.ValueState.None,
                         stretch: ibas.config.get(ibas.CONFIG_ITEM_PLANTFORM) === ibas.emPlantform.PHONE ? true : false,
@@ -537,23 +545,21 @@ namespace materials {
                             new sap.m.Button("", {
                                 icon: "sap-icon://arrow-left",
                                 type: sap.m.ButtonType.Transparent,
-                                press(): void {
-                                    let model: any = editForm.getModel();
-                                    if (model instanceof sap.extension.model.JSONModel) {
-                                        let data: any = model.getData();
-                                        if (data) {
-                                            let datas: any = that.listGoodsReceiptLine.getModel().getData("rows");
-                                            if (datas instanceof Array && datas.length > 0) {
-                                                let index: number = datas.indexOf(data);
-                                                index = index <= 0 ? datas.length - 1 : index - 1;
-                                                editForm.setModel(new sap.extension.model.JSONModel(datas[index]));
-                                            } else {
-                                                that.application.viewShower.messages({
-                                                    title: that.title,
-                                                    type: ibas.emMessageType.WARNING,
-                                                    message: ibas.i18n.prop(["shell_please", "shell_data_add_line"]),
-                                                });
-                                            }
+                                press: function (): void {
+                                    let form: any = editForm.getContent()[0];
+                                    if (form instanceof sap.extension.layout.SimpleForm) {
+                                        let datas: any = that.listGoodsReceiptLine.getModel().getData("rows");
+                                        if (datas instanceof Array && datas.length > 0) {
+                                            let index: number = datas.indexOf(form.getModel().getData());
+                                            index = index <= 0 ? datas.length - 1 : index - 1;
+                                            form.setModel(new sap.extension.model.JSONModel(datas[index]));
+                                            editForm.setTitle(ibas.strings.format("{0} - {1}", ibas.i18n.prop("bo_goodsreceiptline"), datas[index].lineId));
+                                        } else {
+                                            that.application.viewShower.messages({
+                                                title: that.title,
+                                                type: ibas.emMessageType.WARNING,
+                                                message: ibas.i18n.prop(["shell_please", "shell_data_add_line"]),
+                                            });
                                         }
                                     }
                                 }
@@ -561,23 +567,21 @@ namespace materials {
                             new sap.m.Button("", {
                                 icon: "sap-icon://arrow-right",
                                 type: sap.m.ButtonType.Transparent,
-                                press(): void {
-                                    let model: any = editForm.getModel();
-                                    if (model instanceof sap.extension.model.JSONModel) {
-                                        let data: any = model.getData();
-                                        if (data) {
-                                            let datas: any = that.listGoodsReceiptLine.getModel().getData("rows");
-                                            if (datas instanceof Array && datas.length > 0) {
-                                                let index: number = datas.indexOf(data);
-                                                index = index >= datas.length - 1 ? 0 : index + 1;
-                                                editForm.setModel(new sap.extension.model.JSONModel(datas[index]));
-                                            } else {
-                                                that.application.viewShower.messages({
-                                                    title: that.title,
-                                                    type: ibas.emMessageType.WARNING,
-                                                    message: ibas.i18n.prop(["shell_please", "shell_data_add_line"]),
-                                                });
-                                            }
+                                press: function (): void {
+                                    let form: any = editForm.getContent()[0];
+                                    if (form instanceof sap.extension.layout.SimpleForm) {
+                                        let datas: any = that.listGoodsReceiptLine.getModel().getData("rows");
+                                        if (datas instanceof Array && datas.length > 0) {
+                                            let index: number = datas.indexOf(form.getModel().getData());
+                                            index = index >= datas.length - 1 ? 0 : index + 1;
+                                            form.setModel(new sap.extension.model.JSONModel(datas[index]));
+                                            editForm.setTitle(ibas.strings.format("{0} - {1}", ibas.i18n.prop("bo_goodsreceiptline"), datas[index].lineId));
+                                        } else {
+                                            that.application.viewShower.messages({
+                                                title: that.title,
+                                                type: ibas.emMessageType.WARNING,
+                                                message: ibas.i18n.prop(["shell_please", "shell_data_add_line"]),
+                                            });
                                         }
                                     }
                                 }
@@ -591,7 +595,7 @@ namespace materials {
                             }),
                         ]
                     }).addStyleClass("sapUiNoContentPadding");
-                    editForm.bindObject("/").setModel(new sap.extension.model.JSONModel(data));
+                    editForm.getContent()[0].setModel(new sap.extension.model.JSONModel(data));
                     editForm.open();
                 }
             }

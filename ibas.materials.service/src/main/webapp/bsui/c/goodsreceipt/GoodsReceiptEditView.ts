@@ -160,7 +160,44 @@ namespace materials {
                                             text: ibas.i18n.prop("bo_warehouse")
                                         }),
                                         this.selectWarehouse = new component.WarehouseSelect("", {
-                                            width: "auto"
+                                            width: "auto",
+                                            change(this: sap.m.Select, event: sap.ui.base.Event): void {
+                                                let sItem: any = this.getSelectedItem();
+                                                if (sItem instanceof sap.ui.core.Item && !ibas.strings.isEmpty(sItem.getKey())) {
+                                                    let model: any = that.tableGoodsReceiptLine.getModel();
+                                                    if (model instanceof sap.extension.model.JSONModel) {
+                                                        let data: any[] = model.getData("rows");
+                                                        if (data instanceof Array) {
+                                                            let items: ibas.IList<bo.GoodsReceiptLine> = new ibas.ArrayList<bo.GoodsReceiptLine>();
+                                                            for (let item of data) {
+                                                                if (item instanceof bo.GoodsReceiptLine) {
+                                                                    if (item.warehouse !== sItem.getKey()) {
+                                                                        items.add(item);
+                                                                    }
+                                                                }
+                                                            }
+                                                            if (items.length > 0) {
+                                                                that.application.viewShower.messages({
+                                                                    title: that.title,
+                                                                    type: ibas.emMessageType.QUESTION,
+                                                                    message: ibas.i18n.prop("materials_change_item_warehouse_continue", sItem.getText()),
+                                                                    actions: [
+                                                                        ibas.emMessageAction.YES,
+                                                                        ibas.emMessageAction.NO,
+                                                                    ],
+                                                                    onCompleted: (reslut) => {
+                                                                        if (reslut === ibas.emMessageAction.YES) {
+                                                                            for (let item of items) {
+                                                                                item.warehouse = sItem.getKey();
+                                                                            }
+                                                                        }
+                                                                    }
+                                                                });
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
                                         })
                                     ]
                                 }),
@@ -320,7 +357,7 @@ namespace materials {
                                     text: accounting.bo.Project.PROPERTY_NAME_NAME
                                 },
                                 criteria: [
-                                    new ibas.Condition(accounting.bo.Project.PROPERTY_ACTIVATED_NAME, ibas.emConditionOperation.EQUAL, ibas.emYesNo.YES.toString())
+                                    new ibas.Condition(accounting.bo.Project.PROPERTY_DELETED_NAME, ibas.emConditionOperation.NOT_EQUAL, ibas.emYesNo.YES.toString())
                                 ]
                             }).bindProperty("bindingValue", {
                                 path: "project",
@@ -410,9 +447,71 @@ namespace materials {
                                                     that.fireViewEvents(that.createDataEvent, true);
                                                 }
                                             }),
+                                            new sap.m.MenuItem("", {
+                                                text: ibas.i18n.prop("shell_data_read"),
+                                                icon: "sap-icon://excel-attachment",
+                                                press: function (): void {
+                                                    // 读取当前对象
+                                                    ibas.files.open((files) => {
+                                                        that.fireViewEvents(that.createDataEvent, files[0]);
+                                                    }, {
+                                                        accept: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                                                        multiple: false
+                                                    });
+                                                }
+                                            }),
                                         ],
                                     })
                                 }),
+                                new sap.m.ToolbarSpacer(""),
+                                new sap.m.Button("", {
+                                    type: sap.m.ButtonType.Transparent,
+                                    icon: "sap-icon://action",
+                                    press: function (event: any): void {
+                                        ibas.servicesManager.showServices({
+                                            proxy: new ibas.BOServiceProxy({
+                                                data: that.page.getModel().getData(),
+                                                converter: new bo.DataConverter(),
+                                            }),
+                                            displayServices(services: ibas.IServiceAgent[]): void {
+                                                if (ibas.objects.isNull(services) || services.length === 0) {
+                                                    return;
+                                                }
+                                                let actionSheet: sap.m.ActionSheet = new sap.m.ActionSheet("", {
+                                                    placement: sap.m.PlacementType.Bottom,
+                                                    buttons: {
+                                                        path: "/",
+                                                        template: new sap.m.Button("", {
+                                                            type: sap.m.ButtonType.Transparent,
+                                                            text: {
+                                                                path: "name",
+                                                                type: new sap.extension.data.Alphanumeric(),
+                                                                formatter(data: string): string {
+                                                                    return data ? ibas.i18n.prop(data) : "";
+                                                                }
+                                                            },
+                                                            icon: {
+                                                                path: "icon",
+                                                                type: new sap.extension.data.Alphanumeric(),
+                                                                formatter(data: string): string {
+                                                                    return data ? data : "sap-icon://e-care";
+                                                                }
+                                                            },
+                                                            press(this: sap.m.Button): void {
+                                                                let service: ibas.IServiceAgent = this.getBindingContext().getObject();
+                                                                if (service) {
+                                                                    service.run();
+                                                                }
+                                                            }
+                                                        })
+                                                    }
+                                                });
+                                                actionSheet.setModel(new sap.extension.model.JSONModel(services));
+                                                actionSheet.openBy(event.getSource());
+                                            }
+                                        });
+                                    }
+                                })
                             ]
                         }),
                         content: [

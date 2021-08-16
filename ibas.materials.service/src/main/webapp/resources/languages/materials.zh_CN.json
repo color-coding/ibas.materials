@@ -119,5 +119,6 @@
   "materials_specification_view": "物料规格: 编号[{0}] (点击查看详情)",
   "materials_specification_item_required_value": "规格项：[{0}]需要输入值",
   "materials_create_continue": "新建{0}，是否继续？",
+  "materials_change_item_warehouse_continue": "是否更改单据行的仓库为[{0}]？",
   "materials_closing_delimiter": "----结束----"
 }

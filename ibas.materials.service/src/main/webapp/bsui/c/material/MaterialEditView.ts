@@ -153,7 +153,7 @@ namespace materials {
                                                 lightBox.open();
                                             }
                                         }
-                                    }).addStyleClass("sapUiSmallMarginBegin"),
+                                    }).addStyleClass("sapUiTinyMarginBegin"),
                                 ]
                             }),
                             new sap.m.Label("", { text: ibas.i18n.prop("bo_material_preferredvendor") }),

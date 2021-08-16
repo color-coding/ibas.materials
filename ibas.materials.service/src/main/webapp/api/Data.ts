@@ -132,7 +132,7 @@ namespace materials {
         export interface IServiceExtraResult<T> extends ibas.IList<T> {
             /** 保存额外结果 */
             save(fnBack: (error?: Error) => void): void;
-        };
+        }
         /** 额外数据-序列 */
         export interface IExtraResultMaterialSerial {
             /** 物料编码 */

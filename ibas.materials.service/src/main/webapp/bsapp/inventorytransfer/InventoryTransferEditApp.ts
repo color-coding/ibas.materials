@@ -146,11 +146,34 @@ namespace materials {
                     }
                 });
             }
-            /** 新建数据，参数1：是否克隆 */
-            protected createData(clone: boolean): void {
+            /** 新建数据，参数1：是否克隆 or 导入文件 */
+            protected createData(clone: boolean | Blob): void {
                 let that: this = this;
                 let createData: Function = function (): void {
-                    if (clone) {
+                    if (clone instanceof Blob) {
+                        let formData: FormData = new FormData();
+                        formData.append("file", clone);
+                        let boRepository: importexport.bo.BORepositoryImportExport = new importexport.bo.BORepositoryImportExport();
+                        boRepository.parse<bo.InventoryTransfer>({
+                            converter: new bo.DataConverter(),
+                            fileData: formData,
+                            onCompleted: (opRslt) => {
+                                try {
+                                    if (opRslt.resultCode !== 0) {
+                                        throw new Error(opRslt.message);
+                                    }
+                                    if (opRslt.resultObjects.length === 0) {
+                                        throw new Error(ibas.i18n.prop("sys_unrecognized_data"));
+                                    }
+                                    that.editData = opRslt.resultObjects.firstOrDefault();
+                                    that.proceeding(ibas.emMessageType.WARNING, ibas.i18n.prop("shell_data_read_new"));
+                                    that.viewShowed();
+                                } catch (error) {
+                                    that.messages(error);
+                                }
+                            }
+                        });
+                    } else if (typeof clone === "boolean" && clone === true) {
                         // 克隆对象
                         that.editData = that.editData.clone();
                         that.proceeding(ibas.emMessageType.WARNING, ibas.i18n.prop("shell_data_cloned_new"));
