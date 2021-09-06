@@ -27,18 +27,15 @@ namespace materials {
                                     return ibas.strings.format("# {0}", data ? data : "0");
                                 }
                             },
+                            sideContentButton: new sap.m.Button("", {
+                                text: ibas.i18n.prop("shell_data_edit"),
+                                type: sap.m.ButtonType.Transparent,
+                                icon: "sap-icon://edit",
+                                press(): void {
+                                    that.fireViewEvents(that.editDataEvent);
+                                }
+                            }),
                             actions: [
-                                new sap.uxap.ObjectPageHeaderActionButton("", {
-                                    hideText: true,
-                                    importance: sap.uxap.Importance.High,
-                                    text: ibas.i18n.prop("shell_data_edit"),
-                                    type: sap.m.ButtonType.Transparent,
-                                    icon: "sap-icon://edit",
-                                    visible: this.mode === ibas.emViewMode.VIEW ? false : true,
-                                    press(): void {
-                                        that.fireViewEvents(that.editDataEvent);
-                                    }
-                                }),
                                 new sap.uxap.ObjectPageHeaderActionButton("", {
                                     hideText: true,
                                     importance: sap.uxap.Importance.Medium,
@@ -93,31 +90,34 @@ namespace materials {
                             ],
                         }).addStyleClass("sapUiNoContentPadding"),
                         headerContent: [
-                            new sap.extension.m.ObjectDocumentStatus("", {
-                                title: ibas.i18n.prop("bo_inventorytransfer_documentstatus"),
-                                text: {
-                                    path: "documentStatus",
-                                    type: new sap.extension.data.DocumentStatus(true),
-                                },
-                            }),
-                            new sap.extension.m.ObjectYesNoStatus("", {
-                                title: ibas.i18n.prop("bo_inventorytransfer_canceled"),
-                                negative: true,
-                                text: {
-                                    path: "canceled",
-                                    type: new sap.extension.data.YesNo(true),
+                            new sap.extension.m.ObjectApprovalStatus("", {
+                                title: ibas.i18n.prop("bo_inventorytransfer_approvalstatus"),
+                                enumValue: {
+                                    path: "approvalStatus",
+                                    type: new sap.extension.data.ApprovalStatus(),
                                 },
                                 visible: {
-                                    path: "canceled",
-                                    formatter(data: ibas.emYesNo): boolean {
-                                        return data === ibas.emYesNo.YES ? true : false;
+                                    path: "approvalStatus",
+                                    formatter(data: ibas.emApprovalStatus): boolean {
+                                        return ibas.objects.isNull(data) || data === ibas.emApprovalStatus.UNAFFECTED ? false : true;
                                     }
                                 }
                             }),
+                            new sap.extension.m.ObjectDocumentCanceledStatus("", {
+                                title: ibas.i18n.prop("bo_inventorytransfer_documentstatus"),
+                                canceledStatus: {
+                                    path: "canceled",
+                                    type: new sap.extension.data.YesNo(),
+                                },
+                                documentStatus: {
+                                    path: "documentStatus",
+                                    type: new sap.extension.data.DocumentStatus(),
+                                },
+                            }),
                             new sap.extension.m.ObjectAttribute("", {
-                                title: ibas.i18n.prop("bo_inventorytransfer_deliverydate"),
+                                title: ibas.i18n.prop("bo_inventorytransfer_documentdate"),
                                 bindingValue: {
-                                    path: "deliveryDate",
+                                    path: "documentDate",
                                     type: new sap.extension.data.Date(),
                                 },
                             }),
@@ -278,7 +278,11 @@ namespace materials {
                                                 }).addStyleClass("sapUiSmallMarginTop"),
                                                 items: {
                                                     path: "/rows",
-                                                    template: new sap.m.ObjectListItem("", {
+                                                    template: new sap.extension.m.DataObjectListItem("", {
+                                                        dataInfo: {
+                                                            code: bo.InventoryTransfer.BUSINESS_OBJECT_CODE,
+                                                            name: bo.InventoryTransferLine.name
+                                                        },
                                                         title: "# {lineId}",
                                                         number: {
                                                             path: "lineStatus",
@@ -348,12 +352,14 @@ namespace materials {
                                                                 }
                                                             }),
                                                             new sap.extension.m.ObjectAttribute("", {
+                                                                title: ibas.i18n.prop("bo_inventorytransferline_reference1"),
                                                                 bindingValue: {
                                                                     path: "reference1",
                                                                     type: new sap.extension.data.Alphanumeric(),
                                                                 }
                                                             }),
                                                             new sap.extension.m.ObjectAttribute("", {
+                                                                title: ibas.i18n.prop("bo_inventorytransferline_reference2"),
                                                                 bindingValue: {
                                                                     path: "reference2",
                                                                     type: new sap.extension.data.Alphanumeric(),
@@ -648,8 +654,12 @@ namespace materials {
                             new sap.m.Button("", {
                                 text: ibas.i18n.prop("shell_exit"),
                                 type: sap.m.ButtonType.Transparent,
-                                press(): void {
-                                    editForm.close();
+                                press(this: sap.m.Button): void {
+                                    if (this.getParent() instanceof sap.m.Dialog) {
+                                        (<sap.m.Dialog>this.getParent()).close();
+                                    } else {
+                                        editForm.close();
+                                    }
                                 }
                             }),
                         ]

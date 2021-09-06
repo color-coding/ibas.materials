@@ -65,7 +65,7 @@ namespace materials {
                         view = new m.InventoryTransferViewView();
                         break;
                     case app.MaterialOverviewApp.APPLICATION_ID:
-                        view = new c.MaterialOverviewView();
+                        view = new m.MaterialOverviewView();
                         break;
                     case app.MaterialChooseApp.APPLICATION_ID:
                         view = new m.MaterialChooseView();

@@ -1266,4 +1266,11 @@ public class GoodsIssue extends BusinessObject<GoodsIssue> implements IGoodsIssu
 				new BusinessRuleMinValue<BigDecimal>(Decimal.ZERO, PROPERTY_DOCUMENTTOTAL), // 不能低于0
 		};
 	}
+
+	@Override
+	public void reset() {
+		super.reset();
+		this.setDocumentStatus(emDocumentStatus.RELEASED);
+		this.getGoodsIssueLines().forEach(c -> c.setLineStatus(emDocumentStatus.RELEASED));
+	}
 }

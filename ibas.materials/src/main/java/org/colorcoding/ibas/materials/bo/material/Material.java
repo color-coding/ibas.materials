@@ -118,37 +118,6 @@ public class Material extends MaterialBase<Material>
 	}
 
 	/**
-	 * 属性名称-首选供应商
-	 */
-	private static final String PROPERTY_PREFERREDVENDOR_NAME = "PreferredVendor";
-
-	/**
-	 * 首选供应商 属性
-	 */
-	@DbField(name = "Vendor", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME, primaryKey = false)
-	public static final IPropertyInfo<String> PROPERTY_PREFERREDVENDOR = registerProperty(PROPERTY_PREFERREDVENDOR_NAME,
-			String.class, MY_CLASS);
-
-	/**
-	 * 获取-首选供应商
-	 * 
-	 * @return 值
-	 */
-	@XmlElement(name = PROPERTY_PREFERREDVENDOR_NAME)
-	public final String getPreferredVendor() {
-		return this.getProperty(PROPERTY_PREFERREDVENDOR);
-	}
-
-	/**
-	 * 设置-首选供应商
-	 * 
-	 * @param value 值
-	 */
-	public final void setPreferredVendor(String value) {
-		this.setProperty(PROPERTY_PREFERREDVENDOR, value);
-	}
-
-	/**
 	 * 属性名称-价格
 	 */
 	private static final String PROPERTY_AVGPRICE_NAME = "AvgPrice";

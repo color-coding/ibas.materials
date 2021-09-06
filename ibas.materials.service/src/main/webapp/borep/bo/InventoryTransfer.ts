@@ -435,6 +435,7 @@ namespace materials {
             reset(): void {
                 super.reset();
                 this.documentStatus = ibas.emDocumentStatus.RELEASED;
+                this.inventoryTransferLines.forEach(c => c.lineStatus = ibas.emDocumentStatus.RELEASED);
             }
             protected registerRules(): ibas.IBusinessRule[] {
                 return [

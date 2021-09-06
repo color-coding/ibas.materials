@@ -20,8 +20,12 @@ namespace materials {
                 /** 绘制视图 */
                 draw(): any {
                     let that: this = this;
-                    this.formTop = new sap.ui.layout.form.SimpleForm("", {
-                        editable: true,
+                    this.formTop = new sap.extension.layout.DataSimpleForm("", {
+                        dataInfo: {
+                            code: bo.MaterialSerial.BUSINESS_OBJECT_CODE,
+                        },
+                        userFieldsMode: "input",
+                        userFieldsTitle: "",
                         content: [
                             new sap.m.Label("", { text: ibas.i18n.prop("bo_materialserial_itemcode") }),
                             new sap.extension.m.RepositoryInput("", {

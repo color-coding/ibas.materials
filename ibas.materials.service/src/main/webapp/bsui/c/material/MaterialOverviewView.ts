@@ -307,7 +307,10 @@ namespace materials {
                             }
                         },
                         content: [
-                            new sap.extension.table.Table("", {
+                            new sap.extension.table.DataTable("", {
+                                dataInfo: {
+                                    code: bo.MaterialInventory.BUSINESS_OBJECT_CODE,
+                                },
                                 chooseType: ibas.emChooseType.MULTIPLE,
                                 visibleRowCount: 4,
                                 rows: "{/rows}",
@@ -402,7 +405,10 @@ namespace materials {
                             }
                         },
                         content: [
-                            new sap.extension.table.Table("", {
+                            new sap.extension.table.DataTable("", {
+                                dataInfo: {
+                                    code: bo.MaterialBatch.BUSINESS_OBJECT_CODE,
+                                },
                                 chooseType: ibas.emChooseType.MULTIPLE,
                                 visibleRowCount: 8,
                                 rows: "{/rows}",
@@ -564,7 +570,10 @@ namespace materials {
                             }
                         },
                         content: [
-                            new sap.extension.table.Table("", {
+                            new sap.extension.table.DataTable("", {
+                                dataInfo: {
+                                    code: bo.MaterialSerial.BUSINESS_OBJECT_CODE,
+                                },
                                 chooseType: ibas.emChooseType.MULTIPLE,
                                 visibleRowCount: 8,
                                 rows: "{/rows}",

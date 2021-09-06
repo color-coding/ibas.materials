@@ -273,7 +273,7 @@ namespace materials {
                 super();
             }
             save(fnBack: (error?: Error) => void): void {
-                super.push()
+                super.push();
                 let boRepository: materials.bo.BORepositoryMaterials = new materials.bo.BORepositoryMaterials();
                 ibas.queues.execute(this, (data, next) => {
                     let criteria: ibas.ICriteria = new ibas.Criteria();
@@ -298,26 +298,16 @@ namespace materials {
                                     serial.warehouse = data.warehouse;
                                     serial.serialCode = data.serialCode;
                                 }
-                                if (!ibas.strings.isEmpty(data.supplierSerial))
-                                    serial.supplierSerial = data.supplierSerial;
-                                if (!ibas.strings.isEmpty(data.batchSerial))
-                                    serial.batchSerial = data.batchSerial;
-                                if (ibas.dates.isDate(data.manufacturingDate))
-                                    serial.manufacturingDate = data.manufacturingDate;
-                                if (ibas.dates.isDate(data.expirationDate))
-                                    serial.expirationDate = data.expirationDate;
-                                if (data.specification > 0)
-                                    serial.specification = data.specification;
-                                if (ibas.dates.isDate(data.admissionDate))
-                                    serial.admissionDate = data.admissionDate;
-                                if (ibas.dates.isDate(data.warrantyStartDate))
-                                    serial.warrantyStartDate = data.warrantyStartDate;
-                                if (ibas.dates.isDate(data.warrantyEndDate))
-                                    serial.warrantyEndDate = data.warrantyEndDate;
-                                if (!ibas.strings.isEmpty(data.location))
-                                    serial.location = data.location;
-                                if (!ibas.strings.isEmpty(data.notes))
-                                    serial.notes = data.notes;
+                                if (!ibas.strings.isEmpty(data.supplierSerial)) { serial.supplierSerial = data.supplierSerial; }
+                                if (!ibas.strings.isEmpty(data.batchSerial)) { serial.batchSerial = data.batchSerial; }
+                                if (ibas.dates.isDate(data.manufacturingDate)) { serial.manufacturingDate = data.manufacturingDate; }
+                                if (ibas.dates.isDate(data.expirationDate)) { serial.expirationDate = data.expirationDate; }
+                                if (ibas.dates.isDate(data.admissionDate)) { serial.admissionDate = data.admissionDate; }
+                                if (ibas.dates.isDate(data.warrantyStartDate)) { serial.warrantyStartDate = data.warrantyStartDate; }
+                                if (ibas.dates.isDate(data.warrantyEndDate)) { serial.warrantyEndDate = data.warrantyEndDate; }
+                                if (!ibas.strings.isEmpty(data.location)) { serial.location = data.location; }
+                                if (!ibas.strings.isEmpty(data.notes)) { serial.notes = data.notes; }
+                                if (data.specification > 0) { serial.specification = data.specification; }
                                 if (serial.isDirty) {
                                     boRepository.saveMaterialSerial({
                                         beSaved: serial,

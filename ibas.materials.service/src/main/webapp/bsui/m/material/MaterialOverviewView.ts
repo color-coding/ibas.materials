@@ -7,7 +7,7 @@
  */
 namespace materials {
     export namespace ui {
-        export namespace c {
+        export namespace m {
             /**
              * 物料总览视图
              */
@@ -237,11 +237,11 @@ namespace materials {
                         showFooter: false,
                         headerTitle: new sap.uxap.ObjectPageHeader("", {
                             objectTitle: {
-                                path: "/name",
+                                path: "/code",
                                 type: new sap.extension.data.Alphanumeric(),
                             },
                             objectSubtitle: {
-                                path: "/code",
+                                path: "/name",
                                 type: new sap.extension.data.Alphanumeric(),
                             },
                             sideContentButton: new sap.m.Button("", {

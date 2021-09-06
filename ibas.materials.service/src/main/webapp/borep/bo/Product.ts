@@ -158,6 +158,17 @@ namespace materials {
                 this.setProperty(Product.PROPERTY_WAREHOUSE_NAME, value);
             }
 
+            /** 映射的属性名称-首选供应商 */
+            static PROPERTY_PREFERREDVENDOR_NAME: string = "PreferredVendor";
+            /** 获取-首选供应商 */
+            get preferredVendor(): string {
+                return this.getProperty<string>(Material.PROPERTY_PREFERREDVENDOR_NAME);
+            }
+            /** 设置-首选供应商 */
+            set preferredVendor(value: string) {
+                this.setProperty(Material.PROPERTY_PREFERREDVENDOR_NAME, value);
+            }
+
             /** 映射的属性名称-库存单位 */
             static PROPERTY_INVENTORYUOM_NAME: string = "InventoryUOM";
             /** 获取-库存单位 */

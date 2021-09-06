@@ -391,6 +391,7 @@ namespace materials {
             reset(): void {
                 super.reset();
                 this.documentStatus = ibas.emDocumentStatus.RELEASED;
+                this.inventoryCountingLines.forEach(c => c.lineStatus = ibas.emDocumentStatus.RELEASED);
             }
         }
 

@@ -108,9 +108,9 @@ namespace materials {
                                 }),
                                 new sap.extension.m.ObjectYesNoStatus("", {
                                     title: ibas.i18n.prop("bo_material_activated"),
-                                    text: {
+                                    enumValue: {
                                         path: "activated",
-                                        type: new sap.extension.data.YesNo(true),
+                                        type: new sap.extension.data.YesNo(),
                                     }
                                 }),
                             ]

@@ -38,6 +38,9 @@ namespace materials {
             /** 查询数据 */
             protected fetchData(criteria: ibas.ICriteria): void {
                 this.busy(true);
+                if (!ibas.objects.isNull(criteria)) {
+                    criteria.noChilds = true;
+                }
                 let that: this = this;
                 let boRepository: bo.BORepositoryMaterials = new bo.BORepositoryMaterials();
                 boRepository.fetchGoodsReceipt({

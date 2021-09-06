@@ -24,7 +24,10 @@ namespace materials {
                         mode: sap.m.ListMode.None,
                         items: {
                             path: "/rows",
-                            template: new sap.m.ObjectListItem("", {
+                            template: new sap.extension.m.DataObjectListItem("", {
+                                dataInfo: {
+                                    code: bo.MaterialPriceList.BUSINESS_OBJECT_CODE,
+                                },
                                 title: "{name} ({objectKey})",
                                 firstStatus: new sap.m.ObjectStatus("", {
                                     text: "{currency}"

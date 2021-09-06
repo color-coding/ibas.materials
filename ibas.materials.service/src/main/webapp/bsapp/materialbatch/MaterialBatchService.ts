@@ -265,7 +265,7 @@ namespace materials {
                 super();
             }
             save(fnBack: (error?: Error) => void): void {
-                super.push()
+                super.push();
                 let boRepository: materials.bo.BORepositoryMaterials = new materials.bo.BORepositoryMaterials();
                 ibas.queues.execute(this, (data, next) => {
                     let criteria: ibas.ICriteria = new ibas.Criteria();
@@ -290,20 +290,13 @@ namespace materials {
                                     batch.warehouse = data.warehouse;
                                     batch.batchCode = data.batchCode;
                                 }
-                                if (!ibas.strings.isEmpty(data.supplierSerial))
-                                    batch.supplierSerial = data.supplierSerial;
-                                if (ibas.dates.isDate(data.manufacturingDate))
-                                    batch.manufacturingDate = data.manufacturingDate;
-                                if (ibas.dates.isDate(data.expirationDate))
-                                    batch.expirationDate = data.expirationDate;
-                                if (data.specification > 0)
-                                    batch.specification = data.specification;
-                                if (ibas.dates.isDate(data.admissionDate))
-                                    batch.admissionDate = data.admissionDate;
-                                if (!ibas.strings.isEmpty(data.location))
-                                    batch.location = data.location;
-                                if (!ibas.strings.isEmpty(data.notes))
-                                    batch.notes = data.notes;
+                                if (!ibas.strings.isEmpty(data.supplierSerial)) { batch.supplierSerial = data.supplierSerial; }
+                                if (ibas.dates.isDate(data.manufacturingDate)) { batch.manufacturingDate = data.manufacturingDate; }
+                                if (ibas.dates.isDate(data.expirationDate)) { batch.expirationDate = data.expirationDate; }
+                                if (ibas.dates.isDate(data.admissionDate)) { batch.admissionDate = data.admissionDate; }
+                                if (!ibas.strings.isEmpty(data.location)) { batch.location = data.location; }
+                                if (!ibas.strings.isEmpty(data.notes)) { batch.notes = data.notes; }
+                                if (data.specification > 0) { batch.specification = data.specification; }
                                 if (batch.isDirty) {
                                     boRepository.saveMaterialBatch({
                                         beSaved: batch,

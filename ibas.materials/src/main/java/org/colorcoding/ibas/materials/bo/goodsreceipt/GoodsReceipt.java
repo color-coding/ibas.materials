@@ -1267,4 +1267,10 @@ public class GoodsReceipt extends BusinessObject<GoodsReceipt> implements IGoods
 		};
 	}
 
+	@Override
+	public void reset() {
+		super.reset();
+		this.setDocumentStatus(emDocumentStatus.RELEASED);
+		this.getGoodsReceiptLines().forEach(c -> c.setLineStatus(emDocumentStatus.RELEASED));
+	}
 }

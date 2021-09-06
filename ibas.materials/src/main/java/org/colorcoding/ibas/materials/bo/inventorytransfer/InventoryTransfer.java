@@ -1297,4 +1297,11 @@ public class InventoryTransfer extends BusinessObject<InventoryTransfer> impleme
 				new BusinessRuleMinValue<BigDecimal>(Decimal.ZERO, PROPERTY_DOCUMENTTOTAL), // 不能低于0
 		};
 	}
+
+	@Override
+	public void reset() {
+		super.reset();
+		this.setDocumentStatus(emDocumentStatus.RELEASED);
+		this.getInventoryTransferLines().forEach(c -> c.setLineStatus(emDocumentStatus.RELEASED));
+	}
 }

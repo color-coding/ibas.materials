@@ -1110,4 +1110,10 @@ public class InventoryCounting extends BusinessObject<InventoryCounting>
 		};
 	}
 
+	@Override
+	public void reset() {
+		super.reset();
+		this.setDocumentStatus(emDocumentStatus.RELEASED);
+		this.getInventoryCountingLines().forEach(c -> c.setLineStatus(emDocumentStatus.RELEASED));
+	}
 }

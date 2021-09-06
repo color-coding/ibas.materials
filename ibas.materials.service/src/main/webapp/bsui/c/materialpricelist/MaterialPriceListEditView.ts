@@ -94,7 +94,7 @@ namespace materials {
                                 type: new sap.extension.data.Date()
                             }),
                             new sap.m.Label("", { text: ibas.i18n.prop("bo_materialpricelist_organization") }),
-                            new sap.extension.m.OrganizationInput("", {
+                            new sap.extension.m.DataOrganizationInput("", {
                                 showValueHelp: true,
                             }).bindProperty("bindingValue", {
                                 path: "/organization",
