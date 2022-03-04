@@ -362,24 +362,92 @@ namespace materials {
             protected workingData: BatchWorkingItem;
             /** 运行服务 */
             runService(contracts: IMaterialBatchContract[]): void {
-                this.workDatas = new ibas.ArrayList<BatchWorkingItem>();
-                for (let item of contracts) {
-                    if (ibas.objects.isNull(item)) {
+                // 已保存单据，批次号加载逻辑
+                let condition: ibas.ICondition = null;
+                let criteria: ibas.ICriteria = new ibas.Criteria();
+                for (let contract of contracts) {
+                    // 有数据则不在检查
+                    if (contract.batches instanceof Array) {
                         continue;
                     }
-                    if (item.batchManagement !== ibas.emYesNo.YES) {
-                        continue;
+                    for (let item of contract.materialBatches) {
+                        if (item.isNew === false) {
+                            condition = criteria.conditions.create();
+                            condition.alias = bo.MaterialBatch.PROPERTY_ITEMCODE_NAME;
+                            condition.value = contract.itemCode;
+                            condition.bracketOpen = 1;
+                            condition.relationship = ibas.emConditionRelationship.OR;
+                            condition = criteria.conditions.create();
+                            condition.alias = bo.MaterialBatch.PROPERTY_WAREHOUSE_NAME;
+                            condition.value = contract.warehouse;
+                            condition = criteria.conditions.create();
+                            condition.alias = bo.MaterialBatch.PROPERTY_BATCHCODE_NAME;
+                            condition.value = item.batchCode;
+                            condition.bracketClose = 1;
+                        }
                     }
-                    if (!(item.quantity > 0)) {
-                        continue;
-                    }
-                    this.workDatas.add(new BatchWorkingItem(item));
                 }
-                if (this.workDatas.length > 0) {
-                    super.show();
+                if (criteria.conditions.length > 0) {
+                    let boRepository: bo.BORepositoryMaterials = new bo.BORepositoryMaterials();
+                    boRepository.fetchMaterialBatch({
+                        criteria: criteria,
+                        onCompleted: (opRslt) => {
+                            try {
+                                if (opRslt.resultCode !== 0) {
+                                    throw new Error(opRslt.message);
+                                }
+                                // 赋值扩展对象
+                                for (let contract of contracts) {
+                                    if (!(contract.batches instanceof Array)) {
+                                        contract.batches = new ibas.ArrayList<IExtraResultMaterialBatch>();
+                                    }
+                                    for (let batch of opRslt.resultObjects) {
+                                        if (!ibas.strings.equals(contract.warehouse, batch.warehouse)) {
+                                            continue;
+                                        }
+                                        if (!ibas.strings.equals(contract.itemCode, batch.itemCode)) {
+                                            continue;
+                                        }
+                                        contract.batches.push({
+                                            itemCode: batch.itemCode,
+                                            warehouse: batch.warehouse,
+                                            batchCode: batch.batchCode,
+                                            supplierSerial: batch.supplierSerial,
+                                            expirationDate: batch.expirationDate,
+                                            manufacturingDate: batch.manufacturingDate,
+                                            admissionDate: batch.admissionDate,
+                                            specification: batch.specification,
+                                            location: batch.location,
+                                            notes: batch.notes,
+                                        });
+                                    }
+                                }
+                                this.runService(contracts);
+                            } catch (error) {
+                                this.messages(error);
+                            }
+                        }
+                    });
                 } else {
-                    // 没有需要处理的数据
-                    this.proceeding(ibas.emMessageType.WARNING, ibas.i18n.prop("materials_no_work_datas_for_material_batch"));
+                    this.workDatas = new ibas.ArrayList<BatchWorkingItem>();
+                    for (let item of contracts) {
+                        if (ibas.objects.isNull(item)) {
+                            continue;
+                        }
+                        if (item.batchManagement !== ibas.emYesNo.YES) {
+                            continue;
+                        }
+                        if (!(item.quantity > 0)) {
+                            continue;
+                        }
+                        this.workDatas.add(new BatchWorkingItem(item));
+                    }
+                    if (this.workDatas.length > 0) {
+                        super.show();
+                    } else {
+                        // 没有需要处理的数据
+                        this.proceeding(ibas.emMessageType.WARNING, ibas.i18n.prop("materials_no_work_datas_for_material_batch"));
+                    }
                 }
             }
             protected changeWorkingData(data: BatchWorkingItem): void {

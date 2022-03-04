@@ -373,24 +373,95 @@ namespace materials {
             protected workingData: SerialWorkingItem;
             /** 运行服务 */
             runService(contracts: IMaterialSerialContract[]): void {
-                this.workDatas = new ibas.ArrayList<SerialWorkingItem>();
-                for (let item of contracts) {
-                    if (ibas.objects.isNull(item)) {
+                // 已保存单据，序列号加载逻辑
+                let condition: ibas.ICondition = null;
+                let criteria: ibas.ICriteria = new ibas.Criteria();
+                for (let contract of contracts) {
+                    // 有数据则不在检查
+                    if (contract.serials instanceof Array) {
                         continue;
                     }
-                    if (item.serialManagement !== ibas.emYesNo.YES) {
-                        continue;
+                    for (let item of contract.materialSerials) {
+                        if (item.isNew === false) {
+                            condition = criteria.conditions.create();
+                            condition.alias = bo.MaterialSerial.PROPERTY_ITEMCODE_NAME;
+                            condition.value = contract.itemCode;
+                            condition.bracketOpen = 1;
+                            condition.relationship = ibas.emConditionRelationship.OR;
+                            condition = criteria.conditions.create();
+                            condition.alias = bo.MaterialSerial.PROPERTY_WAREHOUSE_NAME;
+                            condition.value = contract.warehouse;
+                            condition = criteria.conditions.create();
+                            condition.alias = bo.MaterialSerial.PROPERTY_SERIALCODE_NAME;
+                            condition.value = item.serialCode;
+                            condition.bracketClose = 1;
+                        }
                     }
-                    if (!(item.quantity > 0)) {
-                        continue;
-                    }
-                    this.workDatas.add(new SerialWorkingItem(item));
                 }
-                if (this.workDatas.length > 0) {
-                    super.show();
+                if (criteria.conditions.length > 0) {
+                    let boRepository: bo.BORepositoryMaterials = new bo.BORepositoryMaterials();
+                    boRepository.fetchMaterialSerial({
+                        criteria: criteria,
+                        onCompleted: (opRslt) => {
+                            try {
+                                if (opRslt.resultCode !== 0) {
+                                    throw new Error(opRslt.message);
+                                }
+                                // 赋值扩展对象
+                                for (let contract of contracts) {
+                                    if (!(contract.serials instanceof Array)) {
+                                        contract.serials = new ibas.ArrayList<IExtraResultMaterialSerial>();
+                                    }
+                                    for (let serial of opRslt.resultObjects) {
+                                        if (!ibas.strings.equals(contract.warehouse, serial.warehouse)) {
+                                            continue;
+                                        }
+                                        if (!ibas.strings.equals(contract.itemCode, serial.itemCode)) {
+                                            continue;
+                                        }
+                                        contract.serials.push({
+                                            itemCode: serial.itemCode,
+                                            warehouse: serial.warehouse,
+                                            serialCode: serial.serialCode,
+                                            supplierSerial: serial.supplierSerial,
+                                            batchSerial: serial.batchSerial,
+                                            expirationDate: serial.expirationDate,
+                                            manufacturingDate: serial.manufacturingDate,
+                                            specification: serial.specification,
+                                            admissionDate: serial.admissionDate,
+                                            warrantyStartDate: serial.warrantyStartDate,
+                                            warrantyEndDate: serial.warrantyEndDate,
+                                            location: serial.location,
+                                            notes: serial.notes,
+                                        });
+                                    }
+                                }
+                                this.runService(contracts);
+                            } catch (error) {
+                                this.messages(error);
+                            }
+                        }
+                    });
                 } else {
-                    // 没有需要处理的数据
-                    this.proceeding(ibas.emMessageType.WARNING, ibas.i18n.prop("materials_no_work_datas_for_material_serial"));
+                    this.workDatas = new ibas.ArrayList<SerialWorkingItem>();
+                    for (let item of contracts) {
+                        if (ibas.objects.isNull(item)) {
+                            continue;
+                        }
+                        if (item.serialManagement !== ibas.emYesNo.YES) {
+                            continue;
+                        }
+                        if (!(item.quantity > 0)) {
+                            continue;
+                        }
+                        this.workDatas.add(new SerialWorkingItem(item));
+                    }
+                    if (this.workDatas.length > 0) {
+                        super.show();
+                    } else {
+                        // 没有需要处理的数据
+                        this.proceeding(ibas.emMessageType.WARNING, ibas.i18n.prop("materials_no_work_datas_for_material_serial"));
+                    }
                 }
             }
             protected changeWorkingData(data: SerialWorkingItem): void {
