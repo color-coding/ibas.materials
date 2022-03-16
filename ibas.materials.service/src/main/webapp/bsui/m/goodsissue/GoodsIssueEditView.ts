@@ -329,6 +329,13 @@ namespace materials {
                                                             items: [
                                                                 new sap.m.SegmentedButtonItem("", {
                                                                     width: "3rem",
+                                                                    icon: "sap-icon://copy",
+                                                                    press(oEvent: any): void {
+                                                                        that.fireViewEvents(that.addGoodsIssueLineEvent, that.listGoodsIssueLine.getSelecteds());
+                                                                    }
+                                                                }),
+                                                                new sap.m.SegmentedButtonItem("", {
+                                                                    width: "3rem",
                                                                     icon: "sap-icon://delete",
                                                                     press(oEvent: any): void {
                                                                         that.fireViewEvents(that.removeGoodsIssueLineEvent, that.listGoodsIssueLine.getSelecteds());

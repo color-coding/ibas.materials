@@ -202,8 +202,31 @@ namespace materials {
                 }
             }
             /** 添加库存转储-行事件 */
-            private addInventoryTransferLine(): void {
-                this.chooseInventoryTransferLineMaterial(undefined);
+            private addInventoryTransferLine(items: bo.InventoryTransferLine[]): void {
+                if (items instanceof Array && items.length > 0) {
+                    let builder: ibas.StringBuilder = new ibas.StringBuilder();
+                    builder.append(ibas.i18n.prop("shell_data_new_line"));
+                    builder.append(" [");
+                    for (let item of items) {
+                        let newItem: bo.InventoryTransferLine = item.clone();
+                        newItem.lineId = undefined;
+                        newItem.visOrder = undefined;
+                        // 序列号清除
+                        newItem.materialSerials.clear();
+                        this.editData.inventoryTransferLines.add(newItem);
+                        if (builder.length > 2) {
+                            builder.append(", ");
+                        }
+                        builder.append(newItem.lineId);
+                    }
+                    builder.append("] ");
+                    if (builder.length > 3) {
+                        this.proceeding(ibas.emMessageType.WARNING, builder.toString());
+                        this.view.showInventoryTransferLines(this.editData.inventoryTransferLines.filterDeleted());
+                    }
+                } else {
+                    this.chooseInventoryTransferLineMaterial(undefined);
+                }
             }
             /** 删除库存转储-行事件 */
             private removeInventoryTransferLine(items: bo.InventoryTransferLine[]): void {

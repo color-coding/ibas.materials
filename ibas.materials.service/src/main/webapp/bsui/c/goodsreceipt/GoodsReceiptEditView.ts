@@ -124,13 +124,26 @@ namespace materials {
                                 },
                                 toolbar: new sap.m.Toolbar("", {
                                     content: [
-                                        new sap.m.Button("", {
-                                            text: ibas.i18n.prop("shell_data_add"),
+                                        new sap.m.MenuButton("", {
                                             type: sap.m.ButtonType.Transparent,
                                             icon: "sap-icon://add",
-                                            press: function (): void {
-                                                that.fireViewEvents(that.addGoodsReceiptLineEvent);
-                                            }
+                                            text: ibas.i18n.prop("shell_data_add"),
+                                            menu: new sap.m.Menu("", {
+                                                items: [
+                                                    new sap.m.MenuItem("", {
+                                                        text: ibas.i18n.prop("shell_data_add_line"),
+                                                        press: function (): void {
+                                                            that.fireViewEvents(that.addGoodsReceiptLineEvent);
+                                                        }
+                                                    }),
+                                                    new sap.m.MenuItem("", {
+                                                        text: ibas.i18n.prop("shell_data_clone_line"),
+                                                        press: function (): void {
+                                                            that.fireViewEvents(that.addGoodsReceiptLineEvent, that.tableGoodsReceiptLine.getSelecteds());
+                                                        }
+                                                    }),
+                                                ]
+                                            })
                                         }),
                                         new sap.m.Button("", {
                                             text: ibas.i18n.prop("shell_data_remove"),

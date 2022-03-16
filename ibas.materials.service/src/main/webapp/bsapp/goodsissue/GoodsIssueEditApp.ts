@@ -202,8 +202,31 @@ namespace materials {
                 }
             }
             /** 添加库存发货-行事件 */
-            private addGoodsIssueLine(): void {
-                this.chooseGoodsIssueLineMaterial(undefined);
+            private addGoodsIssueLine(items: bo.GoodsIssueLine[]): void {
+                if (items instanceof Array && items.length > 0) {
+                    let builder: ibas.StringBuilder = new ibas.StringBuilder();
+                    builder.append(ibas.i18n.prop("shell_data_new_line"));
+                    builder.append(" [");
+                    for (let item of items) {
+                        let newItem: bo.GoodsIssueLine = item.clone();
+                        newItem.lineId = undefined;
+                        newItem.visOrder = undefined;
+                        // 序列号清除
+                        newItem.materialSerials.clear();
+                        this.editData.goodsIssueLines.add(newItem);
+                        if (builder.length > 2) {
+                            builder.append(", ");
+                        }
+                        builder.append(newItem.lineId);
+                    }
+                    builder.append("] ");
+                    if (builder.length > 3) {
+                        this.proceeding(ibas.emMessageType.WARNING, builder.toString());
+                        this.view.showGoodsIssueLines(this.editData.goodsIssueLines.filterDeleted());
+                    }
+                } else {
+                    this.chooseGoodsIssueLineMaterial(undefined);
+                }
             }
             /** 删除库存发货-行事件 */
             private removeGoodsIssueLine(items: bo.GoodsIssueLine[]): void {
