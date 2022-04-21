@@ -92,7 +92,7 @@ namespace materials {
                             new sap.m.Label("", { text: ibas.i18n.prop("bo_inventorytransfer_docentry") }),
                             new sap.extension.m.Input("", {
                                 editable: false,
-                                type: sap.m.InputType.Number
+
                             }).bindProperty("bindingValue", {
                                 path: "docEntry",
                                 type: new sap.extension.data.Numeric()
@@ -272,6 +272,13 @@ namespace materials {
                                                     // 获取当前对象
                                                     this.getBindingContext().getObject()
                                                 );
+                                            },
+                                            showValueLink: true,
+                                            valueLinkRequest: function (event: sap.ui.base.Event): void {
+                                                ibas.servicesManager.runLinkService({
+                                                    boCode: materials.bo.Material.BUSINESS_OBJECT_CODE,
+                                                    linkValue: event.getParameter("value")
+                                                });
                                             }
                                         }).bindProperty("bindingValue", {
                                             path: "itemCode",
@@ -314,7 +321,7 @@ namespace materials {
                                     new sap.extension.table.DataColumn("", {
                                         label: ibas.i18n.prop("bo_inventorytransferline_quantity"),
                                         template: new sap.extension.m.Input("", {
-                                            type: sap.m.InputType.Number
+
                                         }).bindProperty("bindingValue", {
                                             path: "quantity",
                                             type: new sap.extension.data.Quantity()
@@ -331,7 +338,7 @@ namespace materials {
                                     new sap.extension.table.DataColumn("", {
                                         label: ibas.i18n.prop("bo_inventorytransferline_price"),
                                         template: new sap.extension.m.Input("", {
-                                            type: sap.m.InputType.Number
+
                                         }).bindProperty("bindingValue", {
                                             path: "price",
                                             type: new sap.extension.data.Price()
@@ -386,6 +393,12 @@ namespace materials {
                             new sap.m.Label("", { text: ibas.i18n.prop("bo_inventorytransfer_dataowner") }),
                             new sap.extension.m.DataOwnerInput("", {
                                 showValueHelp: true,
+                                organization: {
+                                    path: "organization",
+                                    type: new sap.extension.data.Alphanumeric({
+                                        maxLength: 8
+                                    })
+                                }
                             }).bindProperty("bindingValue", {
                                 path: "dataOwner",
                                 type: new sap.extension.data.Numeric()
@@ -428,12 +441,12 @@ namespace materials {
                             new sap.m.Label("", { text: ibas.i18n.prop("bo_inventorytransfer_documenttotal") }),
                             new sap.extension.m.Input("", {
                                 editable: false,
-                                type: sap.m.InputType.Number
+
                             }).bindProperty("bindingValue", {
                                 path: "documentTotal",
                                 type: new sap.extension.data.Sum()
                             }),
-                            new sap.extension.m.Input("", {
+                            new sap.extension.m.CurrencySelect("", {
                                 editable: false,
                             }).bindProperty("bindingValue", {
                                 path: "documentCurrency",

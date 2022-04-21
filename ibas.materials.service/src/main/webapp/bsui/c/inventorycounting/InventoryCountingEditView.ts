@@ -96,7 +96,7 @@ namespace materials {
                             new sap.m.Label("", { text: ibas.i18n.prop("bo_inventorycounting_docentry") }),
                             new sap.extension.m.Input("", {
                                 editable: false,
-                                type: sap.m.InputType.Number
+
                             }).bindProperty("bindingValue", {
                                 path: "docEntry",
                                 type: new sap.extension.data.Numeric()
@@ -272,6 +272,13 @@ namespace materials {
                                                     // 获取当前对象
                                                     this.getBindingContext().getObject()
                                                 );
+                                            },
+                                            showValueLink: true,
+                                            valueLinkRequest: function (event: sap.ui.base.Event): void {
+                                                ibas.servicesManager.runLinkService({
+                                                    boCode: materials.bo.Material.BUSINESS_OBJECT_CODE,
+                                                    linkValue: event.getParameter("value")
+                                                });
                                             }
                                         }).bindProperty("bindingValue", {
                                             path: "itemCode",
@@ -342,7 +349,7 @@ namespace materials {
                                     new sap.extension.table.DataColumn("", {
                                         label: ibas.i18n.prop("bo_inventorycountingline_countquantity"),
                                         template: new sap.extension.m.Input("", {
-                                            type: sap.m.InputType.Number
+
                                         }).bindProperty("bindingValue", {
                                             path: "countQuantity",
                                             type: new sap.extension.data.Quantity()
@@ -387,6 +394,12 @@ namespace materials {
                             new sap.m.Label("", { text: ibas.i18n.prop("bo_inventorycounting_dataowner") }),
                             new sap.extension.m.DataOwnerInput("", {
                                 showValueHelp: true,
+                                organization: {
+                                    path: "organization",
+                                    type: new sap.extension.data.Alphanumeric({
+                                        maxLength: 8
+                                    })
+                                }
                             }).bindProperty("bindingValue", {
                                 path: "dataOwner",
                                 type: new sap.extension.data.Numeric()

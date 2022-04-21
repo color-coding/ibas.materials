@@ -133,7 +133,7 @@ namespace materials {
                                                 }),
                                                 new sap.extension.m.Input("", {
                                                     textAlign: sap.ui.core.TextAlign.Right,
-                                                    type: sap.m.InputType.Number,
+
                                                     width: "30%",
                                                 }).bindProperty("bindingValue", {
                                                     path: "quantity",

@@ -67,6 +67,9 @@ namespace materials {
                     criteria = new ibas.Criteria();
                     criteria.result = 1;
                     // 添加查询条件
+                    let condition: ibas.ICondition = criteria.conditions.create();
+                    condition.alias = bo.Warehouse.PROPERTY_CODE_NAME;
+                    condition.value = value;
 
                 }
                 let boRepository: bo.BORepositoryMaterials = new bo.BORepositoryMaterials();

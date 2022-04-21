@@ -262,7 +262,7 @@ namespace materials {
                             new sap.m.Label("", { text: ibas.i18n.prop("bo_material_onhand") }),
                             new sap.extension.m.Input("", {
                                 editable: false,
-                                type: sap.m.InputType.Number
+
                             }).bindProperty("bindingValue", {
                                 path: "onHand",
                                 type: new sap.extension.data.Quantity()
@@ -270,7 +270,7 @@ namespace materials {
                             new sap.m.Label("", { text: ibas.i18n.prop("bo_material_oncommited") }),
                             new sap.extension.m.Input("", {
                                 editable: false,
-                                type: sap.m.InputType.Number
+
                             }).bindProperty("bindingValue", {
                                 path: "onCommited",
                                 type: new sap.extension.data.Quantity()
@@ -278,21 +278,21 @@ namespace materials {
                             new sap.m.Label("", { text: ibas.i18n.prop("bo_material_onordered") }),
                             new sap.extension.m.Input("", {
                                 editable: false,
-                                type: sap.m.InputType.Number
+
                             }).bindProperty("bindingValue", {
                                 path: "onOrdered",
                                 type: new sap.extension.data.Quantity()
                             }),
                             new sap.m.Label("", { text: ibas.i18n.prop("bo_material_minimuminventory") }),
                             new sap.extension.m.Input("", {
-                                type: sap.m.InputType.Number
+
                             }).bindProperty("bindingValue", {
                                 path: "minimumInventory",
                                 type: new sap.extension.data.Quantity()
                             }),
                             new sap.m.Label("", { text: ibas.i18n.prop("bo_material_minimumorderquantity") }),
                             new sap.extension.m.Input("", {
-                                type: sap.m.InputType.Number
+
                             }).bindProperty("bindingValue", {
                                 path: "minimumOrderQuantity",
                                 type: new sap.extension.data.Quantity()
@@ -339,7 +339,7 @@ namespace materials {
                             }),
                             new sap.m.Label("", { text: ibas.i18n.prop("bo_material_leadtime") }),
                             new sap.extension.m.Input("", {
-                                type: sap.m.InputType.Number
+
                             }).bindProperty("bindingValue", {
                                 path: "leadTime",
                                 type: new sap.extension.data.Numeric()

@@ -125,7 +125,7 @@ namespace materials {
                         if (action !== ibas.emMessageAction.YES) {
                             return;
                         }
-                        let boRepository: bo.BORepositoryMaterials = new bo.BORepositoryMaterials;
+                        let boRepository: bo.BORepositoryMaterials = new bo.BORepositoryMaterials();
                         ibas.queues.execute(beDeleteds, (data, next) => {
                             // 处理数据
                             boRepository.saveInventoryCounting({

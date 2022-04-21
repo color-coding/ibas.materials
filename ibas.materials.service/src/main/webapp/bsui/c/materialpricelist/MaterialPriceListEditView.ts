@@ -44,7 +44,8 @@ namespace materials {
                                 })
                             }),
                             new sap.m.Label("", { text: ibas.i18n.prop("bo_materialpricelist_currency") }),
-                            new sap.extension.m.Input("", {
+                            new sap.extension.m.CurrencySelect("", {
+                                editable: true,
                             }).bindProperty("bindingValue", {
                                 path: "/currency",
                                 type: new sap.extension.data.Alphanumeric({

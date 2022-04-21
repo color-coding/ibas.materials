@@ -82,7 +82,7 @@ namespace materials {
                             new sap.m.Label("", { text: ibas.i18n.prop("bo_materialbatch_quantity") }),
                             new sap.extension.m.Input("", {
                                 editable: false,
-                                type: sap.m.InputType.Number
+
                             }).bindProperty("bindingValue", {
                                 path: "/quantity",
                                 type: new sap.extension.data.Quantity()

@@ -341,6 +341,20 @@ namespace materials {
                     condition.operation = ibas.emConditionOperation.GRATER_EQUAL;
                     condition.value = today;
                     conditions.add(condition);
+                    // 审批通过的或未进审批
+                    condition = new ibas.Condition();
+                    condition.alias = bo.Material.PROPERTY_APPROVALSTATUS_NAME;
+                    condition.operation = ibas.emConditionOperation.EQUAL;
+                    condition.value = ibas.emApprovalStatus.APPROVED.toString();
+                    condition.bracketOpen = 1;
+                    conditions.add(condition);
+                    condition = new ibas.Condition();
+                    condition.alias = bo.Material.PROPERTY_APPROVALSTATUS_NAME;
+                    condition.operation = ibas.emConditionOperation.EQUAL;
+                    condition.value = ibas.emApprovalStatus.UNAFFECTED.toString();
+                    condition.relationship = ibas.emConditionRelationship.OR;
+                    condition.bracketClose = 1;
+                    conditions.add(condition);
                     return conditions;
                 }
             }
@@ -413,6 +427,20 @@ namespace materials {
                     condition.operation = ibas.emConditionOperation.GRATER_EQUAL;
                     condition.value = today;
                     conditions.add(condition);
+                    // 审批通过的或未进审批
+                    condition = new ibas.Condition();
+                    condition.alias = bo.Material.PROPERTY_APPROVALSTATUS_NAME;
+                    condition.operation = ibas.emConditionOperation.EQUAL;
+                    condition.value = ibas.emApprovalStatus.APPROVED.toString();
+                    condition.bracketOpen = 1;
+                    conditions.add(condition);
+                    condition = new ibas.Condition();
+                    condition.alias = bo.Material.PROPERTY_APPROVALSTATUS_NAME;
+                    condition.operation = ibas.emConditionOperation.EQUAL;
+                    condition.value = ibas.emApprovalStatus.UNAFFECTED.toString();
+                    condition.relationship = ibas.emConditionRelationship.OR;
+                    condition.bracketClose = 1;
+                    conditions.add(condition);
                     return conditions;
                 }
             }
@@ -434,6 +462,20 @@ namespace materials {
                     condition.alias = bo.Warehouse.PROPERTY_DELETED_NAME;
                     condition.operation = ibas.emConditionOperation.EQUAL;
                     condition.value = ibas.emYesNo.NO.toString();
+                    conditions.add(condition);
+                    // 审批通过的或未进审批
+                    condition = new ibas.Condition();
+                    condition.alias = bo.Warehouse.PROPERTY_APPROVALSTATUS_NAME;
+                    condition.operation = ibas.emConditionOperation.EQUAL;
+                    condition.value = ibas.emApprovalStatus.APPROVED.toString();
+                    condition.bracketOpen = 1;
+                    conditions.add(condition);
+                    condition = new ibas.Condition();
+                    condition.alias = bo.Warehouse.PROPERTY_APPROVALSTATUS_NAME;
+                    condition.operation = ibas.emConditionOperation.EQUAL;
+                    condition.value = ibas.emApprovalStatus.UNAFFECTED.toString();
+                    condition.relationship = ibas.emConditionRelationship.OR;
+                    condition.bracketClose = 1;
                     conditions.add(condition);
                     return conditions;
                 }

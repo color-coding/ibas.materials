@@ -236,7 +236,7 @@ namespace materials {
                         noDataText: ibas.i18n.prop(["shell_please", "shell_data_choose", "bo_material"]),
                         items: {
                             path: "/rows",
-                            template: new component.CustomListItem("", {
+                            template: new sap.extension.m.CustomListItem("", {
                                 content: [
                                     new sap.m.ObjectHeader("", {
                                         responsive: true,
@@ -360,6 +360,8 @@ namespace materials {
                                     }
                                 },
                                 type: sap.m.ListType.Detail,
+                                detailIcon: "sap-icon://complete",
+                                detailTooltip: ibas.i18n.prop("shell_using"),
                                 detailPress(event: sap.ui.base.Event): void {
                                     let source: any = event.getSource();
                                     if (source instanceof sap.m.CustomListItem) {

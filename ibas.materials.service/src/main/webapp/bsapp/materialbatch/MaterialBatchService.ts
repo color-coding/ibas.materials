@@ -56,17 +56,20 @@ namespace materials {
         export class BatchWorkingItemResults extends ibas.ArrayList<BatchWorkingItemResult> {
             constructor(parent: BatchWorkingItem) {
                 super();
-                this[PROPERTY_PARENT] = parent;
-                let batches: ibas.IList<IExtraResultMaterialBatch> = ibas.arrays.create(this.parent.data.batches);
-                for (let data of this.parent.data.materialBatches) {
-                    let extend: IExtraResultMaterialBatch = batches.firstOrDefault(c =>
-                        c.itemCode === this.parent.itemCode &&
-                        c.warehouse === this.parent.warehouse &&
-                        c.batchCode === data.batchCode);
-                    if (ibas.objects.isNull(extend)) {
-                        extend = new ExtraResultMaterialBatch(this.parent.itemCode, this.parent.warehouse);
+                if (parent instanceof BatchWorkingItem) {
+                    // 数组删除时会创建临时对象
+                    this[PROPERTY_PARENT] = parent;
+                    let batches: ibas.IList<IExtraResultMaterialBatch> = ibas.arrays.create(this.parent.data.batches);
+                    for (let data of this.parent.data.materialBatches) {
+                        let extend: IExtraResultMaterialBatch = batches.firstOrDefault(c =>
+                            c.itemCode === this.parent.itemCode &&
+                            c.warehouse === this.parent.warehouse &&
+                            c.batchCode === data.batchCode);
+                        if (ibas.objects.isNull(extend)) {
+                            extend = new ExtraResultMaterialBatch(this.parent.itemCode, this.parent.warehouse);
+                        }
+                        this.add(new BatchWorkingItemResult(data, extend));
                     }
-                    this.add(new BatchWorkingItemResult(data, extend));
                 }
             }
             protected get parent(): BatchWorkingItem {

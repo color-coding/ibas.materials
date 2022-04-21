@@ -158,15 +158,26 @@ namespace materials {
                 this.setProperty(Product.PROPERTY_WAREHOUSE_NAME, value);
             }
 
+            /** 映射的属性名称-缺省仓库 */
+            static PROPERTY_DEFAULTWAREHOUSE_NAME: string = "DefaultWarehouse";
+            /** 获取-缺省仓库 */
+            get defaultWarehouse(): string {
+                return this.getProperty<string>(Product.PROPERTY_DEFAULTWAREHOUSE_NAME);
+            }
+            /** 设置-缺省仓库 */
+            set defaultWarehouse(value: string) {
+                this.setProperty(Product.PROPERTY_DEFAULTWAREHOUSE_NAME, value);
+            }
+
             /** 映射的属性名称-首选供应商 */
             static PROPERTY_PREFERREDVENDOR_NAME: string = "PreferredVendor";
             /** 获取-首选供应商 */
             get preferredVendor(): string {
-                return this.getProperty<string>(Material.PROPERTY_PREFERREDVENDOR_NAME);
+                return this.getProperty<string>(Product.PROPERTY_PREFERREDVENDOR_NAME);
             }
             /** 设置-首选供应商 */
             set preferredVendor(value: string) {
-                this.setProperty(Material.PROPERTY_PREFERREDVENDOR_NAME, value);
+                this.setProperty(Product.PROPERTY_PREFERREDVENDOR_NAME, value);
             }
 
             /** 映射的属性名称-库存单位 */
@@ -251,11 +262,11 @@ namespace materials {
             static PROPERTY_LEADTIME_NAME: string = "LeadTime";
             /** 获取-提前期（天） */
             get leadTime(): number {
-                return this.getProperty<number>(Material.PROPERTY_LEADTIME_NAME);
+                return this.getProperty<number>(Product.PROPERTY_LEADTIME_NAME);
             }
             /** 设置-提前期（天） */
             set leadTime(value: number) {
-                this.setProperty(Material.PROPERTY_LEADTIME_NAME, value);
+                this.setProperty(Product.PROPERTY_LEADTIME_NAME, value);
             }
 
             /** 映射的属性名称-序号管理 */
@@ -284,22 +295,22 @@ namespace materials {
             static PROPERTY_PURCHASETAXGROUP_NAME: string = "PurchaseTaxGroup";
             /** 获取-采购税收组 */
             get purchaseTaxGroup(): string {
-                return this.getProperty<string>(Material.PROPERTY_PURCHASETAXGROUP_NAME);
+                return this.getProperty<string>(Product.PROPERTY_PURCHASETAXGROUP_NAME);
             }
             /** 设置-采购税收组 */
             set purchaseTaxGroup(value: string) {
-                this.setProperty(Material.PROPERTY_PURCHASETAXGROUP_NAME, value);
+                this.setProperty(Product.PROPERTY_PURCHASETAXGROUP_NAME, value);
             }
 
             /** 映射的属性名称-销售税收组 */
             static PROPERTY_SALESTAXGROUP_NAME: string = "SalesTaxGroup";
             /** 获取-销售税收组 */
             get salesTaxGroup(): string {
-                return this.getProperty<string>(Material.PROPERTY_SALESTAXGROUP_NAME);
+                return this.getProperty<string>(Product.PROPERTY_SALESTAXGROUP_NAME);
             }
             /** 设置-销售税收组 */
             set salesTaxGroup(value: string) {
-                this.setProperty(Material.PROPERTY_SALESTAXGROUP_NAME, value);
+                this.setProperty(Product.PROPERTY_SALESTAXGROUP_NAME, value);
             }
 
             /** 映射的属性名称-生效日期 */

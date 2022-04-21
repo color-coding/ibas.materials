@@ -70,6 +70,9 @@ namespace materials {
             /** 提前期（天） */
             leadTime: number;
 
+            /** 缺省仓库 */
+            defaultWarehouse: string;
+
             /** 首选供应商 */
             preferredVendor: string;
 

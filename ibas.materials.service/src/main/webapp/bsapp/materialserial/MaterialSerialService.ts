@@ -56,17 +56,20 @@ namespace materials {
         export class SerialWorkingItemResults extends ibas.ArrayList<SerialWorkingItemResult> {
             constructor(parent: SerialWorkingItem) {
                 super();
-                this[PROPERTY_PARENT] = parent;
-                let serials: ibas.IList<IExtraResultMaterialSerial> = ibas.arrays.create(this.parent.data.serials);
-                for (let data of this.parent.data.materialSerials) {
-                    let extend: IExtraResultMaterialSerial = serials.firstOrDefault(c =>
-                        c.itemCode === this.parent.itemCode &&
-                        c.warehouse === this.parent.warehouse &&
-                        c.serialCode === data.serialCode);
-                    if (ibas.objects.isNull(extend)) {
-                        extend = new ExtraResultMaterialSerial(this.parent.itemCode, this.parent.warehouse);
+                if (parent instanceof SerialWorkingItem) {
+                    // 数组删除时会创建临时对象
+                    this[PROPERTY_PARENT] = parent;
+                    let serials: ibas.IList<IExtraResultMaterialSerial> = ibas.arrays.create(this.parent.data.serials);
+                    for (let data of this.parent.data.materialSerials) {
+                        let extend: IExtraResultMaterialSerial = serials.firstOrDefault(c =>
+                            c.itemCode === this.parent.itemCode &&
+                            c.warehouse === this.parent.warehouse &&
+                            c.serialCode === data.serialCode);
+                        if (ibas.objects.isNull(extend)) {
+                            extend = new ExtraResultMaterialSerial(this.parent.itemCode, this.parent.warehouse);
+                        }
+                        this.add(new SerialWorkingItemResult(data, extend));
                     }
-                    this.add(new SerialWorkingItemResult(data, extend));
                 }
             }
             protected get parent(): SerialWorkingItem {

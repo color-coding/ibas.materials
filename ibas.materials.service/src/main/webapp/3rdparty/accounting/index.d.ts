@@ -294,10 +294,16 @@ declare namespace accounting {
             code: string;
             /** 名称 */
             name: string;
+            /** 激活 */
+            activated: ibas.emYesNo;
             /** 取消 */
             canceled: ibas.emYesNo;
             /** 状态 */
             status: ibas.emDocumentStatus;
+            /** 开始日期 */
+            startDate: Date;
+            /** 结束日期 */
+            closeDate: Date;
             /** 项目经理 */
             manager: number;
             /** 数据所有者 */
@@ -642,6 +648,8 @@ declare namespace accounting {
             preventOver: ibas.emYesNo;
             /** 限制费用项目 */
             restrictedItem: ibas.emYesNo;
+            /** 团队成员 */
+            teamMembers: string;
             /** 备注 */
             remarks: string;
             /** 费用结构-节点项目集合 */
@@ -1211,6 +1219,12 @@ declare namespace accounting {
             get name(): string;
             /** 设置-名称 */
             set name(value: string);
+            /** 映射的属性名称-激活 */
+            static PROPERTY_ACTIVATED_NAME: string;
+            /** 获取-激活 */
+            get activated(): ibas.emYesNo;
+            /** 设置-激活 */
+            set activated(value: ibas.emYesNo);
             /** 映射的属性名称-取消 */
             static PROPERTY_CANCELED_NAME: string;
             /** 获取-取消 */
@@ -1223,6 +1237,18 @@ declare namespace accounting {
             get status(): ibas.emDocumentStatus;
             /** 设置-状态 */
             set status(value: ibas.emDocumentStatus);
+            /** 映射的属性名称-开始日期 */
+            static PROPERTY_STARTDATE_NAME: string;
+            /** 获取-开始日期 */
+            get startDate(): Date;
+            /** 设置-开始日期 */
+            set startDate(value: Date);
+            /** 映射的属性名称-结束日期 */
+            static PROPERTY_CLOSEDATE_NAME: string;
+            /** 获取-结束日期 */
+            get closeDate(): Date;
+            /** 设置-结束日期 */
+            set closeDate(value: Date);
             /** 映射的属性名称-项目经理 */
             static PROPERTY_MANAGER_NAME: string;
             /** 获取-项目经理 */
@@ -2165,6 +2191,12 @@ declare namespace accounting {
             get restrictedItem(): ibas.emYesNo;
             /** 设置-限制费用项目 */
             set restrictedItem(value: ibas.emYesNo);
+            /** 映射的属性名称-团队成员 */
+            static PROPERTY_TEAMMEMBERS_NAME: string;
+            /** 获取-团队成员 */
+            get teamMembers(): string;
+            /** 设置-团队成员 */
+            set teamMembers(value: string);
             /** 映射的属性名称-备注 */
             static PROPERTY_REMARKS_NAME: string;
             /** 获取-备注 */
@@ -2916,6 +2948,50 @@ declare namespace accounting {
  * Use of this source code is governed by an Apache License, Version 2.0
  * that can be found in the LICENSE file at http://www.apache.org/licenses/LICENSE-2.0
  */
+declare namespace accounting {
+    namespace app {
+        /** 查看应用-项目 */
+        class ProjectViewApp extends ibas.BOViewService<IProjectViewView, bo.Project> {
+            /** 应用标识 */
+            static APPLICATION_ID: string;
+            /** 应用名称 */
+            static APPLICATION_NAME: string;
+            /** 业务对象编码 */
+            static BUSINESS_OBJECT_CODE: string;
+            /** 构造函数 */
+            constructor();
+            /** 注册视图 */
+            protected registerView(): void;
+            /** 视图显示后 */
+            protected viewShowed(): void;
+            /** 编辑数据，参数：目标数据 */
+            protected editData(): void;
+            run(): void;
+            run(data: bo.Project): void;
+            /** 查询数据 */
+            protected fetchData(criteria: ibas.ICriteria | string): void;
+        }
+        /** 视图-项目 */
+        interface IProjectViewView extends ibas.IBOViewView {
+            /** 显示数据 */
+            showProject(data: bo.Project): void;
+        }
+        /** 项目连接服务映射 */
+        class ProjectLinkServiceMapping extends ibas.BOLinkServiceMapping {
+            /** 构造函数 */
+            constructor();
+            /** 创建服务实例 */
+            create(): ibas.IBOLinkService;
+        }
+    }
+}
+/**
+ * @license
+ * Copyright Color-Coding Studio. All Rights Reserved.
+ *
+ * Use of this source code is governed by an Apache License, Version 2.0
+ * that can be found in the LICENSE file at http://www.apache.org/licenses/LICENSE-2.0
+ */
 /**
  * @license
  * Copyright Color-Coding Studio. All Rights Reserved.
@@ -3334,6 +3410,9 @@ declare namespace accounting {
             private viewCostItemsLocked;
             private viewCostItemsIncurred;
             private closeCostStructureNode;
+        }
+        enum emNodeType {
+            ORGANIZATION = 0
         }
         /** 视图-费用结构 */
         interface ICostStructureListView extends ibas.IBOListView {

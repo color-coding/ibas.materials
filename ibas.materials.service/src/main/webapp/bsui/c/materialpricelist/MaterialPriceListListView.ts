@@ -338,7 +338,7 @@ namespace materials {
                                             press(): void {
                                                 that.tablePrices.getColumns()[3].setTemplate(
                                                     new sap.extension.m.Input("", {
-                                                        type: sap.m.InputType.Number,
+
                                                         change(event: any): void {
                                                             this.getParent().getParent().addSelectionInterval(this.getParent().getIndex(), this.getParent().getIndex());
                                                         }
@@ -469,7 +469,7 @@ namespace materials {
                                                         }),
                                                         input = new sap.m.Input("", {
                                                             width: "6rem",
-                                                            type: sap.m.InputType.Number,
+
                                                             textAlign: sap.ui.core.TextAlign.Right,
                                                             valueState: sap.ui.core.ValueState.Success,
                                                             value: "0",

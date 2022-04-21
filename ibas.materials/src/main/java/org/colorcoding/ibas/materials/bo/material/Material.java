@@ -15,7 +15,6 @@ import org.colorcoding.ibas.bobas.bo.IBOUserFields;
 import org.colorcoding.ibas.bobas.core.IPropertyInfo;
 import org.colorcoding.ibas.bobas.data.DateTime;
 import org.colorcoding.ibas.bobas.data.Decimal;
-import org.colorcoding.ibas.bobas.data.emApprovalStatus;
 import org.colorcoding.ibas.bobas.data.emYesNo;
 import org.colorcoding.ibas.bobas.i18n.I18N;
 import org.colorcoding.ibas.bobas.mapping.BusinessObjectUnit;
@@ -173,37 +172,6 @@ public class Material extends MaterialBase<Material>
 	 */
 	public final void setAvgPrice(double value) {
 		this.setAvgPrice(Decimal.valueOf(value));
-	}
-
-	/**
-	 * 属性名称-缺省仓库
-	 */
-	private static final String PROPERTY_DEFAULTWAREHOUSE_NAME = "DefaultWarehouse";
-
-	/**
-	 * 缺省仓库 属性
-	 */
-	@DbField(name = "DfltWhs", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME, primaryKey = false)
-	public static final IPropertyInfo<String> PROPERTY_DEFAULTWAREHOUSE = registerProperty(
-			PROPERTY_DEFAULTWAREHOUSE_NAME, String.class, MY_CLASS);
-
-	/**
-	 * 获取-缺省仓库
-	 * 
-	 * @return 值
-	 */
-	@XmlElement(name = PROPERTY_DEFAULTWAREHOUSE_NAME)
-	public final String getDefaultWarehouse() {
-		return this.getProperty(PROPERTY_DEFAULTWAREHOUSE);
-	}
-
-	/**
-	 * 设置-缺省仓库
-	 * 
-	 * @param value 值
-	 */
-	public final void setDefaultWarehouse(String value) {
-		this.setProperty(PROPERTY_DEFAULTWAREHOUSE, value);
 	}
 
 	/**
@@ -661,37 +629,6 @@ public class Material extends MaterialBase<Material>
 	 */
 	public final void setUpdateActionId(String value) {
 		this.setProperty(PROPERTY_UPDATEACTIONID, value);
-	}
-
-	/**
-	 * 属性名称-审批状态
-	 */
-	private static final String PROPERTY_APPROVALSTATUS_NAME = "ApprovalStatus";
-
-	/**
-	 * 审批状态 属性
-	 */
-	@DbField(name = "ApvlStatus", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME, primaryKey = false)
-	public static final IPropertyInfo<emApprovalStatus> PROPERTY_APPROVALSTATUS = registerProperty(
-			PROPERTY_APPROVALSTATUS_NAME, emApprovalStatus.class, MY_CLASS);
-
-	/**
-	 * 获取-审批状态
-	 * 
-	 * @return 值
-	 */
-	@XmlElement(name = PROPERTY_APPROVALSTATUS_NAME)
-	public final emApprovalStatus getApprovalStatus() {
-		return this.getProperty(PROPERTY_APPROVALSTATUS);
-	}
-
-	/**
-	 * 设置-审批状态
-	 * 
-	 * @param value 值
-	 */
-	public final void setApprovalStatus(emApprovalStatus value) {
-		this.setProperty(PROPERTY_APPROVALSTATUS, value);
 	}
 
 	/**
