@@ -1,5 +1,6 @@
 package org.colorcoding.ibas.materials.logic;
 
+import org.colorcoding.ibas.bobas.approval.IApprovalData;
 import org.colorcoding.ibas.bobas.common.ConditionOperation;
 import org.colorcoding.ibas.bobas.common.ConditionRelationship;
 import org.colorcoding.ibas.bobas.common.Criteria;
@@ -7,12 +8,15 @@ import org.colorcoding.ibas.bobas.common.ICondition;
 import org.colorcoding.ibas.bobas.common.ICriteria;
 import org.colorcoding.ibas.bobas.common.IOperationResult;
 import org.colorcoding.ibas.bobas.data.Decimal;
+import org.colorcoding.ibas.bobas.data.emApprovalStatus;
+import org.colorcoding.ibas.bobas.data.emDirection;
 import org.colorcoding.ibas.bobas.i18n.I18N;
 import org.colorcoding.ibas.bobas.logic.BusinessLogicException;
 import org.colorcoding.ibas.bobas.logic.IBusinessObjectProxy;
 import org.colorcoding.ibas.bobas.mapping.LogicContract;
 import org.colorcoding.ibas.materials.bo.material.MaterialPrice;
 import org.colorcoding.ibas.materials.bo.materialpricelist.MaterialPriceItem;
+import org.colorcoding.ibas.materials.data.DataConvert;
 import org.colorcoding.ibas.materials.logic.IMaterialPriceCheckContract.IMaterialPrice;
 import org.colorcoding.ibas.materials.repository.BORepositoryMaterials;
 
@@ -27,6 +31,12 @@ public class MaterialPriceCheckService
 			IMaterialPriceCheckContract contract = (IMaterialPriceCheckContract) data;
 			if (contract.getPriceList() == null || Integer.compare(contract.getPriceList(), 0) <= 0) {
 				return false;
+			}
+		}
+		// 审批中也执行
+		if (data instanceof IApprovalData) {
+			if (((IApprovalData) data).getApprovalStatus() == emApprovalStatus.PROCESSING) {
+				return true;
 			}
 		}
 		return super.checkDataStatus(data);
@@ -128,12 +138,22 @@ public class MaterialPriceCheckService
 			if (priceItem != null) {
 				if (priceItem.getCurrency() != null && !priceItem.getCurrency().equals(item.getCurrency())) {
 					throw new BusinessLogicException(I18N.prop("msg_mm_material_price_currency_mismatch",
-							priceItem.getItemName() == null ? priceItem.getItemCode() : priceItem.getItemName()));
+							DataConvert.isNullOrEmpty(priceItem.getItemName()) ? priceItem.getItemCode()
+									: priceItem.getItemName()));
 				}
 				if (priceItem.getPrice() != null && priceItem.getPrice().compareTo(Decimal.ZERO) >= 0) {
-					if (item.getPrice().compareTo(priceItem.getPrice()) < 0) {
-						throw new BusinessLogicException(I18N.prop("msg_mm_material_price_too_low",
-								priceItem.getItemName() == null ? priceItem.getItemCode() : priceItem.getItemName()));
+					if (contract.getDirection() == emDirection.OUT) {
+						if (item.getPrice().compareTo(priceItem.getPrice()) < 0) {
+							throw new BusinessLogicException(I18N.prop("msg_mm_material_price_too_low",
+									DataConvert.isNullOrEmpty(priceItem.getItemName()) ? priceItem.getItemCode()
+											: priceItem.getItemName()));
+						}
+					} else if (contract.getDirection() == emDirection.IN) {
+						if (item.getPrice().compareTo(priceItem.getPrice()) > 0) {
+							throw new BusinessLogicException(I18N.prop("msg_mm_material_price_too_high",
+									DataConvert.isNullOrEmpty(priceItem.getItemName()) ? priceItem.getItemCode()
+											: priceItem.getItemName()));
+						}
 					}
 				}
 			}
