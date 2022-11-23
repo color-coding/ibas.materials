@@ -323,16 +323,6 @@ namespace materials {
                                         }),
                                     }),
                                     new sap.extension.table.DataColumn("", {
-                                        label: ibas.i18n.prop("bo_goodsreceiptline_currency"),
-                                        template: new sap.extension.m.Input("", {
-                                        }).bindProperty("bindingValue", {
-                                            path: "currency",
-                                            type: new sap.extension.data.Alphanumeric({
-                                                maxLength: 8
-                                            })
-                                        }),
-                                    }),
-                                    new sap.extension.table.DataColumn("", {
                                         label: ibas.i18n.prop("bo_goodsreceiptline_linetotal"),
                                         template: new sap.extension.m.Text("", {
                                         }).bindProperty("bindingValue", {
@@ -425,7 +415,7 @@ namespace materials {
                                 type: new sap.extension.data.Sum()
                             }),
                             new sap.extension.m.CurrencySelect("", {
-                                editable: false,
+                                editable: true,
                             }).bindProperty("bindingValue", {
                                 path: "documentCurrency",
                                 type: new sap.extension.data.Alphanumeric({

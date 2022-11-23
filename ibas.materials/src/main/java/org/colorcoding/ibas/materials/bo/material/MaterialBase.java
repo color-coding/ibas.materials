@@ -827,6 +827,68 @@ public abstract class MaterialBase<T extends MaterialBase<T>> extends BusinessOb
 	}
 
 	/**
+	 * 属性名称-采购单位
+	 */
+	private static final String PROPERTY_PURCHASEUOM_NAME = "PurchaseUOM";
+
+	/**
+	 * 采购单位 属性
+	 */
+	@DbField(name = "PrchseUom", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME)
+	public static final IPropertyInfo<String> PROPERTY_PURCHASEUOM = registerProperty(PROPERTY_PURCHASEUOM_NAME,
+			String.class, MY_CLASS);
+
+	/**
+	 * 获取-采购单位
+	 * 
+	 * @return 值
+	 */
+	@XmlElement(name = PROPERTY_PURCHASEUOM_NAME)
+	public final String getPurchaseUOM() {
+		return this.getProperty(PROPERTY_PURCHASEUOM);
+	}
+
+	/**
+	 * 设置-采购单位
+	 * 
+	 * @param value 值
+	 */
+	public final void setPurchaseUOM(String value) {
+		this.setProperty(PROPERTY_PURCHASEUOM, value);
+	}
+
+	/**
+	 * 属性名称-销售单位
+	 */
+	private static final String PROPERTY_SALESUOM_NAME = "SalesUOM";
+
+	/**
+	 * 销售单位 属性
+	 */
+	@DbField(name = "SalesUom", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME)
+	public static final IPropertyInfo<String> PROPERTY_SALESUOM = registerProperty(PROPERTY_SALESUOM_NAME, String.class,
+			MY_CLASS);
+
+	/**
+	 * 获取-销售单位
+	 * 
+	 * @return 值
+	 */
+	@XmlElement(name = PROPERTY_SALESUOM_NAME)
+	public final String getSalesUOM() {
+		return this.getProperty(PROPERTY_SALESUOM);
+	}
+
+	/**
+	 * 设置-销售单位
+	 * 
+	 * @param value 值
+	 */
+	public final void setSalesUOM(String value) {
+		this.setProperty(PROPERTY_SALESUOM, value);
+	}
+
+	/**
 	 * 属性名称-生效日期
 	 */
 	private static final String PROPERTY_VALIDDATE_NAME = "ValidDate";

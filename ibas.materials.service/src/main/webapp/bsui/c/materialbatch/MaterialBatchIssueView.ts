@@ -125,7 +125,7 @@ namespace materials {
                                             mode: sap.ui.model.BindingMode.OneTime,
                                             type: new sap.extension.data.Alphanumeric(),
                                             formatter(data: any): string {
-                                                if (!ibas.strings.isEmpty(data) && data !== "0") {
+                                                if (!ibas.strings.isEmpty(data) && data !== "0" && data !== 0) {
                                                     return ibas.i18n.prop("materials_specification_view", data);
                                                 }
                                                 return "";
@@ -252,7 +252,7 @@ namespace materials {
                                             mode: sap.ui.model.BindingMode.OneTime,
                                             type: new sap.extension.data.Alphanumeric(),
                                             formatter(data: any): string {
-                                                if (!ibas.strings.isEmpty(data) && data !== "0") {
+                                                if (!ibas.strings.isEmpty(data) && data !== "0" && data !== 0) {
                                                     return ibas.i18n.prop("materials_specification_view", data);
                                                 }
                                                 return "";

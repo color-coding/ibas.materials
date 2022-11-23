@@ -680,6 +680,11 @@ public class MaterialBatchItem extends BusinessObject<MaterialBatchItem>
 				}
 
 				@Override
+				public String getUOM() {
+					return MaterialBatchItem.this.parent.getTargetUOM();
+				}
+
+				@Override
 				public String getDocumentType() {
 					return MaterialBatchItem.this.getDocumentType();
 				}
@@ -727,6 +732,11 @@ public class MaterialBatchItem extends BusinessObject<MaterialBatchItem>
 				@Override
 				public BigDecimal getQuantity() {
 					return MaterialBatchItem.this.getQuantity();
+				}
+
+				@Override
+				public String getUOM() {
+					return MaterialBatchItem.this.parent.getTargetUOM();
 				}
 
 				@Override

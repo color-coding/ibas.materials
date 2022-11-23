@@ -18,6 +18,7 @@
 /// <reference path="./inventorycounting/index.ts" />
 /// <reference path="./materialspecification/index.ts" />
 /// <reference path="./specification/index.ts" />
+/// <reference path="./unit/index.ts" />
 namespace materials {
     export namespace app {
         /** 属性-导航 */
@@ -52,6 +53,7 @@ namespace materials {
                 // this.register(new MaterialSerialFunc());
                 this.register(new WarehouseFunc());
                 // this.register(new MaterialGroupFunc());
+                // this.register(new UnitFunc());
                 // 注册服务应用
                 this.register(new MaterialChooseServiceMapping());
                 this.register(new MaterialLinkServiceMapping());
@@ -82,6 +84,7 @@ namespace materials {
                 this.register(new GoodsReceiptChooseServiceMapping());
                 this.register(new GoodsReceiptEditServiceMapping());
                 this.register(new GoodsReceiptLinkServiceMapping());
+                this.register(new UnitChooseServiceMapping());
                 // 注册常驻应用
 
             }

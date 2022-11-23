@@ -41,6 +41,13 @@ public interface IMaterialBatchJournalContract extends IBusinessLogicContract {
 	BigDecimal getQuantity();
 
 	/**
+	 * 单位
+	 *
+	 * @return
+	 */
+	String getUOM();
+
+	/**
 	 * 方向
 	 *
 	 * @return

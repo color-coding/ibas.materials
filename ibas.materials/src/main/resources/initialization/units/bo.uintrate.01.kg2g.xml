@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!DOCTYPE Unit>
+<ns:UnitRate xmlns:ns="http://colorcoding.org/ibas/materials/bo">
+    <Source>千克</Source>
+    <Target>克</Target>
+    <Rate>1000</Rate>
+    <Condition></Condition>
+</ns:UnitRate>

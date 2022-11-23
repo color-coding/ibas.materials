@@ -1357,6 +1357,16 @@ public class GoodsReceiptLine extends BusinessObject<GoodsReceiptLine>
 		this.setProperty(PROPERTY_MATERIALSERIALS, value);
 	}
 
+	@Override
+	public BigDecimal getTargetQuantity() {
+		return this.getQuantity();
+	}
+
+	@Override
+	public String getTargetUOM() {
+		return this.getUOM();
+	}
+
 	/**
 	 * 初始化数据
 	 */
@@ -1437,6 +1447,11 @@ public class GoodsReceiptLine extends BusinessObject<GoodsReceiptLine>
 					@Override
 					public BigDecimal getQuantity() {
 						return GoodsReceiptLine.this.getQuantity();
+					}
+
+					@Override
+					public String getUOM() {
+						return GoodsReceiptLine.this.getUOM();
 					}
 
 					@Override

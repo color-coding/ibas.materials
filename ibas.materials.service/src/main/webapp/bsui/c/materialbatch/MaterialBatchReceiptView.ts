@@ -388,9 +388,16 @@ namespace materials {
                                                         items: [
                                                             new sap.m.MenuItem("", {
                                                                 text: ibas.i18n.prop("materials_auto_by_datetime"),
-                                                                icon: "sap-icon://timesheet",
+                                                                icon: "sap-icon://present",
                                                                 press: function (): void {
                                                                     that.fireViewEvents(that.createMaterialBatchItemEvent, "TIME_CODE");
+                                                                }
+                                                            }),
+                                                            new sap.m.MenuItem("", {
+                                                                text: ibas.i18n.prop("materials_auto_by_datetime_serial"),
+                                                                icon: "sap-icon://create-entry-time",
+                                                                press: function (): void {
+                                                                    that.fireViewEvents(that.createMaterialBatchItemEvent, "TIME_SERIAL_CODE");
                                                                 }
                                                             }),
                                                             new sap.m.MenuItem("", {

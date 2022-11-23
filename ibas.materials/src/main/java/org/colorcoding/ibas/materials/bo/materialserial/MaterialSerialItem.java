@@ -613,6 +613,11 @@ public class MaterialSerialItem extends BusinessObject<MaterialSerialItem>
 				}
 
 				@Override
+				public String getUOM() {
+					return MaterialSerialItem.this.parent.getTargetUOM();
+				}
+
+				@Override
 				public String getDocumentType() {
 					return MaterialSerialItem.this.getDocumentType();
 				}
@@ -654,6 +659,11 @@ public class MaterialSerialItem extends BusinessObject<MaterialSerialItem>
 				@Override
 				public emDirection getDirection() {
 					return emDirection.OUT;
+				}
+
+				@Override
+				public String getUOM() {
+					return MaterialSerialItem.this.parent.getTargetUOM();
 				}
 
 				@Override

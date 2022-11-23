@@ -1171,8 +1171,13 @@ public class InventoryCountingLine extends BusinessObject<InventoryCountingLine>
 	}
 
 	@Override
-	public BigDecimal getQuantity() {
+	public BigDecimal getTargetQuantity() {
 		return this.getCountQuantity();
+	}
+
+	@Override
+	public String getTargetUOM() {
+		return this.getUOM();
 	}
 
 	/**

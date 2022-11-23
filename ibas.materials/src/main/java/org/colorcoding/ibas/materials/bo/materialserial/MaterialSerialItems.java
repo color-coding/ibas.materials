@@ -186,7 +186,7 @@ public class MaterialSerialItems extends BusinessObjects<IMaterialSerialItem, IM
 			}
 			total = total.add(Decimal.ONE);
 		}
-		if (total.compareTo(this.getParent().getQuantity()) != 0) {
+		if (total.compareTo(this.getParent().getTargetQuantity()) != 0) {
 			throw new BusinessRuleException(
 					I18N.prop("msg_mm_document_material_serial_quantity_deviates", this.getParent()));
 		}

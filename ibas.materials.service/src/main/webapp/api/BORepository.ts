@@ -200,6 +200,26 @@ namespace materials {
              * @param fetcher 查询者
              */
             fetchSpecificationTree(fetcher: ibas.IFetchCaller<bo.ISpecificationTree>): void;
+            /**
+             * 查询 计量单位
+             * @param fetcher 查询者
+             */
+            fetchUnit(fetcher: ibas.IFetchCaller<bo.IUnit>): void;
+            /**
+             * 保存 计量单位
+             * @param saver 保存者
+             */
+            saveUnit(saver: ibas.ISaveCaller<bo.IUnit>): void;
+            /**
+             * 查询 计量单位换算率
+             * @param fetcher 查询者
+             */
+            fetchUnitRate(fetcher: ibas.IFetchCaller<bo.IUnitRate>): void;
+            /**
+             * 保存 计量单位换算率
+             * @param saver 保存者
+             */
+            saveUnitRate(saver: ibas.ISaveCaller<bo.IUnitRate>): void;
         }
         export interface ICloseCaller<T> extends ibas.IMethodCaller<string> {
             /** 查询条件 */

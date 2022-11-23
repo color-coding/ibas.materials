@@ -64,6 +64,10 @@ namespace materials {
         export const BO_CODE_MATERIALSPECIFICATION: string = "${Company}_MM_MATERIALSPEC";
         /** 业务对象编码-规格模板 */
         export const BO_CODE_SPECIFICATION: string = "${Company}_MM_SPEC";
+        /** 业务对象编码-计量单位 */
+        export const BO_CODE_UNIT: string = "${Company}_MM_UNIT";
+        /** 业务对象编码-计量单位换算率 */
+        export const BO_CODE_UNITRATE: string = "${Company}_MM_UNITRATE";
 
         /** 物料类型 */
         export enum emItemType {
@@ -552,6 +556,124 @@ namespace materials {
                 export const CONDITION_ALIAS_SUPPLIER: string = "Supplier";
 
             }
+            export namespace unitrate {
+                export const CONDITION_VALUE_TEMPLATE: string = "Code = {0}";
+                /** 默认查询条件 */
+                export function create(material: string | bo.IMaterial): ibas.ICriteria {
+                    let condition: ibas.ICondition;
+                    let criteria: ibas.ICriteria = new ibas.Criteria();
+                    if (typeof material === "string") {
+                        condition = criteria.conditions.create();
+                        condition.alias = bo.UnitRate.PROPERTY_CONDITION_NAME;
+                        condition.value = ibas.strings.format(CONDITION_VALUE_TEMPLATE, material);
+                    } else if (material instanceof bo.Material) {
+                        condition = criteria.conditions.create();
+                        condition.alias = bo.UnitRate.PROPERTY_CONDITION_NAME;
+                        condition.value = ibas.strings.format(CONDITION_VALUE_TEMPLATE, material.code);
+                    }
+                    if (criteria.conditions.length === 0) {
+                        throw new Error(ibas.i18n.prop("sys_unrecognized_data"));
+                    }
+                    return criteria;
+                }
+            }
         }
+        export interface IBeChangedUOMSource {
+            caller?: any,
+            readonly sourceUnit: string;
+            readonly targetUnit: string;
+            readonly material?: string;
+            setUnitRate(value: number): void;
+        }
+        /**
+         * 获取物料单位换算率
+         * @param caller 
+         */
+        export function changeMaterialsUnitRate(caller: {
+            data: IBeChangedUOMSource | IBeChangedUOMSource[],
+            onCompleted?(error?: Error): void,
+        }): void {
+            let condition: ibas.ICondition;
+            let criteria: ibas.ICriteria = new ibas.Criteria();
+            let sources: ibas.IList<IBeChangedUOMSource> = ibas.arrays.create(caller.data);
+            for (let item of sources) {
+                if (ibas.strings.isEmpty(item.sourceUnit)) {
+                    continue;
+                }
+                if (ibas.strings.isEmpty(item.targetUnit)) {
+                    continue;
+                }
+                condition = criteria.conditions.create();
+                condition.alias = materials.bo.UnitRate.PROPERTY_SOURCE_NAME;
+                condition.value = item.sourceUnit;
+                condition.relationship = ibas.emConditionRelationship.OR;
+                condition.bracketOpen = 1;
+                condition = criteria.conditions.create();
+                condition.alias = materials.bo.UnitRate.PROPERTY_TARGET_NAME;
+                condition.value = item.targetUnit;
+                condition = criteria.conditions.create();
+                condition.alias = materials.bo.UnitRate.PROPERTY_CONDITION_NAME;
+                condition.operation = ibas.emConditionOperation.IS_NULL;
+                condition.bracketOpen = 1;
+                condition = criteria.conditions.create();
+                condition.alias = materials.bo.UnitRate.PROPERTY_CONDITION_NAME;
+                condition.value = ""
+                condition.relationship = ibas.emConditionRelationship.OR;
+                condition = criteria.conditions.create();
+                condition.alias = materials.bo.UnitRate.PROPERTY_CONDITION_NAME;
+                condition.value = item.material ? ibas.strings.format(conditions.unitrate.CONDITION_VALUE_TEMPLATE, item.material) : "";
+                condition.relationship = ibas.emConditionRelationship.OR;
+                condition.bracketClose = 2;
+            }
+            if (criteria.conditions.length > 0) {
+                criteria.conditions.firstOrDefault().relationship = ibas.emConditionRelationship.NONE;
+                let boRepository: bo.BORepositoryMaterials = new bo.BORepositoryMaterials();
+                boRepository.fetchUnitRate({
+                    criteria: criteria,
+                    onCompleted: (opRslt) => {
+                        if (opRslt.resultCode !== 0) {
+                            if (caller.onCompleted instanceof Function) {
+                                caller.onCompleted(new Error(opRslt.message));
+                            }
+                        } else {
+                            // 排序，有条件的优先
+                            let unitRates: ibas.IList<bo.UnitRate> = opRslt.resultObjects.sort((a, b) => {
+                                if (ibas.strings.isEmpty(a) || !ibas.strings.isEmpty(b)) {
+                                    return -1;
+                                }
+                                if (!ibas.strings.isEmpty(a) || ibas.strings.isEmpty(b)) {
+                                    return 1;
+                                }
+                                return 0;
+                            });
+                            // 设置换算率，未定义为1
+                            for (let item of sources) {
+                                let unitRate: bo.UnitRate = unitRates.firstOrDefault(
+                                    c => ibas.strings.equalsIgnoreCase(c.source, item.sourceUnit)
+                                        && ibas.strings.equalsIgnoreCase(c.target, item.targetUnit)
+                                );
+                                if (unitRate) {
+                                    if (item.caller) {
+                                        item.setUnitRate.call(item.caller, unitRate.rate);
+                                    } else {
+                                        item.setUnitRate(unitRate.rate);
+                                    }
+                                } else {
+                                    if (item.caller) {
+                                        item.setUnitRate.call(item.caller, 1);
+                                    } else {
+                                        item.setUnitRate(1);
+                                    }
+                                }
+                            }
+                            if (caller.onCompleted instanceof Function) {
+                                caller.onCompleted();
+                            }
+                        }
+                    }
+                });
+            }
+        }
+
     }
 }

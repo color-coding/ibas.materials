@@ -774,11 +774,8 @@ namespace materials {
                 this.setProperty(InventoryCountingLine.PROPERTY_MATERIALSERIALS_NAME, value);
             }
 
-            get quantity(): number {
+            get targetQuantity(): number {
                 return this.countQuantity;
-            }
-            set quantity(value: number) {
-                throw new Error("Method not implemented.");
             }
 
             /** 初始化数据 */

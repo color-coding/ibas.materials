@@ -533,6 +533,34 @@ public interface IMaterial extends IBOMasterData {
 	void setSalesTaxGroup(String value);
 
 	/**
+	 * 获取-采购单位
+	 * 
+	 * @return 值
+	 */
+	String getPurchaseUOM();
+
+	/**
+	 * 设置-采购单位
+	 * 
+	 * @param value 值
+	 */
+	void setPurchaseUOM(String value);
+
+	/**
+	 * 获取-销售单位
+	 * 
+	 * @return 值
+	 */
+	String getSalesUOM();
+
+	/**
+	 * 设置-销售单位
+	 * 
+	 * @param value 值
+	 */
+	void setSalesUOM(String value);
+
+	/**
 	 * 获取-生效日期
 	 * 
 	 * @return 值

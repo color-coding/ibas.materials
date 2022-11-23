@@ -72,6 +72,10 @@ import org.colorcoding.ibas.materials.bo.materialspecification.MaterialSpecifica
 import org.colorcoding.ibas.materials.bo.specification.ISpecification;
 import org.colorcoding.ibas.materials.bo.specification.Specification;
 import org.colorcoding.ibas.materials.bo.specification.SpecificationTree;
+import org.colorcoding.ibas.materials.bo.unit.IUnit;
+import org.colorcoding.ibas.materials.bo.unit.IUnitRate;
+import org.colorcoding.ibas.materials.bo.unit.Unit;
+import org.colorcoding.ibas.materials.bo.unit.UnitRate;
 import org.colorcoding.ibas.materials.bo.warehouse.IWarehouse;
 import org.colorcoding.ibas.materials.bo.warehouse.Warehouse;
 import org.colorcoding.ibas.materials.data.emSpecificationAssigned;
@@ -1785,4 +1789,93 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 		}
 
 	}
+
+	// --------------------------------------------------------------------------------------------//
+	/**
+	 * 查询-计量单位
+	 * 
+	 * @param criteria 查询
+	 * @param token    口令
+	 * @return 操作结果
+	 */
+	public OperationResult<Unit> fetchUnit(ICriteria criteria, String token) {
+		return super.fetch(criteria, token, Unit.class);
+	}
+
+	/**
+	 * 查询-计量单位（提前设置用户口令）
+	 * 
+	 * @param criteria 查询
+	 * @return 操作结果
+	 */
+	public IOperationResult<IUnit> fetchUnit(ICriteria criteria) {
+		return new OperationResult<IUnit>(this.fetchUnit(criteria, this.getUserToken()));
+	}
+
+	/**
+	 * 保存-计量单位
+	 * 
+	 * @param bo    对象实例
+	 * @param token 口令
+	 * @return 操作结果
+	 */
+	public OperationResult<Unit> saveUnit(Unit bo, String token) {
+		return super.save(bo, token);
+	}
+
+	/**
+	 * 保存-计量单位（提前设置用户口令）
+	 * 
+	 * @param bo 对象实例
+	 * @return 操作结果
+	 */
+	public IOperationResult<IUnit> saveUnit(IUnit bo) {
+		return new OperationResult<IUnit>(this.saveUnit((Unit) bo, this.getUserToken()));
+	}
+
+	// --------------------------------------------------------------------------------------------//
+	/**
+	 * 查询-计量单位换算率
+	 * 
+	 * @param criteria 查询
+	 * @param token    口令
+	 * @return 操作结果
+	 */
+	public OperationResult<UnitRate> fetchUnitRate(ICriteria criteria, String token) {
+		return super.fetch(criteria, token, UnitRate.class);
+	}
+
+	/**
+	 * 查询-计量单位换算率（提前设置用户口令）
+	 * 
+	 * @param criteria 查询
+	 * @return 操作结果
+	 */
+	public IOperationResult<IUnitRate> fetchUnitRate(ICriteria criteria) {
+		return new OperationResult<IUnitRate>(this.fetchUnitRate(criteria, this.getUserToken()));
+	}
+
+	/**
+	 * 保存-计量单位换算率
+	 * 
+	 * @param bo    对象实例
+	 * @param token 口令
+	 * @return 操作结果
+	 */
+	public OperationResult<UnitRate> saveUnitRate(UnitRate bo, String token) {
+		return super.save(bo, token);
+	}
+
+	/**
+	 * 保存-计量单位换算率（提前设置用户口令）
+	 * 
+	 * @param bo 对象实例
+	 * @return 操作结果
+	 */
+	public IOperationResult<IUnitRate> saveUnitRate(IUnitRate bo) {
+		return new OperationResult<IUnitRate>(this.saveUnitRate((UnitRate) bo, this.getUserToken()));
+	}
+
+	// --------------------------------------------------------------------------------------------//
+
 }

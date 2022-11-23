@@ -1355,6 +1355,16 @@ public class InventoryTransferLine extends BusinessObject<InventoryTransferLine>
 		this.setProperty(PROPERTY_MATERIALSERIALS, value);
 	}
 
+	@Override
+	public BigDecimal getTargetQuantity() {
+		return this.getQuantity();
+	}
+
+	@Override
+	public String getTargetUOM() {
+		return this.getUOM();
+	}
+
 	/**
 	 * 初始化数据
 	 */
@@ -1444,6 +1454,11 @@ public class InventoryTransferLine extends BusinessObject<InventoryTransferLine>
 					}
 
 					@Override
+					public String getUOM() {
+						return InventoryTransferLine.this.getUOM();
+					}
+
+					@Override
 					public DateTime getPostingDate() {
 						return InventoryTransferLine.this.parent.getPostingDate();
 					}
@@ -1509,6 +1524,11 @@ public class InventoryTransferLine extends BusinessObject<InventoryTransferLine>
 					@Override
 					public BigDecimal getQuantity() {
 						return InventoryTransferLine.this.getQuantity();
+					}
+
+					@Override
+					public String getUOM() {
+						return InventoryTransferLine.this.getUOM();
 					}
 
 					@Override

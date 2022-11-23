@@ -673,6 +673,95 @@ namespace materials {
                         // 选中工作内容，怎显示工作内容的
                         this.view.showMaterialBatchItems(this.workingData.results.filterDeleted());
                     }
+                } else if (mode === "TIME_SERIAL_CODE") {
+                    let datas: ibas.IList<BatchWorkingItem> = new ibas.ArrayList<BatchWorkingItem>();
+                    if (ibas.objects.isNull(this.workingData)) {
+                        // 没有工作的，全部创建
+                        for (let item of this.workDatas) {
+                            if (item.quantity === item.results.total()) {
+                                continue;
+                            }
+                            datas.add(item);
+                        }
+                    } else {
+                        // 仅创建工作的
+                        datas.add(this.workingData);
+                    }
+                    let condition: ibas.ICondition;
+                    let criteria: ibas.ICriteria = new ibas.Criteria();
+                    let timePart: string = ibas.dates.toString(ibas.dates.now(), "yyyyMMdd");
+                    let journals: ibas.IList<BatchWorkingItemResult> = new ibas.ArrayList<BatchWorkingItemResult>();
+                    for (let item of datas) {
+                        let total: number = item.results.total();
+                        if (total >= item.quantity) {
+                            continue;
+                        }
+                        condition = criteria.conditions.create();
+                        condition.alias = bo.MaterialBatch.PROPERTY_ITEMCODE_NAME;
+                        condition.operation = ibas.emConditionOperation.EQUAL;
+                        condition.value = item.itemCode;
+                        condition = criteria.conditions.create();
+                        condition.alias = bo.MaterialBatch.PROPERTY_WAREHOUSE_NAME;
+                        condition.operation = ibas.emConditionOperation.EQUAL;
+                        condition.value = item.warehouse;
+                        condition = criteria.conditions.create();
+                        condition.alias = bo.MaterialBatch.PROPERTY_BATCHCODE_NAME;
+                        condition.operation = ibas.emConditionOperation.START;
+                        condition.value = timePart;
+
+                        let journal: BatchWorkingItemResult = item.results.create();
+                        journal.quantity = item.quantity - total;
+                        journal.batchCode = ibas.strings.format("{0}0001", timePart);
+                        journals.add(journal);
+                    }
+                    if (criteria.conditions.length > 0) {
+                        let boRepository: bo.BORepositoryMaterials = new bo.BORepositoryMaterials();
+                        boRepository.fetchMaterialBatch({
+                            criteria: criteria,
+                            onCompleted: (opRslt) => {
+                                if (opRslt.resultCode !== 0) {
+                                    this.proceeding(new Error(opRslt.message));
+                                } else {
+                                    let serialPart0: number;
+                                    let serialPart1: number;
+                                    for (let journal of journals) {
+                                        try {
+                                            serialPart0 = ibas.numbers.valueOf(journal.batchCode.substring(timePart.length));
+                                            for (let batch of opRslt.resultObjects) {
+                                                if (!ibas.strings.equals(journal.itemCode(), batch.itemCode)) {
+                                                    continue;
+                                                }
+                                                if (!ibas.strings.equals(journal.warehouse(), batch.warehouse)) {
+                                                    continue;
+                                                }
+                                                serialPart1 = ibas.numbers.valueOf(batch.batchCode.substring(timePart.length));
+                                                if (serialPart1 >= serialPart0) {
+                                                    journal.batchCode = timePart + ibas.strings.fill(serialPart1 + 1, 4, "0");
+                                                }
+                                            }
+                                        } catch (error) {
+                                            this.proceeding(error);
+                                        }
+                                    }
+                                }
+                                if (ibas.objects.isNull(this.workingData)) {
+                                    // 没选中工作内容，则显示新创建的
+                                    this.view.showMaterialBatchItems(journals);
+                                } else {
+                                    // 选中工作内容，怎显示工作内容的
+                                    this.view.showMaterialBatchItems(this.workingData.results.filterDeleted());
+                                }
+                            }
+                        });
+                    } else {
+                        if (ibas.objects.isNull(this.workingData)) {
+                            // 没选中工作内容，则显示新创建的
+                            this.view.showMaterialBatchItems(journals);
+                        } else {
+                            // 选中工作内容，怎显示工作内容的
+                            this.view.showMaterialBatchItems(this.workingData.results.filterDeleted());
+                        }
+                    }
                 } else if (mode === "USED_CODE") {
                     if (ibas.objects.isNull(this.workingData)) {
                         this.messages(ibas.emMessageType.WARNING, ibas.i18n.prop("shell_please_chooose_data",

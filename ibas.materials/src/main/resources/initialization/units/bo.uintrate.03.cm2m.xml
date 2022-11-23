@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!DOCTYPE Unit>
+<ns:UnitRate xmlns:ns="http://colorcoding.org/ibas/materials/bo">
+    <Source>厘米</Source>
+    <Target>米</Target>
+    <Rate>0.01</Rate>
+    <Condition></Condition>
+</ns:UnitRate>

@@ -39,6 +39,11 @@ public interface IMaterialSerialJournalContract extends IBusinessLogicContract {
 	emDirection getDirection();
 
 	/**
+	 * 单位
+	 */
+	String getUOM();
+
+	/**
 	 * 单据类型
 	 *
 	 * @return

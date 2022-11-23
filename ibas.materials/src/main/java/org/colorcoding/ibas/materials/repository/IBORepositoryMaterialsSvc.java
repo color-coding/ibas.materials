@@ -23,6 +23,8 @@ import org.colorcoding.ibas.materials.bo.materialserial.MaterialSerialJournal;
 import org.colorcoding.ibas.materials.bo.materialspecification.MaterialSpecification;
 import org.colorcoding.ibas.materials.bo.specification.Specification;
 import org.colorcoding.ibas.materials.bo.specification.SpecificationTree;
+import org.colorcoding.ibas.materials.bo.unit.Unit;
+import org.colorcoding.ibas.materials.bo.unit.UnitRate;
 import org.colorcoding.ibas.materials.bo.warehouse.Warehouse;
 
 /**
@@ -373,4 +375,44 @@ public interface IBORepositoryMaterialsSvc extends IBORepositorySmartService {
 	 */
 	OperationResult<SpecificationTree> fetchSpecificationTree(ICriteria criteria, String token);
 	// --------------------------------------------------------------------------------------------//
+
+	/**
+	 * 查询-计量单位
+	 * 
+	 * @param criteria 查询
+	 * @param token    口令
+	 * @return 操作结果
+	 */
+	OperationResult<Unit> fetchUnit(ICriteria criteria, String token);
+
+	/**
+	 * 保存-计量单位
+	 * 
+	 * @param bo    对象实例
+	 * @param token 口令
+	 * @return 操作结果
+	 */
+	OperationResult<Unit> saveUnit(Unit bo, String token);
+
+	// --------------------------------------------------------------------------------------------//
+	/**
+	 * 查询-计量单位换算率
+	 * 
+	 * @param criteria 查询
+	 * @param token    口令
+	 * @return 操作结果
+	 */
+	OperationResult<UnitRate> fetchUnitRate(ICriteria criteria, String token);
+
+	/**
+	 * 保存-计量单位换算率
+	 * 
+	 * @param bo    对象实例
+	 * @param token 口令
+	 * @return 操作结果
+	 */
+	OperationResult<UnitRate> saveUnitRate(UnitRate bo, String token);
+
+	// --------------------------------------------------------------------------------------------//
+
 }

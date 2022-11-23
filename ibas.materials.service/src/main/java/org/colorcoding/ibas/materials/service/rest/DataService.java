@@ -28,6 +28,8 @@ import org.colorcoding.ibas.materials.bo.materialserial.MaterialSerialJournal;
 import org.colorcoding.ibas.materials.bo.materialspecification.MaterialSpecification;
 import org.colorcoding.ibas.materials.bo.specification.Specification;
 import org.colorcoding.ibas.materials.bo.specification.SpecificationTree;
+import org.colorcoding.ibas.materials.bo.unit.Unit;
+import org.colorcoding.ibas.materials.bo.unit.UnitRate;
 import org.colorcoding.ibas.materials.bo.warehouse.Warehouse;
 import org.colorcoding.ibas.materials.repository.BORepositoryMaterials;
 
@@ -563,5 +565,69 @@ public class DataService extends BORepositoryMaterials {
 			@QueryParam("token") String token) {
 		return super.fetchSpecificationTree(criteria, token);
 	}
+
 	// --------------------------------------------------------------------------------------------//
+	/**
+	 * 查询-计量单位
+	 * 
+	 * @param criteria 查询
+	 * @param token    口令
+	 * @return 操作结果
+	 */
+	@POST
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Path("fetchUnit")
+	public OperationResult<Unit> fetchUnit(Criteria criteria, @QueryParam("token") String token) {
+		return super.fetchUnit(criteria, token);
+	}
+
+	/**
+	 * 保存-计量单位
+	 * 
+	 * @param bo    对象实例
+	 * @param token 口令
+	 * @return 操作结果
+	 */
+	@POST
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Path("saveUnit")
+	public OperationResult<Unit> saveUnit(Unit bo, @QueryParam("token") String token) {
+		return super.saveUnit(bo, token);
+	}
+
+	// --------------------------------------------------------------------------------------------//
+	/**
+	 * 查询-计量单位换算率
+	 * 
+	 * @param criteria 查询
+	 * @param token    口令
+	 * @return 操作结果
+	 */
+	@POST
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Path("fetchUnitRate")
+	public OperationResult<UnitRate> fetchUnitRate(Criteria criteria, @QueryParam("token") String token) {
+		return super.fetchUnitRate(criteria, token);
+	}
+
+	/**
+	 * 保存-计量单位换算率
+	 * 
+	 * @param bo    对象实例
+	 * @param token 口令
+	 * @return 操作结果
+	 */
+	@POST
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Path("saveUnitRate")
+	public OperationResult<UnitRate> saveUnitRate(UnitRate bo, @QueryParam("token") String token) {
+		return super.saveUnitRate(bo, token);
+	}
+
+	// --------------------------------------------------------------------------------------------//
+
 }

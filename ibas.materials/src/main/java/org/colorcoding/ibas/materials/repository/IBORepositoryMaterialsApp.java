@@ -23,6 +23,8 @@ import org.colorcoding.ibas.materials.bo.materialserial.IMaterialSerialJournal;
 import org.colorcoding.ibas.materials.bo.materialspecification.IMaterialSpecification;
 import org.colorcoding.ibas.materials.bo.specification.ISpecification;
 import org.colorcoding.ibas.materials.bo.specification.SpecificationTree;
+import org.colorcoding.ibas.materials.bo.unit.IUnit;
+import org.colorcoding.ibas.materials.bo.unit.IUnitRate;
 import org.colorcoding.ibas.materials.bo.warehouse.IWarehouse;
 
 /**
@@ -336,5 +338,41 @@ public interface IBORepositoryMaterialsApp extends IBORepositoryApplication {
 	 * @return 操作结果
 	 */
 	IOperationResult<SpecificationTree> fetchSpecificationTree(ICriteria criteria);
+
 	// --------------------------------------------------------------------------------------------//
+	/**
+	 * 查询-计量单位
+	 * 
+	 * @param criteria 查询
+	 * @return 操作结果
+	 */
+	IOperationResult<IUnit> fetchUnit(ICriteria criteria);
+
+	/**
+	 * 保存-计量单位
+	 * 
+	 * @param bo 对象实例
+	 * @return 操作结果
+	 */
+	IOperationResult<IUnit> saveUnit(IUnit bo);
+
+	// --------------------------------------------------------------------------------------------//
+	/**
+	 * 查询-计量单位换算率
+	 * 
+	 * @param criteria 查询
+	 * @return 操作结果
+	 */
+	IOperationResult<IUnitRate> fetchUnitRate(ICriteria criteria);
+
+	/**
+	 * 保存-计量单位换算率
+	 * 
+	 * @param bo 对象实例
+	 * @return 操作结果
+	 */
+	IOperationResult<IUnitRate> saveUnitRate(IUnitRate bo);
+
+	// --------------------------------------------------------------------------------------------//
+
 }

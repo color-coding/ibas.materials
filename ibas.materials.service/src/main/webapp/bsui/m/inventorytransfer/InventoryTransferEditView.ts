@@ -468,7 +468,7 @@ namespace materials {
                                                         type: new sap.extension.data.Sum()
                                                     }),
                                                     new sap.extension.m.CurrencySelect("", {
-                                                        editable: false,
+                                                        editable: true,
                                                     }).bindProperty("bindingValue", {
                                                         path: "documentCurrency",
                                                         type: new sap.extension.data.Alphanumeric({

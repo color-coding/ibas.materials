@@ -58,7 +58,12 @@ public interface IMaterialBatchItemParent extends IBusinessObject {
 	/**
 	 * 数量
 	 */
-	BigDecimal getQuantity();
+	BigDecimal getTargetQuantity();
+
+	/**
+	 * 单位
+	 */
+	String getTargetUOM();
 
 	/**
 	 * 物料批次项目集合

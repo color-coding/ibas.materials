@@ -91,6 +91,12 @@ namespace materials {
             /** 销售税收组 */
             salesTaxGroup: string;
 
+            /** 采购单位 */
+            purchaseUOM: string;
+
+            /** 销售单位 */
+            salesUOM: string;
+
             /** 生效日期 */
             validDate: Date;
 

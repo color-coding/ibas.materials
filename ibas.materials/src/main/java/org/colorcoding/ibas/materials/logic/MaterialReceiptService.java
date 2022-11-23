@@ -17,6 +17,7 @@ import org.colorcoding.ibas.bobas.message.MessageLevel;
 import org.colorcoding.ibas.materials.bo.material.IMaterial;
 import org.colorcoding.ibas.materials.bo.materialinventory.IMaterialInventoryJournal;
 import org.colorcoding.ibas.materials.bo.materialinventory.MaterialInventoryJournal;
+import org.colorcoding.ibas.materials.data.DataConvert;
 import org.colorcoding.ibas.materials.data.emItemType;
 import org.colorcoding.ibas.materials.repository.BORepositoryMaterials;
 
@@ -46,6 +47,14 @@ public class MaterialReceiptService
 						"InventoryItem", material.getInventoryItem());
 				// 非库存物料，不执行此逻辑
 				return false;
+			}
+			if (!DataConvert.isNullOrEmpty(material.getInventoryUOM())
+					&& !DataConvert.isNullOrEmpty(contract.getUOM())) {
+				// 检查库存单位是否一致
+				if (!material.getInventoryUOM().equalsIgnoreCase(contract.getUOM())) {
+					throw new BusinessLogicException(I18N.prop("msg_mm_document_uom_is_not_same_material_setting",
+							contract.getIdentifiers(), contract.getItemCode()));
+				}
 			}
 		}
 		return super.checkDataStatus(data);

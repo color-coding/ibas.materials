@@ -320,6 +320,34 @@ namespace materials {
             saveMaterialSpecification(saver: ibas.ISaveCaller<bo.MaterialSpecification>): void {
                 super.save(bo.MaterialSpecification.name, saver);
             }
+            /**
+             * 查询 计量单位
+             * @param fetcher 查询者
+             */
+            fetchUnit(fetcher: ibas.IFetchCaller<bo.Unit>): void {
+                super.fetch(bo.Unit.name, fetcher);
+            }
+            /**
+             * 保存 计量单位
+             * @param saver 保存者
+             */
+            saveUnit(saver: ibas.ISaveCaller<bo.Unit>): void {
+                super.save(bo.Unit.name, saver);
+            }
+            /**
+             * 查询 计量单位换算率
+             * @param fetcher 查询者
+             */
+            fetchUnitRate(fetcher: ibas.IFetchCaller<bo.UnitRate>): void {
+                super.fetch(bo.UnitRate.name, fetcher);
+            }
+            /**
+             * 保存 计量单位换算率
+             * @param saver 保存者
+             */
+            saveUnitRate(saver: ibas.ISaveCaller<bo.UnitRate>): void {
+                super.save(bo.UnitRate.name, saver);
+            }
         }
     }
 }

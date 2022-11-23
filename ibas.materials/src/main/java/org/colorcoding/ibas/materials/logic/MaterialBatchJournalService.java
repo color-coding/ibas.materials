@@ -7,15 +7,36 @@ import org.colorcoding.ibas.bobas.common.ICondition;
 import org.colorcoding.ibas.bobas.common.ICriteria;
 import org.colorcoding.ibas.bobas.common.IOperationResult;
 import org.colorcoding.ibas.bobas.data.Decimal;
-import org.colorcoding.ibas.bobas.logic.BusinessLogic;
+import org.colorcoding.ibas.bobas.i18n.I18N;
 import org.colorcoding.ibas.bobas.logic.BusinessLogicException;
 import org.colorcoding.ibas.bobas.mapping.LogicContract;
+import org.colorcoding.ibas.materials.bo.material.IMaterial;
 import org.colorcoding.ibas.materials.bo.materialbatch.IMaterialBatchJournal;
 import org.colorcoding.ibas.materials.bo.materialbatch.MaterialBatchJournal;
+import org.colorcoding.ibas.materials.data.DataConvert;
 import org.colorcoding.ibas.materials.repository.BORepositoryMaterials;
 
 @LogicContract(IMaterialBatchJournalContract.class)
-public class MaterialBatchJournalService extends BusinessLogic<IMaterialBatchJournalContract, IMaterialBatchJournal> {
+public class MaterialBatchJournalService
+		extends MaterialBusinessLogic<IMaterialBatchJournalContract, IMaterialBatchJournal> {
+
+	@Override
+	protected boolean checkDataStatus(Object data) {
+		if (data instanceof IMaterialBatchJournalContract) {
+			IMaterialBatchJournalContract contract = (IMaterialBatchJournalContract) data;
+			IMaterial material = this.checkMaterial(contract.getItemCode());
+			if (!DataConvert.isNullOrEmpty(material.getInventoryUOM())
+					&& !DataConvert.isNullOrEmpty(contract.getUOM())) {
+				// 检查库存单位是否一致
+				if (!material.getInventoryUOM().equalsIgnoreCase(contract.getUOM())) {
+					throw new BusinessLogicException(I18N.prop("msg_mm_material_batch_uom_is_not_same_material_setting",
+							contract.getBatchCode(), contract.getItemCode()));
+				}
+			}
+		}
+		return super.checkDataStatus(data);
+	}
+
 	@Override
 	protected IMaterialBatchJournal fetchBeAffected(IMaterialBatchJournalContract contract) {
 		// 检查物料批次记录

@@ -379,7 +379,7 @@ namespace materials {
                                                         items: [
                                                             new sap.m.MenuItem("", {
                                                                 text: ibas.i18n.prop("materials_auto_by_datetime"),
-                                                                icon: "sap-icon://timesheet",
+                                                                icon: "sap-icon://present",
                                                                 press: function (): void {
                                                                     that.fireViewEvents(that.createMaterialSerialItemEvent, "TIME_CODE");
                                                                 }

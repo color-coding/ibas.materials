@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!DOCTYPE Unit>
+<ns:Unit xmlns:ns="http://colorcoding.org/ibas/materials/bo">
+    <Name>厘米</Name>
+    <ForeignName>centimeter</ForeignName>
+    <Symbol>cm</Symbol>
+    <Activated>YES</Activated>
+</ns:Unit>

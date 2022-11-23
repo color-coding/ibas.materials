@@ -50,4 +50,11 @@ public interface IMaterialOrderedJournalContract extends IBusinessLogicContract 
 	 * @return
 	 */
 	BigDecimal getQuantity();
+
+	/**
+	 * 单位
+	 *
+	 * @return
+	 */
+	String getUOM();
 }

@@ -24,6 +24,8 @@
 /// <reference path="./bo/MaterialSpecification.ts" />
 /// <reference path="./bo/Specification.ts" />
 /// <reference path="./bo/SpecificationTree.ts" />
+/// <reference path="./bo/Unit.ts" />
+/// <reference path="./bo/UnitRate.ts" />
 /// <reference path="./DataConverter.ts" />
 /// <reference path="./BORepository.ts" />
 
@@ -51,5 +53,7 @@ namespace materials {
         boFactory.register(InventoryCounting.BUSINESS_OBJECT_CODE, InventoryCounting);
         boFactory.register(MaterialSpecification.BUSINESS_OBJECT_CODE, MaterialSpecification);
         boFactory.register(Specification.BUSINESS_OBJECT_CODE, Specification);
+        boFactory.register(Unit.BUSINESS_OBJECT_CODE, Unit);
+        boFactory.register(UnitRate.BUSINESS_OBJECT_CODE, UnitRate);
     }
 }

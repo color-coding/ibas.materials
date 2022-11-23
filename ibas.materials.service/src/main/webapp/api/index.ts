@@ -26,4 +26,6 @@
 /// <reference path="./bo/MaterialSpecification.ts" />
 /// <reference path="./bo/Specification.ts" />
 /// <reference path="./bo/SpecificationTree.ts" />
+/// <reference path="./bo/Unit.ts" />
+/// <reference path="./bo/UnitRate.ts" />
 /// <reference path="./BORepository.ts" />

@@ -325,6 +325,28 @@ namespace materials {
                 this.setProperty(Material.PROPERTY_SALESTAXGROUP_NAME, value);
             }
 
+            /** 映射的属性名称-采购单位 */
+            static PROPERTY_PURCHASEUOM_NAME: string = "PurchaseUOM";
+            /** 获取-采购单位 */
+            get purchaseUOM(): string {
+                return this.getProperty<string>(Material.PROPERTY_PURCHASEUOM_NAME);
+            }
+            /** 设置-采购单位 */
+            set purchaseUOM(value: string) {
+                this.setProperty(Material.PROPERTY_PURCHASEUOM_NAME, value);
+            }
+
+            /** 映射的属性名称-销售单位 */
+            static PROPERTY_SALESUOM_NAME: string = "SalesUOM";
+            /** 获取-销售单位 */
+            get salesUOM(): string {
+                return this.getProperty<string>(Material.PROPERTY_SALESUOM_NAME);
+            }
+            /** 设置-销售单位 */
+            set salesUOM(value: string) {
+                this.setProperty(Material.PROPERTY_SALESUOM_NAME, value);
+            }
+
             /** 映射的属性名称-生效日期 */
             static PROPERTY_VALIDDATE_NAME: string = "ValidDate";
             /** 获取-生效日期 */

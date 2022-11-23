@@ -22,6 +22,10 @@ namespace materials {
                 chooseMaterialGroupEvent: Function;
                 /** 上传图片事件 */
                 uploadPictureEvent: Function;
+                /** 选择物料单位事件 */
+                chooseMaterialUOMEvent: Function;
+                /** 选择物料单位换算率事件 */
+                editMaterialUnitRateEvent: Function;
                 /** 绘制视图 */
                 public draw(): any {
                     let that: this = this;
@@ -85,6 +89,15 @@ namespace materials {
                                 type: new sap.extension.data.Enum({
                                     enumType: bo.emItemType
                                 })
+                            }).bindProperty("editable", {
+                                path: "onHand",
+                                formatter(data: any): boolean {
+                                    // 有库存不能改此项
+                                    if (data > 0) {
+                                        return false;
+                                    }
+                                    return true;
+                                }
                             }),
                             new sap.m.Label("", { text: ibas.i18n.prop("bo_material_group") }),
                             new sap.extension.m.RepositoryInput("", {
@@ -174,6 +187,13 @@ namespace materials {
                                     maxLength: 20
                                 }),
                             }),
+                            new sap.m.Label("", { text: ibas.i18n.prop("bo_material_minimumorderquantity") }),
+                            new sap.extension.m.Input("", {
+
+                            }).bindProperty("bindingValue", {
+                                path: "minimumOrderQuantity",
+                                type: new sap.extension.data.Quantity()
+                            }),
                             new sap.m.Label("", { text: ibas.i18n.prop("bo_material_remarks") }),
                             new sap.extension.m.TextArea("", {
                                 rows: 3,
@@ -221,6 +241,15 @@ namespace materials {
                             }).bindProperty("bindingValue", {
                                 path: "inventoryItem",
                                 type: new sap.extension.data.YesNo()
+                            }).bindProperty("editable", {
+                                path: "onHand",
+                                formatter(data: any): boolean {
+                                    // 有库存不能改此项
+                                    if (data > 0) {
+                                        return false;
+                                    }
+                                    return true;
+                                }
                             }),
                             new sap.m.Label("", { text: ibas.i18n.prop("bo_material_phantomitem") }),
                             new sap.extension.m.EnumSelect("", {
@@ -228,6 +257,15 @@ namespace materials {
                             }).bindProperty("bindingValue", {
                                 path: "phantomItem",
                                 type: new sap.extension.data.YesNo()
+                            }).bindProperty("editable", {
+                                path: "onHand",
+                                formatter(data: any): boolean {
+                                    // 有库存不能改此项
+                                    if (data > 0) {
+                                        return false;
+                                    }
+                                    return true;
+                                }
                             }),
                             new sap.m.Label("", { text: ibas.i18n.prop("bo_material_productunit") }),
                             new sap.extension.m.EnumSelect("", {
@@ -254,6 +292,30 @@ namespace materials {
                                 ]
                             }).bindProperty("bindingValue", {
                                 path: "salesTaxGroup",
+                                type: new sap.extension.data.Alphanumeric({
+                                    maxLength: 8
+                                }),
+                            }),
+                            new sap.m.Label("", { text: ibas.i18n.prop("bo_material_purchaseuom") }),
+                            new sap.extension.m.Input("", {
+                                showValueHelp: true,
+                                valueHelpRequest: function (): void {
+                                    that.fireViewEvents(that.chooseMaterialUOMEvent, bo.Material.PROPERTY_PURCHASEUOM_NAME);
+                                }
+                            }).bindProperty("bindingValue", {
+                                path: "purchaseUOM",
+                                type: new sap.extension.data.Alphanumeric({
+                                    maxLength: 8
+                                }),
+                            }),
+                            new sap.m.Label("", { text: ibas.i18n.prop("bo_material_salesuom") }),
+                            new sap.extension.m.Input("", {
+                                showValueHelp: true,
+                                valueHelpRequest: function (): void {
+                                    that.fireViewEvents(that.chooseMaterialUOMEvent, bo.Material.PROPERTY_SALESUOM_NAME);
+                                }
+                            }).bindProperty("bindingValue", {
+                                path: "salesUOM",
                                 type: new sap.extension.data.Alphanumeric({
                                     maxLength: 8
                                 }),
@@ -290,20 +352,26 @@ namespace materials {
                                 path: "minimumInventory",
                                 type: new sap.extension.data.Quantity()
                             }),
-                            new sap.m.Label("", { text: ibas.i18n.prop("bo_material_minimumorderquantity") }),
-                            new sap.extension.m.Input("", {
-
-                            }).bindProperty("bindingValue", {
-                                path: "minimumOrderQuantity",
-                                type: new sap.extension.data.Quantity()
-                            }),
                             new sap.m.Label("", { text: ibas.i18n.prop("bo_material_inventoryuom") }),
                             new sap.extension.m.Input("", {
+                                showValueHelp: true,
+                                valueHelpRequest: function (): void {
+                                    that.fireViewEvents(that.chooseMaterialUOMEvent, bo.Material.PROPERTY_INVENTORYUOM_NAME);
+                                }
                             }).bindProperty("bindingValue", {
                                 path: "inventoryUOM",
                                 type: new sap.extension.data.Alphanumeric({
                                     maxLength: 8
                                 }),
+                            }).bindProperty("editable", {
+                                path: "onHand",
+                                formatter(data: any): boolean {
+                                    // 有库存不能改此项
+                                    if (data > 0) {
+                                        return false;
+                                    }
+                                    return true;
+                                }
                             }),
                             new sap.m.Label("", { text: ibas.i18n.prop("bo_material_serialmanagement") }),
                             new sap.extension.m.EnumSelect("", {
@@ -311,6 +379,15 @@ namespace materials {
                             }).bindProperty("bindingValue", {
                                 path: "serialManagement",
                                 type: new sap.extension.data.YesNo()
+                            }).bindProperty("editable", {
+                                path: "onHand",
+                                formatter(data: any): boolean {
+                                    // 有库存不能改此项
+                                    if (data > 0) {
+                                        return false;
+                                    }
+                                    return true;
+                                }
                             }),
                             new sap.m.Label("", { text: ibas.i18n.prop("bo_material_batchmanagement") }),
                             new sap.extension.m.EnumSelect("", {
@@ -318,6 +395,15 @@ namespace materials {
                             }).bindProperty("bindingValue", {
                                 path: "batchManagement",
                                 type: new sap.extension.data.YesNo()
+                            }).bindProperty("editable", {
+                                path: "onHand",
+                                formatter(data: any): boolean {
+                                    // 有库存不能改此项
+                                    if (data > 0) {
+                                        return false;
+                                    }
+                                    return true;
+                                }
                             }),
                             new sap.m.Label("", { text: ibas.i18n.prop("bo_material_defaultwarehouse") }),
                             new sap.extension.m.RepositoryInput("", {
@@ -397,6 +483,15 @@ namespace materials {
                                         ],
                                     })
                                 }),
+                                new sap.m.ToolbarSpacer(""),
+                                this.rateButton = new sap.m.Button("", {
+                                    text: ibas.i18n.prop("materials_app_unitrate_edit_list"),
+                                    type: sap.m.ButtonType.Transparent,
+                                    icon: "sap-icon://collections-management",
+                                    press: function (): void {
+                                        that.fireViewEvents(that.editMaterialUnitRateEvent);
+                                    }
+                                }),
                             ]
                         }),
                         content: [
@@ -405,14 +500,14 @@ namespace materials {
                     });
                 }
                 private page: sap.extension.m.Page;
-
+                private rateButton: sap.m.Button;
                 /** 显示数据 */
                 showMaterial(data: bo.Material): void {
                     this.page.setModel(new sap.extension.model.JSONModel(data));
                     // 改变页面状态
                     sap.extension.pages.changeStatus(this.page);
+                    this.rateButton.setVisible(!data.isNew)
                 }
-
             }
         }
     }

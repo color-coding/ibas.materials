@@ -63,6 +63,11 @@ class MaterialBatchItem extends org.colorcoding.ibas.materials.bo.materialbatch.
 					}
 
 					@Override
+					public String getUOM() {
+						return MaterialBatchItem.this.parent.getTargetUOM();
+					}
+
+					@Override
 					public String getDocumentType() {
 						return MaterialBatchItem.this.getDocumentType();
 					}
@@ -107,6 +112,11 @@ class MaterialBatchItem extends org.colorcoding.ibas.materials.bo.materialbatch.
 					@Override
 					public BigDecimal getQuantity() {
 						return MaterialBatchItem.this.getQuantity();
+					}
+
+					@Override
+					public String getUOM() {
+						return MaterialBatchItem.this.parent.getTargetUOM();
 					}
 
 					@Override

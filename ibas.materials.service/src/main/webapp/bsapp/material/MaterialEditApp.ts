@@ -31,7 +31,9 @@ namespace materials {
                 this.view.createDataEvent = this.createData;
                 this.view.chooseMaterialWarehouseEvent = this.chooseMaterialWarehouse;
                 this.view.chooseMaterialGroupEvent = this.chooseMaterialGroup;
+                this.view.chooseMaterialUOMEvent = this.chooseMaterialUOM;
                 this.view.uploadPictureEvent = this.uploadPicture;
+                this.view.editMaterialUnitRateEvent = this.editMaterialUnitRate;
             }
             /** 视图显示后 */
             protected viewShowed(): void {
@@ -228,6 +230,33 @@ namespace materials {
                     }
                 });
             }
+            /** 选择物料组事件 */
+            private chooseMaterialUOM(type: string): void {
+                let that: this = this;
+                ibas.servicesManager.runChooseService<bo.Unit>({
+                    boCode: bo.Unit.BUSINESS_OBJECT_CODE,
+                    chooseType: ibas.emChooseType.SINGLE,
+                    criteria: [
+                        new ibas.Condition(bo.Unit.PROPERTY_ACTIVATED_NAME, ibas.emConditionOperation.EQUAL, ibas.emYesNo.YES)
+                    ],
+                    onCompleted(selecteds: ibas.IList<bo.Unit>): void {
+                        let selected: bo.Unit = selecteds.firstOrDefault();
+                        if (type === bo.Material.PROPERTY_INVENTORYUOM_NAME) {
+                            that.editData.inventoryUOM = selected.name;
+                        } else if (type === bo.Material.PROPERTY_PURCHASEUOM_NAME) {
+                            that.editData.purchaseUOM = selected.name;
+                        } else if (type === bo.Material.PROPERTY_SALESUOM_NAME) {
+                            that.editData.salesUOM = selected.name;
+                        }
+                    }
+                });
+            }
+            private editMaterialUnitRate(): void {
+                let app: UnitRateEditListApp = new UnitRateEditListApp();
+                app.navigation = this.navigation;
+                app.viewShower = this.viewShower;
+                app.run(this.editData);
+            }
         }
         /** 视图-物料 */
         export interface IMaterialEditView extends ibas.IBOEditView {
@@ -243,6 +272,10 @@ namespace materials {
             chooseMaterialGroupEvent: Function;
             /** 上传图片事件 */
             uploadPictureEvent: Function;
+            /** 选择物料单位事件 */
+            chooseMaterialUOMEvent: Function;
+            /** 选择物料单位换算率事件 */
+            editMaterialUnitRateEvent: Function;
         }
     }
 }

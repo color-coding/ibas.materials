@@ -1357,6 +1357,16 @@ public class GoodsIssueLine extends BusinessObject<GoodsIssueLine>
 		this.setProperty(PROPERTY_MATERIALSERIALS, value);
 	}
 
+	@Override
+	public BigDecimal getTargetQuantity() {
+		return this.getQuantity();
+	}
+
+	@Override
+	public String getTargetUOM() {
+		return this.getUOM();
+	}
+
 	/**
 	 * 初始化数据
 	 */
@@ -1436,6 +1446,11 @@ public class GoodsIssueLine extends BusinessObject<GoodsIssueLine>
 					@Override
 					public BigDecimal getQuantity() {
 						return GoodsIssueLine.this.getQuantity();
+					}
+
+					@Override
+					public String getUOM() {
+						return GoodsIssueLine.this.getUOM();
 					}
 
 					@Override

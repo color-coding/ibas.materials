@@ -34,6 +34,11 @@ class MaterialSerialItem extends org.colorcoding.ibas.materials.bo.materialseria
 					}
 
 					@Override
+					public String getUOM() {
+						return MaterialSerialItem.this.parent.getUOM();
+					}
+
+					@Override
 					public String getWarehouse() {
 						return MaterialSerialItem.this.parent.parent.getFromWarehouse();
 					}
@@ -67,10 +72,16 @@ class MaterialSerialItem extends org.colorcoding.ibas.materials.bo.materialseria
 					public Integer getDocumentEntry() {
 						return MaterialSerialItem.this.getDocumentEntry();
 					}
+
 				}, new IMaterialSerialJournalContract() {
 					@Override
 					public emDirection getDirection() {
 						return emDirection.IN;
+					}
+
+					@Override
+					public String getUOM() {
+						return MaterialSerialItem.this.parent.getUOM();
 					}
 
 					@Override

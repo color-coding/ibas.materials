@@ -15,6 +15,7 @@
 /// <reference path="./materialbatch/index.ts" />
 /// <reference path="./materialserial/index.ts" />
 /// <reference path="./materialpricelist/index.ts" />
+/// <reference path="./unit/index.ts" />
 namespace materials {
     export namespace ui {
         /**
@@ -96,6 +97,9 @@ namespace materials {
                         break;
                     case app.MaterialSerialChooseApp.APPLICATION_ID:
                         view = new m.MaterialSerialChooseView();
+                        break;
+                    case app.UnitChooseApp.APPLICATION_ID:
+                        view = new m.UnitChooseView();
                         break;
                     default:
                         break;

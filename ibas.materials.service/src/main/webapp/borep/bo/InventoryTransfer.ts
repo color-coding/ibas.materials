@@ -880,6 +880,9 @@ namespace materials {
                 this.setProperty(InventoryTransferLine.PROPERTY_MATERIALSERIALS_NAME, value);
             }
 
+            get targetQuantity(): number {
+                return this.quantity;
+            }
             /** 初始化数据 */
             protected init(): void {
                 this.materialBatches = new MaterialBatchItemTs(this);

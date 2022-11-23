@@ -22,6 +22,8 @@ namespace materials {
                 deleteDataEvent: Function;
                 /** 物料组事件 */
                 materialGroupEvent: Function;
+                /** 物料单位事件 */
+                materialUnitEvent: Function;
                 /** 绘制视图 */
                 draw(): any {
                     let that: this = this;
@@ -164,6 +166,15 @@ namespace materials {
                                     icon: "sap-icon://dimension",
                                     press: function (): void {
                                         that.fireViewEvents(that.materialGroupEvent);
+                                    }
+                                }),
+                                new sap.m.ToolbarSeparator(""),
+                                new sap.m.Button("", {
+                                    text: ibas.i18n.prop("materials_func_unit"),
+                                    type: sap.m.ButtonType.Transparent,
+                                    icon: "sap-icon://measure",
+                                    press: function (): void {
+                                        that.fireViewEvents(that.materialUnitEvent);
                                     }
                                 }),
                                 new sap.m.ToolbarSpacer(""),

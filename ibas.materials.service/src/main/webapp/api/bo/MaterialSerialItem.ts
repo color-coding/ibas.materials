@@ -92,7 +92,7 @@ namespace materials {
             warehouse: string;
 
             /** 数量 */
-            quantity: number;
+            readonly targetQuantity: number;
 
             /** 物料序列集合 */
             materialSerials: IMaterialSerialItems;

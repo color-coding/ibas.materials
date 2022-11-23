@@ -61,6 +61,13 @@ public interface IMaterialIssueContract extends IBusinessLogicContract {
 	BigDecimal getQuantity();
 
 	/**
+	 * 单位
+	 *
+	 * @return
+	 */
+	String getUOM();
+
+	/**
 	 * 过账日期
 	 *
 	 * @return
