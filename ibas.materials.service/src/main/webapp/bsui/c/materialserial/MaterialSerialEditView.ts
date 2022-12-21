@@ -26,6 +26,7 @@ namespace materials {
                         },
                         userFieldsMode: "input",
                         userFieldsTitle: "",
+                        editable: true,
                         content: [
                             new sap.m.Label("", { text: ibas.i18n.prop("bo_materialserial_itemcode") }),
                             new sap.extension.m.RepositoryInput("", {

@@ -33,57 +33,59 @@ namespace materials {
             protected viewShowed(): void {
                 // 视图加载完成
                 super.viewShowed();
-                let criteria: ibas.Criteria = new ibas.Criteria();
-                let condition: ibas.ICondition = criteria.conditions.create();
-                condition.alias = conditions.specificationtree.CONDITION_ALIAS_TEMPLATE;
-                condition.value = this.viewData.specification.toString();
-                let that: this = this;
-                let boRepository: bo.BORepositoryMaterials = new bo.BORepositoryMaterials();
-                boRepository.fetchSpecificationTree({
-                    criteria: criteria,
-                    onCompleted(opRslt: ibas.IOperationResult<bo.SpecificationTree>): void {
-                        try {
-                            let specTree: bo.SpecificationTree = opRslt.resultObjects.firstOrDefault();
-                            if (ibas.objects.isNull(specTree)) {
-                                // 没找到模板，直接输出
-                                let prdTree: MaterialSpecificationTree = new MaterialSpecificationTree(that.viewData);
-                                for (let item of that.viewData.materialSpecificationItems) {
-                                    prdTree.items.add(new MaterialSpecificationTreeItem(item));
-                                }
-                                that.view.showSpecificationTree(prdTree);
-                            } else {
-                                let createItem: Function = function (specItem: bo.SpecificationTreeItem): MaterialSpecificationTreeItem {
-                                    let item: bo.MaterialSpecificationItem = that.viewData.materialSpecificationItems.firstOrDefault(c => c.sign === specItem.sign);
-                                    if (!ibas.objects.isNull(item)) {
-                                        let prdItem: MaterialSpecificationTreeItem = new MaterialSpecificationTreeItem(item);
-                                        prdItem.editable = specItem.editable;
-                                        prdItem.required = specItem.required;
-                                        prdItem.vaildValues = specItem.vaildValues;
-                                        for (let sItem of specItem.items) {
-                                            let nItem: MaterialSpecificationTreeItem = createItem(sItem);
-                                            if (ibas.objects.isNull(nItem)) {
-                                                continue;
+                if (!ibas.objects.isNull(this.viewData)) {
+                    let criteria: ibas.Criteria = new ibas.Criteria();
+                    let condition: ibas.ICondition = criteria.conditions.create();
+                    condition.alias = conditions.specificationtree.CONDITION_ALIAS_TEMPLATE;
+                    condition.value = this.viewData.specification.toString();
+                    let that: this = this;
+                    let boRepository: bo.BORepositoryMaterials = new bo.BORepositoryMaterials();
+                    boRepository.fetchSpecificationTree({
+                        criteria: criteria,
+                        onCompleted(opRslt: ibas.IOperationResult<bo.SpecificationTree>): void {
+                            try {
+                                let specTree: bo.SpecificationTree = opRslt.resultObjects.firstOrDefault();
+                                if (ibas.objects.isNull(specTree)) {
+                                    // 没找到模板，直接输出
+                                    let prdTree: MaterialSpecificationTree = new MaterialSpecificationTree(that.viewData);
+                                    for (let item of that.viewData.materialSpecificationItems) {
+                                        prdTree.items.add(new MaterialSpecificationTreeItem(item));
+                                    }
+                                    that.view.showSpecificationTree(prdTree);
+                                } else {
+                                    let createItem: Function = function (specItem: bo.SpecificationTreeItem): MaterialSpecificationTreeItem {
+                                        let item: bo.MaterialSpecificationItem = that.viewData.materialSpecificationItems.firstOrDefault(c => c.sign === specItem.sign);
+                                        if (!ibas.objects.isNull(item)) {
+                                            let prdItem: MaterialSpecificationTreeItem = new MaterialSpecificationTreeItem(item);
+                                            prdItem.editable = specItem.editable;
+                                            prdItem.required = specItem.required;
+                                            prdItem.vaildValues = specItem.vaildValues;
+                                            for (let sItem of specItem.items) {
+                                                let nItem: MaterialSpecificationTreeItem = createItem(sItem);
+                                                if (ibas.objects.isNull(nItem)) {
+                                                    continue;
+                                                }
+                                                prdItem.items.add(nItem);
                                             }
-                                            prdItem.items.add(nItem);
+                                            return prdItem;
                                         }
-                                        return prdItem;
+                                    };
+                                    let prdTree: MaterialSpecificationTree = new MaterialSpecificationTree(that.viewData);
+                                    for (let item of specTree.items) {
+                                        let nItem: MaterialSpecificationTreeItem = createItem(item);
+                                        if (ibas.objects.isNull(nItem)) {
+                                            continue;
+                                        }
+                                        prdTree.items.add(nItem);
                                     }
-                                };
-                                let prdTree: MaterialSpecificationTree = new MaterialSpecificationTree(that.viewData);
-                                for (let item of specTree.items) {
-                                    let nItem: MaterialSpecificationTreeItem = createItem(item);
-                                    if (ibas.objects.isNull(nItem)) {
-                                        continue;
-                                    }
-                                    prdTree.items.add(nItem);
+                                    that.view.showSpecificationTree(prdTree);
                                 }
-                                that.view.showSpecificationTree(prdTree);
+                            } catch (error) {
+                                that.messages(error);
                             }
-                        } catch (error) {
-                            that.messages(error);
                         }
-                    }
-                });
+                    });
+                }
             }
             run(): void;
             run(data: bo.MaterialSpecification): void;
