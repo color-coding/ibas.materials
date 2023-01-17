@@ -435,25 +435,22 @@ namespace materials {
                     },
                 },
                 renderer: function (this: SpecificationInput, oRm: sap.ui.core.RenderManager, oControl: SpecificationInput): void {
-                    oRm.write("<div");
-                    oRm.writeControlData(oControl);
-                    oRm.write(">");
-                    oRm.write("<div");
-                    oRm.addClass("sapMInputBaseContentWrapper sapMInputBaseHasEndIcons");
-                    oRm.writeClasses();
-                    oRm.addStyle("display", "inline-flex");
-                    oRm.addStyle("width", "100%");
-                    oRm.addStyle("height", "100%");
-                    oRm.addStyle("border", "0");
-                    oRm.addStyle("background-color", sap.ui.core.theming.Parameters.get("sapUiGlobalBackgroundColor"));
-                    oRm.writeStyles();
-                    oRm.write(">");
+                    oRm.openStart("div", oControl).openEnd();
+                    oRm.openStart("div");
+                    oRm.class("sapMInputBaseContentWrapper");
+                    oRm.class("sapMInputBaseHasEndIcons");
+                    oRm.style("display", "inline-flex");
+                    oRm.style("width", "100%");
+                    oRm.style("height", "100%");
+                    oRm.style("border", "0");
+                    oRm.style("background-color", "transparent");
+                    oRm.openEnd();
                     oRm.renderControl(<sap.ui.core.Control>oControl.getAggregation("_input", undefined));
-                    oRm.write("</div>");
-                    oRm.write("<div>");
+                    oRm.close("div");
+                    oRm.openStart("div").openEnd();
                     oRm.renderControl(<sap.ui.core.Control>oControl.getAggregation("_textarea", undefined));
-                    oRm.write("</div>");
-                    oRm.write("</div>");
+                    oRm.close("div");
+                    oRm.close("div");
                 },
                 init(this: SpecificationInput): void {
                     (<any>sap.extension.core.EditableControl.prototype).init.apply(this, arguments);
