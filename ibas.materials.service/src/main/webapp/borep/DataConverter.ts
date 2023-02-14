@@ -291,6 +291,45 @@ namespace materials {
             target.uom = source.inventoryUOM;
             target.price = source.avgPrice;
         }
+        const DECIMAL_PLACES_SUM: number = ibas.config.get(ibas.CONFIG_ITEM_DECIMAL_PLACES_SUM);
+        /** 业务规则-计算库存数量 */
+        export class BusinessRuleCalculateInventoryQuantity extends ibas.BusinessRuleCommon {
+            /**
+             * 构造方法
+             * @param inventoryQuantity 属性-库存数量
+             * @param quantity          属性-数量
+             * @param uomRate           属性-换算率
+             */
+            constructor(inventoryQuantity: string, quantity: string, uomRate: string) {
+                super();
+                this.name = ibas.i18n.prop("materials_business_rule_calculate_inventory_quantity");
+                this.inventoryQuantity = inventoryQuantity;
+                this.quantity = quantity;
+                this.uomRate = uomRate;
+                this.inputProperties.add(this.inventoryQuantity);
+                this.inputProperties.add(this.quantity);
+                this.inputProperties.add(this.uomRate);
+                this.affectedProperties.add(this.uomRate);
+                this.affectedProperties.add(this.inventoryQuantity);
+            }
+            /** 库存数量 */
+            inventoryQuantity: string;
+            /** 数量 */
+            quantity: string;
+            /** 换算率 */
+            uomRate: string;
+            /** 计算规则 */
+            protected compute(context: ibas.BusinessRuleContextCommon): void {
+                let uomRate: number = ibas.numbers.valueOf(context.inputValues.get(this.uomRate));
+                if (uomRate <= 0) {
+                    uomRate = 1;
+                    context.outputValues.set(this.uomRate, uomRate);
+                }
+                let quantity: number = ibas.numbers.valueOf(context.inputValues.get(this.quantity));
+                context.outputValues.set(this.inventoryQuantity, ibas.numbers.round(quantity * uomRate, DECIMAL_PLACES_SUM));
+            }
+        }
+
 
         export namespace bo4j {
             /** 操作消息 */
