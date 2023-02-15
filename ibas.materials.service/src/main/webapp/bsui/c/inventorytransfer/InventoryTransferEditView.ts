@@ -372,7 +372,8 @@ namespace materials {
                                             })
                                         }),
                                     }),
-                                ]
+                                ],
+                                sortProperty: "visOrder",
                             })
                         ]
                     });
