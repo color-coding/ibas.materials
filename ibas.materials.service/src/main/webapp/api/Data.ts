@@ -672,6 +672,10 @@ namespace materials {
                         }
                     }
                 });
+            } else {
+                if (caller.onCompleted instanceof Function) {
+                    caller.onCompleted();
+                }
             }
         }
 
