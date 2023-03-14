@@ -18,6 +18,7 @@
     <Property Name="ProductUnit" Description="产品单元" DataType="Alphanumeric" DataSubType="Default" EditSize="1" DeclaredType="emYesNo" Mapped="PrdUnitItem"/>
     <Property Name="DefaultWarehouse" Description="缺省仓库" DataType="Alphanumeric" DataSubType="Default" EditSize="8" Mapped="DfltWhs"/>
     <Property Name="PreferredVendor" Description="首选供应商" DataType="Alphanumeric" DataSubType="Default" EditSize="20" Mapped="Vendor"/>
+    <Property Name="Manufacturer" Description="生产商" DataType="Alphanumeric" DataSubType="Default" EditSize="100" Mapped="Manufacturer"/>
     <Property Name="InventoryUOM" Description="库存单位" DataType="Alphanumeric" DataSubType="Default" EditSize="8" Mapped="InvntUom"/>
     <Property Name="AvgPrice" Description="价格" DataType="Decimal" DataSubType="Quantity" EditSize="8" Mapped="AvgPrice"/>
     <Property Name="OnHand" Description="库存" DataType="Decimal" DataSubType="Quantity" EditSize="8" Mapped="OnHand"/>
@@ -32,6 +33,18 @@
     <Property Name="SalesTaxGroup" Description="销售税收组" DataType="Alphanumeric" DataSubType="Default" EditSize="8" Mapped="SalesTax"/>
     <Property Name="PurchaseUOM" Description="采购单位" DataType="Alphanumeric" DataSubType="Default" EditSize="8" Mapped="PrchseUom"/>
     <Property Name="SalesUOM" Description="销售单位" DataType="Alphanumeric" DataSubType="Default" EditSize="8" Mapped="SalesUom"/>
+    <Property Name="ProductionUOM" Description="生产单位" DataType="Alphanumeric" DataSubType="Default" EditSize="8" Mapped="PrdctUom"/>
+    <Property Name="ProcurementMethod" Description="获取方式" DataType="Alphanumeric" DataSubType="Default" EditSize="1" DeclaredType="emProcurementMethod" Mapped="PrcumtMthd"/>
+    <Property Name="IssueMethod" Description="领料方式" DataType="Alphanumeric" DataSubType="Default" EditSize="1" DeclaredType="emIssueMethod" Mapped="IssueMthd"/>
+    <Property Name="PlanningMethod" Description="计划方式" DataType="Alphanumeric" DataSubType="Default" EditSize="1" DeclaredType="emPlanningMethod" Mapped="PlanMthd"/>
+    <Property Name="CheckCompleteness" Description="齐套检查" DataType="Alphanumeric" DataSubType="Default" EditSize="1" DeclaredType="emYesNo" Mapped="CheckCmpltns"/>
+    <Property Name="MixingBatches" Description="批次混用" DataType="Alphanumeric" DataSubType="Default" EditSize="1" DeclaredType="emYesNo" Mapped="MixBatch"/>
+    <Property Name="MadeToOrder" Description="订单生产" DataType="Alphanumeric" DataSubType="Default" EditSize="1" DeclaredType="emYesNo" Mapped="MadeToOrder"/>
+    <Property Name="DarwingNumber" Description="图号" DataType="Alphanumeric" DataSubType="Default" EditSize="60" Mapped="Darwing"/>
+    <Property Name="MatchCode" Description="匹配码" DataType="Alphanumeric" DataSubType="Default" EditSize="60" Mapped="MatchCode"/>
+    <Property Name="LotSize" Description="生产批量" DataType="Decimal" DataSubType="Quantity" EditSize="8" Mapped="LotSize"/>
+    <Property Name="Scrap" Description="废品率" DataType="Alphanumeric" DataSubType="Default" EditSize="8" Mapped="Scrap"/>
+    <Property Name="Scheduler" Description="计划员" DataType="Alphanumeric" DataSubType="Default" EditSize="8" Mapped="Scheduler"/>
     <Property Name="ValidDate" Description="生效日期" DataType="Date" DataSubType="Default" EditSize="8" Mapped="ValidDate"/>
     <Property Name="InvalidDate" Description="失效日期" DataType="Date" DataSubType="Default" EditSize="8" Mapped="InvalidDate"/>
     <Property Name="Picture" Description="图片" DataType="Alphanumeric" DataSubType="Default" EditSize="250" Mapped="Picture"/>
@@ -56,4 +69,29 @@
     <Property Name="Organization" Description="数据所属组织" DataType="Alphanumeric" DataSubType="Default" EditSize="8" Mapped="OrgCode"/>
   </Model>
   <BusinessObject MappedModel="Material" ShortName="${Company}_MM_MATERIAL"/>
+  <Model Name="MaterialVersion" Description="物料版本" ModelType="Simple" Mapped="${Company}_MM_IMVER">
+    <Property Name="ObjectKey" Description="编号" DataType="Numeric" DataSubType="Default" EditSize="8" Mapped="ObjectKey" PrimaryKey="Yes"/>
+    <Property Name="ObjectCode" Description="类型" DataType="Alphanumeric" DataSubType="Default" EditSize="30" Mapped="Object"/>
+    <Property Name="LogInst" Description="实例号（版本）" DataType="Numeric" DataSubType="Default" EditSize="8" Mapped="LogInst"/>
+    <Property Name="DataSource" Description="数据源" DataType="Alphanumeric" DataSubType="Default" EditSize="8" Mapped="DataSource"/>
+    <Property Name="Series" Description="编号系列" DataType="Numeric" DataSubType="Default" EditSize="8" Mapped="Series"/>
+    <Property Name="CreateDate" Description="创建日期" DataType="Date" DataSubType="Date" EditSize="8" Mapped="CreateDate"/>
+    <Property Name="CreateTime" Description="创建时间" DataType="Date" DataSubType="Time" EditSize="8" Mapped="CreateTime"/>
+    <Property Name="UpdateDate" Description="修改日期" DataType="Date" DataSubType="Date" EditSize="8" Mapped="UpdateDate"/>
+    <Property Name="UpdateTime" Description="修改时间" DataType="Date" DataSubType="Time" EditSize="8" Mapped="UpdateTime"/>
+    <Property Name="CreateUserSign" Description="创建用户" DataType="Numeric" DataSubType="Default" EditSize="8" Mapped="Creator"/>
+    <Property Name="UpdateUserSign" Description="修改用户" DataType="Numeric" DataSubType="Default" EditSize="8" Mapped="Updator"/>
+    <Property Name="CreateActionId" Description="创建动作标识" DataType="Alphanumeric" DataSubType="Default" EditSize="36" Mapped="CreateActId"/>
+    <Property Name="UpdateActionId" Description="更新动作标识" DataType="Alphanumeric" DataSubType="Default" EditSize="36" Mapped="UpdateActId"/>
+    <Property Name="DataOwner" Description="数据所有者" DataType="Numeric" DataSubType="Default" EditSize="8" Mapped="DataOwner"/>
+    <Property Name="Organization" Description="数据所属组织" DataType="Alphanumeric" DataSubType="Default" EditSize="8" Mapped="OrgCode"/>
+    <Property Name="ItemCode" Description="物料编码" DataType="Alphanumeric" DataSubType="Default" EditSize="20" Mapped="ItemCode" UniqueKey="Yes"/>
+    <Property Name="Name" Description="名称" DataType="Alphanumeric" DataSubType="Default" EditSize="10" Mapped="Name" UniqueKey="Yes"/>
+    <Property Name="Description" Description="描述" DataType="Alphanumeric" DataSubType="Default" EditSize="200" Mapped="Dscription"/>
+    <Property Name="Activated" Description="已激活的" DataType="Alphanumeric" DataSubType="Default" EditSize="1" DeclaredType="emYesNo" Mapped="Activated"/>
+    <Property Name="ValidDate" Description="生效日期" DataType="Date" DataSubType="Date" EditSize="8" Mapped="ValidDate"/>
+    <Property Name="InvalidDate" Description="失效日期" DataType="Date" DataSubType="Date" EditSize="8" Mapped="InvalidDate"/>
+    <Property Name="Remarks" Description="备注" DataType="Memo" DataSubType="Default" EditSize="8" Mapped="Remarks"/>
+  </Model>
+  <BusinessObject MappedModel="MaterialVersion" ShortName="${Company}_MM_MATERIALVERSION"/>
 </Domain>

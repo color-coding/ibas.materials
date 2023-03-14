@@ -27,12 +27,12 @@ namespace materials {
                         columns: [
                             new sap.extension.table.DataColumn("", {
                                 label: ibas.i18n.prop("bo_material_code"),
-                                template: new sap.extension.m.DataLink("", {
-                                    objectCode: bo.Material.BUSINESS_OBJECT_CODE,
+                                template: new sap.extension.m.Text("", {
                                 }).bindProperty("bindingValue", {
                                     path: "code",
                                     type: new sap.extension.data.Alphanumeric()
                                 }),
+                                width: "12rem",
                             }),
                             new sap.extension.table.DataColumn("", {
                                 label: ibas.i18n.prop("bo_material_name"),
@@ -64,6 +64,7 @@ namespace materials {
                                         describe: true,
                                     })
                                 }),
+                                width: "8rem",
                             }),
                             new sap.extension.table.DataColumn("", {
                                 label: ibas.i18n.prop("bo_material_group"),
@@ -83,16 +84,16 @@ namespace materials {
                                 label: ibas.i18n.prop("bo_material_onhand"),
                                 template: new sap.extension.m.Text("", {
                                 }).bindProperty("bindingValue", {
-                                    path: "onHand",
-                                    type: new sap.extension.data.Quantity()
-                                }),
-                            }),
-                            new sap.extension.table.DataColumn("", {
-                                label: ibas.i18n.prop("bo_material_inventoryuom"),
-                                template: new sap.extension.m.Text("", {
-                                }).bindProperty("bindingValue", {
-                                    path: "inventoryUOM",
-                                    type: new sap.extension.data.Alphanumeric()
+                                    parts: [
+                                        {
+                                            path: "onHand",
+                                            type: new sap.extension.data.Quantity()
+                                        },
+                                        {
+                                            path: "inventoryUOM",
+                                            type: new sap.extension.data.Alphanumeric()
+                                        },
+                                    ]
                                 }),
                             }),
                             new sap.extension.table.DataColumn("", {
@@ -102,6 +103,7 @@ namespace materials {
                                     path: "remarks",
                                     type: new sap.extension.data.Alphanumeric()
                                 }),
+                                width: "16rem",
                             }),
                         ],
                         nextDataSet(event: sap.ui.base.Event): void {

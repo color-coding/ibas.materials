@@ -155,6 +155,17 @@ namespace materials {
                 this.setProperty(MaterialSerial.PROPERTY_SPECIFICATION_NAME, value);
             }
 
+            /** 映射的属性名称-物料版本 */
+            static PROPERTY_VERSION_NAME: string = "Version";
+            /** 获取-物料版本 */
+            get version(): string {
+                return this.getProperty<string>(MaterialSerial.PROPERTY_VERSION_NAME);
+            }
+            /** 设置-物料版本 */
+            set version(value: string) {
+                this.setProperty(MaterialSerial.PROPERTY_VERSION_NAME, value);
+            }
+
             /** 映射的属性名称-位置 */
             static PROPERTY_LOCATION_NAME: string = "Location";
             /** 获取-位置 */

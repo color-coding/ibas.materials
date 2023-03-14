@@ -41,11 +41,13 @@ import org.colorcoding.ibas.materials.bo.material.IMaterial;
 import org.colorcoding.ibas.materials.bo.material.IMaterialGroup;
 import org.colorcoding.ibas.materials.bo.material.IMaterialPrice;
 import org.colorcoding.ibas.materials.bo.material.IMaterialQuantity;
+import org.colorcoding.ibas.materials.bo.material.IMaterialVersion;
 import org.colorcoding.ibas.materials.bo.material.IProduct;
 import org.colorcoding.ibas.materials.bo.material.Material;
 import org.colorcoding.ibas.materials.bo.material.MaterialGroup;
 import org.colorcoding.ibas.materials.bo.material.MaterialPrice;
 import org.colorcoding.ibas.materials.bo.material.MaterialQuantity;
+import org.colorcoding.ibas.materials.bo.material.MaterialVersion;
 import org.colorcoding.ibas.materials.bo.material.Product;
 import org.colorcoding.ibas.materials.bo.materialbatch.IMaterialBatch;
 import org.colorcoding.ibas.materials.bo.materialbatch.IMaterialBatchItem;
@@ -62,6 +64,8 @@ import org.colorcoding.ibas.materials.bo.materialpricelist.IMaterialPriceItem;
 import org.colorcoding.ibas.materials.bo.materialpricelist.IMaterialPriceList;
 import org.colorcoding.ibas.materials.bo.materialpricelist.MaterialPriceItem;
 import org.colorcoding.ibas.materials.bo.materialpricelist.MaterialPriceList;
+import org.colorcoding.ibas.materials.bo.materialscrap.IMaterialScrap;
+import org.colorcoding.ibas.materials.bo.materialscrap.MaterialScrap;
 import org.colorcoding.ibas.materials.bo.materialserial.IMaterialSerial;
 import org.colorcoding.ibas.materials.bo.materialserial.IMaterialSerialItem;
 import org.colorcoding.ibas.materials.bo.materialserial.IMaterialSerialJournal;
@@ -1874,6 +1878,93 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 	 */
 	public IOperationResult<IUnitRate> saveUnitRate(IUnitRate bo) {
 		return new OperationResult<IUnitRate>(this.saveUnitRate((UnitRate) bo, this.getUserToken()));
+	}
+
+	// --------------------------------------------------------------------------------------------//
+	/**
+	 * 查询-物料废品率
+	 * 
+	 * @param criteria 查询
+	 * @param token    口令
+	 * @return 操作结果
+	 */
+	public OperationResult<MaterialScrap> fetchMaterialScrap(ICriteria criteria, String token) {
+		return super.fetch(criteria, token, MaterialScrap.class);
+	}
+
+	/**
+	 * 查询-物料废品率（提前设置用户口令）
+	 * 
+	 * @param criteria 查询
+	 * @return 操作结果
+	 */
+	public IOperationResult<IMaterialScrap> fetchMaterialScrap(ICriteria criteria) {
+		return new OperationResult<IMaterialScrap>(this.fetchMaterialScrap(criteria, this.getUserToken()));
+	}
+
+	/**
+	 * 保存-物料废品率
+	 * 
+	 * @param bo    对象实例
+	 * @param token 口令
+	 * @return 操作结果
+	 */
+	public OperationResult<MaterialScrap> saveMaterialScrap(MaterialScrap bo, String token) {
+		return super.save(bo, token);
+	}
+
+	/**
+	 * 保存-物料废品率（提前设置用户口令）
+	 * 
+	 * @param bo 对象实例
+	 * @return 操作结果
+	 */
+	public IOperationResult<IMaterialScrap> saveMaterialScrap(IMaterialScrap bo) {
+		return new OperationResult<IMaterialScrap>(this.saveMaterialScrap((MaterialScrap) bo, this.getUserToken()));
+	}
+
+	// --------------------------------------------------------------------------------------------//
+	/**
+	 * 查询-物料版本
+	 * 
+	 * @param criteria 查询
+	 * @param token    口令
+	 * @return 操作结果
+	 */
+	public OperationResult<MaterialVersion> fetchMaterialVersion(ICriteria criteria, String token) {
+		return super.fetch(criteria, token, MaterialVersion.class);
+	}
+
+	/**
+	 * 查询-物料版本（提前设置用户口令）
+	 * 
+	 * @param criteria 查询
+	 * @return 操作结果
+	 */
+	public IOperationResult<IMaterialVersion> fetchMaterialVersion(ICriteria criteria) {
+		return new OperationResult<IMaterialVersion>(this.fetchMaterialVersion(criteria, this.getUserToken()));
+	}
+
+	/**
+	 * 保存-物料版本
+	 * 
+	 * @param bo    对象实例
+	 * @param token 口令
+	 * @return 操作结果
+	 */
+	public OperationResult<MaterialVersion> saveMaterialVersion(MaterialVersion bo, String token) {
+		return super.save(bo, token);
+	}
+
+	/**
+	 * 保存-物料版本（提前设置用户口令）
+	 * 
+	 * @param bo 对象实例
+	 * @return 操作结果
+	 */
+	public IOperationResult<IMaterialVersion> saveMaterialVersion(IMaterialVersion bo) {
+		return new OperationResult<IMaterialVersion>(
+				this.saveMaterialVersion((MaterialVersion) bo, this.getUserToken()));
 	}
 
 	// --------------------------------------------------------------------------------------------//

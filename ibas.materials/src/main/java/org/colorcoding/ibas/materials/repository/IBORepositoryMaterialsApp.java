@@ -11,6 +11,7 @@ import org.colorcoding.ibas.materials.bo.material.IMaterial;
 import org.colorcoding.ibas.materials.bo.material.IMaterialGroup;
 import org.colorcoding.ibas.materials.bo.material.IMaterialPrice;
 import org.colorcoding.ibas.materials.bo.material.IMaterialQuantity;
+import org.colorcoding.ibas.materials.bo.material.IMaterialVersion;
 import org.colorcoding.ibas.materials.bo.material.IProduct;
 import org.colorcoding.ibas.materials.bo.materialbatch.IMaterialBatch;
 import org.colorcoding.ibas.materials.bo.materialbatch.IMaterialBatchJournal;
@@ -18,6 +19,7 @@ import org.colorcoding.ibas.materials.bo.materialinventory.IMaterialEstimateJour
 import org.colorcoding.ibas.materials.bo.materialinventory.IMaterialInventory;
 import org.colorcoding.ibas.materials.bo.materialinventory.IMaterialInventoryJournal;
 import org.colorcoding.ibas.materials.bo.materialpricelist.IMaterialPriceList;
+import org.colorcoding.ibas.materials.bo.materialscrap.IMaterialScrap;
 import org.colorcoding.ibas.materials.bo.materialserial.IMaterialSerial;
 import org.colorcoding.ibas.materials.bo.materialserial.IMaterialSerialJournal;
 import org.colorcoding.ibas.materials.bo.materialspecification.IMaterialSpecification;
@@ -372,6 +374,40 @@ public interface IBORepositoryMaterialsApp extends IBORepositoryApplication {
 	 * @return 操作结果
 	 */
 	IOperationResult<IUnitRate> saveUnitRate(IUnitRate bo);
+
+	// --------------------------------------------------------------------------------------------//
+	/**
+	 * 查询-物料版本
+	 * 
+	 * @param criteria 查询
+	 * @return 操作结果
+	 */
+	IOperationResult<IMaterialVersion> fetchMaterialVersion(ICriteria criteria);
+
+	/**
+	 * 保存-物料版本
+	 * 
+	 * @param bo 对象实例
+	 * @return 操作结果
+	 */
+	IOperationResult<IMaterialVersion> saveMaterialVersion(IMaterialVersion bo);
+
+	// --------------------------------------------------------------------------------------------//
+	/**
+	 * 查询-物料废品率
+	 * 
+	 * @param criteria 查询
+	 * @return 操作结果
+	 */
+	IOperationResult<IMaterialScrap> fetchMaterialScrap(ICriteria criteria);
+
+	/**
+	 * 保存-物料废品率
+	 * 
+	 * @param bo 对象实例
+	 * @return 操作结果
+	 */
+	IOperationResult<IMaterialScrap> saveMaterialScrap(IMaterialScrap bo);
 
 	// --------------------------------------------------------------------------------------------//
 

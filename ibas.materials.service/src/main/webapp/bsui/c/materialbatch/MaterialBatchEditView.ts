@@ -16,6 +16,8 @@ namespace materials {
                 saveDataEvent: Function;
                 /** 选择物料规格 */
                 chooseSpecificationEvent: Function;
+                /** 选择物料版本 */
+                chooseVersionEvent: Function;
                 /** 绘制视图 */
                 draw(): any {
                     let that: this = this;
@@ -128,6 +130,16 @@ namespace materials {
                             }).bindProperty("bindingValue", {
                                 path: "/specification",
                                 type: new sap.extension.data.Numeric()
+                            }),
+                            new sap.m.Label("", { text: ibas.i18n.prop("bo_materialserial_version") }),
+                            new sap.extension.m.Input("", {
+                                showValueHelp: true,
+                                valueHelpRequest: function (): void {
+                                    that.fireViewEvents(that.chooseVersionEvent);
+                                }
+                            }).bindProperty("bindingValue", {
+                                path: "/version",
+                                type: new sap.extension.data.Alphanumeric()
                             }),
                             new sap.m.Label("", { text: ibas.i18n.prop("bo_materialbatch_notes") }),
                             new sap.extension.m.TextArea("", {

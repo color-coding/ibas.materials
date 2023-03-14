@@ -68,6 +68,10 @@ namespace materials {
         export const BO_CODE_UNIT: string = "${Company}_MM_UNIT";
         /** 业务对象编码-计量单位换算率 */
         export const BO_CODE_UNITRATE: string = "${Company}_MM_UNITRATE";
+        /** 业务对象编码-物料版本 */
+        export const BO_CODE_MATERIALVERSION: string = "${Company}_MM_MATERIALVERSION";
+        /** 业务对象编码-物料废品率 */
+        export const BO_CODE_MATERIALSCRAP: string = "${Company}_MM_MATERIALSCRAP";
 
         /** 物料类型 */
         export enum emItemType {
@@ -128,6 +132,40 @@ namespace materials {
              * 供应商
              */
             SUPPLIER,
+        }
+        /** 发货方式 */
+        export enum emIssueMethod {
+            /**
+             * 手动
+             */
+            MANUALLY,
+            /**
+             * 倒冲
+             */
+            BACKFLUSHING
+        }
+        /** 计划方式 */
+        export enum emPlanningMethod {
+
+            /**
+             * 无
+             */
+            NONE,
+            /**
+             * 物料需求计划
+             */
+            MRP
+        }
+        /** 获取方式 */
+        export enum emProcurementMethod {
+            /**
+             * 采购
+             */
+            BUY,
+            /**
+             * 生产
+             */
+            MAKE,
         }
     }
 

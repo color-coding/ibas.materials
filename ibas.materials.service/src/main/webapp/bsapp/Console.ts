@@ -19,6 +19,8 @@
 /// <reference path="./materialspecification/index.ts" />
 /// <reference path="./specification/index.ts" />
 /// <reference path="./unit/index.ts" />
+/// <reference path="./materialscrap/index.ts" />
+/// <reference path="./materialversion/index.ts" />
 namespace materials {
     export namespace app {
         /** 属性-导航 */
@@ -85,6 +87,10 @@ namespace materials {
                 this.register(new GoodsReceiptEditServiceMapping());
                 this.register(new GoodsReceiptLinkServiceMapping());
                 this.register(new UnitChooseServiceMapping());
+                this.register(new MaterialVersionChooseServiceMapping());
+                this.register(new MaterialVersionLinkServiceMapping());
+                this.register(new MaterialScrapChooseServiceMapping());
+                this.register(new MaterialScrapLinkServiceMapping());
                 // 注册常驻应用
 
             }
@@ -152,6 +158,9 @@ namespace materials {
                 this.register(new GoodsReceiptChooseServiceMapping());
                 this.register(new GoodsReceiptEditServiceMapping());
                 this.register(new GoodsReceiptLinkServiceMapping());
+                this.register(new MaterialVersionChooseServiceMapping());
+                this.register(new MaterialScrapChooseServiceMapping());
+                this.register(new MaterialScrapLinkServiceMapping());
             }
         }
     }

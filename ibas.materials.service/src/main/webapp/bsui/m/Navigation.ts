@@ -15,6 +15,8 @@
 /// <reference path="./materialbatch/index.ts" />
 /// <reference path="./materialserial/index.ts" />
 /// <reference path="./materialpricelist/index.ts" />
+/// <reference path="./materialscrap/index.ts" />
+/// <reference path="./materialversion/index.ts" />
 /// <reference path="./unit/index.ts" />
 namespace materials {
     export namespace ui {
@@ -100,6 +102,18 @@ namespace materials {
                         break;
                     case app.UnitChooseApp.APPLICATION_ID:
                         view = new m.UnitChooseView();
+                        break;
+                    case app.MaterialScrapChooseApp.APPLICATION_ID:
+                        view = new m.MaterialScrapChooseView();
+                        break;
+                    case app.MaterialScrapViewApp.APPLICATION_ID:
+                        view = new m.MaterialScrapViewView();
+                        break;
+                    case app.MaterialVersionChooseApp.APPLICATION_ID:
+                        view = new m.MaterialVersionChooseView();
+                        break;
+                    case app.MaterialVersionViewApp.APPLICATION_ID:
+                        view = new m.MaterialVersionViewView();
                         break;
                     default:
                         break;

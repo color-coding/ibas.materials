@@ -395,6 +395,37 @@ public class MaterialBatch extends BusinessObject<MaterialBatch> implements IMat
 	}
 
 	/**
+	 * 属性名称-物料版本
+	 */
+	private static final String PROPERTY_VERSION_NAME = "Version";
+
+	/**
+	 * 物料版本 属性
+	 */
+	@DbField(name = "Version", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME)
+	public static final IPropertyInfo<String> PROPERTY_VERSION = registerProperty(PROPERTY_VERSION_NAME, String.class,
+			MY_CLASS);
+
+	/**
+	 * 获取-物料版本
+	 * 
+	 * @return 值
+	 */
+	@XmlElement(name = PROPERTY_VERSION_NAME)
+	public final String getVersion() {
+		return this.getProperty(PROPERTY_VERSION);
+	}
+
+	/**
+	 * 设置-物料版本
+	 * 
+	 * @param value 值
+	 */
+	public final void setVersion(String value) {
+		this.setProperty(PROPERTY_VERSION, value);
+	}
+
+	/**
 	 * 属性名称-位置
 	 */
 	private static final String PROPERTY_LOCATION_NAME = "Location";

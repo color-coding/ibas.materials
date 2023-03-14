@@ -26,6 +26,8 @@
 /// <reference path="./bo/SpecificationTree.ts" />
 /// <reference path="./bo/Unit.ts" />
 /// <reference path="./bo/UnitRate.ts" />
+/// <reference path="./bo/MaterialScrap.ts" />
+/// <reference path="./bo/MaterialVersion.ts" />
 /// <reference path="./DataConverter.ts" />
 /// <reference path="./BORepository.ts" />
 
@@ -55,5 +57,7 @@ namespace materials {
         boFactory.register(Specification.BUSINESS_OBJECT_CODE, Specification);
         boFactory.register(Unit.BUSINESS_OBJECT_CODE, Unit);
         boFactory.register(UnitRate.BUSINESS_OBJECT_CODE, UnitRate);
+        boFactory.register(MaterialScrap.BUSINESS_OBJECT_CODE, MaterialScrap);
+        boFactory.register(MaterialVersion.BUSINESS_OBJECT_CODE, MaterialVersion);
     }
 }

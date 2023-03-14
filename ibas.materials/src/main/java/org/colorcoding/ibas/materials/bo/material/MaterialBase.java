@@ -12,7 +12,10 @@ import org.colorcoding.ibas.bobas.data.emApprovalStatus;
 import org.colorcoding.ibas.bobas.data.emYesNo;
 import org.colorcoding.ibas.bobas.mapping.DbField;
 import org.colorcoding.ibas.bobas.mapping.DbFieldType;
+import org.colorcoding.ibas.materials.data.emIssueMethod;
 import org.colorcoding.ibas.materials.data.emItemType;
+import org.colorcoding.ibas.materials.data.emPlanningMethod;
+import org.colorcoding.ibas.materials.data.emProcurementMethod;
 
 public abstract class MaterialBase<T extends MaterialBase<T>> extends BusinessObject<T> {
 
@@ -467,6 +470,37 @@ public abstract class MaterialBase<T extends MaterialBase<T>> extends BusinessOb
 	}
 
 	/**
+	 * 属性名称-生产商
+	 */
+	private static final String PROPERTY_MANUFACTURER_NAME = "Manufacturer";
+
+	/**
+	 * 生产商 属性
+	 */
+	@DbField(name = "Manufacturer", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME)
+	public static final IPropertyInfo<String> PROPERTY_MANUFACTURER = registerProperty(PROPERTY_MANUFACTURER_NAME,
+			String.class, MY_CLASS);
+
+	/**
+	 * 获取-生产商
+	 * 
+	 * @return 值
+	 */
+	@XmlElement(name = PROPERTY_MANUFACTURER_NAME)
+	public final String getManufacturer() {
+		return this.getProperty(PROPERTY_MANUFACTURER);
+	}
+
+	/**
+	 * 设置-生产商
+	 * 
+	 * @param value 值
+	 */
+	public final void setManufacturer(String value) {
+		this.setProperty(PROPERTY_MANUFACTURER, value);
+	}
+
+	/**
 	 * 属性名称-库存单位
 	 */
 	private static final String PROPERTY_INVENTORYUOM_NAME = "InventoryUOM";
@@ -886,6 +920,378 @@ public abstract class MaterialBase<T extends MaterialBase<T>> extends BusinessOb
 	 */
 	public final void setSalesUOM(String value) {
 		this.setProperty(PROPERTY_SALESUOM, value);
+	}
+
+	/**
+	 * 属性名称-生产单位
+	 */
+	private static final String PROPERTY_PRODUCTIONUOM_NAME = "ProductionUOM";
+
+	/**
+	 * 生产单位 属性
+	 */
+	@DbField(name = "PrdctUom", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME)
+	public static final IPropertyInfo<String> PROPERTY_PRODUCTIONUOM = registerProperty(PROPERTY_PRODUCTIONUOM_NAME,
+			String.class, MY_CLASS);
+
+	/**
+	 * 获取-生产单位
+	 * 
+	 * @return 值
+	 */
+	@XmlElement(name = PROPERTY_PRODUCTIONUOM_NAME)
+	public final String getProductionUOM() {
+		return this.getProperty(PROPERTY_PRODUCTIONUOM);
+	}
+
+	/**
+	 * 设置-生产单位
+	 * 
+	 * @param value 值
+	 */
+	public final void setProductionUOM(String value) {
+		this.setProperty(PROPERTY_PRODUCTIONUOM, value);
+	}
+
+	/**
+	 * 属性名称-获取方式
+	 */
+	private static final String PROPERTY_PROCUREMENTMETHOD_NAME = "ProcurementMethod";
+
+	/**
+	 * 获取方式 属性
+	 */
+	@DbField(name = "PrcumtMthd", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME)
+	public static final IPropertyInfo<emProcurementMethod> PROPERTY_PROCUREMENTMETHOD = registerProperty(
+			PROPERTY_PROCUREMENTMETHOD_NAME, emProcurementMethod.class, MY_CLASS);
+
+	/**
+	 * 获取-获取方式
+	 * 
+	 * @return 值
+	 */
+	@XmlElement(name = PROPERTY_PROCUREMENTMETHOD_NAME)
+	public final emProcurementMethod getProcurementMethod() {
+		return this.getProperty(PROPERTY_PROCUREMENTMETHOD);
+	}
+
+	/**
+	 * 设置-获取方式
+	 * 
+	 * @param value 值
+	 */
+	public final void setProcurementMethod(emProcurementMethod value) {
+		this.setProperty(PROPERTY_PROCUREMENTMETHOD, value);
+	}
+
+	/**
+	 * 属性名称-领料方式
+	 */
+	private static final String PROPERTY_ISSUEMETHOD_NAME = "IssueMethod";
+
+	/**
+	 * 领料方式 属性
+	 */
+	@DbField(name = "IssueMthd", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME)
+	public static final IPropertyInfo<emIssueMethod> PROPERTY_ISSUEMETHOD = registerProperty(PROPERTY_ISSUEMETHOD_NAME,
+			emIssueMethod.class, MY_CLASS);
+
+	/**
+	 * 获取-领料方式
+	 * 
+	 * @return 值
+	 */
+	@XmlElement(name = PROPERTY_ISSUEMETHOD_NAME)
+	public final emIssueMethod getIssueMethod() {
+		return this.getProperty(PROPERTY_ISSUEMETHOD);
+	}
+
+	/**
+	 * 设置-领料方式
+	 * 
+	 * @param value 值
+	 */
+	public final void setIssueMethod(emIssueMethod value) {
+		this.setProperty(PROPERTY_ISSUEMETHOD, value);
+	}
+
+	/**
+	 * 属性名称-计划方式
+	 */
+	private static final String PROPERTY_PLANNINGMETHOD_NAME = "PlanningMethod";
+
+	/**
+	 * 计划方式 属性
+	 */
+	@DbField(name = "PlanMthd", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME)
+	public static final IPropertyInfo<emPlanningMethod> PROPERTY_PLANNINGMETHOD = registerProperty(
+			PROPERTY_PLANNINGMETHOD_NAME, emPlanningMethod.class, MY_CLASS);
+
+	/**
+	 * 获取-计划方式
+	 * 
+	 * @return 值
+	 */
+	@XmlElement(name = PROPERTY_PLANNINGMETHOD_NAME)
+	public final emPlanningMethod getPlanningMethod() {
+		return this.getProperty(PROPERTY_PLANNINGMETHOD);
+	}
+
+	/**
+	 * 设置-计划方式
+	 * 
+	 * @param value 值
+	 */
+	public final void setPlanningMethod(emPlanningMethod value) {
+		this.setProperty(PROPERTY_PLANNINGMETHOD, value);
+	}
+
+	/**
+	 * 属性名称-齐套检查
+	 */
+	private static final String PROPERTY_CHECKCOMPLETENESS_NAME = "CheckCompleteness";
+
+	/**
+	 * 齐套检查 属性
+	 */
+	@DbField(name = "CheckCmpltns", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME)
+	public static final IPropertyInfo<emYesNo> PROPERTY_CHECKCOMPLETENESS = registerProperty(
+			PROPERTY_CHECKCOMPLETENESS_NAME, emYesNo.class, MY_CLASS);
+
+	/**
+	 * 获取-齐套检查
+	 * 
+	 * @return 值
+	 */
+	@XmlElement(name = PROPERTY_CHECKCOMPLETENESS_NAME)
+	public final emYesNo getCheckCompleteness() {
+		return this.getProperty(PROPERTY_CHECKCOMPLETENESS);
+	}
+
+	/**
+	 * 设置-齐套检查
+	 * 
+	 * @param value 值
+	 */
+	public final void setCheckCompleteness(emYesNo value) {
+		this.setProperty(PROPERTY_CHECKCOMPLETENESS, value);
+	}
+
+	/**
+	 * 属性名称-批次混用
+	 */
+	private static final String PROPERTY_MIXINGBATCHES_NAME = "MixingBatches";
+
+	/**
+	 * 批次混用 属性
+	 */
+	@DbField(name = "MixBatch", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME)
+	public static final IPropertyInfo<emYesNo> PROPERTY_MIXINGBATCHES = registerProperty(PROPERTY_MIXINGBATCHES_NAME,
+			emYesNo.class, MY_CLASS);
+
+	/**
+	 * 获取-批次混用
+	 * 
+	 * @return 值
+	 */
+	@XmlElement(name = PROPERTY_MIXINGBATCHES_NAME)
+	public final emYesNo getMixingBatches() {
+		return this.getProperty(PROPERTY_MIXINGBATCHES);
+	}
+
+	/**
+	 * 设置-批次混用
+	 * 
+	 * @param value 值
+	 */
+	public final void setMixingBatches(emYesNo value) {
+		this.setProperty(PROPERTY_MIXINGBATCHES, value);
+	}
+
+	/**
+	 * 属性名称-订单生产
+	 */
+	private static final String PROPERTY_MADETOORDER_NAME = "MadeToOrder";
+
+	/**
+	 * 订单生产 属性
+	 */
+	@DbField(name = "MadeToOrder", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME)
+	public static final IPropertyInfo<emYesNo> PROPERTY_MADETOORDER = registerProperty(PROPERTY_MADETOORDER_NAME,
+			emYesNo.class, MY_CLASS);
+
+	/**
+	 * 获取-订单生产
+	 * 
+	 * @return 值
+	 */
+	@XmlElement(name = PROPERTY_MADETOORDER_NAME)
+	public final emYesNo getMadeToOrder() {
+		return this.getProperty(PROPERTY_MADETOORDER);
+	}
+
+	/**
+	 * 设置-订单生产
+	 * 
+	 * @param value 值
+	 */
+	public final void setMadeToOrder(emYesNo value) {
+		this.setProperty(PROPERTY_MADETOORDER, value);
+	}
+
+	/**
+	 * 属性名称-图号
+	 */
+	private static final String PROPERTY_DARWINGNUMBER_NAME = "DarwingNumber";
+
+	/**
+	 * 图号 属性
+	 */
+	@DbField(name = "Darwing", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME)
+	public static final IPropertyInfo<String> PROPERTY_DARWINGNUMBER = registerProperty(PROPERTY_DARWINGNUMBER_NAME,
+			String.class, MY_CLASS);
+
+	/**
+	 * 获取-图号
+	 * 
+	 * @return 值
+	 */
+	@XmlElement(name = PROPERTY_DARWINGNUMBER_NAME)
+	public final String getDarwingNumber() {
+		return this.getProperty(PROPERTY_DARWINGNUMBER);
+	}
+
+	/**
+	 * 设置-图号
+	 * 
+	 * @param value 值
+	 */
+	public final void setDarwingNumber(String value) {
+		this.setProperty(PROPERTY_DARWINGNUMBER, value);
+	}
+
+	/**
+	 * 属性名称-匹配码
+	 */
+	private static final String PROPERTY_MATCHCODE_NAME = "MatchCode";
+
+	/**
+	 * 匹配码 属性
+	 */
+	@DbField(name = "MatchCode", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME)
+	public static final IPropertyInfo<String> PROPERTY_MATCHCODE = registerProperty(PROPERTY_MATCHCODE_NAME,
+			String.class, MY_CLASS);
+
+	/**
+	 * 获取-匹配码
+	 * 
+	 * @return 值
+	 */
+	@XmlElement(name = PROPERTY_MATCHCODE_NAME)
+	public final String getMatchCode() {
+		return this.getProperty(PROPERTY_MATCHCODE);
+	}
+
+	/**
+	 * 设置-匹配码
+	 * 
+	 * @param value 值
+	 */
+	public final void setMatchCode(String value) {
+		this.setProperty(PROPERTY_MATCHCODE, value);
+	}
+
+	/**
+	 * 属性名称-生产批量
+	 */
+	private static final String PROPERTY_LOTSIZE_NAME = "LotSize";
+
+	/**
+	 * 生产批量 属性
+	 */
+	@DbField(name = "LotSize", type = DbFieldType.DECIMAL, table = DB_TABLE_NAME)
+	public static final IPropertyInfo<BigDecimal> PROPERTY_LOTSIZE = registerProperty(PROPERTY_LOTSIZE_NAME,
+			BigDecimal.class, MY_CLASS);
+
+	/**
+	 * 获取-生产批量
+	 * 
+	 * @return 值
+	 */
+	@XmlElement(name = PROPERTY_LOTSIZE_NAME)
+	public final BigDecimal getLotSize() {
+		return this.getProperty(PROPERTY_LOTSIZE);
+	}
+
+	/**
+	 * 设置-生产批量
+	 * 
+	 * @param value 值
+	 */
+	public final void setLotSize(BigDecimal value) {
+		this.setProperty(PROPERTY_LOTSIZE, value);
+	}
+
+	/**
+	 * 属性名称-废品率
+	 */
+	private static final String PROPERTY_SCRAP_NAME = "Scrap";
+
+	/**
+	 * 废品率 属性
+	 */
+	@DbField(name = "Scrap", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME)
+	public static final IPropertyInfo<String> PROPERTY_SCRAP = registerProperty(PROPERTY_SCRAP_NAME, String.class,
+			MY_CLASS);
+
+	/**
+	 * 获取-废品率
+	 * 
+	 * @return 值
+	 */
+	@XmlElement(name = PROPERTY_SCRAP_NAME)
+	public final String getScrap() {
+		return this.getProperty(PROPERTY_SCRAP);
+	}
+
+	/**
+	 * 设置-废品率
+	 * 
+	 * @param value 值
+	 */
+	public final void setScrap(String value) {
+		this.setProperty(PROPERTY_SCRAP, value);
+	}
+
+	/**
+	 * 属性名称-计划员
+	 */
+	private static final String PROPERTY_SCHEDULER_NAME = "Scheduler";
+
+	/**
+	 * 计划员 属性
+	 */
+	@DbField(name = "Scheduler", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME)
+	public static final IPropertyInfo<String> PROPERTY_SCHEDULER = registerProperty(PROPERTY_SCHEDULER_NAME,
+			String.class, MY_CLASS);
+
+	/**
+	 * 获取-计划员
+	 * 
+	 * @return 值
+	 */
+	@XmlElement(name = PROPERTY_SCHEDULER_NAME)
+	public final String getScheduler() {
+		return this.getProperty(PROPERTY_SCHEDULER);
+	}
+
+	/**
+	 * 设置-计划员
+	 * 
+	 * @param value 值
+	 */
+	public final void setScheduler(String value) {
+		this.setProperty(PROPERTY_SCHEDULER, value);
 	}
 
 	/**

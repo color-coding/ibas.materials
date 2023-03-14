@@ -76,6 +76,9 @@ namespace materials {
             /** 首选供应商 */
             preferredVendor: string;
 
+            /** 生产商 */
+            manufacturer: string;
+
             /** 库存单位 */
             inventoryUOM: string;
 
@@ -96,6 +99,42 @@ namespace materials {
 
             /** 销售单位 */
             salesUOM: string;
+
+            /** 生产单位 */
+            productionUOM: string;
+
+            /** 获取方式 */
+            procurementMethod: emProcurementMethod;
+
+            /** 领料方式 */
+            issueMethod: emIssueMethod;
+
+            /** 计划方式 */
+            planningMethod: emPlanningMethod;
+
+            /** 齐套检查 */
+            checkCompleteness: ibas.emYesNo;
+
+            /** 批次混用 */
+            mixingBatches: ibas.emYesNo;
+
+            /** 订单生产 */
+            madeToOrder: ibas.emYesNo;
+
+            /** 图号 */
+            darwingNumber: string;
+
+            /** 匹配码 */
+            matchCode: string;
+
+            /** 生产批量 */
+            lotSize: number;
+
+            /** 废品率 */
+            scrap: string;
+
+            /** 计划员 */
+            scheduler: string;
 
             /** 生效日期 */
             validDate: Date;

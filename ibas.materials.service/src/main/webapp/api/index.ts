@@ -28,4 +28,6 @@
 /// <reference path="./bo/SpecificationTree.ts" />
 /// <reference path="./bo/Unit.ts" />
 /// <reference path="./bo/UnitRate.ts" />
+/// <reference path="./bo/MaterialScrap.ts" />
+/// <reference path="./bo/MaterialVersion.ts" />
 /// <reference path="./BORepository.ts" />

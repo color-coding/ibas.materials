@@ -39,6 +39,9 @@ namespace materials {
             /** 物料规格 */
             specification: number;
 
+            /** 物料版本 */
+            version: string;
+
             /** 位置 */
             location: string;
 

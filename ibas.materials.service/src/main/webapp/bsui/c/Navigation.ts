@@ -20,6 +20,8 @@
 /// <reference path="./inventorycounting/index.ts" />
 /// <reference path="./materialspecification/index.ts" />
 /// <reference path="./specification/index.ts" />
+/// <reference path="./materialscrap/index.ts" />
+/// <reference path="./materialversion/index.ts" />
 /// <reference path="./unit/index.ts" />
 namespace materials {
     export namespace ui {
@@ -204,6 +206,30 @@ namespace materials {
                         break;
                     case app.UnitRateEditListApp.APPLICATION_ID:
                         view = new c.UnitRateEditListView();
+                        break;
+                    case app.MaterialScrapListApp.APPLICATION_ID:
+                        view = new c.MaterialScrapListView();
+                        break;
+                    case app.MaterialScrapChooseApp.APPLICATION_ID:
+                        view = new c.MaterialScrapChooseView();
+                        break;
+                    case app.MaterialScrapViewApp.APPLICATION_ID:
+                        view = new c.MaterialScrapViewView();
+                        break;
+                    case app.MaterialScrapEditApp.APPLICATION_ID:
+                        view = new c.MaterialScrapEditView();
+                        break;
+                    case app.MaterialVersionListApp.APPLICATION_ID:
+                        view = new c.MaterialVersionListView();
+                        break;
+                    case app.MaterialVersionChooseApp.APPLICATION_ID:
+                        view = new c.MaterialVersionChooseView();
+                        break;
+                    case app.MaterialVersionViewApp.APPLICATION_ID:
+                        view = new c.MaterialVersionViewView();
+                        break;
+                    case app.MaterialVersionEditApp.APPLICATION_ID:
+                        view = new c.MaterialVersionEditView();
                         break;
                     default:
                         break;

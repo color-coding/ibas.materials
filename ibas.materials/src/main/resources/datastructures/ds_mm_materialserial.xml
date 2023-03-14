@@ -15,6 +15,7 @@
     <Property Name="WarrantyStartDate" Description="保修开始日期" DataType="Date" DataSubType="Default" EditSize="8" Mapped="WntyStart"/>
     <Property Name="WarrantyEndDate" Description="保修结束日期" DataType="Date" DataSubType="Default" EditSize="8" Mapped="WntyEnd"/>
     <Property Name="Specification" Description="物料规格" DataType="Numeric" DataSubType="Default" EditSize="8" Mapped="Specification"/>
+    <Property Name="Version" Description="物料版本" DataType="Alphanumeric" DataSubType="Default" EditSize="10" Mapped="Version"/>
     <Property Name="Location" Description="位置" DataType="Alphanumeric" DataSubType="Default" EditSize="100" Mapped="Location"/>
     <Property Name="Notes" Description="备注" DataType="Memo" DataSubType="Default" EditSize="8" Mapped="Notes"/>
     <Property Name="ObjectKey" Description="对象编号" DataType="Numeric" DataSubType="Default" EditSize="8" Mapped="ObjectKey" PrimaryKey="Yes"/>

@@ -17,12 +17,14 @@ import org.colorcoding.ibas.materials.bo.material.Material;
 import org.colorcoding.ibas.materials.bo.material.MaterialGroup;
 import org.colorcoding.ibas.materials.bo.material.MaterialPrice;
 import org.colorcoding.ibas.materials.bo.material.MaterialQuantity;
+import org.colorcoding.ibas.materials.bo.material.MaterialVersion;
 import org.colorcoding.ibas.materials.bo.material.Product;
 import org.colorcoding.ibas.materials.bo.materialbatch.MaterialBatch;
 import org.colorcoding.ibas.materials.bo.materialbatch.MaterialBatchJournal;
 import org.colorcoding.ibas.materials.bo.materialinventory.MaterialInventory;
 import org.colorcoding.ibas.materials.bo.materialinventory.MaterialInventoryJournal;
 import org.colorcoding.ibas.materials.bo.materialpricelist.MaterialPriceList;
+import org.colorcoding.ibas.materials.bo.materialscrap.MaterialScrap;
 import org.colorcoding.ibas.materials.bo.materialserial.MaterialSerial;
 import org.colorcoding.ibas.materials.bo.materialserial.MaterialSerialJournal;
 import org.colorcoding.ibas.materials.bo.materialspecification.MaterialSpecification;
@@ -628,6 +630,66 @@ public class DataService extends BORepositoryMaterials {
 		return super.saveUnitRate(bo, token);
 	}
 
+	// --------------------------------------------------------------------------------------------//
+	/**
+	 * 查询-物料版本
+	 * 
+	 * @param criteria 查询
+	 * @param token    口令
+	 * @return 操作结果
+	 */
+	@POST
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Path("fetchMaterialVersion")
+	public OperationResult<MaterialVersion> fetchMaterialVersion(Criteria criteria, @QueryParam("token") String token) {
+		return super.fetchMaterialVersion(criteria, token);
+	}
+
+	/**
+	 * 保存-物料版本
+	 * 
+	 * @param bo    对象实例
+	 * @param token 口令
+	 * @return 操作结果
+	 */
+	@POST
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Path("saveMaterialVersion")
+	public OperationResult<MaterialVersion> saveMaterialVersion(MaterialVersion bo, @QueryParam("token") String token) {
+		return super.saveMaterialVersion(bo, token);
+	} // --------------------------------------------------------------------------------------------//
+
+	/**
+	 * 查询-物料废品率
+	 * 
+	 * @param criteria 查询
+	 * @param token    口令
+	 * @return 操作结果
+	 */
+	@POST
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Path("fetchMaterialScrap")
+	public OperationResult<MaterialScrap> fetchMaterialScrap(Criteria criteria, @QueryParam("token") String token) {
+		return super.fetchMaterialScrap(criteria, token);
+	}
+
+	/**
+	 * 保存-物料废品率
+	 * 
+	 * @param bo    对象实例
+	 * @param token 口令
+	 * @return 操作结果
+	 */
+	@POST
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Path("saveMaterialScrap")
+	public OperationResult<MaterialScrap> saveMaterialScrap(MaterialScrap bo, @QueryParam("token") String token) {
+		return super.saveMaterialScrap(bo, token);
+	}
 	// --------------------------------------------------------------------------------------------//
 
 }

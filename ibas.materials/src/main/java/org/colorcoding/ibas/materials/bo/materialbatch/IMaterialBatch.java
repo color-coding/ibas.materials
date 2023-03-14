@@ -174,6 +174,20 @@ public interface IMaterialBatch extends IBOSimple {
 	void setSpecification(Integer value);
 
 	/**
+	 * 获取-物料版本
+	 * 
+	 * @return 值
+	 */
+	String getVersion();
+
+	/**
+	 * 设置-物料版本
+	 * 
+	 * @param value 值
+	 */
+	void setVersion(String value);
+
+	/**
 	 * 获取-位置
 	 * 
 	 * @return 值

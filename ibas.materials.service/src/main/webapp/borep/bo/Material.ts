@@ -193,6 +193,17 @@ namespace materials {
                 this.setProperty(Material.PROPERTY_PREFERREDVENDOR_NAME, value);
             }
 
+            /** 映射的属性名称-生产商 */
+            static PROPERTY_MANUFACTURER_NAME: string = "Manufacturer";
+            /** 获取-生产商 */
+            get manufacturer(): string {
+                return this.getProperty<string>(Material.PROPERTY_MANUFACTURER_NAME);
+            }
+            /** 设置-生产商 */
+            set manufacturer(value: string) {
+                this.setProperty(Material.PROPERTY_MANUFACTURER_NAME, value);
+            }
+
             /** 映射的属性名称-库存单位 */
             static PROPERTY_INVENTORYUOM_NAME: string = "InventoryUOM";
             /** 获取-库存单位 */
@@ -345,6 +356,139 @@ namespace materials {
             /** 设置-销售单位 */
             set salesUOM(value: string) {
                 this.setProperty(Material.PROPERTY_SALESUOM_NAME, value);
+            }
+
+
+            /** 映射的属性名称-生产单位 */
+            static PROPERTY_PRODUCTIONUOM_NAME: string = "ProductionUOM";
+            /** 获取-生产单位 */
+            get productionUOM(): string {
+                return this.getProperty<string>(Material.PROPERTY_PRODUCTIONUOM_NAME);
+            }
+            /** 设置-生产单位 */
+            set productionUOM(value: string) {
+                this.setProperty(Material.PROPERTY_PRODUCTIONUOM_NAME, value);
+            }
+
+            /** 映射的属性名称-获取方式 */
+            static PROPERTY_PROCUREMENTMETHOD_NAME: string = "ProcurementMethod";
+            /** 获取-获取方式 */
+            get procurementMethod(): emProcurementMethod {
+                return this.getProperty<emProcurementMethod>(Material.PROPERTY_PROCUREMENTMETHOD_NAME);
+            }
+            /** 设置-获取方式 */
+            set procurementMethod(value: emProcurementMethod) {
+                this.setProperty(Material.PROPERTY_PROCUREMENTMETHOD_NAME, value);
+            }
+
+            /** 映射的属性名称-领料方式 */
+            static PROPERTY_ISSUEMETHOD_NAME: string = "IssueMethod";
+            /** 获取-领料方式 */
+            get issueMethod(): emIssueMethod {
+                return this.getProperty<emIssueMethod>(Material.PROPERTY_ISSUEMETHOD_NAME);
+            }
+            /** 设置-领料方式 */
+            set issueMethod(value: emIssueMethod) {
+                this.setProperty(Material.PROPERTY_ISSUEMETHOD_NAME, value);
+            }
+
+            /** 映射的属性名称-计划方式 */
+            static PROPERTY_PLANNINGMETHOD_NAME: string = "PlanningMethod";
+            /** 获取-计划方式 */
+            get planningMethod(): emPlanningMethod {
+                return this.getProperty<emPlanningMethod>(Material.PROPERTY_PLANNINGMETHOD_NAME);
+            }
+            /** 设置-计划方式 */
+            set planningMethod(value: emPlanningMethod) {
+                this.setProperty(Material.PROPERTY_PLANNINGMETHOD_NAME, value);
+            }
+
+            /** 映射的属性名称-齐套检查 */
+            static PROPERTY_CHECKCOMPLETENESS_NAME: string = "CheckCompleteness";
+            /** 获取-齐套检查 */
+            get checkCompleteness(): ibas.emYesNo {
+                return this.getProperty<ibas.emYesNo>(Material.PROPERTY_CHECKCOMPLETENESS_NAME);
+            }
+            /** 设置-齐套检查 */
+            set checkCompleteness(value: ibas.emYesNo) {
+                this.setProperty(Material.PROPERTY_CHECKCOMPLETENESS_NAME, value);
+            }
+
+            /** 映射的属性名称-批次混用 */
+            static PROPERTY_MIXINGBATCHES_NAME: string = "MixingBatches";
+            /** 获取-批次混用 */
+            get mixingBatches(): ibas.emYesNo {
+                return this.getProperty<ibas.emYesNo>(Material.PROPERTY_MIXINGBATCHES_NAME);
+            }
+            /** 设置-批次混用 */
+            set mixingBatches(value: ibas.emYesNo) {
+                this.setProperty(Material.PROPERTY_MIXINGBATCHES_NAME, value);
+            }
+
+            /** 映射的属性名称-订单生产 */
+            static PROPERTY_MADETOORDER_NAME: string = "MadeToOrder";
+            /** 获取-订单生产 */
+            get madeToOrder(): ibas.emYesNo {
+                return this.getProperty<ibas.emYesNo>(Material.PROPERTY_MADETOORDER_NAME);
+            }
+            /** 设置-订单生产 */
+            set madeToOrder(value: ibas.emYesNo) {
+                this.setProperty(Material.PROPERTY_MADETOORDER_NAME, value);
+            }
+
+            /** 映射的属性名称-图号 */
+            static PROPERTY_DARWINGNUMBER_NAME: string = "DarwingNumber";
+            /** 获取-图号 */
+            get darwingNumber(): string {
+                return this.getProperty<string>(Material.PROPERTY_DARWINGNUMBER_NAME);
+            }
+            /** 设置-图号 */
+            set darwingNumber(value: string) {
+                this.setProperty(Material.PROPERTY_DARWINGNUMBER_NAME, value);
+            }
+
+            /** 映射的属性名称-匹配码 */
+            static PROPERTY_MATCHCODE_NAME: string = "MatchCode";
+            /** 获取-匹配码 */
+            get matchCode(): string {
+                return this.getProperty<string>(Material.PROPERTY_MATCHCODE_NAME);
+            }
+            /** 设置-匹配码 */
+            set matchCode(value: string) {
+                this.setProperty(Material.PROPERTY_MATCHCODE_NAME, value);
+            }
+
+            /** 映射的属性名称-生产批量 */
+            static PROPERTY_LOTSIZE_NAME: string = "LotSize";
+            /** 获取-生产批量 */
+            get lotSize(): number {
+                return this.getProperty<number>(Material.PROPERTY_LOTSIZE_NAME);
+            }
+            /** 设置-生产批量 */
+            set lotSize(value: number) {
+                this.setProperty(Material.PROPERTY_LOTSIZE_NAME, value);
+            }
+
+            /** 映射的属性名称-废品率 */
+            static PROPERTY_SCRAP_NAME: string = "Scrap";
+            /** 获取-废品率 */
+            get scrap(): string {
+                return this.getProperty<string>(Material.PROPERTY_SCRAP_NAME);
+            }
+            /** 设置-废品率 */
+            set scrap(value: string) {
+                this.setProperty(Material.PROPERTY_SCRAP_NAME, value);
+            }
+
+            /** 映射的属性名称-计划员 */
+            static PROPERTY_SCHEDULER_NAME: string = "Scheduler";
+            /** 获取-计划员 */
+            get scheduler(): string {
+                return this.getProperty<string>(Material.PROPERTY_SCHEDULER_NAME);
+            }
+            /** 设置-计划员 */
+            set scheduler(value: string) {
+                this.setProperty(Material.PROPERTY_SCHEDULER_NAME, value);
             }
 
             /** 映射的属性名称-生效日期 */

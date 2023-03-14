@@ -348,6 +348,34 @@ namespace materials {
             saveUnitRate(saver: ibas.ISaveCaller<bo.UnitRate>): void {
                 super.save(bo.UnitRate.name, saver);
             }
+            /**
+             * 查询 物料废品率
+             * @param fetcher 查询者
+             */
+            fetchMaterialScrap(fetcher: ibas.IFetchCaller<bo.MaterialScrap>): void {
+                super.fetch(bo.MaterialScrap.name, fetcher);
+            }
+            /**
+             * 保存 物料废品率
+             * @param saver 保存者
+             */
+            saveMaterialScrap(saver: ibas.ISaveCaller<bo.MaterialScrap>): void {
+                super.save(bo.MaterialScrap.name, saver);
+            }
+            /**
+             * 查询 物料版本
+             * @param fetcher 查询者
+             */
+            fetchMaterialVersion(fetcher: ibas.IFetchCaller<bo.MaterialVersion>): void {
+                super.fetch(bo.MaterialVersion.name, fetcher);
+            }
+            /**
+             * 保存 物料版本
+             * @param saver 保存者
+             */
+            saveMaterialVersion(saver: ibas.ISaveCaller<bo.MaterialVersion>): void {
+                super.save(bo.MaterialVersion.name, saver);
+            }
         }
     }
 }

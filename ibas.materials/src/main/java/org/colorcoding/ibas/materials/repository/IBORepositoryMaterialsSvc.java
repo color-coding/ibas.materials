@@ -11,6 +11,7 @@ import org.colorcoding.ibas.materials.bo.material.Material;
 import org.colorcoding.ibas.materials.bo.material.MaterialGroup;
 import org.colorcoding.ibas.materials.bo.material.MaterialPrice;
 import org.colorcoding.ibas.materials.bo.material.MaterialQuantity;
+import org.colorcoding.ibas.materials.bo.material.MaterialVersion;
 import org.colorcoding.ibas.materials.bo.material.Product;
 import org.colorcoding.ibas.materials.bo.materialbatch.MaterialBatch;
 import org.colorcoding.ibas.materials.bo.materialbatch.MaterialBatchJournal;
@@ -18,6 +19,7 @@ import org.colorcoding.ibas.materials.bo.materialinventory.MaterialEstimateJourn
 import org.colorcoding.ibas.materials.bo.materialinventory.MaterialInventory;
 import org.colorcoding.ibas.materials.bo.materialinventory.MaterialInventoryJournal;
 import org.colorcoding.ibas.materials.bo.materialpricelist.MaterialPriceList;
+import org.colorcoding.ibas.materials.bo.materialscrap.MaterialScrap;
 import org.colorcoding.ibas.materials.bo.materialserial.MaterialSerial;
 import org.colorcoding.ibas.materials.bo.materialserial.MaterialSerialJournal;
 import org.colorcoding.ibas.materials.bo.materialspecification.MaterialSpecification;
@@ -412,6 +414,44 @@ public interface IBORepositoryMaterialsSvc extends IBORepositorySmartService {
 	 * @return 操作结果
 	 */
 	OperationResult<UnitRate> saveUnitRate(UnitRate bo, String token);
+
+	// --------------------------------------------------------------------------------------------//
+	/**
+	 * 查询-物料废品率
+	 * 
+	 * @param criteria 查询
+	 * @param token    口令
+	 * @return 操作结果
+	 */
+	OperationResult<MaterialScrap> fetchMaterialScrap(ICriteria criteria, String token);
+
+	/**
+	 * 保存-物料废品率
+	 * 
+	 * @param bo    对象实例
+	 * @param token 口令
+	 * @return 操作结果
+	 */
+	OperationResult<MaterialScrap> saveMaterialScrap(MaterialScrap bo, String token);
+
+	// --------------------------------------------------------------------------------------------//
+	/**
+	 * 查询-物料版本
+	 * 
+	 * @param criteria 查询
+	 * @param token    口令
+	 * @return 操作结果
+	 */
+	OperationResult<MaterialVersion> fetchMaterialVersion(ICriteria criteria, String token);
+
+	/**
+	 * 保存-物料版本
+	 * 
+	 * @param bo    对象实例
+	 * @param token 口令
+	 * @return 操作结果
+	 */
+	OperationResult<MaterialVersion> saveMaterialVersion(MaterialVersion bo, String token);
 
 	// --------------------------------------------------------------------------------------------//
 

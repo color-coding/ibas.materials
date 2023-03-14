@@ -6,7 +6,10 @@ import org.colorcoding.ibas.bobas.bo.IBOMasterData;
 import org.colorcoding.ibas.bobas.data.DateTime;
 import org.colorcoding.ibas.bobas.data.emApprovalStatus;
 import org.colorcoding.ibas.bobas.data.emYesNo;
+import org.colorcoding.ibas.materials.data.emIssueMethod;
 import org.colorcoding.ibas.materials.data.emItemType;
+import org.colorcoding.ibas.materials.data.emPlanningMethod;
+import org.colorcoding.ibas.materials.data.emProcurementMethod;
 
 /**
  * 物料 接口
@@ -237,6 +240,20 @@ public interface IMaterial extends IBOMasterData {
 	 * @param value 值
 	 */
 	void setPreferredVendor(String value);
+
+	/**
+	 * 获取-生产商
+	 * 
+	 * @return 值
+	 */
+	String getManufacturer();
+
+	/**
+	 * 设置-生产商
+	 * 
+	 * @param value 值
+	 */
+	void setManufacturer(String value);
 
 	/**
 	 * 获取-库存单位
@@ -559,6 +576,174 @@ public interface IMaterial extends IBOMasterData {
 	 * @param value 值
 	 */
 	void setSalesUOM(String value);
+
+	/**
+	 * 获取-生产单位
+	 * 
+	 * @return 值
+	 */
+	String getProductionUOM();
+
+	/**
+	 * 设置-生产单位
+	 * 
+	 * @param value 值
+	 */
+	void setProductionUOM(String value);
+
+	/**
+	 * 获取-获取方式
+	 * 
+	 * @return 值
+	 */
+	emProcurementMethod getProcurementMethod();
+
+	/**
+	 * 设置-获取方式
+	 * 
+	 * @param value 值
+	 */
+	void setProcurementMethod(emProcurementMethod value);
+
+	/**
+	 * 获取-领料方式
+	 * 
+	 * @return 值
+	 */
+	emIssueMethod getIssueMethod();
+
+	/**
+	 * 设置-领料方式
+	 * 
+	 * @param value 值
+	 */
+	void setIssueMethod(emIssueMethod value);
+
+	/**
+	 * 获取-计划方式
+	 * 
+	 * @return 值
+	 */
+	emPlanningMethod getPlanningMethod();
+
+	/**
+	 * 设置-计划方式
+	 * 
+	 * @param value 值
+	 */
+	void setPlanningMethod(emPlanningMethod value);
+
+	/**
+	 * 获取-齐套检查
+	 * 
+	 * @return 值
+	 */
+	emYesNo getCheckCompleteness();
+
+	/**
+	 * 设置-齐套检查
+	 * 
+	 * @param value 值
+	 */
+	void setCheckCompleteness(emYesNo value);
+
+	/**
+	 * 获取-批次混用
+	 * 
+	 * @return 值
+	 */
+	emYesNo getMixingBatches();
+
+	/**
+	 * 设置-批次混用
+	 * 
+	 * @param value 值
+	 */
+	void setMixingBatches(emYesNo value);
+
+	/**
+	 * 获取-订单生产
+	 * 
+	 * @return 值
+	 */
+	emYesNo getMadeToOrder();
+
+	/**
+	 * 设置-订单生产
+	 * 
+	 * @param value 值
+	 */
+	void setMadeToOrder(emYesNo value);
+
+	/**
+	 * 获取-图号
+	 * 
+	 * @return 值
+	 */
+	String getDarwingNumber();
+
+	/**
+	 * 设置-图号
+	 * 
+	 * @param value 值
+	 */
+	void setDarwingNumber(String value);
+
+	/**
+	 * 获取-匹配码
+	 * 
+	 * @return 值
+	 */
+	String getMatchCode();
+
+	/**
+	 * 设置-匹配码
+	 * 
+	 * @param value 值
+	 */
+	void setMatchCode(String value);
+
+	/**
+	 * 获取-生产批量
+	 * 
+	 * @return 值
+	 */
+	BigDecimal getLotSize();
+
+	/**
+	 * 设置-生产批量
+	 * 
+	 * @param value 值
+	 */
+	void setLotSize(BigDecimal value);
+
+	/**
+	 * 获取-废品率
+	 * 
+	 * @return 值
+	 */
+	String getScrap();
+
+	/**
+	 * 设置-废品率
+	 * 
+	 * @param value 值
+	 */
+	void setScrap(String value);
+
+	/**
+	 * 获取-计划员
+	 * 
+	 * @return 值
+	 */
+	String getScheduler();
+
+	/**
+	 * 设置-计划员
+	 * 
+	 * @param value 值
+	 */
+	void setScheduler(String value);
 
 	/**
 	 * 获取-生效日期

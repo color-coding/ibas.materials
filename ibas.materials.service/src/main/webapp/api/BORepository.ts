@@ -220,6 +220,26 @@ namespace materials {
              * @param saver 保存者
              */
             saveUnitRate(saver: ibas.ISaveCaller<bo.IUnitRate>): void;
+            /**
+             * 查询 物料废品率
+             * @param fetcher 查询者
+             */
+            fetchMaterialScrap(fetcher: ibas.IFetchCaller<bo.IMaterialScrap>): void;
+            /**
+             * 保存 物料废品率
+             * @param saver 保存者
+             */
+            saveMaterialScrap(saver: ibas.ISaveCaller<bo.IMaterialScrap>): void;
+            /**
+             * 查询 物料版本
+             * @param fetcher 查询者
+             */
+            fetchMaterialVersion(fetcher: ibas.IFetchCaller<bo.IMaterialVersion>): void;
+            /**
+             * 保存 物料版本
+             * @param saver 保存者
+             */
+            saveMaterialVersion(saver: ibas.ISaveCaller<bo.IMaterialVersion>): void;
         }
         export interface ICloseCaller<T> extends ibas.IMethodCaller<string> {
             /** 查询条件 */

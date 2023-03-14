@@ -274,17 +274,11 @@ namespace materials {
                                     type: new sap.extension.data.Alphanumeric(),
                                 },
                             }),
-                            new sap.extension.m.RepositoryObjectAttribute("", {
-                                title: ibas.i18n.prop("bo_material_preferredvendor"),
+                            new sap.extension.m.ObjectAttribute("", {
+                                title: ibas.i18n.prop("bo_material_remarks"),
                                 bindingValue: {
-                                    path: "/preferredVendor",
+                                    path: "/remarks",
                                     type: new sap.extension.data.Alphanumeric(),
-                                },
-                                repository: businesspartner.bo.BORepositoryBusinessPartner,
-                                dataInfo: {
-                                    type: businesspartner.bo.Supplier,
-                                    key: businesspartner.bo.Supplier.PROPERTY_CODE_NAME,
-                                    text: businesspartner.bo.Supplier.PROPERTY_NAME_NAME
                                 },
                             }),
                         ],

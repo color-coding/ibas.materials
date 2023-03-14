@@ -28,6 +28,7 @@ namespace materials {
                 super.registerView();
                 // 其他事件
                 this.view.chooseSpecificationEvent = this.chooseSpecification;
+                this.view.chooseVersionEvent = this.chooseVersion;
             }
             /** 视图显示后 */
             protected viewShowed(): void {
@@ -155,6 +156,21 @@ namespace materials {
                     }
                 });
             }
+            /** 选择物料版本 */
+            private chooseVersion(): void {
+                let that: this = this;
+                ibas.servicesManager.runChooseService<bo.MaterialVersion>({
+                    boCode: bo.MaterialVersion.BUSINESS_OBJECT_CODE,
+                    chooseType: ibas.emChooseType.SINGLE,
+                    criteria: [
+                        new ibas.Condition(bo.MaterialVersion.PROPERTY_ACTIVATED_NAME, ibas.emConditionOperation.EQUAL, ibas.emYesNo.YES)
+                    ],
+                    onCompleted(selecteds: ibas.IList<bo.MaterialVersion>): void {
+                        let selected: bo.MaterialVersion = selecteds.firstOrDefault();
+                        that.editData.version = selected.name;
+                    }
+                });
+            }
         }
         /** 视图-物料序列 */
         export interface IMaterialSerialEditView extends ibas.IBOEditView {
@@ -162,6 +178,8 @@ namespace materials {
             showMaterialSerial(data: bo.MaterialSerial): void;
             /** 选择物料规格 */
             chooseSpecificationEvent: Function;
+            /** 选择物料版本 */
+            chooseVersionEvent: Function;
         }
     }
 }

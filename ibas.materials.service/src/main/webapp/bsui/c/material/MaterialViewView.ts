@@ -104,16 +104,6 @@ namespace materials {
                                 ]
                             }),
                             actions: [
-                                new sap.extension.m.ObjectEnumStatus("", {
-                                    title: ibas.i18n.prop("bo_material_itemtype"),
-                                    text: {
-                                        path: "itemType",
-                                        type: new sap.extension.data.Enum({
-                                            enumType: bo.emItemType,
-                                            describe: true,
-                                        }),
-                                    }
-                                }),
                                 new sap.extension.m.ObjectYesNoStatus("", {
                                     title: ibas.i18n.prop("bo_material_activated"),
                                     enumValue: {
@@ -124,26 +114,55 @@ namespace materials {
                             ]
                         }),
                         headerContent: [
+                            new sap.extension.m.ObjectEnumStatus("", {
+                                title: ibas.i18n.prop("bo_material_itemtype"),
+                                text: {
+                                    path: "itemType",
+                                    type: new sap.extension.data.Enum({
+                                        enumType: bo.emItemType,
+                                        describe: true,
+                                    }),
+                                }
+                            }),
+                            new sap.extension.m.ObjectAttribute("", {
+                                title: ibas.i18n.prop("bo_material_group"),
+                                bindingValue: {
+                                    path: "group",
+                                    type: new sap.extension.data.Alphanumeric(),
+                                }
+                            }),
+                            new sap.extension.m.ObjectEnumStatus("", {
+                                title: ibas.i18n.prop("bo_material_phantomitem"),
+                                text: {
+                                    path: "phantomItem",
+                                    type: new sap.extension.data.Enum({
+                                        enumType: ibas.emYesNo,
+                                        describe: true,
+                                    }),
+                                }
+                            }),
+                            new sap.extension.m.ObjectAttribute("", {
+                                title: ibas.i18n.prop("bo_material_validdate"),
+                                bindingValue: {
+                                    path: "validDate",
+                                    type: new sap.extension.data.Date(),
+                                }
+                            }),
+                            new sap.extension.m.ObjectAttribute("", {
+                                title: ibas.i18n.prop("bo_material_invaliddate"),
+                                bindingValue: {
+                                    path: "invalidDate",
+                                    type: new sap.extension.data.Date(),
+                                }
+                            }),
                         ],
+                        subSectionLayout: sap.uxap.ObjectPageSubSectionLayout.TitleOnLeft,
                         sections: [
                             new sap.uxap.ObjectPageSection("", {
                                 title: ibas.i18n.prop("materials_title_general"),
                                 subSections: [
                                     new sap.uxap.ObjectPageSubSection("", {
                                         blocks: [
-                                            new sap.extension.m.RepositoryObjectAttribute("", {
-                                                title: ibas.i18n.prop("bo_material_group"),
-                                                bindingValue: {
-                                                    path: "group",
-                                                    type: new sap.extension.data.Alphanumeric(),
-                                                },
-                                                repository: bo.BORepositoryMaterials,
-                                                dataInfo: {
-                                                    type: bo.MaterialGroup,
-                                                    key: bo.MaterialGroup.PROPERTY_CODE_NAME,
-                                                    text: bo.MaterialGroup.PROPERTY_NAME_NAME
-                                                },
-                                            }),
                                             new sap.extension.m.ObjectAttribute("", {
                                                 title: ibas.i18n.prop("bo_material_foreignname"),
                                                 bindingValue: {
@@ -158,21 +177,69 @@ namespace materials {
                                                     type: new sap.extension.data.Alphanumeric(),
                                                 }
                                             }),
+                                            new sap.extension.m.ObjectAttribute("", {
+                                                title: ibas.i18n.prop("bo_material_manufacturer"),
+                                                bindingValue: {
+                                                    path: "manufacturer",
+                                                    type: new sap.extension.data.Alphanumeric(),
+                                                }
+                                            }),
+                                            new sap.extension.m.ObjectAttribute("", {
+                                                title: ibas.i18n.prop("bo_material_remarks"),
+                                                bindingValue: {
+                                                    path: "remarks",
+                                                    type: new sap.extension.data.Alphanumeric(),
+                                                }
+                                            }),
+                                            new sap.extension.m.ObjectEnumStatus("", {
+                                                title: ibas.i18n.prop("bo_material_serialmanagement"),
+                                                text: {
+                                                    path: "serialManagement",
+                                                    type: new sap.extension.data.Enum({
+                                                        enumType: ibas.emYesNo,
+                                                        describe: true,
+                                                    }),
+                                                }
+                                            }),
+                                            new sap.extension.m.ObjectEnumStatus("", {
+                                                title: ibas.i18n.prop("bo_material_batchmanagement"),
+                                                text: {
+                                                    path: "batchManagement",
+                                                    type: new sap.extension.data.Enum({
+                                                        enumType: ibas.emYesNo,
+                                                        describe: true,
+                                                    }),
+                                                }
+                                            }),
                                         ],
-                                    }),
+                                    })
+                                ]
+                            }),
+                            new sap.uxap.ObjectPageSection("", {
+                                title: ibas.i18n.prop("materials_title_inventory"),
+                                subSections: [
                                     new sap.uxap.ObjectPageSubSection("", {
                                         blocks: [
-                                            new sap.extension.m.RepositoryObjectAttribute("", {
-                                                title: ibas.i18n.prop("bo_material_preferredvendor"),
-                                                repository: businesspartner.bo.BORepositoryBusinessPartner,
-                                                dataInfo: {
-                                                    type: businesspartner.bo.Supplier,
-                                                    key: businesspartner.bo.Supplier.PROPERTY_CODE_NAME,
-                                                    text: businesspartner.bo.Supplier.PROPERTY_NAME_NAME
-                                                },
+                                            new sap.extension.m.ObjectYesNoStatus("", {
+                                                title: ibas.i18n.prop("bo_material_inventoryitem"),
+                                                enumValue: {
+                                                    path: "inventoryItem",
+                                                    type: new sap.extension.data.YesNo(),
+                                                }
+                                            }),
+                                            new sap.extension.m.ObjectAttribute("", {
+                                                title: ibas.i18n.prop("bo_material_onhand"),
                                                 bindingValue: {
-                                                    path: "preferredVendor",
-                                                    type: new sap.extension.data.Alphanumeric(),
+                                                    parts: [
+                                                        {
+                                                            path: "onHand",
+                                                            type: new sap.extension.data.Quantity()
+                                                        },
+                                                        {
+                                                            path: "inventoryUOM",
+                                                            type: new sap.extension.data.Alphanumeric()
+                                                        },
+                                                    ]
                                                 }
                                             }),
                                             new sap.extension.m.ObjectAttribute("", {
@@ -181,52 +248,37 @@ namespace materials {
                                                     parts: [
                                                         {
                                                             path: "minimumInventory",
-                                                            type: new sap.extension.data.Quantity(),
+                                                            type: new sap.extension.data.Quantity()
                                                         },
                                                         {
                                                             path: "inventoryUOM",
-                                                            type: new sap.extension.data.Alphanumeric(),
-                                                        }
+                                                            type: new sap.extension.data.Alphanumeric()
+                                                        },
                                                     ]
                                                 }
                                             }),
+                                            new sap.extension.m.ObjectAttribute("", {
+                                                title: ibas.i18n.prop("bo_material_defaultwarehouse"),
+                                                bindingValue: {
+                                                    path: "defaultWarehouse",
+                                                    type: new sap.extension.data.Alphanumeric(),
+                                                }
+                                            }),
+
                                         ],
-                                    }),
+                                    })
                                 ]
                             }),
                             new sap.uxap.ObjectPageSection("", {
-                                title: ibas.i18n.prop("materials_title_inventory"),
+                                title: ibas.i18n.prop("materials_title_purchase"),
                                 subSections: [
                                     new sap.uxap.ObjectPageSubSection("", {
                                         blocks: [
-                                            new sap.extension.m.ObjectAttribute("", {
-                                                title: ibas.i18n.prop("bo_material_onhand"),
-                                                bindingValue: {
-                                                    parts: [
-                                                        {
-                                                            path: "onHand",
-                                                            type: new sap.extension.data.Quantity(),
-                                                        },
-                                                        {
-                                                            path: "inventoryUOM",
-                                                            type: new sap.extension.data.Alphanumeric(),
-                                                        }
-                                                    ]
-                                                },
-                                            }),
-                                            new sap.extension.m.ObjectAttribute("", {
-                                                title: ibas.i18n.prop("bo_material_oncommited"),
-                                                bindingValue: {
-                                                    parts: [
-                                                        {
-                                                            path: "onCommited",
-                                                            type: new sap.extension.data.Quantity(),
-                                                        },
-                                                        {
-                                                            path: "inventoryUOM",
-                                                            type: new sap.extension.data.Alphanumeric(),
-                                                        }
-                                                    ]
+                                            new sap.extension.m.ObjectYesNoStatus("", {
+                                                title: ibas.i18n.prop("bo_material_purchaseitem"),
+                                                enumValue: {
+                                                    path: "purchaseItem",
+                                                    type: new sap.extension.data.YesNo(),
                                                 }
                                             }),
                                             new sap.extension.m.ObjectAttribute("", {
@@ -235,35 +287,235 @@ namespace materials {
                                                     parts: [
                                                         {
                                                             path: "onOrdered",
-                                                            type: new sap.extension.data.Quantity(),
+                                                            type: new sap.extension.data.Quantity()
                                                         },
                                                         {
                                                             path: "inventoryUOM",
-                                                            type: new sap.extension.data.Alphanumeric(),
-                                                        }
+                                                            type: new sap.extension.data.Alphanumeric()
+                                                        },
                                                     ]
                                                 }
                                             }),
+                                            new sap.extension.m.ObjectAttribute("", {
+                                                title: ibas.i18n.prop("bo_material_purchaseuom"),
+                                                bindingValue: {
+                                                    path: "purchaseUOM",
+                                                    type: new sap.extension.data.Alphanumeric(),
+                                                }
+                                            }),
+                                            new sap.extension.m.RepositoryObjectAttribute("", {
+                                                title: ibas.i18n.prop("bo_material_preferredvendor"),
+                                                bindingValue: {
+                                                    path: "preferredVendor",
+                                                    type: new sap.extension.data.Alphanumeric(),
+                                                },
+                                                repository: businesspartner.bo.BORepositoryBusinessPartner,
+                                                dataInfo: {
+                                                    type: businesspartner.bo.Supplier,
+                                                    key: businesspartner.bo.Supplier.PROPERTY_CODE_NAME,
+                                                    text: businesspartner.bo.Supplier.PROPERTY_NAME_NAME,
+                                                },
+                                            }),
+                                            new sap.extension.m.ObjectAttribute("", {
+                                                title: ibas.i18n.prop("bo_material_minimumorderquantity"),
+                                                bindingValue: {
+                                                    path: "minimumOrderQuantity",
+                                                    type: new sap.extension.data.Quantity(),
+                                                }
+                                            }),
+                                            new sap.extension.m.ObjectAttribute("", {
+                                                title: ibas.i18n.prop("bo_material_leadtime"),
+                                                bindingValue: {
+                                                    path: "leadTime",
+                                                    type: new sap.extension.data.Numeric(),
+                                                }
+                                            }),
+                                            new sap.extension.m.ObjectAttribute("", {
+                                                title: ibas.i18n.prop("bo_material_purchasetaxgroup"),
+                                                bindingValue: {
+                                                    path: "purchaseTaxGroup",
+                                                    type: new sap.extension.data.Alphanumeric(),
+                                                }
+                                            }),
+
                                         ],
                                     })
                                 ]
                             }),
                             new sap.uxap.ObjectPageSection("", {
-                                title: ibas.i18n.prop("bo_material_remarks"),
+                                title: ibas.i18n.prop("materials_title_sales"),
                                 subSections: [
                                     new sap.uxap.ObjectPageSubSection("", {
                                         blocks: [
+                                            new sap.extension.m.ObjectYesNoStatus("", {
+                                                title: ibas.i18n.prop("bo_material_salesitem"),
+                                                enumValue: {
+                                                    path: "salesItem",
+                                                    type: new sap.extension.data.YesNo(),
+                                                }
+                                            }),
                                             new sap.extension.m.ObjectAttribute("", {
-                                                title: ibas.i18n.prop("bo_material_remarks"),
+                                                title: ibas.i18n.prop("bo_material_oncommited"),
                                                 bindingValue: {
-                                                    path: "remarks",
+                                                    parts: [
+                                                        {
+                                                            path: "onCommited",
+                                                            type: new sap.extension.data.Quantity()
+                                                        },
+                                                        {
+                                                            path: "inventoryUOM",
+                                                            type: new sap.extension.data.Alphanumeric()
+                                                        },
+                                                    ]
+                                                }
+                                            }),
+                                            new sap.extension.m.ObjectAttribute("", {
+                                                title: ibas.i18n.prop("bo_material_salesuom"),
+                                                bindingValue: {
+                                                    path: "salesUOM",
                                                     type: new sap.extension.data.Alphanumeric(),
                                                 }
                                             }),
-                                        ]
+                                            new sap.extension.m.ObjectAttribute("", {
+                                                title: ibas.i18n.prop("bo_material_salestaxgroup"),
+                                                bindingValue: {
+                                                    path: "salesTaxGroup",
+                                                    type: new sap.extension.data.Alphanumeric(),
+                                                }
+                                            }),
+                                            new sap.extension.m.ObjectEnumStatus("", {
+                                                title: ibas.i18n.prop("bo_material_productunit"),
+                                                text: {
+                                                    path: "productUnit",
+                                                    type: new sap.extension.data.Enum({
+                                                        enumType: ibas.emYesNo,
+                                                        describe: true,
+                                                    }),
+                                                }
+                                            }),
+
+                                        ],
                                     })
                                 ]
-                            })
+                            }),
+                            new sap.uxap.ObjectPageSection("", {
+                                title: ibas.i18n.prop("materials_title_production"),
+                                subSections: [
+                                    new sap.uxap.ObjectPageSubSection("", {
+                                        blocks: [
+                                            new sap.extension.m.ObjectEnumStatus("", {
+                                                title: ibas.i18n.prop("bo_material_procurementmethod"),
+                                                text: {
+                                                    path: "procurementMethod",
+                                                    type: new sap.extension.data.Enum({
+                                                        enumType: bo.emProcurementMethod,
+                                                        describe: true,
+                                                    }),
+                                                }
+                                            }),
+                                            new sap.extension.m.ObjectAttribute("", {
+                                                title: ibas.i18n.prop("bo_material_lotsize"),
+                                                bindingValue: {
+                                                    path: "lotSize",
+                                                    type: new sap.extension.data.Quantity(),
+                                                }
+                                            }),
+                                            new sap.extension.m.ObjectAttribute("", {
+                                                title: ibas.i18n.prop("bo_material_productionuom"),
+                                                bindingValue: {
+                                                    path: "productionUOM",
+                                                    type: new sap.extension.data.Alphanumeric(),
+                                                }
+                                            }),
+                                            new sap.extension.m.ObjectEnumStatus("", {
+                                                title: ibas.i18n.prop("bo_material_planningmethod"),
+                                                text: {
+                                                    path: "planningMethod",
+                                                    type: new sap.extension.data.Enum({
+                                                        enumType: bo.emPlanningMethod,
+                                                        describe: true,
+                                                    }),
+                                                }
+                                            }),
+                                            new sap.extension.m.ObjectEnumStatus("", {
+                                                title: ibas.i18n.prop("bo_material_issuemethod"),
+                                                text: {
+                                                    path: "issueMethod",
+                                                    type: new sap.extension.data.Enum({
+                                                        enumType: bo.emIssueMethod,
+                                                        describe: true,
+                                                    }),
+                                                }
+                                            }),
+                                            new sap.extension.m.ObjectAttribute("", {
+                                                title: ibas.i18n.prop("bo_material_scrap"),
+                                                bindingValue: {
+                                                    path: "scrap",
+                                                    type: new sap.extension.data.Alphanumeric(),
+                                                },
+                                            }),
+                                            new sap.extension.m.ObjectEnumStatus("", {
+                                                title: ibas.i18n.prop("bo_material_madetoorder"),
+                                                text: {
+                                                    path: "madeToOrder",
+                                                    type: new sap.extension.data.Enum({
+                                                        enumType: bo.emIssueMethod,
+                                                        describe: true,
+                                                    }),
+                                                }
+                                            }),
+                                            new sap.extension.m.ObjectEnumStatus("", {
+                                                title: ibas.i18n.prop("bo_material_checkcompleteness"),
+                                                text: {
+                                                    path: "checkCompleteness",
+                                                    type: new sap.extension.data.Enum({
+                                                        enumType: bo.emIssueMethod,
+                                                        describe: true,
+                                                    }),
+                                                }
+                                            }),
+                                            new sap.extension.m.ObjectEnumStatus("", {
+                                                title: ibas.i18n.prop("bo_material_mixingbatches"),
+                                                text: {
+                                                    path: "mixingBatches",
+                                                    type: new sap.extension.data.Enum({
+                                                        enumType: bo.emIssueMethod,
+                                                        describe: true,
+                                                    }),
+                                                }
+                                            }),
+                                            new sap.extension.m.ObjectAttribute("", {
+                                                title: ibas.i18n.prop("bo_material_darwingnumber"),
+                                                bindingValue: {
+                                                    path: "darwingNumber",
+                                                    type: new sap.extension.data.Alphanumeric(),
+                                                }
+                                            }),
+                                            new sap.extension.m.ObjectAttribute("", {
+                                                title: ibas.i18n.prop("bo_material_matchcode"),
+                                                bindingValue: {
+                                                    path: "matchCode",
+                                                    type: new sap.extension.data.Alphanumeric(),
+                                                }
+                                            }),
+                                            new sap.extension.m.RepositoryObjectAttribute("", {
+                                                title: ibas.i18n.prop("bo_material_scheduler"),
+                                                bindingValue: {
+                                                    path: "scheduler",
+                                                    type: new sap.extension.data.Alphanumeric(),
+                                                },
+                                                repository: initialfantasy.bo.BORepositoryInitialFantasy,
+                                                dataInfo: {
+                                                    type: initialfantasy.bo.User,
+                                                    key: initialfantasy.bo.User.PROPERTY_CODE_NAME,
+                                                    text: initialfantasy.bo.User.PROPERTY_NAME_NAME,
+                                                },
+                                            }),
+
+                                        ],
+                                    })
+                                ]
+                            }),
                         ]
                     });
                 }

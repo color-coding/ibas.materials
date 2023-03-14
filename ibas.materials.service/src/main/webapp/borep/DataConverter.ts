@@ -116,20 +116,38 @@ namespace materials {
                         || property === bo.Material.PROPERTY_PURCHASEITEM_NAME
                         || property === bo.Material.PROPERTY_INVENTORYITEM_NAME
                         || property === bo.Material.PROPERTY_PHANTOMITEM_NAME
-                        || property === bo.Material.PROPERTY_PRODUCTUNIT_NAME) {
+                        || property === bo.Material.PROPERTY_PRODUCTUNIT_NAME
+                        || property === bo.Material.PROPERTY_CHECKCOMPLETENESS_NAME
+                        || property === bo.Material.PROPERTY_MIXINGBATCHES_NAME
+                        || property === bo.Material.PROPERTY_MADETOORDER_NAME) {
                         return ibas.enums.toString(ibas.emYesNo, value);
                     } else if (property === bo.Material.PROPERTY_ITEMTYPE_NAME) {
                         return ibas.enums.toString(bo.emItemType, value);
+                    } else if (property === bo.Material.PROPERTY_PROCUREMENTMETHOD_NAME) {
+                        return ibas.enums.toString(bo.emProcurementMethod, value);
+                    } else if (property === bo.Material.PROPERTY_ISSUEMETHOD_NAME) {
+                        return ibas.enums.toString(bo.emIssueMethod, value);
+                    } else if (property === bo.Material.PROPERTY_PLANNINGMETHOD_NAME) {
+                        return ibas.enums.toString(bo.emPlanningMethod, value);
                     }
                 } else if (boName === bo.Product.name) {
                     if (property === bo.Product.PROPERTY_SERIALMANAGEMENT_NAME
                         || property === bo.Product.PROPERTY_BATCHMANAGEMENT_NAME
                         || property === bo.Product.PROPERTY_INVENTORYITEM_NAME
                         || property === bo.Product.PROPERTY_PHANTOMITEM_NAME
-                        || property === bo.Product.PROPERTY_TAXED_NAME) {
+                        || property === bo.Product.PROPERTY_TAXED_NAME
+                        || property === bo.Product.PROPERTY_CHECKCOMPLETENESS_NAME
+                        || property === bo.Product.PROPERTY_MIXINGBATCHES_NAME
+                        || property === bo.Product.PROPERTY_MADETOORDER_NAME) {
                         return ibas.enums.toString(ibas.emYesNo, value);
                     } else if (property === bo.Product.PROPERTY_ITEMTYPE_NAME) {
                         return ibas.enums.toString(bo.emItemType, value);
+                    } else if (property === bo.Product.PROPERTY_PROCUREMENTMETHOD_NAME) {
+                        return ibas.enums.toString(bo.emProcurementMethod, value);
+                    } else if (property === bo.Product.PROPERTY_ISSUEMETHOD_NAME) {
+                        return ibas.enums.toString(bo.emIssueMethod, value);
+                    } else if (property === bo.Product.PROPERTY_PLANNINGMETHOD_NAME) {
+                        return ibas.enums.toString(bo.emIssueMethod, value);
                     }
                 } else if (boName === bo.GoodsIssueLine.name) {
                     if (property === bo.GoodsIssueLine.PROPERTY_SERIALMANAGEMENT_NAME
@@ -205,10 +223,19 @@ namespace materials {
                         || property === bo.Material.PROPERTY_PURCHASEITEM_NAME
                         || property === bo.Material.PROPERTY_INVENTORYITEM_NAME
                         || property === bo.Material.PROPERTY_PHANTOMITEM_NAME
-                        || property === bo.Material.PROPERTY_PRODUCTUNIT_NAME) {
+                        || property === bo.Material.PROPERTY_PRODUCTUNIT_NAME
+                        || property === bo.Material.PROPERTY_CHECKCOMPLETENESS_NAME
+                        || property === bo.Material.PROPERTY_MIXINGBATCHES_NAME
+                        || property === bo.Material.PROPERTY_MADETOORDER_NAME) {
                         return ibas.enums.valueOf(ibas.emYesNo, value);
                     } else if (property === bo.Material.PROPERTY_ITEMTYPE_NAME) {
                         return ibas.enums.valueOf(bo.emItemType, value);
+                    } else if (property === bo.Material.PROPERTY_PROCUREMENTMETHOD_NAME) {
+                        return ibas.enums.valueOf(bo.emProcurementMethod, value);
+                    } else if (property === bo.Material.PROPERTY_ISSUEMETHOD_NAME) {
+                        return ibas.enums.valueOf(bo.emIssueMethod, value);
+                    } else if (property === bo.Material.PROPERTY_PLANNINGMETHOD_NAME) {
+                        return ibas.enums.valueOf(bo.emPlanningMethod, value);
                     }
                 } else if (boName === bo.Product.name) {
                     if (property === bo.Product.PROPERTY_SERIALMANAGEMENT_NAME
@@ -217,10 +244,19 @@ namespace materials {
                         || property === bo.Product.PROPERTY_PHANTOMITEM_NAME
                         || property === bo.Product.PROPERTY_SALESITEM_NAME
                         || property === bo.Product.PROPERTY_PURCHASEITEM_NAME
-                        || property === bo.Product.PROPERTY_TAXED_NAME) {
+                        || property === bo.Product.PROPERTY_TAXED_NAME
+                        || property === bo.Material.PROPERTY_CHECKCOMPLETENESS_NAME
+                        || property === bo.Material.PROPERTY_MIXINGBATCHES_NAME
+                        || property === bo.Material.PROPERTY_MADETOORDER_NAME) {
                         return ibas.enums.valueOf(ibas.emYesNo, value);
                     } else if (property === bo.Product.PROPERTY_ITEMTYPE_NAME) {
                         return ibas.enums.valueOf(bo.emItemType, value);
+                    } else if (property === bo.Product.PROPERTY_PROCUREMENTMETHOD_NAME) {
+                        return ibas.enums.valueOf(bo.emProcurementMethod, value);
+                    } else if (property === bo.Product.PROPERTY_ISSUEMETHOD_NAME) {
+                        return ibas.enums.valueOf(bo.emIssueMethod, value);
+                    } else if (property === bo.Product.PROPERTY_PLANNINGMETHOD_NAME) {
+                        return ibas.enums.valueOf(bo.emIssueMethod, value);
                     }
                 } else if (boName === bo.GoodsIssueLine.name) {
                     if (property === bo.GoodsIssueLine.PROPERTY_SERIALMANAGEMENT_NAME
