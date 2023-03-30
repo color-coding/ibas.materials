@@ -211,7 +211,7 @@ namespace materials {
 
                 /** 显示数据 */
                 showMaterialSerial(data: bo.MaterialSerial): void {
-                    this.formTop.setModel(new sap.ui.model.json.JSONModel(data));
+                    this.formTop.setModel(new sap.extension.model.JSONModel(data));
                 }
             }
         }

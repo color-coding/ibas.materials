@@ -163,6 +163,7 @@ namespace materials {
                     boCode: bo.MaterialVersion.BUSINESS_OBJECT_CODE,
                     chooseType: ibas.emChooseType.SINGLE,
                     criteria: [
+                        new ibas.Condition(bo.MaterialVersion.PROPERTY_ITEMCODE_NAME, ibas.emConditionOperation.EQUAL, this.editData.itemCode),
                         new ibas.Condition(bo.MaterialVersion.PROPERTY_ACTIVATED_NAME, ibas.emConditionOperation.EQUAL, ibas.emYesNo.YES)
                     ],
                     onCompleted(selecteds: ibas.IList<bo.MaterialVersion>): void {

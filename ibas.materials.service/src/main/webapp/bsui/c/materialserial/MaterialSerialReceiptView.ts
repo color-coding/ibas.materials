@@ -15,6 +15,8 @@ namespace materials {
                 createMaterialSerialItemEvent: Function;
                 /** 移出物料序列库存 */
                 removeMaterialSerialItemEvent: Function;
+                /** 选择物料版本 */
+                chooseVersionEvent: Function;
 
                 draw(): any {
                     let that: this = this;
@@ -77,6 +79,20 @@ namespace materials {
                                             type: new sap.extension.data.Alphanumeric()
                                         }
                                     }),
+                                    new sap.extension.m.ObjectAttribute("", {
+                                        title: ibas.i18n.prop("bo_materialserialitem_itemversion"),
+                                        bindingValue: {
+                                            path: "itemVersion",
+                                            mode: sap.ui.model.BindingMode.OneTime,
+                                            type: new sap.extension.data.Alphanumeric()
+                                        },
+                                        visible: {
+                                            path: "itemVersion",
+                                            formatter(data: string): boolean {
+                                                return ibas.strings.isEmpty(data) ? false : true;
+                                            }
+                                        }
+                                    }),
                                     new sap.extension.m.RepositoryObjectAttribute("", {
                                         title: ibas.i18n.prop("bo_warehouse"),
                                         bindingValue: {
@@ -103,8 +119,8 @@ namespace materials {
                         },
                     });
                     this.tableItems = new sap.extension.m.List("", {
-                        chooseType: ibas.emChooseType.MULTIPLE,
-                        mode: sap.m.ListMode.MultiSelect,
+                        chooseType: ibas.emChooseType.NONE,
+                        mode: sap.m.ListMode.None,
                         growing: false,
                         noDataText: ibas.i18n.prop(["shell_please", "shell_data_create", "bo_materialserial"]),
                         items: {
@@ -119,6 +135,7 @@ namespace materials {
                                         headerToolbar: new sap.m.Toolbar("", {
                                             content: [
                                                 new sap.extension.m.Input("", {
+                                                    placeholder: ibas.i18n.prop("bo_materialserial_serialcode"),
                                                 }).bindProperty("bindingValue", {
                                                     path: "serialCode",
                                                     type: new sap.extension.data.Alphanumeric({
@@ -129,18 +146,9 @@ namespace materials {
                                                 new sap.m.ToolbarSeparator(""),
                                                 new sap.m.Button("", {
                                                     type: sap.m.ButtonType.Transparent,
-                                                    icon: "sap-icon://expand",
-                                                    press: function (event: sap.ui.base.Event): void {
-                                                        let source: any = event.getSource();
-                                                        if (source instanceof sap.m.Button) {
-                                                            let parent: any = source.getParent();
-                                                            if (parent instanceof sap.m.Toolbar) {
-                                                                let grand: any = parent.getParent();
-                                                                if (grand instanceof sap.m.Panel) {
-                                                                    grand.setExpanded(!grand.getExpanded());
-                                                                }
-                                                            }
-                                                        }
+                                                    icon: "sap-icon://sys-cancel",
+                                                    press: function (this: sap.m.Button, event: sap.ui.base.Event): void {
+                                                        that.fireViewEvents(that.removeMaterialSerialItemEvent, this.getBindingContext().getObject());
                                                     }
                                                 }),
                                             ]
@@ -204,7 +212,17 @@ namespace materials {
                                                     new sap.ui.layout.form.SimpleForm("", {
                                                         editable: true,
                                                         content: [
-                                                            new sap.m.Label("", { text: ibas.i18n.prop("bo_materialbatch_specification") }),
+                                                            new sap.m.Label("", { text: ibas.i18n.prop("bo_materialserial_version") }),
+                                                            new sap.extension.m.Input("", {
+                                                                showValueHelp: true,
+                                                                valueHelpRequest: function (): void {
+                                                                    that.fireViewEvents(that.chooseVersionEvent, this.getBindingContext().getObject());
+                                                                }
+                                                            }).bindProperty("bindingValue", {
+                                                                path: "version",
+                                                                type: new sap.extension.data.Alphanumeric()
+                                                            }),
+                                                            new sap.m.Label("", { text: ibas.i18n.prop("bo_materialserial_specification") }),
                                                             new component.SpecificationInput("", {
                                                                 editable: true,
                                                                 material: "{=${}.itemCode()}",
@@ -216,25 +234,8 @@ namespace materials {
                                                     }),
                                                 ]
                                             }),
-                                        ],
-                                        expand(event: sap.ui.base.Event): void {
-                                            let source: any = event.getSource();
-                                            if (source instanceof sap.m.Panel) {
-                                                let button: any = ibas.arrays.create(source.getHeaderToolbar().getContent()).lastOrDefault();
-                                                if (button instanceof sap.m.Button) {
-                                                    if (source.getExpanded()) {
-                                                        button.setIcon("sap-icon://collapse");
-                                                    } else {
-                                                        button.setIcon("sap-icon://expand");
-                                                    }
-                                                }
-                                                // 刷新扩展数据
-                                                if (source.getExpanded()) {
-
-                                                }
-                                            }
-                                        }
-                                    }).addStyleClass("sapUiNoContentPadding")
+                                        ]
+                                    })
                                 ],
                                 type: sap.m.ListType.Inactive
                             })
@@ -297,6 +298,49 @@ namespace materials {
                                         floatingFooter: true,
                                         subHeader: new sap.m.Toolbar("", {
                                             content: [
+                                                new sap.m.MenuButton("", {
+                                                    icon: "sap-icon://indent",
+                                                    type: sap.m.ButtonType.Transparent,
+                                                    menuPosition: sap.ui.core.Popup.Dock.BeginBottom,
+                                                    tooltip: ibas.strings.format("{0}/{1}", ibas.i18n.prop("shell_show"), ibas.i18n.prop("shell_hide")),
+                                                    menu: new sap.m.Menu("", {
+                                                        items: [
+                                                            new sap.m.MenuItem("", {
+                                                                icon: "sap-icon://navigation-down-arrow",
+                                                                text: ibas.i18n.prop(["shell_show", "materials_details"]),
+                                                                press: function (): void {
+                                                                    that.tableItems.setBusy(true);
+                                                                    for (let item of that.tableItems.getItems()) {
+                                                                        if (item instanceof sap.m.CustomListItem) {
+                                                                            let panel: any = item.getContent()[0];
+                                                                            if (panel instanceof sap.m.Panel) {
+                                                                                panel.setExpanded(true);
+                                                                            }
+                                                                        }
+                                                                    }
+                                                                    that.tableItems.setBusy(false);
+                                                                }
+                                                            }),
+                                                            new sap.m.MenuItem("", {
+                                                                icon: "sap-icon://navigation-right-arrow",
+                                                                text: ibas.i18n.prop(["shell_hide", "materials_details"]),
+                                                                press: function (): void {
+                                                                    that.tableItems.setBusy(true);
+                                                                    for (let item of that.tableItems.getItems()) {
+                                                                        if (item instanceof sap.m.CustomListItem) {
+                                                                            let panel: any = item.getContent()[0];
+                                                                            if (panel instanceof sap.m.Panel) {
+                                                                                panel.setExpanded(false);
+                                                                            }
+                                                                        }
+                                                                    }
+                                                                    that.tableItems.setBusy(false);
+                                                                }
+                                                            }),
+                                                        ],
+                                                    })
+                                                }),
+                                                new sap.m.ToolbarSeparator(""),
                                                 new sap.m.SearchField("", {
                                                     search(event: sap.ui.base.Event): void {
                                                         let source: any = event.getSource();
@@ -360,16 +404,7 @@ namespace materials {
                                                         }
                                                     }
                                                 }),
-                                                new sap.m.ToolbarSeparator("", {
-                                                }),
-                                                new sap.m.Button("", {
-                                                    text: ibas.i18n.prop("shell_data_remove"),
-                                                    type: sap.m.ButtonType.Transparent,
-                                                    icon: "sap-icon://delete",
-                                                    press: function (): void {
-                                                        that.fireViewEvents(that.removeMaterialSerialItemEvent, that.tableItems.getSelecteds());
-                                                    }
-                                                }),
+                                                new sap.m.ToolbarSeparator(""),
                                                 new sap.m.MenuButton("", {
                                                     text: ibas.i18n.prop("shell_data_create"),
                                                     icon: "sap-icon://create",
@@ -399,94 +434,6 @@ namespace materials {
                                         content: [
                                             this.tableItems
                                         ],
-                                        footer: new sap.m.Toolbar("", {
-                                            content: [
-                                                new sap.m.MenuButton("", {
-                                                    text: ibas.i18n.prop("shell_data_choose"),
-                                                    icon: "sap-icon://menu",
-                                                    type: sap.m.ButtonType.Transparent,
-                                                    menuPosition: sap.ui.core.Popup.Dock.BeginTop,
-                                                    menu: new sap.m.Menu("", {
-                                                        items: [
-                                                            new sap.m.MenuItem("", {
-                                                                text: ibas.i18n.prop("shell_all"),
-                                                                icon: "sap-icon://multiselect-all",
-                                                                press: function (): void {
-                                                                    for (let item of that.tableItems.getItems()) {
-                                                                        that.tableItems.setSelectedItem(item, true);
-                                                                    }
-                                                                }
-                                                            }),
-                                                            new sap.m.MenuItem("", {
-                                                                text: ibas.i18n.prop("shell_reverse"),
-                                                                icon: "sap-icon://multi-select",
-                                                                press: function (): void {
-                                                                    for (let item of that.tableItems.getItems()) {
-                                                                        if (item.getSelected() === true) {
-                                                                            that.tableItems.setSelectedItem(item, false);
-                                                                        } else {
-                                                                            that.tableItems.setSelectedItem(item, true);
-                                                                        }
-                                                                    }
-                                                                }
-                                                            }),
-                                                            new sap.m.MenuItem("", {
-                                                                text: ibas.i18n.prop("shell_none"),
-                                                                icon: "sap-icon://multiselect-none",
-                                                                press: function (): void {
-                                                                    for (let item of that.tableItems.getItems()) {
-                                                                        that.tableItems.setSelectedItem(item, false);
-                                                                    }
-                                                                }
-                                                            }),
-                                                        ],
-                                                    })
-                                                }),
-                                                new sap.m.ToolbarSpacer(""),
-                                                new sap.m.MenuButton("", {
-                                                    text: ibas.strings.format("{0}/{1}", ibas.i18n.prop("shell_show"), ibas.i18n.prop("shell_hide")),
-                                                    icon: "sap-icon://detail-view",
-                                                    type: sap.m.ButtonType.Transparent,
-                                                    menuPosition: sap.ui.core.Popup.Dock.EndTop,
-                                                    menu: new sap.m.Menu("", {
-                                                        items: [
-                                                            new sap.m.MenuItem("", {
-                                                                icon: "sap-icon://expand",
-                                                                text: ibas.i18n.prop(["shell_show", "materials_details"]),
-                                                                press: function (): void {
-                                                                    that.tableItems.setBusy(true);
-                                                                    for (let item of that.tableItems.getItems()) {
-                                                                        if (item instanceof sap.m.CustomListItem) {
-                                                                            let panel: any = item.getContent()[0];
-                                                                            if (panel instanceof sap.m.Panel) {
-                                                                                panel.setExpanded(true);
-                                                                            }
-                                                                        }
-                                                                    }
-                                                                    that.tableItems.setBusy(false);
-                                                                }
-                                                            }),
-                                                            new sap.m.MenuItem("", {
-                                                                icon: "sap-icon://collapse",
-                                                                text: ibas.i18n.prop(["shell_hide", "materials_details"]),
-                                                                press: function (): void {
-                                                                    that.tableItems.setBusy(true);
-                                                                    for (let item of that.tableItems.getItems()) {
-                                                                        if (item instanceof sap.m.CustomListItem) {
-                                                                            let panel: any = item.getContent()[0];
-                                                                            if (panel instanceof sap.m.Panel) {
-                                                                                panel.setExpanded(false);
-                                                                            }
-                                                                        }
-                                                                    }
-                                                                    that.tableItems.setBusy(false);
-                                                                }
-                                                            }),
-                                                        ],
-                                                    })
-                                                }),
-                                            ]
-                                        })
                                     }),
                                 ],
                             })

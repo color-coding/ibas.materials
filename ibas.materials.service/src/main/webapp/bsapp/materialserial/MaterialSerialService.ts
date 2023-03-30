@@ -29,6 +29,16 @@ namespace materials {
             get itemDescription(): string {
                 return this.data.itemDescription;
             }
+            set itemDescription(value: string) {
+                this.data.itemDescription = value;
+            }
+            /** 物料版本 */
+            get itemVersion(): string {
+                return this.data.itemVersion;
+            }
+            set itemVersion(value: string) {
+                this.data.itemVersion = value;
+            }
             /** 仓库编码 */
             get warehouse(): string {
                 return this.data.warehouse;
@@ -90,6 +100,7 @@ namespace materials {
                     item.admissionDate = serial.admissionDate;
                     item.warrantyStartDate = serial.warrantyStartDate;
                     item.warrantyEndDate = serial.warrantyEndDate;
+                    item.version = serial.version;
                     item.location = serial.location;
                     item.notes = serial.notes;
                 }
@@ -217,6 +228,15 @@ namespace materials {
                 this.extend[PROPERTY_ISDIRTY] = true;
                 this.firePropertyChanged("warrantyEndDate");
             }
+            /** 版本 */
+            get version(): string {
+                return this.extend.version;
+            }
+            set version(value: string) {
+                this.extend.version = value;
+                this.extend[PROPERTY_ISDIRTY] = true;
+                this.firePropertyChanged("version");
+            }
             /** 位置 */
             get location(): string {
                 return this.extend.location;
@@ -268,6 +288,8 @@ namespace materials {
             warrantyEndDate: Date;
             /** 位置 */
             location: string;
+            /** 版本 */
+            version: string;
             /** 备注 */
             notes: string;
         }
@@ -309,6 +331,7 @@ namespace materials {
                                 if (ibas.dates.isDate(data.warrantyStartDate)) { serial.warrantyStartDate = data.warrantyStartDate; }
                                 if (ibas.dates.isDate(data.warrantyEndDate)) { serial.warrantyEndDate = data.warrantyEndDate; }
                                 if (!ibas.strings.isEmpty(data.location)) { serial.location = data.location; }
+                                if (!ibas.strings.isEmpty(data.version)) { serial.version = data.version; }
                                 if (!ibas.strings.isEmpty(data.notes)) { serial.notes = data.notes; }
                                 if (data.specification > 0) { serial.specification = data.specification; }
                                 if (serial.isDirty) {
@@ -370,7 +393,34 @@ namespace materials {
             /** 视图显示后 */
             protected viewShowed(): void {
                 // 视图加载完成
-                this.view.showWorkDatas(this.workDatas);
+                let criteria: ibas.ICriteria = new ibas.Criteria();
+                for (let item of this.workDatas) {
+                    if (!ibas.strings.isEmpty(item.itemDescription)) {
+                        continue;
+                    }
+                    let condition: ibas.ICondition = criteria.conditions.create();
+                    condition.alias = bo.Material.PROPERTY_CODE_NAME;
+                    condition.value = item.itemCode;
+                    condition.relationship = ibas.emConditionRelationship.OR;
+                }
+                if (criteria.conditions.length > 0) {
+                    let boRepository: bo.BORepositoryMaterials = new bo.BORepositoryMaterials();
+                    boRepository.fetchMaterial({
+                        criteria: criteria,
+                        onCompleted: (opRslt) => {
+                            for (let rItem of opRslt.resultObjects) {
+                                for (let wItem of this.workDatas) {
+                                    if (ibas.strings.equalsIgnoreCase(rItem.code, wItem.itemCode)) {
+                                        wItem.itemDescription = rItem.name;
+                                    }
+                                }
+                            }
+                            this.view.showWorkDatas(this.workDatas);
+                        }
+                    });
+                } else {
+                    this.view.showWorkDatas(this.workDatas);
+                }
             }
             protected workDatas: ibas.IList<SerialWorkingItem>;
             protected workingData: SerialWorkingItem;
@@ -435,6 +485,7 @@ namespace materials {
                                             warrantyStartDate: serial.warrantyStartDate,
                                             warrantyEndDate: serial.warrantyEndDate,
                                             location: serial.location,
+                                            version: serial.version,
                                             notes: serial.notes,
                                         });
                                     }
@@ -555,6 +606,13 @@ namespace materials {
                 condition.alias = bo.MaterialSerial.PROPERTY_INSTOCK_NAME;
                 condition.operation = ibas.emConditionOperation.EQUAL;
                 condition.value = ibas.emYesNo.YES.toString();
+                if (!ibas.strings.isEmpty(this.workingData.itemVersion)) {
+                    // 限制了版本
+                    condition = criteria.conditions.create();
+                    condition.alias = bo.MaterialBatch.PROPERTY_VERSION_NAME;
+                    condition.operation = ibas.emConditionOperation.EQUAL;
+                    condition.value = this.workingData.itemVersion;
+                }
                 this.busy(true);
                 let boRepository: bo.BORepositoryMaterials = new bo.BORepositoryMaterials();
                 boRepository.fetchMaterialSerial({
@@ -646,6 +704,7 @@ namespace materials {
                 super.registerView();
                 // 其他事件
                 this.view.createMaterialSerialItemEvent = this.createMaterialSerialItem;
+                this.view.chooseVersionEvent = this.chooseVersion;
                 this.view.closeEvent = this.fireCompleted;
             }
             protected createMaterialSerialItem(mode: string): void {
@@ -761,6 +820,25 @@ namespace materials {
                     this.messages(error);
                 }
             }
+            /** 选择物料版本 */
+            private chooseVersion(caller: BatchWorkingItemResult): void {
+                if (ibas.objects.isNull(caller)) {
+                    this.messages(ibas.emMessageType.WARNING, ibas.i18n.prop("shell_please_chooose_data", ibas.i18n.prop("shell_data_edit")));
+                    return;
+                }
+                ibas.servicesManager.runChooseService<bo.MaterialVersion>({
+                    boCode: bo.MaterialVersion.BUSINESS_OBJECT_CODE,
+                    chooseType: ibas.emChooseType.SINGLE,
+                    criteria: [
+                        new ibas.Condition(bo.MaterialVersion.PROPERTY_ITEMCODE_NAME, ibas.emConditionOperation.EQUAL, caller.itemCode()),
+                        new ibas.Condition(bo.MaterialVersion.PROPERTY_ACTIVATED_NAME, ibas.emConditionOperation.EQUAL, ibas.emYesNo.YES)
+                    ],
+                    onCompleted(selecteds: ibas.IList<bo.MaterialVersion>): void {
+                        let selected: bo.MaterialVersion = selecteds.firstOrDefault();
+                        caller.version = selected.name;
+                    }
+                });
+            }
         }
         /** 物料序列列表服务 */
         export class MaterialSerialListService extends MaterialSerialService<IMaterialSerialListsView> {
@@ -847,6 +925,8 @@ namespace materials {
         export interface IMaterialSerialReceiptView extends IMaterialSerialServiceView {
             /** 创建序列编码记录 */
             createMaterialSerialItemEvent: Function;
+            /** 选择物料版本 */
+            chooseVersionEvent: Function;
         }
         /** 视图-物料序列列表 */
         export interface IMaterialSerialListsView extends IMaterialSerialServiceView {

@@ -235,6 +235,48 @@ public interface IMaterialSerial extends IBOSimple {
 	void setNotes(String value);
 
 	/**
+	 * 获取-基于类型
+	 * 
+	 * @return 值
+	 */
+	String getBaseDocumentType();
+
+	/**
+	 * 设置-基于类型
+	 * 
+	 * @param value 值
+	 */
+	void setBaseDocumentType(String value);
+
+	/**
+	 * 获取-基于标识
+	 * 
+	 * @return 值
+	 */
+	Integer getBaseDocumentEntry();
+
+	/**
+	 * 设置-基于标识
+	 * 
+	 * @param value 值
+	 */
+	void setBaseDocumentEntry(Integer value);
+
+	/**
+	 * 获取-基于行号
+	 * 
+	 * @return 值
+	 */
+	Integer getBaseDocumentLineId();
+
+	/**
+	 * 设置-基于行号
+	 * 
+	 * @param value 值
+	 */
+	void setBaseDocumentLineId(Integer value);
+
+	/**
 	 * 获取-对象编号
 	 *
 	 * @return 值

@@ -889,14 +889,14 @@ namespace materials {
                 /** 显示物料库存 */
                 showMaterialInventory(datas: bo.IMaterialInventory[]): void {
                     this.panelInventory.setVisible(true);
-                    this.panelInventory.getContent()[0].setModel(new sap.ui.model.json.JSONModel({ rows: datas }));
+                    this.panelInventory.getContent()[0].setModel(new sap.extension.model.JSONModel({ rows: datas }));
                     this.panelInventory.setExpanded(true);
                 }
                 /** 显示物料批次信息 */
                 showMaterialBatch(datas: bo.IMaterialBatch[]): void {
                     this.panelBatch.setVisible(true);
                     this.panelBatch.setBusy(true);
-                    this.panelBatch.getContent()[0].setModel(new sap.ui.model.json.JSONModel({ rows: datas }));
+                    this.panelBatch.getContent()[0].setModel(new sap.extension.model.JSONModel({ rows: datas }));
                     this.panelBatch.setExpanded(true);
                     this.panelBatch.setBusy(false);
                 }
@@ -904,7 +904,7 @@ namespace materials {
                 showMaterialSerial(datas: bo.IMaterialSerial[]): void {
                     this.panelSerial.setVisible(true);
                     this.panelSerial.setBusy(true);
-                    this.panelSerial.getContent()[0].setModel(new sap.ui.model.json.JSONModel({ rows: datas }));
+                    this.panelSerial.getContent()[0].setModel(new sap.extension.model.JSONModel({ rows: datas }));
                     this.panelSerial.setExpanded(true);
                     this.panelSerial.setBusy(false);
                 }

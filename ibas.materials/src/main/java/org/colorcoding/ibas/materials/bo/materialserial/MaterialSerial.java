@@ -550,6 +550,99 @@ public class MaterialSerial extends BusinessObject<MaterialSerial> implements IM
 	}
 
 	/**
+	 * 属性名称-基于类型
+	 */
+	private static final String PROPERTY_BASEDOCUMENTTYPE_NAME = "BaseDocumentType";
+
+	/**
+	 * 基于类型 属性
+	 */
+	@DbField(name = "BaseType", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME, primaryKey = false)
+	public static final IPropertyInfo<String> PROPERTY_BASEDOCUMENTTYPE = registerProperty(
+			PROPERTY_BASEDOCUMENTTYPE_NAME, String.class, MY_CLASS);
+
+	/**
+	 * 获取-基于类型
+	 * 
+	 * @return 值
+	 */
+	@XmlElement(name = PROPERTY_BASEDOCUMENTTYPE_NAME)
+	public final String getBaseDocumentType() {
+		return this.getProperty(PROPERTY_BASEDOCUMENTTYPE);
+	}
+
+	/**
+	 * 设置-基于类型
+	 * 
+	 * @param value 值
+	 */
+	public final void setBaseDocumentType(String value) {
+		this.setProperty(PROPERTY_BASEDOCUMENTTYPE, value);
+	}
+
+	/**
+	 * 属性名称-基于标识
+	 */
+	private static final String PROPERTY_BASEDOCUMENTENTRY_NAME = "BaseDocumentEntry";
+
+	/**
+	 * 基于标识 属性
+	 */
+	@DbField(name = "BaseEntry", type = DbFieldType.NUMERIC, table = DB_TABLE_NAME, primaryKey = false)
+	public static final IPropertyInfo<Integer> PROPERTY_BASEDOCUMENTENTRY = registerProperty(
+			PROPERTY_BASEDOCUMENTENTRY_NAME, Integer.class, MY_CLASS);
+
+	/**
+	 * 获取-基于标识
+	 * 
+	 * @return 值
+	 */
+	@XmlElement(name = PROPERTY_BASEDOCUMENTENTRY_NAME)
+	public final Integer getBaseDocumentEntry() {
+		return this.getProperty(PROPERTY_BASEDOCUMENTENTRY);
+	}
+
+	/**
+	 * 设置-基于标识
+	 * 
+	 * @param value 值
+	 */
+	public final void setBaseDocumentEntry(Integer value) {
+		this.setProperty(PROPERTY_BASEDOCUMENTENTRY, value);
+	}
+
+	/**
+	 * 属性名称-基于行号
+	 */
+	private static final String PROPERTY_BASEDOCUMENTLINEID_NAME = "BaseDocumentLineId";
+
+	/**
+	 * 基于行号 属性
+	 */
+	@DbField(name = "BaseLine", type = DbFieldType.NUMERIC, table = DB_TABLE_NAME, primaryKey = false)
+	public static final IPropertyInfo<Integer> PROPERTY_BASEDOCUMENTLINEID = registerProperty(
+			PROPERTY_BASEDOCUMENTLINEID_NAME, Integer.class, MY_CLASS);
+
+	/**
+	 * 获取-基于行号
+	 * 
+	 * @return 值
+	 */
+	@XmlElement(name = PROPERTY_BASEDOCUMENTLINEID_NAME)
+	public final Integer getBaseDocumentLineId() {
+		return this.getProperty(PROPERTY_BASEDOCUMENTLINEID);
+	}
+
+	/**
+	 * 设置-基于行号
+	 * 
+	 * @param value 值
+	 */
+	public final void setBaseDocumentLineId(Integer value) {
+		this.setProperty(PROPERTY_BASEDOCUMENTLINEID, value);
+	}
+
+	/**
 	 * 属性名称-对象编号
 	 */
 	private static final String PROPERTY_OBJECTKEY_NAME = "ObjectKey";

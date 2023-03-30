@@ -103,7 +103,7 @@ namespace materials {
                                     path: "remarks",
                                     type: new sap.extension.data.Alphanumeric()
                                 }),
-                                width: "16rem",
+                                width: "20rem",
                             }),
                         ],
                         nextDataSet(event: sap.ui.base.Event): void {

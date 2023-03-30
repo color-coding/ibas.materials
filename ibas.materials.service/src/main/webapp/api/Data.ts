@@ -201,6 +201,8 @@ namespace materials {
             warrantyEndDate: Date;
             /** 位置 */
             location: string;
+            /** 版本 */
+            version: string;
             /** 备注 */
             notes: string;
         }
@@ -227,6 +229,8 @@ namespace materials {
             specification: number;
             /** 位置 */
             location: string;
+            /** 版本 */
+            version: string;
             /** 备注 */
             notes: string;
         }
@@ -241,6 +245,8 @@ namespace materials {
             itemCode: string;
             /** 物料描述 */
             itemDescription: string;
+            /** 物料版本 */
+            itemVersion?: string;
             /** 仓库编码 */
             warehouse: string;
             /** 数量 */
@@ -260,6 +266,8 @@ namespace materials {
             itemCode: string;
             /** 物料描述 */
             itemDescription: string;
+            /** 物料版本 */
+            itemVersion?: string;
             /** 仓库编码 */
             warehouse: string;
             /** 数量 */
@@ -617,7 +625,7 @@ namespace materials {
             }
         }
         export interface IBeChangedUOMSource {
-            caller?: any,
+            caller?: any;
             readonly sourceUnit: string;
             readonly targetUnit: string;
             readonly material?: string;
@@ -625,7 +633,7 @@ namespace materials {
         }
         /**
          * 获取物料单位换算率
-         * @param caller 
+         * @param caller
          */
         export function changeMaterialsUnitRate(caller: {
             data: IBeChangedUOMSource | IBeChangedUOMSource[],
@@ -655,7 +663,7 @@ namespace materials {
                 condition.bracketOpen = 1;
                 condition = criteria.conditions.create();
                 condition.alias = materials.bo.UnitRate.PROPERTY_CONDITION_NAME;
-                condition.value = ""
+                condition.value = "";
                 condition.relationship = ibas.emConditionRelationship.OR;
                 condition = criteria.conditions.create();
                 condition.alias = materials.bo.UnitRate.PROPERTY_CONDITION_NAME;

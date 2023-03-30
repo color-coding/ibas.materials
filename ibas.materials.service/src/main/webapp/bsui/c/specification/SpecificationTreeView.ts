@@ -69,7 +69,7 @@ namespace materials {
                             key: item.template,
                             text: item.name
                         });
-                        sItem.setModel(new sap.ui.model.json.JSONModel(item));
+                        sItem.setModel(new sap.extension.model.JSONModel(item));
                         this.select.addItem(sItem);
                     }
                     this.dialog.addContent(
@@ -173,7 +173,7 @@ namespace materials {
                         ]
                     });
                     this.dialog.addContent(this.tree);
-                    this.tree.setModel(new sap.ui.model.json.JSONModel({ data: data }));
+                    this.tree.setModel(new sap.extension.model.JSONModel({ data: data }));
                     setTimeout(() => {
                         for (let row of this.tree.getRows()) {
                             let cells: any = row.getCells();

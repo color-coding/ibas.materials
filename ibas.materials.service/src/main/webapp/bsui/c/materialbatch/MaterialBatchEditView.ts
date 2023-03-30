@@ -131,7 +131,7 @@ namespace materials {
                                 path: "/specification",
                                 type: new sap.extension.data.Numeric()
                             }),
-                            new sap.m.Label("", { text: ibas.i18n.prop("bo_materialserial_version") }),
+                            new sap.m.Label("", { text: ibas.i18n.prop("bo_materialbatch_version") }),
                             new sap.extension.m.Input("", {
                                 showValueHelp: true,
                                 valueHelpRequest: function (): void {
@@ -191,7 +191,7 @@ namespace materials {
 
                 /** 显示数据 */
                 showMaterialBatch(data: bo.MaterialBatch): void {
-                    this.formTop.setModel(new sap.ui.model.json.JSONModel(data));
+                    this.formTop.setModel(new sap.extension.model.JSONModel(data));
                 }
             }
         }

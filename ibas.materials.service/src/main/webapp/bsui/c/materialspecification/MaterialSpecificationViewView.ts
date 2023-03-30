@@ -124,7 +124,7 @@ namespace materials {
                 private tree: sap.ui.table.TreeTable;
                 /** 显示规格 */
                 showSpecificationTree(data: app.MaterialSpecificationTree): void {
-                    this.tree.setModel(new sap.ui.model.json.JSONModel({ data: data }));
+                    this.tree.setModel(new sap.extension.model.JSONModel({ data: data }));
                 }
             }
         }

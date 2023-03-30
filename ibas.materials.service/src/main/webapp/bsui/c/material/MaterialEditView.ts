@@ -719,7 +719,7 @@ namespace materials {
                     this.page.setModel(new sap.extension.model.JSONModel(data));
                     // 改变页面状态
                     sap.extension.pages.changeStatus(this.page);
-                    this.rateButton.setVisible(!data.isNew)
+                    this.rateButton.setVisible(!data.isNew);
                 }
             }
         }
