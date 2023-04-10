@@ -798,7 +798,36 @@ public class MaterialScrap extends BusinessObject<MaterialScrap> implements IMat
 	 * @param quantity 计划数量
 	 * @return 加了损耗的数量
 	 */
-	public Decimal compute(Decimal quantity) {
+	public BigDecimal compute(BigDecimal quantity) {
+		BigDecimal total = Decimal.ZERO;
+		if (this.getTiered() == emYesNo.YES) {
+			// 阶梯损耗
+			for (IMaterialScrapSection section : this.getMaterialScrapSections()) {
+				if (section.getSectionStart().compareTo(Decimal.ZERO) > 0
+						&& section.getSectionStart().compareTo(quantity) > 0) {
+					continue;
+				}
+				if (section.getSectionEnd().compareTo(Decimal.ZERO) > 0
+						&& section.getSectionEnd().compareTo(quantity) > 0) {
+					continue;
+				}
+				if (section.getValue().compareTo(Decimal.ZERO) > 0) {
+					total = total.add(section.getValue());
+				}
+				if (section.getRate().compareTo(Decimal.ZERO) > 0) {
+					total = total.add(quantity.multiply(section.getRate()));
+				}
+				return quantity.add(total);
+			}
+		} else {
+			if (this.getValue().compareTo(Decimal.ZERO) > 0) {
+				total = total.add(this.getValue());
+			}
+			if (this.getRate().compareTo(Decimal.ZERO) > 0) {
+				total = total.add(quantity.multiply(this.getRate()));
+			}
+			return quantity.add(total);
+		}
 		return quantity;
 	}
 }

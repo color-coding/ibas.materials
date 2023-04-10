@@ -282,8 +282,37 @@ namespace materials {
              * @returns 加了损耗的数量
              */
             compute(quantity: number): number {
+                if (this.tiered === ibas.emYesNo.YES) {
+                    // 阶梯损耗
+                    for (let section of this.materialScrapSections) {
+                        if (section.sectionStart > 0 && section.sectionStart > quantity) {
+                            continue;
+                        }
+                        if (section.sectionEnd > 0 && section.sectionEnd > quantity) {
+                            continue;
+                        }
+                        let total: number = 0;
+                        if (section.value > 0) {
+                            total += section.value;
+                        }
+                        if (section.rate > 0) {
+                            total += (quantity * section.rate);
+                        }
+                        return quantity += total;
+                    }
+                } else {
+                    let total: number = 0;
+                    if (this.value > 0) {
+                        total += this.value;
+                    }
+                    if (this.rate > 0) {
+                        total += (quantity * this.rate);
+                    }
+                    quantity += total;
+                }
                 return quantity;
             }
+
         }
 
         /** 物料废品率 - 阶梯 集合 */

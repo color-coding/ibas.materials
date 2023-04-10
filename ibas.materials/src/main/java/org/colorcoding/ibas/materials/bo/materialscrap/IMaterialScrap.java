@@ -4,7 +4,6 @@ import java.math.BigDecimal;
 
 import org.colorcoding.ibas.bobas.bo.IBOSimple;
 import org.colorcoding.ibas.bobas.data.DateTime;
-import org.colorcoding.ibas.bobas.data.Decimal;
 import org.colorcoding.ibas.bobas.data.emYesNo;
 
 /**
@@ -341,5 +340,5 @@ public interface IMaterialScrap extends IBOSimple {
 	 * @param quantity 计划数量
 	 * @return 加了损耗的数量
 	 */
-	Decimal compute(Decimal quantity);
+	BigDecimal compute(BigDecimal quantity);
 }
