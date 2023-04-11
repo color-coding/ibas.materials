@@ -41,47 +41,41 @@ namespace materials {
                 }
                 this.view.showMaterialSerial(this.editData);
             }
-            run(): void;
-            run(data: bo.MaterialSerial): void;
-            run(): void {
-                let that: this = this;
-                if (ibas.objects.instanceOf(arguments[0], bo.MaterialSerial)) {
+            run(data?: bo.MaterialSerial | ibas.Criteria): void {
+                if (arguments[0] instanceof bo.MaterialSerial) {
                     let data: bo.MaterialSerial = arguments[0];
-                    // 新对象直接编辑
                     if (data.isNew) {
-                        that.editData = data;
-                        that.show();
-                        return;
+                        this.editData = data;
+                        this.show();
+                    } else {
+                        this.run(<ibas.Criteria>data.criteria());
                     }
-                    // 尝试重新查询编辑对象
-                    let criteria: ibas.ICriteria = data.criteria();
-                    if (!ibas.objects.isNull(criteria) && criteria.conditions.length > 0) {
-                        // 有效的查询对象查询
-                        let boRepository: bo.BORepositoryMaterials = new bo.BORepositoryMaterials();
-                        boRepository.fetchMaterialSerial({
-                            criteria: criteria,
-                            onCompleted(opRslt: ibas.IOperationResult<bo.MaterialSerial>): void {
-                                let data: bo.MaterialSerial;
-                                if (opRslt.resultCode === 0) {
-                                    data = opRslt.resultObjects.firstOrDefault();
-                                }
-                                if (ibas.objects.instanceOf(data, bo.MaterialSerial)) {
-                                    // 查询到了有效数据
-                                    that.editData = data;
-                                    that.show();
-                                } else {
-                                    // 数据重新检索无效
-                                    that.messages({
-                                        type: ibas.emMessageType.ERROR,
-                                        message: ibas.i18n.prop("shell_data_fetched_none")
-                                    });
-                                }
+                } else if (arguments[0] instanceof ibas.Criteria) {
+                    let criteria: ibas.Criteria = arguments[0];
+                    let boRepository: bo.BORepositoryMaterials = new bo.BORepositoryMaterials();
+                    boRepository.fetchMaterialSerial({
+                        criteria: criteria,
+                        onCompleted: (opRslt) => {
+                            let data: bo.MaterialSerial;
+                            if (opRslt.resultCode === 0) {
+                                data = opRslt.resultObjects.firstOrDefault();
                             }
-                        });
-                        return; // 退出
-                    }
+                            if (ibas.objects.instanceOf(data, bo.MaterialSerial)) {
+                                // 查询到了有效数据
+                                this.editData = data;
+                                this.show();
+                            } else {
+                                // 数据重新检索无效
+                                this.messages({
+                                    type: ibas.emMessageType.ERROR,
+                                    message: ibas.i18n.prop("shell_data_fetched_none")
+                                });
+                            }
+                        }
+                    });
+                } else {
+                    super.run.apply(this, arguments);
                 }
-                super.run.apply(this, arguments);
             }
             /** 保存数据 */
             protected saveData(): void {

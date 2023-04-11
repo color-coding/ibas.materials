@@ -209,6 +209,37 @@ public class MaterialSerial extends BusinessObject<MaterialSerial> implements IM
 	}
 
 	/**
+	 * 属性名称-预留
+	 */
+	private static final String PROPERTY_RESERVED_NAME = "Reserved";
+
+	/**
+	 * 预留 属性
+	 */
+	@DbField(name = "Reserved", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME)
+	public static final IPropertyInfo<emYesNo> PROPERTY_RESERVED = registerProperty(PROPERTY_RESERVED_NAME,
+			emYesNo.class, MY_CLASS);
+
+	/**
+	 * 获取-预留
+	 * 
+	 * @return 值
+	 */
+	@XmlElement(name = PROPERTY_RESERVED_NAME)
+	public final emYesNo getReserved() {
+		return this.getProperty(PROPERTY_RESERVED);
+	}
+
+	/**
+	 * 设置-预留
+	 * 
+	 * @param value 值
+	 */
+	public final void setReserved(emYesNo value) {
+		this.setProperty(PROPERTY_RESERVED, value);
+	}
+
+	/**
 	 * 属性名称-供应商序号
 	 */
 	private static final String PROPERTY_SUPPLIERSERIAL_NAME = "SupplierSerial";
@@ -1069,5 +1100,6 @@ public class MaterialSerial extends BusinessObject<MaterialSerial> implements IM
 	public void reset() {
 		super.reset();
 		this.setInStock(emYesNo.NO);
+		this.setReserved(emYesNo.NO);
 	}
 }

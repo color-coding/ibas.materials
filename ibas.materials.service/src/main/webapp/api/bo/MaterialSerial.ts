@@ -24,6 +24,9 @@ namespace materials {
             /** 锁定 */
             locked: ibas.emYesNo;
 
+            /** 预留 */
+            reserved: ibas.emYesNo;
+
             /** 供应商序号 */
             supplierSerial: string;
 

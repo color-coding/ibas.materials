@@ -12,3 +12,4 @@
 /// <reference path="./MaterialOverviewView.ts" />
 /// <reference path="./MaterialViewView.ts" />
 /// <reference path="./ProductChooseView.ts" />
+/// <reference path="./MaterialInventoryReservationView.ts" />

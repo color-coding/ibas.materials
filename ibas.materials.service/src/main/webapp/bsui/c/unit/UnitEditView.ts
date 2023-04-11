@@ -21,7 +21,7 @@ namespace materials {
                     let formTop: sap.ui.layout.form.SimpleForm = new sap.ui.layout.form.SimpleForm("", {
                         editable: true,
                         content: [
-                            new sap.ui.core.Title("", { text: ibas.i18n.prop("materials_title_general") }),
+                            new sap.m.Toolbar("", { visible: false }),
                             new sap.m.Label("", { text: ibas.i18n.prop("bo_unit_name") }),
                             new sap.extension.m.Input("", {
                             }).bindProperty("bindingValue", {
@@ -30,22 +30,7 @@ namespace materials {
                                     maxLength: 8
                                 }),
                             }),
-                            new sap.m.Label("", { text: ibas.i18n.prop("bo_unit_foreignname") }),
-                            new sap.extension.m.Input("", {
-                            }).bindProperty("bindingValue", {
-                                path: "foreignName",
-                                type: new sap.extension.data.Alphanumeric({
-                                    maxLength: 30
-                                }),
-                            }),
-                            new sap.m.Label("", { text: ibas.i18n.prop("bo_unit_symbol") }),
-                            new sap.extension.m.Input("", {
-                            }).bindProperty("bindingValue", {
-                                path: "symbol",
-                                type: new sap.extension.data.Alphanumeric({
-                                    maxLength: 10
-                                }),
-                            }),
+                            new sap.m.Toolbar("", { visible: false }),
                             new sap.m.Label("", { text: ibas.i18n.prop("bo_unit_activated") }),
                             new sap.extension.m.EnumSelect("", {
                                 enumType: ibas.emYesNo
@@ -53,19 +38,53 @@ namespace materials {
                                 path: "activated",
                                 type: new sap.extension.data.YesNo(),
                             }),
-                            new sap.m.Label("", { text: ibas.i18n.prop("bo_unit_remarks") }),
-                            new sap.extension.m.TextArea("", {
-                                rows: 3,
-                            }).bindProperty("bindingValue", {
-                                path: "remarks",
-                                type: new sap.extension.data.Alphanumeric(),
-                            }),
-                            new sap.ui.core.Title("", {}),
                         ]
                     });
                     let formBottom: sap.ui.layout.form.SimpleForm = new sap.ui.layout.form.SimpleForm("", {
                         editable: true,
                         content: [
+                            new sap.m.IconTabBar("", {
+                                headerBackgroundDesign: sap.m.BackgroundDesign.Transparent,
+                                backgroundDesign: sap.m.BackgroundDesign.Transparent,
+                                expandable: false,
+                                items: [
+                                    new sap.m.IconTabFilter("", {
+                                        text: ibas.i18n.prop("materials_title_general"),
+                                        content: [
+                                            new sap.ui.layout.form.SimpleForm("", {
+                                                editable: true,
+                                                content: [
+                                                    new sap.m.Toolbar("", { visible: false }),
+                                                    new sap.m.Label("", { text: ibas.i18n.prop("bo_unit_symbol") }),
+                                                    new sap.extension.m.Input("", {
+                                                    }).bindProperty("bindingValue", {
+                                                        path: "symbol",
+                                                        type: new sap.extension.data.Alphanumeric({
+                                                            maxLength: 10
+                                                        }),
+                                                    }),
+                                                    new sap.m.Label("", { text: ibas.i18n.prop("bo_unit_foreignname") }),
+                                                    new sap.extension.m.Input("", {
+                                                    }).bindProperty("bindingValue", {
+                                                        path: "foreignName",
+                                                        type: new sap.extension.data.Alphanumeric({
+                                                            maxLength: 30
+                                                        }),
+                                                    }),
+                                                    new sap.m.Label("", { text: ibas.i18n.prop("bo_unit_remarks") }),
+                                                    new sap.extension.m.TextArea("", {
+                                                        rows: 3,
+                                                    }).bindProperty("bindingValue", {
+                                                        path: "remarks",
+                                                        type: new sap.extension.data.Alphanumeric(),
+                                                    }),
+                                                    new sap.m.Toolbar("", { visible: false }),
+                                                ]
+                                            })
+                                        ]
+                                    }),
+                                ]
+                            })
                         ]
                     });
                     return this.page = new sap.extension.m.DataPage("", {

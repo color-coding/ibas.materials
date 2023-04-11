@@ -32,6 +32,9 @@ namespace materials {
             /** 已订购 */
             onOrdered: number;
 
+            /** 已预留 */
+            onReserved: number;
+
             /** 对象编号 */
             objectKey: number;
 

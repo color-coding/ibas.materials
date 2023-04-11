@@ -370,6 +370,99 @@ public class Warehouse extends BusinessObject<Warehouse>
 	}
 
 	/**
+	 * 属性名称-供应商
+	 */
+	private static final String PROPERTY_SUPPLIER_NAME = "Supplier";
+
+	/**
+	 * 供应商 属性
+	 */
+	@DbField(name = "Supplier", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME)
+	public static final IPropertyInfo<String> PROPERTY_SUPPLIER = registerProperty(PROPERTY_SUPPLIER_NAME, String.class,
+			MY_CLASS);
+
+	/**
+	 * 获取-供应商
+	 * 
+	 * @return 值
+	 */
+	@XmlElement(name = PROPERTY_SUPPLIER_NAME)
+	public final String getSupplier() {
+		return this.getProperty(PROPERTY_SUPPLIER);
+	}
+
+	/**
+	 * 设置-供应商
+	 * 
+	 * @param value 值
+	 */
+	public final void setSupplier(String value) {
+		this.setProperty(PROPERTY_SUPPLIER, value);
+	}
+
+	/**
+	 * 属性名称-可排程
+	 */
+	private static final String PROPERTY_SCHEDULABLE_NAME = "Schedulable";
+
+	/**
+	 * 可排程 属性
+	 */
+	@DbField(name = "Schedulable", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME)
+	public static final IPropertyInfo<emYesNo> PROPERTY_SCHEDULABLE = registerProperty(PROPERTY_SCHEDULABLE_NAME,
+			emYesNo.class, MY_CLASS);
+
+	/**
+	 * 获取-可排程
+	 * 
+	 * @return 值
+	 */
+	@XmlElement(name = PROPERTY_SCHEDULABLE_NAME)
+	public final emYesNo getSchedulable() {
+		return this.getProperty(PROPERTY_SCHEDULABLE);
+	}
+
+	/**
+	 * 设置-可排程
+	 * 
+	 * @param value 值
+	 */
+	public final void setSchedulable(emYesNo value) {
+		this.setProperty(PROPERTY_SCHEDULABLE, value);
+	}
+
+	/**
+	 * 属性名称-可预留
+	 */
+	private static final String PROPERTY_RESERVABLE_NAME = "Reservable";
+
+	/**
+	 * 可预留 属性
+	 */
+	@DbField(name = "Reservable", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME)
+	public static final IPropertyInfo<emYesNo> PROPERTY_RESERVABLE = registerProperty(PROPERTY_RESERVABLE_NAME,
+			emYesNo.class, MY_CLASS);
+
+	/**
+	 * 获取-可预留
+	 * 
+	 * @return 值
+	 */
+	@XmlElement(name = PROPERTY_RESERVABLE_NAME)
+	public final emYesNo getReservable() {
+		return this.getProperty(PROPERTY_RESERVABLE);
+	}
+
+	/**
+	 * 设置-可预留
+	 * 
+	 * @param value 值
+	 */
+	public final void setReservable(emYesNo value) {
+		this.setProperty(PROPERTY_RESERVABLE, value);
+	}
+
+	/**
 	 * 属性名称-已引用
 	 */
 	private static final String PROPERTY_REFERENCED_NAME = "Referenced";
@@ -927,6 +1020,37 @@ public class Warehouse extends BusinessObject<Warehouse>
 		this.setProperty(PROPERTY_ORGANIZATION, value);
 	}
 
+	/**
+	 * 属性名称-备注
+	 */
+	private static final String PROPERTY_REMARKS_NAME = "Remarks";
+
+	/**
+	 * 备注 属性
+	 */
+	@DbField(name = "Remarks", type = DbFieldType.MEMO, table = DB_TABLE_NAME, primaryKey = false)
+	public static final IPropertyInfo<String> PROPERTY_REMARKS = registerProperty(PROPERTY_REMARKS_NAME, String.class,
+			MY_CLASS);
+
+	/**
+	 * 获取-备注
+	 * 
+	 * @return 值
+	 */
+	@XmlElement(name = PROPERTY_REMARKS_NAME)
+	public final String getRemarks() {
+		return this.getProperty(PROPERTY_REMARKS);
+	}
+
+	/**
+	 * 设置-备注
+	 * 
+	 * @param value 值
+	 */
+	public final void setRemarks(String value) {
+		this.setProperty(PROPERTY_REMARKS, value);
+	}
+
 	@Override
 	public void setSeriesValue(Object value) {
 		this.setCode((String) value);
@@ -940,6 +1064,8 @@ public class Warehouse extends BusinessObject<Warehouse>
 		super.initialize();// 基类初始化，不可去除
 		this.setObjectCode(MyConfiguration.applyVariables(BUSINESS_OBJECT_CODE));
 		this.setActivated(emYesNo.YES);
+		this.setSchedulable(emYesNo.YES);
+		this.setReservable(emYesNo.YES);
 	}
 
 	@Override

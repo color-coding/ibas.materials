@@ -45,6 +45,7 @@ namespace materials {
                                     path: "name",
                                     type: new sap.extension.data.Alphanumeric()
                                 }),
+                                width: "16rem",
                             }),
                             new sap.extension.table.DataColumn("", {
                                 label: ibas.i18n.prop("bo_materialgroup_activated"),
@@ -53,6 +54,15 @@ namespace materials {
                                     path: "activated",
                                     type: new sap.extension.data.YesNo(true)
                                 }),
+                            }),
+                            new sap.extension.table.DataColumn("", {
+                                label: ibas.i18n.prop("bo_materialgroup_remarks"),
+                                template: new sap.extension.m.Text("", {
+                                }).bindProperty("bindingValue", {
+                                    path: "remarks",
+                                    type: new sap.extension.data.Alphanumeric(),
+                                }),
+                                width: "20rem",
                             }),
                         ],
                         nextDataSet(event: sap.ui.base.Event): void {

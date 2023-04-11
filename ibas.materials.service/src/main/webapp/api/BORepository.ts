@@ -240,6 +240,16 @@ namespace materials {
              * @param saver 保存者
              */
             saveMaterialVersion(saver: ibas.ISaveCaller<bo.IMaterialVersion>): void;
+            /**
+             * 查询 物料库存预留
+             * @param fetcher 查询者
+             */
+            fetchMaterialInventoryReservation(fetcher: ibas.IFetchCaller<bo.IMaterialInventoryReservation>): void;
+            /**
+             * 保存 物料库存预留
+             * @param saver 保存者
+             */
+            saveMaterialInventoryReservation(saver: ibas.ISaveCaller<bo.IMaterialInventoryReservation>): void;
         }
         export interface ICloseCaller<T> extends ibas.IMethodCaller<string> {
             /** 查询条件 */

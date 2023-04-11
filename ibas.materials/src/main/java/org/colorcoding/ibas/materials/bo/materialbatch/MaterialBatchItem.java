@@ -647,113 +647,151 @@ public class MaterialBatchItem extends BusinessObject<MaterialBatchItem>
 	@Override
 	public IBusinessLogicContract[] getContracts() {
 		if (this.parent instanceof IMaterialBatchReceiptParent) {
-			return new IBusinessLogicContract[] { new IMaterialBatchJournalContract() {
+			return new IBusinessLogicContract[] {
 
-				@Override
-				public String getIdentifiers() {
-					return MaterialBatchItem.this.getIdentifiers();
-				}
+					new IMaterialBatchJournalContract() {
 
-				@Override
-				public String getWarehouse() {
-					return MaterialBatchItem.this.parent.getWarehouse();
-				}
+						@Override
+						public String getIdentifiers() {
+							return MaterialBatchItem.this.getIdentifiers();
+						}
 
-				@Override
-				public String getBatchCode() {
-					return MaterialBatchItem.this.getBatchCode();
-				}
+						@Override
+						public String getWarehouse() {
+							return MaterialBatchItem.this.parent.getWarehouse();
+						}
 
-				@Override
-				public String getItemCode() {
-					return MaterialBatchItem.this.parent.getItemCode();
-				}
+						@Override
+						public String getBatchCode() {
+							return MaterialBatchItem.this.getBatchCode();
+						}
 
-				@Override
-				public emDirection getDirection() {
-					return emDirection.IN;
-				}
+						@Override
+						public String getItemCode() {
+							return MaterialBatchItem.this.parent.getItemCode();
+						}
 
-				@Override
-				public BigDecimal getQuantity() {
-					return MaterialBatchItem.this.getQuantity();
-				}
+						@Override
+						public emDirection getDirection() {
+							return emDirection.IN;
+						}
 
-				@Override
-				public String getUOM() {
-					return MaterialBatchItem.this.parent.getTargetUOM();
-				}
+						@Override
+						public BigDecimal getQuantity() {
+							return MaterialBatchItem.this.getQuantity();
+						}
 
-				@Override
-				public String getDocumentType() {
-					return MaterialBatchItem.this.getDocumentType();
-				}
+						@Override
+						public String getUOM() {
+							return MaterialBatchItem.this.parent.getTargetUOM();
+						}
 
-				@Override
-				public Integer getDocumentLineId() {
-					return MaterialBatchItem.this.getDocumentLineId();
-				}
+						@Override
+						public String getDocumentType() {
+							return MaterialBatchItem.this.getDocumentType();
+						}
 
-				@Override
-				public Integer getDocumentEntry() {
-					return MaterialBatchItem.this.getDocumentEntry();
-				}
+						@Override
+						public Integer getDocumentLineId() {
+							return MaterialBatchItem.this.getDocumentLineId();
+						}
 
-			} };
+						@Override
+						public Integer getDocumentEntry() {
+							return MaterialBatchItem.this.getDocumentEntry();
+						}
+
+						@Override
+						public String getBaseDocumentType() {
+							return ((IMaterialBatchReceiptParent) MaterialBatchItem.this.parent).getBaseDocumentType();
+						}
+
+						@Override
+						public Integer getBaseDocumentEntry() {
+							return ((IMaterialBatchReceiptParent) MaterialBatchItem.this.parent).getBaseDocumentEntry();
+						}
+
+						@Override
+						public Integer getBaseDocumentLineId() {
+							return ((IMaterialBatchReceiptParent) MaterialBatchItem.this.parent)
+									.getBaseDocumentLineId();
+						}
+
+					}
+
+			};
 		} else if (this.parent instanceof IMaterialBatchIssueParent) {
+			return new IBusinessLogicContract[] {
 
-			return new IBusinessLogicContract[] { new IMaterialBatchJournalContract() {
+					new IMaterialBatchJournalContract() {
 
-				@Override
-				public String getIdentifiers() {
-					return MaterialBatchItem.this.getIdentifiers();
-				}
+						@Override
+						public String getIdentifiers() {
+							return MaterialBatchItem.this.getIdentifiers();
+						}
 
-				@Override
-				public String getWarehouse() {
-					return MaterialBatchItem.this.parent.getWarehouse();
-				}
+						@Override
+						public String getWarehouse() {
+							return MaterialBatchItem.this.parent.getWarehouse();
+						}
 
-				@Override
-				public String getBatchCode() {
-					return MaterialBatchItem.this.getBatchCode();
-				}
+						@Override
+						public String getBatchCode() {
+							return MaterialBatchItem.this.getBatchCode();
+						}
 
-				@Override
-				public String getItemCode() {
-					return MaterialBatchItem.this.parent.getItemCode();
-				}
+						@Override
+						public String getItemCode() {
+							return MaterialBatchItem.this.parent.getItemCode();
+						}
 
-				@Override
-				public emDirection getDirection() {
-					return emDirection.OUT;
-				}
+						@Override
+						public emDirection getDirection() {
+							return emDirection.OUT;
+						}
 
-				@Override
-				public BigDecimal getQuantity() {
-					return MaterialBatchItem.this.getQuantity();
-				}
+						@Override
+						public BigDecimal getQuantity() {
+							return MaterialBatchItem.this.getQuantity();
+						}
 
-				@Override
-				public String getUOM() {
-					return MaterialBatchItem.this.parent.getTargetUOM();
-				}
+						@Override
+						public String getUOM() {
+							return MaterialBatchItem.this.parent.getTargetUOM();
+						}
 
-				@Override
-				public String getDocumentType() {
-					return MaterialBatchItem.this.getDocumentType();
-				}
+						@Override
+						public String getDocumentType() {
+							return MaterialBatchItem.this.getDocumentType();
+						}
 
-				@Override
-				public Integer getDocumentLineId() {
-					return MaterialBatchItem.this.getDocumentLineId();
-				}
+						@Override
+						public Integer getDocumentLineId() {
+							return MaterialBatchItem.this.getDocumentLineId();
+						}
 
-				@Override
-				public Integer getDocumentEntry() {
-					return MaterialBatchItem.this.getDocumentEntry();
-				}
-			} };
+						@Override
+						public Integer getDocumentEntry() {
+							return MaterialBatchItem.this.getDocumentEntry();
+						}
+
+						@Override
+						public String getBaseDocumentType() {
+							return ((IMaterialBatchIssueParent) MaterialBatchItem.this.parent).getBaseDocumentType();
+						}
+
+						@Override
+						public Integer getBaseDocumentEntry() {
+							return ((IMaterialBatchIssueParent) MaterialBatchItem.this.parent).getBaseDocumentEntry();
+						}
+
+						@Override
+						public Integer getBaseDocumentLineId() {
+							return ((IMaterialBatchIssueParent) MaterialBatchItem.this.parent).getBaseDocumentLineId();
+						}
+					}
+
+			};
 		}
 		return new IBusinessLogicContract[] {};
 	}

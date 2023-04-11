@@ -127,6 +127,38 @@ namespace materials {
                 this.setProperty(Warehouse.PROPERTY_ZIPCODE_NAME, value);
             }
 
+            /** 映射的属性名称-供应商 */
+            static PROPERTY_SUPPLIER_NAME: string = "Supplier";
+            /** 获取-供应商 */
+            get supplier(): string {
+                return this.getProperty<string>(Warehouse.PROPERTY_SUPPLIER_NAME);
+            }
+            /** 设置-供应商 */
+            set supplier(value: string) {
+                this.setProperty(Warehouse.PROPERTY_SUPPLIER_NAME, value);
+            }
+
+            /** 映射的属性名称-可排程 */
+            static PROPERTY_SCHEDULABLE_NAME: string = "Schedulable";
+            /** 获取-可排程 */
+            get schedulable(): ibas.emYesNo {
+                return this.getProperty<ibas.emYesNo>(Warehouse.PROPERTY_SCHEDULABLE_NAME);
+            }
+            /** 设置-可排程 */
+            set schedulable(value: ibas.emYesNo) {
+                this.setProperty(Warehouse.PROPERTY_SCHEDULABLE_NAME, value);
+            }
+
+            /** 映射的属性名称-可预留 */
+            static PROPERTY_RESERVABLE_NAME: string = "Reservable";
+            /** 获取-可预留 */
+            get reservable(): ibas.emYesNo {
+                return this.getProperty<ibas.emYesNo>(Warehouse.PROPERTY_RESERVABLE_NAME);
+            }
+            /** 设置-可预留 */
+            set reservable(value: ibas.emYesNo) {
+                this.setProperty(Warehouse.PROPERTY_RESERVABLE_NAME, value);
+            }
 
             /** 映射的属性名称-已引用 */
             static PROPERTY_REFERENCED_NAME: string = "Referenced";
@@ -326,11 +358,25 @@ namespace materials {
                 this.setProperty(Warehouse.PROPERTY_ORGANIZATION_NAME, value);
             }
 
+            /** 映射的属性名称-备注 */
+            static PROPERTY_REMARKS_NAME: string = "Remarks";
+            /** 获取-备注 */
+            get remarks(): string {
+                return this.getProperty<string>(Warehouse.PROPERTY_REMARKS_NAME);
+            }
+            /** 设置-备注 */
+            set remarks(value: string) {
+                this.setProperty(Warehouse.PROPERTY_REMARKS_NAME, value);
+            }
+
 
 
             /** 初始化数据 */
             protected init(): void {
                 this.objectCode = ibas.config.applyVariables(Warehouse.BUSINESS_OBJECT_CODE);
+                this.activated = ibas.emYesNo.YES;
+                this.schedulable = ibas.emYesNo.YES;
+                this.reservable = ibas.emYesNo.YES;
             }
         }
     }

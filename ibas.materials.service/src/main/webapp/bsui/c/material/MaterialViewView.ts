@@ -111,6 +111,14 @@ namespace materials {
                                         type: new sap.extension.data.YesNo(),
                                     }
                                 }),
+                                new sap.extension.m.ObjectYesNoStatus("", {
+                                    negative: true,
+                                    title: ibas.i18n.prop("bo_material_phantomitem"),
+                                    enumValue: {
+                                        path: "phantomItem",
+                                        type: new sap.extension.data.YesNo(),
+                                    }
+                                }),
                             ]
                         }),
                         headerContent: [
@@ -129,16 +137,6 @@ namespace materials {
                                 bindingValue: {
                                     path: "group",
                                     type: new sap.extension.data.Alphanumeric(),
-                                }
-                            }),
-                            new sap.extension.m.ObjectEnumStatus("", {
-                                title: ibas.i18n.prop("bo_material_phantomitem"),
-                                text: {
-                                    path: "phantomItem",
-                                    type: new sap.extension.data.Enum({
-                                        enumType: ibas.emYesNo,
-                                        describe: true,
-                                    }),
                                 }
                             }),
                             new sap.extension.m.ObjectAttribute("", {
@@ -181,13 +179,6 @@ namespace materials {
                                                 title: ibas.i18n.prop("bo_material_manufacturer"),
                                                 bindingValue: {
                                                     path: "manufacturer",
-                                                    type: new sap.extension.data.Alphanumeric(),
-                                                }
-                                            }),
-                                            new sap.extension.m.ObjectAttribute("", {
-                                                title: ibas.i18n.prop("bo_material_remarks"),
-                                                bindingValue: {
-                                                    path: "remarks",
                                                     type: new sap.extension.data.Alphanumeric(),
                                                 }
                                             }),
@@ -512,6 +503,22 @@ namespace materials {
                                                 },
                                             }),
 
+                                        ],
+                                    })
+                                ]
+                            }),
+                            new sap.uxap.ObjectPageSection("", {
+                                title: ibas.i18n.prop("materials_title_others"),
+                                subSections: [
+                                    new sap.uxap.ObjectPageSubSection("", {
+                                        blocks: [
+                                            new sap.extension.m.ObjectAttribute("", {
+                                                title: ibas.i18n.prop("bo_material_remarks"),
+                                                bindingValue: {
+                                                    path: "remarks",
+                                                    type: new sap.extension.data.Alphanumeric(),
+                                                }
+                                            }),
                                         ],
                                     })
                                 ]

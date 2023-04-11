@@ -51,6 +51,13 @@ namespace materials {
                                             text: bo.MaterialGroup.PROPERTY_NAME_NAME
                                         },
                                     }),
+                                    new sap.extension.m.ObjectAttribute("", {
+                                        title: ibas.i18n.prop("bo_materialgroup_remarks"),
+                                        bindingValue: {
+                                            path: "remarks",
+                                            type: new sap.extension.data.Alphanumeric()
+                                        }
+                                    }),
                                 ],
                                 type: sap.m.ListType.Active,
                                 press: function (oEvent: sap.ui.base.Event): void {

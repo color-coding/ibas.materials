@@ -115,14 +115,6 @@ namespace materials {
                                     maxLength: 100
                                 })
                             }),
-                            new sap.m.Label("", { text: ibas.i18n.prop("bo_specification_activated") }),
-                            new sap.extension.m.EnumSelect("", {
-                                enumType: ibas.emYesNo
-                            }).bindProperty("bindingValue", {
-                                path: "activated",
-                                type: new sap.extension.data.YesNo()
-                            }),
-                            new sap.ui.core.Title("", { text: ibas.i18n.prop("materials_title_others") }),
                             new sap.m.Label("", { text: ibas.i18n.prop("bo_specification_assigned") }),
                             new sap.m.FlexBox("", {
                                 items: [
@@ -223,6 +215,14 @@ namespace materials {
                                     enumType: bo.emSpecificationAssigned
                                 })
                             }),
+                            new sap.ui.core.Title("", { text: ibas.i18n.prop("materials_title_status") }),
+                            new sap.m.Label("", { text: ibas.i18n.prop("bo_specification_activated") }),
+                            new sap.extension.m.EnumSelect("", {
+                                enumType: ibas.emYesNo
+                            }).bindProperty("bindingValue", {
+                                path: "activated",
+                                type: new sap.extension.data.YesNo()
+                            }),
                             new sap.m.Label("", { text: ibas.i18n.prop("bo_specification_validdate") }),
                             new sap.extension.m.DatePicker("", {
                             }).bindProperty("bindingValue", {
@@ -238,6 +238,7 @@ namespace materials {
                         ]
                     });
                     this.tableSpecificationItem = new sap.extension.table.DataTable("", {
+                        width: "100%",
                         enableSelectAll: false,
                         visibleRowCount: sap.extension.table.visibleRowCount(8),
                         dataInfo: {
@@ -316,6 +317,7 @@ namespace materials {
                                         maxLength: 100
                                     })
                                 }),
+                                width: "16rem",
                             }),
                             new sap.extension.table.DataColumn("", {
                                 label: ibas.i18n.prop("bo_specificationitem_editable"),
@@ -324,6 +326,7 @@ namespace materials {
                                     path: "editable",
                                     type: new sap.extension.data.YesNo()
                                 }),
+                                width: "8rem",
                             }),
                             new sap.extension.table.DataColumn("", {
                                 label: ibas.i18n.prop("bo_specificationitem_required"),
@@ -332,6 +335,7 @@ namespace materials {
                                     path: "required",
                                     type: new sap.extension.data.YesNo()
                                 }),
+                                width: "8rem",
                             }),
                             new sap.extension.table.DataColumn("", {
                                 label: ibas.i18n.prop("bo_specificationitem_content"),
@@ -342,6 +346,7 @@ namespace materials {
                                         maxLength: 100
                                     })
                                 }),
+                                width: "16rem",
                             }),
                             new sap.extension.table.DataColumn("", {
                                 label: ibas.i18n.prop("bo_specificationitem_note"),
@@ -352,10 +357,12 @@ namespace materials {
                                         maxLength: 200
                                     })
                                 }),
+                                width: "20rem",
                             }),
                         ]
                     });
                     this.tableSpecificationItemValue = new sap.extension.table.DataTable("", {
+                        width: "100%",
                         enableSelectAll: false,
                         visibleRowCount: sap.extension.table.visibleRowCount(8),
                         dataInfo: {
@@ -411,11 +418,11 @@ namespace materials {
                                     type: new sap.extension.data.Alphanumeric({
                                         maxLength: 100
                                     })
-                                })
+                                }),
+                                width: "16rem",
                             }),
                             new sap.extension.table.DataColumn("", {
                                 label: ibas.i18n.prop("bo_specificationitemvalue_associated"),
-                                width: "20rem",
                                 template: new sap.extension.m.SelectionInput("", {
                                     showValueHelp: true,
                                     repository: bo.BORepositoryMaterials,
@@ -431,6 +438,7 @@ namespace materials {
                                         maxLength: 20
                                     })
                                 }),
+                                width: "20rem",
                             }),
                         ]
                     });
@@ -439,7 +447,7 @@ namespace materials {
                         content: [
                             this.tableTitle = new sap.ui.core.Title("", { text: ibas.i18n.prop("bo_specificationitem") }),
                             this.container = new sap.m.NavContainer("", {
-                                height: "22rem",
+                                height: "24rem",
                                 pages: [
                                     this.tableSpecificationItem,
                                     this.tableSpecificationItemValue
@@ -451,6 +459,20 @@ namespace materials {
                         editable: true,
                         content: [
                             new sap.ui.core.Title("", { text: ibas.i18n.prop("materials_title_others") }),
+                            new sap.m.Label("", { text: ibas.i18n.prop("bo_specification_dataowner") }),
+                            new sap.extension.m.UserInput("", {
+                            }).bindProperty("bindingValue", {
+                                path: "dataOwner",
+                                type: new sap.extension.data.Numeric(),
+                            }),
+                            new sap.m.Label("", { text: ibas.i18n.prop("bo_specification_organization") }),
+                            new sap.extension.m.OrganizationInput("", {
+                            }).bindProperty("bindingValue", {
+                                path: "organization",
+                                type: new sap.extension.data.Alphanumeric({
+                                    maxLength: 8
+                                }),
+                            }),
                             new sap.m.Label("", { text: ibas.i18n.prop("bo_specification_remarks") }),
                             new sap.extension.m.TextArea("", {
                                 rows: 3,

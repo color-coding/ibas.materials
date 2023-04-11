@@ -231,6 +231,9 @@ namespace materials {
                     case app.MaterialVersionEditApp.APPLICATION_ID:
                         view = new c.MaterialVersionEditView();
                         break;
+                    case app.MaterialInventoryReservationService.APPLICATION_ID:
+                        view = new c.MaterialInventoryReservationView();
+                        break;
                     default:
                         break;
                 }

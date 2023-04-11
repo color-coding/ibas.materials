@@ -81,6 +81,20 @@ public interface IMaterialSerial extends IBOSimple {
 	void setLocked(emYesNo value);
 
 	/**
+	 * 获取-预留
+	 * 
+	 * @return 值
+	 */
+	emYesNo getReserved();
+
+	/**
+	 * 设置-预留
+	 * 
+	 * @param value 值
+	 */
+	void setReserved(emYesNo value);
+
+	/**
 	 * 获取-供应商序号
 	 *
 	 * @return 值

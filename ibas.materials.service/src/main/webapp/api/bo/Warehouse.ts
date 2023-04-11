@@ -41,6 +41,14 @@ namespace materials {
             /** 邮编 */
             zipCode: string;
 
+            /** 供应商 */
+            supplier: string;
+
+            /** 可排程 */
+            schedulable: ibas.emYesNo;
+
+            /** 可预留 */
+            reservable: ibas.emYesNo;
             /** 已引用 */
             referenced: ibas.emYesNo;
 
@@ -94,6 +102,9 @@ namespace materials {
 
             /** 数据所属组织 */
             organization: string;
+
+            /** 备注 */
+            remarks: string;
 
         }
     }

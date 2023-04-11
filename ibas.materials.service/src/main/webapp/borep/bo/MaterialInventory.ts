@@ -94,6 +94,17 @@ namespace materials {
                 this.setProperty(MaterialInventory.PROPERTY_ONORDERED_NAME, value);
             }
 
+            /** 映射的属性名称-已预留 */
+            static PROPERTY_ONRESERVED_NAME: string = "OnReserved";
+            /** 获取-已预留 */
+            get onReserved(): number {
+                return this.getProperty<number>(MaterialInventory.PROPERTY_ONRESERVED_NAME);
+            }
+            /** 设置-已预留 */
+            set onReserved(value: number) {
+                this.setProperty(MaterialInventory.PROPERTY_ONRESERVED_NAME, value);
+            }
+
             /** 映射的属性名称-对象编号 */
             static PROPERTY_OBJECTKEY_NAME: string = "ObjectKey";
             /** 获取-对象编号 */
@@ -249,11 +260,12 @@ namespace materials {
                 this.onOrdered = 0;
             }
 
-            /** 可用量（库存+已订购-已承诺） */
+            /** 可用量（库存 + 已订购 - 已承诺 - 已预留） */
             onAvailable(): number {
                 return ibas.numbers.valueOf(this.onHand)
                     + ibas.numbers.valueOf(this.onOrdered)
-                    - ibas.numbers.valueOf(this.onCommited);
+                    - ibas.numbers.valueOf(this.onCommited)
+                    - ibas.numbers.valueOf(this.onReserved);
             }
         }
     }

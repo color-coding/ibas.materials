@@ -17,6 +17,7 @@ import org.colorcoding.ibas.bobas.mapping.BusinessObjectUnit;
 import org.colorcoding.ibas.bobas.mapping.DbField;
 import org.colorcoding.ibas.bobas.mapping.DbFieldType;
 import org.colorcoding.ibas.bobas.rule.IBusinessRule;
+import org.colorcoding.ibas.bobas.rule.common.BusinessRuleMaxProperty;
 import org.colorcoding.ibas.bobas.rule.common.BusinessRuleMinValue;
 import org.colorcoding.ibas.bobas.rule.common.BusinessRuleRequired;
 import org.colorcoding.ibas.materials.MyConfiguration;
@@ -378,6 +379,37 @@ public class MaterialInventory extends BusinessObject<MaterialInventory> impleme
 	 */
 	public final void setOnOrdered(double value) {
 		this.setOnOrdered(Decimal.valueOf(value));
+	}
+
+	/**
+	 * 属性名称-已预留
+	 */
+	private static final String PROPERTY_ONRESERVED_NAME = "OnReserved";
+
+	/**
+	 * 已预留 属性
+	 */
+	@DbField(name = "OnReserved", type = DbFieldType.DECIMAL, table = DB_TABLE_NAME)
+	public static final IPropertyInfo<BigDecimal> PROPERTY_ONRESERVED = registerProperty(PROPERTY_ONRESERVED_NAME,
+			BigDecimal.class, MY_CLASS);
+
+	/**
+	 * 获取-已预留
+	 * 
+	 * @return 值
+	 */
+	@XmlElement(name = PROPERTY_ONRESERVED_NAME)
+	public final BigDecimal getOnReserved() {
+		return this.getProperty(PROPERTY_ONRESERVED);
+	}
+
+	/**
+	 * 设置-已预留
+	 * 
+	 * @param value 值
+	 */
+	public final void setOnReserved(BigDecimal value) {
+		this.setProperty(PROPERTY_ONRESERVED, value);
 	}
 
 	/**
@@ -800,6 +832,8 @@ public class MaterialInventory extends BusinessObject<MaterialInventory> impleme
 				new BusinessRuleMinValue<BigDecimal>(Decimal.ZERO, PROPERTY_ONHAND), // 不能低于0
 				new BusinessRuleMinValue<BigDecimal>(Decimal.ZERO, PROPERTY_ONORDERED), // 不能低于0
 				new BusinessRuleMinValue<BigDecimal>(Decimal.ZERO, PROPERTY_AVGPRICE), // 不能低于0
+				// 预留数量不能大于库存数量
+				new BusinessRuleMaxProperty<BigDecimal>(PROPERTY_ONHAND, PROPERTY_ONRESERVED),
 				// 存在先下单再订购，已承诺不做最低值控制
 		};
 	}
@@ -810,6 +844,7 @@ public class MaterialInventory extends BusinessObject<MaterialInventory> impleme
 		this.setOnCommited(Decimal.ZERO);
 		this.setOnOrdered(Decimal.ZERO);
 		this.setOnHand(Decimal.ZERO);
+		this.setOnReserved(Decimal.ZERO);
 	}
 
 	@Override

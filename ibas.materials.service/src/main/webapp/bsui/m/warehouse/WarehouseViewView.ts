@@ -27,6 +27,69 @@ namespace materials {
                                 path: "code",
                                 type: new sap.extension.data.Alphanumeric(),
                             },
+                            navigationBar: new sap.m.Bar("", {
+                                contentLeft: [
+                                    new sap.m.Button("", {
+                                        text: ibas.i18n.prop("shell_data_edit"),
+                                        type: sap.m.ButtonType.Transparent,
+                                        icon: "sap-icon://edit",
+                                        visible: this.mode === ibas.emViewMode.VIEW ? false : true,
+                                        press(): void {
+                                            that.fireViewEvents(that.editDataEvent);
+                                        }
+                                    })
+                                ],
+                                contentRight: [
+                                    new sap.m.Button("", {
+                                        type: sap.m.ButtonType.Transparent,
+                                        icon: "sap-icon://action",
+                                        press(event: sap.ui.base.Event): void {
+                                            ibas.servicesManager.showServices({
+                                                proxy: new ibas.BOServiceProxy({
+                                                    data: that.page.getModel().getData(),
+                                                    converter: new bo.DataConverter(),
+                                                }),
+                                                displayServices(services: ibas.IServiceAgent[]): void {
+                                                    if (ibas.objects.isNull(services) || services.length === 0) {
+                                                        return;
+                                                    }
+                                                    let actionSheet: sap.m.ActionSheet = new sap.m.ActionSheet("", {
+                                                        placement: sap.m.PlacementType.Bottom,
+                                                        buttons: {
+                                                            path: "/",
+                                                            template: new sap.m.Button("", {
+                                                                type: sap.m.ButtonType.Transparent,
+                                                                text: {
+                                                                    path: "name",
+                                                                    type: new sap.extension.data.Alphanumeric(),
+                                                                    formatter(data: string): string {
+                                                                        return data ? ibas.i18n.prop(data) : "";
+                                                                    }
+                                                                },
+                                                                icon: {
+                                                                    path: "icon",
+                                                                    type: new sap.extension.data.Alphanumeric(),
+                                                                    formatter(data: string): string {
+                                                                        return data ? data : "sap-icon://e-care";
+                                                                    }
+                                                                },
+                                                                press(this: sap.m.Button): void {
+                                                                    let service: ibas.IServiceAgent = this.getBindingContext().getObject();
+                                                                    if (service) {
+                                                                        service.run();
+                                                                    }
+                                                                }
+                                                            })
+                                                        }
+                                                    });
+                                                    actionSheet.setModel(new sap.extension.model.JSONModel(services));
+                                                    actionSheet.openBy(event.getSource());
+                                                }
+                                            });
+                                        }
+                                    })
+                                ]
+                            }),
                             actions: [
                                 new sap.extension.m.ObjectYesNoStatus("", {
                                     title: ibas.i18n.prop("bo_warehouse_activated"),
@@ -38,6 +101,33 @@ namespace materials {
                             ]
                         }),
                         headerContent: [
+                            new sap.extension.m.RepositoryObjectAttribute("", {
+                                title: ibas.i18n.prop("bo_warehouse_supplier"),
+                                repository: businesspartner.bo.BORepositoryBusinessPartner,
+                                dataInfo: {
+                                    type: businesspartner.bo.Supplier,
+                                    key: businesspartner.bo.Supplier.PROPERTY_CODE_NAME,
+                                    text: businesspartner.bo.Supplier.PROPERTY_NAME_NAME
+                                },
+                                bindingValue: {
+                                    path: "supplier",
+                                    type: new sap.extension.data.Alphanumeric(),
+                                }
+                            }),
+                            new sap.extension.m.ObjectYesNoStatus("", {
+                                title: ibas.i18n.prop("bo_warehouse_schedulable"),
+                                enumValue: {
+                                    path: "schedulable",
+                                    type: new sap.extension.data.YesNo(),
+                                }
+                            }),
+                            new sap.extension.m.ObjectYesNoStatus("", {
+                                title: ibas.i18n.prop("bo_warehouse_reservable"),
+                                enumValue: {
+                                    path: "reservable",
+                                    type: new sap.extension.data.YesNo(),
+                                }
+                            }),
                         ],
                         sections: [
                             new sap.uxap.ObjectPageSection("", {
@@ -57,31 +147,23 @@ namespace materials {
                                     new sap.uxap.ObjectPageSubSection("", {
                                         blocks: [
                                             new sap.extension.m.ObjectAttribute("", {
-                                                title: ibas.i18n.prop("bo_warehouse_country"),
+                                                title: ibas.i18n.prop("bo_warehouse_address"),
                                                 bindingValue: {
-                                                    path: "country",
-                                                    type: new sap.extension.data.Alphanumeric(),
-                                                }
-                                            }),
-                                            new sap.extension.m.ObjectAttribute("", {
-                                                title: ibas.i18n.prop("bo_warehouse_province"),
-                                                bindingValue: {
-                                                    path: "province",
-                                                    type: new sap.extension.data.Alphanumeric(),
-                                                }
-                                            }),
-                                            new sap.extension.m.ObjectAttribute("", {
-                                                title: ibas.i18n.prop("bo_warehouse_city"),
-                                                bindingValue: {
-                                                    path: "city",
-                                                    type: new sap.extension.data.Alphanumeric(),
-                                                }
-                                            }),
-                                            new sap.extension.m.ObjectAttribute("", {
-                                                title: ibas.i18n.prop("bo_warehouse_district"),
-                                                bindingValue: {
-                                                    path: "district",
-                                                    type: new sap.extension.data.Alphanumeric(),
+                                                    parts: [
+                                                        {
+                                                            path: "country",
+                                                            type: new sap.extension.data.Alphanumeric(),
+                                                        }, {
+                                                            path: "province",
+                                                            type: new sap.extension.data.Alphanumeric(),
+                                                        }, {
+                                                            path: "city",
+                                                            type: new sap.extension.data.Alphanumeric(),
+                                                        }, {
+                                                            path: "district",
+                                                            type: new sap.extension.data.Alphanumeric(),
+                                                        }
+                                                    ]
                                                 }
                                             }),
                                         ],
@@ -99,13 +181,6 @@ namespace materials {
                                     }),
                                     new sap.uxap.ObjectPageSubSection("", {
                                         blocks: [
-                                            new sap.extension.m.UserObjectAttribute("", {
-                                                title: ibas.i18n.prop("bo_warehouse_dataowner"),
-                                                bindingValue: {
-                                                    path: "dataOwner",
-                                                    type: new sap.extension.data.Numeric(),
-                                                }
-                                            }),
                                             new sap.extension.m.OrganizationObjectAttribute("", {
                                                 title: ibas.i18n.prop("bo_warehouse_organization"),
                                                 bindingValue: {

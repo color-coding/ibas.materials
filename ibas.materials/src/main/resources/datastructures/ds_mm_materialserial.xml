@@ -7,6 +7,7 @@
     <Property Name="Warehouse" Description="仓库编码" DataType="Alphanumeric" DataSubType="Default" EditSize="8" Mapped="WhsCode" UniqueKey="Yes"/>
     <Property Name="InStock" Description="在仓库" DataType="Alphanumeric" DataSubType="Default" EditSize="1" DeclaredType="emYesNo" Mapped="InStock"/>
     <Property Name="Locked" Description="锁定" DataType="Alphanumeric" DataSubType="Default" EditSize="1" DeclaredType="emYesNo" Mapped="Locked"/>
+    <Property Name="Reserved" Description="预留" DataType="Alphanumeric" DataSubType="Default" EditSize="1" DeclaredType="emYesNo" Mapped="Reserved"/>
     <Property Name="SupplierSerial" Description="供应商序号" DataType="Alphanumeric" DataSubType="Default" EditSize="60" Mapped="SuprSerial"/>
     <Property Name="BatchSerial" Description="批次序号" DataType="Alphanumeric" DataSubType="Default" EditSize="60" Mapped="BtchSerial"/>
     <Property Name="ExpirationDate" Description="过期日期" DataType="Date" DataSubType="Default" EditSize="8" Mapped="ExpDate"/>
@@ -44,6 +45,9 @@
     <Property Name="BaseDocumentType" Description="基于类型" DataType="Alphanumeric" DataSubType="Default" EditSize="30" Mapped="BaseType"/>
     <Property Name="BaseDocumentEntry" Description="基于标识" DataType="Numeric" DataSubType="Default" EditSize="8" Mapped="BaseEntry"/>
     <Property Name="BaseDocumentLineId" Description="基于行号" DataType="Numeric" DataSubType="Default" EditSize="8" Mapped="BaseLine"/>
+    <Property Name="OriginalDocumentType" Description="原始类型" DataType="Alphanumeric" DataSubType="Default" EditSize="30" Mapped="OrgnlType"/>
+    <Property Name="OriginalDocumentEntry" Description="原始标识" DataType="Numeric" DataSubType="Default" EditSize="8" Mapped="OrgnlEntry"/>
+    <Property Name="OriginalDocumentLineId" Description="原始行号" DataType="Numeric" DataSubType="Default" EditSize="8" Mapped="OrgnlLine"/>
     <Property Name="ObjectKey" Description="对象编号" DataType="Numeric" DataSubType="Default" EditSize="8" Mapped="ObjectKey" PrimaryKey="Yes"/>
     <Property Name="ObjectCode" Description="对象类型" DataType="Alphanumeric" DataSubType="Default" EditSize="30" Mapped="ObjectCode"/>
     <Property Name="LogInst" Description="实例号" DataType="Numeric" DataSubType="Default" EditSize="8" Mapped="LogInst"/>

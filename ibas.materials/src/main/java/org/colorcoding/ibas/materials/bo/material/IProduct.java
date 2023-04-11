@@ -377,6 +377,20 @@ public interface IProduct {
 	void setOnOrdered(double value);
 
 	/**
+	 * 获取-已预留
+	 * 
+	 * @return 值
+	 */
+	BigDecimal getOnReserved();
+
+	/**
+	 * 设置-已预留
+	 * 
+	 * @param value 值
+	 */
+	void setOnReserved(BigDecimal value);
+
+	/**
 	 * 获取-序号管理
 	 * 
 	 * @return 值

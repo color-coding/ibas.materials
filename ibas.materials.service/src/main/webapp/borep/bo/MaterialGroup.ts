@@ -237,6 +237,17 @@ namespace materials {
                 this.setProperty(MaterialGroup.PROPERTY_ORGANIZATION_NAME, value);
             }
 
+            /** 映射的属性名称-备注 */
+            static PROPERTY_REMARKS_NAME: string = "Remarks";
+            /** 获取-备注 */
+            get remarks(): string {
+                return this.getProperty<string>(MaterialGroup.PROPERTY_REMARKS_NAME);
+            }
+            /** 设置-备注 */
+            set remarks(value: string) {
+                this.setProperty(MaterialGroup.PROPERTY_REMARKS_NAME, value);
+            }
+
 
 
             /** 初始化数据 */

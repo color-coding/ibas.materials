@@ -23,7 +23,7 @@ namespace materials {
                     let formTop: sap.ui.layout.form.SimpleForm = new sap.ui.layout.form.SimpleForm("", {
                         editable: true,
                         content: [
-                            new sap.ui.core.Title("", { text: ibas.i18n.prop("materials_title_general") }),
+                            new sap.m.Toolbar("", { visible: false }),
                             new sap.m.Label("", { text: ibas.i18n.prop("bo_warehouse_code") }),
                             new sap.extension.m.Input("", {
                             }).bindProperty("bindingValue", {
@@ -64,6 +64,7 @@ namespace materials {
                                     maxLength: 15
                                 })
                             }),
+                            new sap.m.Toolbar("", { visible: false }),
                             new sap.m.Label("", { text: ibas.i18n.prop("bo_warehouse_activated") }),
                             new sap.extension.m.EnumSelect("", {
                                 enumType: ibas.emYesNo
@@ -71,35 +72,97 @@ namespace materials {
                                 path: "activated",
                                 type: new sap.extension.data.YesNo()
                             }),
-                            new sap.m.Label("", { text: ibas.i18n.prop("bo_warehouse_organization") }),
-                            new sap.extension.m.DataOrganizationInput("", {
-                                showValueHelp: true,
+                            new sap.m.Label("", { text: ibas.i18n.prop("bo_warehouse_schedulable") }),
+                            new sap.extension.m.EnumSelect("", {
+                                enumType: ibas.emYesNo
                             }).bindProperty("bindingValue", {
-                                path: "organization",
-                                type: new sap.extension.data.Alphanumeric({
-                                    maxLength: 8
-                                })
+                                path: "schedulable",
+                                type: new sap.extension.data.YesNo(),
                             }),
-                            new sap.ui.core.Title("", { text: ibas.i18n.prop("materials_title_others") }),
-                            new sap.m.Label("", {
-                                text: ibas.i18n.prop("openui5_address")
+                            new sap.m.Label("", { text: ibas.i18n.prop("bo_warehouse_reservable") }),
+                            new sap.extension.m.EnumSelect("", {
+                                enumType: ibas.emYesNo
+                            }).bindProperty("bindingValue", {
+                                path: "reservable",
+                                type: new sap.extension.data.YesNo(),
                             }),
-                            new sap.extension.m.AddressArea("", {
-                                countryVisible: true,
-                                zipCodeVisible: false,
-                            }).bindProperty("country", {
-                                path: "country",
-                            }).bindProperty("province", {
-                                path: "province",
-                            }).bindProperty("city", {
-                                path: "city",
-                            }).bindProperty("district", {
-                                path: "district",
-                            }).bindProperty("street", {
-                                path: "street",
-                            }).bindProperty("zipCode", {
-                                path: "zipCode",
-                            }),
+                        ]
+                    });
+                    let formBottom: sap.ui.layout.form.SimpleForm = new sap.ui.layout.form.SimpleForm("", {
+                        editable: true,
+                        content: [
+                            new sap.m.IconTabBar("", {
+                                headerBackgroundDesign: sap.m.BackgroundDesign.Transparent,
+                                backgroundDesign: sap.m.BackgroundDesign.Transparent,
+                                expandable: false,
+                                items: [
+                                    new sap.m.IconTabFilter("", {
+                                        text: ibas.i18n.prop("materials_title_general"),
+                                        content: [
+                                            new sap.ui.layout.form.SimpleForm("", {
+                                                editable: true,
+                                                content: [
+                                                    new sap.m.Toolbar("", { visible: false }),
+                                                    new sap.m.Label("", { text: ibas.i18n.prop("bo_warehouse_supplier") }),
+                                                    new sap.extension.m.SelectionInput("", {
+                                                        showValueHelp: true,
+                                                        repository: businesspartner.bo.BORepositoryBusinessPartner,
+                                                        dataInfo: {
+                                                            type: businesspartner.bo.Supplier,
+                                                            key: businesspartner.bo.Supplier.PROPERTY_CODE_NAME,
+                                                            text: businesspartner.bo.Supplier.PROPERTY_NAME_NAME
+                                                        },
+                                                        criteria: [
+                                                            new ibas.Condition(businesspartner.bo.Supplier.PROPERTY_ACTIVATED_NAME, ibas.emConditionOperation.EQUAL, ibas.emYesNo.YES)
+                                                        ],
+                                                    }).bindProperty("bindingValue", {
+                                                        path: "supplier",
+                                                        type: new sap.extension.data.Alphanumeric({
+                                                            maxLength: 20
+                                                        }),
+                                                    }),
+                                                    new sap.m.Label("", { text: ibas.i18n.prop("bo_warehouse_organization") }),
+                                                    new sap.extension.m.DataOrganizationInput("", {
+                                                        showValueHelp: true,
+                                                    }).bindProperty("bindingValue", {
+                                                        path: "organization",
+                                                        type: new sap.extension.data.Alphanumeric({
+                                                            maxLength: 8
+                                                        })
+                                                    }),
+                                                    new sap.m.Label("", { text: ibas.i18n.prop("bo_warehouse_remarks") }),
+                                                    new sap.extension.m.TextArea("", {
+                                                        rows: 3,
+                                                    }).bindProperty("bindingValue", {
+                                                        path: "remarks",
+                                                        type: new sap.extension.data.Alphanumeric(),
+                                                    }),
+                                                    new sap.m.Toolbar("", { visible: false }),
+                                                    new sap.m.Label("", {
+                                                        text: ibas.i18n.prop("bo_warehouse_address")
+                                                    }),
+                                                    new sap.extension.m.AddressArea("", {
+                                                        countryVisible: true,
+                                                        zipCodeVisible: false,
+                                                    }).bindProperty("country", {
+                                                        path: "country",
+                                                    }).bindProperty("province", {
+                                                        path: "province",
+                                                    }).bindProperty("city", {
+                                                        path: "city",
+                                                    }).bindProperty("district", {
+                                                        path: "district",
+                                                    }).bindProperty("street", {
+                                                        path: "street",
+                                                    }).bindProperty("zipCode", {
+                                                        path: "zipCode",
+                                                    }),
+                                                ]
+                                            })
+                                        ]
+                                    }),
+                                ]
+                            })
                         ]
                     });
                     return this.page = new sap.extension.m.DataPage("", {
@@ -156,6 +219,7 @@ namespace materials {
                         }),
                         content: [
                             formTop,
+                            formBottom,
                         ]
                     });
                 }

@@ -100,12 +100,25 @@ namespace materials {
                     if (property === bo.MaterialBatchJournal.PROPERTY_DIRECTION_NAME) {
                         return ibas.enums.toString(ibas.emDirection, value);
                     }
+                } else if (boName === bo.MaterialBatch.name) {
+                    if (property === bo.MaterialBatch.PROPERTY_LOCKED_NAME) {
+                        return ibas.enums.toString(ibas.emYesNo, value);
+                    }
                 } else if (boName === bo.MaterialSerialJournal.name) {
                     if (property === bo.MaterialSerialJournal.PROPERTY_DIRECTION_NAME) {
                         return ibas.enums.toString(ibas.emDirection, value);
                     }
                 } else if (boName === bo.MaterialSerial.name) {
                     if (property === bo.MaterialSerial.PROPERTY_INSTOCK_NAME) {
+                        return ibas.enums.toString(ibas.emYesNo, value);
+                    } else if (property === bo.MaterialSerial.PROPERTY_RESERVED_NAME) {
+                        return ibas.enums.toString(ibas.emYesNo, value);
+                    } else if (property === bo.MaterialSerial.PROPERTY_LOCKED_NAME) {
+                        return ibas.enums.toString(ibas.emYesNo, value);
+                    }
+                } else if (boName === bo.Warehouse.name) {
+                    if (property === bo.Warehouse.PROPERTY_SCHEDULABLE_NAME
+                        || property === bo.Warehouse.PROPERTY_RESERVABLE_NAME) {
                         return ibas.enums.toString(ibas.emYesNo, value);
                     }
                 } else if (boName === bo.Material.name) {
@@ -211,8 +224,24 @@ namespace materials {
              * @returns 解析的值
              */
             protected parsingData(boName: string, property: string, value: any): any {
-                if (boName === bo.MaterialSerial.name) {
+                if (boName === bo.MaterialBatchJournal.name) {
+                    if (property === bo.MaterialBatchJournal.PROPERTY_DIRECTION_NAME) {
+                        return ibas.enums.valueOf(ibas.emDirection, value);
+                    }
+                } else if (boName === bo.MaterialBatch.name) {
+                    if (property === bo.MaterialBatch.PROPERTY_LOCKED_NAME) {
+                        return ibas.enums.valueOf(ibas.emYesNo, value);
+                    }
+                } else if (boName === bo.MaterialSerialJournal.name) {
+                    if (property === bo.MaterialSerialJournal.PROPERTY_DIRECTION_NAME) {
+                        return ibas.enums.valueOf(ibas.emDirection, value);
+                    }
+                } else if (boName === bo.MaterialSerial.name) {
                     if (property === bo.MaterialSerial.PROPERTY_INSTOCK_NAME) {
+                        return ibas.enums.valueOf(ibas.emYesNo, value);
+                    } else if (property === bo.MaterialSerial.PROPERTY_RESERVED_NAME) {
+                        return ibas.enums.valueOf(ibas.emYesNo, value);
+                    } else if (property === bo.MaterialSerial.PROPERTY_LOCKED_NAME) {
                         return ibas.enums.valueOf(ibas.emYesNo, value);
                     }
                 } else if (boName === bo.Material.name) {
@@ -257,6 +286,11 @@ namespace materials {
                         return ibas.enums.valueOf(bo.emIssueMethod, value);
                     } else if (property === bo.Product.PROPERTY_PLANNINGMETHOD_NAME) {
                         return ibas.enums.valueOf(bo.emIssueMethod, value);
+                    }
+                } else if (boName === bo.Warehouse.name) {
+                    if (property === bo.Warehouse.PROPERTY_SCHEDULABLE_NAME
+                        || property === bo.Warehouse.PROPERTY_RESERVABLE_NAME) {
+                        return ibas.enums.valueOf(ibas.emYesNo, value);
                     }
                 } else if (boName === bo.GoodsIssueLine.name) {
                     if (property === bo.GoodsIssueLine.PROPERTY_SERIALMANAGEMENT_NAME

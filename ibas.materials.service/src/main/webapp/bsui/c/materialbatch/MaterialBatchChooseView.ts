@@ -45,6 +45,7 @@ namespace materials {
                                     path: "itemCode",
                                     type: new sap.extension.data.Alphanumeric()
                                 }),
+                                width: "14rem",
                             }),
                             new sap.extension.table.DataColumn("", {
                                 label: ibas.i18n.prop("bo_warehouse"),
@@ -67,6 +68,7 @@ namespace materials {
                                     path: "batchCode",
                                     type: new sap.extension.data.Alphanumeric()
                                 }),
+                                width: "12rem",
                             }),
                             new sap.extension.table.DataColumn("", {
                                 label: ibas.i18n.prop("bo_materialbatch_quantity"),
@@ -75,6 +77,7 @@ namespace materials {
                                     path: "quantity",
                                     type: new sap.extension.data.Quantity()
                                 }),
+                                width: "8rem",
                             }),
                             new sap.extension.table.DataColumn("", {
                                 label: ibas.i18n.prop("bo_materialbatch_supplierserial"),
@@ -107,6 +110,7 @@ namespace materials {
                                     path: "notes",
                                     type: new sap.extension.data.Alphanumeric()
                                 }),
+                                width: "16rem",
                             }),
                         ],
                         nextDataSet(event: sap.ui.base.Event): void {

@@ -376,6 +376,20 @@ namespace materials {
             saveMaterialVersion(saver: ibas.ISaveCaller<bo.MaterialVersion>): void {
                 super.save(bo.MaterialVersion.name, saver);
             }
+            /**
+             * 查询 物料库存预留
+             * @param fetcher 查询者
+             */
+            fetchMaterialInventoryReservation(fetcher: ibas.IFetchCaller<bo.MaterialInventoryReservation>): void {
+                super.fetch(bo.MaterialInventoryReservation.name, fetcher);
+            }
+            /**
+             * 保存 物料库存预留
+             * @param saver 保存者
+             */
+            saveMaterialInventoryReservation(saver: ibas.ISaveCaller<bo.MaterialInventoryReservation>): void {
+                super.save(bo.MaterialInventoryReservation.name, saver);
+            }
         }
     }
 }

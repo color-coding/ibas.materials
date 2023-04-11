@@ -706,6 +706,37 @@ public abstract class MaterialBase<T extends MaterialBase<T>> extends BusinessOb
 	}
 
 	/**
+	 * 属性名称-已预留
+	 */
+	private static final String PROPERTY_ONRESERVED_NAME = "OnReserved";
+
+	/**
+	 * 已预留 属性
+	 */
+	@DbField(name = "OnReserved", type = DbFieldType.DECIMAL, table = DB_TABLE_NAME)
+	public static final IPropertyInfo<BigDecimal> PROPERTY_ONRESERVED = registerProperty(PROPERTY_ONRESERVED_NAME,
+			BigDecimal.class, MY_CLASS);
+
+	/**
+	 * 获取-已预留
+	 * 
+	 * @return 值
+	 */
+	@XmlElement(name = PROPERTY_ONRESERVED_NAME)
+	public final BigDecimal getOnReserved() {
+		return this.getProperty(PROPERTY_ONRESERVED);
+	}
+
+	/**
+	 * 设置-已预留
+	 * 
+	 * @param value 值
+	 */
+	public final void setOnReserved(BigDecimal value) {
+		this.setProperty(PROPERTY_ONRESERVED, value);
+	}
+
+	/**
 	 * 属性名称-提前期（天）
 	 */
 	private static final String PROPERTY_LEADTIME_NAME = "LeadTime";

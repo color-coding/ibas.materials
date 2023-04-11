@@ -26,6 +26,7 @@
     <Property Name="UpdateActionId" Description="更新动作标识" DataType="Alphanumeric" DataSubType="Default" EditSize="36" Mapped="UpdateActId"/>
     <Property Name="DataOwner" Description="数据所有者" DataType="Numeric" DataSubType="Default" EditSize="8" Mapped="DataOwner"/>
     <Property Name="Organization" Description="数据所属组织" DataType="Alphanumeric" DataSubType="Default" EditSize="8" Mapped="OrgCode"/>
+    <Property Name="Remarks" Description="备注" DataType="Memo" DataSubType="Default" EditSize="8" Mapped="Remarks"/>
   </Model>
   <Model Name="MaterialPriceItem" Description="物料价格项目" ModelType="SimpleLine" Mapped="${Company}_MM_MPL1">
     <Property Name="ItemCode" Description="物料编码" DataType="Alphanumeric" DataSubType="Default" EditSize="20" Mapped="ItemCode" UniqueKey="Yes"/>

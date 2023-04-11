@@ -32,6 +32,15 @@ namespace materials {
             /** 基于行号 */
             baseDocumentLineId: number;
 
+            /** 原始类型 */
+            originalDocumentType: string;
+
+            /** 原始标识 */
+            originalDocumentEntry: number;
+
+            /** 原始行号 */
+            originalDocumentLineId: number;
+
             /** 对象编号 */
             objectKey: number;
 

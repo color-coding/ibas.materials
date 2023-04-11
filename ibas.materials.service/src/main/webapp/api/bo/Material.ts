@@ -76,6 +76,9 @@ namespace materials {
             /** 已订购 */
             onOrdered: number;
 
+            /** 已预留 */
+            onReserved: number;
+
             /** 最低库存量 */
             minimumInventory: number;
 
@@ -227,10 +230,13 @@ namespace materials {
             /** 已订购 */
             onOrdered: number;
 
+            /** 已预留 */
+            onReserved: number;
+
             /** 单位 */
             uom: string;
 
-            /** 可用量（库存+已订购-已承诺） */
+            /** 可用量（库存 + 已订购 - 已承诺 - 已预留） */
             onAvailable(): number;
 
         }

@@ -91,6 +91,7 @@ namespace materials {
                 this.register(new MaterialVersionLinkServiceMapping());
                 this.register(new MaterialScrapChooseServiceMapping());
                 this.register(new MaterialScrapLinkServiceMapping());
+                this.register(new MaterialInventoryReservationServiceMapping());
                 // 注册常驻应用
 
             }

@@ -18,6 +18,7 @@ import org.colorcoding.ibas.bobas.mapping.BusinessObjectUnit;
 import org.colorcoding.ibas.bobas.mapping.DbField;
 import org.colorcoding.ibas.bobas.mapping.DbFieldType;
 import org.colorcoding.ibas.bobas.rule.IBusinessRule;
+import org.colorcoding.ibas.bobas.rule.common.BusinessRuleMaxProperty;
 import org.colorcoding.ibas.bobas.rule.common.BusinessRuleMinValue;
 import org.colorcoding.ibas.bobas.rule.common.BusinessRuleRequired;
 import org.colorcoding.ibas.materials.MyConfiguration;
@@ -237,6 +238,37 @@ public class MaterialBatch extends BusinessObject<MaterialBatch> implements IMat
 	 */
 	public final void setLocked(emYesNo value) {
 		this.setProperty(PROPERTY_LOCKED, value);
+	}
+
+	/**
+	 * 属性名称-预留数量
+	 */
+	private static final String PROPERTY_RESERVEDQUANTITY_NAME = "ReservedQuantity";
+
+	/**
+	 * 预留数量 属性
+	 */
+	@DbField(name = "ReserveQty", type = DbFieldType.DECIMAL, table = DB_TABLE_NAME)
+	public static final IPropertyInfo<BigDecimal> PROPERTY_RESERVEDQUANTITY = registerProperty(
+			PROPERTY_RESERVEDQUANTITY_NAME, BigDecimal.class, MY_CLASS);
+
+	/**
+	 * 获取-预留数量
+	 * 
+	 * @return 值
+	 */
+	@XmlElement(name = PROPERTY_RESERVEDQUANTITY_NAME)
+	public final BigDecimal getReservedQuantity() {
+		return this.getProperty(PROPERTY_RESERVEDQUANTITY);
+	}
+
+	/**
+	 * 设置-预留数量
+	 * 
+	 * @param value 值
+	 */
+	public final void setReservedQuantity(BigDecimal value) {
+		this.setProperty(PROPERTY_RESERVEDQUANTITY, value);
 	}
 
 	/**
@@ -1000,6 +1032,9 @@ public class MaterialBatch extends BusinessObject<MaterialBatch> implements IMat
 				new BusinessRuleRequired(PROPERTY_WAREHOUSE), // 要求有值
 				new BusinessRuleRequired(PROPERTY_BATCHCODE), // 要求有值
 				new BusinessRuleMinValue<BigDecimal>(Decimal.ZERO, PROPERTY_QUANTITY), // 不能低于0
+				// 预留数量不能大于库存数量
+				new BusinessRuleMaxProperty<BigDecimal>(PROPERTY_QUANTITY, PROPERTY_RESERVEDQUANTITY),
+
 		};
 	}
 
@@ -1007,5 +1042,6 @@ public class MaterialBatch extends BusinessObject<MaterialBatch> implements IMat
 	public void reset() {
 		super.reset();
 		this.setQuantity(Decimal.ZERO);
+		this.setReservedQuantity(Decimal.ZERO);
 	}
 }

@@ -122,11 +122,19 @@ public class MaterialReceiptService
 		IMaterialInventoryJournal materialJournal = this.getBeAffected();
 		materialJournal.setItemCode(contract.getItemCode());
 		materialJournal.setItemName(contract.getItemName());
+		if (DataConvert.isNullOrEmpty(materialJournal.getItemName())
+				|| materialJournal.getItemCode().equals(materialJournal.getItemName())) {
+			IMaterial material = this.checkMaterial(materialJournal.getItemCode());
+			materialJournal.setItemName(material.getName());
+		}
 		materialJournal.setWarehouse(contract.getWarehouse());
 		materialJournal.setPostingDate(contract.getPostingDate());
 		materialJournal.setDocumentDate(contract.getDocumentDate());
 		materialJournal.setDeliveryDate(contract.getDeliveryDate());
 		materialJournal.setQuantity(contract.getQuantity());
+		materialJournal.setOriginalDocumentType(contract.getBaseDocumentType());
+		materialJournal.setOriginalDocumentEntry(contract.getBaseDocumentEntry());
+		materialJournal.setOriginalDocumentLineId(contract.getBaseDocumentLineId());
 	}
 
 	@Override

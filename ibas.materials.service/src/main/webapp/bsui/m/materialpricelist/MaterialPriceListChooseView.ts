@@ -86,6 +86,18 @@ namespace materials {
                                             return false;
                                         }
                                     }),
+                                    new sap.extension.m.ObjectAttribute("", {
+                                        title: ibas.i18n.prop("bo_materialpricelist_remarks"),
+                                        bindingValue: {
+                                            path: "remarks",
+                                            type: new sap.extension.data.Alphanumeric()
+                                        }
+                                    }).bindProperty("visible", {
+                                        path: "remarks",
+                                        formatter(data: any): boolean {
+                                            return !ibas.objects.isNull(data);
+                                        }
+                                    }),
                                 ],
                                 type: sap.m.ListType.Active,
                                 press: function (oEvent: sap.ui.base.Event): void {

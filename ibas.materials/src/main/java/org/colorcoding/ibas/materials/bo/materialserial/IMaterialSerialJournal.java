@@ -20,8 +20,7 @@ public interface IMaterialSerialJournal extends IBOSimple {
 	/**
 	 * 设置-物料编码
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setItemCode(String value);
 
@@ -35,8 +34,7 @@ public interface IMaterialSerialJournal extends IBOSimple {
 	/**
 	 * 设置-序列编码
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setSerialCode(String value);
 
@@ -50,8 +48,7 @@ public interface IMaterialSerialJournal extends IBOSimple {
 	/**
 	 * 设置-仓库编码
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setWarehouse(String value);
 
@@ -65,8 +62,7 @@ public interface IMaterialSerialJournal extends IBOSimple {
 	/**
 	 * 设置-方向
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setDirection(emDirection value);
 
@@ -80,8 +76,7 @@ public interface IMaterialSerialJournal extends IBOSimple {
 	/**
 	 * 设置-基于类型
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setBaseDocumentType(String value);
 
@@ -95,8 +90,7 @@ public interface IMaterialSerialJournal extends IBOSimple {
 	/**
 	 * 设置-基于标识
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setBaseDocumentEntry(Integer value);
 
@@ -110,10 +104,51 @@ public interface IMaterialSerialJournal extends IBOSimple {
 	/**
 	 * 设置-基于行号
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setBaseDocumentLineId(Integer value);
+
+	/**
+	 * 获取-原始类型
+	 * 
+	 * @return 值
+	 */
+	String getOriginalDocumentType();
+
+	/**
+	 * 设置-原始类型
+	 * 
+	 * @param value 值
+	 */
+	void setOriginalDocumentType(String value);
+
+	/**
+	 * 获取-原始标识
+	 * 
+	 * @return 值
+	 */
+	Integer getOriginalDocumentEntry();
+
+	/**
+	 * 设置-原始标识
+	 * 
+	 * @param value 值
+	 */
+	void setOriginalDocumentEntry(Integer value);
+
+	/**
+	 * 获取-原始行号
+	 * 
+	 * @return 值
+	 */
+	Integer getOriginalDocumentLineId();
+
+	/**
+	 * 设置-原始行号
+	 * 
+	 * @param value 值
+	 */
+	void setOriginalDocumentLineId(Integer value);
 
 	/**
 	 * 获取-对象编号
@@ -125,8 +160,7 @@ public interface IMaterialSerialJournal extends IBOSimple {
 	/**
 	 * 设置-对象编号
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setObjectKey(Integer value);
 
@@ -140,8 +174,7 @@ public interface IMaterialSerialJournal extends IBOSimple {
 	/**
 	 * 设置-对象类型
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setObjectCode(String value);
 
@@ -155,8 +188,7 @@ public interface IMaterialSerialJournal extends IBOSimple {
 	/**
 	 * 设置-实例号
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setLogInst(Integer value);
 
@@ -170,8 +202,7 @@ public interface IMaterialSerialJournal extends IBOSimple {
 	/**
 	 * 设置-数据源
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setDataSource(String value);
 
@@ -185,8 +216,7 @@ public interface IMaterialSerialJournal extends IBOSimple {
 	/**
 	 * 设置-创建日期
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setCreateDate(DateTime value);
 
@@ -200,8 +230,7 @@ public interface IMaterialSerialJournal extends IBOSimple {
 	/**
 	 * 设置-创建时间
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setCreateTime(Short value);
 
@@ -215,8 +244,7 @@ public interface IMaterialSerialJournal extends IBOSimple {
 	/**
 	 * 设置-更新日期
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setUpdateDate(DateTime value);
 
@@ -230,8 +258,7 @@ public interface IMaterialSerialJournal extends IBOSimple {
 	/**
 	 * 设置-更新时间
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setUpdateTime(Short value);
 
@@ -245,8 +272,7 @@ public interface IMaterialSerialJournal extends IBOSimple {
 	/**
 	 * 设置-创建用户
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setCreateUserSign(Integer value);
 
@@ -260,8 +286,7 @@ public interface IMaterialSerialJournal extends IBOSimple {
 	/**
 	 * 设置-更新用户
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setUpdateUserSign(Integer value);
 
@@ -275,8 +300,7 @@ public interface IMaterialSerialJournal extends IBOSimple {
 	/**
 	 * 设置-创建动作标识
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setCreateActionId(String value);
 
@@ -290,8 +314,7 @@ public interface IMaterialSerialJournal extends IBOSimple {
 	/**
 	 * 设置-更新动作标识
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setUpdateActionId(String value);
 

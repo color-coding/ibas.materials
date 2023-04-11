@@ -93,6 +93,9 @@ public class MaterialBatchJournalService
 		materialBatchJournal.setItemCode(contract.getItemCode());
 		materialBatchJournal.setWarehouse(contract.getWarehouse());
 		materialBatchJournal.setQuantity(materialBatchJournal.getQuantity().add(contract.getQuantity()));
+		materialBatchJournal.setOriginalDocumentType(contract.getBaseDocumentType());
+		materialBatchJournal.setOriginalDocumentEntry(contract.getBaseDocumentEntry());
+		materialBatchJournal.setOriginalDocumentLineId(contract.getBaseDocumentLineId());
 	}
 
 	@Override

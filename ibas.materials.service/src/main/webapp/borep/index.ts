@@ -28,6 +28,7 @@
 /// <reference path="./bo/UnitRate.ts" />
 /// <reference path="./bo/MaterialScrap.ts" />
 /// <reference path="./bo/MaterialVersion.ts" />
+/// <reference path="./bo/MaterialInventoryReservation.ts" />
 /// <reference path="./DataConverter.ts" />
 /// <reference path="./BORepository.ts" />
 
@@ -59,5 +60,6 @@ namespace materials {
         boFactory.register(UnitRate.BUSINESS_OBJECT_CODE, UnitRate);
         boFactory.register(MaterialScrap.BUSINESS_OBJECT_CODE, MaterialScrap);
         boFactory.register(MaterialVersion.BUSINESS_OBJECT_CODE, MaterialVersion);
+        boFactory.register(MaterialInventoryReservation.BUSINESS_OBJECT_CODE, MaterialInventoryReservation);
     }
 }

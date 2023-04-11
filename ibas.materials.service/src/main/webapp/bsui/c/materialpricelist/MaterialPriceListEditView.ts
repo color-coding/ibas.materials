@@ -52,7 +52,12 @@ namespace materials {
                                     maxLength: 8
                                 })
                             }),
-                            new sap.m.Label("", { text: ibas.i18n.prop("bo_materialpricelist_basedonlist") }),
+                            new sap.m.Label("", {
+                                text: ibas.strings.format("{0} / {1}",
+                                    ibas.i18n.prop("bo_materialpricelist_basedonlist"),
+                                    ibas.i18n.prop("bo_materialpricelist_factor")
+                                )
+                            }),
                             new sap.extension.m.RepositoryInput("", {
                                 showValueHelp: true,
                                 repository: bo.BORepositoryMaterials,
@@ -68,7 +73,6 @@ namespace materials {
                                 path: "/basedOnList",
                                 type: new sap.extension.data.Numeric()
                             }),
-                            new sap.m.Label("", { text: ibas.i18n.prop("bo_materialpricelist_factor") }),
                             new sap.extension.m.Input("", {
                                 type: sap.m.InputType.Text
                             }).bindProperty("bindingValue", {
@@ -81,27 +85,6 @@ namespace materials {
                             }).bindProperty("bindingValue", {
                                 path: "/taxed",
                                 type: new sap.extension.data.YesNo(),
-                            }),
-                            new sap.m.Label("", { text: ibas.i18n.prop("bo_materialpricelist_validdate") }),
-                            new sap.extension.m.DatePicker("", {
-                            }).bindProperty("bindingValue", {
-                                path: "/validDate",
-                                type: new sap.extension.data.Date()
-                            }),
-                            new sap.m.Label("", { text: ibas.i18n.prop("bo_materialpricelist_invaliddate") }),
-                            new sap.extension.m.DatePicker("", {
-                            }).bindProperty("bindingValue", {
-                                path: "/invalidDate",
-                                type: new sap.extension.data.Date()
-                            }),
-                            new sap.m.Label("", { text: ibas.i18n.prop("bo_materialpricelist_organization") }),
-                            new sap.extension.m.DataOrganizationInput("", {
-                                showValueHelp: true,
-                            }).bindProperty("bindingValue", {
-                                path: "/organization",
-                                type: new sap.extension.data.Alphanumeric({
-                                    maxLength: 8
-                                })
                             }),
                             new sap.m.Label("", { text: ibas.i18n.prop("bo_materialpricelist_floorlist") }),
                             new sap.extension.m.RepositoryInput("", {
@@ -118,6 +101,38 @@ namespace materials {
                             }).bindProperty("bindingValue", {
                                 path: "/floorList",
                                 type: new sap.extension.data.Numeric()
+                            }),
+                            new sap.m.Label("", {
+                                text: ibas.strings.format("{0} / {1}",
+                                    ibas.i18n.prop("bo_materialpricelist_validdate"),
+                                    ibas.i18n.prop("bo_materialpricelist_invaliddate")
+                                )
+                            }),
+                            new sap.extension.m.DatePicker("", {
+                            }).bindProperty("bindingValue", {
+                                path: "/validDate",
+                                type: new sap.extension.data.Date()
+                            }),
+                            new sap.extension.m.DatePicker("", {
+                            }).bindProperty("bindingValue", {
+                                path: "/invalidDate",
+                                type: new sap.extension.data.Date()
+                            }),
+                            new sap.m.Label("", { text: ibas.i18n.prop("bo_materialpricelist_organization") }),
+                            new sap.extension.m.DataOrganizationInput("", {
+                                showValueHelp: true,
+                            }).bindProperty("bindingValue", {
+                                path: "/organization",
+                                type: new sap.extension.data.Alphanumeric({
+                                    maxLength: 8
+                                })
+                            }),
+                            new sap.m.Label("", { text: ibas.i18n.prop("bo_materialpricelist_remarks") }),
+                            new sap.extension.m.TextArea("", {
+                                rows: 3,
+                            }).bindProperty("bindingValue", {
+                                path: "/remarks",
+                                type: new sap.extension.data.Alphanumeric(),
                             }),
                         ]
                     });

@@ -80,12 +80,24 @@ namespace materials {
                                 path: "/locked",
                                 type: new sap.extension.data.YesNo()
                             }),
-                            new sap.m.Label("", { text: ibas.i18n.prop("bo_materialserial_instock") }),
+                            new sap.m.Label("", {
+                                text: ibas.strings.format("{0} / {1}",
+                                    ibas.i18n.prop("bo_materialserial_instock"),
+                                    ibas.i18n.prop("bo_materialserial_reserved") ,
+                                )
+                            }),
                             new sap.extension.m.EnumSelect("", {
                                 editable: false,
                                 enumType: ibas.emYesNo
                             }).bindProperty("bindingValue", {
                                 path: "/inStock",
+                                type: new sap.extension.data.YesNo()
+                            }),
+                            new sap.extension.m.EnumSelect("", {
+                                editable: false,
+                                enumType: ibas.emYesNo
+                            }).bindProperty("bindingValue", {
+                                path: "/reserved",
                                 type: new sap.extension.data.YesNo()
                             }),
                             new sap.m.Label("", { text: ibas.i18n.prop("bo_materialserial_supplierserial") }),
@@ -122,13 +134,17 @@ namespace materials {
                                 path: "/admissionDate",
                                 type: new sap.extension.data.Date()
                             }),
-                            new sap.m.Label("", { text: ibas.i18n.prop("bo_materialserial_warrantystartdate") }),
+                            new sap.m.Label("", {
+                                text: ibas.strings.format("{0} / {1}",
+                                    ibas.i18n.prop("bo_materialserial_warrantystartdate"),
+                                    ibas.i18n.prop("bo_materialserial_warrantyenddate") ,
+                                )
+                            }),
                             new sap.extension.m.DatePicker("", {
                             }).bindProperty("bindingValue", {
                                 path: "/warrantyStartDate",
                                 type: new sap.extension.data.Date()
                             }),
-                            new sap.m.Label("", { text: ibas.i18n.prop("bo_materialserial_warrantyenddate") }),
                             new sap.extension.m.DatePicker("", {
                             }).bindProperty("bindingValue", {
                                 path: "/warrantyEndDate",

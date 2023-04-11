@@ -70,6 +70,17 @@ namespace materials {
                 this.setProperty(MaterialBatch.PROPERTY_LOCKED_NAME, value);
             }
 
+            /** 映射的属性名称-预留数量 */
+            static PROPERTY_RESERVEDQUANTITY_NAME: string = "ReservedQuantity";
+            /** 获取-预留数量 */
+            get reservedQuantity(): number {
+                return this.getProperty<number>(MaterialBatch.PROPERTY_RESERVEDQUANTITY_NAME);
+            }
+            /** 设置-预留数量 */
+            set reservedQuantity(value: number) {
+                this.setProperty(MaterialBatch.PROPERTY_RESERVEDQUANTITY_NAME, value);
+            }
+
             /** 映射的属性名称-供应商序号 */
             static PROPERTY_SUPPLIERSERIAL_NAME: string = "SupplierSerial";
             /** 获取-供应商序号 */
@@ -168,7 +179,7 @@ namespace materials {
                 return this.getProperty<number>(MaterialBatch.PROPERTY_BASEDOCUMENTENTRY_NAME);
             }
             /** 设置-基于标识 */
-            set baseDocubaseDocumentEntrymentType(value: number) {
+            set baseDocumentEntry(value: number) {
                 this.setProperty(MaterialBatch.PROPERTY_BASEDOCUMENTENTRY_NAME, value);
             }
             /** 映射的属性名称-基于行号 */
@@ -178,7 +189,7 @@ namespace materials {
                 return this.getProperty<number>(MaterialBatch.PROPERTY_BASEDOCUMENTLINEID_NAME);
             }
             /** 设置-基于行号 */
-            set baseDocubaseDocumentEntrymentLineId(value: number) {
+            set baseDocumentLineId(value: number) {
                 this.setProperty(MaterialBatch.PROPERTY_BASEDOCUMENTLINEID_NAME, value);
             }
 

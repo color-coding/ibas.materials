@@ -30,4 +30,5 @@
 /// <reference path="./bo/UnitRate.ts" />
 /// <reference path="./bo/MaterialScrap.ts" />
 /// <reference path="./bo/MaterialVersion.ts" />
+/// <reference path="./bo/MaterialInventoryReservation.ts" />
 /// <reference path="./BORepository.ts" />

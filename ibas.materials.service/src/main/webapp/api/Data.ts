@@ -72,6 +72,8 @@ namespace materials {
         export const BO_CODE_MATERIALVERSION: string = "${Company}_MM_MATERIALVERSION";
         /** 业务对象编码-物料废品率 */
         export const BO_CODE_MATERIALSCRAP: string = "${Company}_MM_MATERIALSCRAP";
+        /** 业务对象编码-物料库存预留 */
+        export const BO_CODE_MATERIALINVENTORYRESERVATION: string = "${Company}_MM_RESERVATION";
 
         /** 物料类型 */
         export enum emItemType {
@@ -322,6 +324,29 @@ namespace materials {
         }
         /** 规格服务代理 */
         export class SpecificationTreeServiceProxy extends ibas.ServiceProxy<ISpecificationTreeContract> {
+
+        }
+        /** 物料库存预留服务契约 */
+        export interface IMaterialInventoryReservationTarget extends ibas.IServiceContract {
+            targetType: string;
+            targetEntry: number;
+            businessPartner?: string;
+            items: IMaterialInventoryReservationTargetLine[];
+        }
+        export interface IMaterialInventoryReservationTargetLine {
+            targetLineId: number;
+            itemCode: string;
+            itemDescription?: string;
+            itemVersion?: string;
+            quantity: number;
+            uom: string;
+            warehouse?: string;
+            serialManagement?: ibas.emYesNo;
+            batchManagement?: ibas.emYesNo;
+            mixingBatches?: ibas.emYesNo;
+        }
+        /** 物料库存预留服务代理 */
+        export class MaterialInventoryReservationServiceProxy extends ibas.ServiceProxy<IMaterialInventoryReservationTarget> {
 
         }
         /** 查询条件 */
@@ -719,11 +744,76 @@ namespace materials {
                     }
                 });
             } else {
+                // 设置换算率，未定义为1
+                for (let item of sources) {
+                    if (item.caller) {
+                        item.setUnitRate.call(item.caller, 1);
+                    } else {
+                        item.setUnitRate(1);
+                    }
+                }
                 if (caller.onCompleted instanceof Function) {
                     caller.onCompleted();
                 }
             }
         }
+        /**
+         * 使用物料预留库存
+         * @param caller
+         */
+        export function useReservedMaterialsInventory(caller: {
+            targetType: string;
+            targetEntries: number | number[];
+            onCompleted(results: ibas.IList<bo.MaterialInventoryReservation> | Error): void,
+        }): void {
+            if (ibas.strings.isEmpty(caller?.targetType) || ibas.objects.isNull(caller?.targetEntries)) {
+                if (caller.onCompleted instanceof Function) {
+                    caller.onCompleted(new Error(ibas.i18n.prop("sys_invalid_parameter", "target")));
+                }
+                return;
+            }
+            let condition: ibas.ICondition;
+            let criteria: ibas.ICriteria = new ibas.Criteria();
+            condition = criteria.conditions.create();
+            condition.alias = bo.MaterialInventoryReservation.PROPERTY_TARGETDOCUMENTTYPE_NAME;
+            condition.value = caller.targetType;
+            for (let item of ibas.arrays.create(caller.targetEntries)) {
+                condition = criteria.conditions.create();
+                condition.alias = bo.MaterialInventoryReservation.PROPERTY_TARGETDOCUMENTENTRY_NAME;
+                condition.value = item.toString();
+                if (criteria.conditions.length > 2) {
+                    condition.relationship = ibas.emConditionRelationship.OR;
+                }
+            }
+            if (criteria.conditions.length > 2) {
+                criteria.conditions[1].bracketOpen += 1;
+                criteria.conditions.lastOrDefault().bracketClose += 1;
+            }
+            let sort: ibas.ISort = criteria.sorts.create();
+            sort.alias = bo.MaterialInventoryReservation.PROPERTY_TARGETDOCUMENTTYPE_NAME;
+            sort.sortType = ibas.emSortType.ASCENDING;
+            sort = criteria.sorts.create();
+            sort.alias = bo.MaterialInventoryReservation.PROPERTY_TARGETDOCUMENTENTRY_NAME;
+            sort.sortType = ibas.emSortType.ASCENDING;
+            sort = criteria.sorts.create();
+            sort.alias = bo.MaterialInventoryReservation.PROPERTY_TARGETDOCUMENTLINEID_NAME;
+            sort.sortType = ibas.emSortType.ASCENDING;
 
+            let boRepository: bo.BORepositoryMaterials = new bo.BORepositoryMaterials();
+            boRepository.fetchMaterialInventoryReservation({
+                criteria: criteria,
+                onCompleted: (opRslt) => {
+                    if (opRslt.resultCode !== 0) {
+                        if (caller.onCompleted instanceof Function) {
+                            caller.onCompleted(new Error(opRslt.message));
+                        }
+                    } else {
+                        if (caller.onCompleted instanceof Function) {
+                            caller.onCompleted(opRslt.resultObjects);
+                        }
+                    }
+                }
+            });
+        }
     }
 }

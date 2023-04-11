@@ -57,9 +57,11 @@ import org.colorcoding.ibas.materials.bo.materialbatch.MaterialBatchJournal;
 import org.colorcoding.ibas.materials.bo.materialinventory.IMaterialEstimateJournal;
 import org.colorcoding.ibas.materials.bo.materialinventory.IMaterialInventory;
 import org.colorcoding.ibas.materials.bo.materialinventory.IMaterialInventoryJournal;
+import org.colorcoding.ibas.materials.bo.materialinventory.IMaterialInventoryReservation;
 import org.colorcoding.ibas.materials.bo.materialinventory.MaterialEstimateJournal;
 import org.colorcoding.ibas.materials.bo.materialinventory.MaterialInventory;
 import org.colorcoding.ibas.materials.bo.materialinventory.MaterialInventoryJournal;
+import org.colorcoding.ibas.materials.bo.materialinventory.MaterialInventoryReservation;
 import org.colorcoding.ibas.materials.bo.materialpricelist.IMaterialPriceItem;
 import org.colorcoding.ibas.materials.bo.materialpricelist.IMaterialPriceList;
 import org.colorcoding.ibas.materials.bo.materialpricelist.MaterialPriceItem;
@@ -1967,6 +1969,53 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 				this.saveMaterialVersion((MaterialVersion) bo, this.getUserToken()));
 	}
 
+	// --------------------------------------------------------------------------------------------//
+	/**
+	 * 查询-物料库存预留
+	 * 
+	 * @param criteria 查询
+	 * @param token    口令
+	 * @return 操作结果
+	 */
+	public OperationResult<MaterialInventoryReservation> fetchMaterialInventoryReservation(ICriteria criteria,
+			String token) {
+		return super.fetch(criteria, token, MaterialInventoryReservation.class);
+	}
+
+	/**
+	 * 查询-物料库存预留（提前设置用户口令）
+	 * 
+	 * @param criteria 查询
+	 * @return 操作结果
+	 */
+	public IOperationResult<IMaterialInventoryReservation> fetchMaterialInventoryReservation(ICriteria criteria) {
+		return new OperationResult<IMaterialInventoryReservation>(
+				this.fetchMaterialInventoryReservation(criteria, this.getUserToken()));
+	}
+
+	/**
+	 * 保存-物料库存预留
+	 * 
+	 * @param bo    对象实例
+	 * @param token 口令
+	 * @return 操作结果
+	 */
+	public OperationResult<MaterialInventoryReservation> saveMaterialInventoryReservation(
+			MaterialInventoryReservation bo, String token) {
+		return super.save(bo, token);
+	}
+
+	/**
+	 * 保存-物料库存预留（提前设置用户口令）
+	 * 
+	 * @param bo 对象实例
+	 * @return 操作结果
+	 */
+	public IOperationResult<IMaterialInventoryReservation> saveMaterialInventoryReservation(
+			IMaterialInventoryReservation bo) {
+		return new OperationResult<IMaterialInventoryReservation>(
+				this.saveMaterialInventoryReservation((MaterialInventoryReservation) bo, this.getUserToken()));
+	}
 	// --------------------------------------------------------------------------------------------//
 
 }

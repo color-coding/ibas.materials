@@ -259,6 +259,17 @@ namespace materials {
                 this.setProperty(Material.PROPERTY_ONORDERED_NAME, value);
             }
 
+            /** 映射的属性名称-已预留 */
+            static PROPERTY_ONRESERVED_NAME: string = "OnReserved";
+            /** 获取-已预留 */
+            get onReserved(): number {
+                return this.getProperty<number>(Material.PROPERTY_ONRESERVED_NAME);
+            }
+            /** 设置-已预留 */
+            set onReserved(value: number) {
+                this.setProperty(Material.PROPERTY_ONRESERVED_NAME, value);
+            }
+
             /** 映射的属性名称-最低库存量 */
             static PROPERTY_MINIMUMINVENTORY_NAME: string = "MinimumInventory";
             /** 获取-最低库存量 */
@@ -749,11 +760,12 @@ namespace materials {
                 this.onHand = 0;
                 this.onOrdered = 0;
             }
-            /** 可用量（库存+已订购-已承诺） */
+            /** 可用量（库存 + 已订购 - 已承诺 - 已预留） */
             onAvailable(): number {
                 return ibas.numbers.valueOf(this.onHand)
                     + ibas.numbers.valueOf(this.onOrdered)
-                    - ibas.numbers.valueOf(this.onCommited);
+                    - ibas.numbers.valueOf(this.onCommited)
+                    - ibas.numbers.valueOf(this.onReserved);
             }
         }
 
@@ -816,6 +828,17 @@ namespace materials {
                 this.setProperty(MaterialQuantity.PROPERTY_ONCOMMITED_NAME, value);
             }
 
+            /** 映射的属性名称-已预留 */
+            static PROPERTY_ONRESERVED_NAME: string = "OnReserved";
+            /** 获取-已预留 */
+            get onReserved(): number {
+                return this.getProperty<number>(MaterialQuantity.PROPERTY_ONRESERVED_NAME);
+            }
+            /** 设置-已预留 */
+            set onReserved(value: number) {
+                this.setProperty(MaterialQuantity.PROPERTY_ONRESERVED_NAME, value);
+            }
+
             /** 映射的属性名称-计量单位 */
             static PROPERTY_UOM_NAME: string = "UOM";
             /** 获取-计量单位 */
@@ -867,11 +890,12 @@ namespace materials {
                 //
             }
 
-            /** 可用量（库存+已订购-已承诺） */
+            /** 可用量（库存 + 已订购 - 已承诺 - 已预留） */
             onAvailable(): number {
                 return ibas.numbers.valueOf(this.onHand)
                     + ibas.numbers.valueOf(this.onOrdered)
-                    - ibas.numbers.valueOf(this.onCommited);
+                    - ibas.numbers.valueOf(this.onCommited)
+                    - ibas.numbers.valueOf(this.onReserved);
             }
 
         }

@@ -51,6 +51,7 @@ namespace materials {
                                     path: "foreignName",
                                     type: new sap.extension.data.Alphanumeric(),
                                 }),
+                                width: "12rem",
                             }),
                             new sap.extension.table.DataColumn("", {
                                 label: ibas.i18n.prop("bo_unit_symbol"),
@@ -75,7 +76,7 @@ namespace materials {
                                     path: "remarks",
                                     type: new sap.extension.data.Alphanumeric(),
                                 }),
-                                width: "14rem"
+                                width: "20rem"
                             }),
                         ],
                         nextDataSet(event: sap.ui.base.Event): void {

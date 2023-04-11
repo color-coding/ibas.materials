@@ -24,6 +24,7 @@
     <Property Name="OnHand" Description="库存" DataType="Decimal" DataSubType="Quantity" EditSize="8" Mapped="OnHand"/>
     <Property Name="OnCommited" Description="已承诺" DataType="Decimal" DataSubType="Quantity" EditSize="8" Mapped="OnCommited"/>
     <Property Name="OnOrdered" Description="已订购" DataType="Decimal" DataSubType="Quantity" EditSize="8" Mapped="OnOrdered"/>
+    <Property Name="OnReserved" Description="已预留" DataType="Decimal" DataSubType="Quantity" EditSize="8" Mapped="OnReserved"/>
     <Property Name="MinimumInventory" Description="最低库存量" DataType="Decimal" DataSubType="Quantity" EditSize="8" Mapped="MinInvnt"/>
     <Property Name="MinimumOrderQuantity" Description="最低订购数量" DataType="Decimal" DataSubType="Quantity" EditSize="8" Mapped="MinOrdrQty"/>
     <Property Name="LeadTime" Description="提前期（天）" DataType="Numeric" DataSubType="Default" EditSize="8" Mapped="LeadTime"/>

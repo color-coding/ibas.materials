@@ -268,6 +268,16 @@ namespace materials {
                 this.setProperty(Product.PROPERTY_ONORDERED_NAME, value);
             }
 
+            /** 映射的属性名称-已预留 */
+            static PROPERTY_ONRESERVED_NAME: string = "OnReserved";
+            /** 获取-已预留 */
+            get onReserved(): number {
+                return this.getProperty<number>(Product.PROPERTY_ONRESERVED_NAME);
+            }
+            /** 设置-已预留 */
+            set onReserved(value: number) {
+                this.setProperty(Product.PROPERTY_ONRESERVED_NAME, value);
+            }
 
             /** 映射的属性名称-提前期（天） */
             static PROPERTY_LEADTIME_NAME: string = "LeadTime";

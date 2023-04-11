@@ -21,6 +21,9 @@ namespace materials {
             /** 数量 */
             quantity: number;
 
+            /** 预留数量 */
+            reservedQuantity: number;
+
             /** 锁定 */
             locked: ibas.emYesNo;
 

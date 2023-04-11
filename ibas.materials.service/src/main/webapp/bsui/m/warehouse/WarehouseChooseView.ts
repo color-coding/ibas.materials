@@ -45,6 +45,13 @@ namespace materials {
                                             type: new sap.extension.data.Alphanumeric()
                                         },
                                     }),
+                                    new sap.extension.m.ObjectAttribute("", {
+                                        title: ibas.i18n.prop("bo_warehouse_remarks"),
+                                        bindingValue: {
+                                            path: "remarks",
+                                            type: new sap.extension.data.Alphanumeric()
+                                        },
+                                    }),
                                 ],
                                 type: sap.m.ListType.Active,
                                 press: function (oEvent: sap.ui.base.Event): void {

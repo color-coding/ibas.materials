@@ -81,6 +81,21 @@ class MaterialBatchItem extends org.colorcoding.ibas.materials.bo.materialbatch.
 					public Integer getDocumentEntry() {
 						return MaterialBatchItem.this.getDocumentEntry();
 					}
+
+					@Override
+					public String getBaseDocumentType() {
+						return null;
+					}
+
+					@Override
+					public Integer getBaseDocumentEntry() {
+						return null;
+					}
+
+					@Override
+					public Integer getBaseDocumentLineId() {
+						return null;
+					}
 				}, new IMaterialBatchJournalContract() {
 
 					@Override
@@ -132,6 +147,21 @@ class MaterialBatchItem extends org.colorcoding.ibas.materials.bo.materialbatch.
 					@Override
 					public Integer getDocumentEntry() {
 						return MaterialBatchItem.this.getDocumentEntry();
+					}
+
+					@Override
+					public String getBaseDocumentType() {
+						return null;
+					}
+
+					@Override
+					public Integer getBaseDocumentEntry() {
+						return null;
+					}
+
+					@Override
+					public Integer getBaseDocumentLineId() {
+						return null;
 					}
 
 				}

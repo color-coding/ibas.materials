@@ -39,6 +39,7 @@ namespace materials {
                                     path: "name",
                                     type: new sap.extension.data.Alphanumeric()
                                 }),
+                                width: "12rem"
                             }),
                             new sap.extension.table.DataColumn("", {
                                 label: ibas.i18n.prop("bo_materialpricelist_group"),
@@ -79,6 +80,15 @@ namespace materials {
                                     path: "invalidDate",
                                     type: new sap.extension.data.Date()
                                 }),
+                            }),
+                            new sap.extension.table.DataColumn("", {
+                                label: ibas.i18n.prop("bo_materialpricelist_remarks"),
+                                template: new sap.extension.m.Text("", {
+                                }).bindProperty("bindingValue", {
+                                    path: "remarks",
+                                    type: new sap.extension.data.Alphanumeric()
+                                }),
+                                width: "16rem",
                             }),
                         ],
                         nextDataSet(event: sap.ui.base.Event): void {

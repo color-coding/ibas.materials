@@ -1479,6 +1479,22 @@ public class GoodsReceiptLine extends BusinessObject<GoodsReceiptLine>
 						return GoodsReceiptLine.this.getSerialManagement();
 					}
 
-				} };
+					@Override
+					public String getBaseDocumentType() {
+						return GoodsReceiptLine.this.getBaseDocumentType();
+					}
+
+					@Override
+					public Integer getBaseDocumentEntry() {
+						return GoodsReceiptLine.this.getBaseDocumentEntry();
+					}
+
+					@Override
+					public Integer getBaseDocumentLineId() {
+						return GoodsReceiptLine.this.getBaseDocumentLineId();
+					}
+				}
+
+		};
 	}
 }

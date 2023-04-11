@@ -152,6 +152,48 @@ public interface IWarehouse extends IBOMasterData {
 	void setZipCode(String value);
 
 	/**
+	 * 获取-供应商
+	 * 
+	 * @return 值
+	 */
+	String getSupplier();
+
+	/**
+	 * 设置-供应商
+	 * 
+	 * @param value 值
+	 */
+	void setSupplier(String value);
+
+	/**
+	 * 获取-可排程
+	 * 
+	 * @return 值
+	 */
+	emYesNo getSchedulable();
+
+	/**
+	 * 设置-可排程
+	 * 
+	 * @param value 值
+	 */
+	void setSchedulable(emYesNo value);
+
+	/**
+	 * 获取-可预留
+	 * 
+	 * @return 值
+	 */
+	emYesNo getReservable();
+
+	/**
+	 * 设置-可预留
+	 * 
+	 * @param value 值
+	 */
+	void setReservable(emYesNo value);
+
+	/**
 	 * 获取-已引用
 	 * 
 	 * @return 值
@@ -403,4 +445,17 @@ public interface IWarehouse extends IBOMasterData {
 	 */
 	void setOrganization(String value);
 
+	/**
+	 * 获取-备注
+	 * 
+	 * @return 值
+	 */
+	String getRemarks();
+
+	/**
+	 * 设置-备注
+	 * 
+	 * @param value 值
+	 */
+	void setRemarks(String value);
 }

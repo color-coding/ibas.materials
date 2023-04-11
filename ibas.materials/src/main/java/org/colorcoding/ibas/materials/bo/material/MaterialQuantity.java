@@ -52,6 +52,7 @@ public class MaterialQuantity extends Serializable implements IMaterialQuantity 
 		materialQuantity.setOnHand(material.getOnHand());
 		materialQuantity.setOnOrdered(material.getOnOrdered());
 		materialQuantity.setOnCommited(material.getOnCommited());
+		materialQuantity.setOnReserved(material.getOnReserved());
 		materialQuantity.setUOM(material.getInventoryUOM());
 		return materialQuantity;
 	}
@@ -63,6 +64,7 @@ public class MaterialQuantity extends Serializable implements IMaterialQuantity 
 		materialQuantity.setOnHand(material.getOnHand());
 		materialQuantity.setOnOrdered(material.getOnOrdered());
 		materialQuantity.setOnCommited(material.getOnCommited());
+		materialQuantity.setOnReserved(material.getOnReserved());
 		materialQuantity.setUOM(material.getInventoryUOM());
 		return materialQuantity;
 	}
@@ -158,6 +160,25 @@ public class MaterialQuantity extends Serializable implements IMaterialQuantity 
 		this.setOnCommited(Decimal.valueOf(value));
 	}
 
+	private BigDecimal onReserved;
+
+	@XmlElement(name = "OnReserved")
+	public final BigDecimal getOnReserved() {
+		return onReserved;
+	}
+
+	public final void setOnReserved(BigDecimal onReserved) {
+		this.onReserved = onReserved;
+	}
+
+	public final void setOnReserved(int value) {
+		this.setOnReserved(Decimal.valueOf(value));
+	}
+
+	public final void setOnReserved(double value) {
+		this.setOnReserved(Decimal.valueOf(value));
+	}
+
 	private String uom;
 
 	@XmlElement(name = "UOM")
@@ -171,7 +192,8 @@ public class MaterialQuantity extends Serializable implements IMaterialQuantity 
 
 	@Override
 	public BigDecimal getOnAvailable() {
-		return Decimal.add(this.getOnHand(), this.getOnOrdered(), this.getOnCommited().negate());
+		return Decimal.add(this.getOnHand(), this.getOnOrdered(), this.getOnCommited().negate(),
+				this.getOnReserved().negate());
 	}
 
 	@Override

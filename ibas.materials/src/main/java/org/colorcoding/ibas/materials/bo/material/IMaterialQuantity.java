@@ -120,6 +120,34 @@ public interface IMaterialQuantity {
 	void setOnOrdered(double value);
 
 	/**
+	 * 获取-已预留
+	 *
+	 * @return
+	 */
+	BigDecimal getOnReserved();
+
+	/**
+	 * 设置已预留
+	 *
+	 * @param value
+	 */
+	void setOnReserved(BigDecimal value);
+
+	/**
+	 * 设置已预留
+	 *
+	 * @param value
+	 */
+	void setOnReserved(int value);
+
+	/**
+	 * 设置已预留
+	 *
+	 * @param value
+	 */
+	void setOnReserved(double value);
+
+	/**
 	 * 获取库存单位
 	 * 
 	 * @return

@@ -1483,6 +1483,20 @@ public class InventoryTransferLine extends BusinessObject<InventoryTransferLine>
 						return InventoryTransferLine.this.getSerialManagement();
 					}
 
+					@Override
+					public String getBaseDocumentType() {
+						return InventoryTransferLine.this.getBaseDocumentType();
+					}
+
+					@Override
+					public Integer getBaseDocumentEntry() {
+						return InventoryTransferLine.this.getBaseDocumentEntry();
+					}
+
+					@Override
+					public Integer getBaseDocumentLineId() {
+						return InventoryTransferLine.this.getBaseDocumentLineId();
+					}
 				},
 				// 物料收货
 				new IMaterialReceiptContract() {
@@ -1555,6 +1569,22 @@ public class InventoryTransferLine extends BusinessObject<InventoryTransferLine>
 					public emYesNo getSerialManagement() {
 						return InventoryTransferLine.this.getSerialManagement();
 					}
+
+					@Override
+					public String getBaseDocumentType() {
+						return InventoryTransferLine.this.getBaseDocumentType();
+					}
+
+					@Override
+					public Integer getBaseDocumentEntry() {
+						return InventoryTransferLine.this.getBaseDocumentEntry();
+					}
+
+					@Override
+					public Integer getBaseDocumentLineId() {
+						return InventoryTransferLine.this.getBaseDocumentLineId();
+					}
+
 				}
 
 		};

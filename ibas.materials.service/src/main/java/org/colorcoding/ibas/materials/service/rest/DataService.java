@@ -23,6 +23,7 @@ import org.colorcoding.ibas.materials.bo.materialbatch.MaterialBatch;
 import org.colorcoding.ibas.materials.bo.materialbatch.MaterialBatchJournal;
 import org.colorcoding.ibas.materials.bo.materialinventory.MaterialInventory;
 import org.colorcoding.ibas.materials.bo.materialinventory.MaterialInventoryJournal;
+import org.colorcoding.ibas.materials.bo.materialinventory.MaterialInventoryReservation;
 import org.colorcoding.ibas.materials.bo.materialpricelist.MaterialPriceList;
 import org.colorcoding.ibas.materials.bo.materialscrap.MaterialScrap;
 import org.colorcoding.ibas.materials.bo.materialserial.MaterialSerial;
@@ -689,6 +690,38 @@ public class DataService extends BORepositoryMaterials {
 	@Path("saveMaterialScrap")
 	public OperationResult<MaterialScrap> saveMaterialScrap(MaterialScrap bo, @QueryParam("token") String token) {
 		return super.saveMaterialScrap(bo, token);
+	} // --------------------------------------------------------------------------------------------//
+
+	/**
+	 * 查询-物料库存预留
+	 * 
+	 * @param criteria 查询
+	 * @param token    口令
+	 * @return 操作结果
+	 */
+	@POST
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Path("fetchMaterialInventoryReservation")
+	public OperationResult<MaterialInventoryReservation> fetchMaterialInventoryReservation(Criteria criteria,
+			@QueryParam("token") String token) {
+		return super.fetchMaterialInventoryReservation(criteria, token);
+	}
+
+	/**
+	 * 保存-物料库存预留
+	 * 
+	 * @param bo    对象实例
+	 * @param token 口令
+	 * @return 操作结果
+	 */
+	@POST
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Path("saveMaterialInventoryReservation")
+	public OperationResult<MaterialInventoryReservation> saveMaterialInventoryReservation(
+			MaterialInventoryReservation bo, @QueryParam("token") String token) {
+		return super.saveMaterialInventoryReservation(bo, token);
 	}
 	// --------------------------------------------------------------------------------------------//
 

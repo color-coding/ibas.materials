@@ -10,8 +10,6 @@ namespace materials {
         export class MaterialSerial extends ibas.BOSimple<MaterialSerial> implements IMaterialSerial {
             /** 业务对象编码 */
             static BUSINESS_OBJECT_CODE: string = BO_CODE_MATERIALSERIAL;
-            // static BUSINESS_OBJECT_RECEIEPT_CODE: string = BO_CODE_RECEIPT_MATERIALSERIAL;
-            // static BUSINESS_OBJECT_ISSUE_CODE: string = BO_CODE_ISSUE_MATERIALSERIAL;
             /** 构造函数 */
             constructor() {
                 super();
@@ -69,6 +67,17 @@ namespace materials {
             /** 设置-锁定 */
             set locked(value: ibas.emYesNo) {
                 this.setProperty(MaterialSerial.PROPERTY_LOCKED_NAME, value);
+            }
+
+            /** 映射的属性名称-预留 */
+            static PROPERTY_RESERVED_NAME: string = "Reserved";
+            /** 获取-预留 */
+            get reserved(): ibas.emYesNo {
+                return this.getProperty<ibas.emYesNo>(MaterialSerial.PROPERTY_RESERVED_NAME);
+            }
+            /** 设置-预留 */
+            set reserved(value: ibas.emYesNo) {
+                this.setProperty(MaterialSerial.PROPERTY_RESERVED_NAME, value);
             }
 
             /** 映射的属性名称-供应商序号 */
@@ -204,7 +213,7 @@ namespace materials {
                 return this.getProperty<number>(MaterialSerial.PROPERTY_BASEDOCUMENTENTRY_NAME);
             }
             /** 设置-基于标识 */
-            set baseDocubaseDocumentEntrymentType(value: number) {
+            set baseDocumentEntry(value: number) {
                 this.setProperty(MaterialSerial.PROPERTY_BASEDOCUMENTENTRY_NAME, value);
             }
             /** 映射的属性名称-基于行号 */
@@ -214,7 +223,7 @@ namespace materials {
                 return this.getProperty<number>(MaterialSerial.PROPERTY_BASEDOCUMENTLINEID_NAME);
             }
             /** 设置-基于行号 */
-            set baseDocubaseDocumentEntrymentLineId(value: number) {
+            set baseDocumentLineId(value: number) {
                 this.setProperty(MaterialSerial.PROPERTY_BASEDOCUMENTLINEID_NAME, value);
             }
 

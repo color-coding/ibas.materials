@@ -81,12 +81,22 @@ namespace materials {
                                 path: "/locked",
                                 type: new sap.extension.data.YesNo()
                             }),
-                            new sap.m.Label("", { text: ibas.i18n.prop("bo_materialbatch_quantity") }),
+                            new sap.m.Label("", {
+                                text: ibas.strings.format("{0} / {1}",
+                                    ibas.i18n.prop("bo_materialbatch_quantity"),
+                                    ibas.i18n.prop("bo_materialbatch_reservedquantity") ,
+                                )
+                            }),
                             new sap.extension.m.Input("", {
                                 editable: false,
-
                             }).bindProperty("bindingValue", {
                                 path: "/quantity",
+                                type: new sap.extension.data.Quantity()
+                            }),
+                            new sap.extension.m.Input("", {
+                                editable: false,
+                            }).bindProperty("bindingValue", {
+                                path: "/reservedQuantity",
                                 type: new sap.extension.data.Quantity()
                             }),
                             new sap.m.Label("", { text: ibas.i18n.prop("bo_materialbatch_supplierserial") }),

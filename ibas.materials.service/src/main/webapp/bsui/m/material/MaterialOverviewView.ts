@@ -32,6 +32,10 @@ namespace materials {
                 fetchMaterialSerialEvent: Function;
                 /** 编辑序列信息 */
                 editMaterialSerialEvent: Function;
+                /** 查询预留信息 */
+                fetchMaterialReservationEvent: Function;
+                /** 释放预留信息 */
+                releaseMaterialReservationEvent: Function;
                 /** 绘制视图 */
                 draw(): any {
                     let that: this = this;
@@ -615,6 +619,114 @@ namespace materials {
                                     }),
                                 ]
                             }),
+                            new sap.uxap.ObjectPageSection("", {
+                                showTitle: false,
+                                title: ibas.i18n.prop("bo_materialinventoryreservation"),
+                                subSections: [
+                                    new sap.uxap.ObjectPageSubSection("", {
+                                        blocks: [
+                                            this.listReservation = new sap.extension.m.List("", {
+                                                inset: false,
+                                                growing: false,
+                                                mode: sap.m.ListMode.None,
+                                                backgroundDesign: sap.m.BackgroundDesign.Transparent,
+                                                showNoData: true,
+                                                width: "auto",
+                                                headerToolbar: new sap.m.Toolbar("", {
+                                                    content: [
+                                                        new sap.m.Title("", {
+                                                            level: sap.ui.core.TitleLevel.H5,
+                                                            text: ibas.i18n.prop("bo_materialinventoryreservation"),
+                                                        }),
+                                                        new sap.m.ToolbarSeparator(""),
+                                                        new sap.m.Button("", {
+                                                            icon: "sap-icon://refresh",
+                                                            press: function (this: sap.m.Button): void {
+                                                                that.fireViewEvents(that.fetchMaterialReservationEvent, that.pageOverview.getBindingContext().getObject());
+                                                            }
+                                                        }),
+                                                    ]
+                                                }),
+                                                items: {
+                                                    path: "/rows",
+                                                    template: new sap.m.ObjectListItem("", {
+                                                        title: {
+                                                            parts: [
+                                                                {
+                                                                    path: "targetDocumentType",
+                                                                    type: new sap.extension.data.Alphanumeric(),
+                                                                },
+                                                                {
+                                                                    path: "targetDocumentEntry",
+                                                                    type: new sap.extension.data.Numeric(),
+                                                                },
+                                                                {
+                                                                    path: "targetDocumentLineId",
+                                                                    type: new sap.extension.data.Numeric(),
+                                                                }
+                                                            ],
+                                                            formatter(type: string, entry: number, lineId: number): string {
+                                                                return ibas.businessobjects.describe(ibas.strings.format("{[{0}].[DocEntry = {1}]}", type, entry));
+                                                            }
+                                                        },
+                                                        number: {
+                                                            path: "quantity",
+                                                            type: new sap.extension.data.Quantity(),
+                                                        },
+                                                        attributes: [
+                                                            new sap.extension.m.RepositoryObjectAttribute("", {
+                                                                title: ibas.i18n.prop("bo_warehouse") + ibas.i18n.prop("bo_warehouse_name"),
+                                                                bindingValue: {
+                                                                    path: "warehouse",
+                                                                    type: new sap.extension.data.Alphanumeric(),
+                                                                },
+                                                                repository: bo.BORepositoryMaterials,
+                                                                dataInfo: {
+                                                                    type: bo.Warehouse,
+                                                                    key: bo.Warehouse.PROPERTY_CODE_NAME,
+                                                                    text: bo.Warehouse.PROPERTY_NAME_NAME
+                                                                },
+                                                            }),
+                                                            new sap.extension.m.ObjectAttribute("", {
+                                                                title: ibas.i18n.prop("bo_materialinventoryreservation_batchcode"),
+                                                                bindingValue: {
+                                                                    path: "batchCode",
+                                                                    type: new sap.extension.data.Alphanumeric(),
+                                                                },
+                                                            }),
+                                                            new sap.extension.m.ObjectAttribute("", {
+                                                                title: ibas.i18n.prop("bo_materialinventoryreservation_serialcode"),
+                                                                bindingValue: {
+                                                                    path: "serialCode",
+                                                                    type: new sap.extension.data.Alphanumeric(),
+                                                                },
+                                                            }),
+                                                            new sap.extension.m.PropertyObjectAttribute("", {
+                                                                title: ibas.i18n.prop("bo_materialinventoryreservation_causes"),
+                                                                dataInfo: {
+                                                                    code: bo.MaterialInventoryReservation.BUSINESS_OBJECT_CODE,
+                                                                },
+                                                                propertyName: "causes",
+                                                                bindingValue: {
+                                                                    path: "causes",
+                                                                    type: new sap.extension.data.Alphanumeric(),
+                                                                },
+                                                            }),
+                                                            new sap.extension.m.PropertyObjectAttribute("", {
+                                                                title: ibas.i18n.prop("bo_materialinventoryreservation_remarks"),
+                                                                bindingValue: {
+                                                                    path: "remarks",
+                                                                    type: new sap.extension.data.Alphanumeric(),
+                                                                },
+                                                            }),
+                                                        ],
+                                                    })
+                                                },
+                                            }).addStyleClass("sapUxAPObjectPageSubSectionAlignContent"),
+                                        ]
+                                    }),
+                                ]
+                            }),
                         ],
                     });
                     return this.container = new sap.m.NavContainer("", {
@@ -632,6 +744,7 @@ namespace materials {
                 private listInventory: sap.m.List;
                 private listBatch: sap.m.List;
                 private listSerial: sap.m.List;
+                private listReservation: sap.m.List;
                 private tableMaterials: sap.extension.m.List;
                 /** 嵌入查询面板 */
                 embedded(view: any): void {
@@ -715,6 +828,10 @@ namespace materials {
                 /** 显示物料序列信息 */
                 showMaterialSerial(datas: bo.IMaterialSerial[]): void {
                     this.listSerial.setModel(new sap.extension.model.JSONModel({ rows: datas }));
+                }
+                /** 显示物料库存预留信息 */
+                showMaterialReservation(datas: bo.IMaterialInventoryReservation[]): void {
+                    this.listReservation.setModel(new sap.extension.model.JSONModel({ rows: datas }));
                 }
             }
         }

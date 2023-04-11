@@ -31,6 +31,7 @@ namespace materials {
                                     path: "itemCode",
                                     type: new sap.extension.data.Alphanumeric()
                                 }),
+                                width: "12rem",
                             }),
                             new sap.extension.table.DataColumn("", {
                                 label: ibas.i18n.prop("bo_material") + ibas.i18n.prop("bo_material_name"),
@@ -45,6 +46,7 @@ namespace materials {
                                     path: "itemCode",
                                     type: new sap.extension.data.Alphanumeric()
                                 }),
+                                width: "14rem",
                             }),
                             new sap.extension.table.DataColumn("", {
                                 label: ibas.i18n.prop("bo_warehouse"),
@@ -67,6 +69,7 @@ namespace materials {
                                     path: "serialCode",
                                     type: new sap.extension.data.Alphanumeric()
                                 }),
+                                width: "12rem",
                             }),
                             new sap.extension.table.DataColumn("", {
                                 label: ibas.i18n.prop("bo_materialserial_instock"),
@@ -75,6 +78,7 @@ namespace materials {
                                     path: "inStock",
                                     type: new sap.extension.data.YesNo(true)
                                 }),
+                                width: "6rem",
                             }),
                             new sap.extension.table.DataColumn("", {
                                 label: ibas.i18n.prop("bo_materialserial_supplierserial"),
@@ -115,6 +119,7 @@ namespace materials {
                                     path: "notes",
                                     type: new sap.extension.data.Alphanumeric()
                                 }),
+                                width: "16rem",
                             }),
                         ],
                         nextDataSet(event: sap.ui.base.Event): void {

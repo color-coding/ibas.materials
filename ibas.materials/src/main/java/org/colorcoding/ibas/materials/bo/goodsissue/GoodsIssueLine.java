@@ -1478,7 +1478,24 @@ public class GoodsIssueLine extends BusinessObject<GoodsIssueLine>
 						return GoodsIssueLine.this.getSerialManagement();
 					}
 
-				} };
+					@Override
+					public String getBaseDocumentType() {
+						return GoodsIssueLine.this.getBaseDocumentType();
+					}
+
+					@Override
+					public Integer getBaseDocumentEntry() {
+						return GoodsIssueLine.this.getBaseDocumentEntry();
+					}
+
+					@Override
+					public Integer getBaseDocumentLineId() {
+						return GoodsIssueLine.this.getBaseDocumentLineId();
+					}
+
+				}
+
+		};
 	}
 
 }

@@ -34,6 +34,8 @@ namespace materials {
                 this.view.editMaterialBatchEvent = this.editMaterialBatch;
                 this.view.fetchMaterialSerialEvent = this.fetchMaterialSerial;
                 this.view.editMaterialSerialEvent = this.editMaterialSerial;
+                this.view.fetchMaterialReservationEvent = this.fetchMaterialReservation;
+                this.view.releaseMaterialReservationEvent = this.releaseMaterialReservation;
             }
             /** 视图显示后 */
             protected viewShowed(): void {
@@ -166,7 +168,7 @@ namespace materials {
                     }
                 });
             }
-            private editMaterialBatch(data: bo.MaterialBatch): void {
+            private editMaterialBatch(data: bo.MaterialBatch | bo.MaterialInventoryReservation): void {
                 // 检查目标数据
                 if (ibas.objects.isNull(data)) {
                     this.messages(ibas.emMessageType.WARNING, ibas.i18n.prop("shell_please_chooose_data",
@@ -174,10 +176,27 @@ namespace materials {
                     ));
                     return;
                 }
-                let app: MaterialBatchEditApp = new MaterialBatchEditApp();
-                app.navigation = this.navigation;
-                app.viewShower = this.viewShower;
-                app.run(data);
+                if (data instanceof bo.MaterialInventoryReservation) {
+                    let criteria: ibas.Criteria = new ibas.Criteria();
+                    let condition: ibas.ICondition = criteria.conditions.create();
+                    condition.alias = bo.MaterialBatch.PROPERTY_WAREHOUSE_NAME;
+                    condition.value = data.warehouse;
+                    condition = criteria.conditions.create();
+                    condition.alias = bo.MaterialBatch.PROPERTY_ITEMCODE_NAME;
+                    condition.value = data.itemCode;
+                    condition = criteria.conditions.create();
+                    condition.alias = bo.MaterialBatch.PROPERTY_BATCHCODE_NAME;
+                    condition.value = data.batchCode;
+                    let app: MaterialBatchEditApp = new MaterialBatchEditApp();
+                    app.navigation = this.navigation;
+                    app.viewShower = this.viewShower;
+                    app.run(criteria);
+                } else if (data instanceof bo.MaterialBatch) {
+                    let app: MaterialBatchEditApp = new MaterialBatchEditApp();
+                    app.navigation = this.navigation;
+                    app.viewShower = this.viewShower;
+                    app.run(data);
+                }
             }
             private fetchMaterialSerial(data: bo.IMaterial, validOnly: boolean = true): void {
                 // 检查目标数据
@@ -214,7 +233,7 @@ namespace materials {
                     }
                 });
             }
-            private editMaterialSerial(data: bo.MaterialSerial): void {
+            private editMaterialSerial(data: bo.MaterialSerial | bo.MaterialInventoryReservation): void {
                 // 检查目标数据
                 if (ibas.objects.isNull(data)) {
                     this.messages(ibas.emMessageType.WARNING, ibas.i18n.prop("shell_please_chooose_data",
@@ -222,10 +241,109 @@ namespace materials {
                     ));
                     return;
                 }
-                let app: MaterialSerialEditApp = new MaterialSerialEditApp();
-                app.navigation = this.navigation;
-                app.viewShower = this.viewShower;
-                app.run(data);
+                if (data instanceof bo.MaterialInventoryReservation) {
+                    let criteria: ibas.Criteria = new ibas.Criteria();
+                    let condition: ibas.ICondition = criteria.conditions.create();
+                    condition.alias = bo.MaterialSerial.PROPERTY_WAREHOUSE_NAME;
+                    condition.value = data.warehouse;
+                    condition = criteria.conditions.create();
+                    condition.alias = bo.MaterialSerial.PROPERTY_ITEMCODE_NAME;
+                    condition.value = data.itemCode;
+                    condition = criteria.conditions.create();
+                    condition.alias = bo.MaterialSerial.PROPERTY_SERIALCODE_NAME;
+                    condition.value = data.serialCode;
+                    let app: MaterialSerialEditApp = new MaterialSerialEditApp();
+                    app.navigation = this.navigation;
+                    app.viewShower = this.viewShower;
+                    app.run(criteria);
+                } else if (data instanceof bo.MaterialSerial) {
+                    let app: MaterialSerialEditApp = new MaterialSerialEditApp();
+                    app.navigation = this.navigation;
+                    app.viewShower = this.viewShower;
+                    app.run(data);
+                }
+            }
+            private fetchMaterialReservation(data: bo.IMaterial): void {
+                // 检查目标数据
+                if (ibas.objects.isNull(data)) {
+                    this.proceeding(ibas.emMessageType.WARNING, ibas.i18n.prop("shell_please_chooose_data", ""));
+                    return;
+                }
+                let criteria: ibas.ICriteria = new ibas.Criteria();
+                let condition: ibas.ICondition = criteria.conditions.create();
+                condition.alias = bo.MaterialInventoryReservation.PROPERTY_ITEMCODE_NAME;
+                condition.value = data.code;
+                let that: this = this;
+                let boRepository: bo.BORepositoryMaterials = new bo.BORepositoryMaterials();
+                boRepository.fetchMaterialInventoryReservation({
+                    criteria: criteria,
+                    onCompleted(opRslt: ibas.IOperationResult<bo.IMaterialInventoryReservation>): void {
+                        try {
+                            that.busy(false);
+                            if (opRslt.resultCode !== 0) {
+                                throw new Error(opRslt.message);
+                            }
+                            if (opRslt.resultObjects.length === 0) {
+                                that.proceeding(ibas.emMessageType.INFORMATION, ibas.i18n.prop("shell_data_fetched_none"));
+                            }
+                            that.view.showMaterialReservation(opRslt.resultObjects);
+                        } catch (error) {
+                            that.messages(error);
+                        }
+                    }
+                });
+            }
+            /** 释放预留库存 */
+            private releaseMaterialReservation(data: bo.MaterialInventoryReservation | bo.MaterialInventoryReservation[]): void {
+                let datas: ibas.IList<bo.MaterialInventoryReservation> = ibas.arrays.create(data);
+                // 没有选择删除的对象
+                if (datas.length === 0) {
+                    this.messages(ibas.emMessageType.WARNING, ibas.i18n.prop("shell_please_chooose_data",
+                        ibas.i18n.prop("shell_data_delete")
+                    ));
+                    return;
+                }
+                // 标记删除对象
+                datas.forEach((value) => {
+                    value.delete();
+                });
+                let that: this = this;
+                this.messages({
+                    type: ibas.emMessageType.QUESTION,
+                    title: ibas.i18n.prop(this.name),
+                    message: ibas.i18n.prop("shell_multiple_data_delete_continue", datas.length),
+                    actions: [ibas.emMessageAction.YES, ibas.emMessageAction.NO],
+                    onCompleted(action: ibas.emMessageAction): void {
+                        if (action !== ibas.emMessageAction.YES) {
+                            return;
+                        }
+                        let boRepository: bo.BORepositoryMaterials = new bo.BORepositoryMaterials();
+                        ibas.queues.execute(datas, (data, next) => {
+                            // 处理数据
+                            boRepository.saveMaterialInventoryReservation({
+                                beSaved: data,
+                                onCompleted(opRslt: ibas.IOperationResult<bo.MaterialInventoryReservation>): void {
+                                    if (opRslt.resultCode !== 0) {
+                                        next(new Error(ibas.i18n.prop("shell_data_delete_error", data, opRslt.message)));
+                                    } else {
+                                        next();
+                                    }
+                                }
+                            });
+                            that.proceeding(ibas.emMessageType.INFORMATION, ibas.i18n.prop("shell_data_deleting", data));
+                        }, (error) => {
+                            // 处理完成
+                            if (error instanceof Error) {
+                                that.messages(ibas.emMessageType.ERROR, error.message);
+                            } else {
+                                that.messages(ibas.emMessageType.SUCCESS,
+                                    ibas.i18n.prop("shell_data_delete") + ibas.i18n.prop("shell_sucessful"));
+                            }
+                            that.busy(false);
+                        });
+                        that.busy(true);
+                    }
+                });
             }
         }
         /** 视图-物料 */
@@ -252,6 +370,12 @@ namespace materials {
             editMaterialSerialEvent: Function;
             /** 显示物料序列信息 */
             showMaterialSerial(datas: bo.IMaterialSerial[]): void;
+            /** 查询预留信息 */
+            fetchMaterialReservationEvent: Function;
+            /** 释放预留信息 */
+            releaseMaterialReservationEvent: Function;
+            /** 显示物料预留信息 */
+            showMaterialReservation(datas: bo.IMaterialInventoryReservation[]): void;
         }
     }
 }

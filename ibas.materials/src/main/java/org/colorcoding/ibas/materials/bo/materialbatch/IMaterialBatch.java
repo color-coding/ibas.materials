@@ -104,6 +104,20 @@ public interface IMaterialBatch extends IBOSimple {
 	void setLocked(emYesNo value);
 
 	/**
+	 * 获取-预留数量
+	 * 
+	 * @return 值
+	 */
+	BigDecimal getReservedQuantity();
+
+	/**
+	 * 设置-预留数量
+	 * 
+	 * @param value 值
+	 */
+	void setReservedQuantity(BigDecimal value);
+
+	/**
 	 * 获取-供应商序号
 	 *
 	 * @return 值

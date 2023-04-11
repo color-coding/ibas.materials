@@ -33,12 +33,12 @@ namespace materials {
                             }),
                             new sap.extension.table.DataColumn("", {
                                 label: ibas.i18n.prop("bo_specification_name"),
-                                width: "16rem",
                                 template: new sap.extension.m.Text("", {
                                 }).bindProperty("bindingValue", {
                                     path: "name",
                                     type: new sap.extension.data.Alphanumeric()
                                 }),
+                                width: "16rem",
                             }),
                             new sap.extension.table.DataColumn("", {
                                 label: ibas.i18n.prop("bo_specification_activated"),
@@ -47,6 +47,7 @@ namespace materials {
                                     path: "activated",
                                     type: new sap.extension.data.YesNo(true)
                                 }),
+                                width: "8rem",
                             }),
                             new sap.extension.table.DataColumn("", {
                                 label: ibas.i18n.prop("bo_specification_targettype"),
@@ -58,16 +59,17 @@ namespace materials {
                                         describe: true,
                                     })
                                 }),
+                                width: "8rem",
                             }),
                             new sap.extension.table.DataColumn("", {
                                 label: ibas.i18n.prop("bo_specification_target"),
-                                width: "20rem",
                                 template: new component.MaterialOrMaterialGroupText("", {
                                     typeProperty: "targetType",
                                 }).bindProperty("bindingValue", {
                                     path: "target",
                                     type: new sap.extension.data.Alphanumeric()
                                 }),
+                                width: "20rem",
                             }),
                             new sap.extension.table.DataColumn("", {
                                 label: ibas.i18n.prop("bo_specification_assignedtype"),
@@ -79,16 +81,17 @@ namespace materials {
                                         describe: true,
                                     }),
                                 }),
+                                width: "8rem",
                             }),
                             new sap.extension.table.DataColumn("", {
                                 label: ibas.i18n.prop("bo_specification_assigned"),
-                                width: "15rem",
                                 template: new component.BusinessPartnerOrGroupText("", {
                                     typeProperty: "assignedType",
                                 }).bindProperty("bindingValue", {
                                     path: "assigned",
                                     type: new sap.extension.data.Alphanumeric()
                                 }),
+                                width: "14rem",
                             }),
                             new sap.extension.table.DataColumn("", {
                                 label: ibas.i18n.prop("bo_specification_validdate"),
@@ -105,6 +108,15 @@ namespace materials {
                                     path: "invalidDate",
                                     type: new sap.extension.data.Date(),
                                 }),
+                            }),
+                            new sap.extension.table.DataColumn("", {
+                                label: ibas.i18n.prop("bo_specification_remarks"),
+                                template: new sap.extension.m.Text("", {
+                                }).bindProperty("bindingValue", {
+                                    path: "remarks",
+                                    type: new sap.extension.data.Alphanumeric(),
+                                }),
+                                width: "24rem",
                             }),
                         ],
                         nextDataSet(event: sap.ui.base.Event): void {

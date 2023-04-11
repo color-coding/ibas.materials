@@ -81,6 +81,39 @@ namespace materials {
                 this.setProperty(MaterialInventoryJournal.PROPERTY_BASEDOCUMENTLINEID_NAME, value);
             }
 
+            /** 映射的属性名称-原始类型 */
+            static PROPERTY_ORIGINALDOCUMENTTYPE_NAME: string = "OriginalDocumentType";
+            /** 获取-原始类型 */
+            get originalDocumentType(): string {
+                return this.getProperty<string>(MaterialInventoryJournal.PROPERTY_ORIGINALDOCUMENTTYPE_NAME);
+            }
+            /** 设置-原始类型 */
+            set originalDocumentType(value: string) {
+                this.setProperty(MaterialInventoryJournal.PROPERTY_ORIGINALDOCUMENTTYPE_NAME, value);
+            }
+            /** 映射的属性名称-原始标识 */
+            static PROPERTY_ORIGINALDOCUMENTENTRY_NAME: string = "OriginalDocumentEntry";
+            /** 获取-原始标识 */
+            get originalDocumentEntry(): number {
+                return this.getProperty<number>(MaterialInventoryJournal.PROPERTY_ORIGINALDOCUMENTENTRY_NAME);
+            }
+            /** 设置-原始标识 */
+            set originalDocumentEntry(value: number) {
+                this.setProperty(MaterialInventoryJournal.PROPERTY_ORIGINALDOCUMENTENTRY_NAME, value);
+            }
+
+            /** 映射的属性名称-原始行号 */
+            static PROPERTY_ORIGINALDOCUMENTLINEID_NAME: string = "OriginalDocumentLineId";
+            /** 获取-原始行号 */
+            get originalDocumentLineId(): number {
+                return this.getProperty<number>(MaterialInventoryJournal.PROPERTY_ORIGINALDOCUMENTLINEID_NAME);
+            }
+            /** 设置-原始行号 */
+            set originalDocumentLineId(value: number) {
+                this.setProperty(MaterialInventoryJournal.PROPERTY_ORIGINALDOCUMENTLINEID_NAME, value);
+            }
+
+
             /** 映射的属性名称-方向 */
             static PROPERTY_DIRECTION_NAME: string = "Direction";
             /** 获取-方向 */

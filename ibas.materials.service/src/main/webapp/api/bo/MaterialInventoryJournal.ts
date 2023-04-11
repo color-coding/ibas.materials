@@ -29,6 +29,15 @@ namespace materials {
             /** 基于行号 */
             baseDocumentLineId: number;
 
+            /** 原始类型 */
+            originalDocumentType: string;
+
+            /** 原始标识 */
+            originalDocumentEntry: number;
+
+            /** 原始行号 */
+            originalDocumentLineId: number;
+
             /** 方向 */
             direction: ibas.emDirection;
 

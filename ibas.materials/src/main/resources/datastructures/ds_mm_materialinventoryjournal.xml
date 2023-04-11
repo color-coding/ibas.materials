@@ -16,6 +16,9 @@
     <Property Name="BaseDocumentType" Description="基于类型" DataType="Alphanumeric" DataSubType="Default" EditSize="30" Mapped="BaseType" UniqueKey="Yes"/>
     <Property Name="BaseDocumentEntry" Description="基于标识" DataType="Numeric" DataSubType="Default" EditSize="8" Mapped="BaseEntry" UniqueKey="Yes"/>
     <Property Name="BaseDocumentLineId" Description="基于行号" DataType="Numeric" DataSubType="Default" EditSize="8" Mapped="BaseLine" UniqueKey="Yes"/>
+    <Property Name="OriginalDocumentType" Description="原始类型" DataType="Alphanumeric" DataSubType="Default" EditSize="30" Mapped="OrgnlType"/>
+    <Property Name="OriginalDocumentEntry" Description="原始标识" DataType="Numeric" DataSubType="Default" EditSize="8" Mapped="OrgnlEntry"/>
+    <Property Name="OriginalDocumentLineId" Description="原始行号" DataType="Numeric" DataSubType="Default" EditSize="8" Mapped="OrgnlLine"/>
     <Property Name="ObjectKey" Description="对象编号" DataType="Numeric" DataSubType="Default" EditSize="8" Mapped="ObjectKey" PrimaryKey="Yes"/>
     <Property Name="ObjectCode" Description="对象类型" DataType="Alphanumeric" DataSubType="Default" EditSize="30" Mapped="ObjectCode"/>
     <Property Name="CreateDate" Description="创建日期" DataType="Date" DataSubType="Default" EditSize="8" Mapped="CreateDate"/>

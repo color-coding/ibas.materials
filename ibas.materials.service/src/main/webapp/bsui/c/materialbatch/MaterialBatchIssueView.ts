@@ -119,7 +119,8 @@ namespace materials {
                     this.tableItems = new sap.extension.m.List("", {
                         chooseType: ibas.emChooseType.NONE,
                         mode: sap.m.ListMode.None,
-                        growing: false,
+                        growing: true,
+                        growingThreshold: 30,
                         noDataText: ibas.i18n.prop(["shell_please", "shell_data_choose", "bo_materialbatch"]),
                         items: {
                             path: "/rows",
@@ -269,7 +270,8 @@ namespace materials {
                     this.tableInventories = new sap.extension.m.List("", {
                         chooseType: ibas.emChooseType.NONE,
                         mode: sap.m.ListMode.None,
-                        growing: false,
+                        growing: true,
+                        growingThreshold: 30,
                         noDataText: ibas.i18n.prop(["shell_please", "shell_data_choose", "bo_material"]),
                         items: {
                             path: "/rows",

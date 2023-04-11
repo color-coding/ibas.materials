@@ -73,6 +73,20 @@ class MaterialSerialItem extends org.colorcoding.ibas.materials.bo.materialseria
 						return MaterialSerialItem.this.getDocumentEntry();
 					}
 
+					@Override
+					public String getBaseDocumentType() {
+						return null;
+					}
+
+					@Override
+					public Integer getBaseDocumentEntry() {
+						return null;
+					}
+
+					@Override
+					public Integer getBaseDocumentLineId() {
+						return null;
+					}
 				}, new IMaterialSerialJournalContract() {
 					@Override
 					public emDirection getDirection() {
@@ -117,6 +131,21 @@ class MaterialSerialItem extends org.colorcoding.ibas.materials.bo.materialseria
 					@Override
 					public Integer getDocumentEntry() {
 						return MaterialSerialItem.this.getDocumentEntry();
+					}
+
+					@Override
+					public String getBaseDocumentType() {
+						return null;
+					}
+
+					@Override
+					public Integer getBaseDocumentEntry() {
+						return null;
+					}
+
+					@Override
+					public Integer getBaseDocumentLineId() {
+						return null;
 					}
 				}
 
