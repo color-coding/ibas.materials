@@ -263,7 +263,8 @@ namespace materials {
                     boRepository.fetchMaterial({
                         criteria: criteria,
                         onCompleted: (opRslt) => {
-                            let beChangeds: ibas.IList<materials.app.IBeChangedUOMSource> = new ibas.ArrayList<materials.app.IBeChangedUOMSource>();
+                            let beChangeds: ibas.IList<materials.app.IBeChangedUOMSourceEx<ReservationWorkingItem>>
+                                = new ibas.ArrayList<materials.app.IBeChangedUOMSourceEx<ReservationWorkingItem>>();
                             for (let item of this.workingData.items) {
                                 let material: bo.IMaterial = opRslt.resultObjects.firstOrDefault(c => c.code === item.itemCode);
                                 if (ibas.objects.isNull(material)) {
@@ -278,7 +279,7 @@ namespace materials {
                                     sourceUnit: item.uom,
                                     targetUnit: item.inventoryUOM,
                                     material: item.itemCode,
-                                    setUnitRate(this: ReservationWorkingItem, value: number): void {
+                                    setUnitRate(value: number): void {
                                         this.uomRate = value;
                                     }
                                 });

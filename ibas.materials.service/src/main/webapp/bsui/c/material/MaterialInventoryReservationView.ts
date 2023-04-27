@@ -622,54 +622,74 @@ namespace materials {
                         content: [
                             new sap.m.SplitContainer("", {
                                 masterPages: [
-                                    new sap.m.Page("", {
-                                        showHeader: false,
-                                        content: [
-                                            new sap.m.Toolbar("", {
+                                    new sap.ui.layout.Splitter("", {
+                                        orientation: sap.ui.core.Orientation.Vertical,
+                                        contentAreas: [
+                                            new sap.m.Page("", {
+                                                showHeader: false,
+                                                enableScrolling: false,
+                                                layoutData: new sap.ui.layout.SplitterLayoutData("", {
+                                                    size: {
+                                                        path: "/businessPartner",
+                                                        type: new sap.extension.data.Alphanumeric(),
+                                                        formatter(data: any): string {
+                                                            return ibas.strings.isEmpty(data) ? "2rem" : "4rem";
+                                                        }
+                                                    },
+                                                    resizable: false,
+                                                }),
                                                 content: [
-                                                    new sap.m.Title("", {
-                                                        titleStyle: sap.ui.core.TitleLevel.H4,
-                                                        text: {
-                                                            parts: [
-                                                                {
-                                                                    path: "/targetType",
+                                                    new sap.m.Toolbar("", {
+                                                        content: [
+                                                            new sap.m.Title("", {
+                                                                titleStyle: sap.ui.core.TitleLevel.H4,
+                                                                text: {
+                                                                    parts: [
+                                                                        {
+                                                                            path: "/targetType",
+                                                                            type: new sap.extension.data.Alphanumeric(),
+                                                                        },
+                                                                        {
+                                                                            path: "/targetEntry",
+                                                                            type: new sap.extension.data.Numeric(),
+                                                                        },
+                                                                    ],
+                                                                    formatter(type: string, entry: number): string {
+                                                                        return ibas.businessobjects.describe(ibas.strings.format("{[{0}].[DocEntry = {1}]}", type, entry));
+                                                                    }
+                                                                }
+                                                            }),
+
+                                                        ],
+                                                    }),
+                                                    new sap.m.Toolbar("", {
+                                                        content: [
+                                                            new sap.extension.m.ObjectAttribute("", {
+                                                                title: ibas.i18n.prop("bo_materialinventoryreservation_businesspartner"),
+                                                                bindingValue: {
+                                                                    path: "/businessPartner",
                                                                     type: new sap.extension.data.Alphanumeric(),
-                                                                },
-                                                                {
-                                                                    path: "/targetEntry",
-                                                                    type: new sap.extension.data.Numeric(),
-                                                                },
-                                                            ],
-                                                            formatter(type: string, entry: number): string {
-                                                                return ibas.businessobjects.describe(ibas.strings.format("{[{0}].[DocEntry = {1}]}", type, entry));
+                                                                }
+                                                            }),
+                                                        ],
+                                                        visible: {
+                                                            path: "/businessPartner",
+                                                            type: new sap.extension.data.Alphanumeric(),
+                                                            formatter(data: any): boolean {
+                                                                return ibas.strings.isEmpty(data) ? false : true;
                                                             }
                                                         }
                                                     }),
-
-                                                ],
+                                                ]
                                             }),
-                                            new sap.m.Toolbar("", {
+                                            new sap.m.Page("", {
+                                                showHeader: false,
                                                 content: [
-                                                    new sap.extension.m.ObjectAttribute("", {
-                                                        title: ibas.i18n.prop("bo_materialinventoryreservation_businesspartner"),
-                                                        bindingValue: {
-                                                            path: "/businessPartner",
-                                                            type: new sap.extension.data.Alphanumeric(),
-                                                        }
-
-                                                    }),
-                                                ],
-                                                visible: {
-                                                    path: "/businessPartner",
-                                                    type: new sap.extension.data.Alphanumeric(),
-                                                    formatter(data: any): boolean {
-                                                        return ibas.strings.isEmpty(data) ? false : true;
-                                                    }
-                                                }
+                                                    this.tableWorkItems
+                                                ]
                                             }),
-                                            this.tableWorkItems
                                         ]
-                                    }),
+                                    })
                                 ],
                                 detailPages: [
                                     new sap.ui.layout.Splitter("", {
@@ -902,7 +922,7 @@ namespace materials {
                 private container: sap.m.NavContainer;
 
                 showWorkingData(data: app.ReservationWorking): void {
-                    this.tableWorkItems.getParent().setModel(new sap.extension.model.JSONModel(data));
+                    this.tableWorkItems.getParent().getParent().setModel(new sap.extension.model.JSONModel(data));
                     this.tableWorkItems.setModel(new sap.extension.model.JSONModel(data.items));
                 }
                 showInventories(datas: bo.MaterialInventory[] | bo.MaterialBatch[] | bo.MaterialSerial[]): void {

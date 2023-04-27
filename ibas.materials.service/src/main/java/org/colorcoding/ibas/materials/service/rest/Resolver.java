@@ -16,6 +16,7 @@ import org.colorcoding.ibas.materials.bo.material.Material;
 import org.colorcoding.ibas.materials.bo.material.MaterialGroup;
 import org.colorcoding.ibas.materials.bo.material.MaterialPrice;
 import org.colorcoding.ibas.materials.bo.material.MaterialQuantity;
+import org.colorcoding.ibas.materials.bo.material.MaterialSubstitute;
 import org.colorcoding.ibas.materials.bo.material.MaterialVersion;
 import org.colorcoding.ibas.materials.bo.materialbatch.MaterialBatch;
 import org.colorcoding.ibas.materials.bo.materialbatch.MaterialBatchJournal;
@@ -50,7 +51,8 @@ public class Resolver implements ContextResolver<JAXBContext> {
 						MaterialInventoryJournal.class, MaterialPriceList.class, MaterialSerial.class,
 						MaterialSerialJournal.class, Warehouse.class, MaterialQuantity.class, MaterialPrice.class,
 						MaterialSpecification.class, Specification.class, Unit.class, UnitRate.class,
-						MaterialVersion.class, MaterialScrap.class, MaterialInventoryReservation.class);
+						MaterialVersion.class, MaterialScrap.class, MaterialInventoryReservation.class,
+						MaterialSubstitute.class);
 			}
 		} catch (JAXBException e) {
 			e.printStackTrace();

@@ -13,3 +13,4 @@
 /// <reference path="./MaterialViewView.ts" />
 /// <reference path="./ProductChooseView.ts" />
 /// <reference path="./MaterialInventoryReservationView.ts" />
+/// <reference path="./MaterialSubstituteListView.ts" />

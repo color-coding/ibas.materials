@@ -74,6 +74,8 @@ namespace materials {
         export const BO_CODE_MATERIALSCRAP: string = "${Company}_MM_MATERIALSCRAP";
         /** 业务对象编码-物料库存预留 */
         export const BO_CODE_MATERIALINVENTORYRESERVATION: string = "${Company}_MM_RESERVATION";
+        /** 业务对象编码-物料替代 */
+        export const BO_CODE_MATERIALSUBSTITUTE: string = "${Company}_MM_SUBSTITUTE";
 
         /** 物料类型 */
         export enum emItemType {
@@ -648,6 +650,58 @@ namespace materials {
                     return criteria;
                 }
             }
+            export namespace materialsubstitute {
+                /** 默认查询条件 */
+                export function create(): ibas.IList<ibas.ICondition> {
+                    let today: string = ibas.dates.toString(ibas.dates.today(), "yyyy-MM-dd");
+                    let condition: ibas.ICondition;
+                    let conditions: ibas.IList<ibas.ICondition> = new ibas.ArrayList<ibas.ICondition>();
+                    // 激活的
+                    condition = new ibas.Condition();
+                    condition.bracketOpen = 1;
+                    condition.alias = bo.MaterialSubstitute.PROPERTY_ACTIVATED_NAME;
+                    condition.operation = ibas.emConditionOperation.EQUAL;
+                    condition.value = ibas.emYesNo.YES.toString();
+                    conditions.add(condition);
+                    // 有效日期
+                    condition = new ibas.Condition();
+                    condition.bracketOpen = 1;
+                    condition.alias = bo.MaterialSubstitute.PROPERTY_VALIDDATE_NAME;
+                    condition.operation = ibas.emConditionOperation.IS_NULL;
+                    conditions.add(condition);
+                    condition = new ibas.Condition();
+                    condition.relationship = ibas.emConditionRelationship.OR;
+                    condition.bracketOpen = 1;
+                    condition.alias = bo.MaterialSubstitute.PROPERTY_VALIDDATE_NAME;
+                    condition.operation = ibas.emConditionOperation.NOT_NULL;
+                    conditions.add(condition);
+                    condition = new ibas.Condition();
+                    condition.bracketClose = 2;
+                    condition.alias = bo.MaterialSubstitute.PROPERTY_VALIDDATE_NAME;
+                    condition.operation = ibas.emConditionOperation.LESS_EQUAL;
+                    condition.value = today;
+                    conditions.add(condition);
+                    // 失效日期
+                    condition = new ibas.Condition();
+                    condition.bracketOpen = 1;
+                    condition.alias = bo.MaterialSubstitute.PROPERTY_INVALIDDATE_NAME;
+                    condition.operation = ibas.emConditionOperation.IS_NULL;
+                    conditions.add(condition);
+                    condition = new ibas.Condition();
+                    condition.relationship = ibas.emConditionRelationship.OR;
+                    condition.bracketOpen = 1;
+                    condition.alias = bo.MaterialSubstitute.PROPERTY_INVALIDDATE_NAME;
+                    condition.operation = ibas.emConditionOperation.NOT_NULL;
+                    conditions.add(condition);
+                    condition = new ibas.Condition();
+                    condition.bracketClose = 3;
+                    condition.alias = bo.MaterialSubstitute.PROPERTY_INVALIDDATE_NAME;
+                    condition.operation = ibas.emConditionOperation.GRATER_EQUAL;
+                    condition.value = today;
+                    conditions.add(condition);
+                    return conditions;
+                }
+            }
         }
         export interface IBeChangedUOMSource {
             caller?: any;
@@ -655,6 +709,10 @@ namespace materials {
             readonly targetUnit: string;
             readonly material?: string;
             setUnitRate(value: number): void;
+        }
+        export interface IBeChangedUOMSourceEx<T> extends IBeChangedUOMSource {
+            caller?: T;
+            setUnitRate(this: T, value: number): void;
         }
         /**
          * 获取物料单位换算率

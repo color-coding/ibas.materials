@@ -11,6 +11,7 @@ import org.colorcoding.ibas.materials.bo.material.IMaterial;
 import org.colorcoding.ibas.materials.bo.material.IMaterialGroup;
 import org.colorcoding.ibas.materials.bo.material.IMaterialPrice;
 import org.colorcoding.ibas.materials.bo.material.IMaterialQuantity;
+import org.colorcoding.ibas.materials.bo.material.IMaterialSubstitute;
 import org.colorcoding.ibas.materials.bo.material.IMaterialVersion;
 import org.colorcoding.ibas.materials.bo.material.IProduct;
 import org.colorcoding.ibas.materials.bo.materialbatch.IMaterialBatch;
@@ -426,6 +427,23 @@ public interface IBORepositoryMaterialsApp extends IBORepositoryApplication {
 	 * @return 操作结果
 	 */
 	IOperationResult<IMaterialInventoryReservation> saveMaterialInventoryReservation(IMaterialInventoryReservation bo);
+
+	// --------------------------------------------------------------------------------------------//
+	/**
+	 * 查询-物料替代
+	 * 
+	 * @param criteria 查询
+	 * @return 操作结果
+	 */
+	IOperationResult<IMaterialSubstitute> fetchMaterialSubstitute(ICriteria criteria);
+
+	/**
+	 * 保存-物料替代
+	 * 
+	 * @param bo 对象实例
+	 * @return 操作结果
+	 */
+	IOperationResult<IMaterialSubstitute> saveMaterialSubstitute(IMaterialSubstitute bo);
 
 	// --------------------------------------------------------------------------------------------//
 

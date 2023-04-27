@@ -390,6 +390,22 @@ namespace materials {
             saveMaterialInventoryReservation(saver: ibas.ISaveCaller<bo.MaterialInventoryReservation>): void {
                 super.save(bo.MaterialInventoryReservation.name, saver);
             }
+
+            /**
+             * 查询 物料替代
+             * @param fetcher 查询者
+             */
+            fetchMaterialSubstitute(fetcher: ibas.IFetchCaller<bo.MaterialSubstitute>): void {
+                super.fetch(bo.MaterialSubstitute.name, fetcher);
+            }
+            /**
+             * 保存 物料替代
+             * @param saver 保存者
+             */
+            saveMaterialSubstitute(saver: ibas.ISaveCaller<bo.MaterialSubstitute>): void {
+                super.save(bo.MaterialSubstitute.name, saver);
+            }
+
         }
     }
 }

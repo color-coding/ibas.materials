@@ -30,6 +30,8 @@ namespace materials {
                 chooseSchedulerEvent: Function;
                 /** 选择物料单位换算率事件 */
                 editMaterialUnitRateEvent: Function;
+                /** 编辑物料替代事件 */
+                editMaterialSubstituteEvent: Function;
                 /** 绘制视图 */
                 public draw(): any {
                     let that: this = this;
@@ -695,15 +697,79 @@ namespace materials {
                                         ],
                                     })
                                 }),
-                                new sap.m.ToolbarSpacer(""),
-                                this.rateButton = new sap.m.Button("", {
-                                    text: ibas.i18n.prop("materials_app_unitrate_edit_list"),
+                                new sap.m.ToolbarSeparator(),
+                                this.quickButton = new sap.m.MenuButton("", {
+                                    text: ibas.i18n.prop("shell_quick_to"),
+                                    icon: "sap-icon://generate-shortcut",
                                     type: sap.m.ButtonType.Transparent,
-                                    icon: "sap-icon://collections-management",
-                                    press: function (): void {
-                                        that.fireViewEvents(that.editMaterialUnitRateEvent);
-                                    }
+                                    menu: new sap.m.Menu("", {
+                                        items: [
+                                            new sap.m.MenuItem("", {
+                                                text: ibas.i18n.prop("materials_app_unitrate_edit_list"),
+                                                icon: "sap-icon://collections-management",
+                                                press: function (): void {
+                                                    that.fireViewEvents(that.editMaterialUnitRateEvent);
+                                                }
+                                            }),
+                                            new sap.m.MenuItem("", {
+                                                text: ibas.i18n.prop("bo_materialsubstitute"),
+                                                icon: "sap-icon://add-product",
+                                                press: function (): void {
+                                                    that.fireViewEvents(that.editMaterialSubstituteEvent);
+                                                }
+                                            }),
+                                        ],
+                                    })
                                 }),
+                                new sap.m.ToolbarSpacer(""),
+                                new sap.m.Button("", {
+                                    type: sap.m.ButtonType.Transparent,
+                                    icon: "sap-icon://action",
+                                    press: function (event: any): void {
+                                        ibas.servicesManager.showServices({
+                                            proxy: new ibas.BOServiceProxy({
+                                                data: that.page.getModel().getData(),
+                                                converter: new bo.DataConverter(),
+                                            }),
+                                            displayServices(services: ibas.IServiceAgent[]): void {
+                                                if (ibas.objects.isNull(services) || services.length === 0) {
+                                                    return;
+                                                }
+                                                let actionSheet: sap.m.ActionSheet = new sap.m.ActionSheet("", {
+                                                    placement: sap.m.PlacementType.Bottom,
+                                                    buttons: {
+                                                        path: "/",
+                                                        template: new sap.m.Button("", {
+                                                            type: sap.m.ButtonType.Transparent,
+                                                            text: {
+                                                                path: "name",
+                                                                type: new sap.extension.data.Alphanumeric(),
+                                                                formatter(data: string): string {
+                                                                    return data ? ibas.i18n.prop(data) : "";
+                                                                }
+                                                            },
+                                                            icon: {
+                                                                path: "icon",
+                                                                type: new sap.extension.data.Alphanumeric(),
+                                                                formatter(data: string): string {
+                                                                    return data ? data : "sap-icon://e-care";
+                                                                }
+                                                            },
+                                                            press(this: sap.m.Button): void {
+                                                                let service: ibas.IServiceAgent = this.getBindingContext().getObject();
+                                                                if (service) {
+                                                                    service.run();
+                                                                }
+                                                            }
+                                                        })
+                                                    }
+                                                });
+                                                actionSheet.setModel(new sap.extension.model.JSONModel(services));
+                                                actionSheet.openBy(event.getSource());
+                                            }
+                                        });
+                                    }
+                                })
                             ]
                         }),
                         content: [
@@ -713,13 +779,13 @@ namespace materials {
                     });
                 }
                 private page: sap.extension.m.Page;
-                private rateButton: sap.m.Button;
+                private quickButton: sap.m.MenuButton;
                 /** 显示数据 */
                 showMaterial(data: bo.Material): void {
                     this.page.setModel(new sap.extension.model.JSONModel(data));
                     // 改变页面状态
                     sap.extension.pages.changeStatus(this.page);
-                    this.rateButton.setVisible(!data.isNew);
+                    this.quickButton.setVisible(!data.isNew);
                 }
             }
         }

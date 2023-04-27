@@ -36,6 +36,7 @@ namespace materials {
                 this.view.editMaterialUnitRateEvent = this.editMaterialUnitRate;
                 this.view.chooseMaterialScrapEvent = this.chooseMaterialScrap;
                 this.view.chooseSchedulerEvent = this.chooseScheduler;
+                this.view.editMaterialSubstituteEvent = this.editMaterialSubstitute;
             }
             /** 视图显示后 */
             protected viewShowed(): void {
@@ -292,6 +293,13 @@ namespace materials {
                     }
                 });
             }
+            /** 编辑物料替代事件 */
+            private editMaterialSubstitute(): void {
+                let app: MaterialSubstituteListApp = new MaterialSubstituteListApp();
+                app.navigation = this.navigation;
+                app.viewShower = this.viewShower;
+                app.run(this.editData);
+            }
         }
         /** 视图-物料 */
         export interface IMaterialEditView extends ibas.IBOEditView {
@@ -309,12 +317,14 @@ namespace materials {
             uploadPictureEvent: Function;
             /** 选择物料单位事件 */
             chooseMaterialUOMEvent: Function;
-            /** 选择物料单位换算率事件 */
+            /** 编辑物料单位换算率事件 */
             editMaterialUnitRateEvent: Function;
             /** 选择物废品率事件 */
             chooseMaterialScrapEvent: Function;
             /** 选择计划员事件 */
             chooseSchedulerEvent: Function;
+            /** 编辑物料替代事件 */
+            editMaterialSubstituteEvent: Function;
         }
     }
 }

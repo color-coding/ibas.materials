@@ -66,13 +66,6 @@ namespace materials {
                                 path: "activated",
                                 type: new sap.extension.data.YesNo()
                             }),
-                            new sap.m.Label("", { text: ibas.i18n.prop("bo_materialgroup_phantom") }),
-                            new sap.extension.m.EnumSelect("", {
-                                enumType: ibas.emYesNo
-                            }).bindProperty("bindingValue", {
-                                path: "phantom",
-                                type: new sap.extension.data.YesNo(),
-                            }),
                         ]
                     });
                     let formBottom: sap.ui.layout.form.SimpleForm = new sap.ui.layout.form.SimpleForm("", {
@@ -90,6 +83,21 @@ namespace materials {
                                                 editable: true,
                                                 content: [
                                                     new sap.m.Toolbar("", { visible: false }),
+                                                    new sap.m.Label("", { text: ibas.i18n.prop("bo_materialgroup_remarks") }),
+                                                    new sap.extension.m.TextArea("", {
+                                                        rows: 3,
+                                                    }).bindProperty("bindingValue", {
+                                                        path: "remarks",
+                                                        type: new sap.extension.data.Alphanumeric(),
+                                                    }),
+                                                    new sap.m.Toolbar("", { visible: false }),
+                                                    new sap.m.Label("", { text: ibas.i18n.prop("bo_materialgroup_phantom") }),
+                                                    new sap.extension.m.EnumSelect("", {
+                                                        enumType: ibas.emYesNo
+                                                    }).bindProperty("bindingValue", {
+                                                        path: "phantom",
+                                                        type: new sap.extension.data.YesNo(),
+                                                    }),
                                                     new sap.m.Label("", { text: ibas.i18n.prop("bo_materialgroup_parents") }),
                                                     new sap.extension.m.RepositoryInput("", {
                                                         showValueHelp: true,
@@ -102,20 +110,19 @@ namespace materials {
                                                         valueHelpRequest: function (): void {
                                                             that.fireViewEvents(that.chooseParentsEvent);
                                                         },
+                                                        editable: {
+                                                            path: "phantom",
+                                                            type: new sap.extension.data.YesNo(),
+                                                            formatter(data: any): boolean {
+                                                                return !data;
+                                                            }
+                                                        },
                                                     }).bindProperty("bindingValue", {
                                                         path: "parents",
                                                         type: new sap.extension.data.Alphanumeric({
                                                             maxLength: 60
                                                         })
                                                     }),
-                                                    new sap.m.Label("", { text: ibas.i18n.prop("bo_materialgroup_remarks") }),
-                                                    new sap.extension.m.TextArea("", {
-                                                        rows: 3,
-                                                    }).bindProperty("bindingValue", {
-                                                        path: "remarks",
-                                                        type: new sap.extension.data.Alphanumeric(),
-                                                    }),
-                                                    new sap.m.Toolbar("", { visible: false }),
                                                 ]
                                             })
                                         ]

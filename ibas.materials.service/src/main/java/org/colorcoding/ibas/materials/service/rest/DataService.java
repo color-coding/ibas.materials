@@ -17,6 +17,7 @@ import org.colorcoding.ibas.materials.bo.material.Material;
 import org.colorcoding.ibas.materials.bo.material.MaterialGroup;
 import org.colorcoding.ibas.materials.bo.material.MaterialPrice;
 import org.colorcoding.ibas.materials.bo.material.MaterialQuantity;
+import org.colorcoding.ibas.materials.bo.material.MaterialSubstitute;
 import org.colorcoding.ibas.materials.bo.material.MaterialVersion;
 import org.colorcoding.ibas.materials.bo.material.Product;
 import org.colorcoding.ibas.materials.bo.materialbatch.MaterialBatch;
@@ -722,6 +723,39 @@ public class DataService extends BORepositoryMaterials {
 	public OperationResult<MaterialInventoryReservation> saveMaterialInventoryReservation(
 			MaterialInventoryReservation bo, @QueryParam("token") String token) {
 		return super.saveMaterialInventoryReservation(bo, token);
+	}
+
+	// --------------------------------------------------------------------------------------------//
+	/**
+	 * 查询-物料替代
+	 * 
+	 * @param criteria 查询
+	 * @param token    口令
+	 * @return 操作结果
+	 */
+	@POST
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Path("fetchMaterialSubstitute")
+	public OperationResult<MaterialSubstitute> fetchMaterialSubstitute(Criteria criteria,
+			@QueryParam("token") String token) {
+		return super.fetchMaterialSubstitute(criteria, token);
+	}
+
+	/**
+	 * 保存-物料替代
+	 * 
+	 * @param bo    对象实例
+	 * @param token 口令
+	 * @return 操作结果
+	 */
+	@POST
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Path("saveMaterialSubstitute")
+	public OperationResult<MaterialSubstitute> saveMaterialSubstitute(MaterialSubstitute bo,
+			@QueryParam("token") String token) {
+		return super.saveMaterialSubstitute(bo, token);
 	}
 	// --------------------------------------------------------------------------------------------//
 

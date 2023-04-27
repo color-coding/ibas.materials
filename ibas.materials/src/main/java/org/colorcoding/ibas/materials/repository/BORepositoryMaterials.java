@@ -41,12 +41,14 @@ import org.colorcoding.ibas.materials.bo.material.IMaterial;
 import org.colorcoding.ibas.materials.bo.material.IMaterialGroup;
 import org.colorcoding.ibas.materials.bo.material.IMaterialPrice;
 import org.colorcoding.ibas.materials.bo.material.IMaterialQuantity;
+import org.colorcoding.ibas.materials.bo.material.IMaterialSubstitute;
 import org.colorcoding.ibas.materials.bo.material.IMaterialVersion;
 import org.colorcoding.ibas.materials.bo.material.IProduct;
 import org.colorcoding.ibas.materials.bo.material.Material;
 import org.colorcoding.ibas.materials.bo.material.MaterialGroup;
 import org.colorcoding.ibas.materials.bo.material.MaterialPrice;
 import org.colorcoding.ibas.materials.bo.material.MaterialQuantity;
+import org.colorcoding.ibas.materials.bo.material.MaterialSubstitute;
 import org.colorcoding.ibas.materials.bo.material.MaterialVersion;
 import org.colorcoding.ibas.materials.bo.material.Product;
 import org.colorcoding.ibas.materials.bo.materialbatch.IMaterialBatch;
@@ -2015,6 +2017,50 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 			IMaterialInventoryReservation bo) {
 		return new OperationResult<IMaterialInventoryReservation>(
 				this.saveMaterialInventoryReservation((MaterialInventoryReservation) bo, this.getUserToken()));
+	}
+
+	// --------------------------------------------------------------------------------------------//
+	/**
+	 * 查询-物料替代
+	 * 
+	 * @param criteria 查询
+	 * @param token    口令
+	 * @return 操作结果
+	 */
+	public OperationResult<MaterialSubstitute> fetchMaterialSubstitute(ICriteria criteria, String token) {
+		return super.fetch(criteria, token, MaterialSubstitute.class);
+	}
+
+	/**
+	 * 查询-物料替代（提前设置用户口令）
+	 * 
+	 * @param criteria 查询
+	 * @return 操作结果
+	 */
+	public IOperationResult<IMaterialSubstitute> fetchMaterialSubstitute(ICriteria criteria) {
+		return new OperationResult<IMaterialSubstitute>(this.fetchMaterialSubstitute(criteria, this.getUserToken()));
+	}
+
+	/**
+	 * 保存-物料替代
+	 * 
+	 * @param bo    对象实例
+	 * @param token 口令
+	 * @return 操作结果
+	 */
+	public OperationResult<MaterialSubstitute> saveMaterialSubstitute(MaterialSubstitute bo, String token) {
+		return super.save(bo, token);
+	}
+
+	/**
+	 * 保存-物料替代（提前设置用户口令）
+	 * 
+	 * @param bo 对象实例
+	 * @return 操作结果
+	 */
+	public IOperationResult<IMaterialSubstitute> saveMaterialSubstitute(IMaterialSubstitute bo) {
+		return new OperationResult<IMaterialSubstitute>(
+				this.saveMaterialSubstitute((MaterialSubstitute) bo, this.getUserToken()));
 	}
 	// --------------------------------------------------------------------------------------------//
 
