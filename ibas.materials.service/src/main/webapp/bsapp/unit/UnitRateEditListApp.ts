@@ -108,7 +108,7 @@ namespace materials {
                             let unitRate: bo.UnitRate = new bo.UnitRate();
                             unitRate.source = selected.name;
                             unitRate.target = that.material?.inventoryUOM;
-                            unitRate.condition = ibas.strings.format(conditions.unitrate.CONDITION_VALUE_TEMPLATE, that.material?.code)
+                            unitRate.condition = ibas.strings.format(conditions.unitrate.CONDITION_VALUE_TEMPLATE, that.material?.code);
                             unitRate.rate = 1;
                             that.editDatas.add(unitRate);
                         }
@@ -138,7 +138,7 @@ namespace materials {
                             if (!(data instanceof bo.UnitRate)) {
                                 let data: bo.UnitRate = new bo.UnitRate();
                                 data.target = that.material?.inventoryUOM;
-                                data.condition = ibas.strings.format(conditions.unitrate.CONDITION_VALUE_TEMPLATE, that.material?.code)
+                                data.condition = ibas.strings.format(conditions.unitrate.CONDITION_VALUE_TEMPLATE, that.material?.code);
                                 data.rate = 1;
                                 that.editDatas.add(data);
                             }
