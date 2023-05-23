@@ -308,6 +308,12 @@ namespace materials {
                                     new sap.m.Page("", {
                                         showHeader: false,
                                         content: [
+                                            new sap.m.MessageStrip("", {
+                                                customIcon: "sap-icon://lightbulb",
+                                                showIcon: true,
+                                                type: sap.ui.core.MessageType.Warning,
+                                                text: ibas.i18n.prop("materials_materialscrap_calculation_instructions"),
+                                            }),
                                             this.commonList,
                                             this.sectionList,
                                         ],

@@ -60,12 +60,22 @@ namespace materials {
                                     }),
                                     new sap.extension.m.ObjectIdentifier("", {
                                         title: {
-                                            path: "itemDescription",
+                                            path: "itemCode",
                                             type: new sap.extension.data.Alphanumeric(),
                                         },
                                         text: {
-                                            path: "itemCode",
+                                            path: "itemDescription",
                                             type: new sap.extension.data.Alphanumeric(),
+                                        },
+                                        titleActive: true,
+                                        titlePress(this: sap.extension.m.ObjectIdentifier): void {
+                                            let data: any = this.getTitle();
+                                            if (!ibas.strings.isEmpty(data)) {
+                                                ibas.servicesManager.runLinkService({
+                                                    boCode: materials.bo.Material.BUSINESS_OBJECT_CODE,
+                                                    linkValue: data,
+                                                });
+                                            }
                                         }
                                     }),
                                     new sap.extension.m.RepositoryObjectAttribute("", {
@@ -277,7 +287,7 @@ namespace materials {
                         ],
                         sections: [
                             new sap.uxap.ObjectPageSection("", {
-                                title: ibas.i18n.prop("bo_inventorycounting_inventorycountinglines"),
+                                title: ibas.i18n.prop("bo_inventorycountingline"),
                                 subSections: [
                                     new sap.uxap.ObjectPageSubSection("", {
                                         blocks: [
