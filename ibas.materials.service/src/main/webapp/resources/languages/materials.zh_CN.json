@@ -141,6 +141,7 @@
   "materials_auto_by_datetime_serial": "按时间+流水号",
   "materials_auto_by_order": "按顺序",
   "materials_details": "详情",
+  "materials_overview": "总览",
   "materials_restricted_warehouse": "限定仓库",
   "materials_no_warehouses_for_reservation": "没有允许预留的仓库",
   "materials_insufficient_inventory": "库存不足，此项不可用",

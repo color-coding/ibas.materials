@@ -42,6 +42,52 @@ namespace materials {
                 // 视图加载完成
                 super.viewShowed();
             }
+            run(criteria?: ibas.ICriteria | ibas.ICondition[]): void;
+            run(): void {
+                let criteria: ibas.ICriteria;
+                if (arguments[0] instanceof ibas.Criteria) {
+                    criteria = arguments[0];
+                } else if (arguments[0] instanceof Array) {
+                    criteria = new ibas.Criteria();
+                    for (let item of arguments[0]) {
+                        if (item instanceof ibas.Condition) {
+                            criteria.conditions.add(item);
+                        }
+                    }
+                }
+                if (ibas.objects.isNull(criteria)) {
+                    super.run.apply(this, arguments);
+                } else {
+                    this.busy(true);
+                    let that: this = this;
+                    let boRepository: bo.BORepositoryMaterials = new bo.BORepositoryMaterials();
+                    boRepository.fetchMaterial({
+                        criteria: criteria,
+                        onCompleted(opRslt: ibas.IOperationResult<bo.Material>): void {
+                            try {
+                                that.busy(false);
+                                if (opRslt.resultCode !== 0) {
+                                    throw new Error(opRslt.message);
+                                }
+                                if (!that.isViewShowed()) {
+                                    // 没显示视图，先显示
+                                    that.show();
+                                }
+                                if (opRslt.resultObjects.length === 0) {
+                                    that.proceeding(ibas.emMessageType.INFORMATION, ibas.i18n.prop("shell_data_fetched_none"));
+                                }
+                                that.view.showMaterials(opRslt.resultObjects);
+                                if (opRslt.resultObjects.length > 0) {
+                                    that.viewData(opRslt.resultObjects.firstOrDefault());
+                                }
+                            } catch (error) {
+                                that.messages(error);
+                            }
+                        }
+                    });
+                    this.proceeding(ibas.emMessageType.INFORMATION, ibas.i18n.prop("shell_fetching_data"));
+                }
+            }
             /** 查询数据 */
             protected fetchData(criteria: ibas.ICriteria): void {
                 this.busy(true);

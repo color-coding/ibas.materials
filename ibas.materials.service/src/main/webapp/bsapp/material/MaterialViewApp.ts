@@ -28,6 +28,7 @@ namespace materials {
                 super.registerView();
                 // 其他事件
                 this.view.editDataEvent = this.editData;
+                this.view.overviewEvent = this.overview;
             }
             /** 视图显示后 */
             protected viewShowed(): void {
@@ -92,11 +93,19 @@ namespace materials {
                 });
                 this.proceeding(ibas.emMessageType.INFORMATION, ibas.i18n.prop("shell_fetching_data"));
             }
+            protected overview(): void {
+                let app: MaterialOverviewApp = new MaterialOverviewApp();
+                app.navigation = this.navigation;
+                app.viewShower = this.viewShower;
+                app.run(this.viewData.criteria());
+            }
         }
         /** 视图-物料 */
         export interface IMaterialViewView extends ibas.IBOViewView {
             /** 显示数据 */
             showMaterial(data: bo.Material): void;
+            /** 更多信息 */
+            overviewEvent: Function;
         }
         /** 物料连接服务映射 */
         export class MaterialLinkServiceMapping extends ibas.BOLinkServiceMapping {

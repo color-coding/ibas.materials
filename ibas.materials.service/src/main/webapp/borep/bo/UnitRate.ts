@@ -227,6 +227,7 @@ namespace materials {
             /** 初始化数据 */
             protected init(): void {
                 this.objectCode = ibas.config.applyVariables(UnitRate.BUSINESS_OBJECT_CODE);
+
             }
         }
 

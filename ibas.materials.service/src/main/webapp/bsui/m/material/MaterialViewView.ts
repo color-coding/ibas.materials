@@ -10,6 +10,8 @@ namespace materials {
         export namespace m {
             /** 查看视图-物料 */
             export class MaterialViewView extends ibas.BOViewView implements app.IMaterialViewView {
+                /** 更多信息 */
+                overviewEvent: Function;
                 /** 绘制视图 */
                 draw(): any {
                     let that: this = this;
@@ -48,6 +50,15 @@ namespace materials {
                                         visible: this.mode === ibas.emViewMode.VIEW ? false : true,
                                         press: function (): void {
                                             that.fireViewEvents(that.editDataEvent);
+                                        }
+                                    }),
+                                    new sap.m.ToolbarSeparator(),
+                                    new sap.m.Button("", {
+                                        text: ibas.i18n.prop("materials_overview"),
+                                        type: sap.m.ButtonType.Transparent,
+                                        icon: "sap-icon://enter-more",
+                                        press: function (): void {
+                                            that.fireViewEvents(that.overviewEvent);
                                         }
                                     })
                                 ],
