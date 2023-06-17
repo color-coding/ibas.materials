@@ -339,6 +339,99 @@ public class MaterialEstimateJournal extends BusinessObject<MaterialEstimateJour
 	}
 
 	/**
+	 * 属性名称-原始类型
+	 */
+	private static final String PROPERTY_ORIGINALDOCUMENTTYPE_NAME = "OriginalDocumentType";
+
+	/**
+	 * 原始类型 属性
+	 */
+	@DbField(name = "OrgnlType", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME, primaryKey = false)
+	public static final IPropertyInfo<String> PROPERTY_ORIGINALDOCUMENTTYPE = registerProperty(
+			PROPERTY_ORIGINALDOCUMENTTYPE_NAME, String.class, MY_CLASS);
+
+	/**
+	 * 获取-原始类型
+	 * 
+	 * @return 值
+	 */
+	@XmlElement(name = PROPERTY_ORIGINALDOCUMENTTYPE_NAME)
+	public final String getOriginalDocumentType() {
+		return this.getProperty(PROPERTY_ORIGINALDOCUMENTTYPE);
+	}
+
+	/**
+	 * 设置-原始类型
+	 * 
+	 * @param value 值
+	 */
+	public final void setOriginalDocumentType(String value) {
+		this.setProperty(PROPERTY_ORIGINALDOCUMENTTYPE, value);
+	}
+
+	/**
+	 * 属性名称-原始标识
+	 */
+	private static final String PROPERTY_ORIGINALDOCUMENTENTRY_NAME = "OriginalDocumentEntry";
+
+	/**
+	 * 原始标识 属性
+	 */
+	@DbField(name = "OrgnlEntry", type = DbFieldType.NUMERIC, table = DB_TABLE_NAME, primaryKey = false)
+	public static final IPropertyInfo<Integer> PROPERTY_ORIGINALDOCUMENTENTRY = registerProperty(
+			PROPERTY_ORIGINALDOCUMENTENTRY_NAME, Integer.class, MY_CLASS);
+
+	/**
+	 * 获取-原始标识
+	 * 
+	 * @return 值
+	 */
+	@XmlElement(name = PROPERTY_ORIGINALDOCUMENTENTRY_NAME)
+	public final Integer getOriginalDocumentEntry() {
+		return this.getProperty(PROPERTY_ORIGINALDOCUMENTENTRY);
+	}
+
+	/**
+	 * 设置-原始标识
+	 * 
+	 * @param value 值
+	 */
+	public final void setOriginalDocumentEntry(Integer value) {
+		this.setProperty(PROPERTY_ORIGINALDOCUMENTENTRY, value);
+	}
+
+	/**
+	 * 属性名称-原始行号
+	 */
+	private static final String PROPERTY_ORIGINALDOCUMENTLINEID_NAME = "OriginalDocumentLineId";
+
+	/**
+	 * 原始行号 属性
+	 */
+	@DbField(name = "OrgnlLine", type = DbFieldType.NUMERIC, table = DB_TABLE_NAME, primaryKey = false)
+	public static final IPropertyInfo<Integer> PROPERTY_ORIGINALDOCUMENTLINEID = registerProperty(
+			PROPERTY_ORIGINALDOCUMENTLINEID_NAME, Integer.class, MY_CLASS);
+
+	/**
+	 * 获取-原始行号
+	 * 
+	 * @return 值
+	 */
+	@XmlElement(name = PROPERTY_ORIGINALDOCUMENTLINEID_NAME)
+	public final Integer getOriginalDocumentLineId() {
+		return this.getProperty(PROPERTY_ORIGINALDOCUMENTLINEID);
+	}
+
+	/**
+	 * 设置-原始行号
+	 * 
+	 * @param value 值
+	 */
+	public final void setOriginalDocumentLineId(Integer value) {
+		this.setProperty(PROPERTY_ORIGINALDOCUMENTLINEID, value);
+	}
+
+	/**
 	 * 属性名称-对象编号
 	 */
 	private static final String PROPERTY_OBJECTKEY_NAME = "ObjectKey";

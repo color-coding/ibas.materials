@@ -146,6 +146,48 @@ public interface IMaterialEstimateJournal extends IBOSimple {
 	void setBaseDocumentLineId(Integer value);
 
 	/**
+	 * 获取-原始类型
+	 * 
+	 * @return 值
+	 */
+	String getOriginalDocumentType();
+
+	/**
+	 * 设置-原始类型
+	 * 
+	 * @param value 值
+	 */
+	void setOriginalDocumentType(String value);
+
+	/**
+	 * 获取-原始标识
+	 * 
+	 * @return 值
+	 */
+	Integer getOriginalDocumentEntry();
+
+	/**
+	 * 设置-原始标识
+	 * 
+	 * @param value 值
+	 */
+	void setOriginalDocumentEntry(Integer value);
+
+	/**
+	 * 获取-原始行号
+	 * 
+	 * @return 值
+	 */
+	Integer getOriginalDocumentLineId();
+
+	/**
+	 * 设置-原始行号
+	 * 
+	 * @param value 值
+	 */
+	void setOriginalDocumentLineId(Integer value);
+
+	/**
 	 * 获取-对象编号
 	 * 
 	 * @return 值

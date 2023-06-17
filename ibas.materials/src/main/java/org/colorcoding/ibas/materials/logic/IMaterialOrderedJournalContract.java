@@ -57,4 +57,25 @@ public interface IMaterialOrderedJournalContract extends IBusinessLogicContract 
 	 * @return
 	 */
 	String getUOM();
+
+	/**
+	 * 获取-基于单据类型
+	 * 
+	 * @return 值
+	 */
+	String getBaseDocumentType();
+
+	/**
+	 * 获取-基于单据标识
+	 * 
+	 * @return 值
+	 */
+	Integer getBaseDocumentEntry();
+
+	/**
+	 * 获取-基于单据行号
+	 * 
+	 * @return 值
+	 */
+	Integer getBaseDocumentLineId();
 }

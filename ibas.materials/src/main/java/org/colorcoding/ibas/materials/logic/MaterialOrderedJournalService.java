@@ -114,6 +114,9 @@ public class MaterialOrderedJournalService extends MaterialEstimateService<IMate
 		materialJournal.setItemCode(contract.getItemCode());
 		materialJournal.setWarehouse(contract.getWarehouse());
 		materialJournal.setQuantity(contract.getQuantity());
+		materialJournal.setOriginalDocumentType(contract.getBaseDocumentType());
+		materialJournal.setOriginalDocumentEntry(contract.getBaseDocumentEntry());
+		materialJournal.setOriginalDocumentLineId(contract.getBaseDocumentLineId());
 		IMaterial material = this.checkMaterial(contract.getItemCode());
 		if (material != null) {
 			materialJournal.setItemName(material.getName());
