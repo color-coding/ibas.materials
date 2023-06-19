@@ -583,9 +583,11 @@ namespace materials {
             }
             /** 可用量（库存+已订购-已承诺） */
             onAvailable(): number {
-                return ibas.numbers.valueOf(this.onHand)
+                return ibas.numbers.round(
+                    ibas.numbers.valueOf(this.onHand)
                     + ibas.numbers.valueOf(this.onOrdered)
-                    - ibas.numbers.valueOf(this.onCommited);
+                    - ibas.numbers.valueOf(this.onCommited)
+                );
             }
         }
     }

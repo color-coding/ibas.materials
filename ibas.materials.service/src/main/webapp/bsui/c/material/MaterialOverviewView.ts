@@ -16,6 +16,9 @@ namespace materials {
                 get queryTarget(): any {
                     return bo.Material;
                 }
+                get autoQuery(): boolean {
+                    return false;
+                }
                 /** 编辑物料事件，参数：编辑对象 */
                 editDataEvent: Function;
                 /** 新建物料事件 */
@@ -1120,6 +1123,14 @@ namespace materials {
                     this.panelReservation.setVisible(data.itemType === bo.emItemType.ITEM && data.inventoryItem === ibas.emYesNo.YES ? true : false);
                     this.panelReservation.getContent()[0].setModel(undefined);
                     this.panelReservation.setExpanded(false);
+                    if (this.tableMaterials.getSelecteds().length === 0) {
+                        for (let item of this.tableMaterials.getItems()) {
+                            if (item.getBindingContext().getObject() === data) {
+                                this.tableMaterials.setSelectedItem(item);
+                                break;
+                            }
+                        }
+                    }
                 }
                 /** 显示物料库存 */
                 showMaterialInventory(datas: bo.IMaterialInventory[]): void {
