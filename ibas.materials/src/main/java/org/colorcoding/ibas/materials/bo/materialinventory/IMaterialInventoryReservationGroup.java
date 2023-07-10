@@ -63,4 +63,18 @@ public interface IMaterialInventoryReservationGroup extends IBusinessObject {
 	 * @param value 值
 	 */
 	void setItems(IMaterialInventoryReservations value);
+
+	/**
+	 * 获取-原因数据集合
+	 * 
+	 * @return 值
+	 */
+	IMaterialOrderedReservations getCausalDatas();
+
+	/**
+	 * 设置-原因数据集合
+	 * 
+	 * @param value 值
+	 */
+	void setCausalDatas(IMaterialOrderedReservations value);
 }

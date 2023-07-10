@@ -152,11 +152,44 @@ public class MaterialInventoryReservationGroup extends BusinessObject<IMaterialI
 	}
 
 	/**
+	 * 属性名称-项目集合
+	 */
+	private static final String PROPERTY_CAUSALDATAS_NAME = "CausalDatas";
+
+	/**
+	 * 库存收货-行的集合属性
+	 * 
+	 */
+	public static final IPropertyInfo<IMaterialOrderedReservations> PROPERTY_CAUSALDATAS = registerProperty(
+			PROPERTY_CAUSALDATAS_NAME, IMaterialOrderedReservations.class, MY_CLASS);
+
+	/**
+	 * 获取-项目集合
+	 * 
+	 * @return 值
+	 */
+	@XmlElementWrapper(name = PROPERTY_CAUSALDATAS_NAME)
+	@XmlElement(name = MaterialOrderedReservation.BUSINESS_OBJECT_NAME, type = MaterialOrderedReservation.class)
+	public final IMaterialOrderedReservations getCausalDatas() {
+		return this.getProperty(PROPERTY_CAUSALDATAS);
+	}
+
+	/**
+	 * 设置-项目集合
+	 * 
+	 * @param value 值
+	 */
+	public final void setCausalDatas(IMaterialOrderedReservations value) {
+		this.setProperty(PROPERTY_CAUSALDATAS, value);
+	}
+
+	/**
 	 * 初始化数据
 	 */
 	@Override
 	protected void initialize() {
 		super.initialize();// 基类初始化，不可去除
 		this.setItems(new MaterialInventoryReservations(this));
+		this.setCausalDatas(new MaterialOrderedReservations(this));
 	}
 }

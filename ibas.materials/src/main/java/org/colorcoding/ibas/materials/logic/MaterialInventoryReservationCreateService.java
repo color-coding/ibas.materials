@@ -114,19 +114,9 @@ public class MaterialInventoryReservationCreateService extends
 			reservationGroup.setSerialCode(contract.getSerialCode());
 			reservationGroup.getItems().addAll(operationResult.getResultObjects());
 		}
-		return reservationGroup;
-
-	}
-
-	@Override
-	protected void impact(IMaterialInventoryReservationCreateContract contract) {
-		IMaterialInventoryReservationGroup reservationGroup = this.getBeAffected();
-		if (reservationGroup == EMPTY_DATA) {
-			// 空数据不做处理
-			return;
-		}
-		ICriteria criteria = new Criteria();
-		ICondition condition = criteria.getConditions().create();
+		// 加载相关的原因数据
+		criteria = new Criteria();
+		condition = criteria.getConditions().create();
 		condition.setAlias(MaterialOrderedReservation.PROPERTY_SOURCEDOCUMENTTYPE.getName());
 		condition.setOperation(ConditionOperation.EQUAL);
 		condition.setValue(contract.getSourceDocumentType());
@@ -147,12 +137,24 @@ public class MaterialInventoryReservationCreateService extends
 		if (operationResult.getError() != null) {
 			throw new BusinessLogicException(operationResult.getError());
 		}
+		reservationGroup.getCausalDatas().addAll(operationResult.getResultObjects());
+		return reservationGroup;
+
+	}
+
+	@Override
+	protected void impact(IMaterialInventoryReservationCreateContract contract) {
+		IMaterialInventoryReservationGroup reservationGroup = this.getBeAffected();
+		if (reservationGroup == EMPTY_DATA) {
+			// 空数据不做处理
+			return;
+		}
 		BigDecimal remQuantity;
 		BigDecimal avaQuantity = contract.getQuantity();
 		IMaterialInventoryReservation gItem;
 		String causes = String.format("FROM:%s-%s-%s", contract.getSourceDocumentType(),
 				contract.getSourceDocumentEntry(), contract.getSourceDocumentLineId());
-		for (IMaterialOrderedReservation item : operationResult.getResultObjects()) {
+		for (IMaterialOrderedReservation item : reservationGroup.getCausalDatas()) {
 			if (item.getTargetDocumentType() == null) {
 				continue;
 			}
@@ -205,9 +207,21 @@ public class MaterialInventoryReservationCreateService extends
 			item = reservationGroup.getItems().get(i);
 			if (item.getQuantity().compareTo(avaQuantity) >= 0) {
 				item.setQuantity(item.getQuantity().subtract(avaQuantity));
+				for (IMaterialOrderedReservation oItem : reservationGroup.getCausalDatas()) {
+					if (String.format("FROM:%s-%s-%s", oItem.getSourceDocumentType(), oItem.getSourceDocumentEntry(),
+							oItem.getSourceDocumentLineId()).equals(item.getCauses())) {
+						oItem.setClosedQuantity(oItem.getClosedQuantity().subtract(avaQuantity));
+					}
+				}
 				avaQuantity = Decimal.ZERO;
 			} else {
 				avaQuantity = avaQuantity.subtract(item.getQuantity());
+				for (IMaterialOrderedReservation oItem : reservationGroup.getCausalDatas()) {
+					if (String.format("FROM:%s-%s-%s", oItem.getSourceDocumentType(), oItem.getSourceDocumentEntry(),
+							oItem.getSourceDocumentLineId()).equals(item.getCauses())) {
+						oItem.setClosedQuantity(oItem.getClosedQuantity().subtract(item.getQuantity()));
+					}
+				}
 				item.setQuantity(Decimal.ZERO);
 			}
 			if (item.getQuantity().compareTo(Decimal.ZERO) <= 0) {

@@ -47,13 +47,9 @@ public class MaterialOrderedReservationCreateService
 					contract.getBaseDocumentEntry(), contract.getBaseDocumentLineId()));
 			reservationGroup.getItems().addAll(operationResult.getResultObjects());
 		}
-		return reservationGroup;
-	}
-
-	@Override
-	protected void impact(IMaterialOrderedReservationCreateContract contract) {
-		ICriteria criteria = new Criteria();
-		ICondition condition = criteria.getConditions().create();
+		// 加载原因数据
+		criteria = new Criteria();
+		condition = criteria.getConditions().create();
 		condition.setAlias(MaterialOrderedReservation.PROPERTY_SOURCEDOCUMENTTYPE.getName());
 		condition.setOperation(ConditionOperation.EQUAL);
 		condition.setValue(contract.getBaseDocumentType());
@@ -74,13 +70,19 @@ public class MaterialOrderedReservationCreateService
 		if (operationResult.getError() != null) {
 			throw new BusinessLogicException(operationResult.getError());
 		}
+		reservationGroup.getCausalDatas().addAll(operationResult.getResultObjects());
+		return reservationGroup;
+	}
+
+	@Override
+	protected void impact(IMaterialOrderedReservationCreateContract contract) {
+		IMaterialOrderedReservationGroup reservationGroup = this.getBeAffected();
 		String causes = String.format("FROM:%s-%s-%s", contract.getBaseDocumentType(), contract.getBaseDocumentEntry(),
 				contract.getBaseDocumentLineId());
 		BigDecimal remQuantity;
 		IMaterialOrderedReservation gItem;
 		BigDecimal avaQuantity = contract.getQuantity();
-		IMaterialOrderedReservationGroup reservationGroup = this.getBeAffected();
-		for (IMaterialOrderedReservation item : operationResult.getResultObjects()) {
+		for (IMaterialOrderedReservation item : reservationGroup.getCausalDatas()) {
 			if (item.getTargetDocumentType() == null) {
 				continue;
 			}
@@ -133,9 +135,21 @@ public class MaterialOrderedReservationCreateService
 			item = reservationGroup.getItems().get(i);
 			if (item.getQuantity().compareTo(avaQuantity) >= 0) {
 				item.setQuantity(item.getQuantity().subtract(avaQuantity));
+				for (IMaterialOrderedReservation oItem : reservationGroup.getCausalDatas()) {
+					if (String.format("FROM:%s-%s-%s", oItem.getSourceDocumentType(), oItem.getSourceDocumentEntry(),
+							oItem.getSourceDocumentLineId()).equals(item.getCauses())) {
+						oItem.setClosedQuantity(oItem.getClosedQuantity().subtract(avaQuantity));
+					}
+				}
 				avaQuantity = Decimal.ZERO;
 			} else {
 				avaQuantity = avaQuantity.subtract(item.getQuantity());
+				for (IMaterialOrderedReservation oItem : reservationGroup.getCausalDatas()) {
+					if (String.format("FROM:%s-%s-%s", oItem.getSourceDocumentType(), oItem.getSourceDocumentEntry(),
+							oItem.getSourceDocumentLineId()).equals(item.getCauses())) {
+						oItem.setClosedQuantity(oItem.getClosedQuantity().subtract(item.getQuantity()));
+					}
+				}
 				item.setQuantity(Decimal.ZERO);
 			}
 			if (item.getQuantity().compareTo(Decimal.ZERO) <= 0) {

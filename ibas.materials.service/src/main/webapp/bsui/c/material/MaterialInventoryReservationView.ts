@@ -101,6 +101,7 @@ namespace materials {
                                             key: bo.Warehouse.PROPERTY_CODE_NAME,
                                             text: bo.Warehouse.PROPERTY_NAME_NAME
                                         },
+                                        showValueLink: false,
                                     }),
                                     new sap.extension.m.ObjectAttribute("", {
                                         title: ibas.i18n.prop("bo_material_mixingbatches"),
