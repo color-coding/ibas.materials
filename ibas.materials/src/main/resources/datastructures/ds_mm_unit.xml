@@ -20,6 +20,7 @@
     <Property Name="ForeignName" Description="外文名称" DataType="Alphanumeric" DataSubType="Default" EditSize="30" Mapped="FrgnName"/>
     <Property Name="Symbol" Description="符号" DataType="Alphanumeric" DataSubType="Default" EditSize="10" Mapped="Symbol"/>
     <Property Name="Activated" Description="是否激活" DataType="Alphanumeric" DataSubType="Default" EditSize="1" DeclaredType="emYesNo" Mapped="Activated"/>
+    <Property Name="DecimalPlaces" Description="小数位数" DataType="Numeric" DataSubType="Default" EditSize="8" Mapped="DecmPlaces"/>
     <Property Name="Remarks" Description="备注" DataType="Memo" DataSubType="Default" EditSize="8" Mapped="Remarks"/>
   </Model>
   <BusinessObject MappedModel="Unit" ShortName="${Company}_MM_UNIT"/>

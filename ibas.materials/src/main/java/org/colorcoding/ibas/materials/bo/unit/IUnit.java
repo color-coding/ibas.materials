@@ -263,6 +263,20 @@ public interface IUnit extends IBOSimple {
 	void setActivated(emYesNo value);
 
 	/**
+	 * 获取-小数位数
+	 * 
+	 * @return 值
+	 */
+	Integer getDecimalPlaces();
+
+	/**
+	 * 设置-小数位数
+	 * 
+	 * @param value 值
+	 */
+	void setDecimalPlaces(Integer value);
+
+	/**
 	 * 获取-备注
 	 * 
 	 * @return 值

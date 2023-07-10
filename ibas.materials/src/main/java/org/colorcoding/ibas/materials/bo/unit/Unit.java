@@ -611,6 +611,37 @@ public class Unit extends BusinessObject<Unit> implements IUnit {
 	}
 
 	/**
+	 * 属性名称-小数位数
+	 */
+	private static final String PROPERTY_DECIMALPLACES_NAME = "DecimalPlaces";
+
+	/**
+	 * 小数位数 属性
+	 */
+	@DbField(name = "DecmPlaces", type = DbFieldType.NUMERIC, table = DB_TABLE_NAME)
+	public static final IPropertyInfo<Integer> PROPERTY_DECIMALPLACES = registerProperty(PROPERTY_DECIMALPLACES_NAME,
+			Integer.class, MY_CLASS);
+
+	/**
+	 * 获取-小数位数
+	 * 
+	 * @return 值
+	 */
+	@XmlElement(name = PROPERTY_DECIMALPLACES_NAME)
+	public final Integer getDecimalPlaces() {
+		return this.getProperty(PROPERTY_DECIMALPLACES);
+	}
+
+	/**
+	 * 设置-小数位数
+	 * 
+	 * @param value 值
+	 */
+	public final void setDecimalPlaces(Integer value) {
+		this.setProperty(PROPERTY_DECIMALPLACES, value);
+	}
+
+	/**
 	 * 属性名称-备注
 	 */
 	private static final String PROPERTY_REMARKS_NAME = "Remarks";
@@ -649,6 +680,7 @@ public class Unit extends BusinessObject<Unit> implements IUnit {
 		super.initialize();// 基类初始化，不可去除
 		this.setObjectCode(MyConfiguration.applyVariables(BUSINESS_OBJECT_CODE));
 		this.setActivated(emYesNo.YES);
+		this.setDecimalPlaces(-1);
 
 	}
 

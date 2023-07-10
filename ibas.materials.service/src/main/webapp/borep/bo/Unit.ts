@@ -213,6 +213,17 @@ namespace materials {
                 this.setProperty(Unit.PROPERTY_ACTIVATED_NAME, value);
             }
 
+            /** 映射的属性名称-小数位数 */
+            static PROPERTY_DECIMALPLACES_NAME: string = "DecimalPlaces";
+            /** 获取-小数位数 */
+            get decimalPlaces(): number {
+                return this.getProperty<number>(Unit.PROPERTY_DECIMALPLACES_NAME);
+            }
+            /** 设置-小数位数 */
+            set decimalPlaces(value: number) {
+                this.setProperty(Unit.PROPERTY_DECIMALPLACES_NAME, value);
+            }
+
             /** 映射的属性名称-备注 */
             static PROPERTY_REMARKS_NAME: string = "Remarks";
             /** 获取-备注 */
@@ -228,6 +239,7 @@ namespace materials {
             protected init(): void {
                 this.objectCode = ibas.config.applyVariables(Unit.BUSINESS_OBJECT_CODE);
                 this.activated = ibas.emYesNo.YES;
+                this.decimalPlaces = -1;
             }
         }
 

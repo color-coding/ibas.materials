@@ -79,6 +79,13 @@ namespace materials {
                                                         type: new sap.extension.data.Alphanumeric(),
                                                     }),
                                                     new sap.m.Toolbar("", { visible: false }),
+                                                    new sap.m.Label("", { text: ibas.i18n.prop("bo_unit_decimalplaces") }),
+                                                    new sap.extension.m.Input("", {
+                                                        type: sap.m.InputType.Number,
+                                                    }).bindProperty("bindingValue", {
+                                                        path: "decimalPlaces",
+                                                        type: new sap.extension.data.Numeric(),
+                                                    }),
                                                 ]
                                             })
                                         ]

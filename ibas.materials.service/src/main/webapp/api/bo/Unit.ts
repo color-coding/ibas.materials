@@ -45,6 +45,8 @@ namespace materials {
             symbol: string;
             /** 是否激活 */
             activated: ibas.emYesNo;
+            /** 小数位数 */
+            decimalPlaces: number;
             /** 备注 */
             remarks: string;
 
