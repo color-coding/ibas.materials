@@ -20,6 +20,7 @@ import org.colorcoding.ibas.materials.bo.materialinventory.MaterialEstimateJourn
 import org.colorcoding.ibas.materials.bo.materialinventory.MaterialInventory;
 import org.colorcoding.ibas.materials.bo.materialinventory.MaterialInventoryJournal;
 import org.colorcoding.ibas.materials.bo.materialinventory.MaterialInventoryReservation;
+import org.colorcoding.ibas.materials.bo.materialinventory.MaterialOrderedReservation;
 import org.colorcoding.ibas.materials.bo.materialpricelist.MaterialPriceList;
 import org.colorcoding.ibas.materials.bo.materialscrap.MaterialScrap;
 import org.colorcoding.ibas.materials.bo.materialserial.MaterialSerial;
@@ -493,6 +494,26 @@ public interface IBORepositoryMaterialsSvc extends IBORepositorySmartService {
 	 * @return 操作结果
 	 */
 	OperationResult<MaterialSubstitute> saveMaterialSubstitute(MaterialSubstitute bo, String token);
+
+	// --------------------------------------------------------------------------------------------//
+	/**
+	 * 查询-物料订购预留
+	 * 
+	 * @param criteria 查询
+	 * @param token    口令
+	 * @return 操作结果
+	 */
+	OperationResult<MaterialOrderedReservation> fetchMaterialOrderedReservation(ICriteria criteria, String token);
+
+	/**
+	 * 保存-物料订购预留
+	 * 
+	 * @param bo    对象实例
+	 * @param token 口令
+	 * @return 操作结果
+	 */
+	OperationResult<MaterialOrderedReservation> saveMaterialOrderedReservation(MaterialOrderedReservation bo,
+			String token);
 
 	// --------------------------------------------------------------------------------------------//
 

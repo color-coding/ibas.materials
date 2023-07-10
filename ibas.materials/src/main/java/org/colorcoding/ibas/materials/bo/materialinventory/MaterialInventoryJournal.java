@@ -10,6 +10,7 @@ import javax.xml.bind.annotation.XmlType;
 
 import org.colorcoding.ibas.bobas.bo.BusinessObject;
 import org.colorcoding.ibas.bobas.core.IPropertyInfo;
+import org.colorcoding.ibas.bobas.data.ArrayList;
 import org.colorcoding.ibas.bobas.data.DateTime;
 import org.colorcoding.ibas.bobas.data.Decimal;
 import org.colorcoding.ibas.bobas.data.emDirection;
@@ -23,6 +24,7 @@ import org.colorcoding.ibas.bobas.rule.common.BusinessRuleMinValue;
 import org.colorcoding.ibas.bobas.rule.common.BusinessRuleRequired;
 import org.colorcoding.ibas.materials.MyConfiguration;
 import org.colorcoding.ibas.materials.logic.IMaterialInventoryContract;
+import org.colorcoding.ibas.materials.logic.IMaterialInventoryReservationCreateContract;
 import org.colorcoding.ibas.materials.logic.IMaterialInventoryReservationReleaseContract;
 import org.colorcoding.ibas.materials.logic.IMaterialWarehouseInventoryContract;
 
@@ -1093,96 +1095,140 @@ public class MaterialInventoryJournal extends BusinessObject<MaterialInventoryJo
 
 	@Override
 	public IBusinessLogicContract[] getContracts() {
-		return new IBusinessLogicContract[] {
+		ArrayList<IBusinessLogicContract> contracts = new ArrayList<>(4);
+		// 物料库存
+		contracts.add(new IMaterialInventoryContract() {
+			@Override
+			public String getIdentifiers() {
+				return MaterialInventoryJournal.this.getIdentifiers();
+			}
 
-				new IMaterialInventoryContract() {
-					@Override
-					public String getIdentifiers() {
-						return MaterialInventoryJournal.this.getIdentifiers();
-					}
+			@Override
+			public String getItemCode() {
+				return MaterialInventoryJournal.this.getItemCode();
+			}
 
-					@Override
-					public String getItemCode() {
-						return MaterialInventoryJournal.this.getItemCode();
-					}
+			@Override
+			public BigDecimal getQuantity() {
+				return MaterialInventoryJournal.this.getQuantity();
+			}
 
-					@Override
-					public BigDecimal getQuantity() {
-						return MaterialInventoryJournal.this.getQuantity();
-					}
+			@Override
+			public emDirection getDirection() {
+				return MaterialInventoryJournal.this.getDirection();
+			}
+		});
+		// 物料仓库库存
+		contracts.add(new IMaterialWarehouseInventoryContract() {
+			@Override
+			public String getIdentifiers() {
+				return MaterialInventoryJournal.this.getIdentifiers();
+			}
 
-					@Override
-					public emDirection getDirection() {
-						return MaterialInventoryJournal.this.getDirection();
-					}
-				},
+			@Override
+			public String getItemCode() {
+				return MaterialInventoryJournal.this.getItemCode();
+			}
 
-				new IMaterialWarehouseInventoryContract() {
-					@Override
-					public String getIdentifiers() {
-						return MaterialInventoryJournal.this.getIdentifiers();
-					}
+			@Override
+			public String getWarehouse() {
+				return MaterialInventoryJournal.this.getWarehouse();
+			}
 
-					@Override
-					public String getItemCode() {
-						return MaterialInventoryJournal.this.getItemCode();
-					}
+			@Override
+			public BigDecimal getQuantity() {
+				return MaterialInventoryJournal.this.getQuantity();
+			}
 
-					@Override
-					public String getWarehouse() {
-						return MaterialInventoryJournal.this.getWarehouse();
-					}
+			@Override
+			public emDirection getDirection() {
+				return MaterialInventoryJournal.this.getDirection();
+			}
+		});
+		// 出库
+		if (this.getDirection() == emDirection.OUT) {
+			// 物料库存占用的释放（出库）
+			contracts.add(new IMaterialInventoryReservationReleaseContract() {
 
-					@Override
-					public BigDecimal getQuantity() {
-						return MaterialInventoryJournal.this.getQuantity();
-					}
-
-					@Override
-					public emDirection getDirection() {
-						return MaterialInventoryJournal.this.getDirection();
-					}
-				},
-
-				new IMaterialInventoryReservationReleaseContract() {
-
-					@Override
-					public String getIdentifiers() {
-						return MaterialInventoryJournal.this.getIdentifiers();
-					}
-
-					@Override
-					public String getItemCode() {
-						return MaterialInventoryJournal.this.getItemCode();
-					}
-
-					@Override
-					public String getWarehouse() {
-						return MaterialInventoryJournal.this.getWarehouse();
-					}
-
-					@Override
-					public BigDecimal getQuantity() {
-						return MaterialInventoryJournal.this.getQuantity();
-					}
-
-					@Override
-					public String getTargetDocumentType() {
-						return MaterialInventoryJournal.this.getOriginalDocumentType();
-					}
-
-					@Override
-					public Integer getTargetDocumentEntry() {
-						return MaterialInventoryJournal.this.getOriginalDocumentEntry();
-					}
-
-					@Override
-					public Integer getTargetDocumentLineId() {
-						return MaterialInventoryJournal.this.getOriginalDocumentLineId();
-					}
-
+				@Override
+				public String getIdentifiers() {
+					return MaterialInventoryJournal.this.getIdentifiers();
 				}
 
-		};
+				@Override
+				public String getItemCode() {
+					return MaterialInventoryJournal.this.getItemCode();
+				}
+
+				@Override
+				public String getWarehouse() {
+					return MaterialInventoryJournal.this.getWarehouse();
+				}
+
+				@Override
+				public BigDecimal getQuantity() {
+					return MaterialInventoryJournal.this.getQuantity();
+				}
+
+				@Override
+				public String getTargetDocumentType() {
+					return MaterialInventoryJournal.this.getOriginalDocumentType();
+				}
+
+				@Override
+				public Integer getTargetDocumentEntry() {
+					return MaterialInventoryJournal.this.getOriginalDocumentEntry();
+				}
+
+				@Override
+				public Integer getTargetDocumentLineId() {
+					return MaterialInventoryJournal.this.getOriginalDocumentLineId();
+				}
+
+			});
+		}
+		// 入库
+		if (this.getDirection() == emDirection.IN) {
+			// 物料订购预留转库存占用
+			contracts.add(new IMaterialInventoryReservationCreateContract() {
+
+				@Override
+				public String getIdentifiers() {
+					return MaterialInventoryJournal.this.getIdentifiers();
+				}
+
+				@Override
+				public String getItemCode() {
+					return MaterialInventoryJournal.this.getItemCode();
+				}
+
+				@Override
+				public String getWarehouse() {
+					return MaterialInventoryJournal.this.getWarehouse();
+				}
+
+				@Override
+				public BigDecimal getQuantity() {
+					return MaterialInventoryJournal.this.getQuantity();
+				}
+
+				@Override
+				public String getSourceDocumentType() {
+					return MaterialInventoryJournal.this.getOriginalDocumentType();
+				}
+
+				@Override
+				public Integer getSourceDocumentEntry() {
+					return MaterialInventoryJournal.this.getOriginalDocumentEntry();
+				}
+
+				@Override
+				public Integer getSourceDocumentLineId() {
+					return MaterialInventoryJournal.this.getOriginalDocumentLineId();
+				}
+
+			});
+		}
+		return contracts.toArray(new IBusinessLogicContract[] {});
 	}
 }

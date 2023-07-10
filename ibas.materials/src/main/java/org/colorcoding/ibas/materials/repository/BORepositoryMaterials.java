@@ -60,10 +60,12 @@ import org.colorcoding.ibas.materials.bo.materialinventory.IMaterialEstimateJour
 import org.colorcoding.ibas.materials.bo.materialinventory.IMaterialInventory;
 import org.colorcoding.ibas.materials.bo.materialinventory.IMaterialInventoryJournal;
 import org.colorcoding.ibas.materials.bo.materialinventory.IMaterialInventoryReservation;
+import org.colorcoding.ibas.materials.bo.materialinventory.IMaterialOrderedReservation;
 import org.colorcoding.ibas.materials.bo.materialinventory.MaterialEstimateJournal;
 import org.colorcoding.ibas.materials.bo.materialinventory.MaterialInventory;
 import org.colorcoding.ibas.materials.bo.materialinventory.MaterialInventoryJournal;
 import org.colorcoding.ibas.materials.bo.materialinventory.MaterialInventoryReservation;
+import org.colorcoding.ibas.materials.bo.materialinventory.MaterialOrderedReservation;
 import org.colorcoding.ibas.materials.bo.materialpricelist.IMaterialPriceItem;
 import org.colorcoding.ibas.materials.bo.materialpricelist.IMaterialPriceList;
 import org.colorcoding.ibas.materials.bo.materialpricelist.MaterialPriceItem;
@@ -2061,7 +2063,55 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 	public IOperationResult<IMaterialSubstitute> saveMaterialSubstitute(IMaterialSubstitute bo) {
 		return new OperationResult<IMaterialSubstitute>(
 				this.saveMaterialSubstitute((MaterialSubstitute) bo, this.getUserToken()));
+	} // --------------------------------------------------------------------------------------------//
+
+	/**
+	 * 查询-物料订购预留
+	 * 
+	 * @param criteria 查询
+	 * @param token    口令
+	 * @return 操作结果
+	 */
+	public OperationResult<MaterialOrderedReservation> fetchMaterialOrderedReservation(ICriteria criteria,
+			String token) {
+		return super.fetch(criteria, token, MaterialOrderedReservation.class);
 	}
+
+	/**
+	 * 查询-物料订购预留（提前设置用户口令）
+	 * 
+	 * @param criteria 查询
+	 * @return 操作结果
+	 */
+	public IOperationResult<IMaterialOrderedReservation> fetchMaterialOrderedReservation(ICriteria criteria) {
+		return new OperationResult<IMaterialOrderedReservation>(
+				this.fetchMaterialOrderedReservation(criteria, this.getUserToken()));
+	}
+
+	/**
+	 * 保存-物料订购预留
+	 * 
+	 * @param bo    对象实例
+	 * @param token 口令
+	 * @return 操作结果
+	 */
+	public OperationResult<MaterialOrderedReservation> saveMaterialOrderedReservation(MaterialOrderedReservation bo,
+			String token) {
+		return super.save(bo, token);
+	}
+
+	/**
+	 * 保存-物料订购预留（提前设置用户口令）
+	 * 
+	 * @param bo 对象实例
+	 * @return 操作结果
+	 */
+	public IOperationResult<IMaterialOrderedReservation> saveMaterialOrderedReservation(
+			IMaterialOrderedReservation bo) {
+		return new OperationResult<IMaterialOrderedReservation>(
+				this.saveMaterialOrderedReservation((MaterialOrderedReservation) bo, this.getUserToken()));
+	}
+
 	// --------------------------------------------------------------------------------------------//
 
 }

@@ -622,23 +622,11 @@ namespace materials {
                         content: [
                             new sap.m.SplitContainer("", {
                                 masterPages: [
-                                    new sap.ui.layout.Splitter("", {
-                                        orientation: sap.ui.core.Orientation.Vertical,
-                                        contentAreas: [
-                                            new sap.m.Page("", {
-                                                showHeader: false,
-                                                enableScrolling: false,
-                                                layoutData: new sap.ui.layout.SplitterLayoutData("", {
-                                                    size: {
-                                                        path: "/businessPartner",
-                                                        type: new sap.extension.data.Alphanumeric(),
-                                                        formatter(data: any): string {
-                                                            return ibas.strings.isEmpty(data) ? "2rem" : "4rem";
-                                                        }
-                                                    },
-                                                    resizable: false,
-                                                }),
-                                                content: [
+                                    new sap.m.Page("", {
+                                        showHeader: false,
+                                        content: [
+                                            new sap.m.VBox("", {
+                                                items: [
                                                     new sap.m.Toolbar("", {
                                                         content: [
                                                             new sap.m.Title("", {
@@ -682,14 +670,9 @@ namespace materials {
                                                     }),
                                                 ]
                                             }),
-                                            new sap.m.Page("", {
-                                                showHeader: false,
-                                                content: [
-                                                    this.tableWorkItems
-                                                ]
-                                            }),
+                                            this.tableWorkItems
                                         ]
-                                    })
+                                    }),
                                 ],
                                 detailPages: [
                                     new sap.ui.layout.Splitter("", {

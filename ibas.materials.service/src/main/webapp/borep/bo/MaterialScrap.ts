@@ -288,7 +288,7 @@ namespace materials {
                         if (section.sectionStart > 0 && section.sectionStart > quantity) {
                             continue;
                         }
-                        if (section.sectionEnd > 0 && section.sectionEnd > quantity) {
+                        if (section.sectionEnd > 0 && section.sectionEnd < quantity) {
                             continue;
                         }
                         let total: number = 0;

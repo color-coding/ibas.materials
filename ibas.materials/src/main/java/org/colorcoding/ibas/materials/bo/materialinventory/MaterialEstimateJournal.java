@@ -856,9 +856,9 @@ public class MaterialEstimateJournal extends BusinessObject<MaterialEstimateJour
 	@Override
 	public IBusinessLogicContract[] getContracts() {
 		if (this.getEstimate() == emEstimateType.ORDERED) {
-			// 已承诺数量逻辑
+			// 已订购数量逻辑
 			return new IBusinessLogicContract[] {
-
+					// 物料已订购数量
 					new IMaterialOrderedContract() {
 
 						@Override
@@ -876,7 +876,9 @@ public class MaterialEstimateJournal extends BusinessObject<MaterialEstimateJour
 							return MaterialEstimateJournal.this.getQuantity();
 						}
 
-					}, new IMaterialWarehouseOrderedContract() {
+					},
+					// 物料仓库已订购数量
+					new IMaterialWarehouseOrderedContract() {
 
 						@Override
 						public String getIdentifiers() {
@@ -902,9 +904,9 @@ public class MaterialEstimateJournal extends BusinessObject<MaterialEstimateJour
 
 			};
 		} else if (this.getEstimate() == emEstimateType.COMMITED) {
-			// 已订购数量逻辑
+			// 已承诺数量逻辑
 			return new IBusinessLogicContract[] {
-
+					// 物料已承诺数量
 					new IMaterialCommitedContract() {
 
 						@Override
@@ -922,7 +924,9 @@ public class MaterialEstimateJournal extends BusinessObject<MaterialEstimateJour
 							return MaterialEstimateJournal.this.getQuantity();
 						}
 
-					}, new IMaterialWarehouseCommitedContract() {
+					},
+					// 物料仓库已承诺数量
+					new IMaterialWarehouseCommitedContract() {
 
 						@Override
 						public String getIdentifiers() {

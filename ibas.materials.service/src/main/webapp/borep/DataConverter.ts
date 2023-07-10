@@ -212,6 +212,14 @@ namespace materials {
                     if (property === bo.MaterialGroup.PROPERTY_PHANTOM_NAME) {
                         return ibas.enums.toString(ibas.emYesNo, value);
                     }
+                } else if (boName === bo.MaterialScrap.name) {
+                    if (property === bo.MaterialScrap.PROPERTY_TIERED_NAME) {
+                        return ibas.enums.toString(ibas.emYesNo, value);
+                    }
+                } else if (boName === bo.MaterialOrderedReservation.name) {
+                    if (property === bo.MaterialOrderedReservation.PROPERTY_STATUS_NAME) {
+                        return ibas.enums.toString(ibas.emBOStatus, value);
+                    }
                 }
                 return super.convertData(boName, property, value);
             }
@@ -341,6 +349,14 @@ namespace materials {
                 } else if (boName === bo.MaterialGroup.name) {
                     if (property === bo.MaterialGroup.PROPERTY_PHANTOM_NAME) {
                         return ibas.enums.valueOf(ibas.emYesNo, value);
+                    }
+                } else if (boName === bo.MaterialScrap.name) {
+                    if (property === bo.MaterialScrap.PROPERTY_TIERED_NAME) {
+                        return ibas.enums.valueOf(ibas.emYesNo, value);
+                    }
+                } else if (boName === bo.MaterialOrderedReservation.name) {
+                    if (property === bo.MaterialOrderedReservation.PROPERTY_STATUS_NAME) {
+                        return ibas.enums.valueOf(ibas.emBOStatus, value);
                     }
                 }
                 return super.parsingData(boName, property, value);

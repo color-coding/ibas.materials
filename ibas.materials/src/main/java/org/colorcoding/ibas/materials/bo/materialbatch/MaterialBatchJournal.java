@@ -10,6 +10,7 @@ import javax.xml.bind.annotation.XmlType;
 
 import org.colorcoding.ibas.bobas.bo.BusinessObject;
 import org.colorcoding.ibas.bobas.core.IPropertyInfo;
+import org.colorcoding.ibas.bobas.data.ArrayList;
 import org.colorcoding.ibas.bobas.data.DateTime;
 import org.colorcoding.ibas.bobas.data.Decimal;
 import org.colorcoding.ibas.bobas.data.emDirection;
@@ -23,6 +24,7 @@ import org.colorcoding.ibas.bobas.rule.common.BusinessRuleMinValue;
 import org.colorcoding.ibas.bobas.rule.common.BusinessRuleRequired;
 import org.colorcoding.ibas.materials.MyConfiguration;
 import org.colorcoding.ibas.materials.logic.IMaterialBatchInventoryContract;
+import org.colorcoding.ibas.materials.logic.IMaterialInventoryReservationCreateContract;
 import org.colorcoding.ibas.materials.logic.IMaterialInventoryReservationReleaseContract;
 
 /**
@@ -823,86 +825,136 @@ public class MaterialBatchJournal extends BusinessObject<MaterialBatchJournal>
 
 	@Override
 	public IBusinessLogicContract[] getContracts() {
-		return new IBusinessLogicContract[] {
+		ArrayList<IBusinessLogicContract> contracts = new ArrayList<>(4);
+		// 物料批次库存
+		contracts.add(new IMaterialBatchInventoryContract() {
 
-				new IMaterialBatchInventoryContract() {
+			@Override
+			public String getIdentifiers() {
+				return MaterialBatchJournal.this.getIdentifiers();
+			}
 
-					@Override
-					public String getIdentifiers() {
-						return MaterialBatchJournal.this.getIdentifiers();
-					}
+			@Override
+			public String getBatchCode() {
+				return MaterialBatchJournal.this.getBatchCode();
+			}
 
-					@Override
-					public String getBatchCode() {
-						return MaterialBatchJournal.this.getBatchCode();
-					}
+			@Override
+			public String getItemCode() {
+				return MaterialBatchJournal.this.getItemCode();
+			}
 
-					@Override
-					public String getItemCode() {
-						return MaterialBatchJournal.this.getItemCode();
-					}
+			@Override
+			public String getWarehouse() {
+				return MaterialBatchJournal.this.getWarehouse();
+			}
 
-					@Override
-					public String getWarehouse() {
-						return MaterialBatchJournal.this.getWarehouse();
-					}
+			@Override
+			public BigDecimal getQuantity() {
+				return MaterialBatchJournal.this.getQuantity();
+			}
 
-					@Override
-					public BigDecimal getQuantity() {
-						return MaterialBatchJournal.this.getQuantity();
-					}
+			@Override
+			public emDirection getDirection() {
+				return MaterialBatchJournal.this.getDirection();
+			}
 
-					@Override
-					public emDirection getDirection() {
-						return MaterialBatchJournal.this.getDirection();
-					}
+		});
+		// 出库
+		if (this.getDirection() == emDirection.OUT) {
+			// 物料库存占用的释放（出库）
+			contracts.add(new IMaterialInventoryReservationReleaseContract() {
 
-				},
-
-				new IMaterialInventoryReservationReleaseContract() {
-
-					@Override
-					public String getIdentifiers() {
-						return MaterialBatchJournal.this.getIdentifiers();
-					}
-
-					@Override
-					public String getItemCode() {
-						return MaterialBatchJournal.this.getItemCode();
-					}
-
-					@Override
-					public String getWarehouse() {
-						return MaterialBatchJournal.this.getWarehouse();
-					}
-
-					@Override
-					public String getBatchCode() {
-						return MaterialBatchJournal.this.getBatchCode();
-					}
-
-					@Override
-					public BigDecimal getQuantity() {
-						return MaterialBatchJournal.this.getQuantity();
-					}
-
-					@Override
-					public String getTargetDocumentType() {
-						return MaterialBatchJournal.this.getOriginalDocumentType();
-					}
-
-					@Override
-					public Integer getTargetDocumentEntry() {
-						return MaterialBatchJournal.this.getOriginalDocumentEntry();
-					}
-
-					@Override
-					public Integer getTargetDocumentLineId() {
-						return MaterialBatchJournal.this.getOriginalDocumentLineId();
-					}
-
+				@Override
+				public String getIdentifiers() {
+					return MaterialBatchJournal.this.getIdentifiers();
 				}
 
-		};
+				@Override
+				public String getItemCode() {
+					return MaterialBatchJournal.this.getItemCode();
+				}
+
+				@Override
+				public String getWarehouse() {
+					return MaterialBatchJournal.this.getWarehouse();
+				}
+
+				@Override
+				public String getBatchCode() {
+					return MaterialBatchJournal.this.getBatchCode();
+				}
+
+				@Override
+				public BigDecimal getQuantity() {
+					return MaterialBatchJournal.this.getQuantity();
+				}
+
+				@Override
+				public String getTargetDocumentType() {
+					return MaterialBatchJournal.this.getOriginalDocumentType();
+				}
+
+				@Override
+				public Integer getTargetDocumentEntry() {
+					return MaterialBatchJournal.this.getOriginalDocumentEntry();
+				}
+
+				@Override
+				public Integer getTargetDocumentLineId() {
+					return MaterialBatchJournal.this.getOriginalDocumentLineId();
+				}
+
+			});
+		}
+		// 入库
+		if (this.getDirection() == emDirection.IN) {
+			// 物料订购预留转库存占用
+			contracts.add(new IMaterialInventoryReservationCreateContract() {
+
+				@Override
+				public String getIdentifiers() {
+					return MaterialBatchJournal.this.getIdentifiers();
+				}
+
+				@Override
+				public String getItemCode() {
+					return MaterialBatchJournal.this.getItemCode();
+				}
+
+				@Override
+				public String getWarehouse() {
+					return MaterialBatchJournal.this.getWarehouse();
+				}
+
+				@Override
+				public String getBatchCode() {
+					return MaterialBatchJournal.this.getBatchCode();
+				}
+
+				@Override
+				public BigDecimal getQuantity() {
+					return MaterialBatchJournal.this.getQuantity();
+				}
+
+				@Override
+				public String getSourceDocumentType() {
+					return MaterialBatchJournal.this.getOriginalDocumentType();
+				}
+
+				@Override
+				public Integer getSourceDocumentEntry() {
+					return MaterialBatchJournal.this.getOriginalDocumentEntry();
+				}
+
+				@Override
+				public Integer getSourceDocumentLineId() {
+					return MaterialBatchJournal.this.getOriginalDocumentLineId();
+				}
+
+			});
+
+		}
+		return contracts.toArray(new IBusinessLogicContract[] {});
 	}
 }

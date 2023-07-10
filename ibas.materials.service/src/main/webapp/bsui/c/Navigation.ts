@@ -237,6 +237,9 @@ namespace materials {
                     case app.MaterialSubstituteListApp.APPLICATION_ID:
                         view = new c.MaterialSubstituteListView();
                         break;
+                    case app.MaterialOrderedReservationService.APPLICATION_ID:
+                        view = new c.MaterialOrderedReservationView();
+                        break;
                     default:
                         break;
                 }

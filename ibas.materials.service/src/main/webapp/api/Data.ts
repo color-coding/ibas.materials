@@ -76,6 +76,8 @@ namespace materials {
         export const BO_CODE_MATERIALINVENTORYRESERVATION: string = "${Company}_MM_RESERVATION";
         /** 业务对象编码-物料替代 */
         export const BO_CODE_MATERIALSUBSTITUTE: string = "${Company}_MM_SUBSTITUTE";
+        /** 业务对象编码-物料订购预留 */
+        export const BO_CODE_MATERIALORDEREDRESERVATION: string = "${Company}_MM_ORDEREDRESERVATION";
 
         /** 物料类型 */
         export enum emItemType {
@@ -349,6 +351,41 @@ namespace materials {
         }
         /** 物料库存预留服务代理 */
         export class MaterialInventoryReservationServiceProxy extends ibas.ServiceProxy<IMaterialInventoryReservationTarget> {
+
+        }
+        /** 物料订购预留服务契约 */
+        export interface IMaterialOrderedReservationSource extends ibas.IServiceContract {
+            sourceType: string;
+            sourceEntry: number;
+            items: IMaterialOrderedReservationSourceLine[];
+        }
+        export interface IMaterialOrderedReservationSourceLine {
+            sourceLineId: number;
+            itemCode: string;
+            itemDescription: string;
+            quantity: number;
+            uom: string;
+            deliveryDate?: Date;
+            warehouse?: string;
+            targetType?: string;
+            targetEntry?: number;
+            targetLineId?: number;
+        }
+        /** 物料订购预留服务代理 */
+        export class MaterialOrderedReservationServiceProxy extends ibas.ServiceProxy<IMaterialOrderedReservationSource> {
+
+        }
+        export interface IMaterialOrderedReservationTarget {
+            itemCode: string;
+            itemDescription?: string;
+            quantity: number;
+            uom: string;
+            warehouse?: string;
+            deliveryDate?: Date;
+            onReserved: (documentType: string, docEntry: number, lineId: number, quantity: number) => void;
+        }
+        /** 物料订购预留目标单据服务代理 */
+        export class MaterialOrderedReservationTargetServiceProxy extends ibas.ServiceProxy<IMaterialOrderedReservationTarget> {
 
         }
         /** 查询条件 */

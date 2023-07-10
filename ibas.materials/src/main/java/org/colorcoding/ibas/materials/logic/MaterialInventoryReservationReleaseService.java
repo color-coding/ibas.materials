@@ -57,7 +57,7 @@ public class MaterialInventoryReservationReleaseService extends
 			}
 			if (DataConvert.isNullOrEmpty(contract.getTargetDocumentType())) {
 				Logger.log(MessageLevel.DEBUG, MSG_LOGICS_SKIP_LOGIC_EXECUTION, this.getClass().getName(),
-						"TargetDocumentType", contract.getQuantity());
+						"TargetDocumentType", "EMPTY");
 				return false;
 			}
 		}
@@ -88,7 +88,7 @@ public class MaterialInventoryReservationReleaseService extends
 			condition = criteria.getConditions().create();
 			condition.setAlias(MaterialInventoryReservation.PROPERTY_BATCHCODE.getName());
 			condition.setValue(contract.getBatchCode());
-			if (this.getHost() instanceof IMaterialSerialJournal) {
+			if (!(this.getHost() instanceof IMaterialBatchJournal)) {
 				// 批次管理，宿主为序列记录则不执行
 				return EMPTY_DATA;
 			}
@@ -97,7 +97,7 @@ public class MaterialInventoryReservationReleaseService extends
 			condition = criteria.getConditions().create();
 			condition.setAlias(MaterialInventoryReservation.PROPERTY_SERIALCODE.getName());
 			condition.setValue(contract.getSerialCode());
-			if (this.getHost() instanceof IMaterialBatchJournal) {
+			if (!(this.getHost() instanceof IMaterialSerialJournal)) {
 				// 序列管理，宿主为批次记录则不执行
 				return EMPTY_DATA;
 			}

@@ -32,4 +32,5 @@
 /// <reference path="./bo/MaterialVersion.ts" />
 /// <reference path="./bo/MaterialInventoryReservation.ts" />
 /// <reference path="./bo/MaterialSubstitute.ts" />
+/// <reference path="./bo/MaterialOrderedReservation.ts" />
 /// <reference path="./BORepository.ts" />
