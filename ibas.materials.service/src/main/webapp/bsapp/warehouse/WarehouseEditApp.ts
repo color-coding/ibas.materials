@@ -179,5 +179,10 @@ namespace materials {
             /** 新建数据事件，参数1：是否克隆 */
             createDataEvent: Function;
         }
+        /** 权限元素-单据仓库 */
+        export const ELEMENT_DOCUMENT_WAREHOUSE: ibas.IElement = {
+            id: "9e9f0344-89d4-470b-a3ab-c11692cd4aaf",
+            name: "materials_document_warehouse",
+        };
     }
 }

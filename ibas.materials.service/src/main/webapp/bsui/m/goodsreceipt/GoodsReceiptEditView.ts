@@ -36,7 +36,8 @@ namespace materials {
                             && sap.ui.getCore().getConfiguration().getVersion().getMinor() >= 73 ? false : true,
                         footer: new sap.m.Toolbar("", {
                             content: [
-                                new sap.m.MenuButton("", {
+                                new sap.extension.m.MenuButton("", {
+                                    autoHide: true,
                                     icon: "sap-icon://tags",
                                     menu: new sap.m.Menu("", {
                                         items: [
@@ -44,13 +45,21 @@ namespace materials {
                                                 text: ibas.i18n.prop("purchase_material_batch"),
                                                 press: function (): void {
                                                     that.fireViewEvents(that.chooseGoodsReceiptLineMaterialBatchEvent);
-                                                }
+                                                },
+                                                visible: shell.app.privileges.canRun({
+                                                    id: materials.app.MaterialBatchReceiptService.APPLICATION_ID,
+                                                    name: materials.app.MaterialBatchReceiptService.APPLICATION_NAME,
+                                                })
                                             }),
                                             new sap.m.MenuItem("", {
                                                 text: ibas.i18n.prop("purchase_material_serial"),
                                                 press: function (): void {
                                                     that.fireViewEvents(that.chooseGoodsReceiptLineMaterialSerialEvent);
-                                                }
+                                                },
+                                                visible: shell.app.privileges.canRun({
+                                                    id: materials.app.MaterialSerialReceiptService.APPLICATION_ID,
+                                                    name: materials.app.MaterialSerialReceiptService.APPLICATION_NAME,
+                                                })
                                             }),
                                         ]
                                     })

@@ -154,23 +154,32 @@ namespace materials {
                                             }
                                         }),
                                         new sap.m.ToolbarSeparator(""),
-                                        new sap.m.MenuButton("", {
+                                        new sap.extension.m.MenuButton("", {
+                                            autoHide: true,
                                             icon: "sap-icon://tags",
                                             text: ibas.strings.format("{0}/{1}",
-                                                ibas.i18n.prop("materials_material_batch"), ibas.i18n.prop("materials_material_serial")),
+                                                ibas.i18n.prop("purchase_material_batch"), ibas.i18n.prop("purchase_material_serial")),
                                             menu: new sap.m.Menu("", {
                                                 items: [
                                                     new sap.m.MenuItem("", {
-                                                        text: ibas.i18n.prop("materials_material_batch"),
+                                                        text: ibas.i18n.prop("purchase_material_batch"),
                                                         press: function (): void {
                                                             that.fireViewEvents(that.chooseGoodsReceiptLineMaterialBatchEvent);
-                                                        }
+                                                        },
+                                                        visible: shell.app.privileges.canRun({
+                                                            id: materials.app.MaterialBatchReceiptService.APPLICATION_ID,
+                                                            name: materials.app.MaterialBatchReceiptService.APPLICATION_NAME,
+                                                        })
                                                     }),
                                                     new sap.m.MenuItem("", {
-                                                        text: ibas.i18n.prop("materials_material_serial"),
+                                                        text: ibas.i18n.prop("purchase_material_serial"),
                                                         press: function (): void {
                                                             that.fireViewEvents(that.chooseGoodsReceiptLineMaterialSerialEvent);
-                                                        }
+                                                        },
+                                                        visible: shell.app.privileges.canRun({
+                                                            id: materials.app.MaterialSerialReceiptService.APPLICATION_ID,
+                                                            name: materials.app.MaterialSerialReceiptService.APPLICATION_NAME,
+                                                        })
                                                     }),
                                                 ]
                                             })
@@ -178,7 +187,11 @@ namespace materials {
                                         new sap.m.ToolbarSpacer(""),
                                         new sap.m.Label("", {
                                             wrapping: false,
-                                            text: ibas.i18n.prop("bo_warehouse")
+                                            text: ibas.i18n.prop("bo_warehouse"),
+                                            visible: shell.app.privileges.canRun({
+                                                id: app.ELEMENT_DOCUMENT_WAREHOUSE.id,
+                                                name: app.ELEMENT_DOCUMENT_WAREHOUSE.name,
+                                            })
                                         }),
                                         this.selectWarehouse = new component.WarehouseSelect("", {
                                             width: "auto",
@@ -218,7 +231,11 @@ namespace materials {
                                                         }
                                                     }
                                                 }
-                                            }
+                                            },
+                                            visible: shell.app.privileges.canRun({
+                                                id: app.ELEMENT_DOCUMENT_WAREHOUSE.id,
+                                                name: app.ELEMENT_DOCUMENT_WAREHOUSE.name,
+                                            })
                                         })
                                     ]
                                 }),

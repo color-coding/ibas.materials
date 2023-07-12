@@ -95,6 +95,8 @@ namespace materials {
                 this.register(new MaterialOrderedReservationServiceMapping());
                 // 注册常驻应用
 
+                // 注册权限元素
+                this.register(ELEMENT_DOCUMENT_WAREHOUSE);
             }
             /** 运行 */
             run(): void {

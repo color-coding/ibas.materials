@@ -698,7 +698,8 @@ namespace materials {
                                     })
                                 }),
                                 new sap.m.ToolbarSeparator(),
-                                this.quickButton = new sap.m.MenuButton("", {
+                                new sap.extension.m.MenuButton("", {
+                                    autoHide: true,
                                     text: ibas.i18n.prop("shell_quick_to"),
                                     icon: "sap-icon://generate-shortcut",
                                     type: sap.m.ButtonType.Transparent,
@@ -709,14 +710,14 @@ namespace materials {
                                                 icon: "sap-icon://collections-management",
                                                 press: function (): void {
                                                     that.fireViewEvents(that.editMaterialUnitRateEvent);
-                                                }
+                                                },
                                             }),
                                             new sap.m.MenuItem("", {
                                                 text: ibas.i18n.prop("bo_materialsubstitute"),
                                                 icon: "sap-icon://add-product",
                                                 press: function (): void {
                                                     that.fireViewEvents(that.editMaterialSubstituteEvent);
-                                                }
+                                                },
                                             }),
                                         ],
                                     })
@@ -779,7 +780,6 @@ namespace materials {
                     });
                 }
                 private page: sap.extension.m.Page;
-                private quickButton: sap.m.MenuButton;
                 /** 显示数据 */
                 showMaterial(data: bo.Material): void {
                     this.page.setModel(new sap.extension.model.JSONModel(data));
