@@ -985,6 +985,7 @@
         "bo_materialinventoryreservation_batchcode": "批次编码",
         "bo_materialinventoryreservation_serialcode": "序列编码",
         "bo_materialinventoryreservation_quantity": "数量",
+        "bo_materialinventoryreservation_deliverydate": "交货日期",
         "bo_materialinventoryreservation_invaliddate": "失效日期",
         "bo_materialinventoryreservation_invalidtime": "失效时间",
         "bo_materialinventoryreservation_businesspartner": "业务伙伴",

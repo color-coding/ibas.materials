@@ -350,7 +350,8 @@ namespace materials {
             mixingBatches?: ibas.emYesNo;
         }
         /** 物料库存预留服务代理 */
-        export class MaterialInventoryReservationServiceProxy extends ibas.ServiceProxy<IMaterialInventoryReservationTarget> {
+        export class MaterialInventoryReservationServiceProxy
+            extends ibas.ServiceProxy<IMaterialInventoryReservationTarget | IMaterialInventoryReservationTarget[]> {
 
         }
         /** 物料订购预留服务契约 */
@@ -372,7 +373,8 @@ namespace materials {
             targetLineId?: number;
         }
         /** 物料订购预留服务代理 */
-        export class MaterialOrderedReservationServiceProxy extends ibas.ServiceProxy<IMaterialOrderedReservationSource> {
+        export class MaterialOrderedReservationServiceProxy
+            extends ibas.ServiceProxy<IMaterialOrderedReservationSource | IMaterialOrderedReservationSource[]> {
 
         }
         export interface IMaterialOrderedReservationTarget {

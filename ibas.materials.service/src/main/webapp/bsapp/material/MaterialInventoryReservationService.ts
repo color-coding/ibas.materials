@@ -21,7 +21,7 @@ namespace materials {
                 this[PROPERTY_ITEMS] = new ibas.ArrayList<ReservationWorkingItem>();
                 if (data.items instanceof Array) {
                     for (let item of data.items) {
-                        this.items.add(new ReservationWorkingItem(item));
+                        this.items.add(new ReservationWorkingItem(item, this));
                     }
                 }
             }
@@ -40,11 +40,15 @@ namespace materials {
             get items(): ibas.IList<ReservationWorkingItem> {
                 return this[PROPERTY_ITEMS];
             }
+            fireProcessing(): void {
+                super.firePropertyChanged("");
+            }
         }
         export class ReservationWorkingItem extends ibas.Bindable {
-            constructor(data: IMaterialInventoryReservationTargetLine) {
+            constructor(data: IMaterialInventoryReservationTargetLine, parent: ReservationWorking) {
                 super();
                 this[PROPERTY_DATA] = data;
+                this[PROPERTY_PARENT] = parent;
                 this[PROPERTY_RESULTS] = new ReservationWorkingItemResults(this);
             }
             get data(): IMaterialInventoryReservationTargetLine {
@@ -131,9 +135,10 @@ namespace materials {
             }
             fireProcessing(): void {
                 this.firePropertyChanged("remaining");
+                this[PROPERTY_PARENT].fireProcessing();
             }
         }
-        export class ReservationWorkingItemResults extends ibas.ArrayList<bo.MaterialInventoryReservation> {
+        export class ReservationWorkingItemResults extends ibas.ArrayList<ReservationWorkingItemResult> {
             constructor(parent: ReservationWorkingItem) {
                 super();
                 this[PROPERTY_PARENT] = parent;
@@ -141,7 +146,7 @@ namespace materials {
             protected get parent(): ReservationWorkingItem {
                 return this[PROPERTY_PARENT];
             }
-            add(item: bo.MaterialInventoryReservation | bo.MaterialInventoryReservation[]): void {
+            add(item: ReservationWorkingItemResult | ReservationWorkingItemResult[]): void {
                 super.add.apply(this, arguments);
                 for (let one of ibas.arrays.create(item)) {
                     one.registerListener(this.listener);
@@ -151,27 +156,27 @@ namespace materials {
             private listener: ibas.IPropertyChangedListener = {
                 caller: this,
                 propertyChanged: (property) => {
-                    if (property === "quantity") {
+                    if (property === "quantity" || property === "isDeleted") {
                         this.parent.fireProcessing();
                     }
                 }
             };
-            remove(item: bo.MaterialInventoryReservation): boolean {
+            remove(item: ReservationWorkingItemResult): boolean {
                 if (!(this.contain(item))) {
                     throw new RangeError();
                 }
                 item.removeListener(this.listener);
-                if (item.isNew) {
+                if (item.data.isNew) {
                     super.remove(item);
                     this.parent.fireProcessing();
                     return true;
                 } else {
-                    item.delete();
+                    item.data.delete();
                     this.parent.fireProcessing();
                     return false;
                 }
             }
-            filterDeleted(): bo.MaterialInventoryReservation[] {
+            filterDeleted(): ReservationWorkingItemResult[] {
                 return this.where(c => c.isDeleted === false);
             }
             total(): number {
@@ -182,8 +187,149 @@ namespace materials {
                 return total;
             }
         }
+        export class ReservationWorkingItemResult extends ibas.Bindable {
+            constructor(data: bo.MaterialInventoryReservation | bo.MaterialOrderedReservation) {
+                super();
+                this[PROPERTY_DATA] = data;
+            }
+            get data(): bo.MaterialInventoryReservation | bo.MaterialOrderedReservation {
+                return this[PROPERTY_DATA];
+            }
+            /** 来源 */
+            get source(): string {
+                if (this.data instanceof bo.MaterialInventoryReservation) {
+                    return ibas.strings.format("WHS:{0}", this.data.warehouse);
+                } else if (this.data instanceof bo.MaterialOrderedReservation) {
+                    return ibas.strings.format("DOC:{0}-{1}-{2}", this.data.sourceDocumentType, this.data.sourceDocumentEntry, this.data.sourceDocumentLineId);
+                }
+                return "UNKNOWN";
+            }
+            /** 可保存的 */
+            get isSavable(): boolean {
+                if (this.data instanceof bo.MaterialOrderedReservation) {
+                    if (this.data.status === ibas.emBOStatus.CLOSED) {
+                        return false;
+                    }
+                }
+                return this.data.isSavable;
+            }
+            /** 交货日期 */
+            get deliveryDate(): Date {
+                if (this.data instanceof bo.MaterialInventoryReservation) {
+                    return this.data.createDate;
+                } else if (this.data instanceof bo.MaterialOrderedReservation) {
+                    return this.data.deliveryDate;
+                }
+            }
+            /** 删除的 */
+            get isDeleted(): boolean {
+                return this.data.isDeleted;
+            }
+            set isDeleted(value: boolean) {
+                this.data.isDeleted = value;
+                this.firePropertyChanged("isDeleted");
+            }
+            delete(): void {
+                this.isDeleted = true;
+            }
+            /** 新的 */
+            get isNew(): boolean {
+                return this.data.isNew;
+            }
+            set isNew(value: boolean) {
+                this.data.isNew = value;
+                this.firePropertyChanged("isNew");
+            }
+            /** 修改的 */
+            get isDirty(): boolean {
+                return this.data.isDirty;
+            }
+            set isDirty(value: boolean) {
+                this.data.isDirty = value;
+                this.firePropertyChanged("isDirty");
+            }
+            /** 物料号 */
+            get itemCode(): string {
+                return this.data.itemCode;
+            }
+            set itemCode(value: string) {
+                this.data.itemCode = value;
+                this.firePropertyChanged("itemCode");
+            }
+            /** 批次号 */
+            get batchCode(): string {
+                if (this.data instanceof bo.MaterialInventoryReservation) {
+                    return this.data.batchCode;
+                }
+                return "";
+            }
+            set batchCode(value: string) {
+                if (this.data instanceof bo.MaterialInventoryReservation) {
+                    this.data.batchCode = value;
+                    this.firePropertyChanged("batchCode");
+                }
+            }
+            /** 序列号 */
+            get serialCode(): string {
+                if (this.data instanceof bo.MaterialInventoryReservation) {
+                    return this.data.serialCode;
+                }
+                return "";
+            }
+            set serialCode(value: string) {
+                if (this.data instanceof bo.MaterialInventoryReservation) {
+                    this.data.serialCode = value;
+                    this.firePropertyChanged("serialCode");
+                }
+            }
+            /** 数量 */
+            get quantity(): number {
+                if (this.data instanceof bo.MaterialInventoryReservation) {
+                    return this.data.quantity;
+                } else if (this.data instanceof bo.MaterialOrderedReservation) {
+                    return this.data.quantity - this.data.closedQuantity;
+                }
+            }
+            set quantity(value: number) {
+                if (this.data instanceof bo.MaterialInventoryReservation) {
+                    this.data.quantity = value;
+                } else if (this.data instanceof bo.MaterialOrderedReservation) {
+                    this.data.quantity = value + this.data.closedQuantity;
+                }
+                this.firePropertyChanged("quantity");
+            }
+            /** 备注 */
+            get remarks(): string {
+                return this.data.remarks;
+            }
+            set remarks(value: string) {
+                this.data.remarks = value;
+                this.firePropertyChanged("remarks");
+            }
+            get targetDocumentType(): string {
+                return this.data.targetDocumentType;
+            }
+            set targetDocumentType(value: string) {
+                this.data.targetDocumentType = value;
+                this.firePropertyChanged("targetDocumentType");
+            }
+            get targetDocumentEntry(): number {
+                return this.data.targetDocumentEntry;
+            }
+            set targetDocumentEntry(value: number) {
+                this.data.targetDocumentEntry = value;
+                this.firePropertyChanged("targetDocumentEntry");
+            }
+            get targetDocumentLineId(): number {
+                return this.data.targetDocumentLineId;
+            }
+            set targetDocumentLineId(value: number) {
+                this.data.targetDocumentLineId = value;
+                this.firePropertyChanged("targetDocumentLineId");
+            }
+        }
         /** 应用-物料库存预留 */
-        export class MaterialInventoryReservationService extends ibas.ServiceApplication<IMaterialInventoryReservationView, IMaterialInventoryReservationTarget> {
+        export class MaterialInventoryReservationService extends ibas.ServiceApplication<IMaterialInventoryReservationView, IMaterialInventoryReservationTarget | IMaterialInventoryReservationTarget[]> {
             /** 应用标识 */
             static APPLICATION_ID: string = "70eb084a-06cb-4208-9b58-abaf1825a38c";
             /** 应用名称 */
@@ -205,24 +351,28 @@ namespace materials {
             }
             /** 视图显示后 */
             protected viewShowed(): void {
-                if (ibas.objects.isNull(this.workingData)) {
-                    this.workingData = new ReservationWorking({
-                        targetType: "",
-                        targetEntry: 0,
-                        items: []
-                    });
-                    this.view.showWorkingData(this.workingData);
+                if (ibas.objects.isNull(this.workingDatas)) {
+                    this.workingDatas = new ibas.ArrayList<ReservationWorking>();
+                    this.view.showWorkingDatas(this.workingDatas);
                 } else {
                     this.busy(true);
                     let criteria: ibas.ICriteria = new ibas.Criteria();
-                    let condition: ibas.ICondition = criteria.conditions.create();
-                    condition.alias = bo.MaterialInventoryReservation.PROPERTY_TARGETDOCUMENTTYPE_NAME;
-                    condition.value = this.workingData.targetType;
-                    condition = criteria.conditions.create();
-                    condition.alias = bo.MaterialInventoryReservation.PROPERTY_TARGETDOCUMENTENTRY_NAME;
-                    condition.value = this.workingData.targetEntry.toString();
+                    for (let workingData of this.workingDatas) {
+                        let condition: ibas.ICondition = criteria.conditions.create();
+                        condition.alias = bo.MaterialInventoryReservation.PROPERTY_TARGETDOCUMENTTYPE_NAME;
+                        condition.value = workingData.targetType;
+                        condition.bracketOpen = 1;
+                        if (criteria.conditions.length > 1) {
+                            condition.relationship = ibas.emConditionRelationship.OR;
+                        }
+                        condition = criteria.conditions.create();
+                        condition.alias = bo.MaterialInventoryReservation.PROPERTY_TARGETDOCUMENTENTRY_NAME;
+                        condition.value = workingData.targetEntry.toString();
+                        condition.bracketClose = 1;
+                    }
                     let boRepository: bo.BORepositoryMaterials = new bo.BORepositoryMaterials();
-                    boRepository.fetchMaterialInventoryReservation({
+                    // 加载订购预留
+                    boRepository.fetchMaterialOrderedReservation({
                         criteria: criteria,
                         onCompleted: (opRslt) => {
                             try {
@@ -231,14 +381,54 @@ namespace materials {
                                     throw new Error(opRslt.message);
                                 }
                                 for (let item of opRslt.resultObjects) {
-                                    for (let wItem of this.workingData.items) {
+                                    let workingData: ReservationWorking = this.workingDatas.firstOrDefault(
+                                        c => c.targetType === item.targetDocumentType
+                                            && c.targetEntry === item.targetDocumentEntry
+                                    );
+                                    // 跳过已结算数量
+                                    if (item.quantity <= item.closedQuantity) {
+                                        continue;
+                                    }
+                                    if (ibas.objects.isNull(workingData)) {
+                                        continue;
+                                    }
+                                    for (let wItem of workingData.items) {
                                         if (item.targetDocumentLineId === wItem.lineId) {
-                                            wItem.results.add(item);
+                                            wItem.results.add(new ReservationWorkingItemResult(item));
                                             break;
                                         }
                                     }
                                 }
-                                this.view.showWorkingData(this.workingData);
+                                // 加载库存预留
+                                boRepository.fetchMaterialInventoryReservation({
+                                    criteria: criteria,
+                                    onCompleted: (opRslt) => {
+                                        try {
+                                            this.busy(false);
+                                            if (opRslt.resultCode !== 0) {
+                                                throw new Error(opRslt.message);
+                                            }
+                                            for (let item of opRslt.resultObjects) {
+                                                let workingData: ReservationWorking = this.workingDatas.firstOrDefault(
+                                                    c => c.targetType === item.targetDocumentType
+                                                        && c.targetEntry === item.targetDocumentEntry
+                                                );
+                                                if (ibas.objects.isNull(workingData)) {
+                                                    continue;
+                                                }
+                                                for (let wItem of workingData.items) {
+                                                    if (item.targetDocumentLineId === wItem.lineId) {
+                                                        wItem.results.add(new ReservationWorkingItemResult(item));
+                                                        break;
+                                                    }
+                                                }
+                                            }
+                                            this.view.showWorkingDatas(this.workingDatas);
+                                        } catch (error) {
+                                            this.messages(error);
+                                        }
+                                    }
+                                });
                             } catch (error) {
                                 this.messages(error);
                             }
@@ -246,43 +436,51 @@ namespace materials {
                     });
                 }
             }
-            private workingData: ReservationWorking;
-            protected runService(contract: IMaterialInventoryReservationTarget): void {
+            private workingDatas: ibas.IList<ReservationWorking>;
+            protected runService(contract: IMaterialInventoryReservationTarget | IMaterialInventoryReservationTarget[]): void {
+                let contracts: ibas.IList<IMaterialInventoryReservationTarget> = ibas.arrays.create(contract);
                 let criteria: ibas.ICriteria = new ibas.Criteria();
-                if (contract?.items instanceof Array) {
-                    for (let item of contract.items) {
-                        let condition: ibas.ICondition = criteria.conditions.create();
-                        condition.alias = bo.Material.PROPERTY_CODE_NAME;
-                        condition.value = item.itemCode;
-                        condition.relationship = ibas.emConditionRelationship.OR;
+                for (let contract of contracts) {
+                    if (contract?.items instanceof Array) {
+                        for (let item of contract.items) {
+                            let condition: ibas.ICondition = criteria.conditions.create();
+                            condition.alias = bo.Material.PROPERTY_CODE_NAME;
+                            condition.value = item.itemCode;
+                            condition.relationship = ibas.emConditionRelationship.OR;
+                        }
                     }
                 }
                 if (criteria.conditions.length > 0) {
-                    this.workingData = new ReservationWorking(contract);
+                    this.workingDatas = new ibas.ArrayList<ReservationWorking>();
+                    for (let contract of contracts) {
+                        this.workingDatas.add(new ReservationWorking(contract));
+                    }
                     let boRepository: bo.BORepositoryMaterials = new bo.BORepositoryMaterials();
                     boRepository.fetchMaterial({
                         criteria: criteria,
                         onCompleted: (opRslt) => {
                             let beChangeds: ibas.IList<materials.app.IBeChangedUOMSourceEx<ReservationWorkingItem>>
                                 = new ibas.ArrayList<materials.app.IBeChangedUOMSourceEx<ReservationWorkingItem>>();
-                            for (let item of this.workingData.items) {
-                                let material: bo.IMaterial = opRslt.resultObjects.firstOrDefault(c => c.code === item.itemCode);
-                                if (ibas.objects.isNull(material)) {
-                                    continue;
-                                }
-                                item.itemDescription = material.name;
-                                item.batchManagement = material.batchManagement;
-                                item.serialManagement = material.serialManagement;
-                                item.inventoryUOM = material.inventoryUOM;
-                                beChangeds.add({
-                                    caller: item,
-                                    sourceUnit: item.uom,
-                                    targetUnit: item.inventoryUOM,
-                                    material: item.itemCode,
-                                    setUnitRate(value: number): void {
-                                        this.uomRate = value;
+                            for (let workingData of this.workingDatas) {
+                                for (let item of workingData.items) {
+                                    let material: bo.IMaterial = opRslt.resultObjects.firstOrDefault(c => c.code === item.itemCode);
+                                    if (ibas.objects.isNull(material)) {
+                                        continue;
                                     }
-                                });
+                                    item.itemDescription = material.name;
+                                    item.batchManagement = material.batchManagement;
+                                    item.serialManagement = material.serialManagement;
+                                    item.inventoryUOM = material.inventoryUOM;
+                                    beChangeds.add({
+                                        caller: item,
+                                        sourceUnit: item.uom,
+                                        targetUnit: item.inventoryUOM,
+                                        material: item.itemCode,
+                                        setUnitRate(value: number): void {
+                                            this.uomRate = value;
+                                        }
+                                    });
+                                }
                             }
                             if (beChangeds.length > 0) {
                                 changeMaterialsUnitRate({
@@ -394,7 +592,7 @@ namespace materials {
                                         if (item.itemCode !== rItem.itemCode) {
                                             continue;
                                         }
-                                        if (item.warehouse !== rItem.warehouse) {
+                                        if (item.warehouse !== rItem.source) {
                                             continue;
                                         }
                                         if (item.batchCode !== rItem.batchCode) {
@@ -450,7 +648,7 @@ namespace materials {
                                         if (item.itemCode !== rItem.itemCode) {
                                             continue;
                                         }
-                                        if (item.warehouse !== rItem.warehouse) {
+                                        if (item.warehouse !== rItem.source) {
                                             continue;
                                         }
                                         if (item.serialCode !== rItem.serialCode) {
@@ -492,7 +690,7 @@ namespace materials {
                                         if (item.itemCode !== rItem.itemCode) {
                                             continue;
                                         }
-                                        if (item.warehouse !== rItem.warehouse) {
+                                        if (item.warehouse !== rItem.source) {
                                             continue;
                                         }
                                         if (item.onHand <= 0) {
@@ -526,14 +724,18 @@ namespace materials {
                     this.messages(ibas.emMessageType.WARNING, ibas.i18n.prop("materials_no_remaining"));
                     return;
                 }
+                let workingData: ReservationWorking = this.workingDatas.firstOrDefault(c => c.items.contain(this.currentWorkingItem));
+                if (ibas.objects.isNull(workingData)) {
+                    return;
+                }
                 let reservation: bo.MaterialInventoryReservation = new bo.MaterialInventoryReservation();
                 reservation.dataOwner = ibas.variablesManager.getValue(ibas.VARIABLE_NAME_USER_ID);
-                reservation.targetDocumentType = this.workingData.targetType;
-                reservation.targetDocumentEntry = this.workingData.targetEntry;
+                reservation.targetDocumentType = workingData.targetType;
+                reservation.targetDocumentEntry = workingData.targetEntry;
                 reservation.targetDocumentLineId = this.currentWorkingItem.lineId;
                 reservation.quantity = this.currentWorkingItem.remaining;
                 if (data instanceof bo.MaterialInventory) {
-                    if (data.onReserved > data.onHand) {
+                    if (data.onReserved >= data.onHand) {
                         this.messages(ibas.emMessageType.WARNING, ibas.i18n.prop("materials_insufficient_inventory"));
                         return;
                     }
@@ -545,7 +747,7 @@ namespace materials {
                     }
                     data.onReserved += reservation.quantity;
                 } else if (data instanceof bo.MaterialBatch) {
-                    if (data.reservedQuantity > data.quantity) {
+                    if (data.reservedQuantity >= data.quantity) {
                         this.messages(ibas.emMessageType.WARNING, ibas.i18n.prop("materials_insufficient_inventory"));
                         return;
                     }
@@ -565,33 +767,43 @@ namespace materials {
                     reservation.quantity = 1;
                     data.reserved = ibas.emYesNo.YES;
                 }
-                this.currentWorkingItem.results.add(reservation);
+                this.currentWorkingItem.results.add(new ReservationWorkingItemResult(reservation));
                 this.view.showReservations(this.currentWorkingItem.results.filterDeleted());
             }
             /** 释放预留库存 */
-            private releaseReservation(data: bo.MaterialInventoryReservation): void {
+            private releaseReservation(data: ReservationWorkingItemResult): void {
                 if (ibas.objects.isNull(data)) {
                     this.messages(ibas.emMessageType.WARNING, ibas.i18n.prop("shell_please_chooose_data", ibas.i18n.prop("shell_data_edit")));
                     return;
                 }
-                for (let wItem of this.workingData.items) {
-                    if (wItem.lineId === data.targetDocumentLineId) {
-                        if (data.isNew === true) {
-                            wItem.results.remove(data);
-                        } else {
-                            data.delete();
+                for (let workingData of this.workingDatas) {
+                    if (workingData.targetType !== data.targetDocumentType) {
+                        continue;
+                    }
+                    if (workingData.targetEntry !== data.targetDocumentEntry) {
+                        continue;
+                    }
+                    for (let wItem of workingData.items) {
+                        if (wItem.lineId === data.targetDocumentLineId) {
+                            if (data.isNew === true) {
+                                wItem.results.remove(data);
+                            } else {
+                                data.delete();
+                            }
+                            this.view.showReservations(wItem.results.filterDeleted());
                         }
-                        this.view.showReservations(wItem.results.filterDeleted());
                     }
                 }
             }
             /** 保存预留库存 */
             private saveReservation(): void {
-                let datas: ibas.ArrayList<bo.MaterialInventoryReservation> = new ibas.ArrayList<bo.MaterialInventoryReservation>();
-                for (let item of this.workingData.items) {
-                    for (let rItem of item.results) {
-                        if (rItem.isDirty === true) {
-                            datas.add(rItem);
+                let datas: ibas.ArrayList<ReservationWorkingItemResult> = new ibas.ArrayList<ReservationWorkingItemResult>();
+                for (let workingData of this.workingDatas) {
+                    for (let item of workingData.items) {
+                        for (let rItem of item.results) {
+                            if (rItem.isDirty === true) {
+                                datas.add(rItem);
+                            }
                         }
                     }
                 }
@@ -599,17 +811,33 @@ namespace materials {
                     let boRepository: bo.BORepositoryMaterials = new bo.BORepositoryMaterials();
                     ibas.queues.execute(datas, (data, next) => {
                         // 处理数据
-                        boRepository.saveMaterialInventoryReservation({
-                            beSaved: data,
-                            onCompleted(opRslt: ibas.IOperationResult<bo.MaterialInventoryReservation>): void {
-                                if (opRslt.resultCode !== 0) {
-                                    next(new Error(ibas.i18n.prop("shell_data_delete_error", data, opRslt.message)));
-                                } else {
-                                    data.markOld();
-                                    next();
+                        if (data.data instanceof bo.MaterialInventoryReservation) {
+                            boRepository.saveMaterialInventoryReservation({
+                                beSaved: data.data,
+                                onCompleted(opRslt: ibas.IOperationResult<bo.MaterialInventoryReservation>): void {
+                                    if (opRslt.resultCode !== 0) {
+                                        next(new Error(ibas.i18n.prop("shell_data_delete_error", data.data, opRslt.message)));
+                                    } else {
+                                        data.data.markOld();
+                                        next();
+                                    }
                                 }
-                            }
-                        });
+                            });
+                        } else if (data.data instanceof bo.MaterialOrderedReservation) {
+                            boRepository.saveMaterialOrderedReservation({
+                                beSaved: data.data,
+                                onCompleted(opRslt: ibas.IOperationResult<bo.MaterialOrderedReservation>): void {
+                                    if (opRslt.resultCode !== 0) {
+                                        next(new Error(ibas.i18n.prop("shell_data_delete_error", data.data, opRslt.message)));
+                                    } else {
+                                        data.data.markOld();
+                                        next();
+                                    }
+                                }
+                            });
+                        } else {
+                            next();
+                        }
                     }, (error) => {
                         // 处理完成
                         if (error instanceof Error) {
@@ -623,6 +851,29 @@ namespace materials {
                     this.busy(true);
                 }
             }
+            /** 关闭视图 */
+            close(): void {
+                for (let workingData of this.workingDatas) {
+                    for (let wItem of workingData.items) {
+                        if (wItem.results.where(c => c.isSavable === true && c.isDirty === true).length > 0) {
+                            this.messages({
+                                type: ibas.emMessageType.QUESTION,
+                                message: ibas.i18n.prop("sys_data_modified_continue_close_view"),
+                                actions: [
+                                    ibas.emMessageAction.YES,
+                                    ibas.emMessageAction.NO
+                                ],
+                                onCompleted: (action) => {
+                                    if (action === ibas.emMessageAction.YES) {
+                                        super.close();
+                                    }
+                                }
+                            }); return;
+                        }
+                    }
+                }
+                super.close();
+            }
         }
         /** 视图-物料库存预留 */
         export interface IMaterialInventoryReservationView extends ibas.IView {
@@ -633,11 +884,11 @@ namespace materials {
             /** 释放预留库存 */
             releaseReservationEvent: Function;
             /** 显示工作顺序 */
-            showWorkingData(data: ReservationWorking): void;
+            showWorkingDatas(datas: ReservationWorking[]): void;
             /** 显示物料库存 */
             showInventories(datas: bo.MaterialInventory[] | bo.MaterialBatch[] | bo.MaterialSerial[]): void;
             /** 显示预留 */
-            showReservations(datas: bo.MaterialInventoryReservation[]): void;
+            showReservations(datas: ReservationWorkingItemResult[]): void;
             /** 保存预留库存 */
             saveReservationEvent: Function;
         }

@@ -145,6 +145,7 @@
   "materials_overview": "总览",
   "materials_restricted_warehouse": "限定仓库",
   "materials_document_warehouse": "单据仓库",
+  "materials_spot": "现货",
   "materials_no_warehouses_for_reservation": "没有允许预留的仓库",
   "materials_insufficient_inventory": "库存不足，此项不可用",
   "materials_no_remaining": "没有未清数量",

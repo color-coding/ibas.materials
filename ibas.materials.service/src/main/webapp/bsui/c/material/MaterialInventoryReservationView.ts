@@ -21,128 +21,6 @@ namespace materials {
                 /** 绘制视图 */
                 draw(): any {
                     let that: this = this;
-                    this.tableWorkItems = new sap.extension.m.List("", {
-                        chooseType: ibas.emChooseType.SINGLE,
-                        mode: sap.m.ListMode.SingleSelectMaster,
-                        growing: false,
-                        items: {
-                            path: "/",
-                            template: new sap.m.ObjectListItem("", {
-                                title: {
-                                    path: "itemDescription",
-                                    type: new sap.extension.data.Alphanumeric()
-                                },
-                                number: {
-                                    parts: [
-                                        {
-                                            path: "quantity",
-                                            type: new sap.extension.data.Numeric()
-                                        }, {
-                                            path: "uom",
-                                            type: new sap.extension.data.Alphanumeric()
-                                        }
-                                    ]
-                                },
-                                firstStatus: new sap.m.ObjectStatus("", {
-                                    text: {
-                                        parts: [
-                                            {
-                                                path: "remaining",
-                                                type: new sap.extension.data.Numeric()
-                                            }, {
-                                                path: "inventoryUOM",
-                                                type: new sap.extension.data.Alphanumeric()
-                                            }
-                                        ]
-                                    },
-                                    state: {
-                                        path: "remaining",
-                                        type: new sap.extension.data.Numeric(),
-                                        formatter(data: number): sap.ui.core.ValueState {
-                                            if (data < 0) {
-                                                return sap.ui.core.ValueState.Error;
-                                            } else if (data > 0) {
-                                                return sap.ui.core.ValueState.Warning;
-                                            }
-                                            return sap.ui.core.ValueState.Success;
-                                        }
-                                    }
-                                }),
-                                attributes: [
-                                    new sap.extension.m.ObjectAttribute("", {
-                                        title: ibas.i18n.prop("bo_materialinventoryreservation_itemcode"),
-                                        bindingValue: {
-                                            path: "itemCode",
-                                            type: new sap.extension.data.Alphanumeric()
-                                        }
-                                    }),
-                                    new sap.extension.m.ObjectAttribute("", {
-                                        title: ibas.i18n.prop("bo_materialinventoryreservation_itemversion"),
-                                        bindingValue: {
-                                            path: "itemVersion",
-                                            type: new sap.extension.data.Alphanumeric()
-                                        },
-                                        visible: {
-                                            path: "itemVersion",
-                                            formatter(data: string): boolean {
-                                                return ibas.strings.isEmpty(data) ? false : true;
-                                            }
-                                        }
-                                    }),
-                                    new sap.extension.m.RepositoryObjectAttribute("", {
-                                        title: ibas.i18n.prop("bo_warehouse"),
-                                        bindingValue: {
-                                            path: "warehouse",
-                                            type: new sap.extension.data.Alphanumeric()
-                                        },
-                                        repository: bo.BORepositoryMaterials,
-                                        dataInfo: {
-                                            type: bo.Warehouse,
-                                            key: bo.Warehouse.PROPERTY_CODE_NAME,
-                                            text: bo.Warehouse.PROPERTY_NAME_NAME
-                                        },
-                                        showValueLink: false,
-                                    }),
-                                    new sap.extension.m.ObjectAttribute("", {
-                                        title: ibas.i18n.prop("bo_material_mixingbatches"),
-                                        bindingValue: {
-                                            path: "mixingBatches",
-                                            type: new sap.extension.data.YesNo()
-                                        },
-                                        visible: {
-                                            path: "mixingBatches",
-                                            formatter(data: ibas.emYesNo): boolean {
-                                                return data === ibas.emYesNo.NO ? true : false;
-                                            }
-                                        }
-                                    }),
-                                ],
-                                type: sap.m.ListType.Active
-                            })
-                        },
-                        selectionChange(event: sap.ui.base.Event): void {
-                            let selected: boolean = event.getParameter("selected");
-                            if (selected === true) {
-                                let data: any = that.tableWorkItems.getSelecteds().firstOrDefault();
-                                that.fireViewEvents(that.changeWorkingItemEvent, data);
-                                if (data instanceof app.ReservationWorkingItem) {
-                                    if (data.batchManagement === ibas.emYesNo.YES) {
-                                        if (that.container.getCurrentPage() !== that.tableBatchInventories.getParent()) {
-                                            that.container.to(<any>that.tableBatchInventories.getParent());
-                                        }
-                                    } else if (data.serialManagement === ibas.emYesNo.YES) {
-                                        if (that.container.getCurrentPage() !== that.tableSerialInventories.getParent()) {
-                                            that.container.to(<any>that.tableSerialInventories.getParent());
-                                        }
-                                    } else {
-                                        if (that.container.getCurrentPage() !== that.tableInventories.getParent()) {
-                                            that.container.to(<any>that.tableInventories.getParent());
-                                        }
-                                    }
-                                }
-                            }
-                        },
-                    });
                     this.tableInventories = new sap.extension.m.List("", {
                         chooseType: ibas.emChooseType.NONE,
                         mode: sap.m.ListMode.None,
@@ -534,8 +412,11 @@ namespace materials {
                     this.tableWorkResults = new sap.extension.m.Table("", {
                         columns: [
                             new sap.extension.m.Column("", {
-                                header: ibas.i18n.prop("bo_warehouse"),
-                                width: "40%",
+                                header: ibas.strings.format("{0} / {1}",
+                                    ibas.i18n.prop("bo_warehouse"),
+                                    ibas.i18n.prop("bo_materialorderedreservation_sourcedocument")
+                                ),
+                                width: "50%",
                             }),
                             new sap.extension.m.Column("", {
                                 header: ibas.strings.format("{0} / {1}",
@@ -545,15 +426,20 @@ namespace materials {
                                 width: "16rem",
                             }),
                             new sap.extension.m.Column("", {
+                                header: ibas.i18n.prop("bo_materialinventoryreservation_deliverydate"),
+                                width: "8rem",
+                            }),
+                            new sap.extension.m.Column("", {
                                 header: ibas.i18n.prop("bo_materialinventoryreservation_quantity"),
                                 width: "8rem",
                             }),
                             new sap.extension.m.Column("", {
                                 header: ibas.i18n.prop("bo_materialinventoryreservation_remarks"),
-                                width: "60%",
+                                width: "40%",
                             }),
                             new sap.extension.m.Column("", {
                                 width: "4rem",
+                                hAlign: sap.ui.core.TextAlign.End,
                             }),
                         ],
                         items: {
@@ -562,16 +448,47 @@ namespace materials {
                             template: new sap.m.ColumnListItem("", {
                                 type: sap.m.ListType.Inactive,
                                 cells: [
-                                    new sap.extension.m.RepositoryText("", {
-                                        repository: bo.BORepositoryMaterials,
-                                        dataInfo: {
-                                            type: bo.Warehouse,
-                                            key: bo.Warehouse.PROPERTY_CODE_NAME,
-                                            text: bo.Warehouse.PROPERTY_NAME_NAME
-                                        },
+                                    new sap.extension.m.Text("", {
                                     }).bindProperty("bindingValue", {
-                                        path: "warehouse",
+                                        path: "source",
                                         type: new sap.extension.data.Alphanumeric(),
+                                        formatter(this: sap.m.Text, data: string): string {
+                                            if (ibas.strings.isWith(data, "DOC:", undefined)) {
+                                                let values: string[] = data.substring(4).split("-");
+                                                if (values.length > 0) {
+                                                    let objectCode: string = values[0];
+                                                    let docEntry: string = values[1];
+                                                    let lineId: string = values[2];
+                                                    let builder: ibas.StringBuilder = new ibas.StringBuilder();
+                                                    builder.append(ibas.i18n.prop("bo_" + ibas.businessobjects.name(objectCode).toLowerCase()));
+                                                    if (!ibas.strings.isEmpty(docEntry)) {
+                                                        builder.append("-");
+                                                        builder.append(docEntry);
+                                                    }
+                                                    if (!ibas.strings.isEmpty(lineId)) {
+                                                        builder.append("-");
+                                                        builder.append(lineId);
+                                                    }
+                                                    return builder.toString();
+                                                }
+                                            } else if (ibas.strings.isWith(data, "WHS:", undefined)) {
+                                                let code: string = data.substring(4);
+                                                let criteria: ibas.Criteria = new ibas.Criteria();
+                                                let condition: ibas.ICondition = criteria.conditions.create();
+                                                condition.alias = bo.Warehouse.PROPERTY_CODE_NAME;
+                                                condition.value = code;
+                                                let boRepository: bo.BORepositoryMaterials = new bo.BORepositoryMaterials();
+                                                boRepository.fetchWarehouse({
+                                                    criteria: criteria,
+                                                    onCompleted: (opRslt) => {
+                                                        for (let item of opRslt.resultObjects) {
+                                                            this.setText(ibas.strings.format("{0}-{1}", item.name, item.code));
+                                                        }
+                                                    }
+                                                });
+                                            }
+                                            return data;
+                                        }
                                     }),
                                     new sap.extension.m.Text("", {
                                     }).bindProperty("bindingValue", {
@@ -585,11 +502,41 @@ namespace materials {
                                             }
                                         ]
                                     }),
+                                    new sap.extension.m.Text("", {
+                                    }).bindProperty("bindingValue", {
+                                        parts: [
+                                            {
+                                                path: "source",
+                                            },
+                                            {
+                                                path: "deliveryDate",
+                                            },
+                                        ],
+                                        formatter(source: string, deliveryDate: any): string {
+                                            if (ibas.strings.isWith(source, "WHS:", undefined)) {
+                                                return ibas.i18n.prop("materials_spot");
+                                            }
+                                            if (deliveryDate instanceof Date) {
+                                                return sap.extension.data.formatValue(sap.extension.data.Date, deliveryDate, "string");
+                                            }
+                                            return "";
+                                        }
+                                    }),
                                     new sap.extension.m.Input("", {
                                         editable: {
-                                            path: "serialCode",
-                                            formatter(data: any): boolean {
-                                                return ibas.strings.isEmpty(data) ? true : false;
+                                            parts: [
+                                                {
+                                                    path: "isSavable",
+                                                },
+                                                {
+                                                    path: "serialCode",
+                                                },
+                                            ],
+                                            formatter(isSavable: boolean, serialCode: string): boolean {
+                                                if (isSavable === false) {
+                                                    return false;
+                                                }
+                                                return ibas.strings.isEmpty(serialCode) ? true : false;
                                             }
                                         }
                                     }).bindProperty("bindingValue", {
@@ -597,18 +544,33 @@ namespace materials {
                                         type: new sap.extension.data.Quantity(),
                                     }),
                                     new sap.extension.m.Input("", {
+                                        editable: {
+                                            path: "isSavable",
+                                        }
                                     }).bindProperty("bindingValue", {
                                         path: "remarks",
                                         type: new sap.extension.data.Alphanumeric(),
                                     }),
                                     new sap.m.Button("", {
+                                        enabled: {
+                                            path: "isSavable",
+                                        },
                                         type: sap.m.ButtonType.Transparent,
                                         icon: "sap-icon://sys-cancel",
                                         press: function (): void {
                                             that.fireViewEvents(that.releaseReservationEvent, this.getBindingContext().getObject());
                                         }
                                     }),
-                                ]
+                                ],
+                                highlight: {
+                                    path: "isDirty",
+                                    formatter(data: boolean): sap.ui.core.ValueState {
+                                        if (data === true) {
+                                            return sap.ui.core.ValueState.Warning;
+                                        }
+                                        return sap.ui.core.ValueState.Information;
+                                    }
+                                },
                             }),
                         }
                     });
@@ -623,23 +585,26 @@ namespace materials {
                         content: [
                             new sap.m.SplitContainer("", {
                                 masterPages: [
-                                    new sap.m.Page("", {
+                                    this.leftPage = new sap.m.Page("", {
                                         showHeader: false,
-                                        content: [
-                                            new sap.m.VBox("", {
+                                        content: {
+                                            path: "/",
+                                            templateShareable: true,
+                                            template: new sap.m.VBox("", {
                                                 items: [
                                                     new sap.m.Toolbar("", {
+                                                        design: sap.m.ToolbarDesign.Solid,
                                                         content: [
                                                             new sap.m.Title("", {
                                                                 titleStyle: sap.ui.core.TitleLevel.H4,
                                                                 text: {
                                                                     parts: [
                                                                         {
-                                                                            path: "/targetType",
+                                                                            path: "targetType",
                                                                             type: new sap.extension.data.Alphanumeric(),
                                                                         },
                                                                         {
-                                                                            path: "/targetEntry",
+                                                                            path: "targetEntry",
                                                                             type: new sap.extension.data.Numeric(),
                                                                         },
                                                                     ],
@@ -652,27 +617,160 @@ namespace materials {
                                                         ],
                                                     }),
                                                     new sap.m.Toolbar("", {
+                                                        design: sap.m.ToolbarDesign.Solid,
                                                         content: [
                                                             new sap.extension.m.ObjectAttribute("", {
                                                                 title: ibas.i18n.prop("bo_materialinventoryreservation_businesspartner"),
                                                                 bindingValue: {
-                                                                    path: "/businessPartner",
+                                                                    path: "businessPartner",
                                                                     type: new sap.extension.data.Alphanumeric(),
                                                                 }
                                                             }),
                                                         ],
                                                         visible: {
-                                                            path: "/businessPartner",
-                                                            type: new sap.extension.data.Alphanumeric(),
+                                                            path: "businessPartner",
                                                             formatter(data: any): boolean {
                                                                 return ibas.strings.isEmpty(data) ? false : true;
                                                             }
                                                         }
                                                     }),
+                                                    new sap.extension.m.List("", {
+                                                        chooseType: ibas.emChooseType.SINGLE,
+                                                        mode: sap.m.ListMode.SingleSelectMaster,
+                                                        growing: false,
+                                                        items: {
+                                                            path: "items",
+                                                            templateShareable: true,
+                                                            template: new sap.m.ObjectListItem("", {
+                                                                title: {
+                                                                    path: "itemDescription",
+                                                                    type: new sap.extension.data.Alphanumeric()
+                                                                },
+                                                                number: {
+                                                                    parts: [
+                                                                        {
+                                                                            path: "quantity",
+                                                                            type: new sap.extension.data.Numeric()
+                                                                        }, {
+                                                                            path: "uom",
+                                                                            type: new sap.extension.data.Alphanumeric()
+                                                                        }
+                                                                    ]
+                                                                },
+                                                                firstStatus: new sap.m.ObjectStatus("", {
+                                                                    text: {
+                                                                        parts: [
+                                                                            {
+                                                                                path: "remaining",
+                                                                                type: new sap.extension.data.Numeric()
+                                                                            }, {
+                                                                                path: "inventoryUOM",
+                                                                                type: new sap.extension.data.Alphanumeric()
+                                                                            }
+                                                                        ]
+                                                                    },
+                                                                    state: sap.ui.core.ValueState.Information
+                                                                }),
+                                                                attributes: [
+                                                                    new sap.extension.m.ObjectAttribute("", {
+                                                                        title: ibas.i18n.prop("bo_materialinventoryreservation_itemcode"),
+                                                                        bindingValue: {
+                                                                            path: "itemCode",
+                                                                            type: new sap.extension.data.Alphanumeric()
+                                                                        }
+                                                                    }),
+                                                                    new sap.extension.m.ObjectAttribute("", {
+                                                                        title: ibas.i18n.prop("bo_materialinventoryreservation_itemversion"),
+                                                                        bindingValue: {
+                                                                            path: "itemVersion",
+                                                                            type: new sap.extension.data.Alphanumeric()
+                                                                        },
+                                                                        visible: {
+                                                                            path: "itemVersion",
+                                                                            formatter(data: string): boolean {
+                                                                                return ibas.strings.isEmpty(data) ? false : true;
+                                                                            }
+                                                                        }
+                                                                    }),
+                                                                    new sap.extension.m.RepositoryObjectAttribute("", {
+                                                                        title: ibas.i18n.prop("bo_warehouse"),
+                                                                        bindingValue: {
+                                                                            path: "warehouse",
+                                                                            type: new sap.extension.data.Alphanumeric()
+                                                                        },
+                                                                        repository: bo.BORepositoryMaterials,
+                                                                        dataInfo: {
+                                                                            type: bo.Warehouse,
+                                                                            key: bo.Warehouse.PROPERTY_CODE_NAME,
+                                                                            text: bo.Warehouse.PROPERTY_NAME_NAME
+                                                                        },
+                                                                        showValueLink: false,
+                                                                    }),
+                                                                    new sap.extension.m.ObjectAttribute("", {
+                                                                        title: ibas.i18n.prop("bo_material_mixingbatches"),
+                                                                        bindingValue: {
+                                                                            path: "mixingBatches",
+                                                                            type: new sap.extension.data.YesNo()
+                                                                        },
+                                                                        visible: {
+                                                                            path: "mixingBatches",
+                                                                            formatter(data: ibas.emYesNo): boolean {
+                                                                                return data === ibas.emYesNo.NO ? true : false;
+                                                                            }
+                                                                        }
+                                                                    }),
+                                                                ],
+                                                                highlight: {
+                                                                    path: "remaining",
+                                                                    type: new sap.extension.data.Numeric(),
+                                                                    formatter(data: number): sap.ui.core.ValueState {
+                                                                        if (data < 0) {
+                                                                            return sap.ui.core.ValueState.Error;
+                                                                        } else if (data > 0) {
+                                                                            return sap.ui.core.ValueState.Warning;
+                                                                        }
+                                                                        return sap.ui.core.ValueState.Success;
+                                                                    }
+                                                                },
+                                                                type: sap.m.ListType.Active
+                                                            })
+                                                        },
+                                                        selectionChange(this: sap.extension.m.List, event: sap.ui.base.Event): void {
+                                                            let selected: boolean = event.getParameter("selected");
+                                                            if (selected === true) {
+                                                                let data: any = this.getSelecteds().firstOrDefault();
+                                                                for (let vbox of that.leftPage.getContent()) {
+                                                                    if (vbox !== this.getParent() && vbox instanceof sap.m.VBox) {
+                                                                        let list: any = vbox.getItems()[2];
+                                                                        if (list instanceof sap.m.List) {
+                                                                            for (let item of list.getItems()) {
+                                                                                item.setSelected(false);
+                                                                            }
+                                                                        }
+                                                                    }
+                                                                }
+                                                                that.fireViewEvents(that.changeWorkingItemEvent, data);
+                                                                if (data instanceof app.ReservationWorkingItem) {
+                                                                    if (data.batchManagement === ibas.emYesNo.YES) {
+                                                                        if (that.container.getCurrentPage() !== that.tableBatchInventories.getParent()) {
+                                                                            that.container.to(<any>that.tableBatchInventories.getParent());
+                                                                        }
+                                                                    } else if (data.serialManagement === ibas.emYesNo.YES) {
+                                                                        if (that.container.getCurrentPage() !== that.tableSerialInventories.getParent()) {
+                                                                            that.container.to(<any>that.tableSerialInventories.getParent());
+                                                                        }
+                                                                    } else {
+                                                                        if (that.container.getCurrentPage() !== that.tableInventories.getParent()) {
+                                                                            that.container.to(<any>that.tableInventories.getParent());
+                                                                        }
+                                                                    }
+                                                                }
+                                                            }
+                                                        },
+                                                    })
                                                 ]
                                             }),
-                                            this.tableWorkItems
-                                        ]
+                                        }
                                     }),
                                 ],
                                 detailPages: [
@@ -691,7 +789,8 @@ namespace materials {
                                                     new sap.m.Page("", {
                                                         showHeader: false,
                                                         subHeader: new sap.m.Toolbar("", {
-                                                            design: sap.m.ToolbarDesign.Transparent,
+                                                            design: sap.m.ToolbarDesign.Solid,
+                                                            style: sap.m.ToolbarStyle.Standard,
                                                             content: [
                                                                 new sap.m.MenuButton("", {
                                                                     icon: "sap-icon://indent",
@@ -704,18 +803,22 @@ namespace materials {
                                                                                 icon: "sap-icon://navigation-down-arrow",
                                                                                 text: ibas.i18n.prop(["shell_show", "materials_details"]),
                                                                                 press: function (): void {
-                                                                                    let table: any = that.container.getCurrentPage();
-                                                                                    if (table instanceof sap.m.List) {
-                                                                                        table.setBusy(true);
-                                                                                        for (let item of table.getItems()) {
-                                                                                            if (item instanceof sap.m.CustomListItem) {
-                                                                                                let panel: any = item.getContent()[0];
-                                                                                                if (panel instanceof sap.m.Panel) {
-                                                                                                    panel.setExpanded(true);
+                                                                                    let page: any = that.container.getCurrentPage();
+                                                                                    if (page instanceof sap.m.Page) {
+                                                                                        for (let pItem of page.getContent()) {
+                                                                                            if (pItem instanceof sap.m.List) {
+                                                                                                pItem.setBusy(true);
+                                                                                                for (let item of pItem.getItems()) {
+                                                                                                    if (item instanceof sap.m.CustomListItem) {
+                                                                                                        let panel: any = item.getContent()[0];
+                                                                                                        if (panel instanceof sap.m.Panel) {
+                                                                                                            panel.setExpanded(true);
+                                                                                                        }
+                                                                                                    }
                                                                                                 }
+                                                                                                pItem.setBusy(false);
                                                                                             }
                                                                                         }
-                                                                                        table.setBusy(false);
                                                                                     }
                                                                                 }
                                                                             }),
@@ -723,18 +826,22 @@ namespace materials {
                                                                                 icon: "sap-icon://navigation-right-arrow",
                                                                                 text: ibas.i18n.prop(["shell_hide", "materials_details"]),
                                                                                 press: function (): void {
-                                                                                    let table: any = that.container.getCurrentPage();
-                                                                                    if (table instanceof sap.m.List) {
-                                                                                        table.setBusy(true);
-                                                                                        for (let item of table.getItems()) {
-                                                                                            if (item instanceof sap.m.CustomListItem) {
-                                                                                                let panel: any = item.getContent()[0];
-                                                                                                if (panel instanceof sap.m.Panel) {
-                                                                                                    panel.setExpanded(false);
+                                                                                    let page: any = that.container.getCurrentPage();
+                                                                                    if (page instanceof sap.m.Page) {
+                                                                                        for (let pItem of page.getContent()) {
+                                                                                            if (pItem instanceof sap.m.List) {
+                                                                                                pItem.setBusy(true);
+                                                                                                for (let item of pItem.getItems()) {
+                                                                                                    if (item instanceof sap.m.CustomListItem) {
+                                                                                                        let panel: any = item.getContent()[0];
+                                                                                                        if (panel instanceof sap.m.Panel) {
+                                                                                                            panel.setExpanded(false);
+                                                                                                        }
+                                                                                                    }
                                                                                                 }
+                                                                                                pItem.setBusy(false);
                                                                                             }
                                                                                         }
-                                                                                        table.setBusy(false);
                                                                                     }
                                                                                 }
                                                                             }),
@@ -897,22 +1004,21 @@ namespace materials {
                         list.setBusy(false);
                     }
                 }
-                private tableWorkItems: sap.extension.m.List;
                 private tableBatchInventories: sap.extension.m.List;
                 private tableSerialInventories: sap.extension.m.List;
                 private tableInventories: sap.extension.m.List;
                 private tableWorkResults: sap.extension.m.Table;
                 private checkRestricted: sap.m.CheckBox;
                 private container: sap.m.NavContainer;
+                private leftPage: sap.m.Page;
 
-                showWorkingData(data: app.ReservationWorking): void {
-                    this.tableWorkItems.getParent().getParent().setModel(new sap.extension.model.JSONModel(data));
-                    this.tableWorkItems.setModel(new sap.extension.model.JSONModel(data.items));
+                showWorkingDatas(datas: app.ReservationWorking[]): void {
+                    this.leftPage.setModel(new sap.extension.model.JSONModel(datas));
                 }
                 showInventories(datas: bo.MaterialInventory[] | bo.MaterialBatch[] | bo.MaterialSerial[]): void {
                     this.container.getCurrentPage().setModel(new sap.extension.model.JSONModel(datas));
                 }
-                showReservations(datas: bo.MaterialInventoryReservation[]): void {
+                showReservations(datas: app.ReservationWorkingItemResult[]): void {
                     this.tableWorkResults.setModel(new sap.extension.model.JSONModel(datas));
                 }
             }

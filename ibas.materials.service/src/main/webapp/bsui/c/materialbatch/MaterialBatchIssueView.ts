@@ -55,18 +55,7 @@ namespace materials {
                                             }
                                         ]
                                     },
-                                    state: {
-                                        path: "remaining",
-                                        type: new sap.extension.data.Numeric(),
-                                        formatter(data: number): sap.ui.core.ValueState {
-                                            if (data < 0) {
-                                                return sap.ui.core.ValueState.Error;
-                                            } else if (data > 0) {
-                                                return sap.ui.core.ValueState.Warning;
-                                            }
-                                            return sap.ui.core.ValueState.Success;
-                                        }
-                                    }
+                                    state: sap.ui.core.ValueState.Information,
                                 }),
                                 attributes: [
                                     new sap.extension.m.ObjectAttribute("", {
@@ -104,8 +93,21 @@ namespace materials {
                                             key: bo.Warehouse.PROPERTY_CODE_NAME,
                                             text: bo.Warehouse.PROPERTY_NAME_NAME
                                         },
+                                        showValueLink: false,
                                     }),
                                 ],
+                                highlight: {
+                                    path: "remaining",
+                                    type: new sap.extension.data.Numeric(),
+                                    formatter(data: number): sap.ui.core.ValueState {
+                                        if (data < 0) {
+                                            return sap.ui.core.ValueState.Error;
+                                        } else if (data > 0) {
+                                            return sap.ui.core.ValueState.Warning;
+                                        }
+                                        return sap.ui.core.ValueState.Success;
+                                    }
+                                },
                                 type: sap.m.ListType.Active
                             })
                         },
