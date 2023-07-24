@@ -330,6 +330,7 @@ namespace materials {
             /** 初始化数据 */
             protected init(): void {
                 this.objectCode = ibas.config.applyVariables(MaterialInventoryReservation.BUSINESS_OBJECT_CODE);
+                this.quantity = 0;
             }
         }
 

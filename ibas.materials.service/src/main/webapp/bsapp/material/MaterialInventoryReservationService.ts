@@ -348,6 +348,7 @@ namespace materials {
                 this.view.releaseReservationEvent = this.releaseReservation;
                 this.view.reserveInventoryEvent = this.reserveInventory;
                 this.view.saveReservationEvent = this.saveReservation;
+                this.view.reserveOrderedEvent = this.reserveOrdered;
             }
             /** 视图显示后 */
             protected viewShowed(): void {
@@ -713,6 +714,46 @@ namespace materials {
                     });
                 }
                 this.view.showReservations(this.currentWorkingItem.results.filterDeleted());
+                // 获取可用目标单据
+                this.view.showOrderedSourceDocuments(ibas.servicesManager.getServices({
+                    proxy: new MaterialOrderedReservationSourceServiceProxy({
+                        itemCode: this.currentWorkingItem.itemCode,
+                        itemDescription: this.currentWorkingItem.itemDescription,
+                        quantity: this.currentWorkingItem.inventoryQuantity,
+                        uom: this.currentWorkingItem.inventoryUOM,
+                        warehouse: this.currentWorkingItem.warehouse,
+                        deliveryDate: undefined,
+                        onReserved: (documentType: string, docEntry: number, lineId: number, quantity: number, deliveryDate: Date) => {
+                            if (!(this.currentWorkingItem.remaining > 0)) {
+                                this.proceeding(ibas.emMessageType.WARNING, ibas.i18n.prop("materials_no_remaining"));
+                                return;
+                            }
+                            let workingData: ReservationWorking = this.workingDatas.firstOrDefault(c => c.items.contain(this.currentWorkingItem));
+                            if (ibas.objects.isNull(workingData)) {
+                                return;
+                            }
+                            let result: bo.MaterialOrderedReservation = new bo.MaterialOrderedReservation();
+                            result.sourceDocumentType = documentType;
+                            result.sourceDocumentEntry = docEntry;
+                            result.sourceDocumentLineId = lineId;
+                            result.itemCode = this.currentWorkingItem.itemCode;
+                            result.warehouse = this.currentWorkingItem.warehouse;
+                            result.targetDocumentType = workingData.targetType;
+                            result.targetDocumentEntry = workingData.targetEntry;
+                            result.targetDocumentLineId = this.currentWorkingItem.lineId;
+                            result.deliveryDate = deliveryDate;
+                            if (quantity > 0) {
+                                if (quantity > this.currentWorkingItem.remaining) {
+                                    result.quantity = this.currentWorkingItem.remaining;
+                                } else {
+                                    result.quantity = quantity;
+                                }
+                                this.currentWorkingItem.results.add(new ReservationWorkingItemResult(result));
+                                this.view.showReservations(this.currentWorkingItem.results.filterDeleted());
+                            }
+                        }
+                    }),
+                }));
             }
             /** 预留库存 */
             private reserveInventory(data: bo.MaterialInventory | bo.MaterialBatch | bo.MaterialSerial): void {
@@ -851,6 +892,17 @@ namespace materials {
                     this.busy(true);
                 }
             }
+            private reserveOrdered(srvSource: ibas.IServiceAgent): void {
+                if (ibas.objects.isNull(this.currentWorkingItem)) {
+                    this.messages(ibas.emMessageType.WARNING, ibas.i18n.prop("materials_no_data_to_be_processed"));
+                    return;
+                }
+                if (ibas.objects.isNull(srvSource)) {
+                    this.messages(ibas.emMessageType.WARNING, ibas.i18n.prop("sys_invalid_parameter", "srvTarget"));
+                    return;
+                }
+                srvSource.run();
+            }
             /** 关闭视图 */
             close(): void {
                 for (let workingData of this.workingDatas) {
@@ -881,6 +933,8 @@ namespace materials {
             changeWorkingItemEvent: Function;
             /** 预留库存 */
             reserveInventoryEvent: Function;
+            /** 预留订购 */
+            reserveOrderedEvent: Function;
             /** 释放预留库存 */
             releaseReservationEvent: Function;
             /** 显示工作顺序 */
@@ -891,6 +945,8 @@ namespace materials {
             showReservations(datas: ReservationWorkingItemResult[]): void;
             /** 保存预留库存 */
             saveReservationEvent: Function;
+            /** 显示订购可用源单据 */
+            showOrderedSourceDocuments(datas: ibas.IServiceAgent[]): void;
         }
         /** 物料库存预留服务映射 */
         export class MaterialInventoryReservationServiceMapping extends ibas.ServiceMapping {

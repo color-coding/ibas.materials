@@ -460,7 +460,7 @@ namespace materials {
                                                 text: {
                                                     path: "madeToOrder",
                                                     type: new sap.extension.data.Enum({
-                                                        enumType: bo.emIssueMethod,
+                                                        enumType: ibas.emYesNo,
                                                         describe: true,
                                                     }),
                                                 }
@@ -470,7 +470,7 @@ namespace materials {
                                                 text: {
                                                     path: "checkCompleteness",
                                                     type: new sap.extension.data.Enum({
-                                                        enumType: bo.emIssueMethod,
+                                                        enumType: ibas.emYesNo,
                                                         describe: true,
                                                     }),
                                                 }
@@ -480,7 +480,7 @@ namespace materials {
                                                 text: {
                                                     path: "mixingBatches",
                                                     type: new sap.extension.data.Enum({
-                                                        enumType: bo.emIssueMethod,
+                                                        enumType: ibas.emYesNo,
                                                         describe: true,
                                                     }),
                                                 }

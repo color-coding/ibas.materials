@@ -171,22 +171,29 @@ namespace materials {
                                     }
                                 }),
                                 new sap.m.ToolbarSeparator(""),
-                                new sap.m.Button("", {
-                                    text: ibas.i18n.prop("materials_func_materialgroup"),
+                                new sap.extension.m.MenuButton("", {
+                                    autoHide: true,
+                                    text: ibas.i18n.prop("shell_quick_to"),
+                                    icon: "sap-icon://generate-shortcut",
                                     type: sap.m.ButtonType.Transparent,
-                                    icon: "sap-icon://dimension",
-                                    press: function (): void {
-                                        that.fireViewEvents(that.materialGroupEvent);
-                                    }
-                                }),
-                                new sap.m.ToolbarSeparator(""),
-                                new sap.m.Button("", {
-                                    text: ibas.i18n.prop("materials_func_unit"),
-                                    type: sap.m.ButtonType.Transparent,
-                                    icon: "sap-icon://measure",
-                                    press: function (): void {
-                                        that.fireViewEvents(that.materialUnitEvent);
-                                    }
+                                    menu: new sap.m.Menu("", {
+                                        items: [
+                                            new sap.m.MenuItem("", {
+                                                text: ibas.i18n.prop("materials_func_materialgroup"),
+                                                icon: "sap-icon://dimension",
+                                                press: function (): void {
+                                                    that.fireViewEvents(that.materialGroupEvent);
+                                                },
+                                            }),
+                                            new sap.m.MenuItem("", {
+                                                text: ibas.i18n.prop("materials_func_unit"),
+                                                icon: "sap-icon://measure",
+                                                press: function (): void {
+                                                    that.fireViewEvents(that.materialUnitEvent);
+                                                },
+                                            }),
+                                        ],
+                                    })
                                 }),
                                 new sap.m.ToolbarSpacer(""),
                                 new sap.m.Button("", {

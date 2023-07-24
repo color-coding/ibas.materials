@@ -323,6 +323,10 @@ namespace materials {
                         warehouse: this.currentWorkingItem.warehouse,
                         deliveryDate: undefined,
                         onReserved: (documentType: string, docEntry: number, lineId: number, quantity: number) => {
+                            if (!(this.currentWorkingItem.remaining > 0)) {
+                                this.proceeding(ibas.emMessageType.WARNING, ibas.i18n.prop("materials_no_remaining"));
+                                return;
+                            }
                             let workingData: OrderedReservationWorking = this.workingDatas.firstOrDefault(c => c.items.contain(this.currentWorkingItem));
                             if (ibas.objects.isNull(workingData)) {
                                 return;
@@ -333,7 +337,7 @@ namespace materials {
                             result.sourceDocumentLineId = this.currentWorkingItem.lineId;
                             result.itemCode = this.currentWorkingItem.itemCode;
                             result.warehouse = this.currentWorkingItem.warehouse;
-                            result.sourceDocumentLineId = this.currentWorkingItem.lineId;
+                            result.deliveryDate = this.currentWorkingItem.deliveryDate;
                             result.targetDocumentType = documentType;
                             result.targetDocumentEntry = docEntry;
                             result.targetDocumentLineId = lineId;

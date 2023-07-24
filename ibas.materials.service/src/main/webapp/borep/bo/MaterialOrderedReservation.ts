@@ -349,6 +349,8 @@ namespace materials {
             protected init(): void {
                 this.objectCode = ibas.config.applyVariables(MaterialOrderedReservation.BUSINESS_OBJECT_CODE);
                 this.status = ibas.emBOStatus.OPEN;
+                this.quantity = 0;
+                this.closedQuantity = 0;
             }
         }
 

@@ -384,10 +384,14 @@ namespace materials {
             uom: string;
             warehouse?: string;
             deliveryDate?: Date;
-            onReserved: (documentType: string, docEntry: number, lineId: number, quantity: number) => void;
+            onReserved: (documentType: string, docEntry: number, lineId: number, quantity: number, deliveryDate?: Date) => void;
         }
         /** 物料订购预留目标单据服务代理 */
         export class MaterialOrderedReservationTargetServiceProxy extends ibas.ServiceProxy<IMaterialOrderedReservationTarget> {
+
+        }
+        /** 物料订购预留源单据服务代理 */
+        export class MaterialOrderedReservationSourceServiceProxy extends ibas.ServiceProxy<IMaterialOrderedReservationTarget> {
 
         }
         /** 查询条件 */

@@ -148,12 +148,14 @@
   "materials_spot": "现货",
   "materials_no_warehouses_for_reservation": "没有允许预留的仓库",
   "materials_insufficient_inventory": "库存不足，此项不可用",
-  "materials_no_remaining": "没有未清数量",
+  "materials_no_remaining": "没有未分配数量",
   "materials_specification_view": "物料规格: 编号[{0}] (点击查看详情)",
   "materials_specification_item_required_value": "规格项：[{0}]需要输入值",
   "materials_create_continue": "新建{0}，是否继续？",
   "materials_change_item_warehouse_continue": "是否更改单据行的仓库为[{0}]？",
   "materials_business_rule_calculate_inventory_quantity": "计算库存单位数量",
   "materials_materialscrap_calculation_instructions": "废品数计算说明： 废品数 = 值 + （原数量 × 率），阶梯时增加原数量范围判断",
+  "materials_orderer_reservation": "订购预留",
+  "materials_inventory_reservation": "库存预留",
   "materials_closing_delimiter": "----结束----"
 }

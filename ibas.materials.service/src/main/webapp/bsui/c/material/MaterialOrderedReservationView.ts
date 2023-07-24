@@ -53,7 +53,26 @@ namespace materials {
                             }),
                             new sap.extension.m.Column("", {
                                 width: "4rem",
-                                hAlign: sap.ui.core.TextAlign.End,
+                                hAlign: sap.ui.core.TextAlign.Center,
+                                header: new sap.m.MenuButton("", {
+                                    icon: "sap-icon://sys-add",
+                                    type: sap.m.ButtonType.Transparent,
+                                    menuPosition: sap.ui.core.Popup.Dock.EndBottom,
+                                    menu: this.menuTargets = new sap.m.Menu("", {
+                                        items: {
+                                            path: "/",
+                                            template: new sap.m.MenuItem("", {
+                                                text: {
+                                                    path: "description",
+                                                    type: new sap.extension.data.Alphanumeric(),
+                                                },
+                                                press: function (this: sap.m.MenuItem): void {
+                                                    that.fireViewEvents(that.addTargetDocumentEvent, this.getBindingContext().getObject());
+                                                }
+                                            })
+                                        }
+                                    })
+                                }),
                             }),
                         ],
                         items: {
@@ -160,34 +179,105 @@ namespace materials {
                                 masterPages: [
                                     this.leftPage = new sap.m.Page("", {
                                         showHeader: false,
+                                        subHeader: new sap.m.Toolbar("", {
+                                            design: sap.m.ToolbarDesign.Solid,
+                                            style: sap.m.ToolbarStyle.Standard,
+                                            content: [
+                                                new sap.m.ToolbarSpacer(),
+                                                new sap.m.Button("", {
+                                                    type: sap.m.ButtonType.Transparent,
+                                                    icon: "sap-icon://navigation-down-arrow",
+                                                    press: function (this: sap.m.Button): void {
+                                                        if (this.getIcon() === "sap-icon://navigation-right-arrow") {
+                                                            for (let pItem of that.leftPage.getContent()) {
+                                                                if (pItem instanceof sap.m.Panel) {
+                                                                    pItem.setExpanded(true);
+                                                                }
+                                                            }
+                                                            this.setIcon("sap-icon://navigation-down-arrow");
+                                                        } else {
+                                                            for (let pItem of that.leftPage.getContent()) {
+                                                                if (pItem instanceof sap.m.Panel) {
+                                                                    pItem.setExpanded(false);
+                                                                }
+                                                            }
+                                                            this.setIcon("sap-icon://navigation-right-arrow");
+                                                        }
+                                                    }
+                                                }),
+                                                new sap.m.SearchField("", {
+                                                    search(event: sap.ui.base.Event): void {
+                                                        let source: any = event.getSource();
+                                                        if (source instanceof sap.m.SearchField) {
+                                                            let search: string = source.getValue();
+                                                            if (search) {
+                                                                search = search.trim().toLowerCase();
+                                                            }
+                                                            let done: boolean;
+                                                            let content: string;
+                                                            for (let pItem of that.leftPage.getContent()) {
+                                                                if (pItem instanceof sap.m.Panel) {
+                                                                    for (let eItem of pItem.getContent()) {
+                                                                        if (eItem instanceof sap.m.ListBase) {
+                                                                            for (let item of eItem.getItems()) {
+                                                                                if (item instanceof sap.m.ObjectListItem) {
+                                                                                    item.setVisible(true);
+                                                                                    if (ibas.strings.isEmpty(search)) {
+                                                                                        continue;
+                                                                                    }
+                                                                                    done = false;
+                                                                                    content = item.getTitle(); if (content && content.toLowerCase().indexOf(search) >= 0) {
+                                                                                        continue;
+                                                                                    }
+                                                                                    content = item.getAttributes()[0].getText(); if (content && content.toLowerCase().indexOf(search) >= 0) {
+                                                                                        continue;
+                                                                                    }
+                                                                                    item.setVisible(false);
+                                                                                    if (!done) {
+                                                                                        item.setVisible(false);
+                                                                                    }
+                                                                                }
+                                                                            }
+                                                                        }
+                                                                    }
+
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                }),
+                                            ],
+                                        }),
                                         content: {
                                             path: "/",
                                             templateShareable: true,
-                                            template: new sap.m.VBox("", {
-                                                items: [
-                                                    new sap.m.Toolbar("", {
-                                                        design: sap.m.ToolbarDesign.Solid,
-                                                        content: [
-                                                            new sap.m.Title("", {
-                                                                titleStyle: sap.ui.core.TitleLevel.H4,
-                                                                text: {
-                                                                    parts: [
-                                                                        {
-                                                                            path: "sourceType",
-                                                                            type: new sap.extension.data.Alphanumeric(),
-                                                                        },
-                                                                        {
-                                                                            path: "sourceEntry",
-                                                                            type: new sap.extension.data.Numeric(),
-                                                                        },
-                                                                    ],
-                                                                    formatter(type: string, entry: number): string {
-                                                                        return ibas.businessobjects.describe(ibas.strings.format("{[{0}].[DocEntry = {1}]}", type, entry));
-                                                                    }
+                                            template: new sap.m.Panel("", {
+                                                expandable: true,
+                                                expanded: true,
+                                                headerToolbar: new sap.m.Toolbar("", {
+                                                    design: sap.m.ToolbarDesign.Transparent,
+                                                    content: [
+                                                        new sap.m.Title("", {
+                                                            titleStyle: sap.ui.core.TitleLevel.H4,
+                                                            text: {
+                                                                parts: [
+                                                                    {
+                                                                        path: "sourceType",
+                                                                        type: new sap.extension.data.Alphanumeric(),
+                                                                    },
+                                                                    {
+                                                                        path: "sourceEntry",
+                                                                        type: new sap.extension.data.Numeric(),
+                                                                    },
+                                                                ],
+                                                                formatter(type: string, entry: number): string {
+                                                                    return ibas.businessobjects.describe(ibas.strings.format("{[{0}].[DocEntry = {1}]}", type, entry));
                                                                 }
-                                                            }),
-                                                        ],
-                                                    }),
+                                                            }
+                                                        }),
+                                                    ],
+                                                }),
+                                                content: [
                                                     new sap.extension.m.List("", {
                                                         chooseType: ibas.emChooseType.SINGLE,
                                                         mode: sap.m.ListMode.SingleSelectMaster,
@@ -307,40 +397,14 @@ namespace materials {
                                                             }
                                                         },
                                                     })
-                                                ]
-                                            }),
+                                                ],
+                                            }).addStyleClass("sapUiNoContentPadding")
                                         }
                                     }),
                                 ],
                                 detailPages: [
                                     new sap.m.Page("", {
                                         showHeader: false,
-                                        subHeader: new sap.m.Toolbar("", {
-                                            design: sap.m.ToolbarDesign.Solid,
-                                            style: sap.m.ToolbarStyle.Standard,
-                                            content: [
-                                                new sap.m.ToolbarSpacer(),
-                                                new sap.m.MenuButton("", {
-                                                    type: sap.m.ButtonType.Transparent,
-                                                    icon: "sap-icon://add",
-                                                    text: ibas.i18n.prop("shell_data_add"),
-                                                    menu: this.menuTargets = new sap.m.Menu("", {
-                                                        items: {
-                                                            path: "/",
-                                                            template: new sap.m.MenuItem("", {
-                                                                text: {
-                                                                    path: "description",
-                                                                    type: new sap.extension.data.Alphanumeric(),
-                                                                },
-                                                                press: function (this: sap.m.MenuItem): void {
-                                                                    that.fireViewEvents(that.addTargetDocumentEvent, this.getBindingContext().getObject());
-                                                                }
-                                                            })
-                                                        }
-                                                    })
-                                                }),
-                                            ],
-                                        }),
                                         content: [
                                             this.tableWorkResults,
                                         ],

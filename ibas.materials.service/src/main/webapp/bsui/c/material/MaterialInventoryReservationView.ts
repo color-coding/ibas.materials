@@ -14,6 +14,8 @@ namespace materials {
                 changeWorkingItemEvent: Function;
                 /** 预留库存 */
                 reserveInventoryEvent: Function;
+                /** 预留订购 */
+                reserveOrderedEvent: Function;
                 /** 释放预留库存 */
                 releaseReservationEvent: Function;
                 /** 保存预留库存 */
@@ -439,7 +441,26 @@ namespace materials {
                             }),
                             new sap.extension.m.Column("", {
                                 width: "4rem",
-                                hAlign: sap.ui.core.TextAlign.End,
+                                hAlign: sap.ui.core.TextAlign.Center,
+                                header: new sap.m.MenuButton("", {
+                                    icon: "sap-icon://sys-add",
+                                    type: sap.m.ButtonType.Transparent,
+                                    menuPosition: sap.ui.core.Popup.Dock.EndBottom,
+                                    menu: this.menuSources = new sap.m.Menu("", {
+                                        items: {
+                                            path: "/",
+                                            template: new sap.m.MenuItem("", {
+                                                text: {
+                                                    path: "description",
+                                                    type: new sap.extension.data.Alphanumeric(),
+                                                },
+                                                press: function (this: sap.m.MenuItem): void {
+                                                    that.fireViewEvents(that.reserveOrderedEvent, this.getBindingContext().getObject());
+                                                }
+                                            })
+                                        }
+                                    })
+                                }),
                             }),
                         ],
                         items: {
@@ -587,189 +608,268 @@ namespace materials {
                                 masterPages: [
                                     this.leftPage = new sap.m.Page("", {
                                         showHeader: false,
+                                        subHeader: new sap.m.Toolbar("", {
+                                            design: sap.m.ToolbarDesign.Solid,
+                                            style: sap.m.ToolbarStyle.Standard,
+                                            content: [
+                                                new sap.m.ToolbarSpacer(),
+                                                new sap.m.Button("", {
+                                                    type: sap.m.ButtonType.Transparent,
+                                                    icon: "sap-icon://navigation-down-arrow",
+                                                    press: function (this: sap.m.Button): void {
+                                                        if (this.getIcon() === "sap-icon://navigation-right-arrow") {
+                                                            for (let pItem of that.leftPage.getContent()) {
+                                                                if (pItem instanceof sap.m.Panel) {
+                                                                    pItem.setExpanded(true);
+                                                                }
+                                                            }
+                                                            this.setIcon("sap-icon://navigation-down-arrow");
+                                                        } else {
+                                                            for (let pItem of that.leftPage.getContent()) {
+                                                                if (pItem instanceof sap.m.Panel) {
+                                                                    pItem.setExpanded(false);
+                                                                }
+                                                            }
+                                                            this.setIcon("sap-icon://navigation-right-arrow");
+                                                        }
+                                                    }
+                                                }),
+                                                new sap.m.SearchField("", {
+                                                    search(event: sap.ui.base.Event): void {
+                                                        let source: any = event.getSource();
+                                                        if (source instanceof sap.m.SearchField) {
+                                                            let search: string = source.getValue();
+                                                            if (search) {
+                                                                search = search.trim().toLowerCase();
+                                                            }
+                                                            let done: boolean;
+                                                            let content: string;
+                                                            for (let pItem of that.leftPage.getContent()) {
+                                                                if (pItem instanceof sap.m.Panel) {
+                                                                    for (let eItem of pItem.getContent()) {
+                                                                        if (eItem instanceof sap.m.VBox) {
+                                                                            for (let vItem of eItem.getItems()) {
+                                                                                if (vItem instanceof sap.m.ListBase) {
+                                                                                    for (let item of vItem.getItems()) {
+                                                                                        if (item instanceof sap.m.ObjectListItem) {
+                                                                                            item.setVisible(true);
+                                                                                            if (ibas.strings.isEmpty(search)) {
+                                                                                                continue;
+                                                                                            }
+                                                                                            done = false;
+                                                                                            content = item.getTitle(); if (content && content.toLowerCase().indexOf(search) >= 0) {
+                                                                                                continue;
+                                                                                            }
+                                                                                            content = item.getAttributes()[0].getText(); if (content && content.toLowerCase().indexOf(search) >= 0) {
+                                                                                                continue;
+                                                                                            }
+                                                                                            item.setVisible(false);
+                                                                                            if (!done) {
+                                                                                                item.setVisible(false);
+                                                                                            }
+                                                                                        }
+                                                                                    }
+                                                                                }
+
+                                                                            }
+                                                                        }
+                                                                    }
+
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                }),
+                                            ],
+                                        }),
                                         content: {
                                             path: "/",
                                             templateShareable: true,
-                                            template: new sap.m.VBox("", {
-                                                items: [
-                                                    new sap.m.Toolbar("", {
-                                                        design: sap.m.ToolbarDesign.Solid,
-                                                        content: [
-                                                            new sap.m.Title("", {
-                                                                titleStyle: sap.ui.core.TitleLevel.H4,
-                                                                text: {
-                                                                    parts: [
-                                                                        {
-                                                                            path: "targetType",
-                                                                            type: new sap.extension.data.Alphanumeric(),
-                                                                        },
-                                                                        {
-                                                                            path: "targetEntry",
-                                                                            type: new sap.extension.data.Numeric(),
-                                                                        },
-                                                                    ],
-                                                                    formatter(type: string, entry: number): string {
-                                                                        return ibas.businessobjects.describe(ibas.strings.format("{[{0}].[DocEntry = {1}]}", type, entry));
-                                                                    }
-                                                                }
-                                                            }),
-
-                                                        ],
-                                                    }),
-                                                    new sap.m.Toolbar("", {
-                                                        design: sap.m.ToolbarDesign.Solid,
-                                                        content: [
-                                                            new sap.extension.m.ObjectAttribute("", {
-                                                                title: ibas.i18n.prop("bo_materialinventoryreservation_businesspartner"),
-                                                                bindingValue: {
-                                                                    path: "businessPartner",
-                                                                    type: new sap.extension.data.Alphanumeric(),
-                                                                }
-                                                            }),
-                                                        ],
-                                                        visible: {
-                                                            path: "businessPartner",
-                                                            formatter(data: any): boolean {
-                                                                return ibas.strings.isEmpty(data) ? false : true;
-                                                            }
-                                                        }
-                                                    }),
-                                                    new sap.extension.m.List("", {
-                                                        chooseType: ibas.emChooseType.SINGLE,
-                                                        mode: sap.m.ListMode.SingleSelectMaster,
-                                                        growing: false,
-                                                        items: {
-                                                            path: "items",
-                                                            templateShareable: true,
-                                                            template: new sap.m.ObjectListItem("", {
-                                                                title: {
-                                                                    path: "itemDescription",
-                                                                    type: new sap.extension.data.Alphanumeric()
-                                                                },
-                                                                number: {
-                                                                    parts: [
-                                                                        {
-                                                                            path: "quantity",
-                                                                            type: new sap.extension.data.Numeric()
-                                                                        }, {
-                                                                            path: "uom",
-                                                                            type: new sap.extension.data.Alphanumeric()
-                                                                        }
-                                                                    ]
-                                                                },
-                                                                firstStatus: new sap.m.ObjectStatus("", {
-                                                                    text: {
-                                                                        parts: [
-                                                                            {
-                                                                                path: "remaining",
-                                                                                type: new sap.extension.data.Numeric()
-                                                                            }, {
-                                                                                path: "inventoryUOM",
-                                                                                type: new sap.extension.data.Alphanumeric()
-                                                                            }
-                                                                        ]
+                                            template: new sap.m.Panel("", {
+                                                expandable: true,
+                                                expanded: true,
+                                                headerToolbar: new sap.m.Toolbar("", {
+                                                    design: sap.m.ToolbarDesign.Transparent,
+                                                    content: [
+                                                        new sap.m.Title("", {
+                                                            titleStyle: sap.ui.core.TitleLevel.H4,
+                                                            text: {
+                                                                parts: [
+                                                                    {
+                                                                        path: "targetType",
+                                                                        type: new sap.extension.data.Alphanumeric(),
                                                                     },
-                                                                    state: sap.ui.core.ValueState.Information
-                                                                }),
-                                                                attributes: [
+                                                                    {
+                                                                        path: "targetEntry",
+                                                                        type: new sap.extension.data.Numeric(),
+                                                                    },
+                                                                ],
+                                                                formatter(type: string, entry: number): string {
+                                                                    return ibas.businessobjects.describe(ibas.strings.format("{[{0}].[DocEntry = {1}]}", type, entry));
+                                                                }
+                                                            }
+                                                        }),
+                                                    ],
+                                                }),
+                                                content: [
+                                                    new sap.m.VBox("", {
+                                                        items: [
+                                                            new sap.m.Toolbar("", {
+                                                                design: sap.m.ToolbarDesign.Transparent,
+                                                                content: [
                                                                     new sap.extension.m.ObjectAttribute("", {
-                                                                        title: ibas.i18n.prop("bo_materialinventoryreservation_itemcode"),
+                                                                        title: ibas.i18n.prop("bo_materialinventoryreservation_businesspartner"),
                                                                         bindingValue: {
-                                                                            path: "itemCode",
-                                                                            type: new sap.extension.data.Alphanumeric()
-                                                                        }
-                                                                    }),
-                                                                    new sap.extension.m.ObjectAttribute("", {
-                                                                        title: ibas.i18n.prop("bo_materialinventoryreservation_itemversion"),
-                                                                        bindingValue: {
-                                                                            path: "itemVersion",
-                                                                            type: new sap.extension.data.Alphanumeric()
-                                                                        },
-                                                                        visible: {
-                                                                            path: "itemVersion",
-                                                                            formatter(data: string): boolean {
-                                                                                return ibas.strings.isEmpty(data) ? false : true;
-                                                                            }
-                                                                        }
-                                                                    }),
-                                                                    new sap.extension.m.RepositoryObjectAttribute("", {
-                                                                        title: ibas.i18n.prop("bo_warehouse"),
-                                                                        bindingValue: {
-                                                                            path: "warehouse",
-                                                                            type: new sap.extension.data.Alphanumeric()
-                                                                        },
-                                                                        repository: bo.BORepositoryMaterials,
-                                                                        dataInfo: {
-                                                                            type: bo.Warehouse,
-                                                                            key: bo.Warehouse.PROPERTY_CODE_NAME,
-                                                                            text: bo.Warehouse.PROPERTY_NAME_NAME
-                                                                        },
-                                                                        showValueLink: false,
-                                                                    }),
-                                                                    new sap.extension.m.ObjectAttribute("", {
-                                                                        title: ibas.i18n.prop("bo_material_mixingbatches"),
-                                                                        bindingValue: {
-                                                                            path: "mixingBatches",
-                                                                            type: new sap.extension.data.YesNo()
-                                                                        },
-                                                                        visible: {
-                                                                            path: "mixingBatches",
-                                                                            formatter(data: ibas.emYesNo): boolean {
-                                                                                return data === ibas.emYesNo.NO ? true : false;
-                                                                            }
+                                                                            path: "businessPartner",
+                                                                            type: new sap.extension.data.Alphanumeric(),
                                                                         }
                                                                     }),
                                                                 ],
-                                                                highlight: {
-                                                                    path: "remaining",
-                                                                    type: new sap.extension.data.Numeric(),
-                                                                    formatter(data: number): sap.ui.core.ValueState {
-                                                                        if (data < 0) {
-                                                                            return sap.ui.core.ValueState.Error;
-                                                                        } else if (data > 0) {
-                                                                            return sap.ui.core.ValueState.Warning;
-                                                                        }
-                                                                        return sap.ui.core.ValueState.Success;
+                                                                visible: {
+                                                                    path: "businessPartner",
+                                                                    formatter(data: any): boolean {
+                                                                        return ibas.strings.isEmpty(data) ? false : true;
                                                                     }
+                                                                }
+                                                            }),
+                                                            new sap.extension.m.List("", {
+                                                                chooseType: ibas.emChooseType.SINGLE,
+                                                                mode: sap.m.ListMode.SingleSelectMaster,
+                                                                growing: false,
+                                                                items: {
+                                                                    path: "items",
+                                                                    templateShareable: true,
+                                                                    template: new sap.m.ObjectListItem("", {
+                                                                        title: {
+                                                                            path: "itemDescription",
+                                                                            type: new sap.extension.data.Alphanumeric()
+                                                                        },
+                                                                        number: {
+                                                                            parts: [
+                                                                                {
+                                                                                    path: "quantity",
+                                                                                    type: new sap.extension.data.Numeric()
+                                                                                }, {
+                                                                                    path: "uom",
+                                                                                    type: new sap.extension.data.Alphanumeric()
+                                                                                }
+                                                                            ]
+                                                                        },
+                                                                        firstStatus: new sap.m.ObjectStatus("", {
+                                                                            text: {
+                                                                                parts: [
+                                                                                    {
+                                                                                        path: "remaining",
+                                                                                        type: new sap.extension.data.Numeric()
+                                                                                    }, {
+                                                                                        path: "inventoryUOM",
+                                                                                        type: new sap.extension.data.Alphanumeric()
+                                                                                    }
+                                                                                ]
+                                                                            },
+                                                                            state: sap.ui.core.ValueState.Information
+                                                                        }),
+                                                                        attributes: [
+                                                                            new sap.extension.m.ObjectAttribute("", {
+                                                                                title: ibas.i18n.prop("bo_materialinventoryreservation_itemcode"),
+                                                                                bindingValue: {
+                                                                                    path: "itemCode",
+                                                                                    type: new sap.extension.data.Alphanumeric()
+                                                                                }
+                                                                            }),
+                                                                            new sap.extension.m.ObjectAttribute("", {
+                                                                                title: ibas.i18n.prop("bo_materialinventoryreservation_itemversion"),
+                                                                                bindingValue: {
+                                                                                    path: "itemVersion",
+                                                                                    type: new sap.extension.data.Alphanumeric()
+                                                                                },
+                                                                                visible: {
+                                                                                    path: "itemVersion",
+                                                                                    formatter(data: string): boolean {
+                                                                                        return ibas.strings.isEmpty(data) ? false : true;
+                                                                                    }
+                                                                                }
+                                                                            }),
+                                                                            new sap.extension.m.RepositoryObjectAttribute("", {
+                                                                                title: ibas.i18n.prop("bo_warehouse"),
+                                                                                bindingValue: {
+                                                                                    path: "warehouse",
+                                                                                    type: new sap.extension.data.Alphanumeric()
+                                                                                },
+                                                                                repository: bo.BORepositoryMaterials,
+                                                                                dataInfo: {
+                                                                                    type: bo.Warehouse,
+                                                                                    key: bo.Warehouse.PROPERTY_CODE_NAME,
+                                                                                    text: bo.Warehouse.PROPERTY_NAME_NAME
+                                                                                },
+                                                                                showValueLink: false,
+                                                                            }),
+                                                                            new sap.extension.m.ObjectAttribute("", {
+                                                                                title: ibas.i18n.prop("bo_material_mixingbatches"),
+                                                                                bindingValue: {
+                                                                                    path: "mixingBatches",
+                                                                                    type: new sap.extension.data.YesNo()
+                                                                                },
+                                                                                visible: {
+                                                                                    path: "mixingBatches",
+                                                                                    formatter(data: ibas.emYesNo): boolean {
+                                                                                        return data === ibas.emYesNo.NO ? true : false;
+                                                                                    }
+                                                                                }
+                                                                            }),
+                                                                        ],
+                                                                        highlight: {
+                                                                            path: "remaining",
+                                                                            type: new sap.extension.data.Numeric(),
+                                                                            formatter(data: number): sap.ui.core.ValueState {
+                                                                                if (data < 0) {
+                                                                                    return sap.ui.core.ValueState.Error;
+                                                                                } else if (data > 0) {
+                                                                                    return sap.ui.core.ValueState.Warning;
+                                                                                }
+                                                                                return sap.ui.core.ValueState.Success;
+                                                                            }
+                                                                        },
+                                                                        type: sap.m.ListType.Active
+                                                                    })
                                                                 },
-                                                                type: sap.m.ListType.Active
-                                                            })
-                                                        },
-                                                        selectionChange(this: sap.extension.m.List, event: sap.ui.base.Event): void {
-                                                            let selected: boolean = event.getParameter("selected");
-                                                            if (selected === true) {
-                                                                let data: any = this.getSelecteds().firstOrDefault();
-                                                                for (let vbox of that.leftPage.getContent()) {
-                                                                    if (vbox !== this.getParent() && vbox instanceof sap.m.VBox) {
-                                                                        let list: any = vbox.getItems()[2];
-                                                                        if (list instanceof sap.m.List) {
-                                                                            for (let item of list.getItems()) {
-                                                                                item.setSelected(false);
+                                                                selectionChange(this: sap.extension.m.List, event: sap.ui.base.Event): void {
+                                                                    let selected: boolean = event.getParameter("selected");
+                                                                    if (selected === true) {
+                                                                        let data: any = this.getSelecteds().firstOrDefault();
+                                                                        for (let vbox of that.leftPage.getContent()) {
+                                                                            if (vbox !== this.getParent() && vbox instanceof sap.m.VBox) {
+                                                                                let list: any = vbox.getItems()[2];
+                                                                                if (list instanceof sap.m.List) {
+                                                                                    for (let item of list.getItems()) {
+                                                                                        item.setSelected(false);
+                                                                                    }
+                                                                                }
+                                                                            }
+                                                                        }
+                                                                        that.fireViewEvents(that.changeWorkingItemEvent, data);
+                                                                        if (data instanceof app.ReservationWorkingItem) {
+                                                                            if (data.batchManagement === ibas.emYesNo.YES) {
+                                                                                if (that.container.getCurrentPage() !== that.tableBatchInventories.getParent()) {
+                                                                                    that.container.to(<any>that.tableBatchInventories.getParent());
+                                                                                }
+                                                                            } else if (data.serialManagement === ibas.emYesNo.YES) {
+                                                                                if (that.container.getCurrentPage() !== that.tableSerialInventories.getParent()) {
+                                                                                    that.container.to(<any>that.tableSerialInventories.getParent());
+                                                                                }
+                                                                            } else {
+                                                                                if (that.container.getCurrentPage() !== that.tableInventories.getParent()) {
+                                                                                    that.container.to(<any>that.tableInventories.getParent());
+                                                                                }
                                                                             }
                                                                         }
                                                                     }
-                                                                }
-                                                                that.fireViewEvents(that.changeWorkingItemEvent, data);
-                                                                if (data instanceof app.ReservationWorkingItem) {
-                                                                    if (data.batchManagement === ibas.emYesNo.YES) {
-                                                                        if (that.container.getCurrentPage() !== that.tableBatchInventories.getParent()) {
-                                                                            that.container.to(<any>that.tableBatchInventories.getParent());
-                                                                        }
-                                                                    } else if (data.serialManagement === ibas.emYesNo.YES) {
-                                                                        if (that.container.getCurrentPage() !== that.tableSerialInventories.getParent()) {
-                                                                            that.container.to(<any>that.tableSerialInventories.getParent());
-                                                                        }
-                                                                    } else {
-                                                                        if (that.container.getCurrentPage() !== that.tableInventories.getParent()) {
-                                                                            that.container.to(<any>that.tableInventories.getParent());
-                                                                        }
-                                                                    }
-                                                                }
-                                                            }
-                                                        },
-                                                    })
-                                                ]
-                                            }),
+                                                                },
+                                                            })
+                                                        ]
+                                                    }),
+                                                ],
+                                            }).addStyleClass("sapUiNoContentPadding")
                                         }
                                     }),
                                 ],
@@ -1011,6 +1111,7 @@ namespace materials {
                 private checkRestricted: sap.m.CheckBox;
                 private container: sap.m.NavContainer;
                 private leftPage: sap.m.Page;
+                private menuSources: sap.m.Menu;
 
                 showWorkingDatas(datas: app.ReservationWorking[]): void {
                     this.leftPage.setModel(new sap.extension.model.JSONModel(datas));
@@ -1020,6 +1121,9 @@ namespace materials {
                 }
                 showReservations(datas: app.ReservationWorkingItemResult[]): void {
                     this.tableWorkResults.setModel(new sap.extension.model.JSONModel(datas));
+                }
+                showOrderedSourceDocuments(datas: ibas.IServiceAgent[]): void {
+                    this.menuSources.setModel(new sap.extension.model.JSONModel(datas));
                 }
             }
         }
