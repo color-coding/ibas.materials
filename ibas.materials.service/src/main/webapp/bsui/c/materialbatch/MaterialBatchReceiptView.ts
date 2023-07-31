@@ -444,6 +444,13 @@ namespace materials {
                                                                     that.fireViewEvents(that.createMaterialBatchItemEvent, "USED_CODE");
                                                                 }
                                                             }),
+                                                            new sap.m.MenuItem("", {
+                                                                text: ibas.i18n.prop("materials_select_base_document"),
+                                                                icon: "sap-icon://document",
+                                                                press: function (): void {
+                                                                    that.fireViewEvents(that.createMaterialBatchItemEvent, "BASE_DOCUMENT");
+                                                                }
+                                                            }),
                                                         ],
                                                     })
                                                 }),

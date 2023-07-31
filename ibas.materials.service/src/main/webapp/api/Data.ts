@@ -263,6 +263,12 @@ namespace materials {
             materialBatches: bo.IMaterialBatchItems;
             /** 物料批次数据 */
             batches?: IExtraResultMaterialBatch[];
+            /** 单据类型 */
+            documentType?: string;
+            /** 单据编号 */
+            documentEntry?: number;
+            /** 单据行号 */
+            documentLineId?: number;
         }
         /** 序列服务契约 */
         export interface IMaterialSerialContract extends ibas.IServiceContract {
@@ -284,6 +290,12 @@ namespace materials {
             materialSerials: bo.IMaterialSerialItems;
             /** 物料序列数据 */
             serials?: IExtraResultMaterialSerial[];
+            /** 单据类型 */
+            documentType?: string;
+            /** 单据编号 */
+            documentEntry?: number;
+            /** 单据行号 */
+            documentLineId?: number;
         }
         /** 物料批次创建服务代理 */
         export class MaterialBatchReceiptServiceProxy extends ibas.ServiceProxy<IMaterialBatchContract[]> {

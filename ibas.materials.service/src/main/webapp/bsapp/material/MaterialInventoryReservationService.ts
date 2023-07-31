@@ -226,7 +226,11 @@ namespace materials {
                 return this.data.isDeleted;
             }
             set isDeleted(value: boolean) {
-                this.data.isDeleted = value;
+                if (value) {
+                    this.data.delete();
+                } else {
+                    this.data.clearDeleted();
+                }
                 this.firePropertyChanged("isDeleted");
             }
             delete(): void {

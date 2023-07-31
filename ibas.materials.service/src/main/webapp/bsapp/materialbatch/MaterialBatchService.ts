@@ -855,8 +855,56 @@ namespace materials {
                             that.view.showMaterialBatchItems(that.workingData.results.filterDeleted());
                         }
                     });
+                } else if (mode === "BASE_DOCUMENT") {
+                    if (ibas.objects.isNull(this.workingData)) {
+                        this.messages(ibas.emMessageType.WARNING, ibas.i18n.prop("shell_please_chooose_data",
+                            ibas.i18n.prop("shell_data_edit")
+                        ));
+                        return;
+                    }
+                    if (!(!ibas.strings.isEmpty(this.workingData.data.documentType) && this.workingData.data.documentEntry > 0)) {
+                        this.messages(ibas.emMessageType.WARNING, ibas.i18n.prop("materials_no_data_to_be_processed"));
+                        return;
+                    }
+                    let that: this = this;
+                    let criteria: ibas.ICriteria = new ibas.Criteria();
+                    let condition: ibas.ICondition = criteria.conditions.create();
+                    condition.alias = bo.MaterialBatch.PROPERTY_ITEMCODE_NAME;
+                    condition.value = this.workingData.itemCode;
+                    condition = criteria.conditions.create();
+                    condition.alias = bo.MaterialBatch.PROPERTY_WAREHOUSE_NAME;
+                    condition.value = this.workingData.warehouse;
+                    condition = criteria.conditions.create();
+                    condition.alias = bo.MaterialBatch.PROPERTY_BASEDOCUMENTTYPE_NAME;
+                    condition.value = this.workingData.data.documentType;
+                    condition = criteria.conditions.create();
+                    condition.alias = bo.MaterialBatch.PROPERTY_BASEDOCUMENTENTRY_NAME;
+                    condition.value = this.workingData.data.documentEntry.toString();
+                    if (this.workingData.data.documentLineId > 0) {
+                        condition = criteria.conditions.create();
+                        condition.alias = bo.MaterialBatch.PROPERTY_BASEDOCUMENTLINEID_NAME;
+                        condition.value = this.workingData.data.documentLineId.toString();
+                    }
+                    ibas.servicesManager.runChooseService<bo.MaterialBatch>({
+                        boCode: bo.BO_CODE_MATERIALBATCH,
+                        chooseType: ibas.emChooseType.SINGLE,
+                        criteria: criteria,
+                        onCompleted(selecteds: ibas.IList<bo.MaterialBatch>): void {
+                            for (let selected of selecteds) {
+                                if (that.workingData.results.firstOrDefault(
+                                    c => c.batchCode === selected.batchCode) !== null) {
+                                    continue;
+                                }
+                                selected.quantity = that.workingData.remaining;
+                                that.workingData.results.create(selected);
+                            }
+                            that.view.showMaterialBatchItems(that.workingData.results.filterDeleted());
+                        }
+                    });
+
                 }
             }
+
             run(): void {
                 if (arguments.length === 1) {
                     // 判断是否为选择契约

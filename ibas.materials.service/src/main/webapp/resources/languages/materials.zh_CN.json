@@ -138,6 +138,7 @@
   "materials_some_count": "{0} - {1}行",
   "materials_valid_data_only": "仅有效数据",
   "materials_select_used": "选择用过的",
+  "materials_select_base_document": "选择相关单据的",
   "materials_auto_by_datetime": "按时间",
   "materials_auto_by_datetime_serial": "按时间+流水号",
   "materials_auto_by_order": "按顺序",
