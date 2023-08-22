@@ -27,18 +27,15 @@ namespace materials {
                             template: new sap.m.ObjectListItem("", {
                                 title: {
                                     path: "itemDescription",
-                                    mode: sap.ui.model.BindingMode.OneTime,
                                     type: new sap.extension.data.Alphanumeric()
                                 },
                                 number: {
                                     parts: [
                                         {
                                             path: "quantity",
-                                            mode: sap.ui.model.BindingMode.OneTime,
-                                            type: new sap.extension.data.Numeric()
+                                            type: new sap.extension.data.Quantity()
                                         }, {
                                             path: "uom",
-                                            mode: sap.ui.model.BindingMode.OneTime,
                                             type: new sap.extension.data.Alphanumeric()
                                         }
                                     ]
@@ -48,7 +45,7 @@ namespace materials {
                                         parts: [
                                             {
                                                 path: "remaining",
-                                                type: new sap.extension.data.Numeric()
+                                                type: new sap.extension.data.Quantity()
                                             }, {
                                                 path: "uom",
                                                 type: new sap.extension.data.Alphanumeric()
@@ -62,7 +59,6 @@ namespace materials {
                                         title: ibas.i18n.prop("bo_materialbatchitem_itemcode"),
                                         bindingValue: {
                                             path: "itemCode",
-                                            mode: sap.ui.model.BindingMode.OneTime,
                                             type: new sap.extension.data.Alphanumeric()
                                         }
                                     }),
@@ -70,7 +66,6 @@ namespace materials {
                                         title: ibas.i18n.prop("bo_materialbatchitem_itemversion"),
                                         bindingValue: {
                                             path: "itemVersion",
-                                            mode: sap.ui.model.BindingMode.OneTime,
                                             type: new sap.extension.data.Alphanumeric()
                                         },
                                         visible: {
@@ -84,7 +79,6 @@ namespace materials {
                                         title: ibas.i18n.prop("bo_warehouse"),
                                         bindingValue: {
                                             path: "warehouse",
-                                            mode: sap.ui.model.BindingMode.OneTime,
                                             type: new sap.extension.data.Alphanumeric()
                                         },
                                         repository: bo.BORepositoryMaterials,
@@ -98,7 +92,7 @@ namespace materials {
                                 ],
                                 highlight: {
                                     path: "remaining",
-                                    type: new sap.extension.data.Numeric(),
+                                    type: new sap.extension.data.Quantity(),
                                     formatter(data: number): sap.ui.core.ValueState {
                                         if (data < 0) {
                                             return sap.ui.core.ValueState.Error;
@@ -182,7 +176,6 @@ namespace materials {
                                                                 title: ibas.i18n.prop("bo_materialbatch_supplierserial"),
                                                                 bindingValue: {
                                                                     path: "supplierSerial",
-                                                                    mode: sap.ui.model.BindingMode.OneTime,
                                                                     type: new sap.extension.data.Alphanumeric()
                                                                 }
                                                             }),
@@ -190,7 +183,6 @@ namespace materials {
                                                                 title: ibas.i18n.prop("bo_materialbatch_notes"),
                                                                 bindingValue: {
                                                                     path: "notes",
-                                                                    mode: sap.ui.model.BindingMode.OneTime,
                                                                     type: new sap.extension.data.Alphanumeric()
                                                                 }
                                                             }),
@@ -203,7 +195,6 @@ namespace materials {
                                                                 title: ibas.i18n.prop("bo_materialbatch_manufacturingdate"),
                                                                 bindingValue: {
                                                                     path: "manufacturingDate",
-                                                                    mode: sap.ui.model.BindingMode.OneTime,
                                                                     type: new sap.extension.data.Date()
                                                                 }
                                                             }),
@@ -211,7 +202,6 @@ namespace materials {
                                                                 title: ibas.i18n.prop("bo_materialbatch_admissiondate"),
                                                                 bindingValue: {
                                                                     path: "admissionDate",
-                                                                    mode: sap.ui.model.BindingMode.OneTime,
                                                                     type: new sap.extension.data.Date()
                                                                 }
                                                             }),
@@ -219,7 +209,6 @@ namespace materials {
                                                                 title: ibas.i18n.prop("bo_materialbatch_expirationdate"),
                                                                 bindingValue: {
                                                                     path: "expirationDate",
-                                                                    mode: sap.ui.model.BindingMode.OneTime,
                                                                     type: new sap.extension.data.Date()
                                                                 }
                                                             }),
@@ -329,7 +318,6 @@ namespace materials {
                                                                 title: ibas.i18n.prop("bo_materialbatch_supplierserial"),
                                                                 bindingValue: {
                                                                     path: "supplierSerial",
-                                                                    mode: sap.ui.model.BindingMode.OneTime,
                                                                     type: new sap.extension.data.Alphanumeric()
                                                                 }
                                                             }),
@@ -337,7 +325,6 @@ namespace materials {
                                                                 title: ibas.i18n.prop("bo_materialbatch_notes"),
                                                                 bindingValue: {
                                                                     path: "notes",
-                                                                    mode: sap.ui.model.BindingMode.OneTime,
                                                                     type: new sap.extension.data.Alphanumeric()
                                                                 }
                                                             }),
@@ -350,7 +337,6 @@ namespace materials {
                                                                 title: ibas.i18n.prop("bo_materialbatch_manufacturingdate"),
                                                                 bindingValue: {
                                                                     path: "manufacturingDate",
-                                                                    mode: sap.ui.model.BindingMode.OneTime,
                                                                     type: new sap.extension.data.Date()
                                                                 }
                                                             }),
@@ -358,7 +344,6 @@ namespace materials {
                                                                 title: ibas.i18n.prop("bo_materialbatch_admissiondate"),
                                                                 bindingValue: {
                                                                     path: "admissionDate",
-                                                                    mode: sap.ui.model.BindingMode.OneTime,
                                                                     type: new sap.extension.data.Date()
                                                                 }
                                                             }),
@@ -366,7 +351,6 @@ namespace materials {
                                                                 title: ibas.i18n.prop("bo_materialbatch_expirationdate"),
                                                                 bindingValue: {
                                                                     path: "expirationDate",
-                                                                    mode: sap.ui.model.BindingMode.OneTime,
                                                                     type: new sap.extension.data.Date()
                                                                 }
                                                             }),

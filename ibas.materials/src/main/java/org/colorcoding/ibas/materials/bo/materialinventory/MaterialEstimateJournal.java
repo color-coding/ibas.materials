@@ -18,6 +18,7 @@ import org.colorcoding.ibas.bobas.mapping.BusinessObjectUnit;
 import org.colorcoding.ibas.bobas.mapping.DbField;
 import org.colorcoding.ibas.bobas.mapping.DbFieldType;
 import org.colorcoding.ibas.bobas.rule.IBusinessRule;
+import org.colorcoding.ibas.bobas.rule.common.BusinessRuleMaxProperty;
 import org.colorcoding.ibas.bobas.rule.common.BusinessRuleMinValue;
 import org.colorcoding.ibas.bobas.rule.common.BusinessRuleRequired;
 import org.colorcoding.ibas.materials.MyConfiguration;
@@ -219,30 +220,34 @@ public class MaterialEstimateJournal extends BusinessObject<MaterialEstimateJour
 	}
 
 	/**
-	 * 设置-数量
-	 * 
-	 * @param value 值
+	 * 属性名称-预留数量
 	 */
-	public final void setQuantity(String value) {
-		this.setQuantity(Decimal.valueOf(value));
+	private static final String PROPERTY_RESERVEDQUANTITY_NAME = "ReservedQuantity";
+
+	/**
+	 * 预留数量 属性
+	 */
+	@DbField(name = "ReserveQty", type = DbFieldType.DECIMAL, table = DB_TABLE_NAME)
+	public static final IPropertyInfo<BigDecimal> PROPERTY_RESERVEDQUANTITY = registerProperty(
+			PROPERTY_RESERVEDQUANTITY_NAME, BigDecimal.class, MY_CLASS);
+
+	/**
+	 * 获取-预留数量
+	 * 
+	 * @return 值
+	 */
+	@XmlElement(name = PROPERTY_RESERVEDQUANTITY_NAME)
+	public final BigDecimal getReservedQuantity() {
+		return this.getProperty(PROPERTY_RESERVEDQUANTITY);
 	}
 
 	/**
-	 * 设置-数量
+	 * 设置-预留数量
 	 * 
 	 * @param value 值
 	 */
-	public final void setQuantity(int value) {
-		this.setQuantity(Decimal.valueOf(value));
-	}
-
-	/**
-	 * 设置-数量
-	 * 
-	 * @param value 值
-	 */
-	public final void setQuantity(double value) {
-		this.setQuantity(Decimal.valueOf(value));
+	public final void setReservedQuantity(BigDecimal value) {
+		this.setProperty(PROPERTY_RESERVEDQUANTITY, value);
 	}
 
 	/**
@@ -850,6 +855,10 @@ public class MaterialEstimateJournal extends BusinessObject<MaterialEstimateJour
 				new BusinessRuleRequired(PROPERTY_ITEMCODE), // 要求有值
 				new BusinessRuleRequired(PROPERTY_WAREHOUSE), // 要求有值
 				new BusinessRuleMinValue<BigDecimal>(Decimal.ZERO, PROPERTY_QUANTITY), // 不能低于0
+				new BusinessRuleMinValue<BigDecimal>(Decimal.ZERO, PROPERTY_RESERVEDQUANTITY), // 不能低于0
+				// 预留数量不能大于订购数量
+				new BusinessRuleMaxProperty<BigDecimal>(PROPERTY_QUANTITY, PROPERTY_RESERVEDQUANTITY)
+
 		};
 	}
 

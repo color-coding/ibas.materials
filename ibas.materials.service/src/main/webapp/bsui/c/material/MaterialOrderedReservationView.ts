@@ -294,7 +294,7 @@ namespace materials {
                                                                     parts: [
                                                                         {
                                                                             path: "quantity",
-                                                                            type: new sap.extension.data.Numeric()
+                                                                            type: new sap.extension.data.Quantity()
                                                                         }, {
                                                                             path: "uom",
                                                                             type: new sap.extension.data.Alphanumeric()
@@ -306,7 +306,7 @@ namespace materials {
                                                                         parts: [
                                                                             {
                                                                                 path: "remaining",
-                                                                                type: new sap.extension.data.Numeric()
+                                                                                type: new sap.extension.data.Quantity()
                                                                             }, {
                                                                                 path: "inventoryUOM",
                                                                                 type: new sap.extension.data.Alphanumeric()
@@ -366,7 +366,7 @@ namespace materials {
                                                                 ],
                                                                 highlight: {
                                                                     path: "remaining",
-                                                                    type: new sap.extension.data.Numeric(),
+                                                                    type: new sap.extension.data.Quantity(),
                                                                     formatter(data: number): sap.ui.core.ValueState {
                                                                         if (data < 0) {
                                                                             return sap.ui.core.ValueState.Error;

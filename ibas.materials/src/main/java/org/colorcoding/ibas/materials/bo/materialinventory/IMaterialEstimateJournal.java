@@ -83,25 +83,18 @@ public interface IMaterialEstimateJournal extends IBOSimple {
 	void setQuantity(BigDecimal value);
 
 	/**
-	 * 设置-数量
+	 * 获取-预留数量
 	 * 
-	 * @param value 值
+	 * @return 值
 	 */
-	void setQuantity(String value);
+	BigDecimal getReservedQuantity();
 
 	/**
-	 * 设置-数量
+	 * 设置-预留数量
 	 * 
 	 * @param value 值
 	 */
-	void setQuantity(int value);
-
-	/**
-	 * 设置-数量
-	 * 
-	 * @param value 值
-	 */
-	void setQuantity(double value);
+	void setReservedQuantity(BigDecimal value);
 
 	/**
 	 * 获取-基于类型

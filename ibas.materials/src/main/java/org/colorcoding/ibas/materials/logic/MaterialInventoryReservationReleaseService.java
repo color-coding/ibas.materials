@@ -1,7 +1,5 @@
 package org.colorcoding.ibas.materials.logic;
 
-import java.math.BigDecimal;
-
 import org.colorcoding.ibas.bobas.common.Criteria;
 import org.colorcoding.ibas.bobas.common.ICondition;
 import org.colorcoding.ibas.bobas.common.ICriteria;
@@ -25,7 +23,7 @@ import org.colorcoding.ibas.materials.repository.BORepositoryMaterials;
 public class MaterialInventoryReservationReleaseService extends
 		MaterialInventoryBusinessLogic<IMaterialInventoryReservationReleaseContract, IMaterialInventoryReservation> {
 
-	private static final IMaterialInventoryReservation EMPTY_DATA = new TmpMaterialInventoryReservation();
+	private static final IMaterialInventoryReservation EMPTY_DATA = new _MaterialInventoryReservation();
 
 	@Override
 	protected boolean checkDataStatus(Object data) {
@@ -124,12 +122,7 @@ public class MaterialInventoryReservationReleaseService extends
 	protected void impact(IMaterialInventoryReservationReleaseContract contract) {
 		IMaterialInventoryReservation materialReservation = this.getBeAffected();
 		if (materialReservation != EMPTY_DATA) {
-			BigDecimal onReserved = materialReservation.getQuantity();
-			onReserved = onReserved.subtract(contract.getQuantity());
-			if (Decimal.ZERO.compareTo(onReserved) >= 0) {
-				materialReservation.setQuantity(onReserved);
-				materialReservation.delete();
-			}
+			materialReservation.setClosedQuantity(materialReservation.getClosedQuantity().add(contract.getQuantity()));
 		}
 	}
 
@@ -137,27 +130,18 @@ public class MaterialInventoryReservationReleaseService extends
 	protected void revoke(IMaterialInventoryReservationReleaseContract contract) {
 		IMaterialInventoryReservation materialReservation = this.getBeAffected();
 		if (materialReservation != EMPTY_DATA) {
-			BigDecimal onReserved = materialReservation.getQuantity();
-			onReserved = onReserved.add(contract.getQuantity());
-			if (Decimal.ZERO.compareTo(onReserved) >= 0) {
-				materialReservation.setQuantity(onReserved);
-				materialReservation.delete();
-			} else {
-				materialReservation.setQuantity(onReserved);
-				if (materialReservation.isDeleted()) {
-					materialReservation.undelete();
-				}
-			}
+			materialReservation
+					.setClosedQuantity(materialReservation.getClosedQuantity().subtract(contract.getQuantity()));
 		}
 	}
 
 }
 
-class TmpMaterialInventoryReservation extends MaterialInventoryReservation {
+class _MaterialInventoryReservation extends MaterialInventoryReservation {
 
 	private static final long serialVersionUID = 1L;
 
-	public TmpMaterialInventoryReservation() {
+	public _MaterialInventoryReservation() {
 		this.markOld();
 		this.setSavable(false);
 	}

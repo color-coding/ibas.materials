@@ -13,6 +13,7 @@ import org.colorcoding.ibas.bobas.core.IPropertyInfo;
 import org.colorcoding.ibas.bobas.data.ArrayList;
 import org.colorcoding.ibas.bobas.data.DateTime;
 import org.colorcoding.ibas.bobas.data.Decimal;
+import org.colorcoding.ibas.bobas.data.emBOStatus;
 import org.colorcoding.ibas.bobas.logic.IBusinessLogicContract;
 import org.colorcoding.ibas.bobas.logic.IBusinessLogicsHost;
 import org.colorcoding.ibas.bobas.mapping.BusinessObjectUnit;
@@ -403,6 +404,68 @@ public class MaterialInventoryReservation extends BusinessObject<MaterialInvento
 	 */
 	public final void setCauses(String value) {
 		this.setProperty(PROPERTY_CAUSES, value);
+	}
+
+	/**
+	 * 属性名称-状态
+	 */
+	private static final String PROPERTY_STATUS_NAME = "Status";
+
+	/**
+	 * 状态 属性
+	 */
+	@DbField(name = "Status", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME)
+	public static final IPropertyInfo<emBOStatus> PROPERTY_STATUS = registerProperty(PROPERTY_STATUS_NAME,
+			emBOStatus.class, MY_CLASS);
+
+	/**
+	 * 获取-状态
+	 * 
+	 * @return 值
+	 */
+	@XmlElement(name = PROPERTY_STATUS_NAME)
+	public final emBOStatus getStatus() {
+		return this.getProperty(PROPERTY_STATUS);
+	}
+
+	/**
+	 * 设置-状态
+	 * 
+	 * @param value 值
+	 */
+	public final void setStatus(emBOStatus value) {
+		this.setProperty(PROPERTY_STATUS, value);
+	}
+
+	/**
+	 * 属性名称-已清数量
+	 */
+	private static final String PROPERTY_CLOSEDQUANTITY_NAME = "ClosedQuantity";
+
+	/**
+	 * 已清数量 属性
+	 */
+	@DbField(name = "ClosedQty", type = DbFieldType.DECIMAL, table = DB_TABLE_NAME)
+	public static final IPropertyInfo<BigDecimal> PROPERTY_CLOSEDQUANTITY = registerProperty(
+			PROPERTY_CLOSEDQUANTITY_NAME, BigDecimal.class, MY_CLASS);
+
+	/**
+	 * 获取-已清数量
+	 * 
+	 * @return 值
+	 */
+	@XmlElement(name = PROPERTY_CLOSEDQUANTITY_NAME)
+	public final BigDecimal getClosedQuantity() {
+		return this.getProperty(PROPERTY_CLOSEDQUANTITY);
+	}
+
+	/**
+	 * 设置-已清数量
+	 * 
+	 * @param value 值
+	 */
+	public final void setClosedQuantity(BigDecimal value) {
+		this.setProperty(PROPERTY_CLOSEDQUANTITY, value);
 	}
 
 	/**
@@ -933,7 +996,9 @@ public class MaterialInventoryReservation extends BusinessObject<MaterialInvento
 
 				@Override
 				public BigDecimal getQuantity() {
-					return MaterialInventoryReservation.this.getQuantity();
+					// 数量占用 = 预留数量 - 已完成数量（出库）
+					return MaterialInventoryReservation.this.getQuantity()
+							.subtract(MaterialInventoryReservation.this.getClosedQuantity());
 				}
 
 				@Override
@@ -963,7 +1028,9 @@ public class MaterialInventoryReservation extends BusinessObject<MaterialInvento
 
 				@Override
 				public BigDecimal getQuantity() {
-					return MaterialInventoryReservation.this.getQuantity();
+					// 数量占用 = 预留数量 - 已完成数量（出库）
+					return MaterialInventoryReservation.this.getQuantity()
+							.subtract(MaterialInventoryReservation.this.getClosedQuantity());
 				}
 
 				@Override
@@ -972,7 +1039,7 @@ public class MaterialInventoryReservation extends BusinessObject<MaterialInvento
 				}
 			});
 		}
-		if (!DataConvert.isNullOrEmpty(this.getWarehouse())) {
+		if (!DataConvert.isNullOrEmpty(this.getItemCode())) {
 			// 物料占用
 			contracts.add(new IMaterialReservedContract() {
 
@@ -983,7 +1050,9 @@ public class MaterialInventoryReservation extends BusinessObject<MaterialInvento
 
 				@Override
 				public BigDecimal getQuantity() {
-					return MaterialInventoryReservation.this.getQuantity();
+					// 数量占用 = 预留数量 - 已完成数量（出库）
+					return MaterialInventoryReservation.this.getQuantity()
+							.subtract(MaterialInventoryReservation.this.getClosedQuantity());
 				}
 
 				@Override

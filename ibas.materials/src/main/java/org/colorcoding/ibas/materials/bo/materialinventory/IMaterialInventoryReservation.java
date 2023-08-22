@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 
 import org.colorcoding.ibas.bobas.bo.IBOSimple;
 import org.colorcoding.ibas.bobas.data.DateTime;
+import org.colorcoding.ibas.bobas.data.emBOStatus;
 
 /**
  * 物料库存预留 接口
@@ -164,6 +165,34 @@ public interface IMaterialInventoryReservation extends IBOSimple {
 	 * @param value 值
 	 */
 	void setCauses(String value);
+
+	/**
+	 * 获取-状态
+	 * 
+	 * @return 值
+	 */
+	emBOStatus getStatus();
+
+	/**
+	 * 设置-状态
+	 * 
+	 * @param value 值
+	 */
+	void setStatus(emBOStatus value);
+
+	/**
+	 * 获取-已清数量
+	 * 
+	 * @return 值
+	 */
+	BigDecimal getClosedQuantity();
+
+	/**
+	 * 设置-已清数量
+	 * 
+	 * @param value 值
+	 */
+	void setClosedQuantity(BigDecimal value);
 
 	/**
 	 * 获取-数据所有者
