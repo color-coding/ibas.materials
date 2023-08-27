@@ -18,6 +18,7 @@ import org.colorcoding.ibas.materials.bo.material.IMaterial;
 import org.colorcoding.ibas.materials.bo.materialbatch.IMaterialBatch;
 import org.colorcoding.ibas.materials.bo.materialbatch.IMaterialBatchJournal;
 import org.colorcoding.ibas.materials.bo.materialbatch.MaterialBatch;
+import org.colorcoding.ibas.materials.data.emItemType;
 import org.colorcoding.ibas.materials.repository.BORepositoryMaterials;
 
 @LogicContract(IMaterialBatchInventoryContract.class)
@@ -27,6 +28,18 @@ public class MaterialBatchInventorySerivce
 	protected IMaterialBatch fetchBeAffected(IMaterialBatchInventoryContract contract) {
 		// 检查物料
 		IMaterial material = this.checkMaterial(contract.getItemCode());
+		// 服务物料，不执行此逻辑
+		if (material.getItemType() == emItemType.SERVICES) {
+			throw new BusinessLogicException(I18N.prop("msg_mm_material_is_service_item", material.getCode()));
+		}
+		// 虚拟物料，不执行此逻辑
+		if (material.getPhantomItem() == emYesNo.YES) {
+			throw new BusinessLogicException(I18N.prop("msg_mm_material_is_phantom_item", material.getCode()));
+		}
+		// 非库存物料，不执行此逻辑
+		if (material.getInventoryItem() == emYesNo.NO) {
+			throw new BusinessLogicException(I18N.prop("msg_mm_material_is_not_inventory_item", material.getCode()));
+		}
 		// 非批次管理物料
 		if (material.getBatchManagement() != emYesNo.YES) {
 			throw new BusinessLogicException(

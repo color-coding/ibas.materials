@@ -6,13 +6,17 @@ import org.colorcoding.ibas.bobas.common.Criteria;
 import org.colorcoding.ibas.bobas.common.ICondition;
 import org.colorcoding.ibas.bobas.common.ICriteria;
 import org.colorcoding.ibas.bobas.common.IOperationResult;
+import org.colorcoding.ibas.bobas.data.emYesNo;
 import org.colorcoding.ibas.bobas.i18n.I18N;
 import org.colorcoding.ibas.bobas.logic.BusinessLogicException;
 import org.colorcoding.ibas.bobas.mapping.LogicContract;
+import org.colorcoding.ibas.bobas.message.Logger;
+import org.colorcoding.ibas.bobas.message.MessageLevel;
 import org.colorcoding.ibas.materials.bo.material.IMaterial;
 import org.colorcoding.ibas.materials.bo.materialserial.IMaterialSerialJournal;
 import org.colorcoding.ibas.materials.bo.materialserial.MaterialSerialJournal;
 import org.colorcoding.ibas.materials.data.DataConvert;
+import org.colorcoding.ibas.materials.data.emItemType;
 import org.colorcoding.ibas.materials.repository.BORepositoryMaterials;
 
 @LogicContract(IMaterialSerialJournalContract.class)
@@ -24,6 +28,24 @@ public class MaterialSerialJournalService
 		if (data instanceof IMaterialSerialJournalContract) {
 			IMaterialSerialJournalContract contract = (IMaterialSerialJournalContract) data;
 			IMaterial material = this.checkMaterial(contract.getItemCode());
+			if (material.getItemType() == emItemType.SERVICES) {
+				// 服务物料，不执行此逻辑
+				Logger.log(MessageLevel.DEBUG, MSG_LOGICS_SKIP_LOGIC_EXECUTION, this.getClass().getName(), "ItemType",
+						material.getItemType());
+				return false;
+			}
+			if (material.getPhantomItem() == emYesNo.YES) {
+				// 虚拟物料，不执行此逻辑
+				Logger.log(MessageLevel.DEBUG, MSG_LOGICS_SKIP_LOGIC_EXECUTION, this.getClass().getName(),
+						"PhantomItem", material.getPhantomItem());
+				return false;
+			}
+			if (material.getInventoryItem() == emYesNo.NO) {
+				Logger.log(MessageLevel.DEBUG, MSG_LOGICS_SKIP_LOGIC_EXECUTION, this.getClass().getName(),
+						"InventoryItem", material.getInventoryItem());
+				// 非库存物料，不执行此逻辑
+				return false;
+			}
 			if (!DataConvert.isNullOrEmpty(material.getInventoryUOM())
 					&& !DataConvert.isNullOrEmpty(contract.getUOM())) {
 				// 检查库存单位是否一致
