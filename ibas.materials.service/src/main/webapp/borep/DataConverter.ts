@@ -220,6 +220,10 @@ namespace materials {
                     if (property === bo.MaterialOrderedReservation.PROPERTY_STATUS_NAME) {
                         return ibas.enums.toString(ibas.emBOStatus, value);
                     }
+                } else if (boName === bo.MaterialInventoryReservation.name) {
+                    if (property === bo.MaterialInventoryReservation.PROPERTY_STATUS_NAME) {
+                        return ibas.enums.toString(ibas.emBOStatus, value);
+                    }
                 }
                 return super.convertData(boName, property, value);
             }
@@ -356,6 +360,10 @@ namespace materials {
                     }
                 } else if (boName === bo.MaterialOrderedReservation.name) {
                     if (property === bo.MaterialOrderedReservation.PROPERTY_STATUS_NAME) {
+                        return ibas.enums.valueOf(ibas.emBOStatus, value);
+                    }
+                } else if (boName === bo.MaterialInventoryReservation.name) {
+                    if (property === bo.MaterialInventoryReservation.PROPERTY_STATUS_NAME) {
                         return ibas.enums.valueOf(ibas.emBOStatus, value);
                     }
                 }

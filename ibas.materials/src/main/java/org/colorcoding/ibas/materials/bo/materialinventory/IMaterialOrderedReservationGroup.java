@@ -9,18 +9,46 @@ import org.colorcoding.ibas.bobas.bo.IBusinessObject;
 public interface IMaterialOrderedReservationGroup extends IBusinessObject {
 
 	/**
-	 * 获取-原因
+	 * 获取-源单据类型
 	 * 
 	 * @return 值
 	 */
-	String getCauses();
+	String getSourceDocumentType();
 
 	/**
-	 * 设置-原因
+	 * 设置-源单据类型
 	 * 
 	 * @param value 值
 	 */
-	void setCauses(String value);
+	void setSourceDocumentType(String value);
+
+	/**
+	 * 获取-源单据编号
+	 * 
+	 * @return 值
+	 */
+	Integer getSourceDocumentEntry();
+
+	/**
+	 * 设置-源单据编号
+	 * 
+	 * @param value 值
+	 */
+	void setSourceDocumentEntry(Integer value);
+
+	/**
+	 * 获取-源单据行号
+	 * 
+	 * @return 值
+	 */
+	Integer getSourceDocumentLineId();
+
+	/**
+	 * 设置-源单据行号
+	 * 
+	 * @param value 值
+	 */
+	void setSourceDocumentLineId(Integer value);
 
 	/**
 	 * 获取-行集合

@@ -288,19 +288,19 @@ namespace materials {
             }
             /** 数量 */
             get quantity(): number {
-                if (this.data instanceof bo.MaterialInventoryReservation) {
-                    return this.data.quantity;
-                } else if (this.data instanceof bo.MaterialOrderedReservation) {
-                    return this.data.quantity - this.data.closedQuantity;
-                }
+                return this.data.quantity;
             }
             set quantity(value: number) {
-                if (this.data instanceof bo.MaterialInventoryReservation) {
-                    this.data.quantity = value;
-                } else if (this.data instanceof bo.MaterialOrderedReservation) {
-                    this.data.quantity = value + this.data.closedQuantity;
-                }
+                this.data.quantity = value;
                 this.firePropertyChanged("quantity");
+            }
+            /** 数量 */
+            get closedQuantity(): number {
+                return this.data.closedQuantity;
+            }
+            set closedQuantity(value: number) {
+                this.data.closedQuantity = value;
+                this.firePropertyChanged("closedQuantity");
             }
             /** 备注 */
             get remarks(): string {

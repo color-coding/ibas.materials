@@ -33,6 +33,10 @@ namespace materials {
             dataOwner: number;
             /** 原因 */
             causes: string;
+            /** 状态 */
+            status: ibas.emBOStatus;
+            /** 已清数量 */
+            closedQuantity: number;
             /** 备注 */
             remarks: string;
             /** 对象编号 */

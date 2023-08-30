@@ -995,6 +995,8 @@
         "bo_materialinventoryreservation_targetdocumentlineid": "目标单据行号",
         "bo_materialinventoryreservation_dataowner": "数据所有者",
         "bo_materialinventoryreservation_causes": "原因",
+        "bo_materialinventoryreservation_status": "状态",
+        "bo_materialinventoryreservation_closedquantity": "已清数量",
         "bo_materialinventoryreservation_remarks": "备注",
         "bo_materialinventoryreservation_objectkey": "对象编号",
         "bo_materialinventoryreservation_objectcode": "对象类型",

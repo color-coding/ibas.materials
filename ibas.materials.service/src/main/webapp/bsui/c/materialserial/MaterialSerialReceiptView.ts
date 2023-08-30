@@ -99,6 +99,7 @@ namespace materials {
                                     path: "remaining",
                                     type: new sap.extension.data.Quantity(),
                                     formatter(data: number): sap.ui.core.ValueState {
+                                        data = ibas.numbers.valueOf(data);
                                         if (data < 0) {
                                             return sap.ui.core.ValueState.Error;
                                         } else if (data > 0) {

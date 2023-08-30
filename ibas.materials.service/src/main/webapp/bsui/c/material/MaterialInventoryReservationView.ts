@@ -432,6 +432,10 @@ namespace materials {
                                 width: "8rem",
                             }),
                             new sap.extension.m.Column("", {
+                                header: ibas.i18n.prop("bo_materialinventoryreservation_closedquantity"),
+                                width: "8rem",
+                            }),
+                            new sap.extension.m.Column("", {
                                 header: ibas.i18n.prop("bo_materialinventoryreservation_quantity"),
                                 width: "8rem",
                             }),
@@ -542,6 +546,11 @@ namespace materials {
                                             }
                                             return "";
                                         }
+                                    }),
+                                    new sap.extension.m.Text("", {
+                                    }).bindProperty("bindingValue", {
+                                        path: "closedQuantity",
+                                        type: new sap.extension.data.Quantity(),
                                     }),
                                     new sap.extension.m.Input("", {
                                         editable: {
@@ -822,6 +831,7 @@ namespace materials {
                                                                             path: "remaining",
                                                                             type: new sap.extension.data.Quantity(),
                                                                             formatter(data: number): sap.ui.core.ValueState {
+                                                                                data = ibas.numbers.valueOf(data);
                                                                                 if (data < 0) {
                                                                                     return sap.ui.core.ValueState.Error;
                                                                                 } else if (data > 0) {

@@ -29,6 +29,7 @@ namespace materials {
                 // 其他事件
                 this.view.editDataEvent = this.editData;
                 this.view.deleteDataEvent = this.deleteData;
+                this.view.editUnitRateEvent = this.editUnitRate;
             }
             /** 视图显示后 */
             protected viewShowed(): void {
@@ -146,6 +147,13 @@ namespace materials {
                     }
                 });
             }
+            /** 编辑单位换算 */
+            private editUnitRate(): void {
+                let app: UnitRateEditListApp = new UnitRateEditListApp();
+                app.navigation = this.navigation;
+                app.viewShower = this.viewShower;
+                app.run();
+            }
         }
         /** 视图-计量单位 */
         export interface IUnitListView extends ibas.IBOListView {
@@ -155,6 +163,8 @@ namespace materials {
             deleteDataEvent: Function;
             /** 显示数据 */
             showData(datas: bo.Unit[]): void;
+            /** 编辑单位换算率事件 */
+            editUnitRateEvent: Function;
         }
     }
 }

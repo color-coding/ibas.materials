@@ -137,6 +137,12 @@ namespace materials {
                                         type: new sap.extension.data.Quantity(),
                                     }),
                                     new sap.extension.m.Input("", {
+                                        editable: {
+                                            path: "causes",
+                                            formatter(data: string): boolean {
+                                                return ibas.strings.isWith(data, "FROM:", undefined) ? false : true;
+                                            }
+                                        }
                                     }).bindProperty("bindingValue", {
                                         path: "quantity",
                                         type: new sap.extension.data.Quantity(),
@@ -368,6 +374,7 @@ namespace materials {
                                                                     path: "remaining",
                                                                     type: new sap.extension.data.Quantity(),
                                                                     formatter(data: number): sap.ui.core.ValueState {
+                                                                        data = ibas.numbers.valueOf(data);
                                                                         if (data < 0) {
                                                                             return sap.ui.core.ValueState.Error;
                                                                         } else if (data > 0) {

@@ -67,8 +67,7 @@ namespace materials {
                                                         text: "=",
                                                     }).addStyleClass("sapUiTinyMarginBegin"),
                                                     new sap.extension.m.Input("", {
-                                                        type: sap.m.InputType.Number,
-                                                        width: "6rem",
+                                                        width: "8rem",
                                                     }).bindProperty("bindingValue", {
                                                         path: "rate",
                                                         type: new sap.extension.data.Rate(),

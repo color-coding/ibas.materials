@@ -147,6 +147,28 @@ namespace materials {
                 this.setProperty(MaterialInventoryReservation.PROPERTY_CAUSES_NAME, value);
             }
 
+            /** 映射的属性名称-状态 */
+            static PROPERTY_STATUS_NAME: string = "Status";
+            /** 获取-状态 */
+            get status(): ibas.emBOStatus {
+                return this.getProperty<ibas.emBOStatus>(MaterialInventoryReservation.PROPERTY_STATUS_NAME);
+            }
+            /** 设置-状态 */
+            set status(value: ibas.emBOStatus) {
+                this.setProperty(MaterialInventoryReservation.PROPERTY_STATUS_NAME, value);
+            }
+
+            /** 映射的属性名称-已清数量 */
+            static PROPERTY_CLOSEDQUANTITY_NAME: string = "ClosedQuantity";
+            /** 获取-已清数量 */
+            get closedQuantity(): number {
+                return this.getProperty<number>(MaterialInventoryReservation.PROPERTY_CLOSEDQUANTITY_NAME);
+            }
+            /** 设置-已清数量 */
+            set closedQuantity(value: number) {
+                this.setProperty(MaterialInventoryReservation.PROPERTY_CLOSEDQUANTITY_NAME, value);
+            }
+
             /** 映射的属性名称-备注 */
             static PROPERTY_REMARKS_NAME: string = "Remarks";
             /** 获取-备注 */

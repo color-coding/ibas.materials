@@ -179,6 +179,7 @@ public class MaterialInventoryReservationCreateService extends
 				gItem.setTargetDocumentLineId(item.getTargetDocumentLineId());
 				gItem.setBatchCode(contract.getBatchCode());
 				gItem.setSerialCode(contract.getSerialCode());
+				gItem.setQuantity(Decimal.ZERO);
 				reservationGroup.getItems().add(gItem);
 			} else {
 				if (gItem.isDeleted()) {
@@ -189,12 +190,14 @@ public class MaterialInventoryReservationCreateService extends
 			gItem.setWarehouse(contract.getWarehouse());
 			gItem.setRemarks(item.getRemarks());
 			if (remQuantity.compareTo(avaQuantity) >= 0) {
-				gItem.setQuantity(avaQuantity);
+				gItem.setQuantity(gItem.getQuantity().add(avaQuantity));
+				item.setClosedQuantity(item.getClosedQuantity().add(avaQuantity));
+				avaQuantity = Decimal.ZERO;
 			} else {
-				gItem.setQuantity(remQuantity);
+				gItem.setQuantity(gItem.getQuantity().add(remQuantity));
+				item.setClosedQuantity(item.getClosedQuantity().add(remQuantity));
+				avaQuantity = avaQuantity.subtract(remQuantity);
 			}
-			item.setClosedQuantity(item.getClosedQuantity().add(gItem.getQuantity()));
-			avaQuantity = avaQuantity.subtract(gItem.getQuantity());
 			if (avaQuantity.compareTo(Decimal.ZERO) <= 0) {
 				// 无可用量
 				break;
@@ -210,16 +213,25 @@ public class MaterialInventoryReservationCreateService extends
 			return;
 		}
 		IMaterialInventoryReservation item;
-		BigDecimal avaQuantity = contract.getQuantity();
+		BigDecimal remQuantity, avaQuantity = contract.getQuantity();
 		for (int i = reservationGroup.getItems().size() - 1; i >= 0; i--) {
 			item = reservationGroup.getItems().get(i);
 			if (!DataConvert.isNullOrEmpty(contract.getBatchCode())
-					&& contract.getBatchCode().equals(item.getBatchCode())) {
+					&& !contract.getBatchCode().equals(item.getBatchCode())) {
 				continue;
 			}
 			if (!DataConvert.isNullOrEmpty(contract.getSerialCode())
-					&& contract.getSerialCode().equals(item.getSerialCode())) {
+					&& !contract.getSerialCode().equals(item.getSerialCode())) {
 				continue;
+			}
+			if (item.getQuantity().compareTo(avaQuantity) >= 0) {
+				remQuantity = Decimal.ZERO.add(avaQuantity);
+				item.setQuantity(item.getQuantity().subtract(avaQuantity));
+				avaQuantity = Decimal.ZERO;
+			} else {
+				remQuantity = Decimal.ZERO.add(item.getQuantity());
+				avaQuantity = avaQuantity.subtract(item.getQuantity());
+				item.setQuantity(Decimal.ZERO);
 			}
 			for (IMaterialOrderedReservation oItem : reservationGroup.getCausalDatas()) {
 				if (!String.format("FROM:%s-%s-%s", oItem.getSourceDocumentType(), oItem.getSourceDocumentEntry(),
@@ -235,18 +247,19 @@ public class MaterialInventoryReservationCreateService extends
 				if (oItem.getTargetDocumentLineId().compareTo(item.getTargetDocumentLineId()) != 0) {
 					continue;
 				}
-				if (item.getQuantity().compareTo(avaQuantity) >= 0) {
-					oItem.setClosedQuantity(oItem.getClosedQuantity().subtract(avaQuantity));
-				} else {
-					oItem.setClosedQuantity(oItem.getClosedQuantity().subtract(item.getQuantity()));
+				if (oItem.getClosedQuantity().compareTo(Decimal.ZERO) <= 0) {
+					continue;
 				}
-			}
-			if (item.getQuantity().compareTo(avaQuantity) >= 0) {
-				item.setQuantity(item.getQuantity().subtract(avaQuantity));
-				avaQuantity = Decimal.ZERO;
-			} else {
-				avaQuantity = avaQuantity.subtract(item.getQuantity());
-				item.setQuantity(Decimal.ZERO);
+				if (oItem.getClosedQuantity().compareTo(remQuantity) >= 0) {
+					oItem.setClosedQuantity(oItem.getClosedQuantity().subtract(remQuantity));
+					remQuantity = Decimal.ZERO;
+				} else {
+					remQuantity = remQuantity.subtract(oItem.getClosedQuantity());
+					oItem.setClosedQuantity(Decimal.ZERO);
+				}
+				if (remQuantity.compareTo(Decimal.ZERO) <= 0) {
+					break;
+				}
 			}
 			if (item.getQuantity().compareTo(Decimal.ZERO) <= 0) {
 				item.delete();

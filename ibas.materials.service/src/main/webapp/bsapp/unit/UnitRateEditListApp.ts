@@ -62,7 +62,11 @@ namespace materials {
                     this.material = material;
                     this.fetchData(app.conditions.unitrate.create(material));
                 } else {
-                    super.run();
+                    let criteria: ibas.ICriteria = new ibas.Criteria();
+                    let condition: ibas.ICondition = criteria.conditions.create();
+                    condition.alias = bo.UnitRate.PROPERTY_CONDITION_NAME;
+                    condition.value = "";
+                    this.fetchData(criteria);
                 }
             }
             private material: bo.Material;
@@ -107,8 +111,12 @@ namespace materials {
                         for (let selected of selecteds) {
                             let unitRate: bo.UnitRate = new bo.UnitRate();
                             unitRate.source = selected.name;
-                            unitRate.target = that.material?.inventoryUOM;
-                            unitRate.condition = ibas.strings.format(conditions.unitrate.CONDITION_VALUE_TEMPLATE, that.material?.code);
+                            if (ibas.objects.isNull(that.material)) {
+                                unitRate.condition = "";
+                            } else {
+                                unitRate.target = that.material?.inventoryUOM;
+                                unitRate.condition = ibas.strings.format(conditions.unitrate.CONDITION_VALUE_TEMPLATE, that.material?.code);
+                            }
                             unitRate.rate = 1;
                             that.editDatas.add(unitRate);
                         }
@@ -137,8 +145,12 @@ namespace materials {
                         for (let selected of selecteds) {
                             if (!(data instanceof bo.UnitRate)) {
                                 let data: bo.UnitRate = new bo.UnitRate();
-                                data.target = that.material?.inventoryUOM;
-                                data.condition = ibas.strings.format(conditions.unitrate.CONDITION_VALUE_TEMPLATE, that.material?.code);
+                                if (ibas.objects.isNull(that.material)) {
+                                    data.condition = "";
+                                } else {
+                                    data.target = that.material?.inventoryUOM;
+                                    data.condition = ibas.strings.format(conditions.unitrate.CONDITION_VALUE_TEMPLATE, that.material?.code);
+                                }
                                 data.rate = 1;
                                 that.editDatas.add(data);
                             }

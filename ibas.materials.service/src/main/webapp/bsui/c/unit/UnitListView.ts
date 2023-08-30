@@ -18,6 +18,8 @@ namespace materials {
                 editDataEvent: Function;
                 /** 删除数据事件，参数：删除对象集合 */
                 deleteDataEvent: Function;
+                /** 编辑单位换算率事件 */
+                editUnitRateEvent: Function;
                 /** 绘制视图 */
                 draw(): any {
                     let that: this = this;
@@ -123,6 +125,15 @@ namespace materials {
                                     icon: "sap-icon://delete",
                                     press(): void {
                                         that.fireViewEvents(that.deleteDataEvent, that.table.getSelecteds());
+                                    }
+                                }),
+                                new sap.m.ToolbarSeparator(""),
+                                new sap.m.Button("", {
+                                    text: ibas.i18n.prop("materials_app_unitrate_edit_list"),
+                                    type: sap.m.ButtonType.Transparent,
+                                    icon: "sap-icon://collections-management",
+                                    press(): void {
+                                        that.fireViewEvents(that.editUnitRateEvent);
                                     }
                                 }),
                                 new sap.m.ToolbarSpacer(""),
