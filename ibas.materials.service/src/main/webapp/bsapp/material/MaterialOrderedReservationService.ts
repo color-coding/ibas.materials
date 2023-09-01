@@ -378,6 +378,9 @@ namespace materials {
                                 if (opRslt.resultCode !== 0) {
                                     next(new Error(ibas.i18n.prop("shell_data_delete_error", data, opRslt.message)));
                                 } else {
+                                    if (opRslt.resultObjects.length > 0) {
+                                        data.objectKey = opRslt.resultObjects.firstOrDefault().objectKey;
+                                    }
                                     data.markOld();
                                     next();
                                 }

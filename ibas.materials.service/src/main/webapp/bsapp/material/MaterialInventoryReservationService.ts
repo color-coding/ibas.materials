@@ -213,6 +213,14 @@ namespace materials {
                 }
                 return this.data.isSavable;
             }
+            /** 状态 */
+            get status(): ibas.emBOStatus {
+                if (this.data instanceof bo.MaterialInventoryReservation) {
+                    return this.data.status;
+                } else if (this.data instanceof bo.MaterialOrderedReservation) {
+                    return this.data.status;
+                }
+            }
             /** 交货日期 */
             get deliveryDate(): Date {
                 if (this.data instanceof bo.MaterialInventoryReservation) {
@@ -863,6 +871,9 @@ namespace materials {
                                     if (opRslt.resultCode !== 0) {
                                         next(new Error(ibas.i18n.prop("shell_data_delete_error", data.data, opRslt.message)));
                                     } else {
+                                        if (opRslt.resultObjects.length > 0) {
+                                            data.data.objectKey = opRslt.resultObjects.firstOrDefault().objectKey;
+                                        }
                                         data.data.markOld();
                                         next();
                                     }
@@ -875,6 +886,9 @@ namespace materials {
                                     if (opRslt.resultCode !== 0) {
                                         next(new Error(ibas.i18n.prop("shell_data_delete_error", data.data, opRslt.message)));
                                     } else {
+                                        if (opRslt.resultObjects.length > 0) {
+                                            data.data.objectKey = opRslt.resultObjects.firstOrDefault().objectKey;
+                                        }
                                         data.data.markOld();
                                         next();
                                     }

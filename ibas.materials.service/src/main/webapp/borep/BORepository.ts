@@ -138,14 +138,14 @@ namespace materials {
             fetchMaterialInventoryJournal(fetcher: ibas.IFetchCaller<bo.MaterialInventoryJournal>): void {
                 super.fetch(bo.MaterialInventoryJournal.name, fetcher);
             }
-            /**
-             * 保存 仓库日记账
-             * @param saver 保存者
-             */
-            saveMaterialInventoryJournal(saver: ibas.ISaveCaller<bo.MaterialInventoryJournal>): void {
-                super.save(bo.MaterialInventoryJournal.name, saver);
-            }
 
+            /**
+             * 查询 仓库预估日记账
+             * @param fetcher 查询者
+             */
+            fetchMaterialEstimateJournal(fetcher: ibas.IFetchCaller<bo.MaterialEstimateJournal>): void {
+                super.fetch(bo.MaterialEstimateJournal.name, fetcher);
+            }
             /**
              * 查询 仓库
              * @param fetcher 查询者

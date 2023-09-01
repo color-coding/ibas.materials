@@ -22,6 +22,7 @@ import org.colorcoding.ibas.materials.bo.material.MaterialVersion;
 import org.colorcoding.ibas.materials.bo.material.Product;
 import org.colorcoding.ibas.materials.bo.materialbatch.MaterialBatch;
 import org.colorcoding.ibas.materials.bo.materialbatch.MaterialBatchJournal;
+import org.colorcoding.ibas.materials.bo.materialinventory.MaterialEstimateJournal;
 import org.colorcoding.ibas.materials.bo.materialinventory.MaterialInventory;
 import org.colorcoding.ibas.materials.bo.materialinventory.MaterialInventoryJournal;
 import org.colorcoding.ibas.materials.bo.materialinventory.MaterialInventoryReservation;
@@ -281,6 +282,22 @@ public class DataService extends BORepositoryMaterials {
 	public OperationResult<MaterialInventoryJournal> fetchMaterialInventoryJournal(Criteria criteria,
 			@QueryParam("token") String token) {
 		return super.fetchMaterialInventoryJournal(criteria, token);
+	} // --------------------------------------------------------------------------------------------//
+
+	/**
+	 * 查询-仓库预估日记账
+	 * 
+	 * @param criteria 查询
+	 * @param token    口令
+	 * @return 操作结果
+	 */
+	@POST
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Path("fetchMaterialEstimateJournal")
+	public OperationResult<MaterialEstimateJournal> fetchMaterialEstimateJournal(Criteria criteria,
+			@QueryParam("token") String token) {
+		return super.fetchMaterialEstimateJournal(criteria, token);
 	}
 
 	// --------------------------------------------------------------------------------------------//

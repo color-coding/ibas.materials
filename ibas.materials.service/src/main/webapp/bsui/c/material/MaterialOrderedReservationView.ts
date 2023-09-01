@@ -161,10 +161,10 @@ namespace materials {
                                     }),
                                 ],
                                 highlight: {
-                                    path: "isDirty",
-                                    formatter(data: boolean): sap.ui.core.ValueState {
-                                        if (data === true) {
-                                            return sap.ui.core.ValueState.Warning;
+                                    path: "status",
+                                    formatter(data: ibas.emBOStatus): sap.ui.core.ValueState {
+                                        if (data === ibas.emBOStatus.CLOSED) {
+                                            return sap.ui.core.ValueState.Error;
                                         }
                                         return sap.ui.core.ValueState.Information;
                                     }

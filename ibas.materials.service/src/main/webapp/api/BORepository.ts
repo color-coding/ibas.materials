@@ -87,11 +87,12 @@ namespace materials {
              * @param fetcher 查询者
              */
             fetchMaterialInventoryJournal(fetcher: ibas.IFetchCaller<bo.IMaterialInventoryJournal>): void;
+
             /**
-             * 保存 仓库日记账
-             * @param saver 保存者
+             * 查询 仓库预估日记账
+             * @param fetcher 查询者
              */
-            saveMaterialInventoryJournal(saver: ibas.ISaveCaller<bo.IMaterialInventoryJournal>): void;
+            fetchMaterialEstimateJournal(fetcher: ibas.IFetchCaller<bo.IMaterialEstimateJournal>): void;
 
             /**
              * 查询 仓库

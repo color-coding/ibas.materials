@@ -31,6 +31,7 @@
 /// <reference path="./bo/MaterialInventoryReservation.ts" />
 /// <reference path="./bo/MaterialSubstitute.ts" />
 /// <reference path="./bo/MaterialOrderedReservation.ts" />
+/// <reference path="./bo/MaterialEstimateJournal.ts" />
 /// <reference path="./DataConverter.ts" />
 /// <reference path="./BORepository.ts" />
 
@@ -65,5 +66,6 @@ namespace materials {
         boFactory.register(MaterialInventoryReservation.BUSINESS_OBJECT_CODE, MaterialInventoryReservation);
         boFactory.register(MaterialSubstitute.BUSINESS_OBJECT_CODE, MaterialSubstitute);
         boFactory.register(MaterialOrderedReservation.BUSINESS_OBJECT_CODE, MaterialOrderedReservation);
+        boFactory.register(MaterialEstimateJournal.BUSINESS_OBJECT_CODE, MaterialEstimateJournal);
     }
 }

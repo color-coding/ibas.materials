@@ -425,7 +425,7 @@ namespace materials {
                                     ibas.i18n.prop("bo_materialinventoryreservation_batchcode"),
                                     ibas.i18n.prop("bo_materialinventoryreservation_serialcode")
                                 ),
-                                width: "16rem",
+                                width: "12rem",
                             }),
                             new sap.extension.m.Column("", {
                                 header: ibas.i18n.prop("bo_materialinventoryreservation_deliverydate"),
@@ -507,7 +507,7 @@ namespace materials {
                                                     criteria: criteria,
                                                     onCompleted: (opRslt) => {
                                                         for (let item of opRslt.resultObjects) {
-                                                            this.setText(ibas.strings.format("{0}-{1}", item.name, item.code));
+                                                            this.setText(item.name);
                                                         }
                                                     }
                                                 });
@@ -593,10 +593,10 @@ namespace materials {
                                     }),
                                 ],
                                 highlight: {
-                                    path: "isDirty",
-                                    formatter(data: boolean): sap.ui.core.ValueState {
-                                        if (data === true) {
-                                            return sap.ui.core.ValueState.Warning;
+                                    path: "status",
+                                    formatter(data: ibas.emBOStatus): sap.ui.core.ValueState {
+                                        if (data === ibas.emBOStatus.CLOSED) {
+                                            return sap.ui.core.ValueState.Error;
                                         }
                                         return sap.ui.core.ValueState.Information;
                                     }
