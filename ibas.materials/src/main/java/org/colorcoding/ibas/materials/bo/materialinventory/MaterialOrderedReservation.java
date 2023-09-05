@@ -1045,6 +1045,11 @@ public class MaterialOrderedReservation extends BusinessObject<MaterialOrderedRe
 								.subtract(MaterialOrderedReservation.this.getClosedQuantity());
 					}
 
+					@Override
+					public emBOStatus getStatus() {
+						return MaterialOrderedReservation.this.getStatus();
+					}
+
 				}
 
 		};

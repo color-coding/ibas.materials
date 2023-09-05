@@ -1,28 +1,41 @@
 package org.colorcoding.ibas.materials.logic;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Iterator;
 
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElementWrapper;
+
+import org.colorcoding.ibas.bobas.bo.BusinessObject;
+import org.colorcoding.ibas.bobas.bo.IBusinessObject;
 import org.colorcoding.ibas.bobas.common.ConditionOperation;
 import org.colorcoding.ibas.bobas.common.ConditionRelationship;
 import org.colorcoding.ibas.bobas.common.Criteria;
 import org.colorcoding.ibas.bobas.common.ICondition;
 import org.colorcoding.ibas.bobas.common.ICriteria;
 import org.colorcoding.ibas.bobas.common.IOperationResult;
+import org.colorcoding.ibas.bobas.core.IPropertyInfo;
 import org.colorcoding.ibas.bobas.data.Decimal;
 import org.colorcoding.ibas.bobas.data.emYesNo;
 import org.colorcoding.ibas.bobas.logic.BusinessLogicException;
+import org.colorcoding.ibas.bobas.logic.IBusinessObjectGroup;
+import org.colorcoding.ibas.bobas.mapping.DbField;
+import org.colorcoding.ibas.bobas.mapping.DbFieldType;
 import org.colorcoding.ibas.bobas.mapping.LogicContract;
 import org.colorcoding.ibas.bobas.message.Logger;
 import org.colorcoding.ibas.bobas.message.MessageLevel;
 import org.colorcoding.ibas.materials.bo.material.IMaterial;
-import org.colorcoding.ibas.materials.bo.materialbatch.IMaterialBatchJournal;
+import org.colorcoding.ibas.materials.bo.materialbatch.IMaterialBatchItem;
 import org.colorcoding.ibas.materials.bo.materialinventory.IMaterialInventoryReservation;
-import org.colorcoding.ibas.materials.bo.materialinventory.IMaterialInventoryReservationGroup;
+import org.colorcoding.ibas.materials.bo.materialinventory.IMaterialInventoryReservations;
 import org.colorcoding.ibas.materials.bo.materialinventory.IMaterialOrderedReservation;
+import org.colorcoding.ibas.materials.bo.materialinventory.IMaterialOrderedReservations;
 import org.colorcoding.ibas.materials.bo.materialinventory.MaterialInventoryReservation;
-import org.colorcoding.ibas.materials.bo.materialinventory.MaterialInventoryReservationGroup;
+import org.colorcoding.ibas.materials.bo.materialinventory.MaterialInventoryReservations;
 import org.colorcoding.ibas.materials.bo.materialinventory.MaterialOrderedReservation;
-import org.colorcoding.ibas.materials.bo.materialserial.IMaterialSerialJournal;
+import org.colorcoding.ibas.materials.bo.materialinventory.MaterialOrderedReservations;
+import org.colorcoding.ibas.materials.bo.materialserial.IMaterialSerialItem;
 import org.colorcoding.ibas.materials.data.DataConvert;
 import org.colorcoding.ibas.materials.data.emItemType;
 import org.colorcoding.ibas.materials.repository.BORepositoryMaterials;
@@ -31,7 +44,7 @@ import org.colorcoding.ibas.materials.repository.BORepositoryMaterials;
 public class MaterialInventoryReservationCreateService extends
 		MaterialInventoryBusinessLogic<IMaterialInventoryReservationCreateContract, IMaterialInventoryReservationGroup> {
 
-	private static final IMaterialInventoryReservationGroup EMPTY_DATA = new _MaterialInventoryReservationGroup();
+	private static final IMaterialInventoryReservationGroup EMPTY_DATA = new MaterialInventoryReservationGroup();
 
 	@Override
 	protected boolean checkDataStatus(Object data) {
@@ -83,7 +96,7 @@ public class MaterialInventoryReservationCreateService extends
 			condition = criteria.getConditions().create();
 			condition.setAlias(MaterialInventoryReservation.PROPERTY_BATCHCODE.getName());
 			condition.setValue(contract.getBatchCode());
-			if (!(this.getHost() instanceof IMaterialBatchJournal)) {
+			if (!(this.getHost() instanceof IMaterialBatchItem)) {
 				// 批次管理，宿主为序列记录则不执行
 				return EMPTY_DATA;
 			}
@@ -92,7 +105,7 @@ public class MaterialInventoryReservationCreateService extends
 			condition = criteria.getConditions().create();
 			condition.setAlias(MaterialInventoryReservation.PROPERTY_SERIALCODE.getName());
 			condition.setValue(contract.getSerialCode());
-			if (!(this.getHost() instanceof IMaterialSerialJournal)) {
+			if (!(this.getHost() instanceof IMaterialSerialItem)) {
 				// 序列管理，宿主为批次记录则不执行
 				return EMPTY_DATA;
 			}
@@ -107,12 +120,23 @@ public class MaterialInventoryReservationCreateService extends
 			if (opRsltInventory.getError() != null) {
 				throw new BusinessLogicException(opRsltInventory.getError());
 			}
+			IMaterialInventoryReservation reservation;
 			reservationGroup = new MaterialInventoryReservationGroup();
 			reservationGroup.setCauses(String.format("FROM:%s-%s-%s", contract.getSourceDocumentType(),
 					contract.getSourceDocumentEntry(), contract.getSourceDocumentLineId()));
 			reservationGroup.setBatchCode(contract.getBatchCode());
 			reservationGroup.setSerialCode(contract.getSerialCode());
-			reservationGroup.getItems().addAll(opRsltInventory.getResultObjects());
+			for (IMaterialInventoryReservation item : opRsltInventory.getResultObjects()) {
+				// 判断内存中是否已有
+				reservation = this.fetchBeAffected(item.getCriteria(), IMaterialInventoryReservation.class);
+				if (reservation == null) {
+					// 使用数据库的
+					reservationGroup.getItems().add(item);
+				} else {
+					// 使用内存的
+					reservationGroup.getItems().add(reservation);
+				}
+			}
 			// 加载相关的原因数据
 			criteria = new Criteria();
 			condition = criteria.getConditions().create();
@@ -134,7 +158,18 @@ public class MaterialInventoryReservationCreateService extends
 			if (opRsltOrdered.getError() != null) {
 				throw new BusinessLogicException(opRsltOrdered.getError());
 			}
-			reservationGroup.getCausalDatas().addAll(opRsltOrdered.getResultObjects());
+			IMaterialOrderedReservation orderReservation;
+			for (IMaterialOrderedReservation item : opRsltOrdered.getResultObjects()) {
+				// 判断内存中是否已有
+				orderReservation = this.fetchBeAffected(item.getCriteria(), IMaterialOrderedReservation.class);
+				if (orderReservation == null) {
+					// 使用数据库的
+					reservationGroup.getCausalDatas().add(item);
+				} else {
+					// 使用内存的
+					reservationGroup.getCausalDatas().add(orderReservation);
+				}
+			}
 		}
 		return reservationGroup;
 
@@ -261,7 +296,8 @@ public class MaterialInventoryReservationCreateService extends
 					break;
 				}
 			}
-			if (item.getQuantity().compareTo(Decimal.ZERO) <= 0) {
+			if (item.getQuantity().compareTo(Decimal.ZERO) <= 0
+					&& item.getClosedQuantity().compareTo(Decimal.ZERO) <= 0) {
 				item.delete();
 			}
 			if (avaQuantity.compareTo(Decimal.ZERO) <= 0) {
@@ -272,13 +308,265 @@ public class MaterialInventoryReservationCreateService extends
 
 }
 
-class _MaterialInventoryReservationGroup extends MaterialInventoryReservationGroup {
+interface IMaterialInventoryReservationGroup extends IBusinessObject {
 
-	private static final long serialVersionUID = 1L;
+	/**
+	 * 获取-原因
+	 * 
+	 * @return 值
+	 */
+	String getCauses();
 
-	public _MaterialInventoryReservationGroup() {
-		this.markOld();
+	/**
+	 * 设置-原因
+	 * 
+	 * @param value 值
+	 */
+	void setCauses(String value);
+
+	/**
+	 * 获取-批次编码
+	 * 
+	 * @return 值
+	 */
+	String getBatchCode();
+
+	/**
+	 * 设置-批次编码
+	 * 
+	 * @param value 值
+	 */
+	void setBatchCode(String value);
+
+	/**
+	 * 获取-序列编码
+	 * 
+	 * @return 值
+	 */
+	String getSerialCode();
+
+	/**
+	 * 设置-序列编码
+	 * 
+	 * @param value 值
+	 */
+	void setSerialCode(String value);
+
+	/**
+	 * 获取-行集合
+	 * 
+	 * @return 值
+	 */
+	IMaterialInventoryReservations getItems();
+
+	/**
+	 * 设置-行集合
+	 * 
+	 * @param value 值
+	 */
+	void setItems(IMaterialInventoryReservations value);
+
+	/**
+	 * 获取-原因数据集合
+	 * 
+	 * @return 值
+	 */
+	IMaterialOrderedReservations getCausalDatas();
+
+	/**
+	 * 设置-原因数据集合
+	 * 
+	 * @param value 值
+	 */
+	void setCausalDatas(IMaterialOrderedReservations value);
+}
+
+class MaterialInventoryReservationGroup extends BusinessObject<IMaterialInventoryReservationGroup>
+		implements IMaterialInventoryReservationGroup, IBusinessObjectGroup {
+
+	private static final long serialVersionUID = -1505933970685831778L;
+
+	/**
+	 * 当前类型
+	 */
+	private static final Class<?> MY_CLASS = MaterialInventoryReservationGroup.class;
+
+	public MaterialInventoryReservationGroup() {
 		this.setSavable(false);
 	}
 
+	/**
+	 * 属性名称-原因
+	 */
+	private static final String PROPERTY_CAUSES_NAME = "Causes";
+
+	/**
+	 * 原因 属性
+	 */
+	@DbField(name = "Causes", type = DbFieldType.ALPHANUMERIC)
+	public static final IPropertyInfo<String> PROPERTY_CAUSES = registerProperty(PROPERTY_CAUSES_NAME, String.class,
+			MY_CLASS);
+
+	/**
+	 * 获取-原因
+	 * 
+	 * @return 值
+	 */
+	@XmlElement(name = PROPERTY_CAUSES_NAME)
+	public final String getCauses() {
+		return this.getProperty(PROPERTY_CAUSES);
+	}
+
+	/**
+	 * 设置-原因
+	 * 
+	 * @param value 值
+	 */
+	public final void setCauses(String value) {
+		this.setProperty(PROPERTY_CAUSES, value);
+	}
+
+	/**
+	 * 属性名称-批次编码
+	 */
+	private static final String PROPERTY_BATCHCODE_NAME = "BatchCode";
+
+	/**
+	 * 批次编码 属性
+	 */
+	@DbField(name = "BatchCode", type = DbFieldType.ALPHANUMERIC)
+	public static final IPropertyInfo<String> PROPERTY_BATCHCODE = registerProperty(PROPERTY_BATCHCODE_NAME,
+			String.class, MY_CLASS);
+
+	/**
+	 * 获取-批次编码
+	 * 
+	 * @return 值
+	 */
+	@XmlElement(name = PROPERTY_BATCHCODE_NAME)
+	public final String getBatchCode() {
+		return this.getProperty(PROPERTY_BATCHCODE);
+	}
+
+	/**
+	 * 设置-批次编码
+	 * 
+	 * @param value 值
+	 */
+	public final void setBatchCode(String value) {
+		this.setProperty(PROPERTY_BATCHCODE, value);
+	}
+
+	/**
+	 * 属性名称-序列编码
+	 */
+	private static final String PROPERTY_SERIALCODE_NAME = "SerialCode";
+
+	/**
+	 * 序列编码 属性
+	 */
+	@DbField(name = "SerialCode", type = DbFieldType.ALPHANUMERIC)
+	public static final IPropertyInfo<String> PROPERTY_SERIALCODE = registerProperty(PROPERTY_SERIALCODE_NAME,
+			String.class, MY_CLASS);
+
+	/**
+	 * 获取-序列编码
+	 * 
+	 * @return 值
+	 */
+	@XmlElement(name = PROPERTY_SERIALCODE_NAME)
+	public final String getSerialCode() {
+		return this.getProperty(PROPERTY_SERIALCODE);
+	}
+
+	/**
+	 * 设置-序列编码
+	 * 
+	 * @param value 值
+	 */
+	public final void setSerialCode(String value) {
+		this.setProperty(PROPERTY_SERIALCODE, value);
+	}
+
+	/**
+	 * 属性名称-项目集合
+	 */
+	private static final String PROPERTY_ITEMS_NAME = "Items";
+
+	/**
+	 * 库存收货-行的集合属性
+	 * 
+	 */
+	public static final IPropertyInfo<IMaterialInventoryReservations> PROPERTY_ITEMS = registerProperty(
+			PROPERTY_ITEMS_NAME, IMaterialInventoryReservations.class, MY_CLASS);
+
+	/**
+	 * 获取-项目集合
+	 * 
+	 * @return 值
+	 */
+	@XmlElementWrapper(name = PROPERTY_ITEMS_NAME)
+	@XmlElement(name = MaterialInventoryReservation.BUSINESS_OBJECT_NAME, type = MaterialInventoryReservation.class)
+	public final IMaterialInventoryReservations getItems() {
+		return this.getProperty(PROPERTY_ITEMS);
+	}
+
+	/**
+	 * 设置-项目集合
+	 * 
+	 * @param value 值
+	 */
+	public final void setItems(IMaterialInventoryReservations value) {
+		this.setProperty(PROPERTY_ITEMS, value);
+	}
+
+	/**
+	 * 属性名称-项目集合
+	 */
+	private static final String PROPERTY_CAUSALDATAS_NAME = "CausalDatas";
+
+	/**
+	 * 库存收货-行的集合属性
+	 * 
+	 */
+	public static final IPropertyInfo<IMaterialOrderedReservations> PROPERTY_CAUSALDATAS = registerProperty(
+			PROPERTY_CAUSALDATAS_NAME, IMaterialOrderedReservations.class, MY_CLASS);
+
+	/**
+	 * 获取-项目集合
+	 * 
+	 * @return 值
+	 */
+	@XmlElementWrapper(name = PROPERTY_CAUSALDATAS_NAME)
+	@XmlElement(name = MaterialOrderedReservation.BUSINESS_OBJECT_NAME, type = MaterialOrderedReservation.class)
+	public final IMaterialOrderedReservations getCausalDatas() {
+		return this.getProperty(PROPERTY_CAUSALDATAS);
+	}
+
+	/**
+	 * 设置-项目集合
+	 * 
+	 * @param value 值
+	 */
+	public final void setCausalDatas(IMaterialOrderedReservations value) {
+		this.setProperty(PROPERTY_CAUSALDATAS, value);
+	}
+
+	/**
+	 * 初始化数据
+	 */
+	@Override
+	protected void initialize() {
+		super.initialize();// 基类初始化，不可去除
+		this.setItems(new MaterialInventoryReservations(this));
+		this.setCausalDatas(new MaterialOrderedReservations(this));
+	}
+
+	@Override
+	public Iterator<IBusinessObject> iterator() {
+		ArrayList<IBusinessObject> list = new ArrayList<>();
+		list.addAll(this.getItems());
+		list.addAll(this.getCausalDatas());
+		return list.iterator();
+	}
 }

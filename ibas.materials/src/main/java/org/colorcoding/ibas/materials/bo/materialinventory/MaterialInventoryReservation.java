@@ -954,7 +954,7 @@ public class MaterialInventoryReservation extends BusinessObject<MaterialInvento
 
 	@Override
 	public IBusinessLogicContract[] getContracts() {
-		ArrayList<IBusinessLogicContract> contracts = new ArrayList<>(3);
+		ArrayList<IBusinessLogicContract> contracts = new ArrayList<>(4);
 		if (!DataConvert.isNullOrEmpty(this.getSerialCode())) {
 			// 序列占用
 			contracts.add(new IMaterialSerialReservedContract() {
@@ -1037,6 +1037,11 @@ public class MaterialInventoryReservation extends BusinessObject<MaterialInvento
 				public String getItemCode() {
 					return MaterialInventoryReservation.this.getItemCode();
 				}
+
+				@Override
+				public emBOStatus getStatus() {
+					return MaterialInventoryReservation.this.getStatus();
+				}
 			});
 		}
 		if (!DataConvert.isNullOrEmpty(this.getItemCode())) {
@@ -1058,6 +1063,11 @@ public class MaterialInventoryReservation extends BusinessObject<MaterialInvento
 				@Override
 				public String getItemCode() {
 					return MaterialInventoryReservation.this.getItemCode();
+				}
+
+				@Override
+				public emBOStatus getStatus() {
+					return MaterialInventoryReservation.this.getStatus();
 				}
 			});
 		}

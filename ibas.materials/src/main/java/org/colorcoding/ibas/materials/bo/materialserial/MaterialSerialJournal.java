@@ -1,7 +1,5 @@
 package org.colorcoding.ibas.materials.bo.materialserial;
 
-import java.math.BigDecimal;
-
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -10,9 +8,7 @@ import javax.xml.bind.annotation.XmlType;
 
 import org.colorcoding.ibas.bobas.bo.BusinessObject;
 import org.colorcoding.ibas.bobas.core.IPropertyInfo;
-import org.colorcoding.ibas.bobas.data.ArrayList;
 import org.colorcoding.ibas.bobas.data.DateTime;
-import org.colorcoding.ibas.bobas.data.Decimal;
 import org.colorcoding.ibas.bobas.data.emDirection;
 import org.colorcoding.ibas.bobas.logic.IBusinessLogicContract;
 import org.colorcoding.ibas.bobas.logic.IBusinessLogicsHost;
@@ -22,8 +18,6 @@ import org.colorcoding.ibas.bobas.mapping.DbFieldType;
 import org.colorcoding.ibas.bobas.rule.IBusinessRule;
 import org.colorcoding.ibas.bobas.rule.common.BusinessRuleRequired;
 import org.colorcoding.ibas.materials.MyConfiguration;
-import org.colorcoding.ibas.materials.logic.IMaterialInventoryReservationCreateContract;
-import org.colorcoding.ibas.materials.logic.IMaterialInventoryReservationReleaseContract;
 import org.colorcoding.ibas.materials.logic.IMaterialSerialInventoryContract;
 
 /**
@@ -765,129 +759,37 @@ public class MaterialSerialJournal extends BusinessObject<MaterialSerialJournal>
 
 	@Override
 	public IBusinessLogicContract[] getContracts() {
-		ArrayList<IBusinessLogicContract> contracts = new ArrayList<>(4);
-		// 物料序列号库存
-		contracts.add(new IMaterialSerialInventoryContract() {
+		return new IBusinessLogicContract[] {
+				// 物料序列号库存
+				new IMaterialSerialInventoryContract() {
 
-			@Override
-			public String getIdentifiers() {
-				return MaterialSerialJournal.this.getIdentifiers();
-			}
+					@Override
+					public String getIdentifiers() {
+						return MaterialSerialJournal.this.getIdentifiers();
+					}
 
-			@Override
-			public String getSerialCode() {
-				return MaterialSerialJournal.this.getSerialCode();
-			}
+					@Override
+					public String getSerialCode() {
+						return MaterialSerialJournal.this.getSerialCode();
+					}
 
-			@Override
-			public String getItemCode() {
-				return MaterialSerialJournal.this.getItemCode();
-			}
+					@Override
+					public String getItemCode() {
+						return MaterialSerialJournal.this.getItemCode();
+					}
 
-			@Override
-			public String getWarehouse() {
-				return MaterialSerialJournal.this.getWarehouse();
-			}
+					@Override
+					public String getWarehouse() {
+						return MaterialSerialJournal.this.getWarehouse();
+					}
 
-			@Override
-			public emDirection getDirection() {
-				return MaterialSerialJournal.this.getDirection();
-			}
+					@Override
+					public emDirection getDirection() {
+						return MaterialSerialJournal.this.getDirection();
+					}
 
-		});
-		// 出库
-		if (this.getDirection() == emDirection.OUT) {
-			contracts.add(new IMaterialInventoryReservationReleaseContract() {
-
-				@Override
-				public String getIdentifiers() {
-					return MaterialSerialJournal.this.getIdentifiers();
 				}
 
-				@Override
-				public String getSerialCode() {
-					return MaterialSerialJournal.this.getSerialCode();
-				}
-
-				@Override
-				public String getItemCode() {
-					return MaterialSerialJournal.this.getItemCode();
-				}
-
-				@Override
-				public String getWarehouse() {
-					return MaterialSerialJournal.this.getWarehouse();
-				}
-
-				@Override
-				public BigDecimal getQuantity() {
-					return BigDecimal.ONE;
-				}
-
-				@Override
-				public String getTargetDocumentType() {
-					return MaterialSerialJournal.this.getOriginalDocumentType();
-				}
-
-				@Override
-				public Integer getTargetDocumentEntry() {
-					return MaterialSerialJournal.this.getOriginalDocumentEntry();
-				}
-
-				@Override
-				public Integer getTargetDocumentLineId() {
-					return MaterialSerialJournal.this.getOriginalDocumentLineId();
-				}
-
-			});
-		}
-		// 入库
-		if (this.getDirection() == emDirection.IN) {
-			// 物料订购预留转库存占用
-			contracts.add(new IMaterialInventoryReservationCreateContract() {
-
-				@Override
-				public String getIdentifiers() {
-					return MaterialSerialJournal.this.getIdentifiers();
-				}
-
-				@Override
-				public String getItemCode() {
-					return MaterialSerialJournal.this.getItemCode();
-				}
-
-				@Override
-				public String getWarehouse() {
-					return MaterialSerialJournal.this.getWarehouse();
-				}
-
-				@Override
-				public String getSerialCode() {
-					return MaterialSerialJournal.this.getSerialCode();
-				}
-
-				@Override
-				public BigDecimal getQuantity() {
-					return Decimal.ONE;
-				}
-
-				@Override
-				public String getSourceDocumentType() {
-					return MaterialSerialJournal.this.getOriginalDocumentType();
-				}
-
-				@Override
-				public Integer getSourceDocumentEntry() {
-					return MaterialSerialJournal.this.getOriginalDocumentEntry();
-				}
-
-				@Override
-				public Integer getSourceDocumentLineId() {
-					return MaterialSerialJournal.this.getOriginalDocumentLineId();
-				}
-
-			});
-		}
-		return contracts.toArray(new IBusinessLogicContract[] {});
+		};
 	}
 }

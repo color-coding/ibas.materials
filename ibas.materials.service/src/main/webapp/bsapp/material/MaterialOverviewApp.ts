@@ -131,10 +131,19 @@ namespace materials {
                 if (ibas.objects.isNull(data)) {
                     this.messages(ibas.emMessageType.WARNING, ibas.i18n.prop("shell_please_chooose_data",
                         ibas.i18n.prop("shell_data_view")
-                    ));
-                    return;
+                    )); return;
                 }
-                this.view.showMaterial(data);
+                let boRepository: bo.BORepositoryMaterials = new bo.BORepositoryMaterials();
+                boRepository.fetchMaterial({
+                    criteria: data.criteria(),
+                    onCompleted: (opRslt) => {
+                        if (opRslt.resultObjects.length > 0) {
+                            this.view.showMaterial(opRslt.resultObjects.firstOrDefault());
+                        } else {
+                            this.view.showMaterial(data);
+                        }
+                    }
+                });
             }
             /** 编辑物料，参数：目标数据 */
             protected editData(data: bo.Material): void {

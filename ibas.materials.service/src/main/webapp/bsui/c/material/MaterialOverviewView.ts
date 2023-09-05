@@ -211,8 +211,11 @@ namespace materials {
                                         },
                                     }),
                                     new sap.extension.m.ObjectAttribute("", {
-                                        title: ibas.i18n.prop("bo_material_onavailable"),
-                                        bindingValue: "{=${}.onAvailable()} {inventoryUOM}",
+                                        title: ibas.i18n.prop("bo_material_remarks"),
+                                        bindingValue: {
+                                            path: "remarks",
+                                            type: new sap.extension.data.Alphanumeric(),
+                                        },
                                     }),
                                 ],
                                 type: sap.m.ListType.Active
@@ -1258,6 +1261,13 @@ namespace materials {
                                         }
                                     }
                                 }),
+                                new sap.m.ToolbarSeparator(),
+                                new sap.m.Button("", {
+                                    icon: "sap-icon://refresh",
+                                    press: function (): void {
+                                        that.fireViewEvents(that.viewDataEvent, that.tableMaterials.getSelecteds().firstOrDefault());
+                                    }
+                                }),
                                 new sap.m.ToolbarSpacer(),
                                 new sap.m.Button("", {
                                     type: sap.m.ButtonType.Transparent,
@@ -1380,11 +1390,17 @@ namespace materials {
                                 introPress(): void {
 
                                 },
-                                number: "-",
+                                number: {
+                                    path: "",
+                                    formatter(data: bo.Material): string {
+                                        return sap.extension.data.formatValue(sap.extension.data.Quantity, data ? data.onAvailable() : 0.0, "string");
+                                    }
+                                },
                                 numberUnit: {
-                                    path: "remarks",
+                                    path: "inventoryUOM",
                                     type: new sap.extension.data.Alphanumeric(),
                                 },
+                                numberState: sap.ui.core.ValueState.Success,
                                 attributes: [
                                     new sap.extension.m.ObjectAttribute("", {
                                         title: ibas.i18n.prop("bo_material_foreignname"),
@@ -1552,7 +1568,7 @@ namespace materials {
                     this.panelButton.setIcon("sap-icon://navigation-right-arrow");
                     if (this.tableMaterials.getSelecteds().length === 0) {
                         for (let item of this.tableMaterials.getItems()) {
-                            if (item.getBindingContext().getObject() === data) {
+                            if (item.getBindingContext().getObject().code === data.code) {
                                 this.tableMaterials.setSelectedItem(item);
                                 break;
                             }

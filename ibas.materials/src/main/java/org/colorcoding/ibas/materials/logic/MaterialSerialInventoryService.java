@@ -96,6 +96,10 @@ public class MaterialSerialInventoryService
 					throw new BusinessLogicException(I18N.prop("msg_mm_material_serial_in_stock",
 							contract.getWarehouse(), contract.getItemCode(), contract.getSerialCode()));
 				}
+				if (materialSerial.getReserved() == emYesNo.YES) {
+					throw new BusinessLogicException(I18N.prop("msg_mm_material_serial_is_reserved",
+							contract.getWarehouse(), contract.getItemCode(), contract.getSerialCode()));
+				}
 				materialSerial.setInStock(emYesNo.YES);
 			} else {
 				if (materialSerial.getInStock() == emYesNo.NO) {
@@ -127,6 +131,10 @@ public class MaterialSerialInventoryService
 			} else {
 				if (materialSerial.getInStock() == emYesNo.YES) {
 					throw new BusinessLogicException(I18N.prop("msg_mm_material_serial_in_stock",
+							contract.getWarehouse(), contract.getItemCode(), contract.getSerialCode()));
+				}
+				if (materialSerial.getInStock() == emYesNo.YES) {
+					throw new BusinessLogicException(I18N.prop("msg_mm_material_serial_is_reserved",
 							contract.getWarehouse(), contract.getItemCode(), contract.getSerialCode()));
 				}
 				materialSerial.setInStock(emYesNo.YES);

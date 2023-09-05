@@ -2,6 +2,7 @@ package org.colorcoding.ibas.materials.logic;
 
 import java.math.BigDecimal;
 
+import org.colorcoding.ibas.bobas.data.emBOStatus;
 import org.colorcoding.ibas.bobas.logic.IBusinessLogicContract;
 import org.colorcoding.ibas.materials.data.emEstimateType;
 
@@ -55,4 +56,11 @@ public interface IMaterialEstimateReservedContract extends IBusinessLogicContrac
 	 * @return
 	 */
 	BigDecimal getQuantity();
+
+	/**
+	 * 状态
+	 * 
+	 * @return
+	 */
+	emBOStatus getStatus();
 }

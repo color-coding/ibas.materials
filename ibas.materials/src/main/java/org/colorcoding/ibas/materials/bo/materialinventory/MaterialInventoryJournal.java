@@ -1096,6 +1096,48 @@ public class MaterialInventoryJournal extends BusinessObject<MaterialInventoryJo
 	@Override
 	public IBusinessLogicContract[] getContracts() {
 		ArrayList<IBusinessLogicContract> contracts = new ArrayList<>(4);
+		// 出库
+		if (this.getDirection() == emDirection.OUT) {
+			// 物料库存占用的释放（出库）
+			contracts.add(new IMaterialInventoryReservationReleaseContract() {
+
+				@Override
+				public String getIdentifiers() {
+					return MaterialInventoryJournal.this.getIdentifiers();
+				}
+
+				@Override
+				public String getItemCode() {
+					return MaterialInventoryJournal.this.getItemCode();
+				}
+
+				@Override
+				public String getWarehouse() {
+					return MaterialInventoryJournal.this.getWarehouse();
+				}
+
+				@Override
+				public BigDecimal getQuantity() {
+					return MaterialInventoryJournal.this.getQuantity();
+				}
+
+				@Override
+				public String getTargetDocumentType() {
+					return MaterialInventoryJournal.this.getOriginalDocumentType();
+				}
+
+				@Override
+				public Integer getTargetDocumentEntry() {
+					return MaterialInventoryJournal.this.getOriginalDocumentEntry();
+				}
+
+				@Override
+				public Integer getTargetDocumentLineId() {
+					return MaterialInventoryJournal.this.getOriginalDocumentLineId();
+				}
+
+			});
+		}
 		// 物料库存
 		contracts.add(new IMaterialInventoryContract() {
 			@Override
@@ -1145,48 +1187,6 @@ public class MaterialInventoryJournal extends BusinessObject<MaterialInventoryJo
 				return MaterialInventoryJournal.this.getDirection();
 			}
 		});
-		// 出库
-		if (this.getDirection() == emDirection.OUT) {
-			// 物料库存占用的释放（出库）
-			contracts.add(new IMaterialInventoryReservationReleaseContract() {
-
-				@Override
-				public String getIdentifiers() {
-					return MaterialInventoryJournal.this.getIdentifiers();
-				}
-
-				@Override
-				public String getItemCode() {
-					return MaterialInventoryJournal.this.getItemCode();
-				}
-
-				@Override
-				public String getWarehouse() {
-					return MaterialInventoryJournal.this.getWarehouse();
-				}
-
-				@Override
-				public BigDecimal getQuantity() {
-					return MaterialInventoryJournal.this.getQuantity();
-				}
-
-				@Override
-				public String getTargetDocumentType() {
-					return MaterialInventoryJournal.this.getOriginalDocumentType();
-				}
-
-				@Override
-				public Integer getTargetDocumentEntry() {
-					return MaterialInventoryJournal.this.getOriginalDocumentEntry();
-				}
-
-				@Override
-				public Integer getTargetDocumentLineId() {
-					return MaterialInventoryJournal.this.getOriginalDocumentLineId();
-				}
-
-			});
-		}
 		// 入库
 		if (this.getDirection() == emDirection.IN) {
 			// 物料订购预留转库存占用

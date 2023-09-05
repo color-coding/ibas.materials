@@ -100,6 +100,10 @@ public class MaterialBatchInventorySerivce
 			throw new BusinessLogicException(I18N.prop("msg_mm_material_batch_not_enough_in_stock",
 					contract.getWarehouse(), contract.getItemCode(), contract.getBatchCode()));
 		}
+		if (Decimal.ZERO.compareTo(quantity.subtract(materialBatch.getReservedQuantity())) > 0) {
+			throw new BusinessLogicException(I18N.prop("msg_mm_material_batch_not_enough_is_reserved",
+					contract.getWarehouse(), contract.getItemCode(), contract.getBatchCode()));
+		}
 		materialBatch.setQuantity(quantity);
 	}
 
@@ -114,6 +118,11 @@ public class MaterialBatchInventorySerivce
 		}
 		if (Decimal.ZERO.compareTo(quantity) > 0 && !this.isSafeUpdate()) {
 			throw new BusinessLogicException(I18N.prop("msg_mm_material_batch_not_enough_in_stock",
+					contract.getWarehouse(), contract.getItemCode(), contract.getBatchCode()));
+		}
+		if (Decimal.ZERO.compareTo(quantity.subtract(materialBatch.getReservedQuantity())) > 0
+				&& !this.isSafeUpdate()) {
+			throw new BusinessLogicException(I18N.prop("msg_mm_material_batch_not_enough_is_reserved",
 					contract.getWarehouse(), contract.getItemCode(), contract.getBatchCode()));
 		}
 		materialBatch.setQuantity(quantity);

@@ -9,6 +9,7 @@ import org.colorcoding.ibas.bobas.common.ICondition;
 import org.colorcoding.ibas.bobas.common.ICriteria;
 import org.colorcoding.ibas.bobas.common.IOperationResult;
 import org.colorcoding.ibas.bobas.data.Decimal;
+import org.colorcoding.ibas.bobas.data.emBOStatus;
 import org.colorcoding.ibas.bobas.data.emYesNo;
 import org.colorcoding.ibas.bobas.i18n.I18N;
 import org.colorcoding.ibas.bobas.logic.BusinessLogicException;
@@ -46,6 +47,11 @@ public class MaterialWarehouseReservedService
 				Logger.log(MessageLevel.DEBUG, MSG_LOGICS_SKIP_LOGIC_EXECUTION, this.getClass().getName(),
 						"InventoryItem", material.getInventoryItem());
 				// 非库存物料，不执行此逻辑
+				return false;
+			}
+			if (contract.getStatus() == emBOStatus.CLOSED) {
+				Logger.log(MessageLevel.DEBUG, MSG_LOGICS_SKIP_LOGIC_EXECUTION, this.getClass().getName(), "Status",
+						contract.getStatus());
 				return false;
 			}
 			if (contract.getQuantity().compareTo(Decimal.ZERO) <= 0) {

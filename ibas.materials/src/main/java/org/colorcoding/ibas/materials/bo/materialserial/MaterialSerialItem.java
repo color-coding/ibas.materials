@@ -1,5 +1,7 @@
 package org.colorcoding.ibas.materials.bo.materialserial;
 
+import java.math.BigDecimal;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -9,6 +11,7 @@ import javax.xml.bind.annotation.XmlType;
 import org.colorcoding.ibas.bobas.bo.BusinessObject;
 import org.colorcoding.ibas.bobas.core.IPropertyInfo;
 import org.colorcoding.ibas.bobas.data.DateTime;
+import org.colorcoding.ibas.bobas.data.Decimal;
 import org.colorcoding.ibas.bobas.data.emDirection;
 import org.colorcoding.ibas.bobas.logic.IBusinessLogicContract;
 import org.colorcoding.ibas.bobas.logic.IBusinessLogicsHost;
@@ -18,6 +21,8 @@ import org.colorcoding.ibas.bobas.mapping.DbFieldType;
 import org.colorcoding.ibas.bobas.rule.IBusinessRule;
 import org.colorcoding.ibas.bobas.rule.common.BusinessRuleRequired;
 import org.colorcoding.ibas.materials.MyConfiguration;
+import org.colorcoding.ibas.materials.logic.IMaterialInventoryReservationCreateContract;
+import org.colorcoding.ibas.materials.logic.IMaterialInventoryReservationReleaseContract;
 import org.colorcoding.ibas.materials.logic.IMaterialSerialJournalContract;
 
 /**
@@ -586,7 +591,7 @@ public class MaterialSerialItem extends BusinessObject<MaterialSerialItem>
 	public IBusinessLogicContract[] getContracts() {
 		if (this.parent instanceof IMaterialSerialReceiptParent) {
 			return new IBusinessLogicContract[] {
-
+					// 入库序列交易
 					new IMaterialSerialJournalContract() {
 
 						@Override
@@ -651,12 +656,102 @@ public class MaterialSerialItem extends BusinessObject<MaterialSerialItem>
 							return ((IMaterialSerialReceiptParent) MaterialSerialItem.this.parent)
 									.getBaseDocumentLineId();
 						}
-					}
+					},
+					// 物料订购预留转库存占用
+					new IMaterialInventoryReservationCreateContract() {
 
-			};
+						@Override
+						public String getIdentifiers() {
+							return MaterialSerialItem.this.getIdentifiers();
+						}
+
+						@Override
+						public String getWarehouse() {
+							return MaterialSerialItem.this.parent.getWarehouse();
+						}
+
+						@Override
+						public String getSerialCode() {
+							return MaterialSerialItem.this.getSerialCode();
+						}
+
+						@Override
+						public String getItemCode() {
+							return MaterialSerialItem.this.parent.getItemCode();
+						}
+
+						@Override
+						public BigDecimal getQuantity() {
+							return Decimal.ONE;
+						}
+
+						@Override
+						public String getSourceDocumentType() {
+							return ((IMaterialSerialReceiptParent) MaterialSerialItem.this.parent)
+									.getBaseDocumentType();
+						}
+
+						@Override
+						public Integer getSourceDocumentEntry() {
+							return ((IMaterialSerialReceiptParent) MaterialSerialItem.this.parent)
+									.getBaseDocumentEntry();
+						}
+
+						@Override
+						public Integer getSourceDocumentLineId() {
+							return ((IMaterialSerialReceiptParent) MaterialSerialItem.this.parent)
+									.getBaseDocumentLineId();
+						}
+
+					} };
 		} else if (this.parent instanceof IMaterialSerialIssueParent) {
 			return new IBusinessLogicContract[] {
+					// 出库预留释放
+					new IMaterialInventoryReservationReleaseContract() {
 
+						@Override
+						public String getIdentifiers() {
+							return MaterialSerialItem.this.getIdentifiers();
+						}
+
+						@Override
+						public String getWarehouse() {
+							return MaterialSerialItem.this.parent.getWarehouse();
+						}
+
+						@Override
+						public String getSerialCode() {
+							return MaterialSerialItem.this.getSerialCode();
+						}
+
+						@Override
+						public String getItemCode() {
+							return MaterialSerialItem.this.parent.getItemCode();
+						}
+
+						@Override
+						public BigDecimal getQuantity() {
+							return BigDecimal.ONE;
+						}
+
+						@Override
+						public String getTargetDocumentType() {
+							return ((IMaterialSerialIssueParent) MaterialSerialItem.this.parent).getBaseDocumentType();
+						}
+
+						@Override
+						public Integer getTargetDocumentEntry() {
+							return ((IMaterialSerialIssueParent) MaterialSerialItem.this.parent).getBaseDocumentEntry();
+						}
+
+						@Override
+						public Integer getTargetDocumentLineId() {
+							return ((IMaterialSerialIssueParent) MaterialSerialItem.this.parent)
+									.getBaseDocumentLineId();
+						}
+
+					},
+					// 出库序列交易
 					new IMaterialSerialJournalContract() {
 
 						@Override

@@ -8,6 +8,7 @@ import org.colorcoding.ibas.bobas.common.Criteria;
 import org.colorcoding.ibas.bobas.common.ICondition;
 import org.colorcoding.ibas.bobas.common.ICriteria;
 import org.colorcoding.ibas.bobas.common.IOperationResult;
+import org.colorcoding.ibas.bobas.data.Decimal;
 import org.colorcoding.ibas.bobas.data.emDirection;
 import org.colorcoding.ibas.bobas.data.emYesNo;
 import org.colorcoding.ibas.bobas.i18n.I18N;
@@ -83,6 +84,14 @@ public class MaterialWarehouseInventoryService
 		} else {
 			onHand = onHand.add(contract.getQuantity());
 		}
+		if (Decimal.ZERO.compareTo(onHand) > 0) {
+			throw new BusinessLogicException(
+					I18N.prop("msg_mm_material_not_enough_in_stock", contract.getWarehouse(), contract.getItemCode()));
+		}
+		if (Decimal.ZERO.compareTo(onHand.subtract(materialInventory.getOnReserved())) > 0) {
+			throw new BusinessLogicException(I18N.prop("msg_mm_material_not_enough_is_reserved",
+					contract.getWarehouse(), contract.getItemCode()));
+		}
 		materialInventory.setOnHand(onHand);
 	}
 
@@ -94,6 +103,14 @@ public class MaterialWarehouseInventoryService
 			onHand = onHand.add(contract.getQuantity());
 		} else {
 			onHand = onHand.subtract(contract.getQuantity());
+		}
+		if (Decimal.ZERO.compareTo(onHand) > 0) {
+			throw new BusinessLogicException(
+					I18N.prop("msg_mm_material_not_enough_in_stock", contract.getWarehouse(), contract.getItemCode()));
+		}
+		if (Decimal.ZERO.compareTo(onHand.subtract(materialInventory.getOnReserved())) > 0) {
+			throw new BusinessLogicException(I18N.prop("msg_mm_material_not_enough_is_reserved",
+					contract.getWarehouse(), contract.getItemCode()));
 		}
 		materialInventory.setOnHand(onHand);
 	}

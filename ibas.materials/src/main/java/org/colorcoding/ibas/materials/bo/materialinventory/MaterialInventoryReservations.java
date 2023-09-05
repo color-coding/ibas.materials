@@ -3,10 +3,10 @@ package org.colorcoding.ibas.materials.bo.materialinventory;
 import java.beans.PropertyChangeEvent;
 
 import org.colorcoding.ibas.bobas.bo.BusinessObjects;
+import org.colorcoding.ibas.bobas.bo.IBusinessObject;
 import org.colorcoding.ibas.bobas.common.ICriteria;
 
-public class MaterialInventoryReservations
-		extends BusinessObjects<IMaterialInventoryReservation, IMaterialInventoryReservationGroup>
+public class MaterialInventoryReservations extends BusinessObjects<IMaterialInventoryReservation, IBusinessObject>
 		implements IMaterialInventoryReservations {
 
 	private static final long serialVersionUID = 5927751007171096466L;
@@ -23,7 +23,7 @@ public class MaterialInventoryReservations
 	 * 
 	 * @param parent 父项对象
 	 */
-	public MaterialInventoryReservations(IMaterialInventoryReservationGroup parent) {
+	public MaterialInventoryReservations(IBusinessObject parent) {
 		super(parent);
 	}
 

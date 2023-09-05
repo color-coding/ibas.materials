@@ -9,6 +9,7 @@ import org.colorcoding.ibas.bobas.common.ICondition;
 import org.colorcoding.ibas.bobas.common.ICriteria;
 import org.colorcoding.ibas.bobas.common.IOperationResult;
 import org.colorcoding.ibas.bobas.data.Decimal;
+import org.colorcoding.ibas.bobas.data.emBOStatus;
 import org.colorcoding.ibas.bobas.data.emYesNo;
 import org.colorcoding.ibas.bobas.i18n.I18N;
 import org.colorcoding.ibas.bobas.logic.BusinessLogicException;
@@ -33,6 +34,11 @@ public class MaterialEstimateReservedService extends MaterialEstimateService<IMa
 				// 无仓库信息，不执行此逻辑
 				Logger.log(MessageLevel.DEBUG, MSG_LOGICS_SKIP_LOGIC_EXECUTION, this.getClass().getName(), "Warehouse",
 						contract.getWarehouse());
+				return false;
+			}
+			if (contract.getStatus() == emBOStatus.CLOSED) {
+				Logger.log(MessageLevel.DEBUG, MSG_LOGICS_SKIP_LOGIC_EXECUTION, this.getClass().getName(), "Status",
+						contract.getStatus());
 				return false;
 			}
 			IMaterial material = this.checkMaterial(contract.getItemCode());
@@ -115,7 +121,8 @@ public class MaterialEstimateReservedService extends MaterialEstimateService<IMa
 		IMaterialEstimateJournal materialJournal = this.getBeAffected();
 		BigDecimal reserved = materialJournal.getReservedQuantity();
 		reserved = reserved.add(contract.getQuantity());
-		if (reserved.compareTo(materialJournal.getQuantity()) > 0) {
+		if (reserved.compareTo(materialJournal.getQuantity()) > 0
+				&& Decimal.ZERO.compareTo(materialJournal.getQuantity()) != 0) {
 			throw new BusinessLogicException(I18N.prop("msg_mm_material_not_enough", contract.getItemCode()));
 		}
 		materialJournal.setReservedQuantity(reserved);
