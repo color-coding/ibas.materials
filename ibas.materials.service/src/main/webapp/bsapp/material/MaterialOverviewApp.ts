@@ -465,9 +465,12 @@ namespace materials {
                 condition.alias = bo.MaterialEstimateJournal.PROPERTY_ESTIMATE_NAME;
                 condition.value = bo.emEstimateType.ORDERED.toString();
                 condition = criteria.conditions.create();
+                condition.alias = bo.MaterialEstimateJournal.PROPERTY_STATUS_NAME;
+                condition.value = ibas.emBOStatus.OPEN.toString();
+                condition = criteria.conditions.create();
                 condition.alias = bo.MaterialEstimateJournal.PROPERTY_QUANTITY_NAME;
                 condition.operation = ibas.emConditionOperation.GRATER_THAN;
-                condition.value = "0";
+                condition.comparedAlias = bo.MaterialEstimateJournal.PROPERTY_CLOSEDQUANTITY_NAME;
                 let that: this = this;
                 let boRepository: bo.BORepositoryMaterials = new bo.BORepositoryMaterials();
                 boRepository.fetchMaterialEstimateJournal({
@@ -502,9 +505,12 @@ namespace materials {
                 condition.alias = bo.MaterialEstimateJournal.PROPERTY_ESTIMATE_NAME;
                 condition.value = bo.emEstimateType.COMMITED.toString();
                 condition = criteria.conditions.create();
+                condition.alias = bo.MaterialEstimateJournal.PROPERTY_STATUS_NAME;
+                condition.value = ibas.emBOStatus.OPEN.toString();
+                condition = criteria.conditions.create();
                 condition.alias = bo.MaterialEstimateJournal.PROPERTY_QUANTITY_NAME;
                 condition.operation = ibas.emConditionOperation.GRATER_THAN;
-                condition.value = "0";
+                condition.comparedAlias = bo.MaterialEstimateJournal.PROPERTY_CLOSEDQUANTITY_NAME;
                 let that: this = this;
                 let boRepository: bo.BORepositoryMaterials = new bo.BORepositoryMaterials();
                 boRepository.fetchMaterialEstimateJournal({

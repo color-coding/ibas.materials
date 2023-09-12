@@ -97,10 +97,12 @@ public class MaterialSerialReservedService
 	@Override
 	protected void impact(IMaterialSerialReservedContract contract) {
 		IMaterialSerial materialSerial = this.getBeAffected();
-		if (materialSerial.getInStock() != emYesNo.YES) {
-			throw new BusinessLogicException(I18N.prop("msg_mm_material_serial_not_in_stock", contract.getWarehouse(),
+		/*
+		if (materialSerial.getReserved() == emYesNo.YES) {
+			throw new BusinessLogicException(I18N.prop("msg_mm_material_serial_is_reserved", contract.getWarehouse(),
 					contract.getItemCode(), contract.getSerialCode()));
 		}
+		*/
 		materialSerial.setReserved(emYesNo.YES);
 	}
 

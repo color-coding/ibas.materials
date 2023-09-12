@@ -12,12 +12,14 @@ import org.colorcoding.ibas.bobas.bo.BusinessObject;
 import org.colorcoding.ibas.bobas.core.IPropertyInfo;
 import org.colorcoding.ibas.bobas.data.DateTime;
 import org.colorcoding.ibas.bobas.data.Decimal;
+import org.colorcoding.ibas.bobas.data.emBOStatus;
 import org.colorcoding.ibas.bobas.logic.IBusinessLogicContract;
 import org.colorcoding.ibas.bobas.logic.IBusinessLogicsHost;
 import org.colorcoding.ibas.bobas.mapping.BusinessObjectUnit;
 import org.colorcoding.ibas.bobas.mapping.DbField;
 import org.colorcoding.ibas.bobas.mapping.DbFieldType;
 import org.colorcoding.ibas.bobas.rule.IBusinessRule;
+import org.colorcoding.ibas.bobas.rule.common.BusinessRuleMaxProperty;
 import org.colorcoding.ibas.bobas.rule.common.BusinessRuleMinValue;
 import org.colorcoding.ibas.bobas.rule.common.BusinessRuleRequired;
 import org.colorcoding.ibas.materials.MyConfiguration;
@@ -216,6 +218,68 @@ public class MaterialEstimateJournal extends BusinessObject<MaterialEstimateJour
 	 */
 	public final void setQuantity(BigDecimal value) {
 		this.setProperty(PROPERTY_QUANTITY, value);
+	}
+
+	/**
+	 * 属性名称-已清数量
+	 */
+	private static final String PROPERTY_CLOSEDQUANTITY_NAME = "ClosedQuantity";
+
+	/**
+	 * 已清数量 属性
+	 */
+	@DbField(name = "ClosedQty", type = DbFieldType.DECIMAL, table = DB_TABLE_NAME)
+	public static final IPropertyInfo<BigDecimal> PROPERTY_CLOSEDQUANTITY = registerProperty(
+			PROPERTY_CLOSEDQUANTITY_NAME, BigDecimal.class, MY_CLASS);
+
+	/**
+	 * 获取-已清数量
+	 * 
+	 * @return 值
+	 */
+	@XmlElement(name = PROPERTY_CLOSEDQUANTITY_NAME)
+	public final BigDecimal getClosedQuantity() {
+		return this.getProperty(PROPERTY_CLOSEDQUANTITY);
+	}
+
+	/**
+	 * 设置-已清数量
+	 * 
+	 * @param value 值
+	 */
+	public final void setClosedQuantity(BigDecimal value) {
+		this.setProperty(PROPERTY_CLOSEDQUANTITY, value);
+	}
+
+	/**
+	 * 属性名称-状态
+	 */
+	private static final String PROPERTY_STATUS_NAME = "Status";
+
+	/**
+	 * 状态 属性
+	 */
+	@DbField(name = "Status", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME)
+	public static final IPropertyInfo<emBOStatus> PROPERTY_STATUS = registerProperty(PROPERTY_STATUS_NAME,
+			emBOStatus.class, MY_CLASS);
+
+	/**
+	 * 获取-状态
+	 * 
+	 * @return 值
+	 */
+	@XmlElement(name = PROPERTY_STATUS_NAME)
+	public final emBOStatus getStatus() {
+		return this.getProperty(PROPERTY_STATUS);
+	}
+
+	/**
+	 * 设置-状态
+	 * 
+	 * @param value 值
+	 */
+	public final void setStatus(emBOStatus value) {
+		this.setProperty(PROPERTY_STATUS, value);
 	}
 
 	/**
@@ -846,6 +910,7 @@ public class MaterialEstimateJournal extends BusinessObject<MaterialEstimateJour
 		super.initialize();// 基类初始化，不可去除
 		this.setObjectCode(MyConfiguration.applyVariables(BUSINESS_OBJECT_CODE));
 		this.setEstimate(emEstimateType.ORDERED);
+		this.setStatus(emBOStatus.OPEN);
 	}
 
 	@Override
@@ -855,6 +920,10 @@ public class MaterialEstimateJournal extends BusinessObject<MaterialEstimateJour
 				new BusinessRuleRequired(PROPERTY_WAREHOUSE), // 要求有值
 				new BusinessRuleMinValue<BigDecimal>(Decimal.ZERO, PROPERTY_QUANTITY), // 不能低于0
 				new BusinessRuleMinValue<BigDecimal>(Decimal.ZERO, PROPERTY_RESERVEDQUANTITY), // 不能低于0
+				/*
+				// 预留数量不能大于订购数量
+				new BusinessRuleMaxProperty<BigDecimal>(PROPERTY_QUANTITY, PROPERTY_RESERVEDQUANTITY)
+				*/
 
 		};
 	}
@@ -879,7 +948,13 @@ public class MaterialEstimateJournal extends BusinessObject<MaterialEstimateJour
 
 						@Override
 						public BigDecimal getQuantity() {
-							return MaterialEstimateJournal.this.getQuantity();
+							return MaterialEstimateJournal.this.getQuantity()
+									.subtract(MaterialEstimateJournal.this.getClosedQuantity());
+						}
+
+						@Override
+						public emBOStatus getStatus() {
+							return MaterialEstimateJournal.this.getStatus();
 						}
 
 					},
@@ -903,9 +978,14 @@ public class MaterialEstimateJournal extends BusinessObject<MaterialEstimateJour
 
 						@Override
 						public BigDecimal getQuantity() {
-							return MaterialEstimateJournal.this.getQuantity();
+							return MaterialEstimateJournal.this.getQuantity()
+									.subtract(MaterialEstimateJournal.this.getClosedQuantity());
 						}
 
+						@Override
+						public emBOStatus getStatus() {
+							return MaterialEstimateJournal.this.getStatus();
+						}
 					}
 
 			};
@@ -927,9 +1007,14 @@ public class MaterialEstimateJournal extends BusinessObject<MaterialEstimateJour
 
 						@Override
 						public BigDecimal getQuantity() {
-							return MaterialEstimateJournal.this.getQuantity();
+							return MaterialEstimateJournal.this.getQuantity()
+									.subtract(MaterialEstimateJournal.this.getClosedQuantity());
 						}
 
+						@Override
+						public emBOStatus getStatus() {
+							return MaterialEstimateJournal.this.getStatus();
+						}
 					},
 					// 物料仓库已承诺数量
 					new IMaterialWarehouseCommitedContract() {
@@ -951,9 +1036,14 @@ public class MaterialEstimateJournal extends BusinessObject<MaterialEstimateJour
 
 						@Override
 						public BigDecimal getQuantity() {
-							return MaterialEstimateJournal.this.getQuantity();
+							return MaterialEstimateJournal.this.getQuantity()
+									.subtract(MaterialEstimateJournal.this.getClosedQuantity());
 						}
 
+						@Override
+						public emBOStatus getStatus() {
+							return MaterialEstimateJournal.this.getStatus();
+						}
 					}
 
 			};

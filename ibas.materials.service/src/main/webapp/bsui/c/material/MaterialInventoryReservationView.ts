@@ -463,7 +463,8 @@ namespace materials {
                                                 }
                                             })
                                         }
-                                    })
+                                    }),
+                                    tooltip: ibas.i18n.prop("materials_ordered_materials_reservation"),
                                 }),
                             }),
                         ],
@@ -583,7 +584,23 @@ namespace materials {
                                     }),
                                     new sap.m.Button("", {
                                         enabled: {
-                                            path: "isSavable",
+                                            parts: [
+                                                {
+                                                    path: "isSavable",
+                                                },
+                                                {
+                                                    path: "closedQuantity",
+                                                }
+                                            ],
+                                            formatter(isSavable: any, quantity: any): boolean {
+                                                if (isSavable === false) {
+                                                    return false;
+                                                }
+                                                if (quantity > 0) {
+                                                    return false;
+                                                }
+                                                return true;
+                                            }
                                         },
                                         type: sap.m.ButtonType.Transparent,
                                         icon: "sap-icon://sys-cancel",

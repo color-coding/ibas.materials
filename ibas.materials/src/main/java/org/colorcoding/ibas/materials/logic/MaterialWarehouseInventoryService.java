@@ -88,10 +88,12 @@ public class MaterialWarehouseInventoryService
 			throw new BusinessLogicException(
 					I18N.prop("msg_mm_material_not_enough_in_stock", contract.getWarehouse(), contract.getItemCode()));
 		}
+		/*
 		if (Decimal.ZERO.compareTo(onHand.subtract(materialInventory.getOnReserved())) > 0) {
 			throw new BusinessLogicException(I18N.prop("msg_mm_material_not_enough_is_reserved",
 					contract.getWarehouse(), contract.getItemCode()));
 		}
+		*/
 		materialInventory.setOnHand(onHand);
 	}
 
@@ -108,10 +110,12 @@ public class MaterialWarehouseInventoryService
 			throw new BusinessLogicException(
 					I18N.prop("msg_mm_material_not_enough_in_stock", contract.getWarehouse(), contract.getItemCode()));
 		}
+		/*
 		if (Decimal.ZERO.compareTo(onHand.subtract(materialInventory.getOnReserved())) > 0) {
 			throw new BusinessLogicException(I18N.prop("msg_mm_material_not_enough_is_reserved",
 					contract.getWarehouse(), contract.getItemCode()));
 		}
+		*/
 		materialInventory.setOnHand(onHand);
 	}
 }

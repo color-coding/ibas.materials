@@ -162,6 +162,9 @@ namespace materials {
             total(): number {
                 let total: number = 0;
                 for (let item of this.filterDeleted()) {
+                    if (item.status === ibas.emBOStatus.CLOSED) {
+                        continue;
+                    }
                     total += item.quantity;
                 }
                 return total;
@@ -329,6 +332,16 @@ namespace materials {
                             }
                             let workingData: OrderedReservationWorking = this.workingDatas.firstOrDefault(c => c.items.contain(this.currentWorkingItem));
                             if (ibas.objects.isNull(workingData)) {
+                                return;
+                            }
+                            if (this.currentWorkingItem.results.firstOrDefault(
+                                c => c.targetDocumentType === documentType
+                                    && c.targetDocumentEntry === docEntry
+                                    && c.targetDocumentLineId === lineId
+                            ) !== null) {
+                                this.messages(ibas.emMessageType.WARNING, ibas.i18n.prop("materials_already_choosed",
+                                    ibas.businessobjects.describe(ibas.strings.format("{[{0}].[DocEntry = {1}]}", documentType, docEntry))
+                                    + (lineId > 0 ? ibas.strings.format(", {0}-{1}", ibas.i18n.prop("bo_goodsissueline_lineid"), lineId) : "")));
                                 return;
                             }
                             let result: bo.MaterialOrderedReservation = new bo.MaterialOrderedReservation();

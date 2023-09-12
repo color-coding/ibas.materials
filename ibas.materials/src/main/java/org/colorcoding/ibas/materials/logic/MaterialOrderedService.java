@@ -3,7 +3,7 @@ package org.colorcoding.ibas.materials.logic;
 import java.math.BigDecimal;
 
 import org.colorcoding.ibas.bobas.data.Decimal;
-import org.colorcoding.ibas.bobas.data.emDirection;
+import org.colorcoding.ibas.bobas.data.emBOStatus;
 import org.colorcoding.ibas.bobas.data.emYesNo;
 import org.colorcoding.ibas.bobas.i18n.I18N;
 import org.colorcoding.ibas.bobas.logic.BusinessLogicException;
@@ -23,6 +23,11 @@ public class MaterialOrderedService extends MaterialInventoryBusinessLogic<IMate
 			if (contract.getQuantity().compareTo(Decimal.ZERO) <= 0) {
 				Logger.log(MessageLevel.DEBUG, MSG_LOGICS_SKIP_LOGIC_EXECUTION, this.getClass().getName(), "Quantity",
 						contract.getQuantity());
+				return false;
+			}
+			if (contract.getStatus() == emBOStatus.CLOSED) {
+				Logger.log(MessageLevel.DEBUG, MSG_LOGICS_SKIP_LOGIC_EXECUTION, this.getClass().getName(), "Status",
+						contract.getStatus());
 				return false;
 			}
 		}
@@ -52,11 +57,7 @@ public class MaterialOrderedService extends MaterialInventoryBusinessLogic<IMate
 	protected void impact(IMaterialOrderedContract contract) {
 		IMaterial material = this.getBeAffected();
 		BigDecimal onOrdered = material.getOnOrdered();
-		if (contract.getDirection() == emDirection.OUT) {
-			onOrdered = onOrdered.subtract(contract.getQuantity());
-		} else {
-			onOrdered = onOrdered.add(contract.getQuantity());
-		}
+		onOrdered = onOrdered.add(contract.getQuantity());
 		material.setOnOrdered(onOrdered);
 	}
 
@@ -64,11 +65,7 @@ public class MaterialOrderedService extends MaterialInventoryBusinessLogic<IMate
 	protected void revoke(IMaterialOrderedContract contract) {
 		IMaterial material = this.getBeAffected();
 		BigDecimal onOrdered = material.getOnOrdered();
-		if (contract.getDirection() == emDirection.OUT) {
-			onOrdered = onOrdered.add(contract.getQuantity());
-		} else {
-			onOrdered = onOrdered.subtract(contract.getQuantity());
-		}
+		onOrdered = onOrdered.subtract(contract.getQuantity());
 		material.setOnOrdered(onOrdered);
 	}
 }

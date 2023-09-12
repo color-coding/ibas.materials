@@ -19,6 +19,10 @@ namespace materials {
             estimate: emEstimateType;
             /** 数量 */
             quantity: number;
+            /** 已清数量 */
+            closedQuantity: number;
+            /** 状态 */
+            status: ibas.emBOStatus;
             /** 预留数量 */
             reservedQuantity: number;
             /** 基于类型 */

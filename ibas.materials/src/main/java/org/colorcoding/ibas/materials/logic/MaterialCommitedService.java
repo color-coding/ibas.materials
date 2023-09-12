@@ -3,7 +3,7 @@ package org.colorcoding.ibas.materials.logic;
 import java.math.BigDecimal;
 
 import org.colorcoding.ibas.bobas.data.Decimal;
-import org.colorcoding.ibas.bobas.data.emDirection;
+import org.colorcoding.ibas.bobas.data.emBOStatus;
 import org.colorcoding.ibas.bobas.data.emYesNo;
 import org.colorcoding.ibas.bobas.i18n.I18N;
 import org.colorcoding.ibas.bobas.logic.BusinessLogicException;
@@ -23,6 +23,11 @@ public class MaterialCommitedService extends MaterialInventoryBusinessLogic<IMat
 			if (contract.getQuantity().compareTo(Decimal.ZERO) <= 0) {
 				Logger.log(MessageLevel.DEBUG, MSG_LOGICS_SKIP_LOGIC_EXECUTION, this.getClass().getName(), "Quantity",
 						contract.getQuantity());
+				return false;
+			}
+			if (contract.getStatus() == emBOStatus.CLOSED) {
+				Logger.log(MessageLevel.DEBUG, MSG_LOGICS_SKIP_LOGIC_EXECUTION, this.getClass().getName(), "Status",
+						contract.getStatus());
 				return false;
 			}
 		}
@@ -52,11 +57,7 @@ public class MaterialCommitedService extends MaterialInventoryBusinessLogic<IMat
 	protected void impact(IMaterialCommitedContract contract) {
 		IMaterial material = this.getBeAffected();
 		BigDecimal onCommited = material.getOnCommited();
-		if (contract.getDirection() == emDirection.OUT) {
-			onCommited = onCommited.subtract(contract.getQuantity());
-		} else {
-			onCommited = onCommited.add(contract.getQuantity());
-		}
+		onCommited = onCommited.add(contract.getQuantity());
 		material.setOnCommited(onCommited);
 	}
 
@@ -64,11 +65,7 @@ public class MaterialCommitedService extends MaterialInventoryBusinessLogic<IMat
 	protected void revoke(IMaterialCommitedContract contract) {
 		IMaterial material = this.getBeAffected();
 		BigDecimal onCommited = material.getOnCommited();
-		if (contract.getDirection() == emDirection.OUT) {
-			onCommited = onCommited.add(contract.getQuantity());
-		} else {
-			onCommited = onCommited.subtract(contract.getQuantity());
-		}
+		onCommited = onCommited.subtract(contract.getQuantity());
 		material.setOnCommited(onCommited);
 	}
 }

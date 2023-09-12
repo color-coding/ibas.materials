@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 
 import org.colorcoding.ibas.bobas.bo.IBOSimple;
 import org.colorcoding.ibas.bobas.data.DateTime;
+import org.colorcoding.ibas.bobas.data.emBOStatus;
 import org.colorcoding.ibas.materials.data.emEstimateType;
 
 /**
@@ -81,6 +82,34 @@ public interface IMaterialEstimateJournal extends IBOSimple {
 	 * @param value 值
 	 */
 	void setQuantity(BigDecimal value);
+
+	/**
+	 * 获取-已清数量
+	 * 
+	 * @return 值
+	 */
+	BigDecimal getClosedQuantity();
+
+	/**
+	 * 设置-已清数量
+	 * 
+	 * @param value 值
+	 */
+	void setClosedQuantity(BigDecimal value);
+
+	/**
+	 * 获取-状态
+	 * 
+	 * @return 值
+	 */
+	emBOStatus getStatus();
+
+	/**
+	 * 设置-状态
+	 * 
+	 * @param value 值
+	 */
+	void setStatus(emBOStatus value);
 
 	/**
 	 * 获取-预留数量

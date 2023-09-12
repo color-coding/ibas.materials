@@ -58,9 +58,11 @@ public class MaterialReservedService extends MaterialInventoryBusinessLogic<IMat
 		IMaterial material = this.getBeAffected();
 		BigDecimal onReserved = material.getOnReserved();
 		onReserved = onReserved.add(contract.getQuantity());
+		/*
 		if (onReserved.compareTo(material.getOnHand()) > 0) {
 			throw new BusinessLogicException(I18N.prop("msg_mm_material_not_enough", contract.getItemCode()));
 		}
+		*/
 		material.setOnReserved(onReserved);
 	}
 

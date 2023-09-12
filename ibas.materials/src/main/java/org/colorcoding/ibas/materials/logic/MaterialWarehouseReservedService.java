@@ -102,10 +102,12 @@ public class MaterialWarehouseReservedService
 		IMaterialInventory materialInventory = this.getBeAffected();
 		BigDecimal onReserved = materialInventory.getOnReserved();
 		onReserved = onReserved.add(contract.getQuantity());
+		/*
 		if (onReserved.compareTo(materialInventory.getOnHand()) > 0) {
 			throw new BusinessLogicException(
 					I18N.prop("msg_mm_material_not_enough_in_stock", contract.getWarehouse(), contract.getItemCode()));
 		}
+		*/
 		materialInventory.setOnReserved(onReserved);
 	}
 

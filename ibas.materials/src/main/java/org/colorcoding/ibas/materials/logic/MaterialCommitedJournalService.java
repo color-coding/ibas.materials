@@ -7,6 +7,7 @@ import org.colorcoding.ibas.bobas.common.ICondition;
 import org.colorcoding.ibas.bobas.common.ICriteria;
 import org.colorcoding.ibas.bobas.common.IOperationResult;
 import org.colorcoding.ibas.bobas.data.Decimal;
+import org.colorcoding.ibas.bobas.data.emBOStatus;
 import org.colorcoding.ibas.bobas.data.emYesNo;
 import org.colorcoding.ibas.bobas.i18n.I18N;
 import org.colorcoding.ibas.bobas.logic.BusinessLogicException;
@@ -114,9 +115,11 @@ public class MaterialCommitedJournalService extends MaterialEstimateService<IMat
 		materialJournal.setItemCode(contract.getItemCode());
 		materialJournal.setWarehouse(contract.getWarehouse());
 		materialJournal.setQuantity(contract.getQuantity());
+		materialJournal.setClosedQuantity(contract.getClosedQuantity());
 		materialJournal.setOriginalDocumentType(contract.getBaseDocumentType());
 		materialJournal.setOriginalDocumentEntry(contract.getBaseDocumentEntry());
 		materialJournal.setOriginalDocumentLineId(contract.getBaseDocumentLineId());
+		materialJournal.setStatus(contract.getStatus());
 		IMaterial material = this.checkMaterial(contract.getItemCode());
 		if (material != null) {
 			materialJournal.setItemName(material.getName());
@@ -127,6 +130,8 @@ public class MaterialCommitedJournalService extends MaterialEstimateService<IMat
 	protected void revoke(IMaterialCommitedJournalContract contract) {
 		IMaterialEstimateJournal materialJournal = this.getBeAffected();
 		materialJournal.setQuantity(Decimal.ZERO);
+		materialJournal.setClosedQuantity(Decimal.ZERO);
+		materialJournal.setStatus(emBOStatus.CLOSED);
 		if (Decimal.isZero(materialJournal.getQuantity())) {
 			// 已为0，则删除此条数据
 			materialJournal.delete();

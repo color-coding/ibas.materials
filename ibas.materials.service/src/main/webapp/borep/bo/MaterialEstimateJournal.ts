@@ -70,6 +70,28 @@ namespace materials {
                 this.setProperty(MaterialEstimateJournal.PROPERTY_QUANTITY_NAME, value);
             }
 
+            /** 映射的属性名称-已清数量 */
+            static PROPERTY_CLOSEDQUANTITY_NAME: string = "ClosedQuantity";
+            /** 获取-已清数量 */
+            get closedQuantity(): number {
+                return this.getProperty<number>(MaterialEstimateJournal.PROPERTY_CLOSEDQUANTITY_NAME);
+            }
+            /** 设置-已清数量 */
+            set closedQuantity(value: number) {
+                this.setProperty(MaterialEstimateJournal.PROPERTY_CLOSEDQUANTITY_NAME, value);
+            }
+
+            /** 映射的属性名称-状态 */
+            static PROPERTY_STATUS_NAME: string = "Status";
+            /** 获取-状态 */
+            get status(): ibas.emBOStatus {
+                return this.getProperty<ibas.emBOStatus>(MaterialEstimateJournal.PROPERTY_STATUS_NAME);
+            }
+            /** 设置-状态 */
+            set status(value: ibas.emBOStatus) {
+                this.setProperty(MaterialEstimateJournal.PROPERTY_STATUS_NAME, value);
+            }
+
             /** 映射的属性名称-预留数量 */
             static PROPERTY_RESERVEDQUANTITY_NAME: string = "ReservedQuantity";
             /** 获取-预留数量 */
@@ -290,7 +312,13 @@ namespace materials {
                 this.setProperty(MaterialEstimateJournal.PROPERTY_UPDATEACTIONID_NAME, value);
             }
 
-
+            /** 可用量（数量 - 完成量） */
+            onAvailable(): number {
+                return ibas.numbers.round(
+                    ibas.numbers.valueOf(this.quantity)
+                    - ibas.numbers.valueOf(this.closedQuantity)
+                );
+            }
 
             /** 初始化数据 */
             protected init(): void {

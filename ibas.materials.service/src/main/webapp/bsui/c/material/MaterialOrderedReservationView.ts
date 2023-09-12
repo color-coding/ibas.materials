@@ -22,12 +22,12 @@ namespace materials {
                 draw(): any {
                     let that: this = this;
                     this.tableWorkResults = new sap.extension.m.Table("", {
-                        width: "auto",
+                        width: "100%",
                         noDataText: ibas.i18n.prop(["shell_please", "shell_data_choose", "bo_material"]),
                         columns: [
                             new sap.extension.m.Column("", {
                                 header: ibas.i18n.prop("bo_materialorderedreservation_targetdocument"),
-                                width: "20rem",
+                                width: "50%",
                             }),
                             /*
                             new sap.extension.m.Column("", {
@@ -49,7 +49,7 @@ namespace materials {
                             }),
                             new sap.extension.m.Column("", {
                                 header: ibas.i18n.prop("bo_materialorderedreservation_remarks"),
-                                width: "100%",
+                                width: "30%",
                             }),
                             new sap.extension.m.Column("", {
                                 width: "4rem",
@@ -71,7 +71,8 @@ namespace materials {
                                                 }
                                             })
                                         }
-                                    })
+                                    }),
+                                    tooltip: ibas.i18n.prop("materials_ordered_materials_reservation"),
                                 }),
                             }),
                         ],
@@ -138,9 +139,22 @@ namespace materials {
                                     }),
                                     new sap.extension.m.Input("", {
                                         editable: {
-                                            path: "causes",
-                                            formatter(data: string): boolean {
-                                                return ibas.strings.isWith(data, "FROM:", undefined) ? false : true;
+                                            parts: [
+                                                {
+                                                    path: "causes",
+                                                },
+                                                {
+                                                    path: "status",
+                                                }
+                                            ],
+                                            formatter(data: string, status: any): boolean {
+                                                if (ibas.strings.isWith(data, "FROM:", undefined)) {
+                                                    return false;
+                                                }
+                                                if (status === ibas.emBOStatus.CLOSED) {
+                                                    return false;
+                                                }
+                                                return true;
                                             }
                                         }
                                     }).bindProperty("bindingValue", {
@@ -153,6 +167,25 @@ namespace materials {
                                         type: new sap.extension.data.Alphanumeric(),
                                     }),
                                     new sap.m.Button("", {
+                                        enabled: {
+                                            parts: [
+                                                {
+                                                    path: "isSavable",
+                                                },
+                                                {
+                                                    path: "closedQuantity",
+                                                }
+                                            ],
+                                            formatter(isSavable: any, quantity: any): boolean {
+                                                if (isSavable === false) {
+                                                    return false;
+                                                }
+                                                if (quantity > 0) {
+                                                    return false;
+                                                }
+                                                return true;
+                                            }
+                                        },
                                         type: sap.m.ButtonType.Transparent,
                                         icon: "sap-icon://sys-cancel",
                                         press: function (): void {
@@ -372,15 +405,14 @@ namespace materials {
                                                                 ],
                                                                 highlight: {
                                                                     path: "remaining",
-                                                                    type: new sap.extension.data.Quantity(),
                                                                     formatter(data: number): sap.ui.core.ValueState {
                                                                         data = ibas.numbers.valueOf(data);
                                                                         if (data < 0) {
                                                                             return sap.ui.core.ValueState.Error;
                                                                         } else if (data > 0) {
-                                                                            return sap.ui.core.ValueState.Warning;
+                                                                            return sap.ui.core.ValueState.Success;
                                                                         }
-                                                                        return sap.ui.core.ValueState.Success;
+                                                                        return sap.ui.core.ValueState.Information;
                                                                     }
                                                                 },
                                                                 type: sap.m.ListType.Active

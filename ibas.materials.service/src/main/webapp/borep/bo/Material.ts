@@ -760,13 +760,12 @@ namespace materials {
                 this.onHand = 0;
                 this.onOrdered = 0;
             }
-            /** 可用量（库存 + 已订购 - 已承诺 - 已预留） */
+            /** 可用量（库存 + 已订购 - 已承诺） */
             onAvailable(): number {
                 return ibas.numbers.round(
                     ibas.numbers.valueOf(this.onHand)
                     + ibas.numbers.valueOf(this.onOrdered)
                     - ibas.numbers.valueOf(this.onCommited)
-                    - ibas.numbers.valueOf(this.onReserved)
                 );
             }
         }
@@ -892,12 +891,11 @@ namespace materials {
                 //
             }
 
-            /** 可用量（库存 + 已订购 - 已承诺 - 已预留） */
+            /** 可用量（库存 + 已订购 - 已承诺） */
             onAvailable(): number {
                 return ibas.numbers.valueOf(this.onHand)
                     + ibas.numbers.valueOf(this.onOrdered)
-                    - ibas.numbers.valueOf(this.onCommited)
-                    - ibas.numbers.valueOf(this.onReserved);
+                    - ibas.numbers.valueOf(this.onCommited);
             }
 
         }

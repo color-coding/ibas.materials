@@ -507,8 +507,14 @@ namespace materials {
                                         label: ibas.i18n.prop("bo_materialinventoryreservation_quantity"),
                                         template: new sap.extension.m.Text("", {
                                         }).bindProperty("bindingValue", {
-                                            path: "quantity",
-                                            type: new sap.extension.data.Quantity(),
+                                            path: "",
+                                            formatter(data: any): string {
+                                                let quantity: number = 0;
+                                                if (data instanceof bo.MaterialEstimateJournal) {
+                                                    quantity = data.onAvailable();
+                                                }
+                                                return sap.extension.data.formatValue(sap.extension.data.Quantity, quantity, "string");
+                                            }
                                         }),
                                         width: "10rem",
                                     }),
@@ -630,8 +636,14 @@ namespace materials {
                                         label: ibas.i18n.prop("bo_materialinventoryreservation_quantity"),
                                         template: new sap.extension.m.Text("", {
                                         }).bindProperty("bindingValue", {
-                                            path: "quantity",
-                                            type: new sap.extension.data.Quantity(),
+                                            path: "",
+                                            formatter(data: any): string {
+                                                let quantity: number = 0;
+                                                if (data instanceof bo.MaterialEstimateJournal) {
+                                                    quantity = data.onAvailable();
+                                                }
+                                                return sap.extension.data.formatValue(sap.extension.data.Quantity, quantity, "string");
+                                            }
                                         }),
                                         width: "10rem",
                                     }),

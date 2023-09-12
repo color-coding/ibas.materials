@@ -30,4 +30,9 @@ class _MaterialEstimateJournal extends MaterialEstimateJournal {
 	public _MaterialEstimateJournal() {
 		this.setSavable(false);
 	}
+
+	@Override
+	public IBusinessLogicContract[] getContracts() {
+		return null;
+	}
 }

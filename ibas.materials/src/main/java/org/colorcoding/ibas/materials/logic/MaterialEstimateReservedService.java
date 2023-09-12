@@ -109,9 +109,6 @@ public class MaterialEstimateReservedService extends MaterialEstimateService<IMa
 			materialJournal.setBaseDocumentType(contract.getDocumentType());
 			materialJournal.setBaseDocumentEntry(contract.getDocumentEntry());
 			materialJournal.setBaseDocumentLineId(contract.getDocumentLineId());
-			materialJournal.setItemCode(contract.getItemCode());
-			materialJournal.setWarehouse(contract.getWarehouse());
-			materialJournal.setQuantity(contract.getQuantity());
 		}
 		return materialJournal;
 	}
@@ -119,13 +116,17 @@ public class MaterialEstimateReservedService extends MaterialEstimateService<IMa
 	@Override
 	protected void impact(IMaterialEstimateReservedContract contract) {
 		IMaterialEstimateJournal materialJournal = this.getBeAffected();
+		materialJournal.setItemCode(contract.getItemCode());
+		materialJournal.setWarehouse(contract.getWarehouse());
 		BigDecimal reserved = materialJournal.getReservedQuantity();
 		reserved = reserved.add(contract.getQuantity());
-		if (reserved.compareTo(materialJournal.getQuantity()) > 0
-				&& Decimal.ZERO.compareTo(materialJournal.getQuantity()) != 0) {
-			throw new BusinessLogicException(I18N.prop("msg_mm_material_not_enough", contract.getItemCode()));
+		if (Decimal.ZERO.compareTo(reserved) <= 0) {
+			if (reserved.compareTo(materialJournal.getQuantity()) > 0
+					&& Decimal.ZERO.compareTo(materialJournal.getQuantity()) != 0) {
+				throw new BusinessLogicException(I18N.prop("msg_mm_material_not_enough", contract.getItemCode()));
+			}
+			materialJournal.setReservedQuantity(reserved);
 		}
-		materialJournal.setReservedQuantity(reserved);
 	}
 
 	@Override

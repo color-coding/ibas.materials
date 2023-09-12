@@ -2,6 +2,7 @@ package org.colorcoding.ibas.materials.logic;
 
 import java.math.BigDecimal;
 
+import org.colorcoding.ibas.bobas.data.emBOStatus;
 import org.colorcoding.ibas.bobas.logic.IBusinessLogicContract;
 
 /**
@@ -51,6 +52,13 @@ public interface IMaterialCommitedJournalContract extends IBusinessLogicContract
 	BigDecimal getQuantity();
 
 	/**
+	 * 获取-已清数量
+	 * 
+	 * @return 值
+	 */
+	BigDecimal getClosedQuantity();
+
+	/**
 	 * 单位
 	 *
 	 * @return
@@ -77,4 +85,11 @@ public interface IMaterialCommitedJournalContract extends IBusinessLogicContract
 	 * @return 值
 	 */
 	Integer getBaseDocumentLineId();
+
+	/**
+	 * 状态
+	 * 
+	 * @return
+	 */
+	emBOStatus getStatus();
 }

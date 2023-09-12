@@ -133,10 +133,12 @@ public class MaterialSerialInventoryService
 					throw new BusinessLogicException(I18N.prop("msg_mm_material_serial_in_stock",
 							contract.getWarehouse(), contract.getItemCode(), contract.getSerialCode()));
 				}
-				if (materialSerial.getInStock() == emYesNo.YES) {
-					throw new BusinessLogicException(I18N.prop("msg_mm_material_serial_is_reserved",
-							contract.getWarehouse(), contract.getItemCode(), contract.getSerialCode()));
-				}
+				/*
+				 * if (materialSerial.getInStock() == emYesNo.YES) { throw new
+				 * BusinessLogicException(I18N.prop("msg_mm_material_serial_is_reserved",
+				 * contract.getWarehouse(), contract.getItemCode(), contract.getSerialCode()));
+				 * }
+				 */
 				materialSerial.setInStock(emYesNo.YES);
 			}
 		}
