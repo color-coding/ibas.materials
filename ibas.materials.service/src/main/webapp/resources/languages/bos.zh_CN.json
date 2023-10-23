@@ -2,7 +2,7 @@
     {
         "bo_goodsissue": "库存发货",
         "bo_goodsissue_docentry": "凭证编号",
-        "bo_goodsissue_docnum": "期间编号",
+        "bo_goodsissue_docnum": "单据编码",
         "bo_goodsissue_period": "期间",
         "bo_goodsissue_canceled": "取消",
         "bo_goodsissue_status": "状态",
@@ -79,7 +79,7 @@
     {
         "bo_goodsreceipt": "库存收货",
         "bo_goodsreceipt_docentry": "凭证编号",
-        "bo_goodsreceipt_docnum": "期间编号",
+        "bo_goodsreceipt_docnum": "单据编码",
         "bo_goodsreceipt_period": "期间",
         "bo_goodsreceipt_canceled": "取消",
         "bo_goodsreceipt_status": "状态",
@@ -156,7 +156,7 @@
     {
         "bo_inventorytransfer": "库存转储",
         "bo_inventorytransfer_docentry": "凭证编号",
-        "bo_inventorytransfer_docnum": "期间编号",
+        "bo_inventorytransfer_docnum": "单据编码",
         "bo_inventorytransfer_period": "期间",
         "bo_inventorytransfer_canceled": "取消",
         "bo_inventorytransfer_status": "状态",
@@ -668,7 +668,7 @@
     {
         "bo_inventorycounting": "库存盘点",
         "bo_inventorycounting_docentry": "凭证编号",
-        "bo_inventorycounting_docnum": "期间编号",
+        "bo_inventorycounting_docnum": "单据编码",
         "bo_inventorycounting_period": "期间",
         "bo_inventorycounting_canceled": "取消",
         "bo_inventorycounting_status": "状态",
