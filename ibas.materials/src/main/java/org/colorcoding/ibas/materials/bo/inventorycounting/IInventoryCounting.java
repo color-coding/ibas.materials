@@ -462,6 +462,20 @@ public interface IInventoryCounting extends IBODocument {
 	void setOrderType(String value);
 
 	/**
+	 * 获取-分支
+	 * 
+	 * @return 值
+	 */
+	String getBranch();
+
+	/**
+	 * 设置-分支
+	 * 
+	 * @param value 值
+	 */
+	void setBranch(String value);
+
+	/**
 	 * 获取-库存盘点-行集合
 	 * 
 	 * @return 值

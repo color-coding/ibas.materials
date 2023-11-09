@@ -16,6 +16,7 @@ import org.colorcoding.ibas.materials.data.emIssueMethod;
 import org.colorcoding.ibas.materials.data.emItemType;
 import org.colorcoding.ibas.materials.data.emPlanningMethod;
 import org.colorcoding.ibas.materials.data.emProcurementMethod;
+import org.colorcoding.ibas.materials.data.emValuationMethod;
 
 public abstract class MaterialBase<T extends MaterialBase<T>> extends BusinessObject<T> {
 
@@ -529,6 +530,68 @@ public abstract class MaterialBase<T extends MaterialBase<T>> extends BusinessOb
 	 */
 	public final void setInventoryUOM(String value) {
 		this.setProperty(PROPERTY_INVENTORYUOM, value);
+	}
+
+	/**
+	 * 属性名称-评估方法
+	 */
+	private static final String PROPERTY_VALUATIONMETHOD_NAME = "ValuationMethod";
+
+	/**
+	 * 评估方法 属性
+	 */
+	@DbField(name = "VaMethod", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME)
+	public static final IPropertyInfo<emValuationMethod> PROPERTY_VALUATIONMETHOD = registerProperty(
+			PROPERTY_VALUATIONMETHOD_NAME, emValuationMethod.class, MY_CLASS);
+
+	/**
+	 * 获取-评估方法
+	 * 
+	 * @return 值
+	 */
+	@XmlElement(name = PROPERTY_VALUATIONMETHOD_NAME)
+	public final emValuationMethod getValuationMethod() {
+		return this.getProperty(PROPERTY_VALUATIONMETHOD);
+	}
+
+	/**
+	 * 设置-评估方法
+	 * 
+	 * @param value 值
+	 */
+	public final void setValuationMethod(emValuationMethod value) {
+		this.setProperty(PROPERTY_VALUATIONMETHOD, value);
+	}
+
+	/**
+	 * 属性名称-按仓库管理
+	 */
+	private static final String PROPERTY_MANAGEBYWAREHOUSE_NAME = "ManageByWarehouse";
+
+	/**
+	 * 按仓库管理 属性
+	 */
+	@DbField(name = "ByWhs", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME)
+	public static final IPropertyInfo<emYesNo> PROPERTY_MANAGEBYWAREHOUSE = registerProperty(
+			PROPERTY_MANAGEBYWAREHOUSE_NAME, emYesNo.class, MY_CLASS);
+
+	/**
+	 * 获取-按仓库管理
+	 * 
+	 * @return 值
+	 */
+	@XmlElement(name = PROPERTY_MANAGEBYWAREHOUSE_NAME)
+	public final emYesNo getManageByWarehouse() {
+		return this.getProperty(PROPERTY_MANAGEBYWAREHOUSE);
+	}
+
+	/**
+	 * 设置-按仓库管理
+	 * 
+	 * @param value 值
+	 */
+	public final void setManageByWarehouse(emYesNo value) {
+		this.setProperty(PROPERTY_MANAGEBYWAREHOUSE, value);
 	}
 
 	/**

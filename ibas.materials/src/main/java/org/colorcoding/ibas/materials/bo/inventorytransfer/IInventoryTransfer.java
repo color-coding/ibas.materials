@@ -562,6 +562,20 @@ public interface IInventoryTransfer extends IBODocument {
 	void setFromWarehouse(String value);
 
 	/**
+	 * 获取-分支
+	 * 
+	 * @return 值
+	 */
+	String getBranch();
+
+	/**
+	 * 设置-分支
+	 * 
+	 * @param value 值
+	 */
+	void setBranch(String value);
+
+	/**
 	 * 获取-库存转储-行集合
 	 * 
 	 * @return 值

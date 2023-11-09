@@ -15,6 +15,7 @@ import org.colorcoding.ibas.bobas.mapping.LogicContract;
 import org.colorcoding.ibas.bobas.message.Logger;
 import org.colorcoding.ibas.bobas.message.MessageLevel;
 import org.colorcoding.ibas.materials.bo.material.IMaterial;
+import org.colorcoding.ibas.materials.bo.materialinventory.IMaterialInventory;
 import org.colorcoding.ibas.materials.bo.materialinventory.IMaterialInventoryJournal;
 import org.colorcoding.ibas.materials.bo.materialinventory.MaterialInventoryJournal;
 import org.colorcoding.ibas.materials.data.DataConvert;
@@ -132,9 +133,28 @@ public class MaterialIssueService
 		materialJournal.setDocumentDate(contract.getDocumentDate());
 		materialJournal.setDeliveryDate(contract.getDeliveryDate());
 		materialJournal.setQuantity(contract.getQuantity());
+		materialJournal.setPrice(contract.getPrice());
+		materialJournal.setCurrency(contract.getCurrency());
+		materialJournal.setRate(contract.getRate());
 		materialJournal.setOriginalDocumentType(contract.getBaseDocumentType());
 		materialJournal.setOriginalDocumentEntry(contract.getBaseDocumentEntry());
 		materialJournal.setOriginalDocumentLineId(contract.getBaseDocumentLineId());
+		IMaterial material = this.checkMaterial(contract.getItemCode());
+		if (material.getManageByWarehouse() == emYesNo.YES) {
+			// 物料仓库个别管理
+			IMaterialInventory materialInventory = this.checkMaterialInventory(contract.getItemCode(),
+					contract.getWarehouse());
+			if (materialInventory != null) {
+				// 成本价格 = 库存均价
+				materialJournal.setCalculatedPrice(materialInventory.getAvgPrice());
+			}
+		} else {
+			// 库存价值
+			if (material != null) {
+				// 成本价格 = 库存均价
+				materialJournal.setCalculatedPrice(material.getAvgPrice());
+			}
+		}
 	}
 
 	@Override

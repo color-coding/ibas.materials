@@ -116,6 +116,9 @@ namespace materials {
             /** 单据类型 */
             orderType: string;
 
+            /** 分支 */
+            branch: string;
+
             /** 库存发货-行集合 */
             goodsIssueLines: IGoodsIssueLines;
 

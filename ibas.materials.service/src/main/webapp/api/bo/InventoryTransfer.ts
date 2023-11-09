@@ -119,6 +119,9 @@ namespace materials {
             /** 从仓库 */
             fromWarehouse: string;
 
+            /** 分支 */
+            branch: string;
+
             /** 库存转储-行集合 */
             inventoryTransferLines: IInventoryTransferLines;
 

@@ -115,6 +115,9 @@ namespace materials {
             /** 单据类型 */
             orderType: string;
 
+            /** 分支 */
+            branch: string;
+
             /** 库存收货-行集合 */
             goodsReceiptLines: IGoodsReceiptLines;
 

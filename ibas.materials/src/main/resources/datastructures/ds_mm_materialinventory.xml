@@ -10,6 +10,7 @@
     <Property Name="OnCommited" Description="已承诺" DataType="Decimal" DataSubType="Quantity" EditSize="8" Mapped="OnCommited"/>
     <Property Name="OnOrdered" Description="已订购" DataType="Decimal" DataSubType="Quantity" EditSize="8" Mapped="OnOrdered"/>
     <Property Name="OnReserved" Description="已预留" DataType="Decimal" DataSubType="Quantity" EditSize="8" Mapped="OnReserved"/>
+    <Property Name="InventoryValue" Description="库存价值" DataType="Decimal" DataSubType="Sum" EditSize="8" Mapped="StockValue"/>
     <Property Name="ObjectKey" Description="对象编号" DataType="Numeric" DataSubType="Default" EditSize="8" Mapped="ObjectKey" PrimaryKey="Yes"/>
     <Property Name="ObjectCode" Description="对象类型" DataType="Alphanumeric" DataSubType="Default" EditSize="30" Mapped="ObjectCode"/>
     <Property Name="CreateDate" Description="创建日期" DataType="Date" DataSubType="Default" EditSize="8" Mapped="CreateDate"/>

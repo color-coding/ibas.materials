@@ -11,6 +11,8 @@ import org.colorcoding.ibas.bobas.data.emYesNo;
 import org.colorcoding.ibas.bobas.i18n.I18N;
 import org.colorcoding.ibas.bobas.logic.BusinessLogicException;
 import org.colorcoding.ibas.bobas.logic.IBusinessLogicContract;
+import org.colorcoding.ibas.materials.bo.materialinventory.IMaterialInventory;
+import org.colorcoding.ibas.materials.bo.materialinventory.MaterialInventory;
 import org.colorcoding.ibas.materials.bo.warehouse.IWarehouse;
 import org.colorcoding.ibas.materials.bo.warehouse.Warehouse;
 import org.colorcoding.ibas.materials.repository.BORepositoryMaterials;
@@ -62,4 +64,26 @@ public abstract class MaterialInventoryBusinessLogic<L extends IBusinessLogicCon
 		return warehouse;
 	}
 
+	protected IMaterialInventory checkMaterialInventory(String itemCode, String whsCode) {
+		ICriteria criteria = new Criteria();
+		ICondition condition = criteria.getConditions().create();
+		condition.setAlias(MaterialInventory.PROPERTY_ITEMCODE.getName());
+		condition.setValue(itemCode);
+		condition.setOperation(ConditionOperation.EQUAL);
+		condition = criteria.getConditions().create();
+		condition.setAlias(MaterialInventory.PROPERTY_WAREHOUSE.getName());
+		condition.setValue(whsCode);
+		condition.setOperation(ConditionOperation.EQUAL);
+		IMaterialInventory materialInventory = super.fetchBeAffected(criteria, IMaterialInventory.class);
+		if (materialInventory == null) {
+			BORepositoryMaterials boRepository = new BORepositoryMaterials();
+			boRepository.setRepository(super.getRepository());
+			IOperationResult<IMaterialInventory> operationResult = boRepository.fetchMaterialInventory(criteria);
+			if (operationResult.getError() != null) {
+				throw new BusinessLogicException(operationResult.getError());
+			}
+			materialInventory = operationResult.getResultObjects().firstOrDefault();
+		}
+		return materialInventory;
+	}
 }

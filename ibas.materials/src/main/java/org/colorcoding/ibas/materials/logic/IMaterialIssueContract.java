@@ -68,6 +68,27 @@ public interface IMaterialIssueContract extends IBusinessLogicContract {
 	String getUOM();
 
 	/**
+	 * 获取-价格
+	 * 
+	 * @return 值
+	 */
+	BigDecimal getPrice();
+
+	/**
+	 * 获取-货币
+	 * 
+	 * @return 值
+	 */
+	String getCurrency();
+
+	/**
+	 * 获取-汇率
+	 * 
+	 * @return 值
+	 */
+	BigDecimal getRate();
+
+	/**
 	 * 过账日期
 	 *
 	 * @return

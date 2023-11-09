@@ -105,6 +105,17 @@ namespace materials {
                 this.setProperty(MaterialInventory.PROPERTY_ONRESERVED_NAME, value);
             }
 
+            /** 映射的属性名称-库存价值 */
+            static PROPERTY_INVENTORYVALUE_NAME: string = "InventoryValue";
+            /** 获取-库存价值 */
+            get inventoryValue(): number {
+                return this.getProperty<number>(MaterialInventory.PROPERTY_INVENTORYVALUE_NAME);
+            }
+            /** 设置-库存价值 */
+            set inventoryValue(value: number) {
+                this.setProperty(MaterialInventory.PROPERTY_INVENTORYVALUE_NAME, value);
+            }
+
             /** 映射的属性名称-对象编号 */
             static PROPERTY_OBJECTKEY_NAME: string = "ObjectKey";
             /** 获取-对象编号 */

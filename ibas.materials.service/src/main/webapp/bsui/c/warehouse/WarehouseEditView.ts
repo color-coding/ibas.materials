@@ -121,6 +121,28 @@ namespace materials {
                                                             maxLength: 20
                                                         }),
                                                     }),
+                                                    new sap.m.Label("", {
+                                                        text: ibas.i18n.prop("bo_warehouse_branch"),
+                                                        visible: accounting.config.isEnableBranch(),
+                                                    }),
+                                                    new sap.extension.m.SelectionInput("", {
+                                                        showValueHelp: true,
+                                                        repository: accounting.bo.BORepositoryAccounting,
+                                                        dataInfo: {
+                                                            type: accounting.bo.Branch,
+                                                            key: accounting.bo.Branch.PROPERTY_CODE_NAME,
+                                                            text: accounting.bo.Branch.PROPERTY_NAME_NAME
+                                                        },
+                                                        criteria: [
+                                                            new ibas.Condition(accounting.bo.Branch.PROPERTY_ACTIVATED_NAME, ibas.emConditionOperation.EQUAL, ibas.emYesNo.YES)
+                                                        ],
+                                                        visible: accounting.config.isEnableBranch(),
+                                                    }).bindProperty("bindingValue", {
+                                                        path: "branch",
+                                                        type: new sap.extension.data.Alphanumeric({
+                                                            maxLength: 8
+                                                        }),
+                                                    }),
                                                     new sap.m.Label("", { text: ibas.i18n.prop("bo_warehouse_organization") }),
                                                     new sap.extension.m.DataOrganizationInput("", {
                                                         showValueHelp: true,

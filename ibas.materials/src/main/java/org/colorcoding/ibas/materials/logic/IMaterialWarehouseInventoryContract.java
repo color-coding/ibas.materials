@@ -32,6 +32,13 @@ public interface IMaterialWarehouseInventoryContract extends IBusinessLogicContr
 	BigDecimal getQuantity();
 
 	/**
+	 * 获取-计算价格
+	 * 
+	 * @return 值
+	 */
+	BigDecimal getCalculatedPrice();
+
+	/**
 	 * 收/发货方向
 	 *
 	 * @return

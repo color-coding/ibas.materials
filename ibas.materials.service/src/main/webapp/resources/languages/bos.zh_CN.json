@@ -36,6 +36,7 @@
         "bo_goodsissue_pricelist": "价格清单",
         "bo_goodsissue_project": "项目代码",
         "bo_goodsissue_ordertype": "单据类型",
+        "bo_goodsissue_branch": "分支",
         "bo_goodsissue_goodsissuelines": "库存发货-行集合",
         "bo_goodsissueline": "库存发货-行",
         "bo_goodsissueline_docentry": "凭证编号",
@@ -113,6 +114,7 @@
         "bo_goodsreceipt_pricelist": "价格清单",
         "bo_goodsreceipt_project": "项目代码",
         "bo_goodsreceipt_ordertype": "单据类型",
+        "bo_goodsreceipt_branch": "分支",
         "bo_goodsreceipt_goodsreceiptlines": "库存收货-行集合",
         "bo_goodsreceiptline": "库存收货-行",
         "bo_goodsreceiptline_docentry": "凭证编号",
@@ -191,6 +193,7 @@
         "bo_inventorytransfer_project": "项目代码",
         "bo_inventorytransfer_ordertype": "单据类型",
         "bo_inventorytransfer_fromwarehouse": "从仓库",
+        "bo_inventorytransfer_branch": "分支",
         "bo_inventorytransfer_inventorytransferlines": "库存转储-行集合",
         "bo_inventorytransferline": "库存转储-行",
         "bo_inventorytransferline_docentry": "凭证编号",
@@ -257,6 +260,8 @@
         "bo_material_onordered": "已订购",
         "bo_material_onavailable": "可用量",
         "bo_material_onreserved": "已预留",
+        "bo_material_valuationmethod": "评估方法",
+        "bo_material_managebywarehouse": "按仓库管理",
         "bo_material_minimuminventory": "最低库存量",
         "bo_material_minimumorderquantity": "最低订购数量",
         "bo_material_leadtime": "提前期（天）",
@@ -468,6 +473,8 @@
         "bo_materialinventoryjournal_linestatus": "单据状态",
         "bo_materialinventoryjournal_currency": "货币",
         "bo_materialinventoryjournal_rate": "汇率",
+        "bo_materialinventoryjournal_calculatedprice": "计算价格",
+        "bo_materialinventoryjournal_transactionvalue": "交易值",
         "bo_materialinventoryjournal_postingdate": "过账日期",
         "bo_materialinventoryjournal_deliverydate": "到期日",
         "bo_materialinventoryjournal_documentdate": "凭证日期",
@@ -662,6 +669,7 @@
         "bo_warehouse_approvalstatus": "审批状态",
         "bo_warehouse_dataowner": "数据所有者",
         "bo_warehouse_organization": "数据所属组织",
+        "bo_warehouse_branch": "分支",
         "bo_warehouse_remarks": "备注",
         "bo_warehouse_closing_delimiter": "----结束----"
     },
@@ -699,6 +707,7 @@
         "bo_inventorycounting_reference2": "参考2",
         "bo_inventorycounting_remarks": "备注",
         "bo_inventorycounting_ordertype": "单据类型",
+        "bo_inventorycounting_branch": "分支",
         "bo_inventorycounting_inventorycountinglines": "库存盘点-行集合",
         "bo_inventorycountingline": "库存盘点-行",
         "bo_inventorycountingline_docentry": "凭证编号",
@@ -1148,5 +1157,8 @@
     {
         "em_procurementmethod_buy": "采购",
         "em_procurementmethod_make": "生产"
+    },
+    {
+        "em_valuationmethod_moving_average": "移动平均"
     }
 ]

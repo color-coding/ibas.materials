@@ -356,6 +356,47 @@ namespace materials {
                                                             return true;
                                                         }
                                                     }),
+                                                    new sap.m.Label("", { text: ibas.i18n.prop("bo_material_managebywarehouse") }),
+                                                    new sap.extension.m.EnumSelect("", {
+                                                        enumType: ibas.emYesNo
+                                                    }).bindProperty("bindingValue", {
+                                                        path: "manageByWarehouse",
+                                                        type: new sap.extension.data.YesNo(),
+                                                    }).bindProperty("editable", {
+                                                        path: "onHand",
+                                                        formatter(data: any): boolean {
+                                                            // 有库存不能改此项
+                                                            if (data > 0) {
+                                                                return false;
+                                                            }
+                                                            return true;
+                                                        }
+                                                    }),
+                                                    new sap.m.Label("", { text: ibas.i18n.prop("bo_material_avgprice") }),
+                                                    new sap.extension.m.Input("", {
+                                                        editable: false,
+                                                    }).bindProperty("bindingValue", {
+                                                        path: "avgPrice",
+                                                        type: new sap.extension.data.Quantity(),
+                                                    }),
+                                                    new sap.m.Label("", { text: ibas.i18n.prop("bo_material_valuationmethod") }),
+                                                    new sap.extension.m.EnumSelect("", {
+                                                        enumType: bo.emValuationMethod
+                                                    }).bindProperty("bindingValue", {
+                                                        path: "valuationMethod",
+                                                        type: new sap.extension.data.Enum({
+                                                            enumType: bo.emValuationMethod
+                                                        }),
+                                                    }).bindProperty("editable", {
+                                                        path: "onHand",
+                                                        formatter(data: any): boolean {
+                                                            // 有库存不能改此项
+                                                            if (data > 0) {
+                                                                return false;
+                                                            }
+                                                            return true;
+                                                        }
+                                                    }),
                                                 ]
                                             })
                                         ]

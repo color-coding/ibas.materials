@@ -24,11 +24,12 @@ import org.colorcoding.ibas.bobas.ownership.IDataOwnership;
 import org.colorcoding.ibas.bobas.rule.BusinessRuleException;
 import org.colorcoding.ibas.bobas.rule.IBusinessRule;
 import org.colorcoding.ibas.bobas.rule.ICheckRules;
-import org.colorcoding.ibas.bobas.rule.common.BusinessRuleMaxProperty;
 import org.colorcoding.ibas.bobas.rule.common.BusinessRuleMinValue;
+import org.colorcoding.ibas.bobas.rule.common.BusinessRuleMultiplication;
 import org.colorcoding.ibas.bobas.rule.common.BusinessRuleRequired;
 import org.colorcoding.ibas.materials.MyConfiguration;
 import org.colorcoding.ibas.materials.data.emItemType;
+import org.colorcoding.ibas.materials.data.emValuationMethod;
 
 /**
  * 获取-物料
@@ -173,6 +174,37 @@ public class Material extends MaterialBase<Material>
 	 */
 	public final void setAvgPrice(double value) {
 		this.setAvgPrice(Decimal.valueOf(value));
+	}
+
+	/**
+	 * 属性名称-库存价值
+	 */
+	private static final String PROPERTY_INVENTORYVALUE_NAME = "InventoryValue";
+
+	/**
+	 * 库存价值 属性
+	 */
+	@DbField(name = "StockValue", type = DbFieldType.DECIMAL, table = DB_TABLE_NAME)
+	public static final IPropertyInfo<BigDecimal> PROPERTY_INVENTORYVALUE = registerProperty(
+			PROPERTY_INVENTORYVALUE_NAME, BigDecimal.class, MY_CLASS);
+
+	/**
+	 * 获取-库存价值
+	 * 
+	 * @return 值
+	 */
+	@XmlElement(name = PROPERTY_INVENTORYVALUE_NAME)
+	public final BigDecimal getInventoryValue() {
+		return this.getProperty(PROPERTY_INVENTORYVALUE);
+	}
+
+	/**
+	 * 设置-库存价值
+	 * 
+	 * @param value 值
+	 */
+	public final void setInventoryValue(BigDecimal value) {
+		this.setProperty(PROPERTY_INVENTORYVALUE, value);
 	}
 
 	/**
@@ -680,6 +712,8 @@ public class Material extends MaterialBase<Material>
 		this.setInventoryItem(emYesNo.YES);
 		this.setSalesItem(emYesNo.YES);
 		this.setPurchaseItem(emYesNo.YES);
+		this.setValuationMethod(emValuationMethod.MOVING_AVERAGE);
+		this.setManageByWarehouse(emYesNo.YES);
 	}
 
 	@Override
@@ -690,12 +724,14 @@ public class Material extends MaterialBase<Material>
 				new BusinessRuleMinValue<BigDecimal>(Decimal.ZERO, PROPERTY_ONORDERED), // 不能低于0
 				new BusinessRuleMinValue<BigDecimal>(Decimal.ZERO, PROPERTY_AVGPRICE), // 不能低于0
 				new BusinessRuleMinValue<BigDecimal>(Decimal.ZERO, PROPERTY_ONRESERVED), // 不能低于0
+				// 库存价值 = 库存量 * 成本价格
+				new BusinessRuleMultiplication(PROPERTY_INVENTORYVALUE, PROPERTY_ONHAND, PROPERTY_AVGPRICE),
 				// 存在先下单再订购，已承诺不做最低值控制
 				/*
-				// 预留数量不能大于订购数量
-				new BusinessRuleMaxProperty<BigDecimal>(PROPERTY_ONHAND, PROPERTY_ONRESERVED)
-				*/
-				
+				 * // 预留数量不能大于订购数量 new BusinessRuleMaxProperty<BigDecimal>(PROPERTY_ONHAND,
+				 * PROPERTY_ONRESERVED)
+				 */
+
 		};
 	}
 
@@ -722,4 +758,5 @@ public class Material extends MaterialBase<Material>
 			}
 		}
 	}
+
 }

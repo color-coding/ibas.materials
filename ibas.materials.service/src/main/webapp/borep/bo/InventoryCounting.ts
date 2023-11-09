@@ -360,11 +360,22 @@ namespace materials {
             static PROPERTY_ORDERTYPE_NAME: string = "OrderType";
             /** 获取-单据类型 */
             get orderType(): string {
-                return this.getProperty<string>(InventoryTransfer.PROPERTY_ORDERTYPE_NAME);
+                return this.getProperty<string>(InventoryCounting.PROPERTY_ORDERTYPE_NAME);
             }
             /** 设置-单据类型 */
             set orderType(value: string) {
-                this.setProperty(InventoryTransfer.PROPERTY_ORDERTYPE_NAME, value);
+                this.setProperty(InventoryCounting.PROPERTY_ORDERTYPE_NAME, value);
+            }
+
+            /** 映射的属性名称-分支 */
+            static PROPERTY_BRANCH_NAME: string = "Branch";
+            /** 获取-分支 */
+            get branch(): string {
+                return this.getProperty<string>(InventoryCounting.PROPERTY_BRANCH_NAME);
+            }
+            /** 设置-分支 */
+            set branch(value: string) {
+                this.setProperty(InventoryCounting.PROPERTY_BRANCH_NAME, value);
             }
 
             /** 映射的属性名称-库存盘点-行集合 */

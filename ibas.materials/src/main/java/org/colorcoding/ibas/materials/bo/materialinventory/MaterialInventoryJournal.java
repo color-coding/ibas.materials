@@ -21,6 +21,7 @@ import org.colorcoding.ibas.bobas.mapping.DbField;
 import org.colorcoding.ibas.bobas.mapping.DbFieldType;
 import org.colorcoding.ibas.bobas.rule.IBusinessRule;
 import org.colorcoding.ibas.bobas.rule.common.BusinessRuleMinValue;
+import org.colorcoding.ibas.bobas.rule.common.BusinessRuleMultiplication;
 import org.colorcoding.ibas.bobas.rule.common.BusinessRuleRequired;
 import org.colorcoding.ibas.materials.MyConfiguration;
 import org.colorcoding.ibas.materials.logic.IMaterialInventoryContract;
@@ -390,6 +391,68 @@ public class MaterialInventoryJournal extends BusinessObject<MaterialInventoryJo
 	 */
 	public final void setRate(double value) {
 		this.setRate(Decimal.valueOf(value));
+	}
+
+	/**
+	 * 属性名称-计算价格
+	 */
+	private static final String PROPERTY_CALCULATEDPRICE_NAME = "CalculatedPrice";
+
+	/**
+	 * 计算价格 属性
+	 */
+	@DbField(name = "CalcPrice", type = DbFieldType.DECIMAL, table = DB_TABLE_NAME)
+	public static final IPropertyInfo<BigDecimal> PROPERTY_CALCULATEDPRICE = registerProperty(
+			PROPERTY_CALCULATEDPRICE_NAME, BigDecimal.class, MY_CLASS);
+
+	/**
+	 * 获取-计算价格
+	 * 
+	 * @return 值
+	 */
+	@XmlElement(name = PROPERTY_CALCULATEDPRICE_NAME)
+	public final BigDecimal getCalculatedPrice() {
+		return this.getProperty(PROPERTY_CALCULATEDPRICE);
+	}
+
+	/**
+	 * 设置-计算价格
+	 * 
+	 * @param value 值
+	 */
+	public final void setCalculatedPrice(BigDecimal value) {
+		this.setProperty(PROPERTY_CALCULATEDPRICE, value);
+	}
+
+	/**
+	 * 属性名称-交易值
+	 */
+	private static final String PROPERTY_TRANSACTIONVALUE_NAME = "TransactionValue";
+
+	/**
+	 * 交易值 属性
+	 */
+	@DbField(name = "TransValue", type = DbFieldType.DECIMAL, table = DB_TABLE_NAME)
+	public static final IPropertyInfo<BigDecimal> PROPERTY_TRANSACTIONVALUE = registerProperty(
+			PROPERTY_TRANSACTIONVALUE_NAME, BigDecimal.class, MY_CLASS);
+
+	/**
+	 * 获取-交易值
+	 * 
+	 * @return 值
+	 */
+	@XmlElement(name = PROPERTY_TRANSACTIONVALUE_NAME)
+	public final BigDecimal getTransactionValue() {
+		return this.getProperty(PROPERTY_TRANSACTIONVALUE);
+	}
+
+	/**
+	 * 设置-交易值
+	 * 
+	 * @param value 值
+	 */
+	public final void setTransactionValue(BigDecimal value) {
+		this.setProperty(PROPERTY_TRANSACTIONVALUE, value);
 	}
 
 	/**
@@ -1090,6 +1153,9 @@ public class MaterialInventoryJournal extends BusinessObject<MaterialInventoryJo
 				new BusinessRuleRequired(PROPERTY_WAREHOUSE), // 要求有值
 				new BusinessRuleMinValue<BigDecimal>(Decimal.ZERO, PROPERTY_QUANTITY), // 不能低于0
 				new BusinessRuleMinValue<BigDecimal>(Decimal.ZERO, PROPERTY_PRICE), // 不能低于0
+				// 交易价值 = 数量 * 成本价格
+				new BusinessRuleMultiplication(PROPERTY_TRANSACTIONVALUE, PROPERTY_QUANTITY, PROPERTY_CALCULATEDPRICE),
+
 		};
 	}
 
@@ -1159,6 +1225,11 @@ public class MaterialInventoryJournal extends BusinessObject<MaterialInventoryJo
 			public emDirection getDirection() {
 				return MaterialInventoryJournal.this.getDirection();
 			}
+
+			@Override
+			public BigDecimal getCalculatedPrice() {
+				return MaterialInventoryJournal.this.getCalculatedPrice();
+			}
 		});
 		// 物料仓库库存
 		contracts.add(new IMaterialWarehouseInventoryContract() {
@@ -1185,6 +1256,11 @@ public class MaterialInventoryJournal extends BusinessObject<MaterialInventoryJo
 			@Override
 			public emDirection getDirection() {
 				return MaterialInventoryJournal.this.getDirection();
+			}
+
+			@Override
+			public BigDecimal getCalculatedPrice() {
+				return MaterialInventoryJournal.this.getCalculatedPrice();
 			}
 		});
 		// 入库

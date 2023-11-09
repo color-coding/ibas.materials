@@ -2,6 +2,7 @@ package org.colorcoding.ibas.materials.logic;
 
 import java.math.BigDecimal;
 
+import org.colorcoding.ibas.bobas.data.Decimal;
 import org.colorcoding.ibas.bobas.data.emDirection;
 import org.colorcoding.ibas.bobas.data.emYesNo;
 import org.colorcoding.ibas.bobas.i18n.I18N;
@@ -40,6 +41,11 @@ public class MaterialInventoryService extends MaterialInventoryBusinessLogic<IMa
 			onHand = onHand.subtract(contract.getQuantity());
 		} else {
 			onHand = onHand.add(contract.getQuantity());
+			if (material.getManageByWarehouse() == emYesNo.NO) {
+				material.setAvgPrice(contract.getCalculatedPrice());
+			} else {
+				material.setAvgPrice(Decimal.ZERO);
+			}
 		}
 		material.setOnHand(onHand);
 	}
@@ -52,6 +58,11 @@ public class MaterialInventoryService extends MaterialInventoryBusinessLogic<IMa
 			onHand = onHand.add(contract.getQuantity());
 		} else {
 			onHand = onHand.subtract(contract.getQuantity());
+			if (material.getManageByWarehouse() == emYesNo.NO) {
+				material.setAvgPrice(contract.getCalculatedPrice());
+			} else {
+				material.setAvgPrice(Decimal.ZERO);
+			}
 		}
 		material.setOnHand(onHand);
 	}

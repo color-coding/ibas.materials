@@ -169,6 +169,28 @@ namespace materials {
                 this.setProperty(MaterialInventoryJournal.PROPERTY_RATE_NAME, value);
             }
 
+            /** 映射的属性名称-计算价格 */
+            static PROPERTY_CALCULATEDPRICE_NAME: string = "CalculatedPrice";
+            /** 获取-计算价格 */
+            get calculatedPrice(): number {
+                return this.getProperty<number>(MaterialInventoryJournal.PROPERTY_CALCULATEDPRICE_NAME);
+            }
+            /** 设置-计算价格 */
+            set calculatedPrice(value: number) {
+                this.setProperty(MaterialInventoryJournal.PROPERTY_CALCULATEDPRICE_NAME, value);
+            }
+
+            /** 映射的属性名称-交易值 */
+            static PROPERTY_TRANSACTIONVALUE_NAME: string = "TransactionValue";
+            /** 获取-交易值 */
+            get transactionValue(): number {
+                return this.getProperty<number>(MaterialInventoryJournal.PROPERTY_TRANSACTIONVALUE_NAME);
+            }
+            /** 设置-交易值 */
+            set transactionValue(value: number) {
+                this.setProperty(MaterialInventoryJournal.PROPERTY_TRANSACTIONVALUE_NAME, value);
+            }
+
             /** 映射的属性名称-过账日期 */
             static PROPERTY_POSTINGDATE_NAME: string = "PostingDate";
             /** 获取-过账日期 */

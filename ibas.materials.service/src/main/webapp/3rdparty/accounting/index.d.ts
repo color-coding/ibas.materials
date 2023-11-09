@@ -17,12 +17,18 @@ declare namespace accounting {
     /** 模块-版本 */
     const CONSOLE_VERSION: string;
     namespace config {
+        /** 配置项目-启用分支 */
+        const CONFIG_ITEM_ENABLE_BRANCH: string;
         /**
          * 获取此模块配置
          * @param key 配置项
          * @param defalut 默认值
          */
         function get<T>(key: string, defalut?: T): T;
+        /**
+         * 是否启用分支
+         */
+        function isEnableBranch(): boolean;
     }
     namespace bo {
         /** 业务仓库名称 */
@@ -129,6 +135,10 @@ declare namespace accounting {
             }
             namespace coststructurenode {
                 function create(type: bo.emEntityType, entity: string, date?: Date | string): ibas.IList<ibas.ICondition>;
+            }
+            namespace account {
+                /** 默认查询条件 */
+                function create(): ibas.IList<ibas.ICondition>;
             }
         }
     }
@@ -444,6 +454,8 @@ declare namespace accounting {
             category: emTaxGroupCategory;
             /** 税率 */
             rate: number;
+            /** 科目 */
+            account: string;
             /** 参考1 */
             reference1: string;
             /** 参考2 */
@@ -1130,14 +1142,22 @@ declare namespace accounting {
     namespace bo {
         /** 期间-分类账 */
         interface IPeriodLedgerAccount extends ibas.IBOSimple {
+            /** 名称 */
+            name: string;
             /** 期间 */
             period: number;
             /** 分类 */
             ledger: string;
+            /** 序号 */
+            order: number;
+            /** 激活 */
+            activated: ibas.emYesNo;
             /** 科目 */
             account: string;
             /** 设置 */
             settings: string;
+            /** 条件 */
+            conditions: string;
             /** 对象编号 */
             objectKey: number;
             /** 对象类型 */
@@ -2128,6 +2148,12 @@ declare namespace accounting {
             get rate(): number;
             /** 设置-税率 */
             set rate(value: number);
+            /** 映射的属性名称-科目 */
+            static PROPERTY_ACCOUNT_NAME: string;
+            /** 获取-科目 */
+            get account(): string;
+            /** 设置-科目 */
+            set account(value: string);
             /** 映射的属性名称-参考1 */
             static PROPERTY_REFERENCE1_NAME: string;
             /** 获取-参考1 */
@@ -4057,6 +4083,12 @@ declare namespace accounting {
             static BUSINESS_OBJECT_CODE: string;
             /** 构造函数 */
             constructor();
+            /** 映射的属性名称-名称 */
+            static PROPERTY_NAME_NAME: string;
+            /** 获取-名称 */
+            get name(): string;
+            /** 设置-名称 */
+            set name(value: string);
             /** 映射的属性名称-期间 */
             static PROPERTY_PERIOD_NAME: string;
             /** 获取-期间 */
@@ -4069,6 +4101,18 @@ declare namespace accounting {
             get ledger(): string;
             /** 设置-分类 */
             set ledger(value: string);
+            /** 映射的属性名称-序号 */
+            static PROPERTY_ORDER_NAME: string;
+            /** 获取-序号 */
+            get order(): number;
+            /** 设置-序号 */
+            set order(value: number);
+            /** 映射的属性名称-激活 */
+            static PROPERTY_ACTIVATED_NAME: string;
+            /** 获取-激活 */
+            get activated(): ibas.emYesNo;
+            /** 设置-激活 */
+            set activated(value: ibas.emYesNo);
             /** 映射的属性名称-科目 */
             static PROPERTY_ACCOUNT_NAME: string;
             /** 获取-科目 */
@@ -4081,6 +4125,12 @@ declare namespace accounting {
             get settings(): string;
             /** 设置-设置 */
             set settings(value: string);
+            /** 映射的属性名称-条件 */
+            static PROPERTY_CONDITIONS_NAME: string;
+            /** 获取-条件 */
+            get conditions(): string;
+            /** 设置-条件 */
+            set conditions(value: string);
             /** 映射的属性名称-对象编号 */
             static PROPERTY_OBJECTKEY_NAME: string;
             /** 获取-对象编号 */
@@ -5259,6 +5309,8 @@ declare namespace accounting {
             protected deleteData(): void;
             /** 新建数据，参数1：是否克隆 */
             protected createData(clone: boolean): void;
+            /** 选择科目事件 */
+            protected chooseAccount(): void;
         }
         /** 视图-税收组 */
         interface ITaxGroupEditView extends ibas.IBOEditView {
@@ -5268,6 +5320,8 @@ declare namespace accounting {
             deleteDataEvent: Function;
             /** 新建数据事件，参数1：是否克隆 */
             createDataEvent: Function;
+            /** 选择科目事件 */
+            chooseAccountEvent: Function;
         }
     }
 }
@@ -6107,6 +6161,7 @@ declare namespace accounting {
             get active(): ibas.emYesNo;
             set active(value: ibas.emYesNo);
             get nodes(): AccountNode[];
+            alls(): AccountNode[];
         }
         class AccountNodes extends ibas.ArrayList<AccountNode> {
             constructor(parent: AccountNode);
@@ -6125,6 +6180,11 @@ declare namespace accounting {
             /** 视图显示后 */
             protected viewShowed(): void;
             private viewGroup;
+            private accounts;
+            private addAccount;
+            private removeAccount;
+            private removeNode;
+            private saveAccount;
         }
         /** 视图-科目 */
         interface IAccountTreeView extends ibas.IView {
@@ -6134,6 +6194,12 @@ declare namespace accounting {
             viewGroupEvent: Function;
             /** 显示科目 */
             showAccount(data: bo.Account): void;
+            /** 添加科目事件 */
+            addAccountEvent: Function;
+            /** 添加科目事件 */
+            removeAccountEvent: Function;
+            /** 保存科目事件 */
+            saveAccountEvent: Function;
         }
     }
 }
@@ -6532,7 +6598,7 @@ declare namespace accounting {
             /** 新建数据，参数1：是否克隆 */
             protected createData(clone: boolean): void;
             /** 添加日记账分录-行事件 */
-            protected addJournalEntryLine(): void;
+            protected addJournalEntryLine(type: "ACCOUNT" | "BUSINESSPARTNER"): void;
             /** 删除日记账分录-行事件 */
             protected removeJournalEntryLine(items: bo.JournalEntryLine[]): void;
             /** 选择日记账分录-行科目 */
@@ -6598,10 +6664,6 @@ declare namespace accounting {
  */
 declare namespace accounting {
     namespace app {
-        class PLAccount extends ibas.Bindable {
-            ledger: bo.LedgerAccount;
-            data: bo.PeriodLedgerAccount;
-        }
         /** 编辑应用-分类账 */
         class LedgerAccountDeterminationApp extends ibas.Application<ILedgerAccountDeterminationView> {
             /** 应用标识 */
@@ -6612,22 +6674,36 @@ declare namespace accounting {
             constructor();
             /** 注册视图 */
             protected registerView(): void;
-            protected ledgerAccountMap: Map<string, bo.LedgerAccount[]>;
+            protected periodAccounts: ibas.IList<bo.PeriodLedgerAccount>;
             /** 视图显示后 */
             protected viewShowed(): void;
             /** 选中过账期间 */
-            protected selectPostingPeriod(period: bo.PostingPeriod, group?: string): void;
+            protected selectLedgerAccount(ledger: bo.LedgerAccount, period: bo.PeriodCategory): void;
             /** 保存过账期间总账科目事件 */
-            protected savePostingPeriodAccount(datas: bo.PeriodLedgerAccount[]): void;
+            protected savePostingPeriodAccount(callback?: () => void): void;
+            /** 选择过账期间总账科目科目事件 */
+            protected choosePostingPeriodAccountAccount(periodAccount: bo.PeriodLedgerAccount): void;
+            /** 创建过账期间总账科目事件 */
+            protected createPostingPeriodAccount(ledger: bo.LedgerAccount, period: bo.PeriodCategory): void;
+            /** 删除账期间总账科目科目事件 */
+            protected deletePostingPeriodAccount(periodAccount: bo.PeriodLedgerAccount): void;
         }
         /** 视图-分类账 */
         interface ILedgerAccountDeterminationView extends ibas.IView {
             /** 显示过账期间 */
-            showPostingPeriods(datas: bo.PostingPeriod[]): void;
-            /** 选中过账期间事件 */
-            selectPostingPeriodEvent: Function;
+            showPostingPeriods(datas: bo.PeriodCategory[]): void;
+            /** 显示总账科目 */
+            showLedgerAccounts(datas: bo.LedgerAccount[]): void;
+            /** 选中总账科目事件 */
+            selectLedgerAccountEvent: Function;
             /** 显示过账期间总账科目 */
-            showPostingPeriodAccounts(datas: PLAccount[]): void;
+            showPostingPeriodAccounts(datas: bo.PeriodLedgerAccount[]): void;
+            /** 创建过账期间总账科目事件 */
+            createPostingPeriodAccountEvent: Function;
+            /** 删除账期间总账科目科目事件 */
+            deletePostingPeriodAccountEvent: Function;
+            /** 选择过账期间总账科目科目事件 */
+            choosePostingPeriodAccountAccountEvent: Function;
             /** 保存过账期间总账科目事件 */
             savePostingPeriodAccountEvent: Function;
         }

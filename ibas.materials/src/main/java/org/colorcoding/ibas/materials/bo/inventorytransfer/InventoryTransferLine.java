@@ -1459,6 +1459,21 @@ public class InventoryTransferLine extends BusinessObject<InventoryTransferLine>
 					}
 
 					@Override
+					public BigDecimal getPrice() {
+						return InventoryTransferLine.this.getPrice();
+					}
+
+					@Override
+					public String getCurrency() {
+						return InventoryTransferLine.this.getCurrency();
+					}
+
+					@Override
+					public BigDecimal getRate() {
+						return InventoryTransferLine.this.getRate();
+					}
+
+					@Override
 					public DateTime getPostingDate() {
 						return InventoryTransferLine.this.parent.getPostingDate();
 					}
@@ -1585,6 +1600,20 @@ public class InventoryTransferLine extends BusinessObject<InventoryTransferLine>
 						return InventoryTransferLine.this.getBaseDocumentLineId();
 					}
 
+					@Override
+					public BigDecimal getPrice() {
+						return InventoryTransferLine.this.getPrice();
+					}
+
+					@Override
+					public String getCurrency() {
+						return InventoryTransferLine.this.getCurrency();
+					}
+
+					@Override
+					public BigDecimal getRate() {
+						return InventoryTransferLine.this.getRate();
+					}
 				}
 
 		};

@@ -10,6 +10,7 @@ import org.colorcoding.ibas.materials.data.emIssueMethod;
 import org.colorcoding.ibas.materials.data.emItemType;
 import org.colorcoding.ibas.materials.data.emPlanningMethod;
 import org.colorcoding.ibas.materials.data.emProcurementMethod;
+import org.colorcoding.ibas.materials.data.emValuationMethod;
 
 /**
  * 物料 接口
@@ -305,6 +306,34 @@ public interface IMaterial extends IBOMasterData {
 	void setAvgPrice(double value);
 
 	/**
+	 * 获取-评估方法
+	 * 
+	 * @return 值
+	 */
+	emValuationMethod getValuationMethod();
+
+	/**
+	 * 设置-评估方法
+	 * 
+	 * @param value 值
+	 */
+	void setValuationMethod(emValuationMethod value);
+
+	/**
+	 * 获取-按仓库管理
+	 * 
+	 * @return 值
+	 */
+	emYesNo getManageByWarehouse();
+
+	/**
+	 * 设置-按仓库管理
+	 * 
+	 * @param value 值
+	 */
+	void setManageByWarehouse(emYesNo value);
+
+	/**
 	 * 获取-库存
 	 * 
 	 * @return 值
@@ -422,6 +451,20 @@ public interface IMaterial extends IBOMasterData {
 	 * @param value 值
 	 */
 	void setOnReserved(BigDecimal value);
+
+	/**
+	 * 获取-库存价值
+	 * 
+	 * @return 值
+	 */
+	BigDecimal getInventoryValue();
+
+	/**
+	 * 设置-库存价值
+	 * 
+	 * @param value 值
+	 */
+	void setInventoryValue(BigDecimal value);
 
 	/**
 	 * 获取-最低库存量

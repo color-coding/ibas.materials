@@ -175,6 +175,13 @@ namespace materials {
              */
             MAKE,
         }
+        /** 评估方法 */
+        export enum emValuationMethod {
+            /**
+             * 移动平均
+             */
+            MOVING_AVERAGE,
+        }
     }
 
     export namespace app {

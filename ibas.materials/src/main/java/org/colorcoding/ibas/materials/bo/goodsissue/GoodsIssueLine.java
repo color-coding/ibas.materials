@@ -1493,6 +1493,21 @@ public class GoodsIssueLine extends BusinessObject<GoodsIssueLine>
 						return GoodsIssueLine.this.getBaseDocumentLineId();
 					}
 
+					@Override
+					public BigDecimal getPrice() {
+						return GoodsIssueLine.this.getPrice();
+					}
+
+					@Override
+					public String getCurrency() {
+						return GoodsIssueLine.this.getCurrency();
+					}
+
+					@Override
+					public BigDecimal getRate() {
+						return GoodsIssueLine.this.getRate();
+					}
+
 				}
 
 		};

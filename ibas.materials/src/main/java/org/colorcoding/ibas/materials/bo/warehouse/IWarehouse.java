@@ -446,6 +446,20 @@ public interface IWarehouse extends IBOMasterData {
 	void setOrganization(String value);
 
 	/**
+	 * 获取-分支
+	 * 
+	 * @return 值
+	 */
+	String getBranch();
+
+	/**
+	 * 设置-分支
+	 * 
+	 * @param value 值
+	 */
+	void setBranch(String value);
+
+	/**
 	 * 获取-备注
 	 * 
 	 * @return 值

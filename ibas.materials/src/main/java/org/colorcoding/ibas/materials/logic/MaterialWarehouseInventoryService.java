@@ -83,17 +83,23 @@ public class MaterialWarehouseInventoryService
 			onHand = onHand.subtract(contract.getQuantity());
 		} else {
 			onHand = onHand.add(contract.getQuantity());
+			if (this.checkMaterial(contract.getItemCode()).getManageByWarehouse() == emYesNo.YES) {
+				materialInventory.setAvgPrice(contract.getCalculatedPrice());
+			} else {
+				materialInventory.setAvgPrice(Decimal.ZERO);
+			}
 		}
 		if (Decimal.ZERO.compareTo(onHand) > 0) {
 			throw new BusinessLogicException(
 					I18N.prop("msg_mm_material_not_enough_in_stock", contract.getWarehouse(), contract.getItemCode()));
 		}
 		/*
-		if (Decimal.ZERO.compareTo(onHand.subtract(materialInventory.getOnReserved())) > 0) {
-			throw new BusinessLogicException(I18N.prop("msg_mm_material_not_enough_is_reserved",
-					contract.getWarehouse(), contract.getItemCode()));
-		}
-		*/
+		 * if
+		 * (Decimal.ZERO.compareTo(onHand.subtract(materialInventory.getOnReserved())) >
+		 * 0) { throw new
+		 * BusinessLogicException(I18N.prop("msg_mm_material_not_enough_is_reserved",
+		 * contract.getWarehouse(), contract.getItemCode())); }
+		 */
 		materialInventory.setOnHand(onHand);
 	}
 
@@ -105,17 +111,23 @@ public class MaterialWarehouseInventoryService
 			onHand = onHand.add(contract.getQuantity());
 		} else {
 			onHand = onHand.subtract(contract.getQuantity());
+			if (this.checkMaterial(contract.getItemCode()).getManageByWarehouse() == emYesNo.YES) {
+				materialInventory.setAvgPrice(contract.getCalculatedPrice());
+			} else {
+				materialInventory.setAvgPrice(Decimal.ZERO);
+			}
 		}
 		if (Decimal.ZERO.compareTo(onHand) > 0) {
 			throw new BusinessLogicException(
 					I18N.prop("msg_mm_material_not_enough_in_stock", contract.getWarehouse(), contract.getItemCode()));
 		}
 		/*
-		if (Decimal.ZERO.compareTo(onHand.subtract(materialInventory.getOnReserved())) > 0) {
-			throw new BusinessLogicException(I18N.prop("msg_mm_material_not_enough_is_reserved",
-					contract.getWarehouse(), contract.getItemCode()));
-		}
-		*/
+		 * if
+		 * (Decimal.ZERO.compareTo(onHand.subtract(materialInventory.getOnReserved())) >
+		 * 0) { throw new
+		 * BusinessLogicException(I18N.prop("msg_mm_material_not_enough_is_reserved",
+		 * contract.getWarehouse(), contract.getItemCode())); }
+		 */
 		materialInventory.setOnHand(onHand);
 	}
 }

@@ -188,6 +188,34 @@ public interface IMaterialInventoryJournal extends IBOSimple {
 	void setRate(double value);
 
 	/**
+	 * 获取-计算价格
+	 * 
+	 * @return 值
+	 */
+	BigDecimal getCalculatedPrice();
+
+	/**
+	 * 设置-计算价格
+	 * 
+	 * @param value 值
+	 */
+	void setCalculatedPrice(BigDecimal value);
+
+	/**
+	 * 获取-交易值
+	 * 
+	 * @return 值
+	 */
+	BigDecimal getTransactionValue();
+
+	/**
+	 * 设置-交易值
+	 * 
+	 * @param value 值
+	 */
+	void setTransactionValue(BigDecimal value);
+
+	/**
 	 * 获取-过账日期
 	 * 
 	 * @return 值

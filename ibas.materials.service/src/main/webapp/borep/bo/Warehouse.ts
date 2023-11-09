@@ -358,6 +358,17 @@ namespace materials {
                 this.setProperty(Warehouse.PROPERTY_ORGANIZATION_NAME, value);
             }
 
+            /** 映射的属性名称-分支 */
+            static PROPERTY_BRANCH_NAME: string = "Branch";
+            /** 获取-分支 */
+            get branch(): string {
+                return this.getProperty<string>(Warehouse.PROPERTY_BRANCH_NAME);
+            }
+            /** 设置-分支 */
+            set branch(value: string) {
+                this.setProperty(Warehouse.PROPERTY_BRANCH_NAME, value);
+            }
+
             /** 映射的属性名称-备注 */
             static PROPERTY_REMARKS_NAME: string = "Remarks";
             /** 获取-备注 */

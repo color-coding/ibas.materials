@@ -1493,6 +1493,21 @@ public class GoodsReceiptLine extends BusinessObject<GoodsReceiptLine>
 					public Integer getBaseDocumentLineId() {
 						return GoodsReceiptLine.this.getBaseDocumentLineId();
 					}
+
+					@Override
+					public BigDecimal getPrice() {
+						return GoodsReceiptLine.this.getPrice();
+					}
+
+					@Override
+					public String getCurrency() {
+						return GoodsReceiptLine.this.getCurrency();
+					}
+
+					@Override
+					public BigDecimal getRate() {
+						return GoodsReceiptLine.this.getRate();
+					}
 				}
 
 		};

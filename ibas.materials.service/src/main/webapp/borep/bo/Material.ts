@@ -225,6 +225,28 @@ namespace materials {
             set avgPrice(value: number) {
                 this.setProperty(Material.PROPERTY_AVGPRICE_NAME, value);
             }
+            /** 映射的属性名称-评估方法 */
+            static PROPERTY_VALUATIONMETHOD_NAME: string = "ValuationMethod";
+            /** 获取-评估方法 */
+            get valuationMethod(): emValuationMethod {
+                return this.getProperty<emValuationMethod>(Material.PROPERTY_VALUATIONMETHOD_NAME);
+            }
+            /** 设置-评估方法 */
+            set valuationMethod(value: emValuationMethod) {
+                this.setProperty(Material.PROPERTY_VALUATIONMETHOD_NAME, value);
+            }
+
+            /** 映射的属性名称-按仓库管理 */
+            static PROPERTY_MANAGEBYWAREHOUSE_NAME: string = "ManageByWarehouse";
+            /** 获取-按仓库管理 */
+            get manageByWarehouse(): ibas.emYesNo {
+                return this.getProperty<ibas.emYesNo>(Material.PROPERTY_MANAGEBYWAREHOUSE_NAME);
+            }
+            /** 设置-按仓库管理 */
+            set manageByWarehouse(value: ibas.emYesNo) {
+                this.setProperty(Material.PROPERTY_MANAGEBYWAREHOUSE_NAME, value);
+            }
+
 
             /** 映射的属性名称-库存 */
             static PROPERTY_ONHAND_NAME: string = "OnHand";
@@ -752,6 +774,8 @@ namespace materials {
                 this.inventoryItem = ibas.emYesNo.YES;
                 this.purchaseItem = ibas.emYesNo.YES;
                 this.salesItem = ibas.emYesNo.YES;
+                this.manageByWarehouse = ibas.emYesNo.YES;
+                this.valuationMethod = bo.emValuationMethod.MOVING_AVERAGE;
             }
             /** 重置 */
             reset(): void {

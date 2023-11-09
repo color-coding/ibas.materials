@@ -73,6 +73,8 @@ namespace materials {
             remarks: string;
             /** 单据类型 */
             orderType: string;
+            /** 分支 */
+            branch: string;
             /** 库存盘点-行集合 */
             inventoryCountingLines: IInventoryCountingLines;
 

@@ -1021,6 +1021,37 @@ public class Warehouse extends BusinessObject<Warehouse>
 	}
 
 	/**
+	 * 属性名称-分支
+	 */
+	private static final String PROPERTY_BRANCH_NAME = "Branch";
+
+	/**
+	 * 分支 属性
+	 */
+	@DbField(name = "Branch", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME)
+	public static final IPropertyInfo<String> PROPERTY_BRANCH = registerProperty(PROPERTY_BRANCH_NAME, String.class,
+			MY_CLASS);
+
+	/**
+	 * 获取-分支
+	 * 
+	 * @return 值
+	 */
+	@XmlElement(name = PROPERTY_BRANCH_NAME)
+	public final String getBranch() {
+		return this.getProperty(PROPERTY_BRANCH);
+	}
+
+	/**
+	 * 设置-分支
+	 * 
+	 * @param value 值
+	 */
+	public final void setBranch(String value) {
+		this.setProperty(PROPERTY_BRANCH, value);
+	}
+
+	/**
 	 * 属性名称-备注
 	 */
 	private static final String PROPERTY_REMARKS_NAME = "Remarks";
