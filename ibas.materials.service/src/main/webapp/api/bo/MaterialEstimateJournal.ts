@@ -37,6 +37,12 @@ namespace materials {
             originalDocumentEntry: number;
             /** 原始行号 */
             originalDocumentLineId: number;
+            /** 过账日期 */
+            postingDate: Date;
+            /** 到期日 */
+            deliveryDate: Date;
+            /** 凭证日期 */
+            documentDate: Date;
             /** 对象编号 */
             objectKey: number;
             /** 对象类型 */

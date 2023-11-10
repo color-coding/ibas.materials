@@ -19,7 +19,6 @@ import org.colorcoding.ibas.bobas.mapping.BusinessObjectUnit;
 import org.colorcoding.ibas.bobas.mapping.DbField;
 import org.colorcoding.ibas.bobas.mapping.DbFieldType;
 import org.colorcoding.ibas.bobas.rule.IBusinessRule;
-import org.colorcoding.ibas.bobas.rule.common.BusinessRuleMaxProperty;
 import org.colorcoding.ibas.bobas.rule.common.BusinessRuleMinValue;
 import org.colorcoding.ibas.bobas.rule.common.BusinessRuleRequired;
 import org.colorcoding.ibas.materials.MyConfiguration;
@@ -500,6 +499,99 @@ public class MaterialEstimateJournal extends BusinessObject<MaterialEstimateJour
 	}
 
 	/**
+	 * 属性名称-过账日期
+	 */
+	private static final String PROPERTY_POSTINGDATE_NAME = "PostingDate";
+
+	/**
+	 * 过账日期 属性
+	 */
+	@DbField(name = "DocDate", type = DbFieldType.DATE, table = DB_TABLE_NAME, primaryKey = false)
+	public static final IPropertyInfo<DateTime> PROPERTY_POSTINGDATE = registerProperty(PROPERTY_POSTINGDATE_NAME,
+			DateTime.class, MY_CLASS);
+
+	/**
+	 * 获取-过账日期
+	 *
+	 * @return 值
+	 */
+	@XmlElement(name = PROPERTY_POSTINGDATE_NAME)
+	public final DateTime getPostingDate() {
+		return this.getProperty(PROPERTY_POSTINGDATE);
+	}
+
+	/**
+	 * 设置-过账日期
+	 *
+	 * @param value 值
+	 */
+	public final void setPostingDate(DateTime value) {
+		this.setProperty(PROPERTY_POSTINGDATE, value);
+	}
+
+	/**
+	 * 属性名称-到期日
+	 */
+	private static final String PROPERTY_DELIVERYDATE_NAME = "DeliveryDate";
+
+	/**
+	 * 到期日 属性
+	 */
+	@DbField(name = "DueDate", type = DbFieldType.DATE, table = DB_TABLE_NAME, primaryKey = false)
+	public static final IPropertyInfo<DateTime> PROPERTY_DELIVERYDATE = registerProperty(PROPERTY_DELIVERYDATE_NAME,
+			DateTime.class, MY_CLASS);
+
+	/**
+	 * 获取-到期日
+	 *
+	 * @return 值
+	 */
+	@XmlElement(name = PROPERTY_DELIVERYDATE_NAME)
+	public final DateTime getDeliveryDate() {
+		return this.getProperty(PROPERTY_DELIVERYDATE);
+	}
+
+	/**
+	 * 设置-到期日
+	 *
+	 * @param value 值
+	 */
+	public final void setDeliveryDate(DateTime value) {
+		this.setProperty(PROPERTY_DELIVERYDATE, value);
+	}
+
+	/**
+	 * 属性名称-凭证日期
+	 */
+	private static final String PROPERTY_DOCUMENTDATE_NAME = "DocumentDate";
+
+	/**
+	 * 凭证日期 属性
+	 */
+	@DbField(name = "TaxDate", type = DbFieldType.DATE, table = DB_TABLE_NAME, primaryKey = false)
+	public static final IPropertyInfo<DateTime> PROPERTY_DOCUMENTDATE = registerProperty(PROPERTY_DOCUMENTDATE_NAME,
+			DateTime.class, MY_CLASS);
+
+	/**
+	 * 获取-凭证日期
+	 *
+	 * @return 值
+	 */
+	@XmlElement(name = PROPERTY_DOCUMENTDATE_NAME)
+	public final DateTime getDocumentDate() {
+		return this.getProperty(PROPERTY_DOCUMENTDATE);
+	}
+
+	/**
+	 * 设置-凭证日期
+	 *
+	 * @param value 值
+	 */
+	public final void setDocumentDate(DateTime value) {
+		this.setProperty(PROPERTY_DOCUMENTDATE, value);
+	}
+
+	/**
 	 * 属性名称-对象编号
 	 */
 	private static final String PROPERTY_OBJECTKEY_NAME = "ObjectKey";
@@ -921,9 +1013,9 @@ public class MaterialEstimateJournal extends BusinessObject<MaterialEstimateJour
 				new BusinessRuleMinValue<BigDecimal>(Decimal.ZERO, PROPERTY_QUANTITY), // 不能低于0
 				new BusinessRuleMinValue<BigDecimal>(Decimal.ZERO, PROPERTY_RESERVEDQUANTITY), // 不能低于0
 				/*
-				// 预留数量不能大于订购数量
-				new BusinessRuleMaxProperty<BigDecimal>(PROPERTY_QUANTITY, PROPERTY_RESERVEDQUANTITY)
-				*/
+				 * // 预留数量不能大于订购数量 new BusinessRuleMaxProperty<BigDecimal>(PROPERTY_QUANTITY,
+				 * PROPERTY_RESERVEDQUANTITY)
+				 */
 
 		};
 	}

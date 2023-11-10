@@ -167,6 +167,37 @@ namespace materials {
             /** 设置-原始行号 */
             set originalDocumentLineId(value: number) {
                 this.setProperty(MaterialEstimateJournal.PROPERTY_ORIGINALDOCUMENTLINEID_NAME, value);
+            } /** 映射的属性名称-过账日期 */
+            static PROPERTY_POSTINGDATE_NAME: string = "PostingDate";
+            /** 获取-过账日期 */
+            get postingDate(): Date {
+                return this.getProperty<Date>(MaterialEstimateJournal.PROPERTY_POSTINGDATE_NAME);
+            }
+            /** 设置-过账日期 */
+            set postingDate(value: Date) {
+                this.setProperty(MaterialEstimateJournal.PROPERTY_POSTINGDATE_NAME, value);
+            }
+
+            /** 映射的属性名称-到期日 */
+            static PROPERTY_DELIVERYDATE_NAME: string = "DeliveryDate";
+            /** 获取-到期日 */
+            get deliveryDate(): Date {
+                return this.getProperty<Date>(MaterialEstimateJournal.PROPERTY_DELIVERYDATE_NAME);
+            }
+            /** 设置-到期日 */
+            set deliveryDate(value: Date) {
+                this.setProperty(MaterialEstimateJournal.PROPERTY_DELIVERYDATE_NAME, value);
+            }
+
+            /** 映射的属性名称-凭证日期 */
+            static PROPERTY_DOCUMENTDATE_NAME: string = "DocumentDate";
+            /** 获取-凭证日期 */
+            get documentDate(): Date {
+                return this.getProperty<Date>(MaterialEstimateJournal.PROPERTY_DOCUMENTDATE_NAME);
+            }
+            /** 设置-凭证日期 */
+            set documentDate(value: Date) {
+                this.setProperty(MaterialEstimateJournal.PROPERTY_DOCUMENTDATE_NAME, value);
             }
 
             /** 映射的属性名称-对象编号 */

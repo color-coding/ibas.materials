@@ -159,7 +159,7 @@ public class MaterialReceiptService
 			inventoryQuantity = inventoryQuantity.add(materialJournal.getQuantity());
 			// 成本价格 = 总价值 / 总数量
 			if (!Decimal.isZero(inventoryQuantity)) {
-				materialJournal.setCalculatedPrice(inventoryValue.divide(inventoryQuantity));
+				materialJournal.setCalculatedPrice(Decimal.divide(inventoryValue, inventoryQuantity));
 			} else {
 				materialJournal.setCalculatedPrice(Decimal.ZERO);
 			}
@@ -177,7 +177,7 @@ public class MaterialReceiptService
 			inventoryQuantity = inventoryQuantity.add(materialJournal.getQuantity());
 			// 成本价格 = 总价值 / 总数量
 			if (!Decimal.isZero(inventoryQuantity)) {
-				materialJournal.setCalculatedPrice(inventoryValue.divide(inventoryQuantity));
+				materialJournal.setCalculatedPrice(Decimal.divide(inventoryValue, inventoryQuantity));
 			} else {
 				materialJournal.setCalculatedPrice(Decimal.ZERO);
 			}
@@ -206,7 +206,7 @@ public class MaterialReceiptService
 			inventoryQuantity = inventoryQuantity.subtract(materialJournal.getQuantity());
 			// 成本价格 = 总价值 / 总数量
 			if (!Decimal.isZero(inventoryQuantity)) {
-				materialJournal.setCalculatedPrice(inventoryValue.divide(inventoryQuantity));
+				materialJournal.setCalculatedPrice(Decimal.divide(inventoryValue, inventoryQuantity));
 			} else {
 				materialJournal.setCalculatedPrice(Decimal.ZERO);
 			}
@@ -225,7 +225,7 @@ public class MaterialReceiptService
 			inventoryQuantity = inventoryQuantity.subtract(materialJournal.getQuantity());
 			// 成本价格 = 总价值 / 总数量
 			if (!Decimal.isZero(inventoryQuantity)) {
-				materialJournal.setCalculatedPrice(inventoryValue.divide(inventoryQuantity));
+				materialJournal.setCalculatedPrice(Decimal.divide(inventoryValue, inventoryQuantity));
 			} else {
 				materialJournal.setCalculatedPrice(Decimal.ZERO);
 			}

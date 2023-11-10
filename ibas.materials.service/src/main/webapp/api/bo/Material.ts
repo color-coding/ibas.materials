@@ -67,6 +67,12 @@ namespace materials {
             /** 价格 */
             avgPrice: number;
 
+            /** 获取-评估方法 */
+            valuationMethod: emValuationMethod;
+
+            /** 获取-按仓库管理 */
+            manageByWarehouse: ibas.emYesNo;
+
             /** 库存 */
             onHand: number;
 

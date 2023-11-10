@@ -38,6 +38,9 @@ namespace materials {
                 this.view.releaseMaterialReservationEvent = this.releaseMaterialReservation;
                 this.view.fetchMaterialCommitedEvent = this.fetchMaterialCommited;
                 this.view.fetchMaterialOrderedEvent = this.fetchMaterialOrdered;
+                this.view.viewMaterialInventoryEvent = this.viewMaterialInventory;
+                this.view.viewMaterialOrderedEvent = this.viewMaterialOrdered;
+                this.view.viewMaterialCommitedEvent = this.viewMaterialCommited;
             }
             /** 视图显示后 */
             protected viewShowed(): void {
@@ -531,6 +534,45 @@ namespace materials {
                     }
                 });
             }
+            private viewMaterialInventory(data: bo.IMaterial | bo.IMaterialInventory): void {
+                let itemCode: string, warehouse: string;
+                if (data instanceof bo.Material) {
+                    itemCode = data.code;
+                } else if (data instanceof bo.MaterialInventory) {
+                    itemCode = data.itemCode;
+                    warehouse = data.warehouse;
+                }
+                let app: MaterialInventoryListApp = new MaterialInventoryListApp();
+                app.viewShower = this.viewShower;
+                app.navigation = this.navigation;
+                app.run("ONHAND", itemCode, warehouse);
+            }
+            private viewMaterialOrdered(data: bo.IMaterial | bo.IMaterialInventory): void {
+                let itemCode: string, warehouse: string;
+                if (data instanceof bo.Material) {
+                    itemCode = data.code;
+                } else if (data instanceof bo.MaterialInventory) {
+                    itemCode = data.itemCode;
+                    warehouse = data.warehouse;
+                }
+                let app: MaterialInventoryListApp = new MaterialInventoryListApp();
+                app.viewShower = this.viewShower;
+                app.navigation = this.navigation;
+                app.run("ONORDERED", itemCode, warehouse);
+            }
+            private viewMaterialCommited(data: bo.IMaterial | bo.IMaterialInventory): void {
+                let itemCode: string, warehouse: string;
+                if (data instanceof bo.Material) {
+                    itemCode = data.code;
+                } else if (data instanceof bo.MaterialInventory) {
+                    itemCode = data.itemCode;
+                    warehouse = data.warehouse;
+                }
+                let app: MaterialInventoryListApp = new MaterialInventoryListApp();
+                app.viewShower = this.viewShower;
+                app.navigation = this.navigation;
+                app.run("ONCOMMITED", itemCode, warehouse);
+            }
         }
         /** 视图-物料 */
         export interface IMaterialOverviewView extends ibas.IBOListView {
@@ -544,6 +586,8 @@ namespace materials {
             fetchMaterialInventoryEvent: Function;
             /** 显示物料库存 */
             showMaterialInventory(datas: bo.IMaterialInventory[]): void;
+            /** 查看库存明细事件 */
+            viewMaterialInventoryEvent: Function;
             /** 查询批次信息 */
             fetchMaterialBatchEvent: Function;
             /** 编辑批次信息 */
@@ -566,10 +610,14 @@ namespace materials {
             fetchMaterialOrderedEvent: Function;
             /** 显示订购信息 */
             showMaterialOrdered(datas: bo.IMaterialEstimateJournal[]): void;
+            /** 查看订购事件 */
+            viewMaterialOrderedEvent: Function;
             /** 查询承诺信息 */
             fetchMaterialCommitedEvent: Function;
             /** 显示承诺信息 */
             showMaterialCommited(datas: bo.IMaterialEstimateJournal[]): void;
+            /** 查看承诺事件 */
+            viewMaterialCommitedEvent: Function;
         }
     }
 }

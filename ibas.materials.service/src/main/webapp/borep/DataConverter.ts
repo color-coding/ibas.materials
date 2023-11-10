@@ -163,8 +163,12 @@ namespace materials {
                         return ibas.enums.toString(bo.emProcurementMethod, value);
                     } else if (property === bo.Product.PROPERTY_ISSUEMETHOD_NAME) {
                         return ibas.enums.toString(bo.emIssueMethod, value);
-                    } else if (property === bo.Product.PROPERTY_PLANNINGMETHOD_NAME) {
-                        return ibas.enums.toString(bo.emIssueMethod, value);
+                    } else if (property === bo.Material.PROPERTY_PLANNINGMETHOD_NAME) {
+                        return ibas.enums.toString(bo.emPlanningMethod, value);
+                    } else if (property === bo.Material.PROPERTY_VALUATIONMETHOD_NAME) {
+                        return ibas.enums.toString(bo.emValuationMethod, value);
+                    } else if (property === bo.Material.PROPERTY_MANAGEBYWAREHOUSE_NAME) {
+                        return ibas.enums.toString(ibas.emYesNo, value);
                     }
                 } else if (boName === bo.GoodsIssueLine.name) {
                     if (property === bo.GoodsIssueLine.PROPERTY_SERIALMANAGEMENT_NAME
@@ -308,8 +312,12 @@ namespace materials {
                         return ibas.enums.valueOf(bo.emProcurementMethod, value);
                     } else if (property === bo.Product.PROPERTY_ISSUEMETHOD_NAME) {
                         return ibas.enums.valueOf(bo.emIssueMethod, value);
-                    } else if (property === bo.Product.PROPERTY_PLANNINGMETHOD_NAME) {
-                        return ibas.enums.valueOf(bo.emIssueMethod, value);
+                    } else if (property === bo.Material.PROPERTY_PLANNINGMETHOD_NAME) {
+                        return ibas.enums.valueOf(bo.emPlanningMethod, value);
+                    } else if (property === bo.Material.PROPERTY_VALUATIONMETHOD_NAME) {
+                        return ibas.enums.valueOf(bo.emValuationMethod, value);
+                    } else if (property === bo.Material.PROPERTY_MANAGEBYWAREHOUSE_NAME) {
+                        return ibas.enums.valueOf(ibas.emYesNo, value);
                     }
                 } else if (boName === bo.Warehouse.name) {
                     if (property === bo.Warehouse.PROPERTY_SCHEDULABLE_NAME

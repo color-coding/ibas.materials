@@ -119,6 +119,9 @@ public class MaterialCommitedJournalService extends MaterialEstimateService<IMat
 		materialJournal.setOriginalDocumentType(contract.getBaseDocumentType());
 		materialJournal.setOriginalDocumentEntry(contract.getBaseDocumentEntry());
 		materialJournal.setOriginalDocumentLineId(contract.getBaseDocumentLineId());
+		materialJournal.setPostingDate(contract.getPostingDate());
+		materialJournal.setDocumentDate(contract.getDocumentDate());
+		materialJournal.setDeliveryDate(contract.getDeliveryDate());
 		materialJournal.setStatus(contract.getStatus());
 		IMaterial material = this.checkMaterial(contract.getItemCode());
 		if (material != null) {

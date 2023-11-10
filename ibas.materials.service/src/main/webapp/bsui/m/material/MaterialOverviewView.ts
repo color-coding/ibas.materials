@@ -40,6 +40,12 @@ namespace materials {
                 fetchMaterialOrderedEvent: Function;
                 /** 查询承诺信息 */
                 fetchMaterialCommitedEvent: Function;
+                /** 查看库存明细事件 */
+                viewMaterialInventoryEvent: Function;
+                /** 查看订购事件 */
+                viewMaterialOrderedEvent: Function;
+                /** 查看承诺事件 */
+                viewMaterialCommitedEvent: Function;
                 /** 绘制视图 */
                 draw(): any {
                     let that: this = this;

@@ -441,7 +441,7 @@ namespace materials {
                                     text: accounting.bo.Branch.PROPERTY_NAME_NAME
                                 },
                                 criteria: [
-                                    new ibas.Condition(accounting.bo.Branch.PROPERTY_ACTIVATED_NAME, ibas.emConditionOperation.NOT_EQUAL, ibas.emYesNo.YES.toString())
+                                    new ibas.Condition(accounting.bo.Branch.PROPERTY_ACTIVATED_NAME, ibas.emConditionOperation.EQUAL, ibas.emYesNo.YES.toString())
                                 ],
                                 visible: accounting.config.isEnableBranch(),
                             }).bindProperty("bindingValue", {

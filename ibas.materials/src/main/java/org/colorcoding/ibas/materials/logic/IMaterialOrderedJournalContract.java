@@ -2,6 +2,7 @@ package org.colorcoding.ibas.materials.logic;
 
 import java.math.BigDecimal;
 
+import org.colorcoding.ibas.bobas.data.DateTime;
 import org.colorcoding.ibas.bobas.data.emBOStatus;
 import org.colorcoding.ibas.bobas.logic.IBusinessLogicContract;
 
@@ -86,6 +87,27 @@ public interface IMaterialOrderedJournalContract extends IBusinessLogicContract 
 	 * @return 值
 	 */
 	Integer getBaseDocumentLineId();
+
+	/**
+	 * 获取-过账日期
+	 * 
+	 * @return 值
+	 */
+	DateTime getPostingDate();
+
+	/**
+	 * 到期日
+	 *
+	 * @return
+	 */
+	DateTime getDeliveryDate();
+
+	/**
+	 * 凭证日期
+	 *
+	 * @return
+	 */
+	DateTime getDocumentDate();
 
 	/**
 	 * 状态

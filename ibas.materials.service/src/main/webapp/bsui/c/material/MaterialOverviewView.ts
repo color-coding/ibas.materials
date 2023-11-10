@@ -43,6 +43,12 @@ namespace materials {
                 fetchMaterialOrderedEvent: Function;
                 /** 查询承诺信息 */
                 fetchMaterialCommitedEvent: Function;
+                /** 查看库存明细事件 */
+                viewMaterialInventoryEvent: Function;
+                /** 查看订购事件 */
+                viewMaterialOrderedEvent: Function;
+                /** 查看承诺事件 */
+                viewMaterialCommitedEvent: Function;
                 /** 绘制视图 */
                 draw(): any {
                     let that: this = this;
@@ -315,8 +321,25 @@ namespace materials {
                                             return sap.ui.core.ValueState.Information;
                                         }
                                     },
+                                    active: true,
+                                    press(this: sap.extension.m.Link): void {
+                                        that.fireViewEvents(that.viewMaterialInventoryEvent, this.getBindingContext().getObject());
+                                    }
                                 }).addStyleClass("sapUiSmallMarginBegin"),
                                 new sap.m.ToolbarSpacer(""),
+                                new sap.extension.m.ObjectAttribute("", {
+                                    title: ibas.i18n.prop("bo_material_avgprice"),
+                                    text: {
+                                        path: "avgPrice",
+                                        type: new sap.extension.data.Price()
+                                    },
+                                    visible: {
+                                        path: "manageByWarehouse",
+                                        formatter(data: any): boolean {
+                                            return data === ibas.emYesNo.NO ? true : false;
+                                        }
+                                    }
+                                }),
                                 new sap.m.ToolbarSeparator(""),
                                 new sap.m.Button("", {
                                     icon: "sap-icon://refresh",
@@ -368,7 +391,10 @@ namespace materials {
                                     }),
                                     new sap.extension.table.Column("", {
                                         label: ibas.i18n.prop("bo_materialinventory_onhand"),
-                                        template: new sap.extension.m.Text("", {
+                                        template: new sap.extension.m.Link("", {
+                                            press(this: sap.extension.m.Link): void {
+                                                that.fireViewEvents(that.viewMaterialInventoryEvent, this.getBindingContext().getObject());
+                                            }
                                         }).bindProperty("bindingValue", {
                                             path: "onHand",
                                             type: new sap.extension.data.Quantity()
@@ -396,6 +422,14 @@ namespace materials {
                                         }).bindProperty("bindingValue", {
                                             path: "onReserved",
                                             type: new sap.extension.data.Quantity()
+                                        }),
+                                    }),
+                                    new sap.extension.table.Column("", {
+                                        label: ibas.i18n.prop("bo_materialinventory_avgprice"),
+                                        template: new sap.extension.m.Text("", {
+                                        }).bindProperty("bindingValue", {
+                                            path: "avgPrice",
+                                            type: new sap.extension.data.Price()
                                         }),
                                     }),
                                 ],
@@ -1275,6 +1309,7 @@ namespace materials {
                                 }),
                                 new sap.m.ToolbarSeparator(),
                                 new sap.m.Button("", {
+                                    type: sap.m.ButtonType.Transparent,
                                     icon: "sap-icon://refresh",
                                     press: function (): void {
                                         that.fireViewEvents(that.viewDataEvent, that.tableMaterials.getSelecteds().firstOrDefault());
