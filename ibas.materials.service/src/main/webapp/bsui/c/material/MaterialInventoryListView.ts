@@ -97,6 +97,14 @@ namespace materials {
                                 width: "6rem",
                             }),
                             new sap.extension.table.Column("", {
+                                label: ibas.i18n.prop("bo_materialinventoryjournal_documentdate"),
+                                template: new sap.extension.m.Text("", {
+                                }).bindProperty("bindingValue", {
+                                    path: "documentDate",
+                                    type: new sap.extension.data.Date()
+                                }),
+                            }),
+                            new sap.extension.table.Column("", {
                                 label: ibas.i18n.prop("bo_materialinventoryjournal_basedocumenttype"),
                                 template: new sap.extension.m.DataLink("", {
                                     press(this: sap.f.cards.Header): void {
@@ -176,22 +184,6 @@ namespace materials {
                                 width: "8rem",
                             }),
                             new sap.extension.table.Column("", {
-                                label: ibas.i18n.prop("bo_materialinventoryjournal_transactionvalue"),
-                                template: new sap.extension.m.Text("", {
-                                }).bindProperty("bindingValue", {
-                                    path: "transactionValue",
-                                    type: new sap.extension.data.Sum()
-                                }),
-                            }),
-                            new sap.extension.table.Column("", {
-                                label: ibas.i18n.prop("bo_materialinventoryjournal_documentdate"),
-                                template: new sap.extension.m.Text("", {
-                                }).bindProperty("bindingValue", {
-                                    path: "documentDate",
-                                    type: new sap.extension.data.Date()
-                                }),
-                            }),
-                            new sap.extension.table.Column("", {
                                 label: ibas.i18n.prop("bo_materialinventoryjournal_calculatedprice"),
                                 template: new sap.extension.m.Text("", {
                                 }).bindProperty("bindingValue", {
@@ -199,6 +191,14 @@ namespace materials {
                                     type: new sap.extension.data.Price()
                                 }),
                                 width: "8rem",
+                            }),
+                            new sap.extension.table.Column("", {
+                                label: ibas.i18n.prop("bo_materialinventoryjournal_transactionvalue"),
+                                template: new sap.extension.m.Text("", {
+                                }).bindProperty("bindingValue", {
+                                    path: "transactionValue",
+                                    type: new sap.extension.data.Sum()
+                                }),
                             }),
                         ],
                         rowSettingsTemplate: new sap.ui.table.RowSettings("", {
@@ -219,6 +219,14 @@ namespace materials {
                         visibleRowCountMode: sap.ui.table.VisibleRowCountMode.Interactive,
                         rows: "{/rows}",
                         columns: [
+                            new sap.extension.table.Column("", {
+                                label: ibas.i18n.prop("bo_materialestimatejournal_deliverydate"),
+                                template: new sap.extension.m.Text("", {
+                                }).bindProperty("bindingValue", {
+                                    path: "deliveryDate",
+                                    type: new sap.extension.data.Date()
+                                }),
+                            }),
                             new sap.extension.table.Column("", {
                                 label: ibas.i18n.prop("bo_materialestimatejournal_basedocumenttype"),
                                 template: new sap.extension.m.DataLink("", {
@@ -280,14 +288,6 @@ namespace materials {
                                     type: new sap.extension.data.Quantity()
                                 }),
                                 width: "8rem",
-                            }),
-                            new sap.extension.table.Column("", {
-                                label: ibas.i18n.prop("bo_materialestimatejournal_deliverydate"),
-                                template: new sap.extension.m.Text("", {
-                                }).bindProperty("bindingValue", {
-                                    path: "deliveryDate",
-                                    type: new sap.extension.data.Date()
-                                }),
                             }),
                             new sap.extension.table.Column("", {
                                 label: ibas.i18n.prop("bo_materialestimatejournal_closedquantity"),
@@ -316,6 +316,14 @@ namespace materials {
                         rows: "{/rows}",
                         columns: [
                             new sap.extension.table.Column("", {
+                                label: ibas.i18n.prop("bo_materialestimatejournal_deliverydate"),
+                                template: new sap.extension.m.Text("", {
+                                }).bindProperty("bindingValue", {
+                                    path: "deliveryDate",
+                                    type: new sap.extension.data.Date()
+                                }),
+                            }),
+                            new sap.extension.table.Column("", {
                                 label: ibas.i18n.prop("bo_materialestimatejournal_basedocumenttype"),
                                 template: new sap.extension.m.DataLink("", {
                                     press(this: sap.f.cards.Header): void {
@@ -376,14 +384,6 @@ namespace materials {
                                     type: new sap.extension.data.Quantity()
                                 }),
                                 width: "8rem",
-                            }),
-                            new sap.extension.table.Column("", {
-                                label: ibas.i18n.prop("bo_materialestimatejournal_deliverydate"),
-                                template: new sap.extension.m.Text("", {
-                                }).bindProperty("bindingValue", {
-                                    path: "deliveryDate",
-                                    type: new sap.extension.data.Date()
-                                }),
                             }),
                             new sap.extension.table.Column("", {
                                 label: ibas.i18n.prop("bo_materialestimatejournal_closedquantity"),

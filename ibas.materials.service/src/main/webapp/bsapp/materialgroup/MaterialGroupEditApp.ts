@@ -30,6 +30,7 @@ namespace materials {
                 this.view.deleteDataEvent = this.deleteData;
                 this.view.createDataEvent = this.createData;
                 this.view.chooseParentsEvent = this.chooseParents;
+                this.view.chooseLedgerAccountEvent = this.chooseLedgerAccount;
             }
             /** 视图显示后 */
             protected viewShowed(): void {
@@ -196,6 +197,24 @@ namespace materials {
                     }
                 });
             }
+            /** 选择总账科目事件 */
+            private chooseLedgerAccount(): void {
+                if (ibas.objects.isNull(this.editData) || this.editData.isDirty) {
+                    throw new Error(ibas.i18n.prop("shell_data_saved_first"));
+                }
+                ibas.servicesManager.runApplicationService<accounting.app.ILedgerAccountSettingContract>({
+                    proxy: new accounting.app.LedgerAccountSettingServiceProxy({
+                        objectCode: this.editData.objectCode,
+                        description: ibas.strings.format("{0} - {1}", this.editData.code, this.editData.name),
+                        settings: {
+                            category: ibas.objects.nameOf(this.editData),
+                            conditions: [
+                                new ibas.Condition(accounting.app.emLedgerAccountConditionProperty.ItemGroup, ibas.emConditionOperation.EQUAL, this.editData.code)
+                            ]
+                        }
+                    }),
+                });
+            }
         }
         /** 视图-物料组 */
         export interface IMaterialGroupEditView extends ibas.IBOEditView {
@@ -207,6 +226,8 @@ namespace materials {
             createDataEvent: Function;
             /** 选择父项 */
             chooseParentsEvent: Function;
+            /** 选择总账科目事件 */
+            chooseLedgerAccountEvent: Function;
         }
     }
 }

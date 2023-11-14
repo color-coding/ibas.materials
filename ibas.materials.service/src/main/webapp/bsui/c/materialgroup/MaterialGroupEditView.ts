@@ -18,6 +18,8 @@ namespace materials {
                 createDataEvent: Function;
                 /** 选择父项 */
                 chooseParentsEvent: Function;
+                /** 选择总账科目事件 */
+                chooseLedgerAccountEvent: Function;
 
                 /** 绘制视图 */
                 draw(): any {
@@ -177,6 +179,28 @@ namespace materials {
                                                     // 复制当前对象
                                                     that.fireViewEvents(that.createDataEvent, true);
                                                 }
+                                            }),
+                                        ],
+                                    })
+                                }),
+                                new sap.m.ToolbarSeparator(),
+                                new sap.extension.m.MenuButton("", {
+                                    autoHide: true,
+                                    text: ibas.i18n.prop("shell_quick_to"),
+                                    icon: "sap-icon://generate-shortcut",
+                                    type: sap.m.ButtonType.Transparent,
+                                    menu: new sap.m.Menu("", {
+                                        items: [
+                                            new sap.m.MenuItem("", {
+                                                text: ibas.i18n.prop("materials_ledgeraccount_setting"),
+                                                icon: "sap-icon://credit-card",
+                                                press: function (): void {
+                                                    that.fireViewEvents(that.chooseLedgerAccountEvent);
+                                                },
+                                                visible: shell.app.privileges.canRun({
+                                                    id: accounting.app.LedgerAccountSettingService.APPLICATION_ID,
+                                                    name: accounting.app.LedgerAccountSettingService.APPLICATION_NAME,
+                                                })
                                             }),
                                         ],
                                     })

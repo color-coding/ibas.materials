@@ -208,6 +208,37 @@ public class Material extends MaterialBase<Material>
 	}
 
 	/**
+	 * 属性名称-按仓库管理
+	 */
+	private static final String PROPERTY_MANAGEBYWAREHOUSE_NAME = "ManageByWarehouse";
+
+	/**
+	 * 按仓库管理 属性
+	 */
+	@DbField(name = "ByWhs", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME)
+	public static final IPropertyInfo<emYesNo> PROPERTY_MANAGEBYWAREHOUSE = registerProperty(
+			PROPERTY_MANAGEBYWAREHOUSE_NAME, emYesNo.class, MY_CLASS);
+
+	/**
+	 * 获取-按仓库管理
+	 * 
+	 * @return 值
+	 */
+	@XmlElement(name = PROPERTY_MANAGEBYWAREHOUSE_NAME)
+	public final emYesNo getManageByWarehouse() {
+		return this.getProperty(PROPERTY_MANAGEBYWAREHOUSE);
+	}
+
+	/**
+	 * 设置-按仓库管理
+	 * 
+	 * @param value 值
+	 */
+	public final void setManageByWarehouse(emYesNo value) {
+		this.setProperty(PROPERTY_MANAGEBYWAREHOUSE, value);
+	}
+
+	/**
 	 * 属性名称-最低库存量
 	 */
 	private static final String PROPERTY_MINIMUMINVENTORY_NAME = "MinimumInventory";
@@ -215,13 +246,13 @@ public class Material extends MaterialBase<Material>
 	/**
 	 * 最低库存量 属性
 	 */
-	@DbField(name = "MinInvnt", type = DbFieldType.DECIMAL, table = DB_TABLE_NAME, primaryKey = false)
+	@DbField(name = "MinInvnt", type = DbFieldType.DECIMAL, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<BigDecimal> PROPERTY_MINIMUMINVENTORY = registerProperty(
 			PROPERTY_MINIMUMINVENTORY_NAME, BigDecimal.class, MY_CLASS);
 
 	/**
 	 * 获取-最低库存量
-	 *
+	 * 
 	 * @return 值
 	 */
 	@XmlElement(name = PROPERTY_MINIMUMINVENTORY_NAME)
@@ -231,7 +262,7 @@ public class Material extends MaterialBase<Material>
 
 	/**
 	 * 设置-最低库存量
-	 *
+	 * 
 	 * @param value 值
 	 */
 	public final void setMinimumInventory(BigDecimal value) {
@@ -239,30 +270,34 @@ public class Material extends MaterialBase<Material>
 	}
 
 	/**
-	 * 设置-最低库存量
-	 *
-	 * @param value 值
+	 * 属性名称-最高库存量
 	 */
-	public final void setMinimumInventory(String value) {
-		this.setMinimumInventory(Decimal.valueOf(value));
+	private static final String PROPERTY_MAXIMUMINVENTORY_NAME = "MaximumInventory";
+
+	/**
+	 * 最高库存量 属性
+	 */
+	@DbField(name = "MaxInvnt", type = DbFieldType.DECIMAL, table = DB_TABLE_NAME)
+	public static final IPropertyInfo<BigDecimal> PROPERTY_MAXIMUMINVENTORY = registerProperty(
+			PROPERTY_MAXIMUMINVENTORY_NAME, BigDecimal.class, MY_CLASS);
+
+	/**
+	 * 获取-最高库存量
+	 * 
+	 * @return 值
+	 */
+	@XmlElement(name = PROPERTY_MAXIMUMINVENTORY_NAME)
+	public final BigDecimal getMaximumInventory() {
+		return this.getProperty(PROPERTY_MAXIMUMINVENTORY);
 	}
 
 	/**
-	 * 设置-最低库存量
-	 *
+	 * 设置-最高库存量
+	 * 
 	 * @param value 值
 	 */
-	public final void setMinimumInventory(int value) {
-		this.setMinimumInventory(Decimal.valueOf(value));
-	}
-
-	/**
-	 * 设置-最低库存量
-	 *
-	 * @param value 值
-	 */
-	public final void setMinimumInventory(double value) {
-		this.setMinimumInventory(Decimal.valueOf(value));
+	public final void setMaximumInventory(BigDecimal value) {
+		this.setProperty(PROPERTY_MAXIMUMINVENTORY, value);
 	}
 
 	/**

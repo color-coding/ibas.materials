@@ -61,4 +61,7 @@ public class MyConfiguration extends org.colorcoding.ibas.bobas.MyConfiguration 
 
 	/** 配置项目-价格清单最大层级 */
 	public final static String CONFIG_ITEM_PRICE_LIST_MAX_LEVEL = "maxPriceListLevel";
+
+	/** 配置项目-按仓库管理物料成本 */
+	public final static String CONFIG_ITEM_MANAGE_MATERIAL_COSTS_BY_WAREHOUSE = "materialCostsByWarehouse";
 }

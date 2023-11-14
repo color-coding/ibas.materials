@@ -29,6 +29,7 @@ namespace materials {
                 // 其他事件
                 this.view.deleteDataEvent = this.deleteData;
                 this.view.createDataEvent = this.createData;
+                this.view.chooseLedgerAccountEvent = this.chooseLedgerAccount;
             }
             /** 视图显示后 */
             protected viewShowed(): void {
@@ -169,6 +170,24 @@ namespace materials {
                     createData();
                 }
             }
+            /** 选择总账科目事件 */
+            private chooseLedgerAccount(): void {
+                if (ibas.objects.isNull(this.editData) || this.editData.isDirty) {
+                    throw new Error(ibas.i18n.prop("shell_data_saved_first"));
+                }
+                ibas.servicesManager.runApplicationService<accounting.app.ILedgerAccountSettingContract>({
+                    proxy: new accounting.app.LedgerAccountSettingServiceProxy({
+                        objectCode: this.editData.objectCode,
+                        description: ibas.strings.format("{0} - {1}", this.editData.code, this.editData.name),
+                        settings: {
+                            category: ibas.objects.nameOf(this.editData),
+                            conditions: [
+                                new ibas.Condition(accounting.app.emLedgerAccountConditionProperty.Warehouse, ibas.emConditionOperation.EQUAL, this.editData.code)
+                            ]
+                        }
+                    }),
+                });
+            }
         }
         /** 视图-仓库 */
         export interface IWarehouseEditView extends ibas.IBOEditView {
@@ -178,6 +197,8 @@ namespace materials {
             deleteDataEvent: Function;
             /** 新建数据事件，参数1：是否克隆 */
             createDataEvent: Function;
+            /** 选择总账科目事件 */
+            chooseLedgerAccountEvent: Function;
         }
         /** 权限元素-单据仓库 */
         export const ELEMENT_DOCUMENT_WAREHOUSE: ibas.IElement = {

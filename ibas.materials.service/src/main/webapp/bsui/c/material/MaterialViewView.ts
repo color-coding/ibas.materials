@@ -259,6 +259,21 @@ namespace materials {
                                                 }
                                             }),
                                             new sap.extension.m.ObjectAttribute("", {
+                                                title: ibas.i18n.prop("bo_material_maximuminventory"),
+                                                bindingValue: {
+                                                    parts: [
+                                                        {
+                                                            path: "maximumInventory",
+                                                            type: new sap.extension.data.Quantity()
+                                                        },
+                                                        {
+                                                            path: "inventoryUOM",
+                                                            type: new sap.extension.data.Alphanumeric()
+                                                        },
+                                                    ]
+                                                }
+                                            }),
+                                            new sap.extension.m.ObjectAttribute("", {
                                                 title: ibas.i18n.prop("bo_material_defaultwarehouse"),
                                                 bindingValue: {
                                                     path: "defaultWarehouse",

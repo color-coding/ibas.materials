@@ -4,6 +4,6 @@
 	<Sign>GL-MM-06</Sign>
 	<Group>INVENTORY</Group>
 	<Description>总账增加科目</Description>
-	<Settings></Settings>
+	<Settings>Material;MaterialGroup;Warehouse;</Settings>
 	<Remarks></Remarks>
 </ns:LedgerAccount>

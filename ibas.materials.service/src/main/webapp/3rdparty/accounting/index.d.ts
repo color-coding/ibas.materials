@@ -119,6 +119,22 @@ declare namespace accounting {
             DIMENSION_4 = 3,
             DIMENSION_5 = 4
         }
+        /**
+         * 总账科目条件支持属性
+         */
+        enum emLedgerAccountConditionProperty {
+            ObjectCode = "ObjectCode",
+            OrderType = "OrderType",
+            Project = "Project",
+            DataOwner = "DataOwner",
+            Organization = "Organization",
+            Customer = "Customer",
+            Supplier = "Supplier",
+            Item = "Item",
+            ItemGroup = "ItemGroup",
+            Warehouse = "Warehouse",
+            Tax = "Tax"
+        }
         /** 维度服务契约 */
         interface IDimensionDataServiceContract extends ibas.IServiceContract {
             /** 维度类型 */
@@ -126,6 +142,32 @@ declare namespace accounting {
         }
         /** 维度服务代理 */
         class DimensionDataServiceProxy extends ibas.ServiceProxy<IDimensionDataServiceContract> {
+        }
+        interface ILedgerAccountSetting {
+            /** 分类账 */
+            ledger: string;
+            /** 条件 */
+            conditions: ibas.ICondition[];
+            /** 科目 */
+            account?: string;
+        }
+        interface ILedgerAccountCategory {
+            /** 种类 */
+            category: string;
+            /** 条件 */
+            conditions: ibas.ICondition[];
+        }
+        /** 分类账设置契约 */
+        interface ILedgerAccountSettingContract extends ibas.IServiceContract {
+            /** 业务对象 */
+            objectCode: string;
+            /** 描述 */
+            description: string;
+            /** 设置内容 */
+            settings?: ILedgerAccountSetting[] | ILedgerAccountCategory;
+        }
+        /** 分类账设置服务代理 */
+        class LedgerAccountSettingServiceProxy extends ibas.ServiceProxy<ILedgerAccountSettingContract> {
         }
         /** 查询条件 */
         namespace conditions {
@@ -454,8 +496,6 @@ declare namespace accounting {
             category: emTaxGroupCategory;
             /** 税率 */
             rate: number;
-            /** 科目 */
-            account: string;
             /** 参考1 */
             reference1: string;
             /** 参考2 */
@@ -1156,8 +1196,6 @@ declare namespace accounting {
             account: string;
             /** 设置 */
             settings: string;
-            /** 条件 */
-            conditions: string;
             /** 对象编号 */
             objectKey: number;
             /** 对象类型 */
@@ -1184,6 +1222,58 @@ declare namespace accounting {
             createActionId: string;
             /** 更新动作标识 */
             updateActionId: string;
+            /** 备注 */
+            remarks: string;
+            /** 期间-分类账-条件集合 */
+            periodLedgerAccountConditions: IPeriodLedgerAccountConditions;
+        }
+        /** 期间-分类账-条件 集合 */
+        interface IPeriodLedgerAccountConditions extends ibas.IBusinessObjects<IPeriodLedgerAccountCondition> {
+            /** 创建并添加子项 */
+            create(): IPeriodLedgerAccountCondition;
+        }
+        /** 期间-分类账-条件 */
+        interface IPeriodLedgerAccountCondition extends ibas.IBOSimpleLine {
+            /** 编号 */
+            objectKey: number;
+            /** 行号 */
+            lineId: number;
+            /** 对象类型 */
+            objectCode: string;
+            /** 显示顺序 */
+            visOrder: number;
+            /** 实例号（版本） */
+            logInst: number;
+            /** 数据源 */
+            dataSource: string;
+            /** 创建日期 */
+            createDate: Date;
+            /** 创建时间 */
+            createTime: number;
+            /** 修改日期 */
+            updateDate: Date;
+            /** 修改时间 */
+            updateTime: number;
+            /** 创建用户 */
+            createUserSign: number;
+            /** 修改用户 */
+            updateUserSign: number;
+            /** 创建动作标识 */
+            createActionId: string;
+            /** 更新动作标识 */
+            updateActionId: string;
+            /** 开括号 */
+            bracketOpen: number;
+            /** 关系 */
+            relationship: ibas.emConditionRelationship;
+            /** 属性 */
+            propertyName: string;
+            /** 方法 */
+            operation: ibas.emConditionOperation;
+            /** 值 */
+            value: string;
+            /** 闭括号 */
+            bracketClose: number;
             /** 备注 */
             remarks: string;
         }
@@ -2148,12 +2238,6 @@ declare namespace accounting {
             get rate(): number;
             /** 设置-税率 */
             set rate(value: number);
-            /** 映射的属性名称-科目 */
-            static PROPERTY_ACCOUNT_NAME: string;
-            /** 获取-科目 */
-            get account(): string;
-            /** 设置-科目 */
-            set account(value: string);
             /** 映射的属性名称-参考1 */
             static PROPERTY_REFERENCE1_NAME: string;
             /** 获取-参考1 */
@@ -4125,12 +4209,6 @@ declare namespace accounting {
             get settings(): string;
             /** 设置-设置 */
             set settings(value: string);
-            /** 映射的属性名称-条件 */
-            static PROPERTY_CONDITIONS_NAME: string;
-            /** 获取-条件 */
-            get conditions(): string;
-            /** 设置-条件 */
-            set conditions(value: string);
             /** 映射的属性名称-对象编号 */
             static PROPERTY_OBJECTKEY_NAME: string;
             /** 获取-对象编号 */
@@ -4209,6 +4287,150 @@ declare namespace accounting {
             get updateActionId(): string;
             /** 设置-更新动作标识 */
             set updateActionId(value: string);
+            /** 映射的属性名称-备注 */
+            static PROPERTY_REMARKS_NAME: string;
+            /** 获取-备注 */
+            get remarks(): string;
+            /** 设置-备注 */
+            set remarks(value: string);
+            /** 映射的属性名称-期间-分类账-条件集合 */
+            static PROPERTY_PERIODLEDGERACCOUNTCONDITIONS_NAME: string;
+            /** 获取-期间-分类账-条件集合 */
+            get periodLedgerAccountConditions(): PeriodLedgerAccountConditions;
+            /** 设置-期间-分类账-条件集合 */
+            set periodLedgerAccountConditions(value: PeriodLedgerAccountConditions);
+            /** 初始化数据 */
+            protected init(): void;
+        }
+        /** 期间-分类账-条件 集合 */
+        class PeriodLedgerAccountConditions extends ibas.BusinessObjects<PeriodLedgerAccountCondition, PeriodLedgerAccount> implements IPeriodLedgerAccountConditions {
+            /** 创建并添加子项 */
+            create(): PeriodLedgerAccountCondition;
+        }
+        /** 期间-分类账-条件 */
+        class PeriodLedgerAccountCondition extends ibas.BOSimpleLine<PeriodLedgerAccountCondition> implements IPeriodLedgerAccountCondition {
+            /** 构造函数 */
+            constructor();
+            /** 映射的属性名称-编号 */
+            static PROPERTY_OBJECTKEY_NAME: string;
+            /** 获取-编号 */
+            get objectKey(): number;
+            /** 设置-编号 */
+            set objectKey(value: number);
+            /** 映射的属性名称-行号 */
+            static PROPERTY_LINEID_NAME: string;
+            /** 获取-行号 */
+            get lineId(): number;
+            /** 设置-行号 */
+            set lineId(value: number);
+            /** 映射的属性名称-对象类型 */
+            static PROPERTY_OBJECTCODE_NAME: string;
+            /** 获取-对象类型 */
+            get objectCode(): string;
+            /** 设置-对象类型 */
+            set objectCode(value: string);
+            /** 映射的属性名称-显示顺序 */
+            static PROPERTY_VISORDER_NAME: string;
+            /** 获取-显示顺序 */
+            get visOrder(): number;
+            /** 设置-显示顺序 */
+            set visOrder(value: number);
+            /** 映射的属性名称-实例号（版本） */
+            static PROPERTY_LOGINST_NAME: string;
+            /** 获取-实例号（版本） */
+            get logInst(): number;
+            /** 设置-实例号（版本） */
+            set logInst(value: number);
+            /** 映射的属性名称-数据源 */
+            static PROPERTY_DATASOURCE_NAME: string;
+            /** 获取-数据源 */
+            get dataSource(): string;
+            /** 设置-数据源 */
+            set dataSource(value: string);
+            /** 映射的属性名称-创建日期 */
+            static PROPERTY_CREATEDATE_NAME: string;
+            /** 获取-创建日期 */
+            get createDate(): Date;
+            /** 设置-创建日期 */
+            set createDate(value: Date);
+            /** 映射的属性名称-创建时间 */
+            static PROPERTY_CREATETIME_NAME: string;
+            /** 获取-创建时间 */
+            get createTime(): number;
+            /** 设置-创建时间 */
+            set createTime(value: number);
+            /** 映射的属性名称-修改日期 */
+            static PROPERTY_UPDATEDATE_NAME: string;
+            /** 获取-修改日期 */
+            get updateDate(): Date;
+            /** 设置-修改日期 */
+            set updateDate(value: Date);
+            /** 映射的属性名称-修改时间 */
+            static PROPERTY_UPDATETIME_NAME: string;
+            /** 获取-修改时间 */
+            get updateTime(): number;
+            /** 设置-修改时间 */
+            set updateTime(value: number);
+            /** 映射的属性名称-创建用户 */
+            static PROPERTY_CREATEUSERSIGN_NAME: string;
+            /** 获取-创建用户 */
+            get createUserSign(): number;
+            /** 设置-创建用户 */
+            set createUserSign(value: number);
+            /** 映射的属性名称-修改用户 */
+            static PROPERTY_UPDATEUSERSIGN_NAME: string;
+            /** 获取-修改用户 */
+            get updateUserSign(): number;
+            /** 设置-修改用户 */
+            set updateUserSign(value: number);
+            /** 映射的属性名称-创建动作标识 */
+            static PROPERTY_CREATEACTIONID_NAME: string;
+            /** 获取-创建动作标识 */
+            get createActionId(): string;
+            /** 设置-创建动作标识 */
+            set createActionId(value: string);
+            /** 映射的属性名称-更新动作标识 */
+            static PROPERTY_UPDATEACTIONID_NAME: string;
+            /** 获取-更新动作标识 */
+            get updateActionId(): string;
+            /** 设置-更新动作标识 */
+            set updateActionId(value: string);
+            /** 映射的属性名称-开括号 */
+            static PROPERTY_BRACKETOPEN_NAME: string;
+            /** 获取-开括号 */
+            get bracketOpen(): number;
+            /** 设置-开括号 */
+            set bracketOpen(value: number);
+            /** 映射的属性名称-关系 */
+            static PROPERTY_RELATIONSHIP_NAME: string;
+            /** 获取-关系 */
+            get relationship(): ibas.emConditionRelationship;
+            /** 设置-关系 */
+            set relationship(value: ibas.emConditionRelationship);
+            /** 映射的属性名称-属性 */
+            static PROPERTY_PROPERTYNAME_NAME: string;
+            /** 获取-属性 */
+            get propertyName(): string;
+            /** 设置-属性 */
+            set propertyName(value: string);
+            /** 映射的属性名称-方法 */
+            static PROPERTY_OPERATION_NAME: string;
+            /** 获取-方法 */
+            get operation(): ibas.emConditionOperation;
+            /** 设置-方法 */
+            set operation(value: ibas.emConditionOperation);
+            /** 映射的属性名称-值 */
+            static PROPERTY_VALUE_NAME: string;
+            /** 获取-值 */
+            get value(): string;
+            /** 设置-值 */
+            set value(value: string);
+            /** 映射的属性名称-闭括号 */
+            static PROPERTY_BRACKETCLOSE_NAME: string;
+            /** 获取-闭括号 */
+            get bracketClose(): number;
+            /** 设置-闭括号 */
+            set bracketClose(value: number);
             /** 映射的属性名称-备注 */
             static PROPERTY_REMARKS_NAME: string;
             /** 获取-备注 */
@@ -5309,8 +5531,8 @@ declare namespace accounting {
             protected deleteData(): void;
             /** 新建数据，参数1：是否克隆 */
             protected createData(clone: boolean): void;
-            /** 选择科目事件 */
-            protected chooseAccount(): void;
+            /** 选择总账科目事件 */
+            private chooseLedgerAccount;
         }
         /** 视图-税收组 */
         interface ITaxGroupEditView extends ibas.IBOEditView {
@@ -5320,8 +5542,8 @@ declare namespace accounting {
             deleteDataEvent: Function;
             /** 新建数据事件，参数1：是否克隆 */
             createDataEvent: Function;
-            /** 选择科目事件 */
-            chooseAccountEvent: Function;
+            /** 选择总账科目事件 */
+            chooseLedgerAccountEvent: Function;
         }
     }
 }
@@ -6706,6 +6928,54 @@ declare namespace accounting {
             choosePostingPeriodAccountAccountEvent: Function;
             /** 保存过账期间总账科目事件 */
             savePostingPeriodAccountEvent: Function;
+        }
+    }
+}
+/**
+ * @license
+ * Copyright Color-Coding Studio. All Rights Reserved.
+ *
+ * Use of this source code is governed by an Apache License, Version 2.0
+ * that can be found in the LICENSE file at http://www.apache.org/licenses/LICENSE-2.0
+ */
+declare namespace accounting {
+    namespace app {
+        /** 应用-分类账设置 */
+        class LedgerAccountSettingService extends ibas.ServiceApplication<ILedgerAccountSettingView, ILedgerAccountSettingContract> {
+            /** 应用标识 */
+            static APPLICATION_ID: string;
+            /** 应用名称 */
+            static APPLICATION_NAME: string;
+            /** 构造函数 */
+            constructor();
+            /** 注册视图 */
+            protected registerView(): void;
+            /** 视图显示后 */
+            protected viewShowed(): void;
+            private currentPeriod;
+            private settings;
+            protected runService(contract: ILedgerAccountSettingContract): void;
+            private settingService;
+            private categoryService;
+            /** 选择过账期间总账科目科目事件 */
+            private chooseAccount;
+            private save;
+        }
+        /** 视图-分类账设置 */
+        interface ILedgerAccountSettingView extends ibas.IView {
+            /** 显示期间科目 */
+            showLedgerAccounts(datas: bo.PeriodLedgerAccount[]): void;
+            /** 选择过账期间总账科目科目事件 */
+            chooseAccountEvent: Function;
+            /** 保存事件 */
+            saveEvent: Function;
+        }
+        /** 分类账设置服务映射 */
+        class LedgerAccountSettingServiceMapping extends ibas.ServiceMapping {
+            /** 构造函数 */
+            constructor();
+            /** 创建服务实例 */
+            create(): ibas.IService<ibas.IServiceContract>;
         }
     }
 }

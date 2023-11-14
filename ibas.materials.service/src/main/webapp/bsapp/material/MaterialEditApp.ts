@@ -37,6 +37,7 @@ namespace materials {
                 this.view.chooseMaterialScrapEvent = this.chooseMaterialScrap;
                 this.view.chooseSchedulerEvent = this.chooseScheduler;
                 this.view.editMaterialSubstituteEvent = this.editMaterialSubstitute;
+                this.view.chooseLedgerAccountEvent = this.chooseLedgerAccount;
             }
             /** 视图显示后 */
             protected viewShowed(): void {
@@ -300,6 +301,24 @@ namespace materials {
                 app.viewShower = this.viewShower;
                 app.run(this.editData);
             }
+            /** 选择总账科目事件 */
+            private chooseLedgerAccount(): void {
+                if (ibas.objects.isNull(this.editData) || this.editData.isDirty) {
+                    throw new Error(ibas.i18n.prop("shell_data_saved_first"));
+                }
+                ibas.servicesManager.runApplicationService<accounting.app.ILedgerAccountSettingContract>({
+                    proxy: new accounting.app.LedgerAccountSettingServiceProxy({
+                        objectCode: this.editData.objectCode,
+                        description: ibas.strings.format("{0} - {1}", this.editData.code, this.editData.name),
+                        settings: {
+                            category: ibas.objects.nameOf(this.editData),
+                            conditions: [
+                                new ibas.Condition(accounting.app.emLedgerAccountConditionProperty.Item, ibas.emConditionOperation.EQUAL, this.editData.code)
+                            ]
+                        }
+                    }),
+                });
+            }
         }
         /** 视图-物料 */
         export interface IMaterialEditView extends ibas.IBOEditView {
@@ -325,6 +344,8 @@ namespace materials {
             chooseSchedulerEvent: Function;
             /** 编辑物料替代事件 */
             editMaterialSubstituteEvent: Function;
+            /** 选择总账科目事件 */
+            chooseLedgerAccountEvent: Function;
         }
     }
 }

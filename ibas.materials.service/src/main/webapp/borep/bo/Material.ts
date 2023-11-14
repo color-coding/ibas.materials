@@ -236,18 +236,6 @@ namespace materials {
                 this.setProperty(Material.PROPERTY_VALUATIONMETHOD_NAME, value);
             }
 
-            /** 映射的属性名称-按仓库管理 */
-            static PROPERTY_MANAGEBYWAREHOUSE_NAME: string = "ManageByWarehouse";
-            /** 获取-按仓库管理 */
-            get manageByWarehouse(): ibas.emYesNo {
-                return this.getProperty<ibas.emYesNo>(Material.PROPERTY_MANAGEBYWAREHOUSE_NAME);
-            }
-            /** 设置-按仓库管理 */
-            set manageByWarehouse(value: ibas.emYesNo) {
-                this.setProperty(Material.PROPERTY_MANAGEBYWAREHOUSE_NAME, value);
-            }
-
-
             /** 映射的属性名称-库存 */
             static PROPERTY_ONHAND_NAME: string = "OnHand";
             /** 获取-库存 */
@@ -292,6 +280,17 @@ namespace materials {
                 this.setProperty(Material.PROPERTY_ONRESERVED_NAME, value);
             }
 
+            /** 映射的属性名称-按仓库管理 */
+            static PROPERTY_MANAGEBYWAREHOUSE_NAME: string = "ManageByWarehouse";
+            /** 获取-按仓库管理 */
+            get manageByWarehouse(): ibas.emYesNo {
+                return this.getProperty<ibas.emYesNo>(Material.PROPERTY_MANAGEBYWAREHOUSE_NAME);
+            }
+            /** 设置-按仓库管理 */
+            set manageByWarehouse(value: ibas.emYesNo) {
+                this.setProperty(Material.PROPERTY_MANAGEBYWAREHOUSE_NAME, value);
+            }
+
             /** 映射的属性名称-最低库存量 */
             static PROPERTY_MINIMUMINVENTORY_NAME: string = "MinimumInventory";
             /** 获取-最低库存量 */
@@ -301,6 +300,17 @@ namespace materials {
             /** 设置-最低库存量 */
             set minimumInventory(value: number) {
                 this.setProperty(Material.PROPERTY_MINIMUMINVENTORY_NAME, value);
+            }
+
+            /** 映射的属性名称-最高库存量 */
+            static PROPERTY_MAXIMUMINVENTORY_NAME: string = "MaximumInventory";
+            /** 获取-最高库存量 */
+            get maximumInventory(): number {
+                return this.getProperty<number>(Material.PROPERTY_MAXIMUMINVENTORY_NAME);
+            }
+            /** 设置-最高库存量 */
+            set maximumInventory(value: number) {
+                this.setProperty(Material.PROPERTY_MAXIMUMINVENTORY_NAME, value);
             }
 
             /** 映射的属性名称-最低订购数量 */

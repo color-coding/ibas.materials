@@ -4,6 +4,6 @@
 	<Sign>GL-MM-05</Sign>
 	<Group>INVENTORY</Group>
 	<Description>总账减少科目</Description>
-	<Settings></Settings>
+	<Settings>Material;MaterialGroup;Warehouse;</Settings>
 	<Remarks></Remarks>
 </ns:LedgerAccount>

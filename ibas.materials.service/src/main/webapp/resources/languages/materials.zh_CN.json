@@ -163,5 +163,6 @@
   "materials_orderer_reservation": "订购预留",
   "materials_inventory_reservation": "库存预留",
   "materials_ordered_materials_reservation": "订购物料预留",
+  "materials_ledgeraccount_setting": "科目设置",
   "materials_closing_delimiter": "----结束----"
 }

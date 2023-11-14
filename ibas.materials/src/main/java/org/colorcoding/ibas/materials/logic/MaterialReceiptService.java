@@ -16,6 +16,7 @@ import org.colorcoding.ibas.bobas.logic.BusinessLogicException;
 import org.colorcoding.ibas.bobas.mapping.LogicContract;
 import org.colorcoding.ibas.bobas.message.Logger;
 import org.colorcoding.ibas.bobas.message.MessageLevel;
+import org.colorcoding.ibas.materials.MyConfiguration;
 import org.colorcoding.ibas.materials.bo.material.IMaterial;
 import org.colorcoding.ibas.materials.bo.materialinventory.IMaterialInventory;
 import org.colorcoding.ibas.materials.bo.materialinventory.IMaterialInventoryJournal;
@@ -141,8 +142,7 @@ public class MaterialReceiptService
 		materialJournal.setOriginalDocumentType(contract.getBaseDocumentType());
 		materialJournal.setOriginalDocumentEntry(contract.getBaseDocumentEntry());
 		materialJournal.setOriginalDocumentLineId(contract.getBaseDocumentLineId());
-		IMaterial material = this.checkMaterial(contract.getItemCode());
-		if (material.getManageByWarehouse() == emYesNo.YES) {
+		if (MyConfiguration.getConfigValue(MyConfiguration.CONFIG_ITEM_MANAGE_MATERIAL_COSTS_BY_WAREHOUSE, true)) {
 			// 物料仓库个别管理
 			// 库存价值
 			BigDecimal inventoryValue = Decimal.ZERO;
@@ -167,6 +167,7 @@ public class MaterialReceiptService
 			// 库存价值
 			BigDecimal inventoryValue = Decimal.ZERO;
 			BigDecimal inventoryQuantity = Decimal.ZERO;
+			IMaterial material = this.checkMaterial(contract.getItemCode());
 			if (material != null) {
 				// 库存价值 = 当前仓库库存价值
 				inventoryValue = material.getInventoryValue();
@@ -187,8 +188,7 @@ public class MaterialReceiptService
 	@Override
 	protected void revoke(IMaterialReceiptContract contract) {
 		IMaterialInventoryJournal materialJournal = this.getBeAffected();
-		IMaterial material = this.checkMaterial(contract.getItemCode());
-		if (material.getManageByWarehouse() == emYesNo.YES) {
+		if (MyConfiguration.getConfigValue(MyConfiguration.CONFIG_ITEM_MANAGE_MATERIAL_COSTS_BY_WAREHOUSE, true)) {
 			// 物料仓库个别管理
 			// 库存价值
 			BigDecimal inventoryValue = Decimal.ZERO;
@@ -214,6 +214,7 @@ public class MaterialReceiptService
 			// 库存价值
 			BigDecimal inventoryValue = Decimal.ZERO;
 			BigDecimal inventoryQuantity = Decimal.ZERO;
+			IMaterial material = this.checkMaterial(contract.getItemCode());
 			if (material != null) {
 				// 库存价值 = 当前仓库库存价值
 				inventoryValue = material.getOnHand().multiply(material.getAvgPrice());

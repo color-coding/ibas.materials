@@ -22,13 +22,14 @@
     <Property Name="InventoryUOM" Description="库存单位" DataType="Alphanumeric" DataSubType="Default" EditSize="8" Mapped="InvntUom"/>
     <Property Name="AvgPrice" Description="价格" DataType="Decimal" DataSubType="Quantity" EditSize="8" Mapped="AvgPrice"/>
     <Property Name="ValuationMethod" Description="评估方法" DataType="Alphanumeric" DataSubType="Default" EditSize="1" DeclaredType="emValuationMethod" Mapped="VaMethod"/>
-    <Property Name="ManageByWarehouse" Description="按仓库管理" DataType="Alphanumeric" DataSubType="Default" EditSize="1" DeclaredType="emYesNo" Mapped="ByWhs"/>
     <Property Name="OnHand" Description="库存" DataType="Decimal" DataSubType="Quantity" EditSize="8" Mapped="OnHand"/>
     <Property Name="OnCommited" Description="已承诺" DataType="Decimal" DataSubType="Quantity" EditSize="8" Mapped="OnCommited"/>
     <Property Name="OnOrdered" Description="已订购" DataType="Decimal" DataSubType="Quantity" EditSize="8" Mapped="OnOrdered"/>
     <Property Name="OnReserved" Description="已预留" DataType="Decimal" DataSubType="Quantity" EditSize="8" Mapped="OnReserved"/>
     <Property Name="InventoryValue" Description="库存价值" DataType="Decimal" DataSubType="Sum" EditSize="8" Mapped="StockValue"/>
+    <Property Name="ManageByWarehouse" Description="按仓库管理" DataType="Alphanumeric" DataSubType="Default" EditSize="1" DeclaredType="emYesNo" Mapped="ByWhs"/>
     <Property Name="MinimumInventory" Description="最低库存量" DataType="Decimal" DataSubType="Quantity" EditSize="8" Mapped="MinInvnt"/>
+    <Property Name="MaximumInventory" Description="最高库存量" DataType="Decimal" DataSubType="Quantity" EditSize="8" Mapped="MaxInvnt"/>
     <Property Name="MinimumOrderQuantity" Description="最低订购数量" DataType="Decimal" DataSubType="Quantity" EditSize="8" Mapped="MinOrdrQty"/>
     <Property Name="LeadTime" Description="提前期（天）" DataType="Numeric" DataSubType="Default" EditSize="8" Mapped="LeadTime"/>
     <Property Name="SerialManagement" Description="序号管理" DataType="Alphanumeric" DataSubType="Default" EditSize="1" DeclaredType="emYesNo" Mapped="SerialMgment"/>

@@ -32,6 +32,8 @@ namespace materials {
                 editMaterialUnitRateEvent: Function;
                 /** 编辑物料替代事件 */
                 editMaterialSubstituteEvent: Function;
+                /** 选择总账科目事件 */
+                chooseLedgerAccountEvent: Function;
                 /** 绘制视图 */
                 public draw(): any {
                     let that: this = this;
@@ -294,13 +296,7 @@ namespace materials {
                                                         path: "onHand",
                                                         type: new sap.extension.data.Quantity()
                                                     }),
-                                                    new sap.m.Label("", { text: ibas.i18n.prop("bo_material_minimuminventory") }),
-                                                    new sap.extension.m.Input("", {
-                                                    }).bindProperty("bindingValue", {
-                                                        path: "minimumInventory",
-                                                        type: new sap.extension.data.Quantity()
-                                                    }),
-                                                    new sap.m.Label("", { text: ibas.i18n.prop("bo_material_inventoryuom") }),
+                                                    //  new sap.m.Label("", { text: ibas.i18n.prop("bo_material_inventoryuom") }),
                                                     new sap.extension.m.Input("", {
                                                         showValueHelp: true,
                                                         valueHelpRequest: function (): void {
@@ -339,6 +335,25 @@ namespace materials {
                                                             maxLength: 8
                                                         })
                                                     }),
+                                                    new sap.m.Label("", { text: ibas.i18n.prop("bo_material_managebywarehouse") }),
+                                                    new sap.extension.m.EnumSelect("", {
+                                                        enumType: ibas.emYesNo
+                                                    }).bindProperty("bindingValue", {
+                                                        path: "manageByWarehouse",
+                                                        type: new sap.extension.data.YesNo(),
+                                                    }),
+                                                    new sap.m.Label("", { text: ibas.i18n.prop("bo_material_minimuminventory") }),
+                                                    new sap.extension.m.Input("", {
+                                                    }).bindProperty("bindingValue", {
+                                                        path: "minimumInventory",
+                                                        type: new sap.extension.data.Quantity()
+                                                    }),
+                                                    new sap.m.Label("", { text: ibas.i18n.prop("bo_material_maximuminventory") }),
+                                                    new sap.extension.m.Input("", {
+                                                    }).bindProperty("bindingValue", {
+                                                        path: "maximumInventory",
+                                                        type: new sap.extension.data.Quantity()
+                                                    }),
                                                     new sap.m.Toolbar("", { visible: false }),
                                                     new sap.m.Label("", { text: ibas.i18n.prop("bo_material_inventoryitem") }),
                                                     new sap.extension.m.EnumSelect("", {
@@ -346,22 +361,6 @@ namespace materials {
                                                     }).bindProperty("bindingValue", {
                                                         path: "inventoryItem",
                                                         type: new sap.extension.data.YesNo()
-                                                    }).bindProperty("editable", {
-                                                        path: "onHand",
-                                                        formatter(data: any): boolean {
-                                                            // 有库存不能改此项
-                                                            if (data > 0) {
-                                                                return false;
-                                                            }
-                                                            return true;
-                                                        }
-                                                    }),
-                                                    new sap.m.Label("", { text: ibas.i18n.prop("bo_material_managebywarehouse") }),
-                                                    new sap.extension.m.EnumSelect("", {
-                                                        enumType: ibas.emYesNo
-                                                    }).bindProperty("bindingValue", {
-                                                        path: "manageByWarehouse",
-                                                        type: new sap.extension.data.YesNo(),
                                                     }).bindProperty("editable", {
                                                         path: "onHand",
                                                         formatter(data: any): boolean {
@@ -759,6 +758,17 @@ namespace materials {
                                                 press: function (): void {
                                                     that.fireViewEvents(that.editMaterialSubstituteEvent);
                                                 },
+                                            }),
+                                            new sap.m.MenuItem("", {
+                                                text: ibas.i18n.prop("materials_ledgeraccount_setting"),
+                                                icon: "sap-icon://credit-card",
+                                                press: function (): void {
+                                                    that.fireViewEvents(that.chooseLedgerAccountEvent);
+                                                },
+                                                visible: shell.app.privileges.canRun({
+                                                    id: accounting.app.LedgerAccountSettingService.APPLICATION_ID,
+                                                    name: accounting.app.LedgerAccountSettingService.APPLICATION_NAME,
+                                                })
                                             }),
                                         ],
                                     })

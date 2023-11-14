@@ -564,37 +564,6 @@ public abstract class MaterialBase<T extends MaterialBase<T>> extends BusinessOb
 	}
 
 	/**
-	 * 属性名称-按仓库管理
-	 */
-	private static final String PROPERTY_MANAGEBYWAREHOUSE_NAME = "ManageByWarehouse";
-
-	/**
-	 * 按仓库管理 属性
-	 */
-	@DbField(name = "ByWhs", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME)
-	public static final IPropertyInfo<emYesNo> PROPERTY_MANAGEBYWAREHOUSE = registerProperty(
-			PROPERTY_MANAGEBYWAREHOUSE_NAME, emYesNo.class, MY_CLASS);
-
-	/**
-	 * 获取-按仓库管理
-	 * 
-	 * @return 值
-	 */
-	@XmlElement(name = PROPERTY_MANAGEBYWAREHOUSE_NAME)
-	public final emYesNo getManageByWarehouse() {
-		return this.getProperty(PROPERTY_MANAGEBYWAREHOUSE);
-	}
-
-	/**
-	 * 设置-按仓库管理
-	 * 
-	 * @param value 值
-	 */
-	public final void setManageByWarehouse(emYesNo value) {
-		this.setProperty(PROPERTY_MANAGEBYWAREHOUSE, value);
-	}
-
-	/**
 	 * 属性名称-库存
 	 */
 	private static final String PROPERTY_ONHAND_NAME = "OnHand";

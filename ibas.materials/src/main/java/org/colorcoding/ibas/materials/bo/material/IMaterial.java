@@ -320,20 +320,6 @@ public interface IMaterial extends IBOMasterData {
 	void setValuationMethod(emValuationMethod value);
 
 	/**
-	 * 获取-按仓库管理
-	 * 
-	 * @return 值
-	 */
-	emYesNo getManageByWarehouse();
-
-	/**
-	 * 设置-按仓库管理
-	 * 
-	 * @param value 值
-	 */
-	void setManageByWarehouse(emYesNo value);
-
-	/**
 	 * 获取-库存
 	 * 
 	 * @return 值
@@ -467,6 +453,20 @@ public interface IMaterial extends IBOMasterData {
 	void setInventoryValue(BigDecimal value);
 
 	/**
+	 * 获取-按仓库管理
+	 * 
+	 * @return 值
+	 */
+	emYesNo getManageByWarehouse();
+
+	/**
+	 * 设置-按仓库管理
+	 * 
+	 * @param value 值
+	 */
+	void setManageByWarehouse(emYesNo value);
+
+	/**
 	 * 获取-最低库存量
 	 * 
 	 * @return 值
@@ -481,25 +481,18 @@ public interface IMaterial extends IBOMasterData {
 	void setMinimumInventory(BigDecimal value);
 
 	/**
-	 * 设置-最低库存量
+	 * 获取-最高库存量
 	 * 
-	 * @param value 值
+	 * @return 值
 	 */
-	void setMinimumInventory(String value);
+	BigDecimal getMaximumInventory();
 
 	/**
-	 * 设置-最低库存量
+	 * 设置-最高库存量
 	 * 
 	 * @param value 值
 	 */
-	void setMinimumInventory(int value);
-
-	/**
-	 * 设置-最低库存量
-	 * 
-	 * @param value 值
-	 */
-	void setMinimumInventory(double value);
+	void setMaximumInventory(BigDecimal value);
 
 	/**
 	 * 获取-最低订购数量

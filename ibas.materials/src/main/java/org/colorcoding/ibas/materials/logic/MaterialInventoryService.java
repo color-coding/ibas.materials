@@ -8,6 +8,7 @@ import org.colorcoding.ibas.bobas.data.emYesNo;
 import org.colorcoding.ibas.bobas.i18n.I18N;
 import org.colorcoding.ibas.bobas.logic.BusinessLogicException;
 import org.colorcoding.ibas.bobas.mapping.LogicContract;
+import org.colorcoding.ibas.materials.MyConfiguration;
 import org.colorcoding.ibas.materials.bo.material.IMaterial;
 import org.colorcoding.ibas.materials.data.emItemType;
 
@@ -41,7 +42,7 @@ public class MaterialInventoryService extends MaterialInventoryBusinessLogic<IMa
 			onHand = onHand.subtract(contract.getQuantity());
 		} else {
 			onHand = onHand.add(contract.getQuantity());
-			if (material.getManageByWarehouse() == emYesNo.NO) {
+			if (!MyConfiguration.getConfigValue(MyConfiguration.CONFIG_ITEM_MANAGE_MATERIAL_COSTS_BY_WAREHOUSE, true)) {
 				material.setAvgPrice(contract.getCalculatedPrice());
 			} else {
 				material.setAvgPrice(Decimal.ZERO);
@@ -58,7 +59,7 @@ public class MaterialInventoryService extends MaterialInventoryBusinessLogic<IMa
 			onHand = onHand.add(contract.getQuantity());
 		} else {
 			onHand = onHand.subtract(contract.getQuantity());
-			if (material.getManageByWarehouse() == emYesNo.NO) {
+			if (!MyConfiguration.getConfigValue(MyConfiguration.CONFIG_ITEM_MANAGE_MATERIAL_COSTS_BY_WAREHOUSE, true)) {
 				material.setAvgPrice(contract.getCalculatedPrice());
 			} else {
 				material.setAvgPrice(Decimal.ZERO);

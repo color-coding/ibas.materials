@@ -70,9 +70,6 @@ namespace materials {
             /** 获取-评估方法 */
             valuationMethod: emValuationMethod;
 
-            /** 获取-按仓库管理 */
-            manageByWarehouse: ibas.emYesNo;
-
             /** 库存 */
             onHand: number;
 
@@ -85,8 +82,14 @@ namespace materials {
             /** 已预留 */
             onReserved: number;
 
+            /** 按仓库管理 */
+            manageByWarehouse: ibas.emYesNo;
+
             /** 最低库存量 */
             minimumInventory: number;
+
+            /** 最高库存量 */
+            maximumInventory: number;
 
             /** 最低订购数量 */
             minimumOrderQuantity: number;

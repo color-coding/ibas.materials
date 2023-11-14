@@ -14,6 +14,7 @@ import org.colorcoding.ibas.bobas.logic.BusinessLogicException;
 import org.colorcoding.ibas.bobas.mapping.LogicContract;
 import org.colorcoding.ibas.bobas.message.Logger;
 import org.colorcoding.ibas.bobas.message.MessageLevel;
+import org.colorcoding.ibas.materials.MyConfiguration;
 import org.colorcoding.ibas.materials.bo.material.IMaterial;
 import org.colorcoding.ibas.materials.bo.materialinventory.IMaterialInventory;
 import org.colorcoding.ibas.materials.bo.materialinventory.IMaterialInventoryJournal;
@@ -139,8 +140,7 @@ public class MaterialIssueService
 		materialJournal.setOriginalDocumentType(contract.getBaseDocumentType());
 		materialJournal.setOriginalDocumentEntry(contract.getBaseDocumentEntry());
 		materialJournal.setOriginalDocumentLineId(contract.getBaseDocumentLineId());
-		IMaterial material = this.checkMaterial(contract.getItemCode());
-		if (material.getManageByWarehouse() == emYesNo.YES) {
+		if (MyConfiguration.getConfigValue(MyConfiguration.CONFIG_ITEM_MANAGE_MATERIAL_COSTS_BY_WAREHOUSE, true)) {
 			// 物料仓库个别管理
 			IMaterialInventory materialInventory = this.checkMaterialInventory(contract.getItemCode(),
 					contract.getWarehouse());
@@ -150,6 +150,7 @@ public class MaterialIssueService
 			}
 		} else {
 			// 库存价值
+			IMaterial material = this.checkMaterial(contract.getItemCode());
 			if (material != null) {
 				// 成本价格 = 库存均价
 				materialJournal.setCalculatedPrice(material.getAvgPrice());
