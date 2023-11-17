@@ -90,6 +90,8 @@ import org.colorcoding.ibas.materials.bo.warehouse.IWarehouse;
 import org.colorcoding.ibas.materials.bo.warehouse.Warehouse;
 import org.colorcoding.ibas.materials.data.emSpecificationAssigned;
 import org.colorcoding.ibas.materials.data.emSpecificationTarget;
+import org.colorcoding.ibas.materials.bo.picklists.IPickLists;
+import org.colorcoding.ibas.materials.bo.picklists.PickLists;
 
 /**
  * Materials仓库
@@ -2113,5 +2115,44 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 	}
 
 	// --------------------------------------------------------------------------------------------//
+    /**
+     * 查询-拣配清单
+     * @param criteria 查询
+     * @param token 口令
+     * @return 操作结果
+     */
+    public OperationResult<PickLists> fetchPickLists(ICriteria criteria, String token) {
+        return super.fetch(criteria, token, PickLists.class);
+    }
+
+    /**
+     * 查询-拣配清单（提前设置用户口令）
+     * @param criteria 查询
+     * @return 操作结果
+     */
+    public IOperationResult<IPickLists> fetchPickLists(ICriteria criteria) {
+        return new OperationResult<IPickLists>(this.fetchPickLists(criteria, this.getUserToken()));
+    }
+
+    /**
+     * 保存-拣配清单
+     * @param bo 对象实例
+     * @param token 口令
+     * @return 操作结果
+     */
+    public OperationResult<PickLists> savePickLists(PickLists bo, String token) {
+        return super.save(bo, token);
+    }
+
+    /**
+     * 保存-拣配清单（提前设置用户口令）
+     * @param bo 对象实例
+     * @return 操作结果
+     */
+    public IOperationResult<IPickLists> savePickLists(IPickLists bo) {
+        return new OperationResult<IPickLists>(this.savePickLists((PickLists) bo, this.getUserToken()));
+    }
+
+    //--------------------------------------------------------------------------------------------//
 
 }

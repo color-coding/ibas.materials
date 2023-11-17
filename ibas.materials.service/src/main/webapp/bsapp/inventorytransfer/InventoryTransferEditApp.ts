@@ -37,6 +37,7 @@ namespace materials {
                 this.view.chooseInventoryTransferLineMaterialBatchEvent = this.chooseInventoryTransferLineMaterialBatch;
                 this.view.chooseInventoryTransferLineMaterialSerialEvent = this.chooseInventoryTransferLineMaterialSerial;
                 this.view.chooseeInventoryTransferMaterialPriceListEvent = this.chooseeInventoryTransferMaterialPriceList;
+                this.view.callInventoryTransferAddServiceEvent = this.callInventoryTransferAddService;
             }
             /** 视图显示后 */
             protected viewShowed(): void {
@@ -49,6 +50,12 @@ namespace materials {
                 }
                 this.view.showInventoryTransfer(this.editData);
                 this.view.showInventoryTransferLines(this.editData.inventoryTransferLines.filterDeleted());
+                this.view.showServiceAgent(ibas.servicesManager.getServices({
+                    proxy: new MaterialInventoryTransAddServiceProxy({
+                        onAdded: (targets) => {
+                        }
+                    }),
+                }));
             }
             /** 运行,覆盖原方法 */
             run(): void;
@@ -252,6 +259,32 @@ namespace materials {
                 // 仅显示没有标记删除的
                 this.view.showInventoryTransferLines(this.editData.inventoryTransferLines.filterDeleted());
             }
+            /** 调用库存转储添加服务 */
+            private callInventoryTransferAddService(agent: ibas.IServiceAgent): void {
+                for (let srvAgent of ibas.servicesManager.getServices({
+                    proxy: new MaterialInventoryTransAddServiceProxy({
+                        fromWarehouse: this.editData.fromWarehouse,
+                        toWarehouse: this.view.defaultWarehouse,
+                        onAdded: (targets) => {
+                            let created: boolean = false;
+                            for (const target of targets) {
+                                if (target instanceof bo.InventoryTransferLine) {
+                                    this.editData.inventoryTransferLines.add(target);
+                                    created = true;
+                                }
+                            }
+                            if (created) {
+                                // 创建了新的行项目
+                                this.view.showInventoryTransferLines(this.editData.inventoryTransferLines.filterDeleted());
+                            }
+                        },
+                    })
+                })) {
+                    if (srvAgent.id === agent.id) {
+                        srvAgent.run();
+                    }
+                }
+            }
             /** 选择库存转储订单行物料事件 */
             private chooseInventoryTransferWarehouse(): void {
                 let that: this = this;
@@ -425,6 +458,10 @@ namespace materials {
             chooseInventoryTransferLineMaterialBatchEvent: Function;
             /** 选择库存转储单行物料序列事件 */
             chooseInventoryTransferLineMaterialSerialEvent: Function;
+            /** 调用库存转储添加服务 */
+            callInventoryTransferAddServiceEvent: Function;
+            /** 显示库存转储添加服务 */
+            showServiceAgent(datas: ibas.IServiceAgent[]): void;
             /** 默认仓库 */
             defaultWarehouse: string;
         }

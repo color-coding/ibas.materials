@@ -31,6 +31,7 @@ import org.colorcoding.ibas.materials.bo.specification.SpecificationTree;
 import org.colorcoding.ibas.materials.bo.unit.Unit;
 import org.colorcoding.ibas.materials.bo.unit.UnitRate;
 import org.colorcoding.ibas.materials.bo.warehouse.Warehouse;
+import org.colorcoding.ibas.materials.bo.picklists.PickLists;
 
 /**
  * Materials仓库服务
@@ -516,5 +517,22 @@ public interface IBORepositoryMaterialsSvc extends IBORepositorySmartService {
 			String token);
 
 	// --------------------------------------------------------------------------------------------//
+    /**
+     * 查询-拣配清单
+     * @param criteria 查询
+     * @param token 口令
+     * @return 操作结果
+     */
+    OperationResult<PickLists> fetchPickLists(ICriteria criteria, String token);
+
+    /**
+     * 保存-拣配清单
+     * @param bo 对象实例
+     * @param token 口令
+     * @return 操作结果
+     */
+    OperationResult<PickLists> savePickLists(PickLists bo, String token);
+
+    //--------------------------------------------------------------------------------------------//
 
 }

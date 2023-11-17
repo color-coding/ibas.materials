@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<Domain Name="Materials" ShortName="MM">
+  <Model Name="PickLists" Description="拣配清单" ModelType="Simple" Mapped="${Company}_MM_OPKL">
+    <Property Name="ObjectKey" Description="对象编号" DataType="Numeric" DataSubType="Default" EditSize="8" Mapped="ObjectKey" PrimaryKey="Yes"/>
+    <Property Name="ObjectCode" Description="对象类型" DataType="Alphanumeric" DataSubType="Default" EditSize="30" Mapped="ObjectCode"/>
+    <Property Name="LogInst" Description="实例号" DataType="Numeric" DataSubType="Default" EditSize="8" Mapped="LogInst"/>
+    <Property Name="Series" Description="服务系列" DataType="Numeric" DataSubType="Default" EditSize="8" Mapped="Series"/>
+    <Property Name="DataSource" Description="数据源" DataType="Alphanumeric" DataSubType="Default" EditSize="8" Mapped="DataSource"/>
+    <Property Name="CreateDate" Description="创建日期" DataType="Date" DataSubType="Default" EditSize="8" Mapped="CreateDate"/>
+    <Property Name="CreateTime" Description="创建时间" DataType="Date" DataSubType="Time" EditSize="8" Mapped="CreateTime"/>
+    <Property Name="UpdateDate" Description="更新日期" DataType="Date" DataSubType="Default" EditSize="8" Mapped="UpdateDate"/>
+    <Property Name="UpdateTime" Description="更新时间" DataType="Date" DataSubType="Time" EditSize="8" Mapped="UpdateTime"/>
+    <Property Name="CreateUserSign" Description="创建用户" DataType="Numeric" DataSubType="Default" EditSize="8" Mapped="Creator"/>
+    <Property Name="UpdateUserSign" Description="更新用户" DataType="Numeric" DataSubType="Default" EditSize="8" Mapped="Updator"/>
+    <Property Name="CreateActionId" Description="创建动作标识" DataType="Alphanumeric" DataSubType="Default" EditSize="36" Mapped="CreateActId"/>
+    <Property Name="UpdateActionId" Description="更新动作标识" DataType="Alphanumeric" DataSubType="Default" EditSize="36" Mapped="UpdateActId"/>
+    <Property Name="DataOwner" Description="数据所有者" DataType="Numeric" DataSubType="Default" EditSize="8" Mapped="DataOwner"/>
+    <Property Name="Organization" Description="数据所属组织" DataType="Alphanumeric" DataSubType="Default" EditSize="8" Mapped="OrgCode"/>
+    <Property Name="Reference1" Description="参考1" DataType="Alphanumeric" DataSubType="Default" EditSize="100" Mapped="Ref1"/>
+    <Property Name="Reference2" Description="参考2" DataType="Alphanumeric" DataSubType="Default" EditSize="200" Mapped="Ref2"/>
+    <Property Name="Remarks" Description="备注" DataType="Memo" DataSubType="Default" EditSize="8" Mapped="Remarks"/>
+    <Property Name="Picker" Description="拣配员" DataType="Alphanumeric" DataSubType="Default" EditSize="20" Mapped="Picker"/>
+    <Property Name="PickDate" Description="拣配日期" DataType="Date" DataSubType="Default" EditSize="8" Mapped="PickDate"/>
+    <Property Name="PickStatus" Description="拣配状态" DataType="Alphanumeric" DataSubType="Default" EditSize="1" DeclaredType="emPickStatus" Mapped="PickStatus"/>
+  </Model>
+  <Model Name="PickListsLine" Description="拣配清单-行" ModelType="SimpleLine" Mapped="${Company}_MM_PKL1">
+    <Property Name="ObjectKey" Description="对象编号" DataType="Numeric" DataSubType="Default" EditSize="8" Mapped="ObjectKey" PrimaryKey="Yes"/>
+    <Property Name="LineId" Description="对象行号" DataType="Numeric" DataSubType="Default" EditSize="8" Mapped="LineId" PrimaryKey="Yes"/>
+    <Property Name="ObjectCode" Description="对象类型" DataType="Alphanumeric" DataSubType="Default" EditSize="30" Mapped="ObjectCode"/>
+    <Property Name="LogInst" Description="实例号" DataType="Numeric" DataSubType="Default" EditSize="8" Mapped="LogInst"/>
+    <Property Name="DataSource" Description="数据源" DataType="Alphanumeric" DataSubType="Default" EditSize="8" Mapped="DataSource"/>
+    <Property Name="CreateDate" Description="创建日期" DataType="Date" DataSubType="Default" EditSize="8" Mapped="CreateDate"/>
+    <Property Name="CreateTime" Description="创建时间" DataType="Date" DataSubType="Time" EditSize="8" Mapped="CreateTime"/>
+    <Property Name="UpdateDate" Description="更新日期" DataType="Date" DataSubType="Default" EditSize="8" Mapped="UpdateDate"/>
+    <Property Name="UpdateTime" Description="更新时间" DataType="Date" DataSubType="Time" EditSize="8" Mapped="UpdateTime"/>
+    <Property Name="CreateUserSign" Description="创建用户" DataType="Numeric" DataSubType="Default" EditSize="8" Mapped="Creator"/>
+    <Property Name="UpdateUserSign" Description="更新用户" DataType="Numeric" DataSubType="Default" EditSize="8" Mapped="Updator"/>
+    <Property Name="CreateActionId" Description="创建动作标识" DataType="Alphanumeric" DataSubType="Default" EditSize="36" Mapped="CreateActId"/>
+    <Property Name="UpdateActionId" Description="更新动作标识" DataType="Alphanumeric" DataSubType="Default" EditSize="36" Mapped="UpdateActId"/>
+    <Property Name="Remarks" Description="备注" DataType="Memo" DataSubType="Default" EditSize="8" Mapped="Remarks"/>
+    <Property Name="BaseDocumentType" Description="基于类型" DataType="Alphanumeric" DataSubType="Default" EditSize="30" Mapped="BaseType"/>
+    <Property Name="BaseDocumentEntry" Description="基于标识" DataType="Numeric" DataSubType="Default" EditSize="8" Mapped="BaseEntry"/>
+    <Property Name="BaseDocumentLineId" Description="基于行号" DataType="Numeric" DataSubType="Default" EditSize="8" Mapped="BaseLine"/>
+    <Property Name="DeliveryDate" Description="交货/到期日期" DataType="Date" DataSubType="Default" EditSize="8" Mapped="DocDueDate"/>
+    <Property Name="ItemCode" Description="物料编码" DataType="Alphanumeric" DataSubType="Default" EditSize="20" Mapped="ItemCode"/>
+    <Property Name="ItemDescription" Description="物料/服务描述" DataType="Alphanumeric" DataSubType="Default" EditSize="100" Mapped="Dscription"/>
+    <Property Name="ItemSign" Description="物料标识" DataType="Alphanumeric" DataSubType="Default" EditSize="60" Mapped="ItemSign"/>
+    <Property Name="SerialManagement" Description="序号管理" DataType="Alphanumeric" DataSubType="Default" EditSize="1" DeclaredType="emYesNo" Mapped="SerialMgment"/>
+    <Property Name="BatchManagement" Description="批号管理" DataType="Alphanumeric" DataSubType="Default" EditSize="1" DeclaredType="emYesNo" Mapped="BatchMgment"/>
+    <Property Name="Quantity" Description="数量" DataType="Decimal" DataSubType="Quantity" EditSize="8" Mapped="Quantity"/>
+    <Property Name="UOM" Description="单位" DataType="Alphanumeric" DataSubType="Default" EditSize="8" Mapped="UOM"/>
+    <Property Name="InventoryUOM" Description="库存单位" DataType="Alphanumeric" DataSubType="Default" EditSize="8" Mapped="InvUOM"/>
+    <Property Name="UOMRate" Description="单位换算率" DataType="Decimal" DataSubType="Rate" EditSize="8" Mapped="UOMRate"/>
+    <Property Name="InventoryQuantity" Description="库存数量" DataType="Decimal" DataSubType="Quantity" EditSize="8" Mapped="InvQty"/>
+    <Property Name="PickStatus" Description="拣配状态" DataType="Alphanumeric" DataSubType="Default" EditSize="1" DeclaredType="emPickStatus" Mapped="PickStatus"/>
+    <Property Name="PickQuantity" Description="拣配数量" DataType="Decimal" DataSubType="Quantity" EditSize="8" Mapped="PickQty"/>
+    <Property Name="ClosedQuantity" Description="已清数量" DataType="Decimal" DataSubType="Quantity" EditSize="8" Mapped="ClosedQty"/>
+    <Property Name="Warehouse" Description="仓库" DataType="Alphanumeric" DataSubType="Default" EditSize="8" Mapped="WhsCode"/>
+  </Model>
+  <BusinessObject MappedModel="PickLists" ShortName="${Company}_MM_PICKLISTS">
+    <RelatedBO Relation="OneToMany" MappedModel="PickListsLine"/>
+  </BusinessObject>
+</Domain>

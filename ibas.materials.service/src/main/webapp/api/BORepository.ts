@@ -271,6 +271,16 @@ namespace materials {
              * @param saver 保存者
              */
             saveMaterialOrderedReservation(saver: ibas.ISaveCaller<bo.IMaterialOrderedReservation>): void;
+            /**
+             * 查询 拣配清单
+             * @param fetcher 查询者
+             */
+            fetchPickLists(fetcher: ibas.IFetchCaller<bo.IPickLists>): void;
+            /**
+             * 保存 拣配清单
+             * @param saver 保存者
+             */
+            savePickLists(saver: ibas.ISaveCaller<bo.IPickLists>): void;
 
         }
         export interface ICloseCaller<T> extends ibas.IMethodCaller<string> {

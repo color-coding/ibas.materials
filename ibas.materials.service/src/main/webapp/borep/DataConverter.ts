@@ -236,6 +236,17 @@ namespace materials {
                     if (property === bo.MaterialEstimateJournal.PROPERTY_ESTIMATE_NAME) {
                         return ibas.enums.toString(bo.emEstimateType, value);
                     }
+                } else if (boName === bo.PickLists.name) {
+                    if (property === bo.PickLists.PROPERTY_PICKSTATUS_NAME) {
+                        return ibas.enums.toString(bo.emPickStatus, value);
+                    }
+                } else if (boName === bo.PickListsLine.name) {
+                    if (property === bo.PickListsLine.PROPERTY_PICKSTATUS_NAME) {
+                        return ibas.enums.toString(bo.emPickStatus, value);
+                    } else if (property === bo.PickListsLine.PROPERTY_SERIALMANAGEMENT_NAME
+                        || property === bo.PickListsLine.PROPERTY_BATCHMANAGEMENT_NAME) {
+                        return ibas.enums.toString(ibas.emYesNo, value);
+                    }
                 }
                 return super.convertData(boName, property, value);
             }
@@ -389,6 +400,17 @@ namespace materials {
                 } else if (boName === bo.MaterialEstimateJournal.name) {
                     if (property === bo.MaterialEstimateJournal.PROPERTY_ESTIMATE_NAME) {
                         return ibas.enums.valueOf(bo.emEstimateType, value);
+                    }
+                } else if (boName === bo.PickLists.name) {
+                    if (property === bo.PickLists.PROPERTY_PICKSTATUS_NAME) {
+                        return ibas.enums.valueOf(bo.emPickStatus, value);
+                    }
+                } else if (boName === bo.PickListsLine.name) {
+                    if (property === bo.PickListsLine.PROPERTY_PICKSTATUS_NAME) {
+                        return ibas.enums.valueOf(bo.emPickStatus, value);
+                    } else if (property === bo.PickListsLine.PROPERTY_SERIALMANAGEMENT_NAME
+                        || property === bo.PickListsLine.PROPERTY_BATCHMANAGEMENT_NAME) {
+                        return ibas.enums.valueOf(ibas.emYesNo, value);
                     }
                 }
                 return super.parsingData(boName, property, value);

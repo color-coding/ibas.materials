@@ -34,4 +34,5 @@
 /// <reference path="./bo/MaterialSubstitute.ts" />
 /// <reference path="./bo/MaterialOrderedReservation.ts" />
 /// <reference path="./bo/MaterialEstimateJournal.ts" />
+/// <reference path="./bo/PickLists.ts" />
 /// <reference path="./BORepository.ts" />

@@ -24,6 +24,8 @@ namespace materials {
                 chooseInventoryTransferLineWarehouseEvent: Function;
                 chooseInventoryTransferLineMaterialBatchEvent: Function;
                 chooseInventoryTransferLineMaterialSerialEvent: Function;
+                /** 调用库存转储添加服务 */
+                callInventoryTransferAddServiceEvent: Function;
                 defaultWarehouse: string;
                 draw(): any {
                     let that: this = this;
@@ -816,6 +818,10 @@ namespace materials {
                     }
                     editForm.getContent()[0].setModel(new sap.extension.model.JSONModel(data));
                     editForm.open();
+                }
+                /** 显示库存转储添加服务 */
+                showServiceAgent(datas: ibas.IServiceAgent[]): void {
+
                 }
                 protected onClosed(): void {
                     super.onClosed();

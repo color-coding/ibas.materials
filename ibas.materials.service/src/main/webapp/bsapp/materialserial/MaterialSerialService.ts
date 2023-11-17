@@ -809,7 +809,7 @@ namespace materials {
                         condition.value = this.workingData.data.documentLineId.toString();
                     }
                     ibas.servicesManager.runChooseService<bo.MaterialSerial>({
-                        boCode: bo.BO_CODE_MATERIALBATCH,
+                        boCode: bo.BO_CODE_MATERIALSERIAL,
                         chooseType: ibas.emChooseType.SINGLE,
                         criteria: criteria,
                         onCompleted(selecteds: ibas.IList<bo.MaterialSerial>): void {

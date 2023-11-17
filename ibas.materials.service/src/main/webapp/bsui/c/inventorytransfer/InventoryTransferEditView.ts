@@ -32,6 +32,8 @@ namespace materials {
                 chooseInventoryTransferLineMaterialBatchEvent: Function;
                 /** 选择库存转储单行物料序列事件 */
                 chooseInventoryTransferLineMaterialSerialEvent: Function;
+                /** 调用库存转储添加服务 */
+                callInventoryTransferAddServiceEvent: Function;
                 /** 绘制视图 */
                 draw(): any {
                     let that: this = this;
@@ -150,20 +152,8 @@ namespace materials {
                                             type: sap.m.ButtonType.Transparent,
                                             icon: "sap-icon://add",
                                             text: ibas.i18n.prop("shell_data_add"),
-                                            menu: new sap.m.Menu("", {
+                                            menu: this.menuAdd = new sap.m.Menu("", {
                                                 items: [
-                                                    new sap.m.MenuItem("", {
-                                                        text: ibas.i18n.prop("shell_data_add_line"),
-                                                        press: function (): void {
-                                                            that.fireViewEvents(that.addInventoryTransferLineEvent);
-                                                        }
-                                                    }),
-                                                    new sap.m.MenuItem("", {
-                                                        text: ibas.i18n.prop("shell_data_clone_line"),
-                                                        press: function (): void {
-                                                            that.fireViewEvents(that.addInventoryTransferLineEvent, that.tableInventoryTransferLine.getSelecteds());
-                                                        }
-                                                    }),
                                                 ]
                                             })
                                         }),
@@ -607,6 +597,7 @@ namespace materials {
                 private page: sap.extension.m.Page;
                 private tableInventoryTransferLine: sap.extension.table.Table;
                 private selectWarehouse: sap.extension.m.Select;
+                private menuAdd: sap.m.Menu;
                 get defaultWarehouse(): string {
                     return this.selectWarehouse.getSelectedKey();
                 }
@@ -622,6 +613,32 @@ namespace materials {
                 /** 显示数据-库存转储-行 */
                 showInventoryTransferLines(datas: bo.InventoryTransferLine[]): void {
                     this.tableInventoryTransferLine.setModel(new sap.extension.model.JSONModel({ rows: datas }));
+                }
+                showServiceAgent(datas: ibas.IServiceAgent[]): void {
+                    let that: this = this;
+                    this.menuAdd.removeAllItems();
+                    // 添加行
+                    this.menuAdd.addItem(new sap.m.MenuItem("", {
+                        text: ibas.i18n.prop("shell_data_add_line"),
+                        press: function (): void {
+                            that.fireViewEvents(that.addInventoryTransferLineEvent);
+                        }
+                    }));
+                    // 复制行
+                    this.menuAdd.addItem(new sap.m.MenuItem("", {
+                        text: ibas.i18n.prop("shell_data_clone_line"),
+                        press: function (): void {
+                            that.fireViewEvents(that.addInventoryTransferLineEvent, that.tableInventoryTransferLine.getSelecteds());
+                        }
+                    }));
+                    for (const data of datas) {
+                        this.menuAdd.addItem(new sap.m.MenuItem("", {
+                            text: data.description,
+                            press: function (): void {
+                                that.fireViewEvents(that.callInventoryTransferAddServiceEvent, data);
+                            }
+                        }));
+                    }
                 }
             }
         }

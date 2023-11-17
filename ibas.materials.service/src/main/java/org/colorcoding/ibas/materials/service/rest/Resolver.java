@@ -33,6 +33,7 @@ import org.colorcoding.ibas.materials.bo.specification.Specification;
 import org.colorcoding.ibas.materials.bo.unit.Unit;
 import org.colorcoding.ibas.materials.bo.unit.UnitRate;
 import org.colorcoding.ibas.materials.bo.warehouse.Warehouse;
+import org.colorcoding.ibas.materials.bo.picklists.PickLists;
 
 /**
  * 序列化解释器
@@ -53,7 +54,7 @@ public class Resolver implements ContextResolver<JAXBContext> {
 						MaterialSerialJournal.class, Warehouse.class, MaterialQuantity.class, MaterialPrice.class,
 						MaterialSpecification.class, Specification.class, Unit.class, UnitRate.class,
 						MaterialVersion.class, MaterialScrap.class, MaterialInventoryReservation.class,
-						MaterialSubstitute.class, MaterialOrderedReservation.class);
+						MaterialSubstitute.class, MaterialOrderedReservation.class, PickLists.class);
 			}
 		} catch (JAXBException e) {
 			e.printStackTrace();

@@ -80,6 +80,8 @@ namespace materials {
         export const BO_CODE_MATERIALORDEREDRESERVATION: string = "${Company}_MM_ORDEREDRESERVATION";
         /** 业务对象编码-仓库预估日记账 */
         export const BO_CODE_MATERIALESTIMATEJOURNAL: string = "${Company}_MM_ESTIMATEJOURNAL";
+        /** 业务对象编码-拣配清单 */
+        export const BO_CODE_PICKLISTS: string = "${Company}_MM_PICKLISTS";
 
         /** 物料类型 */
         export enum emItemType {
@@ -181,6 +183,31 @@ namespace materials {
              * 移动平均
              */
             MOVING_AVERAGE,
+        }
+        /**
+         * 拣配状态
+         */
+        export enum emPickStatus {
+            /**
+             * 已审批
+             */
+            RELEASED,
+            /**
+             * 已拣配
+             */
+            PICKED,
+            /**
+             * 已部分拣配
+             */
+            PARTIALLYPICKED,
+            /**
+             * 已部分交货
+             */
+            PARTIALLYDELIVERED,
+            /**
+             * 已结算
+             */
+            CLOSED
         }
     }
 
@@ -413,6 +440,76 @@ namespace materials {
         }
         /** 物料订购预留源单据服务代理 */
         export class MaterialOrderedReservationSourceServiceProxy extends ibas.ServiceProxy<IMaterialOrderedReservationTarget> {
+
+        }
+        /** 拣配目标 */
+        export interface IPickListsTarget {
+            /** 基于类型 */
+            baseDocumentType: string;
+            /** 基于标识 */
+            baseDocumentEntry: number;
+            /** 基于行号 */
+            baseDocumentLineId: number;
+            /** 单据日期 */
+            documentDate: Date;
+            /** 交货/到期日期 */
+            deliveryDate: Date;
+            /** 物料编码 */
+            itemCode: string;
+            /** 未清数量 */
+            unclosedQuantity: number;
+            /** 下达数量 */
+            releasedQuantity?: number;
+            /** 单位 */
+            uom: string;
+            /** 库存单位 */
+            inventoryUOM: string;
+            /** 单位换算率 */
+            uomRate: number;
+            /** 库存数量 */
+            inventoryQuantity: number;
+            /** 仓库 */
+            warehouse: string;
+            /** 业务伙伴编码 */
+            cardCode?: string;
+            /** 业务伙伴名称 */
+            cardName?: string;
+            /** 物料/服务描述 */
+            itemDescription?: string;
+            /** 物料标识 */
+            itemSign?: string;
+            /** 序号管理 */
+            serialManagement?: ibas.emYesNo;
+            /** 批号管理 */
+            batchManagement?: ibas.emYesNo;
+            /** 备注 */
+            remarks?: string;
+        }
+        export interface IMaterialPackingTarget extends ibas.IServiceContract {
+            /** 是否查询全部 */
+            isFetchAll?: boolean;
+            /** 查询条件 */
+            criteria?: ibas.ICriteria | ibas.ICondition[];
+            /** 选中拣配内容后 */
+            onPicked?(targets: IPickListsTarget[]): void;
+            /** 交货内容 */
+            toDelivery?: bo.IPickListsLine[];
+            /** 交货后 */
+            onDelivered?(targets: bo.IPickListsLine[] | Error): void;
+        }
+        /** 物料拣配目标单据服务代理 */
+        export class MaterialPackingTargetServiceProxy extends ibas.ServiceProxy<IMaterialPackingTarget> {
+
+        }
+        export interface IInventoryTransferTarget extends ibas.IServiceContract {
+            /** 从仓库 */
+            fromWarehouse?: string;
+            /** 到仓库 */
+            toWarehouse?: string;
+            onAdded?(targets: bo.IInventoryTransferLine[]): void;
+        }
+        /** 物料库存转储添加服务代理 */
+        export class MaterialInventoryTransAddServiceProxy extends ibas.ServiceProxy<IInventoryTransferTarget> {
 
         }
         /** 查询条件 */

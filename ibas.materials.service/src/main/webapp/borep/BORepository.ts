@@ -419,6 +419,20 @@ namespace materials {
             saveMaterialOrderedReservation(saver: ibas.ISaveCaller<bo.MaterialOrderedReservation>): void {
                 super.save(bo.MaterialOrderedReservation.name, saver);
             }
+            /**
+             * 查询 拣配清单
+             * @param fetcher 查询者
+             */
+            fetchPickLists(fetcher: ibas.IFetchCaller<bo.PickLists>): void {
+                super.fetch(bo.PickLists.name, fetcher);
+            }
+            /**
+             * 保存 拣配清单
+             * @param saver 保存者
+             */
+            savePickLists(saver: ibas.ISaveCaller<bo.PickLists>): void {
+                super.save(bo.PickLists.name, saver);
+            }
 
         }
     }

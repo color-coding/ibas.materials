@@ -31,6 +31,7 @@ import org.colorcoding.ibas.materials.bo.specification.SpecificationTree;
 import org.colorcoding.ibas.materials.bo.unit.IUnit;
 import org.colorcoding.ibas.materials.bo.unit.IUnitRate;
 import org.colorcoding.ibas.materials.bo.warehouse.IWarehouse;
+import org.colorcoding.ibas.materials.bo.picklists.IPickLists;
 
 /**
  * Materials仓库应用
@@ -464,5 +465,20 @@ public interface IBORepositoryMaterialsApp extends IBORepositoryApplication {
 	IOperationResult<IMaterialOrderedReservation> saveMaterialOrderedReservation(IMaterialOrderedReservation bo);
 
 	// --------------------------------------------------------------------------------------------//
+    /**
+     * 查询-拣配清单
+     * @param criteria 查询
+     * @return 操作结果
+     */
+    IOperationResult<IPickLists> fetchPickLists(ICriteria criteria);
+
+    /**
+     * 保存-拣配清单
+     * @param bo 对象实例
+     * @return 操作结果
+     */
+    IOperationResult<IPickLists> savePickLists(IPickLists bo);
+
+    //--------------------------------------------------------------------------------------------//
 
 }

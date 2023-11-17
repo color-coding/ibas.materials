@@ -23,6 +23,7 @@
 /// <reference path="./materialscrap/index.ts" />
 /// <reference path="./materialversion/index.ts" />
 /// <reference path="./unit/index.ts" />
+/// <reference path="./picklists/index.ts" />
 namespace materials {
     export namespace ui {
         /**
@@ -239,6 +240,24 @@ namespace materials {
                         break;
                     case app.MaterialOrderedReservationService.APPLICATION_ID:
                         view = new c.MaterialOrderedReservationView();
+                        break;
+                    case app.PickListsListApp.APPLICATION_ID:
+                        view = new c.PickListsListView();
+                        break;
+                    case app.PickListsChooseApp.APPLICATION_ID:
+                        view = new c.PickListsChooseView();
+                        break;
+                    case app.PickListsViewApp.APPLICATION_ID:
+                        view = new c.PickListsViewView();
+                        break;
+                    case app.PickListsEditApp.APPLICATION_ID:
+                        view = new c.PickListsEditView();
+                        break;
+                    case app.PickListsApp.APPLICATION_ID:
+                        view = new c.PickListsView();
+                        break;
+                    case app.PickListsSettingApp.APPLICATION_ID:
+                        view = new c.PickListsSettingView();
                         break;
                     default:
                         break;
