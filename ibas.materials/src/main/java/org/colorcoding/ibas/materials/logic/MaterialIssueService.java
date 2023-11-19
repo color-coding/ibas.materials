@@ -121,12 +121,32 @@ public class MaterialIssueService
 
 	@Override
 	protected void impact(IMaterialIssueContract contract) {
+		IMaterial material = this.checkMaterial(contract.getItemCode());
 		IMaterialInventoryJournal materialJournal = this.getBeAffected();
+		if (materialJournal.getItemCode() == null || !materialJournal.getItemCode().equals(contract.getItemCode())
+				|| materialJournal.getWarehouse() == null
+				|| !materialJournal.getWarehouse().equals(contract.getWarehouse())) {
+			// 物料或仓库改变时
+			if (MyConfiguration.getConfigValue(MyConfiguration.CONFIG_ITEM_MANAGE_MATERIAL_COSTS_BY_WAREHOUSE, true)) {
+				// 按仓库管理成本
+				IMaterialInventory materialInventory = this.checkMaterialInventory(contract.getItemCode(),
+						contract.getWarehouse());
+				if (materialInventory != null) {
+					// 成本价格 = 库存均价
+					materialJournal.setCalculatedPrice(materialInventory.getAvgPrice());
+				}
+			} else {
+				// 库存价值
+				if (material != null) {
+					// 成本价格 = 库存均价
+					materialJournal.setCalculatedPrice(material.getAvgPrice());
+				}
+			}
+		}
 		materialJournal.setItemCode(contract.getItemCode());
 		materialJournal.setItemName(contract.getItemName());
 		if (DataConvert.isNullOrEmpty(materialJournal.getItemName())
 				|| materialJournal.getItemCode().equals(materialJournal.getItemName())) {
-			IMaterial material = this.checkMaterial(materialJournal.getItemCode());
 			materialJournal.setItemName(material.getName());
 		}
 		materialJournal.setWarehouse(contract.getWarehouse());
@@ -140,22 +160,6 @@ public class MaterialIssueService
 		materialJournal.setOriginalDocumentType(contract.getBaseDocumentType());
 		materialJournal.setOriginalDocumentEntry(contract.getBaseDocumentEntry());
 		materialJournal.setOriginalDocumentLineId(contract.getBaseDocumentLineId());
-		if (MyConfiguration.getConfigValue(MyConfiguration.CONFIG_ITEM_MANAGE_MATERIAL_COSTS_BY_WAREHOUSE, true)) {
-			// 物料仓库个别管理
-			IMaterialInventory materialInventory = this.checkMaterialInventory(contract.getItemCode(),
-					contract.getWarehouse());
-			if (materialInventory != null) {
-				// 成本价格 = 库存均价
-				materialJournal.setCalculatedPrice(materialInventory.getAvgPrice());
-			}
-		} else {
-			// 库存价值
-			IMaterial material = this.checkMaterial(contract.getItemCode());
-			if (material != null) {
-				// 成本价格 = 库存均价
-				materialJournal.setCalculatedPrice(material.getAvgPrice());
-			}
-		}
 	}
 
 	@Override

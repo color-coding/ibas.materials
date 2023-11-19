@@ -686,7 +686,6 @@ namespace materials {
                                         }),
                                         new sap.m.Label("", { text: ibas.i18n.prop("bo_goodsissueline_price") }),
                                         new sap.extension.m.Input("", {
-
                                         }).bindProperty("bindingValue", {
                                             path: "price",
                                             type: new sap.extension.data.Price(),

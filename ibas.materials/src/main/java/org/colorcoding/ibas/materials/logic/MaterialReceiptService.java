@@ -123,12 +123,12 @@ public class MaterialReceiptService
 
 	@Override
 	protected void impact(IMaterialReceiptContract contract) {
+		IMaterial material = this.checkMaterial(contract.getItemCode());
 		IMaterialInventoryJournal materialJournal = this.getBeAffected();
 		materialJournal.setItemCode(contract.getItemCode());
 		materialJournal.setItemName(contract.getItemName());
 		if (DataConvert.isNullOrEmpty(materialJournal.getItemName())
 				|| materialJournal.getItemCode().equals(materialJournal.getItemName())) {
-			IMaterial material = this.checkMaterial(materialJournal.getItemCode());
 			materialJournal.setItemName(material.getName());
 		}
 		materialJournal.setWarehouse(contract.getWarehouse());
@@ -167,7 +167,6 @@ public class MaterialReceiptService
 			// 库存价值
 			BigDecimal inventoryValue = Decimal.ZERO;
 			BigDecimal inventoryQuantity = Decimal.ZERO;
-			IMaterial material = this.checkMaterial(contract.getItemCode());
 			if (material != null) {
 				// 库存价值 = 当前仓库库存价值
 				inventoryValue = material.getInventoryValue();

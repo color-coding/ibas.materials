@@ -10,18 +10,25 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
 import org.colorcoding.ibas.accounting.data.IProjectData;
+import org.colorcoding.ibas.accounting.logic.IJournalEntryCreationContract;
+import org.colorcoding.ibas.accounting.logic.JournalEntryContent;
+import org.colorcoding.ibas.accounting.logic.JournalEntryContent.Category;
 import org.colorcoding.ibas.bobas.approval.IApprovalData;
 import org.colorcoding.ibas.bobas.bo.BusinessObject;
 import org.colorcoding.ibas.bobas.bo.IBOSeriesKey;
 import org.colorcoding.ibas.bobas.bo.IBOTagCanceled;
 import org.colorcoding.ibas.bobas.bo.IBOUserFields;
 import org.colorcoding.ibas.bobas.core.IPropertyInfo;
+import org.colorcoding.ibas.bobas.data.ArrayList;
 import org.colorcoding.ibas.bobas.data.DateTime;
 import org.colorcoding.ibas.bobas.data.Decimal;
+import org.colorcoding.ibas.bobas.data.List;
 import org.colorcoding.ibas.bobas.data.emApprovalStatus;
 import org.colorcoding.ibas.bobas.data.emBOStatus;
 import org.colorcoding.ibas.bobas.data.emDocumentStatus;
 import org.colorcoding.ibas.bobas.data.emYesNo;
+import org.colorcoding.ibas.bobas.logic.IBusinessLogicContract;
+import org.colorcoding.ibas.bobas.logic.IBusinessLogicsHost;
 import org.colorcoding.ibas.bobas.mapping.BusinessObjectUnit;
 import org.colorcoding.ibas.bobas.mapping.DbField;
 import org.colorcoding.ibas.bobas.mapping.DbFieldType;
@@ -33,6 +40,8 @@ import org.colorcoding.ibas.bobas.rule.common.BusinessRuleMinValue;
 import org.colorcoding.ibas.bobas.rule.common.BusinessRuleRequiredElements;
 import org.colorcoding.ibas.bobas.rule.common.BusinessRuleSumElements;
 import org.colorcoding.ibas.materials.MyConfiguration;
+import org.colorcoding.ibas.materials.data.Ledgers;
+import org.colorcoding.ibas.materials.logic.journalentry.InventoryTransferMaterialsCost;
 
 /**
  * 获取-库存转储
@@ -43,7 +52,7 @@ import org.colorcoding.ibas.materials.MyConfiguration;
 @XmlRootElement(name = InventoryTransfer.BUSINESS_OBJECT_NAME, namespace = MyConfiguration.NAMESPACE_BO)
 @BusinessObjectUnit(code = InventoryTransfer.BUSINESS_OBJECT_CODE)
 public class InventoryTransfer extends BusinessObject<InventoryTransfer> implements IInventoryTransfer, IDataOwnership,
-		IApprovalData, IBOTagCanceled, IPeriodData, IProjectData, IBOSeriesKey, IBOUserFields {
+		IApprovalData, IBOTagCanceled, IPeriodData, IProjectData, IBOSeriesKey, IBOUserFields, IBusinessLogicsHost {
 
 	/**
 	 * 序列化版本标记
@@ -1339,6 +1348,74 @@ public class InventoryTransfer extends BusinessObject<InventoryTransfer> impleme
 				new BusinessRuleSumElements(PROPERTY_DOCUMENTTOTAL, PROPERTY_INVENTORYTRANSFERLINES,
 						InventoryTransferLine.PROPERTY_LINETOTAL), // 计算单据总计
 				new BusinessRuleMinValue<BigDecimal>(Decimal.ZERO, PROPERTY_DOCUMENTTOTAL), // 不能低于0
+		};
+	}
+
+	@Override
+	public IBusinessLogicContract[] getContracts() {
+		return new IBusinessLogicContract[] {
+				// 创建分录
+				new IJournalEntryCreationContract() {
+
+					@Override
+					public String getIdentifiers() {
+						return InventoryTransfer.this.toString();
+					}
+
+					@Override
+					public String getBranch() {
+						return InventoryTransfer.this.getBranch();
+					}
+
+					@Override
+					public String getBaseDocumentType() {
+						return InventoryTransfer.this.getObjectCode();
+					}
+
+					@Override
+					public Integer getBaseDocumentEntry() {
+						return InventoryTransfer.this.getDocEntry();
+					}
+
+					@Override
+					public DateTime getDocumentDate() {
+						return InventoryTransfer.this.getDocumentDate();
+					}
+
+					@Override
+					public String getReference1() {
+						return InventoryTransfer.this.getReference1();
+					}
+
+					@Override
+					public String getReference2() {
+						return InventoryTransfer.this.getReference2();
+					}
+
+					@Override
+					public JournalEntryContent[] getContents() {
+						JournalEntryContent jeContent;
+						List<JournalEntryContent> jeContents = new ArrayList<>();
+						for (IInventoryTransferLine line : InventoryTransfer.this.getInventoryTransferLines()) {
+							// 库存科目
+							jeContent = new InventoryTransferMaterialsCost(line);
+							jeContent.setCategory(Category.Debit);
+							jeContent.setLedger(Ledgers.LEDGER_INVENTORY_INVENTORY_ACCOUNT);
+							jeContent.setAmount(Decimal.ZERO); // 待计算
+							jeContent.setCurrency(line.getCurrency());
+							jeContents.add(jeContent);
+							// 库存科目
+							jeContent = new InventoryTransferMaterialsCost(line);
+							jeContent.setCategory(Category.Credit);
+							jeContent.setLedger(Ledgers.LEDGER_INVENTORY_INVENTORY_ACCOUNT);
+							jeContent.setAmount(Decimal.ZERO); // 待计算
+							jeContent.setCurrency(line.getCurrency());
+							jeContents.add(jeContent);
+						}
+						return jeContents.toArray(new JournalEntryContent[] {});
+					}
+				}
+
 		};
 	}
 }

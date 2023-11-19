@@ -392,7 +392,7 @@ namespace materials {
                 ibas.servicesManager.runChooseService<bo.Warehouse>({
                     boCode: bo.Warehouse.BUSINESS_OBJECT_CODE,
                     chooseType: ibas.emChooseType.SINGLE,
-                    criteria: conditions.warehouse.create(),
+                    criteria: conditions.warehouse.create(this.editData.branch),
                     onCompleted(selecteds: ibas.IList<bo.Warehouse>): void {
                         // 获取触发的对象
                         let index: number = that.editData.inventoryCountingLines.indexOf(caller);

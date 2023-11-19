@@ -684,7 +684,7 @@ namespace materials {
             }
             export namespace warehouse {
                 /** 默认查询条件 */
-                export function create(): ibas.IList<ibas.ICondition> {
+                export function create(branch?: string): ibas.IList<ibas.ICondition> {
                     let conditions: ibas.IList<ibas.ICondition> = new ibas.ArrayList<ibas.ICondition>();
                     let condition: ibas.ICondition;
                     // 激活的
@@ -715,6 +715,26 @@ namespace materials {
                     condition.relationship = ibas.emConditionRelationship.OR;
                     condition.bracketClose = 1;
                     conditions.add(condition);
+                    // 未指定的分支
+                    condition = new ibas.Condition();
+                    condition.alias = bo.Warehouse.PROPERTY_BRANCH_NAME;
+                    condition.operation = ibas.emConditionOperation.EQUAL;
+                    condition.value = "";
+                    condition.bracketOpen = 1;
+                    conditions.add(condition);
+                    condition = new ibas.Condition();
+                    condition.alias = bo.Warehouse.PROPERTY_BRANCH_NAME;
+                    condition.operation = ibas.emConditionOperation.IS_NULL;
+                    condition.relationship = ibas.emConditionRelationship.OR;
+                    condition.bracketClose = 1;
+                    conditions.add(condition);
+                    if (!ibas.strings.isEmpty(branch)) {
+                        condition = new ibas.Condition();
+                        condition.alias = bo.Warehouse.PROPERTY_BRANCH_NAME;
+                        condition.operation = ibas.emConditionOperation.EQUAL;
+                        condition.value = branch;
+                        conditions.add(condition);
+                    }
                     return conditions;
                 }
             }
