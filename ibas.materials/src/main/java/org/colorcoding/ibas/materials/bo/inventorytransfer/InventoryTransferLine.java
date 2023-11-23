@@ -8,6 +8,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlType;
 
+import org.colorcoding.ibas.accounting.logic.IPropertyValueGetter;
 import org.colorcoding.ibas.bobas.bo.BusinessObject;
 import org.colorcoding.ibas.bobas.bo.IBOTagCanceled;
 import org.colorcoding.ibas.bobas.bo.IBOUserFields;
@@ -31,6 +32,7 @@ import org.colorcoding.ibas.bobas.rule.common.BusinessRuleRequired;
 import org.colorcoding.ibas.materials.MyConfiguration;
 import org.colorcoding.ibas.materials.bo.materialbatch.IMaterialBatchItems;
 import org.colorcoding.ibas.materials.bo.materialserial.IMaterialSerialItems;
+import org.colorcoding.ibas.materials.data.Ledgers;
 import org.colorcoding.ibas.materials.logic.IMaterialIssueContract;
 import org.colorcoding.ibas.materials.logic.IMaterialReceiptContract;
 
@@ -39,8 +41,8 @@ import org.colorcoding.ibas.materials.logic.IMaterialReceiptContract;
  */
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlType(name = InventoryTransferLine.BUSINESS_OBJECT_NAME, namespace = MyConfiguration.NAMESPACE_BO)
-public class InventoryTransferLine extends BusinessObject<InventoryTransferLine>
-		implements IInventoryTransferLine, IBOTagCanceled, IBusinessLogicsHost, ICheckRules, IBOUserFields {
+public class InventoryTransferLine extends BusinessObject<InventoryTransferLine> implements IInventoryTransferLine,
+		IBOTagCanceled, IBusinessLogicsHost, ICheckRules, IBOUserFields, IPropertyValueGetter {
 
 	/**
 	 * 序列化版本标记
@@ -1619,4 +1621,27 @@ public class InventoryTransferLine extends BusinessObject<InventoryTransferLine>
 		};
 	}
 
+	@Override
+	public Object getValue(String property) {
+		switch (property) {
+		case Ledgers.CONDITION_PROPERTY_OBJECTCODE:
+			return this.parent.getObjectCode();
+		case Ledgers.CONDITION_PROPERTY_DATAOWNER:
+			return this.parent.getDataOwner();
+		case Ledgers.CONDITION_PROPERTY_ORGANIZATION:
+			return this.parent.getOrganization();
+		case Ledgers.CONDITION_PROPERTY_ORDERTYPE:
+			return this.parent.getOrderType();
+		case Ledgers.CONDITION_PROPERTY_PROJECT:
+			return this.parent.getProject();
+		case Ledgers.CONDITION_PROPERTY_BRANCH:
+			return this.parent.getBranch();
+		case Ledgers.CONDITION_PROPERTY_MATERIAL:
+			return this.getItemCode();
+		case Ledgers.CONDITION_PROPERTY_WAREHOUSE:
+			return this.getWarehouse();
+		default:
+			return null;
+		}
+	}
 }

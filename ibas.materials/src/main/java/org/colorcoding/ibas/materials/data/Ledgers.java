@@ -59,4 +59,16 @@ public class Ledgers extends org.colorcoding.ibas.businesspartner.data.Ledgers {
 	 */
 	public static final String LEDGER_INVENTORY_EXPENSE_ACCOUNT = "GL-MM-07";
 
+	/**
+	 * 物料
+	 */
+	public static final String CONDITION_PROPERTY_MATERIAL = "Material";
+	/**
+	 * 物料组
+	 */
+	public static final String CONDITION_PROPERTY_MATERIALGROUP = "MaterialGroup";
+	/**
+	 * 仓库
+	 */
+	public static final String CONDITION_PROPERTY_WAREHOUSE = "Warehouse";
 }

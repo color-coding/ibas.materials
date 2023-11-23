@@ -8,6 +8,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlType;
 
+import org.colorcoding.ibas.accounting.logic.IPropertyValueGetter;
 import org.colorcoding.ibas.bobas.bo.BusinessObject;
 import org.colorcoding.ibas.bobas.bo.IBOTagCanceled;
 import org.colorcoding.ibas.bobas.bo.IBOUserFields;
@@ -33,6 +34,7 @@ import org.colorcoding.ibas.materials.bo.materialbatch.MaterialBatchItems;
 import org.colorcoding.ibas.materials.bo.materialserial.IMaterialSerialItems;
 import org.colorcoding.ibas.materials.bo.materialserial.MaterialSerialItem;
 import org.colorcoding.ibas.materials.bo.materialserial.MaterialSerialItems;
+import org.colorcoding.ibas.materials.data.Ledgers;
 import org.colorcoding.ibas.materials.logic.IMaterialIssueContract;
 
 /**
@@ -42,7 +44,7 @@ import org.colorcoding.ibas.materials.logic.IMaterialIssueContract;
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlType(name = GoodsIssueLine.BUSINESS_OBJECT_NAME, namespace = MyConfiguration.NAMESPACE_BO)
 public class GoodsIssueLine extends BusinessObject<GoodsIssueLine>
-		implements IGoodsIssueLine, IBOTagCanceled, IBusinessLogicsHost, IBOUserFields {
+		implements IGoodsIssueLine, IBOTagCanceled, IBusinessLogicsHost, IBOUserFields, IPropertyValueGetter {
 
 	/**
 	 * 序列化版本标记
@@ -1511,6 +1513,30 @@ public class GoodsIssueLine extends BusinessObject<GoodsIssueLine>
 				}
 
 		};
+	}
+
+	@Override
+	public Object getValue(String property) {
+		switch (property) {
+		case Ledgers.CONDITION_PROPERTY_OBJECTCODE:
+			return this.parent.getObjectCode();
+		case Ledgers.CONDITION_PROPERTY_DATAOWNER:
+			return this.parent.getDataOwner();
+		case Ledgers.CONDITION_PROPERTY_ORGANIZATION:
+			return this.parent.getOrganization();
+		case Ledgers.CONDITION_PROPERTY_ORDERTYPE:
+			return this.parent.getOrderType();
+		case Ledgers.CONDITION_PROPERTY_PROJECT:
+			return this.parent.getProject();
+		case Ledgers.CONDITION_PROPERTY_BRANCH:
+			return this.parent.getBranch();
+		case Ledgers.CONDITION_PROPERTY_MATERIAL:
+			return this.getItemCode();
+		case Ledgers.CONDITION_PROPERTY_WAREHOUSE:
+			return this.getWarehouse();
+		default:
+			return null;
+		}
 	}
 
 }
