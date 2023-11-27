@@ -66,7 +66,7 @@ public class Ledgers extends org.colorcoding.ibas.businesspartner.data.Ledgers {
 	/**
 	 * 物料组
 	 */
-	public static final String CONDITION_PROPERTY_MATERIALGROUP = "MaterialGroup";
+	public static final String CONDITION_PROPERTY_MATERIAL_GROUP = "MaterialGroup";
 	/**
 	 * 仓库
 	 */

@@ -8,7 +8,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlType;
 
-import org.colorcoding.ibas.accounting.logic.IPropertyValueGetter;
+import org.colorcoding.ibas.accounting.logic.IJECPropertyValueGetter;
 import org.colorcoding.ibas.bobas.bo.BusinessObject;
 import org.colorcoding.ibas.bobas.bo.IBOTagCanceled;
 import org.colorcoding.ibas.bobas.bo.IBOUserFields;
@@ -44,7 +44,7 @@ import org.colorcoding.ibas.materials.logic.IMaterialIssueContract;
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlType(name = GoodsIssueLine.BUSINESS_OBJECT_NAME, namespace = MyConfiguration.NAMESPACE_BO)
 public class GoodsIssueLine extends BusinessObject<GoodsIssueLine>
-		implements IGoodsIssueLine, IBOTagCanceled, IBusinessLogicsHost, IBOUserFields, IPropertyValueGetter {
+		implements IGoodsIssueLine, IBOTagCanceled, IBusinessLogicsHost, IBOUserFields, IJECPropertyValueGetter {
 
 	/**
 	 * 序列化版本标记

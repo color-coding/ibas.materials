@@ -8,7 +8,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlType;
 
-import org.colorcoding.ibas.accounting.logic.IPropertyValueGetter;
+import org.colorcoding.ibas.accounting.logic.IJECPropertyValueGetter;
 import org.colorcoding.ibas.bobas.bo.BusinessObject;
 import org.colorcoding.ibas.bobas.bo.IBOTagCanceled;
 import org.colorcoding.ibas.bobas.bo.IBOUserFields;
@@ -42,7 +42,7 @@ import org.colorcoding.ibas.materials.logic.IMaterialReceiptContract;
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlType(name = InventoryTransferLine.BUSINESS_OBJECT_NAME, namespace = MyConfiguration.NAMESPACE_BO)
 public class InventoryTransferLine extends BusinessObject<InventoryTransferLine> implements IInventoryTransferLine,
-		IBOTagCanceled, IBusinessLogicsHost, ICheckRules, IBOUserFields, IPropertyValueGetter {
+		IBOTagCanceled, IBusinessLogicsHost, ICheckRules, IBOUserFields, IJECPropertyValueGetter {
 
 	/**
 	 * 序列化版本标记

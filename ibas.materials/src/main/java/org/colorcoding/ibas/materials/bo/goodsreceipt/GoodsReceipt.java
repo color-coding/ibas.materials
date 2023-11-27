@@ -41,6 +41,7 @@ import org.colorcoding.ibas.bobas.rule.common.BusinessRuleRequiredElements;
 import org.colorcoding.ibas.bobas.rule.common.BusinessRuleSumElements;
 import org.colorcoding.ibas.materials.MyConfiguration;
 import org.colorcoding.ibas.materials.data.Ledgers;
+import org.colorcoding.ibas.materials.logic.journalentry.JournalEntrySmartContent;
 
 /**
  * 获取-库存收货
@@ -1366,14 +1367,14 @@ public class GoodsReceipt extends BusinessObject<GoodsReceipt> implements IGoods
 						List<JournalEntryContent> jeContents = new ArrayList<>();
 						for (IGoodsReceiptLine line : GoodsReceipt.this.getGoodsReceiptLines()) {
 							// 库存科目
-							jeContent = new JournalEntryContent(line);
+							jeContent = new JournalEntrySmartContent(line);
 							jeContent.setCategory(Category.Debit);
 							jeContent.setLedger(Ledgers.LEDGER_INVENTORY_INVENTORY_ACCOUNT);
 							jeContent.setAmount(line.getLineTotal());
 							jeContent.setCurrency(line.getCurrency());
 							jeContents.add(jeContent);
 							// 费用科目
-							jeContent = new JournalEntryContent(line);
+							jeContent = new JournalEntrySmartContent(line);
 							jeContent.setCategory(Category.Credit);
 							jeContent.setLedger(Ledgers.LEDGER_INVENTORY_EXPENSE_ACCOUNT);
 							jeContent.setAmount(line.getLineTotal());

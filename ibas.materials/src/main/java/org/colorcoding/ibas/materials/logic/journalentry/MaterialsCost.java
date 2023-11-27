@@ -2,7 +2,6 @@ package org.colorcoding.ibas.materials.logic.journalentry;
 
 import java.math.BigDecimal;
 
-import org.colorcoding.ibas.accounting.logic.JournalEntrySmartContent;
 import org.colorcoding.ibas.bobas.common.Criteria;
 import org.colorcoding.ibas.bobas.common.ICondition;
 import org.colorcoding.ibas.bobas.common.IOperationResult;
