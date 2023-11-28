@@ -30,6 +30,8 @@ namespace materials {
                 chooseGoodsReceiptLineMaterialSerialEvent: Function;
                 /** 选择库存收货单行物料批次事件 */
                 chooseGoodsReceiptLineMaterialBatchEvent: Function;
+                /** 选择库存收货单行分配中心事件 */
+                chooseGoodsReceiptLineDistributionRuleEvent: Function;
 
                 /** 绘制视图 */
                 draw(): any {

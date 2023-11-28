@@ -30,6 +30,8 @@ namespace materials {
                 chooseGoodsIssueLineMaterialSerialEvent: Function;
                 /** 选择库存发货物料价格清单 */
                 chooseeGoodsIssueMaterialPriceListEvent: Function;
+                /** 选择库存发货单行分配中心事件 */
+                chooseGoodsIssueLineDistributionRuleEvent: Function;
 
                 /** 绘制视图 */
                 draw(): any {

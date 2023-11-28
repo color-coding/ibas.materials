@@ -18,11 +18,18 @@ namespace materials {
                 addGoodsIssueLineEvent: Function;
                 /** 删除库存发货-行事件 */
                 removeGoodsIssueLineEvent: Function;
+                /** 选择库存发货单行物料事件 */
                 chooseGoodsIssueLineMaterialEvent: Function;
+                /** 选择库存发货单行仓库事件 */
                 chooseGoodsIssueLineWarehouseEvent: Function;
-                chooseeGoodsIssueMaterialPriceListEvent: Function;
+                /** 选择物料批次事件 */
                 chooseGoodsIssueLineMaterialBatchEvent: Function;
+                /** 选择库存发货单行物料序列事件 */
                 chooseGoodsIssueLineMaterialSerialEvent: Function;
+                /** 选择库存发货物料价格清单 */
+                chooseeGoodsIssueMaterialPriceListEvent: Function;
+                /** 选择库存发货单行分配中心事件 */
+                chooseGoodsIssueLineDistributionRuleEvent: Function;
                 defaultWarehouse: string;
                 draw(): any {
                     let that: this = this;

@@ -34,6 +34,8 @@ namespace materials {
                 chooseInventoryTransferLineMaterialSerialEvent: Function;
                 /** 调用库存转储添加服务 */
                 callInventoryTransferAddServiceEvent: Function;
+                /** 选择库存转储单行分配中心事件 */
+                chooseInventoryTransferLineDistributionRuleEvent: Function;
                 /** 绘制视图 */
                 draw(): any {
                     let that: this = this;

@@ -37,6 +37,7 @@ namespace materials {
                 this.view.chooseInventoryTransferLineMaterialBatchEvent = this.chooseInventoryTransferLineMaterialBatch;
                 this.view.chooseInventoryTransferLineMaterialSerialEvent = this.chooseInventoryTransferLineMaterialSerial;
                 this.view.chooseeInventoryTransferMaterialPriceListEvent = this.chooseeInventoryTransferMaterialPriceList;
+                this.view.chooseInventoryTransferLineDistributionRuleEvent = this.chooseInventoryTransferLineDistributionRule;
                 this.view.callInventoryTransferAddServiceEvent = this.callInventoryTransferAddService;
             }
             /** 视图显示后 */
@@ -430,7 +431,30 @@ namespace materials {
                     proxy: new MaterialSerialIssueServiceProxy(contracts)
                 });
             }
-
+            private chooseInventoryTransferLineDistributionRule(type: accounting.app.emDimensionType, caller: bo.InventoryTransferLine): void {
+                if (ibas.objects.isNull(type)) {
+                    this.messages(ibas.emMessageType.WARNING, ibas.i18n.prop("accounting_dimension_invaild", ""));
+                    return;
+                }
+                ibas.servicesManager.runApplicationService<accounting.app.IDimensionDataServiceContract, String>({
+                    proxy: new accounting.app.DimensionDataServiceProxy({
+                        type: type,
+                    }),
+                    onCompleted(result: string): void {
+                        if (type === accounting.app.emDimensionType.DIMENSION_1) {
+                            caller.distributionRule1 = result;
+                        } else if (type === accounting.app.emDimensionType.DIMENSION_2) {
+                            caller.distributionRule2 = result;
+                        } else if (type === accounting.app.emDimensionType.DIMENSION_3) {
+                            caller.distributionRule3 = result;
+                        } else if (type === accounting.app.emDimensionType.DIMENSION_4) {
+                            caller.distributionRule4 = result;
+                        } else if (type === accounting.app.emDimensionType.DIMENSION_5) {
+                            caller.distributionRule5 = result;
+                        }
+                    }
+                });
+            }
         }
         /** 视图-库存转储 */
         export interface IInventoryTransferEditView extends ibas.IBOEditView {
@@ -458,6 +482,8 @@ namespace materials {
             chooseInventoryTransferLineMaterialBatchEvent: Function;
             /** 选择库存转储单行物料序列事件 */
             chooseInventoryTransferLineMaterialSerialEvent: Function;
+            /** 选择库存转储单行分配中心事件 */
+            chooseInventoryTransferLineDistributionRuleEvent: Function;
             /** 调用库存转储添加服务 */
             callInventoryTransferAddServiceEvent: Function;
             /** 显示库存转储添加服务 */

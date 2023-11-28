@@ -36,6 +36,7 @@ namespace materials {
                 this.view.chooseGoodsIssueLineMaterialBatchEvent = this.chooseGoodsIssueLineMaterialBatch;
                 this.view.chooseGoodsIssueLineMaterialSerialEvent = this.chooseGoodsIssueLineMaterialSerial;
                 this.view.chooseeGoodsIssueMaterialPriceListEvent = this.chooseeGoodsIssueMaterialPriceList;
+                this.view.chooseGoodsIssueLineDistributionRuleEvent = this.chooseGoodsIssueLineDistributionRule;
             }
             /** 视图显示后 */
             protected viewShowed(): void {
@@ -387,6 +388,30 @@ namespace materials {
                     proxy: new MaterialSerialIssueServiceProxy(contracts)
                 });
             }
+            private chooseGoodsIssueLineDistributionRule(type: accounting.app.emDimensionType, caller: bo.GoodsIssueLine): void {
+                if (ibas.objects.isNull(type)) {
+                    this.messages(ibas.emMessageType.WARNING, ibas.i18n.prop("accounting_dimension_invaild", ""));
+                    return;
+                }
+                ibas.servicesManager.runApplicationService<accounting.app.IDimensionDataServiceContract, String>({
+                    proxy: new accounting.app.DimensionDataServiceProxy({
+                        type: type,
+                    }),
+                    onCompleted(result: string): void {
+                        if (type === accounting.app.emDimensionType.DIMENSION_1) {
+                            caller.distributionRule1 = result;
+                        } else if (type === accounting.app.emDimensionType.DIMENSION_2) {
+                            caller.distributionRule2 = result;
+                        } else if (type === accounting.app.emDimensionType.DIMENSION_3) {
+                            caller.distributionRule3 = result;
+                        } else if (type === accounting.app.emDimensionType.DIMENSION_4) {
+                            caller.distributionRule4 = result;
+                        } else if (type === accounting.app.emDimensionType.DIMENSION_5) {
+                            caller.distributionRule5 = result;
+                        }
+                    }
+                });
+            }
         }
         /** 视图-库存发货 */
         export interface IGoodsIssueEditView extends ibas.IBOEditView {
@@ -412,6 +437,8 @@ namespace materials {
             chooseGoodsIssueLineMaterialBatchEvent: Function;
             /** 选择库存发货单行物料序列事件 */
             chooseGoodsIssueLineMaterialSerialEvent: Function;
+            /** 选择库存发货单行分配中心事件 */
+            chooseGoodsIssueLineDistributionRuleEvent: Function;
             /** 默认仓库 */
             defaultWarehouse: string;
         }

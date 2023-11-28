@@ -1296,6 +1296,161 @@ public class GoodsIssueLine extends BusinessObject<GoodsIssueLine>
 	}
 
 	/**
+	 * 属性名称-成本中心1
+	 */
+	private static final String PROPERTY_DISTRIBUTIONRULE1_NAME = "DistributionRule1";
+
+	/**
+	 * 成本中心1 属性
+	 */
+	@DbField(name = "OcrCode1", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME, primaryKey = false)
+	public static final IPropertyInfo<String> PROPERTY_DISTRIBUTIONRULE1 = registerProperty(
+			PROPERTY_DISTRIBUTIONRULE1_NAME, String.class, MY_CLASS);
+
+	/**
+	 * 获取-成本中心1
+	 * 
+	 * @return 值
+	 */
+	@XmlElement(name = PROPERTY_DISTRIBUTIONRULE1_NAME)
+	public final String getDistributionRule1() {
+		return this.getProperty(PROPERTY_DISTRIBUTIONRULE1);
+	}
+
+	/**
+	 * 设置-成本中心1
+	 * 
+	 * @param value 值
+	 */
+	public final void setDistributionRule1(String value) {
+		this.setProperty(PROPERTY_DISTRIBUTIONRULE1, value);
+	}
+
+	/**
+	 * 属性名称-成本中心2
+	 */
+	private static final String PROPERTY_DISTRIBUTIONRULE2_NAME = "DistributionRule2";
+
+	/**
+	 * 成本中心2 属性
+	 */
+	@DbField(name = "OcrCode2", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME, primaryKey = false)
+	public static final IPropertyInfo<String> PROPERTY_DISTRIBUTIONRULE2 = registerProperty(
+			PROPERTY_DISTRIBUTIONRULE2_NAME, String.class, MY_CLASS);
+
+	/**
+	 * 获取-成本中心2
+	 * 
+	 * @return 值
+	 */
+	@XmlElement(name = PROPERTY_DISTRIBUTIONRULE2_NAME)
+	public final String getDistributionRule2() {
+		return this.getProperty(PROPERTY_DISTRIBUTIONRULE2);
+	}
+
+	/**
+	 * 设置-成本中心2
+	 * 
+	 * @param value 值
+	 */
+	public final void setDistributionRule2(String value) {
+		this.setProperty(PROPERTY_DISTRIBUTIONRULE2, value);
+	}
+
+	/**
+	 * 属性名称-成本中心3
+	 */
+	private static final String PROPERTY_DISTRIBUTIONRULE3_NAME = "DistributionRule3";
+
+	/**
+	 * 成本中心3 属性
+	 */
+	@DbField(name = "OcrCode3", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME, primaryKey = false)
+	public static final IPropertyInfo<String> PROPERTY_DISTRIBUTIONRULE3 = registerProperty(
+			PROPERTY_DISTRIBUTIONRULE3_NAME, String.class, MY_CLASS);
+
+	/**
+	 * 获取-成本中心3
+	 * 
+	 * @return 值
+	 */
+	@XmlElement(name = PROPERTY_DISTRIBUTIONRULE3_NAME)
+	public final String getDistributionRule3() {
+		return this.getProperty(PROPERTY_DISTRIBUTIONRULE3);
+	}
+
+	/**
+	 * 设置-成本中心3
+	 * 
+	 * @param value 值
+	 */
+	public final void setDistributionRule3(String value) {
+		this.setProperty(PROPERTY_DISTRIBUTIONRULE3, value);
+	}
+
+	/**
+	 * 属性名称-成本中心4
+	 */
+	private static final String PROPERTY_DISTRIBUTIONRULE4_NAME = "DistributionRule4";
+
+	/**
+	 * 成本中心4 属性
+	 */
+	@DbField(name = "OcrCode4", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME, primaryKey = false)
+	public static final IPropertyInfo<String> PROPERTY_DISTRIBUTIONRULE4 = registerProperty(
+			PROPERTY_DISTRIBUTIONRULE4_NAME, String.class, MY_CLASS);
+
+	/**
+	 * 获取-成本中心4
+	 * 
+	 * @return 值
+	 */
+	@XmlElement(name = PROPERTY_DISTRIBUTIONRULE4_NAME)
+	public final String getDistributionRule4() {
+		return this.getProperty(PROPERTY_DISTRIBUTIONRULE4);
+	}
+
+	/**
+	 * 设置-成本中心4
+	 * 
+	 * @param value 值
+	 */
+	public final void setDistributionRule4(String value) {
+		this.setProperty(PROPERTY_DISTRIBUTIONRULE4, value);
+	}
+
+	/**
+	 * 属性名称-成本中心5
+	 */
+	private static final String PROPERTY_DISTRIBUTIONRULE5_NAME = "DistributionRule5";
+
+	/**
+	 * 成本中心5 属性
+	 */
+	@DbField(name = "OcrCode5", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME, primaryKey = false)
+	public static final IPropertyInfo<String> PROPERTY_DISTRIBUTIONRULE5 = registerProperty(
+			PROPERTY_DISTRIBUTIONRULE5_NAME, String.class, MY_CLASS);
+
+	/**
+	 * 获取-成本中心5
+	 * 
+	 * @return 值
+	 */
+	@XmlElement(name = PROPERTY_DISTRIBUTIONRULE5_NAME)
+	public final String getDistributionRule5() {
+		return this.getProperty(PROPERTY_DISTRIBUTIONRULE5);
+	}
+
+	/**
+	 * 设置-成本中心5
+	 * 
+	 * @param value 值
+	 */
+	public final void setDistributionRule5(String value) {
+		this.setProperty(PROPERTY_DISTRIBUTIONRULE5, value);
+	}
+
+	/**
 	 * 属性名称-物料批次
 	 */
 	private static final String PROPERTY_MATERIALBATCHES_NAME = "MaterialBatches";

@@ -75,6 +75,11 @@
         "bo_goodsissueline_currency": "货币",
         "bo_goodsissueline_rate": "汇率",
         "bo_goodsissueline_linetotal": "行总计",
+        "bo_goodsissueline_distributionrule1": "成本中心1",
+        "bo_goodsissueline_distributionrule2": "成本中心2",
+        "bo_goodsissueline_distributionrule3": "成本中心3",
+        "bo_goodsissueline_distributionrule4": "成本中心4",
+        "bo_goodsissueline_distributionrule5": "成本中心5",
         "bo_goodsissue_closing_delimiter": "----结束----"
     },
     {
@@ -153,6 +158,11 @@
         "bo_goodsreceiptline_currency": "货币",
         "bo_goodsreceiptline_rate": "汇率",
         "bo_goodsreceiptline_linetotal": "行总计",
+        "bo_goodsreceiptline_distributionrule1": "成本中心1",
+        "bo_goodsreceiptline_distributionrule2": "成本中心2",
+        "bo_goodsreceiptline_distributionrule3": "成本中心3",
+        "bo_goodsreceiptline_distributionrule4": "成本中心4",
+        "bo_goodsreceiptline_distributionrule5": "成本中心5",
         "bo_goodsreceipt_closing_delimiter": "----结束----"
     },
     {
@@ -232,6 +242,11 @@
         "bo_inventorytransferline_currency": "货币",
         "bo_inventorytransferline_rate": "汇率",
         "bo_inventorytransferline_linetotal": "行总计",
+        "bo_inventorytransferline_distributionrule1": "成本中心1",
+        "bo_inventorytransferline_distributionrule2": "成本中心2",
+        "bo_inventorytransferline_distributionrule3": "成本中心3",
+        "bo_inventorytransferline_distributionrule4": "成本中心4",
+        "bo_inventorytransferline_distributionrule5": "成本中心5",
         "bo_inventorytransfer_closing_delimiter": "----结束----"
     },
     {

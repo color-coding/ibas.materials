@@ -77,6 +77,11 @@
     <Property Name="Currency" Description="货币" DataType="Alphanumeric" DataSubType="Default" EditSize="8" Mapped="Currency"/>
     <Property Name="Rate" Description="汇率" DataType="Decimal" DataSubType="Rate" EditSize="8" Mapped="Rate"/>
     <Property Name="LineTotal" Description="行总计" DataType="Decimal" DataSubType="Sum" EditSize="8" Mapped="LineTotal"/>
+    <Property Name="DistributionRule1" Description="成本中心1" DataType="Alphanumeric" DataSubType="Default" EditSize="8" Mapped="OcrCode1"/>
+    <Property Name="DistributionRule2" Description="成本中心2" DataType="Alphanumeric" DataSubType="Default" EditSize="8" Mapped="OcrCode2"/>
+    <Property Name="DistributionRule3" Description="成本中心3" DataType="Alphanumeric" DataSubType="Default" EditSize="8" Mapped="OcrCode3"/>
+    <Property Name="DistributionRule4" Description="成本中心4" DataType="Alphanumeric" DataSubType="Default" EditSize="8" Mapped="OcrCode4"/>
+    <Property Name="DistributionRule5" Description="成本中心5" DataType="Alphanumeric" DataSubType="Default" EditSize="8" Mapped="OcrCode5"/>
   </Model>
   <BusinessObject MappedModel="InventoryTransfer" ShortName="${Company}_MM_INVENTORYTRANSFER">
     <RelatedBO Relation="OneToMany" MappedModel="InventoryTransferLine"/>

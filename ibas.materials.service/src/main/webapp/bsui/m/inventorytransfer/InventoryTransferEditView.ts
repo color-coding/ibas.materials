@@ -14,18 +14,26 @@ namespace materials {
                 deleteDataEvent: Function;
                 /** 新建数据事件，参数1：是否克隆 */
                 createDataEvent: Function;
+                /** 选择库存转储单从仓库事件 */
+                chooseInventoryTransferWarehouseEvent: Function;
+                /** 选择库存转储单物料价格清单 */
+                chooseeInventoryTransferMaterialPriceListEvent: Function;
                 /** 添加库存转储-行事件 */
                 addInventoryTransferLineEvent: Function;
                 /** 删除库存转储-行事件 */
                 removeInventoryTransferLineEvent: Function;
-                chooseInventoryTransferWarehouseEvent: Function;
-                chooseeInventoryTransferMaterialPriceListEvent: Function;
+                /** 选择库存转储单行物料事件 */
                 chooseInventoryTransferLineMaterialEvent: Function;
+                /** 选择库存转储单行仓库事件 */
                 chooseInventoryTransferLineWarehouseEvent: Function;
+                /** 选择库存转储单行物料批次事件 */
                 chooseInventoryTransferLineMaterialBatchEvent: Function;
+                /** 选择库存转储单行物料序列事件 */
                 chooseInventoryTransferLineMaterialSerialEvent: Function;
                 /** 调用库存转储添加服务 */
                 callInventoryTransferAddServiceEvent: Function;
+                /** 选择库存转储单行分配中心事件 */
+                chooseInventoryTransferLineDistributionRuleEvent: Function;
                 defaultWarehouse: string;
                 draw(): any {
                     let that: this = this;

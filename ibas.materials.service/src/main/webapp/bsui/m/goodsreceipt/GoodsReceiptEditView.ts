@@ -18,11 +18,18 @@ namespace materials {
                 addGoodsReceiptLineEvent: Function;
                 /** 删除库存收货-行事件 */
                 removeGoodsReceiptLineEvent: Function;
+                /** 选择库存收货单价格清单 */
                 chooseGoodsReceiptMaterialPriceListEvent: Function;
+                /** 选择库存收货单行物料事件 */
                 chooseGoodsReceiptLineMaterialEvent: Function;
+                /** 选择库存收货单行仓库事件 */
                 chooseGoodsReceiptLineWarehouseEvent: Function;
-                chooseGoodsReceiptLineMaterialBatchEvent: Function;
+                /** 选择库存收货单行物料序列事件 */
                 chooseGoodsReceiptLineMaterialSerialEvent: Function;
+                /** 选择库存收货单行物料批次事件 */
+                chooseGoodsReceiptLineMaterialBatchEvent: Function;
+                /** 选择库存收货单行分配中心事件 */
+                chooseGoodsReceiptLineDistributionRuleEvent: Function;
                 defaultWarehouse: string;
                 /** 绘制视图 */
                 draw(): any {

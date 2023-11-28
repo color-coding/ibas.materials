@@ -604,4 +604,73 @@ public interface IGoodsReceiptLine extends IBODocumentLine, IMaterialBatchReceip
 	 */
 	void setLineTotal(double value);
 
+	/**
+	 * 获取-成本中心1
+	 * 
+	 * @return 值
+	 */
+	String getDistributionRule1();
+
+	/**
+	 * 设置-成本中心1
+	 * 
+	 * @param value 值
+	 */
+	void setDistributionRule1(String value);
+
+	/**
+	 * 获取-成本中心2
+	 * 
+	 * @return 值
+	 */
+	String getDistributionRule2();
+
+	/**
+	 * 设置-成本中心2
+	 * 
+	 * @param value 值
+	 */
+	void setDistributionRule2(String value);
+
+	/**
+	 * 获取-成本中心3
+	 * 
+	 * @return 值
+	 */
+	String getDistributionRule3();
+
+	/**
+	 * 设置-成本中心3
+	 * 
+	 * @param value 值
+	 */
+	void setDistributionRule3(String value);
+
+	/**
+	 * 获取-成本中心4
+	 * 
+	 * @return 值
+	 */
+	String getDistributionRule4();
+
+	/**
+	 * 设置-成本中心4
+	 * 
+	 * @param value 值
+	 */
+	void setDistributionRule4(String value);
+
+	/**
+	 * 获取-成本中心5
+	 * 
+	 * @return 值
+	 */
+	String getDistributionRule5();
+
+	/**
+	 * 设置-成本中心5
+	 * 
+	 * @param value 值
+	 */
+	void setDistributionRule5(String value);
 }

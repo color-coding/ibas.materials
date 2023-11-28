@@ -244,6 +244,21 @@ namespace materials {
             /** 行总计 */
             lineTotal: number;
 
+            /** 成本中心1 */
+            distributionRule1: string;
+
+            /** 成本中心2 */
+            distributionRule2: string;
+
+            /** 成本中心3 */
+            distributionRule3: string;
+
+            /** 成本中心4 */
+            distributionRule4: string;
+
+            /** 成本中心5 */
+            distributionRule5: string;
+
             /** 赋值物料 */
             baseMaterial(source: materials.bo.IMaterial): void;
         }
