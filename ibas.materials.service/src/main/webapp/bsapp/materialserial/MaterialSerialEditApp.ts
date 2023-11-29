@@ -39,7 +39,7 @@ namespace materials {
                     this.editData = new bo.MaterialSerial();
                     this.proceeding(ibas.emMessageType.WARNING, ibas.i18n.prop("shell_data_created_new"));
                 }
-                this.view.showMaterialSerial(this.editData);
+                this.view.showMaterialSerial(this.editData, this.viewMode);
             }
             run(data?: bo.MaterialSerial | ibas.Criteria): void {
                 if (arguments[0] instanceof bo.MaterialSerial) {
@@ -166,11 +166,13 @@ namespace materials {
                     }
                 });
             }
+            /** 视图状态 */
+            viewMode: ibas.emViewMode = ibas.emViewMode.COMMON;
         }
         /** 视图-物料序列 */
         export interface IMaterialSerialEditView extends ibas.IBOEditView {
             /** 显示数据 */
-            showMaterialSerial(data: bo.MaterialSerial): void;
+            showMaterialSerial(data: bo.MaterialSerial, viewMode?: ibas.emViewMode): void;
             /** 选择物料规格 */
             chooseSpecificationEvent: Function;
             /** 选择物料版本 */

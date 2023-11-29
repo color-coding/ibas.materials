@@ -34,7 +34,7 @@ namespace materials {
             protected viewShowed(): void {
                 // 视图加载完成
                 super.viewShowed();
-                this.view.showMaterialBatch(this.editData);
+                this.view.showMaterialBatch(this.editData, this.viewMode);
             }
             run(data?: bo.MaterialBatch | ibas.Criteria): void {
                 if (arguments[0] instanceof bo.MaterialBatch) {
@@ -161,11 +161,13 @@ namespace materials {
                     }
                 });
             }
+            /** 视图状态 */
+            viewMode: ibas.emViewMode = ibas.emViewMode.COMMON;
         }
         /** 视图-物料批次 */
         export interface IMaterialBatchEditView extends ibas.IBOEditView {
             /** 显示数据 */
-            showMaterialBatch(data: bo.MaterialBatch): void;
+            showMaterialBatch(data: bo.MaterialBatch, viewMode?: ibas.emViewMode): void;
             /** 选择物料规格 */
             chooseSpecificationEvent: Function;
             /** 选择物料版本 */

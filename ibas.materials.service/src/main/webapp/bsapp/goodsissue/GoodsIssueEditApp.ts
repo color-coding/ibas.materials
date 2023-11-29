@@ -437,7 +437,7 @@ namespace materials {
             chooseGoodsIssueLineMaterialBatchEvent: Function;
             /** 选择库存发货单行物料序列事件 */
             chooseGoodsIssueLineMaterialSerialEvent: Function;
-            /** 选择库存发货单行分配中心事件 */
+            /** 选择库存发货单行成本中心事件 */
             chooseGoodsIssueLineDistributionRuleEvent: Function;
             /** 默认仓库 */
             defaultWarehouse: string;

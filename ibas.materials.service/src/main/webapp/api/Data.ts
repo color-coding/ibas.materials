@@ -715,24 +715,25 @@ namespace materials {
                     condition.relationship = ibas.emConditionRelationship.OR;
                     condition.bracketClose = 1;
                     conditions.add(condition);
-                    // 未指定的分支
-                    condition = new ibas.Condition();
-                    condition.alias = bo.Warehouse.PROPERTY_BRANCH_NAME;
-                    condition.operation = ibas.emConditionOperation.EQUAL;
-                    condition.value = "";
-                    condition.bracketOpen = 1;
-                    conditions.add(condition);
-                    condition = new ibas.Condition();
-                    condition.alias = bo.Warehouse.PROPERTY_BRANCH_NAME;
-                    condition.operation = ibas.emConditionOperation.IS_NULL;
-                    condition.relationship = ibas.emConditionRelationship.OR;
-                    condition.bracketClose = 1;
-                    conditions.add(condition);
+                    // 是否指定分支
                     if (!ibas.strings.isEmpty(branch)) {
                         condition = new ibas.Condition();
                         condition.alias = bo.Warehouse.PROPERTY_BRANCH_NAME;
                         condition.operation = ibas.emConditionOperation.EQUAL;
                         condition.value = branch;
+                        conditions.add(condition);
+                    } else {
+                        condition = new ibas.Condition();
+                        condition.alias = bo.Warehouse.PROPERTY_BRANCH_NAME;
+                        condition.operation = ibas.emConditionOperation.EQUAL;
+                        condition.value = "";
+                        condition.bracketOpen = 1;
+                        conditions.add(condition);
+                        condition = new ibas.Condition();
+                        condition.alias = bo.Warehouse.PROPERTY_BRANCH_NAME;
+                        condition.operation = ibas.emConditionOperation.IS_NULL;
+                        condition.relationship = ibas.emConditionRelationship.OR;
+                        condition.bracketClose = 1;
                         conditions.add(condition);
                     }
                     return conditions;

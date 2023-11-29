@@ -152,11 +152,11 @@ namespace materials {
                                             autoHide: true,
                                             icon: "sap-icon://tags",
                                             text: ibas.strings.format("{0}/{1}",
-                                                ibas.i18n.prop("purchase_material_batch"), ibas.i18n.prop("purchase_material_serial")),
+                                                ibas.i18n.prop("materials_material_batch"), ibas.i18n.prop("materials_material_serial")),
                                             menu: new sap.m.Menu("", {
                                                 items: [
                                                     new sap.m.MenuItem("", {
-                                                        text: ibas.i18n.prop("purchase_material_batch"),
+                                                        text: ibas.i18n.prop("materials_material_batch"),
                                                         press: function (): void {
                                                             that.fireViewEvents(that.choosePickListsLineMaterialBatchEvent);
                                                         },
@@ -166,7 +166,7 @@ namespace materials {
                                                         })
                                                     }),
                                                     new sap.m.MenuItem("", {
-                                                        text: ibas.i18n.prop("purchase_material_serial"),
+                                                        text: ibas.i18n.prop("materials_material_serial"),
                                                         press: function (): void {
                                                             that.fireViewEvents(that.choosePickListsLineMaterialSerialEvent);
                                                         },

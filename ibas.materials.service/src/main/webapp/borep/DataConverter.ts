@@ -16,6 +16,35 @@ namespace materials {
                 return new BOConverter;
             }
             /**
+             * 转换数据
+             * @param data 当前类型数据
+             * @param sign 操作标记
+             * @returns 转换的数据
+             */
+            convert(data: any, sign: string): any {
+                if (sign === "changeMaterialNumbers") {
+                    let newData: {
+                        issue: GoodsIssue,
+                        receipt: GoodsReceipt,
+                        reservations: MaterialInventoryReservation[],
+                    } = data;
+                    let remote: bo4j.IMaterialNumberChange = {
+                        type: "MaterialNumberChange",
+                        Receipt: super.convert(newData.receipt, ""),
+                        Issue: super.convert(newData.issue, ""),
+                        Reservations: []
+                    };
+                    if (newData.reservations instanceof Array) {
+                        for (let item of newData.reservations) {
+                            remote.Reservations.push(super.convert(item, ""));
+                        }
+                    }
+                    return remote;
+                } else {
+                    return super.convert(data, sign);
+                }
+            }
+            /**
              * 解析业务对象数据
              * @param data 目标类型
              * @param sign 特殊标记
@@ -515,6 +544,12 @@ namespace materials {
                 Description: string;
                 /** 关联 */
                 Associated: string;
+            }
+            /** 物料编码改变 */
+            export interface IMaterialNumberChange extends IDataDeclaration {
+                Issue: GoodsIssue;
+                Receipt: GoodsReceipt;
+                Reservations: MaterialInventoryReservation[];
             }
         }
     }

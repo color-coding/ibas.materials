@@ -34,7 +34,7 @@ namespace materials {
                 chooseInventoryTransferLineMaterialSerialEvent: Function;
                 /** 调用库存转储添加服务 */
                 callInventoryTransferAddServiceEvent: Function;
-                /** 选择库存转储单行分配中心事件 */
+                /** 选择库存转储单行成本中心事件 */
                 chooseInventoryTransferLineDistributionRuleEvent: Function;
                 /** 绘制视图 */
                 draw(): any {
@@ -172,11 +172,11 @@ namespace materials {
                                             autoHide: true,
                                             icon: "sap-icon://tags",
                                             text: ibas.strings.format("{0}/{1}",
-                                                ibas.i18n.prop("purchase_material_batch"), ibas.i18n.prop("purchase_material_serial")),
+                                                ibas.i18n.prop("materials_material_batch"), ibas.i18n.prop("materials_material_serial")),
                                             menu: new sap.m.Menu("", {
                                                 items: [
                                                     new sap.m.MenuItem("", {
-                                                        text: ibas.i18n.prop("purchase_material_batch"),
+                                                        text: ibas.i18n.prop("materials_material_batch"),
                                                         press: function (): void {
                                                             that.fireViewEvents(that.chooseInventoryTransferLineMaterialBatchEvent);
                                                         },
@@ -186,7 +186,7 @@ namespace materials {
                                                         })
                                                     }),
                                                     new sap.m.MenuItem("", {
-                                                        text: ibas.i18n.prop("purchase_material_serial"),
+                                                        text: ibas.i18n.prop("materials_material_serial"),
                                                         press: function (): void {
                                                             that.fireViewEvents(that.chooseInventoryTransferLineMaterialSerialEvent);
                                                         },

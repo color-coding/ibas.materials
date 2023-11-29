@@ -35,7 +35,8 @@ namespace materials {
                                 content: [
                                     this.processingTable = new sap.extension.table.DataTable("", {
                                         enableSelectAll: true,
-                                        visibleRowCount: sap.extension.table.visibleRowCount(15),
+                                        visibleRowCount: sap.extension.table.visibleRowCount(15) - 2,
+                                        visibleRowCountMode: sap.ui.table.VisibleRowCountMode.Interactive,
                                         toolbar: new sap.m.Toolbar("", {
                                             content: [
                                                 new sap.m.Label("", {
@@ -228,7 +229,8 @@ namespace materials {
                                 content: [
                                     this.releasedTable = new sap.extension.table.DataTable("", {
                                         enableSelectAll: true,
-                                        visibleRowCount: sap.extension.table.visibleRowCount(15),
+                                        visibleRowCount: sap.extension.table.visibleRowCount(15) - 2,
+                                        visibleRowCountMode: sap.ui.table.VisibleRowCountMode.Interactive,
                                         toolbar: new sap.m.Toolbar("", {
                                             content: [
                                                 new sap.m.Label("", {
@@ -257,7 +259,8 @@ namespace materials {
                                 content: [
                                     this.pickedTable = new sap.extension.table.DataTable("", {
                                         enableSelectAll: true,
-                                        visibleRowCount: sap.extension.table.visibleRowCount(15),
+                                        visibleRowCount: sap.extension.table.visibleRowCount(15) - 2,
+                                        visibleRowCountMode: sap.ui.table.VisibleRowCountMode.Interactive,
                                         toolbar: new sap.m.Toolbar("", {
                                             content: [
                                                 new sap.m.Label("", {

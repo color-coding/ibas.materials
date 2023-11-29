@@ -466,7 +466,7 @@ namespace materials {
             chooseGoodsReceiptLineMaterialBatchEvent: Function;
             /** 批次管理物料新建序列 */
             chooseGoodsReceiptLineMaterialSerialEvent: Function;
-            /** 选择库存收货单行分配中心事件 */
+            /** 选择库存收货单行成本中心事件 */
             chooseGoodsReceiptLineDistributionRuleEvent: Function;
             /** 默认仓库 */
             defaultWarehouse: string;

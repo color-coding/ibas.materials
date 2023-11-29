@@ -482,7 +482,7 @@ namespace materials {
             chooseInventoryTransferLineMaterialBatchEvent: Function;
             /** 选择库存转储单行物料序列事件 */
             chooseInventoryTransferLineMaterialSerialEvent: Function;
-            /** 选择库存转储单行分配中心事件 */
+            /** 选择库存转储单行成本中心事件 */
             chooseInventoryTransferLineDistributionRuleEvent: Function;
             /** 调用库存转储添加服务 */
             callInventoryTransferAddServiceEvent: Function;

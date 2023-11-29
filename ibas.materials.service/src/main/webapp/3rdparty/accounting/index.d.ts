@@ -6809,7 +6809,7 @@ declare namespace accounting {
             run(): void;
             run(data: bo.Branch): void;
             /** 保存数据 */
-            protected saveData(): void;
+            protected saveData(others?: bo.Branch[]): void;
             /** 删除数据 */
             protected deleteData(): void;
             /** 新建数据，参数1：是否克隆 */
@@ -7046,7 +7046,7 @@ declare namespace accounting {
             chooseJournalEntryLineAccountEvent: Function;
             /** 选择日记账分录-行业务伙伴/科目事件 */
             chooseJournalEntryLineShortNameEvent: Function;
-            /** 选择日记账分录-行分配中心事件 */
+            /** 选择日记账分录-行成本中心事件 */
             chooseJournalEntryLineDistributionRuleEvent: Function;
         }
     }

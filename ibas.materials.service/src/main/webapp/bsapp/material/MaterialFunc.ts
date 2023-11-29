@@ -66,5 +66,25 @@ namespace materials {
                 return app;
             }
         }
+        export class MaterialNumberChangeFunc extends ibas.ModuleFunction {
+
+            /** 功能标识 */
+            static FUNCTION_ID = "ccc1729e-33ef-49b3-aee4-bcadbcf6fa92";
+            /** 功能名称 */
+            static FUNCTION_NAME = "materials_func_materialnumberchange";
+            /** 构造函数 */
+            constructor() {
+                super();
+                this.id = MaterialNumberChangeFunc.FUNCTION_ID;
+                this.name = MaterialNumberChangeFunc.FUNCTION_NAME;
+                this.description = ibas.i18n.prop(this.name);
+            }
+            /** 默认功能 */
+            default(): ibas.IApplication<ibas.IView> {
+                let app: MaterialNumberChangeApp = new MaterialNumberChangeApp();
+                app.navigation = this.navigation;
+                return app;
+            }
+        }
     }
 }

@@ -32,13 +32,14 @@ import org.colorcoding.ibas.materials.bo.materialscrap.MaterialScrap;
 import org.colorcoding.ibas.materials.bo.materialserial.MaterialSerial;
 import org.colorcoding.ibas.materials.bo.materialserial.MaterialSerialJournal;
 import org.colorcoding.ibas.materials.bo.materialspecification.MaterialSpecification;
+import org.colorcoding.ibas.materials.bo.picklists.PickLists;
 import org.colorcoding.ibas.materials.bo.specification.Specification;
 import org.colorcoding.ibas.materials.bo.specification.SpecificationTree;
 import org.colorcoding.ibas.materials.bo.unit.Unit;
 import org.colorcoding.ibas.materials.bo.unit.UnitRate;
 import org.colorcoding.ibas.materials.bo.warehouse.Warehouse;
+import org.colorcoding.ibas.materials.data.MaterialNumberChange;
 import org.colorcoding.ibas.materials.repository.BORepositoryMaterials;
-import org.colorcoding.ibas.materials.bo.picklists.PickLists;
 
 /**
  * Materials 数据服务JSON
@@ -808,35 +809,46 @@ public class DataService extends BORepositoryMaterials {
 			@QueryParam("token") String token) {
 		return super.saveMaterialOrderedReservation(bo, token);
 	}
+
 	// --------------------------------------------------------------------------------------------//
-    /**
-     * 查询-拣配清单
-     * @param criteria 查询
-     * @param token 口令
-     * @return 操作结果
-     */
-    @POST
-    @Produces(MediaType.APPLICATION_JSON)
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Path("fetchPickLists")
-    public OperationResult<PickLists> fetchPickLists(Criteria criteria, @QueryParam("token") String token) {
-        return super.fetchPickLists(criteria, token);
-    }
+	/**
+	 * 查询-拣配清单
+	 * 
+	 * @param criteria 查询
+	 * @param token    口令
+	 * @return 操作结果
+	 */
+	@POST
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Path("fetchPickLists")
+	public OperationResult<PickLists> fetchPickLists(Criteria criteria, @QueryParam("token") String token) {
+		return super.fetchPickLists(criteria, token);
+	}
 
-    /**
-     * 保存-拣配清单
-     * @param bo 对象实例
-     * @param token 口令
-     * @return 操作结果
-     */
-    @POST
-    @Produces(MediaType.APPLICATION_JSON)
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Path("savePickLists")
-    public OperationResult<PickLists> savePickLists(PickLists bo, @QueryParam("token") String token) {
-        return super.savePickLists(bo, token);
-    }
+	/**
+	 * 保存-拣配清单
+	 * 
+	 * @param bo    对象实例
+	 * @param token 口令
+	 * @return 操作结果
+	 */
+	@POST
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Path("savePickLists")
+	public OperationResult<PickLists> savePickLists(PickLists bo, @QueryParam("token") String token) {
+		return super.savePickLists(bo, token);
+	}
 
-    //--------------------------------------------------------------------------------------------//
-
+	// --------------------------------------------------------------------------------------------//
+	@POST
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Path("changeMaterialNumbers")
+	public OperationResult<Object> changeMaterialNumbers(MaterialNumberChange changes,
+			@QueryParam("token") String token) {
+		return super.changeMaterialNumbers(changes, token);
+	}
+	// --------------------------------------------------------------------------------------------//
 }

@@ -342,6 +342,7 @@
     {
         "bo_materialbatch": "物料批次",
         "bo_materialbatch_itemcode": "物料编码",
+        "bo_materialbatch_itemdescription": "物料描述",
         "bo_materialbatch_batchcode": "批次编码",
         "bo_materialbatch_warehouse": "仓库编码",
         "bo_materialbatch_quantity": "数量",
@@ -564,6 +565,7 @@
     {
         "bo_materialserial": "物料序列",
         "bo_materialserial_itemcode": "物料编码",
+        "bo_materialserial_itemdescription": "物料描述",
         "bo_materialserial_serialcode": "序列编码",
         "bo_materialserial_warehouse": "仓库编码",
         "bo_materialserial_instock": "在仓库",
@@ -1199,6 +1201,21 @@
         "bo_picklistsline_warehouse": "仓库",
         "bo_picklistsline_unclosedquantity": "未清数量",
         "bo_picklists_closing_delimiter": "----结束----"
+    },
+    {
+        "bo_materialnumberitem": "",
+        "bo_materialnumberitem_code": "物料编码",
+        "bo_materialnumberitem_name": "物料描述",
+        "bo_materialnumberitem_number": "批次/序列号",
+        "bo_materialnumberitem_number_source": "批次/序列号（原）",
+        "bo_materialnumberitem_number_target": "批次/序列号（新）",
+        "bo_materialnumberitem_warehouse_source": "仓库（原）",
+        "bo_materialnumberitem_warehouse_target": "仓库（新）",
+        "bo_materialnumberitem_quantity": "数量",
+        "bo_materialnumberitem_reservedquantity": "预留数量",
+        "bo_materialnumberitem_transferquantity": "转移数量",
+        "bo_materialnumberitem_reserved_transfer_quantity": "预留数量 / 转移数量",
+        "bo_materialnumberitem_remarks": "备注"
     },
     {
         "em_itemtype_item": "物料",

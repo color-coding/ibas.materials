@@ -16,3 +16,4 @@
 /// <reference path="./MaterialInventoryReservationService.ts" />
 /// <reference path="./MaterialOrderedReservationService.ts" />
 /// <reference path="./MaterialSubstituteListApp.ts" />
+/// <reference path="./MaterialNumberChangeApp.ts" />

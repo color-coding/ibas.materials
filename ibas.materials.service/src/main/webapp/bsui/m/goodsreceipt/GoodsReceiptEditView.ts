@@ -28,7 +28,7 @@ namespace materials {
                 chooseGoodsReceiptLineMaterialSerialEvent: Function;
                 /** 选择库存收货单行物料批次事件 */
                 chooseGoodsReceiptLineMaterialBatchEvent: Function;
-                /** 选择库存收货单行分配中心事件 */
+                /** 选择库存收货单行成本中心事件 */
                 chooseGoodsReceiptLineDistributionRuleEvent: Function;
                 defaultWarehouse: string;
                 /** 绘制视图 */
@@ -49,7 +49,7 @@ namespace materials {
                                     menu: new sap.m.Menu("", {
                                         items: [
                                             new sap.m.MenuItem("", {
-                                                text: ibas.i18n.prop("purchase_material_batch"),
+                                                text: ibas.i18n.prop("materials_material_batch"),
                                                 press: function (): void {
                                                     that.fireViewEvents(that.chooseGoodsReceiptLineMaterialBatchEvent);
                                                 },
@@ -59,7 +59,7 @@ namespace materials {
                                                 })
                                             }),
                                             new sap.m.MenuItem("", {
-                                                text: ibas.i18n.prop("purchase_material_serial"),
+                                                text: ibas.i18n.prop("materials_material_serial"),
                                                 press: function (): void {
                                                     that.fireViewEvents(that.chooseGoodsReceiptLineMaterialSerialEvent);
                                                 },

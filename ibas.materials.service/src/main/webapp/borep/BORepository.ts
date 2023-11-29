@@ -433,7 +433,29 @@ namespace materials {
             savePickLists(saver: ibas.ISaveCaller<bo.PickLists>): void {
                 super.save(bo.PickLists.name, saver);
             }
+            /**
+             * 改变物料批次/序列号
+             * @param changer 改变者
+             */
+            changeMaterialNumbers(changer: IChangeCaller): void {
+                let boRepository: ibas.BORepositoryAjax = new ibas.BORepositoryAjax();
+                boRepository.address = this.address;
+                boRepository.token = this.token;
+                boRepository.converter = this.createConverter();
+                let data: string = JSON.stringify(boRepository.converter.convert(changer.changes, "changeMaterialNumbers"));
+                boRepository.callRemoteMethod("changeMaterialNumbers", data, (opRslt) => {
+                    changer.onCompleted.call(ibas.objects.isNull(changer.caller) ? changer : changer.caller, opRslt);
+                });
+            }
 
+        }
+        export interface IChangeCaller extends ibas.IMethodCaller<string> {
+            /** 改变内容 */
+            changes: {
+                issue: GoodsIssue,
+                receipt: GoodsReceipt,
+                reservations: MaterialInventoryReservation[],
+            };
         }
     }
 }

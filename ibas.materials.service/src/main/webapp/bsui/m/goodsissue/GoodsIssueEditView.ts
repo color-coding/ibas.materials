@@ -28,7 +28,7 @@ namespace materials {
                 chooseGoodsIssueLineMaterialSerialEvent: Function;
                 /** 选择库存发货物料价格清单 */
                 chooseeGoodsIssueMaterialPriceListEvent: Function;
-                /** 选择库存发货单行分配中心事件 */
+                /** 选择库存发货单行成本中心事件 */
                 chooseGoodsIssueLineDistributionRuleEvent: Function;
                 defaultWarehouse: string;
                 draw(): any {
@@ -48,7 +48,7 @@ namespace materials {
                                     menu: new sap.m.Menu("", {
                                         items: [
                                             new sap.m.MenuItem("", {
-                                                text: ibas.i18n.prop("purchase_material_batch"),
+                                                text: ibas.i18n.prop("materials_material_batch"),
                                                 press: function (): void {
                                                     that.fireViewEvents(that.chooseGoodsIssueLineMaterialBatchEvent);
                                                 },
@@ -58,7 +58,7 @@ namespace materials {
                                                 })
                                             }),
                                             new sap.m.MenuItem("", {
-                                                text: ibas.i18n.prop("purchase_material_serial"),
+                                                text: ibas.i18n.prop("materials_material_serial"),
                                                 press: function (): void {
                                                     that.fireViewEvents(that.chooseGoodsIssueLineMaterialSerialEvent);
                                                 },

@@ -259,6 +259,9 @@ namespace materials {
                     case app.PickListsSettingApp.APPLICATION_ID:
                         view = new c.PickListsSettingView();
                         break;
+                    case app.MaterialNumberChangeApp.APPLICATION_ID:
+                        view = new c.MaterialNumberChangeView();
+                        break;
                     default:
                         break;
                 }

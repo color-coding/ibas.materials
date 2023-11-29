@@ -352,6 +352,13 @@ namespace materials {
                 this.quantity = 0;
                 this.closedQuantity = 0;
             }
+            /** 重置 */
+            reset(): void {
+                super.reset();
+                this.quantity = 0;
+                this.closedQuantity = 0;
+                this.status = ibas.emBOStatus.OPEN;
+            }
         }
 
 

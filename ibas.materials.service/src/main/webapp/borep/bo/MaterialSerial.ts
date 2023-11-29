@@ -379,6 +379,11 @@ namespace materials {
             reset(): void {
                 super.reset();
                 this.inStock = ibas.emYesNo.NO;
+                this.reserved = ibas.emYesNo.NO;
+                this.locked = ibas.emYesNo.NO;
+                this.baseDocumentType = undefined;
+                this.baseDocumentEntry = undefined;
+                this.baseDocumentLineId = undefined;
             }
         }
     }

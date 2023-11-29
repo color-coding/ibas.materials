@@ -178,10 +178,11 @@ namespace materials {
                             this.formTop
                         ],
                         buttons: [
-                            new sap.m.Button("", {
+                            this.buttonSave = new sap.m.Button("", {
                                 text: ibas.i18n.prop("shell_data_save"),
                                 type: sap.m.ButtonType.Transparent,
                                 icon: "sap-icon://save",
+                                visible: false,
                                 press: function (): void {
                                     that.fireViewEvents(that.saveDataEvent);
                                 }
@@ -198,9 +199,13 @@ namespace materials {
                     }).addStyleClass("sapUiNoContentPadding");
                 }
                 private formTop: sap.ui.layout.form.SimpleForm;
+                private buttonSave: sap.m.Button;
 
                 /** 显示数据 */
-                showMaterialBatch(data: bo.MaterialBatch): void {
+                showMaterialBatch(data: bo.MaterialBatch, viewMode: ibas.emViewMode): void {
+                    if (viewMode !== ibas.emViewMode.VIEW) {
+                        this.buttonSave.setVisible(true);
+                    }
                     this.formTop.setModel(new sap.extension.model.JSONModel(data));
                 }
             }
