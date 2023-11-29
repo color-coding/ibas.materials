@@ -71,4 +71,8 @@ public class Ledgers extends org.colorcoding.ibas.businesspartner.data.Ledgers {
 	 * 仓库
 	 */
 	public static final String CONDITION_PROPERTY_WAREHOUSE = "Warehouse";
+	/**
+	 * 从仓库
+	 */
+	public static final String CONDITION_PROPERTY_FROM_WAREHOUSE = "FromWarehouse";
 }

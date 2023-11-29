@@ -1795,6 +1795,8 @@ public class InventoryTransferLine extends BusinessObject<InventoryTransferLine>
 			return this.getItemCode();
 		case Ledgers.CONDITION_PROPERTY_WAREHOUSE:
 			return this.getWarehouse();
+		case Ledgers.CONDITION_PROPERTY_FROM_WAREHOUSE:
+			return this.parent.getFromWarehouse();
 		default:
 			return null;
 		}
