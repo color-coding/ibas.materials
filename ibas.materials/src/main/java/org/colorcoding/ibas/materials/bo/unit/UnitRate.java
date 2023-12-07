@@ -19,6 +19,7 @@ import org.colorcoding.ibas.bobas.rule.IBusinessRule;
 import org.colorcoding.ibas.bobas.rule.common.BusinessRuleMinValue;
 import org.colorcoding.ibas.bobas.rule.common.BusinessRuleRequired;
 import org.colorcoding.ibas.materials.MyConfiguration;
+import org.colorcoding.ibas.materials.data.DataConvert;
 
 /**
  * 计量单位换算率
@@ -651,7 +652,8 @@ public class UnitRate extends BusinessObject<UnitRate> implements IUnitRate {
 	protected void initialize() {
 		super.initialize();// 基类初始化，不可去除
 		this.setObjectCode(MyConfiguration.applyVariables(BUSINESS_OBJECT_CODE));
-
+		this.setCondition(DataConvert.STRING_VALUE_EMPTY);
+		this.setRate(Decimal.ONE);
 	}
 
 	@Override

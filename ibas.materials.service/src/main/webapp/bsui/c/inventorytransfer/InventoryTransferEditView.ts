@@ -637,7 +637,7 @@ namespace materials {
                 }
                 private page: sap.extension.m.Page;
                 private tableInventoryTransferLine: sap.extension.table.Table;
-                private selectWarehouse: sap.extension.m.Select;
+                private selectWarehouse: component.WarehouseSelect;
                 private menuAdd: sap.m.Menu;
                 get defaultWarehouse(): string {
                     return this.selectWarehouse.getSelectedKey();
@@ -650,6 +650,10 @@ namespace materials {
                     this.page.setModel(new sap.extension.model.JSONModel(data));
                     // 改变页面状态
                     sap.extension.pages.changeStatus(this.page);
+                    // 设置分支对象
+                    if (accounting.config.isEnableBranch()) {
+                        this.selectWarehouse.setBranchData(data);
+                    }
                 }
                 /** 显示数据-库存转储-行 */
                 showInventoryTransferLines(datas: bo.InventoryTransferLine[]): void {

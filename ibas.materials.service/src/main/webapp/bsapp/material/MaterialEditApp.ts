@@ -313,7 +313,7 @@ namespace materials {
                         settings: {
                             category: ibas.objects.nameOf(this.editData),
                             conditions: [
-                                new ibas.Condition(accounting.app.emLedgerAccountConditionProperty.Item, ibas.emConditionOperation.EQUAL, this.editData.code)
+                                new ibas.Condition(accounting.app.emLedgerAccountConditionProperty.Material, ibas.emConditionOperation.EQUAL, this.editData.code)
                             ]
                         }
                     }),

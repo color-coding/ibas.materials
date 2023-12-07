@@ -126,10 +126,19 @@ namespace materials {
                                                 }),
                                                 new sap.m.Text("", {
                                                 }).bindProperty("text", {
-                                                    path: "quantity",
-                                                    type: new sap.extension.data.Quantity({
-                                                        minValue: 0
-                                                    })
+                                                    parts: [
+                                                        {
+                                                            path: "quantity",
+                                                            type: new sap.extension.data.Quantity()
+                                                        },
+                                                        {
+                                                            path: "reservedQuantity",
+                                                            type: new sap.extension.data.Quantity(),
+                                                        }
+                                                    ],
+                                                    formatter(onHand: number, onReserved: number): number {
+                                                        return sap.extension.data.formatValue(sap.extension.data.Quantity, onHand - onReserved, "string");
+                                                    }
                                                 }),
                                                 new sap.m.ToolbarSpacer(""),
                                                 new sap.m.ToolbarSeparator(""),

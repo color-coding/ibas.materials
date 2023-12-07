@@ -389,7 +389,7 @@ namespace materials {
                             beSaved: data,
                             onCompleted(opRslt: ibas.IOperationResult<bo.MaterialOrderedReservation>): void {
                                 if (opRslt.resultCode !== 0) {
-                                    next(new Error(ibas.i18n.prop("shell_data_delete_error", data, opRslt.message)));
+                                    next(new Error(opRslt.message));
                                 } else {
                                     if (opRslt.resultObjects.length > 0) {
                                         data.objectKey = opRslt.resultObjects.firstOrDefault().objectKey;

@@ -209,7 +209,7 @@ namespace materials {
                         settings: {
                             category: ibas.objects.nameOf(this.editData),
                             conditions: [
-                                new ibas.Condition(accounting.app.emLedgerAccountConditionProperty.ItemGroup, ibas.emConditionOperation.EQUAL, this.editData.code)
+                                new ibas.Condition(accounting.app.emLedgerAccountConditionProperty.MaterialGroup, ibas.emConditionOperation.EQUAL, this.editData.code)
                             ]
                         }
                     }),
