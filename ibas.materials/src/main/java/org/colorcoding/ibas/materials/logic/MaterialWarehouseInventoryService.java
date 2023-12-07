@@ -118,7 +118,7 @@ public class MaterialWarehouseInventoryService
 				materialInventory.setAvgPrice(Decimal.ZERO);
 			}
 		}
-		if (Decimal.ZERO.compareTo(onHand) > 0) {
+		if (Decimal.ZERO.compareTo(onHand) > 0 && this.getLogicChain().getTrigger().isDeleted()) {
 			throw new BusinessLogicException(
 					I18N.prop("msg_mm_material_not_enough_in_stock", contract.getWarehouse(), contract.getItemCode()));
 		}
