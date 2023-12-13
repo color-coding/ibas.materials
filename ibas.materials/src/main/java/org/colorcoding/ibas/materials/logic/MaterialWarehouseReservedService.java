@@ -11,7 +11,6 @@ import org.colorcoding.ibas.bobas.common.IOperationResult;
 import org.colorcoding.ibas.bobas.data.Decimal;
 import org.colorcoding.ibas.bobas.data.emBOStatus;
 import org.colorcoding.ibas.bobas.data.emYesNo;
-import org.colorcoding.ibas.bobas.i18n.I18N;
 import org.colorcoding.ibas.bobas.logic.BusinessLogicException;
 import org.colorcoding.ibas.bobas.mapping.LogicContract;
 import org.colorcoding.ibas.bobas.message.Logger;
@@ -103,11 +102,10 @@ public class MaterialWarehouseReservedService
 		BigDecimal onReserved = materialInventory.getOnReserved();
 		onReserved = onReserved.add(contract.getQuantity());
 		/*
-		if (onReserved.compareTo(materialInventory.getOnHand()) > 0) {
-			throw new BusinessLogicException(
-					I18N.prop("msg_mm_material_not_enough_in_stock", contract.getWarehouse(), contract.getItemCode()));
-		}
-		*/
+		 * if (onReserved.compareTo(materialInventory.getOnHand()) > 0) { throw new
+		 * BusinessLogicException( I18N.prop("msg_mm_material_not_enough_in_stock",
+		 * contract.getWarehouse(), contract.getItemCode())); }
+		 */
 		materialInventory.setOnReserved(onReserved);
 	}
 

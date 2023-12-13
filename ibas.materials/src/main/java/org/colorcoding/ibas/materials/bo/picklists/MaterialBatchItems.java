@@ -1,19 +1,22 @@
 package org.colorcoding.ibas.materials.bo.picklists;
 
+import java.beans.PropertyChangeEvent;
+
+import javax.xml.bind.annotation.XmlSeeAlso;
+import javax.xml.bind.annotation.XmlType;
+
 import org.colorcoding.ibas.materials.MyConfiguration;
 import org.colorcoding.ibas.materials.bo.materialbatch.IMaterialBatchItem;
 import org.colorcoding.ibas.materials.bo.materialbatch.IMaterialBatchItemParent;
 import org.colorcoding.ibas.materials.bo.materialbatch.IMaterialBatchItems;
 import org.colorcoding.ibas.materials.bo.materialbatch.MaterialBatchItem;
 
-import javax.xml.bind.annotation.XmlSeeAlso;
-import javax.xml.bind.annotation.XmlType;
-import java.beans.PropertyChangeEvent;
-
 @XmlType(name = MaterialBatchItems.BUSINESS_OBJECT_NAME, namespace = MyConfiguration.NAMESPACE_BO)
-@XmlSeeAlso({MaterialBatchItem.class})
+@XmlSeeAlso({ MaterialBatchItem.class })
 public class MaterialBatchItems extends org.colorcoding.ibas.materials.bo.materialbatch.MaterialBatchItems
 		implements IMaterialBatchItems {
+
+	private static final long serialVersionUID = -9219913818696019270L;
 
 	public MaterialBatchItems() {
 		super();

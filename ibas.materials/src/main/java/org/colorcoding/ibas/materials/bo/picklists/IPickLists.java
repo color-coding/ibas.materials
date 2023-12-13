@@ -1,9 +1,7 @@
 package org.colorcoding.ibas.materials.bo.picklists;
 
-import java.math.*;
-
-import org.colorcoding.ibas.bobas.bo.*;
-import org.colorcoding.ibas.bobas.data.*;
+import org.colorcoding.ibas.bobas.bo.IBOSimple;
+import org.colorcoding.ibas.bobas.data.DateTime;
 import org.colorcoding.ibas.materials.data.emPickStatus;
 
 /**
@@ -25,7 +23,6 @@ public interface IPickLists extends IBOSimple {
 	 */
 	void setObjectKey(Integer value);
 
-
 	/**
 	 * 获取-对象类型
 	 *
@@ -39,7 +36,6 @@ public interface IPickLists extends IBOSimple {
 	 * @param value 值
 	 */
 	void setObjectCode(String value);
-
 
 	/**
 	 * 获取-实例号
@@ -55,7 +51,6 @@ public interface IPickLists extends IBOSimple {
 	 */
 	void setLogInst(Integer value);
 
-
 	/**
 	 * 获取-服务系列
 	 *
@@ -69,7 +64,6 @@ public interface IPickLists extends IBOSimple {
 	 * @param value 值
 	 */
 	void setSeries(Integer value);
-
 
 	/**
 	 * 获取-数据源
@@ -85,7 +79,6 @@ public interface IPickLists extends IBOSimple {
 	 */
 	void setDataSource(String value);
 
-
 	/**
 	 * 获取-创建日期
 	 *
@@ -99,7 +92,6 @@ public interface IPickLists extends IBOSimple {
 	 * @param value 值
 	 */
 	void setCreateDate(DateTime value);
-
 
 	/**
 	 * 获取-创建时间
@@ -115,7 +107,6 @@ public interface IPickLists extends IBOSimple {
 	 */
 	void setCreateTime(Short value);
 
-
 	/**
 	 * 获取-更新日期
 	 *
@@ -129,7 +120,6 @@ public interface IPickLists extends IBOSimple {
 	 * @param value 值
 	 */
 	void setUpdateDate(DateTime value);
-
 
 	/**
 	 * 获取-更新时间
@@ -145,7 +135,6 @@ public interface IPickLists extends IBOSimple {
 	 */
 	void setUpdateTime(Short value);
 
-
 	/**
 	 * 获取-创建用户
 	 *
@@ -159,7 +148,6 @@ public interface IPickLists extends IBOSimple {
 	 * @param value 值
 	 */
 	void setCreateUserSign(Integer value);
-
 
 	/**
 	 * 获取-更新用户
@@ -175,7 +163,6 @@ public interface IPickLists extends IBOSimple {
 	 */
 	void setUpdateUserSign(Integer value);
 
-
 	/**
 	 * 获取-创建动作标识
 	 *
@@ -189,7 +176,6 @@ public interface IPickLists extends IBOSimple {
 	 * @param value 值
 	 */
 	void setCreateActionId(String value);
-
 
 	/**
 	 * 获取-更新动作标识
@@ -205,7 +191,6 @@ public interface IPickLists extends IBOSimple {
 	 */
 	void setUpdateActionId(String value);
 
-
 	/**
 	 * 获取-数据所有者
 	 *
@@ -219,7 +204,6 @@ public interface IPickLists extends IBOSimple {
 	 * @param value 值
 	 */
 	void setDataOwner(Integer value);
-
 
 	/**
 	 * 获取-数据所属组织
@@ -235,7 +219,6 @@ public interface IPickLists extends IBOSimple {
 	 */
 	void setOrganization(String value);
 
-
 	/**
 	 * 获取-参考1
 	 *
@@ -249,7 +232,6 @@ public interface IPickLists extends IBOSimple {
 	 * @param value 值
 	 */
 	void setReference1(String value);
-
 
 	/**
 	 * 获取-参考2
@@ -265,7 +247,6 @@ public interface IPickLists extends IBOSimple {
 	 */
 	void setReference2(String value);
 
-
 	/**
 	 * 获取-备注
 	 *
@@ -279,7 +260,6 @@ public interface IPickLists extends IBOSimple {
 	 * @param value 值
 	 */
 	void setRemarks(String value);
-
 
 	/**
 	 * 获取-拣配员
@@ -295,7 +275,6 @@ public interface IPickLists extends IBOSimple {
 	 */
 	void setPicker(String value);
 
-
 	/**
 	 * 获取-拣配日期
 	 *
@@ -309,7 +288,6 @@ public interface IPickLists extends IBOSimple {
 	 * @param value 值
 	 */
 	void setPickDate(DateTime value);
-
 
 	/**
 	 * 获取-拣配状态
@@ -325,7 +303,6 @@ public interface IPickLists extends IBOSimple {
 	 */
 	void setPickStatus(emPickStatus value);
 
-
 	/**
 	 * 获取-拣配清单-行集合
 	 *
@@ -339,6 +316,5 @@ public interface IPickLists extends IBOSimple {
 	 * @param value 值
 	 */
 	void setPickListsLines(IPickListsLines value);
-
 
 }

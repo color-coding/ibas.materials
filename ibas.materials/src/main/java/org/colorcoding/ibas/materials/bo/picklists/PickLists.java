@@ -1,12 +1,18 @@
 package org.colorcoding.ibas.materials.bo.picklists;
 
-import java.math.*;
-import javax.xml.bind.annotation.*;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElementWrapper;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlType;
 
-import org.colorcoding.ibas.bobas.core.*;
-import org.colorcoding.ibas.bobas.mapping.*;
-import org.colorcoding.ibas.bobas.bo.*;
-import org.colorcoding.ibas.bobas.data.*;
+import org.colorcoding.ibas.bobas.bo.BusinessObject;
+import org.colorcoding.ibas.bobas.core.IPropertyInfo;
+import org.colorcoding.ibas.bobas.data.DateTime;
+import org.colorcoding.ibas.bobas.mapping.BusinessObjectUnit;
+import org.colorcoding.ibas.bobas.mapping.DbField;
+import org.colorcoding.ibas.bobas.mapping.DbFieldType;
 import org.colorcoding.ibas.bobas.rule.IBusinessRule;
 import org.colorcoding.ibas.bobas.rule.common.BusinessRuleRequired;
 import org.colorcoding.ibas.bobas.rule.common.BusinessRuleRequiredElements;
@@ -56,7 +62,8 @@ public class PickLists extends BusinessObject<PickLists> implements IPickLists {
 	 * 对象编号 属性
 	 */
 	@DbField(name = "ObjectKey", type = DbFieldType.NUMERIC, table = DB_TABLE_NAME, primaryKey = true)
-	public static final IPropertyInfo<Integer> PROPERTY_OBJECTKEY = registerProperty(PROPERTY_OBJECTKEY_NAME, Integer.class, MY_CLASS);
+	public static final IPropertyInfo<Integer> PROPERTY_OBJECTKEY = registerProperty(PROPERTY_OBJECTKEY_NAME,
+			Integer.class, MY_CLASS);
 
 	/**
 	 * 获取-对象编号
@@ -77,7 +84,6 @@ public class PickLists extends BusinessObject<PickLists> implements IPickLists {
 		this.setProperty(PROPERTY_OBJECTKEY, value);
 	}
 
-
 	/**
 	 * 属性名称-对象类型
 	 */
@@ -87,7 +93,8 @@ public class PickLists extends BusinessObject<PickLists> implements IPickLists {
 	 * 对象类型 属性
 	 */
 	@DbField(name = "ObjectCode", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME)
-	public static final IPropertyInfo<String> PROPERTY_OBJECTCODE = registerProperty(PROPERTY_OBJECTCODE_NAME, String.class, MY_CLASS);
+	public static final IPropertyInfo<String> PROPERTY_OBJECTCODE = registerProperty(PROPERTY_OBJECTCODE_NAME,
+			String.class, MY_CLASS);
 
 	/**
 	 * 获取-对象类型
@@ -108,7 +115,6 @@ public class PickLists extends BusinessObject<PickLists> implements IPickLists {
 		this.setProperty(PROPERTY_OBJECTCODE, value);
 	}
 
-
 	/**
 	 * 属性名称-实例号
 	 */
@@ -118,7 +124,8 @@ public class PickLists extends BusinessObject<PickLists> implements IPickLists {
 	 * 实例号 属性
 	 */
 	@DbField(name = "LogInst", type = DbFieldType.NUMERIC, table = DB_TABLE_NAME)
-	public static final IPropertyInfo<Integer> PROPERTY_LOGINST = registerProperty(PROPERTY_LOGINST_NAME, Integer.class, MY_CLASS);
+	public static final IPropertyInfo<Integer> PROPERTY_LOGINST = registerProperty(PROPERTY_LOGINST_NAME, Integer.class,
+			MY_CLASS);
 
 	/**
 	 * 获取-实例号
@@ -139,7 +146,6 @@ public class PickLists extends BusinessObject<PickLists> implements IPickLists {
 		this.setProperty(PROPERTY_LOGINST, value);
 	}
 
-
 	/**
 	 * 属性名称-服务系列
 	 */
@@ -149,7 +155,8 @@ public class PickLists extends BusinessObject<PickLists> implements IPickLists {
 	 * 服务系列 属性
 	 */
 	@DbField(name = "Series", type = DbFieldType.NUMERIC, table = DB_TABLE_NAME)
-	public static final IPropertyInfo<Integer> PROPERTY_SERIES = registerProperty(PROPERTY_SERIES_NAME, Integer.class, MY_CLASS);
+	public static final IPropertyInfo<Integer> PROPERTY_SERIES = registerProperty(PROPERTY_SERIES_NAME, Integer.class,
+			MY_CLASS);
 
 	/**
 	 * 获取-服务系列
@@ -170,7 +177,6 @@ public class PickLists extends BusinessObject<PickLists> implements IPickLists {
 		this.setProperty(PROPERTY_SERIES, value);
 	}
 
-
 	/**
 	 * 属性名称-数据源
 	 */
@@ -180,7 +186,8 @@ public class PickLists extends BusinessObject<PickLists> implements IPickLists {
 	 * 数据源 属性
 	 */
 	@DbField(name = "DataSource", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME)
-	public static final IPropertyInfo<String> PROPERTY_DATASOURCE = registerProperty(PROPERTY_DATASOURCE_NAME, String.class, MY_CLASS);
+	public static final IPropertyInfo<String> PROPERTY_DATASOURCE = registerProperty(PROPERTY_DATASOURCE_NAME,
+			String.class, MY_CLASS);
 
 	/**
 	 * 获取-数据源
@@ -201,7 +208,6 @@ public class PickLists extends BusinessObject<PickLists> implements IPickLists {
 		this.setProperty(PROPERTY_DATASOURCE, value);
 	}
 
-
 	/**
 	 * 属性名称-创建日期
 	 */
@@ -211,7 +217,8 @@ public class PickLists extends BusinessObject<PickLists> implements IPickLists {
 	 * 创建日期 属性
 	 */
 	@DbField(name = "CreateDate", type = DbFieldType.DATE, table = DB_TABLE_NAME)
-	public static final IPropertyInfo<DateTime> PROPERTY_CREATEDATE = registerProperty(PROPERTY_CREATEDATE_NAME, DateTime.class, MY_CLASS);
+	public static final IPropertyInfo<DateTime> PROPERTY_CREATEDATE = registerProperty(PROPERTY_CREATEDATE_NAME,
+			DateTime.class, MY_CLASS);
 
 	/**
 	 * 获取-创建日期
@@ -232,7 +239,6 @@ public class PickLists extends BusinessObject<PickLists> implements IPickLists {
 		this.setProperty(PROPERTY_CREATEDATE, value);
 	}
 
-
 	/**
 	 * 属性名称-创建时间
 	 */
@@ -242,7 +248,8 @@ public class PickLists extends BusinessObject<PickLists> implements IPickLists {
 	 * 创建时间 属性
 	 */
 	@DbField(name = "CreateTime", type = DbFieldType.NUMERIC, table = DB_TABLE_NAME)
-	public static final IPropertyInfo<Short> PROPERTY_CREATETIME = registerProperty(PROPERTY_CREATETIME_NAME, Short.class, MY_CLASS);
+	public static final IPropertyInfo<Short> PROPERTY_CREATETIME = registerProperty(PROPERTY_CREATETIME_NAME,
+			Short.class, MY_CLASS);
 
 	/**
 	 * 获取-创建时间
@@ -263,7 +270,6 @@ public class PickLists extends BusinessObject<PickLists> implements IPickLists {
 		this.setProperty(PROPERTY_CREATETIME, value);
 	}
 
-
 	/**
 	 * 属性名称-更新日期
 	 */
@@ -273,7 +279,8 @@ public class PickLists extends BusinessObject<PickLists> implements IPickLists {
 	 * 更新日期 属性
 	 */
 	@DbField(name = "UpdateDate", type = DbFieldType.DATE, table = DB_TABLE_NAME)
-	public static final IPropertyInfo<DateTime> PROPERTY_UPDATEDATE = registerProperty(PROPERTY_UPDATEDATE_NAME, DateTime.class, MY_CLASS);
+	public static final IPropertyInfo<DateTime> PROPERTY_UPDATEDATE = registerProperty(PROPERTY_UPDATEDATE_NAME,
+			DateTime.class, MY_CLASS);
 
 	/**
 	 * 获取-更新日期
@@ -294,7 +301,6 @@ public class PickLists extends BusinessObject<PickLists> implements IPickLists {
 		this.setProperty(PROPERTY_UPDATEDATE, value);
 	}
 
-
 	/**
 	 * 属性名称-更新时间
 	 */
@@ -304,7 +310,8 @@ public class PickLists extends BusinessObject<PickLists> implements IPickLists {
 	 * 更新时间 属性
 	 */
 	@DbField(name = "UpdateTime", type = DbFieldType.NUMERIC, table = DB_TABLE_NAME)
-	public static final IPropertyInfo<Short> PROPERTY_UPDATETIME = registerProperty(PROPERTY_UPDATETIME_NAME, Short.class, MY_CLASS);
+	public static final IPropertyInfo<Short> PROPERTY_UPDATETIME = registerProperty(PROPERTY_UPDATETIME_NAME,
+			Short.class, MY_CLASS);
 
 	/**
 	 * 获取-更新时间
@@ -325,7 +332,6 @@ public class PickLists extends BusinessObject<PickLists> implements IPickLists {
 		this.setProperty(PROPERTY_UPDATETIME, value);
 	}
 
-
 	/**
 	 * 属性名称-创建用户
 	 */
@@ -335,7 +341,8 @@ public class PickLists extends BusinessObject<PickLists> implements IPickLists {
 	 * 创建用户 属性
 	 */
 	@DbField(name = "Creator", type = DbFieldType.NUMERIC, table = DB_TABLE_NAME)
-	public static final IPropertyInfo<Integer> PROPERTY_CREATEUSERSIGN = registerProperty(PROPERTY_CREATEUSERSIGN_NAME, Integer.class, MY_CLASS);
+	public static final IPropertyInfo<Integer> PROPERTY_CREATEUSERSIGN = registerProperty(PROPERTY_CREATEUSERSIGN_NAME,
+			Integer.class, MY_CLASS);
 
 	/**
 	 * 获取-创建用户
@@ -356,7 +363,6 @@ public class PickLists extends BusinessObject<PickLists> implements IPickLists {
 		this.setProperty(PROPERTY_CREATEUSERSIGN, value);
 	}
 
-
 	/**
 	 * 属性名称-更新用户
 	 */
@@ -366,7 +372,8 @@ public class PickLists extends BusinessObject<PickLists> implements IPickLists {
 	 * 更新用户 属性
 	 */
 	@DbField(name = "Updator", type = DbFieldType.NUMERIC, table = DB_TABLE_NAME)
-	public static final IPropertyInfo<Integer> PROPERTY_UPDATEUSERSIGN = registerProperty(PROPERTY_UPDATEUSERSIGN_NAME, Integer.class, MY_CLASS);
+	public static final IPropertyInfo<Integer> PROPERTY_UPDATEUSERSIGN = registerProperty(PROPERTY_UPDATEUSERSIGN_NAME,
+			Integer.class, MY_CLASS);
 
 	/**
 	 * 获取-更新用户
@@ -387,7 +394,6 @@ public class PickLists extends BusinessObject<PickLists> implements IPickLists {
 		this.setProperty(PROPERTY_UPDATEUSERSIGN, value);
 	}
 
-
 	/**
 	 * 属性名称-创建动作标识
 	 */
@@ -397,7 +403,8 @@ public class PickLists extends BusinessObject<PickLists> implements IPickLists {
 	 * 创建动作标识 属性
 	 */
 	@DbField(name = "CreateActId", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME)
-	public static final IPropertyInfo<String> PROPERTY_CREATEACTIONID = registerProperty(PROPERTY_CREATEACTIONID_NAME, String.class, MY_CLASS);
+	public static final IPropertyInfo<String> PROPERTY_CREATEACTIONID = registerProperty(PROPERTY_CREATEACTIONID_NAME,
+			String.class, MY_CLASS);
 
 	/**
 	 * 获取-创建动作标识
@@ -418,7 +425,6 @@ public class PickLists extends BusinessObject<PickLists> implements IPickLists {
 		this.setProperty(PROPERTY_CREATEACTIONID, value);
 	}
 
-
 	/**
 	 * 属性名称-更新动作标识
 	 */
@@ -428,7 +434,8 @@ public class PickLists extends BusinessObject<PickLists> implements IPickLists {
 	 * 更新动作标识 属性
 	 */
 	@DbField(name = "UpdateActId", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME)
-	public static final IPropertyInfo<String> PROPERTY_UPDATEACTIONID = registerProperty(PROPERTY_UPDATEACTIONID_NAME, String.class, MY_CLASS);
+	public static final IPropertyInfo<String> PROPERTY_UPDATEACTIONID = registerProperty(PROPERTY_UPDATEACTIONID_NAME,
+			String.class, MY_CLASS);
 
 	/**
 	 * 获取-更新动作标识
@@ -449,7 +456,6 @@ public class PickLists extends BusinessObject<PickLists> implements IPickLists {
 		this.setProperty(PROPERTY_UPDATEACTIONID, value);
 	}
 
-
 	/**
 	 * 属性名称-数据所有者
 	 */
@@ -459,7 +465,8 @@ public class PickLists extends BusinessObject<PickLists> implements IPickLists {
 	 * 数据所有者 属性
 	 */
 	@DbField(name = "DataOwner", type = DbFieldType.NUMERIC, table = DB_TABLE_NAME)
-	public static final IPropertyInfo<Integer> PROPERTY_DATAOWNER = registerProperty(PROPERTY_DATAOWNER_NAME, Integer.class, MY_CLASS);
+	public static final IPropertyInfo<Integer> PROPERTY_DATAOWNER = registerProperty(PROPERTY_DATAOWNER_NAME,
+			Integer.class, MY_CLASS);
 
 	/**
 	 * 获取-数据所有者
@@ -480,7 +487,6 @@ public class PickLists extends BusinessObject<PickLists> implements IPickLists {
 		this.setProperty(PROPERTY_DATAOWNER, value);
 	}
 
-
 	/**
 	 * 属性名称-数据所属组织
 	 */
@@ -490,7 +496,8 @@ public class PickLists extends BusinessObject<PickLists> implements IPickLists {
 	 * 数据所属组织 属性
 	 */
 	@DbField(name = "OrgCode", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME)
-	public static final IPropertyInfo<String> PROPERTY_ORGANIZATION = registerProperty(PROPERTY_ORGANIZATION_NAME, String.class, MY_CLASS);
+	public static final IPropertyInfo<String> PROPERTY_ORGANIZATION = registerProperty(PROPERTY_ORGANIZATION_NAME,
+			String.class, MY_CLASS);
 
 	/**
 	 * 获取-数据所属组织
@@ -511,7 +518,6 @@ public class PickLists extends BusinessObject<PickLists> implements IPickLists {
 		this.setProperty(PROPERTY_ORGANIZATION, value);
 	}
 
-
 	/**
 	 * 属性名称-参考1
 	 */
@@ -521,7 +527,8 @@ public class PickLists extends BusinessObject<PickLists> implements IPickLists {
 	 * 参考1 属性
 	 */
 	@DbField(name = "Ref1", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME)
-	public static final IPropertyInfo<String> PROPERTY_REFERENCE1 = registerProperty(PROPERTY_REFERENCE1_NAME, String.class, MY_CLASS);
+	public static final IPropertyInfo<String> PROPERTY_REFERENCE1 = registerProperty(PROPERTY_REFERENCE1_NAME,
+			String.class, MY_CLASS);
 
 	/**
 	 * 获取-参考1
@@ -542,7 +549,6 @@ public class PickLists extends BusinessObject<PickLists> implements IPickLists {
 		this.setProperty(PROPERTY_REFERENCE1, value);
 	}
 
-
 	/**
 	 * 属性名称-参考2
 	 */
@@ -552,7 +558,8 @@ public class PickLists extends BusinessObject<PickLists> implements IPickLists {
 	 * 参考2 属性
 	 */
 	@DbField(name = "Ref2", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME)
-	public static final IPropertyInfo<String> PROPERTY_REFERENCE2 = registerProperty(PROPERTY_REFERENCE2_NAME, String.class, MY_CLASS);
+	public static final IPropertyInfo<String> PROPERTY_REFERENCE2 = registerProperty(PROPERTY_REFERENCE2_NAME,
+			String.class, MY_CLASS);
 
 	/**
 	 * 获取-参考2
@@ -573,7 +580,6 @@ public class PickLists extends BusinessObject<PickLists> implements IPickLists {
 		this.setProperty(PROPERTY_REFERENCE2, value);
 	}
 
-
 	/**
 	 * 属性名称-备注
 	 */
@@ -583,7 +589,8 @@ public class PickLists extends BusinessObject<PickLists> implements IPickLists {
 	 * 备注 属性
 	 */
 	@DbField(name = "Remarks", type = DbFieldType.MEMO, table = DB_TABLE_NAME)
-	public static final IPropertyInfo<String> PROPERTY_REMARKS = registerProperty(PROPERTY_REMARKS_NAME, String.class, MY_CLASS);
+	public static final IPropertyInfo<String> PROPERTY_REMARKS = registerProperty(PROPERTY_REMARKS_NAME, String.class,
+			MY_CLASS);
 
 	/**
 	 * 获取-备注
@@ -604,7 +611,6 @@ public class PickLists extends BusinessObject<PickLists> implements IPickLists {
 		this.setProperty(PROPERTY_REMARKS, value);
 	}
 
-
 	/**
 	 * 属性名称-拣配员
 	 */
@@ -614,7 +620,8 @@ public class PickLists extends BusinessObject<PickLists> implements IPickLists {
 	 * 拣配员 属性
 	 */
 	@DbField(name = "Picker", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME)
-	public static final IPropertyInfo<String> PROPERTY_PICKER = registerProperty(PROPERTY_PICKER_NAME, String.class, MY_CLASS);
+	public static final IPropertyInfo<String> PROPERTY_PICKER = registerProperty(PROPERTY_PICKER_NAME, String.class,
+			MY_CLASS);
 
 	/**
 	 * 获取-拣配员
@@ -635,7 +642,6 @@ public class PickLists extends BusinessObject<PickLists> implements IPickLists {
 		this.setProperty(PROPERTY_PICKER, value);
 	}
 
-
 	/**
 	 * 属性名称-拣配日期
 	 */
@@ -645,7 +651,8 @@ public class PickLists extends BusinessObject<PickLists> implements IPickLists {
 	 * 拣配日期 属性
 	 */
 	@DbField(name = "PickDate", type = DbFieldType.DATE, table = DB_TABLE_NAME)
-	public static final IPropertyInfo<DateTime> PROPERTY_PICKDATE = registerProperty(PROPERTY_PICKDATE_NAME, DateTime.class, MY_CLASS);
+	public static final IPropertyInfo<DateTime> PROPERTY_PICKDATE = registerProperty(PROPERTY_PICKDATE_NAME,
+			DateTime.class, MY_CLASS);
 
 	/**
 	 * 获取-拣配日期
@@ -666,7 +673,6 @@ public class PickLists extends BusinessObject<PickLists> implements IPickLists {
 		this.setProperty(PROPERTY_PICKDATE, value);
 	}
 
-
 	/**
 	 * 属性名称-拣配状态
 	 */
@@ -676,7 +682,8 @@ public class PickLists extends BusinessObject<PickLists> implements IPickLists {
 	 * 拣配状态 属性
 	 */
 	@DbField(name = "PickStatus", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME)
-	public static final IPropertyInfo<emPickStatus> PROPERTY_PICKSTATUS = registerProperty(PROPERTY_PICKSTATUS_NAME, emPickStatus.class, MY_CLASS);
+	public static final IPropertyInfo<emPickStatus> PROPERTY_PICKSTATUS = registerProperty(PROPERTY_PICKSTATUS_NAME,
+			emPickStatus.class, MY_CLASS);
 
 	/**
 	 * 获取-拣配状态
@@ -697,7 +704,6 @@ public class PickLists extends BusinessObject<PickLists> implements IPickLists {
 		this.setProperty(PROPERTY_PICKSTATUS, value);
 	}
 
-
 	/**
 	 * 属性名称-拣配清单-行
 	 */
@@ -706,7 +712,8 @@ public class PickLists extends BusinessObject<PickLists> implements IPickLists {
 	/**
 	 * 拣配清单-行的集合属性
 	 */
-	public static final IPropertyInfo<IPickListsLines> PROPERTY_PICKLISTSLINES = registerProperty(PROPERTY_PICKLISTSLINES_NAME, IPickListsLines.class, MY_CLASS);
+	public static final IPropertyInfo<IPickListsLines> PROPERTY_PICKLISTSLINES = registerProperty(
+			PROPERTY_PICKLISTSLINES_NAME, IPickListsLines.class, MY_CLASS);
 
 	/**
 	 * 获取-拣配清单-行集合
@@ -728,7 +735,6 @@ public class PickLists extends BusinessObject<PickLists> implements IPickLists {
 		this.setProperty(PROPERTY_PICKLISTSLINES, value);
 	}
 
-
 	/**
 	 * 初始化数据
 	 */
@@ -740,10 +746,9 @@ public class PickLists extends BusinessObject<PickLists> implements IPickLists {
 
 	}
 
-
 	@Override
 	protected IBusinessRule[] registerRules() {
-		return new IBusinessRule[]{
+		return new IBusinessRule[] {
 				// 注册的业务规则
 				new BusinessRuleRequired(PROPERTY_PICKDATE), // 要求有值
 				new BusinessRuleRequiredElements(PROPERTY_PICKLISTSLINES), // 要求有元素

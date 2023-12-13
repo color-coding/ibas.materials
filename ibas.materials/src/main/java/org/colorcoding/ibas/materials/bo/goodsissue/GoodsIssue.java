@@ -10,6 +10,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
 import org.colorcoding.ibas.accounting.data.IProjectData;
+import org.colorcoding.ibas.accounting.logic.IBranchCheckContract;
 import org.colorcoding.ibas.accounting.logic.IJournalEntryCreationContract;
 import org.colorcoding.ibas.accounting.logic.JournalEntryContent;
 import org.colorcoding.ibas.accounting.logic.JournalEntryContent.Category;
@@ -1323,6 +1324,19 @@ public class GoodsIssue extends BusinessObject<GoodsIssue> implements IGoodsIssu
 	@Override
 	public IBusinessLogicContract[] getContracts() {
 		return new IBusinessLogicContract[] {
+				// 分支检查
+				new IBranchCheckContract() {
+
+					@Override
+					public String getIdentifiers() {
+						return GoodsIssue.this.toString();
+					}
+
+					@Override
+					public String getBranch() {
+						return GoodsIssue.this.getBranch();
+					}
+				},
 				// 创建分录
 				new IJournalEntryCreationContract() {
 
