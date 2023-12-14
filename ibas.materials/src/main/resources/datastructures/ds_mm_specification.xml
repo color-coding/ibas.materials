@@ -21,7 +21,7 @@
     <Property Name="Organization" Description="数据所属组织" DataType="Alphanumeric" DataSubType="Default" EditSize="8" Mapped="OrgCode"/>
     <Property Name="Name" Description="名称" DataType="Alphanumeric" DataSubType="Default" EditSize="100" Mapped="Name" UniqueKey="Yes"/>
     <Property Name="TargetType" Description="目标类型" DataType="Alphanumeric" DataSubType="Default" EditSize="1" DeclaredType="emSpecificationTarget" Mapped="TargetType"/>
-    <Property Name="Target" Description="目标" DataType="Alphanumeric" DataSubType="Default" EditSize="20" Mapped="Target"/>
+    <Property Name="Target" Description="目标" DataType="Alphanumeric" DataSubType="Default" EditSize="50" Mapped="Target"/>
     <Property Name="Activated" Description="是否激活" DataType="Alphanumeric" DataSubType="Default" EditSize="1" DeclaredType="emYesNo" Mapped="Activated"/>
     <Property Name="ValidDate" Description="生效日期" DataType="Date" DataSubType="Default" EditSize="8" Mapped="ValidDate"/>
     <Property Name="InvalidDate" Description="失效日期" DataType="Date" DataSubType="Default" EditSize="8" Mapped="InvalidDate"/>
@@ -68,7 +68,7 @@
     <Property Name="ItemId" Description="项目号" DataType="Numeric" DataSubType="Default" EditSize="8" Mapped="ItemId"/>
     <Property Name="Value" Description="值" DataType="Alphanumeric" DataSubType="Default" EditSize="30" Mapped="Value"/>
     <Property Name="Description" Description="描述" DataType="Alphanumeric" DataSubType="Default" EditSize="100" Mapped="Description"/>
-    <Property Name="Associated" Description="关联的" DataType="Alphanumeric" DataSubType="Default" EditSize="20" Mapped="Associated"/>
+    <Property Name="Associated" Description="关联的" DataType="Alphanumeric" DataSubType="Default" EditSize="50" Mapped="Associated"/>
   </Model>
   <BusinessObject MappedModel="Specification" ShortName="${Company}_MM_SPEC">
     <RelatedBO Relation="OneToMany" MappedModel="SpecificationItem">

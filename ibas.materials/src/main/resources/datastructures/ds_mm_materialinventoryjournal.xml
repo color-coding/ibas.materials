@@ -2,7 +2,7 @@
 <!DOCTYPE Domain>
 <Domain Name="Materials" ShortName="MM">
   <Model Name="MaterialInventoryJournal" Description="仓库日记账" ModelType="Simple" Mapped="${Company}_MM_OINM">
-    <Property Name="ItemCode" Description="物料编码" DataType="Alphanumeric" DataSubType="Default" EditSize="20" Mapped="ItemCode"/>
+    <Property Name="ItemCode" Description="物料编码" DataType="Alphanumeric" DataSubType="Default" EditSize="50" Mapped="ItemCode"/>
     <Property Name="ItemName" Description="物料名称" DataType="Alphanumeric" DataSubType="Default" EditSize="100" Mapped="ItemName"/>
     <Property Name="Warehouse" Description="仓库编号" DataType="Alphanumeric" DataSubType="Default" EditSize="8" Mapped="WhsCode"/>
     <Property Name="Direction" Description="方向" DataType="Alphanumeric" DataSubType="Default" EditSize="1" DeclaredType="emDirection" Mapped="Direction" UniqueKey="Yes"/>

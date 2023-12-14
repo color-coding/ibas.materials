@@ -20,7 +20,7 @@
     <Property Name="TeamMembers" Description="团队成员" DataType="Alphanumeric" DataSubType="Default" EditSize="100" Mapped="TeamMembers"/>
     <Property Name="Organization" Description="数据所属组织" DataType="Alphanumeric" DataSubType="Default" EditSize="8" Mapped="OrgCode"/>
     <Property Name="Name" Description="名称" DataType="Alphanumeric" DataSubType="Default" EditSize="200" Mapped="Name"/>
-    <Property Name="ItemCode" Description="物料编码" DataType="Alphanumeric" DataSubType="Default" EditSize="20" Mapped="ItemCode"/>
+    <Property Name="ItemCode" Description="物料编码" DataType="Alphanumeric" DataSubType="Default" EditSize="50" Mapped="ItemCode"/>
     <Property Name="Specification" Description="规格模板" DataType="Numeric" DataSubType="Default" EditSize="8" Mapped="Specification"/>
     <Property Name="BusinessPartnerType" Description="业务伙伴类型" DataType="Alphanumeric" DataSubType="Default" EditSize="1" DeclaredType="emBusinessPartnerType" Mapped="CardType"/>
     <Property Name="BusinessPartnerCode" Description="业务伙伴" DataType="Alphanumeric" DataSubType="Default" EditSize="20" Mapped="CardCode"/>
@@ -48,7 +48,7 @@
     <Property Name="Description" Description="描述" DataType="Alphanumeric" DataSubType="Default" EditSize="100" Mapped="Description"/>
     <Property Name="Content" Description="内容" DataType="Alphanumeric" DataSubType="Default" EditSize="100" Mapped="Content"/>
     <Property Name="Value" Description="值" DataType="Alphanumeric" DataSubType="Default" EditSize="30" Mapped="Value"/>
-    <Property Name="Associated" Description="关联的" DataType="Alphanumeric" DataSubType="Default" EditSize="20" Mapped="Associated"/>
+    <Property Name="Associated" Description="关联的" DataType="Alphanumeric" DataSubType="Default" EditSize="50" Mapped="Associated"/>
     <Property Name="Note" Description="备注" DataType="Alphanumeric" DataSubType="Default" EditSize="200" Mapped="Note"/>
   </Model>
   <BusinessObject MappedModel="MaterialSpecification" ShortName="${Company}_MM_MATERIALSPEC">

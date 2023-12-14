@@ -56,7 +56,7 @@
     <Property Name="UpdateActionId" Description="更新动作标识" DataType="Alphanumeric" DataSubType="Default" EditSize="36" Mapped="UpdateActId"/>
     <Property Name="Reference1" Description="参考1" DataType="Alphanumeric" DataSubType="Default" EditSize="100" Mapped="Ref1"/>
     <Property Name="Reference2" Description="参考2" DataType="Alphanumeric" DataSubType="Default" EditSize="200" Mapped="Ref2"/>
-    <Property Name="ItemCode" Description="物料编码" DataType="Alphanumeric" DataSubType="Default" EditSize="20" Mapped="ItemCode"/>
+    <Property Name="ItemCode" Description="物料编码" DataType="Alphanumeric" DataSubType="Default" EditSize="50" Mapped="ItemCode"/>
     <Property Name="ItemDescription" Description="物料/服务描述" DataType="Alphanumeric" DataSubType="Default" EditSize="100" Mapped="Dscription"/>
     <Property Name="ItemSign" Description="物料标识" DataType="Alphanumeric" DataSubType="Default" EditSize="60" Mapped="ItemSign"/>
     <Property Name="SerialManagement" Description="序号管理" DataType="Alphanumeric" DataSubType="Default" EditSize="1" DeclaredType="emYesNo" Mapped="SerialMgment"/>

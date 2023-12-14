@@ -65,7 +65,7 @@ namespace materials {
                                     }).bindProperty("bindingValue", {
                                         path: "target",
                                         type: new sap.extension.data.Alphanumeric({
-                                            maxLength: 20
+                                            maxLength: 50
                                         })
                                     }),
                                     new sap.extension.m.RepositoryInput("", {
@@ -94,7 +94,7 @@ namespace materials {
                                     }).bindProperty("bindingValue", {
                                         path: "target",
                                         type: new sap.extension.data.Alphanumeric({
-                                            maxLength: 20
+                                            maxLength: 50
                                         })
                                     }),
                                 ]
@@ -435,7 +435,7 @@ namespace materials {
                                 }).bindProperty("bindingValue", {
                                     path: "associated",
                                     type: new sap.extension.data.Alphanumeric({
-                                        maxLength: 20
+                                        maxLength: 50
                                     })
                                 }),
                                 width: "20rem",

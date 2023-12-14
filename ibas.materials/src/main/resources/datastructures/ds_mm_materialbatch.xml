@@ -2,7 +2,7 @@
 <!DOCTYPE Domain>
 <Domain Name="Materials" ShortName="MM">
   <Model Name="MaterialBatch" Description="物料批次" ModelType="Simple" Mapped="${Company}_MM_OMBT">
-    <Property Name="ItemCode" Description="物料编码" DataType="Alphanumeric" DataSubType="Default" EditSize="20" Mapped="ItemCode" UniqueKey="Yes"/>
+    <Property Name="ItemCode" Description="物料编码" DataType="Alphanumeric" DataSubType="Default" EditSize="50" Mapped="ItemCode" UniqueKey="Yes"/>
     <Property Name="BatchCode" Description="批次编码" DataType="Alphanumeric" DataSubType="Default" EditSize="36" Mapped="BatchCode" UniqueKey="Yes"/>
     <Property Name="Warehouse" Description="仓库编码" DataType="Alphanumeric" DataSubType="Default" EditSize="8" Mapped="WhsCode" UniqueKey="Yes"/>
     <Property Name="Quantity" Description="数量" DataType="Decimal" DataSubType="Quantity" EditSize="8" Mapped="Quantity"/>
@@ -35,7 +35,7 @@
   </Model>
   <BusinessObject MappedModel="MaterialBatch" ShortName="${Company}_MM_BATCH"/>
   <Model Name="MaterialBatchJournal" Description="物料批次日记账" ModelType="Simple" Mapped="${Company}_MM_MBT1">
-    <Property Name="ItemCode" Description="物料编码" DataType="Alphanumeric" DataSubType="Default" EditSize="20" Mapped="ItemCode"/>
+    <Property Name="ItemCode" Description="物料编码" DataType="Alphanumeric" DataSubType="Default" EditSize="50" Mapped="ItemCode"/>
     <Property Name="BatchCode" Description="批次编码" DataType="Alphanumeric" DataSubType="Default" EditSize="36" Mapped="BatchCode"/>
     <Property Name="Warehouse" Description="仓库编码" DataType="Alphanumeric" DataSubType="Default" EditSize="8" Mapped="WhsCode"/>
     <Property Name="Quantity" Description="数量" DataType="Decimal" DataSubType="Quantity" EditSize="8" Mapped="Quantity"/>
