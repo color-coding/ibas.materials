@@ -359,6 +359,37 @@ public class Material extends MaterialBase<Material>
 	}
 
 	/**
+	 * 属性名称-订购倍数
+	 */
+	private static final String PROPERTY_ORDERMULTIPLE_NAME = "OrderMultiple";
+
+	/**
+	 * 订购倍数 属性
+	 */
+	@DbField(name = "OrdrMulti", type = DbFieldType.DECIMAL, table = DB_TABLE_NAME)
+	public static final IPropertyInfo<BigDecimal> PROPERTY_ORDERMULTIPLE = registerProperty(PROPERTY_ORDERMULTIPLE_NAME,
+			BigDecimal.class, MY_CLASS);
+
+	/**
+	 * 获取-订购倍数
+	 * 
+	 * @return 值
+	 */
+	@XmlElement(name = PROPERTY_ORDERMULTIPLE_NAME)
+	public final BigDecimal getOrderMultiple() {
+		return this.getProperty(PROPERTY_ORDERMULTIPLE);
+	}
+
+	/**
+	 * 设置-订购倍数
+	 * 
+	 * @param value 值
+	 */
+	public final void setOrderMultiple(BigDecimal value) {
+		this.setProperty(PROPERTY_ORDERMULTIPLE, value);
+	}
+
+	/**
 	 * 属性名称-创建日期
 	 */
 	private static final String PROPERTY_CREATEDATE_NAME = "CreateDate";

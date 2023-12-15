@@ -446,6 +446,12 @@ namespace materials {
                                                         path: "minimumOrderQuantity",
                                                         type: new sap.extension.data.Quantity()
                                                     }),
+                                                    new sap.m.Label("", { text: ibas.i18n.prop("bo_material_ordermultiple") }),
+                                                    new sap.extension.m.Input("", {
+                                                    }).bindProperty("bindingValue", {
+                                                        path: "orderMultiple",
+                                                        type: new sap.extension.data.Quantity(),
+                                                    }),
                                                     new sap.m.Label("", { text: ibas.i18n.prop("bo_material_purchaseuom") }),
                                                     new sap.extension.m.Input("", {
                                                         showValueHelp: true,

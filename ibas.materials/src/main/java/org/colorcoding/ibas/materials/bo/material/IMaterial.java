@@ -530,6 +530,20 @@ public interface IMaterial extends IBOMasterData {
 	void setMinimumOrderQuantity(double value);
 
 	/**
+	 * 获取-订购倍数
+	 * 
+	 * @return 值
+	 */
+	BigDecimal getOrderMultiple();
+
+	/**
+	 * 设置-订购倍数
+	 * 
+	 * @param value 值
+	 */
+	void setOrderMultiple(BigDecimal value);
+
+	/**
 	 * 获取-提前期（天）
 	 * 
 	 * @return 值

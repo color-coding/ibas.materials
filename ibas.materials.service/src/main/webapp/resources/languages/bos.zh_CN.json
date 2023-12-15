@@ -280,6 +280,7 @@
         "bo_material_minimuminventory": "最低库存量",
         "bo_material_maximuminventory": "最高库存量",
         "bo_material_minimumorderquantity": "最低订购数量",
+        "bo_material_ordermultiple": "订购倍数",
         "bo_material_leadtime": "提前期（天）",
         "bo_material_serialmanagement": "序号管理",
         "bo_material_batchmanagement": "批号管理",

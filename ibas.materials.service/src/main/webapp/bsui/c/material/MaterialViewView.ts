@@ -340,6 +340,13 @@ namespace materials {
                                                 }
                                             }),
                                             new sap.extension.m.ObjectAttribute("", {
+                                                title: ibas.i18n.prop("bo_material_ordermultiple"),
+                                                bindingValue: {
+                                                    path: "orderMultiple",
+                                                    type: new sap.extension.data.Quantity(),
+                                                }
+                                            }),
+                                            new sap.extension.m.ObjectAttribute("", {
                                                 title: ibas.i18n.prop("bo_material_leadtime"),
                                                 bindingValue: {
                                                     path: "leadTime",

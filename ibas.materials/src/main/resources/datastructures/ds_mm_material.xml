@@ -31,6 +31,7 @@
     <Property Name="MinimumInventory" Description="最低库存量" DataType="Decimal" DataSubType="Quantity" EditSize="8" Mapped="MinInvnt"/>
     <Property Name="MaximumInventory" Description="最高库存量" DataType="Decimal" DataSubType="Quantity" EditSize="8" Mapped="MaxInvnt"/>
     <Property Name="MinimumOrderQuantity" Description="最低订购数量" DataType="Decimal" DataSubType="Quantity" EditSize="8" Mapped="MinOrdrQty"/>
+    <Property Name="OrderMultiple" Description="订购倍数" DataType="Decimal" DataSubType="Quantity" EditSize="8" Mapped="OrdrMulti"/>
     <Property Name="LeadTime" Description="提前期（天）" DataType="Numeric" DataSubType="Default" EditSize="8" Mapped="LeadTime"/>
     <Property Name="SerialManagement" Description="序号管理" DataType="Alphanumeric" DataSubType="Default" EditSize="1" DeclaredType="emYesNo" Mapped="SerialMgment"/>
     <Property Name="BatchManagement" Description="批号管理" DataType="Alphanumeric" DataSubType="Default" EditSize="1" DeclaredType="emYesNo" Mapped="BatchMgment"/>

@@ -324,6 +324,17 @@ namespace materials {
                 this.setProperty(Material.PROPERTY_MINIMUMORDERQUANTITY_NAME, value);
             }
 
+            /** 映射的属性名称-订购倍数 */
+            static PROPERTY_ORDERMULTIPLE_NAME: string = "OrderMultiple";
+            /** 获取-订购倍数 */
+            get orderMultiple(): number {
+                return this.getProperty<number>(Material.PROPERTY_ORDERMULTIPLE_NAME);
+            }
+            /** 设置-订购倍数 */
+            set orderMultiple(value: number) {
+                this.setProperty(Material.PROPERTY_ORDERMULTIPLE_NAME, value);
+            }
+
             /** 映射的属性名称-提前期（天） */
             static PROPERTY_LEADTIME_NAME: string = "LeadTime";
             /** 获取-提前期（天） */

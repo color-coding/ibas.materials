@@ -94,6 +94,9 @@ namespace materials {
             /** 最低订购数量 */
             minimumOrderQuantity: number;
 
+            /** 订购倍数 */
+            orderMultiple: number;
+
             /** 提前期（天） */
             leadTime: number;
 
