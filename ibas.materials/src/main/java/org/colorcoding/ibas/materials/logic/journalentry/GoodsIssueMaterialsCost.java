@@ -32,7 +32,7 @@ public class GoodsIssueMaterialsCost extends MaterialsCost {
 				return;
 			}
 		}
-		throw new RuntimeException("no result.");
+		this.setAmount(Decimal.ZERO);
 	}
 
 }

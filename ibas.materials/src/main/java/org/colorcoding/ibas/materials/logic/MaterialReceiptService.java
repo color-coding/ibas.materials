@@ -123,8 +123,19 @@ public class MaterialReceiptService
 
 	@Override
 	protected void impact(IMaterialReceiptContract contract) {
+		BigDecimal inventoryValue = Decimal.ZERO;
+		BigDecimal inventoryQuantity = Decimal.ZERO;
 		IMaterial material = this.checkMaterial(contract.getItemCode());
 		IMaterialInventoryJournal materialJournal = this.getBeAffected();
+		if (!materialJournal.isNew()) {
+			// 非新建，则去除旧金额（反向逻辑未执行到）
+			if (contract.getItemCode().equalsIgnoreCase(materialJournal.getItemCode())
+					&& contract.getWarehouse().equalsIgnoreCase(materialJournal.getWarehouse())) {
+				// 仅相同物料、仓库时
+				inventoryQuantity = inventoryQuantity.subtract(materialJournal.getQuantity());
+				inventoryValue = inventoryValue.subtract(materialJournal.getTransactionValue());
+			}
+		}
 		materialJournal.setItemCode(contract.getItemCode());
 		materialJournal.setItemName(contract.getItemName());
 		if (DataConvert.isNullOrEmpty(materialJournal.getItemName())
@@ -145,17 +156,16 @@ public class MaterialReceiptService
 		if (MyConfiguration.getConfigValue(MyConfiguration.CONFIG_ITEM_MANAGE_MATERIAL_COSTS_BY_WAREHOUSE, true)) {
 			// 物料仓库个别管理
 			// 库存价值
-			BigDecimal inventoryValue = Decimal.ZERO;
-			BigDecimal inventoryQuantity = Decimal.ZERO;
 			IMaterialInventory materialInventory = this.checkMaterialInventory(contract.getItemCode(),
 					contract.getWarehouse());
 			if (materialInventory != null) {
 				// 库存价值 = 当前仓库库存价值
-				inventoryValue = materialInventory.getInventoryValue();
-				inventoryQuantity = materialInventory.getOnHand();
+				inventoryValue = inventoryValue.add(materialInventory.getInventoryValue());
+				inventoryQuantity = inventoryQuantity.add(materialInventory.getOnHand());
 			}
 			// 库存价值 = 当前仓库库存价值 + 本次入库价值
-			inventoryValue = inventoryValue.add(materialJournal.getPrice().multiply(materialJournal.getQuantity()));
+			inventoryValue = inventoryValue
+					.add(Decimal.multiply(materialJournal.getPrice(), materialJournal.getQuantity()));
 			inventoryQuantity = inventoryQuantity.add(materialJournal.getQuantity());
 			// 成本价格 = 总价值 / 总数量
 			if (!Decimal.isZero(inventoryQuantity)) {
@@ -165,15 +175,14 @@ public class MaterialReceiptService
 			}
 		} else {
 			// 库存价值
-			BigDecimal inventoryValue = Decimal.ZERO;
-			BigDecimal inventoryQuantity = Decimal.ZERO;
 			if (material != null) {
 				// 库存价值 = 当前仓库库存价值
-				inventoryValue = material.getInventoryValue();
-				inventoryQuantity = material.getOnHand();
+				inventoryValue = inventoryValue.add(material.getInventoryValue());
+				inventoryQuantity = inventoryQuantity.add(material.getOnHand());
 			}
 			// 库存价值 = 当前仓库库存价值 + 本次入库价值
-			inventoryValue = inventoryValue.add(materialJournal.getPrice().multiply(materialJournal.getQuantity()));
+			inventoryValue = inventoryValue
+					.add(Decimal.multiply(materialJournal.getPrice(), materialJournal.getQuantity()));
 			inventoryQuantity = inventoryQuantity.add(materialJournal.getQuantity());
 			// 成本价格 = 总价值 / 总数量
 			if (!Decimal.isZero(inventoryQuantity)) {
@@ -186,12 +195,12 @@ public class MaterialReceiptService
 
 	@Override
 	protected void revoke(IMaterialReceiptContract contract) {
+		BigDecimal inventoryValue = Decimal.ZERO;
+		BigDecimal inventoryQuantity = Decimal.ZERO;
 		IMaterialInventoryJournal materialJournal = this.getBeAffected();
 		if (MyConfiguration.getConfigValue(MyConfiguration.CONFIG_ITEM_MANAGE_MATERIAL_COSTS_BY_WAREHOUSE, true)) {
 			// 物料仓库个别管理
 			// 库存价值
-			BigDecimal inventoryValue = Decimal.ZERO;
-			BigDecimal inventoryQuantity = Decimal.ZERO;
 			IMaterialInventory materialInventory = this.checkMaterialInventory(contract.getItemCode(),
 					contract.getWarehouse());
 			if (materialInventory != null) {
@@ -201,7 +210,7 @@ public class MaterialReceiptService
 			}
 			// 库存价值 = 当前仓库库存价值 + 本次入库价值
 			inventoryValue = inventoryValue
-					.subtract(materialJournal.getPrice().multiply(materialJournal.getQuantity()));
+					.subtract(Decimal.multiply(materialJournal.getPrice(), materialJournal.getQuantity()));
 			inventoryQuantity = inventoryQuantity.subtract(materialJournal.getQuantity());
 			// 成本价格 = 总价值 / 总数量
 			if (!Decimal.isZero(inventoryQuantity)) {
@@ -211,17 +220,15 @@ public class MaterialReceiptService
 			}
 		} else {
 			// 库存价值
-			BigDecimal inventoryValue = Decimal.ZERO;
-			BigDecimal inventoryQuantity = Decimal.ZERO;
 			IMaterial material = this.checkMaterial(contract.getItemCode());
 			if (material != null) {
 				// 库存价值 = 当前仓库库存价值
-				inventoryValue = material.getOnHand().multiply(material.getAvgPrice());
+				inventoryValue = Decimal.multiply(material.getOnHand(), material.getAvgPrice());
 				inventoryQuantity = material.getOnHand();
 			}
 			// 库存价值 = 当前仓库库存价值 + 本次入库价值
 			inventoryValue = inventoryValue
-					.subtract(materialJournal.getPrice().multiply(materialJournal.getQuantity()));
+					.subtract(Decimal.multiply(materialJournal.getPrice(), materialJournal.getQuantity()));
 			inventoryQuantity = inventoryQuantity.subtract(materialJournal.getQuantity());
 			// 成本价格 = 总价值 / 总数量
 			if (!Decimal.isZero(inventoryQuantity)) {
@@ -230,11 +237,8 @@ public class MaterialReceiptService
 				materialJournal.setCalculatedPrice(Decimal.ZERO);
 			}
 		}
-		materialJournal.setQuantity(Decimal.ZERO);
-		if (Decimal.isZero(materialJournal.getQuantity())) {
-			// 已为0，则删除此条数据
-			materialJournal.delete();
-		}
+		// materialJournal.setQuantity(Decimal.ZERO); // 保留数量，正向逻辑时计算价值
+		materialJournal.delete(); // 标记删除，正向逻辑会调整
 	}
 
 }
