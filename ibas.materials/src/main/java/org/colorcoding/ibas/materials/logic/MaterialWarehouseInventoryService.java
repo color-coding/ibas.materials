@@ -88,10 +88,13 @@ public class MaterialWarehouseInventoryService
 			}
 		} else {
 			onHand = onHand.add(contract.getQuantity());
-			if (MyConfiguration.getConfigValue(MyConfiguration.CONFIG_ITEM_MANAGE_MATERIAL_COSTS_BY_WAREHOUSE, true)) {
-				materialInventory.setAvgPrice(contract.getCalculatedPrice());
-			} else {
-				materialInventory.setAvgPrice(Decimal.ZERO);
+			if (contract.getCalculatedPrice() != null) {
+				if (MyConfiguration.getConfigValue(MyConfiguration.CONFIG_ITEM_MANAGE_MATERIAL_COSTS_BY_WAREHOUSE,
+						true)) {
+					materialInventory.setAvgPrice(contract.getCalculatedPrice());
+				} else {
+					materialInventory.setAvgPrice(Decimal.ZERO);
+				}
 			}
 		}
 		if (Decimal.ZERO.compareTo(onHand) > 0) {
@@ -109,10 +112,13 @@ public class MaterialWarehouseInventoryService
 			onHand = onHand.add(contract.getQuantity());
 		} else {
 			onHand = onHand.subtract(contract.getQuantity());
-			if (MyConfiguration.getConfigValue(MyConfiguration.CONFIG_ITEM_MANAGE_MATERIAL_COSTS_BY_WAREHOUSE, true)) {
-				materialInventory.setAvgPrice(contract.getCalculatedPrice());
-			} else {
-				materialInventory.setAvgPrice(Decimal.ZERO);
+			if (contract.getCalculatedPrice() != null) {
+				if (MyConfiguration.getConfigValue(MyConfiguration.CONFIG_ITEM_MANAGE_MATERIAL_COSTS_BY_WAREHOUSE,
+						true)) {
+					materialInventory.setAvgPrice(contract.getCalculatedPrice());
+				} else {
+					materialInventory.setAvgPrice(Decimal.ZERO);
+				}
 			}
 			if (Decimal.ZERO.compareTo(onHand.subtract(materialInventory.getOnReserved())) > 0
 					&& this.getLogicChain().getTrigger().isDeleted()) {

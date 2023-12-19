@@ -10,7 +10,6 @@ namespace materials {
 
         /** 仓库日记账 */
         export class MaterialInventoryJournal extends ibas.BOSimple<MaterialInventoryJournal> implements IMaterialInventoryJournal {
-
             /** 业务对象编码 */
             static BUSINESS_OBJECT_CODE: string = BO_CODE_MATERIALJOURNAL;
             /** 构造函数 */
@@ -49,70 +48,6 @@ namespace materials {
             set warehouse(value: string) {
                 this.setProperty(MaterialInventoryJournal.PROPERTY_WAREHOUSE_NAME, value);
             }
-
-            /** 映射的属性名称-基于类型 */
-            static PROPERTY_BASEDOCUMENTTYPE_NAME: string = "BaseDocumentType";
-            /** 获取-基于类型 */
-            get baseDocumentType(): string {
-                return this.getProperty<string>(MaterialInventoryJournal.PROPERTY_BASEDOCUMENTTYPE_NAME);
-            }
-            /** 设置-基于类型 */
-            set baseDocumentType(value: string) {
-                this.setProperty(MaterialInventoryJournal.PROPERTY_BASEDOCUMENTTYPE_NAME, value);
-            }
-            /** 映射的属性名称-基于标识 */
-            static PROPERTY_BASEDOCUMENTENTRY_NAME: string = "BaseDocumentEntry";
-            /** 获取-基于标识 */
-            get baseDocumentEntry(): number {
-                return this.getProperty<number>(MaterialInventoryJournal.PROPERTY_BASEDOCUMENTENTRY_NAME);
-            }
-            /** 设置-基于标识 */
-            set baseDocumentEntry(value: number) {
-                this.setProperty(MaterialInventoryJournal.PROPERTY_BASEDOCUMENTENTRY_NAME, value);
-            }
-            /** 映射的属性名称-基于行号 */
-            static PROPERTY_BASEDOCUMENTLINEID_NAME: string = "BaseDocumentLineId";
-            /** 获取-基于行号 */
-            get baseDocumentLineId(): number {
-                return this.getProperty<number>(MaterialInventoryJournal.PROPERTY_BASEDOCUMENTLINEID_NAME);
-            }
-            /** 设置-基于行号 */
-            set baseDocumentLineId(value: number) {
-                this.setProperty(MaterialInventoryJournal.PROPERTY_BASEDOCUMENTLINEID_NAME, value);
-            }
-
-            /** 映射的属性名称-原始类型 */
-            static PROPERTY_ORIGINALDOCUMENTTYPE_NAME: string = "OriginalDocumentType";
-            /** 获取-原始类型 */
-            get originalDocumentType(): string {
-                return this.getProperty<string>(MaterialInventoryJournal.PROPERTY_ORIGINALDOCUMENTTYPE_NAME);
-            }
-            /** 设置-原始类型 */
-            set originalDocumentType(value: string) {
-                this.setProperty(MaterialInventoryJournal.PROPERTY_ORIGINALDOCUMENTTYPE_NAME, value);
-            }
-            /** 映射的属性名称-原始标识 */
-            static PROPERTY_ORIGINALDOCUMENTENTRY_NAME: string = "OriginalDocumentEntry";
-            /** 获取-原始标识 */
-            get originalDocumentEntry(): number {
-                return this.getProperty<number>(MaterialInventoryJournal.PROPERTY_ORIGINALDOCUMENTENTRY_NAME);
-            }
-            /** 设置-原始标识 */
-            set originalDocumentEntry(value: number) {
-                this.setProperty(MaterialInventoryJournal.PROPERTY_ORIGINALDOCUMENTENTRY_NAME, value);
-            }
-
-            /** 映射的属性名称-原始行号 */
-            static PROPERTY_ORIGINALDOCUMENTLINEID_NAME: string = "OriginalDocumentLineId";
-            /** 获取-原始行号 */
-            get originalDocumentLineId(): number {
-                return this.getProperty<number>(MaterialInventoryJournal.PROPERTY_ORIGINALDOCUMENTLINEID_NAME);
-            }
-            /** 设置-原始行号 */
-            set originalDocumentLineId(value: number) {
-                this.setProperty(MaterialInventoryJournal.PROPERTY_ORIGINALDOCUMENTLINEID_NAME, value);
-            }
-
 
             /** 映射的属性名称-方向 */
             static PROPERTY_DIRECTION_NAME: string = "Direction";
@@ -222,6 +157,94 @@ namespace materials {
             /** 设置-凭证日期 */
             set documentDate(value: Date) {
                 this.setProperty(MaterialInventoryJournal.PROPERTY_DOCUMENTDATE_NAME, value);
+            }
+
+            /** 映射的属性名称-库存数量 */
+            static PROPERTY_INVENTORYQUANTITY_NAME: string = "InventoryQuantity";
+            /** 获取-库存数量 */
+            get inventoryQuantity(): number {
+                return this.getProperty<number>(MaterialInventoryJournal.PROPERTY_INVENTORYQUANTITY_NAME);
+            }
+            /** 设置-库存数量 */
+            set inventoryQuantity(value: number) {
+                this.setProperty(MaterialInventoryJournal.PROPERTY_INVENTORYQUANTITY_NAME, value);
+            }
+
+            /** 映射的属性名称-库存价值 */
+            static PROPERTY_INVENTORYVALUE_NAME: string = "InventoryValue";
+            /** 获取-库存价值 */
+            get inventoryValue(): number {
+                return this.getProperty<number>(MaterialInventoryJournal.PROPERTY_INVENTORYVALUE_NAME);
+            }
+            /** 设置-库存价值 */
+            set inventoryValue(value: number) {
+                this.setProperty(MaterialInventoryJournal.PROPERTY_INVENTORYVALUE_NAME, value);
+            }
+
+            /** 映射的属性名称-基于类型 */
+            static PROPERTY_BASEDOCUMENTTYPE_NAME: string = "BaseDocumentType";
+            /** 获取-基于类型 */
+            get baseDocumentType(): string {
+                return this.getProperty<string>(MaterialInventoryJournal.PROPERTY_BASEDOCUMENTTYPE_NAME);
+            }
+            /** 设置-基于类型 */
+            set baseDocumentType(value: string) {
+                this.setProperty(MaterialInventoryJournal.PROPERTY_BASEDOCUMENTTYPE_NAME, value);
+            }
+
+            /** 映射的属性名称-基于标识 */
+            static PROPERTY_BASEDOCUMENTENTRY_NAME: string = "BaseDocumentEntry";
+            /** 获取-基于标识 */
+            get baseDocumentEntry(): number {
+                return this.getProperty<number>(MaterialInventoryJournal.PROPERTY_BASEDOCUMENTENTRY_NAME);
+            }
+            /** 设置-基于标识 */
+            set baseDocumentEntry(value: number) {
+                this.setProperty(MaterialInventoryJournal.PROPERTY_BASEDOCUMENTENTRY_NAME, value);
+            }
+
+            /** 映射的属性名称-基于行号 */
+            static PROPERTY_BASEDOCUMENTLINEID_NAME: string = "BaseDocumentLineId";
+            /** 获取-基于行号 */
+            get baseDocumentLineId(): number {
+                return this.getProperty<number>(MaterialInventoryJournal.PROPERTY_BASEDOCUMENTLINEID_NAME);
+            }
+            /** 设置-基于行号 */
+            set baseDocumentLineId(value: number) {
+                this.setProperty(MaterialInventoryJournal.PROPERTY_BASEDOCUMENTLINEID_NAME, value);
+            }
+
+            /** 映射的属性名称-原始类型 */
+            static PROPERTY_ORIGINALDOCUMENTTYPE_NAME: string = "OriginalDocumentType";
+            /** 获取-原始类型 */
+            get originalDocumentType(): string {
+                return this.getProperty<string>(MaterialInventoryJournal.PROPERTY_ORIGINALDOCUMENTTYPE_NAME);
+            }
+            /** 设置-原始类型 */
+            set originalDocumentType(value: string) {
+                this.setProperty(MaterialInventoryJournal.PROPERTY_ORIGINALDOCUMENTTYPE_NAME, value);
+            }
+
+            /** 映射的属性名称-原始标识 */
+            static PROPERTY_ORIGINALDOCUMENTENTRY_NAME: string = "OriginalDocumentEntry";
+            /** 获取-原始标识 */
+            get originalDocumentEntry(): number {
+                return this.getProperty<number>(MaterialInventoryJournal.PROPERTY_ORIGINALDOCUMENTENTRY_NAME);
+            }
+            /** 设置-原始标识 */
+            set originalDocumentEntry(value: number) {
+                this.setProperty(MaterialInventoryJournal.PROPERTY_ORIGINALDOCUMENTENTRY_NAME, value);
+            }
+
+            /** 映射的属性名称-原始行号 */
+            static PROPERTY_ORIGINALDOCUMENTLINEID_NAME: string = "OriginalDocumentLineId";
+            /** 获取-原始行号 */
+            get originalDocumentLineId(): number {
+                return this.getProperty<number>(MaterialInventoryJournal.PROPERTY_ORIGINALDOCUMENTLINEID_NAME);
+            }
+            /** 设置-原始行号 */
+            set originalDocumentLineId(value: number) {
+                this.setProperty(MaterialInventoryJournal.PROPERTY_ORIGINALDOCUMENTLINEID_NAME, value);
             }
 
             /** 映射的属性名称-对象编号 */
@@ -366,6 +389,7 @@ namespace materials {
             set updateActionId(value: string) {
                 this.setProperty(MaterialInventoryJournal.PROPERTY_UPDATEACTIONID_NAME, value);
             }
+
 
 
 

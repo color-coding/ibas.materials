@@ -6,7 +6,6 @@ import org.colorcoding.ibas.bobas.common.Criteria;
 import org.colorcoding.ibas.bobas.common.ICondition;
 import org.colorcoding.ibas.bobas.common.ICriteria;
 import org.colorcoding.ibas.bobas.common.IOperationResult;
-import org.colorcoding.ibas.bobas.data.Decimal;
 import org.colorcoding.ibas.bobas.data.emDirection;
 import org.colorcoding.ibas.bobas.data.emYesNo;
 import org.colorcoding.ibas.bobas.i18n.I18N;
@@ -126,7 +125,7 @@ public class MaterialIssueService
 		if (materialJournal.getItemCode() == null || !materialJournal.getItemCode().equals(contract.getItemCode())
 				|| materialJournal.getWarehouse() == null
 				|| !materialJournal.getWarehouse().equals(contract.getWarehouse())) {
-			// 物料或仓库改变时
+			// 新建或改变物料仓库
 			if (MyConfiguration.getConfigValue(MyConfiguration.CONFIG_ITEM_MANAGE_MATERIAL_COSTS_BY_WAREHOUSE, true)) {
 				// 按仓库管理成本
 				IMaterialInventory materialInventory = this.checkMaterialInventory(contract.getItemCode(),
@@ -134,12 +133,16 @@ public class MaterialIssueService
 				if (materialInventory != null) {
 					// 成本价格 = 库存均价
 					materialJournal.setCalculatedPrice(materialInventory.getAvgPrice());
+					materialJournal.setInventoryQuantity(materialInventory.getOnHand());
+					materialJournal.setInventoryValue(materialInventory.getInventoryValue());
 				}
 			} else {
 				// 库存价值
 				if (material != null) {
 					// 成本价格 = 库存均价
 					materialJournal.setCalculatedPrice(material.getAvgPrice());
+					materialJournal.setInventoryQuantity(material.getOnHand());
+					materialJournal.setInventoryValue(material.getInventoryValue());
 				}
 			}
 		}
@@ -165,11 +168,7 @@ public class MaterialIssueService
 	@Override
 	protected void revoke(IMaterialIssueContract contract) {
 		IMaterialInventoryJournal materialJournal = this.getBeAffected();
-		materialJournal.setQuantity(Decimal.ZERO);
-		if (Decimal.isZero(materialJournal.getQuantity())) {
-			// 已为0，则删除此条数据
-			materialJournal.delete();
-		}
+		materialJournal.delete();
 	}
 
 }

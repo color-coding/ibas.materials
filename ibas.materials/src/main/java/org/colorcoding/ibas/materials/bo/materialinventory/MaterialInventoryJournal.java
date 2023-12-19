@@ -549,6 +549,68 @@ public class MaterialInventoryJournal extends BusinessObject<MaterialInventoryJo
 	}
 
 	/**
+	 * 属性名称-库存数量
+	 */
+	private static final String PROPERTY_INVENTORYQUANTITY_NAME = "InventoryQuantity";
+
+	/**
+	 * 库存数量 属性
+	 */
+	@DbField(name = "StockQty", type = DbFieldType.DECIMAL, table = DB_TABLE_NAME)
+	public static final IPropertyInfo<BigDecimal> PROPERTY_INVENTORYQUANTITY = registerProperty(
+			PROPERTY_INVENTORYQUANTITY_NAME, BigDecimal.class, MY_CLASS);
+
+	/**
+	 * 获取-库存数量
+	 * 
+	 * @return 值
+	 */
+	@XmlElement(name = PROPERTY_INVENTORYQUANTITY_NAME)
+	public final BigDecimal getInventoryQuantity() {
+		return this.getProperty(PROPERTY_INVENTORYQUANTITY);
+	}
+
+	/**
+	 * 设置-库存数量
+	 * 
+	 * @param value 值
+	 */
+	public final void setInventoryQuantity(BigDecimal value) {
+		this.setProperty(PROPERTY_INVENTORYQUANTITY, value);
+	}
+
+	/**
+	 * 属性名称-库存价值
+	 */
+	private static final String PROPERTY_INVENTORYVALUE_NAME = "InventoryValue";
+
+	/**
+	 * 库存价值 属性
+	 */
+	@DbField(name = "StockValue", type = DbFieldType.DECIMAL, table = DB_TABLE_NAME)
+	public static final IPropertyInfo<BigDecimal> PROPERTY_INVENTORYVALUE = registerProperty(
+			PROPERTY_INVENTORYVALUE_NAME, BigDecimal.class, MY_CLASS);
+
+	/**
+	 * 获取-库存价值
+	 * 
+	 * @return 值
+	 */
+	@XmlElement(name = PROPERTY_INVENTORYVALUE_NAME)
+	public final BigDecimal getInventoryValue() {
+		return this.getProperty(PROPERTY_INVENTORYVALUE);
+	}
+
+	/**
+	 * 设置-库存价值
+	 * 
+	 * @param value 值
+	 */
+	public final void setInventoryValue(BigDecimal value) {
+		this.setProperty(PROPERTY_INVENTORYVALUE, value);
+	}
+
+	/**
 	 * 属性名称-基于类型
 	 */
 	private static final String PROPERTY_BASEDOCUMENTTYPE_NAME = "BaseDocumentType";
@@ -1228,7 +1290,11 @@ public class MaterialInventoryJournal extends BusinessObject<MaterialInventoryJo
 
 			@Override
 			public BigDecimal getCalculatedPrice() {
-				return MaterialInventoryJournal.this.getCalculatedPrice();
+				if (MaterialInventoryJournal.this.getUpdateActionId() == null) {
+					return MaterialInventoryJournal.this.getCalculatedPrice();
+				} else {
+					return null;
+				}
 			}
 		});
 		// 物料仓库库存
@@ -1260,7 +1326,11 @@ public class MaterialInventoryJournal extends BusinessObject<MaterialInventoryJo
 
 			@Override
 			public BigDecimal getCalculatedPrice() {
-				return MaterialInventoryJournal.this.getCalculatedPrice();
+				if (MaterialInventoryJournal.this.getUpdateActionId() == null) {
+					return MaterialInventoryJournal.this.getCalculatedPrice();
+				} else {
+					return null;
+				}
 			}
 		});
 		// 入库

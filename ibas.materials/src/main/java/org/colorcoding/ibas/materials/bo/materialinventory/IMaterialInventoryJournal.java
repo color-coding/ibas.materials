@@ -258,6 +258,34 @@ public interface IMaterialInventoryJournal extends IBOSimple {
 	void setDocumentDate(DateTime value);
 
 	/**
+	 * 获取-库存数量
+	 * 
+	 * @return 值
+	 */
+	BigDecimal getInventoryQuantity();
+
+	/**
+	 * 设置-库存数量
+	 * 
+	 * @param value 值
+	 */
+	void setInventoryQuantity(BigDecimal value);
+
+	/**
+	 * 获取-库存价值
+	 * 
+	 * @return 值
+	 */
+	BigDecimal getInventoryValue();
+
+	/**
+	 * 设置-库存价值
+	 * 
+	 * @param value 值
+	 */
+	void setInventoryValue(BigDecimal value);
+
+	/**
 	 * 获取-基于类型
 	 * 
 	 * @return 值
