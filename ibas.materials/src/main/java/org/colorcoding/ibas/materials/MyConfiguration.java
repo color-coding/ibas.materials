@@ -64,4 +64,7 @@ public class MyConfiguration extends org.colorcoding.ibas.bobas.MyConfiguration 
 
 	/** 配置项目-按仓库管理物料成本 */
 	public final static String CONFIG_ITEM_MANAGE_MATERIAL_COSTS_BY_WAREHOUSE = "materialCostsByWarehouse";
+
+	/** 配置项目-启用物料成本 */
+	public final static String CONFIG_ITEM_ENABLE_MATERIAL_COSTS = "enableMaterialCosts";
 }

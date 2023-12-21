@@ -125,49 +125,69 @@ public class MaterialReceiptService
 	protected void impact(IMaterialReceiptContract contract) {
 		IMaterial material = this.checkMaterial(contract.getItemCode());
 		IMaterialInventoryJournal materialJournal = this.getBeAffected();
-		if (materialJournal.getItemCode() == null || !materialJournal.getItemCode().equals(contract.getItemCode())
-				|| materialJournal.getWarehouse() == null
-				|| !materialJournal.getWarehouse().equals(contract.getWarehouse())) {
-			// 新建或改变物料仓库
-			materialJournal.setItemCode(contract.getItemCode());
-			materialJournal.setItemName(contract.getItemName());
-			if (DataConvert.isNullOrEmpty(materialJournal.getItemName())
-					|| materialJournal.getItemCode().equals(materialJournal.getItemName())) {
-				materialJournal.setItemName(material.getName());
-			}
-			materialJournal.setWarehouse(contract.getWarehouse());
-			// 记录时点仓库数量及价值
-			IMaterialInventory materialInventory = null;
-			if (MyConfiguration.getConfigValue(MyConfiguration.CONFIG_ITEM_MANAGE_MATERIAL_COSTS_BY_WAREHOUSE, true)) {
-				// 物料仓库个别管理
-				materialInventory = this.checkMaterialInventory(contract.getItemCode(), contract.getWarehouse());
-				if (materialInventory != null) {
-					// 库存价值 = 当前仓库库存价值
-					materialJournal.setInventoryQuantity(materialInventory.getOnHand());
-					materialJournal.setInventoryValue(materialInventory.getInventoryValue());
-				}
-			} else {
-				// 物料管理
-				if (material != null) {
-					// 库存价值 = 当前仓库库存价值
-					materialJournal.setInventoryQuantity(material.getOnHand());
-					materialJournal.setInventoryValue(material.getInventoryValue());
+		if (MyConfiguration.getConfigValue(MyConfiguration.CONFIG_ITEM_ENABLE_MATERIAL_COSTS, false)) {
+			// 开启物料成本计算
+			if (!materialJournal.isNew()) {
+				if (!materialJournal.getItemCode().equals(contract.getItemCode())
+						|| !materialJournal.getWarehouse().equals(contract.getWarehouse())
+						|| materialJournal.getQuantity().compareTo(contract.getQuantity()) != 0
+						|| materialJournal.getPrice().compareTo(contract.getPrice()) != 0) {
+					// 修改入库物料、仓库、价格，影响成本计算，不允许
+					throw new BusinessLogicException(I18N.prop(
+							"msg_mm_document_completed_material_cost_calculation_not_support_operation",
+							String.format("{[%s].[DocEntry = %s]%s}", materialJournal.getBaseDocumentType(),
+									materialJournal.getBaseDocumentEntry(),
+									materialJournal.getBaseDocumentLineId() > 0 ? String.format(" && [LineId = %s]",
+											materialJournal.getBaseDocumentLineId()) : "")));
 				}
 			}
-			// 库存总价值 = 时点库存价值 + (本次入库价格 * 本次入库数量)
-			BigDecimal inventoryValue = materialJournal.getInventoryValue()
-					.add(Decimal.multiply(contract.getPrice(), contract.getQuantity()));
-			// 库存总数量 = 时点库存数量 + 本次入库数量
-			BigDecimal inventoryQuantity = materialJournal.getInventoryQuantity().add(contract.getQuantity());
-			// 成本价格 = 总价值 / 总数量
-			if (!Decimal.isZero(inventoryQuantity)) {
-				materialJournal.setCalculatedPrice(Decimal.divide(inventoryValue, inventoryQuantity));
-			} else {
-				materialJournal.setCalculatedPrice(Decimal.ZERO);
+			if (materialJournal.getItemCode() == null || !materialJournal.getItemCode().equals(contract.getItemCode())
+					|| materialJournal.getWarehouse() == null
+					|| !materialJournal.getWarehouse().equals(contract.getWarehouse())) {
+				// 记录时点仓库数量及价值
+				if (MyConfiguration.getConfigValue(MyConfiguration.CONFIG_ITEM_MANAGE_MATERIAL_COSTS_BY_WAREHOUSE,
+						true)) {
+					// 物料仓库个别管理
+					IMaterialInventory materialInventory = this.checkMaterialInventory(contract.getItemCode(),
+							contract.getWarehouse());
+					if (materialInventory != null) {
+						// 库存价值 = 当前仓库库存价值
+						materialJournal.setInventoryQuantity(materialInventory.getOnHand());
+						materialJournal.setInventoryValue(materialInventory.getInventoryValue());
+					}
+				} else {
+					// 物料管理
+					if (material != null) {
+						// 库存价值 = 当前仓库库存价值
+						materialJournal.setInventoryQuantity(material.getOnHand());
+						materialJournal.setInventoryValue(material.getInventoryValue());
+					}
+				}
+				// 库存总价值 = 时点库存价值 + (本次入库价格 * 本次入库数量)
+				BigDecimal inventoryValue = materialJournal.getInventoryValue()
+						.add(Decimal.multiply(contract.getPrice(), contract.getQuantity()));
+				// 库存总数量 = 时点库存数量 + 本次入库数量
+				BigDecimal inventoryQuantity = materialJournal.getInventoryQuantity().add(contract.getQuantity());
+				// 成本价格 = 总价值 / 总数量
+				if (!Decimal.isZero(inventoryQuantity)) {
+					materialJournal.setCalculatedPrice(Decimal.divide(inventoryValue, inventoryQuantity));
+				} else {
+					materialJournal.setCalculatedPrice(Decimal.ZERO);
+				}
 			}
-			// 通过此标记控制是否更新成本价格
-			materialJournal.setUpdateActionId(null);
+		} else {
+			// 不计算物料成本
+			materialJournal.setCalculatedPrice(Decimal.ZERO);
+			materialJournal.setInventoryQuantity(Decimal.ZERO);
+			materialJournal.setInventoryValue(Decimal.ZERO);
 		}
+		materialJournal.setItemCode(contract.getItemCode());
+		materialJournal.setItemName(contract.getItemName());
+		if (DataConvert.isNullOrEmpty(materialJournal.getItemName())
+				|| materialJournal.getItemCode().equals(materialJournal.getItemName())) {
+			materialJournal.setItemName(material.getName());
+		}
+		materialJournal.setWarehouse(contract.getWarehouse());
 		materialJournal.setPostingDate(contract.getPostingDate());
 		materialJournal.setDocumentDate(contract.getDocumentDate());
 		materialJournal.setDeliveryDate(contract.getDeliveryDate());
