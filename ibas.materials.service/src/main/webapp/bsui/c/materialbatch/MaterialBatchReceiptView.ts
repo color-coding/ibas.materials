@@ -446,6 +446,13 @@ namespace materials {
                                                                     that.fireViewEvents(that.createMaterialBatchItemEvent, "BASE_DOCUMENT");
                                                                 }
                                                             }),
+                                                            new sap.m.MenuItem("", {
+                                                                text: ibas.i18n.prop("materials_select_agreements"),
+                                                                icon: "sap-icon://contacts",
+                                                                press: function (): void {
+                                                                    that.fireViewEvents(that.createMaterialBatchItemEvent, "AGREEMENTS");
+                                                                }
+                                                            }),
                                                         ],
                                                     })
                                                 }),

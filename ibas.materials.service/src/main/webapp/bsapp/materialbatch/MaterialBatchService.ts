@@ -901,7 +901,41 @@ namespace materials {
                             that.view.showMaterialBatchItems(that.workingData.results.filterDeleted());
                         }
                     });
-
+                } else if (mode === "AGREEMENTS") {
+                    let datas: ibas.IList<BatchWorkingItem> = new ibas.ArrayList<BatchWorkingItem>();
+                    if (ibas.objects.isNull(this.workingData)) {
+                        // 没有工作的，全部创建
+                        for (let item of this.workDatas) {
+                            if (item.quantity === item.results.total()) {
+                                continue;
+                            }
+                            datas.add(item);
+                        }
+                    } else {
+                        // 仅创建工作的
+                        datas.add(this.workingData);
+                    }
+                    let journals: ibas.IList<BatchWorkingItemResult> = new ibas.ArrayList<BatchWorkingItemResult>();
+                    for (let item of datas) {
+                        let total: number = item.results.total();
+                        if (total >= item.quantity) {
+                            continue;
+                        }
+                        if (ibas.strings.isEmpty(item.data.agreements)) {
+                            continue;
+                        }
+                        let journal: BatchWorkingItemResult = item.results.create();
+                        journal.quantity = item.quantity - total;
+                        journal.batchCode = item.data.agreements;
+                        journals.add(journal);
+                    }
+                    if (ibas.objects.isNull(this.workingData)) {
+                        // 没选中工作内容，则显示新创建的
+                        this.view.showMaterialBatchItems(journals);
+                    } else {
+                        // 选中工作内容，怎显示工作内容的
+                        this.view.showMaterialBatchItems(this.workingData.results.filterDeleted());
+                    }
                 }
             }
 

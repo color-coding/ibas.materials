@@ -152,6 +152,7 @@
   "materials_auto_by_datetime": "按时间",
   "materials_auto_by_datetime_serial": "按时间+流水号",
   "materials_auto_by_order": "按顺序",
+  "materials_select_agreements": "协议/合同号",
   "materials_details": "详情",
   "materials_overview": "总览",
   "materials_restricted_warehouse": "限定仓库",

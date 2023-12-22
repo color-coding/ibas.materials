@@ -305,6 +305,8 @@ namespace materials {
             documentEntry?: number;
             /** 单据行号 */
             documentLineId?: number;
+            /** 协议/合同 */
+            agreements?: string;
         }
         /** 序列服务契约 */
         export interface IMaterialSerialContract extends ibas.IServiceContract {

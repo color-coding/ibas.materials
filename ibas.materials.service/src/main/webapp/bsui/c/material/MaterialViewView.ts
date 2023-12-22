@@ -273,8 +273,14 @@ namespace materials {
                                                     ]
                                                 }
                                             }),
-                                            new sap.extension.m.ObjectAttribute("", {
+                                            new sap.extension.m.RepositoryObjectAttribute("", {
                                                 title: ibas.i18n.prop("bo_material_defaultwarehouse"),
+                                                repository: bo.BORepositoryMaterials,
+                                                dataInfo: {
+                                                    type: bo.Warehouse,
+                                                    key: bo.Warehouse.PROPERTY_CODE_NAME,
+                                                    text: bo.Warehouse.PROPERTY_NAME_NAME,
+                                                },
                                                 bindingValue: {
                                                     path: "defaultWarehouse",
                                                     type: new sap.extension.data.Alphanumeric(),
