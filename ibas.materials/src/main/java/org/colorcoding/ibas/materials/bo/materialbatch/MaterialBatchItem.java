@@ -636,14 +636,6 @@ public class MaterialBatchItem extends BusinessObject<MaterialBatchItem>
 		};
 	}
 
-	@Override
-	public void reset() {
-		super.reset();
-		this.setDocumentType(null);
-		this.setDocumentEntry(null);
-		this.setDocumentLineId(null);
-	}
-
 	IMaterialBatchItemParent parent;
 
 	@Override

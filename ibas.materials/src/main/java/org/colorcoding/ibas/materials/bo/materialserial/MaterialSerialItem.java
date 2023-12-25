@@ -577,14 +577,6 @@ public class MaterialSerialItem extends BusinessObject<MaterialSerialItem>
 		};
 	}
 
-	@Override
-	public void reset() {
-		super.reset();
-		this.setDocumentType(null);
-		this.setDocumentEntry(null);
-		this.setDocumentLineId(null);
-	}
-
 	IMaterialSerialItemParent parent;
 
 	@Override

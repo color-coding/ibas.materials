@@ -8,7 +8,6 @@ import javax.xml.bind.annotation.XmlType;
 
 import org.colorcoding.ibas.bobas.bo.BusinessObjects;
 import org.colorcoding.ibas.bobas.common.ConditionOperation;
-import org.colorcoding.ibas.bobas.common.ConditionRelationship;
 import org.colorcoding.ibas.bobas.common.Criteria;
 import org.colorcoding.ibas.bobas.common.ICondition;
 import org.colorcoding.ibas.bobas.common.ICriteria;
@@ -70,19 +69,17 @@ public class MaterialSerialItems extends BusinessObjects<IMaterialSerialItem, IM
 	public ICriteria getElementCriteria() {
 		ICriteria criteria = new Criteria();
 		ICondition condition = criteria.getConditions().create();
-		condition.setAlias("DocumentType");
+		condition.setAlias(MaterialSerialItem.PROPERTY_DOCUMENTTYPE.getName());
 		condition.setOperation(ConditionOperation.EQUAL);
 		condition.setValue(this.getParent().getObjectCode());
 		condition = criteria.getConditions().create();
-		condition.setAlias("DocumentEntry");
+		condition.setAlias(MaterialSerialItem.PROPERTY_DOCUMENTENTRY.getName());
 		condition.setOperation(ConditionOperation.EQUAL);
 		condition.setValue(this.getParent().getDocEntry());
-		condition.setRelationship(ConditionRelationship.AND);
 		condition = criteria.getConditions().create();
-		condition.setAlias("DocumentLineId");
+		condition.setAlias(MaterialSerialItem.PROPERTY_DOCUMENTLINEID.getName());
 		condition.setOperation(ConditionOperation.EQUAL);
 		condition.setValue(this.getParent().getLineId());
-		condition.setRelationship(ConditionRelationship.AND);
 		return criteria;
 	}
 
