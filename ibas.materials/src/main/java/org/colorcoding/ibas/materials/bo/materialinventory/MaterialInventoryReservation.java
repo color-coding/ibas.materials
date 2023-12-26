@@ -25,7 +25,6 @@ import org.colorcoding.ibas.bobas.rule.common.BusinessRuleRequired;
 import org.colorcoding.ibas.initialfantasy.data.DataConvert;
 import org.colorcoding.ibas.materials.MyConfiguration;
 import org.colorcoding.ibas.materials.logic.IMaterialBatchReservedContract;
-import org.colorcoding.ibas.materials.logic.IMaterialReservedContract;
 import org.colorcoding.ibas.materials.logic.IMaterialSerialReservedContract;
 import org.colorcoding.ibas.materials.logic.IMaterialWarehouseReservedContract;
 
@@ -1046,7 +1045,7 @@ public class MaterialInventoryReservation extends BusinessObject<MaterialInvento
 		}
 		if (!DataConvert.isNullOrEmpty(this.getItemCode())) {
 			// 物料占用
-			contracts.add(new IMaterialReservedContract() {
+			contracts.add(new IMaterialWarehouseReservedContract() {
 
 				@Override
 				public String getIdentifiers() {
@@ -1068,6 +1067,11 @@ public class MaterialInventoryReservation extends BusinessObject<MaterialInvento
 				@Override
 				public emBOStatus getStatus() {
 					return MaterialInventoryReservation.this.getStatus();
+				}
+
+				@Override
+				public String getWarehouse() {
+					return MaterialInventoryReservation.this.getWarehouse();
 				}
 			});
 		}

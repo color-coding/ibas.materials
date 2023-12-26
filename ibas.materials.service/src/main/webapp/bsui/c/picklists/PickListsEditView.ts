@@ -316,7 +316,7 @@ namespace materials {
                                     // }),
                                     new sap.extension.table.DataColumn("", {
                                         label: ibas.i18n.prop("bo_picklistsline_inventoryquantity"),
-                                        template: new sap.extension.m.Text("", {
+                                        template: new sap.extension.m.Input("", {
                                         }).bindProperty("bindingValue", {
                                             path: "inventoryQuantity",
                                             type: new sap.extension.data.Quantity(),

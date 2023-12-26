@@ -883,7 +883,7 @@ namespace materials {
                                                                                 }
                                                                             }
                                                                         }
-                                                                        that.fireViewEvents(that.changeWorkingItemEvent, data);
+                                                                        that.fireViewEvents(that.changeWorkingItemEvent, data, that.checkRestricted.getSelected());
                                                                         if (data instanceof app.ReservationWorkingItem) {
                                                                             if (data.batchManagement === ibas.emYesNo.YES) {
                                                                                 if (that.container.getCurrentPage() !== that.tableBatchInventories.getParent()) {

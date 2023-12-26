@@ -13,13 +13,14 @@ import org.colorcoding.ibas.bobas.message.MessageLevel;
 import org.colorcoding.ibas.materials.bo.material.IMaterial;
 import org.colorcoding.ibas.materials.data.emItemType;
 
-@LogicContract(IMaterialReservedContract.class)
-public class MaterialReservedService extends MaterialInventoryBusinessLogic<IMaterialReservedContract, IMaterial> {
+@LogicContract(IMaterialWarehouseReservedContract.class)
+public class MaterialReservedService
+		extends MaterialInventoryBusinessLogic<IMaterialWarehouseReservedContract, IMaterial> {
 
 	@Override
 	protected boolean checkDataStatus(Object data) {
-		if (data instanceof IMaterialReservedContract) {
-			IMaterialReservedContract contract = (IMaterialReservedContract) data;
+		if (data instanceof IMaterialWarehouseReservedContract) {
+			IMaterialWarehouseReservedContract contract = (IMaterialWarehouseReservedContract) data;
 			if (contract.getStatus() == emBOStatus.CLOSED) {
 				Logger.log(MessageLevel.DEBUG, MSG_LOGICS_SKIP_LOGIC_EXECUTION, this.getClass().getName(), "Status",
 						contract.getStatus());
@@ -30,12 +31,18 @@ public class MaterialReservedService extends MaterialInventoryBusinessLogic<IMat
 						contract.getQuantity());
 				return false;
 			}
+			if (this.checkWarehouse(contract.getWarehouse()).getReservable() == emYesNo.NO) {
+				// 不可预留仓库
+				Logger.log(MessageLevel.DEBUG, MSG_LOGICS_SKIP_LOGIC_EXECUTION, this.getClass().getName(),
+						"Warehouse Reservable", "NO");
+				return false;
+			}
 		}
 		return super.checkDataStatus(data);
 	}
 
 	@Override
-	protected IMaterial fetchBeAffected(IMaterialReservedContract contract) {
+	protected IMaterial fetchBeAffected(IMaterialWarehouseReservedContract contract) {
 		// 检查物料
 		IMaterial material = this.checkMaterial(contract.getItemCode());
 		// 服务物料，不执行此逻辑
@@ -54,20 +61,20 @@ public class MaterialReservedService extends MaterialInventoryBusinessLogic<IMat
 	}
 
 	@Override
-	protected void impact(IMaterialReservedContract contract) {
+	protected void impact(IMaterialWarehouseReservedContract contract) {
 		IMaterial material = this.getBeAffected();
 		BigDecimal onReserved = material.getOnReserved();
 		onReserved = onReserved.add(contract.getQuantity());
 		/*
-		if (onReserved.compareTo(material.getOnHand()) > 0) {
-			throw new BusinessLogicException(I18N.prop("msg_mm_material_not_enough", contract.getItemCode()));
-		}
-		*/
+		 * if (onReserved.compareTo(material.getOnHand()) > 0) { throw new
+		 * BusinessLogicException(I18N.prop("msg_mm_material_not_enough",
+		 * contract.getItemCode())); }
+		 */
 		material.setOnReserved(onReserved);
 	}
 
 	@Override
-	protected void revoke(IMaterialReservedContract contract) {
+	protected void revoke(IMaterialWarehouseReservedContract contract) {
 		IMaterial material = this.getBeAffected();
 		BigDecimal onReserved = material.getOnReserved();
 		onReserved = onReserved.subtract(contract.getQuantity());

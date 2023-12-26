@@ -17,7 +17,9 @@ import org.colorcoding.ibas.bobas.common.ICriteria;
 import org.colorcoding.ibas.bobas.common.IOperationResult;
 import org.colorcoding.ibas.bobas.core.IPropertyInfo;
 import org.colorcoding.ibas.bobas.data.Decimal;
+import org.colorcoding.ibas.bobas.data.emBOStatus;
 import org.colorcoding.ibas.bobas.data.emYesNo;
+import org.colorcoding.ibas.bobas.i18n.I18N;
 import org.colorcoding.ibas.bobas.logic.BusinessLogicException;
 import org.colorcoding.ibas.bobas.logic.IBusinessObjectGroup;
 import org.colorcoding.ibas.bobas.mapping.DbField;
@@ -205,7 +207,12 @@ public class MaterialInventoryReservationCreateService extends
 									|| DataConvert.isNullOrEmpty(contract.getBatchCode()))
 							&& ((!DataConvert.isNullOrEmpty(contract.getSerialCode())
 									&& contract.getSerialCode().equals(c.getSerialCode()))
-									|| DataConvert.isNullOrEmpty(contract.getSerialCode())));
+									|| DataConvert.isNullOrEmpty(contract.getSerialCode()))
+							&& ((!DataConvert.isNullOrEmpty(contract.getWarehouse())
+									&& contract.getWarehouse().equals(c.getWarehouse()))
+									|| DataConvert.isNullOrEmpty(contract.getWarehouse()))
+
+					);
 			if (gItem == null) {
 				gItem = new MaterialInventoryReservation();
 				gItem.setCauses(causes);
@@ -214,6 +221,7 @@ public class MaterialInventoryReservationCreateService extends
 				gItem.setTargetDocumentLineId(item.getTargetDocumentLineId());
 				gItem.setBatchCode(contract.getBatchCode());
 				gItem.setSerialCode(contract.getSerialCode());
+				gItem.setWarehouse(contract.getWarehouse());
 				gItem.setQuantity(Decimal.ZERO);
 				reservationGroup.getItems().add(gItem);
 			} else {
@@ -222,7 +230,6 @@ public class MaterialInventoryReservationCreateService extends
 				}
 			}
 			gItem.setItemCode(contract.getItemCode());
-			gItem.setWarehouse(contract.getWarehouse());
 			gItem.setRemarks(item.getRemarks());
 			if (remQuantity.compareTo(avaQuantity) >= 0) {
 				gItem.setQuantity(gItem.getQuantity().add(avaQuantity));
@@ -232,6 +239,12 @@ public class MaterialInventoryReservationCreateService extends
 				gItem.setQuantity(gItem.getQuantity().add(remQuantity));
 				item.setClosedQuantity(item.getClosedQuantity().add(remQuantity));
 				avaQuantity = avaQuantity.subtract(remQuantity);
+			}
+			if (this.checkWarehouse(contract.getWarehouse()).getReservable() == emYesNo.NO) {
+				// 非预留仓库
+				gItem.setRemarks(String.format("%s;%s", gItem.getRemarks(),
+						I18N.prop("msg_mm_non_reserved_warehouse_releases_reservation")));
+				gItem.setStatus(emBOStatus.CLOSED);
 			}
 			if (avaQuantity.compareTo(Decimal.ZERO) <= 0) {
 				// 无可用量
@@ -257,6 +270,10 @@ public class MaterialInventoryReservationCreateService extends
 			}
 			if (!DataConvert.isNullOrEmpty(contract.getSerialCode())
 					&& !contract.getSerialCode().equals(item.getSerialCode())) {
+				continue;
+			}
+			if (!DataConvert.isNullOrEmpty(contract.getWarehouse())
+					&& !contract.getWarehouse().equals(item.getWarehouse())) {
 				continue;
 			}
 			if (item.getQuantity().compareTo(avaQuantity) >= 0) {

@@ -58,6 +58,12 @@ public class MaterialWarehouseReservedService
 						contract.getQuantity());
 				return false;
 			}
+			if (this.checkWarehouse(contract.getWarehouse()).getReservable() == emYesNo.NO) {
+				// 不可预留仓库
+				Logger.log(MessageLevel.DEBUG, MSG_LOGICS_SKIP_LOGIC_EXECUTION, this.getClass().getName(),
+						"Warehouse Reservable", "NO");
+				return false;
+			}
 		}
 		return super.checkDataStatus(data);
 	}
