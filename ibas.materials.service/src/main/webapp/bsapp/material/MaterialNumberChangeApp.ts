@@ -9,6 +9,8 @@ namespace materials {
     export namespace app {
         const PROPERTY_QUANTITY: symbol = Symbol("quantity");
         const PROPERTY_STATUS: symbol = Symbol("status");
+        const PROPERTY_TARGET_MATERIAL: symbol = Symbol("targetMaterial");
+        const PROPERTY_MATERIAL: symbol = Symbol("material");
         export enum emNumberChangeStatus {
             NOT,
             PROCESSING,
@@ -36,7 +38,16 @@ namespace materials {
                 this.firePropertyChanged("status");
             }
 
-            material: bo.Material;
+            get material(): bo.Material {
+                return this[PROPERTY_MATERIAL];
+            }
+            set material(value: bo.Material) {
+                this[PROPERTY_MATERIAL] = value;
+                if (!ibas.objects.isNull(value)) {
+                    this[PROPERTY_TARGET_MATERIAL] = value.clone();
+                }
+                this.firePropertyChanged("material");
+            }
 
             source: bo.MaterialBatch | bo.MaterialSerial;
 
@@ -48,6 +59,14 @@ namespace materials {
             set quantity(value: number) {
                 this[PROPERTY_QUANTITY] = value;
                 this.firePropertyChanged("quantity");
+            }
+            get sourceQuantity(): number {
+                if (this.source instanceof bo.MaterialBatch) {
+                    return this.source.quantity;
+                } else if (this.source instanceof bo.MaterialSerial) {
+                    return 1;
+                }
+                return undefined;
             }
 
             get sourceNumber(): string {
@@ -64,6 +83,7 @@ namespace materials {
                 } else if (this.source instanceof bo.MaterialSerial) {
                     this.source.serialCode = value;
                 }
+                this.firePropertyChanged("sourceNumber");
             }
             get targetNumber(): string {
                 if (this.target instanceof bo.MaterialBatch) {
@@ -85,6 +105,7 @@ namespace materials {
                         item.target.serialCode = this.target.serialCode;
                     }
                 }
+                this.firePropertyChanged("targetNumber");
             }
             get sourceWarehouse(): string {
                 if (this.source instanceof bo.MaterialBatch) {
@@ -100,6 +121,7 @@ namespace materials {
                 } else if (this.source instanceof bo.MaterialSerial) {
                     this.source.warehouse = value;
                 }
+                this.firePropertyChanged("sourceWarehouse");
             }
             get targetWarehouse(): string {
                 if (this.target instanceof bo.MaterialBatch) {
@@ -121,6 +143,38 @@ namespace materials {
                         item.target.warehouse = this.target.warehouse;
                     }
                 }
+                this.firePropertyChanged("targetWarehouse");
+            }
+            get targetMaterial(): bo.Material {
+                return this[PROPERTY_TARGET_MATERIAL];
+            }
+            set targetMaterial(value: bo.Material) {
+                if (ibas.objects.isNull(value)) {
+                    value = this.material.clone();
+                }
+                this[PROPERTY_TARGET_MATERIAL] = value;
+                if (this.target instanceof bo.MaterialBatch) {
+                    this.target.itemCode = value.code;
+                    for (let item of this.reservations) {
+                        item.target.itemCode = value.code;
+                        if (this.material?.code === this.targetMaterial?.code) {
+                            item.target.quantity = item.source.quantity;
+                        } else {
+                            item.target.quantity = 0;
+                        }
+                    }
+                } else if (this.source instanceof bo.MaterialSerial) {
+                    this.target.itemCode = value.code;
+                    for (let item of this.reservations) {
+                        item.target.itemCode = value.code;
+                        if (this.material?.code === this.targetMaterial?.code) {
+                            item.target.quantity = item.source.quantity;
+                        } else {
+                            item.target.quantity = 0;
+                        }
+                    }
+                }
+                this.firePropertyChanged("targetMaterial");
             }
             reservations: ibas.IList<MaterialNumberReservation>;
 
@@ -139,7 +193,31 @@ namespace materials {
                 return ibas.numbers.round(total);
             }
 
-            check(): void {
+            check(blocked: boolean): void {
+                if (this.source instanceof bo.MaterialSerial) {
+                    if (this.quantity > 1) {
+                        // 序列号数量不能大于1
+                        throw new Error(ibas.i18n.prop("materials_transfer_quantity_grater_than_onhand", this.source.itemCode, this.sourceNumber));
+                    }
+                    if (blocked === true || this.material.code !== this.targetMaterial?.code) {
+                        // 序列被预留
+                        if (this.source.reserved === ibas.emYesNo.YES) {
+                            throw new Error(ibas.i18n.prop("materials_transfer_quantity_grater_than_availabled", this.source.itemCode, this.sourceNumber));
+                        }
+                    }
+                }
+                if (this.source instanceof bo.MaterialBatch) {
+                    if (this.quantity > this.source.quantity) {
+                        // 批次数量不能大于库存量
+                        throw new Error(ibas.i18n.prop("materials_transfer_quantity_grater_than_onhand", this.source.itemCode, this.sourceNumber));
+                    }
+                    if (blocked === true || this.material.code !== this.targetMaterial?.code) {
+                        // 批次数量不能大于可用量
+                        if (this.quantity > (this.source.quantity - this.source.reservedQuantity)) {
+                            throw new Error(ibas.i18n.prop("materials_transfer_quantity_grater_than_availabled", this.source.itemCode, this.sourceNumber));
+                        }
+                    }
+                }
                 if (this.transferQuantity > this.reservationQuantity) {
                     // 转移数量超过预留数量
                     throw new Error(ibas.i18n.prop("materials_transfer_quantity_grater_than_reservation", this.source.itemCode, this.sourceNumber));
@@ -196,6 +274,7 @@ namespace materials {
                 this.view.removeItemEvent = this.removeItem;
                 this.view.editMaterialBatchEvent = this.editMaterialBatch;
                 this.view.editMaterialSerialEvent = this.editMaterialSerial;
+                this.view.chooseTargetMaterialEvent = this.chooseTargetMaterial;
                 this.view.resetEvent = this.reset;
                 this.view.changeToEvent = this.changeTo;
             }
@@ -392,6 +471,9 @@ namespace materials {
                     let condition: ibas.ICondition = criteria.conditions.create();
                     condition.alias = bo.Material.PROPERTY_CODE_NAME;
                     condition.value = item.source.itemCode;
+                    if (criteria.conditions.length > 1) {
+                        condition.relationship = ibas.emConditionRelationship.OR;
+                    }
                 }
                 if (criteria.conditions.length > 0) {
                     let boRepository: bo.BORepositoryMaterials = new bo.BORepositoryMaterials();
@@ -449,14 +531,16 @@ namespace materials {
             private reset(): void {
                 this.viewShowed();
             }
-            private changeTo(): void {
+            private changeTo(remarks: string, blocked: boolean = true): void {
                 let issue: bo.GoodsIssue = new bo.GoodsIssue();
+                issue.remarks = remarks;
                 let receipt: bo.GoodsReceipt = new bo.GoodsReceipt();
+                receipt.remarks = remarks;
                 let batchSerials: ibas.IList<bo.MaterialBatch | bo.MaterialSerial> = new ibas.ArrayList<bo.MaterialBatch | bo.MaterialSerial>();
                 let reservations: ibas.IList<bo.MaterialInventoryReservation> = new ibas.ArrayList<bo.MaterialInventoryReservation>();
-
                 for (let item of this.changeItems) {
-                    if (item.sourceNumber === item.targetNumber && item.sourceWarehouse === item.targetWarehouse) {
+                    if (item.sourceNumber === item.targetNumber && item.sourceWarehouse === item.targetWarehouse
+                        && item.material.code === item.targetMaterial.code) {
                         // 未改变，跳过
                         continue;
                     }
@@ -465,7 +549,7 @@ namespace materials {
                         continue;
                     }
                     // 检查数量
-                    item.check();
+                    item.check(blocked);
                     // 预留信息（旧的移除才能保存）
                     for (let rItem of item.reservations) {
                         if (!(rItem.target.quantity > 0)) {
@@ -494,7 +578,7 @@ namespace materials {
                     }
                     // 入库
                     let receiptItem: bo.GoodsReceiptLine = receipt.goodsReceiptLines.create();
-                    receiptItem.baseMaterial(item.material);
+                    receiptItem.baseMaterial(item.targetMaterial);
                     receiptItem.quantity = item.quantity;
                     receiptItem.warehouse = item.targetWarehouse;
                     receiptItem.price = item.material.avgPrice;
@@ -563,6 +647,60 @@ namespace materials {
                     });
                 }
             }
+            private chooseTargetMaterial(caller: MaterialNumberItem): void {
+                let that: this = this;
+                let condition: ibas.ICondition;
+                let conditions: ibas.IList<ibas.ICondition> = app.conditions.material.create();
+                // 库存物料
+                condition = new ibas.Condition();
+                condition.alias = app.conditions.material.CONDITION_ALIAS_INVENTORY_ITEM;
+                condition.value = ibas.emYesNo.YES.toString();
+                condition.operation = ibas.emConditionOperation.EQUAL;
+                condition.relationship = ibas.emConditionRelationship.AND;
+                conditions.add(condition);
+                // 物料类型
+                condition = new ibas.Condition();
+                condition.alias = app.conditions.material.CONDITION_ALIAS_ITEM_TYPE;
+                condition.value = bo.emItemType.ITEM.toString();
+                condition.operation = ibas.emConditionOperation.EQUAL;
+                condition.relationship = ibas.emConditionRelationship.AND;
+                conditions.add(condition);
+                // 非虚拟的
+                condition = new ibas.Condition();
+                condition.alias = app.conditions.material.CONDITION_ALIAS_PHANTOM_ITEM;
+                condition.value = ibas.emYesNo.NO.toString();
+                condition.operation = ibas.emConditionOperation.EQUAL;
+                condition.relationship = ibas.emConditionRelationship.AND;
+                conditions.add(condition);
+                if (caller.source instanceof bo.MaterialBatch) {
+                    // 批次管理
+                    condition = new ibas.Condition();
+                    condition.alias = bo.Material.PROPERTY_BATCHMANAGEMENT_NAME;
+                    condition.value = ibas.emYesNo.YES.toString();
+                    condition.operation = ibas.emConditionOperation.EQUAL;
+                    condition.relationship = ibas.emConditionRelationship.AND;
+                    conditions.add(condition);
+                } else if (caller.source instanceof bo.MaterialSerial) {
+                    // 序列管理
+                    condition = new ibas.Condition();
+                    condition.alias = bo.Material.PROPERTY_SERIALMANAGEMENT_NAME;
+                    condition.value = ibas.emYesNo.YES.toString();
+                    condition.operation = ibas.emConditionOperation.EQUAL;
+                    condition.relationship = ibas.emConditionRelationship.AND;
+                    conditions.add(condition);
+                }
+                // 调用选择服务
+                ibas.servicesManager.runChooseService<bo.Material>({
+                    chooseType: ibas.emChooseType.SINGLE,
+                    boCode: bo.BO_CODE_MATERIAL,
+                    criteria: conditions,
+                    onCompleted(selecteds: ibas.IList<bo.Material>): void {
+                        for (let selected of selecteds) {
+                            caller.targetMaterial = selected;
+                        }
+                    }
+                });
+            }
         }
         /** 视图-物料批次序列号变更 */
         export interface IMaterialNumberChangeView extends ibas.IView {
@@ -578,6 +716,8 @@ namespace materials {
             editMaterialBatchEvent: Function;
             /** 编辑序列信息 */
             editMaterialSerialEvent: Function;
+            /** 选择变更物料 */
+            chooseTargetMaterialEvent: Function;
             /** 重置事件 */
             resetEvent: Function;
             /** 改变事件 */

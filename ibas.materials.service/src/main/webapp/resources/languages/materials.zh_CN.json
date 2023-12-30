@@ -185,6 +185,10 @@
   "materials_number_change_remarks": "批次/序列号改变:{0}",
   "materials_number_changed": "批次/序列号已更新，收货单据号：{0}，发货单据号：{1}",
   "materials_reservation_error": "预留错误：{0}",
+  "materials_reservation_blocked": "预留限制变更数量",
+  "materials_transfer_not_found_material": "未找到物料[{0}]，请重新选择",
+  "materials_transfer_quantity_grater_than_onhand": "物料[{0}]批/序号[{1}]的变更数量，超过原有数量。",
+  "materials_transfer_quantity_grater_than_availabled": "物料[{0}]批/序号[{1}]的变更数量，超过可用数量。",
   "materials_transfer_quantity_grater_than_reservation": "物料[{0}]批/序号[{1}]的预留转移数量，超过原预留数量。",
   "materials_transfer_quantity_grater_than_quantity": "物料[{0}]批/序号[{1}]的预留转移数量，超过批次数量。",
   "materials_closing_delimiter": "----结束----"
