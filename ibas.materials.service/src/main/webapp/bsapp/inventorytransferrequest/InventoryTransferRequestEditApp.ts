@@ -7,20 +7,20 @@
  */
 namespace materials {
     export namespace app {
-        /** 编辑应用-库存转储 */
-        export class InventoryTransferEditApp extends ibas.BOEditService<IInventoryTransferEditView, bo.InventoryTransfer> {
+        /** 编辑应用-库存转储申请 */
+        export class InventoryTransferRequestEditApp extends ibas.BOEditService<IInventoryTransferRequestEditView, bo.InventoryTransferRequest> {
             /** 应用标识 */
-            static APPLICATION_ID: string = "91629c3b-f1de-4b5e-a836-2ac7e443eb1d";
+            static APPLICATION_ID: string = "7835ff12-1392-47f5-a11a-14d385038742";
             /** 应用名称 */
-            static APPLICATION_NAME: string = "materials_app_inventorytransfer_edit";
+            static APPLICATION_NAME: string = "materials_app_inventorytransferrequest_edit";
             /** 业务对象编码 */
-            static BUSINESS_OBJECT_CODE: string = bo.InventoryTransfer.BUSINESS_OBJECT_CODE;
+            static BUSINESS_OBJECT_CODE: string = bo.InventoryTransferRequest.BUSINESS_OBJECT_CODE;
             /** 构造函数 */
             constructor() {
                 super();
-                this.id = InventoryTransferEditApp.APPLICATION_ID;
-                this.name = InventoryTransferEditApp.APPLICATION_NAME;
-                this.boCode = InventoryTransferEditApp.BUSINESS_OBJECT_CODE;
+                this.id = InventoryTransferRequestEditApp.APPLICATION_ID;
+                this.name = InventoryTransferRequestEditApp.APPLICATION_NAME;
+                this.boCode = InventoryTransferRequestEditApp.BUSINESS_OBJECT_CODE;
                 this.description = ibas.i18n.prop(this.name);
             }
             /** 注册视图 */
@@ -29,17 +29,16 @@ namespace materials {
                 // 其他事件
                 this.view.deleteDataEvent = this.deleteData;
                 this.view.createDataEvent = this.createData;
-                this.view.addInventoryTransferLineEvent = this.addInventoryTransferLine;
-                this.view.removeInventoryTransferLineEvent = this.removeInventoryTransferLine;
-                this.view.chooseInventoryTransferWarehouseEvent = this.chooseInventoryTransferWarehouse;
-                this.view.chooseInventoryTransferLineMaterialEvent = this.chooseInventoryTransferLineMaterial;
-                this.view.chooseInventoryTransferLineWarehouseEvent = this.chooseInventoryTransferLineWarehouse;
-                this.view.chooseInventoryTransferLineMaterialBatchEvent = this.chooseInventoryTransferLineMaterialBatch;
-                this.view.chooseInventoryTransferLineMaterialSerialEvent = this.chooseInventoryTransferLineMaterialSerial;
-                this.view.chooseeInventoryTransferMaterialPriceListEvent = this.chooseeInventoryTransferMaterialPriceList;
-                this.view.chooseInventoryTransferLineDistributionRuleEvent = this.chooseInventoryTransferLineDistributionRule;
-                this.view.chooseInventoryTransferLineTransferRequestEvent = this.chooseInventoryTransferLineTransferRequest;
-                this.view.callInventoryTransferAddServiceEvent = this.callInventoryTransferAddService;
+                this.view.addInventoryTransferRequestLineEvent = this.addInventoryTransferRequestLine;
+                this.view.removeInventoryTransferRequestLineEvent = this.removeInventoryTransferRequestLine;
+                this.view.chooseInventoryTransferRequestWarehouseEvent = this.chooseInventoryTransferRequestWarehouse;
+                this.view.chooseInventoryTransferRequestLineMaterialEvent = this.chooseInventoryTransferRequestLineMaterial;
+                this.view.chooseInventoryTransferRequestLineWarehouseEvent = this.chooseInventoryTransferRequestLineWarehouse;
+                this.view.chooseInventoryTransferRequestLineMaterialBatchEvent = this.chooseInventoryTransferRequestLineMaterialBatch;
+                this.view.chooseInventoryTransferRequestLineMaterialSerialEvent = this.chooseInventoryTransferRequestLineMaterialSerial;
+                this.view.chooseeInventoryTransferRequestMaterialPriceListEvent = this.chooseeInventoryTransferRequestMaterialPriceList;
+                this.view.chooseInventoryTransferRequestLineDistributionRuleEvent = this.chooseInventoryTransferRequestLineDistributionRule;
+                this.view.turnToInventoryTransferEvent = this.turnToInventoryTransfer;
             }
             /** 视图显示后 */
             protected viewShowed(): void {
@@ -47,25 +46,19 @@ namespace materials {
                 super.viewShowed();
                 if (ibas.objects.isNull(this.editData)) {
                     // 创建编辑对象实例
-                    this.editData = new bo.InventoryTransfer();
+                    this.editData = new bo.InventoryTransferRequest();
                     this.proceeding(ibas.emMessageType.WARNING, ibas.i18n.prop("shell_data_created_new"));
                 }
-                this.view.showInventoryTransfer(this.editData);
-                this.view.showInventoryTransferLines(this.editData.inventoryTransferLines.filterDeleted());
-                this.view.showServiceAgent(ibas.servicesManager.getServices({
-                    proxy: new MaterialInventoryTransAddServiceProxy({
-                        onAdded: (targets) => {
-                        }
-                    }),
-                }));
+                this.view.showInventoryTransferRequest(this.editData);
+                this.view.showInventoryTransferRequestLines(this.editData.inventoryTransferRequestLines.filterDeleted());
             }
             /** 运行,覆盖原方法 */
             run(): void;
-            run(data: bo.InventoryTransfer): void;
+            run(data: bo.InventoryTransferRequest): void;
             run(): void {
                 let that: this = this;
-                if (ibas.objects.instanceOf(arguments[0], bo.InventoryTransfer)) {
-                    let data: bo.InventoryTransfer = arguments[0];
+                if (ibas.objects.instanceOf(arguments[0], bo.InventoryTransferRequest)) {
+                    let data: bo.InventoryTransferRequest = arguments[0];
                     // 新对象直接编辑
                     if (data.isNew) {
                         that.editData = data;
@@ -77,14 +70,14 @@ namespace materials {
                     if (!ibas.objects.isNull(criteria) && criteria.conditions.length > 0) {
                         // 有效的查询对象查询
                         let boRepository: bo.BORepositoryMaterials = new bo.BORepositoryMaterials();
-                        boRepository.fetchInventoryTransfer({
+                        boRepository.fetchInventoryTransferRequest({
                             criteria: criteria,
-                            onCompleted(opRslt: ibas.IOperationResult<bo.InventoryTransfer>): void {
-                                let data: bo.InventoryTransfer;
+                            onCompleted(opRslt: ibas.IOperationResult<bo.InventoryTransferRequest>): void {
+                                let data: bo.InventoryTransferRequest;
                                 if (opRslt.resultCode === 0) {
                                     data = opRslt.resultObjects.firstOrDefault();
                                 }
-                                if (ibas.objects.instanceOf(data, bo.InventoryTransfer)) {
+                                if (ibas.objects.instanceOf(data, bo.InventoryTransferRequest)) {
                                     // 查询到了有效数据
                                     that.editData = data;
                                     that.show();
@@ -111,9 +104,9 @@ namespace materials {
                 this.busy(true);
                 let that: this = this;
                 let boRepository: bo.BORepositoryMaterials = new bo.BORepositoryMaterials();
-                boRepository.saveInventoryTransfer({
+                boRepository.saveInventoryTransferRequest({
                     beSaved: this.editData,
-                    onCompleted(opRslt: ibas.IOperationResult<bo.InventoryTransfer>): void {
+                    onCompleted(opRslt: ibas.IOperationResult<bo.InventoryTransferRequest>): void {
                         try {
                             that.busy(false);
                             if (opRslt.resultCode !== 0) {
@@ -163,7 +156,7 @@ namespace materials {
                         let formData: FormData = new FormData();
                         formData.append("file", clone);
                         let boRepository: importexport.bo.BORepositoryImportExport = new importexport.bo.BORepositoryImportExport();
-                        boRepository.parse<bo.InventoryTransfer>({
+                        boRepository.parse<bo.InventoryTransferRequest>({
                             converter: new bo.DataConverter(),
                             fileData: formData,
                             onCompleted: (opRslt) => {
@@ -189,7 +182,7 @@ namespace materials {
                         that.viewShowed();
                     } else {
                         // 新建对象
-                        that.editData = new bo.InventoryTransfer();
+                        that.editData = new bo.InventoryTransferRequest();
                         that.proceeding(ibas.emMessageType.WARNING, ibas.i18n.prop("shell_data_created_new"));
                         that.viewShowed();
                     }
@@ -210,19 +203,19 @@ namespace materials {
                     createData();
                 }
             }
-            /** 添加库存转储-行事件 */
-            private addInventoryTransferLine(items: bo.InventoryTransferLine[]): void {
+            /** 添加库存转储申请-行事件 */
+            private addInventoryTransferRequestLine(items: bo.InventoryTransferRequestLine[]): void {
                 if (items instanceof Array && items.length > 0) {
                     let builder: ibas.StringBuilder = new ibas.StringBuilder();
                     builder.append(ibas.i18n.prop("shell_data_new_line"));
                     builder.append(" [");
                     for (let item of items) {
-                        let newItem: bo.InventoryTransferLine = item.clone();
+                        let newItem: bo.InventoryTransferRequestLine = item.clone();
                         newItem.lineId = undefined;
                         newItem.visOrder = undefined;
                         // 序列号清除
                         newItem.materialSerials.clear();
-                        this.editData.inventoryTransferLines.add(newItem);
+                        this.editData.inventoryTransferRequestLines.add(newItem);
                         if (builder.length > 2) {
                             builder.append(", ");
                         }
@@ -231,14 +224,14 @@ namespace materials {
                     builder.append("] ");
                     if (builder.length > 3) {
                         this.proceeding(ibas.emMessageType.WARNING, builder.toString());
-                        this.view.showInventoryTransferLines(this.editData.inventoryTransferLines.filterDeleted());
+                        this.view.showInventoryTransferRequestLines(this.editData.inventoryTransferRequestLines.filterDeleted());
                     }
                 } else {
-                    this.chooseInventoryTransferLineMaterial(undefined);
+                    this.chooseInventoryTransferRequestLineMaterial(undefined);
                 }
             }
-            /** 删除库存转储-行事件 */
-            private removeInventoryTransferLine(items: bo.InventoryTransferLine[]): void {
+            /** 删除库存转储申请-行事件 */
+            private removeInventoryTransferRequestLine(items: bo.InventoryTransferRequestLine[]): void {
                 // 非数组，转为数组
                 if (!(items instanceof Array)) {
                     items = [items];
@@ -248,10 +241,10 @@ namespace materials {
                 }
                 // 移除项目
                 for (let item of items) {
-                    if (this.editData.inventoryTransferLines.indexOf(item) >= 0) {
+                    if (this.editData.inventoryTransferRequestLines.indexOf(item) >= 0) {
                         if (item.isNew) {
                             // 新建的移除集合
-                            this.editData.inventoryTransferLines.remove(item);
+                            this.editData.inventoryTransferRequestLines.remove(item);
                         } else {
                             // 非新建标记删除
                             item.delete();
@@ -259,36 +252,10 @@ namespace materials {
                     }
                 }
                 // 仅显示没有标记删除的
-                this.view.showInventoryTransferLines(this.editData.inventoryTransferLines.filterDeleted());
+                this.view.showInventoryTransferRequestLines(this.editData.inventoryTransferRequestLines.filterDeleted());
             }
-            /** 调用库存转储添加服务 */
-            private callInventoryTransferAddService(agent: ibas.IServiceAgent): void {
-                for (let srvAgent of ibas.servicesManager.getServices({
-                    proxy: new MaterialInventoryTransAddServiceProxy({
-                        fromWarehouse: this.editData.fromWarehouse,
-                        toWarehouse: this.view.defaultWarehouse,
-                        onAdded: (targets) => {
-                            let created: boolean = false;
-                            for (const target of targets) {
-                                if (target instanceof bo.InventoryTransferLine) {
-                                    this.editData.inventoryTransferLines.add(target);
-                                    created = true;
-                                }
-                            }
-                            if (created) {
-                                // 创建了新的行项目
-                                this.view.showInventoryTransferLines(this.editData.inventoryTransferLines.filterDeleted());
-                            }
-                        },
-                    })
-                })) {
-                    if (srvAgent.id === agent.id) {
-                        srvAgent.run();
-                    }
-                }
-            }
-            /** 选择库存转储订单行物料事件 */
-            private chooseInventoryTransferWarehouse(): void {
+            /** 选择库存转储申请订单行物料事件 */
+            private chooseInventoryTransferRequestWarehouse(): void {
                 let that: this = this;
                 ibas.servicesManager.runChooseService<bo.Warehouse>({
                     boCode: bo.Warehouse.BUSINESS_OBJECT_CODE,
@@ -300,8 +267,8 @@ namespace materials {
                     }
                 });
             }
-            /** 选择库存转储订单行物料事件 */
-            private chooseInventoryTransferLineMaterial(caller: bo.InventoryTransferLine): void {
+            /** 选择库存转储申请订单行物料事件 */
+            private chooseInventoryTransferRequestLineMaterial(caller: bo.InventoryTransferRequestLine): void {
                 let that: this = this;
                 let condition: ibas.ICondition;
                 let conditions: ibas.IList<ibas.ICondition> = app.conditions.material.create();
@@ -332,13 +299,13 @@ namespace materials {
                     criteria: conditions,
                     onCompleted(selecteds: ibas.IList<bo.Material>): void {
                         // 获取触发的对象
-                        let index: number = that.editData.inventoryTransferLines.indexOf(caller);
-                        let item: bo.InventoryTransferLine = that.editData.inventoryTransferLines[index];
+                        let index: number = that.editData.inventoryTransferRequestLines.indexOf(caller);
+                        let item: bo.InventoryTransferRequestLine = that.editData.inventoryTransferRequestLines[index];
                         // 选择返回数量多余触发数量时,自动创建新的项目
                         let created: boolean = false;
                         for (let selected of selecteds) {
                             if (ibas.objects.isNull(item)) {
-                                item = that.editData.inventoryTransferLines.create();
+                                item = that.editData.inventoryTransferRequestLines.create();
                                 created = true;
                             }
                             item.baseMaterial(selected);
@@ -349,13 +316,13 @@ namespace materials {
                         }
                         if (created) {
                             // 创建了新的行项目
-                            that.view.showInventoryTransferLines(that.editData.inventoryTransferLines.filterDeleted());
+                            that.view.showInventoryTransferRequestLines(that.editData.inventoryTransferRequestLines.filterDeleted());
                         }
                     }
                 });
             }
-            /** 选择库存转储订单物料价格清单事件 */
-            private chooseeInventoryTransferMaterialPriceList(): void {
+            /** 选择库存转储申请订单物料价格清单事件 */
+            private chooseeInventoryTransferRequestMaterialPriceList(): void {
                 let that: this = this;
                 ibas.servicesManager.runChooseService<bo.MaterialPriceList>({
                     boCode: bo.MaterialPriceList.BUSINESS_OBJECT_CODE,
@@ -368,8 +335,8 @@ namespace materials {
                     }
                 });
             }
-            /** 选择库存转储订单行物料事件 */
-            private chooseInventoryTransferLineWarehouse(caller: bo.InventoryTransferLine): void {
+            /** 选择库存转储申请订单行物料事件 */
+            private chooseInventoryTransferRequestLineWarehouse(caller: bo.InventoryTransferRequestLine): void {
                 let that: this = this;
                 ibas.servicesManager.runChooseService<bo.Warehouse>({
                     boCode: bo.Warehouse.BUSINESS_OBJECT_CODE,
@@ -377,13 +344,13 @@ namespace materials {
                     criteria: conditions.warehouse.create(this.editData.branch),
                     onCompleted(selecteds: ibas.IList<bo.Warehouse>): void {
                         // 获取触发的对象
-                        let index: number = that.editData.inventoryTransferLines.indexOf(caller);
-                        let item: bo.InventoryTransferLine = that.editData.inventoryTransferLines[index];
+                        let index: number = that.editData.inventoryTransferRequestLines.indexOf(caller);
+                        let item: bo.InventoryTransferRequestLine = that.editData.inventoryTransferRequestLines[index];
                         // 选择返回数量多余触发数量时,自动创建新的项目
                         let created: boolean = false;
                         for (let selected of selecteds) {
                             if (ibas.objects.isNull(item)) {
-                                item = that.editData.inventoryTransferLines.create();
+                                item = that.editData.inventoryTransferRequestLines.create();
                                 created = true;
                             }
                             item.warehouse = selected.code;
@@ -392,15 +359,15 @@ namespace materials {
                         }
                         if (created) {
                             // 创建了新的行项目
-                            that.view.showInventoryTransferLines(that.editData.inventoryTransferLines.filterDeleted());
+                            that.view.showInventoryTransferRequestLines(that.editData.inventoryTransferRequestLines.filterDeleted());
                         }
                     }
                 });
             }
 
-            private chooseInventoryTransferLineMaterialBatch(): void {
+            private chooseInventoryTransferRequestLineMaterialBatch(): void {
                 let contracts: ibas.ArrayList<IMaterialBatchContract> = new ibas.ArrayList<IMaterialBatchContract>();
-                for (let item of this.editData.inventoryTransferLines) {
+                for (let item of this.editData.inventoryTransferRequestLines) {
                     contracts.add({
                         batchManagement: item.batchManagement,
                         itemCode: item.itemCode,
@@ -415,9 +382,9 @@ namespace materials {
                     proxy: new MaterialBatchIssueServiceProxy(contracts)
                 });
             }
-            private chooseInventoryTransferLineMaterialSerial(): void {
+            private chooseInventoryTransferRequestLineMaterialSerial(): void {
                 let contracts: ibas.ArrayList<IMaterialSerialContract> = new ibas.ArrayList<IMaterialSerialContract>();
-                for (let item of this.editData.inventoryTransferLines) {
+                for (let item of this.editData.inventoryTransferRequestLines) {
                     contracts.add({
                         serialManagement: item.serialManagement,
                         itemCode: item.itemCode,
@@ -432,7 +399,7 @@ namespace materials {
                     proxy: new MaterialSerialIssueServiceProxy(contracts)
                 });
             }
-            private chooseInventoryTransferLineDistributionRule(type: accounting.app.emDimensionType, caller: bo.InventoryTransferLine): void {
+            private chooseInventoryTransferRequestLineDistributionRule(type: accounting.app.emDimensionType, caller: bo.InventoryTransferRequestLine): void {
                 if (ibas.objects.isNull(type)) {
                     this.messages(ibas.emMessageType.WARNING, ibas.i18n.prop("accounting_dimension_invaild", ""));
                     return;
@@ -456,132 +423,92 @@ namespace materials {
                     }
                 });
             }
-            private chooseInventoryTransferLineTransferRequest(): void {
-                let criteria: ibas.ICriteria = new ibas.Criteria();
-                let condition: ibas.ICondition = criteria.conditions.create();
-                // 未取消的
-                condition.alias = bo.InventoryTransferRequest.PROPERTY_CANCELED_NAME;
-                condition.operation = ibas.emConditionOperation.EQUAL;
-                condition.value = ibas.emYesNo.NO.toString();
-                // 仅下达的
-                condition = criteria.conditions.create();
-                condition.alias = bo.InventoryTransferRequest.PROPERTY_DOCUMENTSTATUS_NAME;
-                condition.operation = ibas.emConditionOperation.EQUAL;
-                condition.value = ibas.emDocumentStatus.RELEASED.toString();
-                // 审批通过的或未进审批
-                condition = criteria.conditions.create();
-                condition.alias = bo.InventoryTransferRequest.PROPERTY_APPROVALSTATUS_NAME;
-                condition.operation = ibas.emConditionOperation.EQUAL;
-                condition.value = ibas.emApprovalStatus.APPROVED.toString();
-                condition.bracketOpen = 1;
-                condition = criteria.conditions.create();
-                condition.alias = bo.InventoryTransferRequest.PROPERTY_APPROVALSTATUS_NAME;
-                condition.operation = ibas.emConditionOperation.EQUAL;
-                condition.value = ibas.emApprovalStatus.UNAFFECTED.toString();
-                condition.relationship = ibas.emConditionRelationship.OR;
-                condition.bracketClose = 1;
-                // 是否指定分支
-                if (!ibas.strings.isEmpty(this.editData.branch)) {
-                    condition = criteria.conditions.create();
-                    condition.alias = bo.InventoryTransferRequest.PROPERTY_BRANCH_NAME;
-                    condition.operation = ibas.emConditionOperation.EQUAL;
-                    condition.value = this.editData.branch;
-                } else {
-                    condition = criteria.conditions.create();
-                    condition.alias = bo.InventoryTransferRequest.PROPERTY_BRANCH_NAME;
-                    condition.operation = ibas.emConditionOperation.EQUAL;
-                    condition.value = "";
-                    condition.bracketOpen = 1;
-                    condition = criteria.conditions.create();
-                    condition.alias = bo.InventoryTransferRequest.PROPERTY_BRANCH_NAME;
-                    condition.operation = ibas.emConditionOperation.IS_NULL;
-                    condition.relationship = ibas.emConditionRelationship.OR;
-                    condition.bracketClose = 1;
+            private turnToInventoryTransfer(): void {
+                if (ibas.objects.isNull(this.editData) || this.editData.isDirty === true) {
+                    this.messages(ibas.emMessageType.WARNING, ibas.i18n.prop("shell_data_saved_first"));
+                    return;
                 }
-                // 是否指定从仓库
-                if (!ibas.strings.isEmpty(this.editData.fromWarehouse)) {
-                    condition = criteria.conditions.create();
-                    condition.alias = bo.InventoryTransferRequest.PROPERTY_FROMWAREHOUSE_NAME;
-                    condition.operation = ibas.emConditionOperation.EQUAL;
-                    condition.value = this.editData.fromWarehouse;
-                }
-                // 未清数量大于数量
-                let cCriteria: ibas.IChildCriteria = criteria.childCriterias.create();
-                cCriteria.propertyPath = bo.InventoryTransferRequest.PROPERTY_INVENTORYTRANSFERLINES_NAME;
-                cCriteria.onlyHasChilds = true;
-                condition = cCriteria.conditions.create();
-                condition.alias = bo.InventoryTransferRequestLine.PROPERTY_QUANTITY_NAME;
-                condition.operation = ibas.emConditionOperation.GRATER_THAN;
-                condition.comparedAlias = bo.InventoryTransferRequestLine.PROPERTY_CLOSEDQUANTITY_NAME;
-                // 调用选择服务
-                let that: this = this;
-                ibas.servicesManager.runChooseService<bo.InventoryTransferRequest>({
-                    boCode: bo.InventoryTransferRequest.BUSINESS_OBJECT_CODE,
-                    chooseType: ibas.emChooseType.MULTIPLE,
-                    criteria: criteria,
-                    onCompleted(selecteds: ibas.IList<bo.InventoryTransferRequest>): void {
-                        for (let selected of selecteds) {
-                            if (!ibas.strings.isEmpty(that.editData.fromWarehouse)
-                                && !ibas.strings.equals(that.editData.fromWarehouse, selected.fromWarehouse)) {
-                                continue;
+                let boRepository: bo.BORepositoryMaterials = new bo.BORepositoryMaterials();
+                boRepository.fetchInventoryTransferRequest({
+                    criteria: this.editData.criteria(),
+                    onCompleted: (opRslt) => {
+                        try {
+                            if (opRslt.resultCode !== 0) {
+                                throw new Error(opRslt.message);
                             }
-                            that.editData.baseDocument(selected);
+                            if (opRslt.resultObjects.length === 0) {
+                                throw new Error(ibas.i18n.prop("shell_data_deleted"));
+                            }
+                            this.editData = opRslt.resultObjects.firstOrDefault();
+                            this.view.showInventoryTransferRequest(this.editData);
+                            this.view.showInventoryTransferRequestLines(this.editData.inventoryTransferRequestLines.filterDeleted());
+                            if ((this.editData.approvalStatus !== ibas.emApprovalStatus.APPROVED && this.editData.approvalStatus !== ibas.emApprovalStatus.UNAFFECTED)
+                                || this.editData.canceled === ibas.emYesNo.YES
+                                || this.editData.documentStatus === ibas.emDocumentStatus.PLANNED
+                                || this.editData.documentStatus === ibas.emDocumentStatus.FINISHED
+                                || this.editData.documentStatus === ibas.emDocumentStatus.CLOSED
+                            ) {
+                                throw new Error(ibas.i18n.prop("materials_invaild_status_not_support_turn_to_operation"));
+                            }
+                            let target: bo.InventoryTransfer = new bo.InventoryTransfer();
+                            target.baseDocument(this.editData);
+                            let app: InventoryTransferEditApp = new InventoryTransferEditApp();
+                            app.navigation = this.navigation;
+                            app.viewShower = this.viewShower;
+                            app.run(target);
+                        } catch (error) {
+                            this.messages(error);
                         }
-                        that.view.showInventoryTransferLines(that.editData.inventoryTransferLines.filterDeleted());
                     }
                 });
             }
         }
-        /** 视图-库存转储 */
-        export interface IInventoryTransferEditView extends ibas.IBOEditView {
+        /** 视图-库存转储申请 */
+        export interface IInventoryTransferRequestEditView extends ibas.IBOEditView {
             /** 显示数据 */
-            showInventoryTransfer(data: bo.InventoryTransfer): void;
+            showInventoryTransferRequest(data: bo.InventoryTransferRequest): void;
             /** 删除数据事件 */
             deleteDataEvent: Function;
             /** 新建数据事件，参数1：是否克隆 */
             createDataEvent: Function;
-            /** 选择库存转储单从仓库事件 */
-            chooseInventoryTransferWarehouseEvent: Function;
-            /** 选择库存转储单物料价格清单 */
-            chooseeInventoryTransferMaterialPriceListEvent: Function;
-            /** 添加库存转储-行事件 */
-            addInventoryTransferLineEvent: Function;
-            /** 删除库存转储-行事件 */
-            removeInventoryTransferLineEvent: Function;
+            /** 选择库存转储申请单从仓库事件 */
+            chooseInventoryTransferRequestWarehouseEvent: Function;
+            /** 选择库存转储申请单物料价格清单 */
+            chooseeInventoryTransferRequestMaterialPriceListEvent: Function;
+            /** 添加库存转储申请-行事件 */
+            addInventoryTransferRequestLineEvent: Function;
+            /** 删除库存转储申请-行事件 */
+            removeInventoryTransferRequestLineEvent: Function;
             /** 显示数据 */
-            showInventoryTransferLines(datas: bo.InventoryTransferLine[]): void;
-            /** 选择库存转储单行物料事件 */
-            chooseInventoryTransferLineMaterialEvent: Function;
-            /** 选择库存转储单行仓库事件 */
-            chooseInventoryTransferLineWarehouseEvent: Function;
-            /** 选择库存转储单行物料批次事件 */
-            chooseInventoryTransferLineMaterialBatchEvent: Function;
-            /** 选择库存转储单行物料序列事件 */
-            chooseInventoryTransferLineMaterialSerialEvent: Function;
-            /** 选择库存转储单行成本中心事件 */
-            chooseInventoryTransferLineDistributionRuleEvent: Function;
-            /** 选择库存转储单行-转储请求事件 */
-            chooseInventoryTransferLineTransferRequestEvent: Function;
-            /** 调用库存转储添加服务 */
-            callInventoryTransferAddServiceEvent: Function;
-            /** 显示库存转储添加服务 */
-            showServiceAgent(datas: ibas.IServiceAgent[]): void;
+            showInventoryTransferRequestLines(datas: bo.InventoryTransferRequestLine[]): void;
+            /** 选择库存转储申请单行物料事件 */
+            chooseInventoryTransferRequestLineMaterialEvent: Function;
+            /** 选择库存转储申请单行仓库事件 */
+            chooseInventoryTransferRequestLineWarehouseEvent: Function;
+            /** 选择库存转储申请单行物料批次事件 */
+            chooseInventoryTransferRequestLineMaterialBatchEvent: Function;
+            /** 选择库存转储申请单行物料序列事件 */
+            chooseInventoryTransferRequestLineMaterialSerialEvent: Function;
+            /** 选择库存转储申请单行成本中心事件 */
+            chooseInventoryTransferRequestLineDistributionRuleEvent: Function;
             /** 默认仓库 */
             defaultWarehouse: string;
+            /** 转为库存转储申请事件 */
+            turnToInventoryTransferEvent: Function;
         }
-        /** 库存转储编辑服务映射 */
-        export class InventoryTransferEditServiceMapping extends ibas.BOEditServiceMapping {
+        /** 库存转储申请编辑服务映射 */
+        export class InventoryTransferRequestEditServiceMapping extends ibas.BOEditServiceMapping {
             /** 构造函数 */
             constructor() {
                 super();
-                this.id = InventoryTransferEditApp.APPLICATION_ID;
-                this.name = InventoryTransferEditApp.APPLICATION_NAME;
-                this.boCode = InventoryTransferEditApp.BUSINESS_OBJECT_CODE;
+                this.id = InventoryTransferRequestEditApp.APPLICATION_ID;
+                this.name = InventoryTransferRequestEditApp.APPLICATION_NAME;
+                this.boCode = InventoryTransferRequestEditApp.BUSINESS_OBJECT_CODE;
                 this.description = ibas.i18n.prop(this.name);
             }
             /** 创建服务实例 */
-            create(): ibas.IService<ibas.IBOEditServiceCaller<bo.InventoryTransfer>> {
-                return new InventoryTransferEditApp();
+            create(): ibas.IService<ibas.IBOEditServiceCaller<bo.InventoryTransferRequest>> {
+                return new InventoryTransferRequestEditApp();
             }
         }
     }

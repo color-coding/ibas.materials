@@ -7,6 +7,7 @@ import org.colorcoding.ibas.materials.bo.goodsissue.GoodsIssue;
 import org.colorcoding.ibas.materials.bo.goodsreceipt.GoodsReceipt;
 import org.colorcoding.ibas.materials.bo.inventorycounting.InventoryCounting;
 import org.colorcoding.ibas.materials.bo.inventorytransfer.InventoryTransfer;
+import org.colorcoding.ibas.materials.bo.inventorytransferrequest.InventoryTransferRequest;
 import org.colorcoding.ibas.materials.bo.material.Material;
 import org.colorcoding.ibas.materials.bo.material.MaterialGroup;
 import org.colorcoding.ibas.materials.bo.material.MaterialPrice;
@@ -545,6 +546,25 @@ public interface IBORepositoryMaterialsSvc extends IBORepositorySmartService {
 	 * @return
 	 */
 	OperationResult<Object> changeMaterialNumbers(MaterialNumberChange changes, String token);
+
+	// --------------------------------------------------------------------------------------------//
+	/**
+	 * 查询-库存转储请求
+	 * 
+	 * @param criteria 查询
+	 * @param token    口令
+	 * @return 操作结果
+	 */
+	OperationResult<InventoryTransferRequest> fetchInventoryTransferRequest(ICriteria criteria, String token);
+
+	/**
+	 * 保存-库存转储请求
+	 * 
+	 * @param bo    对象实例
+	 * @param token 口令
+	 * @return 操作结果
+	 */
+	OperationResult<InventoryTransferRequest> saveInventoryTransferRequest(InventoryTransferRequest bo, String token);
 
 	// --------------------------------------------------------------------------------------------//
 }

@@ -281,6 +281,17 @@ namespace materials {
              * @param saver 保存者
              */
             savePickLists(saver: ibas.ISaveCaller<bo.IPickLists>): void;
+            /**
+             * 查询 库存转储请求
+             * @param fetcher 查询者
+             */
+            fetchInventoryTransferRequest(fetcher: ibas.IFetchCaller<bo.IInventoryTransferRequest>): void;
+            /**
+             * 保存 库存转储请求
+             * @param saver 保存者
+             */
+            saveInventoryTransferRequest(saver: ibas.ISaveCaller<bo.IInventoryTransferRequest>): void;
+
 
         }
         export interface ICloseCaller<T> extends ibas.IMethodCaller<string> {

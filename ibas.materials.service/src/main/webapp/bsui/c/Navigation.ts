@@ -24,6 +24,7 @@
 /// <reference path="./materialversion/index.ts" />
 /// <reference path="./unit/index.ts" />
 /// <reference path="./picklists/index.ts" />
+/// <reference path="./inventorytransferrequest/index.ts" />
 namespace materials {
     export namespace ui {
         /**
@@ -261,6 +262,18 @@ namespace materials {
                         break;
                     case app.MaterialNumberChangeApp.APPLICATION_ID:
                         view = new c.MaterialNumberChangeView();
+                        break;
+                    case app.InventoryTransferRequestListApp.APPLICATION_ID:
+                        view = new c.InventoryTransferRequestListView();
+                        break;
+                    case app.InventoryTransferRequestChooseApp.APPLICATION_ID:
+                        view = new c.InventoryTransferRequestChooseView();
+                        break;
+                    case app.InventoryTransferRequestViewApp.APPLICATION_ID:
+                        view = new c.InventoryTransferRequestViewView();
+                        break;
+                    case app.InventoryTransferRequestEditApp.APPLICATION_ID:
+                        view = new c.InventoryTransferRequestEditView();
                         break;
                     default:
                         break;

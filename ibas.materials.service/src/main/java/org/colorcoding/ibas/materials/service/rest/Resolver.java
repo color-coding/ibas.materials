@@ -12,6 +12,7 @@ import org.colorcoding.ibas.bobas.common.OperationResult;
 import org.colorcoding.ibas.materials.bo.goodsissue.GoodsIssue;
 import org.colorcoding.ibas.materials.bo.goodsreceipt.GoodsReceipt;
 import org.colorcoding.ibas.materials.bo.inventorytransfer.InventoryTransfer;
+import org.colorcoding.ibas.materials.bo.inventorytransferrequest.InventoryTransferRequest;
 import org.colorcoding.ibas.materials.bo.material.Material;
 import org.colorcoding.ibas.materials.bo.material.MaterialGroup;
 import org.colorcoding.ibas.materials.bo.material.MaterialPrice;
@@ -29,11 +30,11 @@ import org.colorcoding.ibas.materials.bo.materialscrap.MaterialScrap;
 import org.colorcoding.ibas.materials.bo.materialserial.MaterialSerial;
 import org.colorcoding.ibas.materials.bo.materialserial.MaterialSerialJournal;
 import org.colorcoding.ibas.materials.bo.materialspecification.MaterialSpecification;
+import org.colorcoding.ibas.materials.bo.picklists.PickLists;
 import org.colorcoding.ibas.materials.bo.specification.Specification;
 import org.colorcoding.ibas.materials.bo.unit.Unit;
 import org.colorcoding.ibas.materials.bo.unit.UnitRate;
 import org.colorcoding.ibas.materials.bo.warehouse.Warehouse;
-import org.colorcoding.ibas.materials.bo.picklists.PickLists;
 
 /**
  * 序列化解释器
@@ -54,7 +55,8 @@ public class Resolver implements ContextResolver<JAXBContext> {
 						MaterialSerialJournal.class, Warehouse.class, MaterialQuantity.class, MaterialPrice.class,
 						MaterialSpecification.class, Specification.class, Unit.class, UnitRate.class,
 						MaterialVersion.class, MaterialScrap.class, MaterialInventoryReservation.class,
-						MaterialSubstitute.class, MaterialOrderedReservation.class, PickLists.class);
+						MaterialSubstitute.class, MaterialOrderedReservation.class, PickLists.class,
+						InventoryTransferRequest.class);
 			}
 		} catch (JAXBException e) {
 			e.printStackTrace();

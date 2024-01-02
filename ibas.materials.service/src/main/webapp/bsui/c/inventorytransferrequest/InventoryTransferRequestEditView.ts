@@ -9,35 +9,33 @@ namespace materials {
     export namespace ui {
         export namespace c {
             /**
-             * 编辑视图-库存转储
+             * 编辑视图-库存转储申请
              */
-            export class InventoryTransferEditView extends ibas.BOEditView implements app.IInventoryTransferEditView {
+            export class InventoryTransferRequestEditView extends ibas.BOEditView implements app.IInventoryTransferRequestEditView {
                 /** 删除数据事件 */
                 deleteDataEvent: Function;
                 /** 新建数据事件，参数1：是否克隆 */
                 createDataEvent: Function;
-                /** 选择库存转储单从仓库事件 */
-                chooseInventoryTransferWarehouseEvent: Function;
-                /** 选择库存转储单物料价格清单 */
-                chooseeInventoryTransferMaterialPriceListEvent: Function;
-                /** 添加库存转储-行事件 */
-                addInventoryTransferLineEvent: Function;
-                /** 删除库存转储-行事件 */
-                removeInventoryTransferLineEvent: Function;
-                /** 选择库存转储单行物料事件 */
-                chooseInventoryTransferLineMaterialEvent: Function;
-                /** 选择库存转储单行仓库事件 */
-                chooseInventoryTransferLineWarehouseEvent: Function;
-                /** 选择库存转储单行物料批次事件 */
-                chooseInventoryTransferLineMaterialBatchEvent: Function;
-                /** 选择库存转储单行物料序列事件 */
-                chooseInventoryTransferLineMaterialSerialEvent: Function;
-                /** 选择库存转储单行-转储请求事件 */
-                chooseInventoryTransferLineTransferRequestEvent: Function;
-                /** 调用库存转储添加服务 */
-                callInventoryTransferAddServiceEvent: Function;
-                /** 选择库存转储单行成本中心事件 */
-                chooseInventoryTransferLineDistributionRuleEvent: Function;
+                /** 选择库存转储申请单从仓库事件 */
+                chooseInventoryTransferRequestWarehouseEvent: Function;
+                /** 选择库存转储申请单物料价格清单 */
+                chooseeInventoryTransferRequestMaterialPriceListEvent: Function;
+                /** 添加库存转储申请-行事件 */
+                addInventoryTransferRequestLineEvent: Function;
+                /** 删除库存转储申请-行事件 */
+                removeInventoryTransferRequestLineEvent: Function;
+                /** 选择库存转储申请单行物料事件 */
+                chooseInventoryTransferRequestLineMaterialEvent: Function;
+                /** 选择库存转储申请单行仓库事件 */
+                chooseInventoryTransferRequestLineWarehouseEvent: Function;
+                /** 选择库存转储申请单行物料批次事件 */
+                chooseInventoryTransferRequestLineMaterialBatchEvent: Function;
+                /** 选择库存转储申请单行物料序列事件 */
+                chooseInventoryTransferRequestLineMaterialSerialEvent: Function;
+                /** 选择库存转储申请单行成本中心事件 */
+                chooseInventoryTransferRequestLineDistributionRuleEvent: Function;
+                /** 转为库存转储申请事件 */
+                turnToInventoryTransferEvent: Function;
                 /** 绘制视图 */
                 draw(): any {
                     let that: this = this;
@@ -45,7 +43,7 @@ namespace materials {
                         editable: true,
                         content: [
                             new sap.ui.core.Title("", { text: ibas.i18n.prop("materials_title_general") }),
-                            new sap.m.Label("", { text: ibas.i18n.prop("bo_inventorytransfer_fromwarehouse") }),
+                            new sap.m.Label("", { text: ibas.i18n.prop("bo_inventorytransferrequest_fromwarehouse") }),
                             new sap.extension.m.RepositoryInput("", {
                                 showValueHelp: true,
                                 repository: bo.BORepositoryMaterials,
@@ -55,7 +53,7 @@ namespace materials {
                                     text: bo.Warehouse.PROPERTY_NAME_NAME
                                 },
                                 valueHelpRequest: function (): void {
-                                    that.fireViewEvents(that.chooseInventoryTransferWarehouseEvent,
+                                    that.fireViewEvents(that.chooseInventoryTransferRequestWarehouseEvent,
                                         // 获取当前对象
                                         this.getBindingContext().getObject()
                                     );
@@ -66,10 +64,10 @@ namespace materials {
                                     maxLength: 8
                                 })
                             }),
-                            new sap.m.Label("", { text: ibas.i18n.prop("bo_inventorytransfer_ordertype") }),
+                            new sap.m.Label("", { text: ibas.i18n.prop("bo_inventorytransferrequest_ordertype") }),
                             new sap.extension.m.PropertySelect("", {
                                 dataInfo: {
-                                    code: bo.InventoryTransfer.BUSINESS_OBJECT_CODE,
+                                    code: bo.InventoryTransferRequest.BUSINESS_OBJECT_CODE,
                                 },
                                 propertyName: "orderType",
                             }).bindProperty("bindingValue", {
@@ -78,7 +76,7 @@ namespace materials {
                                     maxLength: 8
                                 })
                             }),
-                            new sap.m.Label("", { text: ibas.i18n.prop("bo_inventorytransfer_reference1") }),
+                            new sap.m.Label("", { text: ibas.i18n.prop("bo_inventorytransferrequest_reference1") }),
                             new sap.extension.m.Input("", {
                             }).bindProperty("bindingValue", {
                                 path: "reference1",
@@ -86,7 +84,7 @@ namespace materials {
                                     maxLength: 100
                                 })
                             }),
-                            new sap.m.Label("", { text: ibas.i18n.prop("bo_inventorytransfer_reference2") }),
+                            new sap.m.Label("", { text: ibas.i18n.prop("bo_inventorytransferrequest_reference2") }),
                             new sap.extension.m.Input("", {
                             }).bindProperty("bindingValue", {
                                 path: "reference2",
@@ -95,7 +93,7 @@ namespace materials {
                                 })
                             }),
                             new sap.ui.core.Title("", { text: ibas.i18n.prop("materials_title_status") }),
-                            new sap.m.Label("", { text: ibas.i18n.prop("bo_inventorytransfer_docentry") }),
+                            new sap.m.Label("", { text: ibas.i18n.prop("bo_inventorytransferrequest_docentry") }),
                             new sap.extension.m.Input("", {
                                 editable: false,
 
@@ -103,7 +101,7 @@ namespace materials {
                                 path: "docEntry",
                                 type: new sap.extension.data.Numeric()
                             }),
-                            new sap.m.Label("", { text: ibas.i18n.prop("bo_inventorytransfer_documentstatus") }),
+                            new sap.m.Label("", { text: ibas.i18n.prop("bo_inventorytransferrequest_documentstatus") }),
                             new sap.extension.m.EnumSelect("", {
                                 enumType: ibas.emDocumentStatus
                             }).bindProperty("bindingValue", {
@@ -111,7 +109,7 @@ namespace materials {
                                 type: new sap.extension.data.DocumentStatus()
                             }),
                             new sap.extension.m.TipsCheckBox("", {
-                                text: ibas.i18n.prop("bo_inventorytransfer_canceled"),
+                                text: ibas.i18n.prop("bo_inventorytransferrequest_canceled"),
                                 tipsOnSelection: ibas.i18n.prop(["shell_data_cancel", "shell_data_status"]),
                             }).bindProperty("bindingValue", {
                                 path: "canceled",
@@ -125,13 +123,13 @@ namespace materials {
                                     } return true;
                                 }
                             }),
-                            new sap.m.Label("", { text: ibas.i18n.prop("bo_inventorytransfer_documentdate") }),
+                            new sap.m.Label("", { text: ibas.i18n.prop("bo_inventorytransferrequest_documentdate") }),
                             new sap.extension.m.DatePicker("", {
                             }).bindProperty("bindingValue", {
                                 path: "documentDate",
                                 type: new sap.extension.data.Date()
                             }),
-                            new sap.m.Label("", { text: ibas.i18n.prop("bo_inventorytransfer_deliverydate") }),
+                            new sap.m.Label("", { text: ibas.i18n.prop("bo_inventorytransferrequest_deliverydate") }),
                             new sap.extension.m.DatePicker("", {
                             }).bindProperty("bindingValue", {
                                 path: "deliveryDate",
@@ -139,16 +137,16 @@ namespace materials {
                             }),
                         ]
                     });
-                    let formInventoryTransferLine: sap.ui.layout.form.SimpleForm = new sap.ui.layout.form.SimpleForm("", {
+                    let formInventoryTransferRequestLine: sap.ui.layout.form.SimpleForm = new sap.ui.layout.form.SimpleForm("", {
                         editable: true,
                         content: [
-                            new sap.ui.core.Title("", { text: ibas.i18n.prop("bo_inventorytransferline") }),
-                            this.tableInventoryTransferLine = new sap.extension.table.DataTable("", {
+                            new sap.ui.core.Title("", { text: ibas.i18n.prop("bo_inventorytransferrequestline") }),
+                            this.tableInventoryTransferRequestLine = new sap.extension.table.DataTable("", {
                                 enableSelectAll: false,
                                 visibleRowCount: sap.extension.table.visibleRowCount(8),
                                 dataInfo: {
-                                    code: bo.InventoryTransfer.BUSINESS_OBJECT_CODE,
-                                    name: bo.InventoryTransferLine.name
+                                    code: bo.InventoryTransferRequest.BUSINESS_OBJECT_CODE,
+                                    name: bo.InventoryTransferRequestLine.name
                                 },
                                 toolbar: new sap.m.Toolbar("", {
                                     content: [
@@ -156,8 +154,21 @@ namespace materials {
                                             type: sap.m.ButtonType.Transparent,
                                             icon: "sap-icon://add",
                                             text: ibas.i18n.prop("shell_data_add"),
-                                            menu: this.menuAdd = new sap.m.Menu("", {
+                                            menu: new sap.m.Menu("", {
                                                 items: [
+                                                    new sap.m.MenuItem("", {
+                                                        text: ibas.i18n.prop("shell_data_add_line"),
+                                                        press: function (): void {
+                                                            that.fireViewEvents(that.addInventoryTransferRequestLineEvent);
+                                                        }
+                                                    }),
+                                                    // 复制行
+                                                    new sap.m.MenuItem("", {
+                                                        text: ibas.i18n.prop("shell_data_clone_line"),
+                                                        press: function (): void {
+                                                            that.fireViewEvents(that.addInventoryTransferRequestLineEvent, that.tableInventoryTransferRequestLine.getSelecteds());
+                                                        }
+                                                    })
                                                 ]
                                             })
                                         }),
@@ -166,7 +177,7 @@ namespace materials {
                                             type: sap.m.ButtonType.Transparent,
                                             icon: "sap-icon://less",
                                             press: function (): void {
-                                                that.fireViewEvents(that.removeInventoryTransferLineEvent, that.tableInventoryTransferLine.getSelecteds());
+                                                that.fireViewEvents(that.removeInventoryTransferRequestLineEvent, that.tableInventoryTransferRequestLine.getSelecteds());
                                             }
                                         }),
                                         new sap.m.ToolbarSeparator(""),
@@ -180,7 +191,7 @@ namespace materials {
                                                     new sap.m.MenuItem("", {
                                                         text: ibas.i18n.prop("materials_material_batch"),
                                                         press: function (): void {
-                                                            that.fireViewEvents(that.chooseInventoryTransferLineMaterialBatchEvent);
+                                                            that.fireViewEvents(that.chooseInventoryTransferRequestLineMaterialBatchEvent);
                                                         },
                                                         visible: shell.app.privileges.canRun({
                                                             id: materials.app.MaterialBatchListService.APPLICATION_ID,
@@ -190,7 +201,7 @@ namespace materials {
                                                     new sap.m.MenuItem("", {
                                                         text: ibas.i18n.prop("materials_material_serial"),
                                                         press: function (): void {
-                                                            that.fireViewEvents(that.chooseInventoryTransferLineMaterialSerialEvent);
+                                                            that.fireViewEvents(that.chooseInventoryTransferRequestLineMaterialSerialEvent);
                                                         },
                                                         visible: shell.app.privileges.canRun({
                                                             id: materials.app.MaterialSerialListService.APPLICATION_ID,
@@ -214,13 +225,13 @@ namespace materials {
                                             change(this: sap.m.Select, event: sap.ui.base.Event): void {
                                                 let sItem: any = this.getSelectedItem();
                                                 if (sItem instanceof sap.ui.core.Item && !ibas.strings.isEmpty(sItem.getKey())) {
-                                                    let model: any = that.tableInventoryTransferLine.getModel();
+                                                    let model: any = that.tableInventoryTransferRequestLine.getModel();
                                                     if (model instanceof sap.extension.model.JSONModel) {
                                                         let data: any[] = model.getData("rows");
                                                         if (data instanceof Array) {
-                                                            let items: ibas.IList<bo.InventoryTransferLine> = new ibas.ArrayList<bo.InventoryTransferLine>();
+                                                            let items: ibas.IList<bo.InventoryTransferRequestLine> = new ibas.ArrayList<bo.InventoryTransferRequestLine>();
                                                             for (let item of data) {
-                                                                if (item instanceof bo.InventoryTransferLine) {
+                                                                if (item instanceof bo.InventoryTransferRequestLine) {
                                                                     if (item.warehouse !== sItem.getKey()) {
                                                                         items.add(item);
                                                                     }
@@ -258,7 +269,7 @@ namespace materials {
                                 rows: "{/rows}",
                                 columns: [
                                     new sap.extension.table.DataColumn("", {
-                                        label: ibas.i18n.prop("bo_inventorytransferline_lineid"),
+                                        label: ibas.i18n.prop("bo_inventorytransferrequestline_lineid"),
                                         template: new sap.extension.m.Text("", {
                                         }).bindProperty("bindingValue", {
                                             path: "lineId",
@@ -266,7 +277,7 @@ namespace materials {
                                         }),
                                     }),
                                     new sap.extension.table.DataColumn("", {
-                                        label: ibas.i18n.prop("bo_inventorytransferline_linestatus"),
+                                        label: ibas.i18n.prop("bo_inventorytransferrequestline_linestatus"),
                                         template: new sap.extension.m.EnumSelect("", {
                                             enumType: ibas.emDocumentStatus
                                         }).bindProperty("bindingValue", {
@@ -275,11 +286,11 @@ namespace materials {
                                         }),
                                     }),
                                     new sap.extension.table.DataColumn("", {
-                                        label: ibas.i18n.prop("bo_inventorytransferline_itemcode"),
+                                        label: ibas.i18n.prop("bo_inventorytransferrequestline_itemcode"),
                                         template: new sap.extension.m.Input("", {
                                             showValueHelp: true,
                                             valueHelpRequest: function (): void {
-                                                that.fireViewEvents(that.chooseInventoryTransferLineMaterialEvent,
+                                                that.fireViewEvents(that.chooseInventoryTransferRequestLineMaterialEvent,
                                                     // 获取当前对象
                                                     this.getBindingContext().getObject()
                                                 );
@@ -299,7 +310,7 @@ namespace materials {
                                         }),
                                     }),
                                     new sap.extension.table.DataColumn("", {
-                                        label: ibas.i18n.prop("bo_inventorytransferline_itemdescription"),
+                                        label: ibas.i18n.prop("bo_inventorytransferrequestline_itemdescription"),
                                         template: new sap.extension.m.Text("", {
                                         }).bindProperty("bindingValue", {
                                             path: "itemDescription",
@@ -307,7 +318,7 @@ namespace materials {
                                         })
                                     }),
                                     new sap.extension.table.DataColumn("", {
-                                        label: ibas.i18n.prop("bo_inventorytransferline_warehouse"),
+                                        label: ibas.i18n.prop("bo_inventorytransferrequestline_warehouse"),
                                         template: new sap.extension.m.RepositoryInput("", {
                                             showValueHelp: true,
                                             repository: bo.BORepositoryMaterials,
@@ -317,7 +328,7 @@ namespace materials {
                                                 text: bo.Warehouse.PROPERTY_NAME_NAME
                                             },
                                             valueHelpRequest: function (): void {
-                                                that.fireViewEvents(that.chooseInventoryTransferLineWarehouseEvent,
+                                                that.fireViewEvents(that.chooseInventoryTransferRequestLineWarehouseEvent,
                                                     // 获取当前对象
                                                     this.getBindingContext().getObject()
                                                 );
@@ -330,7 +341,7 @@ namespace materials {
                                         }),
                                     }),
                                     new sap.extension.table.DataColumn("", {
-                                        label: ibas.i18n.prop("bo_inventorytransferline_quantity"),
+                                        label: ibas.i18n.prop("bo_inventorytransferrequestline_quantity"),
                                         template: new sap.extension.m.Input("", {
 
                                         }).bindProperty("bindingValue", {
@@ -339,7 +350,7 @@ namespace materials {
                                         }),
                                     }),
                                     new sap.extension.table.DataColumn("", {
-                                        label: ibas.i18n.prop("bo_inventorytransferline_uom"),
+                                        label: ibas.i18n.prop("bo_inventorytransferrequestline_uom"),
                                         template: new sap.extension.m.Text("", {
                                         }).bindProperty("bindingValue", {
                                             path: "uom",
@@ -347,7 +358,7 @@ namespace materials {
                                         }),
                                     }),
                                     new sap.extension.table.DataColumn("", {
-                                        label: ibas.i18n.prop("bo_inventorytransferline_price"),
+                                        label: ibas.i18n.prop("bo_inventorytransferrequestline_price"),
                                         template: new sap.extension.m.Input("", {
                                         }).bindProperty("bindingValue", {
                                             path: "price",
@@ -355,7 +366,7 @@ namespace materials {
                                         }),
                                     }),
                                     new sap.extension.table.DataColumn("", {
-                                        label: ibas.i18n.prop("bo_inventorytransferline_linetotal"),
+                                        label: ibas.i18n.prop("bo_inventorytransferrequestline_linetotal"),
                                         template: new sap.extension.m.Text("", {
                                         }).bindProperty("bindingValue", {
                                             path: "lineTotal",
@@ -363,7 +374,7 @@ namespace materials {
                                         }),
                                     }),
                                     new sap.extension.table.DataColumn("", {
-                                        label: ibas.i18n.prop("bo_inventorytransferline_reference1"),
+                                        label: ibas.i18n.prop("bo_inventorytransferrequestline_reference1"),
                                         template: new sap.extension.m.Input("", {
                                         }).bindProperty("bindingValue", {
                                             path: "reference1",
@@ -373,7 +384,7 @@ namespace materials {
                                         }),
                                     }),
                                     new sap.extension.table.DataColumn("", {
-                                        label: ibas.i18n.prop("bo_inventorytransferline_reference2"),
+                                        label: ibas.i18n.prop("bo_inventorytransferrequestline_reference2"),
                                         template: new sap.extension.m.Input("", {
                                         }).bindProperty("bindingValue", {
                                             path: "reference2",
@@ -383,11 +394,11 @@ namespace materials {
                                         }),
                                     }),
                                     new sap.extension.table.DataColumn("", {
-                                        label: ibas.i18n.prop("bo_inventorytransferline_distributionrule1"),
+                                        label: ibas.i18n.prop("bo_inventorytransferrequestline_distributionrule1"),
                                         template: new sap.extension.m.Input("", {
                                             showValueHelp: true,
                                             valueHelpRequest(): void {
-                                                that.fireViewEvents(that.chooseInventoryTransferLineDistributionRuleEvent,
+                                                that.fireViewEvents(that.chooseInventoryTransferRequestLineDistributionRuleEvent,
                                                     accounting.app.emDimensionType.DIMENSION_1, this.getBindingContext().getObject());
                                             }
                                         }).bindProperty("bindingValue", {
@@ -399,11 +410,11 @@ namespace materials {
                                         visible: accounting.config.isEnableDimension(accounting.app.emDimensionType.DIMENSION_1)
                                     }),
                                     new sap.extension.table.DataColumn("", {
-                                        label: ibas.i18n.prop("bo_inventorytransferline_distributionrule2"),
+                                        label: ibas.i18n.prop("bo_inventorytransferrequestline_distributionrule2"),
                                         template: new sap.extension.m.Input("", {
                                             showValueHelp: true,
                                             valueHelpRequest(): void {
-                                                that.fireViewEvents(that.chooseInventoryTransferLineDistributionRuleEvent,
+                                                that.fireViewEvents(that.chooseInventoryTransferRequestLineDistributionRuleEvent,
                                                     accounting.app.emDimensionType.DIMENSION_2, this.getBindingContext().getObject());
                                             }
                                         }).bindProperty("bindingValue", {
@@ -415,11 +426,11 @@ namespace materials {
                                         visible: accounting.config.isEnableDimension(accounting.app.emDimensionType.DIMENSION_2)
                                     }),
                                     new sap.extension.table.DataColumn("", {
-                                        label: ibas.i18n.prop("bo_inventorytransferline_distributionrule3"),
+                                        label: ibas.i18n.prop("bo_inventorytransferrequestline_distributionrule3"),
                                         template: new sap.extension.m.Input("", {
                                             showValueHelp: true,
                                             valueHelpRequest(): void {
-                                                that.fireViewEvents(that.chooseInventoryTransferLineDistributionRuleEvent,
+                                                that.fireViewEvents(that.chooseInventoryTransferRequestLineDistributionRuleEvent,
                                                     accounting.app.emDimensionType.DIMENSION_3, this.getBindingContext().getObject());
                                             }
                                         }).bindProperty("bindingValue", {
@@ -431,11 +442,11 @@ namespace materials {
                                         visible: accounting.config.isEnableDimension(accounting.app.emDimensionType.DIMENSION_3)
                                     }),
                                     new sap.extension.table.DataColumn("", {
-                                        label: ibas.i18n.prop("bo_inventorytransferline_distributionrule4"),
+                                        label: ibas.i18n.prop("bo_inventorytransferrequestline_distributionrule4"),
                                         template: new sap.extension.m.Input("", {
                                             showValueHelp: true,
                                             valueHelpRequest(): void {
-                                                that.fireViewEvents(that.chooseInventoryTransferLineDistributionRuleEvent,
+                                                that.fireViewEvents(that.chooseInventoryTransferRequestLineDistributionRuleEvent,
                                                     accounting.app.emDimensionType.DIMENSION_4, this.getBindingContext().getObject());
                                             }
                                         }).bindProperty("bindingValue", {
@@ -447,11 +458,11 @@ namespace materials {
                                         visible: accounting.config.isEnableDimension(accounting.app.emDimensionType.DIMENSION_4)
                                     }),
                                     new sap.extension.table.DataColumn("", {
-                                        label: ibas.i18n.prop("bo_inventorytransferline_distributionrule5"),
+                                        label: ibas.i18n.prop("bo_inventorytransferrequestline_distributionrule5"),
                                         template: new sap.extension.m.Input("", {
                                             showValueHelp: true,
                                             valueHelpRequest(): void {
-                                                that.fireViewEvents(that.chooseInventoryTransferLineDistributionRuleEvent,
+                                                that.fireViewEvents(that.chooseInventoryTransferRequestLineDistributionRuleEvent,
                                                     accounting.app.emDimensionType.DIMENSION_5, this.getBindingContext().getObject());
                                             }
                                         }).bindProperty("bindingValue", {
@@ -472,7 +483,7 @@ namespace materials {
                         content: [
                             new sap.ui.core.Title("", { text: ibas.i18n.prop("materials_title_others") }),
                             new sap.m.Label("", {
-                                text: ibas.i18n.prop("bo_inventorytransfer_branch"),
+                                text: ibas.i18n.prop("bo_inventorytransferrequest_branch"),
                                 visible: accounting.config.isEnableBranch(),
                                 required: true,
                             }),
@@ -483,7 +494,7 @@ namespace materials {
                                 path: "branch",
                                 type: new sap.extension.data.Alphanumeric()
                             }),
-                            new sap.m.Label("", { text: ibas.i18n.prop("bo_inventorytransfer_dataowner") }),
+                            new sap.m.Label("", { text: ibas.i18n.prop("bo_inventorytransferrequest_dataowner") }),
                             new sap.extension.m.DataOwnerInput("", {
                                 showValueHelp: true,
                                 organization: {
@@ -496,7 +507,7 @@ namespace materials {
                                 path: "dataOwner",
                                 type: new sap.extension.data.Numeric()
                             }),
-                            new sap.m.Label("", { text: ibas.i18n.prop("bo_inventorytransfer_project") }),
+                            new sap.m.Label("", { text: ibas.i18n.prop("bo_inventorytransferrequest_project") }),
                             new sap.extension.m.SelectionInput("", {
                                 showValueHelp: true,
                                 repository: accounting.bo.BORepositoryAccounting,
@@ -514,7 +525,7 @@ namespace materials {
                                     maxLength: 8
                                 })
                             }),
-                            new sap.m.Label("", { text: ibas.i18n.prop("bo_inventorytransfer_organization") }),
+                            new sap.m.Label("", { text: ibas.i18n.prop("bo_inventorytransferrequest_organization") }),
                             new sap.extension.m.DataOrganizationInput("", {
                                 width: "100%",
                                 showValueHelp: true,
@@ -524,7 +535,7 @@ namespace materials {
                                     maxLength: 8
                                 })
                             }),
-                            new sap.m.Label("", { text: ibas.i18n.prop("bo_inventorytransfer_remarks") }),
+                            new sap.m.Label("", { text: ibas.i18n.prop("bo_inventorytransferrequest_remarks") }),
                             new sap.extension.m.TextArea("", {
                                 rows: 3,
                             }).bindProperty("bindingValue", {
@@ -532,7 +543,7 @@ namespace materials {
                                 type: new sap.extension.data.Alphanumeric()
                             }),
                             new sap.ui.core.Title("", { text: ibas.i18n.prop("materials_title_total") }),
-                            new sap.m.Label("", { text: ibas.i18n.prop("bo_inventorytransfer_documenttotal") }),
+                            new sap.m.Label("", { text: ibas.i18n.prop("bo_inventorytransferrequest_documenttotal") }),
                             new sap.extension.m.Input("", {
                                 editable: false,
 
@@ -553,7 +564,7 @@ namespace materials {
                     return this.page = new sap.extension.m.DataPage("", {
                         showHeader: false,
                         dataInfo: {
-                            code: bo.InventoryTransfer.BUSINESS_OBJECT_CODE,
+                            code: bo.InventoryTransferRequest.BUSINESS_OBJECT_CODE,
                         },
                         subHeader: new sap.m.Toolbar("", {
                             content: [
@@ -622,23 +633,14 @@ namespace materials {
                                     menu: new sap.m.Menu("", {
                                         items: [
                                             new sap.m.MenuItem("", {
-                                                text: ibas.i18n.prop("bo_journalentry"),
-                                                icon: "sap-icon://credit-card",
+                                                text: ibas.i18n.prop("bo_inventorytransfer"),
+                                                icon: "sap-icon://doc-attachment",
                                                 press: function (): void {
-                                                    let data: any = this.getBindingContext().getObject();
-                                                    if (data instanceof bo.InventoryTransfer) {
-                                                        ibas.servicesManager.runLinkService({
-                                                            boCode: accounting.bo.JournalEntry.BUSINESS_OBJECT_CODE,
-                                                            linkValue: [
-                                                                new ibas.Condition(accounting.bo.JournalEntry.PROPERTY_BASEDOCUMENTTYPE_NAME, ibas.emConditionOperation.EQUAL, data.objectCode),
-                                                                new ibas.Condition(accounting.bo.JournalEntry.PROPERTY_BASEDOCUMENTENTRY_NAME, ibas.emConditionOperation.EQUAL, data.docEntry)
-                                                            ]
-                                                        });
-                                                    }
+                                                    that.fireViewEvents(that.turnToInventoryTransferEvent);
                                                 },
                                                 visible: shell.app.privileges.canRun({
-                                                    id: accounting.app.JournalEntryViewApp.APPLICATION_ID,
-                                                    name: accounting.app.JournalEntryViewApp.APPLICATION_NAME,
+                                                    id: app.InventoryTransferFunc.FUNCTION_ID,
+                                                    name: app.InventoryTransferFunc.FUNCTION_NAME,
                                                 })
                                             }),
                                         ],
@@ -697,15 +699,14 @@ namespace materials {
                         }),
                         content: [
                             formTop,
-                            formInventoryTransferLine,
+                            formInventoryTransferRequestLine,
                             formBottom,
                         ]
                     });
                 }
                 private page: sap.extension.m.Page;
-                private tableInventoryTransferLine: sap.extension.table.Table;
+                private tableInventoryTransferRequestLine: sap.extension.table.Table;
                 private selectWarehouse: component.WarehouseSelect;
-                private menuAdd: sap.m.Menu;
                 get defaultWarehouse(): string {
                     return this.selectWarehouse.getSelectedKey();
                 }
@@ -713,7 +714,7 @@ namespace materials {
                     this.selectWarehouse.setSelectedKey(value);
                 }
                 /** 显示数据 */
-                showInventoryTransfer(data: bo.InventoryTransfer): void {
+                showInventoryTransferRequest(data: bo.InventoryTransferRequest): void {
                     this.page.setModel(new sap.extension.model.JSONModel(data));
                     // 改变页面状态
                     sap.extension.pages.changeStatus(this.page);
@@ -722,42 +723,9 @@ namespace materials {
                         this.selectWarehouse.setBranchData(data);
                     }
                 }
-                /** 显示数据-库存转储-行 */
-                showInventoryTransferLines(datas: bo.InventoryTransferLine[]): void {
-                    this.tableInventoryTransferLine.setModel(new sap.extension.model.JSONModel({ rows: datas }));
-                }
-                showServiceAgent(datas: ibas.IServiceAgent[]): void {
-                    let that: this = this;
-                    this.menuAdd.removeAllItems();
-                    // 添加行
-                    this.menuAdd.addItem(new sap.m.MenuItem("", {
-                        text: ibas.i18n.prop("shell_data_add_line"),
-                        press: function (): void {
-                            that.fireViewEvents(that.addInventoryTransferLineEvent);
-                        }
-                    }));
-                    // 复制行
-                    this.menuAdd.addItem(new sap.m.MenuItem("", {
-                        text: ibas.i18n.prop("shell_data_clone_line"),
-                        press: function (): void {
-                            that.fireViewEvents(that.addInventoryTransferLineEvent, that.tableInventoryTransferLine.getSelecteds());
-                        }
-                    }));
-                    // 库存转储
-                    this.menuAdd.addItem(new sap.m.MenuItem("", {
-                        text: ibas.i18n.prop("bo_inventorytransferrequest"),
-                        press: function (): void {
-                            that.fireViewEvents(that.chooseInventoryTransferLineTransferRequestEvent);
-                        }
-                    }));
-                    for (const data of datas) {
-                        this.menuAdd.addItem(new sap.m.MenuItem("", {
-                            text: data.description,
-                            press: function (): void {
-                                that.fireViewEvents(that.callInventoryTransferAddServiceEvent, data);
-                            }
-                        }));
-                    }
+                /** 显示数据-库存转储申请-行 */
+                showInventoryTransferRequestLines(datas: bo.InventoryTransferRequestLine[]): void {
+                    this.tableInventoryTransferRequestLine.setModel(new sap.extension.model.JSONModel({ rows: datas }));
                 }
             }
         }

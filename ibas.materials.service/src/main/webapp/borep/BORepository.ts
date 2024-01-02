@@ -447,6 +447,20 @@ namespace materials {
                     changer.onCompleted.call(ibas.objects.isNull(changer.caller) ? changer : changer.caller, opRslt);
                 });
             }
+            /**
+             * 查询 库存转储请求
+             * @param fetcher 查询者
+             */
+            fetchInventoryTransferRequest(fetcher: ibas.IFetchCaller<bo.InventoryTransferRequest>): void {
+                super.fetch(bo.InventoryTransferRequest.name, fetcher);
+            }
+            /**
+             * 保存 库存转储请求
+             * @param saver 保存者
+             */
+            saveInventoryTransferRequest(saver: ibas.ISaveCaller<bo.InventoryTransferRequest>): void {
+                super.save(bo.InventoryTransferRequest.name, saver);
+            }
 
         }
         export interface IChangeCaller extends ibas.IMethodCaller<string> {

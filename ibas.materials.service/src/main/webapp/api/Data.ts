@@ -82,6 +82,8 @@ namespace materials {
         export const BO_CODE_MATERIALESTIMATEJOURNAL: string = "${Company}_MM_ESTIMATEJOURNAL";
         /** 业务对象编码-拣配清单 */
         export const BO_CODE_PICKLISTS: string = "${Company}_MM_PICKLISTS";
+        /** 业务对象编码-库存转储请求 */
+        export const BO_CODE_INVENTORYTRANSFERREQUEST: string = "${Company}_MM_TRANSFERREQUEST";
 
         /** 物料类型 */
         export enum emItemType {

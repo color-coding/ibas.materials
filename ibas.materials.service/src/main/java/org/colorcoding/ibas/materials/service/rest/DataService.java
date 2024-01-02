@@ -13,6 +13,7 @@ import org.colorcoding.ibas.materials.bo.goodsissue.GoodsIssue;
 import org.colorcoding.ibas.materials.bo.goodsreceipt.GoodsReceipt;
 import org.colorcoding.ibas.materials.bo.inventorycounting.InventoryCounting;
 import org.colorcoding.ibas.materials.bo.inventorytransfer.InventoryTransfer;
+import org.colorcoding.ibas.materials.bo.inventorytransferrequest.InventoryTransferRequest;
 import org.colorcoding.ibas.materials.bo.material.Material;
 import org.colorcoding.ibas.materials.bo.material.MaterialGroup;
 import org.colorcoding.ibas.materials.bo.material.MaterialPrice;
@@ -850,5 +851,39 @@ public class DataService extends BORepositoryMaterials {
 			@QueryParam("token") String token) {
 		return super.changeMaterialNumbers(changes, token);
 	}
+
+	// --------------------------------------------------------------------------------------------//
+	/**
+	 * 查询-库存转储请求
+	 * 
+	 * @param criteria 查询
+	 * @param token    口令
+	 * @return 操作结果
+	 */
+	@POST
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Path("fetchInventoryTransferRequest")
+	public OperationResult<InventoryTransferRequest> fetchInventoryTransferRequest(Criteria criteria,
+			@QueryParam("token") String token) {
+		return super.fetchInventoryTransferRequest(criteria, token);
+	}
+
+	/**
+	 * 保存-库存转储请求
+	 * 
+	 * @param bo    对象实例
+	 * @param token 口令
+	 * @return 操作结果
+	 */
+	@POST
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Path("saveInventoryTransferRequest")
+	public OperationResult<InventoryTransferRequest> saveInventoryTransferRequest(InventoryTransferRequest bo,
+			@QueryParam("token") String token) {
+		return super.saveInventoryTransferRequest(bo, token);
+	}
+
 	// --------------------------------------------------------------------------------------------//
 }

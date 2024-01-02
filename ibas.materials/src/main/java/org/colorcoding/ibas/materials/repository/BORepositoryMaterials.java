@@ -37,6 +37,8 @@ import org.colorcoding.ibas.materials.bo.inventorycounting.IInventoryCountingLin
 import org.colorcoding.ibas.materials.bo.inventorycounting.InventoryCounting;
 import org.colorcoding.ibas.materials.bo.inventorytransfer.IInventoryTransfer;
 import org.colorcoding.ibas.materials.bo.inventorytransfer.InventoryTransfer;
+import org.colorcoding.ibas.materials.bo.inventorytransferrequest.IInventoryTransferRequest;
+import org.colorcoding.ibas.materials.bo.inventorytransferrequest.InventoryTransferRequest;
 import org.colorcoding.ibas.materials.bo.material.IMaterial;
 import org.colorcoding.ibas.materials.bo.material.IMaterialGroup;
 import org.colorcoding.ibas.materials.bo.material.IMaterialPrice;
@@ -2239,6 +2241,51 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 		}
 	}
 
+	// --------------------------------------------------------------------------------------------//
+	/**
+	 * 查询-库存转储请求
+	 * 
+	 * @param criteria 查询
+	 * @param token    口令
+	 * @return 操作结果
+	 */
+	public OperationResult<InventoryTransferRequest> fetchInventoryTransferRequest(ICriteria criteria, String token) {
+		return super.fetch(criteria, token, InventoryTransferRequest.class);
+	}
+
+	/**
+	 * 查询-库存转储请求（提前设置用户口令）
+	 * 
+	 * @param criteria 查询
+	 * @return 操作结果
+	 */
+	public IOperationResult<IInventoryTransferRequest> fetchInventoryTransferRequest(ICriteria criteria) {
+		return new OperationResult<IInventoryTransferRequest>(
+				this.fetchInventoryTransferRequest(criteria, this.getUserToken()));
+	}
+
+	/**
+	 * 保存-库存转储请求
+	 * 
+	 * @param bo    对象实例
+	 * @param token 口令
+	 * @return 操作结果
+	 */
+	public OperationResult<InventoryTransferRequest> saveInventoryTransferRequest(InventoryTransferRequest bo,
+			String token) {
+		return super.save(bo, token);
+	}
+
+	/**
+	 * 保存-库存转储请求（提前设置用户口令）
+	 * 
+	 * @param bo 对象实例
+	 * @return 操作结果
+	 */
+	public IOperationResult<IInventoryTransferRequest> saveInventoryTransferRequest(IInventoryTransferRequest bo) {
+		return new OperationResult<IInventoryTransferRequest>(
+				this.saveInventoryTransferRequest((InventoryTransferRequest) bo, this.getUserToken()));
+	}
 	// --------------------------------------------------------------------------------------------//
 
 }

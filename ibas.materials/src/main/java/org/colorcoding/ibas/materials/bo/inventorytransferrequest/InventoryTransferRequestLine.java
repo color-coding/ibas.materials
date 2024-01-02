@@ -1,4 +1,4 @@
-package org.colorcoding.ibas.materials.bo.inventorytransfer;
+package org.colorcoding.ibas.materials.bo.inventorytransferrequest;
 
 import java.math.BigDecimal;
 
@@ -8,69 +8,61 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlType;
 
-import org.colorcoding.ibas.accounting.logic.IJECPropertyValueGetter;
 import org.colorcoding.ibas.bobas.bo.BusinessObject;
 import org.colorcoding.ibas.bobas.bo.IBOTagCanceled;
 import org.colorcoding.ibas.bobas.bo.IBOUserFields;
 import org.colorcoding.ibas.bobas.core.IPropertyInfo;
-import org.colorcoding.ibas.bobas.data.ArrayList;
 import org.colorcoding.ibas.bobas.data.DateTime;
 import org.colorcoding.ibas.bobas.data.Decimal;
 import org.colorcoding.ibas.bobas.data.emBOStatus;
 import org.colorcoding.ibas.bobas.data.emDocumentStatus;
 import org.colorcoding.ibas.bobas.data.emYesNo;
-import org.colorcoding.ibas.bobas.i18n.I18N;
-import org.colorcoding.ibas.bobas.logic.IBusinessLogicContract;
-import org.colorcoding.ibas.bobas.logic.IBusinessLogicsHost;
 import org.colorcoding.ibas.bobas.mapping.DbField;
 import org.colorcoding.ibas.bobas.mapping.DbFieldType;
-import org.colorcoding.ibas.bobas.rule.BusinessRuleException;
 import org.colorcoding.ibas.bobas.rule.IBusinessRule;
-import org.colorcoding.ibas.bobas.rule.ICheckRules;
 import org.colorcoding.ibas.bobas.rule.common.BusinessRuleMinValue;
 import org.colorcoding.ibas.bobas.rule.common.BusinessRuleMultiplication;
 import org.colorcoding.ibas.bobas.rule.common.BusinessRuleRequired;
 import org.colorcoding.ibas.materials.MyConfiguration;
-import org.colorcoding.ibas.materials.bo.inventorytransferrequest.InventoryTransferRequest;
 import org.colorcoding.ibas.materials.bo.materialbatch.IMaterialBatchItems;
+import org.colorcoding.ibas.materials.bo.materialbatch.MaterialBatchItem;
+import org.colorcoding.ibas.materials.bo.materialbatch.MaterialBatchItems;
 import org.colorcoding.ibas.materials.bo.materialserial.IMaterialSerialItems;
-import org.colorcoding.ibas.materials.data.Ledgers;
-import org.colorcoding.ibas.materials.logic.IInventoryTransferRequestClosingContract;
-import org.colorcoding.ibas.materials.logic.IMaterialIssueContract;
-import org.colorcoding.ibas.materials.logic.IMaterialReceiptContract;
+import org.colorcoding.ibas.materials.bo.materialserial.MaterialSerialItem;
+import org.colorcoding.ibas.materials.bo.materialserial.MaterialSerialItems;
 
 /**
- * 获取-库存转储-行
+ * 获取-库存转储请求-行
  */
 @XmlAccessorType(XmlAccessType.NONE)
-@XmlType(name = InventoryTransferLine.BUSINESS_OBJECT_NAME, namespace = MyConfiguration.NAMESPACE_BO)
-public class InventoryTransferLine extends BusinessObject<InventoryTransferLine> implements IInventoryTransferLine,
-		IBOTagCanceled, IBusinessLogicsHost, ICheckRules, IBOUserFields, IJECPropertyValueGetter {
+@XmlType(name = InventoryTransferRequestLine.BUSINESS_OBJECT_NAME, namespace = MyConfiguration.NAMESPACE_BO)
+public class InventoryTransferRequestLine extends BusinessObject<InventoryTransferRequestLine>
+		implements IInventoryTransferRequestLine, IBOTagCanceled, IBOUserFields {
 
 	/**
 	 * 序列化版本标记
 	 */
-	private static final long serialVersionUID = -5072196247310591975L;
+	private static final long serialVersionUID = -9032115703710772616L;
 
 	/**
 	 * 当前类型
 	 */
-	private static final Class<?> MY_CLASS = InventoryTransferLine.class;
+	private static final Class<?> MY_CLASS = InventoryTransferRequestLine.class;
 
 	/**
 	 * 数据库表
 	 */
-	public static final String DB_TABLE_NAME = "${Company}_MM_WTR1";
+	public static final String DB_TABLE_NAME = "${Company}_MM_WTQ1";
 
 	/**
 	 * 业务对象编码
 	 */
-	public static final String BUSINESS_OBJECT_CODE = "${Company}_MM_INVENTORYTRANSFER";
+	public static final String BUSINESS_OBJECT_CODE = "${Company}_MM_TRANSFERREQUEST";
 
 	/**
 	 * 业务对象名称
 	 */
-	public static final String BUSINESS_OBJECT_NAME = "InventoryTransferLine";
+	public static final String BUSINESS_OBJECT_NAME = "InventoryTransferRequestLine";
 
 	/**
 	 * 属性名称-编码
@@ -1297,6 +1289,37 @@ public class InventoryTransferLine extends BusinessObject<InventoryTransferLine>
 	}
 
 	/**
+	 * 属性名称-已清数量
+	 */
+	private static final String PROPERTY_CLOSEDQUANTITY_NAME = "ClosedQuantity";
+
+	/**
+	 * 已清数量 属性
+	 */
+	@DbField(name = "ClosedQty", type = DbFieldType.DECIMAL, table = DB_TABLE_NAME, primaryKey = false)
+	public static final IPropertyInfo<BigDecimal> PROPERTY_CLOSEDQUANTITY = registerProperty(
+			PROPERTY_CLOSEDQUANTITY_NAME, BigDecimal.class, MY_CLASS);
+
+	/**
+	 * 获取-已清数量
+	 * 
+	 * @return 值
+	 */
+	@XmlElement(name = PROPERTY_CLOSEDQUANTITY_NAME)
+	public final BigDecimal getClosedQuantity() {
+		return this.getProperty(PROPERTY_CLOSEDQUANTITY);
+	}
+
+	/**
+	 * 设置-已清数量
+	 * 
+	 * @param value 值
+	 */
+	public final void setClosedQuantity(BigDecimal value) {
+		this.setProperty(PROPERTY_CLOSEDQUANTITY, value);
+	}
+
+	/**
 	 * 属性名称-成本中心1
 	 */
 	private static final String PROPERTY_DISTRIBUTIONRULE1_NAME = "DistributionRule1";
@@ -1548,290 +1571,9 @@ public class InventoryTransferLine extends BusinessObject<InventoryTransferLine>
 		};
 	}
 
-	@Override
-	public void check() throws BusinessRuleException {
-		// 转入仓库，不能与源仓库相同
-		if (this.parent != null && this.parent.getFromWarehouse() != null) {
-			if (this.parent.getFromWarehouse().equals(this.getWarehouse())) {
-				throw new BusinessRuleException(
-						I18N.prop("msg_mm_document_transfer_to_warehouse_is_same_as_original", this.toString()));
-			}
-		}
-		// 批次检查
-		this.getMaterialBatches().check();
-		// 序列检查
-		this.getMaterialSerials().check();
-	}
-
 	/**
 	 * 父项
 	 */
-	IInventoryTransfer parent;
+	IInventoryTransferRequest parent;
 
-	@Override
-	public IBusinessLogicContract[] getContracts() {
-		ArrayList<IBusinessLogicContract> contracts = new ArrayList<>(4);
-		// 库存转储关闭
-		if (MyConfiguration.applyVariables(InventoryTransferRequest.BUSINESS_OBJECT_CODE)
-				.equalsIgnoreCase(this.getBaseDocumentType())) {
-			contracts.add(new IInventoryTransferRequestClosingContract() {
-
-				@Override
-				public String getIdentifiers() {
-					return InventoryTransferLine.this.getIdentifiers();
-				}
-
-				@Override
-				public BigDecimal getQuantity() {
-					return InventoryTransferLine.this.getQuantity();
-				}
-
-				@Override
-				public String getBaseDocumentType() {
-					return InventoryTransferLine.this.getBaseDocumentType();
-				}
-
-				@Override
-				public Integer getBaseDocumentLineId() {
-					return InventoryTransferLine.this.getBaseDocumentLineId();
-				}
-
-				@Override
-				public Integer getBaseDocumentEntry() {
-					return InventoryTransferLine.this.getBaseDocumentEntry();
-				}
-			});
-		}
-		// 物料发货
-		contracts.add(new IMaterialIssueContract() {
-			@Override
-			public String getIdentifiers() {
-				return InventoryTransferLine.this.getIdentifiers();
-			}
-
-			@Override
-			public String getItemCode() {
-				return InventoryTransferLine.this.getItemCode();
-			}
-
-			@Override
-			public String getItemName() {
-				return InventoryTransferLine.this.getItemDescription();
-			}
-
-			@Override
-			public String getWarehouse() {
-				return InventoryTransferLine.this.parent.getFromWarehouse();
-			}
-
-			@Override
-			public String getDocumentType() {
-				return InventoryTransferLine.this.getObjectCode();
-			}
-
-			@Override
-			public Integer getDocumentEntry() {
-				return InventoryTransferLine.this.getDocEntry();
-			}
-
-			@Override
-			public Integer getDocumentLineId() {
-				return InventoryTransferLine.this.getLineId();
-			}
-
-			@Override
-			public BigDecimal getQuantity() {
-				return InventoryTransferLine.this.getQuantity();
-			}
-
-			@Override
-			public String getUOM() {
-				return InventoryTransferLine.this.getUOM();
-			}
-
-			@Override
-			public BigDecimal getPrice() {
-				return InventoryTransferLine.this.getPrice();
-			}
-
-			@Override
-			public String getCurrency() {
-				return InventoryTransferLine.this.getCurrency();
-			}
-
-			@Override
-			public BigDecimal getRate() {
-				return InventoryTransferLine.this.getRate();
-			}
-
-			@Override
-			public DateTime getPostingDate() {
-				return InventoryTransferLine.this.parent.getPostingDate();
-			}
-
-			@Override
-			public DateTime getDeliveryDate() {
-				return InventoryTransferLine.this.parent.getDeliveryDate();
-			}
-
-			@Override
-			public DateTime getDocumentDate() {
-				return InventoryTransferLine.this.parent.getDocumentDate();
-			}
-
-			@Override
-			public emYesNo getBatchManagement() {
-				return InventoryTransferLine.this.getBatchManagement();
-			}
-
-			@Override
-			public emYesNo getSerialManagement() {
-				return InventoryTransferLine.this.getSerialManagement();
-			}
-
-			@Override
-			public String getBaseDocumentType() {
-				return InventoryTransferLine.this.getBaseDocumentType();
-			}
-
-			@Override
-			public Integer getBaseDocumentEntry() {
-				return InventoryTransferLine.this.getBaseDocumentEntry();
-			}
-
-			@Override
-			public Integer getBaseDocumentLineId() {
-				return InventoryTransferLine.this.getBaseDocumentLineId();
-			}
-		});
-		// 物料收货
-		contracts.add(new IMaterialReceiptContract() {
-			@Override
-			public String getIdentifiers() {
-				return InventoryTransferLine.this.getIdentifiers();
-			}
-
-			@Override
-			public String getItemCode() {
-				return InventoryTransferLine.this.getItemCode();
-			}
-
-			@Override
-			public String getItemName() {
-				return InventoryTransferLine.this.getItemDescription();
-			}
-
-			@Override
-			public String getWarehouse() {
-				return InventoryTransferLine.this.getWarehouse();
-			}
-
-			@Override
-			public String getDocumentType() {
-				return InventoryTransferLine.this.getObjectCode();
-			}
-
-			@Override
-			public Integer getDocumentEntry() {
-				return InventoryTransferLine.this.getDocEntry();
-			}
-
-			@Override
-			public Integer getDocumentLineId() {
-				return InventoryTransferLine.this.getLineId();
-			}
-
-			@Override
-			public BigDecimal getQuantity() {
-				return InventoryTransferLine.this.getQuantity();
-			}
-
-			@Override
-			public String getUOM() {
-				return InventoryTransferLine.this.getUOM();
-			}
-
-			@Override
-			public DateTime getPostingDate() {
-				return InventoryTransferLine.this.parent.getPostingDate();
-			}
-
-			@Override
-			public DateTime getDeliveryDate() {
-				return InventoryTransferLine.this.parent.getDeliveryDate();
-			}
-
-			@Override
-			public DateTime getDocumentDate() {
-				return InventoryTransferLine.this.parent.getDocumentDate();
-			}
-
-			@Override
-			public emYesNo getBatchManagement() {
-				return InventoryTransferLine.this.getBatchManagement();
-			}
-
-			@Override
-			public emYesNo getSerialManagement() {
-				return InventoryTransferLine.this.getSerialManagement();
-			}
-
-			@Override
-			public String getBaseDocumentType() {
-				return InventoryTransferLine.this.getBaseDocumentType();
-			}
-
-			@Override
-			public Integer getBaseDocumentEntry() {
-				return InventoryTransferLine.this.getBaseDocumentEntry();
-			}
-
-			@Override
-			public Integer getBaseDocumentLineId() {
-				return InventoryTransferLine.this.getBaseDocumentLineId();
-			}
-
-			@Override
-			public BigDecimal getPrice() {
-				return InventoryTransferLine.this.getPrice();
-			}
-
-			@Override
-			public String getCurrency() {
-				return InventoryTransferLine.this.getCurrency();
-			}
-
-			@Override
-			public BigDecimal getRate() {
-				return InventoryTransferLine.this.getRate();
-			}
-		});
-		return contracts.toArray(new IBusinessLogicContract[] {});
-	}
-
-	@Override
-	public Object getValue(String property) {
-		switch (property) {
-		case Ledgers.CONDITION_PROPERTY_OBJECTCODE:
-			return this.parent.getObjectCode();
-		case Ledgers.CONDITION_PROPERTY_DATAOWNER:
-			return this.parent.getDataOwner();
-		case Ledgers.CONDITION_PROPERTY_ORGANIZATION:
-			return this.parent.getOrganization();
-		case Ledgers.CONDITION_PROPERTY_ORDERTYPE:
-			return this.parent.getOrderType();
-		case Ledgers.CONDITION_PROPERTY_PROJECT:
-			return this.parent.getProject();
-		case Ledgers.CONDITION_PROPERTY_BRANCH:
-			return this.parent.getBranch();
-		case Ledgers.CONDITION_PROPERTY_MATERIAL:
-			return this.getItemCode();
-		case Ledgers.CONDITION_PROPERTY_WAREHOUSE:
-			return this.getWarehouse();
-		case Ledgers.CONDITION_PROPERTY_FROM_WAREHOUSE:
-			return this.parent.getFromWarehouse();
-		default:
-			return null;
-		}
-	}
 }

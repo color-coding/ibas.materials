@@ -9,7 +9,7 @@ namespace materials {
     export namespace bo {
 
         /** 库存转储 */
-        export interface IInventoryTransfer extends ibas.IBODocument, ibas.IBOUserFields {
+        export interface IInventoryTransferRequest extends ibas.IBODocument, ibas.IBOUserFields {
 
             /** 凭证编号 */
             docEntry: number;
@@ -123,19 +123,18 @@ namespace materials {
             branch: string;
 
             /** 库存转储-行集合 */
-            inventoryTransferLines: IInventoryTransferLines;
+            inventoryTransferRequestLines: IInventoryTransferRequestLines;
 
-            baseDocument(data: IInventoryTransferRequest): void;
         }
         /** 库存转储-行 集合 */
-        export interface IInventoryTransferLines extends ibas.IBusinessObjects<IInventoryTransferLine> {
+        export interface IInventoryTransferRequestLines extends ibas.IBusinessObjects<IInventoryTransferRequestLine> {
 
             /** 创建并添加子项 */
-            create(): IInventoryTransferLine;
+            create(): IInventoryTransferRequestLine;
         }
 
         /** 库存转储-行 */
-        export interface IInventoryTransferLine extends ibas.IBODocumentLine, IMaterialSerialItemParent, IMaterialBatchItemParent, ibas.IBOUserFields {
+        export interface IInventoryTransferRequestLine extends ibas.IBODocumentLine, IMaterialSerialItemParent, IMaterialBatchItemParent, ibas.IBOUserFields {
 
             /** 编码 */
             docEntry: number;
@@ -244,6 +243,9 @@ namespace materials {
 
             /** 行总计 */
             lineTotal: number;
+
+            /** 已清数量 */
+            closedQuantity: number;
 
             /** 成本中心1 */
             distributionRule1: string;

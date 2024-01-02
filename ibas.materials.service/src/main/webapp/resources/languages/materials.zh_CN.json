@@ -114,6 +114,11 @@
   "materials_app_unit_view": "计量单位查看",
   "materials_app_unit_edit": "计量单位编辑",
   "materials_app_unitrate_edit_list": "单位换算",
+  "materials_func_inventorytransferrequest": "库存转储请求",
+  "materials_app_inventorytransferrequest_list": "库存转储请求列表",
+  "materials_app_inventorytransferrequest_choose": "库存转储请求选择",
+  "materials_app_inventorytransferrequest_view": "库存转储请求查看",
+  "materials_app_inventorytransferrequest_edit": "库存转储请求编辑",
   "materials_func_materialnumberchange": "批次/序列变更",
   "materials_app_materialnumberchange": "物料批次/序列号变更",
   "materials_title_general": "常规信息",
@@ -191,5 +196,6 @@
   "materials_transfer_quantity_grater_than_availabled": "物料[{0}]批/序号[{1}]的变更数量，超过可用数量。",
   "materials_transfer_quantity_grater_than_reservation": "物料[{0}]批/序号[{1}]的预留转移数量，超过原预留数量。",
   "materials_transfer_quantity_grater_than_quantity": "物料[{0}]批/序号[{1}]的预留转移数量，超过批次数量。",
+  "materials_invaild_status_not_support_turn_to_operation": "单据的状态无效，不支持此操作",
   "materials_closing_delimiter": "----结束----"
 }

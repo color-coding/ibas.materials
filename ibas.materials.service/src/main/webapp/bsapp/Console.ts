@@ -22,6 +22,7 @@
 /// <reference path="./materialscrap/index.ts" />
 /// <reference path="./materialversion/index.ts" />
 /// <reference path="./picklists/index.ts" />
+/// <reference path="./inventorytransferrequest/index.ts" />
 namespace materials {
     export namespace app {
         /** 属性-导航 */
@@ -49,6 +50,7 @@ namespace materials {
                 this.register(new MaterialSpecificationFunc());
                 this.register(new GoodsReceiptFunc());
                 this.register(new GoodsIssueFunc());
+                this.register(new InventoryTransferRequestFunc());
                 this.register(new InventoryTransferFunc());
                 this.register(new InventoryCountingFunc());
                 // this.register(new MaterialInventoryFunc());
@@ -99,6 +101,9 @@ namespace materials {
                 this.register(new PickListsChooseServiceMapping());
                 this.register(new PickListsLinkServiceMapping());
                 this.register(new PickListsEditServiceMapping());
+                this.register(new InventoryTransferRequestChooseServiceMapping());
+                this.register(new InventoryTransferRequestLinkServiceMapping());
+                this.register(new InventoryTransferEditServiceMapping());
                 // 注册常驻应用
 
                 // 注册权限元素
