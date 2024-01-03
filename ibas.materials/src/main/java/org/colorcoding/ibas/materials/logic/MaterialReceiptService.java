@@ -163,6 +163,28 @@ public class MaterialReceiptService
 						materialJournal.setInventoryValue(material.getInventoryValue());
 					}
 				}
+				// 加载内存中数据（同单同物料）
+				Criteria criteria = new Criteria();
+				ICondition condition = criteria.getConditions().create();
+				condition.setAlias(MaterialInventoryJournal.PROPERTY_ITEMCODE.getName());
+				condition.setValue(contract.getItemCode());
+				condition = criteria.getConditions().create();
+				condition.setAlias(MaterialInventoryJournal.PROPERTY_WAREHOUSE.getName());
+				condition.setValue(contract.getWarehouse());
+				for (IMaterialInventoryJournal item : this.getLogicChain().fetchBeAffected(criteria,
+						IMaterialInventoryJournal.class, true)) {
+					if (item == materialJournal) {
+						continue;
+					}
+					if (item.getDirection() != emDirection.IN) {
+						continue;
+					}
+					// 增加，其他行增加的量
+					materialJournal.setInventoryValue(materialJournal.getInventoryValue()
+							.add(Decimal.multiply(item.getPrice(), item.getQuantity())));
+					materialJournal
+							.setInventoryQuantity(materialJournal.getInventoryQuantity().add(item.getQuantity()));
+				}
 				// 库存总价值 = 时点库存价值 + (本次入库价格 * 本次入库数量)
 				BigDecimal inventoryValue = materialJournal.getInventoryValue()
 						.add(Decimal.multiply(contract.getPrice(), contract.getQuantity()));

@@ -769,7 +769,7 @@ namespace materials {
                                                             }),
                                                             new sap.extension.m.List("", {
                                                                 chooseType: ibas.emChooseType.SINGLE,
-                                                                mode: sap.m.ListMode.SingleSelectMaster,
+                                                                mode: sap.m.ListMode.MultiSelect,
                                                                 growing: false,
                                                                 items: {
                                                                     path: "items",
@@ -866,19 +866,23 @@ namespace materials {
                                                                                 return sap.ui.core.ValueState.Success;
                                                                             }
                                                                         },
-                                                                        type: sap.m.ListType.Active
+                                                                        type: sap.m.ListType.Inactive
                                                                     })
                                                                 },
                                                                 selectionChange(this: sap.extension.m.List, event: sap.ui.base.Event): void {
                                                                     let selected: boolean = event.getParameter("selected");
                                                                     if (selected === true) {
                                                                         let data: any = this.getSelecteds().firstOrDefault();
-                                                                        for (let vbox of that.leftPage.getContent()) {
-                                                                            if (vbox !== this.getParent() && vbox instanceof sap.m.VBox) {
-                                                                                let list: any = vbox.getItems()[2];
-                                                                                if (list instanceof sap.m.List) {
-                                                                                    for (let item of list.getItems()) {
-                                                                                        item.setSelected(false);
+                                                                        for (let panel of that.leftPage.getContent()) {
+                                                                            if (panel instanceof sap.m.Panel) {
+                                                                                for (let vbox of panel.getContent()) {
+                                                                                    if (vbox !== this.getParent() && vbox instanceof sap.m.VBox) {
+                                                                                        let list: any = vbox.getItems()[1];
+                                                                                        if (list instanceof sap.m.List) {
+                                                                                            for (let item of list.getItems()) {
+                                                                                                item.setSelected(false);
+                                                                                            }
+                                                                                        }
                                                                                     }
                                                                                 }
                                                                             }
@@ -899,6 +903,10 @@ namespace materials {
                                                                                 }
                                                                             }
                                                                         }
+                                                                    } else {
+                                                                        that.showInventories([]);
+                                                                        that.showReservations([]);
+                                                                        that.showOrderedSourceDocuments([]);
                                                                     }
                                                                 },
                                                             })
