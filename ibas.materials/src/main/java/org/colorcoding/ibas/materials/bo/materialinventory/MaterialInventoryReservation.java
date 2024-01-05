@@ -978,6 +978,18 @@ public class MaterialInventoryReservation extends BusinessObject<MaterialInvento
 				public String getItemCode() {
 					return MaterialInventoryReservation.this.getItemCode();
 				}
+
+				@Override
+				public emBOStatus getStatus() {
+					return MaterialInventoryReservation.this.getStatus();
+				}
+
+				@Override
+				public BigDecimal getQuantity() {
+					// 数量占用 = 预留数量 - 已完成数量（出库）
+					return MaterialInventoryReservation.this.getQuantity()
+							.subtract(MaterialInventoryReservation.this.getClosedQuantity());
+				}
 			});
 		}
 		if (!DataConvert.isNullOrEmpty(this.getBatchCode())) {
@@ -1009,6 +1021,11 @@ public class MaterialInventoryReservation extends BusinessObject<MaterialInvento
 				@Override
 				public String getBatchCode() {
 					return MaterialInventoryReservation.this.getBatchCode();
+				}
+
+				@Override
+				public emBOStatus getStatus() {
+					return MaterialInventoryReservation.this.getStatus();
 				}
 			});
 		}

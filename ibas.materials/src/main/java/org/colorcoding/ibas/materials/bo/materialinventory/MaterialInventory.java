@@ -13,10 +13,14 @@ import org.colorcoding.ibas.bobas.core.IPropertyInfo;
 import org.colorcoding.ibas.bobas.data.DateTime;
 import org.colorcoding.ibas.bobas.data.Decimal;
 import org.colorcoding.ibas.bobas.data.emYesNo;
+import org.colorcoding.ibas.bobas.i18n.I18N;
+import org.colorcoding.ibas.bobas.logic.BusinessLogicException;
 import org.colorcoding.ibas.bobas.mapping.BusinessObjectUnit;
 import org.colorcoding.ibas.bobas.mapping.DbField;
 import org.colorcoding.ibas.bobas.mapping.DbFieldType;
+import org.colorcoding.ibas.bobas.rule.BusinessRuleException;
 import org.colorcoding.ibas.bobas.rule.IBusinessRule;
+import org.colorcoding.ibas.bobas.rule.ICheckRules;
 import org.colorcoding.ibas.bobas.rule.common.BusinessRuleMinValue;
 import org.colorcoding.ibas.bobas.rule.common.BusinessRuleMultiplication;
 import org.colorcoding.ibas.bobas.rule.common.BusinessRuleRequired;
@@ -29,7 +33,7 @@ import org.colorcoding.ibas.materials.MyConfiguration;
 @XmlType(name = MaterialInventory.BUSINESS_OBJECT_NAME, namespace = MyConfiguration.NAMESPACE_BO)
 @XmlRootElement(name = MaterialInventory.BUSINESS_OBJECT_NAME, namespace = MyConfiguration.NAMESPACE_BO)
 @BusinessObjectUnit(code = MaterialInventory.BUSINESS_OBJECT_CODE)
-public class MaterialInventory extends BusinessObject<MaterialInventory> implements IMaterialInventory {
+public class MaterialInventory extends BusinessObject<MaterialInventory> implements IMaterialInventory, ICheckRules {
 
 	/**
 	 * 序列化版本标记
@@ -887,6 +891,14 @@ public class MaterialInventory extends BusinessObject<MaterialInventory> impleme
 	@Override
 	public BigDecimal getOnAvailable() {
 		return Decimal.add(this.getOnHand(), this.getOnOrdered(), this.getOnCommited().negate());
+	}
+
+	@Override
+	public void check() throws BusinessRuleException {
+		if (Decimal.ZERO.compareTo(this.getOnHand().subtract(this.getOnReserved())) > 0) {
+			throw new BusinessLogicException(
+					I18N.prop("msg_mm_material_not_enough_is_reserved", this.getWarehouse(), this.getItemCode()));
+		}
 	}
 
 }

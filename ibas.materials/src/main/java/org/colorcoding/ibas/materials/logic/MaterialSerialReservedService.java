@@ -6,6 +6,8 @@ import org.colorcoding.ibas.bobas.common.Criteria;
 import org.colorcoding.ibas.bobas.common.ICondition;
 import org.colorcoding.ibas.bobas.common.ICriteria;
 import org.colorcoding.ibas.bobas.common.IOperationResult;
+import org.colorcoding.ibas.bobas.data.Decimal;
+import org.colorcoding.ibas.bobas.data.emBOStatus;
 import org.colorcoding.ibas.bobas.data.emYesNo;
 import org.colorcoding.ibas.bobas.i18n.I18N;
 import org.colorcoding.ibas.bobas.logic.BusinessLogicException;
@@ -43,6 +45,22 @@ public class MaterialSerialReservedService
 				Logger.log(MessageLevel.DEBUG, MSG_LOGICS_SKIP_LOGIC_EXECUTION, this.getClass().getName(),
 						"InventoryItem", material.getInventoryItem());
 				// 非库存物料，不执行此逻辑
+				return false;
+			}
+			if (contract.getStatus() == emBOStatus.CLOSED) {
+				Logger.log(MessageLevel.DEBUG, MSG_LOGICS_SKIP_LOGIC_EXECUTION, this.getClass().getName(), "Status",
+						contract.getStatus());
+				return false;
+			}
+			if (contract.getQuantity().compareTo(Decimal.ZERO) <= 0) {
+				Logger.log(MessageLevel.DEBUG, MSG_LOGICS_SKIP_LOGIC_EXECUTION, this.getClass().getName(), "Quantity",
+						contract.getQuantity());
+				return false;
+			}
+			if (this.checkWarehouse(contract.getWarehouse()).getReservable() == emYesNo.NO) {
+				// 不可预留仓库
+				Logger.log(MessageLevel.DEBUG, MSG_LOGICS_SKIP_LOGIC_EXECUTION, this.getClass().getName(),
+						"Warehouse Reservable", "NO");
 				return false;
 			}
 		}
@@ -98,11 +116,11 @@ public class MaterialSerialReservedService
 	protected void impact(IMaterialSerialReservedContract contract) {
 		IMaterialSerial materialSerial = this.getBeAffected();
 		/*
-		if (materialSerial.getReserved() == emYesNo.YES) {
-			throw new BusinessLogicException(I18N.prop("msg_mm_material_serial_is_reserved", contract.getWarehouse(),
-					contract.getItemCode(), contract.getSerialCode()));
-		}
-		*/
+		 * if (materialSerial.getReserved() == emYesNo.YES) { throw new
+		 * BusinessLogicException(I18N.prop("msg_mm_material_serial_is_reserved",
+		 * contract.getWarehouse(), contract.getItemCode(), contract.getSerialCode()));
+		 * }
+		 */
 		materialSerial.setReserved(emYesNo.YES);
 	}
 

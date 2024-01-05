@@ -11,10 +11,14 @@ import org.colorcoding.ibas.bobas.bo.IBOUserFields;
 import org.colorcoding.ibas.bobas.core.IPropertyInfo;
 import org.colorcoding.ibas.bobas.data.DateTime;
 import org.colorcoding.ibas.bobas.data.emYesNo;
+import org.colorcoding.ibas.bobas.i18n.I18N;
+import org.colorcoding.ibas.bobas.logic.BusinessLogicException;
 import org.colorcoding.ibas.bobas.mapping.BusinessObjectUnit;
 import org.colorcoding.ibas.bobas.mapping.DbField;
 import org.colorcoding.ibas.bobas.mapping.DbFieldType;
+import org.colorcoding.ibas.bobas.rule.BusinessRuleException;
 import org.colorcoding.ibas.bobas.rule.IBusinessRule;
+import org.colorcoding.ibas.bobas.rule.ICheckRules;
 import org.colorcoding.ibas.bobas.rule.common.BusinessRuleRequired;
 import org.colorcoding.ibas.materials.MyConfiguration;
 
@@ -26,7 +30,8 @@ import org.colorcoding.ibas.materials.MyConfiguration;
 @XmlType(name = MaterialSerial.BUSINESS_OBJECT_NAME, namespace = MyConfiguration.NAMESPACE_BO)
 @XmlRootElement(name = MaterialSerial.BUSINESS_OBJECT_NAME, namespace = MyConfiguration.NAMESPACE_BO)
 @BusinessObjectUnit(code = MaterialSerial.BUSINESS_OBJECT_CODE)
-public class MaterialSerial extends BusinessObject<MaterialSerial> implements IMaterialSerial, IBOUserFields {
+public class MaterialSerial extends BusinessObject<MaterialSerial>
+		implements IMaterialSerial, IBOUserFields, ICheckRules {
 
 	/**
 	 * 序列化版本标记
@@ -1101,5 +1106,14 @@ public class MaterialSerial extends BusinessObject<MaterialSerial> implements IM
 		super.reset();
 		this.setInStock(emYesNo.NO);
 		this.setReserved(emYesNo.NO);
+	}
+
+	@Override
+	public void check() throws BusinessRuleException {
+		if (this.getInStock() == emYesNo.NO && this.getReserved() == emYesNo.YES) {
+			throw new BusinessLogicException(I18N.prop("msg_mm_material_serial_is_reserved", this.getWarehouse(),
+					this.getItemCode(), this.getSerialCode()));
+		}
+
 	}
 }
