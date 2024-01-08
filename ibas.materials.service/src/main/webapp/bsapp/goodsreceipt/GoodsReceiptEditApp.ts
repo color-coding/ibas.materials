@@ -278,6 +278,15 @@ namespace materials {
                 let that: this = this;
                 let condition: ibas.ICondition;
                 let conditions: ibas.IList<ibas.ICondition> = app.conditions.material.create();
+                // 添加价格清单条件
+                if (ibas.numbers.valueOf(this.editData.priceList) !== 0) {
+                    condition = new ibas.Condition();
+                    condition.alias = materials.app.conditions.product.CONDITION_ALIAS_PRICELIST;
+                    condition.value = this.editData.priceList.toString();
+                    condition.operation = ibas.emConditionOperation.EQUAL;
+                    condition.relationship = ibas.emConditionRelationship.AND;
+                    conditions.add(condition);
+                }
                 // 库存物料
                 condition = new ibas.Condition();
                 condition.alias = app.conditions.material.CONDITION_ALIAS_INVENTORY_ITEM;
@@ -300,10 +309,10 @@ namespace materials {
                 condition.relationship = ibas.emConditionRelationship.AND;
                 conditions.add(condition);
                 // 调用选择服务
-                ibas.servicesManager.runChooseService<bo.Material>({
-                    boCode: bo.BO_CODE_MATERIAL,
+                ibas.servicesManager.runChooseService<materials.bo.IProduct>({
+                    boCode: materials.bo.BO_CODE_PRODUCT,
                     criteria: conditions,
-                    onCompleted(selecteds: ibas.IList<bo.Material>): void {
+                    onCompleted(selecteds: ibas.IList<materials.bo.IProduct>): void {
                         // 获取触发的对象
                         let index: number = that.editData.goodsReceiptLines.indexOf(caller);
                         let item: bo.GoodsReceiptLine = that.editData.goodsReceiptLines[index];
@@ -338,8 +347,63 @@ namespace materials {
                         let selected: bo.MaterialPriceList = selecteds.firstOrDefault();
                         that.editData.priceList = selected.objectKey;
                         that.editData.documentCurrency = selected.currency;
+                        that.changePurchaseOrderItemPrice(that.editData.priceList);
                     }
                 });
+            }
+            /** 更改行价格 */
+            private changePurchaseOrderItemPrice(priceList: number | ibas.Criteria): void {
+                if (typeof priceList === "number" && ibas.numbers.valueOf(priceList) !== 0) {
+                    let criteria: ibas.Criteria = new ibas.Criteria();
+                    let condition: ibas.ICondition = criteria.conditions.create();
+                    condition.alias = materials.app.conditions.materialprice.CONDITION_ALIAS_PRICELIST;
+                    condition.value = priceList.toString();
+                    for (let item of this.editData.goodsReceiptLines) {
+                        condition = criteria.conditions.create();
+                        condition.alias = materials.app.conditions.materialprice.CONDITION_ALIAS_ITEMCODE;
+                        condition.value = item.itemCode;
+                        if (criteria.conditions.length > 2) {
+                            condition.relationship = ibas.emConditionRelationship.OR;
+                        }
+                    }
+                    if (criteria.conditions.length < 2) {
+                        return;
+                    }
+                    if (criteria.conditions.length > 2) {
+                        criteria.conditions[2].bracketOpen += 1;
+                        criteria.conditions[criteria.conditions.length - 1].bracketClose += 1;
+                    }
+                    this.messages({
+                        type: ibas.emMessageType.QUESTION,
+                        message: ibas.i18n.prop("materials_change_item_price_continue"),
+                        actions: [
+                            ibas.emMessageAction.YES,
+                            ibas.emMessageAction.NO,
+                        ],
+                        onCompleted: (result) => {
+                            if (result === ibas.emMessageAction.YES) {
+                                this.changePurchaseOrderItemPrice(criteria);
+                            }
+                        }
+                    });
+                } else if (priceList instanceof ibas.Criteria) {
+                    this.busy(true);
+                    let boRepository: materials.bo.BORepositoryMaterials = new materials.bo.BORepositoryMaterials();
+                    boRepository.fetchMaterialPrice({
+                        criteria: priceList,
+                        onCompleted: (opRslt) => {
+                            for (let item of opRslt.resultObjects) {
+                                this.editData.goodsReceiptLines.forEach((value) => {
+                                    if (item.itemCode === value.itemCode) {
+                                        value.price = item.price;
+                                        value.currency = item.currency;
+                                    }
+                                });
+                            }
+                            this.busy(false);
+                        }
+                    });
+                }
             }
 
             /** 选择库存收货订单行物料事件 */

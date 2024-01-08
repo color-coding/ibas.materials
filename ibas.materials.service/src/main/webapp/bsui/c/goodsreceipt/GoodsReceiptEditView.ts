@@ -52,6 +52,22 @@ namespace materials {
                                     maxLength: 8
                                 })
                             }),
+                            new sap.m.Label("", { text: ibas.i18n.prop("bo_goodsreceipt_pricelist") }),
+                            new sap.extension.m.RepositoryInput("", {
+                                showValueHelp: true,
+                                repository: materials.bo.BORepositoryMaterials,
+                                dataInfo: {
+                                    type: materials.bo.MaterialPriceList,
+                                    key: materials.bo.MaterialPriceList.PROPERTY_OBJECTKEY_NAME,
+                                    text: materials.bo.MaterialPriceList.PROPERTY_NAME_NAME
+                                },
+                                valueHelpRequest: function (): void {
+                                    that.fireViewEvents(that.chooseGoodsReceiptMaterialPriceListEvent);
+                                },
+                            }).bindProperty("bindingValue", {
+                                path: "priceList",
+                                type: new sap.extension.data.Numeric()
+                            }),
                             new sap.m.Label("", { text: ibas.i18n.prop("bo_goodsreceipt_reference1") }),
                             new sap.extension.m.Input("", {
                             }).bindProperty("bindingValue", {

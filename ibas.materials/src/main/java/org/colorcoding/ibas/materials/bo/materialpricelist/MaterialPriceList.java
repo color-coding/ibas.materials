@@ -392,7 +392,7 @@ public class MaterialPriceList extends BusinessObject<MaterialPriceList>
 	 * 
 	 * @param value 值
 	 */
-	public final void setObjectKey(Integer value) {
+	public void setObjectKey(Integer value) {
 		this.setProperty(PROPERTY_OBJECTKEY, value);
 	}
 

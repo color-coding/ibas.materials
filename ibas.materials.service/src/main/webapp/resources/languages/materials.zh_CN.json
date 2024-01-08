@@ -197,5 +197,6 @@
   "materials_transfer_quantity_grater_than_reservation": "物料[{0}]批/序号[{1}]的预留转移数量，超过原预留数量。",
   "materials_transfer_quantity_grater_than_quantity": "物料[{0}]批/序号[{1}]的预留转移数量，超过批次数量。",
   "materials_invaild_status_not_support_turn_to_operation": "单据的状态无效，不支持此操作",
+  "materials_change_item_price_continue": "价格清单已更新，是否更改单据行的价格？",
   "materials_closing_delimiter": "----结束----"
 }

@@ -50,11 +50,13 @@ public class MyConfiguration extends org.colorcoding.ibas.bobas.MyConfiguration 
 	 * 业务对象命名空间
 	 */
 	public static final String NAMESPACE_BO = NAMESPACE_ROOT + "bo";
-
 	/**
 	 * 服务命名空间
 	 */
 	public static final String NAMESPACE_SERVICE = NAMESPACE_ROOT + "service";
+
+	/** 物料成本价格清单 */
+	public static final Integer DATA_MATERIALS_COST_PRICE_LIST = -1;
 
 	/** 配置项目-默认货币 */
 	public final static String CONFIG_ITEM_DEFAULT_CURRENCY = "defaultCurrency";

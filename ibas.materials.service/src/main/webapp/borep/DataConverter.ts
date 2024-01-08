@@ -458,7 +458,7 @@ namespace materials {
 
         export function baseMaterial(
             target: IGoodsIssueLine | IGoodsReceiptLine | IInventoryTransferLine,
-            source: materials.bo.IMaterial
+            source: materials.bo.IMaterial | materials.bo.IProduct
         ): void {
             target.itemCode = source.code;
             target.itemDescription = source.name;
@@ -468,7 +468,11 @@ namespace materials {
             target.warehouse = source.defaultWarehouse;
             target.quantity = 1;
             target.uom = source.inventoryUOM;
-            target.price = source.avgPrice;
+            if (source instanceof bo.Material) {
+                target.price = source.avgPrice;
+            } else if (source instanceof bo.Product) {
+                target.price = source.price;
+            }
         }
         const DECIMAL_PLACES_SUM: number = ibas.config.get(ibas.CONFIG_ITEM_DECIMAL_PLACES_SUM);
         /** 业务规则-计算库存数量 */

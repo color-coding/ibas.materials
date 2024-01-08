@@ -10,6 +10,8 @@ import org.colorcoding.ibas.bobas.common.IOperationResult;
 import org.colorcoding.ibas.bobas.i18n.I18N;
 import org.colorcoding.ibas.bobas.logic.BusinessLogicException;
 import org.colorcoding.ibas.bobas.mapping.LogicContract;
+import org.colorcoding.ibas.bobas.message.Logger;
+import org.colorcoding.ibas.bobas.message.MessageLevel;
 import org.colorcoding.ibas.materials.bo.materialpricelist.IMaterialPriceItem;
 import org.colorcoding.ibas.materials.bo.materialpricelist.IMaterialPriceList;
 import org.colorcoding.ibas.materials.bo.materialpricelist.MaterialPriceItem;
@@ -18,6 +20,26 @@ import org.colorcoding.ibas.materials.repository.BORepositoryMaterials;
 
 @LogicContract(IMaterialPriceContract.class)
 public class MaterialPriceService extends MaterialBusinessLogic<IMaterialPriceContract, IMaterialPriceList> {
+
+	@Override
+	protected boolean checkDataStatus(Object data) {
+		if (data instanceof IMaterialPriceContract) {
+			IMaterialPriceContract contract = (IMaterialPriceContract) data;
+			if (contract.getPrice() == null) {
+				// 无价格，不执行此逻辑
+				Logger.log(MessageLevel.DEBUG, MSG_LOGICS_SKIP_LOGIC_EXECUTION, this.getClass().getName(), "Non Price",
+						contract.getPrice());
+				return false;
+			}
+			if (contract.getPriceList() == null) {
+				// 无价格清单，不执行此逻辑
+				Logger.log(MessageLevel.DEBUG, MSG_LOGICS_SKIP_LOGIC_EXECUTION, this.getClass().getName(),
+						"Non PriceList", contract.getPriceList());
+				return false;
+			}
+		}
+		return super.checkDataStatus(data);
+	}
 
 	@Override
 	protected IMaterialPriceList fetchBeAffected(IMaterialPriceContract contract) {

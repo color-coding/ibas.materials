@@ -31,6 +31,7 @@ import org.colorcoding.ibas.materials.MyConfiguration;
 import org.colorcoding.ibas.materials.logic.IMaterialInventoryContract;
 import org.colorcoding.ibas.materials.logic.IMaterialInventoryReservationCreateContract;
 import org.colorcoding.ibas.materials.logic.IMaterialInventoryReservationReleaseContract;
+import org.colorcoding.ibas.materials.logic.IMaterialPriceContract;
 import org.colorcoding.ibas.materials.logic.IMaterialWarehouseInventoryContract;
 
 /**
@@ -1377,6 +1378,38 @@ public class MaterialInventoryJournal extends BusinessObject<MaterialInventoryJo
 					return MaterialInventoryJournal.this.getOriginalDocumentLineId();
 				}
 
+			});
+			// 记录成本到价格清单
+			contracts.add(new IMaterialPriceContract() {
+
+				@Override
+				public String getIdentifiers() {
+					return MaterialInventoryJournal.this.getIdentifiers();
+				}
+
+				@Override
+				public Integer getPriceList() {
+					return MyConfiguration.DATA_MATERIALS_COST_PRICE_LIST;
+				}
+
+				@Override
+				public BigDecimal getPrice() {
+					if (MaterialInventoryJournal.this.getUpdateActionId() == null) {
+						return MaterialInventoryJournal.this.getCalculatedPrice();
+					} else {
+						return null;
+					}
+				}
+
+				@Override
+				public String getItemCode() {
+					return MaterialInventoryJournal.this.getItemCode();
+				}
+
+				@Override
+				public String getCurrency() {
+					return null;
+				}
 			});
 		}
 		return contracts.toArray(new IBusinessLogicContract[] {});

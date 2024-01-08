@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!DOCTYPE User>
+<ns:SystemMaterialPriceList xmlns:ns="http://colorcoding.org/ibas/materials/bo">
+	<Name>成本价格</Name>
+	<Taxed>NO</Taxed>
+	<ObjectKey>-1</ObjectKey>
+</ns:SystemMaterialPriceList>
