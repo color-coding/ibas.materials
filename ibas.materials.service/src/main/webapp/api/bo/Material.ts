@@ -148,8 +148,14 @@ namespace materials {
             /** 生产批量 */
             lotSize: number;
 
-            /** 废品率 */
+            /** 损耗率 */
             scrap: string;
+
+            /** 损耗率 */
+            scrapRate: number;
+
+            /** 固定损耗 */
+            scrapValue: number;
 
             /** 计划员 */
             scheduler: string;

@@ -1296,19 +1296,19 @@ public abstract class MaterialBase<T extends MaterialBase<T>> extends BusinessOb
 	}
 
 	/**
-	 * 属性名称-废品率
+	 * 属性名称-损耗率
 	 */
 	private static final String PROPERTY_SCRAP_NAME = "Scrap";
 
 	/**
-	 * 废品率 属性
+	 * 损耗率 属性
 	 */
 	@DbField(name = "Scrap", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<String> PROPERTY_SCRAP = registerProperty(PROPERTY_SCRAP_NAME, String.class,
 			MY_CLASS);
 
 	/**
-	 * 获取-废品率
+	 * 获取-损耗率
 	 * 
 	 * @return 值
 	 */
@@ -1318,12 +1318,74 @@ public abstract class MaterialBase<T extends MaterialBase<T>> extends BusinessOb
 	}
 
 	/**
-	 * 设置-废品率
+	 * 设置-损耗率
 	 * 
 	 * @param value 值
 	 */
 	public final void setScrap(String value) {
 		this.setProperty(PROPERTY_SCRAP, value);
+	}
+
+	/**
+	 * 属性名称-变动损耗
+	 */
+	private static final String PROPERTY_SCRAPRATE_NAME = "ScrapRate";
+
+	/**
+	 * 变动损耗 属性
+	 */
+	@DbField(name = "ScrapRate", type = DbFieldType.DECIMAL, table = DB_TABLE_NAME)
+	public static final IPropertyInfo<BigDecimal> PROPERTY_SCRAPRATE = registerProperty(PROPERTY_SCRAPRATE_NAME,
+			BigDecimal.class, MY_CLASS);
+
+	/**
+	 * 获取-变动损耗
+	 * 
+	 * @return 值
+	 */
+	@XmlElement(name = PROPERTY_SCRAPRATE_NAME)
+	public final BigDecimal getScrapRate() {
+		return this.getProperty(PROPERTY_SCRAPRATE);
+	}
+
+	/**
+	 * 设置-变动损耗
+	 * 
+	 * @param value 值
+	 */
+	public final void setScrapRate(BigDecimal value) {
+		this.setProperty(PROPERTY_SCRAPRATE, value);
+	}
+
+	/**
+	 * 属性名称-固定损耗
+	 */
+	private static final String PROPERTY_SCRAPVALUE_NAME = "ScrapValue";
+
+	/**
+	 * 固定损耗 属性
+	 */
+	@DbField(name = "ScrapValue", type = DbFieldType.DECIMAL, table = DB_TABLE_NAME)
+	public static final IPropertyInfo<BigDecimal> PROPERTY_SCRAPVALUE = registerProperty(PROPERTY_SCRAPVALUE_NAME,
+			BigDecimal.class, MY_CLASS);
+
+	/**
+	 * 获取-固定损耗
+	 * 
+	 * @return 值
+	 */
+	@XmlElement(name = PROPERTY_SCRAPVALUE_NAME)
+	public final BigDecimal getScrapValue() {
+		return this.getProperty(PROPERTY_SCRAPVALUE);
+	}
+
+	/**
+	 * 设置-固定损耗
+	 * 
+	 * @param value 值
+	 */
+	public final void setScrapValue(BigDecimal value) {
+		this.setProperty(PROPERTY_SCRAPVALUE, value);
 	}
 
 	/**

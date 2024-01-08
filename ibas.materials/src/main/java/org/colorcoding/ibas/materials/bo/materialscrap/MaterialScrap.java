@@ -780,6 +780,7 @@ public class MaterialScrap extends BusinessObject<MaterialScrap> implements IMat
 		this.setMaterialScrapSections(new MaterialScrapSections(this));
 		this.setObjectCode(MyConfiguration.applyVariables(BUSINESS_OBJECT_CODE));
 		this.setActivated(emYesNo.YES);
+		this.setTiered(emYesNo.YES);
 
 	}
 

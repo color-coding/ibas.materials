@@ -276,6 +276,8 @@ namespace materials {
                     onCompleted(selecteds: ibas.IList<bo.MaterialScrap>): void {
                         let selected: bo.MaterialScrap = selecteds.firstOrDefault();
                         that.editData.scrap = selected.name;
+                        that.editData.scrapRate = 0;
+                        that.editData.scrapValue = 0;
                     }
                 });
             }

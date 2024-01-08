@@ -274,6 +274,7 @@ namespace materials {
                 this.materialScrapSections = new MaterialScrapSections(this);
                 this.objectCode = ibas.config.applyVariables(MaterialScrap.BUSINESS_OBJECT_CODE);
                 this.activated = ibas.emYesNo.YES;
+                this.tiered = ibas.emYesNo.YES;
             }
 
             /**

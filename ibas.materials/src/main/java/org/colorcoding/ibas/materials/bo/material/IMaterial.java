@@ -782,18 +782,46 @@ public interface IMaterial extends IBOMasterData {
 	void setLotSize(BigDecimal value);
 
 	/**
-	 * 获取-废品率
+	 * 获取-损耗率
 	 * 
 	 * @return 值
 	 */
 	String getScrap();
 
 	/**
-	 * 设置-废品率
+	 * 设置-损耗率
 	 * 
 	 * @param value 值
 	 */
 	void setScrap(String value);
+
+	/**
+	 * 获取-变动损耗
+	 * 
+	 * @return 值
+	 */
+	BigDecimal getScrapRate();
+
+	/**
+	 * 设置-变动损耗
+	 * 
+	 * @param value 值
+	 */
+	void setScrapRate(BigDecimal value);
+
+	/**
+	 * 获取-固定损耗
+	 * 
+	 * @return 值
+	 */
+	BigDecimal getScrapValue();
+
+	/**
+	 * 设置-固定损耗
+	 * 
+	 * @param value 值
+	 */
+	void setScrapValue(BigDecimal value);
 
 	/**
 	 * 获取-计划员

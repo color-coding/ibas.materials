@@ -482,6 +482,38 @@ namespace materials {
                                                     path: "scrap",
                                                     type: new sap.extension.data.Alphanumeric(),
                                                 },
+                                                visible: {
+                                                    path: "scrap",
+                                                    formatter(data: number): boolean {
+                                                        return !ibas.strings.isEmpty(data) ? true : false;
+                                                    }
+                                                }
+                                            }),
+                                            new sap.extension.m.ObjectAttribute("", {
+                                                title: ibas.i18n.prop("bo_material_scraprate"),
+                                                bindingValue: {
+                                                    path: "scrapRate",
+                                                    type: new sap.extension.data.Percentage(),
+                                                },
+                                                visible: {
+                                                    path: "scrapRate",
+                                                    formatter(data: number): boolean {
+                                                        return data > 0 ? true : false;
+                                                    }
+                                                }
+                                            }),
+                                            new sap.extension.m.ObjectAttribute("", {
+                                                title: ibas.i18n.prop("bo_material_scrapvalue"),
+                                                bindingValue: {
+                                                    path: "scrapValue",
+                                                    type: new sap.extension.data.Quantity(),
+                                                },
+                                                visible: {
+                                                    path: "scrapValue",
+                                                    formatter(data: number): boolean {
+                                                        return data > 0 ? true : false;
+                                                    }
+                                                }
                                             }),
                                             new sap.extension.m.ObjectEnumStatus("", {
                                                 title: ibas.i18n.prop("bo_material_madetoorder"),

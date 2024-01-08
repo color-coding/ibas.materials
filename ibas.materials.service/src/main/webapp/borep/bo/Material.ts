@@ -523,15 +523,37 @@ namespace materials {
                 this.setProperty(Material.PROPERTY_LOTSIZE_NAME, value);
             }
 
-            /** 映射的属性名称-废品率 */
+            /** 映射的属性名称-损耗率 */
             static PROPERTY_SCRAP_NAME: string = "Scrap";
-            /** 获取-废品率 */
+            /** 获取-损耗率 */
             get scrap(): string {
                 return this.getProperty<string>(Material.PROPERTY_SCRAP_NAME);
             }
-            /** 设置-废品率 */
+            /** 设置-损耗率 */
             set scrap(value: string) {
                 this.setProperty(Material.PROPERTY_SCRAP_NAME, value);
+            }
+
+            /** 映射的属性名称-变动损耗 */
+            static PROPERTY_SCRAPRATE_NAME: string = "ScrapRate";
+            /** 获取-变动损耗 */
+            get scrapRate(): number {
+                return this.getProperty<number>(Material.PROPERTY_SCRAPRATE_NAME);
+            }
+            /** 设置-变动损耗 */
+            set scrapRate(value: number) {
+                this.setProperty(Material.PROPERTY_SCRAPRATE_NAME, value);
+            }
+
+            /** 映射的属性名称-固定损耗 */
+            static PROPERTY_SCRAPVALUE_NAME: string = "ScrapValue";
+            /** 获取-固定损耗 */
+            get scrapValue(): number {
+                return this.getProperty<number>(Material.PROPERTY_SCRAPVALUE_NAME);
+            }
+            /** 设置-固定损耗 */
+            set scrapValue(value: number) {
+                this.setProperty(Material.PROPERTY_SCRAPVALUE_NAME, value);
             }
 
             /** 映射的属性名称-计划员 */

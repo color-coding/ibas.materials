@@ -608,7 +608,97 @@ namespace materials {
                                                             enumType: bo.emIssueMethod
                                                         }),
                                                     }),
-                                                    new sap.m.Label("", { text: ibas.i18n.prop("bo_material_scrap") }),
+                                                    new sap.m.Label("", { text: ibas.i18n.prop("bo_material_scraptiered") }),
+                                                    new sap.m.CheckBox("", {
+                                                        selected: {
+                                                            path: "scrap",
+                                                            formatter(scrap: string): boolean {
+                                                                return !ibas.strings.isEmpty(scrap) ? true : false;
+                                                            }
+                                                        },
+                                                        select(event: sap.ui.base.Event): void {
+                                                            let source: any = event.getSource();
+                                                            if (source instanceof sap.m.CheckBox) {
+                                                                let form: any = source.getParent().getParent().getParent().getParent();
+                                                                if (form instanceof sap.ui.layout.form.SimpleForm) {
+                                                                    form.setBusy(true);
+                                                                    for (let item of form.getContent()) {
+                                                                        if (item instanceof sap.m.Input) {
+                                                                            let binding: sap.ui.model.Binding = item.getBinding("bindingValue");
+                                                                            if (binding?.getPath() === "scrapRate" || binding?.getPath() === "scrapValue") {
+                                                                                if (source.getSelected() === true) {
+                                                                                    (<sap.m.Label>(<any>item).getLabels()[0])?.setVisible(false);
+                                                                                    item.setVisible(false);
+                                                                                } else {
+                                                                                    (<sap.m.Label>(<any>item).getLabels()[0])?.setVisible(true);
+                                                                                    item.setVisible(true);
+                                                                                }
+                                                                            } else if (binding?.getPath() === "scrap") {
+                                                                                if (source.getSelected() === true) {
+                                                                                    (<sap.m.Label>(<any>item).getLabels()[0])?.setVisible(true);
+                                                                                    item.setVisible(true);
+                                                                                } else {
+                                                                                    (<sap.m.Label>(<any>item).getLabels()[0])?.setVisible(false);
+                                                                                    item.setVisible(false);
+                                                                                }
+                                                                            }
+                                                                        }
+                                                                    }
+                                                                    form.setBusy(false);
+                                                                }
+                                                            }
+                                                        }
+                                                    }),
+                                                    new sap.m.Label("", {
+                                                        text: ibas.i18n.prop("bo_material_scraprate"),
+                                                        visible: {
+                                                            path: "scrap",
+                                                            formatter(scrap: string): boolean {
+                                                                return ibas.strings.isEmpty(scrap) ? true : false;
+                                                            }
+                                                        }
+                                                    }),
+                                                    new sap.extension.m.Input("", {
+                                                        type: sap.m.InputType.Text,
+                                                        visible: {
+                                                            path: "scrap",
+                                                            formatter(scrap: string): boolean {
+                                                                return ibas.strings.isEmpty(scrap) ? true : false;
+                                                            }
+                                                        }
+                                                    }).bindProperty("bindingValue", {
+                                                        path: "scrapRate",
+                                                        type: new sap.extension.data.Percentage(),
+                                                    }),
+                                                    new sap.m.Label("", {
+                                                        text: ibas.i18n.prop("bo_material_scrapvalue"),
+                                                        visible: {
+                                                            path: "scrap",
+                                                            formatter(scrap: string): boolean {
+                                                                return ibas.strings.isEmpty(scrap) ? true : false;
+                                                            }
+                                                        }
+                                                    }),
+                                                    new sap.extension.m.Input("", {
+                                                        visible: {
+                                                            path: "scrap",
+                                                            formatter(scrap: string): boolean {
+                                                                return ibas.strings.isEmpty(scrap) ? true : false;
+                                                            }
+                                                        }
+                                                    }).bindProperty("bindingValue", {
+                                                        path: "scrapValue",
+                                                        type: new sap.extension.data.Quantity(),
+                                                    }),
+                                                    new sap.m.Label("", {
+                                                        text: ibas.i18n.prop("bo_material_scrap"),
+                                                        visible: {
+                                                            path: "scrap",
+                                                            formatter(scrap: string): boolean {
+                                                                return ibas.strings.isEmpty(scrap) ? false : true;
+                                                            }
+                                                        }
+                                                    }),
                                                     new sap.extension.m.Input("", {
                                                         showValueHelp: true,
                                                         valueHelpRequest: function (): void {
@@ -621,6 +711,12 @@ namespace materials {
                                                                 linkValue: this.getBindingValue()
                                                             });
                                                         },
+                                                        visible: {
+                                                            path: "scrap",
+                                                            formatter(scrap: string): boolean {
+                                                                return ibas.strings.isEmpty(scrap) ? false : true;
+                                                            }
+                                                        }
                                                     }).bindProperty("bindingValue", {
                                                         path: "scrap",
                                                         type: new sap.extension.data.Alphanumeric({
