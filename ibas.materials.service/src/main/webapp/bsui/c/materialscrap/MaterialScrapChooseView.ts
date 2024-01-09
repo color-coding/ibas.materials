@@ -76,6 +76,9 @@ namespace materials {
                             ibas.logger.log(ibas.emMessageLevel.DEBUG, "result: {0}", criteria.toString());
                             that.fireViewEvents(that.fetchDataEvent, criteria);
                         },
+                        rowDoubleClick(event: sap.ui.base.Event): void {
+                            that.fireViewEvents(that.chooseDataEvent, event.getParameter("row")?.getBindingContext()?.getObject());
+                        },
                         rowActionCount: 1,
                         rowActionTemplate: new sap.ui.table.RowAction("", {
                             items: [

@@ -41,7 +41,23 @@ namespace materials {
             /** 查询数据 */
             protected fetchData(criteria: ibas.ICriteria): void {
                 this.busy(true);
-                criteria.noChilds = true;// 不加载子项
+                if (!ibas.objects.isNull(criteria)) {
+                    criteria.noChilds = true;// 不加载子项
+                    if (criteria.conditions.firstOrDefault(
+                        c => c.alias === bo.MaterialPriceList.PROPERTY_OBJECTKEY_NAME
+                            && c.operation === ibas.emConditionOperation.GRATER_THAN
+                            && c.value === "0"
+                    ) === null) {
+                        if (criteria.conditions.length > 2) {
+                            criteria.conditions.firstOrDefault().bracketOpen++;
+                            criteria.conditions.lastOrDefault().bracketClose++;
+                        }
+                        let condition: ibas.ICondition = criteria.conditions.create();
+                        condition.alias = bo.MaterialPriceList.PROPERTY_OBJECTKEY_NAME;
+                        condition.operation = ibas.emConditionOperation.GRATER_THAN;
+                        condition.value = "0";
+                    }
+                }
                 let that: this = this;
                 let boRepository: bo.BORepositoryMaterials = new bo.BORepositoryMaterials();
                 boRepository.fetchMaterialPriceList({

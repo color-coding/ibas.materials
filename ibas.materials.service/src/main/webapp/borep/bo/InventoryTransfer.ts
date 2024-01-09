@@ -440,7 +440,7 @@ namespace materials {
                 this.inventoryTransferLines = new InventoryTransferLines(this);
                 this.objectCode = ibas.config.applyVariables(InventoryTransfer.BUSINESS_OBJECT_CODE);
                 this.documentStatus = ibas.emDocumentStatus.RELEASED;
-                this.documentCurrency = ibas.config.get(ibas.CONFIG_ITEM_DEFAULT_CURRENCY);
+                this.documentCurrency = accounting.config.currency("LOCAL");
             }
             /** 重置 */
             reset(): void {
@@ -990,7 +990,7 @@ namespace materials {
                 this.materialBatches = new MaterialBatchItemTs(this);
                 this.materialSerials = new MaterialSerialItemTs(this);
                 this.objectCode = ibas.config.applyVariables(InventoryTransfer.BUSINESS_OBJECT_CODE);
-                this.currency = ibas.config.get(ibas.CONFIG_ITEM_DEFAULT_CURRENCY);
+                this.currency = accounting.config.currency("LOCAL");
             }
 
             /** 赋值物料 */
