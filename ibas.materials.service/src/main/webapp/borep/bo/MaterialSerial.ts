@@ -227,6 +227,29 @@ namespace materials {
                 this.setProperty(MaterialSerial.PROPERTY_BASEDOCUMENTLINEID_NAME, value);
             }
 
+            /** 映射的属性名称-价格 */
+            static PROPERTY_AVGPRICE_NAME: string = "AvgPrice";
+            /** 获取-价格 */
+            get avgPrice(): number {
+                return this.getProperty<number>(MaterialSerial.PROPERTY_AVGPRICE_NAME);
+            }
+            /** 设置-价格 */
+            set avgPrice(value: number) {
+                this.setProperty(MaterialSerial.PROPERTY_AVGPRICE_NAME, value);
+            }
+
+            /** 映射的属性名称-库存价值 */
+            static PROPERTY_INVENTORYVALUE_NAME: string = "InventoryValue";
+            /** 获取-库存价值 */
+            get inventoryValue(): number {
+                return this.getProperty<number>(MaterialBatch.PROPERTY_INVENTORYVALUE_NAME);
+            }
+            /** 设置-库存价值 */
+            set inventoryValue(value: number) {
+                this.setProperty(MaterialBatch.PROPERTY_INVENTORYVALUE_NAME, value);
+            }
+
+
             /** 映射的属性名称-对象编号 */
             static PROPERTY_OBJECTKEY_NAME: string = "ObjectKey";
             /** 获取-对象编号 */

@@ -60,6 +60,12 @@ namespace materials {
             /** 基于行号 */
             baseDocumentLineId: number;
 
+            /** 价格 */
+            avgPrice: number;
+
+            /** 库存价值 */
+            inventoryValue: number;
+
             /** 对象编号 */
             objectKey: number;
 

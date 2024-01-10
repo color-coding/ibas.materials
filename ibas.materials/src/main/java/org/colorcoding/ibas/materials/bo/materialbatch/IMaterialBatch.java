@@ -272,6 +272,34 @@ public interface IMaterialBatch extends IBOSimple {
 	void setBaseDocumentLineId(Integer value);
 
 	/**
+	 * 获取-价格
+	 * 
+	 * @return 值
+	 */
+	BigDecimal getAvgPrice();
+
+	/**
+	 * 设置-价格
+	 * 
+	 * @param value 值
+	 */
+	void setAvgPrice(BigDecimal value);
+
+	/**
+	 * 获取-库存价值
+	 * 
+	 * @return 值
+	 */
+	BigDecimal getInventoryValue();
+
+	/**
+	 * 设置-库存价值
+	 * 
+	 * @param value 值
+	 */
+	void setInventoryValue(BigDecimal value);
+
+	/**
 	 * 获取-对象编号
 	 *
 	 * @return 值

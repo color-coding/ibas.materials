@@ -99,6 +99,24 @@ namespace materials {
                                 path: "/reservedQuantity",
                                 type: new sap.extension.data.Quantity()
                             }),
+                            new sap.m.Label("", {
+                                text: ibas.strings.format("{0} / {1}",
+                                    ibas.i18n.prop("bo_materialbatch_inventoryvalue"),
+                                    ibas.i18n.prop("bo_materialbatch_avgprice") ,
+                                )
+                            }),
+                            new sap.extension.m.Input("", {
+                                editable: false,
+                            }).bindProperty("bindingValue", {
+                                path: "/inventoryValue",
+                                type: new sap.extension.data.Sum(),
+                            }),
+                            new sap.extension.m.Input("", {
+                                editable: false,
+                            }).bindProperty("bindingValue", {
+                                path: "/avgPrice",
+                                type: new sap.extension.data.Price(),
+                            }),
                             new sap.m.Label("", { text: ibas.i18n.prop("bo_materialbatch_supplierserial") }),
                             new sap.extension.m.Input("", {
                             }).bindProperty("bindingValue", {

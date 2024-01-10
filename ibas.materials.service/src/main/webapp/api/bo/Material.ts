@@ -82,6 +82,9 @@ namespace materials {
             /** 已预留 */
             onReserved: number;
 
+            /** 库存价值 */
+            inventoryValue: number;
+
             /** 按仓库管理 */
             manageByWarehouse: ibas.emYesNo;
 

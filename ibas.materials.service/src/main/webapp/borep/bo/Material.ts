@@ -280,6 +280,17 @@ namespace materials {
                 this.setProperty(Material.PROPERTY_ONRESERVED_NAME, value);
             }
 
+            /** 映射的属性名称-库存价值 */
+            static PROPERTY_INVENTORYVALUE_NAME: string = "InventoryValue";
+            /** 获取-库存价值 */
+            get inventoryValue(): number {
+                return this.getProperty<number>(Material.PROPERTY_INVENTORYVALUE_NAME);
+            }
+            /** 设置-库存价值 */
+            set inventoryValue(value: number) {
+                this.setProperty(Material.PROPERTY_INVENTORYVALUE_NAME, value);
+            }
+
             /** 映射的属性名称-按仓库管理 */
             static PROPERTY_MANAGEBYWAREHOUSE_NAME: string = "ManageByWarehouse";
             /** 获取-按仓库管理 */

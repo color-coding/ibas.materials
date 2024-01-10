@@ -100,6 +100,13 @@ namespace materials {
                                 path: "/reserved",
                                 type: new sap.extension.data.YesNo()
                             }),
+                            new sap.m.Label("", { text: ibas.i18n.prop("bo_materialserial_avgprice") }),
+                            new sap.extension.m.Input("", {
+                                editable: false,
+                            }).bindProperty("bindingValue", {
+                                path: "/avgPrice",
+                                type: new sap.extension.data.Price(),
+                            }),
                             new sap.m.Label("", { text: ibas.i18n.prop("bo_materialserial_supplierserial") }),
                             new sap.extension.m.Input("", {
                             }).bindProperty("bindingValue", {

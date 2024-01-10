@@ -616,6 +616,68 @@ public class MaterialBatch extends BusinessObject<MaterialBatch> implements IMat
 	}
 
 	/**
+	 * 属性名称-价格
+	 */
+	private static final String PROPERTY_AVGPRICE_NAME = "AvgPrice";
+
+	/**
+	 * 价格 属性
+	 */
+	@DbField(name = "AvgPrice", type = DbFieldType.DECIMAL, table = DB_TABLE_NAME, primaryKey = false)
+	public static final IPropertyInfo<BigDecimal> PROPERTY_AVGPRICE = registerProperty(PROPERTY_AVGPRICE_NAME,
+			BigDecimal.class, MY_CLASS);
+
+	/**
+	 * 获取-价格
+	 *
+	 * @return 值
+	 */
+	@XmlElement(name = PROPERTY_AVGPRICE_NAME)
+	public final BigDecimal getAvgPrice() {
+		return this.getProperty(PROPERTY_AVGPRICE);
+	}
+
+	/**
+	 * 设置-价格
+	 *
+	 * @param value 值
+	 */
+	public final void setAvgPrice(BigDecimal value) {
+		this.setProperty(PROPERTY_AVGPRICE, value);
+	}
+
+	/**
+	 * 属性名称-库存价值
+	 */
+	private static final String PROPERTY_INVENTORYVALUE_NAME = "InventoryValue";
+
+	/**
+	 * 库存价值 属性
+	 */
+	@DbField(name = "StockValue", type = DbFieldType.DECIMAL, table = DB_TABLE_NAME)
+	public static final IPropertyInfo<BigDecimal> PROPERTY_INVENTORYVALUE = registerProperty(
+			PROPERTY_INVENTORYVALUE_NAME, BigDecimal.class, MY_CLASS);
+
+	/**
+	 * 获取-库存价值
+	 * 
+	 * @return 值
+	 */
+	@XmlElement(name = PROPERTY_INVENTORYVALUE_NAME)
+	public final BigDecimal getInventoryValue() {
+		return this.getProperty(PROPERTY_INVENTORYVALUE);
+	}
+
+	/**
+	 * 设置-库存价值
+	 * 
+	 * @param value 值
+	 */
+	public final void setInventoryValue(BigDecimal value) {
+		this.setProperty(PROPERTY_INVENTORYVALUE, value);
+	}
+
+	/**
 	 * 属性名称-对象编号
 	 */
 	private static final String PROPERTY_OBJECTKEY_NAME = "ObjectKey";
