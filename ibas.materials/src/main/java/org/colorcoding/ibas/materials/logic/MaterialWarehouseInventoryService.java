@@ -82,12 +82,11 @@ public class MaterialWarehouseInventoryService
 		BigDecimal onHand = materialInventory.getOnHand();
 		if (contract.getDirection() == emDirection.OUT) {
 			onHand = onHand.subtract(contract.getQuantity());
-			/*
-			if (Decimal.ZERO.compareTo(onHand.subtract(materialInventory.getOnReserved())) > 0) {
-				throw new BusinessLogicException(I18N.prop("msg_mm_material_not_enough_is_reserved",
-						contract.getWarehouse(), contract.getItemCode()));
-			}
-			*/
+			/* if
+			 * (Decimal.ZERO.compareTo(onHand.subtract(materialInventory.getOnReserved())) >
+			 * 0) { throw new
+			 * BusinessLogicException(I18N.prop("msg_mm_material_not_enough_is_reserved",
+			 * contract.getWarehouse(), contract.getItemCode())); } */
 		} else {
 			onHand = onHand.add(contract.getQuantity());
 			if (contract.getCalculatedPrice() != null) {
@@ -104,6 +103,11 @@ public class MaterialWarehouseInventoryService
 					I18N.prop("msg_mm_material_not_enough_in_stock", contract.getWarehouse(), contract.getItemCode()));
 		}
 		materialInventory.setOnHand(onHand);
+		IMaterial material = this.checkMaterial(contract.getItemCode());
+		// 批次或序列号管理物料此刻不检查预留是否超库存
+		if (material.getBatchManagement() == emYesNo.YES || material.getSerialManagement() == emYesNo.YES) {
+			materialInventory.setOnReserved(materialInventory.getOnReserved(), true);
+		}
 	}
 
 	@Override
@@ -122,18 +126,21 @@ public class MaterialWarehouseInventoryService
 					materialInventory.setAvgPrice(Decimal.ZERO);
 				}
 			}
-			/*
-			if (Decimal.ZERO.compareTo(onHand.subtract(materialInventory.getOnReserved())) > 0
-					&& this.getLogicChain().getTrigger().isDeleted()) {
-				throw new BusinessLogicException(I18N.prop("msg_mm_material_not_enough_is_reserved",
-						contract.getWarehouse(), contract.getItemCode()));
-			}
-			*/
+			/* if
+			 * (Decimal.ZERO.compareTo(onHand.subtract(materialInventory.getOnReserved())) >
+			 * 0 && this.getLogicChain().getTrigger().isDeleted()) { throw new
+			 * BusinessLogicException(I18N.prop("msg_mm_material_not_enough_is_reserved",
+			 * contract.getWarehouse(), contract.getItemCode())); } */
 		}
 		if (Decimal.ZERO.compareTo(onHand) > 0 && this.getLogicChain().getTrigger().isDeleted()) {
 			throw new BusinessLogicException(
 					I18N.prop("msg_mm_material_not_enough_in_stock", contract.getWarehouse(), contract.getItemCode()));
 		}
 		materialInventory.setOnHand(onHand);
+		IMaterial material = this.checkMaterial(contract.getItemCode());
+		// 批次或序列号管理物料此刻不检查预留是否超库存
+		if (material.getBatchManagement() == emYesNo.YES || material.getSerialManagement() == emYesNo.YES) {
+			materialInventory.setOnReserved(materialInventory.getOnReserved(), true);
+		}
 	}
 }

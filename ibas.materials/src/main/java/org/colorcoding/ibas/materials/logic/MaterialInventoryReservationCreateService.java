@@ -28,7 +28,7 @@ import org.colorcoding.ibas.bobas.mapping.LogicContract;
 import org.colorcoding.ibas.bobas.message.Logger;
 import org.colorcoding.ibas.bobas.message.MessageLevel;
 import org.colorcoding.ibas.materials.bo.material.IMaterial;
-import org.colorcoding.ibas.materials.bo.materialbatch.IMaterialBatchItem;
+import org.colorcoding.ibas.materials.bo.materialbatch.IMaterialBatchJournal;
 import org.colorcoding.ibas.materials.bo.materialinventory.IMaterialInventoryReservation;
 import org.colorcoding.ibas.materials.bo.materialinventory.IMaterialInventoryReservations;
 import org.colorcoding.ibas.materials.bo.materialinventory.IMaterialOrderedReservation;
@@ -37,7 +37,7 @@ import org.colorcoding.ibas.materials.bo.materialinventory.MaterialInventoryRese
 import org.colorcoding.ibas.materials.bo.materialinventory.MaterialInventoryReservations;
 import org.colorcoding.ibas.materials.bo.materialinventory.MaterialOrderedReservation;
 import org.colorcoding.ibas.materials.bo.materialinventory.MaterialOrderedReservations;
-import org.colorcoding.ibas.materials.bo.materialserial.IMaterialSerialItem;
+import org.colorcoding.ibas.materials.bo.materialserial.IMaterialSerialJournal;
 import org.colorcoding.ibas.materials.data.DataConvert;
 import org.colorcoding.ibas.materials.data.emItemType;
 import org.colorcoding.ibas.materials.repository.BORepositoryMaterials;
@@ -98,7 +98,7 @@ public class MaterialInventoryReservationCreateService extends
 			condition = criteria.getConditions().create();
 			condition.setAlias(MaterialInventoryReservation.PROPERTY_BATCHCODE.getName());
 			condition.setValue(contract.getBatchCode());
-			if (!(this.getHost() instanceof IMaterialBatchItem)) {
+			if (!(this.getHost() instanceof IMaterialBatchJournal)) {
 				// 批次管理，宿主为序列记录则不执行
 				return EMPTY_DATA;
 			}
@@ -107,7 +107,7 @@ public class MaterialInventoryReservationCreateService extends
 			condition = criteria.getConditions().create();
 			condition.setAlias(MaterialInventoryReservation.PROPERTY_SERIALCODE.getName());
 			condition.setValue(contract.getSerialCode());
-			if (!(this.getHost() instanceof IMaterialSerialItem)) {
+			if (!(this.getHost() instanceof IMaterialSerialJournal)) {
 				// 序列管理，宿主为批次记录则不执行
 				return EMPTY_DATA;
 			}

@@ -793,10 +793,8 @@ public class Material extends MaterialBase<Material>
 				// 库存价值 = 库存量 * 成本价格
 				new BusinessRuleMultiplication(PROPERTY_INVENTORYVALUE, PROPERTY_ONHAND, PROPERTY_AVGPRICE),
 				// 存在先下单再订购，已承诺不做最低值控制
-				/*
-				 * // 预留数量不能大于订购数量 new BusinessRuleMaxProperty<BigDecimal>(PROPERTY_ONHAND,
-				 * PROPERTY_ONRESERVED)
-				 */
+				/* // 预留数量不能大于订购数量 new BusinessRuleMaxProperty<BigDecimal>(PROPERTY_ONHAND,
+				 * PROPERTY_ONRESERVED) */
 
 		};
 	}

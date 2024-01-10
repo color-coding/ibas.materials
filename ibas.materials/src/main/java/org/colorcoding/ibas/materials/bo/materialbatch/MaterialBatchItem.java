@@ -23,8 +23,6 @@ import org.colorcoding.ibas.bobas.rule.common.BusinessRuleMinValue;
 import org.colorcoding.ibas.bobas.rule.common.BusinessRuleRequired;
 import org.colorcoding.ibas.materials.MyConfiguration;
 import org.colorcoding.ibas.materials.logic.IMaterialBatchJournalContract;
-import org.colorcoding.ibas.materials.logic.IMaterialInventoryReservationCreateContract;
-import org.colorcoding.ibas.materials.logic.IMaterialInventoryReservationReleaseContract;
 
 /**
  * 物料批次项目
@@ -711,100 +709,11 @@ public class MaterialBatchItem extends BusinessObject<MaterialBatchItem>
 									.getBaseDocumentLineId();
 						}
 
-					},
-					// 物料订购预留转库存占用
-					new IMaterialInventoryReservationCreateContract() {
-
-						@Override
-						public String getIdentifiers() {
-							return MaterialBatchItem.this.getIdentifiers();
-						}
-
-						@Override
-						public String getItemCode() {
-							return MaterialBatchItem.this.parent.getItemCode();
-						}
-
-						@Override
-						public String getWarehouse() {
-							return MaterialBatchItem.this.parent.getWarehouse();
-						}
-
-						@Override
-						public String getBatchCode() {
-							return MaterialBatchItem.this.getBatchCode();
-						}
-
-						@Override
-						public BigDecimal getQuantity() {
-							return MaterialBatchItem.this.getQuantity();
-						}
-
-						@Override
-						public String getSourceDocumentType() {
-							return ((IMaterialBatchReceiptParent) MaterialBatchItem.this.parent).getBaseDocumentType();
-						}
-
-						@Override
-						public Integer getSourceDocumentEntry() {
-							return ((IMaterialBatchReceiptParent) MaterialBatchItem.this.parent).getBaseDocumentEntry();
-						}
-
-						@Override
-						public Integer getSourceDocumentLineId() {
-							return ((IMaterialBatchReceiptParent) MaterialBatchItem.this.parent)
-									.getBaseDocumentLineId();
-						}
-
 					}
 
 			};
 		} else if (this.parent instanceof IMaterialBatchIssueParent) {
 			return new IBusinessLogicContract[] {
-					// 物料库存占用的释放（出库）
-					new IMaterialInventoryReservationReleaseContract() {
-
-						@Override
-						public String getIdentifiers() {
-							return MaterialBatchItem.this.getIdentifiers();
-						}
-
-						@Override
-						public String getItemCode() {
-							return MaterialBatchItem.this.parent.getItemCode();
-						}
-
-						@Override
-						public String getWarehouse() {
-							return MaterialBatchItem.this.parent.getWarehouse();
-						}
-
-						@Override
-						public String getBatchCode() {
-							return MaterialBatchItem.this.getBatchCode();
-						}
-
-						@Override
-						public BigDecimal getQuantity() {
-							return MaterialBatchItem.this.getQuantity();
-						}
-
-						@Override
-						public String getTargetDocumentType() {
-							return ((IMaterialBatchIssueParent) MaterialBatchItem.this.parent).getBaseDocumentType();
-						}
-
-						@Override
-						public Integer getTargetDocumentEntry() {
-							return ((IMaterialBatchIssueParent) MaterialBatchItem.this.parent).getBaseDocumentEntry();
-						}
-
-						@Override
-						public Integer getTargetDocumentLineId() {
-							return ((IMaterialBatchIssueParent) MaterialBatchItem.this.parent).getBaseDocumentLineId();
-						}
-
-					},
 					// 出库批次交易记录
 					new IMaterialBatchJournalContract() {
 

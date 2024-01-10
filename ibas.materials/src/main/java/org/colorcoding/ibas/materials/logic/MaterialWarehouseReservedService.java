@@ -107,12 +107,16 @@ public class MaterialWarehouseReservedService
 		IMaterialInventory materialInventory = this.getBeAffected();
 		BigDecimal onReserved = materialInventory.getOnReserved();
 		onReserved = onReserved.add(contract.getQuantity());
-		/*
-		 * if (onReserved.compareTo(materialInventory.getOnHand()) > 0) { throw new
+		/* if (onReserved.compareTo(materialInventory.getOnHand()) > 0) { throw new
 		 * BusinessLogicException( I18N.prop("msg_mm_material_not_enough_in_stock",
-		 * contract.getWarehouse(), contract.getItemCode())); }
-		 */
-		materialInventory.setOnReserved(onReserved);
+		 * contract.getWarehouse(), contract.getItemCode())); } */
+		IMaterial material = this.checkMaterial(contract.getItemCode());
+		// 批次或序列号管理物料此刻不检查预留是否超库存
+		if (material.getBatchManagement() == emYesNo.YES || material.getSerialManagement() == emYesNo.YES) {
+			materialInventory.setOnReserved(onReserved, true);
+		} else {
+			materialInventory.setOnReserved(onReserved);
+		}
 	}
 
 	@Override
@@ -123,7 +127,13 @@ public class MaterialWarehouseReservedService
 		if (Decimal.ZERO.compareTo(onReserved) >= 0) {
 			onReserved = Decimal.ZERO;
 		}
-		materialInventory.setOnReserved(onReserved);
+		IMaterial material = this.checkMaterial(contract.getItemCode());
+		// 批次或序列号管理物料此刻不检查预留是否超库存
+		if (material.getBatchManagement() == emYesNo.YES || material.getSerialManagement() == emYesNo.YES) {
+			materialInventory.setOnReserved(onReserved, true);
+		} else {
+			materialInventory.setOnReserved(onReserved);
+		}
 	}
 
 }

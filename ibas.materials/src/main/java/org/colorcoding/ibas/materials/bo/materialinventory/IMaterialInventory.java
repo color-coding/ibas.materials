@@ -209,6 +209,14 @@ public interface IMaterialInventory extends IBOSimple {
 	void setOnReserved(BigDecimal value);
 
 	/**
+	 * 设置-已预留
+	 * 
+	 * @param value   值
+	 * @param noCheck 不检查
+	 */
+	void setOnReserved(BigDecimal value, boolean noCheck);
+
+	/**
 	 * 获取-库存价值
 	 * 
 	 * @return 值

@@ -871,10 +871,8 @@ public class MaterialInventory extends BusinessObject<MaterialInventory> impleme
 				// 库存价值 = 库存量 * 成本价格
 				new BusinessRuleMultiplication(PROPERTY_INVENTORYVALUE, PROPERTY_ONHAND, PROPERTY_AVGPRICE),
 				// 存在先下单再订购，已承诺不做最低值控制
-				/*
-				 * // 预留数量不能大于订购数量 new BusinessRuleMaxProperty<BigDecimal>(PROPERTY_ONHAND,
-				 * PROPERTY_ONRESERVED)
-				 */
+				/* // 预留数量不能大于订购数量 new BusinessRuleMaxProperty<BigDecimal>(PROPERTY_ONHAND,
+				 * PROPERTY_ONRESERVED) */
 
 		};
 	}
@@ -895,10 +893,18 @@ public class MaterialInventory extends BusinessObject<MaterialInventory> impleme
 
 	@Override
 	public void check() throws BusinessRuleException {
-		if (Decimal.ZERO.compareTo(this.getOnHand().subtract(this.getOnReserved())) > 0) {
+		if (Decimal.ZERO.compareTo(this.getOnHand().subtract(this.getOnReserved())) > 0 && !this.noCheck) {
 			throw new BusinessLogicException(
 					I18N.prop("msg_mm_material_not_enough_is_reserved", this.getWarehouse(), this.getItemCode()));
 		}
+	}
+
+	private boolean noCheck = false;
+
+	@Override
+	public void setOnReserved(BigDecimal value, boolean noCheck) {
+		this.setOnReserved(value);
+		this.noCheck = true;
 	}
 
 }
