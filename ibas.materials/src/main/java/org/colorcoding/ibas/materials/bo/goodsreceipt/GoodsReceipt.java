@@ -1386,6 +1386,7 @@ public class GoodsReceipt extends BusinessObject<GoodsReceipt> implements IGoods
 							jeContent.setLedger(Ledgers.LEDGER_INVENTORY_INVENTORY_ACCOUNT);
 							jeContent.setAmount(line.getLineTotal());
 							jeContent.setCurrency(line.getCurrency());
+							jeContent.setRate(line.getRate());
 							jeContents.add(jeContent);
 							// 费用科目
 							jeContent = new JournalEntrySmartContent(line);
@@ -1393,6 +1394,7 @@ public class GoodsReceipt extends BusinessObject<GoodsReceipt> implements IGoods
 							jeContent.setLedger(Ledgers.LEDGER_INVENTORY_EXPENSE_ACCOUNT);
 							jeContent.setAmount(line.getLineTotal());
 							jeContent.setCurrency(line.getCurrency());
+							jeContent.setRate(line.getRate());
 							jeContents.add(jeContent);
 						}
 						return jeContents.toArray(new JournalEntryContent[] {});

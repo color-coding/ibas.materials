@@ -521,19 +521,31 @@ namespace materials {
                             new sap.m.Label("", { text: ibas.i18n.prop("bo_goodsissue_documenttotal") }),
                             new sap.extension.m.Input("", {
                                 editable: false,
-
                             }).bindProperty("bindingValue", {
                                 path: "documentTotal",
                                 type: new sap.extension.data.Sum()
                             }),
-                            new sap.extension.m.CurrencySelect("", {
-                                editable: true,
-                            }).bindProperty("bindingValue", {
-                                path: "documentCurrency",
-                                type: new sap.extension.data.Alphanumeric({
-                                    maxLength: 8
-                                })
-                            }),
+                            new sap.extension.m.CurrencyRateSelect("", {
+                                editable: {
+                                    path: "priceList",
+                                    formatter(data: any): boolean {
+                                        return ibas.numbers.valueOf(data) === 0 ? true : false;
+                                    }
+                                },
+                                baseCurrency: accounting.config.currency("LOCAL"),
+                                currency: {
+                                    path: "documentCurrency",
+                                    type: new sap.extension.data.Alphanumeric()
+                                },
+                                rate: {
+                                    path: "documentRate",
+                                    type: new sap.extension.data.Rate()
+                                },
+                                date: {
+                                    path: "documentDate",
+                                    type: new sap.extension.data.Date()
+                                }
+                            })
                         ]
                     });
                     return this.page = new sap.extension.m.DataPage("", {

@@ -627,6 +627,15 @@ namespace materials {
                                         return sap.ui.core.ValueState.Information;
                                     }
                                 },
+                                tooltip: {
+                                    path: "data/causes",
+                                    formatter(causes: string): string {
+                                        if (!ibas.strings.isEmpty(causes)) {
+                                            return ibas.i18n.prop("materials_reservation_causes", causes);
+                                        }
+                                        return undefined;
+                                    }
+                                }
                             }),
                         }
                     });
@@ -927,7 +936,7 @@ namespace materials {
                                             new component.Splitter("", {
                                                 layoutData: new sap.ui.layout.SplitterLayoutData("", {
                                                     // resizable: true,
-                                                    size: "60%",
+                                                    size: "40%",
                                                 }),
                                                 contentAreas: [
                                                     new sap.m.Page("", {

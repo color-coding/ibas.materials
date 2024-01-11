@@ -1175,30 +1175,6 @@ declare namespace accounting {
             credit: number;
             /** 货币 */
             currency: string;
-            /** 借方金额（系统） */
-            systemDebit: number;
-            /** 贷方金额（系统） */
-            systemCredit: number;
-            /** 系统币 */
-            systemCurrency: string;
-            /** 系统币汇率 */
-            systemRate: number;
-            /** 借方金额（本币） */
-            localDebit: number;
-            /** 贷方金额（本币） */
-            localCredit: number;
-            /** 本币 */
-            localCurrency: string;
-            /** 本币汇率 */
-            localRate: number;
-            /** 税码 */
-            tax: string;
-            /** 税率 */
-            taxRate: number;
-            /** 基础总额 */
-            baseTotal: number;
-            /** 分支 */
-            branch: string;
             /** 项目代码 */
             project: string;
             /** 成本中心1 */
@@ -4337,78 +4313,6 @@ declare namespace accounting {
             get currency(): string;
             /** 设置-货币 */
             set currency(value: string);
-            /** 映射的属性名称-借方金额（系统） */
-            static PROPERTY_SYSTEMDEBIT_NAME: string;
-            /** 获取-借方金额（系统） */
-            get systemDebit(): number;
-            /** 设置-借方金额（系统） */
-            set systemDebit(value: number);
-            /** 映射的属性名称-贷方金额（系统） */
-            static PROPERTY_SYSTEMCREDIT_NAME: string;
-            /** 获取-贷方金额（系统） */
-            get systemCredit(): number;
-            /** 设置-贷方金额（系统） */
-            set systemCredit(value: number);
-            /** 映射的属性名称-系统币 */
-            static PROPERTY_SYSTEMCURRENCY_NAME: string;
-            /** 获取-系统币 */
-            get systemCurrency(): string;
-            /** 设置-系统币 */
-            set systemCurrency(value: string);
-            /** 映射的属性名称-系统币汇率 */
-            static PROPERTY_SYSTEMRATE_NAME: string;
-            /** 获取-系统币汇率 */
-            get systemRate(): number;
-            /** 设置-系统币汇率 */
-            set systemRate(value: number);
-            /** 映射的属性名称-借方金额（本币） */
-            static PROPERTY_LOCALDEBIT_NAME: string;
-            /** 获取-借方金额（本币） */
-            get localDebit(): number;
-            /** 设置-借方金额（本币） */
-            set localDebit(value: number);
-            /** 映射的属性名称-贷方金额（本币） */
-            static PROPERTY_LOCALCREDIT_NAME: string;
-            /** 获取-贷方金额（本币） */
-            get localCredit(): number;
-            /** 设置-贷方金额（本币） */
-            set localCredit(value: number);
-            /** 映射的属性名称-本币 */
-            static PROPERTY_LOCALCURRENCY_NAME: string;
-            /** 获取-本币 */
-            get localCurrency(): string;
-            /** 设置-本币 */
-            set localCurrency(value: string);
-            /** 映射的属性名称-本币汇率 */
-            static PROPERTY_LOCALRATE_NAME: string;
-            /** 获取-本币汇率 */
-            get localRate(): number;
-            /** 设置-本币汇率 */
-            set localRate(value: number);
-            /** 映射的属性名称-税码 */
-            static PROPERTY_TAX_NAME: string;
-            /** 获取-税码 */
-            get tax(): string;
-            /** 设置-税码 */
-            set tax(value: string);
-            /** 映射的属性名称-税率 */
-            static PROPERTY_TAXRATE_NAME: string;
-            /** 获取-税率 */
-            get taxRate(): number;
-            /** 设置-税率 */
-            set taxRate(value: number);
-            /** 映射的属性名称-基础总额 */
-            static PROPERTY_BASETOTAL_NAME: string;
-            /** 获取-基础总额 */
-            get baseTotal(): number;
-            /** 设置-基础总额 */
-            set baseTotal(value: number);
-            /** 映射的属性名称-分支 */
-            static PROPERTY_BRANCH_NAME: string;
-            /** 获取-分支 */
-            get branch(): string;
-            /** 设置-分支 */
-            set branch(value: string);
             /** 映射的属性名称-项目代码 */
             static PROPERTY_PROJECT_NAME: string;
             /** 获取-项目代码 */

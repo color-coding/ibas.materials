@@ -202,6 +202,15 @@ namespace materials {
                                         return sap.ui.core.ValueState.Information;
                                     }
                                 },
+                                tooltip: {
+                                    path: "causes",
+                                    formatter(causes: string): string {
+                                        if (!ibas.strings.isEmpty(causes)) {
+                                            return ibas.i18n.prop("materials_reservation_causes", causes);
+                                        }
+                                        return undefined;
+                                    }
+                                }
                             }),
                         }
                     });

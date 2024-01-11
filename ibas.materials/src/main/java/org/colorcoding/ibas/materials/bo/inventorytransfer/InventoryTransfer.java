@@ -1417,6 +1417,7 @@ public class InventoryTransfer extends BusinessObject<InventoryTransfer> impleme
 							jeContent.setLedger(Ledgers.LEDGER_INVENTORY_INVENTORY_ACCOUNT);
 							jeContent.setAmount(Decimal.ZERO); // 待计算
 							jeContent.setCurrency(line.getCurrency());
+							jeContent.setRate(line.getRate());
 							jeContents.add(jeContent);
 							// 库存科目
 							jeContent = new InventoryTransferMaterialsCost(line);
@@ -1424,6 +1425,7 @@ public class InventoryTransfer extends BusinessObject<InventoryTransfer> impleme
 							jeContent.setLedger(Ledgers.LEDGER_INVENTORY_INVENTORY_ACCOUNT);
 							jeContent.setAmount(Decimal.ZERO); // 待计算
 							jeContent.setCurrency(line.getCurrency());
+							jeContent.setRate(line.getRate());
 							jeContents.add(jeContent);
 						}
 						return jeContents.toArray(new JournalEntryContent[] {});

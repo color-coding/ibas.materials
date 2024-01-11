@@ -430,6 +430,8 @@ namespace materials {
                 this.objectCode = ibas.config.applyVariables(GoodsReceipt.BUSINESS_OBJECT_CODE);
                 this.documentStatus = ibas.emDocumentStatus.RELEASED;
                 this.documentCurrency = accounting.config.currency("LOCAL");
+                this.documentDate = ibas.dates.today();
+                this.deliveryDate = ibas.dates.today();
             }
             /** 重置 */
             reset(): void {
@@ -452,6 +454,39 @@ namespace materials {
                 let item: GoodsReceiptLine = new GoodsReceiptLine();
                 this.add(item);
                 return item;
+            }
+
+            protected afterAdd(item: GoodsReceiptLine): void {
+                super.afterAdd(item);
+                if (!this.parent.isLoading) {
+                    if (item.isNew && !item.isLoading) {
+                        item.rate = this.parent.documentRate;
+                        item.currency = this.parent.documentCurrency;
+                    }
+                }
+            }
+
+            protected onParentPropertyChanged(name: string): void {
+                super.onParentPropertyChanged(name);
+                if (!this.parent.isLoading) {
+                    if (ibas.strings.equalsIgnoreCase(name, GoodsReceipt.PROPERTY_DOCUMENTRATE_NAME)) {
+                        let rate: number = this.parent.documentRate;
+                        for (let item of this) {
+                            if (item.isLoading) {
+                                continue;
+                            }
+                            item.rate = rate;
+                        }
+                    } else if (ibas.strings.equalsIgnoreCase(name, GoodsReceipt.PROPERTY_DOCUMENTCURRENCY_NAME)) {
+                        let currency: string = this.parent.documentCurrency;
+                        for (let item of this) {
+                            if (item.isLoading) {
+                                continue;
+                            }
+                            item.currency = currency;
+                        }
+                    }
+                }
             }
         }
         /** 库存收货-行 */

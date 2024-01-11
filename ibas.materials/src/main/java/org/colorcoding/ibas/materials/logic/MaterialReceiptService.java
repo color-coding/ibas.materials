@@ -2,6 +2,7 @@ package org.colorcoding.ibas.materials.logic;
 
 import java.math.BigDecimal;
 
+import org.colorcoding.ibas.accounting.logic.ApplicationConfigLocalCurrencyService;
 import org.colorcoding.ibas.bobas.common.ConditionOperation;
 import org.colorcoding.ibas.bobas.common.ConditionRelationship;
 import org.colorcoding.ibas.bobas.common.Criteria;
@@ -185,9 +186,49 @@ public class MaterialReceiptService
 					materialJournal
 							.setInventoryQuantity(materialJournal.getInventoryQuantity().add(item.getQuantity()));
 				}
+				// 交易币转为本位币
+				BigDecimal price = contract.getPrice();
+				if (!DataConvert.isNullOrEmpty(contract.getCurrency())) {
+					if (!contract.getCurrency().equalsIgnoreCase(org.colorcoding.ibas.accounting.MyConfiguration
+							.getConfigValue(ApplicationConfigLocalCurrencyService.CONFIG_ITEM_LOCAL_CURRENCY))) {
+						// 非本币
+						if (contract.getRate() == null || Decimal.ZERO.compareTo(contract.getRate()) >= 0) {
+							// 未设置有效汇率
+							throw new BusinessLogicException(
+									I18N.prop(
+											"msg_mm_document_no_valid_exchange_rate_specified", String
+													.format("{[%s].[DocEntry = %s]%s}",
+															materialJournal.getBaseDocumentType(),
+															materialJournal.getBaseDocumentEntry(),
+															materialJournal.getBaseDocumentLineId() > 0
+																	? String.format(" && [LineId = %s]",
+																			materialJournal.getBaseDocumentLineId())
+																	: "")));
+						}
+					} else {
+						// 本币
+						if (contract.getRate() != null && Decimal.ZERO.compareTo(contract.getRate()) != 0
+								&& Decimal.ONE.compareTo(contract.getRate()) != 0) {
+							// 汇率不是1
+							throw new BusinessLogicException(
+									I18N.prop(
+											"msg_mm_document_no_valid_exchange_rate_specified", String
+													.format("{[%s].[DocEntry = %s]%s}",
+															materialJournal.getBaseDocumentType(),
+															materialJournal.getBaseDocumentEntry(),
+															materialJournal.getBaseDocumentLineId() > 0
+																	? String.format(" && [LineId = %s]",
+																			materialJournal.getBaseDocumentLineId())
+																	: "")));
+						}
+					}
+					if (contract.getRate() != null && Decimal.ZERO.compareTo(contract.getRate()) != 0) {
+						price = Decimal.multiply(price, contract.getRate());
+					}
+				}
 				// 库存总价值 = 时点库存价值 + (本次入库价格 * 本次入库数量)
 				BigDecimal inventoryValue = materialJournal.getInventoryValue()
-						.add(Decimal.multiply(contract.getPrice(), contract.getQuantity()));
+						.add(Decimal.multiply(price, contract.getQuantity()));
 				// 库存总数量 = 时点库存数量 + 本次入库数量
 				BigDecimal inventoryQuantity = materialJournal.getInventoryQuantity().add(contract.getQuantity());
 				// 成本价格 = 总价值 / 总数量
