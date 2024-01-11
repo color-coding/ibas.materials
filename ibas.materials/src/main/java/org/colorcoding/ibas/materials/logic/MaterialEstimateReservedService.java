@@ -9,7 +9,6 @@ import org.colorcoding.ibas.bobas.common.ICondition;
 import org.colorcoding.ibas.bobas.common.ICriteria;
 import org.colorcoding.ibas.bobas.common.IOperationResult;
 import org.colorcoding.ibas.bobas.data.Decimal;
-import org.colorcoding.ibas.bobas.data.emBOStatus;
 import org.colorcoding.ibas.bobas.data.emYesNo;
 import org.colorcoding.ibas.bobas.i18n.I18N;
 import org.colorcoding.ibas.bobas.logic.BusinessLogicException;
@@ -34,11 +33,6 @@ public class MaterialEstimateReservedService extends MaterialEstimateService<IMa
 				// 无仓库信息，不执行此逻辑
 				Logger.log(MessageLevel.DEBUG, MSG_LOGICS_SKIP_LOGIC_EXECUTION, this.getClass().getName(), "Warehouse",
 						contract.getWarehouse());
-				return false;
-			}
-			if (contract.getStatus() == emBOStatus.CLOSED) {
-				Logger.log(MessageLevel.DEBUG, MSG_LOGICS_SKIP_LOGIC_EXECUTION, this.getClass().getName(), "Status",
-						contract.getStatus());
 				return false;
 			}
 			IMaterial material = this.checkMaterial(contract.getItemCode());
@@ -111,6 +105,16 @@ public class MaterialEstimateReservedService extends MaterialEstimateService<IMa
 			materialJournal.setBaseDocumentLineId(contract.getDocumentLineId());
 		}
 		return materialJournal;
+	}
+
+	@Override
+	protected boolean onRepeatedImpact(int times) {
+		return true;
+	}
+
+	@Override
+	protected boolean onRepeatedRevoke(int times) {
+		return true;
 	}
 
 	@Override

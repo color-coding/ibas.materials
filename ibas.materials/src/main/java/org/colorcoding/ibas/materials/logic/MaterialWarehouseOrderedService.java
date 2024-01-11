@@ -93,6 +93,22 @@ public class MaterialWarehouseOrderedService
 	}
 
 	@Override
+	protected boolean onRepeatedImpact(int times) {
+		if ((times - this.timesRevoke) > 1) {
+			return false;
+		}
+		return true;
+	}
+
+	private int timesRevoke;
+
+	@Override
+	protected boolean onRepeatedRevoke(int times) {
+		this.timesRevoke = times;
+		return true;
+	}
+
+	@Override
 	protected void impact(IMaterialWarehouseOrderedContract contract) {
 		IMaterialInventory materialInventory = this.getBeAffected();
 		BigDecimal onOrdered = materialInventory.getOnOrdered();
