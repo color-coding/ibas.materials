@@ -32,6 +32,8 @@ namespace materials {
                 chooseInventoryTransferLineMaterialBatchEvent: Function;
                 /** 选择库存转储单行物料序列事件 */
                 chooseInventoryTransferLineMaterialSerialEvent: Function;
+                /** 选择库存转储-行 物料版本 */
+                chooseInventoryTransferLineMaterialVersionEvent: Function;
                 /** 选择库存转储单行-转储请求事件 */
                 chooseInventoryTransferLineTransferRequestEvent: Function;
                 /** 调用库存转储添加服务 */
@@ -305,6 +307,23 @@ namespace materials {
                                             path: "itemDescription",
                                             type: new sap.extension.data.Alphanumeric()
                                         })
+                                    }),
+                                    new sap.extension.table.DataColumn("", {
+                                        label: ibas.i18n.prop("bo_inventorytransferline_itemversion"),
+                                        template: new sap.extension.m.Input("", {
+                                            showValueHelp: true,
+                                            valueHelpRequest: function (): void {
+                                                that.fireViewEvents(that.chooseInventoryTransferLineMaterialVersionEvent,
+                                                    this.getBindingContext().getObject()
+                                                );
+                                            },
+                                        }).bindProperty("bindingValue", {
+                                            path: "itemVersion",
+                                            type: new sap.extension.data.Alphanumeric({
+                                                maxLength: 10
+                                            }),
+                                        }),
+                                        width: "8rem",
                                     }),
                                     new sap.extension.table.DataColumn("", {
                                         label: ibas.i18n.prop("bo_inventorytransferline_warehouse"),

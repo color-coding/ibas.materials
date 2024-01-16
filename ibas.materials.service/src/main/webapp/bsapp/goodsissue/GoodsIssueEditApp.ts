@@ -37,6 +37,7 @@ namespace materials {
                 this.view.chooseGoodsIssueLineMaterialSerialEvent = this.chooseGoodsIssueLineMaterialSerial;
                 this.view.chooseeGoodsIssueMaterialPriceListEvent = this.chooseeGoodsIssueMaterialPriceList;
                 this.view.chooseGoodsIssueLineDistributionRuleEvent = this.chooseGoodsIssueLineDistributionRule;
+                this.view.chooseGoodsIssueLineMaterialVersionEvent = this.chooseGoodsIssueLineMaterialVersion;
             }
             /** 视图显示后 */
             protected viewShowed(): void {
@@ -97,7 +98,6 @@ namespace materials {
                 }
                 super.run.apply(this, arguments);
             }
-            protected priceListData: bo.MaterialPriceList[];
             /** 保存数据 */
             protected saveData(): void {
                 this.busy(true);
@@ -360,6 +360,7 @@ namespace materials {
                         batchManagement: item.batchManagement,
                         itemCode: item.itemCode,
                         itemDescription: item.itemDescription,
+                        itemVersion: item.itemVersion,
                         warehouse: item.warehouse,
                         quantity: item.quantity,
                         uom: item.uom,
@@ -378,6 +379,7 @@ namespace materials {
                         serialManagement: item.serialManagement,
                         itemCode: item.itemCode,
                         itemDescription: item.itemDescription,
+                        itemVersion: item.itemVersion,
                         warehouse: item.warehouse,
                         quantity: item.quantity,
                         uom: item.uom,
@@ -412,6 +414,28 @@ namespace materials {
                     }
                 });
             }
+            private chooseGoodsIssueLineMaterialVersion(caller: bo.GoodsIssueLine): void {
+                let criteria: ibas.ICriteria = new ibas.Criteria();
+                let condition: ibas.ICondition = criteria.conditions.create();
+                condition.alias = materials.bo.MaterialVersion.PROPERTY_ITEMCODE_NAME;
+                condition.value = caller.itemCode;
+                condition.operation = ibas.emConditionOperation.EQUAL;
+                condition = criteria.conditions.create();
+                condition.alias = materials.bo.MaterialVersion.PROPERTY_ACTIVATED_NAME;
+                condition.value = ibas.emYesNo.YES.toString();
+                condition.operation = ibas.emConditionOperation.EQUAL;
+                // 调用选择服务
+                ibas.servicesManager.runChooseService<materials.bo.MaterialVersion>({
+                    criteria: criteria,
+                    chooseType: ibas.emChooseType.SINGLE,
+                    boCode: materials.bo.MaterialVersion.BUSINESS_OBJECT_CODE,
+                    onCompleted: (selecteds) => {
+                        for (let selected of selecteds) {
+                            caller.itemVersion = selected.name;
+                        }
+                    }
+                });
+            }
         }
         /** 视图-库存发货 */
         export interface IGoodsIssueEditView extends ibas.IBOEditView {
@@ -439,6 +463,8 @@ namespace materials {
             chooseGoodsIssueLineMaterialSerialEvent: Function;
             /** 选择库存发货单行成本中心事件 */
             chooseGoodsIssueLineDistributionRuleEvent: Function;
+            /** 选择库存发货-行 物料版本 */
+            chooseGoodsIssueLineMaterialVersionEvent: Function;
             /** 默认仓库 */
             defaultWarehouse: string;
         }

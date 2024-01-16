@@ -32,6 +32,8 @@ namespace materials {
                 chooseInventoryTransferRequestLineMaterialBatchEvent: Function;
                 /** 选择库存转储申请单行物料序列事件 */
                 chooseInventoryTransferRequestLineMaterialSerialEvent: Function;
+                /** 选择库存转储申请-行 物料版本 */
+                chooseInventoryTransferRequestLineMaterialVersionEvent: Function;
                 /** 选择库存转储申请单行成本中心事件 */
                 chooseInventoryTransferRequestLineDistributionRuleEvent: Function;
                 /** 转为库存转储申请事件 */
@@ -316,6 +318,23 @@ namespace materials {
                                             path: "itemDescription",
                                             type: new sap.extension.data.Alphanumeric()
                                         })
+                                    }),
+                                    new sap.extension.table.DataColumn("", {
+                                        label: ibas.i18n.prop("bo_inventorytransferrequestline_itemversion"),
+                                        template: new sap.extension.m.Input("", {
+                                            showValueHelp: true,
+                                            valueHelpRequest: function (): void {
+                                                that.fireViewEvents(that.chooseInventoryTransferRequestLineMaterialVersionEvent,
+                                                    this.getBindingContext().getObject()
+                                                );
+                                            },
+                                        }).bindProperty("bindingValue", {
+                                            path: "itemVersion",
+                                            type: new sap.extension.data.Alphanumeric({
+                                                maxLength: 10
+                                            }),
+                                        }),
+                                        width: "8rem",
                                     }),
                                     new sap.extension.table.DataColumn("", {
                                         label: ibas.i18n.prop("bo_inventorytransferrequestline_warehouse"),

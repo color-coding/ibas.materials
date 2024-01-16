@@ -883,8 +883,19 @@ namespace materials {
                                         label: ibas.i18n.prop("bo_materialinventoryreservation_quantity"),
                                         template: new sap.extension.m.Text("", {
                                         }).bindProperty("bindingValue", {
-                                            path: "quantity",
-                                            type: new sap.extension.data.Quantity(),
+                                            parts: [
+                                                {
+                                                    path: "quantity",
+                                                    type: new sap.extension.data.Quantity(),
+                                                },
+                                                {
+                                                    path: "closedQuantity",
+                                                    type: new sap.extension.data.Quantity(),
+                                                }
+                                            ],
+                                            formatter(quantity: number, closedQuantity: number): string {
+                                                return sap.extension.data.formatValue(sap.extension.data.Quantity, quantity - closedQuantity, "string");
+                                            }
                                         }),
                                         width: "8rem",
                                     }),
@@ -1101,6 +1112,15 @@ namespace materials {
                                         sortProperty: "manufacturingDate",
                                     }),
                                     new sap.extension.table.Column("", {
+                                        label: ibas.i18n.prop("bo_materialbatch_avgprice"),
+                                        template: new sap.extension.m.Text("", {
+                                        }).bindProperty("bindingValue", {
+                                            path: "avgPrice",
+                                            type: new sap.extension.data.Price(),
+                                        }),
+                                        width: "8rem",
+                                    }),
+                                    new sap.extension.table.Column("", {
                                         label: ibas.i18n.prop("bo_materialbatch_notes"),
                                         template: new sap.extension.m.Text("", {
                                         }).bindProperty("bindingValue", {
@@ -1277,6 +1297,15 @@ namespace materials {
                                             type: new sap.extension.data.Date(),
                                         }),
                                         sortProperty: "manufacturingDate",
+                                    }),
+                                    new sap.extension.table.Column("", {
+                                        label: ibas.i18n.prop("bo_materialserial_avgprice"),
+                                        template: new sap.extension.m.Text("", {
+                                        }).bindProperty("bindingValue", {
+                                            path: "avgPrice",
+                                            type: new sap.extension.data.Price(),
+                                        }),
+                                        width: "8rem",
                                     }),
                                     new sap.extension.table.Column("", {
                                         label: ibas.i18n.prop("bo_materialserial_notes"),

@@ -30,6 +30,8 @@ namespace materials {
                 chooseGoodsReceiptLineMaterialBatchEvent: Function;
                 /** 选择库存收货单行成本中心事件 */
                 chooseGoodsReceiptLineDistributionRuleEvent: Function;
+                /** 选择库存收货-行 物料版本 */
+                chooseGoodsReceiptLineMaterialVersionEvent: Function;
                 defaultWarehouse: string;
                 /** 绘制视图 */
                 draw(): any {
@@ -639,6 +641,20 @@ namespace materials {
                                         }).bindProperty("bindingValue", {
                                             path: "itemDescription",
                                             type: new sap.extension.data.Alphanumeric()
+                                        }),
+                                        new sap.m.Label("", { text: ibas.i18n.prop("bo_goodsreceiptline_itemversion") }),
+                                        new sap.extension.m.Input("", {
+                                            showValueHelp: true,
+                                            valueHelpRequest: function (): void {
+                                                that.fireViewEvents(that.chooseGoodsReceiptLineMaterialVersionEvent,
+                                                    this.getBindingContext().getObject()
+                                                );
+                                            },
+                                        }).bindProperty("bindingValue", {
+                                            path: "itemVersion",
+                                            type: new sap.extension.data.Alphanumeric({
+                                                maxLength: 10
+                                            }),
                                         }),
                                         new sap.m.Label("", { text: ibas.i18n.prop("bo_goodsreceiptline_warehouse") }),
                                         new sap.extension.m.RepositoryInput("", {

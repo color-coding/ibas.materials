@@ -30,6 +30,8 @@ namespace materials {
                 chooseGoodsReceiptLineMaterialSerialEvent: Function;
                 /** 选择库存收货单行物料批次事件 */
                 chooseGoodsReceiptLineMaterialBatchEvent: Function;
+                /** 选择库存收货-行 物料版本 */
+                chooseGoodsReceiptLineMaterialVersionEvent: Function;
                 /** 选择库存收货单行成本中心事件 */
                 chooseGoodsReceiptLineDistributionRuleEvent: Function;
 
@@ -307,6 +309,23 @@ namespace materials {
                                             path: "itemDescription",
                                             type: new sap.extension.data.Alphanumeric()
                                         }),
+                                    }),
+                                    new sap.extension.table.DataColumn("", {
+                                        label: ibas.i18n.prop("bo_goodsreceiptline_itemversion"),
+                                        template: new sap.extension.m.Input("", {
+                                            showValueHelp: true,
+                                            valueHelpRequest: function (): void {
+                                                that.fireViewEvents(that.chooseGoodsReceiptLineMaterialVersionEvent,
+                                                    this.getBindingContext().getObject()
+                                                );
+                                            },
+                                        }).bindProperty("bindingValue", {
+                                            path: "itemVersion",
+                                            type: new sap.extension.data.Alphanumeric({
+                                                maxLength: 10
+                                            }),
+                                        }),
+                                        width: "8rem",
                                     }),
                                     new sap.extension.table.DataColumn("", {
                                         label: ibas.i18n.prop("bo_goodsreceiptline_warehouse"),

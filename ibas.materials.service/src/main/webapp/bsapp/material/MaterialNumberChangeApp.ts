@@ -7,6 +7,7 @@
  */
 namespace materials {
     export namespace app {
+        const DATASOURCE_TYPE_NUMBER_CHANGE: string = "MM_NOC";
         const PROPERTY_QUANTITY: symbol = Symbol("quantity");
         const PROPERTY_STATUS: symbol = Symbol("status");
         const PROPERTY_TARGET_MATERIAL: symbol = Symbol("targetMaterial");
@@ -533,8 +534,10 @@ namespace materials {
             }
             private changeTo(remarks: string, blocked: boolean = true): void {
                 let issue: bo.GoodsIssue = new bo.GoodsIssue();
+                issue.dataSource = DATASOURCE_TYPE_NUMBER_CHANGE;
                 issue.remarks = remarks;
                 let receipt: bo.GoodsReceipt = new bo.GoodsReceipt();
+                issue.dataSource = DATASOURCE_TYPE_NUMBER_CHANGE;
                 receipt.remarks = remarks;
                 let batchSerials: ibas.IList<bo.MaterialBatch | bo.MaterialSerial> = new ibas.ArrayList<bo.MaterialBatch | bo.MaterialSerial>();
                 let reservations: ibas.IList<bo.MaterialInventoryReservation> = new ibas.ArrayList<bo.MaterialInventoryReservation>();

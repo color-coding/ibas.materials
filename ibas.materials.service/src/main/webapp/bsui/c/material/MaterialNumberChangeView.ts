@@ -161,7 +161,7 @@ namespace materials {
                                 width: "10rem",
                             }),
                             new sap.extension.table.DataColumn("", {
-                                label: ibas.i18n.prop("bo_materialnumberitem_material_target"),
+                                label: ibas.i18n.prop("bo_materialnumberitem_code_target"),
                                 template: new sap.extension.m.Input("", {
                                     showValueHelp: true,
                                     valueHelpRequest(this: sap.extension.m.Input): void {
@@ -178,20 +178,17 @@ namespace materials {
                                         }
                                     }
                                 }).bindProperty("bindingValue", {
+                                    path: "targetMaterial/code",
+                                    type: new sap.extension.data.Alphanumeric(),
+                                }),
+                                width: "10rem",
+                            }),
+                            new sap.extension.table.DataColumn("", {
+                                label: ibas.i18n.prop("bo_materialnumberitem_name_target"),
+                                template: new sap.extension.m.Text("", {
+                                }).bindProperty("bindingValue", {
                                     path: "targetMaterial/name",
                                     type: new sap.extension.data.Alphanumeric(),
-                                }).bindProperty("tooltip", {
-                                    parts: [
-                                        {
-                                            path: "targetMaterial/code",
-                                            type: new sap.extension.data.Alphanumeric(),
-
-                                        },
-                                        {
-                                            path: "targetMaterial/name",
-                                            type: new sap.extension.data.Alphanumeric(),
-                                        }
-                                    ]
                                 }),
                                 width: "14rem",
                             }),
@@ -394,54 +391,55 @@ namespace materials {
                                 }),
                             }),
                         ],
+                        toolbar: new sap.m.Toolbar("", {
+                            design: sap.m.ToolbarDesign.Transparent,
+                            style: sap.m.ToolbarStyle.Standard,
+                            content: [
+                                new sap.extension.m.MenuButton("", {
+                                    autoHide: true,
+                                    icon: "sap-icon://tags",
+                                    text: ibas.i18n.prop("shell_data_add"),
+                                    menu: new sap.m.Menu("", {
+                                        items: [
+                                            new sap.m.MenuItem("", {
+                                                text: ibas.i18n.prop("materials_material_batch"),
+                                                press: function (): void {
+                                                    that.fireViewEvents(that.addMaterialBatchEvent);
+                                                },
+                                            }),
+                                            new sap.m.MenuItem("", {
+                                                text: ibas.i18n.prop("materials_material_serial"),
+                                                press: function (): void {
+                                                    that.fireViewEvents(that.addMaterialSerialEvent);
+                                                },
+                                            }),
+                                        ]
+                                    })
+                                }),
+                                new sap.m.Button("", {
+                                    text: ibas.i18n.prop("shell_data_remove"),
+                                    type: sap.m.ButtonType.Transparent,
+                                    icon: "sap-icon://less",
+                                    press: function (): void {
+                                        that.fireViewEvents(that.removeItemEvent, that.itemTable.getSelecteds());
+                                    }
+                                }),
+                                new sap.m.ToolbarSpacer(),
+                                new sap.m.Button("", {
+                                    icon: "sap-icon://reset",
+                                    text: ibas.i18n.prop("materials_reset"),
+                                    press(): void {
+                                        that.fireViewEvents(that.resetEvent);
+                                        that.remarksInput.setValue(ibas.i18n.prop("materials_number_change_remarks", ibas.dates.toString(ibas.dates.now(), "yyyyMMddHHmm")));
+                                    }
+                                }),
+                            ]
+                        }),
                     });
                     return new sap.extension.m.Page("", {
                         showHeader: false,
-                        enableScrolling: true,
+                        enableScrolling: false,
                         content: [
-                            new sap.m.Toolbar("", {
-                                design: sap.m.ToolbarDesign.Transparent,
-                                style: sap.m.ToolbarStyle.Standard,
-                                content: [
-                                    new sap.extension.m.MenuButton("", {
-                                        autoHide: true,
-                                        icon: "sap-icon://tags",
-                                        text: ibas.i18n.prop("shell_data_add"),
-                                        menu: new sap.m.Menu("", {
-                                            items: [
-                                                new sap.m.MenuItem("", {
-                                                    text: ibas.i18n.prop("materials_material_batch"),
-                                                    press: function (): void {
-                                                        that.fireViewEvents(that.addMaterialBatchEvent);
-                                                    },
-                                                }),
-                                                new sap.m.MenuItem("", {
-                                                    text: ibas.i18n.prop("materials_material_serial"),
-                                                    press: function (): void {
-                                                        that.fireViewEvents(that.addMaterialSerialEvent);
-                                                    },
-                                                }),
-                                            ]
-                                        })
-                                    }),
-                                    new sap.m.Button("", {
-                                        text: ibas.i18n.prop("shell_data_remove"),
-                                        type: sap.m.ButtonType.Transparent,
-                                        icon: "sap-icon://less",
-                                        press: function (): void {
-                                            that.fireViewEvents(that.removeItemEvent, that.itemTable.getSelecteds());
-                                        }
-                                    }),
-                                    new sap.m.ToolbarSpacer(),
-                                    new sap.m.Button("", {
-                                        icon: "sap-icon://reset",
-                                        text: ibas.i18n.prop("materials_reset"),
-                                        press(): void {
-                                            that.fireViewEvents(that.resetEvent);
-                                        }
-                                    }),
-                                ]
-                            }),
                             this.itemTable,
                         ],
                         floatingFooter: true,

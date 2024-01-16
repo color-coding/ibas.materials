@@ -38,6 +38,7 @@ namespace materials {
                 this.view.chooseInventoryTransferRequestLineMaterialSerialEvent = this.chooseInventoryTransferRequestLineMaterialSerial;
                 this.view.chooseeInventoryTransferRequestMaterialPriceListEvent = this.chooseeInventoryTransferRequestMaterialPriceList;
                 this.view.chooseInventoryTransferRequestLineDistributionRuleEvent = this.chooseInventoryTransferRequestLineDistributionRule;
+                this.view.chooseInventoryTransferRequestLineMaterialVersionEvent = this.chooseInventoryTransferRequestLineMaterialVersion;
                 this.view.turnToInventoryTransferEvent = this.turnToInventoryTransfer;
             }
             /** 视图显示后 */
@@ -372,6 +373,7 @@ namespace materials {
                         batchManagement: item.batchManagement,
                         itemCode: item.itemCode,
                         itemDescription: item.itemDescription,
+                        itemVersion: item.itemVersion,
                         warehouse: this.editData.fromWarehouse,
                         quantity: item.quantity,
                         uom: item.uom,
@@ -389,6 +391,7 @@ namespace materials {
                         serialManagement: item.serialManagement,
                         itemCode: item.itemCode,
                         itemDescription: item.itemDescription,
+                        itemVersion: item.itemVersion,
                         warehouse: this.editData.fromWarehouse,
                         quantity: item.quantity,
                         uom: item.uom,
@@ -462,6 +465,28 @@ namespace materials {
                     }
                 });
             }
+            private chooseInventoryTransferRequestLineMaterialVersion(caller: bo.InventoryTransferRequestLine): void {
+                let criteria: ibas.ICriteria = new ibas.Criteria();
+                let condition: ibas.ICondition = criteria.conditions.create();
+                condition.alias = materials.bo.MaterialVersion.PROPERTY_ITEMCODE_NAME;
+                condition.value = caller.itemCode;
+                condition.operation = ibas.emConditionOperation.EQUAL;
+                condition = criteria.conditions.create();
+                condition.alias = materials.bo.MaterialVersion.PROPERTY_ACTIVATED_NAME;
+                condition.value = ibas.emYesNo.YES.toString();
+                condition.operation = ibas.emConditionOperation.EQUAL;
+                // 调用选择服务
+                ibas.servicesManager.runChooseService<materials.bo.MaterialVersion>({
+                    criteria: criteria,
+                    chooseType: ibas.emChooseType.SINGLE,
+                    boCode: materials.bo.MaterialVersion.BUSINESS_OBJECT_CODE,
+                    onCompleted: (selecteds) => {
+                        for (let selected of selecteds) {
+                            caller.itemVersion = selected.name;
+                        }
+                    }
+                });
+            }
         }
         /** 视图-库存转储申请 */
         export interface IInventoryTransferRequestEditView extends ibas.IBOEditView {
@@ -491,6 +516,8 @@ namespace materials {
             chooseInventoryTransferRequestLineMaterialSerialEvent: Function;
             /** 选择库存转储申请单行成本中心事件 */
             chooseInventoryTransferRequestLineDistributionRuleEvent: Function;
+            /** 选择库存转储申请-行 物料版本 */
+            chooseInventoryTransferRequestLineMaterialVersionEvent: Function;
             /** 默认仓库 */
             defaultWarehouse: string;
             /** 转为库存转储申请事件 */

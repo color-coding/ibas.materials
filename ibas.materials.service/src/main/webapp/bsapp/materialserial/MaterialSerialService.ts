@@ -732,6 +732,7 @@ namespace materials {
                         for (let index: number = 0; index < total; index++) {
                             let journal: SerialWorkingItemResult = item.results.create();
                             journal.serialCode = ibas.dates.toString(ibas.dates.now(), "yyyyMMddHHmm") + ibas.strings.fill(index + 1, 4, "0");
+                            journal.version = item.itemVersion;
                             journals.add(journal);
                         }
                     }

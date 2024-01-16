@@ -32,6 +32,8 @@ namespace materials {
                 chooseInventoryTransferRequestLineMaterialSerialEvent: Function;
                 /** 选择库存转储申请单行成本中心事件 */
                 chooseInventoryTransferRequestLineDistributionRuleEvent: Function;
+                /** 选择库存转储申请-行 物料版本 */
+                chooseInventoryTransferRequestLineMaterialVersionEvent: Function;
                 /** 转为库存转储申请事件 */
                 turnToInventoryTransferEvent: Function;
                 defaultWarehouse: string;
@@ -645,6 +647,20 @@ namespace materials {
                                         }).bindProperty("bindingValue", {
                                             path: "itemDescription",
                                             type: new sap.extension.data.Alphanumeric()
+                                        }),
+                                        new sap.m.Label("", { text: ibas.i18n.prop("bo_inventorytransferrequestline_itemversion") }),
+                                        new sap.extension.m.Input("", {
+                                            showValueHelp: true,
+                                            valueHelpRequest: function (): void {
+                                                that.fireViewEvents(that.chooseInventoryTransferRequestLineMaterialVersionEvent,
+                                                    this.getBindingContext().getObject()
+                                                );
+                                            },
+                                        }).bindProperty("bindingValue", {
+                                            path: "itemVersion",
+                                            type: new sap.extension.data.Alphanumeric({
+                                                maxLength: 10
+                                            }),
                                         }),
                                         new sap.m.Label("", { text: ibas.i18n.prop("bo_inventorytransferrequestline_warehouse") }),
                                         new sap.extension.m.RepositoryInput("", {

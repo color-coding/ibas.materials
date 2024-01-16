@@ -842,6 +842,17 @@ namespace materials {
                 this.setProperty(InventoryTransferLine.PROPERTY_ITEMSIGN_NAME, value);
             }
 
+            /** 映射的属性名称-物料版本 */
+            static PROPERTY_ITEMVERSION_NAME: string = "ItemVersion";
+            /** 获取-物料版本 */
+            get itemVersion(): string {
+                return this.getProperty<string>(InventoryTransferLine.PROPERTY_ITEMVERSION_NAME);
+            }
+            /** 设置-物料版本 */
+            set itemVersion(value: string) {
+                this.setProperty(InventoryTransferLine.PROPERTY_ITEMVERSION_NAME, value);
+            }
+
             /** 映射的属性名称-序号管理 */
             static PROPERTY_SERIALMANAGEMENT_NAME: string = "SerialManagement";
             /** 获取-序号管理 */
@@ -1048,6 +1059,7 @@ namespace materials {
                 this.itemCode = data.itemCode;
                 this.itemDescription = data.itemDescription;
                 this.itemSign = data.itemSign;
+                this.itemVersion = data.itemVersion;
                 this.batchManagement = data.batchManagement;
                 this.serialManagement = data.serialManagement;
                 this.price = data.price;

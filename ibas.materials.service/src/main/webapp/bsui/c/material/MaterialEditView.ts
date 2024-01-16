@@ -34,6 +34,8 @@ namespace materials {
                 editMaterialSubstituteEvent: Function;
                 /** 选择总账科目事件 */
                 chooseLedgerAccountEvent: Function;
+                /** 更多信息 */
+                overviewEvent: Function;
                 /** 绘制视图 */
                 public draw(): any {
                     let that: this = this;
@@ -847,6 +849,13 @@ namespace materials {
                                     type: sap.m.ButtonType.Transparent,
                                     menu: new sap.m.Menu("", {
                                         items: [
+                                            new sap.m.MenuItem("", {
+                                                text: ibas.i18n.prop("materials_app_materialoverview"),
+                                                icon: "sap-icon://enter-more",
+                                                press: function (): void {
+                                                    that.fireViewEvents(that.overviewEvent);
+                                                }
+                                            }),
                                             new sap.m.MenuItem("", {
                                                 text: ibas.i18n.prop("materials_app_unitrate_edit_list"),
                                                 icon: "sap-icon://collections-management",

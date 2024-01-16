@@ -1,5 +1,7 @@
 package org.colorcoding.ibas.materials.repository;
 
+import java.math.BigDecimal;
+
 import org.colorcoding.ibas.bobas.common.ConditionOperation;
 import org.colorcoding.ibas.bobas.common.ConditionRelationship;
 import org.colorcoding.ibas.bobas.common.Criteria;
@@ -30,8 +32,10 @@ import org.colorcoding.ibas.businesspartner.repository.BORepositoryBusinessPartn
 import org.colorcoding.ibas.materials.MyConfiguration;
 import org.colorcoding.ibas.materials.bo.goodsissue.GoodsIssue;
 import org.colorcoding.ibas.materials.bo.goodsissue.IGoodsIssue;
+import org.colorcoding.ibas.materials.bo.goodsissue.IGoodsIssueLine;
 import org.colorcoding.ibas.materials.bo.goodsreceipt.GoodsReceipt;
 import org.colorcoding.ibas.materials.bo.goodsreceipt.IGoodsReceipt;
+import org.colorcoding.ibas.materials.bo.goodsreceipt.IGoodsReceiptLine;
 import org.colorcoding.ibas.materials.bo.inventorycounting.IInventoryCounting;
 import org.colorcoding.ibas.materials.bo.inventorycounting.IInventoryCountingLine;
 import org.colorcoding.ibas.materials.bo.inventorycounting.InventoryCounting;
@@ -1097,6 +1101,9 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 			if (criteria == null || criteria.getConditions().isEmpty()) {
 				throw new Exception(I18N.prop("msg_bobas_invaild_criteria"));
 			}
+			// 获取初始价格
+			BigDecimal initialPrice = MyConfiguration
+					.getConfigValue(MyConfiguration.CONFIG_ITEM_PRICE_LIST_INITIAL_PRICE, Decimal.MINUS_ONE);
 			// 查询物料
 			ICriteria maCriteria = this.filterConditions(criteria, true, MaterialPrice.CONDITION_ALIAS_ITEMCODE,
 					MaterialPrice.CONDITION_ALIAS_ITEMNAME, MaterialPrice.CONDITION_ALIAS_ITEMSIGN);
@@ -1140,7 +1147,7 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 				}
 				for (IMaterialPrice item : operationResult.getResultObjects()) {
 					item.setSource(plCondition.getValue());
-					item.setPrice(Decimal.MINUS_ONE);// 设置到未初始价格
+					item.setPrice(initialPrice);// 设置到未初始价格
 					item.setCurrency(currency);
 					for (IMaterialPrice newPrice : newPrices) {
 						if (item.getItemCode().equals(newPrice.getItemCode())) {
@@ -2203,6 +2210,18 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 					}
 					operationResult.addInformations(GoodsIssue.BUSINESS_OBJECT_NAME,
 							opRslt.getResultObjects().firstOrDefault().getDocEntry().toString());
+					// 入库记录出库关系
+					for (IGoodsIssue issue : opRslt.getResultObjects()) {
+						IGoodsIssueLine issueLine;
+						IGoodsReceiptLine receiptLine;
+						for (int i = 0; i < issue.getGoodsIssueLines().size(); i++) {
+							issueLine = issue.getGoodsIssueLines().get(i);
+							receiptLine = changes.getReceipt().getGoodsReceiptLines().get(i);
+							receiptLine.setBaseDocumentType(issueLine.getObjectCode());
+							receiptLine.setBaseDocumentEntry(issueLine.getDocEntry());
+							receiptLine.setBaseDocumentLineId(issueLine.getLineId());
+						}
+					}
 				}
 				// 保存入库
 				if (changes.getReceipt() != null) {

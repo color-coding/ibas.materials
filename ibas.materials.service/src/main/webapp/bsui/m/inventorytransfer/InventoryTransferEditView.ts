@@ -36,6 +36,8 @@ namespace materials {
                 callInventoryTransferAddServiceEvent: Function;
                 /** 选择库存转储单行成本中心事件 */
                 chooseInventoryTransferLineDistributionRuleEvent: Function;
+                /** 选择库存转储-行 物料版本 */
+                chooseInventoryTransferLineMaterialVersionEvent: Function;
                 defaultWarehouse: string;
                 draw(): any {
                     let that: this = this;
@@ -647,6 +649,20 @@ namespace materials {
                                         }).bindProperty("bindingValue", {
                                             path: "itemDescription",
                                             type: new sap.extension.data.Alphanumeric()
+                                        }),
+                                        new sap.m.Label("", { text: ibas.i18n.prop("bo_inventorytransferline_itemversion") }),
+                                        new sap.extension.m.Input("", {
+                                            showValueHelp: true,
+                                            valueHelpRequest: function (): void {
+                                                that.fireViewEvents(that.chooseInventoryTransferLineMaterialVersionEvent,
+                                                    this.getBindingContext().getObject()
+                                                );
+                                            },
+                                        }).bindProperty("bindingValue", {
+                                            path: "itemVersion",
+                                            type: new sap.extension.data.Alphanumeric({
+                                                maxLength: 10
+                                            }),
                                         }),
                                         new sap.m.Label("", { text: ibas.i18n.prop("bo_inventorytransferline_warehouse") }),
                                         new sap.extension.m.RepositoryInput("", {

@@ -38,6 +38,7 @@ namespace materials {
                 this.view.chooseSchedulerEvent = this.chooseScheduler;
                 this.view.editMaterialSubstituteEvent = this.editMaterialSubstitute;
                 this.view.chooseLedgerAccountEvent = this.chooseLedgerAccount;
+                this.view.overviewEvent = this.overview;
             }
             /** 视图显示后 */
             protected viewShowed(): void {
@@ -321,6 +322,12 @@ namespace materials {
                     }),
                 });
             }
+            protected overview(): void {
+                let app: MaterialOverviewApp = new MaterialOverviewApp();
+                app.navigation = this.navigation;
+                app.viewShower = this.viewShower;
+                app.run(this.editData.criteria());
+            }
         }
         /** 视图-物料 */
         export interface IMaterialEditView extends ibas.IBOEditView {
@@ -348,6 +355,8 @@ namespace materials {
             editMaterialSubstituteEvent: Function;
             /** 选择总账科目事件 */
             chooseLedgerAccountEvent: Function;
+            /** 更多信息 */
+            overviewEvent: Function;
         }
     }
 }

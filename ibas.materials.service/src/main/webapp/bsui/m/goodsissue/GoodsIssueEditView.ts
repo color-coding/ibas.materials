@@ -30,6 +30,8 @@ namespace materials {
                 chooseeGoodsIssueMaterialPriceListEvent: Function;
                 /** 选择库存发货单行成本中心事件 */
                 chooseGoodsIssueLineDistributionRuleEvent: Function;
+                /** 选择库存发货-行 物料版本 */
+                chooseGoodsIssueLineMaterialVersionEvent: Function;
                 defaultWarehouse: string;
                 draw(): any {
                     let that: this = this;
@@ -638,6 +640,20 @@ namespace materials {
                                         }).bindProperty("bindingValue", {
                                             path: "itemDescription",
                                             type: new sap.extension.data.Alphanumeric()
+                                        }),
+                                        new sap.m.Label("", { text: ibas.i18n.prop("bo_goodsissueline_itemversion") }),
+                                        new sap.extension.m.Input("", {
+                                            showValueHelp: true,
+                                            valueHelpRequest: function (): void {
+                                                that.fireViewEvents(that.chooseGoodsIssueLineMaterialVersionEvent,
+                                                    this.getBindingContext().getObject()
+                                                );
+                                            },
+                                        }).bindProperty("bindingValue", {
+                                            path: "itemVersion",
+                                            type: new sap.extension.data.Alphanumeric({
+                                                maxLength: 10
+                                            }),
                                         }),
                                         new sap.m.Label("", { text: ibas.i18n.prop("bo_goodsissueline_warehouse") }),
                                         new sap.extension.m.RepositoryInput("", {

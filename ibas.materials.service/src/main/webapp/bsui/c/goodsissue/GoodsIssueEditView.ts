@@ -28,6 +28,8 @@ namespace materials {
                 chooseGoodsIssueLineMaterialBatchEvent: Function;
                 /** 选择库存发货单行物料序列事件 */
                 chooseGoodsIssueLineMaterialSerialEvent: Function;
+                /** 选择库存发货-行 物料版本 */
+                chooseGoodsIssueLineMaterialVersionEvent: Function;
                 /** 选择库存发货物料价格清单 */
                 chooseeGoodsIssueMaterialPriceListEvent: Function;
                 /** 选择库存发货单行成本中心事件 */
@@ -291,6 +293,23 @@ namespace materials {
                                             path: "itemDescription",
                                             type: new sap.extension.data.Alphanumeric()
                                         }),
+                                    }),
+                                    new sap.extension.table.DataColumn("", {
+                                        label: ibas.i18n.prop("bo_goodsissueline_itemversion"),
+                                        template: new sap.extension.m.Input("", {
+                                            showValueHelp: true,
+                                            valueHelpRequest: function (): void {
+                                                that.fireViewEvents(that.chooseGoodsIssueLineMaterialVersionEvent,
+                                                    this.getBindingContext().getObject()
+                                                );
+                                            },
+                                        }).bindProperty("bindingValue", {
+                                            path: "itemVersion",
+                                            type: new sap.extension.data.Alphanumeric({
+                                                maxLength: 10
+                                            }),
+                                        }),
+                                        width: "8rem",
                                     }),
                                     new sap.extension.table.DataColumn("", {
                                         label: ibas.i18n.prop("bo_goodsissueline_warehouse"),

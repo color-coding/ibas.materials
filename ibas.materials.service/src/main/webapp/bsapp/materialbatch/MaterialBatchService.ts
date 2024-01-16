@@ -723,6 +723,7 @@ namespace materials {
                         let journal: BatchWorkingItemResult = item.results.create();
                         journal.quantity = item.quantity - total;
                         journal.batchCode = ibas.dates.toString(ibas.dates.now(), "yyyyMMdd");
+                        journal.version = item.itemVersion;
                         journals.add(journal);
                     }
                     if (ibas.objects.isNull(this.workingData)) {
@@ -771,6 +772,7 @@ namespace materials {
                         let journal: BatchWorkingItemResult = item.results.create();
                         journal.quantity = item.quantity - total;
                         journal.batchCode = ibas.strings.format("{0}0001", timePart);
+                        journal.version = item.itemVersion;
                         journals.add(journal);
                     }
                     if (criteria.conditions.length > 0) {
@@ -927,6 +929,7 @@ namespace materials {
                         let journal: BatchWorkingItemResult = item.results.create();
                         journal.quantity = item.quantity - total;
                         journal.batchCode = item.data.agreements;
+                        journal.version = item.itemVersion;
                         journals.add(journal);
                     }
                     if (ibas.objects.isNull(this.workingData)) {
