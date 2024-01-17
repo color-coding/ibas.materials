@@ -96,6 +96,8 @@ public interface IMaterialSerial extends IBOSimple {
 	 */
 	void setReserved(emYesNo value);
 
+	void setReserved(emYesNo value, boolean noCheck);
+
 	/**
 	 * 获取-供应商序号
 	 *

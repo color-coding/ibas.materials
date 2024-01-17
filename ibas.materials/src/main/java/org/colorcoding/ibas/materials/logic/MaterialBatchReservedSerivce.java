@@ -119,11 +119,6 @@ public class MaterialBatchReservedSerivce
 		IMaterialBatch materialBatch = this.getBeAffected();
 		BigDecimal onReserved = materialBatch.getReservedQuantity();
 		onReserved = onReserved.add(contract.getQuantity());
-		/*
-		 * if (onReserved.compareTo(materialBatch.getQuantity()) > 0) { throw new
-		 * BusinessLogicException(I18N.prop("msg_mm_material_batch_not_enough_in_stock",
-		 * contract.getWarehouse(), contract.getItemCode(), contract.getBatchCode())); }
-		 */
 		materialBatch.setReservedQuantity(onReserved);
 	}
 

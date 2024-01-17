@@ -1111,9 +1111,17 @@ public class MaterialBatch extends BusinessObject<MaterialBatch> implements IMat
 		this.setReservedQuantity(Decimal.ZERO);
 	}
 
+	private boolean noCheck = false;
+
+	@Override
+	public void setReservedQuantity(BigDecimal value, boolean noCheck) {
+		this.setReservedQuantity(value);
+		this.noCheck = true;
+	}
+
 	@Override
 	public void check() throws BusinessRuleException {
-		if (this.getReservedQuantity().compareTo(this.getQuantity()) > 0) {
+		if (this.getReservedQuantity().compareTo(this.getQuantity()) > 0 && !this.noCheck) {
 			throw new BusinessLogicException(I18N.prop("msg_mm_material_batch_not_enough_in_stock", this.getWarehouse(),
 					this.getItemCode(), this.getBatchCode()));
 		}

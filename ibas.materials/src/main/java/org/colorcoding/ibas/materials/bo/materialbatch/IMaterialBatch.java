@@ -117,6 +117,8 @@ public interface IMaterialBatch extends IBOSimple {
 	 */
 	void setReservedQuantity(BigDecimal value);
 
+	void setReservedQuantity(BigDecimal value, boolean noCheck);
+
 	/**
 	 * 获取-供应商序号
 	 *
