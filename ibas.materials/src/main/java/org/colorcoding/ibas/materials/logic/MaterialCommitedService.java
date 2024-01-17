@@ -55,19 +55,21 @@ public class MaterialCommitedService extends MaterialInventoryBusinessLogic<IMat
 
 	@Override
 	protected boolean onRepeatedImpact(int times) {
-		if ((times - this.timesRevoke) > 1) {
+		if (done) {
 			return false;
 		}
 		return true;
 	}
 
-	private int timesRevoke;
-
 	@Override
 	protected boolean onRepeatedRevoke(int times) {
-		this.timesRevoke = times;
+		if (done) {
+			return false;
+		}
 		return true;
 	}
+
+	private boolean done;
 
 	@Override
 	protected void impact(IMaterialCommitedContract contract) {
@@ -75,6 +77,9 @@ public class MaterialCommitedService extends MaterialInventoryBusinessLogic<IMat
 		BigDecimal onCommited = material.getOnCommited();
 		onCommited = onCommited.add(contract.getQuantity());
 		material.setOnCommited(onCommited);
+		if (this.getLogicChain().getTrigger().isBusy()) {
+			this.done = true;
+		}
 	}
 
 	@Override
@@ -83,5 +88,8 @@ public class MaterialCommitedService extends MaterialInventoryBusinessLogic<IMat
 		BigDecimal onCommited = material.getOnCommited();
 		onCommited = onCommited.subtract(contract.getQuantity());
 		material.setOnCommited(onCommited);
+		if (this.getLogicChain().getTrigger().isBusy()) {
+			this.done = true;
+		}
 	}
 }

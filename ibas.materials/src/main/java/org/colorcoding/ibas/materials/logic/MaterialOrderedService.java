@@ -55,19 +55,21 @@ public class MaterialOrderedService extends MaterialInventoryBusinessLogic<IMate
 
 	@Override
 	protected boolean onRepeatedImpact(int times) {
-		if ((times - this.timesRevoke) > 1) {
+		if (done) {
 			return false;
 		}
 		return true;
 	}
 
-	private int timesRevoke;
-
 	@Override
 	protected boolean onRepeatedRevoke(int times) {
-		this.timesRevoke = times;
+		if (done) {
+			return false;
+		}
 		return true;
 	}
+
+	private boolean done;
 
 	@Override
 	protected void impact(IMaterialOrderedContract contract) {
@@ -75,6 +77,9 @@ public class MaterialOrderedService extends MaterialInventoryBusinessLogic<IMate
 		BigDecimal onOrdered = material.getOnOrdered();
 		onOrdered = onOrdered.add(contract.getQuantity());
 		material.setOnOrdered(onOrdered);
+		if (this.getLogicChain().getTrigger().isBusy()) {
+			this.done = true;
+		}
 	}
 
 	@Override
@@ -83,5 +88,8 @@ public class MaterialOrderedService extends MaterialInventoryBusinessLogic<IMate
 		BigDecimal onOrdered = material.getOnOrdered();
 		onOrdered = onOrdered.subtract(contract.getQuantity());
 		material.setOnOrdered(onOrdered);
+		if (this.getLogicChain().getTrigger().isBusy()) {
+			this.done = true;
+		}
 	}
 }

@@ -127,6 +127,10 @@ public class MaterialCommitedJournalService extends MaterialEstimateService<IMat
 		if (material != null) {
 			materialJournal.setItemName(material.getName());
 		}
+		// 预留触发的，不进行可用量逻辑
+		if (materialJournal instanceof MaterialEstimateJournal) {
+			((MaterialEstimateJournal) materialJournal).busy(true);
+		}
 	}
 
 	@Override
@@ -138,6 +142,10 @@ public class MaterialCommitedJournalService extends MaterialEstimateService<IMat
 		if (Decimal.isZero(materialJournal.getQuantity())) {
 			// 已为0，则删除此条数据
 			materialJournal.delete();
+		}
+		// 预留触发的，不进行可用量逻辑
+		if (materialJournal instanceof MaterialEstimateJournal) {
+			((MaterialEstimateJournal) materialJournal).busy(true);
 		}
 	}
 

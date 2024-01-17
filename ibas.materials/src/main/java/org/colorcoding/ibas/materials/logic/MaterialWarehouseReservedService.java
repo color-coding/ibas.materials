@@ -103,13 +103,23 @@ public class MaterialWarehouseReservedService
 	}
 
 	@Override
+	protected boolean onRepeatedImpact(int times) {
+		return true;
+	}
+
+	@Override
+	protected boolean onRepeatedRevoke(int times) {
+		return true;
+	}
+
+	BigDecimal lastReserved = Decimal.ZERO;
+
+	@Override
 	protected void impact(IMaterialWarehouseReservedContract contract) {
 		IMaterialInventory materialInventory = this.getBeAffected();
 		BigDecimal onReserved = materialInventory.getOnReserved();
-		onReserved = onReserved.add(contract.getQuantity());
-		/* if (onReserved.compareTo(materialInventory.getOnHand()) > 0) { throw new
-		 * BusinessLogicException( I18N.prop("msg_mm_material_not_enough_in_stock",
-		 * contract.getWarehouse(), contract.getItemCode())); } */
+		// 减去上次增加值（同物料多行时）
+		onReserved = onReserved.subtract(this.lastReserved).add(contract.getQuantity());
 		IMaterial material = this.checkMaterial(contract.getItemCode());
 		// 批次或序列号管理物料此刻不检查预留是否超库存
 		if (material.getBatchManagement() == emYesNo.YES || material.getSerialManagement() == emYesNo.YES) {
@@ -117,6 +127,8 @@ public class MaterialWarehouseReservedService
 		} else {
 			materialInventory.setOnReserved(onReserved);
 		}
+		// 记录本次增加值
+		this.lastReserved = lastReserved.add(contract.getQuantity());
 	}
 
 	@Override

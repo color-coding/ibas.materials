@@ -114,7 +114,7 @@ public class MaterialInventoryReservationReleaseService extends
 			materialReservation = operationResult.getResultObjects().firstOrDefault();
 		}
 		if (materialReservation == null) {
-			materialReservation = EMPTY_DATA;
+			return EMPTY_DATA;
 		}
 		return materialReservation;
 	}

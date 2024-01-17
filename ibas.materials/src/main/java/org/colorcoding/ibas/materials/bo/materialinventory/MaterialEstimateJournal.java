@@ -1012,16 +1012,21 @@ public class MaterialEstimateJournal extends BusinessObject<MaterialEstimateJour
 				new BusinessRuleRequired(PROPERTY_WAREHOUSE), // 要求有值
 				new BusinessRuleMinValue<BigDecimal>(Decimal.ZERO, PROPERTY_QUANTITY), // 不能低于0
 				new BusinessRuleMinValue<BigDecimal>(Decimal.ZERO, PROPERTY_RESERVEDQUANTITY), // 不能低于0
-				/*
-				 * // 预留数量不能大于订购数量 new BusinessRuleMaxProperty<BigDecimal>(PROPERTY_QUANTITY,
-				 * PROPERTY_RESERVEDQUANTITY)
-				 */
+				/* // 预留数量不能大于订购数量 new BusinessRuleMaxProperty<BigDecimal>(PROPERTY_QUANTITY,
+				 * PROPERTY_RESERVEDQUANTITY) */
 
 		};
 	}
 
+	public void busy(boolean value) {
+		super.setBusy(value);
+	}
+
 	@Override
 	public IBusinessLogicContract[] getContracts() {
+		if (this.isBusy()) {
+			// return new IBusinessLogicContract[] {};
+		}
 		if (this.getEstimate() == emEstimateType.ORDERED) {
 			// 已订购数量逻辑
 			return new IBusinessLogicContract[] {

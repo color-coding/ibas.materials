@@ -94,19 +94,21 @@ public class MaterialWarehouseOrderedService
 
 	@Override
 	protected boolean onRepeatedImpact(int times) {
-		if ((times - this.timesRevoke) > 1) {
+		if (done) {
 			return false;
 		}
 		return true;
 	}
 
-	private int timesRevoke;
-
 	@Override
 	protected boolean onRepeatedRevoke(int times) {
-		this.timesRevoke = times;
+		if (done) {
+			return false;
+		}
 		return true;
 	}
+
+	private boolean done;
 
 	@Override
 	protected void impact(IMaterialWarehouseOrderedContract contract) {
@@ -114,6 +116,9 @@ public class MaterialWarehouseOrderedService
 		BigDecimal onOrdered = materialInventory.getOnOrdered();
 		onOrdered = onOrdered.add(contract.getQuantity());
 		materialInventory.setOnOrdered(onOrdered);
+		if (this.getLogicChain().getTrigger().isBusy()) {
+			this.done = true;
+		}
 	}
 
 	@Override
@@ -122,6 +127,9 @@ public class MaterialWarehouseOrderedService
 		BigDecimal onOrdered = materialInventory.getOnOrdered();
 		onOrdered = onOrdered.subtract(contract.getQuantity());
 		materialInventory.setOnOrdered(onOrdered);
+		if (this.getLogicChain().getTrigger().isBusy()) {
+			this.done = true;
+		}
 	}
 
 }

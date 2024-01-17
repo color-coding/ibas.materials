@@ -60,14 +60,26 @@ public class MaterialReservedService extends MaterialInventoryBusinessLogic<IMat
 	}
 
 	@Override
+	protected boolean onRepeatedImpact(int times) {
+		return true;
+	}
+
+	@Override
+	protected boolean onRepeatedRevoke(int times) {
+		return true;
+	}
+
+	BigDecimal lastReserved = Decimal.ZERO;
+
+	@Override
 	protected void impact(IMaterialReservedContract contract) {
 		IMaterial material = this.getBeAffected();
 		BigDecimal onReserved = material.getOnReserved();
-		onReserved = onReserved.add(contract.getQuantity());
-		/* if (onReserved.compareTo(material.getOnHand()) > 0) { throw new
-		 * BusinessLogicException(I18N.prop("msg_mm_material_not_enough",
-		 * contract.getItemCode())); } */
+		// 减去上次增加值（同物料多行时）
+		onReserved = onReserved.subtract(this.lastReserved).add(contract.getQuantity());
 		material.setOnReserved(onReserved);
+		// 记录本次增加值
+		this.lastReserved = lastReserved.add(contract.getQuantity());
 	}
 
 	@Override
