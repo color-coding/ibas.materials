@@ -223,7 +223,7 @@ public class MaterialReceiptService
 						}
 					}
 					if (contract.getRate() != null && Decimal.ZERO.compareTo(contract.getRate()) != 0) {
-						price = Decimal.multiply(price, contract.getRate());
+						price = Decimal.divide(price, contract.getRate());
 					}
 				}
 				// 库存总价值 = 时点库存价值 + (本次入库价格 * 本次入库数量)

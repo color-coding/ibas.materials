@@ -1332,6 +1332,9 @@ namespace materials {
                                         if (this.getIcon() === "sap-icon://navigation-right-arrow") {
                                             for (let pItem of that.pageOverview.getContent()) {
                                                 if (pItem instanceof sap.m.Panel) {
+                                                    if (pItem.getVisible() === false) {
+                                                        continue;
+                                                    }
                                                     pItem.setExpanded(true);
                                                 }
                                             }
@@ -1339,6 +1342,9 @@ namespace materials {
                                         } else {
                                             for (let pItem of that.pageOverview.getContent()) {
                                                 if (pItem instanceof sap.m.Panel) {
+                                                    if (pItem.getVisible() === false) {
+                                                        continue;
+                                                    }
                                                     pItem.setExpanded(false);
                                                 }
                                             }

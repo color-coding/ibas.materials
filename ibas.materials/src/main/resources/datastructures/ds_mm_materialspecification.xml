@@ -24,7 +24,7 @@
     <Property Name="Specification" Description="规格模板" DataType="Numeric" DataSubType="Default" EditSize="8" Mapped="Specification"/>
     <Property Name="BusinessPartnerType" Description="业务伙伴类型" DataType="Alphanumeric" DataSubType="Default" EditSize="1" DeclaredType="emBusinessPartnerType" Mapped="CardType"/>
     <Property Name="BusinessPartnerCode" Description="业务伙伴" DataType="Alphanumeric" DataSubType="Default" EditSize="20" Mapped="CardCode"/>
-    <Property Name="Project" Description="项目代码" DataType="Alphanumeric" DataSubType="Default" EditSize="8" Mapped="Project"/>
+    <Property Name="Project" Description="项目代码" DataType="Alphanumeric" DataSubType="Default" EditSize="20" Mapped="Project"/>
     <Property Name="Reference1" Description="参考1" DataType="Alphanumeric" DataSubType="Default" EditSize="100" Mapped="Ref1"/>
     <Property Name="Reference2" Description="参考2" DataType="Alphanumeric" DataSubType="Default" EditSize="200" Mapped="Ref2"/>
     <Property Name="Remarks" Description="备注" DataType="Memo" DataSubType="Default" EditSize="254" Mapped="Remarks"/>

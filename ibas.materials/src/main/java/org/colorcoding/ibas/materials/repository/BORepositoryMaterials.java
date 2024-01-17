@@ -1766,6 +1766,10 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 					condition.setBracketClose(1);
 				}
 			}
+			// 没有条件则跳出
+			if (childCriteria.getConditions().isEmpty()) {
+				return new ArrayList<>();
+			}
 			IOperationResult<IMaterialPriceList> opRsltPriceList = this.fetchMaterialPriceList(criteria);
 			if (opRsltPriceList.getError() != null) {
 				throw opRsltPriceList.getError();

@@ -35,7 +35,7 @@
     <Property Name="DocumentRate" Description="单据汇率" DataType="Decimal" DataSubType="Rate" EditSize="8" Mapped="DocRate"/>
     <Property Name="DocumentTotal" Description="单据总计" DataType="Decimal" DataSubType="Sum" EditSize="8" Mapped="DocTotal"/>
     <Property Name="PriceList" Description="价格清单" DataType="Numeric" DataSubType="Default" EditSize="8" Mapped="PriceList"/>
-    <Property Name="Project" Description="项目代码" DataType="Alphanumeric" DataSubType="Default" EditSize="8" Mapped="Project"/>
+    <Property Name="Project" Description="项目代码" DataType="Alphanumeric" DataSubType="Default" EditSize="20" Mapped="Project"/>
     <Property Name="FromWarehouse" Description="从仓库" DataType="Alphanumeric" DataSubType="Default" EditSize="8" Mapped="FormWHS"/>
     <Property Name="OrderType" Description="单据类型" DataType="Alphanumeric" DataSubType="Default" EditSize="8" Mapped="OrderType"/>
     <Property Name="Branch" Description="分支" DataType="Alphanumeric" DataSubType="Default" EditSize="8" Mapped="Branch"/>

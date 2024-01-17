@@ -538,7 +538,7 @@ namespace materials {
                                                     }).bindProperty("bindingValue", {
                                                         path: "project",
                                                         type: new sap.extension.data.Alphanumeric({
-                                                            maxLength: 8
+                                                            maxLength: 20
                                                         })
                                                     }),
                                                     new sap.m.Label("", { text: ibas.i18n.prop("bo_goodsreceipt_organization") }),
