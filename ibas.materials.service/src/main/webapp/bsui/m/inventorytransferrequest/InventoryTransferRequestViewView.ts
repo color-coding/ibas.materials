@@ -121,19 +121,6 @@ namespace materials {
                                     type: new sap.extension.data.Date(),
                                 },
                             }),
-                            new sap.extension.m.RepositoryObjectAttribute("", {
-                                title: ibas.i18n.prop("bo_inventorytransferrequest_fromwarehouse"),
-                                bindingValue: {
-                                    path: "fromWarehouse",
-                                    type: new sap.extension.data.Alphanumeric(),
-                                },
-                                repository: materials.bo.BORepositoryMaterials,
-                                dataInfo: {
-                                    type: materials.bo.Warehouse,
-                                    key: materials.bo.Warehouse.PROPERTY_CODE_NAME,
-                                    text: materials.bo.Warehouse.PROPERTY_NAME_NAME
-                                },
-                            }),
                             new sap.extension.m.ObjectAttribute("", {
                                 title: ibas.i18n.prop("bo_inventorytransferrequest_documenttotal"),
                                 bindingValue: {
@@ -160,18 +147,6 @@ namespace materials {
                                                 editable: false,
                                                 width: "auto",
                                                 content: [
-                                                    new sap.m.Label("", { text: ibas.i18n.prop("bo_inventorytransferrequest_fromwarehouse") }),
-                                                    new sap.extension.m.RepositoryText("", {
-                                                        repository: materials.bo.BORepositoryMaterials,
-                                                        dataInfo: {
-                                                            type: materials.bo.Warehouse,
-                                                            key: materials.bo.Warehouse.PROPERTY_CODE_NAME,
-                                                            text: materials.bo.Warehouse.PROPERTY_NAME_NAME
-                                                        },
-                                                    }).bindProperty("bindingValue", {
-                                                        path: "fromWarehouse",
-                                                        type: new sap.extension.data.Alphanumeric()
-                                                    }),
                                                     new sap.m.Label("", { text: ibas.i18n.prop("bo_inventorytransferrequest_ordertype") }),
                                                     new sap.extension.m.PropertyText("", {
                                                         dataInfo: {
@@ -294,7 +269,20 @@ namespace materials {
                                                                 bindingValue: "{itemDescription} ({itemCode})"
                                                             }),
                                                             new sap.extension.m.RepositoryObjectAttribute("", {
-                                                                title: ibas.i18n.prop("bo_warehouse"),
+                                                                title: ibas.i18n.prop("bo_inventorytransferline_fromwarehouse"),
+                                                                bindingValue: {
+                                                                    path: "fromWarehouse",
+                                                                    type: new sap.extension.data.Alphanumeric(),
+                                                                },
+                                                                repository: materials.bo.BORepositoryMaterials,
+                                                                dataInfo: {
+                                                                    type: materials.bo.Warehouse,
+                                                                    key: materials.bo.Warehouse.PROPERTY_CODE_NAME,
+                                                                    text: materials.bo.Warehouse.PROPERTY_NAME_NAME
+                                                                },
+                                                            }),
+                                                            new sap.extension.m.RepositoryObjectAttribute("", {
+                                                                title: ibas.i18n.prop("bo_inventorytransferline_warehouse"),
                                                                 bindingValue: {
                                                                     path: "warehouse",
                                                                     type: new sap.extension.data.Alphanumeric(),
@@ -537,6 +525,18 @@ namespace materials {
                                         new sap.extension.m.Text("", {
                                         }).bindProperty("bindingValue", {
                                             path: "itemDescription",
+                                            type: new sap.extension.data.Alphanumeric()
+                                        }),
+                                        new sap.m.Label("", { text: ibas.i18n.prop("bo_inventorytransferrequestline_fromwarehouse") }),
+                                        new sap.extension.m.RepositoryText("", {
+                                            repository: materials.bo.BORepositoryMaterials,
+                                            dataInfo: {
+                                                type: materials.bo.Warehouse,
+                                                key: materials.bo.Warehouse.PROPERTY_CODE_NAME,
+                                                text: materials.bo.Warehouse.PROPERTY_NAME_NAME
+                                            },
+                                        }).bindProperty("bindingValue", {
+                                            path: "fromWarehouse",
                                             type: new sap.extension.data.Alphanumeric()
                                         }),
                                         new sap.m.Label("", { text: ibas.i18n.prop("bo_inventorytransferrequestline_warehouse") }),

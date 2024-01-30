@@ -274,13 +274,6 @@ namespace materials {
                                             type: new sap.extension.data.Date(),
                                         }
                                     }),
-                                    new sap.extension.m.ObjectAttribute("", {
-                                        title: ibas.i18n.prop("bo_goodsreceipt_postingdate"),
-                                        bindingValue: {
-                                            path: "postingDate",
-                                            type: new sap.extension.data.Date(),
-                                        }
-                                    }),
                                 ]
                             }),
                         ],

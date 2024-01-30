@@ -401,17 +401,6 @@ namespace materials {
                 this.setProperty(InventoryTransfer.PROPERTY_ORDERTYPE_NAME, value);
             }
 
-            /** 映射的属性名称-从仓库 */
-            static PROPERTY_FROMWAREHOUSE_NAME: string = "FromWarehouse";
-            /** 获取-从仓库 */
-            get fromWarehouse(): string {
-                return this.getProperty<string>(InventoryTransfer.PROPERTY_FROMWAREHOUSE_NAME);
-            }
-            /** 设置-从仓库 */
-            set fromWarehouse(value: string) {
-                this.setProperty(InventoryTransfer.PROPERTY_FROMWAREHOUSE_NAME, value);
-            }
-
             /** 映射的属性名称-分支 */
             static PROPERTY_BRANCH_NAME: string = "Branch";
             /** 获取-分支 */
@@ -459,7 +448,6 @@ namespace materials {
             }
 
             baseDocument(data: IInventoryTransferRequest): void {
-                this.fromWarehouse = data.fromWarehouse;
                 this.deliveryDate = data.deliveryDate;
                 this.documentDate = ibas.dates.today();
                 this.postingDate = ibas.dates.today();
@@ -776,6 +764,17 @@ namespace materials {
                 this.setProperty(InventoryTransferLine.PROPERTY_REFERENCED_NAME, value);
             }
 
+            /** 映射的属性名称-从仓库 */
+            static PROPERTY_FROMWAREHOUSE_NAME: string = "FromWarehouse";
+            /** 获取-从仓库 */
+            get fromWarehouse(): string {
+                return this.getProperty<string>(InventoryTransferLine.PROPERTY_FROMWAREHOUSE_NAME);
+            }
+            /** 设置-从仓库 */
+            set fromWarehouse(value: string) {
+                this.setProperty(InventoryTransferLine.PROPERTY_FROMWAREHOUSE_NAME, value);
+            }
+
             /** 映射的属性名称-基于类型 */
             static PROPERTY_BASEDOCUMENTTYPE_NAME: string = "BaseDocumentType";
             /** 获取-基于类型 */
@@ -1056,6 +1055,7 @@ namespace materials {
                 this.distributionRule3 = data.distributionRule3;
                 this.distributionRule4 = data.distributionRule4;
                 this.distributionRule5 = data.distributionRule5;
+                this.fromWarehouse = data.fromWarehouse;
                 this.itemCode = data.itemCode;
                 this.itemDescription = data.itemDescription;
                 this.itemSign = data.itemSign;

@@ -116,9 +116,6 @@ namespace materials {
             /** 单据类型 */
             orderType: string;
 
-            /** 从仓库 */
-            fromWarehouse: string;
-
             /** 分支 */
             branch: string;
 
@@ -198,6 +195,9 @@ namespace materials {
 
             /** 已引用 */
             referenced: ibas.emYesNo;
+
+            /** 从仓库 */
+            fromWarehouse: string;
 
             /** 基于类型 */
             baseDocumentType: string;

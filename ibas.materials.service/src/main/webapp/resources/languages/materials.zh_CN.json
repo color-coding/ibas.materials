@@ -173,6 +173,8 @@
   "materials_specification_item_required_value": "规格项：[{0}]需要输入值",
   "materials_create_continue": "新建{0}，是否继续？",
   "materials_change_item_warehouse_continue": "是否更改单据行的仓库为[{0}]？",
+  "materials_change_item_fromwarehouse_continue": "是否更改单据行的“从仓库“为“{0}“？",
+  "materials_change_item_towarehouse_continue": "是否更改单据行的“到仓库“为“{0}“？",
   "materials_business_rule_calculate_inventory_quantity": "计算库存单位数量",
   "materials_materialscrap_calculation_instructions": "废品数计算说明： 废品数 = 值 + （原数量 × 率），阶梯时增加原数量范围判断",
   "materials_orderer_reservation": "订购预留",

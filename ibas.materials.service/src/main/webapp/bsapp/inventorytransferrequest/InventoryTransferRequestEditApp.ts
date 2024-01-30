@@ -31,7 +31,6 @@ namespace materials {
                 this.view.createDataEvent = this.createData;
                 this.view.addInventoryTransferRequestLineEvent = this.addInventoryTransferRequestLine;
                 this.view.removeInventoryTransferRequestLineEvent = this.removeInventoryTransferRequestLine;
-                this.view.chooseInventoryTransferRequestWarehouseEvent = this.chooseInventoryTransferRequestWarehouse;
                 this.view.chooseInventoryTransferRequestLineMaterialEvent = this.chooseInventoryTransferRequestLineMaterial;
                 this.view.chooseInventoryTransferRequestLineWarehouseEvent = this.chooseInventoryTransferRequestLineWarehouse;
                 this.view.chooseInventoryTransferRequestLineMaterialBatchEvent = this.chooseInventoryTransferRequestLineMaterialBatch;
@@ -256,19 +255,6 @@ namespace materials {
                 this.view.showInventoryTransferRequestLines(this.editData.inventoryTransferRequestLines.filterDeleted());
             }
             /** 选择库存转储申请订单行物料事件 */
-            private chooseInventoryTransferRequestWarehouse(): void {
-                let that: this = this;
-                ibas.servicesManager.runChooseService<bo.Warehouse>({
-                    boCode: bo.Warehouse.BUSINESS_OBJECT_CODE,
-                    chooseType: ibas.emChooseType.SINGLE,
-                    criteria: conditions.warehouse.create(this.editData.branch),
-                    onCompleted(selecteds: ibas.IList<bo.Warehouse>): void {
-                        let selected: bo.Warehouse = selecteds.firstOrDefault();
-                        that.editData.fromWarehouse = selected.code;
-                    }
-                });
-            }
-            /** 选择库存转储申请订单行物料事件 */
             private chooseInventoryTransferRequestLineMaterial(caller: bo.InventoryTransferRequestLine): void {
                 let that: this = this;
                 let condition: ibas.ICondition;
@@ -310,8 +296,11 @@ namespace materials {
                                 created = true;
                             }
                             item.baseMaterial(selected);
-                            if (!ibas.strings.isEmpty(that.view.defaultWarehouse)) {
-                                item.warehouse = that.view.defaultWarehouse;
+                            if (!ibas.strings.isEmpty(that.view.fromWarehouse)) {
+                                item.fromWarehouse = that.view.fromWarehouse;
+                            }
+                            if (!ibas.strings.isEmpty(that.view.toWarehouse)) {
+                                item.warehouse = that.view.toWarehouse;
                             }
                             item = null;
                         }
@@ -337,7 +326,7 @@ namespace materials {
                 });
             }
             /** 选择库存转储申请订单行物料事件 */
-            private chooseInventoryTransferRequestLineWarehouse(caller: bo.InventoryTransferRequestLine): void {
+            private chooseInventoryTransferRequestLineWarehouse(caller: bo.InventoryTransferRequestLine, direction: ibas.emDirection): void {
                 let that: this = this;
                 ibas.servicesManager.runChooseService<bo.Warehouse>({
                     boCode: bo.Warehouse.BUSINESS_OBJECT_CODE,
@@ -354,8 +343,13 @@ namespace materials {
                                 item = that.editData.inventoryTransferRequestLines.create();
                                 created = true;
                             }
-                            item.warehouse = selected.code;
-                            that.view.defaultWarehouse = item.warehouse;
+                            if (direction === ibas.emDirection.IN) {
+                                item.warehouse = selected.code;
+                                that.view.toWarehouse = item.warehouse;
+                            } else {
+                                item.fromWarehouse = selected.code;
+                                that.view.fromWarehouse = item.fromWarehouse;
+                            }
                             item = null;
                         }
                         if (created) {
@@ -374,7 +368,7 @@ namespace materials {
                         itemCode: item.itemCode,
                         itemDescription: item.itemDescription,
                         itemVersion: item.itemVersion,
-                        warehouse: this.editData.fromWarehouse,
+                        warehouse: item.fromWarehouse,
                         quantity: item.quantity,
                         uom: item.uom,
                         materialBatches: item.materialBatches
@@ -392,7 +386,7 @@ namespace materials {
                         itemCode: item.itemCode,
                         itemDescription: item.itemDescription,
                         itemVersion: item.itemVersion,
-                        warehouse: this.editData.fromWarehouse,
+                        warehouse: item.fromWarehouse,
                         quantity: item.quantity,
                         uom: item.uom,
                         materialSerials: item.materialSerials
@@ -490,20 +484,18 @@ namespace materials {
         }
         /** 视图-库存转储申请 */
         export interface IInventoryTransferRequestEditView extends ibas.IBOEditView {
-            /** 显示数据 */
-            showInventoryTransferRequest(data: bo.InventoryTransferRequest): void;
             /** 删除数据事件 */
             deleteDataEvent: Function;
             /** 新建数据事件，参数1：是否克隆 */
             createDataEvent: Function;
-            /** 选择库存转储申请单从仓库事件 */
-            chooseInventoryTransferRequestWarehouseEvent: Function;
             /** 选择库存转储申请单物料价格清单 */
             chooseeInventoryTransferRequestMaterialPriceListEvent: Function;
             /** 添加库存转储申请-行事件 */
             addInventoryTransferRequestLineEvent: Function;
             /** 删除库存转储申请-行事件 */
             removeInventoryTransferRequestLineEvent: Function;
+            /** 显示数据 */
+            showInventoryTransferRequest(data: bo.InventoryTransferRequest): void;
             /** 显示数据 */
             showInventoryTransferRequestLines(datas: bo.InventoryTransferRequestLine[]): void;
             /** 选择库存转储申请单行物料事件 */
@@ -518,8 +510,10 @@ namespace materials {
             chooseInventoryTransferRequestLineDistributionRuleEvent: Function;
             /** 选择库存转储申请-行 物料版本 */
             chooseInventoryTransferRequestLineMaterialVersionEvent: Function;
-            /** 默认仓库 */
-            defaultWarehouse: string;
+            /** 从仓库 */
+            fromWarehouse: string;
+            /** 目标仓库 */
+            toWarehouse: string;
             /** 转为库存转储申请事件 */
             turnToInventoryTransferEvent: Function;
         }

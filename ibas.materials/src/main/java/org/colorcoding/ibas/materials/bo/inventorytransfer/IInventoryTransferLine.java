@@ -311,6 +311,20 @@ public interface IInventoryTransferLine extends IBODocumentLine, IMaterialBatchI
 	void setReferenced(emYesNo value);
 
 	/**
+	 * 获取-从仓库
+	 * 
+	 * @return 值
+	 */
+	String getFromWarehouse();
+
+	/**
+	 * 设置-从仓库
+	 * 
+	 * @param value 值
+	 */
+	void setFromWarehouse(String value);
+
+	/**
 	 * 获取-基于类型
 	 * 
 	 * @return 值

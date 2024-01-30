@@ -217,6 +217,7 @@ namespace materials {
                                         new sap.m.ToolbarSpacer(""),
                                         new sap.m.Label("", {
                                             wrapping: false,
+                                            showColon: true,
                                             text: ibas.i18n.prop("bo_warehouse"),
                                             visible: shell.app.privileges.canRun({
                                                 id: app.ELEMENT_DOCUMENT_WAREHOUSE.id,

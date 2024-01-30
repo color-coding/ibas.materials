@@ -73,19 +73,6 @@ namespace materials {
                                             type: new sap.extension.data.Date(),
                                         }
                                     }),
-                                    new sap.extension.m.RepositoryObjectAttribute("", {
-                                        title: ibas.i18n.prop("bo_inventorytransferrequest_fromwarehouse"),
-                                        bindingValue: {
-                                            path: "fromWarehouse",
-                                            type: new sap.extension.data.Alphanumeric(),
-                                        },
-                                        repository: materials.bo.BORepositoryMaterials,
-                                        dataInfo: {
-                                            type: materials.bo.Warehouse,
-                                            key: materials.bo.Warehouse.PROPERTY_CODE_NAME,
-                                            text: materials.bo.Warehouse.PROPERTY_NAME_NAME
-                                        },
-                                    }),
                                     new sap.extension.m.PropertyObjectAttribute("", {
                                         title: ibas.i18n.prop("bo_inventorytransferrequest_ordertype"),
                                         bindingValue: {

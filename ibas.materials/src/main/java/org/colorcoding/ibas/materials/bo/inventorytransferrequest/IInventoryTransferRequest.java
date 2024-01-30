@@ -548,20 +548,6 @@ public interface IInventoryTransferRequest extends IBODocument {
 	void setOrderType(String value);
 
 	/**
-	 * 获取-从仓库
-	 * 
-	 * @return 值
-	 */
-	String getFromWarehouse();
-
-	/**
-	 * 设置-从仓库
-	 * 
-	 * @param value 值
-	 */
-	void setFromWarehouse(String value);
-
-	/**
 	 * 获取-分支
 	 * 
 	 * @return 值

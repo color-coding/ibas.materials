@@ -40,7 +40,7 @@ class MaterialSerialItem extends org.colorcoding.ibas.materials.bo.materialseria
 
 					@Override
 					public String getWarehouse() {
-						return MaterialSerialItem.this.parent.parent.getFromWarehouse();
+						return MaterialSerialItem.this.parent.getFromWarehouse();
 					}
 
 					@Override

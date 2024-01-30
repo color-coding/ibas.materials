@@ -1214,37 +1214,6 @@ public class InventoryTransferRequest extends BusinessObject<InventoryTransferRe
 	}
 
 	/**
-	 * 属性名称-从仓库
-	 */
-	private static final String PROPERTY_FROMWAREHOUSE_NAME = "FromWarehouse";
-
-	/**
-	 * 从仓库 属性
-	 */
-	@DbField(name = "FormWHS", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME, primaryKey = false)
-	public static final IPropertyInfo<String> PROPERTY_FROMWAREHOUSE = registerProperty(PROPERTY_FROMWAREHOUSE_NAME,
-			String.class, MY_CLASS);
-
-	/**
-	 * 获取-从仓库
-	 * 
-	 * @return 值
-	 */
-	@XmlElement(name = PROPERTY_FROMWAREHOUSE_NAME)
-	public final String getFromWarehouse() {
-		return this.getProperty(PROPERTY_FROMWAREHOUSE);
-	}
-
-	/**
-	 * 设置-从仓库
-	 * 
-	 * @param value 值
-	 */
-	public final void setFromWarehouse(String value) {
-		this.setProperty(PROPERTY_FROMWAREHOUSE, value);
-	}
-
-	/**
 	 * 属性名称-分支
 	 */
 	private static final String PROPERTY_BRANCH_NAME = "Branch";

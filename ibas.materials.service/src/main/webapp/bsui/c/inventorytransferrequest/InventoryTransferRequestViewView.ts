@@ -33,6 +33,9 @@ namespace materials {
                                 header: ibas.i18n.prop("bo_inventorytransferrequestline_quantity"),
                             }),
                             new sap.extension.m.Column("", {
+                                header: ibas.i18n.prop("bo_inventorytransferrequestline_fromwarehouse"),
+                            }),
+                            new sap.extension.m.Column("", {
                                 header: ibas.i18n.prop("bo_inventorytransferrequestline_warehouse"),
                             }),
                             new sap.extension.m.Column("", {
@@ -87,6 +90,18 @@ namespace materials {
                                             path: "uom",
                                             type: new sap.extension.data.Alphanumeric(),
                                         }
+                                    }),
+                                    new sap.extension.m.RepositoryObjectAttribute("", {
+                                        bindingValue: {
+                                            path: "fromWarehouse",
+                                            type: new sap.extension.data.Alphanumeric(),
+                                        },
+                                        repository: bo.BORepositoryMaterials,
+                                        dataInfo: {
+                                            type: bo.Warehouse,
+                                            key: bo.Warehouse.PROPERTY_CODE_NAME,
+                                            text: bo.Warehouse.PROPERTY_NAME_NAME
+                                        },
                                     }),
                                     new sap.extension.m.RepositoryObjectAttribute("", {
                                         bindingValue: {
@@ -244,19 +259,6 @@ namespace materials {
                             new sap.ui.layout.VerticalLayout("", {
                                 width: "30%",
                                 content: [
-                                    new sap.extension.m.RepositoryObjectAttribute("", {
-                                        title: ibas.i18n.prop("bo_inventorytransferrequest_fromwarehouse"),
-                                        bindingValue: {
-                                            path: "fromWarehouse",
-                                            type: new sap.extension.data.Alphanumeric(),
-                                        },
-                                        repository: materials.bo.BORepositoryMaterials,
-                                        dataInfo: {
-                                            type: materials.bo.Warehouse,
-                                            key: materials.bo.Warehouse.PROPERTY_CODE_NAME,
-                                            text: materials.bo.Warehouse.PROPERTY_NAME_NAME
-                                        },
-                                    }),
                                     new sap.extension.m.PropertyObjectAttribute("", {
                                         title: ibas.i18n.prop("bo_inventorytransferrequest_ordertype"),
                                         bindingValue: {
@@ -284,13 +286,6 @@ namespace materials {
                                         title: ibas.i18n.prop("bo_inventorytransferrequest_deliverydate"),
                                         bindingValue: {
                                             path: "deliveryDate",
-                                            type: new sap.extension.data.Date(),
-                                        }
-                                    }),
-                                    new sap.extension.m.ObjectAttribute("", {
-                                        title: ibas.i18n.prop("bo_inventorytransferrequest_postingdate"),
-                                        bindingValue: {
-                                            path: "postingDate",
                                             type: new sap.extension.data.Date(),
                                         }
                                     }),

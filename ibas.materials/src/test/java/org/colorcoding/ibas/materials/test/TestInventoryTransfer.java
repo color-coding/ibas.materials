@@ -1,7 +1,11 @@
 package org.colorcoding.ibas.materials.test;
 
-import junit.framework.TestCase;
-import org.colorcoding.ibas.bobas.common.*;
+import org.colorcoding.ibas.bobas.common.ConditionOperation;
+import org.colorcoding.ibas.bobas.common.ConditionRelationship;
+import org.colorcoding.ibas.bobas.common.Criteria;
+import org.colorcoding.ibas.bobas.common.ICondition;
+import org.colorcoding.ibas.bobas.common.ICriteria;
+import org.colorcoding.ibas.bobas.common.IOperationResult;
 import org.colorcoding.ibas.bobas.data.DateTime;
 import org.colorcoding.ibas.bobas.data.emDirection;
 import org.colorcoding.ibas.bobas.data.emDocumentStatus;
@@ -17,6 +21,8 @@ import org.colorcoding.ibas.materials.bo.materialinventory.MaterialInventoryJour
 import org.colorcoding.ibas.materials.bo.warehouse.Warehouse;
 import org.colorcoding.ibas.materials.repository.BORepositoryMaterials;
 import org.colorcoding.ibas.materials.repository.IBORepositoryMaterialsApp;
+
+import junit.framework.TestCase;
 
 /**
  * 库存转储 测试
@@ -119,15 +125,16 @@ public class TestInventoryTransfer extends TestCase {
 
 		InventoryTransfer inventoryTransfer = new InventoryTransfer();
 		inventoryTransfer.setDocumentDate(DateTime.getToday());
-		inventoryTransfer.setFromWarehouse(warehouse.getCode());
 		inventoryTransfer.setDocumentStatus(emDocumentStatus.RELEASED);
 		IInventoryTransferLine inventoryTransferLine = inventoryTransfer.getInventoryTransferLines().create();
 		inventoryTransferLine.setItemCode(material.getCode());
+		inventoryTransferLine.setFromWarehouse(warehouse.getCode());
 		inventoryTransferLine.setWarehouse(warehouse2.getCode());
 		inventoryTransferLine.setQuantity(1000);
 		inventoryTransferLine.setLineStatus(emDocumentStatus.RELEASED);
 		IInventoryTransferLine inventoryTransferLine2 = inventoryTransfer.getInventoryTransferLines().create();
 		inventoryTransferLine2.setItemCode(material2.getCode());
+		inventoryTransferLine.setFromWarehouse(warehouse.getCode());
 		inventoryTransferLine2.setWarehouse(warehouse2.getCode());
 		inventoryTransferLine2.setQuantity(2000);
 		inventoryTransferLine2.setLineStatus(emDocumentStatus.RELEASED);

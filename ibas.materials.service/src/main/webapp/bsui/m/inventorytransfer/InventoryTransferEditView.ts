@@ -38,7 +38,8 @@ namespace materials {
                 chooseInventoryTransferLineDistributionRuleEvent: Function;
                 /** 选择库存转储-行 物料版本 */
                 chooseInventoryTransferLineMaterialVersionEvent: Function;
-                defaultWarehouse: string;
+                fromWarehouse: string;
+                toWarehouse: string;
                 draw(): any {
                     let that: this = this;
                     return this.page = new sap.extension.uxap.DataObjectPageLayout("", {
@@ -194,19 +195,6 @@ namespace materials {
                                     type: new sap.extension.data.Date(),
                                 },
                             }),
-                            new sap.extension.m.RepositoryObjectAttribute("", {
-                                title: ibas.i18n.prop("bo_inventorytransfer_fromwarehouse"),
-                                bindingValue: {
-                                    path: "fromWarehouse",
-                                    type: new sap.extension.data.Alphanumeric(),
-                                },
-                                repository: materials.bo.BORepositoryMaterials,
-                                dataInfo: {
-                                    type: materials.bo.Warehouse,
-                                    key: materials.bo.Warehouse.PROPERTY_CODE_NAME,
-                                    text: materials.bo.Warehouse.PROPERTY_NAME_NAME
-                                },
-                            }),
                             new sap.extension.m.ObjectAttribute("", {
                                 title: ibas.i18n.prop("bo_inventorytransfer_documenttotal"),
                                 bindingValue: {
@@ -233,24 +221,6 @@ namespace materials {
                                                 editable: true,
                                                 width: "auto",
                                                 content: [
-                                                    new sap.m.Label("", { text: ibas.i18n.prop("bo_inventorytransfer_fromwarehouse") }),
-                                                    new sap.extension.m.RepositoryInput("", {
-                                                        showValueHelp: true,
-                                                        repository: materials.bo.BORepositoryMaterials,
-                                                        dataInfo: {
-                                                            type: materials.bo.Warehouse,
-                                                            key: materials.bo.Warehouse.PROPERTY_CODE_NAME,
-                                                            text: materials.bo.Warehouse.PROPERTY_NAME_NAME
-                                                        },
-                                                        valueHelpRequest: function (): void {
-                                                            that.fireViewEvents(that.chooseInventoryTransferWarehouseEvent);
-                                                        }
-                                                    }).bindProperty("bindingValue", {
-                                                        path: "fromWarehouse",
-                                                        type: new sap.extension.data.Alphanumeric({
-                                                            maxLength: 8
-                                                        })
-                                                    }),
                                                     new sap.m.Label("", { text: ibas.i18n.prop("bo_inventorytransfer_ordertype") }),
                                                     new sap.extension.m.PropertySelect("", {
                                                         dataInfo: {
@@ -390,7 +360,20 @@ namespace materials {
                                                                 bindingValue: "{itemDescription} ({itemCode})"
                                                             }),
                                                             new sap.extension.m.RepositoryObjectAttribute("", {
-                                                                title: ibas.i18n.prop("bo_warehouse"),
+                                                                title: ibas.i18n.prop("bo_inventorytransferline_fromwarehouse"),
+                                                                bindingValue: {
+                                                                    path: "fromWarehouse",
+                                                                    type: new sap.extension.data.Alphanumeric(),
+                                                                },
+                                                                repository: materials.bo.BORepositoryMaterials,
+                                                                dataInfo: {
+                                                                    type: materials.bo.Warehouse,
+                                                                    key: materials.bo.Warehouse.PROPERTY_CODE_NAME,
+                                                                    text: materials.bo.Warehouse.PROPERTY_NAME_NAME
+                                                                },
+                                                            }),
+                                                            new sap.extension.m.RepositoryObjectAttribute("", {
+                                                                title: ibas.i18n.prop("bo_inventorytransferline_warehouse"),
                                                                 bindingValue: {
                                                                     path: "warehouse",
                                                                     type: new sap.extension.data.Alphanumeric(),
@@ -474,34 +457,43 @@ namespace materials {
                                                 width: "auto",
                                                 content: [
                                                     new sap.m.Label("", { text: ibas.i18n.prop("bo_inventorytransfer_documenttotal") }),
-                                                    new sap.extension.m.Input("", {
-                                                        editable: false,
-
-                                                    }).bindProperty("bindingValue", {
-                                                        path: "documentTotal",
-                                                        type: new sap.extension.data.Sum()
+                                                    new sap.m.FlexBox("", {
+                                                        width: "100%",
+                                                        justifyContent: sap.m.FlexJustifyContent.Start,
+                                                        renderType: sap.m.FlexRendertype.Bare,
+                                                        alignContent: sap.m.FlexAlignContent.Center,
+                                                        alignItems: sap.m.FlexAlignItems.Center,
+                                                        items: [
+                                                            new sap.extension.m.Input("", {
+                                                                width: "70%",
+                                                                editable: false,
+                                                            }).bindProperty("bindingValue", {
+                                                                path: "documentTotal",
+                                                                type: new sap.extension.data.Sum()
+                                                            }).addStyleClass("sapUiTinyMarginEnd"),
+                                                            new sap.extension.m.CurrencyRateSelect("", {
+                                                                editable: {
+                                                                    path: "priceList",
+                                                                    formatter(data: any): boolean {
+                                                                        return ibas.numbers.valueOf(data) === 0 ? true : false;
+                                                                    }
+                                                                },
+                                                                baseCurrency: accounting.config.currency("LOCAL"),
+                                                                currency: {
+                                                                    path: "documentCurrency",
+                                                                    type: new sap.extension.data.Alphanumeric()
+                                                                },
+                                                                rate: {
+                                                                    path: "documentRate",
+                                                                    type: new sap.extension.data.Rate()
+                                                                },
+                                                                date: {
+                                                                    path: "documentDate",
+                                                                    type: new sap.extension.data.Date()
+                                                                }
+                                                            })
+                                                        ]
                                                     }),
-                                                    new sap.extension.m.CurrencyRateSelect("", {
-                                                        editable: {
-                                                            path: "priceList",
-                                                            formatter(data: any): boolean {
-                                                                return ibas.numbers.valueOf(data) === 0 ? true : false;
-                                                            }
-                                                        },
-                                                        baseCurrency: accounting.config.currency("LOCAL"),
-                                                        currency: {
-                                                            path: "documentCurrency",
-                                                            type: new sap.extension.data.Alphanumeric()
-                                                        },
-                                                        rate: {
-                                                            path: "documentRate",
-                                                            type: new sap.extension.data.Rate()
-                                                        },
-                                                        date: {
-                                                            path: "documentDate",
-                                                            type: new sap.extension.data.Date()
-                                                        }
-                                                    })
                                                 ]
                                             }).addStyleClass("sapUxAPObjectPageSubSectionAlignContent"),
                                         ]
@@ -664,6 +656,30 @@ namespace materials {
                                                 maxLength: 10
                                             }),
                                         }),
+                                        new sap.m.Label("", { text: ibas.i18n.prop("bo_inventorytransferline_fromwarehouse") }),
+                                        new sap.extension.m.RepositoryInput("", {
+                                            showValueHelp: true,
+                                            repository: materials.bo.BORepositoryMaterials,
+                                            dataInfo: {
+                                                type: materials.bo.Warehouse,
+                                                key: materials.bo.Warehouse.PROPERTY_CODE_NAME,
+                                                text: materials.bo.Warehouse.PROPERTY_NAME_NAME
+                                            },
+                                            valueHelpRequest: function (this: sap.extension.m.Input): void {
+                                                let model: any = this.getModel();
+                                                if (model instanceof sap.extension.model.JSONModel) {
+                                                    let data: any = model.getData();
+                                                    if (data) {
+                                                        that.fireViewEvents(that.chooseInventoryTransferLineWarehouseEvent, data, ibas.emDirection.OUT);
+                                                    }
+                                                }
+                                            }
+                                        }).bindProperty("bindingValue", {
+                                            path: "fromWarehouse",
+                                            type: new sap.extension.data.Alphanumeric({
+                                                maxLength: 8
+                                            })
+                                        }),
                                         new sap.m.Label("", { text: ibas.i18n.prop("bo_inventorytransferline_warehouse") }),
                                         new sap.extension.m.RepositoryInput("", {
                                             showValueHelp: true,
@@ -678,7 +694,7 @@ namespace materials {
                                                 if (model instanceof sap.extension.model.JSONModel) {
                                                     let data: any = model.getData();
                                                     if (data) {
-                                                        that.fireViewEvents(that.chooseInventoryTransferLineWarehouseEvent, data);
+                                                        that.fireViewEvents(that.chooseInventoryTransferLineWarehouseEvent, data, ibas.emDirection.IN);
                                                     }
                                                 }
                                             }

@@ -78,20 +78,6 @@ namespace materials {
                                 }),
                             }),
                             new sap.extension.table.DataColumn("", {
-                                label: ibas.i18n.prop("bo_inventorytransferrequest_fromwarehouse"),
-                                template: new sap.extension.m.RepositoryText("", {
-                                    repository: bo.BORepositoryMaterials,
-                                    dataInfo: {
-                                        type: bo.Warehouse,
-                                        key: bo.Warehouse.PROPERTY_CODE_NAME,
-                                        text: bo.Warehouse.PROPERTY_NAME_NAME
-                                    },
-                                }).bindProperty("bindingValue", {
-                                    path: "fromWarehouse",
-                                    type: new sap.extension.data.Alphanumeric()
-                                }),
-                            }),
-                            new sap.extension.table.DataColumn("", {
                                 label: ibas.i18n.prop("bo_inventorytransferrequest_documenttotal"),
                                 template: new sap.extension.m.Text("", {
                                 }).bindProperty("bindingValue", {
@@ -174,7 +160,7 @@ namespace materials {
                         rows: "{/}",
                         columns: [
                             new sap.extension.table.DataColumn("", {
-                                label: ibas.i18n.prop("bo_salesorderitem_lineid"),
+                                label: ibas.i18n.prop("bo_inventorytransferrequestline_lineid"),
                                 template: new sap.extension.m.Text("", {
                                 }).bindProperty("bindingValue", {
                                     parts: [
@@ -194,7 +180,7 @@ namespace materials {
                                 }),
                             }),
                             new sap.extension.table.DataColumn("", {
-                                label: ibas.i18n.prop("bo_salesorderitem_itemcode"),
+                                label: ibas.i18n.prop("bo_inventorytransferrequestline_itemcode"),
                                 template: new sap.extension.m.Text("", {
                                 }).bindProperty("bindingValue", {
                                     path: "itemCode",
@@ -202,7 +188,7 @@ namespace materials {
                                 }),
                             }),
                             new sap.extension.table.DataColumn("", {
-                                label: ibas.i18n.prop("bo_salesorderitem_itemdescription"),
+                                label: ibas.i18n.prop("bo_inventorytransferrequestline_itemdescription"),
                                 template: new sap.extension.m.Text("", {
                                 }).bindProperty("bindingValue", {
                                     path: "itemDescription",
@@ -210,7 +196,21 @@ namespace materials {
                                 }),
                             }),
                             new sap.extension.table.DataColumn("", {
-                                label: ibas.i18n.prop("bo_salesorderitem_warehouse"),
+                                label: ibas.i18n.prop("bo_inventorytransferrequestline_fromwarehouse"),
+                                template: new sap.extension.m.RepositoryText("", {
+                                    repository: materials.bo.BORepositoryMaterials,
+                                    dataInfo: {
+                                        type: materials.bo.Warehouse,
+                                        key: materials.bo.Warehouse.PROPERTY_CODE_NAME,
+                                        text: materials.bo.Warehouse.PROPERTY_NAME_NAME
+                                    },
+                                }).bindProperty("bindingValue", {
+                                    path: "fromWarehouse",
+                                    type: new sap.extension.data.Alphanumeric(),
+                                }),
+                            }),
+                            new sap.extension.table.DataColumn("", {
+                                label: ibas.i18n.prop("bo_inventorytransferrequestline_warehouse"),
                                 template: new sap.extension.m.RepositoryText("", {
                                     repository: materials.bo.BORepositoryMaterials,
                                     dataInfo: {
@@ -224,7 +224,7 @@ namespace materials {
                                 }),
                             }),
                             new sap.extension.table.DataColumn("", {
-                                label: ibas.i18n.prop("bo_salesorderitem_quantity"),
+                                label: ibas.i18n.prop("bo_inventorytransferrequestline_quantity"),
                                 template: new sap.extension.m.Text("", {
                                 }).bindProperty("bindingValue", {
                                     parts: [
@@ -239,7 +239,7 @@ namespace materials {
                                 }),
                             }),
                             new sap.extension.table.DataColumn("", {
-                                label: ibas.i18n.prop("bo_salesorderitem_price"),
+                                label: ibas.i18n.prop("bo_inventorytransferrequestline_price"),
                                 template: new sap.extension.m.Text("", {
                                 }).bindProperty("bindingValue", {
                                     parts: [
@@ -254,7 +254,7 @@ namespace materials {
                                 }),
                             }),
                             new sap.extension.table.DataColumn("", {
-                                label: ibas.i18n.prop("bo_salesorderitem_linetotal"),
+                                label: ibas.i18n.prop("bo_inventorytransferrequestline_linetotal"),
                                 template: new sap.extension.m.Text("", {
                                 }).bindProperty("bindingValue", {
                                     parts: [
@@ -269,7 +269,7 @@ namespace materials {
                                 }),
                             }),
                             new sap.extension.table.DataColumn("", {
-                                label: ibas.i18n.prop("bo_salesorderitem_reference1"),
+                                label: ibas.i18n.prop("bo_inventorytransferrequestline_reference1"),
                                 template: new sap.extension.m.Text("", {
                                 }).bindProperty("bindingValue", {
                                     path: "reference1",
@@ -277,7 +277,7 @@ namespace materials {
                                 }),
                             }),
                             new sap.extension.table.DataColumn("", {
-                                label: ibas.i18n.prop("bo_salesorderitem_reference2"),
+                                label: ibas.i18n.prop("bo_inventorytransferrequestline_reference2"),
                                 template: new sap.extension.m.Text("", {
                                 }).bindProperty("bindingValue", {
                                     path: "reference2",

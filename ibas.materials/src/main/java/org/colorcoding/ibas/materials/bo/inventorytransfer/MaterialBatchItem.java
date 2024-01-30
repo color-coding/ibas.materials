@@ -39,7 +39,7 @@ class MaterialBatchItem extends org.colorcoding.ibas.materials.bo.materialbatch.
 					@Override
 					public String getWarehouse() {
 						// 转出仓库
-						return MaterialBatchItem.this.parent.parent.getFromWarehouse();
+						return MaterialBatchItem.this.parent.getFromWarehouse();
 					}
 
 					@Override

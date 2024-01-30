@@ -83,20 +83,6 @@ namespace materials {
                                 }),
                             }),
                             new sap.extension.table.DataColumn("", {
-                                label: ibas.i18n.prop("bo_inventorytransferrequest_fromwarehouse"),
-                                template: new sap.extension.m.RepositoryText("", {
-                                    repository: bo.BORepositoryMaterials,
-                                    dataInfo: {
-                                        type: bo.Warehouse,
-                                        key: bo.Warehouse.PROPERTY_CODE_NAME,
-                                        text: bo.Warehouse.PROPERTY_NAME_NAME
-                                    },
-                                }).bindProperty("bindingValue", {
-                                    path: "fromWarehouse",
-                                    type: new sap.extension.data.Alphanumeric()
-                                }),
-                            }),
-                            new sap.extension.table.DataColumn("", {
                                 label: ibas.i18n.prop("bo_inventorytransferrequest_documenttotal"),
                                 template: new sap.extension.m.Text("", {
                                 }).bindProperty("bindingValue", {

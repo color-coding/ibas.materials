@@ -49,8 +49,29 @@ namespace materials {
                  * 加载可选值
                  */
                 loadItems(this: WarehouseSelect): WarehouseSelect {
-                    this.destroyItems();
-                    if (WAREHOUSE_CACHE.length > 0) {
+                    if (WAREHOUSE_CACHE === undefined) {
+                        WAREHOUSE_CACHE = null;
+                        let boRepository: materials.bo.BORepositoryMaterials = new materials.bo.BORepositoryMaterials();
+                        boRepository.fetchWarehouse({
+                            criteria: [
+                                new ibas.Condition(materials.bo.Warehouse.PROPERTY_ACTIVATED_NAME, ibas.emConditionOperation.EQUAL, ibas.emYesNo.YES)
+                            ],
+                            onCompleted: (opRslt) => {
+                                WAREHOUSE_CACHE = new ibas.ArrayList<bo.Warehouse>();
+                                if (opRslt.resultObjects.length > 0) {
+                                    for (let item of opRslt.resultObjects) {
+                                        WAREHOUSE_CACHE.add(item);
+                                    }
+                                }
+                                this.loadItems();
+                            }
+                        });
+                    } else if (WAREHOUSE_CACHE === null) {
+                        setTimeout(() => {
+                            this.loadItems();
+                        }, 600);
+                    } else {
+                        this.destroyItems();
                         let branch: any = this.getBranchData();
                         // tslint:disable-next-line: no-string-literal
                         branch = branch ? branch["branch"] : null;
@@ -65,26 +86,11 @@ namespace materials {
                                 }));
                             }
                         }
-                    } else {
-                        let boRepository: materials.bo.BORepositoryMaterials = new materials.bo.BORepositoryMaterials();
-                        boRepository.fetchWarehouse({
-                            criteria: [
-                                new ibas.Condition(materials.bo.Warehouse.PROPERTY_ACTIVATED_NAME, ibas.emConditionOperation.EQUAL, ibas.emYesNo.YES)
-                            ],
-                            onCompleted: (opRslt) => {
-                                if (opRslt.resultObjects.length > 0) {
-                                    for (let item of opRslt.resultObjects) {
-                                        WAREHOUSE_CACHE.add(item);
-                                    }
-                                    this.loadItems();
-                                }
-                            }
-                        });
                     }
                     return this;
                 }
             });
-            const WAREHOUSE_CACHE: ibas.IList<materials.bo.Warehouse> = new ibas.ArrayList<materials.bo.Warehouse>();
+            let WAREHOUSE_CACHE: ibas.IList<materials.bo.Warehouse> = undefined;
             /**
              * 物料或物料组-文本框
              */

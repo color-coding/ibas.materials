@@ -34,6 +34,7 @@ import org.colorcoding.ibas.materials.MyConfiguration;
 import org.colorcoding.ibas.materials.bo.inventorytransferrequest.InventoryTransferRequest;
 import org.colorcoding.ibas.materials.bo.materialbatch.IMaterialBatchItems;
 import org.colorcoding.ibas.materials.bo.materialserial.IMaterialSerialItems;
+import org.colorcoding.ibas.materials.data.DataConvert;
 import org.colorcoding.ibas.materials.data.Ledgers;
 import org.colorcoding.ibas.materials.logic.IInventoryTransferRequestClosingContract;
 import org.colorcoding.ibas.materials.logic.IMaterialIssueContract;
@@ -721,6 +722,37 @@ public class InventoryTransferLine extends BusinessObject<InventoryTransferLine>
 	 */
 	public final void setReferenced(emYesNo value) {
 		this.setProperty(PROPERTY_REFERENCED, value);
+	}
+
+	/**
+	 * 属性名称-从仓库
+	 */
+	private static final String PROPERTY_FROMWAREHOUSE_NAME = "FromWarehouse";
+
+	/**
+	 * 从仓库 属性
+	 */
+	@DbField(name = "FromWHS", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME, primaryKey = false)
+	public static final IPropertyInfo<String> PROPERTY_FROMWAREHOUSE = registerProperty(PROPERTY_FROMWAREHOUSE_NAME,
+			String.class, MY_CLASS);
+
+	/**
+	 * 获取-从仓库
+	 * 
+	 * @return 值
+	 */
+	@XmlElement(name = PROPERTY_FROMWAREHOUSE_NAME)
+	public final String getFromWarehouse() {
+		return this.getProperty(PROPERTY_FROMWAREHOUSE);
+	}
+
+	/**
+	 * 设置-从仓库
+	 * 
+	 * @param value 值
+	 */
+	public final void setFromWarehouse(String value) {
+		this.setProperty(PROPERTY_FROMWAREHOUSE, value);
 	}
 
 	/**
@@ -1570,6 +1602,7 @@ public class InventoryTransferLine extends BusinessObject<InventoryTransferLine>
 	@Override
 	protected IBusinessRule[] registerRules() {
 		return new IBusinessRule[] { // 注册的业务规则
+				new BusinessRuleRequired(PROPERTY_FROMWAREHOUSE), // 要求有值
 				new BusinessRuleRequired(PROPERTY_ITEMCODE), // 要求有值
 				new BusinessRuleRequired(PROPERTY_WAREHOUSE), // 要求有值
 				new BusinessRuleMinValue<BigDecimal>(Decimal.ZERO, PROPERTY_QUANTITY), // 不能低于0
@@ -1582,8 +1615,8 @@ public class InventoryTransferLine extends BusinessObject<InventoryTransferLine>
 	@Override
 	public void check() throws BusinessRuleException {
 		// 转入仓库，不能与源仓库相同
-		if (this.parent != null && this.parent.getFromWarehouse() != null) {
-			if (this.parent.getFromWarehouse().equals(this.getWarehouse())) {
+		if (!DataConvert.isNullOrEmpty(this.getFromWarehouse())) {
+			if (this.getFromWarehouse().equals(this.getWarehouse())) {
 				throw new BusinessRuleException(
 						I18N.prop("msg_mm_document_transfer_to_warehouse_is_same_as_original", this.toString()));
 			}
@@ -1652,7 +1685,7 @@ public class InventoryTransferLine extends BusinessObject<InventoryTransferLine>
 
 			@Override
 			public String getWarehouse() {
-				return InventoryTransferLine.this.parent.getFromWarehouse();
+				return InventoryTransferLine.this.getFromWarehouse();
 			}
 
 			@Override
@@ -1860,7 +1893,7 @@ public class InventoryTransferLine extends BusinessObject<InventoryTransferLine>
 		case Ledgers.CONDITION_PROPERTY_WAREHOUSE:
 			return this.getWarehouse();
 		case Ledgers.CONDITION_PROPERTY_FROM_WAREHOUSE:
-			return this.parent.getFromWarehouse();
+			return this.getFromWarehouse();
 		default:
 			return null;
 		}

@@ -401,17 +401,6 @@ namespace materials {
                 this.setProperty(InventoryTransferRequest.PROPERTY_ORDERTYPE_NAME, value);
             }
 
-            /** 映射的属性名称-从仓库 */
-            static PROPERTY_FROMWAREHOUSE_NAME: string = "FromWarehouse";
-            /** 获取-从仓库 */
-            get fromWarehouse(): string {
-                return this.getProperty<string>(InventoryTransferRequest.PROPERTY_FROMWAREHOUSE_NAME);
-            }
-            /** 设置-从仓库 */
-            set fromWarehouse(value: string) {
-                this.setProperty(InventoryTransferRequest.PROPERTY_FROMWAREHOUSE_NAME, value);
-            }
-
             /** 映射的属性名称-分支 */
             static PROPERTY_BRANCH_NAME: string = "Branch";
             /** 获取-分支 */
@@ -737,6 +726,17 @@ namespace materials {
             /** 设置-已引用 */
             set referenced(value: ibas.emYesNo) {
                 this.setProperty(InventoryTransferRequestLine.PROPERTY_REFERENCED_NAME, value);
+            }
+
+            /** 映射的属性名称-从仓库 */
+            static PROPERTY_FROMWAREHOUSE_NAME: string = "FromWarehouse";
+            /** 获取-从仓库 */
+            get fromWarehouse(): string {
+                return this.getProperty<string>(InventoryTransferRequestLine.PROPERTY_FROMWAREHOUSE_NAME);
+            }
+            /** 设置-从仓库 */
+            set fromWarehouse(value: string) {
+                this.setProperty(InventoryTransferRequestLine.PROPERTY_FROMWAREHOUSE_NAME, value);
             }
 
             /** 映射的属性名称-基于类型 */
