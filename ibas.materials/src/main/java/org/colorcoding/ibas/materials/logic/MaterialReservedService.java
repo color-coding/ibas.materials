@@ -69,27 +69,29 @@ public class MaterialReservedService extends MaterialInventoryBusinessLogic<IMat
 		return true;
 	}
 
-	BigDecimal lastReserved = Decimal.ZERO;
+	BigDecimal impactReserved = Decimal.ZERO;
 
 	@Override
 	protected void impact(IMaterialReservedContract contract) {
 		IMaterial material = this.getBeAffected();
 		BigDecimal onReserved = material.getOnReserved();
 		// 减去上次增加值（同物料多行时）
-		onReserved = onReserved.subtract(this.lastReserved).add(contract.getQuantity());
+		onReserved = onReserved.subtract(this.impactReserved).add(contract.getQuantity());
 		material.setOnReserved(onReserved);
 		// 记录本次增加值
-		this.lastReserved = lastReserved.add(contract.getQuantity());
+		this.impactReserved = impactReserved.add(contract.getQuantity());
 	}
+
+	BigDecimal revokeReserved = Decimal.ZERO;
 
 	@Override
 	protected void revoke(IMaterialReservedContract contract) {
 		IMaterial material = this.getBeAffected();
 		BigDecimal onReserved = material.getOnReserved();
-		onReserved = onReserved.subtract(contract.getQuantity());
-		if (Decimal.ZERO.compareTo(onReserved) >= 0) {
-			onReserved = Decimal.ZERO;
-		}
+		// 减去上次增加值（同物料多行时）
+		onReserved = onReserved.add(this.revokeReserved).subtract(contract.getQuantity());
 		material.setOnReserved(onReserved);
+		// 记录本次增加值
+		this.revokeReserved = revokeReserved.add(contract.getQuantity());
 	}
 }

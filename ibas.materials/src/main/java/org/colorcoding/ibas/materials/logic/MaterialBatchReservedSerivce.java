@@ -115,22 +115,38 @@ public class MaterialBatchReservedSerivce
 	}
 
 	@Override
+	protected boolean onRepeatedImpact(int times) {
+		return true;
+	}
+
+	@Override
+	protected boolean onRepeatedRevoke(int times) {
+		return true;
+	}
+
+	BigDecimal impactReserved = Decimal.ZERO;
+
+	@Override
 	protected void impact(IMaterialBatchReservedContract contract) {
 		IMaterialBatch materialBatch = this.getBeAffected();
 		BigDecimal onReserved = materialBatch.getReservedQuantity();
-		onReserved = onReserved.add(contract.getQuantity());
+		// 减去上次增加值（同物料多行时）
+		onReserved = onReserved.subtract(this.impactReserved).add(contract.getQuantity());
 		materialBatch.setReservedQuantity(onReserved);
+		// 记录本次增加值
+		this.impactReserved = impactReserved.add(contract.getQuantity());
 	}
+
+	BigDecimal revokeReserved = Decimal.ZERO;
 
 	@Override
 	protected void revoke(IMaterialBatchReservedContract contract) {
 		IMaterialBatch materialBatch = this.getBeAffected();
 		BigDecimal onReserved = materialBatch.getReservedQuantity();
-		onReserved = onReserved.subtract(contract.getQuantity());
-		if (Decimal.ZERO.compareTo(onReserved) >= 0) {
-			onReserved = Decimal.ZERO;
-		}
+		onReserved = onReserved.add(this.revokeReserved).subtract(contract.getQuantity());
 		materialBatch.setReservedQuantity(onReserved);
+		// 记录本次增加值
+		this.revokeReserved = revokeReserved.add(contract.getQuantity());
 	}
 
 }

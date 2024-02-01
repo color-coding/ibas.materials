@@ -113,6 +113,16 @@ public class MaterialSerialReservedService
 	}
 
 	@Override
+	protected boolean onRepeatedImpact(int times) {
+		return true;
+	}
+
+	@Override
+	protected boolean onRepeatedRevoke(int times) {
+		return true;
+	}
+
+	@Override
 	protected void impact(IMaterialSerialReservedContract contract) {
 		IMaterialSerial materialSerial = this.getBeAffected();
 		materialSerial.setReserved(emYesNo.YES);

@@ -112,14 +112,14 @@ public class MaterialWarehouseReservedService
 		return true;
 	}
 
-	BigDecimal lastReserved = Decimal.ZERO;
+	BigDecimal impactReserved = Decimal.ZERO;
 
 	@Override
 	protected void impact(IMaterialWarehouseReservedContract contract) {
 		IMaterialInventory materialInventory = this.getBeAffected();
 		BigDecimal onReserved = materialInventory.getOnReserved();
 		// 减去上次增加值（同物料多行时）
-		onReserved = onReserved.subtract(this.lastReserved).add(contract.getQuantity());
+		onReserved = onReserved.subtract(this.impactReserved).add(contract.getQuantity());
 		IMaterial material = this.checkMaterial(contract.getItemCode());
 		// 批次或序列号管理物料此刻不检查预留是否超库存
 		if (material.getBatchManagement() == emYesNo.YES || material.getSerialManagement() == emYesNo.YES) {
@@ -128,17 +128,16 @@ public class MaterialWarehouseReservedService
 			materialInventory.setOnReserved(onReserved);
 		}
 		// 记录本次增加值
-		this.lastReserved = lastReserved.add(contract.getQuantity());
+		this.impactReserved = impactReserved.add(contract.getQuantity());
 	}
+
+	BigDecimal revokeReserved = Decimal.ZERO;
 
 	@Override
 	protected void revoke(IMaterialWarehouseReservedContract contract) {
 		IMaterialInventory materialInventory = this.getBeAffected();
 		BigDecimal onReserved = materialInventory.getOnReserved();
-		onReserved = onReserved.subtract(contract.getQuantity());
-		if (Decimal.ZERO.compareTo(onReserved) >= 0) {
-			onReserved = Decimal.ZERO;
-		}
+		onReserved = onReserved.add(this.revokeReserved).subtract(contract.getQuantity());
 		IMaterial material = this.checkMaterial(contract.getItemCode());
 		// 批次或序列号管理物料此刻不检查预留是否超库存
 		if (material.getBatchManagement() == emYesNo.YES || material.getSerialManagement() == emYesNo.YES) {
@@ -146,6 +145,8 @@ public class MaterialWarehouseReservedService
 		} else {
 			materialInventory.setOnReserved(onReserved);
 		}
+		// 记录本次增加值
+		this.revokeReserved = revokeReserved.add(contract.getQuantity());
 	}
 
 }
