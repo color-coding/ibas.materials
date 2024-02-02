@@ -12,6 +12,7 @@ import org.colorcoding.ibas.bobas.data.Decimal;
 import org.colorcoding.ibas.bobas.data.emYesNo;
 import org.colorcoding.ibas.bobas.i18n.I18N;
 import org.colorcoding.ibas.bobas.logic.BusinessLogicException;
+import org.colorcoding.ibas.bobas.logic.IBusinessLogicContract;
 import org.colorcoding.ibas.bobas.mapping.LogicContract;
 import org.colorcoding.ibas.bobas.message.Logger;
 import org.colorcoding.ibas.bobas.message.MessageLevel;
@@ -122,6 +123,10 @@ public class MaterialEstimateReservedService extends MaterialEstimateService<IMa
 		IMaterialEstimateJournal materialJournal = this.getBeAffected();
 		materialJournal.setItemCode(contract.getItemCode());
 		materialJournal.setWarehouse(contract.getWarehouse());
+		IMaterial material = this.checkMaterial(contract.getItemCode());
+		if (material != null) {
+			materialJournal.setItemName(material.getName());
+		}
 		BigDecimal reserved = materialJournal.getReservedQuantity();
 		reserved = reserved.add(contract.getQuantity());
 		if (Decimal.ZERO.compareTo(reserved) <= 0) {
@@ -144,4 +149,13 @@ public class MaterialEstimateReservedService extends MaterialEstimateService<IMa
 		materialJournal.setReservedQuantity(reserved);
 	}
 
+	private class _MaterialEstimateJournal extends MaterialEstimateJournal {
+
+		private static final long serialVersionUID = 1L;
+
+		@Override
+		public IBusinessLogicContract[] getContracts() {
+			return null;
+		}
+	}
 }

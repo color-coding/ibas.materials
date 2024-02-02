@@ -3,7 +3,6 @@ package org.colorcoding.ibas.materials.logic;
 import org.colorcoding.ibas.bobas.logic.IBusinessLogicContract;
 import org.colorcoding.ibas.materials.bo.material.IMaterial;
 import org.colorcoding.ibas.materials.bo.materialinventory.IMaterialEstimateJournal;
-import org.colorcoding.ibas.materials.bo.materialinventory.MaterialEstimateJournal;
 
 public abstract class MaterialEstimateService<L extends IBusinessLogicContract>
 		extends MaterialInventoryBusinessLogic<L, IMaterialEstimateJournal> {
@@ -21,18 +20,4 @@ public abstract class MaterialEstimateService<L extends IBusinessLogicContract>
 		return this.material;
 	}
 
-}
-
-class _MaterialEstimateJournal extends MaterialEstimateJournal {
-
-	private static final long serialVersionUID = 1L;
-
-	public _MaterialEstimateJournal() {
-		this.setSavable(false);
-	}
-
-	@Override
-	public IBusinessLogicContract[] getContracts() {
-		return null;
-	}
 }
