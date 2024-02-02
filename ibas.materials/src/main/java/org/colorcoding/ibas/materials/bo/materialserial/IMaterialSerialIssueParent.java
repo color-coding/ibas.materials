@@ -1,5 +1,6 @@
 package org.colorcoding.ibas.materials.bo.materialserial;
 
+import org.colorcoding.ibas.bobas.data.DateTime;
 import org.colorcoding.ibas.bobas.rule.ICheckRules;
 
 /**
@@ -9,6 +10,27 @@ import org.colorcoding.ibas.bobas.rule.ICheckRules;
  *
  */
 public interface IMaterialSerialIssueParent extends IMaterialSerialItemParent, ICheckRules {
+
+	/**
+	 * 过账日期
+	 *
+	 * @return
+	 */
+	DateTime getPostingDate();
+
+	/**
+	 * 到期日
+	 *
+	 * @return
+	 */
+	DateTime getDeliveryDate();
+
+	/**
+	 * 凭证日期
+	 *
+	 * @return
+	 */
+	DateTime getDocumentDate();
 
 	/**
 	 * 获取-基于单据类型

@@ -8,21 +8,20 @@ namespace materials {
     export namespace ui {
         export namespace c {
             /**
-             * 列表视图-物料
+             * 列表视图-物料序列
              */
             export class MaterialSerialListView extends ibas.BOQueryViewWithPanel implements app.IMaterialSerialListView {
+                newDataEvent: Function;
+                viewDataEvent: Function;
+                get autoQuery(): boolean {
+                    return false;
+                }
                 /** 返回查询的对象 */
                 get queryTarget(): any {
                     return bo.MaterialSerial;
                 }
-                /** 新建数据 */
-                newDataEvent: Function;
-                /** 编辑数据，参数：目标数据 */
-                editDataEvent: Function;
-                /** 显示数据，参数：目标数据 */
-                viewDataEvent: Function;
-                /** 查询物料批次交易记录 */
-                fetchSerialJournalEvent: Function;
+                /** 查询物料序列交易记录 */
+                fetchDataJournalEvent: Function;
                 /** 绘制视图 */
                 draw(): any {
                     let that: this = this;
@@ -33,7 +32,10 @@ namespace materials {
                         items: {
                             path: "/rows",
                             template: new sap.m.ObjectListItem("", {
-                                title: "{serialCode}",
+                                title: {
+                                    path: "serialCode",
+                                    type: new sap.extension.data.Alphanumeric(),
+                                },
                                 number: {
                                     path: "inStock",
                                     formatter(data: any): any {
@@ -56,23 +58,49 @@ namespace materials {
                                 }),
                                 attributes: [
                                     new sap.extension.m.ObjectAttribute("", {
-                                        title: ibas.i18n.prop("bo_materialbatch_itemcode"),
+                                        title: ibas.i18n.prop("bo_materialserial_itemcode"),
+                                        bindingValue: {
+                                            path: "itemCode",
+                                            type: new sap.extension.data.Alphanumeric(),
+                                        },
+                                        wrapping: false,
+                                        showValueLink: true,
+                                        valueLinkRequest(): void {
+                                            let data: any = this.getBindingContext().getObject();
+                                            if (data instanceof bo.MaterialSerial && !ibas.strings.isEmpty(data.itemCode)) {
+                                                ibas.servicesManager.runLinkService({
+                                                    boCode: bo.Material.BUSINESS_OBJECT_CODE,
+                                                    linkValue: data.itemCode,
+                                                });
+                                            }
+                                        }
+                                    }),
+                                    new sap.extension.m.RepositoryObjectAttribute("", {
+                                        title: ibas.i18n.prop("bo_materialserial_itemdescription"),
+                                        repository: bo.BORepositoryMaterials,
+                                        dataInfo: {
+                                            type: bo.Material,
+                                            key: bo.Material.PROPERTY_CODE_NAME,
+                                            text: bo.Material.PROPERTY_NAME_NAME
+                                        },
+                                        wrapping: false,
+                                        showValueLink: false,
                                         bindingValue: {
                                             path: "itemCode",
                                             type: new sap.extension.data.Alphanumeric(),
                                         },
                                     }),
-                                    new sap.extension.m.ObjectAttribute("", {
-                                        title: ibas.i18n.prop("bo_materialbatch_warehouse"),
+                                    new sap.extension.m.RepositoryObjectAttribute("", {
+                                        title: ibas.i18n.prop("bo_materialserial_warehouse"),
+                                        repository: bo.BORepositoryMaterials,
+                                        dataInfo: {
+                                            type: bo.Warehouse,
+                                            key: bo.Warehouse.PROPERTY_CODE_NAME,
+                                            text: bo.Warehouse.PROPERTY_NAME_NAME
+                                        },
+                                        wrapping: false,
                                         bindingValue: {
                                             path: "warehouse",
-                                            type: new sap.extension.data.Alphanumeric(),
-                                        },
-                                    }),
-                                    new sap.extension.m.ObjectAttribute("", {
-                                        title: ibas.i18n.prop("bo_materialbatch_supplierserial"),
-                                        bindingValue: {
-                                            path: "supplierSerial",
                                             type: new sap.extension.data.Alphanumeric(),
                                         },
                                     }),
@@ -94,7 +122,14 @@ namespace materials {
                             }
                             ibas.logger.log(ibas.emMessageLevel.DEBUG, "result: {0}", criteria.toString());
                             that.fireViewEvents(that.fetchDataEvent, criteria);
-                        }
+                        },
+                        selectionChange(oEvent: sap.ui.base.Event): void {
+                            let oItem: sap.m.ObjectListItem = oEvent.getParameter("listItem");
+                            let data: any = oItem.getBindingContext().getObject();
+                            if (data instanceof bo.MaterialSerial) {
+                                that.fireViewEvents(that.fetchDataJournalEvent, data, that.dateFrom.getDateValue(), that.dateTo.getDateValue());
+                            }
+                        },
                     });
                     this.pageSerial = new sap.m.Page("", {
                         showHeader: false,
@@ -107,12 +142,14 @@ namespace materials {
                                     type: sap.m.ButtonType.Transparent,
                                     icon: "sap-icon://edit",
                                     press: function (): void {
-                                        that.fireViewEvents(that.editDataEvent, that.tableSerial.getSelecteds().firstOrDefault());
+                                        that.fireViewEvents(that.viewDataEvent, that.tableSerial.getSelecteds().firstOrDefault());
                                     }
                                 }),
                             ]
                         }),
-                        content: [this.tableSerial]
+                        content: [
+                            this.tableSerial
+                        ]
                     });
                     this.tableSerialJournal = new sap.extension.table.Table("", {
                         enableSelectAll: false,
@@ -121,116 +158,144 @@ namespace materials {
                         rows: "{/rows}",
                         columns: [
                             new sap.extension.table.Column("", {
-                                label: ibas.i18n.prop("bo_materialserialjournal_basedocumenttype"),
-                                template: new sap.extension.m.Text("", {
-                                }).bindProperty("bindingValue", {
-                                    path: "baseDocumentType",
-                                    formatter(data: any): any {
-                                        return ibas.businessobjects.describe(data);
-                                    }
-                                }),
-                            }),
-                            new sap.extension.table.Column("", {
-                                label: ibas.i18n.prop("bo_materialserialjournal_basedocumententry"),
-                                template: new sap.extension.m.Text("", {
-                                }).bindProperty("bindingValue", {
-                                    path: "baseDocumentEntry",
-                                    type: new sap.extension.data.Numeric()
-                                }),
-                            }),
-                            new sap.extension.table.Column("", {
-                                label: ibas.i18n.prop("bo_materialserialjournal_basedocumentlineid"),
-                                template: new sap.extension.m.Text("", {
-                                }).bindProperty("bindingValue", {
-                                    path: "baseDocumentLineId",
-                                    type: new sap.extension.data.Numeric()
-                                }),
-                            }),
-                            new sap.extension.table.Column("", {
                                 label: ibas.i18n.prop("bo_materialserialjournal_direction"),
                                 template: new sap.extension.m.Text("", {
                                 }).bindProperty("bindingValue", {
                                     path: "direction",
                                     type: new sap.extension.data.Direction(true)
                                 }),
+                                width: "6rem",
+                            }),
+                            new sap.extension.table.Column("", {
+                                label: ibas.i18n.prop("bo_materialserialjournal_deliverydate"),
+                                template: new sap.extension.m.Text("", {
+                                }).bindProperty("bindingValue", {
+                                    path: "deliveryDate",
+                                    type: new sap.extension.data.Date()
+                                }),
+                            }),
+                            new sap.extension.table.Column("", {
+                                label: ibas.i18n.prop("bo_materialserialjournal_basedocumenttype"),
+                                template: new sap.extension.m.DataLink("", {
+                                    press(this: sap.f.cards.Header): void {
+                                        let data: any = this.getBindingContext().getObject();
+                                        if (data instanceof bo.MaterialSerialJournal && data.baseDocumentEntry > 0) {
+                                            ibas.servicesManager.runLinkService({
+                                                boCode: data.baseDocumentType,
+                                                linkValue: data.baseDocumentEntry.toString()
+                                            });
+                                        }
+                                    }
+                                }).bindProperty("bindingValue", {
+                                    parts: [
+                                        {
+                                            path: "baseDocumentType",
+                                            type: new sap.extension.data.Alphanumeric({
+                                                maxLength: 30
+                                            }),
+                                        },
+                                        {
+                                            path: "baseDocumentEntry",
+                                            type: new sap.extension.data.Numeric(),
+                                        },
+                                        {
+                                            path: "baseDocumentLineId",
+                                            type: new sap.extension.data.Numeric(),
+                                        }
+                                    ],
+                                    formatter(type: string, entry: number, lineId: number): string {
+                                        if (ibas.objects.isNull(type) || ibas.objects.isNull(entry)) {
+                                            return "";
+                                        }
+                                        return ibas.businessobjects.describe(ibas.strings.format("{[{0}].[DocEntry = {1}]}", type, entry))
+                                            + (lineId > 0 ? ibas.strings.format(", {0}-{1}", ibas.i18n.prop("bo_goodsissueline_lineid"), lineId) : "");
+                                    }
+                                }),
+                                width: "16rem",
+                            }),
+                            new sap.extension.table.Column("", {
+                                label: ibas.i18n.prop("bo_materialserialjournal_warehouse"),
+                                template: new sap.extension.m.RepositoryText("", {
+                                    repository: bo.BORepositoryMaterials,
+                                    dataInfo: {
+                                        type: bo.Warehouse,
+                                        key: bo.Warehouse.PROPERTY_CODE_NAME,
+                                        text: bo.Warehouse.PROPERTY_NAME_NAME
+                                    },
+                                }).bindProperty("bindingValue", {
+                                    path: "warehouse",
+                                    type: new sap.extension.data.Alphanumeric()
+                                }),
+                            }),
+                            new sap.extension.table.Column("", {
+                                label: ibas.i18n.prop("bo_materialserialjournal_quantity_in"),
+                                template: new sap.extension.m.Text("", {
+                                }).bindProperty("bindingValue", {
+                                    path: "direction",
+                                    formatter(direction: ibas.emDirection): string {
+                                        return sap.extension.data.formatValue(sap.extension.data.Quantity,
+                                            direction !== ibas.emDirection.IN ? 0 : 1, "string"
+                                        );
+                                    }
+                                }),
+                                width: "8rem",
+                            }),
+                            new sap.extension.table.Column("", {
+                                label: ibas.i18n.prop("bo_materialserialjournal_quantity_out"),
+                                template: new sap.extension.m.Text("", {
+                                }).bindProperty("bindingValue", {
+                                    path: "direction",
+                                    formatter(direction: ibas.emDirection): string {
+                                        return sap.extension.data.formatValue(sap.extension.data.Quantity,
+                                            direction !== ibas.emDirection.OUT ? 0 : 1, "string"
+                                        );
+                                    }
+                                }),
+                                width: "8rem",
                             }),
                         ],
-                        nextDataSet(event: sap.ui.base.Event): void {
-                            // 查询下一个数据集
-                            let data: any = event.getParameter("data");
-                            if (ibas.objects.isNull(data)) {
-                                return;
-                            }
-                            if (ibas.objects.isNull(that.lastJournalCriteria)) {
-                                return;
-                            }
-                            let criteria: ibas.ICriteria = that.lastJournalCriteria.next(data);
-                            if (ibas.objects.isNull(criteria)) {
-                                return;
-                            }
-                            ibas.logger.log(ibas.emMessageLevel.DEBUG, "result: {0}", criteria.toString());
-                            that.fireViewEvents(that.fetchSerialJournalEvent, criteria);
-                        }
-                    });
-                    this.searchSerialJournal = new sap.m.SearchField("", {
-                        search(): void {
-                            let batch: bo.MaterialSerial = that.tableSerial.getSelecteds<bo.MaterialSerial>().firstOrDefault();
-                            if (ibas.objects.isNull(batch)) {
-                                that.application.viewShower.messages({
-                                    title: that.application.description,
-                                    message: ibas.i18n.prop("shell_please_chooose_data", ibas.i18n.prop("bo_materialbatch")),
-                                    type: ibas.emMessageType.WARNING
-                                });
-                                return;
-                            }
-                            let condition: ibas.ICondition;
-                            let criteria: ibas.ICriteria = that.getSerialJournalCriteria().clone();
-                            let search: string = that.searchSerialJournal.getValue();
-                            if (!ibas.strings.isEmpty(search)) {
-                                for (let item of criteria.conditions) {
-                                    if (ibas.strings.isEmpty(item.alias)) {
-                                        item.value = search;
+                        rowSettingsTemplate: new sap.ui.table.RowSettings("", {
+                            highlight: {
+                                path: "direction",
+                                formatter(direction: ibas.emDirection,): sap.ui.core.ValueState {
+                                    if (direction === ibas.emDirection.IN) {
+                                        return sap.ui.core.ValueState.Success;
                                     }
+                                    return sap.ui.core.ValueState.Error;
                                 }
                             }
-                            condition = criteria.conditions.create();
-                            condition.bracketOpen = 1;
-                            condition.alias = bo.MaterialSerialJournal.PROPERTY_ITEMCODE_NAME;
-                            condition.operation = ibas.emConditionOperation.EQUAL;
-                            condition.value = batch.itemCode;
-                            condition = criteria.conditions.create();
-                            condition.alias = bo.MaterialSerialJournal.PROPERTY_WAREHOUSE_NAME;
-                            condition.operation = ibas.emConditionOperation.EQUAL;
-                            condition.value = batch.warehouse;
-                            condition = criteria.conditions.create();
-                            condition.bracketClose = 1;
-                            condition.alias = bo.MaterialSerialJournal.PROPERTY_SERIALCODE_NAME;
-                            condition.operation = ibas.emConditionOperation.EQUAL;
-                            condition.value = batch.serialCode;
-                            that.fireViewEvents(that.fetchSerialJournalEvent, criteria);
-                            that.lastJournalCriteria = criteria;
-                            that.tableSerialJournal.setFirstVisibleRow(0);
-                            that.tableSerialJournal.setModel(null);
-                        }
+                        })
                     });
                     this.pageSerialJournal = new sap.m.Page("", {
                         showHeader: true,
                         customHeader: new sap.m.Toolbar("", {
                             content: [
-                                this.searchSerialJournal,
+                                new sap.m.SegmentedButton("", {
+                                    items: [
+                                        new sap.m.SegmentedButtonItem("", {
+                                            key: "ONHAND",
+                                            icon: "sap-icon://insurance-house",
+                                            text: ibas.i18n.prop("bo_materialinventory_onhand"),
+                                        }),
+                                    ],
+                                    width: "6rem"
+                                }),
+                                new sap.m.ToolbarSpacer(),
+                                new sap.m.Label("", {
+                                    text: ibas.i18n.prop("materials_date_from_to"),
+                                    showColon: true
+                                }),
+                                this.dateFrom = new sap.m.DatePicker("", {
+                                    width: "10rem"
+                                }),
+                                this.dateTo = new sap.m.DatePicker("", {
+                                    width: "10rem"
+                                }),
+                                new sap.m.ToolbarSeparator(""),
                                 new sap.m.Button("", {
-                                    icon: "sap-icon://filter",
-                                    type: sap.m.ButtonType.Transparent,
+                                    icon: "sap-icon://refresh",
                                     press: function (): void {
-                                        ibas.servicesManager.runApplicationService<ibas.ICriteriaEditorServiceContract, ibas.ICriteria>({
-                                            proxy: new ibas.CriteriaEditorServiceProxy({
-                                                target: bo.MaterialSerialJournal,
-                                                criteria: that.getSerialJournalCriteria(),
-                                            }),
-                                            onCompleted(result: ibas.ICriteria): void {
-                                                that.journalCriteria = result;
-                                            }
-                                        });
+                                        (<any>that.tableSerial).fireSelectionChange({ listItem: that.tableSerial.getSelectedItem() });
                                     }
                                 }),
                             ]
@@ -248,6 +313,10 @@ namespace materials {
                         ],
                     });
                 }
+                private pageSerial: sap.m.Page;
+                private tableSerial: sap.extension.m.List;
+                private dateFrom: sap.m.DatePicker;
+                private dateTo: sap.m.DatePicker;
                 /** 嵌入查询面板 */
                 embedded(view: any): void {
                     if (view instanceof sap.m.Toolbar) {
@@ -258,21 +327,6 @@ namespace materials {
                     this.pageSerial.addHeaderContent(view);
                     this.pageSerial.setShowHeader(true);
                 }
-                private pageSerial: sap.m.Page;
-                private tableSerial: sap.extension.m.List;
-
-                /** 显示物料批次数据 */
-                showSerials(datas: bo.MaterialSerial[]): void {
-                    let model: sap.ui.model.Model = this.tableSerial.getModel();
-                    if (model instanceof sap.extension.model.JSONModel) {
-                        // 已绑定过数据
-                        model.addData(datas);
-                    } else {
-                        // 未绑定过数据
-                        this.tableSerial.setModel(new sap.extension.model.JSONModel({ rows: datas }));
-                    }
-                    this.tableSerial.setBusy(false);
-                }
                 /** 记录上次查询条件，表格滚动时自动触发 */
                 query(criteria: ibas.ICriteria): void {
                     super.query(criteria);
@@ -282,37 +336,31 @@ namespace materials {
                         this.tableSerial.setModel(null);
                     }
                 }
-                private pageSerialJournal: sap.m.Page;
-                private searchSerialJournal: sap.m.SearchField;
-                private tableSerialJournal: sap.extension.table.Table;
-                /** 上一次使用的价格查询 */
-                private lastJournalCriteria: ibas.ICriteria;
-                /** 基础价格查询 */
-                private journalCriteria: ibas.ICriteria;
-                private getSerialJournalCriteria(): ibas.ICriteria {
-                    if (!ibas.objects.isNull(this.journalCriteria)) {
-                        return this.journalCriteria;
-                    }
-                    let condition: ibas.ICondition;
-                    let criteria: ibas.ICriteria = new ibas.Criteria();
-                    criteria.result = ibas.config.get(ibas.CONFIG_ITEM_CRITERIA_RESULT_COUNT, 30);
-                    let sort: ibas.ISort = criteria.sorts.create();
-                    sort.alias = bo.MaterialSerialJournal.PROPERTY_OBJECTKEY_NAME;
-                    sort.sortType = ibas.emSortType.DESCENDING;
-                    this.journalCriteria = criteria;
-                    return this.journalCriteria;
-                }
-                /** 显示物料批次交易数据 */
-                showSerialJournals(datas: bo.MaterialSerialJournal[]): void {
-                    let model: sap.ui.model.Model = this.tableSerialJournal.getModel();
+
+                /** 显示物料批次数据 */
+                showDatas(datas: bo.MaterialSerial[]): void {
+                    let model: sap.ui.model.Model = this.tableSerial.getModel();
                     if (model instanceof sap.extension.model.JSONModel) {
                         // 已绑定过数据
                         model.addData(datas);
                     } else {
                         // 未绑定过数据
-                        this.tableSerialJournal.setModel(new sap.extension.model.JSONModel({ rows: datas }));
+                        this.tableSerial.setModel(new sap.extension.model.JSONModel({ rows: datas }));
+                        if (datas.length === 1) {
+                            setTimeout(() => {
+                                this.tableSerial.setSelectedItem(this.tableSerial.getItems()[0]);
+                                (<any>this.tableSerial).fireSelectionChange({ listItem: this.tableSerial.getSelectedItem() });
+                            }, 100);
+                        }
                     }
-                    this.tableSerialJournal.setBusy(false);
+                    this.tableSerial.setBusy(false);
+                }
+                private pageSerialJournal: sap.m.Page;
+                private tableSerialJournal: sap.extension.table.Table;
+
+                /** 显示物料批次交易数据 */
+                showDataJournals(datas: bo.MaterialSerialJournal[]): void {
+                    this.tableSerialJournal.setModel(new sap.extension.model.JSONModel({ rows: datas }));
                 }
             }
         }

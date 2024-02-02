@@ -1592,6 +1592,21 @@ public class GoodsIssueLine extends BusinessObject<GoodsIssueLine>
 	IGoodsIssue parent;
 
 	@Override
+	public DateTime getPostingDate() {
+		return this.parent.getPostingDate();
+	}
+
+	@Override
+	public DateTime getDeliveryDate() {
+		return this.parent.getDeliveryDate();
+	}
+
+	@Override
+	public DateTime getDocumentDate() {
+		return this.parent.getDocumentDate();
+	}
+
+	@Override
 	public IBusinessLogicContract[] getContracts() {
 		return new IBusinessLogicContract[] {
 				// 物料发货

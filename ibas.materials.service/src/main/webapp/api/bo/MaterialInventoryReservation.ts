@@ -11,7 +11,7 @@ namespace materials {
         export interface IMaterialInventoryReservation extends ibas.IBOSimple {
             /** 物料编码 */
             itemCode: string;
-            /** 仓库编号 */
+            /** 仓库编码 */
             warehouse: string;
             /** 批次编码 */
             batchCode: string;

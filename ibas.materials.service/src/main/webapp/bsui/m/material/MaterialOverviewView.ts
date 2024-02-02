@@ -46,6 +46,10 @@ namespace materials {
                 viewMaterialOrderedEvent: Function;
                 /** 查看承诺事件 */
                 viewMaterialCommitedEvent: Function;
+                /** 查看批次信息 */
+                viewMaterialBatchEvent: Function;
+                /** 查看序列信息 */
+                viewMaterialSerialEvent: Function;
                 /** 绘制视图 */
                 draw(): any {
                     let that: this = this;

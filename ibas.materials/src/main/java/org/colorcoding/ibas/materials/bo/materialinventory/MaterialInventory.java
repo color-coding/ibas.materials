@@ -92,19 +92,19 @@ public class MaterialInventory extends BusinessObject<MaterialInventory> impleme
 	}
 
 	/**
-	 * 属性名称-仓库编号
+	 * 属性名称-仓库编码
 	 */
 	private static final String PROPERTY_WAREHOUSE_NAME = "Warehouse";
 
 	/**
-	 * 仓库编号 属性
+	 * 仓库编码 属性
 	 */
 	@DbField(name = "WhsCode", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME, primaryKey = false)
 	public static final IPropertyInfo<String> PROPERTY_WAREHOUSE = registerProperty(PROPERTY_WAREHOUSE_NAME,
 			String.class, MY_CLASS);
 
 	/**
-	 * 获取-仓库编号
+	 * 获取-仓库编码
 	 *
 	 * @return 值
 	 */
@@ -114,7 +114,7 @@ public class MaterialInventory extends BusinessObject<MaterialInventory> impleme
 	}
 
 	/**
-	 * 设置-仓库编号
+	 * 设置-仓库编码
 	 *
 	 * @param value 值
 	 */

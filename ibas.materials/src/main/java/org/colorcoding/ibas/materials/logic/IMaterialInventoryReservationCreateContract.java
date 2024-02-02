@@ -17,7 +17,7 @@ public interface IMaterialInventoryReservationCreateContract extends IBusinessLo
 	String getItemCode();
 
 	/**
-	 * 获取-仓库编号
+	 * 获取-仓库编码
 	 * 
 	 * @return 值
 	 */

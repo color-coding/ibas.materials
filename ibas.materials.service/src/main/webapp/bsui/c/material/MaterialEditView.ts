@@ -236,6 +236,28 @@ namespace materials {
                                                             return true;
                                                         }
                                                     }),
+                                                    new sap.m.Label("", { text: ibas.i18n.prop("bo_material_versionmanagement") }),
+                                                    new sap.extension.m.EnumSelect("", {
+                                                        enumType: ibas.emYesNo
+                                                    }).bindProperty("bindingValue", {
+                                                        path: "versionManagement",
+                                                        type: new sap.extension.data.YesNo(),
+                                                    }).bindProperty("editable", {
+                                                        parts: [
+                                                            {
+                                                                path: "serialManagement"
+                                                            }, {
+                                                                path: "batchManagement"
+                                                            }
+                                                        ],
+                                                        formatter(serial: ibas.emYesNo, batch: ibas.emYesNo): boolean {
+                                                            // 仅序列号批次可版本管理
+                                                            if (serial > 0 || batch > 0) {
+                                                                return true;
+                                                            }
+                                                            return false;
+                                                        }
+                                                    }),
                                                     new sap.m.Label("", { text: ibas.i18n.prop("bo_material_picture"), }),
                                                     new sap.m.FlexBox("", {
                                                         width: "100%",

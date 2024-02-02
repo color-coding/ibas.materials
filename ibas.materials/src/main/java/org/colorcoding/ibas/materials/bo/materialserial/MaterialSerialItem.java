@@ -643,6 +643,21 @@ public class MaterialSerialItem extends BusinessObject<MaterialSerialItem>
 							return ((IMaterialSerialReceiptParent) MaterialSerialItem.this.parent)
 									.getBaseDocumentLineId();
 						}
+
+						@Override
+						public DateTime getPostingDate() {
+							return ((IMaterialSerialReceiptParent) MaterialSerialItem.this.parent).getPostingDate();
+						}
+
+						@Override
+						public DateTime getDeliveryDate() {
+							return ((IMaterialSerialReceiptParent) MaterialSerialItem.this.parent).getDeliveryDate();
+						}
+
+						@Override
+						public DateTime getDocumentDate() {
+							return ((IMaterialSerialReceiptParent) MaterialSerialItem.this.parent).getDocumentDate();
+						}
 					}
 
 			};
@@ -710,6 +725,21 @@ public class MaterialSerialItem extends BusinessObject<MaterialSerialItem>
 						public Integer getBaseDocumentLineId() {
 							return ((IMaterialSerialIssueParent) MaterialSerialItem.this.parent)
 									.getBaseDocumentLineId();
+						}
+
+						@Override
+						public DateTime getPostingDate() {
+							return ((IMaterialSerialIssueParent) MaterialSerialItem.this.parent).getPostingDate();
+						}
+
+						@Override
+						public DateTime getDeliveryDate() {
+							return ((IMaterialSerialIssueParent) MaterialSerialItem.this.parent).getDeliveryDate();
+						}
+
+						@Override
+						public DateTime getDocumentDate() {
+							return ((IMaterialSerialIssueParent) MaterialSerialItem.this.parent).getDocumentDate();
 						}
 					}
 

@@ -1,5 +1,6 @@
 package org.colorcoding.ibas.materials.logic;
 
+import org.colorcoding.ibas.bobas.data.DateTime;
 import org.colorcoding.ibas.bobas.data.emDirection;
 import org.colorcoding.ibas.bobas.logic.IBusinessLogicContract;
 
@@ -63,6 +64,33 @@ public interface IMaterialSerialJournalContract extends IBusinessLogicContract {
 	 * @return
 	 */
 	Integer getDocumentLineId();
+
+	/**
+	 * 过账日期
+	 *
+	 * @return
+	 */
+	default DateTime getPostingDate() {
+		return null;
+	}
+
+	/**
+	 * 到期日
+	 *
+	 * @return
+	 */
+	default DateTime getDeliveryDate() {
+		return null;
+	}
+
+	/**
+	 * 凭证日期
+	 *
+	 * @return
+	 */
+	default DateTime getDocumentDate() {
+		return null;
+	}
 
 	/**
 	 * 获取-基于单据类型

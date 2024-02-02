@@ -4,7 +4,7 @@
   <Model Name="MaterialInventoryJournal" Description="仓库日记账" ModelType="Simple" Mapped="${Company}_MM_OINM">
     <Property Name="ItemCode" Description="物料编码" DataType="Alphanumeric" DataSubType="Default" EditSize="50" Mapped="ItemCode"/>
     <Property Name="ItemName" Description="物料名称" DataType="Alphanumeric" DataSubType="Default" EditSize="100" Mapped="ItemName"/>
-    <Property Name="Warehouse" Description="仓库编号" DataType="Alphanumeric" DataSubType="Default" EditSize="8" Mapped="WhsCode"/>
+    <Property Name="Warehouse" Description="仓库编码" DataType="Alphanumeric" DataSubType="Default" EditSize="8" Mapped="WhsCode"/>
     <Property Name="Direction" Description="方向" DataType="Alphanumeric" DataSubType="Default" EditSize="1" DeclaredType="emDirection" Mapped="Direction" UniqueKey="Yes"/>
     <Property Name="Quantity" Description="数量" DataType="Decimal" DataSubType="Quantity" EditSize="8" Mapped="Quantity"/>
     <Property Name="Price" Description="价格" DataType="Decimal" DataSubType="Price" EditSize="8" Mapped="Price"/>
@@ -13,7 +13,7 @@
     <Property Name="CalculatedPrice" Description="计算价格" DataType="Decimal" DataSubType="Price" EditSize="8" Mapped="CalcPrice"/>
     <Property Name="TransactionValue" Description="交易值" DataType="Decimal" DataSubType="Sum" EditSize="8" Mapped="TransValue"/>
     <Property Name="PostingDate" Description="过账日期" DataType="Date" DataSubType="Default" EditSize="8" Mapped="DocDate"/>
-    <Property Name="DeliveryDate" Description="到期日" DataType="Date" DataSubType="Default" EditSize="8" Mapped="DueDate"/>
+    <Property Name="DeliveryDate" Description="交货期日" DataType="Date" DataSubType="Default" EditSize="8" Mapped="DueDate"/>
     <Property Name="DocumentDate" Description="凭证日期" DataType="Date" DataSubType="Default" EditSize="8" Mapped="TaxDate"/>
     <Property Name="InventoryQuantity" Description="库存数量" DataType="Decimal" DataSubType="Sum" EditSize="8" Mapped="StockQty"/>
     <Property Name="InventoryValue" Description="库存价值" DataType="Decimal" DataSubType="Sum" EditSize="8" Mapped="StockValue"/>

@@ -109,6 +109,9 @@ namespace materials {
             /** 批号管理 */
             batchManagement: ibas.emYesNo;
 
+            /** 版本管理 */
+            versionManagement: ibas.emYesNo;
+
             /** 采购税收组 */
             purchaseTaxGroup: string;
 

@@ -115,6 +115,9 @@ public class MaterialSerialJournalService
 		IMaterialSerialJournal materialSerialJournal = this.getBeAffected();
 		materialSerialJournal.setItemCode(contract.getItemCode());
 		materialSerialJournal.setWarehouse(contract.getWarehouse());
+		materialSerialJournal.setPostingDate(contract.getPostingDate());
+		materialSerialJournal.setDocumentDate(contract.getDocumentDate());
+		materialSerialJournal.setDeliveryDate(contract.getDeliveryDate());
 		materialSerialJournal.setOriginalDocumentType(contract.getBaseDocumentType());
 		materialSerialJournal.setOriginalDocumentEntry(contract.getBaseDocumentEntry());
 		materialSerialJournal.setOriginalDocumentLineId(contract.getBaseDocumentLineId());

@@ -586,6 +586,20 @@ public interface IMaterial extends IBOMasterData {
 	void setBatchManagement(emYesNo value);
 
 	/**
+	 * 获取-版本管理
+	 * 
+	 * @return 值
+	 */
+	emYesNo getVersionManagement();
+
+	/**
+	 * 设置-版本管理
+	 * 
+	 * @param value 值
+	 */
+	void setVersionManagement(emYesNo value);
+
+	/**
 	 * 获取-采购税收组
 	 * 
 	 * @return 值

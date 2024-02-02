@@ -312,6 +312,16 @@ namespace materials {
                 this.setProperty(Product.PROPERTY_BATCHMANAGEMENT_NAME, value);
             }
 
+            /** 映射的属性名称-版本管理 */
+            static PROPERTY_VERSIONMANAGEMENT_NAME: string = "VersionManagement";
+            /** 获取-版本管理 */
+            get versionManagement(): ibas.emYesNo {
+                return this.getProperty<ibas.emYesNo>(Product.PROPERTY_VERSIONMANAGEMENT_NAME);
+            }
+            /** 设置-版本管理 */
+            set versionManagement(value: ibas.emYesNo) {
+                this.setProperty(Product.PROPERTY_VERSIONMANAGEMENT_NAME, value);
+            }
             /** 映射的属性名称-采购税收组 */
             static PROPERTY_PURCHASETAXGROUP_NAME: string = "PurchaseTaxGroup";
             /** 获取-采购税收组 */

@@ -17,7 +17,7 @@ namespace materials {
             sourceDocumentLineId: number;
             /** 物料编码 */
             itemCode: string;
-            /** 仓库编号 */
+            /** 仓库编码 */
             warehouse: string;
             /** 数量 */
             quantity: number;

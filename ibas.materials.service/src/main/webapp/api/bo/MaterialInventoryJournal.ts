@@ -14,7 +14,7 @@ namespace materials {
             itemCode: string;
             /** 物料名称 */
             itemName: string;
-            /** 仓库编号 */
+            /** 仓库编码 */
             warehouse: string;
             /** 方向 */
             direction: ibas.emDirection;

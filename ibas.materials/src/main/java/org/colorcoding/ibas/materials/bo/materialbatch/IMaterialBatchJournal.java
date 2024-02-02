@@ -146,6 +146,48 @@ public interface IMaterialBatchJournal extends IBOSimple {
 	void setBaseDocumentLineId(Integer value);
 
 	/**
+	 * 获取-过账日期
+	 * 
+	 * @return 值
+	 */
+	DateTime getPostingDate();
+
+	/**
+	 * 设置-过账日期
+	 * 
+	 * @param value 值
+	 */
+	void setPostingDate(DateTime value);
+
+	/**
+	 * 获取-到期日
+	 * 
+	 * @return 值
+	 */
+	DateTime getDeliveryDate();
+
+	/**
+	 * 设置-到期日
+	 * 
+	 * @param value 值
+	 */
+	void setDeliveryDate(DateTime value);
+
+	/**
+	 * 获取-凭证日期
+	 * 
+	 * @return 值
+	 */
+	DateTime getDocumentDate();
+
+	/**
+	 * 设置-凭证日期
+	 * 
+	 * @param value 值
+	 */
+	void setDocumentDate(DateTime value);
+
+	/**
 	 * 获取-原始类型
 	 * 
 	 * @return 值

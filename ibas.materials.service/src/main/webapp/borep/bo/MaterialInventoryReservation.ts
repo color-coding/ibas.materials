@@ -26,13 +26,13 @@ namespace materials {
                 this.setProperty(MaterialInventoryReservation.PROPERTY_ITEMCODE_NAME, value);
             }
 
-            /** 映射的属性名称-仓库编号 */
+            /** 映射的属性名称-仓库编码 */
             static PROPERTY_WAREHOUSE_NAME: string = "Warehouse";
-            /** 获取-仓库编号 */
+            /** 获取-仓库编码 */
             get warehouse(): string {
                 return this.getProperty<string>(MaterialInventoryReservation.PROPERTY_WAREHOUSE_NAME);
             }
-            /** 设置-仓库编号 */
+            /** 设置-仓库编码 */
             set warehouse(value: string) {
                 this.setProperty(MaterialInventoryReservation.PROPERTY_WAREHOUSE_NAME, value);
             }

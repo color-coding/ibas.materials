@@ -92,21 +92,27 @@ public interface IMaterialReceiptContract extends IBusinessLogicContract {
 	 *
 	 * @return
 	 */
-	DateTime getPostingDate();
+	default DateTime getPostingDate() {
+		return null;
+	}
 
 	/**
 	 * 到期日
 	 *
 	 * @return
 	 */
-	DateTime getDeliveryDate();
+	default DateTime getDeliveryDate() {
+		return null;
+	}
 
 	/**
 	 * 凭证日期
 	 *
 	 * @return
 	 */
-	DateTime getDocumentDate();
+	default DateTime getDocumentDate() {
+		return null;
+	}
 
 	/**
 	 * 获取-批号管理

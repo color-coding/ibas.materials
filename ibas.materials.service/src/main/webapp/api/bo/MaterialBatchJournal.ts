@@ -35,6 +35,15 @@ namespace materials {
             /** 基于行号 */
             baseDocumentLineId: number;
 
+            /** 过账日期 */
+            postingDate: Date;
+
+            /** 到期日 */
+            deliveryDate: Date;
+
+            /** 凭证日期 */
+            documentDate: Date;
+
             /** 原始类型 */
             originalDocumentType: string;
 

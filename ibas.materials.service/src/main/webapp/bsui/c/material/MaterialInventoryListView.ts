@@ -11,9 +11,16 @@ namespace materials {
             /**
              * 列表视图-物料库存
              */
-            export class MaterialInventoryListView extends ibas.View implements app.IMaterialInventoryListView {
-                /** 查询物料 */
-                fetchMaterialEvent: Function;
+            export class MaterialInventoryListView extends ibas.BOQueryViewWithPanel implements app.IMaterialInventoryListView {
+                newDataEvent: Function;
+                viewDataEvent: Function;
+                get autoQuery(): boolean {
+                    return false;
+                }
+                /** 返回查询的对象 */
+                get queryTarget(): any {
+                    return bo.Material;
+                }
                 /** 查询物料库存交易记录 */
                 fetchInventoryJournalEvent: Function;
                 /** 查询物料订购交易记录 */
@@ -23,44 +30,142 @@ namespace materials {
                 /** 绘制视图 */
                 draw(): any {
                     let that: this = this;
-                    this.treeMaterials = new sap.extension.m.Tree("", {
-                        mode: sap.m.ListMode.SingleSelectLeft,
+                    this.tableMaterial = new sap.extension.m.List("", {
+                        mode: sap.m.ListMode.SingleSelectMaster,
                         items: {
-                            path: "/",
-                            parameters: {
-                                arrayNames: [
-                                    "warehouses",
-                                ]
-                            },
-                            templateShareable: false,
-                            template: new sap.m.StandardTreeItem("", {
-                                title: {
-                                    parts: [
-                                        {
-                                            path: "code",
-                                            type: new sap.extension.data.Alphanumeric(),
-                                        },
-                                        {
-                                            path: "name",
-                                            type: new sap.extension.data.Alphanumeric(),
-                                        },
-                                    ],
-                                    formatter(code: string, name: string): string {
-                                        let builder: ibas.StringBuilder = new ibas.StringBuilder();
-                                        builder.map(null, "");
-                                        builder.map(undefined, "");
-                                        builder.append(code);
-                                        builder.append(" - ");
-                                        builder.append(name);
-                                        return builder.toString();
-                                    }
-                                },
+                            path: "/rows",
+                            templateShareable: true,
+                            template: new sap.m.CustomListItem("", {
+                                content: [
+                                    new sap.m.Panel("", {
+                                        expandable: true,
+                                        expanded: false,
+                                        headerToolbar: new sap.m.Toolbar("", {
+                                            design: sap.m.ToolbarDesign.Transparent,
+                                            style: sap.m.ToolbarStyle.Clear,
+                                            content: [
+                                                new sap.m.Text("", {
+                                                    text: {
+                                                        parts: [
+                                                            {
+                                                                path: "code",
+                                                                type: new sap.extension.data.Alphanumeric(),
+                                                            },
+                                                            {
+                                                                path: "name",
+                                                                type: new sap.extension.data.Alphanumeric(),
+                                                            }
+                                                        ],
+                                                        formatter(code: string, name: string): string {
+                                                            let builder: ibas.StringBuilder = new ibas.StringBuilder();
+                                                            builder.map(null, "");
+                                                            builder.map(undefined, "");
+                                                            builder.append(code);
+                                                            builder.append(" - ");
+                                                            builder.append(name);
+                                                            return builder.toString();
+                                                        }
+                                                    },
+                                                }),
+                                            ]
+                                        }),
+                                        content: [
+                                            new sap.m.VBox("", {
+                                                justifyContent: sap.m.FlexJustifyContent.Start,
+                                                renderType: sap.m.FlexRendertype.Bare,
+                                                items: {
+                                                    path: "warehouses",
+                                                    templateShareable: false,
+                                                    template: new sap.m.RadioButton("", {
+                                                        text: {
+                                                            parts: [
+                                                                {
+                                                                    path: "code",
+                                                                    type: new sap.extension.data.Alphanumeric(),
+                                                                },
+                                                                {
+                                                                    path: "name",
+                                                                    type: new sap.extension.data.Alphanumeric(),
+                                                                }
+                                                            ],
+                                                            formatter(code: string, name: string): string {
+                                                                let builder: ibas.StringBuilder = new ibas.StringBuilder();
+                                                                builder.map(null, "");
+                                                                builder.map(undefined, "");
+                                                                builder.append(code);
+                                                                builder.append(" - ");
+                                                                builder.append(name);
+                                                                return builder.toString();
+                                                            }
+                                                        },
+                                                        select(this: sap.m.RadioButton, event: sap.ui.base.Event): void {
+                                                            if ((<any>event.getSource()).getSelected() === true) {
+                                                                let item: any = (<any>event.getSource())?.getParent()?.getParent()?.getParent();
+                                                                if (item instanceof sap.m.CustomListItem) {
+                                                                    setTimeout(() => {
+                                                                        that.tableMaterial.setSelectedItem(item);
+                                                                        (<any>that.tableMaterial).fireSelectionChange({ listItem: item });
+                                                                    }, 100);
+                                                                }
+                                                            }
+                                                        }
+                                                    }),
+                                                }
+                                            }),
+                                        ]
+                                    }),
+                                ],
                                 type: sap.m.ListType.Inactive,
                             }),
                         },
+                        nextDataSet(event: sap.ui.base.Event): void {
+                            // 查询下一个数据集
+                            let data: any = event.getParameter("data");
+                            if (ibas.objects.isNull(data)) {
+                                return;
+                            }
+                            if (ibas.objects.isNull(that.lastCriteria)) {
+                                return;
+                            }
+                            let criteria: ibas.ICriteria = that.lastCriteria.next(data.material);
+                            if (ibas.objects.isNull(criteria)) {
+                                return;
+                            }
+                            ibas.logger.log(ibas.emMessageLevel.DEBUG, "result: {0}", criteria.toString());
+                            that.fireViewEvents(that.fetchDataEvent, criteria);
+                        },
                         selectionChange(oEvent: sap.ui.base.Event): void {
-                            let oItem: sap.m.StandardTreeItem = oEvent.getParameter("listItem");
+                            let oItem: sap.m.CustomListItem = oEvent.getParameter("listItem");
                             let data: any = oItem.getBindingContext().getObject();
+                            let done: boolean = false;
+                            for (let item of oItem.getContent()) {
+                                if (item instanceof sap.m.Panel) {
+                                    if (item.getExpanded() !== true) {
+                                        continue;
+                                    }
+                                    for (let sItem of item.getContent()) {
+                                        if (sItem instanceof sap.m.VBox) {
+                                            for (let vItem of sItem.getItems()) {
+                                                if (vItem instanceof sap.m.RadioButton) {
+                                                    if (vItem.getSelected() === true) {
+                                                        data = vItem.getBindingContext().getObject();
+                                                        done = true;
+                                                    }
+                                                }
+                                                if (done === true) {
+                                                    break;
+                                                }
+                                            }
+                                        }
+                                        if (done === true) {
+                                            break;
+                                        }
+                                    }
+                                }
+                                if (done === true) {
+                                    break;
+                                }
+                            }
                             if (data instanceof app.MaterialsWarehouse) {
                                 if (that.buttonInventory.getSelectedKey() === "ONHAND") {
                                     that.fireViewEvents(that.fetchInventoryJournalEvent, data.code);
@@ -70,13 +175,13 @@ namespace materials {
                                     that.fireViewEvents(that.fetchCommitedJournalEvent, data.code);
                                 }
                             } else if (data instanceof bo.Warehouse) {
-                                let parent: any = oItem.getParentNode()?.getBindingContext()?.getObject();
+                                let parent: any = oItem.getBindingContext().getObject();
                                 if (that.buttonInventory.getSelectedKey() === "ONHAND") {
-                                    that.fireViewEvents(that.fetchInventoryJournalEvent, parent?.code, data.code);
+                                    that.fireViewEvents(that.fetchInventoryJournalEvent, parent?.code, data.code, that.dateFrom.getDateValue(), that.dateTo.getDateValue());
                                 } else if (that.buttonInventory.getSelectedKey() === "ONORDERED") {
-                                    that.fireViewEvents(that.fetchOrderedJournalEvent, parent?.code, data.code);
+                                    that.fireViewEvents(that.fetchOrderedJournalEvent, parent?.code, data.code, that.dateFrom.getDateValue(), that.dateTo.getDateValue());
                                 } else if (that.buttonInventory.getSelectedKey() === "ONCOMMITED") {
-                                    that.fireViewEvents(that.fetchCommitedJournalEvent, parent?.code, data.code);
+                                    that.fireViewEvents(that.fetchCommitedJournalEvent, parent?.code, data.code, that.dateFrom.getDateValue(), that.dateTo.getDateValue());
                                 }
                             }
                         },
@@ -97,10 +202,10 @@ namespace materials {
                                 width: "6rem",
                             }),
                             new sap.extension.table.Column("", {
-                                label: ibas.i18n.prop("bo_materialinventoryjournal_documentdate"),
+                                label: ibas.i18n.prop("bo_materialinventoryjournal_deliverydate"),
                                 template: new sap.extension.m.Text("", {
                                 }).bindProperty("bindingValue", {
-                                    path: "documentDate",
+                                    path: "deliveryDate",
                                     type: new sap.extension.data.Date()
                                 }),
                             }),
@@ -158,11 +263,50 @@ namespace materials {
                                 }),
                             }),
                             new sap.extension.table.Column("", {
-                                label: ibas.i18n.prop("bo_materialinventoryjournal_quantity"),
+                                label: ibas.i18n.prop("bo_materialinventoryjournal_quantity_in"),
                                 template: new sap.extension.m.Text("", {
                                 }).bindProperty("bindingValue", {
-                                    path: "quantity",
-                                    type: new sap.extension.data.Quantity()
+                                    parts: [
+                                        {
+                                            path: "direction",
+                                        },
+                                        {
+                                            path: "quantity",
+                                            type: new sap.extension.data.Quantity()
+                                        }
+                                    ],
+                                    formatter(direction: ibas.emDirection, quantity: number): string {
+                                        if (!(quantity > 0)) {
+                                            return undefined;
+                                        }
+                                        return sap.extension.data.formatValue(sap.extension.data.Quantity,
+                                            direction !== ibas.emDirection.IN ? 0 : quantity, "string"
+                                        );
+                                    }
+                                }),
+                                width: "8rem",
+                            }),
+                            new sap.extension.table.Column("", {
+                                label: ibas.i18n.prop("bo_materialinventoryjournal_quantity_out"),
+                                template: new sap.extension.m.Text("", {
+                                }).bindProperty("bindingValue", {
+                                    parts: [
+                                        {
+                                            path: "direction",
+                                        },
+                                        {
+                                            path: "quantity",
+                                            type: new sap.extension.data.Quantity()
+                                        }
+                                    ],
+                                    formatter(direction: ibas.emDirection, quantity: number): string {
+                                        if (!(quantity > 0)) {
+                                            return undefined;
+                                        }
+                                        return sap.extension.data.formatValue(sap.extension.data.Quantity,
+                                            direction !== ibas.emDirection.OUT ? 0 : quantity, "string"
+                                        );
+                                    }
                                 }),
                                 width: "8rem",
                             }),
@@ -197,6 +341,22 @@ namespace materials {
                                 template: new sap.extension.m.Text("", {
                                 }).bindProperty("bindingValue", {
                                     path: "transactionValue",
+                                    type: new sap.extension.data.Sum()
+                                }),
+                            }),
+                            new sap.extension.table.Column("", {
+                                label: ibas.i18n.prop("bo_materialinventoryjournal_inventoryquantity"),
+                                template: new sap.extension.m.Text("", {
+                                }).bindProperty("bindingValue", {
+                                    path: "inventoryQuantity",
+                                    type: new sap.extension.data.Quantity()
+                                }),
+                            }),
+                            new sap.extension.table.Column("", {
+                                label: ibas.i18n.prop("bo_materialinventoryjournal_inventoryvalue"),
+                                template: new sap.extension.m.Text("", {
+                                }).bindProperty("bindingValue", {
+                                    path: "inventoryValue",
                                     type: new sap.extension.data.Sum()
                                 }),
                             }),
@@ -398,51 +558,10 @@ namespace materials {
                     });
                     return new sap.m.SplitContainer("", {
                         masterPages: [
-                            new sap.m.Page("", {
+                            this.pageMaterial = new sap.extension.m.Page("", {
                                 showHeader: false,
-                                subHeader: new sap.m.Toolbar("", {
-                                    content: [
-                                        new sap.m.Button("", {
-                                            icon: "sap-icon://slim-arrow-right",
-                                            type: sap.m.ButtonType.Transparent,
-                                            press(this: sap.m.Button): void {
-                                                if (this.getIcon() === "sap-icon://slim-arrow-right") {
-                                                    that.treeMaterials.expandToLevel(1);
-                                                    this.setIcon("sap-icon://slim-arrow-down");
-                                                } else {
-                                                    that.treeMaterials.collapseAll();
-                                                    this.setIcon("sap-icon://slim-arrow-right");
-                                                }
-                                            }
-                                        }),
-                                        new sap.m.SearchField("", {
-                                            search(oEvent: sap.ui.base.Event): void {
-                                                let query: string = oEvent.getParameter("query");
-                                                if (!ibas.strings.isEmpty(query)) {
-                                                    let criteria: ibas.ICriteria = new ibas.Criteria();
-                                                    let condition: ibas.ICondition = criteria.conditions.create();
-                                                    condition.alias = bo.Material.PROPERTY_CODE_NAME;
-                                                    condition.value = query;
-                                                    condition.operation = ibas.emConditionOperation.CONTAIN;
-                                                    condition = criteria.conditions.create();
-                                                    condition.alias = bo.Material.PROPERTY_NAME_NAME;
-                                                    condition.value = query;
-                                                    condition.operation = ibas.emConditionOperation.CONTAIN;
-                                                    condition.relationship = ibas.emConditionRelationship.OR;
-                                                    that.fireViewEvents(that.fetchMaterialEvent, criteria);
-                                                } else {
-                                                    that.fireViewEvents(that.fetchMaterialEvent);
-                                                }
-                                            }
-                                        }),
-                                        new sap.m.Button("", {
-                                            icon: "sap-icon://filter",
-                                            type: sap.m.ButtonType.Transparent,
-                                        }),
-                                    ]
-                                }),
                                 content: [
-                                    this.treeMaterials
+                                    this.tableMaterial
                                 ]
                             }),
                         ],
@@ -476,9 +595,27 @@ namespace materials {
                                                 if (index >= 0) {
                                                     that.container.to(that.container.getPages()[index]);
                                                 }
-                                                (<any>that.treeMaterials).fireSelectionChange({ listItem: that.treeMaterials.getSelectedItem() });
+                                                (<any>that.tableMaterial).fireSelectionChange({ listItem: that.tableMaterial.getSelectedItem() });
                                             }
-                                        })
+                                        }),
+                                        new sap.m.ToolbarSpacer(),
+                                        new sap.m.Label("", {
+                                            text: ibas.i18n.prop("materials_date_from_to"),
+                                            showColon: true
+                                        }),
+                                        this.dateFrom = new sap.m.DatePicker("", {
+                                            width: "10rem"
+                                        }),
+                                        this.dateTo = new sap.m.DatePicker("", {
+                                            width: "10rem"
+                                        }),
+                                        new sap.m.ToolbarSeparator(""),
+                                        new sap.m.Button("", {
+                                            icon: "sap-icon://refresh",
+                                            press: function (): void {
+                                                (<any>that.tableMaterial).fireSelectionChange({ listItem: that.tableMaterial.getSelectedItem() });
+                                            }
+                                        }),
                                     ]
                                 }),
                                 content: [
@@ -512,31 +649,85 @@ namespace materials {
                         ],
                     });
                 }
-                private pageInventory: sap.m.Page;
-                private treeMaterials: sap.extension.m.Tree;
+                private pageMaterial: sap.extension.m.Page;
+                private tableMaterial: sap.extension.m.List;
                 private tableInventoryJournal: sap.extension.table.Table;
                 private tableOrderedJournal: sap.extension.table.Table;
                 private tableCommitedJournal: sap.extension.table.Table;
                 private buttonInventory: sap.m.SegmentedButton;
                 private container: sap.m.NavContainer;
-
-                showMaterials(datas: app.MaterialsWarehouse[], type?: string): void {
-                    this.treeMaterials.setModel(new sap.extension.model.JSONModel(datas));
-                    if (datas.length === 1) {
-                        setTimeout(() => {
-                            if (!ibas.strings.isEmpty(type)) {
-                                this.buttonInventory.setSelectedKey(type);
+                private dateFrom: sap.m.DatePicker;
+                private dateTo: sap.m.DatePicker;
+                /** 嵌入查询面板 */
+                embedded(view: any): void {
+                    if (view instanceof sap.m.Toolbar) {
+                        let that: this = this;
+                        view.setDesign(sap.m.ToolbarDesign.Transparent);
+                        view.setStyle(sap.m.ToolbarStyle.Clear);
+                        view.setHeight("100%");
+                        view.insertContent(new sap.m.Button("", {
+                            icon: "sap-icon://slim-arrow-right",
+                            type: sap.m.ButtonType.Transparent,
+                            press(this: sap.m.Button): void {
+                                if (this.getIcon() === "sap-icon://slim-arrow-right") {
+                                    for (let item of that.tableMaterial.getItems()) {
+                                        if (item instanceof sap.m.CustomListItem) {
+                                            for (let sItem of item.getContent()) {
+                                                if (sItem instanceof sap.m.Panel) {
+                                                    if (sItem.getExpandable()) {
+                                                        sItem.setExpanded(true);
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                    this.setIcon("sap-icon://slim-arrow-down");
+                                } else {
+                                    for (let item of that.tableMaterial.getItems()) {
+                                        if (item instanceof sap.m.CustomListItem) {
+                                            for (let sItem of item.getContent()) {
+                                                if (sItem instanceof sap.m.Panel) {
+                                                    if (sItem.getExpandable()) {
+                                                        sItem.setExpanded(false);
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                    this.setIcon("sap-icon://slim-arrow-right");
+                                }
                             }
-                            this.treeMaterials.expandToLevel(1);
-                            if (this.treeMaterials.getItems().length === 2) {
-                                this.treeMaterials.setSelectedItem(this.treeMaterials.getItems()[1]);
-                                (<any>this.treeMaterials).fireSelectionChange({ listItem: this.treeMaterials.getSelectedItem() });
-                            } else {
-                                this.treeMaterials.setSelectedItem(this.treeMaterials.getItems()[0]);
-                                (<any>this.treeMaterials).fireSelectionChange({ listItem: this.treeMaterials.getSelectedItem() });
-                            }
-                        }, 100);
+                        }), 0);
                     }
+                    this.pageMaterial.addHeaderContent(view);
+                    this.pageMaterial.setShowHeader(true);
+                }
+                /** 记录上次查询条件，表格滚动时自动触发 */
+                query(criteria: ibas.ICriteria): void {
+                    super.query(criteria);
+                    // 清除历史数据
+                    if (this.isDisplayed) {
+                        this.tableMaterial.setBusy(true);
+                        this.tableMaterial.setModel(null);
+                    }
+                }
+
+                showDatas(datas: app.MaterialsWarehouse[], type?: string): void {
+                    let model: sap.ui.model.Model = this.tableMaterial.getModel();
+                    if (model instanceof sap.extension.model.JSONModel) {
+                        // 已绑定过数据
+                        model.addData(datas);
+                    } else {
+                        // 未绑定过数据
+                        this.tableMaterial.setModel(new sap.extension.model.JSONModel({ rows: datas }));
+                        if (datas.length === 1 && datas[0]?.warehouses.length === 1) {
+                            setTimeout(() => {
+                                this.tableMaterial.setSelectedItem(this.tableMaterial.getItems()[0]);
+                                (<any>this.tableMaterial).fireSelectionChange({ listItem: this.tableMaterial.getSelectedItem() });
+                            }, 100);
+                        }
+                    }
+                    this.tableMaterial.setBusy(false);
                 }
                 /** 显示物料库存交易数据 */
                 showInventoryJournals(datas: bo.MaterialInventoryJournal[]): void {

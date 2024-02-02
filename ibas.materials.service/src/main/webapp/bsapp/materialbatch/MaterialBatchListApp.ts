@@ -27,16 +27,33 @@ namespace materials {
             protected registerView(): void {
                 super.registerView();
                 // 其他事件
-                this.view.editDataEvent = this.editData;
-                this.view.fetchBatchJournalEvent = this.fetchBatchJournal;
+                this.view.fetchDataJournalEvent = this.fetchDataJournal;
             }
             /** 视图显示后 */
             protected viewShowed(): void {
                 // 视图加载完成
-                super.viewShowed();
+            }
+            /** 运行 */
+            run(criteria?: ibas.ICriteria | ibas.ICondition[]): void {
+                if (criteria instanceof ibas.Criteria) {
+                    criteria = arguments[0];
+                } else if (criteria instanceof Array) {
+                    criteria = new ibas.Criteria();
+                    for (let item of arguments[0]) {
+                        criteria.conditions.add(item);
+                    }
+                }
+                if (criteria instanceof ibas.Criteria && criteria.conditions.length > 0) {
+                    this.fetchData(criteria);
+                } else {
+                    super.run.apply(this, arguments);
+                }
             }
             /** 查询数据 */
             protected fetchData(criteria: ibas.ICriteria): void {
+                if (ibas.objects.isNull(criteria)) {
+                    criteria = new ibas.Criteria();
+                }
                 this.busy(true);
                 let that: this = this;
                 let boRepository: bo.BORepositoryMaterials = new bo.BORepositoryMaterials();
@@ -55,7 +72,7 @@ namespace materials {
                             if (opRslt.resultObjects.length === 0) {
                                 that.proceeding(ibas.emMessageType.INFORMATION, ibas.i18n.prop("shell_data_fetched_none"));
                             }
-                            that.view.showBatches(opRslt.resultObjects);
+                            that.view.showDatas(opRslt.resultObjects);
                         } catch (error) {
                             that.messages(error);
                         }
@@ -67,18 +84,8 @@ namespace materials {
             protected newData(): void {
                 throw new Error(ibas.i18n.prop("sys_unsupported_operation"));
             }
-            /** 查看数据，参数：目标数据 */
-            protected viewData(data: bo.MaterialBatch): void {
-                // 检查目标数据
-                if (ibas.objects.isNull(data)) {
-                    this.messages(ibas.emMessageType.WARNING, ibas.i18n.prop("shell_please_chooose_data",
-                        ibas.i18n.prop("shell_data_view")
-                    ));
-                    return;
-                }
-            }
             /** 编辑数据，参数：目标数据 */
-            protected editData(data: bo.MaterialBatch): void {
+            protected viewData(data: bo.MaterialBatch): void {
                 // 检查目标数据
                 if (ibas.objects.isNull(data)) {
                     this.messages(ibas.emMessageType.WARNING, ibas.i18n.prop("shell_please_chooose_data",
@@ -92,8 +99,38 @@ namespace materials {
                 app.run(data);
             }
             /** 查询物料批次交易记录 */
-            protected fetchBatchJournal(criteria: ibas.ICriteria): void {
+            protected fetchDataJournal(data: ibas.ICriteria | bo.MaterialBatch, dateFrom?: Date, dateTo?: Date): void {
                 // 检查目标数据
+                let criteria: ibas.ICriteria, condition: ibas.ICondition;
+                if (data instanceof bo.MaterialBatch) {
+                    criteria = new ibas.Criteria();
+                    condition = criteria.conditions.create();
+                    condition.alias = bo.MaterialBatchJournal.PROPERTY_ITEMCODE_NAME;
+                    condition.value = data.itemCode;
+                    condition = criteria.conditions.create();
+                    condition.alias = bo.MaterialBatchJournal.PROPERTY_WAREHOUSE_NAME;
+                    condition.value = data.warehouse;
+                    condition = criteria.conditions.create();
+                    condition.alias = bo.MaterialBatchJournal.PROPERTY_BATCHCODE_NAME;
+                    condition.value = data.batchCode;
+                    let sort: ibas.ISort = criteria.sorts.create();
+                    sort.alias = bo.MaterialInventoryJournal.PROPERTY_OBJECTKEY_NAME;
+                    sort.sortType = ibas.emSortType.DESCENDING;
+                } else {
+                    criteria = data;
+                }
+                if (dateFrom instanceof Date) {
+                    condition = criteria.conditions.create();
+                    condition.alias = bo.MaterialBatchJournal.PROPERTY_DELIVERYDATE_NAME;
+                    condition.operation = ibas.emConditionOperation.GRATER_EQUAL;
+                    condition.value = ibas.dates.toString(dateFrom, "yyyy-MM-dd");
+                }
+                if (dateTo instanceof Date) {
+                    condition = criteria.conditions.create();
+                    condition.alias = bo.MaterialBatchJournal.PROPERTY_DELIVERYDATE_NAME;
+                    condition.operation = ibas.emConditionOperation.LESS_EQUAL;
+                    condition.value = ibas.dates.toString(dateTo, "yyyy-MM-dd");
+                }
                 if (ibas.objects.isNull(criteria) || criteria.conditions.length === 0) {
                     throw new Error(ibas.i18n.prop("sys_invalid_parameter", "criteria"));
                 }
@@ -111,7 +148,7 @@ namespace materials {
                             if (opRslt.resultObjects.length === 0) {
                                 that.proceeding(ibas.emMessageType.INFORMATION, ibas.i18n.prop("shell_data_fetched_none"));
                             }
-                            that.view.showBatchJournals(opRslt.resultObjects);
+                            that.view.showDataJournals(opRslt.resultObjects);
                         } catch (error) {
                             that.messages(error);
                         }
@@ -122,14 +159,12 @@ namespace materials {
         }
         /** 视图-物料批次 */
         export interface IMaterialBatchListView extends ibas.IBOListView {
-            /** 编辑数据事件，参数：编辑对象 */
-            editDataEvent: Function;
             /** 显示物料批次数据 */
-            showBatches(datas: bo.MaterialBatch[]): void;
+            showDatas(datas: bo.MaterialBatch[]): void;
             /** 查询物料批次交易记录 */
-            fetchBatchJournalEvent: Function;
+            fetchDataJournalEvent: Function;
             /** 显示物料批次交易数据 */
-            showBatchJournals(datas: bo.MaterialBatchJournal[]): void;
+            showDataJournals(datas: bo.MaterialBatchJournal[]): void;
         }
     }
 }

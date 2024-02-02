@@ -6,7 +6,7 @@
     <Property Name="SourceDocumentEntry" Description="源单据编号" DataType="Numeric" DataSubType="Default" EditSize="8" Mapped="SourceEntry"/>
     <Property Name="SourceDocumentLineId" Description="源单据行号" DataType="Numeric" DataSubType="Default" EditSize="8" Mapped="SourceLine"/>
     <Property Name="ItemCode" Description="物料编码" DataType="Alphanumeric" DataSubType="Default" EditSize="50" Mapped="ItemCode"/>
-    <Property Name="Warehouse" Description="仓库编号" DataType="Alphanumeric" DataSubType="Default" EditSize="8" Mapped="WhsCode"/>
+    <Property Name="Warehouse" Description="仓库编码" DataType="Alphanumeric" DataSubType="Default" EditSize="8" Mapped="WhsCode"/>
     <Property Name="Quantity" Description="数量" DataType="Decimal" DataSubType="Quantity" EditSize="8" Mapped="Quantity"/>
     <Property Name="DeliveryDate" Description="交货日期" DataType="Date" DataSubType="Default" EditSize="8" Mapped="ShipDate"/>
     <Property Name="InvalidDate" Description="失效日期" DataType="Date" DataSubType="Default" EditSize="8" Mapped="InvalidDate"/>

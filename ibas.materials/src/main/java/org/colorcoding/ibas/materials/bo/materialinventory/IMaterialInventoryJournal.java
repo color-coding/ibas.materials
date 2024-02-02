@@ -41,14 +41,14 @@ public interface IMaterialInventoryJournal extends IBOSimple {
 	void setItemName(String value);
 
 	/**
-	 * 获取-仓库编号
+	 * 获取-仓库编码
 	 * 
 	 * @return 值
 	 */
 	String getWarehouse();
 
 	/**
-	 * 设置-仓库编号
+	 * 设置-仓库编码
 	 * 
 	 * @param value 值
 	 */

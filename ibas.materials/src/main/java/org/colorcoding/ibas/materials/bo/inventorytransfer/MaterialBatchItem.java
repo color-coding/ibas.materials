@@ -6,6 +6,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
 
+import org.colorcoding.ibas.bobas.data.DateTime;
 import org.colorcoding.ibas.bobas.data.emDirection;
 import org.colorcoding.ibas.bobas.logic.IBusinessLogicContract;
 import org.colorcoding.ibas.materials.MyConfiguration;
@@ -96,7 +97,24 @@ class MaterialBatchItem extends org.colorcoding.ibas.materials.bo.materialbatch.
 					public Integer getBaseDocumentLineId() {
 						return null;
 					}
-				}, new IMaterialBatchJournalContract() {
+
+					@Override
+					public DateTime getPostingDate() {
+						return MaterialBatchItem.this.parent.parent.getPostingDate();
+					}
+
+					@Override
+					public DateTime getDeliveryDate() {
+						return MaterialBatchItem.this.parent.parent.getDeliveryDate();
+					}
+
+					@Override
+					public DateTime getDocumentDate() {
+						return MaterialBatchItem.this.parent.parent.getDocumentDate();
+					}
+				},
+
+				new IMaterialBatchJournalContract() {
 
 					@Override
 					public emDirection getDirection() {
@@ -164,6 +182,20 @@ class MaterialBatchItem extends org.colorcoding.ibas.materials.bo.materialbatch.
 						return null;
 					}
 
+					@Override
+					public DateTime getPostingDate() {
+						return MaterialBatchItem.this.parent.parent.getPostingDate();
+					}
+
+					@Override
+					public DateTime getDeliveryDate() {
+						return MaterialBatchItem.this.parent.parent.getDeliveryDate();
+					}
+
+					@Override
+					public DateTime getDocumentDate() {
+						return MaterialBatchItem.this.parent.parent.getDocumentDate();
+					}
 				}
 
 		};

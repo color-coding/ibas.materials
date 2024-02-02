@@ -41,6 +41,8 @@ namespace materials {
                 this.view.viewMaterialInventoryEvent = this.viewMaterialInventory;
                 this.view.viewMaterialOrderedEvent = this.viewMaterialOrdered;
                 this.view.viewMaterialCommitedEvent = this.viewMaterialCommited;
+                this.view.viewMaterialBatchEvent = this.viewMaterialBatch;
+                this.view.viewMaterialSerialEvent = this.viewMaterialSerial;
             }
             /** 视图显示后 */
             protected viewShowed(): void {
@@ -573,6 +575,26 @@ namespace materials {
                 app.navigation = this.navigation;
                 app.run("ONCOMMITED", itemCode, warehouse);
             }
+            private viewMaterialBatch(data: bo.IMaterialBatch): void {
+                let criteria: ibas.ICriteria = new ibas.Criteria();
+                let condition: ibas.ICondition = criteria.conditions.create();
+                condition.alias = bo.MaterialBatch.PROPERTY_OBJECTKEY_NAME;
+                condition.value = data.objectKey.toString();
+                let app: MaterialBatchListApp = new MaterialBatchListApp();
+                app.viewShower = this.viewShower;
+                app.navigation = this.navigation;
+                app.run(criteria);
+            }
+            private viewMaterialSerial(data: bo.IMaterialSerial): void {
+                let criteria: ibas.ICriteria = new ibas.Criteria();
+                let condition: ibas.ICondition = criteria.conditions.create();
+                condition.alias = bo.MaterialSerial.PROPERTY_OBJECTKEY_NAME;
+                condition.value = data.objectKey.toString();
+                let app: MaterialSerialListApp = new MaterialSerialListApp();
+                app.viewShower = this.viewShower;
+                app.navigation = this.navigation;
+                app.run(criteria);
+            }
         }
         /** 视图-物料 */
         export interface IMaterialOverviewView extends ibas.IBOListView {
@@ -592,12 +614,16 @@ namespace materials {
             fetchMaterialBatchEvent: Function;
             /** 编辑批次信息 */
             editMaterialBatchEvent: Function;
+            /** 查看批次信息 */
+            viewMaterialBatchEvent: Function;
             /** 显示物料批次信息 */
             showMaterialBatch(datas: bo.IMaterialBatch[]): void;
             /** 查询序列信息 */
             fetchMaterialSerialEvent: Function;
             /** 编辑序列信息 */
             editMaterialSerialEvent: Function;
+            /** 查看序列信息 */
+            viewMaterialSerialEvent: Function;
             /** 显示物料序列信息 */
             showMaterialSerial(datas: bo.IMaterialSerial[]): void;
             /** 查询预留信息 */

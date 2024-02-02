@@ -27,16 +27,33 @@ namespace materials {
             protected registerView(): void {
                 super.registerView();
                 // 其他事件
-                this.view.editDataEvent = this.editData;
-                this.view.fetchSerialJournalEvent = this.fetchSerialJournal;
+                this.view.fetchDataJournalEvent = this.fetchDataJournal;
             }
             /** 视图显示后 */
             protected viewShowed(): void {
                 // 视图加载完成
-                super.viewShowed();
+            }
+            /** 运行 */
+            run(criteria?: ibas.ICriteria | ibas.ICondition[]): void {
+                if (criteria instanceof ibas.Criteria) {
+                    criteria = arguments[0];
+                } else if (criteria instanceof Array) {
+                    criteria = new ibas.Criteria();
+                    for (let item of arguments[0]) {
+                        criteria.conditions.add(item);
+                    }
+                }
+                if (criteria instanceof ibas.Criteria && criteria.conditions.length > 0) {
+                    this.fetchData(criteria);
+                } else {
+                    super.run.apply(this, arguments);
+                }
             }
             /** 查询数据 */
             protected fetchData(criteria: ibas.ICriteria): void {
+                if (ibas.objects.isNull(criteria)) {
+                    criteria = new ibas.Criteria();
+                }
                 this.busy(true);
                 let that: this = this;
                 let boRepository: bo.BORepositoryMaterials = new bo.BORepositoryMaterials();
@@ -55,7 +72,7 @@ namespace materials {
                             if (opRslt.resultObjects.length === 0) {
                                 that.proceeding(ibas.emMessageType.INFORMATION, ibas.i18n.prop("shell_data_fetched_none"));
                             }
-                            that.view.showSerials(opRslt.resultObjects);
+                            that.view.showDatas(opRslt.resultObjects);
                         } catch (error) {
                             that.messages(error);
                         }
@@ -72,16 +89,6 @@ namespace materials {
                 // 检查目标数据
                 if (ibas.objects.isNull(data)) {
                     this.messages(ibas.emMessageType.WARNING, ibas.i18n.prop("shell_please_chooose_data",
-                        ibas.i18n.prop("shell_data_view")
-                    ));
-                    return;
-                }
-            }
-            /** 编辑数据，参数：目标数据 */
-            protected editData(data: bo.MaterialSerial): void {
-                // 检查目标数据
-                if (ibas.objects.isNull(data)) {
-                    this.messages(ibas.emMessageType.WARNING, ibas.i18n.prop("shell_please_chooose_data",
                         ibas.i18n.prop("shell_data_edit")
                     ));
                     return;
@@ -91,8 +98,39 @@ namespace materials {
                 app.viewShower = this.viewShower;
                 app.run(data);
             }
-            /** 查询物料批次交易记录 */
-            protected fetchSerialJournal(criteria: ibas.ICriteria): void {
+            /** 查询物料序列交易记录 */
+            protected fetchDataJournal(data: ibas.ICriteria | bo.MaterialSerial, dateFrom?: Date, dateTo?: Date): void {
+                // 检查目标数据
+                let criteria: ibas.ICriteria, condition: ibas.ICondition;
+                if (data instanceof bo.MaterialSerial) {
+                    criteria = new ibas.Criteria();
+                    condition = criteria.conditions.create();
+                    condition.alias = bo.MaterialSerialJournal.PROPERTY_ITEMCODE_NAME;
+                    condition.value = data.itemCode;
+                    condition = criteria.conditions.create();
+                    condition.alias = bo.MaterialSerialJournal.PROPERTY_WAREHOUSE_NAME;
+                    condition.value = data.warehouse;
+                    condition = criteria.conditions.create();
+                    condition.alias = bo.MaterialSerialJournal.PROPERTY_SERIALCODE_NAME;
+                    condition.value = data.serialCode;
+                    let sort: ibas.ISort = criteria.sorts.create();
+                    sort.alias = bo.MaterialSerialJournal.PROPERTY_OBJECTKEY_NAME;
+                    sort.sortType = ibas.emSortType.DESCENDING;
+                } else {
+                    criteria = data;
+                }
+                if (dateFrom instanceof Date) {
+                    condition = criteria.conditions.create();
+                    condition.alias = bo.MaterialSerialJournal.PROPERTY_DELIVERYDATE_NAME;
+                    condition.operation = ibas.emConditionOperation.GRATER_EQUAL;
+                    condition.value = ibas.dates.toString(dateFrom, "yyyy-MM-dd");
+                }
+                if (dateTo instanceof Date) {
+                    condition = criteria.conditions.create();
+                    condition.alias = bo.MaterialSerialJournal.PROPERTY_DELIVERYDATE_NAME;
+                    condition.operation = ibas.emConditionOperation.LESS_EQUAL;
+                    condition.value = ibas.dates.toString(dateTo, "yyyy-MM-dd");
+                }
                 // 检查目标数据
                 if (ibas.objects.isNull(criteria) || criteria.conditions.length === 0) {
                     throw new Error(ibas.i18n.prop("sys_invalid_parameter", "criteria"));
@@ -111,7 +149,7 @@ namespace materials {
                             if (opRslt.resultObjects.length === 0) {
                                 that.proceeding(ibas.emMessageType.INFORMATION, ibas.i18n.prop("shell_data_fetched_none"));
                             }
-                            that.view.showSerialJournals(opRslt.resultObjects);
+                            that.view.showDataJournals(opRslt.resultObjects);
                         } catch (error) {
                             that.messages(error);
                         }
@@ -122,14 +160,12 @@ namespace materials {
         }
         /** 视图-物料序列 */
         export interface IMaterialSerialListView extends ibas.IBOListView {
-            /** 编辑数据事件 */
-            editDataEvent: Function;
-            /** 显示物料批次数据 */
-            showSerials(datas: bo.MaterialSerial[]): void;
-            /** 查询物料批次交易记录 */
-            fetchSerialJournalEvent: Function;
-            /** 显示物料批次交易数据 */
-            showSerialJournals(datas: bo.MaterialSerialJournal[]): void;
+            /** 显示物料序列数据 */
+            showDatas(datas: bo.MaterialSerial[]): void;
+            /** 查询物料序列交易记录 */
+            fetchDataJournalEvent: Function;
+            /** 显示物料序列交易数据 */
+            showDataJournals(datas: bo.MaterialSerialJournal[]): void;
         }
     }
 }

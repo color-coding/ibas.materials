@@ -161,6 +161,7 @@ namespace materials {
                         || property === bo.Material.PROPERTY_PRODUCTUNIT_NAME
                         || property === bo.Material.PROPERTY_CHECKCOMPLETENESS_NAME
                         || property === bo.Material.PROPERTY_MIXINGBATCHES_NAME
+                        || property === bo.Material.PROPERTY_VERSIONMANAGEMENT_NAME
                         || property === bo.Material.PROPERTY_MADETOORDER_NAME) {
                         return ibas.enums.toString(ibas.emYesNo, value);
                     } else if (property === bo.Material.PROPERTY_ITEMTYPE_NAME) {
@@ -184,6 +185,7 @@ namespace materials {
                         || property === bo.Product.PROPERTY_TAXED_NAME
                         || property === bo.Product.PROPERTY_CHECKCOMPLETENESS_NAME
                         || property === bo.Product.PROPERTY_MIXINGBATCHES_NAME
+                        || property === bo.Product.PROPERTY_VERSIONMANAGEMENT_NAME
                         || property === bo.Product.PROPERTY_MADETOORDER_NAME) {
                         return ibas.enums.toString(ibas.emYesNo, value);
                     } else if (property === bo.Product.PROPERTY_ITEMTYPE_NAME) {
@@ -324,6 +326,7 @@ namespace materials {
                         || property === bo.Material.PROPERTY_PRODUCTUNIT_NAME
                         || property === bo.Material.PROPERTY_CHECKCOMPLETENESS_NAME
                         || property === bo.Material.PROPERTY_MIXINGBATCHES_NAME
+                        || property === bo.Material.PROPERTY_VERSIONMANAGEMENT_NAME
                         || property === bo.Material.PROPERTY_MADETOORDER_NAME) {
                         return ibas.enums.valueOf(ibas.emYesNo, value);
                     } else if (property === bo.Material.PROPERTY_ITEMTYPE_NAME) {
@@ -348,6 +351,7 @@ namespace materials {
                         || property === bo.Product.PROPERTY_PURCHASEITEM_NAME
                         || property === bo.Product.PROPERTY_TAXED_NAME
                         || property === bo.Material.PROPERTY_CHECKCOMPLETENESS_NAME
+                        || property === bo.Material.PROPERTY_VERSIONMANAGEMENT_NAME
                         || property === bo.Material.PROPERTY_MIXINGBATCHES_NAME
                         || property === bo.Material.PROPERTY_MADETOORDER_NAME) {
                         return ibas.enums.valueOf(ibas.emYesNo, value);

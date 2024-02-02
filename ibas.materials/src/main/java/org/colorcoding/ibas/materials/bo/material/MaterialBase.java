@@ -862,6 +862,37 @@ public abstract class MaterialBase<T extends MaterialBase<T>> extends BusinessOb
 	}
 
 	/**
+	 * 属性名称-版本管理
+	 */
+	private static final String PROPERTY_VERSIONMANAGEMENT_NAME = "VersionManagement";
+
+	/**
+	 * 版本管理 属性
+	 */
+	@DbField(name = "VersonMgment", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME)
+	public static final IPropertyInfo<emYesNo> PROPERTY_VERSIONMANAGEMENT = registerProperty(
+			PROPERTY_VERSIONMANAGEMENT_NAME, emYesNo.class, MY_CLASS);
+
+	/**
+	 * 获取-版本管理
+	 * 
+	 * @return 值
+	 */
+	@XmlElement(name = PROPERTY_VERSIONMANAGEMENT_NAME)
+	public final emYesNo getVersionManagement() {
+		return this.getProperty(PROPERTY_VERSIONMANAGEMENT);
+	}
+
+	/**
+	 * 设置-版本管理
+	 * 
+	 * @param value 值
+	 */
+	public final void setVersionManagement(emYesNo value) {
+		this.setProperty(PROPERTY_VERSIONMANAGEMENT, value);
+	}
+
+	/**
 	 * 属性名称-采购税收组
 	 */
 	private static final String PROPERTY_PURCHASETAXGROUP_NAME = "PurchaseTaxGroup";

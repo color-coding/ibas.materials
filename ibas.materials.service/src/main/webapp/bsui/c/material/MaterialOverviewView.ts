@@ -49,6 +49,10 @@ namespace materials {
                 viewMaterialOrderedEvent: Function;
                 /** 查看承诺事件 */
                 viewMaterialCommitedEvent: Function;
+                /** 查看批次信息 */
+                viewMaterialBatchEvent: Function;
+                /** 查看序列信息 */
+                viewMaterialSerialEvent: Function;
                 /** 绘制视图 */
                 draw(): any {
                     let that: this = this;
@@ -688,7 +692,7 @@ namespace materials {
                     this.panelReservation = new sap.m.Panel("", {
                         expandable: true,
                         expanded: false,
-                        visible: true,
+                        visible: false,
                         width: "auto",
                         backgroundDesign: sap.m.BackgroundDesign.Translucent,
                         accessibleRole: sap.m.PanelAccessibleRole.Form,
@@ -800,10 +804,10 @@ namespace materials {
                                                     let values: string[] = data.substring(4).split("-");
                                                     if (values.length > 0) {
                                                         let objectCode: string = values[0];
-                                                        let docEntry: string = values[1];
-                                                        let lineId: string = values[2];
+                                                        let docEntry: number = ibas.numbers.valueOf(values[1]);
+                                                        let lineId: number = ibas.numbers.valueOf(values[2]);
                                                         return ibas.businessobjects.describe(ibas.strings.format("{[{0}].[DocEntry = {1}]}", objectCode, docEntry))
-                                                            + (!ibas.strings.isEmpty(lineId) ? ibas.strings.format("-{0}", lineId) : "");
+                                                            + (lineId > 0 ? ibas.strings.format("-{0}", lineId) : "");
                                                     }
                                                 } else if (ibas.strings.isWith(data, "WHS:", undefined)) {
                                                     let code: string = data.substring(4);
@@ -1058,7 +1062,10 @@ namespace materials {
                                     }),
                                     new sap.extension.table.Column("", {
                                         label: ibas.i18n.prop("bo_materialbatch_quantity"),
-                                        template: new sap.extension.m.Text("", {
+                                        template: new sap.extension.m.Link("", {
+                                            press(this: sap.extension.m.Link): void {
+                                                that.fireViewEvents(that.viewMaterialBatchEvent, this.getBindingContext().getObject());
+                                            }
                                         }).bindProperty("bindingValue", {
                                             path: "quantity",
                                             type: new sap.extension.data.Quantity(),
@@ -1245,7 +1252,10 @@ namespace materials {
                                     }),
                                     new sap.extension.table.Column("", {
                                         label: ibas.i18n.prop("bo_materialserial_instock"),
-                                        template: new sap.extension.m.Text("", {
+                                        template: new sap.extension.m.Link("", {
+                                            press(this: sap.extension.m.Link): void {
+                                                that.fireViewEvents(that.viewMaterialSerialEvent, this.getBindingContext().getObject());
+                                            }
                                         }).bindProperty("bindingValue", {
                                             path: "inStock",
                                             type: new sap.extension.data.YesNo(true),
@@ -1565,10 +1575,10 @@ namespace materials {
                                 ]
                             }).addStyleClass("sapUiResponsivePadding--header"),
                             this.panelInventory,
-                            this.panelBatch,
-                            this.panelSerial,
                             this.panelOrdered,
                             this.panelCommited,
+                            this.panelBatch,
+                            this.panelSerial,
                             this.panelReservation,
                         ]
                     });
@@ -1654,7 +1664,7 @@ namespace materials {
                     this.panelCommited.setVisible(data.itemType === bo.emItemType.ITEM && data.inventoryItem === ibas.emYesNo.YES && data.onCommited > 0 ? true : false);
                     this.panelCommited.getContent()[0].setModel(undefined);
                     this.panelCommited.setExpanded(false);
-                    // this.panelReservation.setVisible(data.itemType === bo.emItemType.ITEM && data.inventoryItem === ibas.emYesNo.YES && data.onReserved > 0 ? true : false);
+                    this.panelReservation.setVisible(data.itemType === bo.emItemType.ITEM && data.inventoryItem === ibas.emYesNo.YES ? true : false);
                     this.panelReservation.getContent()[0].setModel(undefined);
                     this.panelReservation.setExpanded(false);
                     this.panelButton.setIcon("sap-icon://navigation-right-arrow");

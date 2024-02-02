@@ -35,6 +35,7 @@
     <Property Name="LeadTime" Description="提前期（天）" DataType="Numeric" DataSubType="Default" EditSize="8" Mapped="LeadTime"/>
     <Property Name="SerialManagement" Description="序号管理" DataType="Alphanumeric" DataSubType="Default" EditSize="1" DeclaredType="emYesNo" Mapped="SerialMgment"/>
     <Property Name="BatchManagement" Description="批号管理" DataType="Alphanumeric" DataSubType="Default" EditSize="1" DeclaredType="emYesNo" Mapped="BatchMgment"/>
+    <Property Name="VersionManagement" Description="版本管理" DataType="Alphanumeric" DataSubType="Default" EditSize="1" DeclaredType="emYesNo" Mapped="VersonMgment"/>
     <Property Name="PurchaseTaxGroup" Description="采购税收组" DataType="Alphanumeric" DataSubType="Default" EditSize="8" Mapped="PrchseTax"/>
     <Property Name="SalesTaxGroup" Description="销售税收组" DataType="Alphanumeric" DataSubType="Default" EditSize="8" Mapped="SalesTax"/>
     <Property Name="PurchaseUOM" Description="采购单位" DataType="Alphanumeric" DataSubType="Default" EditSize="8" Mapped="PrchseUom"/>

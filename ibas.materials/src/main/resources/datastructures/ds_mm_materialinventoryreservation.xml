@@ -3,7 +3,7 @@
 <Domain Name="Materials" ShortName="MM">
   <Model Name="MaterialInventoryReservation" Description="物料库存预留" ModelType="Simple" Mapped="${Company}_MM_OMIR">
     <Property Name="ItemCode" Description="物料编码" DataType="Alphanumeric" DataSubType="Default" EditSize="50" Mapped="ItemCode"/>
-    <Property Name="Warehouse" Description="仓库编号" DataType="Alphanumeric" DataSubType="Default" EditSize="8" Mapped="WhsCode"/>
+    <Property Name="Warehouse" Description="仓库编码" DataType="Alphanumeric" DataSubType="Default" EditSize="8" Mapped="WhsCode"/>
     <Property Name="BatchCode" Description="批次编码" DataType="Alphanumeric" DataSubType="Default" EditSize="36" Mapped="BatchCode"/>
     <Property Name="SerialCode" Description="序列编码" DataType="Alphanumeric" DataSubType="Default" EditSize="36" Mapped="SerialCode"/>
     <Property Name="Quantity" Description="数量" DataType="Decimal" DataSubType="Quantity" EditSize="8" Mapped="Quantity"/>

@@ -4,7 +4,7 @@
   <Model Name="MaterialEstimateJournal" Description="仓库预估日记账" ModelType="Simple" Mapped="${Company}_MM_OMEJ">
     <Property Name="ItemCode" Description="物料编码" DataType="Alphanumeric" DataSubType="Default" EditSize="50" Mapped="ItemCode"/>
     <Property Name="ItemName" Description="物料名称" DataType="Alphanumeric" DataSubType="Default" EditSize="100" Mapped="ItemName"/>
-    <Property Name="Warehouse" Description="仓库编号" DataType="Alphanumeric" DataSubType="Default" EditSize="8" Mapped="WhsCode"/>
+    <Property Name="Warehouse" Description="仓库编码" DataType="Alphanumeric" DataSubType="Default" EditSize="8" Mapped="WhsCode"/>
     <Property Name="Estimate" Description="预估类型" DataType="Alphanumeric" DataSubType="Default" EditSize="1" DeclaredType="emEstimateType" Mapped="Estimate" UniqueKey="Yes"/>
     <Property Name="Quantity" Description="数量" DataType="Decimal" DataSubType="Quantity" EditSize="8" Mapped="Quantity"/>
     <Property Name="ClosedQuantity" Description="已清数量" DataType="Decimal" DataSubType="Quantity" EditSize="8" Mapped="ClosedQty"/>

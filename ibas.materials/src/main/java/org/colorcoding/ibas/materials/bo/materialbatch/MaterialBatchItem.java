@@ -709,6 +709,21 @@ public class MaterialBatchItem extends BusinessObject<MaterialBatchItem>
 									.getBaseDocumentLineId();
 						}
 
+						@Override
+						public DateTime getPostingDate() {
+							return ((IMaterialBatchReceiptParent) MaterialBatchItem.this.parent).getPostingDate();
+						}
+
+						@Override
+						public DateTime getDeliveryDate() {
+							return ((IMaterialBatchReceiptParent) MaterialBatchItem.this.parent).getDeliveryDate();
+						}
+
+						@Override
+						public DateTime getDocumentDate() {
+							return ((IMaterialBatchReceiptParent) MaterialBatchItem.this.parent).getDocumentDate();
+						}
+
 					}
 
 			};
@@ -780,6 +795,21 @@ public class MaterialBatchItem extends BusinessObject<MaterialBatchItem>
 						@Override
 						public Integer getBaseDocumentLineId() {
 							return ((IMaterialBatchIssueParent) MaterialBatchItem.this.parent).getBaseDocumentLineId();
+						}
+
+						@Override
+						public DateTime getPostingDate() {
+							return ((IMaterialBatchIssueParent) MaterialBatchItem.this.parent).getPostingDate();
+						}
+
+						@Override
+						public DateTime getDeliveryDate() {
+							return ((IMaterialBatchIssueParent) MaterialBatchItem.this.parent).getDeliveryDate();
+						}
+
+						@Override
+						public DateTime getDocumentDate() {
+							return ((IMaterialBatchIssueParent) MaterialBatchItem.this.parent).getDocumentDate();
 						}
 					}
 
