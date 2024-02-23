@@ -1767,6 +1767,11 @@ public class InventoryTransferLine extends BusinessObject<InventoryTransferLine>
 			public Integer getBaseDocumentLineId() {
 				return InventoryTransferLine.this.getBaseDocumentLineId();
 			}
+
+			@Override
+			public String getItemVersion() {
+				return InventoryTransferLine.this.getItemVersion();
+			}
 		});
 		// 物料收货
 		contracts.add(new IMaterialReceiptContract() {
@@ -1868,6 +1873,11 @@ public class InventoryTransferLine extends BusinessObject<InventoryTransferLine>
 			@Override
 			public BigDecimal getRate() {
 				return InventoryTransferLine.this.getRate();
+			}
+
+			@Override
+			public String getItemVersion() {
+				return InventoryTransferLine.this.getItemVersion();
 			}
 		});
 		return contracts.toArray(new IBusinessLogicContract[] {});

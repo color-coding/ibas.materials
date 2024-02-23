@@ -1711,6 +1711,11 @@ public class GoodsReceiptLine extends BusinessObject<GoodsReceiptLine>
 					public BigDecimal getRate() {
 						return GoodsReceiptLine.this.getRate();
 					}
+
+					@Override
+					public String getItemVersion() {
+						return GoodsReceiptLine.this.getItemVersion();
+					}
 				}
 
 		};

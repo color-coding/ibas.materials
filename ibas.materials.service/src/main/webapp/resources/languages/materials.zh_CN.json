@@ -165,6 +165,7 @@
   "materials_spot": "现货",
   "materials_material_batch": "物料批次",
   "materials_material_serial": "物料序列",
+  "materials_material_not_specified_version": "#{0}，物料[{1} - {2}]未指定版本",
   "materials_no_warehouses_for_reservation": "没有允许预留的仓库",
   "materials_insufficient_inventory": "库存不足，此项不可用",
   "materials_no_remaining": "没有未分配数量",

@@ -25,6 +25,13 @@ public interface IMaterialReceiptContract extends IBusinessLogicContract {
 	String getItemName();
 
 	/**
+	 * 物料版本
+	 * 
+	 * @return 值
+	 */
+	String getItemVersion();
+
+	/**
 	 * 仓库编码
 	 *
 	 * @return

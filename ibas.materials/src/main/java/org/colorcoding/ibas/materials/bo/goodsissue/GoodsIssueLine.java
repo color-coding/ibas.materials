@@ -1711,6 +1711,11 @@ public class GoodsIssueLine extends BusinessObject<GoodsIssueLine>
 						return GoodsIssueLine.this.getRate();
 					}
 
+					@Override
+					public String getItemVersion() {
+						return GoodsIssueLine.this.getItemVersion();
+					}
+
 				}
 
 		};

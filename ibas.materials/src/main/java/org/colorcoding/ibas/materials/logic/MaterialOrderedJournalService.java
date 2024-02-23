@@ -124,8 +124,12 @@ public class MaterialOrderedJournalService extends MaterialEstimateService<IMate
 		materialJournal.setDeliveryDate(contract.getDeliveryDate());
 		materialJournal.setStatus(contract.getStatus());
 		IMaterial material = this.checkMaterial(contract.getItemCode());
-		if (material != null) {
-			materialJournal.setItemName(material.getName());
+		materialJournal.setItemName(material.getName());
+		if (material.getVersionManagement() == emYesNo.YES) {
+			if (DataConvert.isNullOrEmpty(contract.getItemVersion())) {
+				throw new BusinessLogicException(
+						I18N.prop("msg_mm_document_not_specified_material_version", contract.getIdentifiers()));
+			}
 		}
 		// 预留触发的，不进行可用量逻辑
 		if (materialJournal instanceof MaterialEstimateJournal) {

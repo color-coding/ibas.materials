@@ -125,6 +125,12 @@ public class MaterialReceiptService
 	@Override
 	protected void impact(IMaterialReceiptContract contract) {
 		IMaterial material = this.checkMaterial(contract.getItemCode());
+		if (material.getVersionManagement() == emYesNo.YES) {
+			if (DataConvert.isNullOrEmpty(contract.getItemVersion())) {
+				throw new BusinessLogicException(
+						I18N.prop("msg_mm_document_not_specified_material_version", contract.getIdentifiers()));
+			}
+		}
 		IMaterialInventoryJournal materialJournal = this.getBeAffected();
 		if (MyConfiguration.getConfigValue(MyConfiguration.CONFIG_ITEM_ENABLE_MATERIAL_COSTS, false)) {
 			// 开启物料成本计算

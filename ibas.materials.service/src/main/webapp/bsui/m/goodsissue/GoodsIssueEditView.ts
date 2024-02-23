@@ -650,7 +650,10 @@ namespace materials {
                                             path: "itemDescription",
                                             type: new sap.extension.data.Alphanumeric()
                                         }),
-                                        new sap.m.Label("", { text: ibas.i18n.prop("bo_goodsissueline_itemversion") }),
+                                        new sap.m.Label("", {
+                                            text: ibas.i18n.prop("bo_goodsissueline_itemversion"),
+                                            visible: materials.config.isEnableMaterialVersions(),
+                                        }),
                                         new sap.extension.m.Input("", {
                                             showValueHelp: true,
                                             valueHelpRequest: function (): void {
@@ -658,6 +661,7 @@ namespace materials {
                                                     this.getBindingContext().getObject()
                                                 );
                                             },
+                                            visible: materials.config.isEnableMaterialVersions(),
                                         }).bindProperty("bindingValue", {
                                             path: "itemVersion",
                                             type: new sap.extension.data.Alphanumeric({

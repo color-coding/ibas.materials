@@ -384,9 +384,6 @@ namespace materials {
                 // 视图加载完成
                 let criteria: ibas.ICriteria = new ibas.Criteria();
                 for (let item of this.workDatas) {
-                    if (!ibas.strings.isEmpty(item.itemDescription)) {
-                        continue;
-                    }
                     let condition: ibas.ICondition = criteria.conditions.create();
                     condition.alias = bo.Material.PROPERTY_CODE_NAME;
                     condition.value = item.itemCode;
@@ -397,14 +394,29 @@ namespace materials {
                     boRepository.fetchMaterial({
                         criteria: criteria,
                         onCompleted: (opRslt) => {
+                            let noVersions: ibas.StringBuilder = new ibas.StringBuilder();
                             for (let rItem of opRslt.resultObjects) {
                                 for (let wItem of this.workDatas) {
                                     if (ibas.strings.equalsIgnoreCase(rItem.code, wItem.itemCode)) {
                                         wItem.itemDescription = rItem.name;
+                                        if (rItem.versionManagement === ibas.emYesNo.YES) {
+                                            if (ibas.strings.isEmpty(wItem.itemVersion)) {
+                                                if (noVersions.length > 1) {
+                                                    noVersions.append("\n");
+                                                }
+                                                noVersions.append(ibas.i18n.prop("materials_material_not_specified_version",
+                                                    this.workDatas.indexOf(wItem) + 1, wItem.itemCode, wItem.itemDescription));
+                                            }
+                                        }
                                     }
                                 }
                             }
-                            this.view.showWorkDatas(this.workDatas);
+                            if (noVersions.length > 0) {
+                                this.messages(ibas.emMessageType.ERROR, noVersions.toString());
+                                this.close();
+                            } else {
+                                this.view.showWorkDatas(this.workDatas);
+                            }
                         }
                     });
                 } else {

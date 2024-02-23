@@ -14,6 +14,9 @@ namespace materials {
     export const CONSOLE_VERSION: string = "0.1.0";
 
     export namespace config {
+        /** 配置项目-启用物料版本管理 */
+        export const CONFIG_ITEM_ENABLE_MATERIAL_VERSIONS: string = "enableMaterialVersions";
+
         /**
          * 获取此模块配置
          * @param key 配置项
@@ -21,6 +24,13 @@ namespace materials {
          */
         export function get<T>(key: string, defalut?: T): T {
             return ibas.config.get(ibas.strings.format("{0}|{1}", CONSOLE_ID, key), defalut);
+        }
+
+        /**
+         * 是否启用物料版本管理
+         */
+        export function isEnableMaterialVersions(): boolean {
+            return get(CONFIG_ITEM_ENABLE_MATERIAL_VERSIONS, false);
         }
     }
     export namespace bo {

@@ -236,9 +236,13 @@ namespace materials {
                                                             return true;
                                                         }
                                                     }),
-                                                    new sap.m.Label("", { text: ibas.i18n.prop("bo_material_versionmanagement") }),
+                                                    new sap.m.Label("", {
+                                                        text: ibas.i18n.prop("bo_material_versionmanagement"),
+                                                        visible: materials.config.isEnableMaterialVersions(),
+                                                    }),
                                                     new sap.extension.m.EnumSelect("", {
-                                                        enumType: ibas.emYesNo
+                                                        enumType: ibas.emYesNo,
+                                                        visible: materials.config.isEnableMaterialVersions(),
                                                     }).bindProperty("bindingValue", {
                                                         path: "versionManagement",
                                                         type: new sap.extension.data.YesNo(),
