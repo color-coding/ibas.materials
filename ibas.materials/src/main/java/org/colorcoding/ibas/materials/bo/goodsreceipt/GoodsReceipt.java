@@ -18,6 +18,7 @@ import org.colorcoding.ibas.bobas.approval.IApprovalData;
 import org.colorcoding.ibas.bobas.bo.BusinessObject;
 import org.colorcoding.ibas.bobas.bo.IBOSeriesKey;
 import org.colorcoding.ibas.bobas.bo.IBOTagCanceled;
+import org.colorcoding.ibas.bobas.bo.IBOTagDeleted;
 import org.colorcoding.ibas.bobas.bo.IBOUserFields;
 import org.colorcoding.ibas.bobas.core.IPropertyInfo;
 import org.colorcoding.ibas.bobas.data.ArrayList;
@@ -42,6 +43,8 @@ import org.colorcoding.ibas.bobas.rule.common.BusinessRuleRequiredElements;
 import org.colorcoding.ibas.bobas.rule.common.BusinessRuleSumElements;
 import org.colorcoding.ibas.materials.MyConfiguration;
 import org.colorcoding.ibas.materials.data.Ledgers;
+import org.colorcoding.ibas.materials.logic.journalentry.GoodsReceiptMaterialsCost;
+import org.colorcoding.ibas.materials.logic.journalentry.GoodsReceiptMaterialsCostDiff;
 import org.colorcoding.ibas.materials.logic.journalentry.JournalEntrySmartContent;
 
 /**
@@ -1341,6 +1344,23 @@ public class GoodsReceipt extends BusinessObject<GoodsReceipt> implements IGoods
 				new IJournalEntryCreationContract() {
 
 					@Override
+					public boolean isOffsetting() {
+						if (GoodsReceipt.this instanceof IBOTagCanceled) {
+							IBOTagCanceled boTag = (IBOTagCanceled) GoodsReceipt.this;
+							if (boTag.getCanceled() == emYesNo.YES) {
+								return true;
+							}
+						}
+						if (GoodsReceipt.this instanceof IBOTagDeleted) {
+							IBOTagDeleted boTag = (IBOTagDeleted) GoodsReceipt.this;
+							if (boTag.getDeleted() == emYesNo.YES) {
+								return true;
+							}
+						}
+						return false;
+					}
+
+					@Override
 					public String getIdentifiers() {
 						return GoodsReceipt.this.toString();
 					}
@@ -1380,6 +1400,12 @@ public class GoodsReceipt extends BusinessObject<GoodsReceipt> implements IGoods
 						JournalEntryContent jeContent;
 						List<JournalEntryContent> jeContents = new ArrayList<>();
 						for (IGoodsReceiptLine line : GoodsReceipt.this.getGoodsReceiptLines()) {
+							if (line.getCanceled() == emYesNo.YES) {
+								continue;
+							}
+							if (line.getLineStatus() == emDocumentStatus.PLANNED) {
+								continue;
+							}
 							// 库存科目
 							jeContent = new JournalEntrySmartContent(line);
 							jeContent.setCategory(Category.Debit);
@@ -1399,6 +1425,46 @@ public class GoodsReceipt extends BusinessObject<GoodsReceipt> implements IGoods
 						}
 						return jeContents.toArray(new JournalEntryContent[] {});
 					}
+
+					@Override
+					public JournalEntryContent[] reverseContents(JournalEntryContent[] contents) {
+						JournalEntryContent jeContent;
+						List<JournalEntryContent> jeContents = new ArrayList<>();
+						for (IGoodsReceiptLine line : GoodsReceipt.this.getGoodsReceiptLines()) {
+							if (line.getCanceled() == emYesNo.NO) {
+								continue;
+							}
+							if (line.getLineStatus() == emDocumentStatus.PLANNED) {
+								continue;
+							}
+							// 库存科目
+							jeContent = new GoodsReceiptMaterialsCost(line);
+							jeContent.setCategory(Category.Debit);
+							jeContent.setLedger(Ledgers.LEDGER_INVENTORY_INVENTORY_ACCOUNT);
+							jeContent.setAmount(line.getLineTotal().negate());
+							jeContent.setCurrency(line.getCurrency());
+							jeContent.setRate(line.getRate());
+							jeContents.add(jeContent);
+							// 价格差异科目
+							jeContent = new GoodsReceiptMaterialsCostDiff(line);
+							jeContent.setCategory(Category.Debit);
+							jeContent.setLedger(Ledgers.LEDGER_INVENTORY_PRICE_DIFFERENCE_ACCOUNT);
+							jeContent.setAmount(line.getLineTotal().negate());
+							jeContent.setCurrency(line.getCurrency());
+							jeContent.setRate(line.getRate());
+							jeContents.add(jeContent);
+							// 费用科目
+							jeContent = new JournalEntrySmartContent(line);
+							jeContent.setCategory(Category.Credit);
+							jeContent.setLedger(Ledgers.LEDGER_INVENTORY_EXPENSE_ACCOUNT);
+							jeContent.setAmount(line.getLineTotal().negate());
+							jeContent.setCurrency(line.getCurrency());
+							jeContent.setRate(line.getRate());
+							jeContents.add(jeContent);
+						}
+						return jeContents.toArray(new JournalEntryContent[] {});
+					}
+
 				}
 
 		};

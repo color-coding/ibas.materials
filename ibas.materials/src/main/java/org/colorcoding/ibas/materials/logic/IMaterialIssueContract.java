@@ -12,6 +12,13 @@ import org.colorcoding.ibas.bobas.logic.IBusinessLogicContract;
 public interface IMaterialIssueContract extends IBusinessLogicContract {
 
 	/**
+	 * 抵消逻辑
+	 * 
+	 * @return 值
+	 */
+	boolean isOffsetting();
+
+	/**
 	 * 物料编码
 	 *
 	 * @return

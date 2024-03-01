@@ -10,6 +10,14 @@ import org.colorcoding.ibas.bobas.logic.IBusinessLogicContract;
  * 物料收货契约，影响出入库记录
  */
 public interface IMaterialReceiptContract extends IBusinessLogicContract {
+
+	/**
+	 * 抵消逻辑
+	 * 
+	 * @return 值
+	 */
+	boolean isOffsetting();
+
 	/**
 	 * 物料编码
 	 *

@@ -18,6 +18,7 @@ import org.colorcoding.ibas.bobas.approval.IApprovalData;
 import org.colorcoding.ibas.bobas.bo.BusinessObject;
 import org.colorcoding.ibas.bobas.bo.IBOSeriesKey;
 import org.colorcoding.ibas.bobas.bo.IBOTagCanceled;
+import org.colorcoding.ibas.bobas.bo.IBOTagDeleted;
 import org.colorcoding.ibas.bobas.bo.IBOUserFields;
 import org.colorcoding.ibas.bobas.core.IPropertyInfo;
 import org.colorcoding.ibas.bobas.data.ArrayList;
@@ -1341,6 +1342,23 @@ public class InventoryTransfer extends BusinessObject<InventoryTransfer> impleme
 				new IJournalEntryCreationContract() {
 
 					@Override
+					public boolean isOffsetting() {
+						if (InventoryTransfer.this instanceof IBOTagCanceled) {
+							IBOTagCanceled boTag = (IBOTagCanceled) InventoryTransfer.this;
+							if (boTag.getCanceled() == emYesNo.YES) {
+								return true;
+							}
+						}
+						if (InventoryTransfer.this instanceof IBOTagDeleted) {
+							IBOTagDeleted boTag = (IBOTagDeleted) InventoryTransfer.this;
+							if (boTag.getDeleted() == emYesNo.YES) {
+								return true;
+							}
+						}
+						return false;
+					}
+
+					@Override
 					public String getIdentifiers() {
 						return InventoryTransfer.this.toString();
 					}
@@ -1380,6 +1398,12 @@ public class InventoryTransfer extends BusinessObject<InventoryTransfer> impleme
 						JournalEntryContent jeContent;
 						List<JournalEntryContent> jeContents = new ArrayList<>();
 						for (IInventoryTransferLine line : InventoryTransfer.this.getInventoryTransferLines()) {
+							if (line.getCanceled() == emYesNo.YES) {
+								continue;
+							}
+							if (line.getLineStatus() == emDocumentStatus.PLANNED) {
+								continue;
+							}
 							// 库存科目
 							jeContent = new InventoryTransferMaterialsCost(line);
 							jeContent.setCategory(Category.Debit);

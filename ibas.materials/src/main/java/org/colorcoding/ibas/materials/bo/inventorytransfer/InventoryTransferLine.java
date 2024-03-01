@@ -11,6 +11,7 @@ import javax.xml.bind.annotation.XmlType;
 import org.colorcoding.ibas.accounting.logic.IJECPropertyValueGetter;
 import org.colorcoding.ibas.bobas.bo.BusinessObject;
 import org.colorcoding.ibas.bobas.bo.IBOTagCanceled;
+import org.colorcoding.ibas.bobas.bo.IBOTagDeleted;
 import org.colorcoding.ibas.bobas.bo.IBOUserFields;
 import org.colorcoding.ibas.bobas.core.IPropertyInfo;
 import org.colorcoding.ibas.bobas.data.ArrayList;
@@ -1669,6 +1670,35 @@ public class InventoryTransferLine extends BusinessObject<InventoryTransferLine>
 		// 物料发货
 		contracts.add(new IMaterialIssueContract() {
 			@Override
+			public boolean isOffsetting() {
+				if (InventoryTransferLine.this instanceof IBOTagCanceled) {
+					IBOTagCanceled boTag = (IBOTagCanceled) InventoryTransferLine.this;
+					if (boTag.getCanceled() == emYesNo.YES) {
+						return true;
+					}
+				}
+				if (InventoryTransferLine.this instanceof IBOTagDeleted) {
+					IBOTagDeleted boTag = (IBOTagDeleted) InventoryTransferLine.this;
+					if (boTag.getDeleted() == emYesNo.YES) {
+						return true;
+					}
+				}
+				if (InventoryTransferLine.this.parent instanceof IBOTagCanceled) {
+					IBOTagCanceled boTag = (IBOTagCanceled) InventoryTransferLine.this.parent;
+					if (boTag.getCanceled() == emYesNo.YES) {
+						return true;
+					}
+				}
+				if (InventoryTransferLine.this.parent instanceof IBOTagDeleted) {
+					IBOTagDeleted boTag = (IBOTagDeleted) InventoryTransferLine.this.parent;
+					if (boTag.getDeleted() == emYesNo.YES) {
+						return true;
+					}
+				}
+				return false;
+			}
+
+			@Override
 			public String getIdentifiers() {
 				return InventoryTransferLine.this.getIdentifiers();
 			}
@@ -1775,6 +1805,36 @@ public class InventoryTransferLine extends BusinessObject<InventoryTransferLine>
 		});
 		// 物料收货
 		contracts.add(new IMaterialReceiptContract() {
+
+			@Override
+			public boolean isOffsetting() {
+				if (InventoryTransferLine.this instanceof IBOTagCanceled) {
+					IBOTagCanceled boTag = (IBOTagCanceled) InventoryTransferLine.this;
+					if (boTag.getCanceled() == emYesNo.YES) {
+						return true;
+					}
+				}
+				if (InventoryTransferLine.this instanceof IBOTagDeleted) {
+					IBOTagDeleted boTag = (IBOTagDeleted) InventoryTransferLine.this;
+					if (boTag.getDeleted() == emYesNo.YES) {
+						return true;
+					}
+				}
+				if (InventoryTransferLine.this.parent instanceof IBOTagCanceled) {
+					IBOTagCanceled boTag = (IBOTagCanceled) InventoryTransferLine.this.parent;
+					if (boTag.getCanceled() == emYesNo.YES) {
+						return true;
+					}
+				}
+				if (InventoryTransferLine.this.parent instanceof IBOTagDeleted) {
+					IBOTagDeleted boTag = (IBOTagDeleted) InventoryTransferLine.this.parent;
+					if (boTag.getDeleted() == emYesNo.YES) {
+						return true;
+					}
+				}
+				return false;
+			}
+
 			@Override
 			public String getIdentifiers() {
 				return InventoryTransferLine.this.getIdentifiers();

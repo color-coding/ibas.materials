@@ -82,11 +82,6 @@ public class MaterialWarehouseInventoryService
 		BigDecimal onHand = materialInventory.getOnHand();
 		if (contract.getDirection() == emDirection.OUT) {
 			onHand = onHand.subtract(contract.getQuantity());
-			/* if
-			 * (Decimal.ZERO.compareTo(onHand.subtract(materialInventory.getOnReserved())) >
-			 * 0) { throw new
-			 * BusinessLogicException(I18N.prop("msg_mm_material_not_enough_is_reserved",
-			 * contract.getWarehouse(), contract.getItemCode())); } */
 		} else {
 			onHand = onHand.add(contract.getQuantity());
 			if (contract.getCalculatedPrice() != null) {
@@ -118,19 +113,6 @@ public class MaterialWarehouseInventoryService
 			onHand = onHand.add(contract.getQuantity());
 		} else {
 			onHand = onHand.subtract(contract.getQuantity());
-			if (contract.getCalculatedPrice() != null) {
-				if (MyConfiguration.getConfigValue(MyConfiguration.CONFIG_ITEM_MANAGE_MATERIAL_COSTS_BY_WAREHOUSE,
-						true)) {
-					materialInventory.setAvgPrice(contract.getCalculatedPrice());
-				} else {
-					materialInventory.setAvgPrice(Decimal.ZERO);
-				}
-			}
-			/* if
-			 * (Decimal.ZERO.compareTo(onHand.subtract(materialInventory.getOnReserved())) >
-			 * 0 && this.getLogicChain().getTrigger().isDeleted()) { throw new
-			 * BusinessLogicException(I18N.prop("msg_mm_material_not_enough_is_reserved",
-			 * contract.getWarehouse(), contract.getItemCode())); } */
 		}
 		if (Decimal.ZERO.compareTo(onHand) > 0 && this.getLogicChain().getTrigger().isDeleted()) {
 			throw new BusinessLogicException(

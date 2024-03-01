@@ -276,7 +276,7 @@ namespace materials {
                                         }
                                     ],
                                     formatter(direction: ibas.emDirection, quantity: number): string {
-                                        if (!(quantity > 0)) {
+                                        if (quantity === 0) {
                                             return undefined;
                                         }
                                         return sap.extension.data.formatValue(sap.extension.data.Quantity,
@@ -300,7 +300,7 @@ namespace materials {
                                         }
                                     ],
                                     formatter(direction: ibas.emDirection, quantity: number): string {
-                                        if (!(quantity > 0)) {
+                                        if (quantity === 0) {
                                             return undefined;
                                         }
                                         return sap.extension.data.formatValue(sap.extension.data.Quantity,
@@ -363,12 +363,23 @@ namespace materials {
                         ],
                         rowSettingsTemplate: new sap.ui.table.RowSettings("", {
                             highlight: {
-                                path: "direction",
-                                formatter(direction: ibas.emDirection,): sap.ui.core.ValueState {
+                                parts: [
+                                    {
+                                        path: "direction",
+                                    },
+                                    {
+                                        path: "quantity",
+                                        type: new sap.extension.data.Quantity()
+                                    }
+                                ],
+                                formatter(direction: ibas.emDirection, quantity: number): sap.ui.core.ValueState {
+                                    if (quantity <= 0) {
+                                        return sap.ui.core.ValueState.Error;
+                                    }
                                     if (direction === ibas.emDirection.IN) {
                                         return sap.ui.core.ValueState.Success;
                                     }
-                                    return sap.ui.core.ValueState.Error;
+                                    return sap.ui.core.ValueState.Warning;
                                 }
                             }
                         })

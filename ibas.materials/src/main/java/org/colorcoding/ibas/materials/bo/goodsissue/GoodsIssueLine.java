@@ -11,6 +11,7 @@ import javax.xml.bind.annotation.XmlType;
 import org.colorcoding.ibas.accounting.logic.IJECPropertyValueGetter;
 import org.colorcoding.ibas.bobas.bo.BusinessObject;
 import org.colorcoding.ibas.bobas.bo.IBOTagCanceled;
+import org.colorcoding.ibas.bobas.bo.IBOTagDeleted;
 import org.colorcoding.ibas.bobas.bo.IBOUserFields;
 import org.colorcoding.ibas.bobas.core.IPropertyInfo;
 import org.colorcoding.ibas.bobas.data.DateTime;
@@ -1611,6 +1612,35 @@ public class GoodsIssueLine extends BusinessObject<GoodsIssueLine>
 		return new IBusinessLogicContract[] {
 				// 物料发货
 				new IMaterialIssueContract() {
+					@Override
+					public boolean isOffsetting() {
+						if (GoodsIssueLine.this instanceof IBOTagCanceled) {
+							IBOTagCanceled boTag = (IBOTagCanceled) GoodsIssueLine.this;
+							if (boTag.getCanceled() == emYesNo.YES) {
+								return true;
+							}
+						}
+						if (GoodsIssueLine.this instanceof IBOTagDeleted) {
+							IBOTagDeleted boTag = (IBOTagDeleted) GoodsIssueLine.this;
+							if (boTag.getDeleted() == emYesNo.YES) {
+								return true;
+							}
+						}
+						if (GoodsIssueLine.this.parent instanceof IBOTagCanceled) {
+							IBOTagCanceled boTag = (IBOTagCanceled) GoodsIssueLine.this.parent;
+							if (boTag.getCanceled() == emYesNo.YES) {
+								return true;
+							}
+						}
+						if (GoodsIssueLine.this.parent instanceof IBOTagDeleted) {
+							IBOTagDeleted boTag = (IBOTagDeleted) GoodsIssueLine.this.parent;
+							if (boTag.getDeleted() == emYesNo.YES) {
+								return true;
+							}
+						}
+						return false;
+					}
+
 					@Override
 					public String getIdentifiers() {
 						return GoodsIssueLine.this.getIdentifiers();

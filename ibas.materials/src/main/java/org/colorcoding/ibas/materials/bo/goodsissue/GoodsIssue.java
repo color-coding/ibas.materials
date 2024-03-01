@@ -18,6 +18,7 @@ import org.colorcoding.ibas.bobas.approval.IApprovalData;
 import org.colorcoding.ibas.bobas.bo.BusinessObject;
 import org.colorcoding.ibas.bobas.bo.IBOSeriesKey;
 import org.colorcoding.ibas.bobas.bo.IBOTagCanceled;
+import org.colorcoding.ibas.bobas.bo.IBOTagDeleted;
 import org.colorcoding.ibas.bobas.bo.IBOUserFields;
 import org.colorcoding.ibas.bobas.core.IPropertyInfo;
 import org.colorcoding.ibas.bobas.data.ArrayList;
@@ -1341,6 +1342,23 @@ public class GoodsIssue extends BusinessObject<GoodsIssue> implements IGoodsIssu
 				new IJournalEntryCreationContract() {
 
 					@Override
+					public boolean isOffsetting() {
+						if (GoodsIssue.this instanceof IBOTagCanceled) {
+							IBOTagCanceled boTag = (IBOTagCanceled) GoodsIssue.this;
+							if (boTag.getCanceled() == emYesNo.YES) {
+								return true;
+							}
+						}
+						if (GoodsIssue.this instanceof IBOTagDeleted) {
+							IBOTagDeleted boTag = (IBOTagDeleted) GoodsIssue.this;
+							if (boTag.getDeleted() == emYesNo.YES) {
+								return true;
+							}
+						}
+						return false;
+					}
+
+					@Override
 					public String getIdentifiers() {
 						return GoodsIssue.this.toString();
 					}
@@ -1380,6 +1398,12 @@ public class GoodsIssue extends BusinessObject<GoodsIssue> implements IGoodsIssu
 						JournalEntryContent jeContent;
 						List<JournalEntryContent> jeContents = new ArrayList<>();
 						for (IGoodsIssueLine line : GoodsIssue.this.getGoodsIssueLines()) {
+							if (line.getCanceled() == emYesNo.YES) {
+								continue;
+							}
+							if (line.getLineStatus() == emDocumentStatus.PLANNED) {
+								continue;
+							}
 							// 费用科目
 							jeContent = new GoodsIssueMaterialsCost(line);
 							jeContent.setCategory(Category.Debit);
@@ -1399,6 +1423,7 @@ public class GoodsIssue extends BusinessObject<GoodsIssue> implements IGoodsIssu
 						}
 						return jeContents.toArray(new JournalEntryContent[] {});
 					}
+
 				}
 
 		};

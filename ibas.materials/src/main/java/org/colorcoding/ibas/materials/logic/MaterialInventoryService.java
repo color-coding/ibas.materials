@@ -65,14 +65,6 @@ public class MaterialInventoryService extends MaterialInventoryBusinessLogic<IMa
 			onHand = onHand.add(contract.getQuantity());
 		} else {
 			onHand = onHand.subtract(contract.getQuantity());
-			if (contract.getCalculatedPrice() != null) {
-				if (!MyConfiguration.getConfigValue(MyConfiguration.CONFIG_ITEM_MANAGE_MATERIAL_COSTS_BY_WAREHOUSE,
-						true)) {
-					material.setAvgPrice(contract.getCalculatedPrice());
-				} else {
-					material.setAvgPrice(Decimal.ZERO);
-				}
-			}
 		}
 		if (Decimal.ZERO.compareTo(onHand) > 0 && this.getLogicChain().getTrigger().isDeleted()) {
 			throw new BusinessLogicException(I18N.prop("msg_mm_material_not_enough", contract.getItemCode()));

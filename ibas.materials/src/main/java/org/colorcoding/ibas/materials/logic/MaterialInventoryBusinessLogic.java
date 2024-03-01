@@ -11,6 +11,7 @@ import org.colorcoding.ibas.bobas.data.emYesNo;
 import org.colorcoding.ibas.bobas.i18n.I18N;
 import org.colorcoding.ibas.bobas.logic.BusinessLogicException;
 import org.colorcoding.ibas.bobas.logic.IBusinessLogicContract;
+import org.colorcoding.ibas.materials.MyConfiguration;
 import org.colorcoding.ibas.materials.bo.materialinventory.IMaterialInventory;
 import org.colorcoding.ibas.materials.bo.materialinventory.MaterialInventory;
 import org.colorcoding.ibas.materials.bo.warehouse.IWarehouse;
@@ -19,6 +20,30 @@ import org.colorcoding.ibas.materials.repository.BORepositoryMaterials;
 
 public abstract class MaterialInventoryBusinessLogic<L extends IBusinessLogicContract, B extends IBusinessObject>
 		extends MaterialBusinessLogic<L, B> {
+
+	/**
+	 * 正常记录
+	 */
+	public static final String DATASOURCE_SIGN_REGULAR_JOURNAL = "JNL-REG";
+	/**
+	 * 冲销记录
+	 */
+	public static final String DATASOURCE_SIGN_OFFSETTING_JOURNAL = "JNL-OFF";
+
+	public MaterialInventoryBusinessLogic() {
+		this.setEnableMaterialCosts(
+				MyConfiguration.getConfigValue(MyConfiguration.CONFIG_ITEM_ENABLE_MATERIAL_COSTS, false));
+	}
+
+	private boolean enableMaterialCosts;
+
+	public final boolean isEnableMaterialCosts() {
+		return enableMaterialCosts;
+	}
+
+	public final void setEnableMaterialCosts(boolean value) {
+		this.enableMaterialCosts = value;
+	}
 
 	protected IWarehouse checkWarehouse(String whsCode) {
 		ICriteria criteria = new Criteria();

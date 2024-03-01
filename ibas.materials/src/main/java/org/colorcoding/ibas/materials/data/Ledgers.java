@@ -13,7 +13,7 @@ public class Ledgers extends org.colorcoding.ibas.businesspartner.data.Ledgers {
 	/**
 	 * 价格差异科目
 	 */
-	public static final String LEDGER_INVENTORY_PRICE_DIFFERENCE_ACCOUNT = "";
+	public static final String LEDGER_INVENTORY_PRICE_DIFFERENCE_ACCOUNT = "GL-MM-08";
 	/**
 	 * 负库存调整科目
 	 */
