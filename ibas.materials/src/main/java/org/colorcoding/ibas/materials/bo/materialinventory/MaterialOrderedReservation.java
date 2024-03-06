@@ -12,6 +12,7 @@ import org.colorcoding.ibas.bobas.bo.BusinessObject;
 import org.colorcoding.ibas.bobas.core.IPropertyInfo;
 import org.colorcoding.ibas.bobas.data.DateTime;
 import org.colorcoding.ibas.bobas.data.emBOStatus;
+import org.colorcoding.ibas.bobas.data.emYesNo;
 import org.colorcoding.ibas.bobas.logic.IBusinessLogicContract;
 import org.colorcoding.ibas.bobas.logic.IBusinessLogicsHost;
 import org.colorcoding.ibas.bobas.mapping.BusinessObjectUnit;
@@ -148,6 +149,37 @@ public class MaterialOrderedReservation extends BusinessObject<MaterialOrderedRe
 	 */
 	public final void setSourceDocumentLineId(Integer value) {
 		this.setProperty(PROPERTY_SOURCEDOCUMENTLINEID, value);
+	}
+
+	/**
+	 * 属性名称-源单据关闭
+	 */
+	private static final String PROPERTY_SOURCEDOCUMENTCLOSED_NAME = "SourceDocumentClosed";
+
+	/**
+	 * 源单据关闭 属性
+	 */
+	@DbField(name = "SourceClose", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME)
+	public static final IPropertyInfo<emYesNo> PROPERTY_SOURCEDOCUMENTCLOSED = registerProperty(
+			PROPERTY_SOURCEDOCUMENTCLOSED_NAME, emYesNo.class, MY_CLASS);
+
+	/**
+	 * 获取-源单据关闭
+	 * 
+	 * @return 值
+	 */
+	@XmlElement(name = PROPERTY_SOURCEDOCUMENTCLOSED_NAME)
+	public final emYesNo getSourceDocumentClosed() {
+		return this.getProperty(PROPERTY_SOURCEDOCUMENTCLOSED);
+	}
+
+	/**
+	 * 设置-源单据关闭
+	 * 
+	 * @param value 值
+	 */
+	public final void setSourceDocumentClosed(emYesNo value) {
+		this.setProperty(PROPERTY_SOURCEDOCUMENTCLOSED, value);
 	}
 
 	/**
@@ -427,6 +459,37 @@ public class MaterialOrderedReservation extends BusinessObject<MaterialOrderedRe
 	 */
 	public final void setTargetDocumentLineId(Integer value) {
 		this.setProperty(PROPERTY_TARGETDOCUMENTLINEID, value);
+	}
+
+	/**
+	 * 属性名称-目标单据关闭
+	 */
+	private static final String PROPERTY_TARGETDOCUMENTCLOSED_NAME = "TargetDocumentClosed";
+
+	/**
+	 * 目标单据关闭 属性
+	 */
+	@DbField(name = "TargetClose", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME)
+	public static final IPropertyInfo<emYesNo> PROPERTY_TARGETDOCUMENTCLOSED = registerProperty(
+			PROPERTY_TARGETDOCUMENTCLOSED_NAME, emYesNo.class, MY_CLASS);
+
+	/**
+	 * 获取-目标单据关闭
+	 * 
+	 * @return 值
+	 */
+	@XmlElement(name = PROPERTY_TARGETDOCUMENTCLOSED_NAME)
+	public final emYesNo getTargetDocumentClosed() {
+		return this.getProperty(PROPERTY_TARGETDOCUMENTCLOSED);
+	}
+
+	/**
+	 * 设置-目标单据关闭
+	 * 
+	 * @param value 值
+	 */
+	public final void setTargetDocumentClosed(emYesNo value) {
+		this.setProperty(PROPERTY_TARGETDOCUMENTCLOSED, value);
 	}
 
 	/**
@@ -995,6 +1058,8 @@ public class MaterialOrderedReservation extends BusinessObject<MaterialOrderedRe
 		super.initialize();// 基类初始化，不可去除
 		this.setObjectCode(MyConfiguration.applyVariables(BUSINESS_OBJECT_CODE));
 		this.setStatus(emBOStatus.OPEN);
+		this.setSourceDocumentClosed(emYesNo.NO);
+		this.setTargetDocumentClosed(emYesNo.NO);
 
 	}
 

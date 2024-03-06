@@ -5,6 +5,7 @@ import java.math.BigDecimal;
 import org.colorcoding.ibas.bobas.bo.IBOSimple;
 import org.colorcoding.ibas.bobas.data.DateTime;
 import org.colorcoding.ibas.bobas.data.emBOStatus;
+import org.colorcoding.ibas.bobas.data.emYesNo;
 
 /**
  * 物料订购预留 接口
@@ -53,6 +54,20 @@ public interface IMaterialOrderedReservation extends IBOSimple {
 	 * @param value 值
 	 */
 	void setSourceDocumentLineId(Integer value);
+
+	/**
+	 * 获取-源单据关闭
+	 * 
+	 * @return 值
+	 */
+	emYesNo getSourceDocumentClosed();
+
+	/**
+	 * 设置-源单据关闭
+	 * 
+	 * @param value 值
+	 */
+	void setSourceDocumentClosed(emYesNo value);
 
 	/**
 	 * 获取-物料编码
@@ -179,6 +194,20 @@ public interface IMaterialOrderedReservation extends IBOSimple {
 	 * @param value 值
 	 */
 	void setTargetDocumentLineId(Integer value);
+
+	/**
+	 * 获取-目标单据关闭
+	 * 
+	 * @return 值
+	 */
+	emYesNo getTargetDocumentClosed();
+
+	/**
+	 * 设置-目标单据关闭
+	 * 
+	 * @param value 值
+	 */
+	void setTargetDocumentClosed(emYesNo value);
 
 	/**
 	 * 获取-数据所有者

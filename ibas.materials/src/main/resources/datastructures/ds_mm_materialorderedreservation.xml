@@ -5,6 +5,7 @@
     <Property Name="SourceDocumentType" Description="源单据类型" DataType="Alphanumeric" DataSubType="Default" EditSize="30" Mapped="SourceType"/>
     <Property Name="SourceDocumentEntry" Description="源单据编号" DataType="Numeric" DataSubType="Default" EditSize="8" Mapped="SourceEntry"/>
     <Property Name="SourceDocumentLineId" Description="源单据行号" DataType="Numeric" DataSubType="Default" EditSize="8" Mapped="SourceLine"/>
+    <Property Name="SourceDocumentClosed" Description="源单据关闭" DataType="Alphanumeric" DataSubType="Default" EditSize="1" DeclaredType="emYesNo" Mapped="SourceClose"/>
     <Property Name="ItemCode" Description="物料编码" DataType="Alphanumeric" DataSubType="Default" EditSize="50" Mapped="ItemCode"/>
     <Property Name="Warehouse" Description="仓库编码" DataType="Alphanumeric" DataSubType="Default" EditSize="8" Mapped="WhsCode"/>
     <Property Name="Quantity" Description="数量" DataType="Decimal" DataSubType="Quantity" EditSize="8" Mapped="Quantity"/>
@@ -14,6 +15,7 @@
     <Property Name="TargetDocumentType" Description="目标单据类型" DataType="Alphanumeric" DataSubType="Default" EditSize="30" Mapped="TargetType"/>
     <Property Name="TargetDocumentEntry" Description="目标单据编号" DataType="Numeric" DataSubType="Default" EditSize="8" Mapped="TargetEntry"/>
     <Property Name="TargetDocumentLineId" Description="目标单据行号" DataType="Numeric" DataSubType="Default" EditSize="8" Mapped="TargetLine"/>
+    <Property Name="TargetDocumentClosed" Description="目标单据关闭" DataType="Alphanumeric" DataSubType="Default" EditSize="1" DeclaredType="emYesNo" Mapped="TargetClose"/>
     <Property Name="DataOwner" Description="数据所有者" DataType="Numeric" DataSubType="Default" EditSize="8" Mapped="DataOwner"/>
     <Property Name="Causes" Description="原因" DataType="Alphanumeric" DataSubType="Default" EditSize="100" Mapped="Causes"/>
     <Property Name="Status" Description="状态" DataType="Alphanumeric" DataSubType="Default" EditSize="1" DeclaredType="emBOStatus" Mapped="Status"/>

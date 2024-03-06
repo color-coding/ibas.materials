@@ -48,6 +48,17 @@ namespace materials {
                 this.setProperty(MaterialOrderedReservation.PROPERTY_SOURCEDOCUMENTLINEID_NAME, value);
             }
 
+            /** 映射的属性名称-源单据关闭 */
+            static PROPERTY_SOURCEDOCUMENTCLOSED_NAME: string = "SourceDocumentClosed";
+            /** 获取-源单据关闭 */
+            get sourceDocumentClosed(): ibas.emYesNo {
+                return this.getProperty<ibas.emYesNo>(MaterialOrderedReservation.PROPERTY_SOURCEDOCUMENTCLOSED_NAME);
+            }
+            /** 设置-源单据关闭 */
+            set sourceDocumentClosed(value: ibas.emYesNo) {
+                this.setProperty(MaterialOrderedReservation.PROPERTY_SOURCEDOCUMENTCLOSED_NAME, value);
+            }
+
             /** 映射的属性名称-物料编码 */
             static PROPERTY_ITEMCODE_NAME: string = "ItemCode";
             /** 获取-物料编码 */
@@ -145,6 +156,17 @@ namespace materials {
             /** 设置-目标单据行号 */
             set targetDocumentLineId(value: number) {
                 this.setProperty(MaterialOrderedReservation.PROPERTY_TARGETDOCUMENTLINEID_NAME, value);
+            }
+
+            /** 映射的属性名称-目标单据关闭 */
+            static PROPERTY_TARGETDOCUMENTCLOSED_NAME: string = "TargetDocumentClosed";
+            /** 获取-目标单据关闭 */
+            get targetDocumentClosed(): ibas.emYesNo {
+                return this.getProperty<ibas.emYesNo>(MaterialOrderedReservation.PROPERTY_TARGETDOCUMENTCLOSED_NAME);
+            }
+            /** 设置-目标单据关闭 */
+            set targetDocumentClosed(value: ibas.emYesNo) {
+                this.setProperty(MaterialOrderedReservation.PROPERTY_TARGETDOCUMENTCLOSED_NAME, value);
             }
 
             /** 映射的属性名称-数据所有者 */

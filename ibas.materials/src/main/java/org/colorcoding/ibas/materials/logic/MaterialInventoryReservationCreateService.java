@@ -193,6 +193,9 @@ public class MaterialInventoryReservationCreateService extends
 			if (item.getTargetDocumentType() == null) {
 				continue;
 			}
+			if (item.getTargetDocumentClosed() == emYesNo.YES) {
+				continue;
+			}
 			remQuantity = item.getQuantity().subtract(item.getClosedQuantity());
 			if (remQuantity.compareTo(Decimal.ZERO) <= 0) {
 				continue;
@@ -215,13 +218,14 @@ public class MaterialInventoryReservationCreateService extends
 					);
 			if (gItem == null) {
 				gItem = new MaterialInventoryReservation();
-				gItem.setCauses(causes);
 				gItem.setTargetDocumentType(item.getTargetDocumentType());
 				gItem.setTargetDocumentEntry(item.getTargetDocumentEntry());
 				gItem.setTargetDocumentLineId(item.getTargetDocumentLineId());
+				gItem.setStatus(item.getStatus());
 				gItem.setBatchCode(contract.getBatchCode());
 				gItem.setSerialCode(contract.getSerialCode());
 				gItem.setWarehouse(contract.getWarehouse());
+				gItem.setCauses(causes);
 				gItem.setQuantity(Decimal.ZERO);
 				reservationGroup.getItems().add(gItem);
 			} else {

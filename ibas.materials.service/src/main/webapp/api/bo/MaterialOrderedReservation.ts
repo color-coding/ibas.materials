@@ -15,6 +15,8 @@ namespace materials {
             sourceDocumentEntry: number;
             /** 源单据行号 */
             sourceDocumentLineId: number;
+            /** 源单据关闭 */
+            sourceDocumentClosed: ibas.emYesNo;
             /** 物料编码 */
             itemCode: string;
             /** 仓库编码 */
@@ -33,6 +35,8 @@ namespace materials {
             targetDocumentEntry: number;
             /** 目标单据行号 */
             targetDocumentLineId: number;
+            /** 目标单据关闭 */
+            targetDocumentClosed: ibas.emYesNo;
             /** 数据所有者 */
             dataOwner: number;
             /** 原因 */

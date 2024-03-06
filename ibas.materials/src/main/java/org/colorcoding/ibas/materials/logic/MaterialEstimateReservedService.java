@@ -9,6 +9,7 @@ import org.colorcoding.ibas.bobas.common.ICondition;
 import org.colorcoding.ibas.bobas.common.ICriteria;
 import org.colorcoding.ibas.bobas.common.IOperationResult;
 import org.colorcoding.ibas.bobas.data.Decimal;
+import org.colorcoding.ibas.bobas.data.emBOStatus;
 import org.colorcoding.ibas.bobas.data.emYesNo;
 import org.colorcoding.ibas.bobas.i18n.I18N;
 import org.colorcoding.ibas.bobas.logic.BusinessLogicException;
@@ -128,7 +129,10 @@ public class MaterialEstimateReservedService extends MaterialEstimateService<IMa
 			materialJournal.setItemName(material.getName());
 		}
 		BigDecimal reserved = materialJournal.getReservedQuantity();
-		reserved = reserved.add(contract.getQuantity());
+		if (contract.getStatus() != emBOStatus.CLOSED) {
+			// 关闭的，不更新数量
+			reserved = reserved.add(contract.getQuantity());
+		}
 		if (Decimal.ZERO.compareTo(reserved) <= 0) {
 			if (reserved.compareTo(materialJournal.getQuantity()) > 0
 					&& Decimal.ZERO.compareTo(materialJournal.getQuantity()) != 0) {
@@ -142,8 +146,11 @@ public class MaterialEstimateReservedService extends MaterialEstimateService<IMa
 	protected void revoke(IMaterialEstimateReservedContract contract) {
 		IMaterialEstimateJournal materialJournal = this.getBeAffected();
 		BigDecimal reserved = materialJournal.getReservedQuantity();
-		reserved = reserved.subtract(contract.getQuantity());
-		if (Decimal.ZERO.compareTo(reserved) >= 0) {
+		if (contract.getStatus() != emBOStatus.CLOSED) {
+			// 关闭的，不更新数量
+			reserved = reserved.subtract(contract.getQuantity());
+		}
+		if (Decimal.ZERO.compareTo(reserved) > 0) {
 			reserved = Decimal.ZERO;
 		}
 		materialJournal.setReservedQuantity(reserved);
