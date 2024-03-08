@@ -16,6 +16,8 @@ namespace materials {
     export namespace config {
         /** 配置项目-启用物料版本管理 */
         export const CONFIG_ITEM_ENABLE_MATERIAL_VERSIONS: string = "enableMaterialVersions";
+        /** 配置项目-启用物料预留选择报表 */
+        export const CONFIG_ITEM_ENABLE_MATERIAL_RESERVATION_CHOOSE_REPORT: string = "enableMaterialReservationReport";
 
         /**
          * 获取此模块配置

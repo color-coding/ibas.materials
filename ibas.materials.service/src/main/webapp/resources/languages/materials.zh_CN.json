@@ -121,6 +121,8 @@
   "materials_app_inventorytransferrequest_edit": "库存转储请求编辑",
   "materials_func_materialnumberchange": "批次/序列变更",
   "materials_app_materialnumberchange": "物料批次/序列号变更",
+  "materials_app_reservation_target_report": "待预留单据",
+  "materials_app_reservation_source_report": "可预留单据",
   "materials_title_general": "常规信息",
   "materials_title_status": "状态信息",
   "materials_title_total": "总计信息",
@@ -205,5 +207,6 @@
   "materials_transfer_quantity_grater_than_quantity": "物料[{0}]批/序号[{1}]的预留转移数量，超过批次数量。",
   "materials_invaild_status_not_support_turn_to_operation": "单据的状态无效，不支持此操作",
   "materials_change_item_price_continue": "价格清单已更新，是否更改单据行的价格？",
+  "materials_not_found_reserved_data_report": "未找到关联应用[{0}]的预留单据报表",
   "materials_closing_delimiter": "----结束----"
 }

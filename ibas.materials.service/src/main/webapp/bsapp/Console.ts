@@ -23,6 +23,8 @@
 /// <reference path="./materialversion/index.ts" />
 /// <reference path="./picklists/index.ts" />
 /// <reference path="./inventorytransferrequest/index.ts" />
+/// <reference path="./others/index.ts" />
+
 namespace materials {
     export namespace app {
         /** 属性-导航 */
@@ -104,6 +106,10 @@ namespace materials {
                 this.register(new InventoryTransferRequestChooseServiceMapping());
                 this.register(new InventoryTransferRequestLinkServiceMapping());
                 this.register(new InventoryTransferEditServiceMapping());
+                if (config.get(config.CONFIG_ITEM_ENABLE_MATERIAL_RESERVATION_CHOOSE_REPORT, false)) {
+                    this.register(new MaterialOrderedReservationTargetReportServiceMapping());
+                    this.register(new MaterialOrderedReservationSourceReportServiceMapping());
+                }
                 // 注册常驻应用
 
                 // 注册权限元素

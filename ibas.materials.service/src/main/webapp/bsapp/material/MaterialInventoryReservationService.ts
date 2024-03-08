@@ -778,7 +778,7 @@ namespace materials {
                             }
                         }
                     }),
-                }));
+                }).sort((a, b) => { return a.id.localeCompare(b.id); }));
             }
             /** 预留库存 */
             private reserveInventory(data: bo.MaterialInventory | bo.MaterialBatch | bo.MaterialSerial): void {

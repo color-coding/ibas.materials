@@ -365,7 +365,7 @@ namespace materials {
                             }
                         }
                     }),
-                }));
+                }).sort((a, b) => { return a.id.localeCompare(b.id); }));
                 this.view.showReservations(this.currentWorkingItem.results.filterDeleted());
             }
             /** 保存预留库存 */

@@ -1,6 +1,9 @@
 package org.colorcoding.ibas.materials.data;
 
+import javax.xml.bind.annotation.XmlType;
+
 import org.colorcoding.ibas.bobas.mapping.Value;
+import org.colorcoding.ibas.materials.MyConfiguration;
 
 /**
  * 发货方式
@@ -8,6 +11,7 @@ import org.colorcoding.ibas.bobas.mapping.Value;
  * @author Niuren.Zhu
  *
  */
+@XmlType(namespace = MyConfiguration.NAMESPACE_BO)
 public enum emIssueMethod {
 	/**
 	 * 手动
