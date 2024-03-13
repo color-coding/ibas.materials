@@ -1116,7 +1116,7 @@ public class MaterialBatch extends BusinessObject<MaterialBatch> implements IMat
 	@Override
 	public void setReservedQuantity(BigDecimal value, boolean noCheck) {
 		this.setReservedQuantity(value);
-		this.noCheck = true;
+		this.noCheck = noCheck;
 	}
 
 	@Override

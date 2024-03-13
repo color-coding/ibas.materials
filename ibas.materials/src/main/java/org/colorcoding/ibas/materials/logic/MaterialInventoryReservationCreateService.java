@@ -44,9 +44,9 @@ import org.colorcoding.ibas.materials.repository.BORepositoryMaterials;
 
 @LogicContract(IMaterialInventoryReservationCreateContract.class)
 public class MaterialInventoryReservationCreateService extends
-		MaterialInventoryBusinessLogic<IMaterialInventoryReservationCreateContract, IMaterialInventoryReservationGroup> {
+		MaterialInventoryBusinessLogic<IMaterialInventoryReservationCreateContract, IMaterialInventoryReservationGroup4Causes> {
 
-	private static final IMaterialInventoryReservationGroup EMPTY_DATA = new MaterialInventoryReservationGroup();
+	private static final IMaterialInventoryReservationGroup4Causes EMPTY_DATA = new MaterialInventoryReservationGroup4Causes();
 
 	@Override
 	protected boolean checkDataStatus(Object data) {
@@ -86,7 +86,8 @@ public class MaterialInventoryReservationCreateService extends
 	}
 
 	@Override
-	protected IMaterialInventoryReservationGroup fetchBeAffected(IMaterialInventoryReservationCreateContract contract) {
+	protected IMaterialInventoryReservationGroup4Causes fetchBeAffected(
+			IMaterialInventoryReservationCreateContract contract) {
 		ICriteria criteria = new Criteria();
 		ICondition condition = criteria.getConditions().create();
 		condition.setAlias(MaterialInventoryReservation.PROPERTY_CAUSES.getName());
@@ -112,8 +113,8 @@ public class MaterialInventoryReservationCreateService extends
 				return EMPTY_DATA;
 			}
 		}
-		IMaterialInventoryReservationGroup reservationGroup = this.fetchBeAffected(criteria,
-				IMaterialInventoryReservationGroup.class);
+		IMaterialInventoryReservationGroup4Causes reservationGroup = this.fetchBeAffected(criteria,
+				IMaterialInventoryReservationGroup4Causes.class);
 		if (reservationGroup == null) {
 			BORepositoryMaterials boRepository = new BORepositoryMaterials();
 			boRepository.setRepository(super.getRepository());
@@ -123,7 +124,7 @@ public class MaterialInventoryReservationCreateService extends
 				throw new BusinessLogicException(opRsltInventory.getError());
 			}
 			IMaterialInventoryReservation reservation;
-			reservationGroup = new MaterialInventoryReservationGroup();
+			reservationGroup = new MaterialInventoryReservationGroup4Causes();
 			reservationGroup.setCauses(String.format("FROM:%s-%s-%s", contract.getSourceDocumentType(),
 					contract.getSourceDocumentEntry(), contract.getSourceDocumentLineId()));
 			reservationGroup.setBatchCode(contract.getBatchCode());
@@ -179,7 +180,7 @@ public class MaterialInventoryReservationCreateService extends
 
 	@Override
 	protected void impact(IMaterialInventoryReservationCreateContract contract) {
-		IMaterialInventoryReservationGroup reservationGroup = this.getBeAffected();
+		IMaterialInventoryReservationGroup4Causes reservationGroup = this.getBeAffected();
 		if (reservationGroup == EMPTY_DATA) {
 			// 空数据不做处理
 			return;
@@ -259,7 +260,7 @@ public class MaterialInventoryReservationCreateService extends
 
 	@Override
 	protected void revoke(IMaterialInventoryReservationCreateContract contract) {
-		IMaterialInventoryReservationGroup reservationGroup = this.getBeAffected();
+		IMaterialInventoryReservationGroup4Causes reservationGroup = this.getBeAffected();
 		if (reservationGroup == EMPTY_DATA) {
 			// 空数据不做处理
 			return;
@@ -329,7 +330,7 @@ public class MaterialInventoryReservationCreateService extends
 
 }
 
-interface IMaterialInventoryReservationGroup extends IBusinessObject {
+interface IMaterialInventoryReservationGroup4Causes extends IBusinessObject {
 
 	/**
 	 * 获取-原因
@@ -402,17 +403,17 @@ interface IMaterialInventoryReservationGroup extends IBusinessObject {
 	void setCausalDatas(IMaterialOrderedReservations value);
 }
 
-class MaterialInventoryReservationGroup extends BusinessObject<IMaterialInventoryReservationGroup>
-		implements IMaterialInventoryReservationGroup, IBusinessObjectGroup {
+class MaterialInventoryReservationGroup4Causes extends BusinessObject<IMaterialInventoryReservationGroup4Causes>
+		implements IMaterialInventoryReservationGroup4Causes, IBusinessObjectGroup {
 
 	private static final long serialVersionUID = -1505933970685831778L;
 
 	/**
 	 * 当前类型
 	 */
-	private static final Class<?> MY_CLASS = MaterialInventoryReservationGroup.class;
+	private static final Class<?> MY_CLASS = MaterialInventoryReservationGroup4Causes.class;
 
-	public MaterialInventoryReservationGroup() {
+	public MaterialInventoryReservationGroup4Causes() {
 		this.setSavable(false);
 	}
 

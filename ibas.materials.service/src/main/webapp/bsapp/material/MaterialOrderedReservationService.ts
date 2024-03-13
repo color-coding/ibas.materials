@@ -165,7 +165,7 @@ namespace materials {
                     if (item.status === ibas.emBOStatus.CLOSED) {
                         continue;
                     }
-                    total += item.quantity;
+                    total += (item.quantity - item.closedQuantity);
                 }
                 return total;
             }
