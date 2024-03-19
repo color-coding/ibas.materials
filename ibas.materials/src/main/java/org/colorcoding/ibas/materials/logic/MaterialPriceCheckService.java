@@ -1,5 +1,7 @@
 package org.colorcoding.ibas.materials.logic;
 
+import java.util.Iterator;
+
 import org.colorcoding.ibas.bobas.approval.IApprovalData;
 import org.colorcoding.ibas.bobas.common.ConditionOperation;
 import org.colorcoding.ibas.bobas.common.ConditionRelationship;
@@ -116,7 +118,9 @@ public class MaterialPriceCheckService
 		condition.setOperation(ConditionOperation.EQUAL);
 		condition.setValue(contract.getPriceList());
 		// 子表-物料编码
-		for (IMaterialPrice item : contract.getMaterialPrices()) {
+		Iterator<IMaterialPrice> iterator = contract.getMaterialPrices();
+		while (iterator.hasNext()) {
+			IMaterialPrice item = iterator.next();
 			condition = criteria.getConditions().create();
 			condition.setAlias(MaterialPriceItem.PROPERTY_ITEMCODE.getName());
 			condition.setOperation(ConditionOperation.EQUAL);
@@ -132,7 +136,9 @@ public class MaterialPriceCheckService
 		if (operationResult.getError() != null) {
 			throw new BusinessLogicException(operationResult.getError());
 		}
-		for (IMaterialPrice item : contract.getMaterialPrices()) {
+		iterator = contract.getMaterialPrices();
+		while (iterator.hasNext()) {
+			IMaterialPrice item = iterator.next();
 			org.colorcoding.ibas.materials.bo.material.IMaterialPrice priceItem = operationResult.getResultObjects()
 					.firstOrDefault(c -> c.getItemCode().equals(item.getItemCode()));
 			if (priceItem != null) {

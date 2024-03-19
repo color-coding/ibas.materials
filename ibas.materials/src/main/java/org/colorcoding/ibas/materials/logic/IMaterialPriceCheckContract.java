@@ -1,6 +1,7 @@
 package org.colorcoding.ibas.materials.logic;
 
 import java.math.BigDecimal;
+import java.util.Iterator;
 
 import org.colorcoding.ibas.bobas.data.emDirection;
 import org.colorcoding.ibas.bobas.logic.IBusinessLogicContract;
@@ -31,7 +32,7 @@ public interface IMaterialPriceCheckContract extends IBusinessLogicContract {
 	 * 
 	 * @return
 	 */
-	Iterable<IMaterialPrice> getMaterialPrices();
+	Iterator<IMaterialPrice> getMaterialPrices();
 
 	/**
 	 * 物料价格
