@@ -1011,6 +1011,25 @@ namespace materials {
                                                                 this.checkRestricted = new sap.m.CheckBox("", {
                                                                     selected: true,
                                                                     text: ibas.i18n.prop("materials_restricted_warehouse"),
+                                                                    select(event: sap.ui.base.Event): void {
+                                                                        for (let panel of that.leftPage.getContent()) {
+                                                                            if (panel instanceof sap.m.Panel) {
+                                                                                for (let vbox of panel.getContent()) {
+                                                                                    if (vbox !== this.getParent() && vbox instanceof sap.m.VBox) {
+                                                                                        let list: any = vbox.getItems()[1];
+                                                                                        if (list instanceof sap.m.List) {
+                                                                                            for (let item of list.getItems()) {
+                                                                                                if (item.getSelected() === true) {
+                                                                                                    that.fireViewEvents(that.changeWorkingItemEvent, item.getBindingContext().getObject(), that.checkRestricted.getSelected());
+                                                                                                    return;
+                                                                                                }
+                                                                                            }
+                                                                                        }
+                                                                                    }
+                                                                                }
+                                                                            }
+                                                                        }
+                                                                    }
                                                                 }),
                                                             ]
                                                         }),

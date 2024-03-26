@@ -965,10 +965,10 @@ namespace materials {
                         } else {
                             // 排序，有条件的优先
                             let unitRates: ibas.IList<bo.UnitRate> = opRslt.resultObjects.sort((a, b) => {
-                                if (ibas.strings.isEmpty(a.condition) || !ibas.strings.isEmpty(b.condition)) {
+                                if (ibas.strings.isEmpty(a.condition) && !ibas.strings.isEmpty(b.condition)) {
                                     return -1;
                                 }
-                                if (!ibas.strings.isEmpty(a.condition) || ibas.strings.isEmpty(b.condition)) {
+                                if (!ibas.strings.isEmpty(a.condition) && ibas.strings.isEmpty(b.condition)) {
                                     return 1;
                                 }
                                 return 0;

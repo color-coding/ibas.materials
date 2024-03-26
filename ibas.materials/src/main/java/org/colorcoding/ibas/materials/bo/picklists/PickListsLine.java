@@ -1,20 +1,24 @@
 package org.colorcoding.ibas.materials.bo.picklists;
 
-import java.math.*;
-import javax.xml.bind.annotation.*;
+import java.math.BigDecimal;
 
-import org.colorcoding.ibas.bobas.core.*;
-import org.colorcoding.ibas.bobas.mapping.*;
-import org.colorcoding.ibas.bobas.bo.*;
-import org.colorcoding.ibas.bobas.data.*;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElementWrapper;
+import javax.xml.bind.annotation.XmlType;
+
+import org.colorcoding.ibas.bobas.bo.BusinessObject;
+import org.colorcoding.ibas.bobas.core.IPropertyInfo;
+import org.colorcoding.ibas.bobas.data.DateTime;
+import org.colorcoding.ibas.bobas.data.Decimal;
+import org.colorcoding.ibas.bobas.data.emYesNo;
+import org.colorcoding.ibas.bobas.mapping.DbField;
+import org.colorcoding.ibas.bobas.mapping.DbFieldType;
 import org.colorcoding.ibas.bobas.rule.IBusinessRule;
 import org.colorcoding.ibas.bobas.rule.common.BusinessRuleMinValue;
 import org.colorcoding.ibas.bobas.rule.common.BusinessRuleRequired;
 import org.colorcoding.ibas.materials.MyConfiguration;
-import org.colorcoding.ibas.materials.bo.materialbatch.IMaterialBatchItems;
-import org.colorcoding.ibas.materials.bo.materialbatch.MaterialBatchItem;
-import org.colorcoding.ibas.materials.bo.materialserial.IMaterialSerialItems;
-import org.colorcoding.ibas.materials.bo.materialserial.MaterialSerialItem;
 import org.colorcoding.ibas.materials.data.emPickStatus;
 import org.colorcoding.ibas.materials.rules.BusinessRuleCalculateInventoryQuantity;
 
@@ -59,7 +63,8 @@ public class PickListsLine extends BusinessObject<PickListsLine> implements IPic
 	 * 对象编号 属性
 	 */
 	@DbField(name = "ObjectKey", type = DbFieldType.NUMERIC, table = DB_TABLE_NAME, primaryKey = true, uniqueKey = true)
-	public static final IPropertyInfo<Integer> PROPERTY_OBJECTKEY = registerProperty(PROPERTY_OBJECTKEY_NAME, Integer.class, MY_CLASS);
+	public static final IPropertyInfo<Integer> PROPERTY_OBJECTKEY = registerProperty(PROPERTY_OBJECTKEY_NAME,
+			Integer.class, MY_CLASS);
 
 	/**
 	 * 获取-对象编号
@@ -80,7 +85,6 @@ public class PickListsLine extends BusinessObject<PickListsLine> implements IPic
 		this.setProperty(PROPERTY_OBJECTKEY, value);
 	}
 
-
 	/**
 	 * 属性名称-对象行号
 	 */
@@ -90,7 +94,8 @@ public class PickListsLine extends BusinessObject<PickListsLine> implements IPic
 	 * 对象行号 属性
 	 */
 	@DbField(name = "LineId", type = DbFieldType.NUMERIC, table = DB_TABLE_NAME, primaryKey = true)
-	public static final IPropertyInfo<Integer> PROPERTY_LINEID = registerProperty(PROPERTY_LINEID_NAME, Integer.class, MY_CLASS);
+	public static final IPropertyInfo<Integer> PROPERTY_LINEID = registerProperty(PROPERTY_LINEID_NAME, Integer.class,
+			MY_CLASS);
 
 	/**
 	 * 获取-对象行号
@@ -111,7 +116,6 @@ public class PickListsLine extends BusinessObject<PickListsLine> implements IPic
 		this.setProperty(PROPERTY_LINEID, value);
 	}
 
-
 	/**
 	 * 属性名称-对象类型
 	 */
@@ -121,7 +125,8 @@ public class PickListsLine extends BusinessObject<PickListsLine> implements IPic
 	 * 对象类型 属性
 	 */
 	@DbField(name = "ObjectCode", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME)
-	public static final IPropertyInfo<String> PROPERTY_OBJECTCODE = registerProperty(PROPERTY_OBJECTCODE_NAME, String.class, MY_CLASS);
+	public static final IPropertyInfo<String> PROPERTY_OBJECTCODE = registerProperty(PROPERTY_OBJECTCODE_NAME,
+			String.class, MY_CLASS);
 
 	/**
 	 * 获取-对象类型
@@ -142,7 +147,6 @@ public class PickListsLine extends BusinessObject<PickListsLine> implements IPic
 		this.setProperty(PROPERTY_OBJECTCODE, value);
 	}
 
-
 	/**
 	 * 属性名称-实例号
 	 */
@@ -152,7 +156,8 @@ public class PickListsLine extends BusinessObject<PickListsLine> implements IPic
 	 * 实例号 属性
 	 */
 	@DbField(name = "LogInst", type = DbFieldType.NUMERIC, table = DB_TABLE_NAME)
-	public static final IPropertyInfo<Integer> PROPERTY_LOGINST = registerProperty(PROPERTY_LOGINST_NAME, Integer.class, MY_CLASS);
+	public static final IPropertyInfo<Integer> PROPERTY_LOGINST = registerProperty(PROPERTY_LOGINST_NAME, Integer.class,
+			MY_CLASS);
 
 	/**
 	 * 获取-实例号
@@ -173,7 +178,6 @@ public class PickListsLine extends BusinessObject<PickListsLine> implements IPic
 		this.setProperty(PROPERTY_LOGINST, value);
 	}
 
-
 	/**
 	 * 属性名称-数据源
 	 */
@@ -183,7 +187,8 @@ public class PickListsLine extends BusinessObject<PickListsLine> implements IPic
 	 * 数据源 属性
 	 */
 	@DbField(name = "DataSource", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME)
-	public static final IPropertyInfo<String> PROPERTY_DATASOURCE = registerProperty(PROPERTY_DATASOURCE_NAME, String.class, MY_CLASS);
+	public static final IPropertyInfo<String> PROPERTY_DATASOURCE = registerProperty(PROPERTY_DATASOURCE_NAME,
+			String.class, MY_CLASS);
 
 	/**
 	 * 获取-数据源
@@ -204,7 +209,6 @@ public class PickListsLine extends BusinessObject<PickListsLine> implements IPic
 		this.setProperty(PROPERTY_DATASOURCE, value);
 	}
 
-
 	/**
 	 * 属性名称-创建日期
 	 */
@@ -214,7 +218,8 @@ public class PickListsLine extends BusinessObject<PickListsLine> implements IPic
 	 * 创建日期 属性
 	 */
 	@DbField(name = "CreateDate", type = DbFieldType.DATE, table = DB_TABLE_NAME)
-	public static final IPropertyInfo<DateTime> PROPERTY_CREATEDATE = registerProperty(PROPERTY_CREATEDATE_NAME, DateTime.class, MY_CLASS);
+	public static final IPropertyInfo<DateTime> PROPERTY_CREATEDATE = registerProperty(PROPERTY_CREATEDATE_NAME,
+			DateTime.class, MY_CLASS);
 
 	/**
 	 * 获取-创建日期
@@ -235,7 +240,6 @@ public class PickListsLine extends BusinessObject<PickListsLine> implements IPic
 		this.setProperty(PROPERTY_CREATEDATE, value);
 	}
 
-
 	/**
 	 * 属性名称-创建时间
 	 */
@@ -245,7 +249,8 @@ public class PickListsLine extends BusinessObject<PickListsLine> implements IPic
 	 * 创建时间 属性
 	 */
 	@DbField(name = "CreateTime", type = DbFieldType.NUMERIC, table = DB_TABLE_NAME)
-	public static final IPropertyInfo<Short> PROPERTY_CREATETIME = registerProperty(PROPERTY_CREATETIME_NAME, Short.class, MY_CLASS);
+	public static final IPropertyInfo<Short> PROPERTY_CREATETIME = registerProperty(PROPERTY_CREATETIME_NAME,
+			Short.class, MY_CLASS);
 
 	/**
 	 * 获取-创建时间
@@ -266,7 +271,6 @@ public class PickListsLine extends BusinessObject<PickListsLine> implements IPic
 		this.setProperty(PROPERTY_CREATETIME, value);
 	}
 
-
 	/**
 	 * 属性名称-更新日期
 	 */
@@ -276,7 +280,8 @@ public class PickListsLine extends BusinessObject<PickListsLine> implements IPic
 	 * 更新日期 属性
 	 */
 	@DbField(name = "UpdateDate", type = DbFieldType.DATE, table = DB_TABLE_NAME)
-	public static final IPropertyInfo<DateTime> PROPERTY_UPDATEDATE = registerProperty(PROPERTY_UPDATEDATE_NAME, DateTime.class, MY_CLASS);
+	public static final IPropertyInfo<DateTime> PROPERTY_UPDATEDATE = registerProperty(PROPERTY_UPDATEDATE_NAME,
+			DateTime.class, MY_CLASS);
 
 	/**
 	 * 获取-更新日期
@@ -297,7 +302,6 @@ public class PickListsLine extends BusinessObject<PickListsLine> implements IPic
 		this.setProperty(PROPERTY_UPDATEDATE, value);
 	}
 
-
 	/**
 	 * 属性名称-更新时间
 	 */
@@ -307,7 +311,8 @@ public class PickListsLine extends BusinessObject<PickListsLine> implements IPic
 	 * 更新时间 属性
 	 */
 	@DbField(name = "UpdateTime", type = DbFieldType.NUMERIC, table = DB_TABLE_NAME)
-	public static final IPropertyInfo<Short> PROPERTY_UPDATETIME = registerProperty(PROPERTY_UPDATETIME_NAME, Short.class, MY_CLASS);
+	public static final IPropertyInfo<Short> PROPERTY_UPDATETIME = registerProperty(PROPERTY_UPDATETIME_NAME,
+			Short.class, MY_CLASS);
 
 	/**
 	 * 获取-更新时间
@@ -328,7 +333,6 @@ public class PickListsLine extends BusinessObject<PickListsLine> implements IPic
 		this.setProperty(PROPERTY_UPDATETIME, value);
 	}
 
-
 	/**
 	 * 属性名称-创建用户
 	 */
@@ -338,7 +342,8 @@ public class PickListsLine extends BusinessObject<PickListsLine> implements IPic
 	 * 创建用户 属性
 	 */
 	@DbField(name = "Creator", type = DbFieldType.NUMERIC, table = DB_TABLE_NAME)
-	public static final IPropertyInfo<Integer> PROPERTY_CREATEUSERSIGN = registerProperty(PROPERTY_CREATEUSERSIGN_NAME, Integer.class, MY_CLASS);
+	public static final IPropertyInfo<Integer> PROPERTY_CREATEUSERSIGN = registerProperty(PROPERTY_CREATEUSERSIGN_NAME,
+			Integer.class, MY_CLASS);
 
 	/**
 	 * 获取-创建用户
@@ -359,7 +364,6 @@ public class PickListsLine extends BusinessObject<PickListsLine> implements IPic
 		this.setProperty(PROPERTY_CREATEUSERSIGN, value);
 	}
 
-
 	/**
 	 * 属性名称-更新用户
 	 */
@@ -369,7 +373,8 @@ public class PickListsLine extends BusinessObject<PickListsLine> implements IPic
 	 * 更新用户 属性
 	 */
 	@DbField(name = "Updator", type = DbFieldType.NUMERIC, table = DB_TABLE_NAME)
-	public static final IPropertyInfo<Integer> PROPERTY_UPDATEUSERSIGN = registerProperty(PROPERTY_UPDATEUSERSIGN_NAME, Integer.class, MY_CLASS);
+	public static final IPropertyInfo<Integer> PROPERTY_UPDATEUSERSIGN = registerProperty(PROPERTY_UPDATEUSERSIGN_NAME,
+			Integer.class, MY_CLASS);
 
 	/**
 	 * 获取-更新用户
@@ -390,7 +395,6 @@ public class PickListsLine extends BusinessObject<PickListsLine> implements IPic
 		this.setProperty(PROPERTY_UPDATEUSERSIGN, value);
 	}
 
-
 	/**
 	 * 属性名称-创建动作标识
 	 */
@@ -400,7 +404,8 @@ public class PickListsLine extends BusinessObject<PickListsLine> implements IPic
 	 * 创建动作标识 属性
 	 */
 	@DbField(name = "CreateActId", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME)
-	public static final IPropertyInfo<String> PROPERTY_CREATEACTIONID = registerProperty(PROPERTY_CREATEACTIONID_NAME, String.class, MY_CLASS);
+	public static final IPropertyInfo<String> PROPERTY_CREATEACTIONID = registerProperty(PROPERTY_CREATEACTIONID_NAME,
+			String.class, MY_CLASS);
 
 	/**
 	 * 获取-创建动作标识
@@ -421,7 +426,6 @@ public class PickListsLine extends BusinessObject<PickListsLine> implements IPic
 		this.setProperty(PROPERTY_CREATEACTIONID, value);
 	}
 
-
 	/**
 	 * 属性名称-更新动作标识
 	 */
@@ -431,7 +435,8 @@ public class PickListsLine extends BusinessObject<PickListsLine> implements IPic
 	 * 更新动作标识 属性
 	 */
 	@DbField(name = "UpdateActId", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME)
-	public static final IPropertyInfo<String> PROPERTY_UPDATEACTIONID = registerProperty(PROPERTY_UPDATEACTIONID_NAME, String.class, MY_CLASS);
+	public static final IPropertyInfo<String> PROPERTY_UPDATEACTIONID = registerProperty(PROPERTY_UPDATEACTIONID_NAME,
+			String.class, MY_CLASS);
 
 	/**
 	 * 获取-更新动作标识
@@ -452,7 +457,6 @@ public class PickListsLine extends BusinessObject<PickListsLine> implements IPic
 		this.setProperty(PROPERTY_UPDATEACTIONID, value);
 	}
 
-
 	/**
 	 * 属性名称-备注
 	 */
@@ -462,7 +466,8 @@ public class PickListsLine extends BusinessObject<PickListsLine> implements IPic
 	 * 备注 属性
 	 */
 	@DbField(name = "Remarks", type = DbFieldType.MEMO, table = DB_TABLE_NAME)
-	public static final IPropertyInfo<String> PROPERTY_REMARKS = registerProperty(PROPERTY_REMARKS_NAME, String.class, MY_CLASS);
+	public static final IPropertyInfo<String> PROPERTY_REMARKS = registerProperty(PROPERTY_REMARKS_NAME, String.class,
+			MY_CLASS);
 
 	/**
 	 * 获取-备注
@@ -483,7 +488,6 @@ public class PickListsLine extends BusinessObject<PickListsLine> implements IPic
 		this.setProperty(PROPERTY_REMARKS, value);
 	}
 
-
 	/**
 	 * 属性名称-基于类型
 	 */
@@ -493,7 +497,8 @@ public class PickListsLine extends BusinessObject<PickListsLine> implements IPic
 	 * 基于类型 属性
 	 */
 	@DbField(name = "BaseType", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME)
-	public static final IPropertyInfo<String> PROPERTY_BASEDOCUMENTTYPE = registerProperty(PROPERTY_BASEDOCUMENTTYPE_NAME, String.class, MY_CLASS);
+	public static final IPropertyInfo<String> PROPERTY_BASEDOCUMENTTYPE = registerProperty(
+			PROPERTY_BASEDOCUMENTTYPE_NAME, String.class, MY_CLASS);
 
 	/**
 	 * 获取-基于类型
@@ -514,7 +519,6 @@ public class PickListsLine extends BusinessObject<PickListsLine> implements IPic
 		this.setProperty(PROPERTY_BASEDOCUMENTTYPE, value);
 	}
 
-
 	/**
 	 * 属性名称-基于标识
 	 */
@@ -524,7 +528,8 @@ public class PickListsLine extends BusinessObject<PickListsLine> implements IPic
 	 * 基于标识 属性
 	 */
 	@DbField(name = "BaseEntry", type = DbFieldType.NUMERIC, table = DB_TABLE_NAME)
-	public static final IPropertyInfo<Integer> PROPERTY_BASEDOCUMENTENTRY = registerProperty(PROPERTY_BASEDOCUMENTENTRY_NAME, Integer.class, MY_CLASS);
+	public static final IPropertyInfo<Integer> PROPERTY_BASEDOCUMENTENTRY = registerProperty(
+			PROPERTY_BASEDOCUMENTENTRY_NAME, Integer.class, MY_CLASS);
 
 	/**
 	 * 获取-基于标识
@@ -545,7 +550,6 @@ public class PickListsLine extends BusinessObject<PickListsLine> implements IPic
 		this.setProperty(PROPERTY_BASEDOCUMENTENTRY, value);
 	}
 
-
 	/**
 	 * 属性名称-基于行号
 	 */
@@ -555,7 +559,8 @@ public class PickListsLine extends BusinessObject<PickListsLine> implements IPic
 	 * 基于行号 属性
 	 */
 	@DbField(name = "BaseLine", type = DbFieldType.NUMERIC, table = DB_TABLE_NAME)
-	public static final IPropertyInfo<Integer> PROPERTY_BASEDOCUMENTLINEID = registerProperty(PROPERTY_BASEDOCUMENTLINEID_NAME, Integer.class, MY_CLASS);
+	public static final IPropertyInfo<Integer> PROPERTY_BASEDOCUMENTLINEID = registerProperty(
+			PROPERTY_BASEDOCUMENTLINEID_NAME, Integer.class, MY_CLASS);
 
 	/**
 	 * 获取-基于行号
@@ -576,7 +581,6 @@ public class PickListsLine extends BusinessObject<PickListsLine> implements IPic
 		this.setProperty(PROPERTY_BASEDOCUMENTLINEID, value);
 	}
 
-
 	/**
 	 * 属性名称-交货/到期日期
 	 */
@@ -586,7 +590,8 @@ public class PickListsLine extends BusinessObject<PickListsLine> implements IPic
 	 * 交货/到期日期 属性
 	 */
 	@DbField(name = "DocDueDate", type = DbFieldType.DATE, table = DB_TABLE_NAME)
-	public static final IPropertyInfo<DateTime> PROPERTY_DELIVERYDATE = registerProperty(PROPERTY_DELIVERYDATE_NAME, DateTime.class, MY_CLASS);
+	public static final IPropertyInfo<DateTime> PROPERTY_DELIVERYDATE = registerProperty(PROPERTY_DELIVERYDATE_NAME,
+			DateTime.class, MY_CLASS);
 
 	/**
 	 * 获取-交货/到期日期
@@ -607,7 +612,6 @@ public class PickListsLine extends BusinessObject<PickListsLine> implements IPic
 		this.setProperty(PROPERTY_DELIVERYDATE, value);
 	}
 
-
 	/**
 	 * 属性名称-物料编码
 	 */
@@ -617,7 +621,8 @@ public class PickListsLine extends BusinessObject<PickListsLine> implements IPic
 	 * 物料编码 属性
 	 */
 	@DbField(name = "ItemCode", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME)
-	public static final IPropertyInfo<String> PROPERTY_ITEMCODE = registerProperty(PROPERTY_ITEMCODE_NAME, String.class, MY_CLASS);
+	public static final IPropertyInfo<String> PROPERTY_ITEMCODE = registerProperty(PROPERTY_ITEMCODE_NAME, String.class,
+			MY_CLASS);
 
 	/**
 	 * 获取-物料编码
@@ -638,7 +643,6 @@ public class PickListsLine extends BusinessObject<PickListsLine> implements IPic
 		this.setProperty(PROPERTY_ITEMCODE, value);
 	}
 
-
 	/**
 	 * 属性名称-物料/服务描述
 	 */
@@ -648,7 +652,8 @@ public class PickListsLine extends BusinessObject<PickListsLine> implements IPic
 	 * 物料/服务描述 属性
 	 */
 	@DbField(name = "Dscription", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME)
-	public static final IPropertyInfo<String> PROPERTY_ITEMDESCRIPTION = registerProperty(PROPERTY_ITEMDESCRIPTION_NAME, String.class, MY_CLASS);
+	public static final IPropertyInfo<String> PROPERTY_ITEMDESCRIPTION = registerProperty(PROPERTY_ITEMDESCRIPTION_NAME,
+			String.class, MY_CLASS);
 
 	/**
 	 * 获取-物料/服务描述
@@ -669,7 +674,6 @@ public class PickListsLine extends BusinessObject<PickListsLine> implements IPic
 		this.setProperty(PROPERTY_ITEMDESCRIPTION, value);
 	}
 
-
 	/**
 	 * 属性名称-物料标识
 	 */
@@ -679,7 +683,8 @@ public class PickListsLine extends BusinessObject<PickListsLine> implements IPic
 	 * 物料标识 属性
 	 */
 	@DbField(name = "ItemSign", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME)
-	public static final IPropertyInfo<String> PROPERTY_ITEMSIGN = registerProperty(PROPERTY_ITEMSIGN_NAME, String.class, MY_CLASS);
+	public static final IPropertyInfo<String> PROPERTY_ITEMSIGN = registerProperty(PROPERTY_ITEMSIGN_NAME, String.class,
+			MY_CLASS);
 
 	/**
 	 * 获取-物料标识
@@ -700,7 +705,6 @@ public class PickListsLine extends BusinessObject<PickListsLine> implements IPic
 		this.setProperty(PROPERTY_ITEMSIGN, value);
 	}
 
-
 	/**
 	 * 属性名称-序号管理
 	 */
@@ -710,7 +714,8 @@ public class PickListsLine extends BusinessObject<PickListsLine> implements IPic
 	 * 序号管理 属性
 	 */
 	@DbField(name = "SerialMgment", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME)
-	public static final IPropertyInfo<emYesNo> PROPERTY_SERIALMANAGEMENT = registerProperty(PROPERTY_SERIALMANAGEMENT_NAME, emYesNo.class, MY_CLASS);
+	public static final IPropertyInfo<emYesNo> PROPERTY_SERIALMANAGEMENT = registerProperty(
+			PROPERTY_SERIALMANAGEMENT_NAME, emYesNo.class, MY_CLASS);
 
 	/**
 	 * 获取-序号管理
@@ -731,7 +736,6 @@ public class PickListsLine extends BusinessObject<PickListsLine> implements IPic
 		this.setProperty(PROPERTY_SERIALMANAGEMENT, value);
 	}
 
-
 	/**
 	 * 属性名称-批号管理
 	 */
@@ -741,7 +745,8 @@ public class PickListsLine extends BusinessObject<PickListsLine> implements IPic
 	 * 批号管理 属性
 	 */
 	@DbField(name = "BatchMgment", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME)
-	public static final IPropertyInfo<emYesNo> PROPERTY_BATCHMANAGEMENT = registerProperty(PROPERTY_BATCHMANAGEMENT_NAME, emYesNo.class, MY_CLASS);
+	public static final IPropertyInfo<emYesNo> PROPERTY_BATCHMANAGEMENT = registerProperty(
+			PROPERTY_BATCHMANAGEMENT_NAME, emYesNo.class, MY_CLASS);
 
 	/**
 	 * 获取-批号管理
@@ -762,7 +767,6 @@ public class PickListsLine extends BusinessObject<PickListsLine> implements IPic
 		this.setProperty(PROPERTY_BATCHMANAGEMENT, value);
 	}
 
-
 	/**
 	 * 属性名称-数量
 	 */
@@ -772,7 +776,8 @@ public class PickListsLine extends BusinessObject<PickListsLine> implements IPic
 	 * 数量 属性
 	 */
 	@DbField(name = "Quantity", type = DbFieldType.DECIMAL, table = DB_TABLE_NAME)
-	public static final IPropertyInfo<BigDecimal> PROPERTY_QUANTITY = registerProperty(PROPERTY_QUANTITY_NAME, BigDecimal.class, MY_CLASS);
+	public static final IPropertyInfo<BigDecimal> PROPERTY_QUANTITY = registerProperty(PROPERTY_QUANTITY_NAME,
+			BigDecimal.class, MY_CLASS);
 
 	/**
 	 * 获取-数量
@@ -793,7 +798,6 @@ public class PickListsLine extends BusinessObject<PickListsLine> implements IPic
 		this.setProperty(PROPERTY_QUANTITY, value);
 	}
 
-
 	/**
 	 * 属性名称-单位
 	 */
@@ -803,7 +807,8 @@ public class PickListsLine extends BusinessObject<PickListsLine> implements IPic
 	 * 单位 属性
 	 */
 	@DbField(name = "UOM", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME)
-	public static final IPropertyInfo<String> PROPERTY_UOM = registerProperty(PROPERTY_UOM_NAME, String.class, MY_CLASS);
+	public static final IPropertyInfo<String> PROPERTY_UOM = registerProperty(PROPERTY_UOM_NAME, String.class,
+			MY_CLASS);
 
 	/**
 	 * 获取-单位
@@ -824,7 +829,6 @@ public class PickListsLine extends BusinessObject<PickListsLine> implements IPic
 		this.setProperty(PROPERTY_UOM, value);
 	}
 
-
 	/**
 	 * 属性名称-库存单位
 	 */
@@ -834,7 +838,8 @@ public class PickListsLine extends BusinessObject<PickListsLine> implements IPic
 	 * 库存单位 属性
 	 */
 	@DbField(name = "InvUOM", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME)
-	public static final IPropertyInfo<String> PROPERTY_INVENTORYUOM = registerProperty(PROPERTY_INVENTORYUOM_NAME, String.class, MY_CLASS);
+	public static final IPropertyInfo<String> PROPERTY_INVENTORYUOM = registerProperty(PROPERTY_INVENTORYUOM_NAME,
+			String.class, MY_CLASS);
 
 	/**
 	 * 获取-库存单位
@@ -855,7 +860,6 @@ public class PickListsLine extends BusinessObject<PickListsLine> implements IPic
 		this.setProperty(PROPERTY_INVENTORYUOM, value);
 	}
 
-
 	/**
 	 * 属性名称-单位换算率
 	 */
@@ -865,7 +869,8 @@ public class PickListsLine extends BusinessObject<PickListsLine> implements IPic
 	 * 单位换算率 属性
 	 */
 	@DbField(name = "UOMRate", type = DbFieldType.DECIMAL, table = DB_TABLE_NAME)
-	public static final IPropertyInfo<BigDecimal> PROPERTY_UOMRATE = registerProperty(PROPERTY_UOMRATE_NAME, BigDecimal.class, MY_CLASS);
+	public static final IPropertyInfo<BigDecimal> PROPERTY_UOMRATE = registerProperty(PROPERTY_UOMRATE_NAME,
+			BigDecimal.class, MY_CLASS);
 
 	/**
 	 * 获取-单位换算率
@@ -886,7 +891,6 @@ public class PickListsLine extends BusinessObject<PickListsLine> implements IPic
 		this.setProperty(PROPERTY_UOMRATE, value);
 	}
 
-
 	/**
 	 * 属性名称-库存数量
 	 */
@@ -896,7 +900,8 @@ public class PickListsLine extends BusinessObject<PickListsLine> implements IPic
 	 * 库存数量 属性
 	 */
 	@DbField(name = "InvQty", type = DbFieldType.DECIMAL, table = DB_TABLE_NAME)
-	public static final IPropertyInfo<BigDecimal> PROPERTY_INVENTORYQUANTITY = registerProperty(PROPERTY_INVENTORYQUANTITY_NAME, BigDecimal.class, MY_CLASS);
+	public static final IPropertyInfo<BigDecimal> PROPERTY_INVENTORYQUANTITY = registerProperty(
+			PROPERTY_INVENTORYQUANTITY_NAME, BigDecimal.class, MY_CLASS);
 
 	/**
 	 * 获取-库存数量
@@ -917,7 +922,6 @@ public class PickListsLine extends BusinessObject<PickListsLine> implements IPic
 		this.setProperty(PROPERTY_INVENTORYQUANTITY, value);
 	}
 
-
 	/**
 	 * 属性名称-拣配状态
 	 */
@@ -927,7 +931,8 @@ public class PickListsLine extends BusinessObject<PickListsLine> implements IPic
 	 * 拣配状态 属性
 	 */
 	@DbField(name = "PickStatus", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME)
-	public static final IPropertyInfo<emPickStatus> PROPERTY_PICKSTATUS = registerProperty(PROPERTY_PICKSTATUS_NAME, emPickStatus.class, MY_CLASS);
+	public static final IPropertyInfo<emPickStatus> PROPERTY_PICKSTATUS = registerProperty(PROPERTY_PICKSTATUS_NAME,
+			emPickStatus.class, MY_CLASS);
 
 	/**
 	 * 获取-拣配状态
@@ -948,7 +953,6 @@ public class PickListsLine extends BusinessObject<PickListsLine> implements IPic
 		this.setProperty(PROPERTY_PICKSTATUS, value);
 	}
 
-
 	/**
 	 * 属性名称-拣配数量
 	 */
@@ -958,7 +962,8 @@ public class PickListsLine extends BusinessObject<PickListsLine> implements IPic
 	 * 拣配数量 属性
 	 */
 	@DbField(name = "PickQty", type = DbFieldType.DECIMAL, table = DB_TABLE_NAME)
-	public static final IPropertyInfo<BigDecimal> PROPERTY_PICKQUANTITY = registerProperty(PROPERTY_PICKQUANTITY_NAME, BigDecimal.class, MY_CLASS);
+	public static final IPropertyInfo<BigDecimal> PROPERTY_PICKQUANTITY = registerProperty(PROPERTY_PICKQUANTITY_NAME,
+			BigDecimal.class, MY_CLASS);
 
 	/**
 	 * 获取-拣配数量
@@ -979,7 +984,6 @@ public class PickListsLine extends BusinessObject<PickListsLine> implements IPic
 		this.setProperty(PROPERTY_PICKQUANTITY, value);
 	}
 
-
 	/**
 	 * 属性名称-已清数量
 	 */
@@ -989,7 +993,8 @@ public class PickListsLine extends BusinessObject<PickListsLine> implements IPic
 	 * 已清数量 属性
 	 */
 	@DbField(name = "ClosedQty", type = DbFieldType.DECIMAL, table = DB_TABLE_NAME)
-	public static final IPropertyInfo<BigDecimal> PROPERTY_CLOSEDQUANTITY = registerProperty(PROPERTY_CLOSEDQUANTITY_NAME, BigDecimal.class, MY_CLASS);
+	public static final IPropertyInfo<BigDecimal> PROPERTY_CLOSEDQUANTITY = registerProperty(
+			PROPERTY_CLOSEDQUANTITY_NAME, BigDecimal.class, MY_CLASS);
 
 	/**
 	 * 获取-已清数量
@@ -1010,7 +1015,6 @@ public class PickListsLine extends BusinessObject<PickListsLine> implements IPic
 		this.setProperty(PROPERTY_CLOSEDQUANTITY, value);
 	}
 
-
 	/**
 	 * 属性名称-仓库
 	 */
@@ -1020,7 +1024,8 @@ public class PickListsLine extends BusinessObject<PickListsLine> implements IPic
 	 * 仓库 属性
 	 */
 	@DbField(name = "WhsCode", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME)
-	public static final IPropertyInfo<String> PROPERTY_WAREHOUSE = registerProperty(PROPERTY_WAREHOUSE_NAME, String.class, MY_CLASS);
+	public static final IPropertyInfo<String> PROPERTY_WAREHOUSE = registerProperty(PROPERTY_WAREHOUSE_NAME,
+			String.class, MY_CLASS);
 
 	/**
 	 * 获取-仓库
@@ -1042,97 +1047,35 @@ public class PickListsLine extends BusinessObject<PickListsLine> implements IPic
 	}
 
 	/**
-	 * 属性名称-物料批次
+	 * 属性名称-拣配清单-序号
 	 */
-	private static final String PROPERTY_MATERIALBATCHES_NAME = "MaterialBatches";
+	private static final String PROPERTY_PICKLISTSNUMBERS_NAME = "PickListsNumbers";
 
 	/**
-	 * 物料批次的集合属性
+	 * 拣配清单-序号的集合属性
+	 * 
 	 */
-	public static final IPropertyInfo<IMaterialBatchItems> PROPERTY_MATERIALBATCHES = registerProperty(
-			PROPERTY_MATERIALBATCHES_NAME, IMaterialBatchItems.class, MY_CLASS);
+	public static final IPropertyInfo<IPickListsNumbers> PROPERTY_PICKLISTSNUMBERS = registerProperty(
+			PROPERTY_PICKLISTSNUMBERS_NAME, IPickListsNumbers.class, MY_CLASS);
 
 	/**
-	 * 获取-物料批次集合
-	 *
+	 * 获取-拣配清单-序号集合
+	 * 
 	 * @return 值
 	 */
-	@XmlElementWrapper(name = PROPERTY_MATERIALBATCHES_NAME)
-	@XmlElement(name = MaterialBatchItem.BUSINESS_OBJECT_NAME, type = MaterialBatchItem.class)
-	public final IMaterialBatchItems getMaterialBatches() {
-		return this.getProperty(PROPERTY_MATERIALBATCHES);
+	@XmlElementWrapper(name = PROPERTY_PICKLISTSNUMBERS_NAME)
+	@XmlElement(name = PickListsNumber.BUSINESS_OBJECT_NAME, type = PickListsNumber.class)
+	public final IPickListsNumbers getPickListsNumbers() {
+		return this.getProperty(PROPERTY_PICKLISTSNUMBERS);
 	}
 
 	/**
-	 * 设置-物料批次集合
-	 *
+	 * 设置-拣配清单-序号集合
+	 * 
 	 * @param value 值
 	 */
-	public final void setMaterialBatches(IMaterialBatchItems value) {
-		this.setProperty(PROPERTY_MATERIALBATCHES, value);
-	}
-
-	/**
-	 * 属性名称-物料序列
-	 */
-	private static final String PROPERTY_MATERIALSERIALS_NAME = "MaterialSerials";
-
-	/**
-	 * 物料序列的集合属性
-	 */
-	public static final IPropertyInfo<IMaterialSerialItems> PROPERTY_MATERIALSERIALS = registerProperty(
-			PROPERTY_MATERIALSERIALS_NAME, IMaterialSerialItems.class, MY_CLASS);
-
-	/**
-	 * 获取-物料序列集合
-	 *
-	 * @return 值
-	 */
-	@XmlElementWrapper(name = PROPERTY_MATERIALSERIALS_NAME)
-	@XmlElement(name = MaterialSerialItem.BUSINESS_OBJECT_NAME, type = MaterialSerialItem.class)
-	public final IMaterialSerialItems getMaterialSerials() {
-		return this.getProperty(PROPERTY_MATERIALSERIALS);
-	}
-
-	/**
-	 * 设置-物料序列集合
-	 *
-	 * @param value 值
-	 */
-	public final void setMaterialSerials(IMaterialSerialItems value) {
-		this.setProperty(PROPERTY_MATERIALSERIALS, value);
-	}
-
-	/**
-	 * 基于标识
-	 */
-	@Override
-	public Integer getDocEntry() {
-		return this.getObjectKey();
-	}
-
-	/**
-	 * 基于行状态
-	 */
-	@Override
-	public emDocumentStatus getLineStatus() {
-		return emDocumentStatus.PLANNED;
-	}
-
-	/**
-	 * 数量
-	 */
-	@Override
-	public BigDecimal getTargetQuantity() {
-		return this.getPickQuantity();
-	}
-
-	/**
-	 * 单位
-	 */
-	@Override
-	public String getTargetUOM() {
-		return this.getInventoryUOM();
+	public final void setPickListsNumbers(IPickListsNumbers value) {
+		this.setProperty(PROPERTY_PICKLISTSNUMBERS, value);
 	}
 
 	/**
@@ -1142,14 +1085,13 @@ public class PickListsLine extends BusinessObject<PickListsLine> implements IPic
 	protected void initialize() {
 		super.initialize();// 基类初始化，不可去除
 		this.setObjectCode(MyConfiguration.applyVariables(BUSINESS_OBJECT_CODE));
-		this.setMaterialBatches(new MaterialBatchItems(this));
-		this.setMaterialSerials(new MaterialSerialItems(this));
+		this.setPickListsNumbers(new PickListsNumbers(this));
 
 	}
 
 	@Override
 	protected IBusinessRule[] registerRules() {
-		return new IBusinessRule[]{
+		return new IBusinessRule[] {
 				// 注册的业务规则
 				new BusinessRuleRequired(PROPERTY_ITEMCODE), // 要求有值
 				new BusinessRuleRequired(PROPERTY_WAREHOUSE), // 要求有值
@@ -1165,12 +1107,4 @@ public class PickListsLine extends BusinessObject<PickListsLine> implements IPic
 		};
 	}
 
-	@Override
-	protected <P> void afterSetProperty(IPropertyInfo<P> property) {
-		super.afterSetProperty(property);
-		if (PROPERTY_OBJECTKEY.getName().equals(property.getName())) {
-			// 触发批次,序列号值改变 MaterialBatchItems->onParentPropertyChanged->87
-			this.firePropertyChange("DocEntry", -1, this.getObjectKey());
-		}
-	}
 }

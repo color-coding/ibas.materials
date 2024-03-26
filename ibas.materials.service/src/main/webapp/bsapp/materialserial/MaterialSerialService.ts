@@ -685,6 +685,11 @@ namespace materials {
                         ibas.i18n.prop("shell_please_chooose_data", ibas.i18n.prop("shell_available")));
                     return;
                 }
+                if (data.reserved === ibas.emYesNo.YES) {
+                    this.messages(ibas.emMessageType.WARNING,
+                        ibas.i18n.prop("shell_please_chooose_data", ibas.i18n.prop("shell_available")));
+                    return;
+                }
                 if (ibas.objects.isNull(this.workingData)) {
                     throw new Error(ibas.i18n.prop("sys_invalid_parameter", "workingData"));
                 }

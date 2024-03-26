@@ -219,6 +219,13 @@ namespace materials {
                                                         width: "30%",
                                                         items: [
                                                             new sap.extension.m.ObjectAttribute("", {
+                                                                title: ibas.i18n.prop("bo_materialbatch_reservedquantity"),
+                                                                bindingValue: {
+                                                                    path: "reservedQuantity",
+                                                                    type: new sap.extension.data.Quantity()
+                                                                }
+                                                            }),
+                                                            new sap.extension.m.ObjectAttribute("", {
                                                                 title: ibas.i18n.prop("bo_materialbatch_version"),
                                                                 bindingValue: {
                                                                     path: "version",
@@ -289,10 +296,18 @@ namespace materials {
                                                 }),
                                                 new sap.m.Title("", {
                                                 }).bindProperty("text", {
-                                                    path: "quantity",
-                                                    type: new sap.extension.data.Quantity({
-                                                        minValue: 0
-                                                    })
+                                                    parts: [
+                                                        {
+                                                            path: "quantity",
+                                                            type: new sap.extension.data.Quantity(),
+                                                        }, {
+                                                            path: "reservedQuantity",
+                                                            type: new sap.extension.data.Quantity(),
+                                                        }
+                                                    ],
+                                                    formatter(onHand: number, onReserved: number): number {
+                                                        return sap.extension.data.formatValue(sap.extension.data.Quantity, onHand - onReserved, "string");
+                                                    }
                                                 }),
                                                 new sap.m.ToolbarSpacer(""),
                                                 new sap.m.ToolbarSeparator(""),
@@ -361,6 +376,13 @@ namespace materials {
                                                         width: "30%",
                                                         items: [
                                                             new sap.extension.m.ObjectAttribute("", {
+                                                                title: ibas.i18n.prop("bo_materialbatch_reservedquantity"),
+                                                                bindingValue: {
+                                                                    path: "reservedQuantity",
+                                                                    type: new sap.extension.data.Quantity()
+                                                                }
+                                                            }),
+                                                            new sap.extension.m.ObjectAttribute("", {
                                                                 title: ibas.i18n.prop("bo_materialbatch_version"),
                                                                 bindingValue: {
                                                                     path: "version",
@@ -398,10 +420,15 @@ namespace materials {
                                     })
                                 ],
                                 visible: {
-                                    path: "quantity",
-                                    mode: sap.ui.model.BindingMode.OneWay,
-                                    formatter(data: number): boolean {
-                                        return data > 0 ? true : false;
+                                    parts: [
+                                        {
+                                            path: "quantity",
+                                        }, {
+                                            path: "reservedQuantity",
+                                        }
+                                    ],
+                                    formatter(onHand: number, onReserved: number): boolean {
+                                        return ((ibas.numbers.valueOf(onHand) - ibas.numbers.valueOf(onReserved)) > 0) ? true : false;
                                     }
                                 },
                                 type: sap.m.ListType.Inactive,

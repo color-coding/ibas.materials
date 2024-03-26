@@ -336,14 +336,16 @@ namespace materials {
                         for (const inventoryReservation of inventoryReservations) {
                             let reservationQunatity: number = ibas.numbers.round(inventoryReservation.quantity - inventoryReservation.closedQuantity);
                             pickQuantity = ibas.numbers.round(pickQuantity + reservationQunatity);
-                            if (!ibas.strings.isEmpty(inventoryReservation.batchCode)) {
-                                let batchItem: bo.IMaterialBatchItem = item.materialBatches.create();
-                                batchItem.batchCode = inventoryReservation.batchCode;
-                                batchItem.quantity = reservationQunatity;
-                            }
                             if (!ibas.strings.isEmpty(inventoryReservation.serialCode)) {
-                                let serialItem: bo.IMaterialSerialItem = item.materialSerials.create();
+                                let serialItem: bo.IPickListsNumber = item.pickListsNumbers.create();
                                 serialItem.serialCode = inventoryReservation.serialCode;
+                                serialItem.warehouse = inventoryReservation.warehouse;
+                                serialItem.pickQuantity = 1;
+                            } else if (!ibas.strings.isEmpty(inventoryReservation.batchCode)) {
+                                let batchItem: bo.IPickListsNumber = item.pickListsNumbers.create();
+                                batchItem.batchCode = inventoryReservation.batchCode;
+                                batchItem.warehouse = inventoryReservation.warehouse;
+                                batchItem.pickQuantity = reservationQunatity;
                             }
                         }
                         item.pickQuantity = pickQuantity;
@@ -359,29 +361,16 @@ namespace materials {
                 });
                 for (const item of items) {
                     item.pickQuantity = 0;
-                    // 移除批次
-                    let batchItems: bo.IMaterialBatchItem[] = item.materialBatches.filterDeleted();
+                    // 移除序号
+                    let batchItems: bo.IPickListsNumber[] = item.pickListsNumbers.filterDeleted();
                     for (let batchItem of batchItems) {
-                        if (item.materialBatches.indexOf(batchItem) >= 0) {
+                        if (item.pickListsNumbers.indexOf(batchItem) >= 0) {
                             if (item.isNew) {
                                 // 新建的移除集合
-                                item.materialBatches.remove(batchItem);
+                                item.pickListsNumbers.remove(batchItem);
                             } else {
                                 // 非新建标记删除
                                 batchItem.delete();
-                            }
-                        }
-                    }
-                    // 移除序列
-                    let serialItems: bo.IMaterialSerialItem[] = item.materialSerials.filterDeleted();
-                    for (let serialItem of serialItems) {
-                        if (item.materialSerials.indexOf(serialItem) >= 0) {
-                            if (item.isNew) {
-                                // 新建的移除集合
-                                item.materialSerials.remove(serialItem);
-                            } else {
-                                // 非新建标记删除
-                                serialItem.delete();
                             }
                         }
                     }
@@ -786,40 +775,21 @@ namespace materials {
                 this.setProperty(PickListsLine.PROPERTY_WAREHOUSE_NAME, value);
             }
 
-            /** 映射的属性名称-物料批次集合 */
-            static PROPERTY_MATERIALBATCHES_NAME: string = "MaterialBatches";
-            /** 获取-物料批次集合 */
-            get materialBatches(): bo.MaterialBatchItems {
-                return this.getProperty<bo.MaterialBatchItems>(PickListsLine.PROPERTY_MATERIALBATCHES_NAME);
+            /** 映射的属性名称-拣配清单-序号集合 */
+            static PROPERTY_PICKLISTSNUMBERS_NAME: string = "PickListsNumbers";
+            /** 获取-拣配清单-序号集合 */
+            get pickListsNumbers(): PickListsNumbers {
+                return this.getProperty<PickListsNumbers>(PickListsLine.PROPERTY_PICKLISTSNUMBERS_NAME);
             }
-            /** 设置-物料批次集合 */
-            set materialBatches(value: bo.MaterialBatchItems) {
-                this.setProperty(PickListsLine.PROPERTY_MATERIALBATCHES_NAME, value);
-            }
-
-            /** 映射的属性名称-物料序列集合 */
-            static PROPERTY_MATERIALSERIALS_NAME: string = "MaterialSerials";
-            /** 获取-物料序列集合 */
-            get materialSerials(): bo.MaterialSerialItems {
-                return this.getProperty<bo.MaterialSerialItems>(PickListsLine.PROPERTY_MATERIALSERIALS_NAME);
-            }
-            /** 设置-物料序列集合 */
-            set materialSerials(value: bo.MaterialSerialItems) {
-                this.setProperty(PickListsLine.PROPERTY_MATERIALSERIALS_NAME, value);
+            /** 设置-拣配清单-序号集合 */
+            set pickListsNumbers(value: PickListsNumbers) {
+                this.setProperty(PickListsLine.PROPERTY_PICKLISTSNUMBERS_NAME, value);
             }
 
-            get docEntry(): number {
-                return this.objectKey;
-            }
-
-            get targetQuantity(): number {
-                return this.pickQuantity;
-            }
             /** 初始化数据 */
             protected init(): void {
                 this.objectCode = ibas.config.applyVariables(PickLists.BUSINESS_OBJECT_CODE);
-                this.materialBatches = new bo.MaterialBatchItems(this);
-                this.materialSerials = new bo.MaterialSerialItems(this);
+                this.pickListsNumbers = new PickListsNumbers(this);
                 this.pickStatus = bo.emPickStatus.RELEASED;
                 this.uomRate = 1;
             }
@@ -905,6 +875,279 @@ namespace materials {
                 }
             }
         }
+
+        /** 拣配清单-序号 集合 */
+        export class PickListsNumbers extends ibas.BusinessObjects<PickListsNumber, PickListsLine>
+            implements IPickListsNumbers, IMaterialBatchItems, IMaterialSerialItems {
+            /** 创建并添加子项 */
+            create(): PickListsNumber {
+                let item: PickListsNumber = new PickListsNumber();
+                this.add(item);
+                return item;
+            }
+            protected afterAdd(item: PickListsNumber): void {
+                super.afterAdd(item);
+                if (!(item.lineId >= 0) && item.isNew) {
+                    item.itemId = this.parent.lineId;
+                }
+            }
+            total(): number {
+                let total: number = 0;
+                for (let item of this) {
+                    total += item.pickQuantity;
+                }
+                return total;
+            }
+        }
+        /** 拣配清单-序号 */
+        export class PickListsNumber extends ibas.BOSimpleLine<PickListsNumber>
+            implements IPickListsNumber, IMaterialBatchItem, IMaterialSerialItem {
+            /** 构造函数 */
+            constructor() {
+                super();
+            }
+            /** 映射的属性名称-对象编号 */
+            static PROPERTY_OBJECTKEY_NAME: string = "ObjectKey";
+            /** 获取-对象编号 */
+            get objectKey(): number {
+                return this.getProperty<number>(PickListsNumber.PROPERTY_OBJECTKEY_NAME);
+            }
+            /** 设置-对象编号 */
+            set objectKey(value: number) {
+                this.setProperty(PickListsNumber.PROPERTY_OBJECTKEY_NAME, value);
+            }
+
+            /** 映射的属性名称-对象行号 */
+            static PROPERTY_LINEID_NAME: string = "LineId";
+            /** 获取-对象行号 */
+            get lineId(): number {
+                return this.getProperty<number>(PickListsNumber.PROPERTY_LINEID_NAME);
+            }
+            /** 设置-对象行号 */
+            set lineId(value: number) {
+                this.setProperty(PickListsNumber.PROPERTY_LINEID_NAME, value);
+            }
+
+            /** 映射的属性名称-对象类型 */
+            static PROPERTY_OBJECTCODE_NAME: string = "ObjectCode";
+            /** 获取-对象类型 */
+            get objectCode(): string {
+                return this.getProperty<string>(PickListsNumber.PROPERTY_OBJECTCODE_NAME);
+            }
+            /** 设置-对象类型 */
+            set objectCode(value: string) {
+                this.setProperty(PickListsNumber.PROPERTY_OBJECTCODE_NAME, value);
+            }
+
+            /** 映射的属性名称-实例号 */
+            static PROPERTY_LOGINST_NAME: string = "LogInst";
+            /** 获取-实例号 */
+            get logInst(): number {
+                return this.getProperty<number>(PickListsNumber.PROPERTY_LOGINST_NAME);
+            }
+            /** 设置-实例号 */
+            set logInst(value: number) {
+                this.setProperty(PickListsNumber.PROPERTY_LOGINST_NAME, value);
+            }
+
+            /** 映射的属性名称-数据源 */
+            static PROPERTY_DATASOURCE_NAME: string = "DataSource";
+            /** 获取-数据源 */
+            get dataSource(): string {
+                return this.getProperty<string>(PickListsNumber.PROPERTY_DATASOURCE_NAME);
+            }
+            /** 设置-数据源 */
+            set dataSource(value: string) {
+                this.setProperty(PickListsNumber.PROPERTY_DATASOURCE_NAME, value);
+            }
+
+            /** 映射的属性名称-创建日期 */
+            static PROPERTY_CREATEDATE_NAME: string = "CreateDate";
+            /** 获取-创建日期 */
+            get createDate(): Date {
+                return this.getProperty<Date>(PickListsNumber.PROPERTY_CREATEDATE_NAME);
+            }
+            /** 设置-创建日期 */
+            set createDate(value: Date) {
+                this.setProperty(PickListsNumber.PROPERTY_CREATEDATE_NAME, value);
+            }
+
+            /** 映射的属性名称-创建时间 */
+            static PROPERTY_CREATETIME_NAME: string = "CreateTime";
+            /** 获取-创建时间 */
+            get createTime(): number {
+                return this.getProperty<number>(PickListsNumber.PROPERTY_CREATETIME_NAME);
+            }
+            /** 设置-创建时间 */
+            set createTime(value: number) {
+                this.setProperty(PickListsNumber.PROPERTY_CREATETIME_NAME, value);
+            }
+
+            /** 映射的属性名称-更新日期 */
+            static PROPERTY_UPDATEDATE_NAME: string = "UpdateDate";
+            /** 获取-更新日期 */
+            get updateDate(): Date {
+                return this.getProperty<Date>(PickListsNumber.PROPERTY_UPDATEDATE_NAME);
+            }
+            /** 设置-更新日期 */
+            set updateDate(value: Date) {
+                this.setProperty(PickListsNumber.PROPERTY_UPDATEDATE_NAME, value);
+            }
+
+            /** 映射的属性名称-更新时间 */
+            static PROPERTY_UPDATETIME_NAME: string = "UpdateTime";
+            /** 获取-更新时间 */
+            get updateTime(): number {
+                return this.getProperty<number>(PickListsNumber.PROPERTY_UPDATETIME_NAME);
+            }
+            /** 设置-更新时间 */
+            set updateTime(value: number) {
+                this.setProperty(PickListsNumber.PROPERTY_UPDATETIME_NAME, value);
+            }
+
+            /** 映射的属性名称-创建用户 */
+            static PROPERTY_CREATEUSERSIGN_NAME: string = "CreateUserSign";
+            /** 获取-创建用户 */
+            get createUserSign(): number {
+                return this.getProperty<number>(PickListsNumber.PROPERTY_CREATEUSERSIGN_NAME);
+            }
+            /** 设置-创建用户 */
+            set createUserSign(value: number) {
+                this.setProperty(PickListsNumber.PROPERTY_CREATEUSERSIGN_NAME, value);
+            }
+
+            /** 映射的属性名称-更新用户 */
+            static PROPERTY_UPDATEUSERSIGN_NAME: string = "UpdateUserSign";
+            /** 获取-更新用户 */
+            get updateUserSign(): number {
+                return this.getProperty<number>(PickListsNumber.PROPERTY_UPDATEUSERSIGN_NAME);
+            }
+            /** 设置-更新用户 */
+            set updateUserSign(value: number) {
+                this.setProperty(PickListsNumber.PROPERTY_UPDATEUSERSIGN_NAME, value);
+            }
+
+            /** 映射的属性名称-创建动作标识 */
+            static PROPERTY_CREATEACTIONID_NAME: string = "CreateActionId";
+            /** 获取-创建动作标识 */
+            get createActionId(): string {
+                return this.getProperty<string>(PickListsNumber.PROPERTY_CREATEACTIONID_NAME);
+            }
+            /** 设置-创建动作标识 */
+            set createActionId(value: string) {
+                this.setProperty(PickListsNumber.PROPERTY_CREATEACTIONID_NAME, value);
+            }
+
+            /** 映射的属性名称-更新动作标识 */
+            static PROPERTY_UPDATEACTIONID_NAME: string = "UpdateActionId";
+            /** 获取-更新动作标识 */
+            get updateActionId(): string {
+                return this.getProperty<string>(PickListsNumber.PROPERTY_UPDATEACTIONID_NAME);
+            }
+            /** 设置-更新动作标识 */
+            set updateActionId(value: string) {
+                this.setProperty(PickListsNumber.PROPERTY_UPDATEACTIONID_NAME, value);
+            }
+
+            /** 映射的属性名称-备注 */
+            static PROPERTY_REMARKS_NAME: string = "Remarks";
+            /** 获取-备注 */
+            get remarks(): string {
+                return this.getProperty<string>(PickListsNumber.PROPERTY_REMARKS_NAME);
+            }
+            /** 设置-备注 */
+            set remarks(value: string) {
+                this.setProperty(PickListsNumber.PROPERTY_REMARKS_NAME, value);
+            }
+
+            /** 映射的属性名称-行项目号 */
+            static PROPERTY_ITEMID_NAME: string = "ItemId";
+            /** 获取-行项目号 */
+            get itemId(): number {
+                return this.getProperty<number>(PickListsNumber.PROPERTY_ITEMID_NAME);
+            }
+            /** 设置-行项目号 */
+            set itemId(value: number) {
+                this.setProperty(PickListsNumber.PROPERTY_ITEMID_NAME, value);
+            }
+
+            /** 映射的属性名称-仓库编码 */
+            static PROPERTY_WAREHOUSE_NAME: string = "Warehouse";
+            /** 获取-仓库编码 */
+            get warehouse(): string {
+                return this.getProperty<string>(PickListsNumber.PROPERTY_WAREHOUSE_NAME);
+            }
+            /** 设置-仓库编码 */
+            set warehouse(value: string) {
+                this.setProperty(PickListsNumber.PROPERTY_WAREHOUSE_NAME, value);
+            }
+
+            /** 映射的属性名称-批次编码 */
+            static PROPERTY_BATCHCODE_NAME: string = "BatchCode";
+            /** 获取-批次编码 */
+            get batchCode(): string {
+                return this.getProperty<string>(PickListsNumber.PROPERTY_BATCHCODE_NAME);
+            }
+            /** 设置-批次编码 */
+            set batchCode(value: string) {
+                this.setProperty(PickListsNumber.PROPERTY_BATCHCODE_NAME, value);
+            }
+
+            /** 映射的属性名称-序列编码 */
+            static PROPERTY_SERIALCODE_NAME: string = "SerialCode";
+            /** 获取-序列编码 */
+            get serialCode(): string {
+                return this.getProperty<string>(PickListsNumber.PROPERTY_SERIALCODE_NAME);
+            }
+            /** 设置-序列编码 */
+            set serialCode(value: string) {
+                this.setProperty(PickListsNumber.PROPERTY_SERIALCODE_NAME, value);
+            }
+
+            /** 映射的属性名称-拣配数量 */
+            static PROPERTY_PICKQUANTITY_NAME: string = "PickQuantity";
+            /** 获取-拣配数量 */
+            get pickQuantity(): number {
+                return this.getProperty<number>(PickListsNumber.PROPERTY_PICKQUANTITY_NAME);
+            }
+            /** 设置-拣配数量 */
+            set pickQuantity(value: number) {
+                this.setProperty(PickListsNumber.PROPERTY_PICKQUANTITY_NAME, value);
+            }
+
+            get documentType(): string {
+                return this[PROPERTY_DOCUMENT_TYPE];
+            }
+            set documentType(value: string) {
+                this[PROPERTY_DOCUMENT_TYPE] = value;
+            }
+            get documentEntry(): number {
+                return this[PROPERTY_DOCUMENT_ENTRY];
+            }
+            set documentEntry(value: number) {
+                this[PROPERTY_DOCUMENT_ENTRY] = value;
+            }
+            get documentLineId(): number {
+                return this[PROPERTY_DOCUMENT_LINEID];
+            }
+            set documentLineId(value: number) {
+                this[PROPERTY_DOCUMENT_LINEID] = value;
+            }
+            get quantity(): number {
+                return this.pickQuantity;
+            }
+            set quantity(value: number) {
+                this.pickQuantity = value;
+            }
+
+            /** 初始化数据 */
+            protected init(): void {
+                this.objectCode = ibas.config.applyVariables(PickLists.BUSINESS_OBJECT_CODE);
+            }
+        }
+        const PROPERTY_DOCUMENT_TYPE: symbol = Symbol("documentType");
+        const PROPERTY_DOCUMENT_ENTRY: symbol = Symbol("documentEntry");
+        const PROPERTY_DOCUMENT_LINEID: symbol = Symbol("documentLineId");
 
     }
 }

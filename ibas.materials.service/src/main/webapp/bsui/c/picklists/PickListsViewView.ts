@@ -23,30 +23,38 @@ namespace materials {
                         columns: [
                             new sap.extension.m.Column("", {
                                 header: ibas.i18n.prop("bo_picklistsline_lineid"),
+                                width: "5rem",
                             }),
                             new sap.extension.m.Column("", {
                                 header: ibas.i18n.prop("bo_picklistsline_basedocument"),
+                                width: "10rem",
                             }),
                             new sap.extension.m.Column("", {
                                 header: ibas.i18n.prop("bo_picklistsline_pickstatus"),
+                                width: "6rem",
                             }),
                             new sap.extension.m.Column("", {
                                 header: ibas.i18n.prop("bo_picklistsline_itemcode"),
                             }),
                             new sap.extension.m.Column("", {
                                 header: ibas.i18n.prop("bo_picklistsline_itemdescription"),
+                                width: "16rem",
                             }),
                             new sap.extension.m.Column("", {
                                 header: ibas.i18n.prop("bo_picklistsline_warehouse"),
+                                width: "10rem",
                             }),
                             new sap.extension.m.Column("", {
                                 header: ibas.i18n.prop("bo_picklistsline_inventoryquantity"),
+                                width: "8rem",
                             }),
                             new sap.extension.m.Column("", {
                                 header: ibas.i18n.prop("bo_picklistsline_pickquantity"),
+                                width: "8rem",
                             }),
                             new sap.extension.m.Column("", {
                                 header: ibas.i18n.prop("bo_picklistsline_closedquantity"),
+                                width: "8rem",
                             }),
                             new sap.extension.m.Column("", {
                                 header: ibas.i18n.prop("bo_picklistsline_remarks"),
@@ -130,21 +138,18 @@ namespace materials {
                                             type: new sap.extension.data.Alphanumeric(),
                                         }
                                     }),
-                                    new sap.extension.m.ObjectAttribute("", {
-                                        active: true,
+                                    new sap.extension.m.RepositoryObjectAttribute("", {
+                                        showValueLink: true,
+                                        repository: bo.BORepositoryMaterials,
+                                        dataInfo: {
+                                            type: bo.Warehouse,
+                                            key: bo.Warehouse.PROPERTY_CODE_NAME,
+                                            text: bo.Warehouse.PROPERTY_NAME_NAME
+                                        },
                                         bindingValue: {
                                             path: "warehouse",
                                             type: new sap.extension.data.Alphanumeric(),
                                         },
-                                        press(this: sap.m.ObjectAttribute): void {
-                                            let data: any = this.getBindingContext().getObject();
-                                            if (data instanceof bo.PickListsLine && data.baseDocumentEntry > 0) {
-                                                ibas.servicesManager.runLinkService({
-                                                    boCode: materials.bo.BO_CODE_WAREHOUSE,
-                                                    linkValue: data.warehouse
-                                                });
-                                            }
-                                        }
                                     }),
                                     // new sap.extension.m.ObjectAttribute("", {
                                     //     bindingValue: {

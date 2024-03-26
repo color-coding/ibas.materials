@@ -227,7 +227,7 @@ namespace materials {
                 }
             }
             /** 删除拣配清单-行事件 */
-            protected removePickListsLine(items: bo.PickListsLine[]): void {
+            protected removePickListsLine(items: bo.PickListsLine[] | bo.PickListsNumber[]): void {
                 // 非数组，转为数组
                 if (!(items instanceof Array)) {
                     items = [items];
@@ -237,12 +237,25 @@ namespace materials {
                 }
                 // 移除项目
                 for (let item of items) {
-                    if (this.editData.pickListsLines.indexOf(item) >= 0) {
+                    if (item instanceof bo.PickListsLine) {
+                        if (this.editData.pickListsLines.indexOf(item) >= 0) {
+                            if (item.isNew) {
+                                // 新建的移除集合
+                                this.editData.pickListsLines.remove(item);
+                            } else {
+                                // 非新建标记删除
+                                item.delete();
+                            }
+                        }
+                    } else if (item instanceof bo.PickListsNumber) {
                         if (item.isNew) {
-                            // 新建的移除集合
-                            this.editData.pickListsLines.remove(item);
+                            for (let pItem of this.editData.pickListsLines) {
+                                if (pItem.pickListsNumbers.contain(item)) {
+                                    pItem.pickListsNumbers.remove(item);
+                                    break;
+                                }
+                            }
                         } else {
-                            // 非新建标记删除
                             item.delete();
                         }
                     }
@@ -261,7 +274,7 @@ namespace materials {
                         warehouse: item.warehouse,
                         quantity: item.pickQuantity,
                         uom: item.inventoryUOM,
-                        materialBatches: item.materialBatches,
+                        materialBatches: item.pickListsNumbers,
                     });
                 }
                 ibas.servicesManager.runApplicationService<IMaterialBatchContract[]>({
@@ -279,7 +292,7 @@ namespace materials {
                         warehouse: item.warehouse,
                         quantity: item.pickQuantity,
                         uom: item.inventoryUOM,
-                        materialSerials: item.materialSerials
+                        materialSerials: item.pickListsNumbers
                     });
                 }
                 ibas.servicesManager.runApplicationService<IMaterialSerialContract[]>({

@@ -408,6 +408,9 @@ public class MaterialReceiptService
 		if (!this.isEnableMaterialCosts() || contract.isOffsetting()) {
 			// 未开启成本的，删除
 			materialJournal.delete();
+		} else if (this.getLogicChain().getTrigger().isDeleted() == true) {
+			// 触发对象删除（正向逻辑不被执行），删除
+			materialJournal.delete();
 		}
 	}
 

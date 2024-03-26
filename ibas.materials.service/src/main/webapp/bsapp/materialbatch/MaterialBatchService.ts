@@ -666,7 +666,7 @@ namespace materials {
                         ibas.i18n.prop("shell_please_chooose_data", ibas.i18n.prop("shell_using")));
                     return;
                 }
-                if (data.quantity <= 0) {
+                if ((data.quantity - data.reservedQuantity) <= 0) {
                     this.messages(ibas.emMessageType.WARNING,
                         ibas.i18n.prop("shell_please_chooose_data", ibas.i18n.prop("shell_available")));
                     return;
@@ -680,8 +680,8 @@ namespace materials {
                     return;
                 }
                 let journal: BatchWorkingItemResult = this.workingData.results.create(data);
-                if (total > data.quantity) {
-                    journal.quantity = data.quantity;
+                if (total > (data.quantity - data.reservedQuantity)) {
+                    journal.quantity = (data.quantity - data.reservedQuantity);
                 } else {
                     journal.quantity = total;
                 }

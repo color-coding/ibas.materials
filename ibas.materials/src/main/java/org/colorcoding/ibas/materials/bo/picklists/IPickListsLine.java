@@ -1,17 +1,16 @@
 package org.colorcoding.ibas.materials.bo.picklists;
 
-import java.math.*;
+import java.math.BigDecimal;
 
-import org.colorcoding.ibas.bobas.bo.*;
-import org.colorcoding.ibas.bobas.data.*;
-import org.colorcoding.ibas.materials.bo.materialbatch.IMaterialBatchItemParent;
-import org.colorcoding.ibas.materials.bo.materialserial.IMaterialSerialItemParent;
+import org.colorcoding.ibas.bobas.bo.IBOSimpleLine;
+import org.colorcoding.ibas.bobas.data.DateTime;
+import org.colorcoding.ibas.bobas.data.emYesNo;
 import org.colorcoding.ibas.materials.data.emPickStatus;
 
 /**
  * 拣配清单-行 接口
  */
-public interface IPickListsLine extends IBOSimpleLine, IMaterialBatchItemParent, IMaterialSerialItemParent {
+public interface IPickListsLine extends IBOSimpleLine {
 
 	/**
 	 * 获取-对象编号
@@ -27,7 +26,6 @@ public interface IPickListsLine extends IBOSimpleLine, IMaterialBatchItemParent,
 	 */
 	void setObjectKey(Integer value);
 
-
 	/**
 	 * 获取-对象行号
 	 *
@@ -41,7 +39,6 @@ public interface IPickListsLine extends IBOSimpleLine, IMaterialBatchItemParent,
 	 * @param value 值
 	 */
 	void setLineId(Integer value);
-
 
 	/**
 	 * 获取-对象类型
@@ -57,7 +54,6 @@ public interface IPickListsLine extends IBOSimpleLine, IMaterialBatchItemParent,
 	 */
 	void setObjectCode(String value);
 
-
 	/**
 	 * 获取-实例号
 	 *
@@ -71,7 +67,6 @@ public interface IPickListsLine extends IBOSimpleLine, IMaterialBatchItemParent,
 	 * @param value 值
 	 */
 	void setLogInst(Integer value);
-
 
 	/**
 	 * 获取-数据源
@@ -87,7 +82,6 @@ public interface IPickListsLine extends IBOSimpleLine, IMaterialBatchItemParent,
 	 */
 	void setDataSource(String value);
 
-
 	/**
 	 * 获取-创建日期
 	 *
@@ -101,7 +95,6 @@ public interface IPickListsLine extends IBOSimpleLine, IMaterialBatchItemParent,
 	 * @param value 值
 	 */
 	void setCreateDate(DateTime value);
-
 
 	/**
 	 * 获取-创建时间
@@ -117,7 +110,6 @@ public interface IPickListsLine extends IBOSimpleLine, IMaterialBatchItemParent,
 	 */
 	void setCreateTime(Short value);
 
-
 	/**
 	 * 获取-更新日期
 	 *
@@ -131,7 +123,6 @@ public interface IPickListsLine extends IBOSimpleLine, IMaterialBatchItemParent,
 	 * @param value 值
 	 */
 	void setUpdateDate(DateTime value);
-
 
 	/**
 	 * 获取-更新时间
@@ -147,7 +138,6 @@ public interface IPickListsLine extends IBOSimpleLine, IMaterialBatchItemParent,
 	 */
 	void setUpdateTime(Short value);
 
-
 	/**
 	 * 获取-创建用户
 	 *
@@ -161,7 +151,6 @@ public interface IPickListsLine extends IBOSimpleLine, IMaterialBatchItemParent,
 	 * @param value 值
 	 */
 	void setCreateUserSign(Integer value);
-
 
 	/**
 	 * 获取-更新用户
@@ -177,7 +166,6 @@ public interface IPickListsLine extends IBOSimpleLine, IMaterialBatchItemParent,
 	 */
 	void setUpdateUserSign(Integer value);
 
-
 	/**
 	 * 获取-创建动作标识
 	 *
@@ -191,7 +179,6 @@ public interface IPickListsLine extends IBOSimpleLine, IMaterialBatchItemParent,
 	 * @param value 值
 	 */
 	void setCreateActionId(String value);
-
 
 	/**
 	 * 获取-更新动作标识
@@ -207,7 +194,6 @@ public interface IPickListsLine extends IBOSimpleLine, IMaterialBatchItemParent,
 	 */
 	void setUpdateActionId(String value);
 
-
 	/**
 	 * 获取-备注
 	 *
@@ -221,7 +207,6 @@ public interface IPickListsLine extends IBOSimpleLine, IMaterialBatchItemParent,
 	 * @param value 值
 	 */
 	void setRemarks(String value);
-
 
 	/**
 	 * 获取-基于类型
@@ -237,7 +222,6 @@ public interface IPickListsLine extends IBOSimpleLine, IMaterialBatchItemParent,
 	 */
 	void setBaseDocumentType(String value);
 
-
 	/**
 	 * 获取-基于标识
 	 *
@@ -251,7 +235,6 @@ public interface IPickListsLine extends IBOSimpleLine, IMaterialBatchItemParent,
 	 * @param value 值
 	 */
 	void setBaseDocumentEntry(Integer value);
-
 
 	/**
 	 * 获取-基于行号
@@ -267,7 +250,6 @@ public interface IPickListsLine extends IBOSimpleLine, IMaterialBatchItemParent,
 	 */
 	void setBaseDocumentLineId(Integer value);
 
-
 	/**
 	 * 获取-交货/到期日期
 	 *
@@ -281,7 +263,6 @@ public interface IPickListsLine extends IBOSimpleLine, IMaterialBatchItemParent,
 	 * @param value 值
 	 */
 	void setDeliveryDate(DateTime value);
-
 
 	/**
 	 * 获取-物料编码
@@ -297,7 +278,6 @@ public interface IPickListsLine extends IBOSimpleLine, IMaterialBatchItemParent,
 	 */
 	void setItemCode(String value);
 
-
 	/**
 	 * 获取-物料/服务描述
 	 *
@@ -311,7 +291,6 @@ public interface IPickListsLine extends IBOSimpleLine, IMaterialBatchItemParent,
 	 * @param value 值
 	 */
 	void setItemDescription(String value);
-
 
 	/**
 	 * 获取-物料标识
@@ -327,7 +306,6 @@ public interface IPickListsLine extends IBOSimpleLine, IMaterialBatchItemParent,
 	 */
 	void setItemSign(String value);
 
-
 	/**
 	 * 获取-序号管理
 	 *
@@ -341,7 +319,6 @@ public interface IPickListsLine extends IBOSimpleLine, IMaterialBatchItemParent,
 	 * @param value 值
 	 */
 	void setSerialManagement(emYesNo value);
-
 
 	/**
 	 * 获取-批号管理
@@ -357,7 +334,6 @@ public interface IPickListsLine extends IBOSimpleLine, IMaterialBatchItemParent,
 	 */
 	void setBatchManagement(emYesNo value);
 
-
 	/**
 	 * 获取-数量
 	 *
@@ -371,7 +347,6 @@ public interface IPickListsLine extends IBOSimpleLine, IMaterialBatchItemParent,
 	 * @param value 值
 	 */
 	void setQuantity(BigDecimal value);
-
 
 	/**
 	 * 获取-单位
@@ -387,7 +362,6 @@ public interface IPickListsLine extends IBOSimpleLine, IMaterialBatchItemParent,
 	 */
 	void setUOM(String value);
 
-
 	/**
 	 * 获取-库存单位
 	 *
@@ -401,7 +375,6 @@ public interface IPickListsLine extends IBOSimpleLine, IMaterialBatchItemParent,
 	 * @param value 值
 	 */
 	void setInventoryUOM(String value);
-
 
 	/**
 	 * 获取-单位换算率
@@ -417,7 +390,6 @@ public interface IPickListsLine extends IBOSimpleLine, IMaterialBatchItemParent,
 	 */
 	void setUOMRate(BigDecimal value);
 
-
 	/**
 	 * 获取-库存数量
 	 *
@@ -431,7 +403,6 @@ public interface IPickListsLine extends IBOSimpleLine, IMaterialBatchItemParent,
 	 * @param value 值
 	 */
 	void setInventoryQuantity(BigDecimal value);
-
 
 	/**
 	 * 获取-拣配状态
@@ -447,7 +418,6 @@ public interface IPickListsLine extends IBOSimpleLine, IMaterialBatchItemParent,
 	 */
 	void setPickStatus(emPickStatus value);
 
-
 	/**
 	 * 获取-拣配数量
 	 *
@@ -461,7 +431,6 @@ public interface IPickListsLine extends IBOSimpleLine, IMaterialBatchItemParent,
 	 * @param value 值
 	 */
 	void setPickQuantity(BigDecimal value);
-
 
 	/**
 	 * 获取-已清数量
@@ -477,7 +446,6 @@ public interface IPickListsLine extends IBOSimpleLine, IMaterialBatchItemParent,
 	 */
 	void setClosedQuantity(BigDecimal value);
 
-
 	/**
 	 * 获取-仓库
 	 *
@@ -492,5 +460,18 @@ public interface IPickListsLine extends IBOSimpleLine, IMaterialBatchItemParent,
 	 */
 	void setWarehouse(String value);
 
+	/**
+	 * 获取-拣配清单-序号集合
+	 * 
+	 * @return 值
+	 */
+	IPickListsNumbers getPickListsNumbers();
+
+	/**
+	 * 设置-拣配清单-序号集合
+	 * 
+	 * @param value 值
+	 */
+	void setPickListsNumbers(IPickListsNumbers value);
 
 }

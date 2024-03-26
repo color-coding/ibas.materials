@@ -366,9 +366,16 @@ namespace materials {
                                     }),
                                 ],
                                 visible: {
-                                    path: "inStock",
-                                    mode: sap.ui.model.BindingMode.OneWay,
-                                    type: new sap.extension.data.YesNo()
+                                    parts: [
+                                        {
+                                            path: "inStock",
+                                        }, {
+                                            path: "reserved",
+                                        }
+                                    ],
+                                    formatter(inStock: any, reserved: any): boolean {
+                                        return (inStock === ibas.emYesNo.NO || reserved === ibas.emYesNo.YES) ? false : true;
+                                    }
                                 },
                                 type: sap.m.ListType.Inactive,
                             })
