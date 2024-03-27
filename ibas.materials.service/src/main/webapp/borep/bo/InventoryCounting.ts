@@ -356,6 +356,39 @@ namespace materials {
                 this.setProperty(InventoryCounting.PROPERTY_REMARKS_NAME, value);
             }
 
+            /** 映射的属性名称-单据货币 */
+            static PROPERTY_DOCUMENTCURRENCY_NAME: string = "DocumentCurrency";
+            /** 获取-单据货币 */
+            get documentCurrency(): string {
+                return this.getProperty<string>(InventoryCounting.PROPERTY_DOCUMENTCURRENCY_NAME);
+            }
+            /** 设置-单据货币 */
+            set documentCurrency(value: string) {
+                this.setProperty(InventoryCounting.PROPERTY_DOCUMENTCURRENCY_NAME, value);
+            }
+
+            /** 映射的属性名称-单据汇率 */
+            static PROPERTY_DOCUMENTRATE_NAME: string = "DocumentRate";
+            /** 获取-单据汇率 */
+            get documentRate(): number {
+                return this.getProperty<number>(InventoryCounting.PROPERTY_DOCUMENTRATE_NAME);
+            }
+            /** 设置-单据汇率 */
+            set documentRate(value: number) {
+                this.setProperty(InventoryCounting.PROPERTY_DOCUMENTRATE_NAME, value);
+            }
+
+            /** 映射的属性名称-单据总计 */
+            static PROPERTY_DOCUMENTTOTAL_NAME: string = "DocumentTotal";
+            /** 获取-单据总计 */
+            get documentTotal(): number {
+                return this.getProperty<number>(InventoryCounting.PROPERTY_DOCUMENTTOTAL_NAME);
+            }
+            /** 设置-单据总计 */
+            set documentTotal(value: number) {
+                this.setProperty(InventoryCounting.PROPERTY_DOCUMENTTOTAL_NAME, value);
+            }
+
             /** 映射的属性名称-单据类型 */
             static PROPERTY_ORDERTYPE_NAME: string = "OrderType";
             /** 获取-单据类型 */
@@ -394,6 +427,7 @@ namespace materials {
                 this.inventoryCountingLines = new InventoryCountingLines(this);
                 this.objectCode = ibas.config.applyVariables(InventoryCounting.BUSINESS_OBJECT_CODE);
                 this.documentStatus = ibas.emDocumentStatus.RELEASED;
+                this.documentCurrency = accounting.config.currency("LOCAL");
                 this.documentDate = ibas.dates.today();
                 this.countDate = ibas.dates.today();
                 this.countTime = ibas.dates.time();
@@ -404,6 +438,12 @@ namespace materials {
                 this.documentStatus = ibas.emDocumentStatus.RELEASED;
                 this.inventoryCountingLines.forEach(c => c.lineStatus = ibas.emDocumentStatus.RELEASED);
             }
+            protected registerRules(): ibas.IBusinessRule[] {
+                return [
+                    // 计算项目-行总计
+                    new ibas.BusinessRuleSumElements(InventoryCounting.PROPERTY_DOCUMENTTOTAL_NAME, InventoryCounting.PROPERTY_INVENTORYCOUNTINGLINES_NAME, InventoryCountingLine.PROPERTY_LINETOTAL_NAME),
+                ];
+            }
         }
 
         /** 库存盘点-行 集合 */
@@ -413,6 +453,39 @@ namespace materials {
                 let item: InventoryCountingLine = new InventoryCountingLine();
                 this.add(item);
                 return item;
+            }
+
+            protected afterAdd(item: InventoryCountingLine): void {
+                super.afterAdd(item);
+                if (!this.parent.isLoading) {
+                    if (item.isNew && !item.isLoading) {
+                        item.rate = this.parent.documentRate;
+                        item.currency = this.parent.documentCurrency;
+                    }
+                }
+            }
+
+            protected onParentPropertyChanged(name: string): void {
+                super.onParentPropertyChanged(name);
+                if (!this.parent.isLoading) {
+                    if (ibas.strings.equalsIgnoreCase(name, InventoryCounting.PROPERTY_DOCUMENTRATE_NAME)) {
+                        let rate: number = this.parent.documentRate;
+                        for (let item of this) {
+                            if (item.isLoading) {
+                                continue;
+                            }
+                            item.rate = rate;
+                        }
+                    } else if (ibas.strings.equalsIgnoreCase(name, InventoryCounting.PROPERTY_DOCUMENTCURRENCY_NAME)) {
+                        let currency: string = this.parent.documentCurrency;
+                        for (let item of this) {
+                            if (item.isLoading) {
+                                continue;
+                            }
+                            item.currency = currency;
+                        }
+                    }
+                }
             }
 
         }
@@ -763,6 +836,49 @@ namespace materials {
             set freeze(value: ibas.emYesNo) {
                 this.setProperty(InventoryCountingLine.PROPERTY_FREEZE_NAME, value);
             }
+            /** 映射的属性名称-价格 */
+            static PROPERTY_PRICE_NAME: string = "Price";
+            /** 获取-价格 */
+            get price(): number {
+                return this.getProperty<number>(InventoryCountingLine.PROPERTY_PRICE_NAME);
+            }
+            /** 设置-价格 */
+            set price(value: number) {
+                this.setProperty(InventoryCountingLine.PROPERTY_PRICE_NAME, value);
+            }
+
+            /** 映射的属性名称-货币 */
+            static PROPERTY_CURRENCY_NAME: string = "Currency";
+            /** 获取-货币 */
+            get currency(): string {
+                return this.getProperty<string>(InventoryCountingLine.PROPERTY_CURRENCY_NAME);
+            }
+            /** 设置-货币 */
+            set currency(value: string) {
+                this.setProperty(InventoryCountingLine.PROPERTY_CURRENCY_NAME, value);
+            }
+
+            /** 映射的属性名称-汇率 */
+            static PROPERTY_RATE_NAME: string = "Rate";
+            /** 获取-汇率 */
+            get rate(): number {
+                return this.getProperty<number>(InventoryCountingLine.PROPERTY_RATE_NAME);
+            }
+            /** 设置-汇率 */
+            set rate(value: number) {
+                this.setProperty(InventoryCountingLine.PROPERTY_RATE_NAME, value);
+            }
+
+            /** 映射的属性名称-行总计 */
+            static PROPERTY_LINETOTAL_NAME: string = "LineTotal";
+            /** 获取-行总计 */
+            get lineTotal(): number {
+                return this.getProperty<number>(InventoryCountingLine.PROPERTY_LINETOTAL_NAME);
+            }
+            /** 设置-行总计 */
+            set lineTotal(value: number) {
+                this.setProperty(InventoryCountingLine.PROPERTY_LINETOTAL_NAME, value);
+            }
 
             /** 映射的属性名称-物料批次集合 */
             static PROPERTY_MATERIALBATCHES_NAME: string = "MaterialBatches";
@@ -793,6 +909,7 @@ namespace materials {
             /** 初始化数据 */
             protected init(): void {
                 this.objectCode = ibas.config.applyVariables(InventoryCounting.BUSINESS_OBJECT_CODE);
+                this.currency = accounting.config.currency("LOCAL");
                 this.materialBatches = new MaterialBatchItemCs(this);
                 this.materialSerials = new MaterialSerialItemCs(this);
             }
@@ -801,6 +918,10 @@ namespace materials {
                     // 差额 = 盘点数 - 库存数
                     new ibas.BusinessRuleSubtraction(
                         InventoryCountingLine.PROPERTY_DIFFERENCE_NAME, InventoryCountingLine.PROPERTY_COUNTQUANTITY_NAME, InventoryCountingLine.PROPERTY_INVENTORYQUANTITY_NAME),
+                    // 计算总计 = 数量 * 价格
+                    new ibas.BusinessRuleMultiplication(
+                        InventoryCountingLine.PROPERTY_LINETOTAL_NAME, InventoryCountingLine.PROPERTY_DIFFERENCE_NAME, InventoryCountingLine.PROPERTY_PRICE_NAME
+                        , ibas.config.get(ibas.CONFIG_ITEM_DECIMAL_PLACES_SUM)),
                 ];
             }
             /** 属性改变时 */

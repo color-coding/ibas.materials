@@ -141,7 +141,7 @@
   "materials_no_work_datas_for_material_batch": "没有需要物料批次服务的数据",
   "materials_no_work_datas_for_material_serial": "没有需要物料序列服务的数据",
   "materials_please_choose_warehouse": "请先选择仓库",
-  "materials_refresh_inventory": "更新库存",
+  "materials_refresh_inventory": "获取当前库存",
   "materials_picture_upload": "图片上传",
   "materials_please_specification": "请选择规格模板",
   "materials_please_search_materials": "查找后选择浏览物料",

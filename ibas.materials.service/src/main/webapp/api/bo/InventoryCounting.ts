@@ -71,6 +71,12 @@ namespace materials {
             reference2: string;
             /** 备注 */
             remarks: string;
+            /** 单据货币 */
+            documentCurrency: string;
+            /** 单据汇率 */
+            documentRate: number;
+            /** 单据总计 */
+            documentTotal: number;
             /** 单据类型 */
             orderType: string;
             /** 分支 */
@@ -150,6 +156,14 @@ namespace materials {
             counted: ibas.emYesNo;
             /** 冻结物料 */
             freeze: ibas.emYesNo;
+            /** 价格 */
+            price: number;
+            /** 货币 */
+            currency: string;
+            /** 汇率 */
+            rate: number;
+            /** 行总计 */
+            lineTotal: number;
         }
 
 

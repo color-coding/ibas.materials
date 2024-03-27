@@ -24,6 +24,7 @@ import org.colorcoding.ibas.bobas.rule.BusinessRuleException;
 import org.colorcoding.ibas.bobas.rule.IBusinessRule;
 import org.colorcoding.ibas.bobas.rule.ICheckRules;
 import org.colorcoding.ibas.bobas.rule.common.BusinessRuleMinValue;
+import org.colorcoding.ibas.bobas.rule.common.BusinessRuleMultiplication;
 import org.colorcoding.ibas.bobas.rule.common.BusinessRuleRequired;
 import org.colorcoding.ibas.materials.MyConfiguration;
 import org.colorcoding.ibas.materials.bo.materialbatch.IMaterialBatchItems;
@@ -1107,6 +1108,211 @@ public class InventoryCountingLine extends BusinessObject<InventoryCountingLine>
 	}
 
 	/**
+	 * 属性名称-价格
+	 */
+	private static final String PROPERTY_PRICE_NAME = "Price";
+
+	/**
+	 * 价格 属性
+	 */
+	@DbField(name = "Price", type = DbFieldType.DECIMAL, table = DB_TABLE_NAME, primaryKey = false)
+	public static final IPropertyInfo<BigDecimal> PROPERTY_PRICE = registerProperty(PROPERTY_PRICE_NAME,
+			BigDecimal.class, MY_CLASS);
+
+	/**
+	 * 获取-价格
+	 * 
+	 * @return 值
+	 */
+	@XmlElement(name = PROPERTY_PRICE_NAME)
+	public final BigDecimal getPrice() {
+		return this.getProperty(PROPERTY_PRICE);
+	}
+
+	/**
+	 * 设置-价格
+	 * 
+	 * @param value 值
+	 */
+	public final void setPrice(BigDecimal value) {
+		this.setProperty(PROPERTY_PRICE, value);
+	}
+
+	/**
+	 * 设置-价格
+	 * 
+	 * @param value 值
+	 */
+	public final void setPrice(String value) {
+		this.setPrice(Decimal.valueOf(value));
+	}
+
+	/**
+	 * 设置-价格
+	 * 
+	 * @param value 值
+	 */
+	public final void setPrice(int value) {
+		this.setPrice(Decimal.valueOf(value));
+	}
+
+	/**
+	 * 设置-价格
+	 * 
+	 * @param value 值
+	 */
+	public final void setPrice(double value) {
+		this.setPrice(Decimal.valueOf(value));
+	}
+
+	/**
+	 * 属性名称-货币
+	 */
+	private static final String PROPERTY_CURRENCY_NAME = "Currency";
+
+	/**
+	 * 货币 属性
+	 */
+	@DbField(name = "Currency", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME, primaryKey = false)
+	public static final IPropertyInfo<String> PROPERTY_CURRENCY = registerProperty(PROPERTY_CURRENCY_NAME, String.class,
+			MY_CLASS);
+
+	/**
+	 * 获取-货币
+	 * 
+	 * @return 值
+	 */
+	@XmlElement(name = PROPERTY_CURRENCY_NAME)
+	public final String getCurrency() {
+		return this.getProperty(PROPERTY_CURRENCY);
+	}
+
+	/**
+	 * 设置-货币
+	 * 
+	 * @param value 值
+	 */
+	public final void setCurrency(String value) {
+		this.setProperty(PROPERTY_CURRENCY, value);
+	}
+
+	/**
+	 * 属性名称-汇率
+	 */
+	private static final String PROPERTY_RATE_NAME = "Rate";
+
+	/**
+	 * 汇率 属性
+	 */
+	@DbField(name = "Rate", type = DbFieldType.DECIMAL, table = DB_TABLE_NAME, primaryKey = false)
+	public static final IPropertyInfo<BigDecimal> PROPERTY_RATE = registerProperty(PROPERTY_RATE_NAME, BigDecimal.class,
+			MY_CLASS);
+
+	/**
+	 * 获取-汇率
+	 * 
+	 * @return 值
+	 */
+	@XmlElement(name = PROPERTY_RATE_NAME)
+	public final BigDecimal getRate() {
+		return this.getProperty(PROPERTY_RATE);
+	}
+
+	/**
+	 * 设置-汇率
+	 * 
+	 * @param value 值
+	 */
+	public final void setRate(BigDecimal value) {
+		this.setProperty(PROPERTY_RATE, value);
+	}
+
+	/**
+	 * 设置-汇率
+	 * 
+	 * @param value 值
+	 */
+	public final void setRate(String value) {
+		this.setRate(Decimal.valueOf(value));
+	}
+
+	/**
+	 * 设置-汇率
+	 * 
+	 * @param value 值
+	 */
+	public final void setRate(int value) {
+		this.setRate(Decimal.valueOf(value));
+	}
+
+	/**
+	 * 设置-汇率
+	 * 
+	 * @param value 值
+	 */
+	public final void setRate(double value) {
+		this.setRate(Decimal.valueOf(value));
+	}
+
+	/**
+	 * 属性名称-行总计
+	 */
+	private static final String PROPERTY_LINETOTAL_NAME = "LineTotal";
+
+	/**
+	 * 行总计 属性
+	 */
+	@DbField(name = "LineTotal", type = DbFieldType.DECIMAL, table = DB_TABLE_NAME, primaryKey = false)
+	public static final IPropertyInfo<BigDecimal> PROPERTY_LINETOTAL = registerProperty(PROPERTY_LINETOTAL_NAME,
+			BigDecimal.class, MY_CLASS);
+
+	/**
+	 * 获取-行总计
+	 * 
+	 * @return 值
+	 */
+	@XmlElement(name = PROPERTY_LINETOTAL_NAME)
+	public final BigDecimal getLineTotal() {
+		return this.getProperty(PROPERTY_LINETOTAL);
+	}
+
+	/**
+	 * 设置-行总计
+	 * 
+	 * @param value 值
+	 */
+	public final void setLineTotal(BigDecimal value) {
+		this.setProperty(PROPERTY_LINETOTAL, value);
+	}
+
+	/**
+	 * 设置-行总计
+	 * 
+	 * @param value 值
+	 */
+	public final void setLineTotal(String value) {
+		this.setLineTotal(Decimal.valueOf(value));
+	}
+
+	/**
+	 * 设置-行总计
+	 * 
+	 * @param value 值
+	 */
+	public final void setLineTotal(int value) {
+		this.setLineTotal(Decimal.valueOf(value));
+	}
+
+	/**
+	 * 设置-行总计
+	 * 
+	 * @param value 值
+	 */
+	public final void setLineTotal(double value) {
+		this.setLineTotal(Decimal.valueOf(value));
+	}
+
+	/**
 	 * 属性名称-物料批次
 	 */
 	private static final String PROPERTY_MATERIALBATCHES_NAME = "MaterialBatches";
@@ -1172,7 +1378,7 @@ public class InventoryCountingLine extends BusinessObject<InventoryCountingLine>
 
 	@Override
 	public BigDecimal getTargetQuantity() {
-		return this.getCountQuantity();
+		return this.getDifference();
 	}
 
 	@Override
@@ -1198,6 +1404,7 @@ public class InventoryCountingLine extends BusinessObject<InventoryCountingLine>
 				new BusinessRuleRequired(PROPERTY_WAREHOUSE), // 要求有值
 				new BusinessRuleMinValue<BigDecimal>(Decimal.ZERO, PROPERTY_INVENTORYQUANTITY), // 不能低于0
 				new BusinessRuleMinValue<BigDecimal>(Decimal.ZERO, PROPERTY_COUNTQUANTITY), // 不能低于0
+				new BusinessRuleMultiplication(PROPERTY_LINETOTAL, PROPERTY_DIFFERENCE, PROPERTY_PRICE), // 计算总计 = 数量 * 价格
 		};
 	}
 

@@ -648,6 +648,8 @@ namespace materials {
                             this.busy(true);
                         }
                     });
+                } else {
+                    this.messages(ibas.emMessageType.WARNING, ibas.i18n.prop("materials_no_data_to_be_processed"));
                 }
             }
             private chooseTargetMaterial(caller: MaterialNumberItem): void {

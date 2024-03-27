@@ -497,4 +497,123 @@ public interface IInventoryCountingLine extends IBODocumentLine, IMaterialBatchI
 	 * @param value 值
 	 */
 	void setFreeze(emYesNo value);
+
+	/**
+	 * 获取-价格
+	 * 
+	 * @return 值
+	 */
+	BigDecimal getPrice();
+
+	/**
+	 * 设置-价格
+	 * 
+	 * @param value 值
+	 */
+	void setPrice(BigDecimal value);
+
+	/**
+	 * 设置-价格
+	 * 
+	 * @param value 值
+	 */
+	void setPrice(String value);
+
+	/**
+	 * 设置-价格
+	 * 
+	 * @param value 值
+	 */
+	void setPrice(int value);
+
+	/**
+	 * 设置-价格
+	 * 
+	 * @param value 值
+	 */
+	void setPrice(double value);
+
+	/**
+	 * 获取-货币
+	 * 
+	 * @return 值
+	 */
+	String getCurrency();
+
+	/**
+	 * 设置-货币
+	 * 
+	 * @param value 值
+	 */
+	void setCurrency(String value);
+
+	/**
+	 * 获取-汇率
+	 * 
+	 * @return 值
+	 */
+	BigDecimal getRate();
+
+	/**
+	 * 设置-汇率
+	 * 
+	 * @param value 值
+	 */
+	void setRate(BigDecimal value);
+
+	/**
+	 * 设置-汇率
+	 * 
+	 * @param value 值
+	 */
+	void setRate(String value);
+
+	/**
+	 * 设置-汇率
+	 * 
+	 * @param value 值
+	 */
+	void setRate(int value);
+
+	/**
+	 * 设置-汇率
+	 * 
+	 * @param value 值
+	 */
+	void setRate(double value);
+
+	/**
+	 * 获取-行总计
+	 * 
+	 * @return 值
+	 */
+	BigDecimal getLineTotal();
+
+	/**
+	 * 设置-行总计
+	 * 
+	 * @param value 值
+	 */
+	void setLineTotal(BigDecimal value);
+
+	/**
+	 * 设置-行总计
+	 * 
+	 * @param value 值
+	 */
+	void setLineTotal(String value);
+
+	/**
+	 * 设置-行总计
+	 * 
+	 * @param value 值
+	 */
+	void setLineTotal(int value);
+
+	/**
+	 * 设置-行总计
+	 * 
+	 * @param value 值
+	 */
+	void setLineTotal(double value);
 }

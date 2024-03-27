@@ -42,6 +42,12 @@ namespace materials {
                                 header: ibas.i18n.prop("bo_inventorycountingline_difference"),
                             }),
                             new sap.extension.m.Column("", {
+                                header: ibas.i18n.prop("bo_inventorycountingline_price"),
+                            }),
+                            new sap.extension.m.Column("", {
+                                header: ibas.i18n.prop("bo_inventorycountingline_linetotal"),
+                            }),
+                            new sap.extension.m.Column("", {
                                 header: ibas.i18n.prop("bo_inventorycountingline_reference1"),
                             }),
                             new sap.extension.m.Column("", {
@@ -117,6 +123,26 @@ namespace materials {
                                         },
                                         unit: {
                                             path: "uom",
+                                            type: new sap.extension.data.Alphanumeric(),
+                                        }
+                                    }),
+                                    new sap.extension.m.ObjectNumber("", {
+                                        number: {
+                                            path: "price",
+                                            type: new sap.extension.data.Price(),
+                                        },
+                                        unit: {
+                                            path: "currency",
+                                            type: new sap.extension.data.Alphanumeric(),
+                                        }
+                                    }),
+                                    new sap.extension.m.ObjectNumber("", {
+                                        number: {
+                                            path: "lineTotal",
+                                            type: new sap.extension.data.Sum(),
+                                        },
+                                        unit: {
+                                            path: "currency",
                                             type: new sap.extension.data.Alphanumeric(),
                                         }
                                     }),
@@ -228,6 +254,17 @@ namespace materials {
                                         type: new sap.extension.data.YesNo(),
                                     },
                                 }),
+                                new sap.extension.m.ObjectNumber("", {
+                                    textAlign: sap.ui.core.TextAlign.Right,
+                                    number: {
+                                        path: "documentTotal",
+                                        type: new sap.extension.data.Sum()
+                                    },
+                                    unit: {
+                                        path: "documentCurrency",
+                                        type: new sap.extension.data.Alphanumeric()
+                                    },
+                                }).addStyleClass("sapMObjectNumberLarge"),
                             ]
                         }),
                         headerContent: [

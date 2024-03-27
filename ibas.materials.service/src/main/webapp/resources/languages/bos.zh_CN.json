@@ -756,6 +756,9 @@
         "bo_inventorycounting_reference1": "参考1",
         "bo_inventorycounting_reference2": "参考2",
         "bo_inventorycounting_remarks": "备注",
+        "bo_inventorycounting_documentcurrency": "单据货币",
+        "bo_inventorycounting_documentrate": "单据汇率",
+        "bo_inventorycounting_documenttotal": "单据总计",
         "bo_inventorycounting_ordertype": "单据类型",
         "bo_inventorycounting_branch": "分支",
         "bo_inventorycounting_inventorycountinglines": "库存盘点-行集合",
@@ -791,6 +794,10 @@
         "bo_inventorycountingline_uom": "单位",
         "bo_inventorycountingline_counted": "已盘点",
         "bo_inventorycountingline_freeze": "冻结物料",
+        "bo_inventorycountingline_price": "价格",
+        "bo_inventorycountingline_currency": "货币",
+        "bo_inventorycountingline_rate": "汇率",
+        "bo_inventorycountingline_linetotal": "行总计",
         "bo_inventorycounting_closing_delimiter": "----结束----"
     },
     {

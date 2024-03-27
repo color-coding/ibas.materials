@@ -1,5 +1,7 @@
 package org.colorcoding.ibas.materials.bo.inventorycounting;
 
+import java.math.BigDecimal;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -7,16 +9,27 @@ import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
+import org.colorcoding.ibas.accounting.logic.IBranchCheckContract;
+import org.colorcoding.ibas.accounting.logic.IJournalEntryCreationContract;
+import org.colorcoding.ibas.accounting.logic.JournalEntryContent;
+import org.colorcoding.ibas.accounting.logic.JournalEntryContent.Category;
 import org.colorcoding.ibas.bobas.approval.IApprovalData;
 import org.colorcoding.ibas.bobas.bo.BusinessObject;
 import org.colorcoding.ibas.bobas.bo.IBOSeriesKey;
+import org.colorcoding.ibas.bobas.bo.IBOTagCanceled;
+import org.colorcoding.ibas.bobas.bo.IBOTagDeleted;
 import org.colorcoding.ibas.bobas.bo.IBOUserFields;
 import org.colorcoding.ibas.bobas.core.IPropertyInfo;
+import org.colorcoding.ibas.bobas.data.ArrayList;
 import org.colorcoding.ibas.bobas.data.DateTime;
+import org.colorcoding.ibas.bobas.data.Decimal;
+import org.colorcoding.ibas.bobas.data.List;
 import org.colorcoding.ibas.bobas.data.emApprovalStatus;
 import org.colorcoding.ibas.bobas.data.emBOStatus;
 import org.colorcoding.ibas.bobas.data.emDocumentStatus;
 import org.colorcoding.ibas.bobas.data.emYesNo;
+import org.colorcoding.ibas.bobas.logic.IBusinessLogicContract;
+import org.colorcoding.ibas.bobas.logic.IBusinessLogicsHost;
 import org.colorcoding.ibas.bobas.mapping.BusinessObjectUnit;
 import org.colorcoding.ibas.bobas.mapping.DbField;
 import org.colorcoding.ibas.bobas.mapping.DbFieldType;
@@ -25,7 +38,10 @@ import org.colorcoding.ibas.bobas.period.IPeriodData;
 import org.colorcoding.ibas.bobas.rule.IBusinessRule;
 import org.colorcoding.ibas.bobas.rule.common.BusinessRuleDocumentStatus;
 import org.colorcoding.ibas.bobas.rule.common.BusinessRuleRequiredElements;
+import org.colorcoding.ibas.bobas.rule.common.BusinessRuleSumElements;
 import org.colorcoding.ibas.materials.MyConfiguration;
+import org.colorcoding.ibas.materials.data.Ledgers;
+import org.colorcoding.ibas.materials.logic.journalentry.JournalEntrySmartContent;
 
 /**
  * 库存盘点
@@ -35,8 +51,8 @@ import org.colorcoding.ibas.materials.MyConfiguration;
 @XmlType(name = InventoryCounting.BUSINESS_OBJECT_NAME, namespace = MyConfiguration.NAMESPACE_BO)
 @XmlRootElement(name = InventoryCounting.BUSINESS_OBJECT_NAME, namespace = MyConfiguration.NAMESPACE_BO)
 @BusinessObjectUnit(code = InventoryCounting.BUSINESS_OBJECT_CODE)
-public class InventoryCounting extends BusinessObject<InventoryCounting>
-		implements IInventoryCounting, IDataOwnership, IApprovalData, IPeriodData, IBOSeriesKey, IBOUserFields {
+public class InventoryCounting extends BusinessObject<InventoryCounting> implements IInventoryCounting, IDataOwnership,
+		IApprovalData, IPeriodData, IBOSeriesKey, IBOUserFields, IBusinessLogicsHost {
 
 	/**
 	 * 序列化版本标记
@@ -1025,6 +1041,153 @@ public class InventoryCounting extends BusinessObject<InventoryCounting>
 	}
 
 	/**
+	 * 属性名称-单据货币
+	 */
+	private static final String PROPERTY_DOCUMENTCURRENCY_NAME = "DocumentCurrency";
+
+	/**
+	 * 单据货币 属性
+	 */
+	@DbField(name = "DocCur", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME, primaryKey = false)
+	public static final IPropertyInfo<String> PROPERTY_DOCUMENTCURRENCY = registerProperty(
+			PROPERTY_DOCUMENTCURRENCY_NAME, String.class, MY_CLASS);
+
+	/**
+	 * 获取-单据货币
+	 * 
+	 * @return 值
+	 */
+	@XmlElement(name = PROPERTY_DOCUMENTCURRENCY_NAME)
+	public final String getDocumentCurrency() {
+		return this.getProperty(PROPERTY_DOCUMENTCURRENCY);
+	}
+
+	/**
+	 * 设置-单据货币
+	 * 
+	 * @param value 值
+	 */
+	public final void setDocumentCurrency(String value) {
+		this.setProperty(PROPERTY_DOCUMENTCURRENCY, value);
+	}
+
+	/**
+	 * 属性名称-单据汇率
+	 */
+	private static final String PROPERTY_DOCUMENTRATE_NAME = "DocumentRate";
+
+	/**
+	 * 单据汇率 属性
+	 */
+	@DbField(name = "DocRate", type = DbFieldType.DECIMAL, table = DB_TABLE_NAME, primaryKey = false)
+	public static final IPropertyInfo<BigDecimal> PROPERTY_DOCUMENTRATE = registerProperty(PROPERTY_DOCUMENTRATE_NAME,
+			BigDecimal.class, MY_CLASS);
+
+	/**
+	 * 获取-单据汇率
+	 * 
+	 * @return 值
+	 */
+	@XmlElement(name = PROPERTY_DOCUMENTRATE_NAME)
+	public final BigDecimal getDocumentRate() {
+		return this.getProperty(PROPERTY_DOCUMENTRATE);
+	}
+
+	/**
+	 * 设置-单据汇率
+	 * 
+	 * @param value 值
+	 */
+	public final void setDocumentRate(BigDecimal value) {
+		this.setProperty(PROPERTY_DOCUMENTRATE, value);
+	}
+
+	/**
+	 * 设置-单据汇率
+	 * 
+	 * @param value 值
+	 */
+	public final void setDocumentRate(String value) {
+		this.setDocumentRate(Decimal.valueOf(value));
+	}
+
+	/**
+	 * 设置-单据汇率
+	 * 
+	 * @param value 值
+	 */
+	public final void setDocumentRate(int value) {
+		this.setDocumentRate(Decimal.valueOf(value));
+	}
+
+	/**
+	 * 设置-单据汇率
+	 * 
+	 * @param value 值
+	 */
+	public final void setDocumentRate(double value) {
+		this.setDocumentRate(Decimal.valueOf(value));
+	}
+
+	/**
+	 * 属性名称-单据总计
+	 */
+	private static final String PROPERTY_DOCUMENTTOTAL_NAME = "DocumentTotal";
+
+	/**
+	 * 单据总计 属性
+	 */
+	@DbField(name = "DocTotal", type = DbFieldType.DECIMAL, table = DB_TABLE_NAME, primaryKey = false)
+	public static final IPropertyInfo<BigDecimal> PROPERTY_DOCUMENTTOTAL = registerProperty(PROPERTY_DOCUMENTTOTAL_NAME,
+			BigDecimal.class, MY_CLASS);
+
+	/**
+	 * 获取-单据总计
+	 * 
+	 * @return 值
+	 */
+	@XmlElement(name = PROPERTY_DOCUMENTTOTAL_NAME)
+	public final BigDecimal getDocumentTotal() {
+		return this.getProperty(PROPERTY_DOCUMENTTOTAL);
+	}
+
+	/**
+	 * 设置-单据总计
+	 * 
+	 * @param value 值
+	 */
+	public final void setDocumentTotal(BigDecimal value) {
+		this.setProperty(PROPERTY_DOCUMENTTOTAL, value);
+	}
+
+	/**
+	 * 设置-单据总计
+	 * 
+	 * @param value 值
+	 */
+	public final void setDocumentTotal(String value) {
+		this.setDocumentTotal(Decimal.valueOf(value));
+	}
+
+	/**
+	 * 设置-单据总计
+	 * 
+	 * @param value 值
+	 */
+	public final void setDocumentTotal(int value) {
+		this.setDocumentTotal(Decimal.valueOf(value));
+	}
+
+	/**
+	 * 设置-单据总计
+	 * 
+	 * @param value 值
+	 */
+	public final void setDocumentTotal(double value) {
+		this.setDocumentTotal(Decimal.valueOf(value));
+	}
+
+	/**
 	 * 属性名称-单据类型
 	 */
 	private static final String PROPERTY_ORDERTYPE_NAME = "OrderType";
@@ -1151,6 +1314,131 @@ public class InventoryCounting extends BusinessObject<InventoryCounting>
 				new BusinessRuleRequiredElements(PROPERTY_INVENTORYCOUNTINGLINES), // 要求有元素
 				new BusinessRuleDocumentStatus(PROPERTY_DOCUMENTSTATUS, PROPERTY_INVENTORYCOUNTINGLINES,
 						InventoryCountingLine.PROPERTY_LINESTATUS), // 使用集合元素状态
+				new BusinessRuleSumElements(PROPERTY_DOCUMENTTOTAL, PROPERTY_INVENTORYCOUNTINGLINES,
+						InventoryCountingLine.PROPERTY_LINETOTAL), // 计算单据总计
 		};
+	}
+
+	@Override
+	public IBusinessLogicContract[] getContracts() {
+		ArrayList<IBusinessLogicContract> contracts = new ArrayList<>();
+		// 分支检查
+		contracts.add(new IBranchCheckContract() {
+
+			@Override
+			public String getIdentifiers() {
+				return InventoryCounting.this.toString();
+			}
+
+			@Override
+			public String getBranch() {
+				return InventoryCounting.this.getBranch();
+			}
+		});
+		if (InventoryCounting.this.getDocumentStatus() == emDocumentStatus.CLOSED) {
+			// 创建分录
+			contracts.add(new IJournalEntryCreationContract() {
+
+				@Override
+				public boolean isOffsetting() {
+					if (InventoryCounting.this instanceof IBOTagCanceled) {
+						IBOTagCanceled boTag = (IBOTagCanceled) InventoryCounting.this;
+						if (boTag.getCanceled() == emYesNo.YES) {
+							return true;
+						}
+					}
+					if (InventoryCounting.this instanceof IBOTagDeleted) {
+						IBOTagDeleted boTag = (IBOTagDeleted) InventoryCounting.this;
+						if (boTag.getDeleted() == emYesNo.YES) {
+							return true;
+						}
+					}
+					return false;
+				}
+
+				@Override
+				public String getIdentifiers() {
+					return InventoryCounting.this.toString();
+				}
+
+				@Override
+				public String getBranch() {
+					return InventoryCounting.this.getBranch();
+				}
+
+				@Override
+				public String getBaseDocumentType() {
+					return InventoryCounting.this.getObjectCode();
+				}
+
+				@Override
+				public Integer getBaseDocumentEntry() {
+					return InventoryCounting.this.getDocEntry();
+				}
+
+				@Override
+				public DateTime getDocumentDate() {
+					return InventoryCounting.this.getDocumentDate();
+				}
+
+				@Override
+				public String getReference1() {
+					return InventoryCounting.this.getReference1();
+				}
+
+				@Override
+				public String getReference2() {
+					return InventoryCounting.this.getReference2();
+				}
+
+				@Override
+				public JournalEntryContent[] getContents() {
+					JournalEntryContent jeContent;
+					List<JournalEntryContent> jeContents = new ArrayList<>();
+					for (IInventoryCountingLine line : InventoryCounting.this.getInventoryCountingLines()) {
+						if (line.getLineStatus() != emDocumentStatus.CLOSED) {
+							continue;
+						}
+						if (Decimal.ZERO.compareTo(line.getDifference()) > 0) {
+							// 盘亏
+							jeContent = new JournalEntrySmartContent(line);
+							jeContent.setCategory(Category.Debit);
+							jeContent.setLedger(Ledgers.LEDGER_INVENTORY_INVENTORY_ACCOUNT);
+							jeContent.setAmount(line.getLineTotal().abs());
+							jeContent.setCurrency(line.getCurrency());
+							jeContent.setRate(line.getRate());
+							jeContents.add(jeContent);
+							jeContent = new JournalEntrySmartContent(line);
+							jeContent.setCategory(Category.Credit);
+							jeContent.setLedger(Ledgers.LEDGER_INVENTORY_INVENTORY_OFFSET_INCR_ACCT);
+							jeContent.setAmount(line.getLineTotal().abs());
+							jeContent.setCurrency(line.getCurrency());
+							jeContent.setRate(line.getRate());
+							jeContents.add(jeContent);
+						} else if (Decimal.ZERO.compareTo(line.getDifference()) < 0) {
+							// 盘盈
+							jeContent = new JournalEntrySmartContent(line);
+							jeContent.setCategory(Category.Debit);
+							jeContent.setLedger(Ledgers.LEDGER_INVENTORY_INVENTORY_OFFSET_INCR_ACCT);
+							jeContent.setAmount(line.getLineTotal().abs());
+							jeContent.setCurrency(line.getCurrency());
+							jeContent.setRate(line.getRate());
+							jeContents.add(jeContent);
+							jeContent = new JournalEntrySmartContent(line);
+							jeContent.setCategory(Category.Credit);
+							jeContent.setLedger(Ledgers.LEDGER_INVENTORY_INVENTORY_ACCOUNT);
+							jeContent.setAmount(line.getLineTotal().abs());
+							jeContent.setCurrency(line.getCurrency());
+							jeContent.setRate(line.getRate());
+							jeContents.add(jeContent);
+						}
+					}
+					return jeContents.toArray(new JournalEntryContent[] {});
+				}
+
+			});
+		}
+
+		return contracts.toArray(new IBusinessLogicContract[] {});
 	}
 }

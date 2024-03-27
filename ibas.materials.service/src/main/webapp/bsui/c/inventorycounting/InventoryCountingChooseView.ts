@@ -68,6 +68,22 @@ namespace materials {
                                 }),
                             }),
                             new sap.extension.table.DataColumn("", {
+                                label: ibas.i18n.prop("bo_inventorycounting_documenttotal"),
+                                template: new sap.extension.m.Text("", {
+                                }).bindProperty("bindingValue", {
+                                    path: "documentTotal",
+                                    type: new sap.extension.data.Sum()
+                                }),
+                            }),
+                            new sap.extension.table.DataColumn("", {
+                                label: ibas.i18n.prop("bo_inventorycounting_documentcurrency"),
+                                template: new sap.extension.m.Text("", {
+                                }).bindProperty("bindingValue", {
+                                    path: "documentCurrency",
+                                    type: new sap.extension.data.Alphanumeric()
+                                }),
+                            }),
+                            new sap.extension.table.DataColumn("", {
                                 label: ibas.i18n.prop("bo_inventorycounting_dataowner"),
                                 template: new sap.extension.m.UserText("", {
                                 }).bindProperty("bindingValue", {

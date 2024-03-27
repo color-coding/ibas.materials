@@ -267,6 +267,7 @@ namespace materials {
                                         continue;
                                     }
                                     line.inventoryQuantity = item.onHand;
+                                    line.price = item.avgPrice;
                                     break;
                                 }
                             }
@@ -375,6 +376,7 @@ namespace materials {
                             item.warehouse = selected.warehouse;
                             item.uom = selected.inventoryUOM;
                             item.inventoryQuantity = selected.onHand;
+                            item.price = selected.price;
                             if (!ibas.strings.isEmpty(that.view.defaultWarehouse)) {
                                 item.warehouse = that.view.defaultWarehouse;
                             }
@@ -418,7 +420,7 @@ namespace materials {
             private chooseInventoryCountingLineMaterialBatch(): void {
                 let contracts: ibas.ArrayList<IMaterialBatchContract> = new ibas.ArrayList<IMaterialBatchContract>();
                 for (let item of this.editData.inventoryCountingLines) {
-                    if (item.countQuantity <= 0) {
+                    if (item.difference === 0) {
                         continue;
                     }
                     contracts.add({
@@ -426,7 +428,7 @@ namespace materials {
                         itemCode: item.itemCode,
                         itemDescription: item.itemDescription,
                         warehouse: item.warehouse,
-                        quantity: item.countQuantity,
+                        quantity: Math.abs(item.difference),
                         uom: item.uom,
                         materialBatches: item.materialBatches
                     });
@@ -438,7 +440,7 @@ namespace materials {
             private chooseInventoryCountingLineMaterialSerial(): void {
                 let contracts: ibas.ArrayList<IMaterialSerialContract> = new ibas.ArrayList<IMaterialSerialContract>();
                 for (let item of this.editData.inventoryCountingLines) {
-                    if (item.countQuantity <= 0) {
+                    if (item.difference === 0) {
                         continue;
                     }
                     contracts.add({
@@ -446,7 +448,7 @@ namespace materials {
                         itemCode: item.itemCode,
                         itemDescription: item.itemDescription,
                         warehouse: item.warehouse,
-                        quantity: item.countQuantity,
+                        quantity: Math.abs(item.difference),
                         uom: item.uom,
                         materialSerials: item.materialSerials
                     });

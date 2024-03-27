@@ -40,6 +40,17 @@ namespace materials {
                         editable: true,
                         content: [
                             new sap.ui.core.Title("", { text: ibas.i18n.prop("materials_title_general") }),
+                            new sap.m.Label("", { text: ibas.i18n.prop("bo_inventorycounting_counttime") }),
+                            new sap.extension.m.DatePicker("", {
+                            }).bindProperty("bindingValue", {
+                                path: "countDate",
+                                type: new sap.extension.data.Date()
+                            }),
+                            new sap.extension.m.TimePicker("", {
+                            }).bindProperty("bindingValue", {
+                                path: "countTime",
+                                type: new sap.extension.data.Time()
+                            }),
                             new sap.m.Label("", { text: ibas.i18n.prop("bo_inventorycounting_counttype") }),
                             new sap.extension.m.PropertySelect("", {
                                 dataInfo: {
@@ -51,18 +62,6 @@ namespace materials {
                                 type: new sap.extension.data.Alphanumeric({
                                     maxLength: 8
                                 })
-                            }),
-                            new sap.m.Label("", { text: ibas.i18n.prop("bo_inventorycounting_countdate") }),
-                            new sap.extension.m.DatePicker("", {
-                            }).bindProperty("bindingValue", {
-                                path: "countDate",
-                                type: new sap.extension.data.Date()
-                            }),
-                            new sap.m.Label("", { text: ibas.i18n.prop("bo_inventorycounting_counttime") }),
-                            new sap.extension.m.TimePicker("", {
-                            }).bindProperty("bindingValue", {
-                                path: "countTime",
-                                type: new sap.extension.data.Time()
                             }),
                             new sap.m.Label("", { text: ibas.i18n.prop("bo_inventorycounting_ordertype") }),
                             new sap.extension.m.PropertySelect("", {
@@ -102,8 +101,26 @@ namespace materials {
                                 type: new sap.extension.data.Numeric()
                             }),
                             new sap.m.Label("", { text: ibas.i18n.prop("bo_inventorycounting_documentstatus") }),
-                            new sap.extension.m.EnumSelect("", {
-                                enumType: ibas.emDocumentStatus
+                            new sap.extension.m.Select("", {
+                                items: [
+                                    new sap.ui.core.Item("", {
+                                        key: ibas.emDocumentStatus.PLANNED,
+                                        text: ibas.enums.describe(ibas.emDocumentStatus, ibas.emDocumentStatus.PLANNED),
+                                    }),
+                                    new sap.ui.core.Item("", {
+                                        key: ibas.emDocumentStatus.RELEASED,
+                                        text: ibas.enums.describe(ibas.emDocumentStatus, ibas.emDocumentStatus.RELEASED),
+                                    }),
+                                    new sap.ui.core.Item("", {
+                                        key: ibas.emDocumentStatus.FINISHED,
+                                        text: ibas.enums.describe(ibas.emDocumentStatus, ibas.emDocumentStatus.FINISHED),
+                                    }),
+                                    new sap.ui.core.Item("", {
+                                        enabled: false,
+                                        key: ibas.emDocumentStatus.CLOSED,
+                                        text: ibas.enums.describe(ibas.emDocumentStatus, ibas.emDocumentStatus.CLOSED),
+                                    })
+                                ],
                             }).bindProperty("bindingValue", {
                                 path: "documentStatus",
                                 type: new sap.extension.data.DocumentStatus()
@@ -200,7 +217,7 @@ namespace materials {
                                         new sap.m.ToolbarSeparator(""),
                                         new sap.m.Button("", {
                                             text: ibas.i18n.prop("materials_refresh_inventory"),
-                                            type: sap.m.ButtonType.Transparent,
+                                            type: sap.m.ButtonType.Accept,
                                             icon: "sap-icon://refresh",
                                             press: function (): void {
                                                 that.fireViewEvents(that.refreshMaterialInventoryEvent);
@@ -324,7 +341,7 @@ namespace materials {
                                     }),
                                     new sap.extension.table.DataColumn("", {
                                         label: ibas.i18n.prop("bo_inventorycountingline_warehouse"),
-                                        template: new sap.extension.m.RepositoryText("", {
+                                        template: new sap.extension.m.RepositoryLink("", {
                                             repository: bo.BORepositoryMaterials,
                                             dataInfo: {
                                                 type: bo.Warehouse,
@@ -380,6 +397,22 @@ namespace materials {
                                             path: "difference",
                                             type: new sap.extension.data.Quantity()
                                         })
+                                    }),
+                                    new sap.extension.table.DataColumn("", {
+                                        label: ibas.i18n.prop("bo_inventorycountingline_price"),
+                                        template: new sap.extension.m.Input("", {
+                                        }).bindProperty("bindingValue", {
+                                            path: "price",
+                                            type: new sap.extension.data.Price()
+                                        }),
+                                    }),
+                                    new sap.extension.table.DataColumn("", {
+                                        label: ibas.i18n.prop("bo_inventorycountingline_linetotal"),
+                                        template: new sap.extension.m.Text("", {
+                                        }).bindProperty("bindingValue", {
+                                            path: "lineTotal",
+                                            type: new sap.extension.data.Sum()
+                                        }),
                                     }),
                                     new sap.extension.table.DataColumn("", {
                                         label: ibas.i18n.prop("bo_inventorycountingline_reference1"),
@@ -452,7 +485,32 @@ namespace materials {
                                 path: "remarks",
                                 type: new sap.extension.data.Alphanumeric()
                             }),
-                            new sap.ui.core.Title("", {}),
+                            new sap.ui.core.Title("", { text: ibas.i18n.prop("materials_title_total") }),
+                            new sap.m.Label("", { text: ibas.i18n.prop("bo_inventorycounting_documenttotal") }),
+                            new sap.m.FlexBox("", {
+                                width: "100%",
+                                justifyContent: sap.m.FlexJustifyContent.Start,
+                                renderType: sap.m.FlexRendertype.Bare,
+                                alignContent: sap.m.FlexAlignContent.Center,
+                                alignItems: sap.m.FlexAlignItems.Center,
+                                items: [
+                                    new sap.extension.m.Input("", {
+                                        width: "70%",
+                                        editable: false,
+                                    }).bindProperty("bindingValue", {
+                                        path: "documentTotal",
+                                        type: new sap.extension.data.Sum()
+                                    }).addStyleClass("sapUiTinyMarginEnd"),
+                                    new sap.extension.m.CurrencySelect("", {
+                                        editable: false
+                                    }).bindProperty("bindingValue", {
+                                        path: "documentCurrency",
+                                        type: new sap.extension.data.Alphanumeric({
+                                            maxLength: 8
+                                        }),
+                                    }),
+                                ]
+                            }),
                         ]
                     });
                     return this.page = new sap.extension.m.DataPage("", {
@@ -476,6 +534,23 @@ namespace materials {
                                     icon: "sap-icon://delete",
                                     press: function (): void {
                                         that.fireViewEvents(that.deleteDataEvent);
+                                    }
+                                }),
+                                new sap.m.Button("", {
+                                    text: ibas.i18n.prop("em_documentstatus_closed"),
+                                    type: sap.m.ButtonType.Reject,
+                                    icon: "sap-icon://paid-leave",
+                                    press: function (): void {
+                                        that.fireViewEvents(that.closeDataEvent);
+                                    }
+                                }).bindProperty("enabled", {
+                                    path: "documentStatus",
+                                    formatter(data: any): boolean {
+                                        if (data === ibas.emDocumentStatus.CLOSED
+                                            || data === ibas.emDocumentStatus.PLANNED) {
+                                            return false;
+                                        }
+                                        return true;
                                     }
                                 }),
                                 new sap.m.ToolbarSeparator(""),
@@ -519,22 +594,43 @@ namespace materials {
                                     })
                                 }),
                                 new sap.m.ToolbarSeparator(""),
-                                new sap.m.Button("", {
-                                    text: ibas.i18n.prop("em_documentstatus_closed"),
+                                new sap.extension.m.MenuButton("", {
+                                    autoHide: true,
+                                    text: ibas.i18n.prop("shell_quick_to"),
+                                    icon: "sap-icon://generate-shortcut",
                                     type: sap.m.ButtonType.Transparent,
-                                    icon: "sap-icon://task",
-                                    press: function (): void {
-                                        that.fireViewEvents(that.closeDataEvent);
-                                    }
-                                }).bindProperty("enabled", {
-                                    path: "documentStatus",
-                                    formatter(data: any): boolean {
-                                        if (data === ibas.emDocumentStatus.CLOSED
-                                            || data === ibas.emDocumentStatus.PLANNED) {
-                                            return false;
-                                        }
-                                        return true;
-                                    }
+                                    menu: new sap.m.Menu("", {
+                                        items: [
+                                            new sap.m.MenuItem("", {
+                                                text: ibas.i18n.prop("bo_journalentry"),
+                                                icon: "sap-icon://credit-card",
+                                                press: function (): void {
+                                                    let data: any = this.getBindingContext().getObject();
+                                                    if (data instanceof bo.InventoryCounting) {
+                                                        let criteria: ibas.ICriteria = new ibas.Criteria();
+                                                        criteria.result = 1;
+                                                        let condition: ibas.ICondition = criteria.conditions.create();
+                                                        condition.alias = accounting.bo.JournalEntry.PROPERTY_BASEDOCUMENTTYPE_NAME;
+                                                        condition.value = data.objectCode;
+                                                        condition = criteria.conditions.create();
+                                                        condition.alias = accounting.bo.JournalEntry.PROPERTY_BASEDOCUMENTENTRY_NAME;
+                                                        condition.value = data.docEntry.toString();
+                                                        let sort: ibas.ISort = criteria.sorts.create();
+                                                        sort.alias = accounting.bo.JournalEntry.PROPERTY_DOCENTRY_NAME;
+                                                        sort.sortType = ibas.emSortType.DESCENDING;
+                                                        ibas.servicesManager.runLinkService({
+                                                            boCode: accounting.bo.JournalEntry.BUSINESS_OBJECT_CODE,
+                                                            linkValue: criteria
+                                                        });
+                                                    }
+                                                },
+                                                visible: shell.app.privileges.canRun({
+                                                    id: accounting.app.JournalEntryViewApp.APPLICATION_ID,
+                                                    name: accounting.app.JournalEntryViewApp.APPLICATION_NAME,
+                                                })
+                                            }),
+                                        ],
+                                    })
                                 }),
                             ]
                         }),
@@ -559,6 +655,11 @@ namespace materials {
                     this.page.setModel(new sap.extension.model.JSONModel(data));
                     // 改变页面状态
                     sap.extension.pages.changeStatus(this.page);
+                    if (data?.documentStatus === ibas.emDocumentStatus.CLOSED) {
+                        this.selectWarehouse.setEditable(false);
+                    } else {
+                        this.selectWarehouse.setEditable(true);
+                    }
                     // 设置分支对象
                     if (accounting.config.isEnableBranch()) {
                         this.selectWarehouse.setBranchData(data);

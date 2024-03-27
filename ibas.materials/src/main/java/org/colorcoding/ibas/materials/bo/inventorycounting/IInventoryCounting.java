@@ -1,5 +1,7 @@
 package org.colorcoding.ibas.materials.bo.inventorycounting;
 
+import java.math.BigDecimal;
+
 import org.colorcoding.ibas.bobas.bo.IBODocument;
 import org.colorcoding.ibas.bobas.data.DateTime;
 import org.colorcoding.ibas.bobas.data.emApprovalStatus;
@@ -446,6 +448,90 @@ public interface IInventoryCounting extends IBODocument {
 	 * @param value 值
 	 */
 	void setRemarks(String value);
+
+	/**
+	 * 获取-单据货币
+	 * 
+	 * @return 值
+	 */
+	String getDocumentCurrency();
+
+	/**
+	 * 设置-单据货币
+	 * 
+	 * @param value 值
+	 */
+	void setDocumentCurrency(String value);
+
+	/**
+	 * 获取-单据汇率
+	 * 
+	 * @return 值
+	 */
+	BigDecimal getDocumentRate();
+
+	/**
+	 * 设置-单据汇率
+	 * 
+	 * @param value 值
+	 */
+	void setDocumentRate(BigDecimal value);
+
+	/**
+	 * 设置-单据汇率
+	 * 
+	 * @param value 值
+	 */
+	void setDocumentRate(String value);
+
+	/**
+	 * 设置-单据汇率
+	 * 
+	 * @param value 值
+	 */
+	void setDocumentRate(int value);
+
+	/**
+	 * 设置-单据汇率
+	 * 
+	 * @param value 值
+	 */
+	void setDocumentRate(double value);
+
+	/**
+	 * 获取-单据总计
+	 * 
+	 * @return 值
+	 */
+	BigDecimal getDocumentTotal();
+
+	/**
+	 * 设置-单据总计
+	 * 
+	 * @param value 值
+	 */
+	void setDocumentTotal(BigDecimal value);
+
+	/**
+	 * 设置-单据总计
+	 * 
+	 * @param value 值
+	 */
+	void setDocumentTotal(String value);
+
+	/**
+	 * 设置-单据总计
+	 * 
+	 * @param value 值
+	 */
+	void setDocumentTotal(int value);
+
+	/**
+	 * 设置-单据总计
+	 * 
+	 * @param value 值
+	 */
+	void setDocumentTotal(double value);
 
 	/**
 	 * 获取-单据类型

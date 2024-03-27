@@ -80,6 +80,7 @@ namespace materials {
                 this.register(new MaterialSerialChooseServiceMapping());
                 this.register(new MaterialBatchChooseServiceMapping());
                 this.register(new InventoryCountingChooseServiceMapping());
+                this.register(new InventoryCountingLinkServiceMapping());
                 this.register(new InventoryTransferChooseServiceMapping());
                 this.register(new InventoryTransferEditServiceMapping());
                 this.register(new InventoryTransferLinkServiceMapping());

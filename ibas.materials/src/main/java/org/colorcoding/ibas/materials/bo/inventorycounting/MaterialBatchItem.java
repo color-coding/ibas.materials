@@ -5,6 +5,8 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
 
 import org.colorcoding.ibas.bobas.logic.IBusinessLogicContract;
+import org.colorcoding.ibas.bobas.rule.IBusinessRule;
+import org.colorcoding.ibas.bobas.rule.common.BusinessRuleRequired;
 import org.colorcoding.ibas.materials.MyConfiguration;
 
 /**
@@ -20,6 +22,16 @@ class MaterialBatchItem extends org.colorcoding.ibas.materials.bo.materialbatch.
 	public static final String BUSINESS_OBJECT_NAME = "MaterialBatchItemC";
 
 	InventoryCountingLine parent;
+
+	@Override
+	protected IBusinessRule[] registerRules() {
+		return new IBusinessRule[] { // 注册的业务规则
+				new BusinessRuleRequired(PROPERTY_BATCHCODE), // 要求有值
+				new BusinessRuleRequired(PROPERTY_DOCUMENTTYPE), // 要求有值
+				new BusinessRuleRequired(PROPERTY_DOCUMENTENTRY), // 要求有值
+				new BusinessRuleRequired(PROPERTY_DOCUMENTLINEID), // 要求有值
+		};
+	}
 
 	@Override
 	public IBusinessLogicContract[] getContracts() {

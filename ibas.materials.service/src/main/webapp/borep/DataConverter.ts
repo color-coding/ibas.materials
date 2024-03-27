@@ -486,7 +486,8 @@ namespace materials {
                 target.price = source.price;
             }
         }
-        const DECIMAL_PLACES_SUM: number = ibas.config.get(ibas.CONFIG_ITEM_DECIMAL_PLACES_SUM);
+        const DECIMAL_PLACES_QUANTITY: number = ibas.config.get(ibas.CONFIG_ITEM_DECIMAL_PLACES_QUANTITY);
+        const DECIMAL_PLACES_RATE: number = ibas.config.get(ibas.CONFIG_ITEM_DECIMAL_PLACES_RATE);
         /** 业务规则-计算库存数量 */
         export class BusinessRuleCalculateInventoryQuantity extends ibas.BusinessRuleCommon {
             /**
@@ -520,8 +521,24 @@ namespace materials {
                     uomRate = 1;
                     context.outputValues.set(this.uomRate, uomRate);
                 }
-                let quantity: number = ibas.numbers.valueOf(context.inputValues.get(this.quantity));
-                context.outputValues.set(this.inventoryQuantity, ibas.numbers.round(quantity * uomRate, DECIMAL_PLACES_SUM));
+                if (ibas.strings.equalsIgnoreCase(context.trigger, this.inventoryQuantity)) {
+                    // 输入库存数量，反推率
+                    let inventoryQuantity: number = context.inputValues.get(this.inventoryQuantity);
+                    let quantity: number = context.inputValues.get(this.quantity);
+                    let result: number = inventoryQuantity > 0 ? inventoryQuantity / quantity : 0;
+                    if (ibas.numbers.isApproximated(uomRate, result, DECIMAL_PLACES_RATE)) {
+                        return;
+                    }
+                    context.outputValues.set(this.uomRate, ibas.numbers.round(result, DECIMAL_PLACES_RATE + 2));
+                } else {
+                    let inventoryQuantity: number = context.inputValues.get(this.inventoryQuantity);
+                    let quantity: number = ibas.numbers.valueOf(context.inputValues.get(this.quantity));
+                    let result: number = quantity * uomRate;
+                    if (ibas.numbers.isApproximated(inventoryQuantity, result, DECIMAL_PLACES_QUANTITY)) {
+                        return;
+                    }
+                    context.outputValues.set(this.inventoryQuantity, ibas.numbers.round(result, DECIMAL_PLACES_QUANTITY));
+                }
             }
         }
 
