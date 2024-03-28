@@ -343,7 +343,7 @@ namespace materials {
                 let itemCodes: ibas.ArrayList<string> = ibas.arrays.create(itemCode);
                 let criteria: ibas.Criteria = new ibas.Criteria();
                 let condition: ibas.ICondition;
-                for (const code of itemCodes) {
+                for (let code of itemCodes) {
                     if (ibas.strings.isEmpty(code)) {
                         continue;
                     }

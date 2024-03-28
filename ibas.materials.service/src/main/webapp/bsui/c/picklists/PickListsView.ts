@@ -424,8 +424,8 @@ namespace materials {
                     this.pickedLineDatas = new ibas.ArrayList();
                     this.releasedDatas.add(this.pickListsDatas.filter(c => c.pickStatus === bo.emPickStatus.RELEASED || c.pickStatus === bo.emPickStatus.PARTIALLYPICKED));
                     this.pickedDatas.add(this.pickListsDatas.filter(c => c.pickStatus !== bo.emPickStatus.RELEASED));
-                    for (const pickListsData of this.pickListsDatas) {
-                        for (const line of pickListsData.pickListsLines) {
+                    for (let pickListsData of this.pickListsDatas) {
+                        for (let line of pickListsData.pickListsLines) {
                             if (line.pickStatus === bo.emPickStatus.RELEASED) {
                                 this.releasedLineDatas.add(line);
                             }
@@ -444,12 +444,12 @@ namespace materials {
                         this.processingDatas = datas;
                     }
                     if (beDeleteds instanceof Array) {
-                        for (const beDeleted of beDeleteds) {
+                        for (let beDeleted of beDeleteds) {
                             this.processingDatas.remove(beDeleted);
                         }
                     }
                     let index: number = 1;
-                    for (const processingData of this.processingDatas) {
+                    for (let processingData of this.processingDatas) {
                         processingData["#"] = index++;
                     }
                     let firstVisibleRow: number = this.processingTable.getFirstVisibleRow();
@@ -558,17 +558,17 @@ namespace materials {
                         this.releasedTable.removeAllColumns();
                         this.pickedTable.removeAllColumns();
                         if (this.workingData.viewDimension === app.emPickViewDimension.TOTAL) {
-                            for (const column of this.pickTotalColumns()) {
+                            for (let column of this.pickTotalColumns()) {
                                 this.releasedTable.addColumn(column);
                             }
-                            for (const column of this.pickTotalColumns()) {
+                            for (let column of this.pickTotalColumns()) {
                                 this.pickedTable.addColumn(column);
                             }
                         } else {
-                            for (const column of this.pickDetailsColumns(false)) {
+                            for (let column of this.pickDetailsColumns(false)) {
                                 this.releasedTable.addColumn(column);
                             }
-                            for (const column of this.pickDetailsColumns(true)) {
+                            for (let column of this.pickDetailsColumns(true)) {
                                 this.pickedTable.addColumn(column);
                             }
                         }
@@ -913,7 +913,7 @@ namespace materials {
                     this.formTop.setModel(new sap.extension.model.JSONModel(data));
                     this.formTop.bindObject("/");
                     let hBox: sap.m.HBox;
-                    for (const item of data.items) {
+                    for (let item of data.items) {
                         let checkBox: sap.extension.m.TipsCheckBox = new sap.extension.m.TipsCheckBox("", {
                             text: item.name,
                             tipsOnSelection: item.name,

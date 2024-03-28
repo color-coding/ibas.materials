@@ -839,7 +839,7 @@ namespace materials {
                             that.fireViewEvents(that.chooseInventoryTransferLineTransferRequestEvent);
                         }
                     }));
-                    for (const data of datas) {
+                    for (let data of datas) {
                         this.menuAdd.addItem(new sap.m.MenuItem("", {
                             text: data.description,
                             press: function (): void {

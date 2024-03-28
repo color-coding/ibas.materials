@@ -148,19 +148,25 @@ public interface IMaterialIssueContract extends IBusinessLogicContract {
 	 * 
 	 * @return 值
 	 */
-	String getBaseDocumentType();
+	default String getBaseDocumentType() {
+		return null;
+	}
 
 	/**
 	 * 获取-基于单据标识
 	 * 
 	 * @return 值
 	 */
-	Integer getBaseDocumentEntry();
+	default Integer getBaseDocumentEntry() {
+		return null;
+	}
 
 	/**
 	 * 获取-基于单据行号
 	 * 
 	 * @return 值
 	 */
-	Integer getBaseDocumentLineId();
+	default Integer getBaseDocumentLineId() {
+		return null;
+	}
 }

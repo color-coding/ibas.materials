@@ -236,11 +236,11 @@ namespace materials {
                 this.busy(true);
                 let unSelectedWarehouses: Map<string, string> = new Map();
                 if (!ibas.strings.isEmpty(this.workingData.unSelectedWarehouses)) {
-                    for (const warehouse of this.workingData.unSelectedWarehouses.split(",")) {
+                    for (let warehouse of this.workingData.unSelectedWarehouses.split(",")) {
                         unSelectedWarehouses.set(warehouse, warehouse);
                     }
                 }
-                for (const item of this.workingData.items) {
+                for (let item of this.workingData.items) {
                     if (item.enable !== ibas.emYesNo.YES) {
                         continue;
                     }
@@ -248,7 +248,7 @@ namespace materials {
                         continue;
                     }
                     this.proceeding(ibas.emMessageType.INFORMATION, ibas.i18n.prop("shell_fetching_data"));
-                    for (const target of await item.fetch()) {
+                    for (let target of await item.fetch()) {
                         if (unSelectedWarehouses.has(target.warehouse)) {
                             continue;
                         }
@@ -256,7 +256,7 @@ namespace materials {
                     }
                 }
                 let materials: ibas.IList<materials.bo.Material> = await this.fetchMaterialsAsync(datas.map(c => c.itemCode));
-                for (const data of datas) {
+                for (let data of datas) {
                     let material: materials.bo.Material = materials.firstOrDefault(c => ibas.strings.equalsIgnoreCase(c.code, data.itemCode));
                     if (!ibas.objects.isNull(material)) {
                         /** 物料/服务描述 */
@@ -277,7 +277,7 @@ namespace materials {
             /** 下达拣配清单事件 */
             protected async releasePickLists(pickLists: bo.PickLists, targets: IPickListsTarget[], callback: (error?: any) => void): Promise<void> {
                 try {
-                    for (const target of targets) {
+                    for (let target of targets) {
                         let line: bo.PickListsLine = pickLists.pickListsLines.create();
                         line.baseBusinessObject(target);
                         line.quantity = target.releasedQuantity;
@@ -301,7 +301,7 @@ namespace materials {
                     return;
                 }
                 let items: ibas.IList<bo.PickListsLine> = new ibas.ArrayList();
-                for (const data of datas) {
+                for (let data of datas) {
                     let item: bo.PickListsLine = new bo.PickListsLine();
                     item.baseBusinessObject(data);
                     item.quantity = data.releasedQuantity;
@@ -311,7 +311,7 @@ namespace materials {
                 let closedLines: Array<bo.IPickListsLine> = await this.turnToDelivery(serviceAgent, items, false);
                 let closedTargets: ibas.ArrayList<IPickListsTarget> = new ibas.ArrayList();
                 if (closedLines instanceof Array) {
-                    for (const closedLine of closedLines) {
+                    for (let closedLine of closedLines) {
                         let target: IPickListsTarget[] = datas.filter(
                             c => ibas.strings.equals(closedLine.baseDocumentType, c.baseDocumentType)
                                 && closedLine.baseDocumentEntry === c.baseDocumentEntry
@@ -327,7 +327,7 @@ namespace materials {
             /** 转为交货事件 */
             protected async releasedTurnToDelivery(serviceAgent: ibas.IServiceAgent, selecteds: ibas.IList<bo.PickListsLine | bo.PickLists>): Promise<void> {
                 let datas: ibas.IList<bo.PickListsLine> = new ibas.ArrayList();
-                for (const selected of selecteds) {
+                for (let selected of selecteds) {
                     if (selected instanceof bo.PickLists) {
                         datas.add(selected.pickListsLines.filter(c => c.pickStatus === bo.emPickStatus.RELEASED));
                     } else {
@@ -338,7 +338,7 @@ namespace materials {
                     this.messages(ibas.emMessageType.WARNING, ibas.i18n.prop("materials_msg_release_picklists_need_quantity"));
                     return;
                 }
-                for (const data of datas) {
+                for (let data of datas) {
                     data.pickQuantity = data.inventoryQuantity;
                 }
                 await this.turnToDelivery(serviceAgent, datas);
@@ -346,7 +346,7 @@ namespace materials {
             /** 转为交货事件 */
             protected async pickedTurnToDelivery(serviceAgent: ibas.IServiceAgent, selecteds: ibas.IList<bo.PickListsLine | bo.PickLists>): Promise<void> {
                 let datas: ibas.IList<bo.PickListsLine> = new ibas.ArrayList();
-                for (const selected of selecteds) {
+                for (let selected of selecteds) {
                     if (selected instanceof bo.PickLists) {
                         datas.add(selected.pickListsLines.filter(c => c.pickStatus === bo.emPickStatus.RELEASED));
                     } else {
@@ -381,7 +381,7 @@ namespace materials {
                                 } else {
                                     if (autoSave) {
                                         let beSaveds: ibas.ArrayList<bo.PickLists> = new ibas.ArrayList();
-                                        for (const closedLine of closedLines) {
+                                        for (let closedLine of closedLines) {
                                             let beSaved: bo.PickLists = beSaveds.firstOrDefault(c => c.objectKey === closedLine.objectKey);
                                             if (!beSaved) {
                                                 continue;
@@ -392,7 +392,7 @@ namespace materials {
                                             }
                                             beSaveds.add(beSaved);
                                         }
-                                        for (const beSaved of beSaveds) {
+                                        for (let beSaved of beSaveds) {
                                             try {
                                                 let savedData: bo.PickLists = await this.saveData(beSaved);
                                                 if (!!savedData && this.pickListsDatas.indexOf(beSaved) > -1) {
@@ -426,7 +426,7 @@ namespace materials {
             protected async saveDatas(): Promise<void> {
                 try {
                     this.busy(true);
-                    for (const pickListsData of this.pickListsDatas) {
+                    for (let pickListsData of this.pickListsDatas) {
                         if (!pickListsData.isDirty) {
                             continue;
                         }
@@ -469,7 +469,7 @@ namespace materials {
                 let itemCodes: ibas.ArrayList<string> = ibas.arrays.create(itemCode);
                 let criteria: ibas.Criteria = new ibas.Criteria();
                 let condition: ibas.ICondition;
-                for (const code of itemCodes) {
+                for (let code of itemCodes) {
                     if (ibas.strings.isEmpty(code)) {
                         continue;
                     }

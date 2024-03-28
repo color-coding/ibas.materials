@@ -327,13 +327,13 @@ namespace materials {
                         // 已交货或部分交货的行不重置
                         return c.pickStatus !== bo.emPickStatus.PARTIALLYDELIVERED && c.pickStatus !== bo.emPickStatus.CLOSED;
                     });
-                    for (const item of items) {
+                    for (let item of items) {
                         let inventoryReservations: ibas.IList<materials.bo.MaterialInventoryReservation> = await this.fetchMaterialInventoryReservationAsync(item);
                         if (inventoryReservations.length === 0) {
                             continue;
                         }
                         let pickQuantity: number = 0;
-                        for (const inventoryReservation of inventoryReservations) {
+                        for (let inventoryReservation of inventoryReservations) {
                             let reservationQunatity: number = ibas.numbers.round(inventoryReservation.quantity - inventoryReservation.closedQuantity);
                             pickQuantity = ibas.numbers.round(pickQuantity + reservationQunatity);
                             if (!ibas.strings.isEmpty(inventoryReservation.serialCode)) {
@@ -359,7 +359,7 @@ namespace materials {
                     // 已交货或部分交货的行不重置
                     return c.pickStatus !== bo.emPickStatus.PARTIALLYDELIVERED && c.pickStatus !== bo.emPickStatus.CLOSED;
                 });
-                for (const item of items) {
+                for (let item of items) {
                     item.pickQuantity = 0;
                     // 移除序号
                     let batchItems: bo.IPickListsNumber[] = item.pickListsNumbers.filterDeleted();

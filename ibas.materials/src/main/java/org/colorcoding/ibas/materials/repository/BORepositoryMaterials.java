@@ -2,8 +2,6 @@ package org.colorcoding.ibas.materials.repository;
 
 import java.math.BigDecimal;
 
-import org.colorcoding.ibas.accounting.logic.JournalEntryContent;
-import org.colorcoding.ibas.accounting.logic.JournalEntryContent.Category;
 import org.colorcoding.ibas.bobas.common.ConditionOperation;
 import org.colorcoding.ibas.bobas.common.ConditionRelationship;
 import org.colorcoding.ibas.bobas.common.Criteria;
@@ -19,7 +17,6 @@ import org.colorcoding.ibas.bobas.data.DateTime;
 import org.colorcoding.ibas.bobas.data.Decimal;
 import org.colorcoding.ibas.bobas.data.List;
 import org.colorcoding.ibas.bobas.data.emApprovalStatus;
-import org.colorcoding.ibas.bobas.data.emDirection;
 import org.colorcoding.ibas.bobas.data.emDocumentStatus;
 import org.colorcoding.ibas.bobas.data.emYesNo;
 import org.colorcoding.ibas.bobas.i18n.I18N;
@@ -60,7 +57,6 @@ import org.colorcoding.ibas.materials.bo.material.MaterialSubstitute;
 import org.colorcoding.ibas.materials.bo.material.MaterialVersion;
 import org.colorcoding.ibas.materials.bo.material.Product;
 import org.colorcoding.ibas.materials.bo.materialbatch.IMaterialBatch;
-import org.colorcoding.ibas.materials.bo.materialbatch.IMaterialBatchItem;
 import org.colorcoding.ibas.materials.bo.materialbatch.IMaterialBatchJournal;
 import org.colorcoding.ibas.materials.bo.materialbatch.MaterialBatch;
 import org.colorcoding.ibas.materials.bo.materialbatch.MaterialBatchJournal;
@@ -81,7 +77,6 @@ import org.colorcoding.ibas.materials.bo.materialpricelist.MaterialPriceList;
 import org.colorcoding.ibas.materials.bo.materialscrap.IMaterialScrap;
 import org.colorcoding.ibas.materials.bo.materialscrap.MaterialScrap;
 import org.colorcoding.ibas.materials.bo.materialserial.IMaterialSerial;
-import org.colorcoding.ibas.materials.bo.materialserial.IMaterialSerialItem;
 import org.colorcoding.ibas.materials.bo.materialserial.IMaterialSerialJournal;
 import org.colorcoding.ibas.materials.bo.materialserial.MaterialSerial;
 import org.colorcoding.ibas.materials.bo.materialserial.MaterialSerialJournal;
@@ -98,12 +93,9 @@ import org.colorcoding.ibas.materials.bo.unit.Unit;
 import org.colorcoding.ibas.materials.bo.unit.UnitRate;
 import org.colorcoding.ibas.materials.bo.warehouse.IWarehouse;
 import org.colorcoding.ibas.materials.bo.warehouse.Warehouse;
-import org.colorcoding.ibas.materials.data.Ledgers;
 import org.colorcoding.ibas.materials.data.MaterialNumberChange;
 import org.colorcoding.ibas.materials.data.emSpecificationAssigned;
 import org.colorcoding.ibas.materials.data.emSpecificationTarget;
-import org.colorcoding.ibas.materials.logic.MaterialInventoryBusinessLogic;
-import org.colorcoding.ibas.materials.logic.journalentry.JournalEntrySmartContent;
 
 /**
  * Materials仓库
@@ -751,11 +743,6 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 			}
 			boolean trans = this.beginTransaction();
 			try {
-				List<IMaterialBatchJournal> batchJournals;
-				List<IMaterialSerialJournal> serialJournals;
-				List<IMaterialInventoryJournal> inventoryJournals;
-				List<JournalEntryContent> jeContents;
-				JournalEntryContent jeContent;
 				IOperationResult<?> opRsltSave;
 				IOperationResult<IMaterialInventory> opRsltInventory;
 				OperationResult<String> opRsltClosing = new OperationResult<>();
@@ -772,10 +759,6 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 							|| counting.getCanceled() == emYesNo.YES) {
 						continue;
 					}
-					inventoryJournals = new ArrayList<>();
-					batchJournals = new ArrayList<>();
-					serialJournals = new ArrayList<>();
-					jeContents = new ArrayList<>();
 					for (IInventoryCountingLine countingLine : counting.getInventoryCountingLines()) {
 						if (countingLine.getLineStatus() == emDocumentStatus.CLOSED
 								|| countingLine.getLineStatus() == emDocumentStatus.PLANNED) {
@@ -799,133 +782,6 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 						// 检查库存记录
 						countingLine.setDifference(
 								countingLine.getCountQuantity().subtract(countingLine.getInventoryQuantity()));
-						if (countingLine.getDifference().compareTo(Decimal.ZERO) > 0) {
-							// 盘盈，入库
-							IMaterialInventoryJournal journal = new MaterialInventoryJournal();
-							journal.setDataSource(MaterialInventoryBusinessLogic.DATASOURCE_SIGN_REGULAR_JOURNAL);
-							journal.setBaseDocumentType(countingLine.getObjectCode());
-							journal.setBaseDocumentEntry(countingLine.getDocEntry());
-							journal.setBaseDocumentLineId(countingLine.getLineId());
-							journal.setDeliveryDate(DateTime.getToday());
-							journal.setPostingDate(counting.getPostingDate());
-							journal.setDocumentDate(counting.getDocumentDate());
-							journal.setItemCode(countingLine.getItemCode());
-							journal.setItemName(countingLine.getItemDescription());
-							journal.setWarehouse(countingLine.getWarehouse());
-							journal.setQuantity(countingLine.getDifference());
-							journal.setPrice(countingLine.getPrice());
-							journal.setCurrency(countingLine.getCurrency());
-							journal.setDirection(emDirection.IN);
-							inventoryJournals.add(journal);
-							// 序列入库
-							for (IMaterialSerialItem lineItem : countingLine.getMaterialSerials()) {
-								IMaterialSerialJournal serialJournal = new MaterialSerialJournal();
-								serialJournal.setBaseDocumentType(countingLine.getObjectCode());
-								serialJournal.setBaseDocumentEntry(countingLine.getDocEntry());
-								serialJournal.setBaseDocumentLineId(countingLine.getLineId());
-								serialJournal.setDeliveryDate(DateTime.getToday());
-								serialJournal.setPostingDate(counting.getPostingDate());
-								serialJournal.setDocumentDate(counting.getDocumentDate());
-								serialJournal.setItemCode(countingLine.getItemCode());
-								serialJournal.setWarehouse(countingLine.getWarehouse());
-								serialJournal.setSerialCode(lineItem.getSerialCode());
-								serialJournal.setDirection(emDirection.IN);
-								serialJournals.add(serialJournal);
-							}
-							// 批次入库
-							for (IMaterialBatchItem lineItem : countingLine.getMaterialBatches()) {
-								IMaterialBatchJournal batchJournal = new MaterialBatchJournal();
-								batchJournal.setBaseDocumentType(countingLine.getObjectCode());
-								batchJournal.setBaseDocumentEntry(countingLine.getDocEntry());
-								batchJournal.setBaseDocumentLineId(countingLine.getLineId());
-								batchJournal.setDeliveryDate(DateTime.getToday());
-								batchJournal.setPostingDate(counting.getPostingDate());
-								batchJournal.setDocumentDate(counting.getDocumentDate());
-								batchJournal.setItemCode(countingLine.getItemCode());
-								batchJournal.setWarehouse(countingLine.getWarehouse());
-								batchJournal.setBatchCode(lineItem.getBatchCode());
-								batchJournal.setQuantity(lineItem.getQuantity());
-								batchJournal.setDirection(emDirection.IN);
-								batchJournals.add(batchJournal);
-							}
-							// 分录内容
-							jeContent = new JournalEntrySmartContent(countingLine);
-							jeContent.setCategory(Category.Debit);
-							jeContent.setLedger(Ledgers.LEDGER_INVENTORY_INVENTORY_OFFSET_INCR_ACCT);
-							jeContent.setAmount(countingLine.getLineTotal());
-							jeContent.setCurrency(countingLine.getCurrency());
-							jeContent.setRate(countingLine.getRate());
-							jeContents.add(jeContent);
-							jeContent = new JournalEntrySmartContent(countingLine);
-							jeContent.setCategory(Category.Credit);
-							jeContent.setLedger(Ledgers.LEDGER_INVENTORY_INVENTORY_ACCOUNT);
-							jeContent.setAmount(countingLine.getLineTotal());
-							jeContent.setCurrency(countingLine.getCurrency());
-							jeContent.setRate(countingLine.getRate());
-							jeContents.add(jeContent);
-						} else if (countingLine.getDifference().compareTo(Decimal.ZERO) < 0) {
-							// 盘亏，出库
-							IMaterialInventoryJournal journal = new MaterialInventoryJournal();
-							journal.setDataSource(MaterialInventoryBusinessLogic.DATASOURCE_SIGN_REGULAR_JOURNAL);
-							journal.setBaseDocumentType(countingLine.getObjectCode());
-							journal.setBaseDocumentEntry(countingLine.getDocEntry());
-							journal.setBaseDocumentLineId(countingLine.getLineId());
-							journal.setDeliveryDate(DateTime.getToday());
-							journal.setPostingDate(counting.getPostingDate());
-							journal.setDocumentDate(counting.getDocumentDate());
-							journal.setItemCode(countingLine.getItemCode());
-							journal.setItemName(countingLine.getItemDescription());
-							journal.setWarehouse(countingLine.getWarehouse());
-							journal.setQuantity(countingLine.getDifference().abs());
-							journal.setDirection(emDirection.OUT);
-							inventoryJournals.add(journal);
-							// 序列出库
-							for (IMaterialSerialItem lineItem : countingLine.getMaterialSerials()) {
-								IMaterialSerialJournal serialJournal = new MaterialSerialJournal();
-								serialJournal.setBaseDocumentType(countingLine.getObjectCode());
-								serialJournal.setBaseDocumentEntry(countingLine.getDocEntry());
-								serialJournal.setBaseDocumentLineId(countingLine.getLineId());
-								serialJournal.setDeliveryDate(DateTime.getToday());
-								serialJournal.setPostingDate(counting.getPostingDate());
-								serialJournal.setDocumentDate(counting.getDocumentDate());
-								serialJournal.setItemCode(countingLine.getItemCode());
-								serialJournal.setWarehouse(countingLine.getWarehouse());
-								serialJournal.setSerialCode(lineItem.getSerialCode());
-								serialJournal.setDirection(emDirection.OUT);
-								serialJournals.add(serialJournal);
-							}
-							// 批次出库
-							for (IMaterialBatchItem lineItem : countingLine.getMaterialBatches()) {
-								IMaterialBatchJournal batchJournal = new MaterialBatchJournal();
-								batchJournal.setBaseDocumentType(countingLine.getObjectCode());
-								batchJournal.setBaseDocumentEntry(countingLine.getDocEntry());
-								batchJournal.setBaseDocumentLineId(countingLine.getLineId());
-								batchJournal.setDeliveryDate(DateTime.getToday());
-								batchJournal.setPostingDate(counting.getPostingDate());
-								batchJournal.setDocumentDate(counting.getDocumentDate());
-								batchJournal.setItemCode(countingLine.getItemCode());
-								batchJournal.setWarehouse(countingLine.getWarehouse());
-								batchJournal.setBatchCode(lineItem.getBatchCode());
-								batchJournal.setQuantity(lineItem.getQuantity());
-								batchJournal.setDirection(emDirection.OUT);
-								batchJournals.add(batchJournal);
-							}
-							// 分录内容
-							jeContent = new JournalEntrySmartContent(countingLine);
-							jeContent.setCategory(Category.Debit);
-							jeContent.setLedger(Ledgers.LEDGER_INVENTORY_INVENTORY_ACCOUNT);
-							jeContent.setAmount(countingLine.getLineTotal());
-							jeContent.setCurrency(countingLine.getCurrency());
-							jeContent.setRate(countingLine.getRate());
-							jeContents.add(jeContent);
-							jeContent = new JournalEntrySmartContent(countingLine);
-							jeContent.setCategory(Category.Credit);
-							jeContent.setLedger(Ledgers.LEDGER_INVENTORY_INVENTORY_OFFSET_INCR_ACCT);
-							jeContent.setAmount(countingLine.getLineTotal());
-							jeContent.setCurrency(countingLine.getCurrency());
-							jeContent.setRate(countingLine.getRate());
-							jeContents.add(jeContent);
-						}
 						// 修改状态
 						countingLine.setLineStatus(emDocumentStatus.CLOSED);
 					}
@@ -935,27 +791,6 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 					opRsltSave = super.save(counting, token);
 					if (opRsltSave.getError() != null) {
 						throw opRsltSave.getError();
-					}
-					// 保存被影响的库存记录
-					for (IMaterialInventoryJournal journal : inventoryJournals) {
-						opRsltSave = super.save(journal, token);
-						if (opRsltSave.getError() != null) {
-							throw opRsltSave.getError();
-						}
-					}
-					// 保存被影响的序列记录
-					for (IMaterialSerialJournal journal : serialJournals) {
-						opRsltSave = super.save(journal, token);
-						if (opRsltSave.getError() != null) {
-							throw opRsltSave.getError();
-						}
-					}
-					// 保存被影响的批次记录
-					for (IMaterialBatchJournal journal : batchJournals) {
-						opRsltSave = super.save(journal, token);
-						if (opRsltSave.getError() != null) {
-							throw opRsltSave.getError();
-						}
 					}
 					opRsltClosing.addResultObjects(counting.toString());
 				}

@@ -75,21 +75,6 @@ class MaterialSerialItem extends org.colorcoding.ibas.materials.bo.materialseria
 					}
 
 					@Override
-					public String getBaseDocumentType() {
-						return null;
-					}
-
-					@Override
-					public Integer getBaseDocumentEntry() {
-						return null;
-					}
-
-					@Override
-					public Integer getBaseDocumentLineId() {
-						return null;
-					}
-
-					@Override
 					public DateTime getPostingDate() {
 						return MaterialSerialItem.this.parent.parent.getPostingDate();
 					}
@@ -149,21 +134,6 @@ class MaterialSerialItem extends org.colorcoding.ibas.materials.bo.materialseria
 					@Override
 					public Integer getDocumentEntry() {
 						return MaterialSerialItem.this.getDocumentEntry();
-					}
-
-					@Override
-					public String getBaseDocumentType() {
-						return null;
-					}
-
-					@Override
-					public Integer getBaseDocumentEntry() {
-						return null;
-					}
-
-					@Override
-					public Integer getBaseDocumentLineId() {
-						return null;
 					}
 
 					@Override

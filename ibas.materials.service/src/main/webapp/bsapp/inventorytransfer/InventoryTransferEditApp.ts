@@ -269,7 +269,7 @@ namespace materials {
                         toWarehouse: this.view.toWarehouse,
                         onAdded: (targets) => {
                             let created: boolean = false;
-                            for (const target of targets) {
+                            for (let target of targets) {
                                 if (target instanceof bo.InventoryTransferLine) {
                                     this.editData.inventoryTransferLines.add(target);
                                     created = true;
