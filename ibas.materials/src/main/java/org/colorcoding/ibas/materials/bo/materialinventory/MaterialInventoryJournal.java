@@ -1233,8 +1233,8 @@ public class MaterialInventoryJournal extends BusinessObject<MaterialInventoryJo
 	public IBusinessLogicContract[] getContracts() {
 		ArrayList<IBusinessLogicContract> contracts = new ArrayList<>(4);
 		// 出库
-		if (this.getDirection() == emDirection.OUT) {
-			// 物料库存占用的释放（出库）
+		if (this.getDirection() == emDirection.OUT && this.getQuantity().compareTo(Decimal.ZERO) > 0) {
+			// 物料库存占用的释放（出库），仅正向逻辑执行
 			contracts.add(new IMaterialInventoryReservationReleaseContract() {
 
 				@Override
@@ -1342,8 +1342,8 @@ public class MaterialInventoryJournal extends BusinessObject<MaterialInventoryJo
 			}
 		});
 		// 入库
-		if (this.getDirection() == emDirection.IN) {
-			// 物料订购预留转库存占用
+		if (this.getDirection() == emDirection.IN && this.getQuantity().compareTo(Decimal.ZERO) > 0) {
+			// 物料订购预留转库存占用，仅正向逻辑执行
 			contracts.add(new IMaterialInventoryReservationCreateContract() {
 
 				@Override

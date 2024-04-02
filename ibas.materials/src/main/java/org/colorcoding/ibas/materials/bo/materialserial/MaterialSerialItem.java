@@ -1,5 +1,7 @@
 package org.colorcoding.ibas.materials.bo.materialserial;
 
+import java.math.BigDecimal;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -7,9 +9,12 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
 import org.colorcoding.ibas.bobas.bo.BusinessObject;
+import org.colorcoding.ibas.bobas.bo.IBOTagCanceled;
+import org.colorcoding.ibas.bobas.bo.IBOTagDeleted;
 import org.colorcoding.ibas.bobas.core.IPropertyInfo;
 import org.colorcoding.ibas.bobas.data.DateTime;
 import org.colorcoding.ibas.bobas.data.emDirection;
+import org.colorcoding.ibas.bobas.data.emYesNo;
 import org.colorcoding.ibas.bobas.logic.IBusinessLogicContract;
 import org.colorcoding.ibas.bobas.logic.IBusinessLogicsHost;
 import org.colorcoding.ibas.bobas.mapping.BusinessObjectUnit;
@@ -582,6 +587,40 @@ public class MaterialSerialItem extends BusinessObject<MaterialSerialItem>
 					new IMaterialSerialJournalContract() {
 
 						@Override
+						public emDirection getDirection() {
+							return emDirection.IN;
+						}
+
+						@Override
+						public boolean isOffsetting() {
+							if (MaterialSerialItem.this instanceof IBOTagCanceled) {
+								IBOTagCanceled boTag = (IBOTagCanceled) MaterialSerialItem.this;
+								if (boTag.getCanceled() == emYesNo.YES) {
+									return true;
+								}
+							}
+							if (MaterialSerialItem.this instanceof IBOTagDeleted) {
+								IBOTagDeleted boTag = (IBOTagDeleted) MaterialSerialItem.this;
+								if (boTag.getDeleted() == emYesNo.YES) {
+									return true;
+								}
+							}
+							if (MaterialSerialItem.this.parent instanceof IBOTagCanceled) {
+								IBOTagCanceled boTag = (IBOTagCanceled) MaterialSerialItem.this.parent;
+								if (boTag.getCanceled() == emYesNo.YES) {
+									return true;
+								}
+							}
+							if (MaterialSerialItem.this.parent instanceof IBOTagDeleted) {
+								IBOTagDeleted boTag = (IBOTagDeleted) MaterialSerialItem.this.parent;
+								if (boTag.getDeleted() == emYesNo.YES) {
+									return true;
+								}
+							}
+							return false;
+						}
+
+						@Override
 						public String getIdentifiers() {
 							return MaterialSerialItem.this.getIdentifiers();
 						}
@@ -599,11 +638,6 @@ public class MaterialSerialItem extends BusinessObject<MaterialSerialItem>
 						@Override
 						public String getItemCode() {
 							return MaterialSerialItem.this.parent.getItemCode();
-						}
-
-						@Override
-						public emDirection getDirection() {
-							return emDirection.IN;
 						}
 
 						@Override
@@ -658,6 +692,21 @@ public class MaterialSerialItem extends BusinessObject<MaterialSerialItem>
 						public DateTime getDocumentDate() {
 							return ((IMaterialSerialReceiptParent) MaterialSerialItem.this.parent).getDocumentDate();
 						}
+
+						@Override
+						public BigDecimal getPrice() {
+							return ((IMaterialSerialReceiptParent) MaterialSerialItem.this.parent).getPrice();
+						}
+
+						@Override
+						public String getCurrency() {
+							return ((IMaterialSerialReceiptParent) MaterialSerialItem.this.parent).getCurrency();
+						}
+
+						@Override
+						public BigDecimal getRate() {
+							return ((IMaterialSerialReceiptParent) MaterialSerialItem.this.parent).getRate();
+						}
 					}
 
 			};
@@ -665,6 +714,40 @@ public class MaterialSerialItem extends BusinessObject<MaterialSerialItem>
 			return new IBusinessLogicContract[] {
 					// 出库序列交易
 					new IMaterialSerialJournalContract() {
+
+						@Override
+						public emDirection getDirection() {
+							return emDirection.OUT;
+						}
+
+						@Override
+						public boolean isOffsetting() {
+							if (MaterialSerialItem.this instanceof IBOTagCanceled) {
+								IBOTagCanceled boTag = (IBOTagCanceled) MaterialSerialItem.this;
+								if (boTag.getCanceled() == emYesNo.YES) {
+									return true;
+								}
+							}
+							if (MaterialSerialItem.this instanceof IBOTagDeleted) {
+								IBOTagDeleted boTag = (IBOTagDeleted) MaterialSerialItem.this;
+								if (boTag.getDeleted() == emYesNo.YES) {
+									return true;
+								}
+							}
+							if (MaterialSerialItem.this.parent instanceof IBOTagCanceled) {
+								IBOTagCanceled boTag = (IBOTagCanceled) MaterialSerialItem.this.parent;
+								if (boTag.getCanceled() == emYesNo.YES) {
+									return true;
+								}
+							}
+							if (MaterialSerialItem.this.parent instanceof IBOTagDeleted) {
+								IBOTagDeleted boTag = (IBOTagDeleted) MaterialSerialItem.this.parent;
+								if (boTag.getDeleted() == emYesNo.YES) {
+									return true;
+								}
+							}
+							return false;
+						}
 
 						@Override
 						public String getIdentifiers() {
@@ -684,11 +767,6 @@ public class MaterialSerialItem extends BusinessObject<MaterialSerialItem>
 						@Override
 						public String getItemCode() {
 							return MaterialSerialItem.this.parent.getItemCode();
-						}
-
-						@Override
-						public emDirection getDirection() {
-							return emDirection.OUT;
 						}
 
 						@Override
@@ -740,6 +818,21 @@ public class MaterialSerialItem extends BusinessObject<MaterialSerialItem>
 						@Override
 						public DateTime getDocumentDate() {
 							return ((IMaterialSerialIssueParent) MaterialSerialItem.this.parent).getDocumentDate();
+						}
+
+						@Override
+						public BigDecimal getPrice() {
+							return ((IMaterialSerialIssueParent) MaterialSerialItem.this.parent).getPrice();
+						}
+
+						@Override
+						public String getCurrency() {
+							return ((IMaterialSerialIssueParent) MaterialSerialItem.this.parent).getCurrency();
+						}
+
+						@Override
+						public BigDecimal getRate() {
+							return ((IMaterialSerialIssueParent) MaterialSerialItem.this.parent).getRate();
 						}
 					}
 

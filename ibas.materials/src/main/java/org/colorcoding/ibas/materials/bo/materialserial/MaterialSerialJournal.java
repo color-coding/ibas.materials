@@ -169,7 +169,7 @@ public class MaterialSerialJournal extends BusinessObject<MaterialSerialJournal>
 
 	/**
 	 * 获取-方向
-	 * 
+	 *
 	 * @return 值
 	 */
 	@XmlElement(name = PROPERTY_DIRECTION_NAME)
@@ -179,7 +179,7 @@ public class MaterialSerialJournal extends BusinessObject<MaterialSerialJournal>
 
 	/**
 	 * 设置-方向
-	 * 
+	 *
 	 * @param value 值
 	 */
 	public final void setDirection(emDirection value) {
@@ -187,96 +187,270 @@ public class MaterialSerialJournal extends BusinessObject<MaterialSerialJournal>
 	}
 
 	/**
-	 * 属性名称-基于类型
+	 * 属性名称-数量
 	 */
-	private static final String PROPERTY_BASEDOCUMENTTYPE_NAME = "BaseDocumentType";
+	private static final String PROPERTY_QUANTITY_NAME = "Quantity";
 
 	/**
-	 * 基于类型 属性
+	 * 数量 属性
 	 */
-	@DbField(name = "BaseType", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME, primaryKey = false)
-	public static final IPropertyInfo<String> PROPERTY_BASEDOCUMENTTYPE = registerProperty(
-			PROPERTY_BASEDOCUMENTTYPE_NAME, String.class, MY_CLASS);
+	@DbField(name = "Quantity", type = DbFieldType.DECIMAL, table = DB_TABLE_NAME, primaryKey = false)
+	public static final IPropertyInfo<BigDecimal> PROPERTY_QUANTITY = registerProperty(PROPERTY_QUANTITY_NAME,
+			BigDecimal.class, MY_CLASS);
 
 	/**
-	 * 获取-基于类型
+	 * 获取-数量
+	 *
+	 * @return 值
+	 */
+	@XmlElement(name = PROPERTY_QUANTITY_NAME)
+	public final BigDecimal getQuantity() {
+		return this.getProperty(PROPERTY_QUANTITY);
+	}
+
+	/**
+	 * 设置-数量
+	 *
+	 * @param value 值
+	 */
+	public final void setQuantity(BigDecimal value) {
+		this.setProperty(PROPERTY_QUANTITY, value);
+	}
+
+	/**
+	 * 设置-数量
+	 *
+	 * @param value 值
+	 */
+	public final void setQuantity(String value) {
+		this.setQuantity(Decimal.valueOf(value));
+	}
+
+	/**
+	 * 设置-数量
+	 *
+	 * @param value 值
+	 */
+	public final void setQuantity(int value) {
+		this.setQuantity(Decimal.valueOf(value));
+	}
+
+	/**
+	 * 设置-数量
+	 *
+	 * @param value 值
+	 */
+	public final void setQuantity(double value) {
+		this.setQuantity(Decimal.valueOf(value));
+	}
+
+	/**
+	 * 属性名称-价格
+	 */
+	private static final String PROPERTY_PRICE_NAME = "Price";
+
+	/**
+	 * 价格 属性
+	 */
+	@DbField(name = "Price", type = DbFieldType.DECIMAL, table = DB_TABLE_NAME, primaryKey = false)
+	public static final IPropertyInfo<BigDecimal> PROPERTY_PRICE = registerProperty(PROPERTY_PRICE_NAME,
+			BigDecimal.class, MY_CLASS);
+
+	/**
+	 * 获取-价格
+	 *
+	 * @return 值
+	 */
+	@XmlElement(name = PROPERTY_PRICE_NAME)
+	public final BigDecimal getPrice() {
+		return this.getProperty(PROPERTY_PRICE);
+	}
+
+	/**
+	 * 设置-价格
+	 *
+	 * @param value 值
+	 */
+	public final void setPrice(BigDecimal value) {
+		this.setProperty(PROPERTY_PRICE, value);
+	}
+
+	/**
+	 * 设置-价格
+	 *
+	 * @param value 值
+	 */
+	public final void setPrice(String value) {
+		this.setPrice(Decimal.valueOf(value));
+	}
+
+	/**
+	 * 设置-价格
+	 *
+	 * @param value 值
+	 */
+	public final void setPrice(int value) {
+		this.setPrice(Decimal.valueOf(value));
+	}
+
+	/**
+	 * 设置-价格
+	 *
+	 * @param value 值
+	 */
+	public final void setPrice(double value) {
+		this.setPrice(Decimal.valueOf(value));
+	}
+
+	/**
+	 * 属性名称-货币
+	 */
+	private static final String PROPERTY_CURRENCY_NAME = "Currency";
+
+	/**
+	 * 货币 属性
+	 */
+	@DbField(name = "Currency", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME, primaryKey = false)
+	public static final IPropertyInfo<String> PROPERTY_CURRENCY = registerProperty(PROPERTY_CURRENCY_NAME, String.class,
+			MY_CLASS);
+
+	/**
+	 * 获取-货币
+	 *
+	 * @return 值
+	 */
+	@XmlElement(name = PROPERTY_CURRENCY_NAME)
+	public final String getCurrency() {
+		return this.getProperty(PROPERTY_CURRENCY);
+	}
+
+	/**
+	 * 设置-货币
+	 *
+	 * @param value 值
+	 */
+	public final void setCurrency(String value) {
+		this.setProperty(PROPERTY_CURRENCY, value);
+	}
+
+	/**
+	 * 属性名称-汇率
+	 */
+	private static final String PROPERTY_RATE_NAME = "Rate";
+
+	/**
+	 * 汇率 属性
+	 */
+	@DbField(name = "Rate", type = DbFieldType.DECIMAL, table = DB_TABLE_NAME, primaryKey = false)
+	public static final IPropertyInfo<BigDecimal> PROPERTY_RATE = registerProperty(PROPERTY_RATE_NAME, BigDecimal.class,
+			MY_CLASS);
+
+	/**
+	 * 获取-汇率
+	 *
+	 * @return 值
+	 */
+	@XmlElement(name = PROPERTY_RATE_NAME)
+	public final BigDecimal getRate() {
+		return this.getProperty(PROPERTY_RATE);
+	}
+
+	/**
+	 * 设置-汇率
+	 *
+	 * @param value 值
+	 */
+	public final void setRate(BigDecimal value) {
+		this.setProperty(PROPERTY_RATE, value);
+	}
+
+	/**
+	 * 设置-汇率
+	 *
+	 * @param value 值
+	 */
+	public final void setRate(String value) {
+		this.setRate(Decimal.valueOf(value));
+	}
+
+	/**
+	 * 设置-汇率
+	 *
+	 * @param value 值
+	 */
+	public final void setRate(int value) {
+		this.setRate(Decimal.valueOf(value));
+	}
+
+	/**
+	 * 设置-汇率
+	 *
+	 * @param value 值
+	 */
+	public final void setRate(double value) {
+		this.setRate(Decimal.valueOf(value));
+	}
+
+	/**
+	 * 属性名称-计算价格
+	 */
+	private static final String PROPERTY_CALCULATEDPRICE_NAME = "CalculatedPrice";
+
+	/**
+	 * 计算价格 属性
+	 */
+	@DbField(name = "CalcPrice", type = DbFieldType.DECIMAL, table = DB_TABLE_NAME)
+	public static final IPropertyInfo<BigDecimal> PROPERTY_CALCULATEDPRICE = registerProperty(
+			PROPERTY_CALCULATEDPRICE_NAME, BigDecimal.class, MY_CLASS);
+
+	/**
+	 * 获取-计算价格
 	 * 
 	 * @return 值
 	 */
-	@XmlElement(name = PROPERTY_BASEDOCUMENTTYPE_NAME)
-	public final String getBaseDocumentType() {
-		return this.getProperty(PROPERTY_BASEDOCUMENTTYPE);
+	@XmlElement(name = PROPERTY_CALCULATEDPRICE_NAME)
+	public final BigDecimal getCalculatedPrice() {
+		return this.getProperty(PROPERTY_CALCULATEDPRICE);
 	}
 
 	/**
-	 * 设置-基于类型
+	 * 设置-计算价格
 	 * 
 	 * @param value 值
 	 */
-	public final void setBaseDocumentType(String value) {
-		this.setProperty(PROPERTY_BASEDOCUMENTTYPE, value);
+	public final void setCalculatedPrice(BigDecimal value) {
+		this.setProperty(PROPERTY_CALCULATEDPRICE, value);
 	}
 
 	/**
-	 * 属性名称-基于标识
+	 * 属性名称-交易值
 	 */
-	private static final String PROPERTY_BASEDOCUMENTENTRY_NAME = "BaseDocumentEntry";
+	private static final String PROPERTY_TRANSACTIONVALUE_NAME = "TransactionValue";
 
 	/**
-	 * 基于标识 属性
+	 * 交易值 属性
 	 */
-	@DbField(name = "BaseEntry", type = DbFieldType.NUMERIC, table = DB_TABLE_NAME, primaryKey = false)
-	public static final IPropertyInfo<Integer> PROPERTY_BASEDOCUMENTENTRY = registerProperty(
-			PROPERTY_BASEDOCUMENTENTRY_NAME, Integer.class, MY_CLASS);
+	@DbField(name = "TransValue", type = DbFieldType.DECIMAL, table = DB_TABLE_NAME)
+	public static final IPropertyInfo<BigDecimal> PROPERTY_TRANSACTIONVALUE = registerProperty(
+			PROPERTY_TRANSACTIONVALUE_NAME, BigDecimal.class, MY_CLASS);
 
 	/**
-	 * 获取-基于标识
+	 * 获取-交易值
 	 * 
 	 * @return 值
 	 */
-	@XmlElement(name = PROPERTY_BASEDOCUMENTENTRY_NAME)
-	public final Integer getBaseDocumentEntry() {
-		return this.getProperty(PROPERTY_BASEDOCUMENTENTRY);
+	@XmlElement(name = PROPERTY_TRANSACTIONVALUE_NAME)
+	public final BigDecimal getTransactionValue() {
+		return this.getProperty(PROPERTY_TRANSACTIONVALUE);
 	}
 
 	/**
-	 * 设置-基于标识
+	 * 设置-交易值
 	 * 
 	 * @param value 值
 	 */
-	public final void setBaseDocumentEntry(Integer value) {
-		this.setProperty(PROPERTY_BASEDOCUMENTENTRY, value);
-	}
-
-	/**
-	 * 属性名称-基于行号
-	 */
-	private static final String PROPERTY_BASEDOCUMENTLINEID_NAME = "BaseDocumentLineId";
-
-	/**
-	 * 基于行号 属性
-	 */
-	@DbField(name = "BaseLine", type = DbFieldType.NUMERIC, table = DB_TABLE_NAME, primaryKey = false)
-	public static final IPropertyInfo<Integer> PROPERTY_BASEDOCUMENTLINEID = registerProperty(
-			PROPERTY_BASEDOCUMENTLINEID_NAME, Integer.class, MY_CLASS);
-
-	/**
-	 * 获取-基于行号
-	 * 
-	 * @return 值
-	 */
-	@XmlElement(name = PROPERTY_BASEDOCUMENTLINEID_NAME)
-	public final Integer getBaseDocumentLineId() {
-		return this.getProperty(PROPERTY_BASEDOCUMENTLINEID);
-	}
-
-	/**
-	 * 设置-基于行号
-	 * 
-	 * @param value 值
-	 */
-	public final void setBaseDocumentLineId(Integer value) {
-		this.setProperty(PROPERTY_BASEDOCUMENTLINEID, value);
+	public final void setTransactionValue(BigDecimal value) {
+		this.setProperty(PROPERTY_TRANSACTIONVALUE, value);
 	}
 
 	/**
@@ -370,6 +544,161 @@ public class MaterialSerialJournal extends BusinessObject<MaterialSerialJournal>
 	 */
 	public final void setDocumentDate(DateTime value) {
 		this.setProperty(PROPERTY_DOCUMENTDATE, value);
+	}
+
+	/**
+	 * 属性名称-库存数量
+	 */
+	private static final String PROPERTY_INVENTORYQUANTITY_NAME = "InventoryQuantity";
+
+	/**
+	 * 库存数量 属性
+	 */
+	@DbField(name = "StockQty", type = DbFieldType.DECIMAL, table = DB_TABLE_NAME)
+	public static final IPropertyInfo<BigDecimal> PROPERTY_INVENTORYQUANTITY = registerProperty(
+			PROPERTY_INVENTORYQUANTITY_NAME, BigDecimal.class, MY_CLASS);
+
+	/**
+	 * 获取-库存数量
+	 * 
+	 * @return 值
+	 */
+	@XmlElement(name = PROPERTY_INVENTORYQUANTITY_NAME)
+	public final BigDecimal getInventoryQuantity() {
+		return this.getProperty(PROPERTY_INVENTORYQUANTITY);
+	}
+
+	/**
+	 * 设置-库存数量
+	 * 
+	 * @param value 值
+	 */
+	public final void setInventoryQuantity(BigDecimal value) {
+		this.setProperty(PROPERTY_INVENTORYQUANTITY, value);
+	}
+
+	/**
+	 * 属性名称-库存价值
+	 */
+	private static final String PROPERTY_INVENTORYVALUE_NAME = "InventoryValue";
+
+	/**
+	 * 库存价值 属性
+	 */
+	@DbField(name = "StockValue", type = DbFieldType.DECIMAL, table = DB_TABLE_NAME)
+	public static final IPropertyInfo<BigDecimal> PROPERTY_INVENTORYVALUE = registerProperty(
+			PROPERTY_INVENTORYVALUE_NAME, BigDecimal.class, MY_CLASS);
+
+	/**
+	 * 获取-库存价值
+	 * 
+	 * @return 值
+	 */
+	@XmlElement(name = PROPERTY_INVENTORYVALUE_NAME)
+	public final BigDecimal getInventoryValue() {
+		return this.getProperty(PROPERTY_INVENTORYVALUE);
+	}
+
+	/**
+	 * 设置-库存价值
+	 * 
+	 * @param value 值
+	 */
+	public final void setInventoryValue(BigDecimal value) {
+		this.setProperty(PROPERTY_INVENTORYVALUE, value);
+	}
+
+	/**
+	 * 属性名称-基于类型
+	 */
+	private static final String PROPERTY_BASEDOCUMENTTYPE_NAME = "BaseDocumentType";
+
+	/**
+	 * 基于类型 属性
+	 */
+	@DbField(name = "BaseType", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME, primaryKey = false)
+	public static final IPropertyInfo<String> PROPERTY_BASEDOCUMENTTYPE = registerProperty(
+			PROPERTY_BASEDOCUMENTTYPE_NAME, String.class, MY_CLASS);
+
+	/**
+	 * 获取-基于类型
+	 *
+	 * @return 值
+	 */
+	@XmlElement(name = PROPERTY_BASEDOCUMENTTYPE_NAME)
+	public final String getBaseDocumentType() {
+		return this.getProperty(PROPERTY_BASEDOCUMENTTYPE);
+	}
+
+	/**
+	 * 设置-基于类型
+	 *
+	 * @param value 值
+	 */
+	public final void setBaseDocumentType(String value) {
+		this.setProperty(PROPERTY_BASEDOCUMENTTYPE, value);
+	}
+
+	/**
+	 * 属性名称-基于标识
+	 */
+	private static final String PROPERTY_BASEDOCUMENTENTRY_NAME = "BaseDocumentEntry";
+
+	/**
+	 * 基于标识 属性
+	 */
+	@DbField(name = "BaseEntry", type = DbFieldType.NUMERIC, table = DB_TABLE_NAME, primaryKey = false)
+	public static final IPropertyInfo<Integer> PROPERTY_BASEDOCUMENTENTRY = registerProperty(
+			PROPERTY_BASEDOCUMENTENTRY_NAME, Integer.class, MY_CLASS);
+
+	/**
+	 * 获取-基于标识
+	 *
+	 * @return 值
+	 */
+	@XmlElement(name = PROPERTY_BASEDOCUMENTENTRY_NAME)
+	public final Integer getBaseDocumentEntry() {
+		return this.getProperty(PROPERTY_BASEDOCUMENTENTRY);
+	}
+
+	/**
+	 * 设置-基于标识
+	 *
+	 * @param value 值
+	 */
+	public final void setBaseDocumentEntry(Integer value) {
+		this.setProperty(PROPERTY_BASEDOCUMENTENTRY, value);
+	}
+
+	/**
+	 * 属性名称-基于行号
+	 */
+	private static final String PROPERTY_BASEDOCUMENTLINEID_NAME = "BaseDocumentLineId";
+
+	/**
+	 * 基于行号 属性
+	 */
+	@DbField(name = "BaseLine", type = DbFieldType.NUMERIC, table = DB_TABLE_NAME, primaryKey = false)
+	public static final IPropertyInfo<Integer> PROPERTY_BASEDOCUMENTLINEID = registerProperty(
+			PROPERTY_BASEDOCUMENTLINEID_NAME, Integer.class, MY_CLASS);
+
+	/**
+	 * 获取-基于行号
+	 *
+	 * @return 值
+	 */
+	@XmlElement(name = PROPERTY_BASEDOCUMENTLINEID_NAME)
+	public final Integer getBaseDocumentLineId() {
+		return this.getProperty(PROPERTY_BASEDOCUMENTLINEID);
+	}
+
+	/**
+	 * 设置-基于行号
+	 *
+	 * @param value 值
+	 */
+	public final void setBaseDocumentLineId(Integer value) {
+		this.setProperty(PROPERTY_BASEDOCUMENTLINEID, value);
 	}
 
 	/**
@@ -844,7 +1173,7 @@ public class MaterialSerialJournal extends BusinessObject<MaterialSerialJournal>
 	protected void initialize() {
 		super.initialize();// 基类初始化，不可去除
 		this.setObjectCode(MyConfiguration.applyVariables(BUSINESS_OBJECT_CODE));
-
+		this.setQuantity(Decimal.ONE);
 	}
 
 	@Override
@@ -860,8 +1189,8 @@ public class MaterialSerialJournal extends BusinessObject<MaterialSerialJournal>
 	public IBusinessLogicContract[] getContracts() {
 		ArrayList<IBusinessLogicContract> contracts = new ArrayList<>(4);
 		// 出库
-		if (this.getDirection() == emDirection.OUT) {
-			// 出库预留释放
+		if (this.getDirection() == emDirection.OUT && this.getQuantity().compareTo(Decimal.ZERO) > 0) {
+			// 出库预留释放，仅正向逻辑执行
 			contracts.add(new IMaterialInventoryReservationReleaseContract() {
 
 				@Override
@@ -886,7 +1215,7 @@ public class MaterialSerialJournal extends BusinessObject<MaterialSerialJournal>
 
 				@Override
 				public BigDecimal getQuantity() {
-					return BigDecimal.ONE;
+					return MaterialSerialJournal.this.getQuantity();
 				}
 
 				@Override
@@ -934,11 +1263,29 @@ public class MaterialSerialJournal extends BusinessObject<MaterialSerialJournal>
 				return MaterialSerialJournal.this.getDirection();
 			}
 
+			@Override
+			public BigDecimal getQuantity() {
+				return MaterialSerialJournal.this.getQuantity();
+			}
+
+			@Override
+			public BigDecimal getCalculatedPrice() {
+				if (MaterialSerialJournal.this.getUpdateActionId() == null) {
+					// 入库，数量大于0；出库，数量小于0
+					if ((MaterialSerialJournal.this.getDirection() == emDirection.IN
+							&& MaterialSerialJournal.this.getQuantity().compareTo(Decimal.ZERO) > 0)
+							|| (MaterialSerialJournal.this.getDirection() == emDirection.OUT
+									&& MaterialSerialJournal.this.getQuantity().compareTo(Decimal.ZERO) < 0)) {
+						return MaterialSerialJournal.this.getCalculatedPrice();
+					}
+				}
+				return null;
+			}
+
 		});
 		// 入库
-		if (this.getDirection() == emDirection.IN) {
-
-			// 物料订购预留转库存占用
+		if (this.getDirection() == emDirection.IN && this.getQuantity().compareTo(Decimal.ZERO) > 0) {
+			// 物料订购预留转库存占用，仅正向逻辑执行
 			contracts.add(new IMaterialInventoryReservationCreateContract() {
 
 				@Override
@@ -963,7 +1310,7 @@ public class MaterialSerialJournal extends BusinessObject<MaterialSerialJournal>
 
 				@Override
 				public BigDecimal getQuantity() {
-					return Decimal.ONE;
+					return MaterialSerialJournal.this.getQuantity();
 				}
 
 				@Override

@@ -7,6 +7,7 @@ import org.colorcoding.ibas.bobas.common.Criteria;
 import org.colorcoding.ibas.bobas.common.ICondition;
 import org.colorcoding.ibas.bobas.common.ICriteria;
 import org.colorcoding.ibas.bobas.common.IOperationResult;
+import org.colorcoding.ibas.bobas.data.Decimal;
 import org.colorcoding.ibas.bobas.data.emDirection;
 import org.colorcoding.ibas.bobas.data.emYesNo;
 import org.colorcoding.ibas.bobas.i18n.I18N;
@@ -91,7 +92,9 @@ public class MaterialSerialInventoryService
 		IMaterialSerial materialSerial = this.getBeAffected();
 		if (materialSerial.isSavable()) {
 			// 反向逻辑可能置对象无变化（无需保存），则不执行逻辑
-			if (contract.getDirection() == emDirection.IN) {
+			if ((contract.getDirection() == emDirection.IN && contract.getQuantity().compareTo(Decimal.ZERO) > 0)
+					|| (contract.getDirection() == emDirection.OUT
+							&& contract.getQuantity().compareTo(Decimal.ZERO) < 0)) {
 				if (materialSerial.getInStock() == emYesNo.YES) {
 					throw new BusinessLogicException(I18N.prop("msg_mm_material_serial_in_stock",
 							contract.getWarehouse(), contract.getItemCode(), contract.getSerialCode()));
@@ -101,6 +104,9 @@ public class MaterialSerialInventoryService
 							contract.getWarehouse(), contract.getItemCode(), contract.getSerialCode()));
 				}
 				materialSerial.setInStock(emYesNo.YES);
+				if (contract.getCalculatedPrice() != null) {
+					materialSerial.setAvgPrice(contract.getCalculatedPrice());
+				}
 			} else {
 				if (materialSerial.getInStock() == emYesNo.NO) {
 					throw new BusinessLogicException(I18N.prop("msg_mm_material_serial_not_in_stock",
@@ -122,7 +128,9 @@ public class MaterialSerialInventoryService
 		}
 		if (materialSerial.isSavable()) {
 			// 无需保存则不执行逻辑
-			if (contract.getDirection() == emDirection.IN) {
+			if ((contract.getDirection() == emDirection.IN && contract.getQuantity().compareTo(Decimal.ZERO) > 0)
+					|| (contract.getDirection() == emDirection.OUT
+							&& contract.getQuantity().compareTo(Decimal.ZERO) < 0)) {
 				if (materialSerial.getInStock() == emYesNo.NO) {
 					throw new BusinessLogicException(I18N.prop("msg_mm_material_serial_not_in_stock",
 							contract.getItemCode(), contract.getSerialCode(), contract.getWarehouse()));

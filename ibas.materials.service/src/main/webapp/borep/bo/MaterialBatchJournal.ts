@@ -49,6 +49,17 @@ namespace materials {
                 this.setProperty(MaterialBatchJournal.PROPERTY_WAREHOUSE_NAME, value);
             }
 
+            /** 映射的属性名称-方向 */
+            static PROPERTY_DIRECTION_NAME: string = "Direction";
+            /** 获取-方向 */
+            get direction(): ibas.emDirection {
+                return this.getProperty<ibas.emDirection>(MaterialBatchJournal.PROPERTY_DIRECTION_NAME);
+            }
+            /** 设置-方向 */
+            set direction(value: ibas.emDirection) {
+                this.setProperty(MaterialBatchJournal.PROPERTY_DIRECTION_NAME, value);
+            }
+
             /** 映射的属性名称-数量 */
             static PROPERTY_QUANTITY_NAME: string = "Quantity";
             /** 获取-数量 */
@@ -60,15 +71,114 @@ namespace materials {
                 this.setProperty(MaterialBatchJournal.PROPERTY_QUANTITY_NAME, value);
             }
 
-            /** 映射的属性名称-方向 */
-            static PROPERTY_DIRECTION_NAME: string = "Direction";
-            /** 获取-方向 */
-            get direction(): ibas.emDirection {
-                return this.getProperty<ibas.emDirection>(MaterialBatchJournal.PROPERTY_DIRECTION_NAME);
+            /** 映射的属性名称-价格 */
+            static PROPERTY_PRICE_NAME: string = "Price";
+            /** 获取-价格 */
+            get price(): number {
+                return this.getProperty<number>(MaterialBatchJournal.PROPERTY_PRICE_NAME);
             }
-            /** 设置-方向 */
-            set direction(value: ibas.emDirection) {
-                this.setProperty(MaterialBatchJournal.PROPERTY_DIRECTION_NAME, value);
+            /** 设置-价格 */
+            set price(value: number) {
+                this.setProperty(MaterialBatchJournal.PROPERTY_PRICE_NAME, value);
+            }
+
+            /** 映射的属性名称-货币 */
+            static PROPERTY_CURRENCY_NAME: string = "Currency";
+            /** 获取-货币 */
+            get currency(): string {
+                return this.getProperty<string>(MaterialBatchJournal.PROPERTY_CURRENCY_NAME);
+            }
+            /** 设置-货币 */
+            set currency(value: string) {
+                this.setProperty(MaterialBatchJournal.PROPERTY_CURRENCY_NAME, value);
+            }
+
+            /** 映射的属性名称-汇率 */
+            static PROPERTY_RATE_NAME: string = "Rate";
+            /** 获取-汇率 */
+            get rate(): number {
+                return this.getProperty<number>(MaterialBatchJournal.PROPERTY_RATE_NAME);
+            }
+            /** 设置-汇率 */
+            set rate(value: number) {
+                this.setProperty(MaterialBatchJournal.PROPERTY_RATE_NAME, value);
+            }
+
+            /** 映射的属性名称-计算价格 */
+            static PROPERTY_CALCULATEDPRICE_NAME: string = "CalculatedPrice";
+            /** 获取-计算价格 */
+            get calculatedPrice(): number {
+                return this.getProperty<number>(MaterialBatchJournal.PROPERTY_CALCULATEDPRICE_NAME);
+            }
+            /** 设置-计算价格 */
+            set calculatedPrice(value: number) {
+                this.setProperty(MaterialBatchJournal.PROPERTY_CALCULATEDPRICE_NAME, value);
+            }
+
+            /** 映射的属性名称-交易值 */
+            static PROPERTY_TRANSACTIONVALUE_NAME: string = "TransactionValue";
+            /** 获取-交易值 */
+            get transactionValue(): number {
+                return this.getProperty<number>(MaterialBatchJournal.PROPERTY_TRANSACTIONVALUE_NAME);
+            }
+            /** 设置-交易值 */
+            set transactionValue(value: number) {
+                this.setProperty(MaterialBatchJournal.PROPERTY_TRANSACTIONVALUE_NAME, value);
+            }
+
+            /** 映射的属性名称-过账日期 */
+            static PROPERTY_POSTINGDATE_NAME: string = "PostingDate";
+            /** 获取-过账日期 */
+            get postingDate(): Date {
+                return this.getProperty<Date>(MaterialBatchJournal.PROPERTY_POSTINGDATE_NAME);
+            }
+            /** 设置-过账日期 */
+            set postingDate(value: Date) {
+                this.setProperty(MaterialBatchJournal.PROPERTY_POSTINGDATE_NAME, value);
+            }
+
+            /** 映射的属性名称-到期日 */
+            static PROPERTY_DELIVERYDATE_NAME: string = "DeliveryDate";
+            /** 获取-到期日 */
+            get deliveryDate(): Date {
+                return this.getProperty<Date>(MaterialBatchJournal.PROPERTY_DELIVERYDATE_NAME);
+            }
+            /** 设置-到期日 */
+            set deliveryDate(value: Date) {
+                this.setProperty(MaterialBatchJournal.PROPERTY_DELIVERYDATE_NAME, value);
+            }
+
+            /** 映射的属性名称-凭证日期 */
+            static PROPERTY_DOCUMENTDATE_NAME: string = "DocumentDate";
+            /** 获取-凭证日期 */
+            get documentDate(): Date {
+                return this.getProperty<Date>(MaterialBatchJournal.PROPERTY_DOCUMENTDATE_NAME);
+            }
+            /** 设置-凭证日期 */
+            set documentDate(value: Date) {
+                this.setProperty(MaterialBatchJournal.PROPERTY_DOCUMENTDATE_NAME, value);
+            }
+
+            /** 映射的属性名称-库存数量 */
+            static PROPERTY_INVENTORYQUANTITY_NAME: string = "InventoryQuantity";
+            /** 获取-库存数量 */
+            get inventoryQuantity(): number {
+                return this.getProperty<number>(MaterialBatchJournal.PROPERTY_INVENTORYQUANTITY_NAME);
+            }
+            /** 设置-库存数量 */
+            set inventoryQuantity(value: number) {
+                this.setProperty(MaterialBatchJournal.PROPERTY_INVENTORYQUANTITY_NAME, value);
+            }
+
+            /** 映射的属性名称-库存价值 */
+            static PROPERTY_INVENTORYVALUE_NAME: string = "InventoryValue";
+            /** 获取-库存价值 */
+            get inventoryValue(): number {
+                return this.getProperty<number>(MaterialBatchJournal.PROPERTY_INVENTORYVALUE_NAME);
+            }
+            /** 设置-库存价值 */
+            set inventoryValue(value: number) {
+                this.setProperty(MaterialBatchJournal.PROPERTY_INVENTORYVALUE_NAME, value);
             }
 
             /** 映射的属性名称-基于类型 */
@@ -104,38 +214,6 @@ namespace materials {
                 this.setProperty(MaterialBatchJournal.PROPERTY_BASEDOCUMENTLINEID_NAME, value);
             }
 
-            /** 映射的属性名称-过账日期 */
-            static PROPERTY_POSTINGDATE_NAME: string = "PostingDate";
-            /** 获取-过账日期 */
-            get postingDate(): Date {
-                return this.getProperty<Date>(MaterialBatchJournal.PROPERTY_POSTINGDATE_NAME);
-            }
-            /** 设置-过账日期 */
-            set postingDate(value: Date) {
-                this.setProperty(MaterialBatchJournal.PROPERTY_POSTINGDATE_NAME, value);
-            }
-
-            /** 映射的属性名称-到期日 */
-            static PROPERTY_DELIVERYDATE_NAME: string = "DeliveryDate";
-            /** 获取-到期日 */
-            get deliveryDate(): Date {
-                return this.getProperty<Date>(MaterialBatchJournal.PROPERTY_DELIVERYDATE_NAME);
-            }
-            /** 设置-到期日 */
-            set deliveryDate(value: Date) {
-                this.setProperty(MaterialBatchJournal.PROPERTY_DELIVERYDATE_NAME, value);
-            }
-
-            /** 映射的属性名称-凭证日期 */
-            static PROPERTY_DOCUMENTDATE_NAME: string = "DocumentDate";
-            /** 获取-凭证日期 */
-            get documentDate(): Date {
-                return this.getProperty<Date>(MaterialBatchJournal.PROPERTY_DOCUMENTDATE_NAME);
-            }
-            /** 设置-凭证日期 */
-            set documentDate(value: Date) {
-                this.setProperty(MaterialBatchJournal.PROPERTY_DOCUMENTDATE_NAME, value);
-            }
             /** 映射的属性名称-原始类型 */
             static PROPERTY_ORIGINALDOCUMENTTYPE_NAME: string = "OriginalDocumentType";
             /** 获取-原始类型 */

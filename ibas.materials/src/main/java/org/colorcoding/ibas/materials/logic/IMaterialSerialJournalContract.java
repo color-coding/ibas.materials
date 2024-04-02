@@ -1,5 +1,7 @@
 package org.colorcoding.ibas.materials.logic;
 
+import java.math.BigDecimal;
+
 import org.colorcoding.ibas.bobas.data.DateTime;
 import org.colorcoding.ibas.bobas.data.emDirection;
 import org.colorcoding.ibas.bobas.logic.IBusinessLogicContract;
@@ -11,6 +13,13 @@ import org.colorcoding.ibas.bobas.logic.IBusinessLogicContract;
  *
  */
 public interface IMaterialSerialJournalContract extends IBusinessLogicContract {
+	/**
+	 * 抵消逻辑
+	 * 
+	 * @return 值
+	 */
+	boolean isOffsetting();
+
 	/**
 	 * 序列编号
 	 *
@@ -66,6 +75,27 @@ public interface IMaterialSerialJournalContract extends IBusinessLogicContract {
 	Integer getDocumentLineId();
 
 	/**
+	 * 获取-价格
+	 * 
+	 * @return 值
+	 */
+	BigDecimal getPrice();
+
+	/**
+	 * 获取-货币
+	 * 
+	 * @return 值
+	 */
+	String getCurrency();
+
+	/**
+	 * 获取-汇率
+	 * 
+	 * @return 值
+	 */
+	BigDecimal getRate();
+
+	/**
 	 * 过账日期
 	 *
 	 * @return
@@ -118,4 +148,5 @@ public interface IMaterialSerialJournalContract extends IBusinessLogicContract {
 	default Integer getBaseDocumentLineId() {
 		return null;
 	}
+
 }

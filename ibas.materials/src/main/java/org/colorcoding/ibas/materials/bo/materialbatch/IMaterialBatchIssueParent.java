@@ -1,5 +1,7 @@
 package org.colorcoding.ibas.materials.bo.materialbatch;
 
+import java.math.BigDecimal;
+
 import org.colorcoding.ibas.bobas.data.DateTime;
 import org.colorcoding.ibas.bobas.rule.ICheckRules;
 
@@ -52,4 +54,25 @@ public interface IMaterialBatchIssueParent extends IMaterialBatchItemParent, ICh
 	 * @return 值
 	 */
 	Integer getBaseDocumentLineId();
+
+	/**
+	 * 获取-价格
+	 * 
+	 * @return 值
+	 */
+	BigDecimal getPrice();
+
+	/**
+	 * 获取-货币
+	 * 
+	 * @return 值
+	 */
+	String getCurrency();
+
+	/**
+	 * 获取-汇率
+	 * 
+	 * @return 值
+	 */
+	BigDecimal getRate();
 }

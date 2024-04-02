@@ -41,6 +41,13 @@ public interface IMaterialBatchInventoryContract extends IBusinessLogicContract 
 	BigDecimal getQuantity();
 
 	/**
+	 * 获取-计算价格
+	 * 
+	 * @return 值
+	 */
+	BigDecimal getCalculatedPrice();
+
+	/**
 	 * 方向
 	 *
 	 * @return

@@ -1,5 +1,7 @@
 package org.colorcoding.ibas.materials.bo.materialserial;
 
+import java.math.BigDecimal;
+
 import org.colorcoding.ibas.bobas.bo.IBOSimple;
 import org.colorcoding.ibas.bobas.data.DateTime;
 import org.colorcoding.ibas.bobas.data.emDirection;
@@ -67,46 +69,151 @@ public interface IMaterialSerialJournal extends IBOSimple {
 	void setDirection(emDirection value);
 
 	/**
-	 * 获取-基于类型
+	 * 获取-数量
 	 * 
 	 * @return 值
 	 */
-	String getBaseDocumentType();
+	BigDecimal getQuantity();
 
 	/**
-	 * 设置-基于类型
+	 * 设置-数量
 	 * 
 	 * @param value 值
 	 */
-	void setBaseDocumentType(String value);
+	void setQuantity(BigDecimal value);
 
 	/**
-	 * 获取-基于标识
+	 * 设置-数量
+	 * 
+	 * @param value 值
+	 */
+	void setQuantity(String value);
+
+	/**
+	 * 设置-数量
+	 * 
+	 * @param value 值
+	 */
+	void setQuantity(int value);
+
+	/**
+	 * 设置-数量
+	 * 
+	 * @param value 值
+	 */
+	void setQuantity(double value);
+
+	/**
+	 * 获取-价格
 	 * 
 	 * @return 值
 	 */
-	Integer getBaseDocumentEntry();
+	BigDecimal getPrice();
 
 	/**
-	 * 设置-基于标识
+	 * 设置-价格
 	 * 
 	 * @param value 值
 	 */
-	void setBaseDocumentEntry(Integer value);
+	void setPrice(BigDecimal value);
 
 	/**
-	 * 获取-基于行号
+	 * 设置-价格
+	 * 
+	 * @param value 值
+	 */
+	void setPrice(String value);
+
+	/**
+	 * 设置-价格
+	 * 
+	 * @param value 值
+	 */
+	void setPrice(int value);
+
+	/**
+	 * 设置-价格
+	 * 
+	 * @param value 值
+	 */
+	void setPrice(double value);
+
+	/**
+	 * 获取-货币
 	 * 
 	 * @return 值
 	 */
-	Integer getBaseDocumentLineId();
+	String getCurrency();
 
 	/**
-	 * 设置-基于行号
+	 * 设置-货币
 	 * 
 	 * @param value 值
 	 */
-	void setBaseDocumentLineId(Integer value);
+	void setCurrency(String value);
+
+	/**
+	 * 获取-汇率
+	 * 
+	 * @return 值
+	 */
+	BigDecimal getRate();
+
+	/**
+	 * 设置-汇率
+	 * 
+	 * @param value 值
+	 */
+	void setRate(BigDecimal value);
+
+	/**
+	 * 设置-汇率
+	 * 
+	 * @param value 值
+	 */
+	void setRate(String value);
+
+	/**
+	 * 设置-汇率
+	 * 
+	 * @param value 值
+	 */
+	void setRate(int value);
+
+	/**
+	 * 设置-汇率
+	 * 
+	 * @param value 值
+	 */
+	void setRate(double value);
+
+	/**
+	 * 获取-计算价格
+	 * 
+	 * @return 值
+	 */
+	BigDecimal getCalculatedPrice();
+
+	/**
+	 * 设置-计算价格
+	 * 
+	 * @param value 值
+	 */
+	void setCalculatedPrice(BigDecimal value);
+
+	/**
+	 * 获取-交易值
+	 * 
+	 * @return 值
+	 */
+	BigDecimal getTransactionValue();
+
+	/**
+	 * 设置-交易值
+	 * 
+	 * @param value 值
+	 */
+	void setTransactionValue(BigDecimal value);
 
 	/**
 	 * 获取-过账日期
@@ -149,6 +256,76 @@ public interface IMaterialSerialJournal extends IBOSimple {
 	 * @param value 值
 	 */
 	void setDocumentDate(DateTime value);
+
+	/**
+	 * 获取-库存数量
+	 * 
+	 * @return 值
+	 */
+	BigDecimal getInventoryQuantity();
+
+	/**
+	 * 设置-库存数量
+	 * 
+	 * @param value 值
+	 */
+	void setInventoryQuantity(BigDecimal value);
+
+	/**
+	 * 获取-库存价值
+	 * 
+	 * @return 值
+	 */
+	BigDecimal getInventoryValue();
+
+	/**
+	 * 设置-库存价值
+	 * 
+	 * @param value 值
+	 */
+	void setInventoryValue(BigDecimal value);
+
+	/**
+	 * 获取-基于类型
+	 * 
+	 * @return 值
+	 */
+	String getBaseDocumentType();
+
+	/**
+	 * 设置-基于类型
+	 * 
+	 * @param value 值
+	 */
+	void setBaseDocumentType(String value);
+
+	/**
+	 * 获取-基于标识
+	 * 
+	 * @return 值
+	 */
+	Integer getBaseDocumentEntry();
+
+	/**
+	 * 设置-基于标识
+	 * 
+	 * @param value 值
+	 */
+	void setBaseDocumentEntry(Integer value);
+
+	/**
+	 * 获取-基于行号
+	 * 
+	 * @return 值
+	 */
+	Integer getBaseDocumentLineId();
+
+	/**
+	 * 设置-基于行号
+	 * 
+	 * @param value 值
+	 */
+	void setBaseDocumentLineId(Integer value);
 
 	/**
 	 * 获取-原始类型

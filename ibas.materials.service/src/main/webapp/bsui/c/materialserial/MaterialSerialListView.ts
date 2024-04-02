@@ -231,10 +231,21 @@ namespace materials {
                                 label: ibas.i18n.prop("bo_materialserialjournal_quantity_in"),
                                 template: new sap.extension.m.Text("", {
                                 }).bindProperty("bindingValue", {
-                                    path: "direction",
-                                    formatter(direction: ibas.emDirection): string {
+                                    parts: [
+                                        {
+                                            path: "direction",
+                                        },
+                                        {
+                                            path: "quantity",
+                                            type: new sap.extension.data.Quantity()
+                                        }
+                                    ],
+                                    formatter(direction: ibas.emDirection, quantity: number): string {
+                                        if (quantity === 0) {
+                                            return undefined;
+                                        }
                                         return sap.extension.data.formatValue(sap.extension.data.Quantity,
-                                            direction !== ibas.emDirection.IN ? 0 : 1, "string"
+                                            direction !== ibas.emDirection.IN ? 0 : quantity, "string"
                                         );
                                     }
                                 }),
@@ -244,24 +255,96 @@ namespace materials {
                                 label: ibas.i18n.prop("bo_materialserialjournal_quantity_out"),
                                 template: new sap.extension.m.Text("", {
                                 }).bindProperty("bindingValue", {
-                                    path: "direction",
-                                    formatter(direction: ibas.emDirection): string {
+                                    parts: [
+                                        {
+                                            path: "direction",
+                                        },
+                                        {
+                                            path: "quantity",
+                                            type: new sap.extension.data.Quantity()
+                                        }
+                                    ],
+                                    formatter(direction: ibas.emDirection, quantity: number): string {
+                                        if (quantity === 0) {
+                                            return undefined;
+                                        }
                                         return sap.extension.data.formatValue(sap.extension.data.Quantity,
-                                            direction !== ibas.emDirection.OUT ? 0 : 1, "string"
+                                            direction !== ibas.emDirection.OUT ? 0 : quantity, "string"
                                         );
                                     }
                                 }),
                                 width: "8rem",
                             }),
+                            new sap.extension.table.Column("", {
+                                label: ibas.i18n.prop("bo_materialbatchjournal_price"),
+                                template: new sap.extension.m.Text("", {
+                                }).bindProperty("bindingValue", {
+                                    parts: [
+                                        {
+                                            path: "price",
+                                            type: new sap.extension.data.Price()
+                                        },
+                                        {
+                                            path: "currency",
+                                            type: new sap.extension.data.Alphanumeric()
+                                        },
+                                    ]
+                                }),
+                                width: "8rem",
+                            }),
+                            new sap.extension.table.Column("", {
+                                label: ibas.i18n.prop("bo_materialbatchjournal_calculatedprice"),
+                                template: new sap.extension.m.Text("", {
+                                }).bindProperty("bindingValue", {
+                                    path: "calculatedPrice",
+                                    type: new sap.extension.data.Price()
+                                }),
+                                width: "8rem",
+                            }),
+                            new sap.extension.table.Column("", {
+                                label: ibas.i18n.prop("bo_materialbatchjournal_transactionvalue"),
+                                template: new sap.extension.m.Text("", {
+                                }).bindProperty("bindingValue", {
+                                    path: "transactionValue",
+                                    type: new sap.extension.data.Sum()
+                                }),
+                            }),
+                            new sap.extension.table.Column("", {
+                                label: ibas.i18n.prop("bo_materialbatchjournal_inventoryquantity"),
+                                template: new sap.extension.m.Text("", {
+                                }).bindProperty("bindingValue", {
+                                    path: "inventoryQuantity",
+                                    type: new sap.extension.data.Quantity()
+                                }),
+                            }),
+                            new sap.extension.table.Column("", {
+                                label: ibas.i18n.prop("bo_materialbatchjournal_inventoryvalue"),
+                                template: new sap.extension.m.Text("", {
+                                }).bindProperty("bindingValue", {
+                                    path: "inventoryValue",
+                                    type: new sap.extension.data.Sum()
+                                }),
+                            }),
                         ],
                         rowSettingsTemplate: new sap.ui.table.RowSettings("", {
                             highlight: {
-                                path: "direction",
-                                formatter(direction: ibas.emDirection,): sap.ui.core.ValueState {
+                                parts: [
+                                    {
+                                        path: "direction",
+                                    },
+                                    {
+                                        path: "quantity",
+                                        type: new sap.extension.data.Quantity()
+                                    }
+                                ],
+                                formatter(direction: ibas.emDirection, quantity: number): sap.ui.core.ValueState {
+                                    if (quantity <= 0) {
+                                        return sap.ui.core.ValueState.Error;
+                                    }
                                     if (direction === ibas.emDirection.IN) {
                                         return sap.ui.core.ValueState.Success;
                                     }
-                                    return sap.ui.core.ValueState.Error;
+                                    return sap.ui.core.ValueState.Warning;
                                 }
                             }
                         })

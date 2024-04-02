@@ -96,6 +96,9 @@ public class MaterialBatchInventorySerivce
 		} else {
 			quantity = quantity.subtract(contract.getQuantity());
 		}
+		if (contract.getCalculatedPrice() != null) {
+			materialBatch.setAvgPrice(contract.getCalculatedPrice());
+		}
 		if (Decimal.ZERO.compareTo(quantity) > 0) {
 			throw new BusinessLogicException(I18N.prop("msg_mm_material_batch_not_enough_in_stock",
 					contract.getWarehouse(), contract.getItemCode(), contract.getBatchCode()));

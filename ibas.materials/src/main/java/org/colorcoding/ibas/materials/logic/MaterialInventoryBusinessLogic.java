@@ -12,8 +12,12 @@ import org.colorcoding.ibas.bobas.i18n.I18N;
 import org.colorcoding.ibas.bobas.logic.BusinessLogicException;
 import org.colorcoding.ibas.bobas.logic.IBusinessLogicContract;
 import org.colorcoding.ibas.materials.MyConfiguration;
+import org.colorcoding.ibas.materials.bo.materialbatch.IMaterialBatch;
+import org.colorcoding.ibas.materials.bo.materialbatch.MaterialBatch;
 import org.colorcoding.ibas.materials.bo.materialinventory.IMaterialInventory;
 import org.colorcoding.ibas.materials.bo.materialinventory.MaterialInventory;
+import org.colorcoding.ibas.materials.bo.materialserial.IMaterialSerial;
+import org.colorcoding.ibas.materials.bo.materialserial.MaterialSerial;
 import org.colorcoding.ibas.materials.bo.warehouse.IWarehouse;
 import org.colorcoding.ibas.materials.bo.warehouse.Warehouse;
 import org.colorcoding.ibas.materials.repository.BORepositoryMaterials;
@@ -104,6 +108,60 @@ public abstract class MaterialInventoryBusinessLogic<L extends IBusinessLogicCon
 			BORepositoryMaterials boRepository = new BORepositoryMaterials();
 			boRepository.setRepository(super.getRepository());
 			IOperationResult<IMaterialInventory> operationResult = boRepository.fetchMaterialInventory(criteria);
+			if (operationResult.getError() != null) {
+				throw new BusinessLogicException(operationResult.getError());
+			}
+			materialInventory = operationResult.getResultObjects().firstOrDefault();
+		}
+		return materialInventory;
+	}
+
+	protected IMaterialBatch checkMaterialBatch(String itemCode, String whsCode, String batchCode) {
+		ICriteria criteria = new Criteria();
+		ICondition condition = criteria.getConditions().create();
+		condition.setAlias(MaterialBatch.PROPERTY_ITEMCODE.getName());
+		condition.setValue(itemCode);
+		condition.setOperation(ConditionOperation.EQUAL);
+		condition = criteria.getConditions().create();
+		condition.setAlias(MaterialBatch.PROPERTY_WAREHOUSE.getName());
+		condition.setValue(whsCode);
+		condition.setOperation(ConditionOperation.EQUAL);
+		condition = criteria.getConditions().create();
+		condition.setAlias(MaterialBatch.PROPERTY_BATCHCODE.getName());
+		condition.setValue(batchCode);
+		condition.setOperation(ConditionOperation.EQUAL);
+		IMaterialBatch materialInventory = super.fetchBeAffected(criteria, IMaterialBatch.class);
+		if (materialInventory == null) {
+			BORepositoryMaterials boRepository = new BORepositoryMaterials();
+			boRepository.setRepository(super.getRepository());
+			IOperationResult<IMaterialBatch> operationResult = boRepository.fetchMaterialBatch(criteria);
+			if (operationResult.getError() != null) {
+				throw new BusinessLogicException(operationResult.getError());
+			}
+			materialInventory = operationResult.getResultObjects().firstOrDefault();
+		}
+		return materialInventory;
+	}
+
+	protected IMaterialSerial checkMaterialSerial(String itemCode, String whsCode, String serialCode) {
+		ICriteria criteria = new Criteria();
+		ICondition condition = criteria.getConditions().create();
+		condition.setAlias(MaterialSerial.PROPERTY_ITEMCODE.getName());
+		condition.setValue(itemCode);
+		condition.setOperation(ConditionOperation.EQUAL);
+		condition = criteria.getConditions().create();
+		condition.setAlias(MaterialSerial.PROPERTY_WAREHOUSE.getName());
+		condition.setValue(whsCode);
+		condition.setOperation(ConditionOperation.EQUAL);
+		condition = criteria.getConditions().create();
+		condition.setAlias(MaterialSerial.PROPERTY_SERIALCODE.getName());
+		condition.setValue(serialCode);
+		condition.setOperation(ConditionOperation.EQUAL);
+		IMaterialSerial materialInventory = super.fetchBeAffected(criteria, IMaterialSerial.class);
+		if (materialInventory == null) {
+			BORepositoryMaterials boRepository = new BORepositoryMaterials();
+			boRepository.setRepository(super.getRepository());
+			IOperationResult<IMaterialSerial> operationResult = boRepository.fetchMaterialSerial(criteria);
 			if (operationResult.getError() != null) {
 				throw new BusinessLogicException(operationResult.getError());
 			}

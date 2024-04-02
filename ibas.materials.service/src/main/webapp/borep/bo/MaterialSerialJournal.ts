@@ -60,37 +60,70 @@ namespace materials {
                 this.setProperty(MaterialSerialJournal.PROPERTY_DIRECTION_NAME, value);
             }
 
-            /** 映射的属性名称-基于类型 */
-            static PROPERTY_BASEDOCUMENTTYPE_NAME: string = "BaseDocumentType";
-            /** 获取-基于类型 */
-            get baseDocumentType(): string {
-                return this.getProperty<string>(MaterialSerialJournal.PROPERTY_BASEDOCUMENTTYPE_NAME);
+            /** 映射的属性名称-数量 */
+            static PROPERTY_QUANTITY_NAME: string = "Quantity";
+            /** 获取-数量 */
+            get quantity(): number {
+                return this.getProperty<number>(MaterialSerialJournal.PROPERTY_QUANTITY_NAME);
             }
-            /** 设置-基于类型 */
-            set baseDocumentType(value: string) {
-                this.setProperty(MaterialSerialJournal.PROPERTY_BASEDOCUMENTTYPE_NAME, value);
-            }
-
-            /** 映射的属性名称-基于标识 */
-            static PROPERTY_BASEDOCUMENTENTRY_NAME: string = "BaseDocumentEntry";
-            /** 获取-基于标识 */
-            get baseDocumentEntry(): number {
-                return this.getProperty<number>(MaterialSerialJournal.PROPERTY_BASEDOCUMENTENTRY_NAME);
-            }
-            /** 设置-基于标识 */
-            set baseDocumentEntry(value: number) {
-                this.setProperty(MaterialSerialJournal.PROPERTY_BASEDOCUMENTENTRY_NAME, value);
+            /** 设置-数量 */
+            set quantity(value: number) {
+                this.setProperty(MaterialSerialJournal.PROPERTY_QUANTITY_NAME, value);
             }
 
-            /** 映射的属性名称-基于行号 */
-            static PROPERTY_BASEDOCUMENTLINEID_NAME: string = "BaseDocumentLineId";
-            /** 获取-基于行号 */
-            get baseDocumentLineId(): number {
-                return this.getProperty<number>(MaterialSerialJournal.PROPERTY_BASEDOCUMENTLINEID_NAME);
+            /** 映射的属性名称-价格 */
+            static PROPERTY_PRICE_NAME: string = "Price";
+            /** 获取-价格 */
+            get price(): number {
+                return this.getProperty<number>(MaterialSerialJournal.PROPERTY_PRICE_NAME);
             }
-            /** 设置-基于行号 */
-            set baseDocumentLineId(value: number) {
-                this.setProperty(MaterialSerialJournal.PROPERTY_BASEDOCUMENTLINEID_NAME, value);
+            /** 设置-价格 */
+            set price(value: number) {
+                this.setProperty(MaterialSerialJournal.PROPERTY_PRICE_NAME, value);
+            }
+
+            /** 映射的属性名称-货币 */
+            static PROPERTY_CURRENCY_NAME: string = "Currency";
+            /** 获取-货币 */
+            get currency(): string {
+                return this.getProperty<string>(MaterialSerialJournal.PROPERTY_CURRENCY_NAME);
+            }
+            /** 设置-货币 */
+            set currency(value: string) {
+                this.setProperty(MaterialSerialJournal.PROPERTY_CURRENCY_NAME, value);
+            }
+
+            /** 映射的属性名称-汇率 */
+            static PROPERTY_RATE_NAME: string = "Rate";
+            /** 获取-汇率 */
+            get rate(): number {
+                return this.getProperty<number>(MaterialSerialJournal.PROPERTY_RATE_NAME);
+            }
+            /** 设置-汇率 */
+            set rate(value: number) {
+                this.setProperty(MaterialSerialJournal.PROPERTY_RATE_NAME, value);
+            }
+
+            /** 映射的属性名称-计算价格 */
+            static PROPERTY_CALCULATEDPRICE_NAME: string = "CalculatedPrice";
+            /** 获取-计算价格 */
+            get calculatedPrice(): number {
+                return this.getProperty<number>(MaterialSerialJournal.PROPERTY_CALCULATEDPRICE_NAME);
+            }
+            /** 设置-计算价格 */
+            set calculatedPrice(value: number) {
+                this.setProperty(MaterialSerialJournal.PROPERTY_CALCULATEDPRICE_NAME, value);
+            }
+
+            /** 映射的属性名称-交易值 */
+            static PROPERTY_TRANSACTIONVALUE_NAME: string = "TransactionValue";
+            /** 获取-交易值 */
+            get transactionValue(): number {
+                return this.getProperty<number>(MaterialSerialJournal.PROPERTY_TRANSACTIONVALUE_NAME);
+            }
+            /** 设置-交易值 */
+            set transactionValue(value: number) {
+                this.setProperty(MaterialSerialJournal.PROPERTY_TRANSACTIONVALUE_NAME, value);
             }
 
             /** 映射的属性名称-过账日期 */
@@ -125,6 +158,62 @@ namespace materials {
             set documentDate(value: Date) {
                 this.setProperty(MaterialSerialJournal.PROPERTY_DOCUMENTDATE_NAME, value);
             }
+
+            /** 映射的属性名称-库存数量 */
+            static PROPERTY_INVENTORYQUANTITY_NAME: string = "InventoryQuantity";
+            /** 获取-库存数量 */
+            get inventoryQuantity(): number {
+                return this.getProperty<number>(MaterialSerialJournal.PROPERTY_INVENTORYQUANTITY_NAME);
+            }
+            /** 设置-库存数量 */
+            set inventoryQuantity(value: number) {
+                this.setProperty(MaterialSerialJournal.PROPERTY_INVENTORYQUANTITY_NAME, value);
+            }
+
+            /** 映射的属性名称-库存价值 */
+            static PROPERTY_INVENTORYVALUE_NAME: string = "InventoryValue";
+            /** 获取-库存价值 */
+            get inventoryValue(): number {
+                return this.getProperty<number>(MaterialSerialJournal.PROPERTY_INVENTORYVALUE_NAME);
+            }
+            /** 设置-库存价值 */
+            set inventoryValue(value: number) {
+                this.setProperty(MaterialSerialJournal.PROPERTY_INVENTORYVALUE_NAME, value);
+            }
+
+            /** 映射的属性名称-基于类型 */
+            static PROPERTY_BASEDOCUMENTTYPE_NAME: string = "BaseDocumentType";
+            /** 获取-基于类型 */
+            get baseDocumentType(): string {
+                return this.getProperty<string>(MaterialSerialJournal.PROPERTY_BASEDOCUMENTTYPE_NAME);
+            }
+            /** 设置-基于类型 */
+            set baseDocumentType(value: string) {
+                this.setProperty(MaterialSerialJournal.PROPERTY_BASEDOCUMENTTYPE_NAME, value);
+            }
+
+            /** 映射的属性名称-基于标识 */
+            static PROPERTY_BASEDOCUMENTENTRY_NAME: string = "BaseDocumentEntry";
+            /** 获取-基于标识 */
+            get baseDocumentEntry(): number {
+                return this.getProperty<number>(MaterialSerialJournal.PROPERTY_BASEDOCUMENTENTRY_NAME);
+            }
+            /** 设置-基于标识 */
+            set baseDocumentEntry(value: number) {
+                this.setProperty(MaterialSerialJournal.PROPERTY_BASEDOCUMENTENTRY_NAME, value);
+            }
+
+            /** 映射的属性名称-基于行号 */
+            static PROPERTY_BASEDOCUMENTLINEID_NAME: string = "BaseDocumentLineId";
+            /** 获取-基于行号 */
+            get baseDocumentLineId(): number {
+                return this.getProperty<number>(MaterialSerialJournal.PROPERTY_BASEDOCUMENTLINEID_NAME);
+            }
+            /** 设置-基于行号 */
+            set baseDocumentLineId(value: number) {
+                this.setProperty(MaterialSerialJournal.PROPERTY_BASEDOCUMENTLINEID_NAME, value);
+            }
+
             /** 映射的属性名称-原始类型 */
             static PROPERTY_ORIGINALDOCUMENTTYPE_NAME: string = "OriginalDocumentType";
             /** 获取-原始类型 */

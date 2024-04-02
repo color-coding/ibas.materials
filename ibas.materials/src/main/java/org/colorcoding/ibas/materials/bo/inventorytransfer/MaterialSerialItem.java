@@ -1,11 +1,14 @@
 package org.colorcoding.ibas.materials.bo.inventorytransfer;
 
+import java.math.BigDecimal;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
 
 import org.colorcoding.ibas.bobas.data.DateTime;
 import org.colorcoding.ibas.bobas.data.emDirection;
+import org.colorcoding.ibas.bobas.data.emYesNo;
 import org.colorcoding.ibas.bobas.logic.IBusinessLogicContract;
 import org.colorcoding.ibas.materials.MyConfiguration;
 import org.colorcoding.ibas.materials.logic.IMaterialSerialJournalContract;
@@ -32,6 +35,17 @@ class MaterialSerialItem extends org.colorcoding.ibas.materials.bo.materialseria
 					@Override
 					public emDirection getDirection() {
 						return emDirection.OUT;
+					}
+
+					@Override
+					public boolean isOffsetting() {
+						if (MaterialSerialItem.this.parent.getCanceled() == emYesNo.YES) {
+							return true;
+						}
+						if (MaterialSerialItem.this.parent.parent.getCanceled() == emYesNo.YES) {
+							return true;
+						}
+						return false;
 					}
 
 					@Override
@@ -88,12 +102,39 @@ class MaterialSerialItem extends org.colorcoding.ibas.materials.bo.materialseria
 					public DateTime getDocumentDate() {
 						return MaterialSerialItem.this.parent.parent.getDocumentDate();
 					}
+
+					@Override
+					public BigDecimal getPrice() {
+						return MaterialSerialItem.this.parent.getPrice();
+					}
+
+					@Override
+					public String getCurrency() {
+						return MaterialSerialItem.this.parent.getCurrency();
+					}
+
+					@Override
+					public BigDecimal getRate() {
+						return MaterialSerialItem.this.parent.getRate();
+					}
 				},
 
 				new IMaterialSerialJournalContract() {
+
 					@Override
 					public emDirection getDirection() {
 						return emDirection.IN;
+					}
+
+					@Override
+					public boolean isOffsetting() {
+						if (MaterialSerialItem.this.parent.getCanceled() == emYesNo.YES) {
+							return true;
+						}
+						if (MaterialSerialItem.this.parent.parent.getCanceled() == emYesNo.YES) {
+							return true;
+						}
+						return false;
 					}
 
 					@Override
@@ -149,6 +190,21 @@ class MaterialSerialItem extends org.colorcoding.ibas.materials.bo.materialseria
 					@Override
 					public DateTime getDocumentDate() {
 						return MaterialSerialItem.this.parent.parent.getDocumentDate();
+					}
+
+					@Override
+					public BigDecimal getPrice() {
+						return MaterialSerialItem.this.parent.getPrice();
+					}
+
+					@Override
+					public String getCurrency() {
+						return MaterialSerialItem.this.parent.getCurrency();
+					}
+
+					@Override
+					public BigDecimal getRate() {
+						return MaterialSerialItem.this.parent.getRate();
 					}
 				}
 

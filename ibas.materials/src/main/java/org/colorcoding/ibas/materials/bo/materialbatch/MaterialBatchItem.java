@@ -9,10 +9,13 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
 import org.colorcoding.ibas.bobas.bo.BusinessObject;
+import org.colorcoding.ibas.bobas.bo.IBOTagCanceled;
+import org.colorcoding.ibas.bobas.bo.IBOTagDeleted;
 import org.colorcoding.ibas.bobas.core.IPropertyInfo;
 import org.colorcoding.ibas.bobas.data.DateTime;
 import org.colorcoding.ibas.bobas.data.Decimal;
 import org.colorcoding.ibas.bobas.data.emDirection;
+import org.colorcoding.ibas.bobas.data.emYesNo;
 import org.colorcoding.ibas.bobas.logic.IBusinessLogicContract;
 import org.colorcoding.ibas.bobas.logic.IBusinessLogicsHost;
 import org.colorcoding.ibas.bobas.mapping.BusinessObjectUnit;
@@ -642,6 +645,34 @@ public class MaterialBatchItem extends BusinessObject<MaterialBatchItem>
 			return new IBusinessLogicContract[] {
 					// 入库批次交易
 					new IMaterialBatchJournalContract() {
+						@Override
+						public boolean isOffsetting() {
+							if (MaterialBatchItem.this instanceof IBOTagCanceled) {
+								IBOTagCanceled boTag = (IBOTagCanceled) MaterialBatchItem.this;
+								if (boTag.getCanceled() == emYesNo.YES) {
+									return true;
+								}
+							}
+							if (MaterialBatchItem.this instanceof IBOTagDeleted) {
+								IBOTagDeleted boTag = (IBOTagDeleted) MaterialBatchItem.this;
+								if (boTag.getDeleted() == emYesNo.YES) {
+									return true;
+								}
+							}
+							if (MaterialBatchItem.this.parent instanceof IBOTagCanceled) {
+								IBOTagCanceled boTag = (IBOTagCanceled) MaterialBatchItem.this.parent;
+								if (boTag.getCanceled() == emYesNo.YES) {
+									return true;
+								}
+							}
+							if (MaterialBatchItem.this.parent instanceof IBOTagDeleted) {
+								IBOTagDeleted boTag = (IBOTagDeleted) MaterialBatchItem.this.parent;
+								if (boTag.getDeleted() == emYesNo.YES) {
+									return true;
+								}
+							}
+							return false;
+						}
 
 						@Override
 						public String getIdentifiers() {
@@ -724,6 +755,21 @@ public class MaterialBatchItem extends BusinessObject<MaterialBatchItem>
 							return ((IMaterialBatchReceiptParent) MaterialBatchItem.this.parent).getDocumentDate();
 						}
 
+						@Override
+						public BigDecimal getPrice() {
+							return ((IMaterialBatchReceiptParent) MaterialBatchItem.this.parent).getPrice();
+						}
+
+						@Override
+						public String getCurrency() {
+							return ((IMaterialBatchReceiptParent) MaterialBatchItem.this.parent).getCurrency();
+						}
+
+						@Override
+						public BigDecimal getRate() {
+							return ((IMaterialBatchReceiptParent) MaterialBatchItem.this.parent).getRate();
+						}
+
 					}
 
 			};
@@ -731,15 +777,43 @@ public class MaterialBatchItem extends BusinessObject<MaterialBatchItem>
 			return new IBusinessLogicContract[] {
 					// 出库批次交易记录
 					new IMaterialBatchJournalContract() {
+						@Override
+						public emDirection getDirection() {
+							return emDirection.OUT;
+						}
+
+						@Override
+						public boolean isOffsetting() {
+							if (MaterialBatchItem.this instanceof IBOTagCanceled) {
+								IBOTagCanceled boTag = (IBOTagCanceled) MaterialBatchItem.this;
+								if (boTag.getCanceled() == emYesNo.YES) {
+									return true;
+								}
+							}
+							if (MaterialBatchItem.this instanceof IBOTagDeleted) {
+								IBOTagDeleted boTag = (IBOTagDeleted) MaterialBatchItem.this;
+								if (boTag.getDeleted() == emYesNo.YES) {
+									return true;
+								}
+							}
+							if (MaterialBatchItem.this.parent instanceof IBOTagCanceled) {
+								IBOTagCanceled boTag = (IBOTagCanceled) MaterialBatchItem.this.parent;
+								if (boTag.getCanceled() == emYesNo.YES) {
+									return true;
+								}
+							}
+							if (MaterialBatchItem.this.parent instanceof IBOTagDeleted) {
+								IBOTagDeleted boTag = (IBOTagDeleted) MaterialBatchItem.this.parent;
+								if (boTag.getDeleted() == emYesNo.YES) {
+									return true;
+								}
+							}
+							return false;
+						}
 
 						@Override
 						public String getIdentifiers() {
 							return MaterialBatchItem.this.getIdentifiers();
-						}
-
-						@Override
-						public emDirection getDirection() {
-							return emDirection.OUT;
 						}
 
 						@Override
@@ -810,6 +884,21 @@ public class MaterialBatchItem extends BusinessObject<MaterialBatchItem>
 						@Override
 						public DateTime getDocumentDate() {
 							return ((IMaterialBatchIssueParent) MaterialBatchItem.this.parent).getDocumentDate();
+						}
+
+						@Override
+						public BigDecimal getPrice() {
+							return ((IMaterialBatchIssueParent) MaterialBatchItem.this.parent).getPrice();
+						}
+
+						@Override
+						public String getCurrency() {
+							return ((IMaterialBatchIssueParent) MaterialBatchItem.this.parent).getCurrency();
+						}
+
+						@Override
+						public BigDecimal getRate() {
+							return ((IMaterialBatchIssueParent) MaterialBatchItem.this.parent).getRate();
 						}
 					}
 

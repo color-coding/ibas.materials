@@ -50,6 +50,7 @@ public abstract class DocumentQuantityService<L extends IBusinessLogicContract>
 				if (fetcher == null) {
 					throw new BusinessLogicException(I18N.prop("msg_sl_not_found_document_fether", documentType));
 				}
+				fetcher.setRepository(this.getRepository());
 				document = fetcher.fetch(docEntry);
 			}
 			if (document instanceof IDocumentCloseQuantityOperator) {

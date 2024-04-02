@@ -8,6 +8,7 @@ import javax.xml.bind.annotation.XmlType;
 
 import org.colorcoding.ibas.bobas.data.DateTime;
 import org.colorcoding.ibas.bobas.data.emDirection;
+import org.colorcoding.ibas.bobas.data.emYesNo;
 import org.colorcoding.ibas.bobas.logic.IBusinessLogicContract;
 import org.colorcoding.ibas.materials.MyConfiguration;
 import org.colorcoding.ibas.materials.logic.IMaterialBatchJournalContract;
@@ -31,10 +32,20 @@ class MaterialBatchItem extends org.colorcoding.ibas.materials.bo.materialbatch.
 		return new IBusinessLogicContract[] {
 
 				new IMaterialBatchJournalContract() {
-
 					@Override
 					public emDirection getDirection() {
 						return emDirection.OUT;
+					}
+
+					@Override
+					public boolean isOffsetting() {
+						if (MaterialBatchItem.this.parent.getCanceled() == emYesNo.YES) {
+							return true;
+						}
+						if (MaterialBatchItem.this.parent.parent.getCanceled() == emYesNo.YES) {
+							return true;
+						}
+						return false;
 					}
 
 					@Override
@@ -97,13 +108,38 @@ class MaterialBatchItem extends org.colorcoding.ibas.materials.bo.materialbatch.
 					public DateTime getDocumentDate() {
 						return MaterialBatchItem.this.parent.parent.getDocumentDate();
 					}
+
+					@Override
+					public BigDecimal getPrice() {
+						return MaterialBatchItem.this.parent.getPrice();
+					}
+
+					@Override
+					public String getCurrency() {
+						return MaterialBatchItem.this.parent.getCurrency();
+					}
+
+					@Override
+					public BigDecimal getRate() {
+						return MaterialBatchItem.this.parent.getRate();
+					}
 				},
 
 				new IMaterialBatchJournalContract() {
-
 					@Override
 					public emDirection getDirection() {
 						return emDirection.IN;
+					}
+
+					@Override
+					public boolean isOffsetting() {
+						if (MaterialBatchItem.this.parent.getCanceled() == emYesNo.YES) {
+							return true;
+						}
+						if (MaterialBatchItem.this.parent.parent.getCanceled() == emYesNo.YES) {
+							return true;
+						}
+						return false;
 					}
 
 					@Override
@@ -165,6 +201,21 @@ class MaterialBatchItem extends org.colorcoding.ibas.materials.bo.materialbatch.
 					@Override
 					public DateTime getDocumentDate() {
 						return MaterialBatchItem.this.parent.parent.getDocumentDate();
+					}
+
+					@Override
+					public BigDecimal getPrice() {
+						return MaterialBatchItem.this.parent.getPrice();
+					}
+
+					@Override
+					public String getCurrency() {
+						return MaterialBatchItem.this.parent.getCurrency();
+					}
+
+					@Override
+					public BigDecimal getRate() {
+						return MaterialBatchItem.this.parent.getRate();
 					}
 				}
 

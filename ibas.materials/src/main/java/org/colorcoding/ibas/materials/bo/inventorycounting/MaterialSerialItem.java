@@ -1,5 +1,7 @@
 package org.colorcoding.ibas.materials.bo.inventorycounting;
 
+import java.math.BigDecimal;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
@@ -41,6 +43,11 @@ class MaterialSerialItem extends org.colorcoding.ibas.materials.bo.materialseria
 					}
 
 					@Override
+					public boolean isOffsetting() {
+						return false;
+					}
+
+					@Override
 					public String getUOM() {
 						return MaterialSerialItem.this.parent.getUOM();
 					}
@@ -94,16 +101,37 @@ class MaterialSerialItem extends org.colorcoding.ibas.materials.bo.materialseria
 					public DateTime getDocumentDate() {
 						return MaterialSerialItem.this.parent.parent.getDocumentDate();
 					}
+
+					@Override
+					public BigDecimal getPrice() {
+						return MaterialSerialItem.this.parent.getPrice();
+					}
+
+					@Override
+					public String getCurrency() {
+						return MaterialSerialItem.this.parent.getCurrency();
+					}
+
+					@Override
+					public BigDecimal getRate() {
+						return MaterialSerialItem.this.parent.getRate();
+					}
 				});
 			} else if (Decimal.ZERO.compareTo(this.parent.getDifference()) < 0) {
 				// 盘盈，收货
 				contracts.add(new IMaterialSerialJournalContract() {
+
 					@Override
 					public emDirection getDirection() {
 						return emDirection.IN;
 					}
 
 					@Override
+					public boolean isOffsetting() {
+						return false;
+					}
+
+					@Override
 					public String getUOM() {
 						return MaterialSerialItem.this.parent.getUOM();
 					}
@@ -156,6 +184,21 @@ class MaterialSerialItem extends org.colorcoding.ibas.materials.bo.materialseria
 					@Override
 					public DateTime getDocumentDate() {
 						return MaterialSerialItem.this.parent.parent.getDocumentDate();
+					}
+
+					@Override
+					public BigDecimal getPrice() {
+						return MaterialSerialItem.this.parent.getPrice();
+					}
+
+					@Override
+					public String getCurrency() {
+						return MaterialSerialItem.this.parent.getCurrency();
+					}
+
+					@Override
+					public BigDecimal getRate() {
+						return MaterialSerialItem.this.parent.getRate();
 					}
 				});
 			}
