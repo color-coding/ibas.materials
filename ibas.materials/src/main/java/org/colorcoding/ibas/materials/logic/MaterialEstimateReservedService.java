@@ -110,16 +110,6 @@ public class MaterialEstimateReservedService extends MaterialEstimateService<IMa
 	}
 
 	@Override
-	protected boolean onRepeatedImpact(int times) {
-		return true;
-	}
-
-	@Override
-	protected boolean onRepeatedRevoke(int times) {
-		return true;
-	}
-
-	@Override
 	protected void impact(IMaterialEstimateReservedContract contract) {
 		IMaterialEstimateJournal materialJournal = this.getBeAffected();
 		materialJournal.setItemCode(contract.getItemCode());
