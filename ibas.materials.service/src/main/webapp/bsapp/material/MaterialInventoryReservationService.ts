@@ -14,6 +14,7 @@ namespace materials {
         const PROPERTY_INVENTORY_QUANTITY: symbol = Symbol("inventoryQuantity");
         const PROPERTY_INVENTORY_UOM: symbol = Symbol("inventoryUOM");
         const PROPERTY_UOM_RATE: symbol = Symbol("uomRate");
+        const PROPERTY_VERSION_MANAGEMENT: symbol = Symbol("versionManagement");
         export class ReservationWorking extends ibas.Bindable {
             constructor(data: IMaterialInventoryReservationTarget) {
                 super();
@@ -98,6 +99,13 @@ namespace materials {
             }
             set batchManagement(value: ibas.emYesNo) {
                 this.data.batchManagement = value;
+            }
+            /** 版本管理 */
+            get versionManagement(): ibas.emYesNo {
+                return this[PROPERTY_VERSION_MANAGEMENT];
+            }
+            set versionManagement(value: ibas.emYesNo) {
+                this[PROPERTY_VERSION_MANAGEMENT] = value;
             }
             /** 混用批次 */
             get mixingBatches(): ibas.emYesNo {
@@ -487,6 +495,7 @@ namespace materials {
                                     item.batchManagement = material.batchManagement;
                                     item.serialManagement = material.serialManagement;
                                     item.inventoryUOM = material.inventoryUOM;
+                                    item.versionManagement = material.versionManagement;
                                     beChangeds.add({
                                         caller: item,
                                         sourceUnit: item.uom,
@@ -590,7 +599,7 @@ namespace materials {
                     condition.alias = bo.MaterialBatch.PROPERTY_QUANTITY_NAME;
                     condition.operation = ibas.emConditionOperation.GRATER_THAN;
                     condition.value = "0";
-                    if (!ibas.strings.isEmpty(data.itemVersion)) {
+                    if (!ibas.strings.isEmpty(data.itemVersion) && data.versionManagement === ibas.emYesNo.YES) {
                         condition = criteria.conditions.create();
                         condition.alias = bo.MaterialBatch.PROPERTY_VERSION_NAME;
                         condition.value = data.itemVersion;
@@ -646,7 +655,7 @@ namespace materials {
                     condition = criteria.conditions.create();
                     condition.alias = bo.MaterialSerial.PROPERTY_INSTOCK_NAME;
                     condition.value = ibas.emYesNo.YES.toString();
-                    if (!ibas.strings.isEmpty(data.itemVersion)) {
+                    if (!ibas.strings.isEmpty(data.itemVersion) && data.versionManagement === ibas.emYesNo.YES) {
                         condition = criteria.conditions.create();
                         condition.alias = bo.MaterialSerial.PROPERTY_VERSION_NAME;
                         condition.value = data.itemVersion;

@@ -407,6 +407,9 @@ namespace materials {
                                                 noVersions.append(ibas.i18n.prop("materials_material_not_specified_version",
                                                     this.workDatas.indexOf(wItem) + 1, wItem.itemCode, wItem.itemDescription));
                                             }
+                                        } else {
+                                            // 非版本管理，忽略信息
+                                            wItem.itemVersion = undefined;
                                         }
                                     }
                                 }
