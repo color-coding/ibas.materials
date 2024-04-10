@@ -108,7 +108,7 @@ class MaterialSerialItems extends org.colorcoding.ibas.materials.bo.materialseri
 			}
 			total = total.add(Decimal.ONE);
 		}
-		if (total.compareTo(this.getParent().getTargetQuantity().abs()) != 0) {
+		if (total.compareTo(Decimal.round(this.getParent().getTargetQuantity().abs(), total.scale())) != 0) {
 			throw new BusinessRuleException(
 					I18N.prop("msg_mm_document_material_serial_quantity_deviates", this.getParent()));
 		}

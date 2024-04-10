@@ -624,6 +624,9 @@ namespace materials {
                             if (opRslt.resultCode !== 0) {
                                 throw new Error(opRslt.message);
                             }
+                            if (opRslt.resultObjects.length === 0) {
+                                that.proceeding(ibas.emMessageType.INFORMATION, ibas.i18n.prop("shell_data_fetched_none"));
+                            }
                             let results: ibas.ArrayList<bo.MaterialBatch> = new ibas.ArrayList<bo.MaterialBatch>();
                             // 修正可用的数量
                             for (let item of opRslt.resultObjects) {
@@ -640,10 +643,10 @@ namespace materials {
                                         }
                                         if (item.isDeleted) {
                                             // 已释放的加回
-                                            item.quantity += jItem.quantity;
+                                            item.quantity += ibas.numbers.valueOf(jItem.quantity);
                                         } else {
                                             // 已被使用的减去
-                                            item.quantity -= jItem.quantity;
+                                            item.quantity -= ibas.numbers.valueOf(jItem.quantity);
                                         }
                                     }
                                 }
@@ -651,10 +654,63 @@ namespace materials {
                                     results.add(item);
                                 }
                             }
-                            // 显示可用结果
-                            that.view.showMaterialBatchInventories(results);
-                            if (opRslt.resultObjects.length === 0) {
-                                that.proceeding(ibas.emMessageType.INFORMATION, ibas.i18n.prop("shell_data_fetched_none"));
+                            // 增加已预留数量
+                            if (!ibas.strings.isEmpty((<any>that.workingData.data.materialBatches).parent?.baseDocumentType)
+                                && (<any>that.workingData.data.materialBatches).parent?.baseDocumentEntry > 0) {
+                                criteria = new ibas.Criteria();
+                                condition = criteria.conditions.create();
+                                condition.alias = bo.MaterialInventoryReservation.PROPERTY_TARGETDOCUMENTTYPE_NAME;
+                                condition.value = (<any>that.workingData.data.materialBatches).parent.baseDocumentType;
+                                condition = criteria.conditions.create();
+                                condition.alias = bo.MaterialInventoryReservation.PROPERTY_TARGETDOCUMENTENTRY_NAME;
+                                condition.value = (<any>that.workingData.data.materialBatches).parent.baseDocumentEntry.toString();
+                                if ((<any>that.workingData.data.materialBatches).parent?.baseDocumentLineId > 0) {
+                                    condition = criteria.conditions.create();
+                                    condition.alias = bo.MaterialInventoryReservation.PROPERTY_TARGETDOCUMENTLINEID_NAME;
+                                    condition.value = (<any>that.workingData.data.materialBatches).parent?.baseDocumentLineId.toString();
+                                }
+                                condition = criteria.conditions.create();
+                                condition.alias = bo.MaterialInventoryReservation.PROPERTY_STATUS_NAME;
+                                condition.value = ibas.emBOStatus.OPEN.toString();
+                                condition = criteria.conditions.create();
+                                condition.alias = bo.MaterialInventoryReservation.PROPERTY_QUANTITY_NAME;
+                                condition.operation = ibas.emConditionOperation.GRATER_THAN;
+                                condition.value = "0";
+                                boRepository.fetchMaterialInventoryReservation({
+                                    criteria: criteria,
+                                    onCompleted(opRslt: ibas.IOperationResult<bo.MaterialInventoryReservation>): void {
+                                        let nResults: ibas.ArrayList<bo.MaterialBatch> = new ibas.ArrayList<bo.MaterialBatch>();
+                                        for (let item of opRslt.resultObjects) {
+                                            for (let rItem of results) {
+                                                if (item.warehouse !== rItem.warehouse) {
+                                                    continue;
+                                                }
+                                                if (item.itemCode !== rItem.itemCode) {
+                                                    continue;
+                                                }
+                                                if (item.batchCode !== rItem.batchCode) {
+                                                    continue;
+                                                }
+                                                rItem.reservedQuantity -= (item.quantity - item.closedQuantity);
+                                                if (rItem.reservedQuantity < 0) {
+                                                    rItem.reservedQuantity = 0;
+                                                }
+                                                nResults.add(rItem);
+                                            }
+                                        }
+                                        for (let item of results) {
+                                            if (nResults.contain(item)) {
+                                                continue;
+                                            }
+                                            nResults.add(item);
+                                        }
+                                        // 显示可用结果
+                                        that.view.showMaterialBatchInventories(nResults);
+                                    }
+                                });
+                            } else {
+                                // 显示可用结果
+                                that.view.showMaterialBatchInventories(results);
                             }
                         } catch (error) {
                             that.messages(error);

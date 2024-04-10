@@ -182,7 +182,7 @@ public class MaterialBatchItems extends BusinessObjects<IMaterialBatchItem, IMat
 			}
 			total = total.add(item.getQuantity());
 		}
-		if (total.compareTo(this.getParent().getTargetQuantity()) != 0) {
+		if (total.compareTo(Decimal.round(this.getParent().getTargetQuantity().abs(), total.scale())) != 0) {
 			throw new BusinessRuleException(
 					I18N.prop("msg_mm_document_material_batch_quantity_deviates", this.getParent()));
 		}

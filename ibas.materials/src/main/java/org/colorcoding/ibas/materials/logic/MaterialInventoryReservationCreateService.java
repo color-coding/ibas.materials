@@ -244,10 +244,10 @@ public class MaterialInventoryReservationCreateService extends
 				gItem.setQuantity(gItem.getQuantity().add(remQuantity));
 				item.setClosedQuantity(item.getClosedQuantity().add(remQuantity));
 				avaQuantity = avaQuantity.subtract(remQuantity);
-				if (gItem.getStatus() == emBOStatus.CLOSED) {
-					if (gItem.getQuantity().compareTo(gItem.getClosedQuantity()) > 0) {
-						gItem.setStatus(emBOStatus.OPEN);
-					}
+			}
+			if (gItem.getStatus() == emBOStatus.CLOSED) {
+				if (gItem.getQuantity().compareTo(gItem.getClosedQuantity()) > 0) {
+					gItem.setStatus(emBOStatus.OPEN);
 				}
 			}
 			if (this.checkWarehouse(contract.getWarehouse()).getReservable() == emYesNo.NO) {

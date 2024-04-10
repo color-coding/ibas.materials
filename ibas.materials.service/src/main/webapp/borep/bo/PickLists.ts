@@ -795,9 +795,9 @@ namespace materials {
             }
             protected registerRules(): ibas.IBusinessRule[] {
                 return [
-                    // 计算库存数量 = 数量 * 换算率
-                    new materials.bo.BusinessRuleCalculateInventoryQuantity(
-                        PickListsLine.PROPERTY_INVENTORYQUANTITY_NAME, PickListsLine.PROPERTY_QUANTITY_NAME, PickListsLine.PROPERTY_UOMRATE_NAME)
+                    // 计算库存数量 = 换算率 * 数量
+                    new ibas.BusinessRuleMultiplicativeDeductionEx(PickListsLine.PROPERTY_QUANTITY_NAME,
+                        PickListsLine.PROPERTY_UOMRATE_NAME, PickListsLine.PROPERTY_INVENTORYQUANTITY_NAME)
                 ];
             }
             protected onPropertyChanged(name: string): void {

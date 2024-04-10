@@ -101,7 +101,7 @@ public class MaterialBatchInventorySerivce
 		}
 		if (Decimal.ZERO.compareTo(quantity) > 0) {
 			throw new BusinessLogicException(I18N.prop("msg_mm_material_batch_not_enough_in_stock",
-					contract.getWarehouse(), contract.getItemCode(), contract.getBatchCode()));
+					contract.getWarehouse(), contract.getItemCode(), contract.getBatchCode(), quantity));
 		}
 		materialBatch.setQuantity(quantity);
 	}
@@ -117,7 +117,7 @@ public class MaterialBatchInventorySerivce
 		}
 		if (Decimal.ZERO.compareTo(quantity) > 0 && !this.isSafeUpdate()) {
 			throw new BusinessLogicException(I18N.prop("msg_mm_material_batch_not_enough_in_stock",
-					contract.getWarehouse(), contract.getItemCode(), contract.getBatchCode()));
+					contract.getWarehouse(), contract.getItemCode(), contract.getBatchCode(), quantity));
 		}
 		materialBatch.setQuantity(quantity);
 	}

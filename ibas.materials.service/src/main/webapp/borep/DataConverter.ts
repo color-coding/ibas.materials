@@ -526,7 +526,7 @@ namespace materials {
                     let inventoryQuantity: number = context.inputValues.get(this.inventoryQuantity);
                     let quantity: number = context.inputValues.get(this.quantity);
                     let result: number = inventoryQuantity > 0 ? inventoryQuantity / quantity : 0;
-                    if (ibas.numbers.isApproximated(uomRate, result, DECIMAL_PLACES_RATE)) {
+                    if (ibas.numbers.isApproximated(uomRate, result, DECIMAL_PLACES_RATE, 10)) {
                         return;
                     }
                     context.outputValues.set(this.uomRate, ibas.numbers.round(result, DECIMAL_PLACES_RATE + 2));

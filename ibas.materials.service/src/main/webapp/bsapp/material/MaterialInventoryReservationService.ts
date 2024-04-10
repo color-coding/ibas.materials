@@ -891,10 +891,11 @@ namespace materials {
                                 beSaved: data.data,
                                 onCompleted(opRslt: ibas.IOperationResult<bo.MaterialInventoryReservation>): void {
                                     if (opRslt.resultCode !== 0) {
-                                        next(new Error(ibas.i18n.prop("shell_data_delete_error", data.data, opRslt.message)));
+                                        next(new Error(opRslt.message));
                                     } else {
                                         if (opRslt.resultObjects.length > 0) {
                                             data.data.objectKey = opRslt.resultObjects.firstOrDefault().objectKey;
+                                            data.data.logInst = opRslt.resultObjects.firstOrDefault().logInst;
                                         }
                                         data.data.markOld();
                                         next();
@@ -906,10 +907,11 @@ namespace materials {
                                 beSaved: data.data,
                                 onCompleted(opRslt: ibas.IOperationResult<bo.MaterialOrderedReservation>): void {
                                     if (opRslt.resultCode !== 0) {
-                                        next(new Error(ibas.i18n.prop("shell_data_delete_error", data.data, opRslt.message)));
+                                        next(new Error(opRslt.message));
                                     } else {
                                         if (opRslt.resultObjects.length > 0) {
                                             data.data.objectKey = opRslt.resultObjects.firstOrDefault().objectKey;
+                                            data.data.logInst = opRslt.resultObjects.firstOrDefault().logInst;
                                         }
                                         data.data.markOld();
                                         next();

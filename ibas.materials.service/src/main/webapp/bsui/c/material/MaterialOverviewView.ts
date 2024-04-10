@@ -890,11 +890,9 @@ namespace materials {
                                             parts: [
                                                 {
                                                     path: "quantity",
-                                                    type: new sap.extension.data.Quantity(),
                                                 },
                                                 {
                                                     path: "closedQuantity",
-                                                    type: new sap.extension.data.Quantity(),
                                                 }
                                             ],
                                             formatter(quantity: number, closedQuantity: number): string {

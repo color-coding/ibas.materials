@@ -9,6 +9,7 @@ import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlType;
 
 import org.colorcoding.ibas.bobas.bo.BusinessObject;
+import org.colorcoding.ibas.bobas.bo.IBOUserFields;
 import org.colorcoding.ibas.bobas.core.IPropertyInfo;
 import org.colorcoding.ibas.bobas.data.DateTime;
 import org.colorcoding.ibas.bobas.data.Decimal;
@@ -27,7 +28,7 @@ import org.colorcoding.ibas.materials.rules.BusinessRuleCalculateInventoryQuanti
  */
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlType(name = PickListsLine.BUSINESS_OBJECT_NAME, namespace = MyConfiguration.NAMESPACE_BO)
-public class PickListsLine extends BusinessObject<PickListsLine> implements IPickListsLine {
+public class PickListsLine extends BusinessObject<PickListsLine> implements IPickListsLine, IBOUserFields {
 
 	/**
 	 * 序列化版本标记

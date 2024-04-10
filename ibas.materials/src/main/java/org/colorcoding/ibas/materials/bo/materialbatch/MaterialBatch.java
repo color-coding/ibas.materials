@@ -1100,8 +1100,10 @@ public class MaterialBatch extends BusinessObject<MaterialBatch> implements IMat
 				new BusinessRuleMinValue<BigDecimal>(Decimal.ZERO, PROPERTY_QUANTITY), // 不能低于0
 				// 库存价值 = 库存量 * 成本价格
 				new BusinessRuleMultiplication(PROPERTY_INVENTORYVALUE, PROPERTY_QUANTITY, PROPERTY_AVGPRICE),
-				/* // 预留数量不能大于订购数量 new BusinessRuleMaxProperty<BigDecimal>(PROPERTY_QUANTITY,
-				 * PROPERTY_RESERVEDQUANTITY) */
+				/*
+				 * // 预留数量不能大于订购数量 new BusinessRuleMaxProperty<BigDecimal>(PROPERTY_QUANTITY,
+				 * PROPERTY_RESERVEDQUANTITY)
+				 */
 		};
 	}
 
@@ -1122,9 +1124,10 @@ public class MaterialBatch extends BusinessObject<MaterialBatch> implements IMat
 
 	@Override
 	public void check() throws BusinessRuleException {
-		if (this.getReservedQuantity().compareTo(this.getQuantity()) > 0 && !this.noCheck) {
-			throw new BusinessLogicException(I18N.prop("msg_mm_material_batch_not_enough_in_stock", this.getWarehouse(),
-					this.getItemCode(), this.getBatchCode()));
+		if (Decimal.ZERO.compareTo(this.getQuantity().subtract(this.getReservedQuantity())) > 0 && !this.noCheck) {
+			throw new BusinessLogicException(
+					I18N.prop("msg_mm_material_batch_not_enough_is_reserved", this.getWarehouse(), this.getItemCode(),
+							this.getBatchCode(), this.getQuantity(), this.getReservedQuantity()));
 		}
 
 	}

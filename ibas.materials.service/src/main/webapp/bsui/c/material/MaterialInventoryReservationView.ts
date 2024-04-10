@@ -58,10 +58,8 @@ namespace materials {
                                                 parts: [
                                                     {
                                                         path: "onHand",
-                                                        type: new sap.extension.data.Quantity(),
                                                     }, {
                                                         path: "onReserved",
-                                                        type: new sap.extension.data.Quantity(),
                                                     }
                                                 ],
                                                 formatter(onHand: number, onReserved: number): number {
@@ -129,11 +127,9 @@ namespace materials {
                                                     parts: [
                                                         {
                                                             path: "quantity",
-                                                            type: new sap.extension.data.Quantity()
                                                         },
                                                         {
                                                             path: "reservedQuantity",
-                                                            type: new sap.extension.data.Quantity(),
                                                         }
                                                     ],
                                                     formatter(onHand: number, onReserved: number): number {
@@ -571,12 +567,21 @@ namespace materials {
                                                 {
                                                     path: "serialCode",
                                                 },
+                                                {
+                                                    path: "status",
+                                                }
                                             ],
-                                            formatter(isSavable: boolean, serialCode: string): boolean {
+                                            formatter(isSavable: boolean, serialCode: string, status: any): boolean {
                                                 if (isSavable === false) {
                                                     return false;
                                                 }
-                                                return ibas.strings.isEmpty(serialCode) ? true : false;
+                                                if (!ibas.strings.isEmpty(serialCode)) {
+                                                    return false;
+                                                }
+                                                if (status === ibas.emBOStatus.CLOSED) {
+                                                    return false;
+                                                }
+                                                return true;
                                             }
                                         }
                                     }).bindProperty("bindingValue", {

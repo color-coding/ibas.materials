@@ -1167,10 +1167,8 @@ declare namespace businesspartner {
             reconciliationType: string;
             /** 对账日期 */
             reconciliationDate: Date;
-            /** 对账金额 */
-            reconciliationAmount: number;
-            /** 对账货币 */
-            reconciliationCurrency: string;
+            /** 分支 */
+            branch: string;
             /** 内部对账-行集合 */
             internalReconciliationLines: IInternalReconciliationLines;
         }
@@ -1225,10 +1223,6 @@ declare namespace businesspartner {
             currency: string;
             /** 汇率 */
             rate: number;
-            /** 对账金额 */
-            reconciliationAmount: number;
-            /** 对账货币 */
-            reconciliationCurrency: string;
         }
     }
 }
@@ -3992,18 +3986,12 @@ declare namespace businesspartner {
             get reconciliationDate(): Date;
             /** 设置-对账日期 */
             set reconciliationDate(value: Date);
-            /** 映射的属性名称-对账金额 */
-            static PROPERTY_RECONCILIATIONAMOUNT_NAME: string;
-            /** 获取-对账金额 */
-            get reconciliationAmount(): number;
-            /** 设置-对账金额 */
-            set reconciliationAmount(value: number);
-            /** 映射的属性名称-对账货币 */
-            static PROPERTY_RECONCILIATIONCURRENCY_NAME: string;
-            /** 获取-对账货币 */
-            get reconciliationCurrency(): string;
-            /** 设置-对账货币 */
-            set reconciliationCurrency(value: string);
+            /** 映射的属性名称-分支 */
+            static PROPERTY_BRANCH_NAME: string;
+            /** 获取-分支 */
+            get branch(): string;
+            /** 设置-分支 */
+            set branch(value: string);
             /** 映射的属性名称-内部对账-行集合 */
             static PROPERTY_INTERNALRECONCILIATIONLINES_NAME: string;
             /** 获取-内部对账-行集合 */
@@ -4154,18 +4142,6 @@ declare namespace businesspartner {
             get rate(): number;
             /** 设置-汇率 */
             set rate(value: number);
-            /** 映射的属性名称-对账金额 */
-            static PROPERTY_RECONCILIATIONAMOUNT_NAME: string;
-            /** 获取-对账金额 */
-            get reconciliationAmount(): number;
-            /** 设置-对账金额 */
-            set reconciliationAmount(value: number);
-            /** 映射的属性名称-对账货币 */
-            static PROPERTY_RECONCILIATIONCURRENCY_NAME: string;
-            /** 获取-对账货币 */
-            get reconciliationCurrency(): string;
-            /** 设置-对账货币 */
-            set reconciliationCurrency(value: string);
             /** 初始化数据 */
             protected init(): void;
         }

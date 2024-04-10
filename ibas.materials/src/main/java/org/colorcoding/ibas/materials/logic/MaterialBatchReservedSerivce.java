@@ -132,7 +132,12 @@ public class MaterialBatchReservedSerivce
 		BigDecimal onReserved = materialBatch.getReservedQuantity();
 		// 减去上次增加值（同物料多行时）
 		onReserved = onReserved.subtract(this.impactReserved).add(contract.getQuantity());
-		materialBatch.setReservedQuantity(onReserved, true);
+		if (this.getLogicChain().getTrigger() == this.getHost()) {
+			// 触发对象简单
+			materialBatch.setReservedQuantity(onReserved, false);
+		} else {
+			materialBatch.setReservedQuantity(onReserved, true);
+		}
 		// 记录本次增加值
 		this.impactReserved = impactReserved.add(contract.getQuantity());
 	}

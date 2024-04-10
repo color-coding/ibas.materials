@@ -52,7 +52,7 @@ public class MaterialInventoryService extends MaterialInventoryBusinessLogic<IMa
 			}
 		}
 		if (Decimal.ZERO.compareTo(onHand) > 0) {
-			throw new BusinessLogicException(I18N.prop("msg_mm_material_not_enough", contract.getItemCode()));
+			throw new BusinessLogicException(I18N.prop("msg_mm_material_not_enough", contract.getItemCode(), onHand));
 		}
 		material.setOnHand(onHand);
 	}
@@ -67,7 +67,7 @@ public class MaterialInventoryService extends MaterialInventoryBusinessLogic<IMa
 			onHand = onHand.subtract(contract.getQuantity());
 		}
 		if (Decimal.ZERO.compareTo(onHand) > 0 && this.getLogicChain().getTrigger().isDeleted()) {
-			throw new BusinessLogicException(I18N.prop("msg_mm_material_not_enough", contract.getItemCode()));
+			throw new BusinessLogicException(I18N.prop("msg_mm_material_not_enough", contract.getItemCode(), onHand));
 		}
 		material.setOnHand(onHand);
 	}

@@ -126,7 +126,9 @@ public class MaterialEstimateReservedService extends MaterialEstimateService<IMa
 		if (Decimal.ZERO.compareTo(reserved) <= 0) {
 			if (reserved.compareTo(materialJournal.getQuantity()) > 0
 					&& Decimal.ZERO.compareTo(materialJournal.getQuantity()) != 0) {
-				throw new BusinessLogicException(I18N.prop("msg_mm_material_not_enough", contract.getItemCode()));
+				throw new BusinessLogicException(
+						I18N.prop("msg_mm_material_not_enough_in_order", materialJournal.getWarehouse(),
+								materialJournal.getItemCode(), materialJournal.getQuantity(), reserved));
 			}
 			materialJournal.setReservedQuantity(reserved);
 		}

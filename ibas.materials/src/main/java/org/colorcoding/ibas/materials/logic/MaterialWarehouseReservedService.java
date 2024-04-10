@@ -143,7 +143,11 @@ public class MaterialWarehouseReservedService
 		if (material.getBatchManagement() == emYesNo.YES || material.getSerialManagement() == emYesNo.YES) {
 			materialInventory.setOnReserved(onReserved, true);
 		} else {
-			materialInventory.setOnReserved(onReserved);
+			if (Decimal.isZero(this.revokeReserved) || this.getLogicChain().getTrigger().isDeleted()) {
+				materialInventory.setOnReserved(onReserved);
+			} else {
+				materialInventory.setOnReserved(onReserved, true);
+			}
 		}
 		// 记录本次增加值
 		this.revokeReserved = revokeReserved.add(contract.getQuantity());

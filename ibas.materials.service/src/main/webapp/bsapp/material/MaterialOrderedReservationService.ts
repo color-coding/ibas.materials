@@ -370,15 +370,26 @@ namespace materials {
             }
             /** 保存预留库存 */
             private saveReservation(): void {
+                let builder: ibas.StringBuilder = new ibas.StringBuilder();
                 let datas: ibas.ArrayList<bo.MaterialOrderedReservation> = new ibas.ArrayList<bo.MaterialOrderedReservation>();
                 for (let workingData of this.workingDatas) {
                     for (let item of workingData.items) {
+                        if (item.remaining < 0) {
+                            builder.append(ibas.i18n.prop("materials_material_reserved_quantity_exceeds_available_quantity", workingData.sourceEntry, item.itemCode, item.itemDescription));
+                            if (builder.length > 0) {
+                                builder.append("\n");
+                            }
+                        }
                         for (let rItem of item.results) {
                             if (rItem.isDirty === true) {
                                 datas.add(rItem);
                             }
                         }
                     }
+                }
+                if (builder.length > 0) {
+                    this.messages(ibas.emMessageType.ERROR, builder.toString());
+                    return;
                 }
                 if (datas.length > 0) {
                     this.busy(true);
@@ -393,6 +404,7 @@ namespace materials {
                                 } else {
                                     if (opRslt.resultObjects.length > 0) {
                                         data.objectKey = opRslt.resultObjects.firstOrDefault().objectKey;
+                                        data.logInst = opRslt.resultObjects.firstOrDefault().logInst;
                                     }
                                     data.markOld();
                                     next();

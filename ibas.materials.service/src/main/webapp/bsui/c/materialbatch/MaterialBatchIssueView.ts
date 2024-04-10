@@ -299,10 +299,8 @@ namespace materials {
                                                     parts: [
                                                         {
                                                             path: "quantity",
-                                                            type: new sap.extension.data.Quantity(),
                                                         }, {
                                                             path: "reservedQuantity",
-                                                            type: new sap.extension.data.Quantity(),
                                                         }
                                                     ],
                                                     formatter(onHand: number, onReserved: number): number {
@@ -310,6 +308,24 @@ namespace materials {
                                                     }
                                                 }),
                                                 new sap.m.ToolbarSpacer(""),
+                                                new sap.m.Label("", {
+                                                    showColon: true,
+                                                    text: ibas.i18n.prop("bo_materialbatch_quantity"),
+                                                }),
+                                                new sap.m.Text("", {
+                                                }).bindProperty("text", {
+                                                    path: "quantity",
+                                                    type: new sap.extension.data.Quantity(),
+                                                }),
+                                                new sap.m.Label("", {
+                                                    showColon: true,
+                                                    text: ", " + ibas.i18n.prop("bo_materialbatch_reservedquantity"),
+                                                }),
+                                                new sap.m.Text("", {
+                                                }).bindProperty("text", {
+                                                    path: "reservedQuantity",
+                                                    type: new sap.extension.data.Quantity(),
+                                                }),
                                                 new sap.m.ToolbarSeparator(""),
                                                 new sap.m.Button("", {
                                                     icon: "sap-icon://complete",
