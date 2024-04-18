@@ -19,12 +19,14 @@ import org.colorcoding.ibas.bobas.logic.BusinessLogicException;
 import org.colorcoding.ibas.bobas.mapping.LogicContract;
 import org.colorcoding.ibas.bobas.message.Logger;
 import org.colorcoding.ibas.bobas.message.MessageLevel;
+import org.colorcoding.ibas.materials.MyConfiguration;
 import org.colorcoding.ibas.materials.bo.material.IMaterial;
 import org.colorcoding.ibas.materials.bo.materialbatch.IMaterialBatch;
 import org.colorcoding.ibas.materials.bo.materialbatch.IMaterialBatchJournal;
 import org.colorcoding.ibas.materials.bo.materialbatch.MaterialBatchJournal;
 import org.colorcoding.ibas.materials.data.DataConvert;
 import org.colorcoding.ibas.materials.data.emItemType;
+import org.colorcoding.ibas.materials.data.emValuationMethod;
 import org.colorcoding.ibas.materials.repository.BORepositoryMaterials;
 
 @LogicContract(IMaterialBatchJournalContract.class)
@@ -60,6 +62,15 @@ public class MaterialBatchJournalService
 				if (!material.getInventoryUOM().equalsIgnoreCase(contract.getUOM())) {
 					throw new BusinessLogicException(I18N.prop("msg_mm_material_batch_uom_is_not_same_material_setting",
 							contract.getBatchCode(), contract.getItemCode()));
+				}
+			}
+			// 非批次移动平均，不计算成本
+			if (material.getBatchManagement() == emYesNo.YES) {
+				if (material.getValuationMethod() != emValuationMethod.BATCH_MOVING_AVERAGE) {
+					this.setEnableMaterialCosts(false);
+				} else {
+					this.setEnableMaterialCosts(
+							MyConfiguration.getConfigValue(MyConfiguration.CONFIG_ITEM_ENABLE_MATERIAL_COSTS, false));
 				}
 			}
 		}

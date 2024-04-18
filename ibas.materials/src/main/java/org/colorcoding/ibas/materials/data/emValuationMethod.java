@@ -14,4 +14,9 @@ public enum emValuationMethod {
 	@Value("A")
 	MOVING_AVERAGE,
 
+	/**
+	 * 批次移动平均
+	 */
+	@Value("B")
+	BATCH_MOVING_AVERAGE,
 }

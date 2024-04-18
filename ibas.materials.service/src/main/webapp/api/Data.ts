@@ -197,6 +197,10 @@ namespace materials {
              * 移动平均
              */
             MOVING_AVERAGE,
+            /**
+             * 批次移动平均
+             */
+            BATCH_MOVING_AVERAGE,
         }
         /**
          * 拣配状态

@@ -1424,7 +1424,8 @@
         "em_procurementmethod_make": "生产"
     },
     {
-        "em_valuationmethod_moving_average": "移动平均"
+        "em_valuationmethod_moving_average": "移动平均",
+        "em_valuationmethod_batch_moving_average": "批次/序列移动平均"
     },
     {
         "em_pickstatus_released": "已审批",
