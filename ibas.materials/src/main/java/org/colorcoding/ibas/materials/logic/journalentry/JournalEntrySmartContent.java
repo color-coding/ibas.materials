@@ -36,8 +36,26 @@ public class JournalEntrySmartContent
 					return item.getGroup();
 				}
 			}
+		} else if (Ledgers.CONDITION_PROPERTY_MATERIAL_TYPE.equals(property)) {
+			String material = String.valueOf(super.getSourceDataPropertyValue(Ledgers.CONDITION_PROPERTY_MATERIAL));
+			if (!JournalEntrySmartContent.VALUE_NULL.equalsIgnoreCase(material)) {
+				Criteria criteria = new Criteria();
+				criteria.setResultCount(1);
+				ICondition condition = criteria.getConditions().create();
+				condition.setAlias(Material.PROPERTY_CODE.getName());
+				condition.setValue(material);
+				BORepositoryMaterials boRepository = new BORepositoryMaterials();
+				boRepository.setRepository(this.getService().getRepository());
+				IOperationResult<IMaterial> operationResult = boRepository.fetchMaterial(criteria);
+				if (operationResult.getError() != null) {
+					throw new BusinessLogicException(operationResult.getError());
+				}
+				for (IMaterial item : operationResult.getResultObjects()) {
+					return item.getItemType();
+				}
+			}
+
 		}
 		return super.getSourceDataPropertyValue(property);
 	}
-
 }

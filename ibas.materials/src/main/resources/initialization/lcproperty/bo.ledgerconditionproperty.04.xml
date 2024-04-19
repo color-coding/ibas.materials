@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!DOCTYPE LedgerAccount>
+<ns:LedgerConditionProperty xmlns:ns="http://colorcoding.org/ibas/accounting/bo">
+	<Name>MaterialType</Name>
+	<Description>物料类型</Description>
+	<Filters></Filters>
+	<Remarks></Remarks>
+</ns:LedgerConditionProperty>

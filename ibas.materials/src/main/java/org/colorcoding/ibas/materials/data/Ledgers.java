@@ -17,15 +17,15 @@ public class Ledgers extends org.colorcoding.ibas.businesspartner.data.Ledgers {
 	/**
 	 * 负库存调整科目
 	 */
-	public static final String LEDGER_INVENTORY_NEGATIVE_INVENTORY_ADJ_ACCT = "";
+	public static final String LEDGER_INVENTORY_NEGATIVE_INVENTORY_ADJ_ACCOUNT = "";
 	/**
 	 * 库存冲销_减少科目
 	 */
-	public static final String LEDGER_INVENTORY_INVENTORY_OFFSET_DECR_ACCT = "GL-MM-03";
+	public static final String LEDGER_INVENTORY_INVENTORY_OFFSET_DECR_ACCOUNT = "GL-MM-03";
 	/**
 	 * 库存冲销_增加科目
 	 */
-	public static final String LEDGER_INVENTORY_INVENTORY_OFFSET_INCR_ACCT = "GL-MM-04";
+	public static final String LEDGER_INVENTORY_INVENTORY_OFFSET_INCR_ACCOUNT = "GL-MM-04";
 	/**
 	 * 汇率差异科目
 	 */
@@ -67,6 +67,10 @@ public class Ledgers extends org.colorcoding.ibas.businesspartner.data.Ledgers {
 	 * 物料组
 	 */
 	public static final String CONDITION_PROPERTY_MATERIAL_GROUP = "MaterialGroup";
+	/**
+	 * 物料类型
+	 */
+	public static final String CONDITION_PROPERTY_MATERIAL_TYPE = "MaterialType";
 	/**
 	 * 仓库
 	 */

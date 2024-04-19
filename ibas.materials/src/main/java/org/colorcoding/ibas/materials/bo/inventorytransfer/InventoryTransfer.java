@@ -43,7 +43,7 @@ import org.colorcoding.ibas.bobas.rule.common.BusinessRuleRequiredElements;
 import org.colorcoding.ibas.bobas.rule.common.BusinessRuleSumElements;
 import org.colorcoding.ibas.materials.MyConfiguration;
 import org.colorcoding.ibas.materials.data.Ledgers;
-import org.colorcoding.ibas.materials.logic.journalentry.InventoryTransferMaterialsCost;
+import org.colorcoding.ibas.materials.logic.journalentry.MaterialsInventoryCost;
 
 /**
  * 获取-库存转储
@@ -1405,18 +1405,18 @@ public class InventoryTransfer extends BusinessObject<InventoryTransfer> impleme
 								continue;
 							}
 							// 库存科目
-							jeContent = new InventoryTransferMaterialsCost(line);
+							jeContent = new _MaterialsInventoryCost(line, line.getQuantity());
 							jeContent.setCategory(Category.Debit);
 							jeContent.setLedger(Ledgers.LEDGER_INVENTORY_INVENTORY_ACCOUNT);
-							jeContent.setAmount(Decimal.ZERO); // 待计算
+							jeContent.setAmount(line.getLineTotal());
 							jeContent.setCurrency(line.getCurrency());
 							jeContent.setRate(line.getRate());
 							jeContents.add(jeContent);
 							// 库存科目
-							jeContent = new InventoryTransferMaterialsCost(line);
+							jeContent = new _MaterialsInventoryCost(line, line.getQuantity());
 							jeContent.setCategory(Category.Credit);
 							jeContent.setLedger(Ledgers.LEDGER_INVENTORY_INVENTORY_ACCOUNT);
-							jeContent.setAmount(Decimal.ZERO); // 待计算
+							jeContent.setAmount(line.getLineTotal());
 							jeContent.setCurrency(line.getCurrency());
 							jeContent.setRate(line.getRate());
 							jeContents.add(jeContent);
@@ -1427,4 +1427,18 @@ public class InventoryTransfer extends BusinessObject<InventoryTransfer> impleme
 
 		};
 	}
+}
+
+class _MaterialsInventoryCost extends MaterialsInventoryCost {
+
+	public _MaterialsInventoryCost(Object sourceData, BigDecimal quantity) {
+		super(sourceData, quantity);
+	}
+
+	@Override
+	protected boolean caculate(String itemCode, String warehouse) {
+		warehouse = String.valueOf(super.getSourceDataPropertyValue(Ledgers.CONDITION_PROPERTY_FROM_WAREHOUSE));
+		return super.caculate(itemCode, warehouse);
+	}
+
 }

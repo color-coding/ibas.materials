@@ -37,6 +37,7 @@ import org.colorcoding.ibas.materials.bo.materialserial.MaterialSerialItem;
 import org.colorcoding.ibas.materials.bo.materialserial.MaterialSerialItems;
 import org.colorcoding.ibas.materials.data.Ledgers;
 import org.colorcoding.ibas.materials.logic.IMaterialReceiptContract;
+import org.colorcoding.ibas.materials.logic.IMaterialWarehouseCheckContract;
 
 /**
  * 获取-库存收货-行
@@ -1610,6 +1611,39 @@ public class GoodsReceiptLine extends BusinessObject<GoodsReceiptLine>
 	@Override
 	public IBusinessLogicContract[] getContracts() {
 		return new IBusinessLogicContract[] {
+				// 物料及仓库检查
+				new IMaterialWarehouseCheckContract() {
+
+					@Override
+					public String getIdentifiers() {
+						return GoodsReceiptLine.this.getIdentifiers();
+					}
+
+					@Override
+					public String getItemCode() {
+						return GoodsReceiptLine.this.getItemCode();
+					}
+
+					@Override
+					public String getItemVersion() {
+						return GoodsReceiptLine.this.getItemVersion();
+					}
+
+					@Override
+					public emYesNo getBatchManagement() {
+						return GoodsReceiptLine.this.getBatchManagement();
+					}
+
+					@Override
+					public emYesNo getSerialManagement() {
+						return GoodsReceiptLine.this.getSerialManagement();
+					}
+
+					@Override
+					public String getWarehouse() {
+						return GoodsReceiptLine.this.getWarehouse();
+					}
+				},
 				// 物料收货
 				new IMaterialReceiptContract() {
 

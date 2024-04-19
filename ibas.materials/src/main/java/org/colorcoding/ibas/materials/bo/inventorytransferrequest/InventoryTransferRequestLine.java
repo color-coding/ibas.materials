@@ -17,6 +17,8 @@ import org.colorcoding.ibas.bobas.data.Decimal;
 import org.colorcoding.ibas.bobas.data.emBOStatus;
 import org.colorcoding.ibas.bobas.data.emDocumentStatus;
 import org.colorcoding.ibas.bobas.data.emYesNo;
+import org.colorcoding.ibas.bobas.logic.IBusinessLogicContract;
+import org.colorcoding.ibas.bobas.logic.IBusinessLogicsHost;
 import org.colorcoding.ibas.bobas.mapping.DbField;
 import org.colorcoding.ibas.bobas.mapping.DbFieldType;
 import org.colorcoding.ibas.bobas.rule.IBusinessRule;
@@ -30,6 +32,7 @@ import org.colorcoding.ibas.materials.bo.materialbatch.MaterialBatchItems;
 import org.colorcoding.ibas.materials.bo.materialserial.IMaterialSerialItems;
 import org.colorcoding.ibas.materials.bo.materialserial.MaterialSerialItem;
 import org.colorcoding.ibas.materials.bo.materialserial.MaterialSerialItems;
+import org.colorcoding.ibas.materials.logic.IMaterialWarehouseCheckContract;
 
 /**
  * 获取-库存转储请求-行
@@ -37,7 +40,7 @@ import org.colorcoding.ibas.materials.bo.materialserial.MaterialSerialItems;
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlType(name = InventoryTransferRequestLine.BUSINESS_OBJECT_NAME, namespace = MyConfiguration.NAMESPACE_BO)
 public class InventoryTransferRequestLine extends BusinessObject<InventoryTransferRequestLine>
-		implements IInventoryTransferRequestLine, IBOTagCanceled, IBOUserFields {
+		implements IInventoryTransferRequestLine, IBOTagCanceled, IBOUserFields, IBusinessLogicsHost {
 
 	/**
 	 * 序列化版本标记
@@ -1638,5 +1641,45 @@ public class InventoryTransferRequestLine extends BusinessObject<InventoryTransf
 	 * 父项
 	 */
 	IInventoryTransferRequest parent;
+
+	@Override
+	public IBusinessLogicContract[] getContracts() {
+		return new IBusinessLogicContract[] {
+				// 物料及仓库检查
+				new IMaterialWarehouseCheckContract() {
+
+					@Override
+					public String getIdentifiers() {
+						return InventoryTransferRequestLine.this.getIdentifiers();
+					}
+
+					@Override
+					public String getItemCode() {
+						return InventoryTransferRequestLine.this.getItemCode();
+					}
+
+					@Override
+					public String getItemVersion() {
+						return InventoryTransferRequestLine.this.getItemVersion();
+					}
+
+					@Override
+					public emYesNo getBatchManagement() {
+						return InventoryTransferRequestLine.this.getBatchManagement();
+					}
+
+					@Override
+					public emYesNo getSerialManagement() {
+						return InventoryTransferRequestLine.this.getSerialManagement();
+					}
+
+					@Override
+					public String getWarehouse() {
+						return InventoryTransferRequestLine.this.getWarehouse();
+					}
+				}
+
+		};
+	}
 
 }

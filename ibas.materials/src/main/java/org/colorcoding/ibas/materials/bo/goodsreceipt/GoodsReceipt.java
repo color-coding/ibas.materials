@@ -43,9 +43,9 @@ import org.colorcoding.ibas.bobas.rule.common.BusinessRuleRequiredElements;
 import org.colorcoding.ibas.bobas.rule.common.BusinessRuleSumElements;
 import org.colorcoding.ibas.materials.MyConfiguration;
 import org.colorcoding.ibas.materials.data.Ledgers;
-import org.colorcoding.ibas.materials.logic.journalentry.GoodsReceiptMaterialsCost;
-import org.colorcoding.ibas.materials.logic.journalentry.GoodsReceiptMaterialsCostDiff;
 import org.colorcoding.ibas.materials.logic.journalentry.JournalEntrySmartContent;
+import org.colorcoding.ibas.materials.logic.journalentry.MaterialsReceiptReverseCost;
+import org.colorcoding.ibas.materials.logic.journalentry.MaterialsReceiptReverseCostDiff;
 
 /**
  * 获取-库存收货
@@ -1414,10 +1414,10 @@ public class GoodsReceipt extends BusinessObject<GoodsReceipt> implements IGoods
 							jeContent.setCurrency(line.getCurrency());
 							jeContent.setRate(line.getRate());
 							jeContents.add(jeContent);
-							// 费用科目
+							// 库存冲销_增加科目
 							jeContent = new JournalEntrySmartContent(line);
 							jeContent.setCategory(Category.Credit);
-							jeContent.setLedger(Ledgers.LEDGER_INVENTORY_EXPENSE_ACCOUNT);
+							jeContent.setLedger(Ledgers.LEDGER_INVENTORY_INVENTORY_OFFSET_INCR_ACCOUNT);
 							jeContent.setAmount(line.getLineTotal());
 							jeContent.setCurrency(line.getCurrency());
 							jeContent.setRate(line.getRate());
@@ -1438,25 +1438,25 @@ public class GoodsReceipt extends BusinessObject<GoodsReceipt> implements IGoods
 								continue;
 							}
 							// 库存科目
-							jeContent = new GoodsReceiptMaterialsCost(line);
+							jeContent = new MaterialsReceiptReverseCost(line, line.getQuantity());
 							jeContent.setCategory(Category.Debit);
 							jeContent.setLedger(Ledgers.LEDGER_INVENTORY_INVENTORY_ACCOUNT);
-							jeContent.setAmount(line.getLineTotal().negate());
+							jeContent.setAmount(line.getLineTotal());
 							jeContent.setCurrency(line.getCurrency());
 							jeContent.setRate(line.getRate());
 							jeContents.add(jeContent);
 							// 价格差异科目
-							jeContent = new GoodsReceiptMaterialsCostDiff(line);
+							jeContent = new MaterialsReceiptReverseCostDiff(line, line.getQuantity());
 							jeContent.setCategory(Category.Debit);
 							jeContent.setLedger(Ledgers.LEDGER_INVENTORY_PRICE_DIFFERENCE_ACCOUNT);
-							jeContent.setAmount(line.getLineTotal().negate());
+							jeContent.setAmount(line.getLineTotal());
 							jeContent.setCurrency(line.getCurrency());
 							jeContent.setRate(line.getRate());
 							jeContents.add(jeContent);
-							// 费用科目
+							// 库存冲销_增加科目
 							jeContent = new JournalEntrySmartContent(line);
 							jeContent.setCategory(Category.Credit);
-							jeContent.setLedger(Ledgers.LEDGER_INVENTORY_EXPENSE_ACCOUNT);
+							jeContent.setLedger(Ledgers.LEDGER_INVENTORY_INVENTORY_OFFSET_INCR_ACCOUNT);
 							jeContent.setAmount(line.getLineTotal().negate());
 							jeContent.setCurrency(line.getCurrency());
 							jeContent.setRate(line.getRate());

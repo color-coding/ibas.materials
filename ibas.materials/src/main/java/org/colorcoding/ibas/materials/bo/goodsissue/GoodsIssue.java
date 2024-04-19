@@ -43,7 +43,7 @@ import org.colorcoding.ibas.bobas.rule.common.BusinessRuleRequiredElements;
 import org.colorcoding.ibas.bobas.rule.common.BusinessRuleSumElements;
 import org.colorcoding.ibas.materials.MyConfiguration;
 import org.colorcoding.ibas.materials.data.Ledgers;
-import org.colorcoding.ibas.materials.logic.journalentry.GoodsIssueMaterialsCost;
+import org.colorcoding.ibas.materials.logic.journalentry.MaterialsInventoryCost;
 
 /**
  * 获取-库存发货
@@ -1395,7 +1395,7 @@ public class GoodsIssue extends BusinessObject<GoodsIssue> implements IGoodsIssu
 
 					@Override
 					public JournalEntryContent[] getContents() {
-						JournalEntryContent jeContent;
+						MaterialsInventoryCost jeContent;
 						List<JournalEntryContent> jeContents = new ArrayList<>();
 						for (IGoodsIssueLine line : GoodsIssue.this.getGoodsIssueLines()) {
 							if (line.getCanceled() == emYesNo.YES) {
@@ -1404,19 +1404,19 @@ public class GoodsIssue extends BusinessObject<GoodsIssue> implements IGoodsIssu
 							if (line.getLineStatus() == emDocumentStatus.PLANNED) {
 								continue;
 							}
-							// 费用科目
-							jeContent = new GoodsIssueMaterialsCost(line);
+							// 库存冲销_减少科目
+							jeContent = new MaterialsInventoryCost(line, line.getQuantity());
 							jeContent.setCategory(Category.Debit);
-							jeContent.setLedger(Ledgers.LEDGER_INVENTORY_EXPENSE_ACCOUNT);
-							jeContent.setAmount(Decimal.ZERO); // 待计算
+							jeContent.setLedger(Ledgers.LEDGER_INVENTORY_INVENTORY_OFFSET_DECR_ACCOUNT);
+							jeContent.setAmount(line.getLineTotal());
 							jeContent.setCurrency(line.getCurrency());
 							jeContent.setRate(line.getRate());
 							jeContents.add(jeContent);
 							// 库存科目
-							jeContent = new GoodsIssueMaterialsCost(line);
+							jeContent = new MaterialsInventoryCost(line, line.getQuantity());
 							jeContent.setCategory(Category.Credit);
 							jeContent.setLedger(Ledgers.LEDGER_INVENTORY_INVENTORY_ACCOUNT);
-							jeContent.setAmount(Decimal.ZERO); // 待计算
+							jeContent.setAmount(line.getLineTotal());
 							jeContent.setCurrency(line.getCurrency());
 							jeContent.setRate(line.getRate());
 							jeContents.add(jeContent);

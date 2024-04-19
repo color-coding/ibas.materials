@@ -37,6 +37,7 @@ import org.colorcoding.ibas.materials.bo.materialserial.MaterialSerialItem;
 import org.colorcoding.ibas.materials.bo.materialserial.MaterialSerialItems;
 import org.colorcoding.ibas.materials.data.Ledgers;
 import org.colorcoding.ibas.materials.logic.IMaterialIssueContract;
+import org.colorcoding.ibas.materials.logic.IMaterialWarehouseCheckContract;
 
 /**
  * 获取-库存发货-行
@@ -1610,6 +1611,39 @@ public class GoodsIssueLine extends BusinessObject<GoodsIssueLine>
 	@Override
 	public IBusinessLogicContract[] getContracts() {
 		return new IBusinessLogicContract[] {
+				// 物料及仓库检查
+				new IMaterialWarehouseCheckContract() {
+
+					@Override
+					public String getIdentifiers() {
+						return GoodsIssueLine.this.getIdentifiers();
+					}
+
+					@Override
+					public String getItemCode() {
+						return GoodsIssueLine.this.getItemCode();
+					}
+
+					@Override
+					public String getItemVersion() {
+						return GoodsIssueLine.this.getItemVersion();
+					}
+
+					@Override
+					public emYesNo getBatchManagement() {
+						return GoodsIssueLine.this.getBatchManagement();
+					}
+
+					@Override
+					public emYesNo getSerialManagement() {
+						return GoodsIssueLine.this.getSerialManagement();
+					}
+
+					@Override
+					public String getWarehouse() {
+						return GoodsIssueLine.this.getWarehouse();
+					}
+				},
 				// 物料发货
 				new IMaterialIssueContract() {
 					@Override

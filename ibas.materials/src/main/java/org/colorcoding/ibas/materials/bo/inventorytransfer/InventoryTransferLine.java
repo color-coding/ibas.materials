@@ -40,6 +40,7 @@ import org.colorcoding.ibas.materials.data.Ledgers;
 import org.colorcoding.ibas.materials.logic.IInventoryTransferRequestClosingContract;
 import org.colorcoding.ibas.materials.logic.IMaterialIssueContract;
 import org.colorcoding.ibas.materials.logic.IMaterialReceiptContract;
+import org.colorcoding.ibas.materials.logic.IMaterialWarehouseCheckContract;
 
 /**
  * 获取-库存转储-行
@@ -1636,6 +1637,39 @@ public class InventoryTransferLine extends BusinessObject<InventoryTransferLine>
 	@Override
 	public IBusinessLogicContract[] getContracts() {
 		ArrayList<IBusinessLogicContract> contracts = new ArrayList<>(4);
+		// 物料及仓库检查
+		contracts.add(new IMaterialWarehouseCheckContract() {
+
+			@Override
+			public String getIdentifiers() {
+				return InventoryTransferLine.this.getIdentifiers();
+			}
+
+			@Override
+			public String getItemCode() {
+				return InventoryTransferLine.this.getItemCode();
+			}
+
+			@Override
+			public String getItemVersion() {
+				return InventoryTransferLine.this.getItemVersion();
+			}
+
+			@Override
+			public emYesNo getBatchManagement() {
+				return InventoryTransferLine.this.getBatchManagement();
+			}
+
+			@Override
+			public emYesNo getSerialManagement() {
+				return InventoryTransferLine.this.getSerialManagement();
+			}
+
+			@Override
+			public String getWarehouse() {
+				return InventoryTransferLine.this.getWarehouse();
+			}
+		});
 		// 库存转储关闭
 		if (MyConfiguration.applyVariables(InventoryTransferRequest.BUSINESS_OBJECT_CODE)
 				.equalsIgnoreCase(this.getBaseDocumentType())) {
