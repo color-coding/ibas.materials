@@ -4,6 +4,8 @@ import java.math.BigDecimal;
 
 import org.colorcoding.ibas.bobas.bo.IBODocument;
 import org.colorcoding.ibas.bobas.bo.IBODocumentLine;
+import org.colorcoding.ibas.bobas.bo.IBOSimple;
+import org.colorcoding.ibas.bobas.bo.IBOSimpleLine;
 import org.colorcoding.ibas.bobas.common.Criteria;
 import org.colorcoding.ibas.bobas.common.ICondition;
 import org.colorcoding.ibas.bobas.common.ICriteria;
@@ -62,15 +64,26 @@ public class MaterialsReceiptReverseCost extends MaterialsInventoryCost {
 		condition.setValue(this.getSourceDataPropertyValue(Ledgers.CONDITION_PROPERTY_OBJECTCODE));
 		if (this.getSourceData() instanceof IBODocument) {
 			condition = criteria.getConditions().create();
-			condition.setAlias(MaterialInventoryJournal.PROPERTY_BASEDOCUMENTTYPE.getName());
+			condition.setAlias(MaterialInventoryJournal.PROPERTY_BASEDOCUMENTENTRY.getName());
 			condition.setValue(((IBODocument) this.getSourceData()).getDocEntry());
 		} else if (this.getSourceData() instanceof IBODocumentLine) {
 			condition = criteria.getConditions().create();
-			condition.setAlias(MaterialInventoryJournal.PROPERTY_BASEDOCUMENTTYPE.getName());
+			condition.setAlias(MaterialInventoryJournal.PROPERTY_BASEDOCUMENTENTRY.getName());
 			condition.setValue(((IBODocumentLine) this.getSourceData()).getDocEntry());
 			condition = criteria.getConditions().create();
 			condition.setAlias(MaterialInventoryJournal.PROPERTY_BASEDOCUMENTLINEID.getName());
 			condition.setValue(((IBODocumentLine) this.getSourceData()).getLineId());
+		} else if (this.getSourceData() instanceof IBOSimple) {
+			condition = criteria.getConditions().create();
+			condition.setAlias(MaterialInventoryJournal.PROPERTY_BASEDOCUMENTENTRY.getName());
+			condition.setValue(((IBOSimple) this.getSourceData()).getObjectKey());
+		} else if (this.getSourceData() instanceof IBOSimpleLine) {
+			condition = criteria.getConditions().create();
+			condition.setAlias(MaterialInventoryJournal.PROPERTY_BASEDOCUMENTENTRY.getName());
+			condition.setValue(((IBOSimpleLine) this.getSourceData()).getObjectKey());
+			condition = criteria.getConditions().create();
+			condition.setAlias(MaterialInventoryJournal.PROPERTY_BASEDOCUMENTLINEID.getName());
+			condition.setValue(((IBOSimpleLine) this.getSourceData()).getLineId());
 		}
 		IMaterialInventory inventory = null;
 		if (criteria.getConditions().size() > 3) {
