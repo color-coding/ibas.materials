@@ -374,6 +374,10 @@ public class MaterialReceiptService
 			materialJournal.setCalculatedPrice(Decimal.ZERO);
 			materialJournal.setInventoryQuantity(Decimal.ZERO);
 			materialJournal.setInventoryValue(Decimal.ZERO);
+			if (contract.isOffsetting() && !materialJournal.isNew()) {
+				// 非新建的抵消逻辑，删除
+				materialJournal.delete();
+			}
 		}
 		// 赋值
 		if (!contract.isOffsetting()) {

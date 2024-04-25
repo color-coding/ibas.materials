@@ -66,11 +66,14 @@ public class MaterialBatchJournalService
 			}
 			// 非批次移动平均，不计算成本
 			if (material.getBatchManagement() == emYesNo.YES) {
-				if (material.getValuationMethod() != emValuationMethod.BATCH_MOVING_AVERAGE) {
-					this.setEnableMaterialCosts(false);
+				if (material.getValuationMethod() == emValuationMethod.BATCH_MOVING_AVERAGE) {
+					this.setEnableMaterialCosts(true);
+					// 全局未开启，则也未开启
+					if (!MyConfiguration.getConfigValue(MyConfiguration.CONFIG_ITEM_ENABLE_MATERIAL_COSTS, false)) {
+						this.setEnableMaterialCosts(false);
+					}
 				} else {
-					this.setEnableMaterialCosts(
-							MyConfiguration.getConfigValue(MyConfiguration.CONFIG_ITEM_ENABLE_MATERIAL_COSTS, false));
+					this.setEnableMaterialCosts(false);
 				}
 			}
 		}
@@ -374,6 +377,10 @@ public class MaterialBatchJournalService
 			materialBatchJournal.setCalculatedPrice(Decimal.ZERO);
 			materialBatchJournal.setInventoryQuantity(Decimal.ZERO);
 			materialBatchJournal.setInventoryValue(Decimal.ZERO);
+			if (contract.isOffsetting() && !materialBatchJournal.isNew()) {
+				// 非新建的抵消逻辑，删除
+				materialBatchJournal.delete();
+			}
 		}
 		// 赋值
 		if (!contract.isOffsetting()) {
