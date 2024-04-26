@@ -59,6 +59,8 @@ namespace materials {
             /** 更新动作标识 */
             updateActionId: string;
 
+            /** 备注 */
+            remarks: string;
 
         }
 
@@ -282,6 +284,17 @@ namespace materials {
             /** 设置-更新动作标识 */
             set updateActionId(value: string) {
                 this.setProperty(MaterialSerialItem.PROPERTY_UPDATEACTIONID_NAME, value);
+            }
+
+            /** 映射的属性名称-备注 */
+            static PROPERTY_REMARKS_NAME: string = "Remarks";
+            /** 获取-备注 */
+            get remarks(): string {
+                return this.getProperty<string>(MaterialSerialItem.PROPERTY_REMARKS_NAME);
+            }
+            /** 设置-备注 */
+            set remarks(value: string) {
+                this.setProperty(MaterialSerialItem.PROPERTY_REMARKS_NAME, value);
             }
 
             /** 初始化数据 */

@@ -12,6 +12,7 @@ namespace materials {
         const PROPERTY_STATUS: symbol = Symbol("status");
         const PROPERTY_TARGET_MATERIAL: symbol = Symbol("targetMaterial");
         const PROPERTY_MATERIAL: symbol = Symbol("material");
+        const PROPERTY_REMARKS: symbol = Symbol("remarks");
         export enum emNumberChangeStatus {
             NOT,
             PROCESSING,
@@ -178,6 +179,14 @@ namespace materials {
                 this.firePropertyChanged("targetMaterial");
             }
             reservations: ibas.IList<MaterialNumberReservation>;
+
+            get remarks(): string {
+                return this[PROPERTY_REMARKS];
+            }
+            set remarks(value: string) {
+                this[PROPERTY_REMARKS] = value;
+                this.firePropertyChanged("remarks");
+            }
 
             get reservationQuantity(): number {
                 let total: number = 0;
@@ -574,10 +583,12 @@ namespace materials {
                         let batchItem: bo.IMaterialBatchItem = issueItem.materialBatches.create();
                         batchItem.batchCode = item.sourceNumber;
                         batchItem.quantity = item.quantity;
+                        batchItem.remarks = item.remarks;
                     }
                     if (issueItem.serialManagement === ibas.emYesNo.YES) {
-                        let batchItem: bo.IMaterialSerialItem = issueItem.materialSerials.create();
-                        batchItem.serialCode = item.sourceNumber;
+                        let serialItem: bo.IMaterialSerialItem = issueItem.materialSerials.create();
+                        serialItem.serialCode = item.sourceNumber;
+                        serialItem.remarks = item.remarks;
                     }
                     // 入库
                     let receiptItem: bo.GoodsReceiptLine = receipt.goodsReceiptLines.create();
@@ -589,13 +600,15 @@ namespace materials {
                         let batchItem: bo.IMaterialBatchItem = receiptItem.materialBatches.create();
                         batchItem.batchCode = item.targetNumber;
                         batchItem.quantity = item.quantity;
+                        batchItem.remarks = item.remarks;
                         if (item.target.isDirty) {
                             batchSerials.add(item.target);
                         }
                     }
                     if (receiptItem.serialManagement === ibas.emYesNo.YES) {
-                        let batchItem: bo.IMaterialSerialItem = receiptItem.materialSerials.create();
-                        batchItem.serialCode = item.targetNumber;
+                        let serialItem: bo.IMaterialSerialItem = receiptItem.materialSerials.create();
+                        serialItem.serialCode = item.targetNumber;
+                        serialItem.remarks = item.remarks;
                         if (item.target.isDirty) {
                             batchSerials.add(item.target);
                         }

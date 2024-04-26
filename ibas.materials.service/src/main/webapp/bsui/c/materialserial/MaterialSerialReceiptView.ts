@@ -143,6 +143,15 @@ namespace materials {
                                                         maxLength: 36
                                                     })
                                                 }),
+                                                new sap.m.ToolbarSeparator(""),
+                                                new sap.extension.m.Input("", {
+                                                    width: "30%",
+                                                    textAlign: sap.ui.core.TextAlign.Left,
+                                                    placeholder: ibas.i18n.prop("bo_materialserialitem_remarks"),
+                                                }).bindProperty("bindingValue", {
+                                                    path: "remarks",
+                                                    type: new sap.extension.data.Alphanumeric()
+                                                }),
                                                 new sap.m.ToolbarSpacer(""),
                                                 new sap.m.ToolbarSeparator(""),
                                                 new sap.m.Button("", {

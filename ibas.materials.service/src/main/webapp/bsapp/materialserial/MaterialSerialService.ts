@@ -76,7 +76,7 @@ namespace materials {
                             c.warehouse === this.parent.warehouse &&
                             c.serialCode === data.serialCode);
                         if (ibas.objects.isNull(extend)) {
-                            extend = new ExtraResultMaterialSerial(this.parent.itemCode, this.parent.warehouse);
+                            extend = new ExtraResultMaterialSerial(this.parent.itemCode, this.parent.warehouse, data.serialCode);
                         }
                         this.add(new SerialWorkingItemResult(data, extend));
                     }
@@ -88,7 +88,7 @@ namespace materials {
             create(serial?: bo.IMaterialSerial): SerialWorkingItemResult {
                 let item: SerialWorkingItemResult = new SerialWorkingItemResult(
                     this.parent.data.materialSerials.create(),
-                    new ExtraResultMaterialSerial(this.parent.itemCode, this.parent.warehouse)
+                    new ExtraResultMaterialSerial(this.parent.itemCode, this.parent.warehouse, undefined)
                 );
                 if (!ibas.objects.isNull(serial)) {
                     item.serialCode = serial.serialCode;
@@ -155,6 +155,14 @@ namespace materials {
                 this.data.serialCode = value;
                 this.extend.serialCode = value;
                 this.firePropertyChanged("serialCode");
+            }
+            /** 备注 */
+            get remarks(): string {
+                return this.data.remarks;
+            }
+            set remarks(value: string) {
+                this.data.remarks = value;
+                this.firePropertyChanged("remarks");
             }
             /** 供应商序号 */
             get supplierSerial(): string {
@@ -257,9 +265,10 @@ namespace materials {
             }
         }
         class ExtraResultMaterialSerial implements IExtraResultMaterialSerial {
-            constructor(itemCode: string, warehouse: string) {
+            constructor(itemCode: string, warehouse: string, serialCode: string) {
                 this.itemCode = itemCode;
                 this.warehouse = warehouse;
+                this.serialCode = serialCode;
             }
             get isDirty(): boolean {
                 return this[PROPERTY_ISDIRTY];
@@ -333,6 +342,7 @@ namespace materials {
                                 if (!ibas.strings.isEmpty(data.location)) { serial.location = data.location; }
                                 if (!ibas.strings.isEmpty(data.version)) { serial.version = data.version; }
                                 if (!ibas.strings.isEmpty(data.notes)) { serial.notes = data.notes; }
+                                // if (!ibas.strings.isEmpty(data.notes)) { serial.notes = (ibas.objects.isNull(serial.notes) ? "" : serial.notes + ";") + data.notes; }
                                 if (data.specification > 0) { serial.specification = data.specification; }
                                 if (serial.isDirty) {
                                     boRepository.saveMaterialSerial({

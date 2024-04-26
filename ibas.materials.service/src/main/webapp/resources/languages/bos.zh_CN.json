@@ -412,6 +412,7 @@
         "bo_materialbatchitem_updateusersign": "更新用户",
         "bo_materialbatchitem_createactionid": "创建动作标识",
         "bo_materialbatchitem_updateactionid": "更新动作标识",
+        "bo_materialbatchitem_remarks": "备注",
         "bo_materialbatchitem_closing_delimiter": "----结束----"
     },
     {
@@ -657,6 +658,7 @@
         "bo_materialserialitem_updateusersign": "更新用户",
         "bo_materialserialitem_createactionid": "创建动作标识",
         "bo_materialserialitem_updateactionid": "更新动作标识",
+        "bo_materialserialitem_remarks": "备注",
         "bo_materialserialitem_closing_delimiter": "----结束----"
     },
     {

@@ -76,7 +76,7 @@ namespace materials {
                             c.warehouse === this.parent.warehouse &&
                             c.batchCode === data.batchCode);
                         if (ibas.objects.isNull(extend)) {
-                            extend = new ExtraResultMaterialBatch(this.parent.itemCode, this.parent.warehouse);
+                            extend = new ExtraResultMaterialBatch(this.parent.itemCode, this.parent.warehouse, data.batchCode);
                         }
                         this.add(new BatchWorkingItemResult(data, extend));
                     }
@@ -88,7 +88,7 @@ namespace materials {
             create(batch?: bo.IMaterialBatch): BatchWorkingItemResult {
                 let item: BatchWorkingItemResult = new BatchWorkingItemResult(
                     this.parent.data.materialBatches.create(),
-                    new ExtraResultMaterialBatch(this.parent.itemCode, this.parent.warehouse)
+                    new ExtraResultMaterialBatch(this.parent.itemCode, this.parent.warehouse, undefined)
                 );
                 if (!ibas.objects.isNull(batch)) {
                     item.batchCode = batch.batchCode;
@@ -181,6 +181,14 @@ namespace materials {
                 this.data.quantity = value;
                 this.firePropertyChanged("quantity");
             }
+            /** 备注 */
+            get remarks(): string {
+                return this.data.remarks;
+            }
+            set remarks(value: string) {
+                this.data.remarks = value;
+                this.firePropertyChanged("remarks");
+            }
             /** 供应商序号 */
             get supplierSerial(): string {
                 return this.extend.supplierSerial;
@@ -255,9 +263,10 @@ namespace materials {
             }
         }
         class ExtraResultMaterialBatch implements IExtraResultMaterialBatch {
-            constructor(itemCode: string, warehouse: string) {
+            constructor(itemCode: string, warehouse: string, batchCode: string) {
                 this.itemCode = itemCode;
                 this.warehouse = warehouse;
+                this.batchCode = batchCode;
             }
             get isDirty(): boolean {
                 return this[PROPERTY_ISDIRTY];
@@ -322,6 +331,7 @@ namespace materials {
                                 if (!ibas.strings.isEmpty(data.location)) { batch.location = data.location; }
                                 if (!ibas.strings.isEmpty(data.version)) { batch.version = data.version; }
                                 if (!ibas.strings.isEmpty(data.notes)) { batch.notes = data.notes; }
+                                // if (!ibas.strings.isEmpty(data.notes)) { batch.notes = (ibas.objects.isNull(batch.notes) ? "" : batch.notes + ";") + data.notes; }
                                 if (data.specification > 0) { batch.specification = data.specification; }
                                 if (batch.isDirty) {
                                     boRepository.saveMaterialBatch({

@@ -145,12 +145,23 @@ namespace materials {
                                                     textAlign: sap.ui.core.TextAlign.Center,
                                                 }),
                                                 new sap.extension.m.Input("", {
+                                                    width: "30%",
+                                                    textAlign: sap.ui.core.TextAlign.Right,
                                                     placeholder: ibas.i18n.prop("bo_materialbatch_quantity"),
                                                 }).bindProperty("bindingValue", {
                                                     path: "quantity",
                                                     type: new sap.extension.data.Quantity({
                                                         minValue: 0
                                                     })
+                                                }),
+                                                new sap.m.ToolbarSeparator(""),
+                                                new sap.extension.m.Input("", {
+                                                    width: "30%",
+                                                    textAlign: sap.ui.core.TextAlign.Left,
+                                                    placeholder: ibas.i18n.prop("bo_materialbatchitem_remarks"),
+                                                }).bindProperty("bindingValue", {
+                                                    path: "remarks",
+                                                    type: new sap.extension.data.Alphanumeric()
                                                 }),
                                                 new sap.m.ToolbarSpacer(""),
                                                 new sap.m.ToolbarSeparator(""),
