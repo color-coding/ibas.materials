@@ -5,7 +5,7 @@ import java.math.BigDecimal;
 import org.colorcoding.ibas.bobas.data.emDocumentStatus;
 import org.colorcoding.ibas.bobas.data.emYesNo;
 
-public interface IDocumentCloseQuantityItem {
+public interface IDocumentClosingItem {
 
 	/**
 	 * 获取-对象行号

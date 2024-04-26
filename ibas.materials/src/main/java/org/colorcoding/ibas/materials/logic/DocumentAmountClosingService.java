@@ -1,5 +1,6 @@
 package org.colorcoding.ibas.materials.logic;
 
+import java.math.BigDecimal;
 import java.util.Iterator;
 
 import org.colorcoding.ibas.bobas.bo.BusinessObject;
@@ -10,7 +11,9 @@ import org.colorcoding.ibas.bobas.common.Criteria;
 import org.colorcoding.ibas.bobas.common.ICondition;
 import org.colorcoding.ibas.bobas.common.ICriteria;
 import org.colorcoding.ibas.bobas.core.IPropertyInfo;
+import org.colorcoding.ibas.bobas.data.DataConvert;
 import org.colorcoding.ibas.bobas.data.DateTime;
+import org.colorcoding.ibas.bobas.data.Decimal;
 import org.colorcoding.ibas.bobas.data.emApprovalStatus;
 import org.colorcoding.ibas.bobas.data.emBOStatus;
 import org.colorcoding.ibas.bobas.data.emDocumentStatus;
@@ -18,43 +21,80 @@ import org.colorcoding.ibas.bobas.data.emYesNo;
 import org.colorcoding.ibas.bobas.i18n.I18N;
 import org.colorcoding.ibas.bobas.logic.BusinessLogic;
 import org.colorcoding.ibas.bobas.logic.BusinessLogicException;
-import org.colorcoding.ibas.bobas.logic.IBusinessLogicContract;
+import org.colorcoding.ibas.bobas.mapping.LogicContract;
+import org.colorcoding.ibas.bobas.message.Logger;
+import org.colorcoding.ibas.bobas.message.MessageLevel;
 import org.colorcoding.ibas.document.DocumentFetcherManager;
-import org.colorcoding.ibas.document.IDocumentCloseQuantityOperator;
+import org.colorcoding.ibas.document.IDocumentCloseAmountOperator;
 import org.colorcoding.ibas.document.IDocumentClosingItem;
 import org.colorcoding.ibas.document.IDocumentFetcher;
 import org.colorcoding.ibas.document.IDocumentOperatingTarget;
 
-public abstract class DocumentQuantityService<L extends IBusinessLogicContract>
-		extends BusinessLogic<L, IDocumentCloseQuantityOperator> {
+/**
+ * 单据金额关闭服务
+ */
+@LogicContract(IDocumentAmountClosingContract.class)
+public class DocumentAmountClosingService
+		extends BusinessLogic<IDocumentAmountClosingContract, IDocumentCloseAmountOperator> {
 
-	public static final IDocumentCloseQuantityOperator EMPTY_DATA = new _DocumentCloseQuantityOperator();
+	public static final IDocumentCloseAmountOperator EMPTY_DATA = new _DocumentCloseAmountOperator();
 
-	protected IDocumentCloseQuantityOperator fetchBeAffected(String documentType, Integer docEntry) {
+	@Override
+	protected boolean checkDataStatus(Object data) {
+		if (data instanceof IDocumentAmountClosingContract) {
+			IDocumentAmountClosingContract contract = (IDocumentAmountClosingContract) data;
+			if (contract.checkDataStatus() == false) {
+				Logger.log(MessageLevel.DEBUG, MSG_LOGICS_SKIP_LOGIC_EXECUTION, this.getClass().getName(), "DataStatus",
+						String.format("%s-%s-%s", contract.getBaseDocumentType(), contract.getBaseDocumentEntry(),
+								contract.getBaseDocumentLineId()));
+				return false;
+			}
+			if (DataConvert.isNullOrEmpty(contract.getBaseDocumentType())) {
+				Logger.log(MessageLevel.DEBUG, MSG_LOGICS_SKIP_LOGIC_EXECUTION, this.getClass().getName(),
+						"BaseDocumentType", "EMPTY");
+				return false;
+			}
+			if (Integer.compare(0, contract.getBaseDocumentEntry()) >= 0) {
+				Logger.log(MessageLevel.DEBUG, MSG_LOGICS_SKIP_LOGIC_EXECUTION, this.getClass().getName(),
+						"BaseDocumentEntry", "EMPTY");
+				return false;
+			}
+			if (!DocumentFetcherManager.create().getFetcherMap().containsKey(contract.getBaseDocumentType())) {
+				Logger.log(MessageLevel.DEBUG, MSG_LOGICS_SKIP_LOGIC_EXECUTION, this.getClass().getName(),
+						String.format("BO [%s] Fetcher", contract.getBaseDocumentType()), "NOT FOUND");
+				return false;
+			}
+		}
+		return super.checkDataStatus(data);
+	}
+
+	@Override
+	protected IDocumentCloseAmountOperator fetchBeAffected(IDocumentAmountClosingContract contract) {
 		try {
 			ICriteria criteria = new Criteria();
 			// 必须查询类型，否则不能唯一
 			ICondition condition = criteria.getConditions().create();
 			condition.setAlias("ObjectCode");
 			condition.setOperation(ConditionOperation.EQUAL);
-			condition.setValue(documentType);
+			condition.setValue(contract.getBaseDocumentType());
 			condition = criteria.getConditions().create();
 			condition.setRelationship(ConditionRelationship.AND);
 			condition.setAlias("DocEntry");
 			condition.setOperation(ConditionOperation.EQUAL);
-			condition.setValue(docEntry);
-			IDocumentOperatingTarget document = this.fetchBeAffected(criteria, IDocumentCloseQuantityOperator.class);
+			condition.setValue(contract.getBaseDocumentEntry());
+			IDocumentOperatingTarget document = this.fetchBeAffected(criteria, IDocumentCloseAmountOperator.class);
 			if (document == null) {
 				IDocumentFetcher<IDocumentOperatingTarget> fetcher = DocumentFetcherManager.create()
-						.newFetcher(documentType);
+						.newFetcher(contract.getBaseDocumentType());
 				if (fetcher == null) {
-					throw new BusinessLogicException(I18N.prop("msg_mm_document_not_found_fether", documentType));
+					throw new BusinessLogicException(
+							I18N.prop("msg_mm_document_not_found_fether", contract.getBaseDocumentType()));
 				}
 				fetcher.setRepository(this.getRepository());
-				document = fetcher.fetch(docEntry);
+				document = fetcher.fetch(contract.getBaseDocumentEntry());
 			}
-			if (document instanceof IDocumentCloseQuantityOperator) {
-				return (IDocumentCloseQuantityOperator) document;
+			if (document instanceof IDocumentCloseAmountOperator) {
+				return (IDocumentCloseAmountOperator) document;
 			} else {
 				return EMPTY_DATA;
 			}
@@ -65,15 +105,61 @@ public abstract class DocumentQuantityService<L extends IBusinessLogicContract>
 		}
 	}
 
+	@Override
+	protected void impact(IDocumentAmountClosingContract contract) {
+		Iterator<IDocumentClosingItem> iterator = this.getBeAffected().getItems();
+		while (iterator.hasNext()) {
+			IDocumentClosingItem item = iterator.next();
+			if (item.getLineId().compareTo(contract.getBaseDocumentLineId()) != 0) {
+				continue;
+			}
+			BigDecimal closedAmount = item.getClosedQuantity();
+			if (closedAmount == null) {
+				closedAmount = Decimal.ZERO;
+			}
+			closedAmount = closedAmount.add(contract.getAmount());
+			item.setClosedQuantity(closedAmount);
+			if (item.getLineStatus() == emDocumentStatus.RELEASED && closedAmount.compareTo(item.getQuantity()) >= 0) {
+				item.setLineStatus(emDocumentStatus.FINISHED);
+			}
+			if (item.getClosedQuantity().compareTo(Decimal.ZERO) > 0) {
+				item.setReferenced(emYesNo.YES);
+			}
+		}
+	}
+
+	@Override
+	protected void revoke(IDocumentAmountClosingContract contract) {
+		Iterator<IDocumentClosingItem> iterator = this.getBeAffected().getItems();
+		while (iterator.hasNext()) {
+			IDocumentClosingItem item = iterator.next();
+			if (item.getLineId().compareTo(contract.getBaseDocumentLineId()) != 0) {
+				continue;
+			}
+			BigDecimal closedAmount = item.getClosedQuantity();
+			if (closedAmount == null) {
+				closedAmount = Decimal.ZERO;
+			}
+			closedAmount = closedAmount.subtract(contract.getAmount());
+			item.setClosedQuantity(closedAmount);
+			if (item.getLineStatus() == emDocumentStatus.FINISHED && closedAmount.compareTo(item.getQuantity()) < 0) {
+				item.setLineStatus(emDocumentStatus.RELEASED);
+			}
+			if (item.getClosedQuantity().compareTo(Decimal.ZERO) <= 0) {
+				item.setReferenced(emYesNo.NO);
+			}
+		}
+	}
+
 	@SuppressWarnings("unused")
-	private static class _DocumentCloseQuantityOperator extends BusinessObject<IBODocument>
-			implements IDocumentCloseQuantityOperator {
+	private static class _DocumentCloseAmountOperator extends BusinessObject<IBODocument>
+			implements IDocumentCloseAmountOperator {
 
 		private static final long serialVersionUID = 1L;
 
-		private static final Class<?> MY_CLASS = _DocumentCloseQuantityOperator.class;
+		private static final Class<?> MY_CLASS = _DocumentCloseAmountOperator.class;
 
-		public _DocumentCloseQuantityOperator() {
+		public _DocumentCloseAmountOperator() {
 			super.setSavable(false);
 		}
 
