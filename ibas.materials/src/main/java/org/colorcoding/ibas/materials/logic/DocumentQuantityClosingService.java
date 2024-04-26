@@ -56,7 +56,7 @@ public class DocumentQuantityClosingService extends DocumentQuantityService<IDoc
 
 	@Override
 	protected void impact(IDocumentQuantityClosingContract contract) {
-		Iterator<IDocumentClosingItem> iterator = this.getBeAffected().getItems();
+		Iterator<IDocumentClosingItem> iterator = this.getBeAffected().getQuantityItems();
 		while (iterator.hasNext()) {
 			IDocumentClosingItem item = iterator.next();
 			if (item.getLineId().compareTo(contract.getBaseDocumentLineId()) != 0) {
@@ -80,7 +80,7 @@ public class DocumentQuantityClosingService extends DocumentQuantityService<IDoc
 
 	@Override
 	protected void revoke(IDocumentQuantityClosingContract contract) {
-		Iterator<IDocumentClosingItem> iterator = this.getBeAffected().getItems();
+		Iterator<IDocumentClosingItem> iterator = this.getBeAffected().getQuantityItems();
 		while (iterator.hasNext()) {
 			IDocumentClosingItem item = iterator.next();
 			if (item.getLineId().compareTo(contract.getBaseDocumentLineId()) != 0) {

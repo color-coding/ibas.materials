@@ -107,7 +107,7 @@ public class DocumentAmountClosingService
 
 	@Override
 	protected void impact(IDocumentAmountClosingContract contract) {
-		Iterator<IDocumentClosingItem> iterator = this.getBeAffected().getItems();
+		Iterator<IDocumentClosingItem> iterator = this.getBeAffected().getAmountItems();
 		while (iterator.hasNext()) {
 			IDocumentClosingItem item = iterator.next();
 			if (item.getLineId().compareTo(contract.getBaseDocumentLineId()) != 0) {
@@ -130,7 +130,7 @@ public class DocumentAmountClosingService
 
 	@Override
 	protected void revoke(IDocumentAmountClosingContract contract) {
-		Iterator<IDocumentClosingItem> iterator = this.getBeAffected().getItems();
+		Iterator<IDocumentClosingItem> iterator = this.getBeAffected().getAmountItems();
 		while (iterator.hasNext()) {
 			IDocumentClosingItem item = iterator.next();
 			if (item.getLineId().compareTo(contract.getBaseDocumentLineId()) != 0) {
@@ -802,7 +802,7 @@ public class DocumentAmountClosingService
 		}
 
 		@Override
-		public Iterator<IDocumentClosingItem> getItems() {
+		public Iterator<IDocumentClosingItem> getAmountItems() {
 			return new Iterator<IDocumentClosingItem>() {
 
 				@Override

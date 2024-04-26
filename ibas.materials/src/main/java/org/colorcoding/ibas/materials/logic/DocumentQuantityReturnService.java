@@ -56,7 +56,7 @@ public class DocumentQuantityReturnService extends DocumentQuantityService<IDocu
 
 	@Override
 	protected void impact(IDocumentQuantityReturnContract contract) {
-		Iterator<IDocumentClosingItem> iterator = this.getBeAffected().getItems();
+		Iterator<IDocumentClosingItem> iterator = this.getBeAffected().getQuantityItems();
 		while (iterator.hasNext()) {
 			IDocumentClosingItem item = iterator.next();
 			if (item.getLineId().compareTo(contract.getBaseDocumentLineId()) != 0) {
@@ -77,7 +77,7 @@ public class DocumentQuantityReturnService extends DocumentQuantityService<IDocu
 
 	@Override
 	protected void revoke(IDocumentQuantityReturnContract contract) {
-		Iterator<IDocumentClosingItem> iterator = this.getBeAffected().getItems();
+		Iterator<IDocumentClosingItem> iterator = this.getBeAffected().getQuantityItems();
 		while (iterator.hasNext()) {
 			IDocumentClosingItem item = iterator.next();
 			if (item.getLineId().compareTo(contract.getBaseDocumentLineId()) != 0) {

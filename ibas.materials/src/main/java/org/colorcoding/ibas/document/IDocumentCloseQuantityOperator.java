@@ -14,5 +14,5 @@ public interface IDocumentCloseQuantityOperator extends IDocumentOperatingTarget
 	 * 
 	 * @return
 	 */
-	Iterator<IDocumentClosingItem> getItems();
+	Iterator<IDocumentClosingItem> getQuantityItems();
 }

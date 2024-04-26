@@ -716,7 +716,7 @@ public abstract class DocumentQuantityService<L extends IBusinessLogicContract>
 		}
 
 		@Override
-		public Iterator<IDocumentClosingItem> getItems() {
+		public Iterator<IDocumentClosingItem> getQuantityItems() {
 			return new Iterator<IDocumentClosingItem>() {
 
 				@Override
