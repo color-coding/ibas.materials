@@ -8,6 +8,13 @@ import org.colorcoding.ibas.bobas.data.emYesNo;
 public interface IDocumentClosingItem {
 
 	/**
+	 * 获取-类型
+	 * 
+	 * @return 值
+	 */
+	String getObjectCode();
+
+	/**
 	 * 获取-对象行号
 	 * 
 	 * @return 值

@@ -672,7 +672,8 @@ public class MaterialBatchItem extends BusinessObject<MaterialBatchItem>
 
 	@Override
 	public IBusinessLogicContract[] getContracts() {
-		if (this.parent instanceof IMaterialBatchReceiptParent) {
+		if (this.parent instanceof IMaterialBatchReceiptParent
+				&& ((IMaterialBatchReceiptParent) this.parent).checkBatchStatus()) {
 			return new IBusinessLogicContract[] {
 					// 入库批次交易
 					new IMaterialBatchJournalContract() {
@@ -804,7 +805,8 @@ public class MaterialBatchItem extends BusinessObject<MaterialBatchItem>
 					}
 
 			};
-		} else if (this.parent instanceof IMaterialBatchIssueParent) {
+		} else if (this.parent instanceof IMaterialBatchIssueParent
+				&& ((IMaterialBatchIssueParent) this.parent).checkBatchStatus()) {
 			return new IBusinessLogicContract[] {
 					// 出库批次交易记录
 					new IMaterialBatchJournalContract() {

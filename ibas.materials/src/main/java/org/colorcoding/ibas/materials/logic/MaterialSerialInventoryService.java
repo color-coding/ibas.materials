@@ -18,6 +18,7 @@ import org.colorcoding.ibas.materials.bo.materialserial.IMaterialSerial;
 import org.colorcoding.ibas.materials.bo.materialserial.IMaterialSerialJournal;
 import org.colorcoding.ibas.materials.bo.materialserial.MaterialSerial;
 import org.colorcoding.ibas.materials.data.emItemType;
+import org.colorcoding.ibas.materials.data.emValuationMethod;
 import org.colorcoding.ibas.materials.repository.BORepositoryMaterials;
 
 @LogicContract(IMaterialSerialInventoryContract.class)
@@ -104,8 +105,11 @@ public class MaterialSerialInventoryService
 							contract.getWarehouse(), contract.getItemCode(), contract.getSerialCode()));
 				}
 				materialSerial.setInStock(emYesNo.YES);
-				if (contract.getCalculatedPrice() != null) {
-					materialSerial.setAvgPrice(contract.getCalculatedPrice());
+				if (this.checkMaterial(materialSerial.getItemCode())
+						.getValuationMethod() == emValuationMethod.BATCH_MOVING_AVERAGE) {
+					if (contract.getCalculatedPrice() != null) {
+						materialSerial.setAvgPrice(contract.getCalculatedPrice());
+					}
 				}
 			} else {
 				if (materialSerial.getInStock() == emYesNo.NO) {

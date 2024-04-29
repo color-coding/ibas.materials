@@ -1385,6 +1385,8 @@
         "bo_materialnumberitem_reservedquantity": "预留数量",
         "bo_materialnumberitem_transferquantity": "转移数量",
         "bo_materialnumberitem_reserved_transfer_quantity": "预留数量 / 转移数量",
+        "bo_materialnumberitem_remarks_in": "备注（入库）",
+        "bo_materialnumberitem_remarks_out": "备注（出库）",
         "bo_materialnumberitem_remarks": "备注"
     },
     {

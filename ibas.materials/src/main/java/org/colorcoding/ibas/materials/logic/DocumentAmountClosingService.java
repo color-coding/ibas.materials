@@ -77,6 +77,10 @@ public class DocumentAmountClosingService
 			condition.setAlias("ObjectCode");
 			condition.setOperation(ConditionOperation.EQUAL);
 			condition.setValue(contract.getBaseDocumentType());
+			// 子对象时，使用父对象查询
+			if (condition.getValue() != null && condition.getValue().lastIndexOf(".") > 0) {
+				condition.setValue(condition.getValue().substring(0, condition.getValue().lastIndexOf(".")));
+			}
 			condition = criteria.getConditions().create();
 			condition.setRelationship(ConditionRelationship.AND);
 			condition.setAlias("DocEntry");
@@ -110,6 +114,9 @@ public class DocumentAmountClosingService
 		Iterator<IDocumentClosingItem> iterator = this.getBeAffected().getAmountItems();
 		while (iterator.hasNext()) {
 			IDocumentClosingItem item = iterator.next();
+			if (!item.getObjectCode().equalsIgnoreCase(contract.getBaseDocumentType())) {
+				continue;
+			}
 			if (item.getLineId().compareTo(contract.getBaseDocumentLineId()) != 0) {
 				continue;
 			}

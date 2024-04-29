@@ -12,6 +12,16 @@ import org.colorcoding.ibas.bobas.rule.ICheckRules;
  *
  */
 public interface IMaterialSerialReceiptParent extends IMaterialSerialItemParent, ICheckRules {
+	/**
+	 * 状态
+	 * 
+	 * false，不执行逻辑
+	 * 
+	 * @return
+	 */
+	default boolean checkSerialStatus() {
+		return true;
+	}
 
 	/**
 	 * 过账日期

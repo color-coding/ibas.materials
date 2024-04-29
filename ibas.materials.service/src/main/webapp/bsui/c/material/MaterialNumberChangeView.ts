@@ -193,10 +193,18 @@ namespace materials {
                                 width: "14rem",
                             }),
                             new sap.extension.table.DataColumn("", {
-                                label: ibas.i18n.prop("bo_materialnumberitem_remarks"),
+                                label: ibas.i18n.prop("bo_materialnumberitem_remarks_out"),
                                 template: new sap.extension.m.Input("", {
                                 }).bindProperty("bindingValue", {
-                                    path: "remarks",
+                                    path: "remarksOut",
+                                    type: new sap.extension.data.Alphanumeric(),
+                                }),
+                            }),
+                            new sap.extension.table.DataColumn("", {
+                                label: ibas.i18n.prop("bo_materialnumberitem_remarks_in"),
+                                template: new sap.extension.m.Input("", {
+                                }).bindProperty("bindingValue", {
+                                    path: "remarksIn",
                                     type: new sap.extension.data.Alphanumeric(),
                                 }),
                             }),

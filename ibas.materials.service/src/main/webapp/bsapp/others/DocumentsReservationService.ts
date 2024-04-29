@@ -85,7 +85,7 @@ namespace materials {
                                                     }
                                                 }
                                                 if (!ibas.strings.isEmpty(objectCode)
-                                                    && docEntry > 0 && lineId > 0 && quantity > 0) {
+                                                    && docEntry > 0 && lineId >= 0 && quantity > 0) {
                                                     contract.onReserved(objectCode, docEntry, lineId, quantity);
                                                 }
                                             }
@@ -195,7 +195,7 @@ namespace materials {
                                                     }
                                                 }
                                                 if (!ibas.strings.isEmpty(objectCode)
-                                                    && docEntry > 0 && lineId > 0 && quantity > 0) {
+                                                    && docEntry > 0 && lineId >= 0 && quantity > 0) {
                                                     contract.onReserved(objectCode, docEntry, lineId, quantity);
                                                 }
                                             }

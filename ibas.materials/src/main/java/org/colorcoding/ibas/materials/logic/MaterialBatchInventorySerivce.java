@@ -19,6 +19,7 @@ import org.colorcoding.ibas.materials.bo.materialbatch.IMaterialBatch;
 import org.colorcoding.ibas.materials.bo.materialbatch.IMaterialBatchJournal;
 import org.colorcoding.ibas.materials.bo.materialbatch.MaterialBatch;
 import org.colorcoding.ibas.materials.data.emItemType;
+import org.colorcoding.ibas.materials.data.emValuationMethod;
 import org.colorcoding.ibas.materials.repository.BORepositoryMaterials;
 
 @LogicContract(IMaterialBatchInventoryContract.class)
@@ -96,8 +97,11 @@ public class MaterialBatchInventorySerivce
 		} else {
 			quantity = quantity.subtract(contract.getQuantity());
 		}
-		if (contract.getCalculatedPrice() != null) {
-			materialBatch.setAvgPrice(contract.getCalculatedPrice());
+		if (this.checkMaterial(materialBatch.getItemCode())
+				.getValuationMethod() == emValuationMethod.BATCH_MOVING_AVERAGE) {
+			if (contract.getCalculatedPrice() != null) {
+				materialBatch.setAvgPrice(contract.getCalculatedPrice());
+			}
 		}
 		if (Decimal.ZERO.compareTo(quantity) > 0) {
 			throw new BusinessLogicException(I18N.prop("msg_mm_material_batch_not_enough_in_stock",

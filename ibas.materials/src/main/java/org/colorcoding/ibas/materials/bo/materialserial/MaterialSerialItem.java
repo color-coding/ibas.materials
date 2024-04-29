@@ -612,7 +612,8 @@ public class MaterialSerialItem extends BusinessObject<MaterialSerialItem>
 
 	@Override
 	public IBusinessLogicContract[] getContracts() {
-		if (this.parent instanceof IMaterialSerialReceiptParent) {
+		if (this.parent instanceof IMaterialSerialReceiptParent
+				&& ((IMaterialSerialReceiptParent) this.parent).checkSerialStatus()) {
 			return new IBusinessLogicContract[] {
 					// 入库序列交易
 					new IMaterialSerialJournalContract() {
@@ -741,7 +742,8 @@ public class MaterialSerialItem extends BusinessObject<MaterialSerialItem>
 					}
 
 			};
-		} else if (this.parent instanceof IMaterialSerialIssueParent) {
+		} else if (this.parent instanceof IMaterialSerialIssueParent
+				&& ((IMaterialSerialIssueParent) this.parent).checkSerialStatus()) {
 			return new IBusinessLogicContract[] {
 					// 出库序列交易
 					new IMaterialSerialJournalContract() {

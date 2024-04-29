@@ -38,6 +38,10 @@ public abstract class DocumentQuantityService<L extends IBusinessLogicContract>
 			condition.setAlias("ObjectCode");
 			condition.setOperation(ConditionOperation.EQUAL);
 			condition.setValue(documentType);
+			// 子对象时，使用父对象查询
+			if (condition.getValue() != null && condition.getValue().lastIndexOf(".") > 0) {
+				condition.setValue(condition.getValue().substring(0, condition.getValue().lastIndexOf(".")));
+			}
 			condition = criteria.getConditions().create();
 			condition.setRelationship(ConditionRelationship.AND);
 			condition.setAlias("DocEntry");

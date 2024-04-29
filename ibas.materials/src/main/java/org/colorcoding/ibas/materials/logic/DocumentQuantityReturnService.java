@@ -59,6 +59,9 @@ public class DocumentQuantityReturnService extends DocumentQuantityService<IDocu
 		Iterator<IDocumentClosingItem> iterator = this.getBeAffected().getQuantityItems();
 		while (iterator.hasNext()) {
 			IDocumentClosingItem item = iterator.next();
+			if (!item.getObjectCode().equalsIgnoreCase(contract.getBaseDocumentType())) {
+				continue;
+			}
 			if (item.getLineId().compareTo(contract.getBaseDocumentLineId()) != 0) {
 				continue;
 			}
