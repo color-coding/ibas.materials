@@ -300,15 +300,24 @@ namespace materials {
                 });
             }
             /** 转为交货 */
-            protected turnToDelivery(agent: ibas.IServiceAgent): void {
+            protected turnToDelivery(agent: ibas.IServiceAgent, selectItems?: bo.PickListsLine[]): void {
                 if (ibas.objects.isNull(this.editData) || this.editData.isDirty === true) {
                     this.messages(ibas.emMessageType.WARNING, ibas.i18n.prop("shell_data_saved_first"));
                     return;
                 }
+                let pickListsLines: ibas.ArrayList<bo.PickListsLine> = new ibas.ArrayList<bo.PickListsLine>();
+                if (!(selectItems.length > 0)) {
+                    selectItems = this.editData.pickListsLines;
+                }
+                for (let item of selectItems) {
+                    if ((item.pickStatus === bo.emPickStatus.PICKED
+                        || item.pickStatus === bo.emPickStatus.PARTIALLYPICKED) && item.pickQuantity > 0) {
+                        pickListsLines.add(item);
+                    }
+                }
                 for (let srvAgent of ibas.servicesManager.getServices({
                     proxy: new MaterialPackingTargetServiceProxy({
-                        toDelivery: this.editData.pickListsLines.where(c => (c.pickStatus === bo.emPickStatus.PICKED
-                            || c.pickStatus === bo.emPickStatus.PARTIALLYPICKED) && c.pickQuantity > 0),
+                        toDelivery: pickListsLines,
                         onDelivered: (targets) => {
                             if (targets instanceof Error) {
                                 this.proceeding(ibas.emMessageType.WARNING, ibas.i18n.prop("materials_action_is_blocked", targets.message));

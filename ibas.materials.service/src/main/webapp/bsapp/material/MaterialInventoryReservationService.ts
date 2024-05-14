@@ -771,7 +771,7 @@ namespace materials {
                             result.sourceDocumentEntry = docEntry;
                             result.sourceDocumentLineId = lineId;
                             result.itemCode = this.currentWorkingItem.itemCode;
-                            result.warehouse = this.currentWorkingItem.warehouse;
+                            // result.warehouse = this.currentWorkingItem.warehouse;
                             result.targetDocumentType = workingData.targetType;
                             result.targetDocumentEntry = workingData.targetEntry;
                             result.targetDocumentLineId = this.currentWorkingItem.lineId;
@@ -818,7 +818,7 @@ namespace materials {
                     if (data.onHand > this.currentWorkingItem.remaining) {
                         reservation.quantity = this.currentWorkingItem.remaining;
                     } else {
-                        reservation.quantity = data.onHand;
+                        reservation.quantity = data.onHand - data.onReserved;
                     }
                     data.onReserved += reservation.quantity;
                 } else if (data instanceof bo.MaterialBatch) {
@@ -830,7 +830,7 @@ namespace materials {
                     if (data.quantity > this.currentWorkingItem.remaining) {
                         reservation.quantity = this.currentWorkingItem.remaining;
                     } else {
-                        reservation.quantity = data.quantity;
+                        reservation.quantity = data.quantity - data.reservedQuantity;
                     }
                     data.reservedQuantity += reservation.quantity;
                 } else if (data instanceof bo.MaterialSerial) {

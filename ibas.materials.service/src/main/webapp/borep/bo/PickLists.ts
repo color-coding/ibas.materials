@@ -342,10 +342,17 @@ namespace materials {
                                 serialItem.warehouse = inventoryReservation.warehouse;
                                 serialItem.pickQuantity = 1;
                             } else if (!ibas.strings.isEmpty(inventoryReservation.batchCode)) {
-                                let batchItem: bo.IPickListsNumber = item.pickListsNumbers.create();
-                                batchItem.batchCode = inventoryReservation.batchCode;
-                                batchItem.warehouse = inventoryReservation.warehouse;
-                                batchItem.pickQuantity = reservationQunatity;
+                                let batchItem: bo.IPickListsNumber = item.pickListsNumbers.find(c => {
+                                    return ibas.strings.equals(c.batchCode, inventoryReservation.batchCode)
+                                        && ibas.strings.equals(c.warehouse, inventoryReservation.warehouse);
+                                });
+                                if (ibas.objects.isNull(batchItem)) {
+                                    batchItem = item.pickListsNumbers.create();
+                                    batchItem.batchCode = inventoryReservation.batchCode;
+                                    batchItem.warehouse = inventoryReservation.warehouse;
+                                    batchItem.pickQuantity = 0;
+                                }
+                                batchItem.pickQuantity = ibas.numbers.round(batchItem.pickQuantity + reservationQunatity);
                             }
                         }
                         item.pickQuantity = pickQuantity;

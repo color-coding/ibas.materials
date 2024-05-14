@@ -521,7 +521,7 @@ namespace materials {
                                                     }
                                                 },
                                                 press: function (this: sap.m.MenuItem): void {
-                                                    that.fireViewEvents(that.turnToDeliveryEvent, this.getBindingContext().getObject());
+                                                    that.fireViewEvents(that.turnToDeliveryEvent, this.getBindingContext().getObject(), that.tablePickListsLine.getSelecteds());
                                                 }
                                             })
                                         }

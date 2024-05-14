@@ -112,8 +112,12 @@ public class MaterialEstimateReservedService extends MaterialEstimateService<IMa
 	@Override
 	protected void impact(IMaterialEstimateReservedContract contract) {
 		IMaterialEstimateJournal materialJournal = this.getBeAffected();
-		materialJournal.setItemCode(contract.getItemCode());
-		materialJournal.setWarehouse(contract.getWarehouse());
+		if (DataConvert.isNullOrEmpty(materialJournal.getItemCode())) {
+			materialJournal.setItemCode(contract.getItemCode());
+		}
+		if (DataConvert.isNullOrEmpty(materialJournal.getWarehouse())) {
+			materialJournal.setWarehouse(contract.getWarehouse());
+		}
 		IMaterial material = this.checkMaterial(contract.getItemCode());
 		if (material != null) {
 			materialJournal.setItemName(material.getName());

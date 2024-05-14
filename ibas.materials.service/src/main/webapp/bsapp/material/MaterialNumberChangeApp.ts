@@ -555,7 +555,7 @@ namespace materials {
                 issue.dataSource = DATASOURCE_TYPE_NUMBER_CHANGE;
                 issue.remarks = remarks;
                 let receipt: bo.GoodsReceipt = new bo.GoodsReceipt();
-                issue.dataSource = DATASOURCE_TYPE_NUMBER_CHANGE;
+                receipt.dataSource = DATASOURCE_TYPE_NUMBER_CHANGE;
                 receipt.remarks = remarks;
                 let batchSerials: ibas.IList<bo.MaterialBatch | bo.MaterialSerial> = new ibas.ArrayList<bo.MaterialBatch | bo.MaterialSerial>();
                 let reservations: ibas.IList<bo.MaterialInventoryReservation> = new ibas.ArrayList<bo.MaterialInventoryReservation>();
