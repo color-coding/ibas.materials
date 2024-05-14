@@ -1,6 +1,7 @@
 package org.colorcoding.ibas.materials.service.rest;
 
 import javax.ws.rs.Consumes;
+import javax.ws.rs.HeaderParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -9,6 +10,7 @@ import javax.ws.rs.core.MediaType;
 
 import org.colorcoding.ibas.bobas.common.Criteria;
 import org.colorcoding.ibas.bobas.common.OperationResult;
+import org.colorcoding.ibas.materials.MyConfiguration;
 import org.colorcoding.ibas.materials.bo.goodsissue.GoodsIssue;
 import org.colorcoding.ibas.materials.bo.goodsreceipt.GoodsReceipt;
 import org.colorcoding.ibas.materials.bo.inventorycounting.InventoryCounting;
@@ -60,8 +62,9 @@ public class DataService extends BORepositoryMaterials {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Path("fetchGoodsIssue")
-	public OperationResult<GoodsIssue> fetchGoodsIssue(Criteria criteria, @QueryParam("token") String token) {
-		return super.fetchGoodsIssue(criteria, token);
+	public OperationResult<GoodsIssue> fetchGoodsIssue(Criteria criteria,
+			@HeaderParam("authorization") String authorization, @QueryParam("token") String token) {
+		return super.fetchGoodsIssue(criteria, MyConfiguration.optToken(authorization, token));
 	}
 
 	/**
@@ -75,8 +78,9 @@ public class DataService extends BORepositoryMaterials {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Path("saveGoodsIssue")
-	public OperationResult<GoodsIssue> saveGoodsIssue(GoodsIssue bo, @QueryParam("token") String token) {
-		return super.saveGoodsIssue(bo, token);
+	public OperationResult<GoodsIssue> saveGoodsIssue(GoodsIssue bo, @HeaderParam("authorization") String authorization,
+			@QueryParam("token") String token) {
+		return super.saveGoodsIssue(bo, MyConfiguration.optToken(authorization, token));
 	}
 
 	// --------------------------------------------------------------------------------------------//
@@ -91,8 +95,9 @@ public class DataService extends BORepositoryMaterials {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Path("fetchGoodsReceipt")
-	public OperationResult<GoodsReceipt> fetchGoodsReceipt(Criteria criteria, @QueryParam("token") String token) {
-		return super.fetchGoodsReceipt(criteria, token);
+	public OperationResult<GoodsReceipt> fetchGoodsReceipt(Criteria criteria,
+			@HeaderParam("authorization") String authorization, @QueryParam("token") String token) {
+		return super.fetchGoodsReceipt(criteria, MyConfiguration.optToken(authorization, token));
 	}
 
 	/**
@@ -106,8 +111,9 @@ public class DataService extends BORepositoryMaterials {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Path("saveGoodsReceipt")
-	public OperationResult<GoodsReceipt> saveGoodsReceipt(GoodsReceipt bo, @QueryParam("token") String token) {
-		return super.saveGoodsReceipt(bo, token);
+	public OperationResult<GoodsReceipt> saveGoodsReceipt(GoodsReceipt bo,
+			@HeaderParam("authorization") String authorization, @QueryParam("token") String token) {
+		return super.saveGoodsReceipt(bo, MyConfiguration.optToken(authorization, token));
 	}
 
 	// --------------------------------------------------------------------------------------------//
@@ -123,8 +129,8 @@ public class DataService extends BORepositoryMaterials {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Path("fetchInventoryTransfer")
 	public OperationResult<InventoryTransfer> fetchInventoryTransfer(Criteria criteria,
-			@QueryParam("token") String token) {
-		return super.fetchInventoryTransfer(criteria, token);
+			@HeaderParam("authorization") String authorization, @QueryParam("token") String token) {
+		return super.fetchInventoryTransfer(criteria, MyConfiguration.optToken(authorization, token));
 	}
 
 	/**
@@ -139,8 +145,8 @@ public class DataService extends BORepositoryMaterials {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Path("saveInventoryTransfer")
 	public OperationResult<InventoryTransfer> saveInventoryTransfer(InventoryTransfer bo,
-			@QueryParam("token") String token) {
-		return super.saveInventoryTransfer(bo, token);
+			@HeaderParam("authorization") String authorization, @QueryParam("token") String token) {
+		return super.saveInventoryTransfer(bo, MyConfiguration.optToken(authorization, token));
 	}
 
 	// --------------------------------------------------------------------------------------------//
@@ -155,8 +161,9 @@ public class DataService extends BORepositoryMaterials {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Path("fetchMaterial")
-	public OperationResult<Material> fetchMaterial(Criteria criteria, @QueryParam("token") String token) {
-		return super.fetchMaterial(criteria, token);
+	public OperationResult<Material> fetchMaterial(Criteria criteria,
+			@HeaderParam("authorization") String authorization, @QueryParam("token") String token) {
+		return super.fetchMaterial(criteria, MyConfiguration.optToken(authorization, token));
 	}
 
 	/**
@@ -170,8 +177,9 @@ public class DataService extends BORepositoryMaterials {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Path("saveMaterial")
-	public OperationResult<Material> saveMaterial(Material bo, @QueryParam("token") String token) {
-		return super.saveMaterial(bo, token);
+	public OperationResult<Material> saveMaterial(Material bo, @HeaderParam("authorization") String authorization,
+			@QueryParam("token") String token) {
+		return super.saveMaterial(bo, MyConfiguration.optToken(authorization, token));
 	}
 
 	// --------------------------------------------------------------------------------------------//
@@ -186,8 +194,9 @@ public class DataService extends BORepositoryMaterials {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Path("fetchMaterialBatch")
-	public OperationResult<MaterialBatch> fetchMaterialBatch(Criteria criteria, @QueryParam("token") String token) {
-		return super.fetchMaterialBatch(criteria, token);
+	public OperationResult<MaterialBatch> fetchMaterialBatch(Criteria criteria,
+			@HeaderParam("authorization") String authorization, @QueryParam("token") String token) {
+		return super.fetchMaterialBatch(criteria, MyConfiguration.optToken(authorization, token));
 	}
 
 	/**
@@ -201,8 +210,9 @@ public class DataService extends BORepositoryMaterials {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Path("saveMaterialBatch")
-	public OperationResult<MaterialBatch> saveMaterialBatch(MaterialBatch bo, @QueryParam("token") String token) {
-		return super.saveMaterialBatch(bo, token);
+	public OperationResult<MaterialBatch> saveMaterialBatch(MaterialBatch bo,
+			@HeaderParam("authorization") String authorization, @QueryParam("token") String token) {
+		return super.saveMaterialBatch(bo, MyConfiguration.optToken(authorization, token));
 	}
 
 	// --------------------------------------------------------------------------------------------//
@@ -218,8 +228,8 @@ public class DataService extends BORepositoryMaterials {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Path("fetchMaterialBatchJournal")
 	public OperationResult<MaterialBatchJournal> fetchMaterialBatchJournal(Criteria criteria,
-			@QueryParam("token") String token) {
-		return super.fetchMaterialBatchJournal(criteria, token);
+			@HeaderParam("authorization") String authorization, @QueryParam("token") String token) {
+		return super.fetchMaterialBatchJournal(criteria, MyConfiguration.optToken(authorization, token));
 	}
 
 	// --------------------------------------------------------------------------------------------//
@@ -234,8 +244,9 @@ public class DataService extends BORepositoryMaterials {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Path("fetchMaterialGroup")
-	public OperationResult<MaterialGroup> fetchMaterialGroup(Criteria criteria, @QueryParam("token") String token) {
-		return super.fetchMaterialGroup(criteria, token);
+	public OperationResult<MaterialGroup> fetchMaterialGroup(Criteria criteria,
+			@HeaderParam("authorization") String authorization, @QueryParam("token") String token) {
+		return super.fetchMaterialGroup(criteria, MyConfiguration.optToken(authorization, token));
 	}
 
 	/**
@@ -249,8 +260,9 @@ public class DataService extends BORepositoryMaterials {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Path("saveMaterialGroup")
-	public OperationResult<MaterialGroup> saveMaterialGroup(MaterialGroup bo, @QueryParam("token") String token) {
-		return super.saveMaterialGroup(bo, token);
+	public OperationResult<MaterialGroup> saveMaterialGroup(MaterialGroup bo,
+			@HeaderParam("authorization") String authorization, @QueryParam("token") String token) {
+		return super.saveMaterialGroup(bo, MyConfiguration.optToken(authorization, token));
 	}
 
 	// --------------------------------------------------------------------------------------------//
@@ -266,8 +278,8 @@ public class DataService extends BORepositoryMaterials {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Path("fetchMaterialInventory")
 	public OperationResult<MaterialInventory> fetchMaterialInventory(Criteria criteria,
-			@QueryParam("token") String token) {
-		return super.fetchMaterialInventory(criteria, token);
+			@HeaderParam("authorization") String authorization, @QueryParam("token") String token) {
+		return super.fetchMaterialInventory(criteria, MyConfiguration.optToken(authorization, token));
 	}
 
 	// --------------------------------------------------------------------------------------------//
@@ -283,8 +295,8 @@ public class DataService extends BORepositoryMaterials {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Path("fetchMaterialInventoryJournal")
 	public OperationResult<MaterialInventoryJournal> fetchMaterialInventoryJournal(Criteria criteria,
-			@QueryParam("token") String token) {
-		return super.fetchMaterialInventoryJournal(criteria, token);
+			@HeaderParam("authorization") String authorization, @QueryParam("token") String token) {
+		return super.fetchMaterialInventoryJournal(criteria, MyConfiguration.optToken(authorization, token));
 	} // --------------------------------------------------------------------------------------------//
 
 	/**
@@ -299,8 +311,8 @@ public class DataService extends BORepositoryMaterials {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Path("fetchMaterialEstimateJournal")
 	public OperationResult<MaterialEstimateJournal> fetchMaterialEstimateJournal(Criteria criteria,
-			@QueryParam("token") String token) {
-		return super.fetchMaterialEstimateJournal(criteria, token);
+			@HeaderParam("authorization") String authorization, @QueryParam("token") String token) {
+		return super.fetchMaterialEstimateJournal(criteria, MyConfiguration.optToken(authorization, token));
 	}
 
 	// --------------------------------------------------------------------------------------------//
@@ -316,8 +328,8 @@ public class DataService extends BORepositoryMaterials {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Path("fetchMaterialPriceList")
 	public OperationResult<MaterialPriceList> fetchMaterialPriceList(Criteria criteria,
-			@QueryParam("token") String token) {
-		return super.fetchMaterialPriceList(criteria, token);
+			@HeaderParam("authorization") String authorization, @QueryParam("token") String token) {
+		return super.fetchMaterialPriceList(criteria, MyConfiguration.optToken(authorization, token));
 	}
 
 	/**
@@ -332,8 +344,8 @@ public class DataService extends BORepositoryMaterials {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Path("saveMaterialPriceList")
 	public OperationResult<MaterialPriceList> saveMaterialPriceList(MaterialPriceList bo,
-			@QueryParam("token") String token) {
-		return super.saveMaterialPriceList(bo, token);
+			@HeaderParam("authorization") String authorization, @QueryParam("token") String token) {
+		return super.saveMaterialPriceList(bo, MyConfiguration.optToken(authorization, token));
 	}
 
 	// --------------------------------------------------------------------------------------------//
@@ -348,8 +360,9 @@ public class DataService extends BORepositoryMaterials {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Path("fetchMaterialSerial")
-	public OperationResult<MaterialSerial> fetchMaterialSerial(Criteria criteria, @QueryParam("token") String token) {
-		return super.fetchMaterialSerial(criteria, token);
+	public OperationResult<MaterialSerial> fetchMaterialSerial(Criteria criteria,
+			@HeaderParam("authorization") String authorization, @QueryParam("token") String token) {
+		return super.fetchMaterialSerial(criteria, MyConfiguration.optToken(authorization, token));
 	}
 
 	/**
@@ -363,8 +376,9 @@ public class DataService extends BORepositoryMaterials {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Path("saveMaterialSerial")
-	public OperationResult<MaterialSerial> saveMaterialSerial(MaterialSerial bo, @QueryParam("token") String token) {
-		return super.saveMaterialSerial(bo, token);
+	public OperationResult<MaterialSerial> saveMaterialSerial(MaterialSerial bo,
+			@HeaderParam("authorization") String authorization, @QueryParam("token") String token) {
+		return super.saveMaterialSerial(bo, MyConfiguration.optToken(authorization, token));
 	}
 
 	// --------------------------------------------------------------------------------------------//
@@ -380,8 +394,8 @@ public class DataService extends BORepositoryMaterials {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Path("fetchMaterialSerialJournal")
 	public OperationResult<MaterialSerialJournal> fetchMaterialSerialJournal(Criteria criteria,
-			@QueryParam("token") String token) {
-		return super.fetchMaterialSerialJournal(criteria, token);
+			@HeaderParam("authorization") String authorization, @QueryParam("token") String token) {
+		return super.fetchMaterialSerialJournal(criteria, MyConfiguration.optToken(authorization, token));
 	}
 
 	// --------------------------------------------------------------------------------------------//
@@ -396,8 +410,9 @@ public class DataService extends BORepositoryMaterials {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Path("fetchWarehouse")
-	public OperationResult<Warehouse> fetchWarehouse(Criteria criteria, @QueryParam("token") String token) {
-		return super.fetchWarehouse(criteria, token);
+	public OperationResult<Warehouse> fetchWarehouse(Criteria criteria,
+			@HeaderParam("authorization") String authorization, @QueryParam("token") String token) {
+		return super.fetchWarehouse(criteria, MyConfiguration.optToken(authorization, token));
 	}
 
 	/**
@@ -411,8 +426,9 @@ public class DataService extends BORepositoryMaterials {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Path("saveWarehouse")
-	public OperationResult<Warehouse> saveWarehouse(Warehouse bo, @QueryParam("token") String token) {
-		return super.saveWarehouse(bo, token);
+	public OperationResult<Warehouse> saveWarehouse(Warehouse bo, @HeaderParam("authorization") String authorization,
+			@QueryParam("token") String token) {
+		return super.saveWarehouse(bo, MyConfiguration.optToken(authorization, token));
 	}
 
 	// --------------------------------------------------------------------------------------------//
@@ -428,8 +444,9 @@ public class DataService extends BORepositoryMaterials {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Path("fetchProduct")
-	public OperationResult<Product> fetchProduct(Criteria criteria, @QueryParam("token") String token) {
-		return super.fetchProduct(criteria, token);
+	public OperationResult<Product> fetchProduct(Criteria criteria, @HeaderParam("authorization") String authorization,
+			@QueryParam("token") String token) {
+		return super.fetchProduct(criteria, MyConfiguration.optToken(authorization, token));
 	}
 
 	/**
@@ -444,8 +461,8 @@ public class DataService extends BORepositoryMaterials {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Path("fetchMaterialQuantity")
 	public OperationResult<MaterialQuantity> fetchMaterialQuantity(Criteria criteria,
-			@QueryParam("token") String token) {
-		return super.fetchMaterialQuantity(criteria, token);
+			@HeaderParam("authorization") String authorization, @QueryParam("token") String token) {
+		return super.fetchMaterialQuantity(criteria, MyConfiguration.optToken(authorization, token));
 	}
 
 	/**
@@ -459,8 +476,9 @@ public class DataService extends BORepositoryMaterials {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Path("fetchMaterialPrice")
-	public OperationResult<MaterialPrice> fetchMaterialPrice(Criteria criteria, @QueryParam("token") String token) {
-		return super.fetchMaterialPrice(criteria, token);
+	public OperationResult<MaterialPrice> fetchMaterialPrice(Criteria criteria,
+			@HeaderParam("authorization") String authorization, @QueryParam("token") String token) {
+		return super.fetchMaterialPrice(criteria, MyConfiguration.optToken(authorization, token));
 	}
 
 	// --------------------------------------------------------------------------------------------//
@@ -476,8 +494,8 @@ public class DataService extends BORepositoryMaterials {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Path("fetchInventoryCounting")
 	public OperationResult<InventoryCounting> fetchInventoryCounting(Criteria criteria,
-			@QueryParam("token") String token) {
-		return super.fetchInventoryCounting(criteria, token);
+			@HeaderParam("authorization") String authorization, @QueryParam("token") String token) {
+		return super.fetchInventoryCounting(criteria, MyConfiguration.optToken(authorization, token));
 	}
 
 	/**
@@ -492,8 +510,8 @@ public class DataService extends BORepositoryMaterials {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Path("saveInventoryCounting")
 	public OperationResult<InventoryCounting> saveInventoryCounting(InventoryCounting bo,
-			@QueryParam("token") String token) {
-		return super.saveInventoryCounting(bo, token);
+			@HeaderParam("authorization") String authorization, @QueryParam("token") String token) {
+		return super.saveInventoryCounting(bo, MyConfiguration.optToken(authorization, token));
 	}
 
 	/**
@@ -507,8 +525,9 @@ public class DataService extends BORepositoryMaterials {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Path("closeInventoryCounting")
-	public OperationResult<String> closeInventoryCounting(Criteria criteria, @QueryParam("token") String token) {
-		return super.closeInventoryCounting(criteria, token);
+	public OperationResult<String> closeInventoryCounting(Criteria criteria,
+			@HeaderParam("authorization") String authorization, @QueryParam("token") String token) {
+		return super.closeInventoryCounting(criteria, MyConfiguration.optToken(authorization, token));
 	}
 
 	// --------------------------------------------------------------------------------------------//
@@ -524,8 +543,8 @@ public class DataService extends BORepositoryMaterials {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Path("fetchMaterialSpecification")
 	public OperationResult<MaterialSpecification> fetchMaterialSpecification(Criteria criteria,
-			@QueryParam("token") String token) {
-		return super.fetchMaterialSpecification(criteria, token);
+			@HeaderParam("authorization") String authorization, @QueryParam("token") String token) {
+		return super.fetchMaterialSpecification(criteria, MyConfiguration.optToken(authorization, token));
 	}
 
 	/**
@@ -540,8 +559,8 @@ public class DataService extends BORepositoryMaterials {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Path("saveMaterialSpecification")
 	public OperationResult<MaterialSpecification> saveMaterialSpecification(MaterialSpecification bo,
-			@QueryParam("token") String token) {
-		return super.saveMaterialSpecification(bo, token);
+			@HeaderParam("authorization") String authorization, @QueryParam("token") String token) {
+		return super.saveMaterialSpecification(bo, MyConfiguration.optToken(authorization, token));
 	}
 
 	// --------------------------------------------------------------------------------------------//
@@ -556,8 +575,9 @@ public class DataService extends BORepositoryMaterials {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Path("fetchSpecification")
-	public OperationResult<Specification> fetchSpecification(Criteria criteria, @QueryParam("token") String token) {
-		return super.fetchSpecification(criteria, token);
+	public OperationResult<Specification> fetchSpecification(Criteria criteria,
+			@HeaderParam("authorization") String authorization, @QueryParam("token") String token) {
+		return super.fetchSpecification(criteria, MyConfiguration.optToken(authorization, token));
 	}
 
 	/**
@@ -571,8 +591,9 @@ public class DataService extends BORepositoryMaterials {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Path("saveSpecification")
-	public OperationResult<Specification> saveSpecification(Specification bo, @QueryParam("token") String token) {
-		return super.saveSpecification(bo, token);
+	public OperationResult<Specification> saveSpecification(Specification bo,
+			@HeaderParam("authorization") String authorization, @QueryParam("token") String token) {
+		return super.saveSpecification(bo, MyConfiguration.optToken(authorization, token));
 	}
 
 	/**
@@ -587,8 +608,8 @@ public class DataService extends BORepositoryMaterials {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Path("fetchSpecificationTree")
 	public OperationResult<SpecificationTree> fetchSpecificationTree(Criteria criteria,
-			@QueryParam("token") String token) {
-		return super.fetchSpecificationTree(criteria, token);
+			@HeaderParam("authorization") String authorization, @QueryParam("token") String token) {
+		return super.fetchSpecificationTree(criteria, MyConfiguration.optToken(authorization, token));
 	}
 
 	// --------------------------------------------------------------------------------------------//
@@ -603,8 +624,9 @@ public class DataService extends BORepositoryMaterials {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Path("fetchUnit")
-	public OperationResult<Unit> fetchUnit(Criteria criteria, @QueryParam("token") String token) {
-		return super.fetchUnit(criteria, token);
+	public OperationResult<Unit> fetchUnit(Criteria criteria, @HeaderParam("authorization") String authorization,
+			@QueryParam("token") String token) {
+		return super.fetchUnit(criteria, MyConfiguration.optToken(authorization, token));
 	}
 
 	/**
@@ -618,8 +640,9 @@ public class DataService extends BORepositoryMaterials {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Path("saveUnit")
-	public OperationResult<Unit> saveUnit(Unit bo, @QueryParam("token") String token) {
-		return super.saveUnit(bo, token);
+	public OperationResult<Unit> saveUnit(Unit bo, @HeaderParam("authorization") String authorization,
+			@QueryParam("token") String token) {
+		return super.saveUnit(bo, MyConfiguration.optToken(authorization, token));
 	}
 
 	// --------------------------------------------------------------------------------------------//
@@ -634,8 +657,9 @@ public class DataService extends BORepositoryMaterials {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Path("fetchUnitRate")
-	public OperationResult<UnitRate> fetchUnitRate(Criteria criteria, @QueryParam("token") String token) {
-		return super.fetchUnitRate(criteria, token);
+	public OperationResult<UnitRate> fetchUnitRate(Criteria criteria,
+			@HeaderParam("authorization") String authorization, @QueryParam("token") String token) {
+		return super.fetchUnitRate(criteria, MyConfiguration.optToken(authorization, token));
 	}
 
 	/**
@@ -649,8 +673,9 @@ public class DataService extends BORepositoryMaterials {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Path("saveUnitRate")
-	public OperationResult<UnitRate> saveUnitRate(UnitRate bo, @QueryParam("token") String token) {
-		return super.saveUnitRate(bo, token);
+	public OperationResult<UnitRate> saveUnitRate(UnitRate bo, @HeaderParam("authorization") String authorization,
+			@QueryParam("token") String token) {
+		return super.saveUnitRate(bo, MyConfiguration.optToken(authorization, token));
 	}
 
 	// --------------------------------------------------------------------------------------------//
@@ -665,8 +690,9 @@ public class DataService extends BORepositoryMaterials {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Path("fetchMaterialVersion")
-	public OperationResult<MaterialVersion> fetchMaterialVersion(Criteria criteria, @QueryParam("token") String token) {
-		return super.fetchMaterialVersion(criteria, token);
+	public OperationResult<MaterialVersion> fetchMaterialVersion(Criteria criteria,
+			@HeaderParam("authorization") String authorization, @QueryParam("token") String token) {
+		return super.fetchMaterialVersion(criteria, MyConfiguration.optToken(authorization, token));
 	}
 
 	/**
@@ -680,8 +706,9 @@ public class DataService extends BORepositoryMaterials {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Path("saveMaterialVersion")
-	public OperationResult<MaterialVersion> saveMaterialVersion(MaterialVersion bo, @QueryParam("token") String token) {
-		return super.saveMaterialVersion(bo, token);
+	public OperationResult<MaterialVersion> saveMaterialVersion(MaterialVersion bo,
+			@HeaderParam("authorization") String authorization, @QueryParam("token") String token) {
+		return super.saveMaterialVersion(bo, MyConfiguration.optToken(authorization, token));
 	} // --------------------------------------------------------------------------------------------//
 
 	/**
@@ -695,8 +722,9 @@ public class DataService extends BORepositoryMaterials {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Path("fetchMaterialScrap")
-	public OperationResult<MaterialScrap> fetchMaterialScrap(Criteria criteria, @QueryParam("token") String token) {
-		return super.fetchMaterialScrap(criteria, token);
+	public OperationResult<MaterialScrap> fetchMaterialScrap(Criteria criteria,
+			@HeaderParam("authorization") String authorization, @QueryParam("token") String token) {
+		return super.fetchMaterialScrap(criteria, MyConfiguration.optToken(authorization, token));
 	}
 
 	/**
@@ -710,8 +738,9 @@ public class DataService extends BORepositoryMaterials {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Path("saveMaterialScrap")
-	public OperationResult<MaterialScrap> saveMaterialScrap(MaterialScrap bo, @QueryParam("token") String token) {
-		return super.saveMaterialScrap(bo, token);
+	public OperationResult<MaterialScrap> saveMaterialScrap(MaterialScrap bo,
+			@HeaderParam("authorization") String authorization, @QueryParam("token") String token) {
+		return super.saveMaterialScrap(bo, MyConfiguration.optToken(authorization, token));
 	} // --------------------------------------------------------------------------------------------//
 
 	/**
@@ -726,8 +755,8 @@ public class DataService extends BORepositoryMaterials {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Path("fetchMaterialInventoryReservation")
 	public OperationResult<MaterialInventoryReservation> fetchMaterialInventoryReservation(Criteria criteria,
-			@QueryParam("token") String token) {
-		return super.fetchMaterialInventoryReservation(criteria, token);
+			@HeaderParam("authorization") String authorization, @QueryParam("token") String token) {
+		return super.fetchMaterialInventoryReservation(criteria, MyConfiguration.optToken(authorization, token));
 	}
 
 	/**
@@ -742,8 +771,9 @@ public class DataService extends BORepositoryMaterials {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Path("saveMaterialInventoryReservation")
 	public OperationResult<MaterialInventoryReservation> saveMaterialInventoryReservation(
-			MaterialInventoryReservation bo, @QueryParam("token") String token) {
-		return super.saveMaterialInventoryReservation(bo, token);
+			MaterialInventoryReservation bo, @HeaderParam("authorization") String authorization,
+			@QueryParam("token") String token) {
+		return super.saveMaterialInventoryReservation(bo, MyConfiguration.optToken(authorization, token));
 	}
 
 	// --------------------------------------------------------------------------------------------//
@@ -759,8 +789,8 @@ public class DataService extends BORepositoryMaterials {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Path("fetchMaterialSubstitute")
 	public OperationResult<MaterialSubstitute> fetchMaterialSubstitute(Criteria criteria,
-			@QueryParam("token") String token) {
-		return super.fetchMaterialSubstitute(criteria, token);
+			@HeaderParam("authorization") String authorization, @QueryParam("token") String token) {
+		return super.fetchMaterialSubstitute(criteria, MyConfiguration.optToken(authorization, token));
 	}
 
 	/**
@@ -775,8 +805,8 @@ public class DataService extends BORepositoryMaterials {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Path("saveMaterialSubstitute")
 	public OperationResult<MaterialSubstitute> saveMaterialSubstitute(MaterialSubstitute bo,
-			@QueryParam("token") String token) {
-		return super.saveMaterialSubstitute(bo, token);
+			@HeaderParam("authorization") String authorization, @QueryParam("token") String token) {
+		return super.saveMaterialSubstitute(bo, MyConfiguration.optToken(authorization, token));
 	} // --------------------------------------------------------------------------------------------//
 
 	/**
@@ -791,8 +821,8 @@ public class DataService extends BORepositoryMaterials {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Path("fetchMaterialOrderedReservation")
 	public OperationResult<MaterialOrderedReservation> fetchMaterialOrderedReservation(Criteria criteria,
-			@QueryParam("token") String token) {
-		return super.fetchMaterialOrderedReservation(criteria, token);
+			@HeaderParam("authorization") String authorization, @QueryParam("token") String token) {
+		return super.fetchMaterialOrderedReservation(criteria, MyConfiguration.optToken(authorization, token));
 	}
 
 	/**
@@ -807,8 +837,8 @@ public class DataService extends BORepositoryMaterials {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Path("saveMaterialOrderedReservation")
 	public OperationResult<MaterialOrderedReservation> saveMaterialOrderedReservation(MaterialOrderedReservation bo,
-			@QueryParam("token") String token) {
-		return super.saveMaterialOrderedReservation(bo, token);
+			@HeaderParam("authorization") String authorization, @QueryParam("token") String token) {
+		return super.saveMaterialOrderedReservation(bo, MyConfiguration.optToken(authorization, token));
 	}
 
 	// --------------------------------------------------------------------------------------------//
@@ -823,8 +853,9 @@ public class DataService extends BORepositoryMaterials {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Path("fetchPickLists")
-	public OperationResult<PickLists> fetchPickLists(Criteria criteria, @QueryParam("token") String token) {
-		return super.fetchPickLists(criteria, token);
+	public OperationResult<PickLists> fetchPickLists(Criteria criteria,
+			@HeaderParam("authorization") String authorization, @QueryParam("token") String token) {
+		return super.fetchPickLists(criteria, MyConfiguration.optToken(authorization, token));
 	}
 
 	/**
@@ -838,8 +869,9 @@ public class DataService extends BORepositoryMaterials {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Path("savePickLists")
-	public OperationResult<PickLists> savePickLists(PickLists bo, @QueryParam("token") String token) {
-		return super.savePickLists(bo, token);
+	public OperationResult<PickLists> savePickLists(PickLists bo, @HeaderParam("authorization") String authorization,
+			@QueryParam("token") String token) {
+		return super.savePickLists(bo, MyConfiguration.optToken(authorization, token));
 	}
 
 	// --------------------------------------------------------------------------------------------//
@@ -848,8 +880,8 @@ public class DataService extends BORepositoryMaterials {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Path("changeMaterialNumbers")
 	public OperationResult<Object> changeMaterialNumbers(MaterialNumberChange changes,
-			@QueryParam("token") String token) {
-		return super.changeMaterialNumbers(changes, token);
+			@HeaderParam("authorization") String authorization, @QueryParam("token") String token) {
+		return super.changeMaterialNumbers(changes, MyConfiguration.optToken(authorization, token));
 	}
 
 	// --------------------------------------------------------------------------------------------//
@@ -865,8 +897,8 @@ public class DataService extends BORepositoryMaterials {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Path("fetchInventoryTransferRequest")
 	public OperationResult<InventoryTransferRequest> fetchInventoryTransferRequest(Criteria criteria,
-			@QueryParam("token") String token) {
-		return super.fetchInventoryTransferRequest(criteria, token);
+			@HeaderParam("authorization") String authorization, @QueryParam("token") String token) {
+		return super.fetchInventoryTransferRequest(criteria, MyConfiguration.optToken(authorization, token));
 	}
 
 	/**
@@ -881,8 +913,8 @@ public class DataService extends BORepositoryMaterials {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Path("saveInventoryTransferRequest")
 	public OperationResult<InventoryTransferRequest> saveInventoryTransferRequest(InventoryTransferRequest bo,
-			@QueryParam("token") String token) {
-		return super.saveInventoryTransferRequest(bo, token);
+			@HeaderParam("authorization") String authorization, @QueryParam("token") String token) {
+		return super.saveInventoryTransferRequest(bo, MyConfiguration.optToken(authorization, token));
 	}
 
 	// --------------------------------------------------------------------------------------------//
