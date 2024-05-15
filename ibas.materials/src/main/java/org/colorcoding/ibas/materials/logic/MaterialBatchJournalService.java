@@ -11,6 +11,7 @@ import org.colorcoding.ibas.bobas.common.Criteria;
 import org.colorcoding.ibas.bobas.common.ICondition;
 import org.colorcoding.ibas.bobas.common.ICriteria;
 import org.colorcoding.ibas.bobas.common.IOperationResult;
+import org.colorcoding.ibas.bobas.core.ITrackStatus;
 import org.colorcoding.ibas.bobas.data.Decimal;
 import org.colorcoding.ibas.bobas.data.emDirection;
 import org.colorcoding.ibas.bobas.data.emYesNo;
@@ -80,18 +81,7 @@ public class MaterialBatchJournalService
 		boolean status = super.checkDataStatus(data);
 		if (status == false && this.isEnableMaterialCosts()) {
 			// 取消和标记删除时，执行逻辑
-			if (data instanceof IBOTagCanceled) {
-				IBOTagCanceled boTag = (IBOTagCanceled) data;
-				if (boTag.getCanceled() == emYesNo.YES) {
-					status = true;
-				}
-			}
-			if (data instanceof IBOTagDeleted) {
-				IBOTagDeleted boTag = (IBOTagDeleted) data;
-				if (boTag.getDeleted() == emYesNo.YES) {
-					status = true;
-				}
-			}
+			status = super.checkDataStatus(data, ITrackStatus.class, IBOTagCanceled.class, IBOTagDeleted.class);
 		}
 		return status;
 	}

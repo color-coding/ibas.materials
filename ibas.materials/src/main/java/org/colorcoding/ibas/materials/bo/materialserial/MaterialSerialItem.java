@@ -625,6 +625,9 @@ public class MaterialSerialItem extends BusinessObject<MaterialSerialItem>
 
 						@Override
 						public boolean isOffsetting() {
+							if (MaterialSerialItem.this.isDeleted()) {
+								return true;
+							}
 							if (MaterialSerialItem.this instanceof IBOTagCanceled) {
 								IBOTagCanceled boTag = (IBOTagCanceled) MaterialSerialItem.this;
 								if (boTag.getCanceled() == emYesNo.YES) {
@@ -636,6 +639,9 @@ public class MaterialSerialItem extends BusinessObject<MaterialSerialItem>
 								if (boTag.getDeleted() == emYesNo.YES) {
 									return true;
 								}
+							}
+							if (MaterialSerialItem.this.parent.isDeleted()) {
+								return true;
 							}
 							if (MaterialSerialItem.this.parent instanceof IBOTagCanceled) {
 								IBOTagCanceled boTag = (IBOTagCanceled) MaterialSerialItem.this.parent;

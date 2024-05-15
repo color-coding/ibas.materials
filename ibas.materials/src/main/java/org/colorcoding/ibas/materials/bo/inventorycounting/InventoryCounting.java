@@ -1341,6 +1341,9 @@ public class InventoryCounting extends BusinessObject<InventoryCounting> impleme
 
 				@Override
 				public boolean isOffsetting() {
+					if (InventoryCounting.this.isDeleted()) {
+						return true;
+					}
 					if (InventoryCounting.this instanceof IBOTagCanceled) {
 						IBOTagCanceled boTag = (IBOTagCanceled) InventoryCounting.this;
 						if (boTag.getCanceled() == emYesNo.YES) {

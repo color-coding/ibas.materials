@@ -1343,6 +1343,9 @@ public class GoodsIssue extends BusinessObject<GoodsIssue> implements IGoodsIssu
 
 					@Override
 					public boolean isOffsetting() {
+						if (GoodsIssue.this.isDeleted()) {
+							return true;
+						}
 						if (GoodsIssue.this instanceof IBOTagCanceled) {
 							IBOTagCanceled boTag = (IBOTagCanceled) GoodsIssue.this;
 							if (boTag.getCanceled() == emYesNo.YES) {

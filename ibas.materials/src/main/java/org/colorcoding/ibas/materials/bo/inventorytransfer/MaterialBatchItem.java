@@ -39,7 +39,13 @@ class MaterialBatchItem extends org.colorcoding.ibas.materials.bo.materialbatch.
 
 					@Override
 					public boolean isOffsetting() {
+						if (MaterialBatchItem.this.parent.isDeleted()) {
+							return true;
+						}
 						if (MaterialBatchItem.this.parent.getCanceled() == emYesNo.YES) {
+							return true;
+						}
+						if (MaterialBatchItem.this.parent.parent.isDeleted()) {
 							return true;
 						}
 						if (MaterialBatchItem.this.parent.parent.getCanceled() == emYesNo.YES) {
@@ -133,7 +139,13 @@ class MaterialBatchItem extends org.colorcoding.ibas.materials.bo.materialbatch.
 
 					@Override
 					public boolean isOffsetting() {
+						if (MaterialBatchItem.this.parent.isDeleted()) {
+							return true;
+						}
 						if (MaterialBatchItem.this.parent.getCanceled() == emYesNo.YES) {
+							return true;
+						}
+						if (MaterialBatchItem.this.parent.parent.isDeleted()) {
 							return true;
 						}
 						if (MaterialBatchItem.this.parent.parent.getCanceled() == emYesNo.YES) {

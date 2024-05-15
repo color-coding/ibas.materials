@@ -1649,6 +1649,9 @@ public class GoodsReceiptLine extends BusinessObject<GoodsReceiptLine>
 
 					@Override
 					public boolean isOffsetting() {
+						if (GoodsReceiptLine.this.isDeleted()) {
+							return true;
+						}
 						if (GoodsReceiptLine.this instanceof IBOTagCanceled) {
 							IBOTagCanceled boTag = (IBOTagCanceled) GoodsReceiptLine.this;
 							if (boTag.getCanceled() == emYesNo.YES) {
@@ -1660,6 +1663,9 @@ public class GoodsReceiptLine extends BusinessObject<GoodsReceiptLine>
 							if (boTag.getDeleted() == emYesNo.YES) {
 								return true;
 							}
+						}
+						if (GoodsReceiptLine.this.parent.isDeleted()) {
+							return true;
 						}
 						if (GoodsReceiptLine.this.parent instanceof IBOTagCanceled) {
 							IBOTagCanceled boTag = (IBOTagCanceled) GoodsReceiptLine.this.parent;

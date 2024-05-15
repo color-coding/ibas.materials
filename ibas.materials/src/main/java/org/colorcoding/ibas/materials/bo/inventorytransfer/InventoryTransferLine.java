@@ -1705,6 +1705,9 @@ public class InventoryTransferLine extends BusinessObject<InventoryTransferLine>
 		contracts.add(new IMaterialIssueContract() {
 			@Override
 			public boolean isOffsetting() {
+				if (InventoryTransferLine.this.isDeleted()) {
+					return true;
+				}
 				if (InventoryTransferLine.this instanceof IBOTagCanceled) {
 					IBOTagCanceled boTag = (IBOTagCanceled) InventoryTransferLine.this;
 					if (boTag.getCanceled() == emYesNo.YES) {
@@ -1716,6 +1719,9 @@ public class InventoryTransferLine extends BusinessObject<InventoryTransferLine>
 					if (boTag.getDeleted() == emYesNo.YES) {
 						return true;
 					}
+				}
+				if (InventoryTransferLine.this.parent.isDeleted()) {
+					return true;
 				}
 				if (InventoryTransferLine.this.parent instanceof IBOTagCanceled) {
 					IBOTagCanceled boTag = (IBOTagCanceled) InventoryTransferLine.this.parent;
@@ -1842,6 +1848,9 @@ public class InventoryTransferLine extends BusinessObject<InventoryTransferLine>
 
 			@Override
 			public boolean isOffsetting() {
+				if (InventoryTransferLine.this.isDeleted()) {
+					return true;
+				}
 				if (InventoryTransferLine.this instanceof IBOTagCanceled) {
 					IBOTagCanceled boTag = (IBOTagCanceled) InventoryTransferLine.this;
 					if (boTag.getCanceled() == emYesNo.YES) {
@@ -1853,6 +1862,9 @@ public class InventoryTransferLine extends BusinessObject<InventoryTransferLine>
 					if (boTag.getDeleted() == emYesNo.YES) {
 						return true;
 					}
+				}
+				if (InventoryTransferLine.this.parent.isDeleted()) {
+					return true;
 				}
 				if (InventoryTransferLine.this.parent instanceof IBOTagCanceled) {
 					IBOTagCanceled boTag = (IBOTagCanceled) InventoryTransferLine.this.parent;

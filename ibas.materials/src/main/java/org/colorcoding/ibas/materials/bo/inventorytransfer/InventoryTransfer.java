@@ -1343,6 +1343,9 @@ public class InventoryTransfer extends BusinessObject<InventoryTransfer> impleme
 
 					@Override
 					public boolean isOffsetting() {
+						if (InventoryTransfer.this.isDeleted()) {
+							return true;
+						}
 						if (InventoryTransfer.this instanceof IBOTagCanceled) {
 							IBOTagCanceled boTag = (IBOTagCanceled) InventoryTransfer.this;
 							if (boTag.getCanceled() == emYesNo.YES) {

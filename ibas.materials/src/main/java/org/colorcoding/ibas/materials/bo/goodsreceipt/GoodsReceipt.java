@@ -1345,6 +1345,9 @@ public class GoodsReceipt extends BusinessObject<GoodsReceipt> implements IGoods
 
 					@Override
 					public boolean isOffsetting() {
+						if (GoodsReceipt.this.isDeleted()) {
+							return true;
+						}
 						if (GoodsReceipt.this instanceof IBOTagCanceled) {
 							IBOTagCanceled boTag = (IBOTagCanceled) GoodsReceipt.this;
 							if (boTag.getCanceled() == emYesNo.YES) {

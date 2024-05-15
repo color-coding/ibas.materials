@@ -39,7 +39,13 @@ class MaterialSerialItem extends org.colorcoding.ibas.materials.bo.materialseria
 
 					@Override
 					public boolean isOffsetting() {
+						if (MaterialSerialItem.this.parent.isDeleted()) {
+							return true;
+						}
 						if (MaterialSerialItem.this.parent.getCanceled() == emYesNo.YES) {
+							return true;
+						}
+						if (MaterialSerialItem.this.parent.parent.isDeleted()) {
 							return true;
 						}
 						if (MaterialSerialItem.this.parent.parent.getCanceled() == emYesNo.YES) {
@@ -128,7 +134,13 @@ class MaterialSerialItem extends org.colorcoding.ibas.materials.bo.materialseria
 
 					@Override
 					public boolean isOffsetting() {
+						if (MaterialSerialItem.this.parent.isDeleted()) {
+							return true;
+						}
 						if (MaterialSerialItem.this.parent.getCanceled() == emYesNo.YES) {
+							return true;
+						}
+						if (MaterialSerialItem.this.parent.parent.isDeleted()) {
 							return true;
 						}
 						if (MaterialSerialItem.this.parent.parent.getCanceled() == emYesNo.YES) {

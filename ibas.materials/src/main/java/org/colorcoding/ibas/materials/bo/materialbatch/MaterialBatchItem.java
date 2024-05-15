@@ -679,6 +679,9 @@ public class MaterialBatchItem extends BusinessObject<MaterialBatchItem>
 					new IMaterialBatchJournalContract() {
 						@Override
 						public boolean isOffsetting() {
+							if (MaterialBatchItem.this.isDeleted()) {
+								return true;
+							}
 							if (MaterialBatchItem.this instanceof IBOTagCanceled) {
 								IBOTagCanceled boTag = (IBOTagCanceled) MaterialBatchItem.this;
 								if (boTag.getCanceled() == emYesNo.YES) {
@@ -690,6 +693,9 @@ public class MaterialBatchItem extends BusinessObject<MaterialBatchItem>
 								if (boTag.getDeleted() == emYesNo.YES) {
 									return true;
 								}
+							}
+							if (MaterialBatchItem.this.parent.isDeleted()) {
+								return true;
 							}
 							if (MaterialBatchItem.this.parent instanceof IBOTagCanceled) {
 								IBOTagCanceled boTag = (IBOTagCanceled) MaterialBatchItem.this.parent;
@@ -817,6 +823,9 @@ public class MaterialBatchItem extends BusinessObject<MaterialBatchItem>
 
 						@Override
 						public boolean isOffsetting() {
+							if (MaterialBatchItem.this.isDeleted()) {
+								return true;
+							}
 							if (MaterialBatchItem.this instanceof IBOTagCanceled) {
 								IBOTagCanceled boTag = (IBOTagCanceled) MaterialBatchItem.this;
 								if (boTag.getCanceled() == emYesNo.YES) {
@@ -828,6 +837,9 @@ public class MaterialBatchItem extends BusinessObject<MaterialBatchItem>
 								if (boTag.getDeleted() == emYesNo.YES) {
 									return true;
 								}
+							}
+							if (MaterialBatchItem.this.parent.isDeleted()) {
+								return true;
 							}
 							if (MaterialBatchItem.this.parent instanceof IBOTagCanceled) {
 								IBOTagCanceled boTag = (IBOTagCanceled) MaterialBatchItem.this.parent;

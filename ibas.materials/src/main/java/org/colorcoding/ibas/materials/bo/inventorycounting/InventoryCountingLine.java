@@ -1469,6 +1469,9 @@ public class InventoryCountingLine extends BusinessObject<InventoryCountingLine>
 				contracts.add(new IMaterialIssueContract() {
 					@Override
 					public boolean isOffsetting() {
+						if (InventoryCountingLine.this.isDeleted()) {
+							return true;
+						}
 						if (InventoryCountingLine.this instanceof IBOTagCanceled) {
 							IBOTagCanceled boTag = (IBOTagCanceled) InventoryCountingLine.this;
 							if (boTag.getCanceled() == emYesNo.YES) {
@@ -1480,6 +1483,9 @@ public class InventoryCountingLine extends BusinessObject<InventoryCountingLine>
 							if (boTag.getDeleted() == emYesNo.YES) {
 								return true;
 							}
+						}
+						if (InventoryCountingLine.this.parent.isDeleted()) {
+							return true;
 						}
 						if (InventoryCountingLine.this.parent instanceof IBOTagCanceled) {
 							IBOTagCanceled boTag = (IBOTagCanceled) InventoryCountingLine.this.parent;
@@ -1592,6 +1598,9 @@ public class InventoryCountingLine extends BusinessObject<InventoryCountingLine>
 				contracts.add(new IMaterialReceiptContract() {
 					@Override
 					public boolean isOffsetting() {
+						if (InventoryCountingLine.this.isDeleted()) {
+							return true;
+						}
 						if (InventoryCountingLine.this instanceof IBOTagCanceled) {
 							IBOTagCanceled boTag = (IBOTagCanceled) InventoryCountingLine.this;
 							if (boTag.getCanceled() == emYesNo.YES) {
@@ -1603,6 +1612,9 @@ public class InventoryCountingLine extends BusinessObject<InventoryCountingLine>
 							if (boTag.getDeleted() == emYesNo.YES) {
 								return true;
 							}
+						}
+						if (InventoryCountingLine.this.parent.isDeleted()) {
+							return true;
 						}
 						if (InventoryCountingLine.this.parent instanceof IBOTagCanceled) {
 							IBOTagCanceled boTag = (IBOTagCanceled) InventoryCountingLine.this.parent;

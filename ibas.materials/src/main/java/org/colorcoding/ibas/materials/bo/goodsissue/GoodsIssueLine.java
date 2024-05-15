@@ -1648,6 +1648,9 @@ public class GoodsIssueLine extends BusinessObject<GoodsIssueLine>
 				new IMaterialIssueContract() {
 					@Override
 					public boolean isOffsetting() {
+						if (GoodsIssueLine.this.isDeleted()) {
+							return true;
+						}
 						if (GoodsIssueLine.this instanceof IBOTagCanceled) {
 							IBOTagCanceled boTag = (IBOTagCanceled) GoodsIssueLine.this;
 							if (boTag.getCanceled() == emYesNo.YES) {
@@ -1659,6 +1662,9 @@ public class GoodsIssueLine extends BusinessObject<GoodsIssueLine>
 							if (boTag.getDeleted() == emYesNo.YES) {
 								return true;
 							}
+						}
+						if (GoodsIssueLine.this.parent.isDeleted()) {
+							return true;
 						}
 						if (GoodsIssueLine.this.parent instanceof IBOTagCanceled) {
 							IBOTagCanceled boTag = (IBOTagCanceled) GoodsIssueLine.this.parent;
