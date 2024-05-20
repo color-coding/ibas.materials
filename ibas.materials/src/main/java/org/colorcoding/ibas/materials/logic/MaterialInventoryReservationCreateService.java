@@ -252,8 +252,13 @@ public class MaterialInventoryReservationCreateService extends
 			}
 			if (this.checkWarehouse(contract.getWarehouse()).getReservable() == emYesNo.NO) {
 				// 非预留仓库
-				gItem.setRemarks(String.format("%s;%s", gItem.getRemarks(),
-						I18N.prop("msg_mm_non_reserved_warehouse_releases_reservation")));
+				StringBuilder builder = new StringBuilder();
+				if (!DataConvert.isNullOrEmpty(gItem.getRemarks())) {
+					builder.append(gItem.getRemarks());
+					builder.append(";");
+				}
+				builder.append(I18N.prop("msg_mm_non_reserved_warehouse_releases_reservation"));
+				gItem.setRemarks(builder.toString());
 				gItem.setStatus(emBOStatus.CLOSED);
 			}
 			if (avaQuantity.compareTo(Decimal.ZERO) <= 0) {

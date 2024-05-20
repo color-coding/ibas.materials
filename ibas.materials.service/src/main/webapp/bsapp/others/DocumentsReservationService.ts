@@ -178,7 +178,7 @@ namespace materials {
                                         let datas: any[] = table.convert();
                                         if (datas instanceof Array) {
                                             for (let data of datas) {
-                                                let objectCode: string, docEntry: number, lineId: number, quantity: number;
+                                                let objectCode: string, docEntry: number, lineId: number, quantity: number, deliveryDate: Date, warehouse: string;
                                                 for (let item in data) {
                                                     if (typeof item !== "string") {
                                                         continue;
@@ -192,11 +192,15 @@ namespace materials {
                                                         lineId = data[item];
                                                     } else if (ibas.strings.isWith(ptyItem, undefined, "quantity")) {
                                                         quantity = data[item];
+                                                    } else if (ibas.strings.isWith(ptyItem, undefined, "deliverydate")) {
+                                                        deliveryDate = ibas.dates.valueOf(data[item]);
+                                                    } else if (ibas.strings.isWith(ptyItem, undefined, "warehouse")) {
+                                                        warehouse = data[item];
                                                     }
                                                 }
                                                 if (!ibas.strings.isEmpty(objectCode)
                                                     && docEntry > 0 && lineId >= 0 && quantity > 0) {
-                                                    contract.onReserved(objectCode, docEntry, lineId, quantity);
+                                                    contract.onReserved(objectCode, docEntry, lineId, quantity, deliveryDate, warehouse);
                                                 }
                                             }
                                         }

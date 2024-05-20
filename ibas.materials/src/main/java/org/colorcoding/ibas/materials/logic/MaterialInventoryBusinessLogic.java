@@ -201,7 +201,7 @@ public abstract class MaterialInventoryBusinessLogic<L extends IBusinessLogicCon
 			// 引用数据，已标记删除的，不影响业务逻辑
 			IBOTagDeleted refData = (IBOTagDeleted) data;
 			if (refData.getDeleted() == emYesNo.YES) {
-				if (!Arrays.asList(skips).contains(ITrackStatus.class)) {
+				if (!Arrays.asList(skips).contains(IBOTagDeleted.class)) {
 					return false;
 				}
 			}
@@ -210,7 +210,7 @@ public abstract class MaterialInventoryBusinessLogic<L extends IBusinessLogicCon
 			// 引用数据，已标记取消的，不影响业务逻辑
 			IBOTagCanceled refData = (IBOTagCanceled) data;
 			if (refData.getCanceled() == emYesNo.YES) {
-				if (!Arrays.asList(skips).contains(ITrackStatus.class)) {
+				if (!Arrays.asList(skips).contains(IBOTagCanceled.class)) {
 					return false;
 				}
 			}
@@ -223,7 +223,7 @@ public abstract class MaterialInventoryBusinessLogic<L extends IBusinessLogicCon
 					|| apData.getApprovalStatus() == emApprovalStatus.REJECTED
 					|| apData.getApprovalStatus() == emApprovalStatus.RETURNED) {
 				// 审批中，取消，拒绝，退回
-				if (!Arrays.asList(skips).contains(ITrackStatus.class)) {
+				if (!Arrays.asList(skips).contains(IApprovalData.class)) {
 					return false;
 				}
 			}
@@ -233,7 +233,7 @@ public abstract class MaterialInventoryBusinessLogic<L extends IBusinessLogicCon
 			IBODocument docData = (IBODocument) data;
 			if (docData.getDocumentStatus() == emDocumentStatus.PLANNED) {
 				// 计划状态
-				if (!Arrays.asList(skips).contains(ITrackStatus.class)) {
+				if (!Arrays.asList(skips).contains(IBODocument.class)) {
 					return false;
 				}
 			}
@@ -243,7 +243,7 @@ public abstract class MaterialInventoryBusinessLogic<L extends IBusinessLogicCon
 			IBODocumentLine lineData = (IBODocumentLine) data;
 			if (lineData.getLineStatus() == emDocumentStatus.PLANNED) {
 				// 计划状态
-				if (!Arrays.asList(skips).contains(ITrackStatus.class)) {
+				if (!Arrays.asList(skips).contains(IBODocumentLine.class)) {
 					return false;
 				}
 			}

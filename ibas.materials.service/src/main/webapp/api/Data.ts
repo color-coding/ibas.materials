@@ -452,7 +452,7 @@ namespace materials {
             uom: string;
             warehouse?: string;
             deliveryDate?: Date;
-            onReserved: (documentType: string, docEntry: number, lineId: number, quantity: number, deliveryDate?: Date) => void;
+            onReserved: (documentType: string, docEntry: number, lineId: number, quantity: number, deliveryDate?: Date, warehouse?: string) => void;
         }
         /** 物料订购预留目标单据服务代理 */
         export class MaterialOrderedReservationTargetServiceProxy extends ibas.ServiceProxy<IMaterialOrderedReservationTarget> {

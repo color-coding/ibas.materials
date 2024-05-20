@@ -747,7 +747,7 @@ namespace materials {
                         uom: this.currentWorkingItem.inventoryUOM,
                         warehouse: this.currentWorkingItem.warehouse,
                         deliveryDate: undefined,
-                        onReserved: (documentType: string, docEntry: number, lineId: number, quantity: number, deliveryDate: Date) => {
+                        onReserved: (documentType: string, docEntry: number, lineId: number, quantity: number, deliveryDate: Date, warehouse: string) => {
                             if (!(this.currentWorkingItem.remaining > 0)) {
                                 this.proceeding(ibas.emMessageType.WARNING, ibas.i18n.prop("materials_no_remaining"));
                                 return;
@@ -772,6 +772,9 @@ namespace materials {
                             result.sourceDocumentLineId = lineId;
                             result.itemCode = this.currentWorkingItem.itemCode;
                             // result.warehouse = this.currentWorkingItem.warehouse;
+                            if (!ibas.strings.isEmpty(warehouse)) {
+                                result.warehouse = warehouse;
+                            }
                             result.targetDocumentType = workingData.targetType;
                             result.targetDocumentEntry = workingData.targetEntry;
                             result.targetDocumentLineId = this.currentWorkingItem.lineId;
