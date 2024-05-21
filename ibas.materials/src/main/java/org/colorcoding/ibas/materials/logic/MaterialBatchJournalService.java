@@ -2,7 +2,6 @@ package org.colorcoding.ibas.materials.logic;
 
 import java.math.BigDecimal;
 
-import org.colorcoding.ibas.accounting.logic.ApplicationConfigLocalCurrencyService;
 import org.colorcoding.ibas.bobas.bo.IBOTagCanceled;
 import org.colorcoding.ibas.bobas.bo.IBOTagDeleted;
 import org.colorcoding.ibas.bobas.common.ConditionOperation;
@@ -225,8 +224,9 @@ public class MaterialBatchJournalService
 			if (materialBatchJournal.isNew()) {
 				// 交易币转为本位币
 				if (!DataConvert.isNullOrEmpty(contract.getCurrency())) {
-					if (!contract.getCurrency().equalsIgnoreCase(org.colorcoding.ibas.accounting.MyConfiguration
-							.getConfigValue(ApplicationConfigLocalCurrencyService.CONFIG_ITEM_LOCAL_CURRENCY))) {
+					if (!contract.getCurrency()
+							.equalsIgnoreCase(org.colorcoding.ibas.accounting.MyConfiguration.getConfigValue(
+									org.colorcoding.ibas.accounting.MyConfiguration.CONFIG_ITEM_LOCAL_CURRENCY))) {
 						// 非本币
 						if (contract.getRate() == null || Decimal.ZERO.compareTo(contract.getRate()) >= 0) {
 							// 未设置有效汇率
