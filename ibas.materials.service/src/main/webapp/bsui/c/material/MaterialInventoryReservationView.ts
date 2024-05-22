@@ -67,6 +67,24 @@ namespace materials {
                                                 }
                                             }),
                                             new sap.m.ToolbarSpacer(""),
+                                            new sap.m.Label("", {
+                                                showColon: true,
+                                                text: ibas.i18n.prop("bo_materialinventory_onhand"),
+                                            }),
+                                            new sap.m.Text("", {
+                                            }).bindProperty("text", {
+                                                path: "onHand",
+                                                type: new sap.extension.data.Quantity(),
+                                            }),
+                                            new sap.m.Label("", {
+                                                showColon: true,
+                                                text: ",  " + ibas.i18n.prop("bo_materialinventory_onreserved"),
+                                            }),
+                                            new sap.m.Text("", {
+                                            }).bindProperty("text", {
+                                                path: "onReserved",
+                                                type: new sap.extension.data.Quantity(),
+                                            }),
                                             new sap.m.ToolbarSeparator(""),
                                             new sap.m.Button("", {
                                                 icon: "sap-icon://complete",
@@ -137,6 +155,24 @@ namespace materials {
                                                     }
                                                 }),
                                                 new sap.m.ToolbarSpacer(""),
+                                                new sap.m.Label("", {
+                                                    showColon: true,
+                                                    text: ibas.i18n.prop("bo_materialinventory_onhand"),
+                                                }),
+                                                new sap.m.Text("", {
+                                                }).bindProperty("text", {
+                                                    path: "quantity",
+                                                    type: new sap.extension.data.Quantity(),
+                                                }),
+                                                new sap.m.Label("", {
+                                                    showColon: true,
+                                                    text: ",  " + ibas.i18n.prop("bo_materialinventory_onreserved"),
+                                                }),
+                                                new sap.m.Text("", {
+                                                }).bindProperty("text", {
+                                                    path: "reservedQuantity",
+                                                    type: new sap.extension.data.Quantity(),
+                                                }),
                                                 new sap.m.ToolbarSeparator(""),
                                                 new sap.m.Button("", {
                                                     icon: "sap-icon://complete",
@@ -304,6 +340,32 @@ namespace materials {
                                                     }
                                                 }),
                                                 new sap.m.ToolbarSpacer(""),
+                                                new sap.m.Label("", {
+                                                    showColon: true,
+                                                    text: ibas.i18n.prop("bo_materialinventory_onhand"),
+                                                }),
+                                                new sap.m.Text("", {
+                                                }).bindProperty("text", {
+                                                    path: "inStock",
+                                                    formatter(inStock: ibas.emYesNo): number {
+                                                        return sap.extension.data.formatValue(sap.extension.data.Quantity,
+                                                            (inStock === ibas.emYesNo.YES) ? 1 : 0
+                                                            , "string");
+                                                    }
+                                                }),
+                                                new sap.m.Label("", {
+                                                    showColon: true,
+                                                    text: ",  " + ibas.i18n.prop("bo_materialinventory_onreserved"),
+                                                }),
+                                                new sap.m.Text("", {
+                                                }).bindProperty("text", {
+                                                    path: "reserved",
+                                                    formatter(reserved: ibas.emYesNo): number {
+                                                        return sap.extension.data.formatValue(sap.extension.data.Quantity,
+                                                            reserved === ibas.emYesNo.YES ? 1 : 0
+                                                            , "string");
+                                                    }
+                                                }),
                                                 new sap.m.ToolbarSeparator(""),
                                                 new sap.m.Button("", {
                                                     icon: "sap-icon://complete",

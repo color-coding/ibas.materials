@@ -330,7 +330,7 @@ namespace materials {
                                                 }),
                                                 new sap.m.Label("", {
                                                     showColon: true,
-                                                    text: ", " + ibas.i18n.prop("bo_materialbatch_reservedquantity"),
+                                                    text: ",  " + ibas.i18n.prop("bo_materialbatch_reservedquantity"),
                                                 }),
                                                 new sap.m.Text("", {
                                                 }).bindProperty("text", {

@@ -818,7 +818,7 @@ namespace materials {
                         return;
                     }
                     reservation.baseBusinessObject(data);
-                    if (data.onHand > this.currentWorkingItem.remaining) {
+                    if ((data.onHand - data.onReserved) > this.currentWorkingItem.remaining) {
                         reservation.quantity = this.currentWorkingItem.remaining;
                     } else {
                         reservation.quantity = data.onHand - data.onReserved;
@@ -830,7 +830,7 @@ namespace materials {
                         return;
                     }
                     reservation.baseBusinessObject(data);
-                    if (data.quantity > this.currentWorkingItem.remaining) {
+                    if ((data.quantity - data.reservedQuantity) > this.currentWorkingItem.remaining) {
                         reservation.quantity = this.currentWorkingItem.remaining;
                     } else {
                         reservation.quantity = data.quantity - data.reservedQuantity;
