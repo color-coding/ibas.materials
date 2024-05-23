@@ -18,7 +18,8 @@ namespace materials {
         export const CONFIG_ITEM_ENABLE_MATERIAL_VERSIONS: string = "enableMaterialVersions";
         /** 配置项目-启用物料预留选择报表 */
         export const CONFIG_ITEM_ENABLE_MATERIAL_RESERVATION_CHOOSE_REPORT: string = "enableMaterialReservationReport";
-
+        /** 配置项目-出库时显示物料价格 */
+        export const CONFIG_ITEM_DISPALY_MATERIAL_AVGPRICE_ISSUE: string = "dispalyMaterialAvgPriceIssue";
         /**
          * 获取此模块配置
          * @param key 配置项

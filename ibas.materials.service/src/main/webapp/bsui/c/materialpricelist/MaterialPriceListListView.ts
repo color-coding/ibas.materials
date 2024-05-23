@@ -545,7 +545,12 @@ namespace materials {
                                     type: sap.m.ButtonType.Transparent,
                                     press: function (): void {
                                         let datas: ibas.IList<bo.MaterialPriceItem> = new ibas.ArrayList<bo.MaterialPriceItem>();
-                                        for (let item of that.tablePrices.getSelecteds<bo.MaterialPrice>()) {
+                                        let selecteds: ibas.IList<bo.MaterialPrice> = that.tablePrices.getSelecteds<bo.MaterialPrice>();
+                                        if (selecteds.length === 0) {
+                                            // 无选中，则保存全部
+                                            selecteds = ibas.arrays.create(that.tablePrices.getModel().getData<bo.MaterialPrice[]>("rows"));
+                                        }
+                                        for (let item of selecteds) {
                                             if (!item.isDirty) {
                                                 continue;
                                             }

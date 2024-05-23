@@ -75,16 +75,16 @@ namespace materials {
                                             }).bindProperty("text", {
                                                 path: "onHand",
                                                 type: new sap.extension.data.Quantity(),
-                                            }),
+                                            }).addStyleClass("sapUiNoMarginBegin sapUiTinyMarginEnd"),
                                             new sap.m.Label("", {
                                                 showColon: true,
-                                                text: ",  " + ibas.i18n.prop("bo_materialinventory_onreserved"),
+                                                text: ibas.i18n.prop("bo_materialinventory_onreserved"),
                                             }),
                                             new sap.m.Text("", {
                                             }).bindProperty("text", {
                                                 path: "onReserved",
                                                 type: new sap.extension.data.Quantity(),
-                                            }),
+                                            }).addStyleClass("sapUiNoMarginBegin"),
                                             new sap.m.ToolbarSeparator(""),
                                             new sap.m.Button("", {
                                                 icon: "sap-icon://complete",
@@ -163,16 +163,16 @@ namespace materials {
                                                 }).bindProperty("text", {
                                                     path: "quantity",
                                                     type: new sap.extension.data.Quantity(),
-                                                }),
+                                                }).addStyleClass("sapUiNoMarginBegin sapUiTinyMarginEnd"),
                                                 new sap.m.Label("", {
                                                     showColon: true,
-                                                    text: ",  " + ibas.i18n.prop("bo_materialinventory_onreserved"),
+                                                    text: ibas.i18n.prop("bo_materialinventory_onreserved"),
                                                 }),
                                                 new sap.m.Text("", {
                                                 }).bindProperty("text", {
                                                     path: "reservedQuantity",
                                                     type: new sap.extension.data.Quantity(),
-                                                }),
+                                                }).addStyleClass("sapUiNoMarginBegin"),
                                                 new sap.m.ToolbarSeparator(""),
                                                 new sap.m.Button("", {
                                                     icon: "sap-icon://complete",
@@ -352,10 +352,10 @@ namespace materials {
                                                             (inStock === ibas.emYesNo.YES) ? 1 : 0
                                                             , "string");
                                                     }
-                                                }),
+                                                }).addStyleClass("sapUiNoMarginBegin sapUiTinyMarginEnd"),
                                                 new sap.m.Label("", {
                                                     showColon: true,
-                                                    text: ",  " + ibas.i18n.prop("bo_materialinventory_onreserved"),
+                                                    text: ibas.i18n.prop("bo_materialinventory_onreserved"),
                                                 }),
                                                 new sap.m.Text("", {
                                                 }).bindProperty("text", {
@@ -365,7 +365,7 @@ namespace materials {
                                                             reserved === ibas.emYesNo.YES ? 1 : 0
                                                             , "string");
                                                     }
-                                                }),
+                                                }).addStyleClass("sapUiNoMarginBegin"),
                                                 new sap.m.ToolbarSeparator(""),
                                                 new sap.m.Button("", {
                                                     icon: "sap-icon://complete",

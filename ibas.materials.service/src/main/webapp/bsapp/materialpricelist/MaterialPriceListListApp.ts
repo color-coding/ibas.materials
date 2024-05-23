@@ -191,6 +191,7 @@ namespace materials {
                             if (opRslt.resultObjects.length === 0) {
                                 that.proceeding(ibas.emMessageType.INFORMATION, ibas.i18n.prop("shell_data_fetched_none"));
                             }
+                            opRslt.resultObjects.forEach(c => c.markOld());
                             that.view.showPrices(opRslt.resultObjects);
                         } catch (error) {
                             that.messages(error);

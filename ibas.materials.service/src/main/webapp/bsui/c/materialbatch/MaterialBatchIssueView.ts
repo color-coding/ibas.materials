@@ -7,6 +7,7 @@
 namespace materials {
     export namespace ui {
         export namespace c {
+            const DISPALY_MATERIAL_AVGPRICE: boolean = config.get(config.CONFIG_ITEM_DISPALY_MATERIAL_AVGPRICE_ISSUE, false);
             /** 物料批次发货视图 */
             export class MaterialBatchIssueView extends ibas.DialogView implements app.IMaterialBatchIssueView {
                 /** 切换工作数据 */
@@ -321,22 +322,36 @@ namespace materials {
                                                 new sap.m.ToolbarSpacer(""),
                                                 new sap.m.Label("", {
                                                     showColon: true,
-                                                    text: ibas.i18n.prop("bo_materialbatch_quantity"),
+                                                    text: ibas.i18n.prop("bo_materialinventory_avgprice"),
+                                                    visible: DISPALY_MATERIAL_AVGPRICE,
                                                 }),
                                                 new sap.m.Text("", {
+                                                    textAlign: sap.ui.core.TextAlign.Left,
+                                                    visible: DISPALY_MATERIAL_AVGPRICE,
+                                                }).bindProperty("text", {
+                                                    path: "avgPrice",
+                                                    type: new sap.extension.data.Price(),
+                                                }).addStyleClass("sapUiNoMarginBegin sapUiTinyMarginEnd"),
+                                                new sap.m.Label("", {
+                                                    showColon: true,
+                                                    text: ibas.i18n.prop("bo_materialinventory_onhand"),
+                                                }),
+                                                new sap.m.Text("", {
+                                                    textAlign: sap.ui.core.TextAlign.Left,
                                                 }).bindProperty("text", {
                                                     path: "quantity",
                                                     type: new sap.extension.data.Quantity(),
-                                                }),
+                                                }).addStyleClass("sapUiNoMarginBegin sapUiTinyMarginEnd"),
                                                 new sap.m.Label("", {
                                                     showColon: true,
-                                                    text: ",  " + ibas.i18n.prop("bo_materialbatch_reservedquantity"),
+                                                    text: ibas.i18n.prop("bo_materialinventory_onreserved"),
                                                 }),
                                                 new sap.m.Text("", {
+                                                    textAlign: sap.ui.core.TextAlign.Left,
                                                 }).bindProperty("text", {
                                                     path: "reservedQuantity",
                                                     type: new sap.extension.data.Quantity(),
-                                                }),
+                                                }).addStyleClass("sapUiNoMarginBegin"),
                                                 new sap.m.ToolbarSeparator(""),
                                                 new sap.m.Button("", {
                                                     icon: "sap-icon://complete",
