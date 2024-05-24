@@ -61,8 +61,9 @@ namespace materials {
                 this.register(new WarehouseFunc());
                 // this.register(new MaterialGroupFunc());
                 // this.register(new UnitFunc());
-                this.register(new MaterialNumberChangeFunc());
                 this.register(new PickListsFunc());
+                this.register(new MaterialNumberChangeFunc());
+                this.register(new MaterialInventoryTransferFunc());
                 // 注册服务应用
                 this.register(new MaterialChooseServiceMapping());
                 this.register(new MaterialLinkServiceMapping());
@@ -70,6 +71,7 @@ namespace materials {
                 this.register(new WarehouseChooseServiceMapping());
                 this.register(new WarehouseLinkServiceMapping());
                 this.register(new ProductChooseServiceMapping());
+                this.register(new ProductInventoryChooseServiceMapping());
                 this.register(new MaterialBatchReceiptServiceMapping());
                 this.register(new MaterialBatchIssueServiceMapping());
                 this.register(new MaterialBatchListServiceMapping());

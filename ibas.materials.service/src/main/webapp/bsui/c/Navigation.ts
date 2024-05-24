@@ -110,6 +110,9 @@ namespace materials {
                     case app.ProductChooseApp.APPLICATION_ID:
                         view = new c.ProductChooseView();
                         break;
+                    case app.ProductInventoryChooseApp.APPLICATION_ID:
+                        view = new c.ProductInventoryChooseView();
+                        break;
                     case app.MaterialOverviewApp.APPLICATION_ID:
                         view = new c.MaterialOverviewView();
                         break;
@@ -274,6 +277,9 @@ namespace materials {
                         break;
                     case app.InventoryTransferRequestEditApp.APPLICATION_ID:
                         view = new c.InventoryTransferRequestEditView();
+                        break;
+                    case app.MaterialInventoryTransferApp.APPLICATION_ID:
+                        view = new c.MaterialInventoryTransferView();
                         break;
                     default:
                         break;

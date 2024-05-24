@@ -33,6 +33,7 @@ import org.colorcoding.ibas.materials.bo.specification.SpecificationTree;
 import org.colorcoding.ibas.materials.bo.unit.IUnit;
 import org.colorcoding.ibas.materials.bo.unit.IUnitRate;
 import org.colorcoding.ibas.materials.bo.warehouse.IWarehouse;
+import org.colorcoding.ibas.materials.data.MaterialInventoryTransfer;
 import org.colorcoding.ibas.materials.data.MaterialNumberChange;
 
 /**
@@ -246,6 +247,15 @@ public interface IBORepositoryMaterialsApp extends IBORepositoryApplication {
 	 * @return 操作结果
 	 */
 	IOperationResult<IProduct> fetchProduct(ICriteria criteria);
+
+	/**
+	 * 查询-物料库存扩展
+	 * 
+	 * @param criteria 查询
+	 * @param token    口令
+	 * @return
+	 */
+	IOperationResult<IProduct> fetchProductInventory(ICriteria criteria);
 
 	/**
 	 * 查询-物料价格
@@ -492,6 +502,14 @@ public interface IBORepositoryMaterialsApp extends IBORepositoryApplication {
 	 * @return
 	 */
 	IOperationResult<Object> changeMaterialNumbers(MaterialNumberChange changes);
+
+	/**
+	 * 物料库存调拨
+	 * 
+	 * @param changes
+	 * @return
+	 */
+	IOperationResult<Object> transferMaterialInventories(MaterialInventoryTransfer transfers);
 
 	// --------------------------------------------------------------------------------------------//
 	/**

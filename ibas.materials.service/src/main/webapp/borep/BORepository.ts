@@ -170,6 +170,14 @@ namespace materials {
             }
 
             /**
+             * 查询 物料库存扩展
+             * @param fetcher 查询者
+             */
+            fetchProductInventory(fetcher: ibas.IFetchCaller<bo.Product>): void {
+                super.fetch("ProductInventory", fetcher);
+            }
+
+            /**
              *  查询 物料批次
              * @param fetcher 查询者
              */
@@ -448,6 +456,20 @@ namespace materials {
                 });
             }
             /**
+             * 库存调拨
+             * @param transfer 改变者
+             */
+            transferMaterialInventories(transfer: ITransferCaller): void {
+                let boRepository: ibas.BORepositoryAjax = new ibas.BORepositoryAjax();
+                boRepository.address = this.address;
+                boRepository.token = this.token;
+                boRepository.converter = this.createConverter();
+                let data: string = JSON.stringify(boRepository.converter.convert(transfer.transfers, "transferMaterialInventories"));
+                boRepository.callRemoteMethod("transferMaterialInventories", data, (opRslt) => {
+                    transfer.onCompleted.call(ibas.objects.isNull(transfer.caller) ? transfer : transfer.caller, opRslt);
+                });
+            }
+            /**
              * 查询 库存转储请求
              * @param fetcher 查询者
              */
@@ -468,6 +490,13 @@ namespace materials {
             changes: {
                 issue: GoodsIssue,
                 receipt: GoodsReceipt,
+                reservations: MaterialInventoryReservation[],
+            };
+        }
+        export interface ITransferCaller extends ibas.IMethodCaller<string> {
+            /** 改变内容 */
+            transfers: {
+                transfer: InventoryTransfer,
                 reservations: MaterialInventoryReservation[],
             };
         }

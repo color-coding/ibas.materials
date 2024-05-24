@@ -1390,6 +1390,21 @@
         "bo_materialnumberitem_remarks": "备注"
     },
     {
+        "bo_materialinventoryitem": "",
+        "bo_materialinventoryitem_code": "物料编码",
+        "bo_materialinventoryitem_name": "物料描述",
+        "bo_materialinventoryitem_number": "批次/序列号",
+        "bo_materialinventoryitem_warehouse": "仓库",
+        "bo_materialinventoryitem_warehouse_source": "仓库（原）",
+        "bo_materialinventoryitem_warehouse_target": "仓库（新）",
+        "bo_materialinventoryitem_quantity": "库存数量",
+        "bo_materialinventoryitem_quantity_target": "数量",
+        "bo_materialinventoryitem_reservedquantity": "预留数量",
+        "bo_materialinventoryitem_transferquantity": "转移数量",
+        "bo_materialinventoryitem_reserved_transfer_quantity": "预留数量 / 转移数量",
+        "bo_materialinventoryitem_remarks": "备注"
+    },
+    {
         "em_itemtype_item": "物料",
         "em_itemtype_services": "服务"
     },

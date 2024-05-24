@@ -42,7 +42,7 @@ namespace materials {
                     criteria: criteria,
                     onCompleted(opRslt: ibas.IOperationResult<bo.Product>): void {
                         try {
-                                that.busy(false);
+                            that.busy(false);
                             if (opRslt.resultCode !== 0) {
                                 throw new Error(opRslt.message);
                             }
@@ -96,6 +96,72 @@ namespace materials {
             /** 创建服务实例 */
             create(): ibas.IService<ibas.IBOChooseServiceCaller<bo.Product>> {
                 return new ProductChooseApp();
+            }
+        }
+        /** 选择应用-物料 */
+        export class ProductInventoryChooseApp extends ProductChooseApp {
+            /** 应用标识 */
+            static APPLICATION_ID: string = "a7e1c100-b52a-4a50-9a49-d48067676497";
+            /** 应用名称 */
+            static APPLICATION_NAME: string = "materials_app_material_choose";
+            /** 业务对象编码 */
+            static BUSINESS_OBJECT_CODE: string = bo.BO_CODE_PRODUCT_INVENTORY;
+            /** 构造函数 */
+            constructor() {
+                super();
+                this.id = ProductInventoryChooseApp.APPLICATION_ID;
+                this.name = ProductInventoryChooseApp.APPLICATION_NAME;
+                this.boCode = ProductInventoryChooseApp.BUSINESS_OBJECT_CODE;
+                this.description = ibas.i18n.prop(this.name);
+            }
+            /** 查询数据 */
+            protected fetchData(criteria: ibas.ICriteria): void {
+                this.busy(true);
+                let that: this = this;
+                let boRepository: bo.BORepositoryMaterials = new bo.BORepositoryMaterials();
+                boRepository.fetchProductInventory({
+                    criteria: criteria,
+                    onCompleted(opRslt: ibas.IOperationResult<bo.Product>): void {
+                        try {
+                            that.busy(false);
+                            if (opRslt.resultCode !== 0) {
+                                throw new Error(opRslt.message);
+                            }
+                            if (opRslt.resultObjects.length === 1
+                                && ibas.config.get(ibas.CONFIG_ITEM_AUTO_CHOOSE_DATA, true) && !that.isViewShowed()) {
+                                // 仅一条数据，直接选择
+                                that.chooseData(opRslt.resultObjects);
+                            } else {
+                                if (!that.isViewShowed()) {
+                                    // 没显示视图，先显示
+                                    that.show();
+                                }
+                                if (opRslt.resultObjects.length === 0) {
+                                    that.proceeding(ibas.emMessageType.INFORMATION, ibas.i18n.prop("shell_data_fetched_none"));
+                                }
+                                that.view.showData(opRslt.resultObjects);
+                            }
+                        } catch (error) {
+                            that.messages(error);
+                        }
+                    }
+                });
+                this.proceeding(ibas.emMessageType.INFORMATION, ibas.i18n.prop("shell_fetching_data"));
+            }
+        }
+        /** 物料选择服务映射 */
+        export class ProductInventoryChooseServiceMapping extends ibas.BOChooseServiceMapping {
+            /** 构造函数 */
+            constructor() {
+                super();
+                this.id = ProductInventoryChooseApp.APPLICATION_ID;
+                this.name = ProductInventoryChooseApp.APPLICATION_NAME;
+                this.boCode = ProductInventoryChooseApp.BUSINESS_OBJECT_CODE;
+                this.description = ibas.i18n.prop(this.name);
+            }
+            /** 创建服务实例 */
+            create(): ibas.IService<ibas.IBOChooseServiceCaller<bo.Product>> {
+                return new ProductInventoryChooseApp();
             }
         }
     }

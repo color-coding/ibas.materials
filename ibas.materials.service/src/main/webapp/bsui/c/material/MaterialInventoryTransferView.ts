@@ -8,8 +8,10 @@
 namespace materials {
     export namespace ui {
         export namespace c {
-            /** 视图-料批次序列号变更 */
-            export class MaterialNumberChangeView extends ibas.View implements app.IMaterialNumberChangeView {
+            /** 视图-物料库存调拨 */
+            export class MaterialInventoryTransferView extends ibas.View implements app.IMaterialInventoryTransferView {
+                /** 添加物料库存事件 */
+                addMaterialInventoryEvent: Function;
                 /** 添加物料批次事件 */
                 addMaterialBatchEvent: Function;
                 /** 添加物料序列事件 */
@@ -18,14 +20,14 @@ namespace materials {
                 editMaterialBatchEvent: Function;
                 /** 编辑序列信息 */
                 editMaterialSerialEvent: Function;
-                /** 选择变更物料 */
-                chooseTargetMaterialEvent: Function;
+                /** 选择变更仓库 */
+                chooseTargetWarehouseEvent: Function;
                 /** 移除项目事件 */
                 removeItemEvent: Function;
                 /** 重置事件 */
                 resetEvent: Function;
-                /** 改变事件 */
-                changeToEvent: Function;
+                /** 调拨事件 */
+                transferToEvent: Function;
                 /** 绘制视图 */
                 draw(): any {
                     let that: this = this;
@@ -46,10 +48,10 @@ namespace materials {
                                 return sap.ui.core.MessageType.Information;
                             }
                         }),
-                        fixedColumnCount: 3,
+                        fixedColumnCount: 4,
                         columns: [
                             new sap.extension.table.DataColumn("", {
-                                label: ibas.i18n.prop("bo_materialnumberitem_code"),
+                                label: ibas.i18n.prop("bo_materialinventoryitem_code"),
                                 template: new sap.extension.m.DataLink("", {
                                     objectCode: bo.BO_CODE_MATERIAL,
                                 }).bindProperty("bindingValue", {
@@ -59,7 +61,7 @@ namespace materials {
                                 width: "10rem",
                             }),
                             new sap.extension.table.DataColumn("", {
-                                label: ibas.i18n.prop("bo_materialnumberitem_name"),
+                                label: ibas.i18n.prop("bo_materialinventoryitem_name"),
                                 template: new sap.extension.m.Text("", {
                                 }).bindProperty("bindingValue", {
                                     path: "material/name",
@@ -71,11 +73,11 @@ namespace materials {
                                 width: "14rem",
                             }),
                             new sap.extension.table.DataColumn("", {
-                                label: ibas.i18n.prop("bo_materialnumberitem_number_source"),
+                                label: ibas.i18n.prop("bo_materialinventoryitem_number"),
                                 template: new sap.extension.m.Link("", {
                                     press(this: sap.extension.m.Link): void {
                                         let data: any = this.getBindingContext().getObject();
-                                        if (data instanceof app.MaterialNumberItem) {
+                                        if (data instanceof app.MaterialInventoryItem) {
                                             if (data.source instanceof bo.MaterialBatch) {
                                                 that.fireViewEvents(that.editMaterialBatchEvent, data.source);
                                             } else if (data.source instanceof bo.MaterialSerial) {
@@ -90,7 +92,7 @@ namespace materials {
                                 width: "10rem",
                             }),
                             new sap.extension.table.DataColumn("", {
-                                label: ibas.i18n.prop("bo_materialnumberitem_warehouse_source"),
+                                label: ibas.i18n.prop("bo_materialinventoryitem_warehouse_source"),
                                 template: new sap.extension.m.RepositoryText("", {
                                     repository: bo.BORepositoryMaterials,
                                     dataInfo: {
@@ -104,7 +106,7 @@ namespace materials {
                                 }),
                             }),
                             new sap.extension.table.DataColumn("", {
-                                label: ibas.i18n.prop("bo_materialnumberitem_quantity_source"),
+                                label: ibas.i18n.prop("bo_materialinventoryitem_quantity"),
                                 template: new sap.extension.m.Text("", {
                                 }).bindProperty("bindingValue", {
                                     path: "sourceQuantity",
@@ -113,7 +115,7 @@ namespace materials {
                                 width: "8rem",
                             }),
                             new sap.extension.table.DataColumn("", {
-                                label: ibas.i18n.prop("bo_materialnumberitem_quantity_target"),
+                                label: ibas.i18n.prop("bo_materialinventoryitem_quantity_target"),
                                 template: new sap.extension.m.Input("", {
                                 }).bindProperty("bindingValue", {
                                     path: "quantity",
@@ -122,27 +124,7 @@ namespace materials {
                                 width: "8rem",
                             }),
                             new sap.extension.table.DataColumn("", {
-                                label: ibas.i18n.prop("bo_materialnumberitem_number_target"),
-                                template: new sap.extension.m.Input("", {
-                                    showValueLink: true,
-                                    valueLinkRequest(this: sap.extension.m.Input): void {
-                                        let data: any = this.getBindingContext().getObject();
-                                        if (data instanceof app.MaterialNumberItem) {
-                                            if (data.target instanceof bo.MaterialBatch) {
-                                                that.fireViewEvents(that.editMaterialBatchEvent, data.target);
-                                            } else if (data.target instanceof bo.MaterialSerial) {
-                                                that.fireViewEvents(that.editMaterialSerialEvent, data.target);
-                                            }
-                                        }
-                                    },
-                                }).bindProperty("bindingValue", {
-                                    path: "targetNumber",
-                                    type: new sap.extension.data.Alphanumeric(),
-                                }),
-                                width: "14rem",
-                            }),
-                            new sap.extension.table.DataColumn("", {
-                                label: ibas.i18n.prop("bo_materialnumberitem_warehouse_target"),
+                                label: ibas.i18n.prop("bo_materialinventoryitem_warehouse_target"),
                                 template: new sap.extension.m.SelectionInput("", {
                                     showValueHelp: true,
                                     chooseType: ibas.emChooseType.SINGLE,
@@ -162,55 +144,15 @@ namespace materials {
                                 width: "10rem",
                             }),
                             new sap.extension.table.DataColumn("", {
-                                label: ibas.i18n.prop("bo_materialnumberitem_code_target"),
-                                template: new sap.extension.m.Input("", {
-                                    showValueHelp: true,
-                                    valueHelpRequest(this: sap.extension.m.Input): void {
-                                        that.fireViewEvents(that.chooseTargetMaterialEvent, this.getBindingContext().getObject());
-                                    },
-                                    change(event: sap.ui.base.Event): void {
-                                        let source: any = event.getSource();
-                                        if (source instanceof sap.extension.m.Input && ibas.strings.isEmpty(source.getBindingValue())) {
-                                            let data: any = source.getBindingContext().getObject();
-                                            if (data instanceof app.MaterialNumberItem) {
-                                                // 重置对象
-                                                data.targetMaterial = undefined;
-                                            }
-                                        }
-                                    }
-                                }).bindProperty("bindingValue", {
-                                    path: "targetMaterial/code",
-                                    type: new sap.extension.data.Alphanumeric(),
-                                }),
-                                width: "10rem",
-                            }),
-                            new sap.extension.table.DataColumn("", {
-                                label: ibas.i18n.prop("bo_materialnumberitem_name_target"),
-                                template: new sap.extension.m.Text("", {
-                                }).bindProperty("bindingValue", {
-                                    path: "targetMaterial/name",
-                                    type: new sap.extension.data.Alphanumeric(),
-                                }),
-                                width: "14rem",
-                            }),
-                            new sap.extension.table.DataColumn("", {
-                                label: ibas.i18n.prop("bo_materialnumberitem_remarks_out"),
+                                label: ibas.i18n.prop("bo_materialinventoryitem_remarks"),
                                 template: new sap.extension.m.Input("", {
                                 }).bindProperty("bindingValue", {
-                                    path: "remarksOut",
+                                    path: "remarks",
                                     type: new sap.extension.data.Alphanumeric(),
                                 }),
                             }),
                             new sap.extension.table.DataColumn("", {
-                                label: ibas.i18n.prop("bo_materialnumberitem_remarks_in"),
-                                template: new sap.extension.m.Input("", {
-                                }).bindProperty("bindingValue", {
-                                    path: "remarksIn",
-                                    type: new sap.extension.data.Alphanumeric(),
-                                }),
-                            }),
-                            new sap.extension.table.DataColumn("", {
-                                label: ibas.i18n.prop("bo_materialnumberitem_reserved_transfer_quantity"),
+                                label: ibas.i18n.prop("bo_materialinventoryitem_reserved_transfer_quantity"),
                                 template: new sap.extension.m.Link("", {
                                     enabled: {
                                         parts: [
@@ -227,7 +169,7 @@ namespace materials {
                                     },
                                     press(): void {
                                         let data: any = this.getBindingContext().getObject();
-                                        if (data instanceof app.MaterialNumberItem) {
+                                        if (data instanceof app.MaterialInventoryItem) {
                                             let popover: sap.m.Popover = new sap.m.Popover("", {
                                                 showHeader: false,
                                                 contentWidth: "56rem",
@@ -252,7 +194,7 @@ namespace materials {
                                                                 width: "8rem",
                                                             }),
                                                             new sap.extension.m.Column("", {
-                                                                header: ibas.i18n.prop("bo_materialnumberitem_transferquantity"),
+                                                                header: ibas.i18n.prop("bo_materialinventoryitem_transferquantity"),
                                                                 hAlign: sap.ui.core.TextAlign.Center,
                                                                 width: "8rem",
                                                             }),
@@ -275,7 +217,7 @@ namespace materials {
                                                                                     let datas: any = (<sap.extension.model.JSONModel>popover.getModel()).getData();
                                                                                     if (datas instanceof Array) {
                                                                                         for (let data of datas) {
-                                                                                            if (data instanceof app.MaterialNumberReservation) {
+                                                                                            if (data instanceof app.MaterialInventoryReservation) {
                                                                                                 data.target.quantity = data.sourceQuantity;
                                                                                             }
                                                                                         }
@@ -289,7 +231,7 @@ namespace materials {
                                                                                     let datas: any = (<sap.extension.model.JSONModel>popover.getModel()).getData();
                                                                                     if (datas instanceof Array) {
                                                                                         for (let data of datas) {
-                                                                                            if (data instanceof app.MaterialNumberReservation) {
+                                                                                            if (data instanceof app.MaterialInventoryReservation) {
                                                                                                 data.target.quantity = 0;
                                                                                             }
                                                                                         }
@@ -438,6 +380,12 @@ namespace materials {
                                     menu: new sap.m.Menu("", {
                                         items: [
                                             new sap.m.MenuItem("", {
+                                                text: ibas.i18n.prop("materials_material_inventories"),
+                                                press: function (): void {
+                                                    that.fireViewEvents(that.addMaterialInventoryEvent, that.warehouseInput.getBindingValue());
+                                                },
+                                            }),
+                                            new sap.m.MenuItem("", {
                                                 text: ibas.i18n.prop("materials_material_batch"),
                                                 press: function (): void {
                                                     that.fireViewEvents(that.addMaterialBatchEvent, that.warehouseInput.getBindingValue());
@@ -467,7 +415,7 @@ namespace materials {
                                     press(): void {
                                         that.fireViewEvents(that.resetEvent);
                                         that.warehouseInput.setBindingValue("");
-                                        that.remarksInput.setValue(ibas.i18n.prop("materials_number_change_remarks", ibas.dates.toString(ibas.dates.now(), "yyyyMMddHHmm")));
+                                        that.remarksInput.setValue(ibas.i18n.prop("materials_inventory_transfer_remarks", ibas.dates.toString(ibas.dates.now(), "yyyyMMddHHmm")));
                                     }
                                 }),
                             ]
@@ -484,11 +432,11 @@ namespace materials {
                             content: [
                                 new sap.m.Label("", {
                                     showColon: true,
-                                    text: ibas.i18n.prop("bo_materialnumberitem_remarks")
+                                    text: ibas.i18n.prop("bo_materialinventoryitem_remarks")
                                 }),
                                 this.remarksInput = new sap.m.Input("", {
                                     width: "20rem",
-                                    value: ibas.i18n.prop("materials_number_change_remarks", ibas.dates.toString(ibas.dates.now(), "yyyyMMddHHmm")),
+                                    value: ibas.i18n.prop("materials_inventory_transfer_remarks", ibas.dates.toString(ibas.dates.now(), "yyyyMMddHHmm")),
                                 }),
                                 new sap.m.ToolbarSeparator(),
                                 this.checkBlocked = new sap.m.CheckBox("", {
@@ -498,9 +446,9 @@ namespace materials {
                                 new sap.m.ToolbarSpacer(),
                                 new sap.m.Button("", {
                                     icon: "sap-icon://journey-change",
-                                    text: ibas.i18n.prop("materials_change_to"),
+                                    text: ibas.i18n.prop("materials_transfer_to"),
                                     press(): void {
-                                        that.fireViewEvents(that.changeToEvent, that.remarksInput.getValue(), that.checkBlocked.getSelected());
+                                        that.fireViewEvents(that.transferToEvent, that.remarksInput.getValue(), that.checkBlocked.getSelected());
                                     }
                                 })
                             ]
@@ -512,7 +460,7 @@ namespace materials {
                 private checkBlocked: sap.m.CheckBox;
                 private warehouseInput: sap.extension.m.Input;
 
-                showItems(datas: app.MaterialNumberItem[]): void {
+                showItems(datas: app.MaterialInventoryItem[]): void {
                     this.itemTable.setModel(new sap.extension.model.JSONModel(datas));
                 }
             }

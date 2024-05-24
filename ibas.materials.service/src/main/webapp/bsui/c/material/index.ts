@@ -16,3 +16,5 @@
 /// <reference path="./MaterialSubstituteListView.ts" />
 /// <reference path="./MaterialOrderedReservationView.ts" />
 /// <reference path="./MaterialNumberChangeView.ts" />
+/// <reference path="./MaterialInventoryTransferView.ts" />
+/// <reference path="./ProductInventoryChooseView.ts" />

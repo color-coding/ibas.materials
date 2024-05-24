@@ -40,6 +40,22 @@ namespace materials {
                         }
                     }
                     return remote;
+                } else if (sign === "transferMaterialInventories") {
+                    let newData: {
+                        transfer: InventoryTransfer,
+                        reservations: MaterialInventoryReservation[],
+                    } = data;
+                    let remote: bo4j.IMaterialInventoryTransfer = {
+                        type: "MaterialInventoryTransfer",
+                        Transfer: super.convert(newData.transfer, ""),
+                        Reservations: []
+                    };
+                    if (newData.reservations instanceof Array) {
+                        for (let item of newData.reservations) {
+                            remote.Reservations.push(super.convert(item, ""));
+                        }
+                    }
+                    return remote;
                 } else {
                     return super.convert(data, sign);
                 }
@@ -592,6 +608,11 @@ namespace materials {
             export interface IMaterialNumberChange extends IDataDeclaration {
                 Issue: GoodsIssue;
                 Receipt: GoodsReceipt;
+                Reservations: MaterialInventoryReservation[];
+            }
+            /** 物料库存调拨 */
+            export interface IMaterialInventoryTransfer extends IDataDeclaration {
+                Transfer: InventoryTransfer;
                 Reservations: MaterialInventoryReservation[];
             }
         }

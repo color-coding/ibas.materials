@@ -7,36 +7,42 @@
  */
 namespace materials {
     export namespace app {
-        const DATASOURCE_TYPE_NUMBER_CHANGE: string = "MM_NOC";
+        const DATASOURCE_TYPE_INVENTORY_TRANSFER: string = "MM_IVT";
         const PROPERTY_QUANTITY: symbol = Symbol("quantity");
         const PROPERTY_STATUS: symbol = Symbol("status");
-        const PROPERTY_TARGET_MATERIAL: symbol = Symbol("targetMaterial");
         const PROPERTY_MATERIAL: symbol = Symbol("material");
-        const PROPERTY_REMARKS_OUT: symbol = Symbol("remarksOut");
-        const PROPERTY_REMARKS_IN: symbol = Symbol("remarksIn");
-        export enum emNumberChangeStatus {
+        const PROPERTY_WAREHOUSE: symbol = Symbol("warehouse");
+        const PROPERTY_REMARKS: symbol = Symbol("remarks");
+        export enum emMaterialTransferStatus {
             NOT,
             PROCESSING,
             DONE,
         }
-        export class MaterialNumberItem extends ibas.Bindable {
-            constructor(source: bo.MaterialBatch | bo.MaterialSerial) {
+        export class MaterialInventoryItem extends ibas.Bindable {
+            constructor(source: bo.MaterialBatch | bo.MaterialSerial | bo.MaterialInventory | bo.Product) {
                 super();
-                this.status = emNumberChangeStatus.NOT;
+                this.status = emMaterialTransferStatus.NOT;
                 this.source = source;
-                this.target = this.source.clone();
                 if (this.source instanceof bo.MaterialBatch) {
                     this.quantity = this.source.quantity;
+                    this.targetWarehouse = this.source.warehouse;
                 } else if (this.source instanceof bo.MaterialSerial) {
                     this.quantity = 1;
+                    this.targetWarehouse = this.source.warehouse;
+                } else if (this.source instanceof bo.MaterialInventory) {
+                    this.quantity = this.source.onHand;
+                    this.targetWarehouse = this.source.warehouse;
+                } else if (this.source instanceof bo.Product) {
+                    this.quantity = this.source.onHand;
+                    this.targetWarehouse = this.source.warehouse;
                 }
-                this.reservations = new ibas.ArrayList<MaterialNumberReservation>();
+                this.reservations = new ibas.ArrayList<MaterialInventoryReservation>();
             }
 
-            get status(): emNumberChangeStatus {
+            get status(): emMaterialTransferStatus {
                 return this[PROPERTY_STATUS];
             }
-            set status(value: emNumberChangeStatus) {
+            set status(value: emMaterialTransferStatus) {
                 this[PROPERTY_STATUS] = value;
                 this.firePropertyChanged("status");
             }
@@ -46,16 +52,35 @@ namespace materials {
             }
             set material(value: bo.Material) {
                 this[PROPERTY_MATERIAL] = value;
-                if (!ibas.objects.isNull(value)) {
-                    this[PROPERTY_TARGET_MATERIAL] = value.clone();
-                }
                 this.firePropertyChanged("material");
             }
 
-            source: bo.MaterialBatch | bo.MaterialSerial;
+            source: bo.MaterialBatch | bo.MaterialSerial | bo.MaterialInventory | bo.Product;
 
-            target: bo.MaterialBatch | bo.MaterialSerial;
-
+            get itemCode(): string {
+                if (this.source instanceof bo.MaterialBatch) {
+                    return this.source.itemCode;
+                } else if (this.source instanceof bo.MaterialSerial) {
+                    return this.source.itemCode;
+                } else if (this.source instanceof bo.MaterialInventory) {
+                    return this.source.itemCode;
+                } else if (this.source instanceof bo.Product) {
+                    return this.source.code;
+                }
+                return undefined;
+            }
+            set itemCode(value: string) {
+                if (this.source instanceof bo.MaterialBatch) {
+                    this.source.itemCode = value;
+                } else if (this.source instanceof bo.MaterialSerial) {
+                    this.source.itemCode = value;
+                } else if (this.source instanceof bo.MaterialInventory) {
+                    this.source.itemCode = value;
+                } else if (this.source instanceof bo.Product) {
+                    this.source.code = value;
+                }
+                this.firePropertyChanged("itemCode");
+            }
             get quantity(): number {
                 return this[PROPERTY_QUANTITY];
             }
@@ -68,6 +93,10 @@ namespace materials {
                     return this.source.quantity;
                 } else if (this.source instanceof bo.MaterialSerial) {
                     return 1;
+                } else if (this.source instanceof bo.MaterialInventory) {
+                    return this.source.onHand;
+                } else if (this.source instanceof bo.Product) {
+                    return this.source.onHand;
                 }
                 return undefined;
             }
@@ -78,7 +107,7 @@ namespace materials {
                 } else if (this.source instanceof bo.MaterialSerial) {
                     return this.source.serialCode;
                 }
-                return undefined;
+                return "";
             }
             set sourceNumber(value: string) {
                 if (this.source instanceof bo.MaterialBatch) {
@@ -88,32 +117,15 @@ namespace materials {
                 }
                 this.firePropertyChanged("sourceNumber");
             }
-            get targetNumber(): string {
-                if (this.target instanceof bo.MaterialBatch) {
-                    return this.target.batchCode;
-                } else if (this.target instanceof bo.MaterialSerial) {
-                    return this.target.serialCode;
-                }
-                return undefined;
-            }
-            set targetNumber(value: string) {
-                if (this.target instanceof bo.MaterialBatch) {
-                    this.target.batchCode = value;
-                    for (let item of this.reservations) {
-                        item.target.batchCode = this.target.batchCode;
-                    }
-                } else if (this.source instanceof bo.MaterialSerial) {
-                    this.target.serialCode = value;
-                    for (let item of this.reservations) {
-                        item.target.serialCode = this.target.serialCode;
-                    }
-                }
-                this.firePropertyChanged("targetNumber");
-            }
+
             get sourceWarehouse(): string {
                 if (this.source instanceof bo.MaterialBatch) {
                     return this.source.warehouse;
                 } else if (this.source instanceof bo.MaterialSerial) {
+                    return this.source.warehouse;
+                } else if (this.source instanceof bo.MaterialInventory) {
+                    return this.source.warehouse;
+                } else if (this.source instanceof bo.Product) {
                     return this.source.warehouse;
                 }
                 return undefined;
@@ -123,78 +135,33 @@ namespace materials {
                     this.source.warehouse = value;
                 } else if (this.source instanceof bo.MaterialSerial) {
                     this.source.warehouse = value;
+                } else if (this.source instanceof bo.MaterialInventory) {
+                    this.source.warehouse = value;
+                } else if (this.source instanceof bo.Product) {
+                    this.source.warehouse = value;
                 }
                 this.firePropertyChanged("sourceWarehouse");
             }
             get targetWarehouse(): string {
-                if (this.target instanceof bo.MaterialBatch) {
-                    return this.target.warehouse;
-                } else if (this.target instanceof bo.MaterialSerial) {
-                    return this.target.warehouse;
-                }
-                return undefined;
+                return this[PROPERTY_WAREHOUSE];
             }
             set targetWarehouse(value: string) {
-                if (this.target instanceof bo.MaterialBatch) {
-                    this.target.warehouse = value;
+                this[PROPERTY_WAREHOUSE] = value;
+                if (this.reservations instanceof Array) {
                     for (let item of this.reservations) {
-                        item.target.warehouse = this.target.warehouse;
-                    }
-                } else if (this.source instanceof bo.MaterialSerial) {
-                    this.target.warehouse = value;
-                    for (let item of this.reservations) {
-                        item.target.warehouse = this.target.warehouse;
+                        item.target.warehouse = this.targetWarehouse;
                     }
                 }
                 this.firePropertyChanged("targetWarehouse");
             }
-            get targetMaterial(): bo.Material {
-                return this[PROPERTY_TARGET_MATERIAL];
-            }
-            set targetMaterial(value: bo.Material) {
-                if (ibas.objects.isNull(value)) {
-                    value = this.material.clone();
-                }
-                this[PROPERTY_TARGET_MATERIAL] = value;
-                if (this.target instanceof bo.MaterialBatch) {
-                    this.target.itemCode = value.code;
-                    for (let item of this.reservations) {
-                        item.target.itemCode = value.code;
-                        if (this.material?.code === this.targetMaterial?.code) {
-                            item.target.quantity = item.source.quantity;
-                        } else {
-                            item.target.quantity = 0;
-                        }
-                    }
-                } else if (this.source instanceof bo.MaterialSerial) {
-                    this.target.itemCode = value.code;
-                    for (let item of this.reservations) {
-                        item.target.itemCode = value.code;
-                        if (this.material?.code === this.targetMaterial?.code) {
-                            item.target.quantity = item.source.quantity;
-                        } else {
-                            item.target.quantity = 0;
-                        }
-                    }
-                }
-                this.firePropertyChanged("targetMaterial");
-            }
-            reservations: ibas.IList<MaterialNumberReservation>;
+            reservations: ibas.IList<MaterialInventoryReservation>;
 
-            get remarksOut(): string {
-                return this[PROPERTY_REMARKS_OUT];
+            get remarks(): string {
+                return this[PROPERTY_REMARKS];
             }
-            set remarksOut(value: string) {
-                this[PROPERTY_REMARKS_OUT] = value;
-                this.firePropertyChanged("remarksOut");
-            }
-
-            get remarksIn(): string {
-                return this[PROPERTY_REMARKS_IN];
-            }
-            set remarksIn(value: string) {
-                this[PROPERTY_REMARKS_IN] = value;
-                this.firePropertyChanged("remarksIn");
+            set remarks(value: string) {
+                this[PROPERTY_REMARKS] = value;
+                this.firePropertyChanged("remarks");
             }
 
             get reservationQuantity(): number {
@@ -216,46 +183,52 @@ namespace materials {
                 if (this.source instanceof bo.MaterialSerial) {
                     if (this.quantity > 1) {
                         // 序列号数量不能大于1
-                        throw new Error(ibas.i18n.prop("materials_transfer_quantity_grater_than_onhand", this.source.itemCode, this.sourceNumber));
+                        throw new Error(ibas.i18n.prop("materials_transfer_quantity_grater_than_onhand", this.itemCode, this.sourceNumber));
                     }
-                    if (blocked === true || this.material.code !== this.targetMaterial?.code) {
-                        // 序列被预留
-                        if (this.source.reserved === ibas.emYesNo.YES) {
-                            throw new Error(ibas.i18n.prop("materials_transfer_quantity_grater_than_availabled", this.source.itemCode, this.sourceNumber));
-                        }
+                    // 序列被预留
+                    if (blocked === true && this.source.reserved === ibas.emYesNo.YES) {
+                        throw new Error(ibas.i18n.prop("materials_transfer_quantity_grater_than_availabled", this.itemCode, this.sourceNumber));
                     }
                 }
                 if (this.source instanceof bo.MaterialBatch) {
                     if (this.quantity > this.source.quantity) {
                         // 批次数量不能大于库存量
-                        throw new Error(ibas.i18n.prop("materials_transfer_quantity_grater_than_onhand", this.source.itemCode, this.sourceNumber));
+                        throw new Error(ibas.i18n.prop("materials_transfer_quantity_grater_than_onhand", this.itemCode, this.sourceNumber));
                     }
-                    if (blocked === true || this.material.code !== this.targetMaterial?.code) {
-                        // 批次数量不能大于可用量
-                        if (this.quantity > (this.source.quantity - this.source.reservedQuantity)) {
-                            throw new Error(ibas.i18n.prop("materials_transfer_quantity_grater_than_availabled", this.source.itemCode, this.sourceNumber));
-                        }
+                    // 批次数量不能大于可用量
+                    if (blocked === true && this.quantity > (this.source.quantity - this.source.reservedQuantity)) {
+                        throw new Error(ibas.i18n.prop("materials_transfer_quantity_grater_than_availabled", this.itemCode, this.sourceNumber));
+                    }
+                }
+                if (this.source instanceof bo.Product || this.source instanceof bo.MaterialInventory) {
+                    if (this.quantity > this.source.onHand) {
+                        // 批次数量不能大于库存量
+                        throw new Error(ibas.i18n.prop("materials_transfer_quantity_grater_than_onhand", this.itemCode, this.sourceNumber));
+                    }
+                    // 批次数量不能大于可用量
+                    if (blocked === true && this.quantity > (this.source.onHand - this.source.onReserved)) {
+                        throw new Error(ibas.i18n.prop("materials_transfer_quantity_grater_than_availabled", this.itemCode, this.sourceNumber));
                     }
                 }
                 if (this.transferQuantity > this.reservationQuantity) {
                     // 转移数量超过预留数量
-                    throw new Error(ibas.i18n.prop("materials_transfer_quantity_grater_than_reservation", this.source.itemCode, this.sourceNumber));
+                    throw new Error(ibas.i18n.prop("materials_transfer_quantity_grater_than_reservation", this.itemCode, this.sourceNumber));
                 }
                 if (this.transferQuantity > this.quantity) {
                     // 转移数量超过改变数量
-                    throw new Error(ibas.i18n.prop("materials_transfer_quantity_grater_than_quantity", this.source.itemCode, this.sourceNumber));
+                    throw new Error(ibas.i18n.prop("materials_transfer_quantity_grater_than_quantity", this.itemCode, this.sourceNumber));
                 }
             }
         }
-        class MaterialNumberItems extends ibas.ArrayList<MaterialNumberItem> {
+        class MaterialInventoryItems extends ibas.ArrayList<MaterialInventoryItem> {
 
-            create(source: bo.MaterialBatch | bo.MaterialSerial): MaterialNumberItem {
-                let item: MaterialNumberItem = new MaterialNumberItem(source);
+            create(source: bo.MaterialBatch | bo.MaterialSerial | bo.MaterialInventory | bo.Product): MaterialInventoryItem {
+                let item: MaterialInventoryItem = new MaterialInventoryItem(source);
                 this.add(item);
                 return item;
             }
         }
-        export class MaterialNumberReservation extends ibas.Bindable {
+        export class MaterialInventoryReservation extends ibas.Bindable {
             constructor(data: bo.MaterialInventoryReservation) {
                 super();
                 this.source = data;
@@ -271,17 +244,17 @@ namespace materials {
 
             target: bo.MaterialInventoryReservation;
         }
-        /** 应用-物料批次序列号变更 */
-        export class MaterialNumberChangeApp extends ibas.Application<IMaterialNumberChangeView> {
+        /** 应用-物料库存调拨 */
+        export class MaterialInventoryTransferApp extends ibas.Application<IMaterialInventoryTransferView> {
             /** 应用标识 */
-            static APPLICATION_ID: string = "7a53e697-6799-4064-b8f9-b62068e27b48";
+            static APPLICATION_ID: string = "b68c4580-d3f7-44f9-8451-5311145559c2";
             /** 应用名称 */
-            static APPLICATION_NAME: string = "materials_app_materialnumberchange";
+            static APPLICATION_NAME: string = "materials_app_materialinventorytransfer";
             /** 构造函数 */
             constructor() {
                 super();
-                this.id = MaterialNumberChangeApp.APPLICATION_ID;
-                this.name = MaterialNumberChangeApp.APPLICATION_NAME;
+                this.id = MaterialInventoryTransferApp.APPLICATION_ID;
+                this.name = MaterialInventoryTransferApp.APPLICATION_NAME;
                 this.description = ibas.i18n.prop(this.name);
             }
             /** 注册视图 */
@@ -290,24 +263,140 @@ namespace materials {
                 // 其他事件
                 this.view.addMaterialBatchEvent = this.addMaterialBatch;
                 this.view.addMaterialSerialEvent = this.addMaterialSerial;
+                this.view.addMaterialInventoryEvent = this.addMaterialInventory;
                 this.view.removeItemEvent = this.removeItem;
                 this.view.editMaterialBatchEvent = this.editMaterialBatch;
                 this.view.editMaterialSerialEvent = this.editMaterialSerial;
-                this.view.chooseTargetMaterialEvent = this.chooseTargetMaterial;
+                this.view.chooseTargetWarehouseEvent = this.chooseTargetWarehouse;
                 this.view.resetEvent = this.reset;
-                this.view.changeToEvent = this.changeTo;
+                this.view.transferToEvent = this.transferTo;
             }
             /** 视图显示后 */
             protected viewShowed(): void {
                 // 视图加载完成
-                if (this.changeItems instanceof MaterialNumberItems) {
+                if (this.changeItems instanceof MaterialInventoryItems) {
                     this.changeItems.clear();
                 } else {
-                    this.changeItems = new MaterialNumberItems();
+                    this.changeItems = new MaterialInventoryItems();
                 }
                 this.view.showItems(this.changeItems);
             }
-            private changeItems: MaterialNumberItems = new MaterialNumberItems();
+            private changeItems: MaterialInventoryItems = new MaterialInventoryItems();
+            private addMaterialInventory(warehouses?: string): void {
+                let that: this = this; let condition: ibas.ICondition;
+                let criteria: ibas.ICriteria = new ibas.Criteria();
+                // 限定仓库
+                if (!ibas.strings.isEmpty(warehouses)) {
+                    for (let item of warehouses.split(ibas.DATA_SEPARATOR)) {
+                        if (ibas.strings.isEmpty(item)) {
+                            continue;
+                        }
+                        condition = criteria.conditions.create();
+                        condition.alias = materials.app.conditions.product.CONDITION_ALIAS_WAREHOUSE;
+                        condition.value = item;
+                        if (criteria.conditions.length > 1) {
+                            condition.relationship = ibas.emConditionRelationship.OR;
+                        }
+                    }
+                    if (criteria.conditions.length > 1) {
+                        criteria.conditions.firstOrDefault().bracketOpen += 1;
+                        criteria.conditions.lastOrDefault().bracketClose += 1;
+                    }
+                }
+                // 库存物料
+                condition = criteria.conditions.create();
+                condition.alias = app.conditions.material.CONDITION_ALIAS_INVENTORY_ITEM;
+                condition.value = ibas.emYesNo.YES.toString();
+                condition.operation = ibas.emConditionOperation.EQUAL;
+                // 物料类型
+                condition = criteria.conditions.create();
+                condition.alias = app.conditions.material.CONDITION_ALIAS_ITEM_TYPE;
+                condition.value = bo.emItemType.ITEM.toString();
+                condition.operation = ibas.emConditionOperation.EQUAL;
+                // 非虚拟的
+                condition = criteria.conditions.create();
+                condition.alias = app.conditions.material.CONDITION_ALIAS_PHANTOM_ITEM;
+                condition.value = ibas.emYesNo.NO.toString();
+                condition.operation = ibas.emConditionOperation.EQUAL;
+                // 非批次管理
+                condition = criteria.conditions.create();
+                condition.alias = bo.Product.PROPERTY_BATCHMANAGEMENT_NAME;
+                condition.value = ibas.emYesNo.YES.toString();
+                condition.operation = ibas.emConditionOperation.NOT_EQUAL;
+                // 非序列管理
+                condition = criteria.conditions.create();
+                condition.alias = bo.Product.PROPERTY_SERIALMANAGEMENT_NAME;
+                condition.value = ibas.emYesNo.YES.toString();
+                condition.operation = ibas.emConditionOperation.NOT_EQUAL;
+                // 有库存
+                condition = criteria.conditions.create();
+                condition.alias = bo.Product.PROPERTY_ONHAND_NAME;
+                condition.value = "0";
+                condition.operation = ibas.emConditionOperation.GRATER_THAN;
+                // 调用选择服务
+                ibas.servicesManager.runChooseService<bo.Product>({
+                    boCode: bo.BO_CODE_PRODUCT_INVENTORY,
+                    criteria: criteria,
+                    onCompleted(selecteds: ibas.IList<bo.Product>): void {
+                        let condition: ibas.ICondition;
+                        let criteria: ibas.ICriteria = new ibas.Criteria();
+                        let datas: ibas.IList<MaterialInventoryItem> = new ibas.ArrayList<MaterialInventoryItem>();
+                        for (let select of selecteds) {
+                            let item: MaterialInventoryItem = that.changeItems.create(select);
+                            condition = criteria.conditions.create();
+                            condition.alias = bo.MaterialInventoryReservation.PROPERTY_ITEMCODE_NAME;
+                            condition.value = select.code;
+                            condition.bracketOpen = 1;
+                            if (criteria.conditions.length > 1) {
+                                condition.relationship = ibas.emConditionRelationship.OR;
+                            }
+                            condition = criteria.conditions.create();
+                            condition.alias = bo.MaterialInventoryReservation.PROPERTY_WAREHOUSE_NAME;
+                            condition.value = select.warehouse;
+                            condition.bracketClose = 1;
+                            datas.add(item);
+                        }
+                        if (criteria.conditions.length > 0) {
+                            criteria.conditions.firstOrDefault().bracketOpen++;
+                            criteria.conditions.lastOrDefault().bracketClose++;
+                            condition = criteria.conditions.create();
+                            condition.alias = bo.MaterialInventoryReservation.PROPERTY_QUANTITY_NAME;
+                            condition.comparedAlias = bo.MaterialInventoryReservation.PROPERTY_CLOSEDQUANTITY_NAME;
+                            condition.operation = ibas.emConditionOperation.GRATER_THAN;
+                            condition.bracketOpen = 1;
+                            condition = criteria.conditions.create();
+                            condition.alias = bo.MaterialInventoryReservation.PROPERTY_STATUS_NAME;
+                            condition.value = ibas.emBOStatus.OPEN.toString();
+                            condition.bracketClose = 1;
+                            let boRepository: bo.BORepositoryMaterials = new bo.BORepositoryMaterials();
+                            boRepository.fetchMaterialInventoryReservation({
+                                criteria: criteria,
+                                onCompleted: (opRslt) => {
+                                    try {
+                                        if (opRslt.resultCode !== 0) {
+                                            throw new Error(opRslt.message);
+                                        }
+                                        for (let item of datas) {
+                                            for (let reservation of opRslt.resultObjects.where(
+                                                c => (item.source instanceof bo.MaterialInventory || item.source instanceof bo.Product)
+                                                    && c.itemCode === item.itemCode
+                                                    && c.warehouse === item.source.warehouse
+                                            )) {
+                                                item.reservations.add(new MaterialInventoryReservation(reservation));
+                                            }
+                                        }
+                                        that.showItems(datas);
+                                    } catch (error) {
+                                        that.messages(error);
+                                    }
+                                }
+                            });
+                        } else {
+                            that.showItems(datas);
+                        }
+                    }
+                });
+            }
             private addMaterialBatch(warehouses?: string): void {
                 let that: this = this; let condition: ibas.ICondition;
                 let criteria: ibas.ICriteria = new ibas.Criteria();
@@ -346,9 +435,9 @@ namespace materials {
                     onCompleted(selecteds: ibas.IList<bo.MaterialBatch>): void {
                         let condition: ibas.ICondition;
                         let criteria: ibas.ICriteria = new ibas.Criteria();
-                        let datas: ibas.IList<MaterialNumberItem> = new ibas.ArrayList<MaterialNumberItem>();
+                        let datas: ibas.IList<MaterialInventoryItem> = new ibas.ArrayList<MaterialInventoryItem>();
                         for (let select of selecteds) {
-                            let item: MaterialNumberItem = that.changeItems.create(select);
+                            let item: MaterialInventoryItem = that.changeItems.create(select);
                             condition = criteria.conditions.create();
                             condition.alias = bo.MaterialInventoryReservation.PROPERTY_ITEMCODE_NAME;
                             condition.value = select.itemCode;
@@ -392,7 +481,7 @@ namespace materials {
                                                     && c.warehouse === item.source.warehouse
                                                     && c.batchCode === item.source.batchCode
                                             )) {
-                                                item.reservations.add(new MaterialNumberReservation(reservation));
+                                                item.reservations.add(new MaterialInventoryReservation(reservation));
                                             }
                                         }
                                         that.showItems(datas);
@@ -445,9 +534,9 @@ namespace materials {
                     onCompleted(selecteds: ibas.IList<bo.MaterialSerial>): void {
                         let condition: ibas.ICondition;
                         let criteria: ibas.ICriteria = new ibas.Criteria();
-                        let datas: ibas.IList<MaterialNumberItem> = new ibas.ArrayList<MaterialNumberItem>();
+                        let datas: ibas.IList<MaterialInventoryItem> = new ibas.ArrayList<MaterialInventoryItem>();
                         for (let select of selecteds) {
-                            let item: MaterialNumberItem = that.changeItems.create(select);
+                            let item: MaterialInventoryItem = that.changeItems.create(select);
                             condition = criteria.conditions.create();
                             condition.alias = bo.MaterialInventoryReservation.PROPERTY_ITEMCODE_NAME;
                             condition.value = select.itemCode;
@@ -491,7 +580,7 @@ namespace materials {
                                                     && c.warehouse === item.source.warehouse
                                                     && c.serialCode === item.source.serialCode
                                             )) {
-                                                item.reservations.add(new MaterialNumberReservation(reservation));
+                                                item.reservations.add(new MaterialInventoryReservation(reservation));
                                             }
                                         }
                                         that.showItems(datas);
@@ -506,26 +595,26 @@ namespace materials {
                     }
                 });
             }
-            private removeItem(datas: MaterialNumberItem[]): void {
+            private removeItem(datas: MaterialInventoryItem[]): void {
                 for (let item of datas) {
                     this.changeItems.remove(item);
                 }
                 this.view.showItems(this.changeItems);
             }
-            private showItems(datas: MaterialNumberItem[]): void {
+            private showItems(datas: MaterialInventoryItem[]): void {
                 let criteria: ibas.ICriteria = new ibas.Criteria();
                 for (let item of datas) {
                     if (!ibas.objects.isNull(item.material)) {
                         continue;
                     }
-                    let exsItem: MaterialNumberItem = this.changeItems.firstOrDefault(c => c.source.itemCode === item.source.itemCode);
+                    let exsItem: MaterialInventoryItem = this.changeItems.firstOrDefault(c => c.itemCode === item.itemCode);
                     if (!ibas.objects.isNull(exsItem) && !ibas.objects.isNull(exsItem.material)) {
                         item.material = exsItem.material;
                         continue;
                     }
                     let condition: ibas.ICondition = criteria.conditions.create();
                     condition.alias = bo.Material.PROPERTY_CODE_NAME;
-                    condition.value = item.source.itemCode;
+                    condition.value = item.itemCode;
                     if (criteria.conditions.length > 1) {
                         condition.relationship = ibas.emConditionRelationship.OR;
                     }
@@ -536,10 +625,10 @@ namespace materials {
                         criteria: criteria,
                         onCompleted: (opRslt) => {
                             for (let item of datas) {
-                                let material: bo.Material = opRslt.resultObjects.firstOrDefault(c => c.code === item.source.itemCode);
+                                let material: bo.Material = opRslt.resultObjects.firstOrDefault(c => c.code === item.itemCode);
                                 if (ibas.objects.isNull(material)) {
                                     material = new bo.Material();
-                                    material.code = item.source.itemCode;
+                                    material.code = item.itemCode;
                                     material.name = material.code;
                                     material.batchManagement = item.source instanceof bo.MaterialBatch ? ibas.emYesNo.YES : ibas.emYesNo.NO;
                                     material.serialManagement = item.source instanceof bo.MaterialSerial ? ibas.emYesNo.YES : ibas.emYesNo.NO;
@@ -586,22 +675,17 @@ namespace materials {
             private reset(): void {
                 this.viewShowed();
             }
-            private changeTo(remarks: string, blocked: boolean = true): void {
-                let issue: bo.GoodsIssue = new bo.GoodsIssue();
-                issue.dataSource = DATASOURCE_TYPE_NUMBER_CHANGE;
-                issue.remarks = remarks;
-                let receipt: bo.GoodsReceipt = new bo.GoodsReceipt();
-                receipt.dataSource = DATASOURCE_TYPE_NUMBER_CHANGE;
-                receipt.remarks = remarks;
-                let batchSerials: ibas.IList<bo.MaterialBatch | bo.MaterialSerial> = new ibas.ArrayList<bo.MaterialBatch | bo.MaterialSerial>();
+            private transferTo(remarks: string, blocked: boolean = true): void {
+                let transfer: bo.InventoryTransfer = new bo.InventoryTransfer();
+                transfer.dataSource = DATASOURCE_TYPE_INVENTORY_TRANSFER;
+                transfer.remarks = remarks;
                 let reservations: ibas.IList<bo.MaterialInventoryReservation> = new ibas.ArrayList<bo.MaterialInventoryReservation>();
                 for (let item of this.changeItems) {
-                    if (item.sourceNumber === item.targetNumber && item.sourceWarehouse === item.targetWarehouse
-                        && item.material.code === item.targetMaterial.code) {
+                    if (item.sourceWarehouse === item.targetWarehouse) {
                         // 未改变，跳过
                         continue;
                     }
-                    if (item.status !== emNumberChangeStatus.NOT) {
+                    if (item.status !== emMaterialTransferStatus.NOT) {
                         // 未处理的数据
                         continue;
                     }
@@ -619,44 +703,23 @@ namespace materials {
                         reservations.add(rItem.source);
                     }
                     // 出库
-                    let issueItem: bo.GoodsIssueLine = issue.goodsIssueLines.create();
-                    issueItem.baseMaterial(item.material);
-                    issueItem.quantity = item.quantity;
-                    issueItem.warehouse = item.sourceWarehouse;
-                    issueItem.price = item.material.avgPrice;
-                    if (issueItem.batchManagement === ibas.emYesNo.YES) {
-                        let batchItem: bo.IMaterialBatchItem = issueItem.materialBatches.create();
+                    let transferItem: bo.InventoryTransferLine = transfer.inventoryTransferLines.create();
+                    transferItem.baseMaterial(item.material);
+                    transferItem.quantity = item.quantity;
+                    transferItem.fromWarehouse = item.sourceWarehouse;
+                    transferItem.price = item.material.avgPrice;
+                    transferItem.warehouse = item.targetWarehouse;
+                    if (transferItem.batchManagement === ibas.emYesNo.YES) {
+                        let batchItem: bo.IMaterialBatchItem = transferItem.materialBatches.create();
                         batchItem.batchCode = item.sourceNumber;
                         batchItem.quantity = item.quantity;
-                        batchItem.remarks = item.remarksOut;
-                    }
-                    if (issueItem.serialManagement === ibas.emYesNo.YES) {
-                        let serialItem: bo.IMaterialSerialItem = issueItem.materialSerials.create();
+                        batchItem.remarks = item.remarks;
+                    } else if (transferItem.serialManagement === ibas.emYesNo.YES) {
+                        let serialItem: bo.IMaterialSerialItem = transferItem.materialSerials.create();
                         serialItem.serialCode = item.sourceNumber;
-                        serialItem.remarks = item.remarksOut;
-                    }
-                    // 入库
-                    let receiptItem: bo.GoodsReceiptLine = receipt.goodsReceiptLines.create();
-                    receiptItem.baseMaterial(item.targetMaterial);
-                    receiptItem.quantity = item.quantity;
-                    receiptItem.warehouse = item.targetWarehouse;
-                    receiptItem.price = item.material.avgPrice;
-                    if (receiptItem.batchManagement === ibas.emYesNo.YES) {
-                        let batchItem: bo.IMaterialBatchItem = receiptItem.materialBatches.create();
-                        batchItem.batchCode = item.targetNumber;
-                        batchItem.quantity = item.quantity;
-                        batchItem.remarks = item.remarksIn;
-                        if (item.target.isDirty) {
-                            batchSerials.add(item.target);
-                        }
-                    }
-                    if (receiptItem.serialManagement === ibas.emYesNo.YES) {
-                        let serialItem: bo.IMaterialSerialItem = receiptItem.materialSerials.create();
-                        serialItem.serialCode = item.targetNumber;
-                        serialItem.remarks = item.remarksIn;
-                        if (item.target.isDirty) {
-                            batchSerials.add(item.target);
-                        }
+                        serialItem.remarks = item.remarks;
+                    } else {
+                        transferItem.reference1 = item.remarks;
                     }
                     // 预留信息（入库后才能存新的）
                     for (let rItem of item.reservations) {
@@ -666,21 +729,20 @@ namespace materials {
                         reservations.add(rItem.target);
                     }
                 }
-                if (issue.goodsIssueLines.length > 0 && receipt.goodsReceiptLines.length > 0) {
+                if (transfer.inventoryTransferLines.length > 0) {
                     this.messages({
                         type: ibas.emMessageType.QUESTION,
                         title: ibas.i18n.prop(this.name),
-                        message: ibas.i18n.prop("shell_multiple_data_save_continue", receipt.goodsReceiptLines.length),
+                        message: ibas.i18n.prop("shell_multiple_data_save_continue", transfer.inventoryTransferLines.length),
                         actions: [ibas.emMessageAction.YES, ibas.emMessageAction.NO],
                         onCompleted: (action) => {
                             if (action !== ibas.emMessageAction.YES) {
                                 return;
                             }
                             let boRepository: bo.BORepositoryMaterials = new bo.BORepositoryMaterials();
-                            boRepository.changeMaterialNumbers({
-                                changes: {
-                                    issue: issue,
-                                    receipt: receipt,
+                            boRepository.transferMaterialInventories({
+                                transfers: {
+                                    transfer: transfer,
                                     reservations: reservations,
                                 },
                                 onCompleted: (opRslt) => {
@@ -690,14 +752,12 @@ namespace materials {
                                             throw new Error(opRslt.message);
                                         }
                                         for (let item of opRslt.informations) {
-                                            if (item.name === bo.GoodsIssue.name) {
-                                                issue.docEntry = ibas.numbers.valueOf(item.content);
-                                            } else if (item.name === bo.GoodsReceipt.name) {
-                                                receipt.docEntry = ibas.numbers.valueOf(item.content);
+                                            if (item.name === bo.InventoryTransfer.name) {
+                                                transfer.docEntry = ibas.numbers.valueOf(item.content);
                                             }
                                         }
                                         this.messages(ibas.emMessageType.SUCCESS,
-                                            ibas.i18n.prop("materials_number_changed", receipt.docEntry, issue.docEntry));
+                                            ibas.i18n.prop("materials_inventory_transfer", transfer.docEntry));
                                     } catch (error) {
                                         this.messages(error);
                                     }
@@ -710,63 +770,27 @@ namespace materials {
                     this.messages(ibas.emMessageType.WARNING, ibas.i18n.prop("materials_no_data_to_be_processed"));
                 }
             }
-            private chooseTargetMaterial(caller: MaterialNumberItem): void {
+            private chooseTargetWarehouse(caller: MaterialInventoryItem): void {
                 let that: this = this;
                 let condition: ibas.ICondition;
-                let conditions: ibas.IList<ibas.ICondition> = app.conditions.material.create();
-                // 库存物料
-                condition = new ibas.Condition();
-                condition.alias = app.conditions.material.CONDITION_ALIAS_INVENTORY_ITEM;
-                condition.value = ibas.emYesNo.YES.toString();
-                condition.operation = ibas.emConditionOperation.EQUAL;
-                condition.relationship = ibas.emConditionRelationship.AND;
-                conditions.add(condition);
-                // 物料类型
-                condition = new ibas.Condition();
-                condition.alias = app.conditions.material.CONDITION_ALIAS_ITEM_TYPE;
-                condition.value = bo.emItemType.ITEM.toString();
-                condition.operation = ibas.emConditionOperation.EQUAL;
-                condition.relationship = ibas.emConditionRelationship.AND;
-                conditions.add(condition);
-                // 非虚拟的
-                condition = new ibas.Condition();
-                condition.alias = app.conditions.material.CONDITION_ALIAS_PHANTOM_ITEM;
-                condition.value = ibas.emYesNo.NO.toString();
-                condition.operation = ibas.emConditionOperation.EQUAL;
-                condition.relationship = ibas.emConditionRelationship.AND;
-                conditions.add(condition);
-                if (caller.source instanceof bo.MaterialBatch) {
-                    // 批次管理
-                    condition = new ibas.Condition();
-                    condition.alias = bo.Material.PROPERTY_BATCHMANAGEMENT_NAME;
-                    condition.value = ibas.emYesNo.YES.toString();
-                    condition.operation = ibas.emConditionOperation.EQUAL;
-                    condition.relationship = ibas.emConditionRelationship.AND;
-                    conditions.add(condition);
-                } else if (caller.source instanceof bo.MaterialSerial) {
-                    // 序列管理
-                    condition = new ibas.Condition();
-                    condition.alias = bo.Material.PROPERTY_SERIALMANAGEMENT_NAME;
-                    condition.value = ibas.emYesNo.YES.toString();
-                    condition.operation = ibas.emConditionOperation.EQUAL;
-                    condition.relationship = ibas.emConditionRelationship.AND;
-                    conditions.add(condition);
-                }
+                let conditions: ibas.IList<ibas.ICondition> = app.conditions.warehouse.create();
                 // 调用选择服务
-                ibas.servicesManager.runChooseService<bo.Material>({
+                ibas.servicesManager.runChooseService<bo.Warehouse>({
                     chooseType: ibas.emChooseType.SINGLE,
-                    boCode: bo.BO_CODE_MATERIAL,
+                    boCode: bo.BO_CODE_WAREHOUSE,
                     criteria: conditions,
-                    onCompleted(selecteds: ibas.IList<bo.Material>): void {
+                    onCompleted(selecteds: ibas.IList<bo.Warehouse>): void {
                         for (let selected of selecteds) {
-                            caller.targetMaterial = selected;
+                            caller.targetWarehouse = selected.code;
                         }
                     }
                 });
             }
         }
-        /** 视图-物料批次序列号变更 */
-        export interface IMaterialNumberChangeView extends ibas.IView {
+        /** 视图-物物料库存调拨 */
+        export interface IMaterialInventoryTransferView extends ibas.IView {
+            /** 添加物料库存事件 */
+            addMaterialInventoryEvent: Function;
             /** 添加物料批次事件 */
             addMaterialBatchEvent: Function;
             /** 添加物料序列事件 */
@@ -774,17 +798,17 @@ namespace materials {
             /** 移除项目事件 */
             removeItemEvent: Function;
             /** 显示项目 */
-            showItems(datas: MaterialNumberItem[]): void;
+            showItems(datas: MaterialInventoryItem[]): void;
             /** 编辑批次信息 */
             editMaterialBatchEvent: Function;
             /** 编辑序列信息 */
             editMaterialSerialEvent: Function;
             /** 选择变更物料 */
-            chooseTargetMaterialEvent: Function;
+            chooseTargetWarehouseEvent: Function;
             /** 重置事件 */
             resetEvent: Function;
-            /** 改变事件 */
-            changeToEvent: Function;
+            /** 调拨事件 */
+            transferToEvent: Function;
         }
     }
 }

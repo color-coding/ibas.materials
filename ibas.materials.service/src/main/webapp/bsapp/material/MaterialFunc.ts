@@ -86,5 +86,25 @@ namespace materials {
                 return app;
             }
         }
+        export class MaterialInventoryTransferFunc extends ibas.ModuleFunction {
+
+            /** 功能标识 */
+            static FUNCTION_ID = "d948bb97-d09f-4b61-8a5c-414db216e49c";
+            /** 功能名称 */
+            static FUNCTION_NAME = "materials_func_materialinventorytransfer";
+            /** 构造函数 */
+            constructor() {
+                super();
+                this.id = MaterialInventoryTransferFunc.FUNCTION_ID;
+                this.name = MaterialInventoryTransferFunc.FUNCTION_NAME;
+                this.description = ibas.i18n.prop(this.name);
+            }
+            /** 默认功能 */
+            default(): ibas.IApplication<ibas.IView> {
+                let app: MaterialInventoryTransferApp = new MaterialInventoryTransferApp();
+                app.navigation = this.navigation;
+                return app;
+            }
+        }
     }
 }

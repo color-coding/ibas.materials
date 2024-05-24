@@ -9,37 +9,25 @@ import javax.xml.bind.annotation.XmlType;
 
 import org.colorcoding.ibas.bobas.serialization.Serializable;
 import org.colorcoding.ibas.materials.MyConfiguration;
-import org.colorcoding.ibas.materials.bo.goodsissue.GoodsIssue;
-import org.colorcoding.ibas.materials.bo.goodsreceipt.GoodsReceipt;
+import org.colorcoding.ibas.materials.bo.inventorytransfer.InventoryTransfer;
 import org.colorcoding.ibas.materials.bo.materialinventory.MaterialInventoryReservation;
 
 @XmlAccessorType(XmlAccessType.NONE)
-@XmlType(name = "MaterialNumberChange", namespace = MyConfiguration.NAMESPACE_BO)
-@XmlRootElement(name = "MaterialNumberChange", namespace = MyConfiguration.NAMESPACE_BO)
-public class MaterialNumberChange extends Serializable {
+@XmlType(name = "MaterialInventoryTransfer", namespace = MyConfiguration.NAMESPACE_BO)
+@XmlRootElement(name = "MaterialInventoryTransfer", namespace = MyConfiguration.NAMESPACE_BO)
+public class MaterialInventoryTransfer extends Serializable {
 
-	private static final long serialVersionUID = 3362697451711976572L;
+	private static final long serialVersionUID = -7936382277579472727L;
 
-	@XmlElement(name = "Issue", type = GoodsIssue.class)
-	private GoodsIssue issue;
+	@XmlElement(name = "Transfer", type = InventoryTransfer.class)
+	private InventoryTransfer transfer;
 
-	public final GoodsIssue getIssue() {
-		return issue;
+	public final InventoryTransfer getTransfer() {
+		return transfer;
 	}
 
-	public final void setIssue(GoodsIssue issue) {
-		this.issue = issue;
-	}
-
-	@XmlElement(name = "Receipt", type = GoodsReceipt.class)
-	private GoodsReceipt receipt;
-
-	public final GoodsReceipt getReceipt() {
-		return receipt;
-	}
-
-	public final void setReceipt(GoodsReceipt receipt) {
-		this.receipt = receipt;
+	public final void setTransfer(InventoryTransfer transfer) {
+		this.transfer = transfer;
 	}
 
 	@XmlElementWrapper(name = "Reservations")

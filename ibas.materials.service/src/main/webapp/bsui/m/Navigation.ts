@@ -80,6 +80,9 @@ namespace materials {
                     case app.ProductChooseApp.APPLICATION_ID:
                         view = new m.ProductChooseView();
                         break;
+                    case app.ProductInventoryChooseApp.APPLICATION_ID:
+                        view = new m.ProductChooseView();
+                        break;
                     case app.MaterialGroupChooseApp.APPLICATION_ID:
                         view = new m.MaterialGroupChooseView();
                         break;

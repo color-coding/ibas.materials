@@ -41,6 +41,7 @@ import org.colorcoding.ibas.materials.bo.specification.SpecificationTree;
 import org.colorcoding.ibas.materials.bo.unit.Unit;
 import org.colorcoding.ibas.materials.bo.unit.UnitRate;
 import org.colorcoding.ibas.materials.bo.warehouse.Warehouse;
+import org.colorcoding.ibas.materials.data.MaterialInventoryTransfer;
 import org.colorcoding.ibas.materials.data.MaterialNumberChange;
 import org.colorcoding.ibas.materials.repository.BORepositoryMaterials;
 
@@ -447,6 +448,22 @@ public class DataService extends BORepositoryMaterials {
 	public OperationResult<Product> fetchProduct(Criteria criteria, @HeaderParam("authorization") String authorization,
 			@QueryParam("token") String token) {
 		return super.fetchProduct(criteria, MyConfiguration.optToken(authorization, token));
+	}
+
+	/**
+	 * 查询-产品（物料）库存
+	 *
+	 * @param criteria 查询
+	 * @param token    口令
+	 * @return 操作结果
+	 */
+	@POST
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Path("fetchProductInventory")
+	public OperationResult<Product> fetchProductInventory(Criteria criteria,
+			@HeaderParam("authorization") String authorization, @QueryParam("token") String token) {
+		return super.fetchProductInventory(criteria, MyConfiguration.optToken(authorization, token));
 	}
 
 	/**
@@ -882,6 +899,15 @@ public class DataService extends BORepositoryMaterials {
 	public OperationResult<Object> changeMaterialNumbers(MaterialNumberChange changes,
 			@HeaderParam("authorization") String authorization, @QueryParam("token") String token) {
 		return super.changeMaterialNumbers(changes, MyConfiguration.optToken(authorization, token));
+	}
+
+	@POST
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Path("transferMaterialInventories")
+	public OperationResult<Object> transferMaterialInventories(MaterialInventoryTransfer transfers,
+			@HeaderParam("authorization") String authorization, @QueryParam("token") String token) {
+		return super.transferMaterialInventories(transfers, MyConfiguration.optToken(authorization, token));
 	}
 
 	// --------------------------------------------------------------------------------------------//

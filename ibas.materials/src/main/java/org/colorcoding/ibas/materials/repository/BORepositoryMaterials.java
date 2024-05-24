@@ -93,6 +93,7 @@ import org.colorcoding.ibas.materials.bo.unit.Unit;
 import org.colorcoding.ibas.materials.bo.unit.UnitRate;
 import org.colorcoding.ibas.materials.bo.warehouse.IWarehouse;
 import org.colorcoding.ibas.materials.bo.warehouse.Warehouse;
+import org.colorcoding.ibas.materials.data.MaterialInventoryTransfer;
 import org.colorcoding.ibas.materials.data.MaterialNumberChange;
 import org.colorcoding.ibas.materials.data.emSpecificationAssigned;
 import org.colorcoding.ibas.materials.data.emSpecificationTarget;
@@ -1195,6 +1196,75 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 		}
 	}
 
+	@Override
+	public IOperationResult<IProduct> fetchProductInventory(ICriteria criteria) {
+		return new OperationResult<IProduct>(this.fetchProduct(criteria, this.getUserToken()));
+	}
+
+	@Override
+	public OperationResult<Product> fetchProductInventory(ICriteria criteria, String token) {
+		try {
+			this.setUserToken(token);
+			if (criteria == null || criteria.getConditions().isEmpty()) {
+				throw new Exception(I18N.prop("msg_bobas_invaild_criteria"));
+			}
+			// 查询物料
+			ICriteria pdCriteria = this.filterConditions(criteria, false, Product.CONDITION_ALIAS_WAREHOUSE,
+					Product.CONDITION_ALIAS_PRICELIST);
+			pdCriteria.setResultCount(criteria.getResultCount());
+			OperationResult<Product> opRsltProduct = this.fetch(pdCriteria, token, Product.class);
+			if (opRsltProduct.getError() != null) {
+				throw opRsltProduct.getError();
+			}
+			OperationResult<Product> operationResult = new OperationResult<>();
+			// 查询物料的库存
+			ICriteria whCriteria = this.filterConditions(criteria, true, Product.CONDITION_ALIAS_WAREHOUSE);
+			if (whCriteria == null) {
+				whCriteria = new Criteria();
+			}
+			for (int i = 0; i < opRsltProduct.getResultObjects().size(); i++) {
+				IProduct product = opRsltProduct.getResultObjects().get(i);
+				ICondition condition = whCriteria.getConditions().create();
+				condition.setAlias(MaterialQuantity.CONDITION_ALIAS_ITEMCODE);
+				condition.setOperation(ConditionOperation.EQUAL);
+				condition.setValue(product.getCode());
+				condition.setRelationship(ConditionRelationship.OR);
+				if (i == 0) {
+					// 第一个条件
+					condition.setBracketOpen(1);
+					condition.setRelationship(ConditionRelationship.AND);
+				}
+				if (i == opRsltProduct.getResultObjects().size() - 1) {
+					// 最后条件
+					condition.setBracketClose(1);
+				}
+			}
+			IOperationResult<IMaterialInventory> opRsltInventory = this.fetchMaterialInventory(whCriteria);
+			if (opRsltInventory.getError() != null) {
+				throw opRsltInventory.getError();
+			}
+			// 重新设置数量
+			for (Product product : opRsltProduct.getResultObjects()) {
+				for (IMaterialInventory inventory : opRsltInventory.getResultObjects()) {
+					if (!product.getCode().equalsIgnoreCase(inventory.getItemCode())) {
+						continue;
+					}
+					product = product.clone();
+					product.setWarehouse(inventory.getWarehouse());
+					product.setOnHand(inventory.getOnHand());
+					product.setOnCommited(inventory.getOnCommited());
+					product.setOnOrdered(inventory.getOnOrdered());
+					product.setOnReserved(inventory.getOnReserved());
+					product.setPrice(inventory.getAvgPrice());
+					operationResult.addResultObjects(product);
+				}
+			}
+			return operationResult;
+		} catch (Exception e) {
+			return new OperationResult<>(e);
+		}
+	}
+
 	// --------------------------------------------------------------------------------------------//
 	/**
 	 * 查询-物料规格
@@ -2052,6 +2122,77 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 				if (changes.getReservations() != null) {
 					IOperationResult<IMaterialInventoryReservation> opRslt;
 					for (MaterialInventoryReservation reservation : changes.getReservations()) {
+						if (!reservation.isNew()) {
+							continue;
+						}
+						opRslt = this.saveMaterialInventoryReservation(reservation);
+						if (opRslt.getError() != null) {
+							throw opRslt.getError();
+						}
+					}
+				}
+				if (myTrans) {
+					this.commitTransaction();
+				}
+			} catch (Exception e) {
+				if (myTrans) {
+					this.rollbackTransaction();
+				}
+				throw e;
+			}
+			return operationResult;
+		} catch (Exception e) {
+			return new OperationResult<>(e);
+		}
+	}
+
+	@Override
+	public IOperationResult<Object> transferMaterialInventories(MaterialInventoryTransfer transfers) {
+		return this.transferMaterialInventories(transfers, this.getUserToken());
+	}
+
+	@Override
+	public OperationResult<Object> transferMaterialInventories(MaterialInventoryTransfer transfers, String token) {
+		try {
+			this.setUserToken(token);
+			if (transfers == null) {
+				throw new Exception(I18N.prop("msg_mm_not_specified_material"));
+			}
+			if (transfers.getTransfer() == null) {
+				throw new Exception(I18N.prop("msg_mm_not_specified_material"));
+			}
+			if (transfers.getTransfer().getInventoryTransferLines().isEmpty()) {
+				throw new Exception(I18N.prop("msg_mm_not_specified_material"));
+			}
+			OperationResult<Object> operationResult = new OperationResult<Object>();
+			boolean myTrans = this.beginTransaction();
+			try {
+				// 保存非新建预留（才能出库）
+				if (transfers.getReservations() != null) {
+					IOperationResult<IMaterialInventoryReservation> opRslt;
+					for (MaterialInventoryReservation reservation : transfers.getReservations()) {
+						if (reservation.isNew()) {
+							continue;
+						}
+						opRslt = this.saveMaterialInventoryReservation(reservation);
+						if (opRslt.getError() != null) {
+							throw opRslt.getError();
+						}
+					}
+				}
+				// 保存转储
+				if (transfers.getTransfer() != null) {
+					IOperationResult<IInventoryTransfer> opRslt = this.saveInventoryTransfer(transfers.getTransfer());
+					if (opRslt.getError() != null) {
+						throw opRslt.getError();
+					}
+					operationResult.addInformations(InventoryTransfer.BUSINESS_OBJECT_NAME,
+							opRslt.getResultObjects().firstOrDefault().getDocEntry().toString());
+				}
+				// 保存新建预留
+				if (transfers.getReservations() != null) {
+					IOperationResult<IMaterialInventoryReservation> opRslt;
+					for (MaterialInventoryReservation reservation : transfers.getReservations()) {
 						if (!reservation.isNew()) {
 							continue;
 						}
