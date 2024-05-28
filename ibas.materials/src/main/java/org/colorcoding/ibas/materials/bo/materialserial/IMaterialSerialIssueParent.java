@@ -70,7 +70,7 @@ public interface IMaterialSerialIssueParent extends IMaterialSerialItemParent, I
 	 * 
 	 * @return 值
 	 */
-	BigDecimal getPrice();
+	BigDecimal getSerialPrice();
 
 	/**
 	 * 获取-货币

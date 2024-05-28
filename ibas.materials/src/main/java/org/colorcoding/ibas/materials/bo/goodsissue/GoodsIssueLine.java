@@ -1557,6 +1557,16 @@ public class GoodsIssueLine extends BusinessObject<GoodsIssueLine>
 		return this.getUOM();
 	}
 
+	@Override
+	public BigDecimal getBatchPrice() {
+		return this.getPrice();
+	}
+
+	@Override
+	public BigDecimal getSerialPrice() {
+		return this.getPrice();
+	}
+
 	/**
 	 * 初始化数据
 	 */

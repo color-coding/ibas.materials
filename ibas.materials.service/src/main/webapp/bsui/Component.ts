@@ -11,7 +11,7 @@ namespace materials {
             /**
              * 仓库选择-选择框
              */
-            sap.extension.m.RepositorySelect.extend("materials.ui.component.WarehouseSelect", {
+            sap.extension.m.ComboBox.extend("materials.ui.component.WarehouseSelect", {
                 metadata: {
                     properties: {
                         branchData: { type: "any" },
@@ -33,7 +33,7 @@ namespace materials {
                             id: this.getId(),
                             propertyChanged(property: string): void {
                                 if (ibas.strings.equalsIgnoreCase(property, "branch")) {
-                                    that.loadItems();
+                                    that.loadItemList();
                                 }
                             }
                         });
@@ -45,33 +45,27 @@ namespace materials {
                 getBranchData(): ibas.Bindable {
                     return this.getProperty("branchData");
                 },
-                /**
-                 * 加载可选值
-                 */
-                loadItems(this: WarehouseSelect): WarehouseSelect {
-                    if (WAREHOUSE_CACHE === undefined) {
-                        WAREHOUSE_CACHE = null;
-                        let boRepository: materials.bo.BORepositoryMaterials = new materials.bo.BORepositoryMaterials();
-                        boRepository.fetchWarehouse({
-                            criteria: [
-                                new ibas.Condition(materials.bo.Warehouse.PROPERTY_ACTIVATED_NAME, ibas.emConditionOperation.EQUAL, ibas.emYesNo.YES)
-                            ],
-                            onCompleted: (opRslt) => {
-                                WAREHOUSE_CACHE = new ibas.ArrayList<bo.Warehouse>();
-                                if (opRslt.resultObjects.length > 0) {
-                                    for (let item of opRslt.resultObjects) {
-                                        WAREHOUSE_CACHE.add(item);
-                                    }
-                                }
-                                this.loadItems();
-                            }
-                        });
-                    } else if (WAREHOUSE_CACHE === null) {
-                        setTimeout(() => {
-                            this.loadItems();
-                        }, 600);
-                    } else {
-                        this.destroyItems();
+                applySettings(this: WarehouseSelect, mSettings: any, oScope?: any): WarehouseSelect {
+                    !mSettings ? mSettings = {} : mSettings = mSettings;
+                    if (mSettings.showSecondaryValues === undefined) {
+                        mSettings.showSecondaryValues = true;
+                    }
+                    if (mSettings.filterSecondaryValues === undefined) {
+                        mSettings.filterSecondaryValues = true;
+                    }
+                    sap.extension.m.ComboBox.prototype.applySettings.apply(this, arguments);
+                    // 包含筛选
+                    this.setFilterFunction(function (sTerm: string, oItem: sap.ui.core.Item): any {
+                        return oItem.getText().match(new RegExp(sTerm, "i")) || oItem.getKey().match(new RegExp(sTerm, "i"));
+                    });
+                    return this;
+                },
+                /** 加载可选值 */
+                loadItemList(this: WarehouseSelect): WarehouseSelect {
+                    if (this.getItems().length > 0) {
+                        return this;
+                    }
+                    if (WAREHOUSE_CACHE.length > 0) {
                         let branch: any = this.getBranchData();
                         // tslint:disable-next-line: no-string-literal
                         branch = branch ? branch["branch"] : null;
@@ -81,16 +75,31 @@ namespace materials {
                                 this.addItem(new sap.extension.m.SelectItem("", {
                                     key: item.code,
                                     text: item.name,
-                                    additionalText: item.branch,
+                                    additionalText: item.code,
                                     tooltip: ibas.strings.format("{0} - {1}", item.code, item.name)
                                 }));
                             }
                         }
+                    } else {
+                        let boRepository: materials.bo.BORepositoryMaterials = new materials.bo.BORepositoryMaterials();
+                        boRepository.fetchWarehouse({
+                            criteria: [
+                                new ibas.Condition(materials.bo.Warehouse.PROPERTY_ACTIVATED_NAME, ibas.emConditionOperation.EQUAL, ibas.emYesNo.YES)
+                            ],
+                            onCompleted: (opRslt) => {
+                                if (opRslt.resultObjects.length > 0) {
+                                    for (let item of opRslt.resultObjects) {
+                                        WAREHOUSE_CACHE.add(item);
+                                    }
+                                    this.loadItemList();
+                                }
+                            }
+                        });
                     }
                     return this;
                 }
             });
-            let WAREHOUSE_CACHE: ibas.IList<materials.bo.Warehouse> = undefined;
+            const WAREHOUSE_CACHE: ibas.IList<materials.bo.Warehouse> = new ibas.ArrayList<materials.bo.Warehouse>();
             /**
              * 物料或物料组-文本框
              */

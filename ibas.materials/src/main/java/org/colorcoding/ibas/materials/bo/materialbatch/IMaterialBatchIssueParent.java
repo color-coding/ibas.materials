@@ -71,7 +71,7 @@ public interface IMaterialBatchIssueParent extends IMaterialBatchItemParent, ICh
 	 * 
 	 * @return 值
 	 */
-	BigDecimal getPrice();
+	BigDecimal getBatchPrice();
 
 	/**
 	 * 获取-货币

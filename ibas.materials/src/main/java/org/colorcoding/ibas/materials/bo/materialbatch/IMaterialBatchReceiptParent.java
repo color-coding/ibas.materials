@@ -70,7 +70,7 @@ public interface IMaterialBatchReceiptParent extends IMaterialBatchItemParent, I
 	 * 
 	 * @return 值
 	 */
-	BigDecimal getPrice();
+	BigDecimal getBatchPrice();
 
 	/**
 	 * 获取-货币

@@ -733,7 +733,7 @@ public class MaterialSerialItem extends BusinessObject<MaterialSerialItem>
 
 						@Override
 						public BigDecimal getPrice() {
-							return ((IMaterialSerialReceiptParent) MaterialSerialItem.this.parent).getPrice();
+							return ((IMaterialSerialReceiptParent) MaterialSerialItem.this.parent).getSerialPrice();
 						}
 
 						@Override
@@ -861,7 +861,7 @@ public class MaterialSerialItem extends BusinessObject<MaterialSerialItem>
 
 						@Override
 						public BigDecimal getPrice() {
-							return ((IMaterialSerialIssueParent) MaterialSerialItem.this.parent).getPrice();
+							return ((IMaterialSerialIssueParent) MaterialSerialItem.this.parent).getSerialPrice();
 						}
 
 						@Override

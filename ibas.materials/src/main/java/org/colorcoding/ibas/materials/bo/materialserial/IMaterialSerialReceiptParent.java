@@ -70,7 +70,7 @@ public interface IMaterialSerialReceiptParent extends IMaterialSerialItemParent,
 	 * 
 	 * @return 值
 	 */
-	BigDecimal getPrice();
+	BigDecimal getSerialPrice();
 
 	/**
 	 * 获取-货币

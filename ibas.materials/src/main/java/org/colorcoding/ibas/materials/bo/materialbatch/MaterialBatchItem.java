@@ -795,7 +795,7 @@ public class MaterialBatchItem extends BusinessObject<MaterialBatchItem>
 
 						@Override
 						public BigDecimal getPrice() {
-							return ((IMaterialBatchReceiptParent) MaterialBatchItem.this.parent).getPrice();
+							return ((IMaterialBatchReceiptParent) MaterialBatchItem.this.parent).getBatchPrice();
 						}
 
 						@Override
@@ -933,7 +933,7 @@ public class MaterialBatchItem extends BusinessObject<MaterialBatchItem>
 
 						@Override
 						public BigDecimal getPrice() {
-							return ((IMaterialBatchIssueParent) MaterialBatchItem.this.parent).getPrice();
+							return ((IMaterialBatchIssueParent) MaterialBatchItem.this.parent).getBatchPrice();
 						}
 
 						@Override
