@@ -146,6 +146,12 @@ namespace materials {
                                                             that.fireViewEvents(that.addGoodsIssueLineEvent, that.tableGoodsIssueLine.getSelecteds());
                                                         }
                                                     }),
+                                                    new sap.m.MenuItem("", {
+                                                        text: ibas.i18n.prop("bo_materialinventory"),
+                                                        press: function (): void {
+                                                            that.fireViewEvents(that.chooseGoodsIssueLineMaterialEvent, undefined, bo.BO_CODE_PRODUCT_INVENTORY);
+                                                        }
+                                                    }),
                                                 ]
                                             })
                                         }),

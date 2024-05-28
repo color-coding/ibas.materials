@@ -122,7 +122,7 @@ namespace materials {
                                                 }).bindProperty("bindingValue", {
                                                     path: "serialCode",
                                                     type: new sap.extension.data.Alphanumeric({
-                                                        maxLength: 36
+                                                        maxLength: config.get(CONFIG_ITEM_SERIAL_CODE_MAX_LENGTH, 36)
                                                     })
                                                 }),
                                                 new sap.m.ToolbarSpacer(""),

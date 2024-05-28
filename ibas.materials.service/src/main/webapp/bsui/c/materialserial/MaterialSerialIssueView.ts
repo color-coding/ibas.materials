@@ -134,9 +134,7 @@ namespace materials {
                                                     width: "70%",
                                                 }).bindProperty("text", {
                                                     path: "serialCode",
-                                                    type: new sap.extension.data.Alphanumeric({
-                                                        maxLength: 36
-                                                    })
+                                                    type: new sap.extension.data.Alphanumeric()
                                                 }),
                                                 new sap.m.ToolbarSeparator(""),
                                                 new sap.extension.m.Input("", {
@@ -271,9 +269,7 @@ namespace materials {
                                                 new sap.m.Title("", {
                                                 }).bindProperty("text", {
                                                     path: "serialCode",
-                                                    type: new sap.extension.data.Alphanumeric({
-                                                        maxLength: 36
-                                                    })
+                                                    type: new sap.extension.data.Alphanumeric()
                                                 }),
                                                 new sap.m.ToolbarSpacer(""),
                                                 new sap.m.Label("", {

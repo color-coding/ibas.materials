@@ -141,13 +141,18 @@ namespace materials {
                                                             that.fireViewEvents(that.addInventoryTransferRequestLineEvent);
                                                         }
                                                     }),
-                                                    // 复制行
                                                     new sap.m.MenuItem("", {
                                                         text: ibas.i18n.prop("shell_data_clone_line"),
                                                         press: function (): void {
                                                             that.fireViewEvents(that.addInventoryTransferRequestLineEvent, that.tableInventoryTransferRequestLine.getSelecteds());
                                                         }
-                                                    })
+                                                    }),
+                                                    new sap.m.MenuItem("", {
+                                                        text: ibas.i18n.prop("bo_materialinventory"),
+                                                        press: function (): void {
+                                                            that.fireViewEvents(that.chooseInventoryTransferRequestLineMaterialEvent, undefined, bo.BO_CODE_PRODUCT_INVENTORY);
+                                                        }
+                                                    }),
                                                 ]
                                             })
                                         }),

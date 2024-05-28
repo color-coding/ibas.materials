@@ -485,7 +485,7 @@ namespace materials {
         }
 
         export function baseMaterial(
-            target: IGoodsIssueLine | IGoodsReceiptLine | IInventoryTransferLine,
+            target: IGoodsIssueLine | IGoodsReceiptLine | IInventoryTransferLine | IInventoryTransferRequestLine,
             source: materials.bo.IMaterial | materials.bo.IProduct
         ): void {
             target.itemCode = source.code;
@@ -500,6 +500,13 @@ namespace materials {
                 target.price = source.avgPrice;
             } else if (source instanceof bo.Product) {
                 target.price = source.price;
+                if (!ibas.strings.isEmpty(source.warehouse)) {
+                    if (target instanceof InventoryTransferLine || target instanceof InventoryTransferRequestLine) {
+                        target.fromWarehouse = target.warehouse;
+                    } else {
+                        target.warehouse = source.warehouse;
+                    }
+                }
             }
         }
         const DECIMAL_PLACES_QUANTITY: number = ibas.config.get(ibas.CONFIG_ITEM_DECIMAL_PLACES_QUANTITY);

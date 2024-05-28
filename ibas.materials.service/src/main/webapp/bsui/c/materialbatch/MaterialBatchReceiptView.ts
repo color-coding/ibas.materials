@@ -7,6 +7,8 @@
 namespace materials {
     export namespace ui {
         export namespace c {
+            /** 配置项目-批次编码最大长度 */
+            export const CONFIG_ITEM_BATCH_CODE_MAX_LENGTH: string = "batchCodeMaxLength";
             /** 物料批次收货视图 */
             export class MaterialBatchReceiptView extends ibas.DialogView implements app.IMaterialBatchReceiptView {
                 /** 切换工作数据 */
@@ -137,7 +139,7 @@ namespace materials {
                                                 }).bindProperty("bindingValue", {
                                                     path: "batchCode",
                                                     type: new sap.extension.data.Alphanumeric({
-                                                        maxLength: 36
+                                                        maxLength: config.get(CONFIG_ITEM_BATCH_CODE_MAX_LENGTH, 36)
                                                     })
                                                 }),
                                                 new sap.m.Label("", {

@@ -832,6 +832,13 @@ namespace materials {
                             that.fireViewEvents(that.addInventoryTransferLineEvent, that.tableInventoryTransferLine.getSelecteds());
                         }
                     }));
+                    // 物料库存
+                    this.menuAdd.addItem(new sap.m.MenuItem("", {
+                        text: ibas.i18n.prop("bo_materialinventory"),
+                        press: function (): void {
+                            that.fireViewEvents(that.chooseInventoryTransferLineMaterialEvent, undefined, bo.BO_CODE_PRODUCT_INVENTORY);
+                        }
+                    }));
                     // 库存转储
                     this.menuAdd.addItem(new sap.m.MenuItem("", {
                         text: ibas.i18n.prop("bo_inventorytransferrequest"),

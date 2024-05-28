@@ -255,7 +255,7 @@ namespace materials {
             }
 
             /** 选择库存发货订单行物料事件 */
-            private chooseGoodsIssueLineMaterial(caller: bo.GoodsIssueLine): void {
+            private chooseGoodsIssueLineMaterial(caller: bo.GoodsIssueLine, type?: string): void {
                 let that: this = this;
                 let condition: ibas.ICondition;
                 let conditions: ibas.IList<ibas.ICondition> = app.conditions.material.create();
@@ -280,11 +280,20 @@ namespace materials {
                 condition.operation = ibas.emConditionOperation.EQUAL;
                 condition.relationship = ibas.emConditionRelationship.AND;
                 conditions.add(condition);
+                // 产品库存时
+                if (bo.BO_CODE_PRODUCT_INVENTORY === type) {
+                    // 有库存的
+                    condition = new ibas.Condition();
+                    condition.alias = bo.Product.PROPERTY_ONHAND_NAME;
+                    condition.value = "0";
+                    condition.operation = ibas.emConditionOperation.GRATER_THAN;
+                    conditions.add(condition);
+                }
                 // 调用选择服务
-                ibas.servicesManager.runChooseService<bo.Material>({
-                    boCode: bo.BO_CODE_MATERIAL,
+                ibas.servicesManager.runChooseService<bo.Material | bo.Product>({
+                    boCode: type ? bo.BO_CODE_PRODUCT_INVENTORY : bo.BO_CODE_MATERIAL,
                     criteria: conditions,
-                    onCompleted(selecteds: ibas.IList<bo.Material>): void {
+                    onCompleted(selecteds: ibas.IList<bo.Material | bo.Product>): void {
                         // 获取触发的对象
                         let index: number = that.editData.goodsIssueLines.indexOf(caller);
                         let item: bo.GoodsIssueLine = that.editData.goodsIssueLines[index];

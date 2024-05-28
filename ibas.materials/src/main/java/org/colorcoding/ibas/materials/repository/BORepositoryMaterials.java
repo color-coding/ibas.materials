@@ -1218,7 +1218,9 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 			}
 			OperationResult<Product> operationResult = new OperationResult<>();
 			// 查询物料的库存
-			ICriteria whCriteria = this.filterConditions(criteria, true, Product.CONDITION_ALIAS_WAREHOUSE);
+			ICriteria whCriteria = this.filterConditions(criteria, true, Product.CONDITION_ALIAS_WAREHOUSE,
+					Product.PROPERTY_ONHAND.getName(), Product.PROPERTY_ONCOMMITED.getName(),
+					Product.PROPERTY_ONORDERED.getName(), Product.PROPERTY_ONRESERVED.getName());
 			if (whCriteria == null) {
 				whCriteria = new Criteria();
 			}

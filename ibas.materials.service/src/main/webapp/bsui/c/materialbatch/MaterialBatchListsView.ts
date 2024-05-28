@@ -123,7 +123,7 @@ namespace materials {
                                                 }).bindProperty("bindingValue", {
                                                     path: "batchCode",
                                                     type: new sap.extension.data.Alphanumeric({
-                                                        maxLength: 36
+                                                        maxLength: config.get(CONFIG_ITEM_BATCH_CODE_MAX_LENGTH, 36)
                                                     })
                                                 }),
                                                 new sap.m.Label("", {

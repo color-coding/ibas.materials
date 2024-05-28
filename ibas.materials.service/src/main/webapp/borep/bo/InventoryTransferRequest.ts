@@ -1015,7 +1015,7 @@ namespace materials {
             }
 
             /** 赋值物料 */
-            baseMaterial(source: materials.bo.IMaterial): void {
+            baseMaterial(source: bo.IMaterial | bo.IProduct): void {
                 if (ibas.objects.isNull(source)) {
                     return;
                 }

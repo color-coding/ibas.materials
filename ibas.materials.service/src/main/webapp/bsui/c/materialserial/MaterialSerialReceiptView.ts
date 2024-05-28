@@ -7,6 +7,8 @@
 namespace materials {
     export namespace ui {
         export namespace c {
+            /** 配置项目-序列编码最大长度 */
+            export const CONFIG_ITEM_SERIAL_CODE_MAX_LENGTH: string = "serialCodeMaxLength";
             /** 物料序列收货视图 */
             export class MaterialSerialReceiptView extends ibas.DialogView implements app.IMaterialSerialReceiptView {
                 /** 切换工作数据 */
@@ -140,7 +142,7 @@ namespace materials {
                                                 }).bindProperty("bindingValue", {
                                                     path: "serialCode",
                                                     type: new sap.extension.data.Alphanumeric({
-                                                        maxLength: 36
+                                                        maxLength: config.get(CONFIG_ITEM_SERIAL_CODE_MAX_LENGTH, 36)
                                                     })
                                                 }),
                                                 new sap.m.ToolbarSeparator(""),

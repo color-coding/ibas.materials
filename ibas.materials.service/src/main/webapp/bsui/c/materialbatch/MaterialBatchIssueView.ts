@@ -136,9 +136,7 @@ namespace materials {
                                                     editable: false,
                                                 }).bindProperty("bindingValue", {
                                                     path: "batchCode",
-                                                    type: new sap.extension.data.Alphanumeric({
-                                                        maxLength: 36
-                                                    })
+                                                    type: new sap.extension.data.Alphanumeric()
                                                 }),
                                                 new sap.m.Label("", {
                                                     text: " × ",
@@ -297,9 +295,7 @@ namespace materials {
                                                 new sap.m.Title("", {
                                                 }).bindProperty("text", {
                                                     path: "batchCode",
-                                                    type: new sap.extension.data.Alphanumeric({
-                                                        maxLength: 36
-                                                    })
+                                                    type: new sap.extension.data.Alphanumeric()
                                                 }),
                                                 new sap.m.Label("", {
                                                     text: " × ",
