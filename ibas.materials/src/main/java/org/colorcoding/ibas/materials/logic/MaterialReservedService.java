@@ -20,7 +20,7 @@ public class MaterialReservedService extends MaterialInventoryBusinessLogic<IMat
 	protected boolean checkDataStatus(Object data) {
 		if (data instanceof IMaterialReservedContract) {
 			IMaterialReservedContract contract = (IMaterialReservedContract) data;
-			if (contract.getStatus() == emBOStatus.CLOSED) {
+			if (contract.getStatus() == emBOStatus.CLOSED && this.impactReserved.compareTo(Decimal.ZERO) == 0) {
 				Logger.log(MessageLevel.DEBUG, MSG_LOGICS_SKIP_LOGIC_EXECUTION, this.getClass().getName(), "Status",
 						contract.getStatus());
 				return false;
@@ -75,11 +75,13 @@ public class MaterialReservedService extends MaterialInventoryBusinessLogic<IMat
 	protected void impact(IMaterialReservedContract contract) {
 		IMaterial material = this.getBeAffected();
 		BigDecimal onReserved = material.getOnReserved();
-		// 减去上次增加值（同物料多行时）
-		onReserved = onReserved.subtract(this.impactReserved).add(contract.getQuantity());
+		// 减去上次增加值（同物料多行时）,关闭时数量零
+		onReserved = onReserved.subtract(this.impactReserved)
+				.add(contract.getStatus() == emBOStatus.CLOSED ? Decimal.ZERO : contract.getQuantity());
 		material.setOnReserved(onReserved);
-		// 记录本次增加值
-		this.impactReserved = impactReserved.add(contract.getQuantity());
+		// 记录本次增加值,关闭时数量零
+		this.impactReserved = impactReserved
+				.add(contract.getStatus() == emBOStatus.CLOSED ? Decimal.ZERO : contract.getQuantity());
 	}
 
 	BigDecimal revokeReserved = Decimal.ZERO;

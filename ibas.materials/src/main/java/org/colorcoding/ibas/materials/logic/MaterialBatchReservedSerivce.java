@@ -49,7 +49,7 @@ public class MaterialBatchReservedSerivce
 				// 非库存物料，不执行此逻辑
 				return false;
 			}
-			if (contract.getStatus() == emBOStatus.CLOSED) {
+			if (contract.getStatus() == emBOStatus.CLOSED && this.impactReserved.compareTo(Decimal.ZERO) == 0) {
 				Logger.log(MessageLevel.DEBUG, MSG_LOGICS_SKIP_LOGIC_EXECUTION, this.getClass().getName(), "Status",
 						contract.getStatus());
 				return false;
@@ -130,16 +130,18 @@ public class MaterialBatchReservedSerivce
 	protected void impact(IMaterialBatchReservedContract contract) {
 		IMaterialBatch materialBatch = this.getBeAffected();
 		BigDecimal onReserved = materialBatch.getReservedQuantity();
-		// 减去上次增加值（同物料多行时）
-		onReserved = onReserved.subtract(this.impactReserved).add(contract.getQuantity());
+		// 减去上次增加值（同物料多行时）,关闭时数量零
+		onReserved = onReserved.subtract(this.impactReserved)
+				.add(contract.getStatus() == emBOStatus.CLOSED ? Decimal.ZERO : contract.getQuantity());
 		if (this.getLogicChain().getTrigger() == this.getHost()) {
 			// 触发对象简单
 			materialBatch.setReservedQuantity(onReserved, false);
 		} else {
 			materialBatch.setReservedQuantity(onReserved, true);
 		}
-		// 记录本次增加值
-		this.impactReserved = impactReserved.add(contract.getQuantity());
+		// 记录本次增加值,关闭时数量零
+		this.impactReserved = impactReserved
+				.add(contract.getStatus() == emBOStatus.CLOSED ? Decimal.ZERO : contract.getQuantity());
 	}
 
 	BigDecimal revokeReserved = Decimal.ZERO;

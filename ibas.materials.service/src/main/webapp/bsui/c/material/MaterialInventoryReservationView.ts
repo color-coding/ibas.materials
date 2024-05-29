@@ -1145,6 +1145,11 @@ namespace materials {
                             })
                         ],
                         buttons: [
+                            this.dataButton = new sap.m.ToggleButton("", {
+                                text: ibas.i18n.prop("materials_valid_data_only"),
+                                type: sap.m.ButtonType.Attention,
+                                pressed: true,
+                            }).addStyleClass("sapUiSmallMarginEnd"),
                             new sap.m.Button("", {
                                 text: ibas.i18n.prop("shell_data_save"),
                                 type: sap.m.ButtonType.Transparent,
@@ -1247,6 +1252,7 @@ namespace materials {
                 private container: sap.m.NavContainer;
                 private leftPage: sap.m.Page;
                 private menuSources: sap.m.Menu;
+                private dataButton: sap.m.ToggleButton;
 
                 showWorkingDatas(datas: app.ReservationWorking[]): void {
                     this.leftPage.setModel(new sap.extension.model.JSONModel(datas));
@@ -1255,7 +1261,13 @@ namespace materials {
                     this.container.getCurrentPage().setModel(new sap.extension.model.JSONModel(datas));
                 }
                 showReservations(datas: app.ReservationWorkingItemResult[]): void {
-                    this.tableWorkResults.setModel(new sap.extension.model.JSONModel(datas));
+                    if (this.dataButton.getPressed()) {
+                        this.tableWorkResults.setModel(new sap.extension.model.JSONModel(datas.filter(
+                            c => !(c.status === ibas.emBOStatus.CLOSED || c.closedQuantity >= c.quantity)
+                        )));
+                    } else {
+                        this.tableWorkResults.setModel(new sap.extension.model.JSONModel(datas));
+                    }
                 }
                 showOrderedSourceDocuments(datas: ibas.IServiceAgent[]): void {
                     this.menuSources.setModel(new sap.extension.model.JSONModel(datas));

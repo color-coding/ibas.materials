@@ -97,6 +97,12 @@ namespace materials {
                         });
                     }
                     return this;
+                },
+                loadItems(this: WarehouseSelect): WarehouseSelect {
+                    if (this.getItems().length > 0) {
+                        return this;
+                    }
+                    this.loadItemList();
                 }
             });
             const WAREHOUSE_CACHE: ibas.IList<materials.bo.Warehouse> = new ibas.ArrayList<materials.bo.Warehouse>();
