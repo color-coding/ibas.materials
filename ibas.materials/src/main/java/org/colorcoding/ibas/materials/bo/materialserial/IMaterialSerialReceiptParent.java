@@ -77,12 +77,12 @@ public interface IMaterialSerialReceiptParent extends IMaterialSerialItemParent,
 	 * 
 	 * @return 值
 	 */
-	String getCurrency();
+	String getSerialCurrency();
 
 	/**
 	 * 获取-汇率
 	 * 
 	 * @return 值
 	 */
-	BigDecimal getRate();
+	BigDecimal getSerialRate();
 }

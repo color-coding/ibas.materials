@@ -77,12 +77,12 @@ public interface IMaterialBatchReceiptParent extends IMaterialBatchItemParent, I
 	 * 
 	 * @return 值
 	 */
-	String getCurrency();
+	String getBatchCurrency();
 
 	/**
 	 * 获取-汇率
 	 * 
 	 * @return 值
 	 */
-	BigDecimal getRate();
+	BigDecimal getBatchRate();
 }

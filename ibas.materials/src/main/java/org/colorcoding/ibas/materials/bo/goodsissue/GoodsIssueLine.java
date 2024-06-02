@@ -1563,8 +1563,28 @@ public class GoodsIssueLine extends BusinessObject<GoodsIssueLine>
 	}
 
 	@Override
+	public String getBatchCurrency() {
+		return this.getCurrency();
+	}
+
+	@Override
+	public BigDecimal getBatchRate() {
+		return this.getRate();
+	}
+
+	@Override
 	public BigDecimal getSerialPrice() {
 		return this.getPrice();
+	}
+
+	@Override
+	public String getSerialCurrency() {
+		return this.getCurrency();
+	}
+
+	@Override
+	public BigDecimal getSerialRate() {
+		return this.getRate();
 	}
 
 	/**

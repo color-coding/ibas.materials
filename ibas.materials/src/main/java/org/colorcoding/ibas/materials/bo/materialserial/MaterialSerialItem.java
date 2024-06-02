@@ -738,12 +738,12 @@ public class MaterialSerialItem extends BusinessObject<MaterialSerialItem>
 
 						@Override
 						public String getCurrency() {
-							return ((IMaterialSerialReceiptParent) MaterialSerialItem.this.parent).getCurrency();
+							return ((IMaterialSerialReceiptParent) MaterialSerialItem.this.parent).getSerialCurrency();
 						}
 
 						@Override
 						public BigDecimal getRate() {
-							return ((IMaterialSerialReceiptParent) MaterialSerialItem.this.parent).getRate();
+							return ((IMaterialSerialReceiptParent) MaterialSerialItem.this.parent).getSerialRate();
 						}
 					}
 
@@ -866,12 +866,12 @@ public class MaterialSerialItem extends BusinessObject<MaterialSerialItem>
 
 						@Override
 						public String getCurrency() {
-							return ((IMaterialSerialIssueParent) MaterialSerialItem.this.parent).getCurrency();
+							return ((IMaterialSerialIssueParent) MaterialSerialItem.this.parent).getSerialCurrency();
 						}
 
 						@Override
 						public BigDecimal getRate() {
-							return ((IMaterialSerialIssueParent) MaterialSerialItem.this.parent).getRate();
+							return ((IMaterialSerialIssueParent) MaterialSerialItem.this.parent).getSerialRate();
 						}
 					}
 

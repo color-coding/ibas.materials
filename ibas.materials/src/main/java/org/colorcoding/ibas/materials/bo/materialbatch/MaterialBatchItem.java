@@ -800,12 +800,12 @@ public class MaterialBatchItem extends BusinessObject<MaterialBatchItem>
 
 						@Override
 						public String getCurrency() {
-							return ((IMaterialBatchReceiptParent) MaterialBatchItem.this.parent).getCurrency();
+							return ((IMaterialBatchReceiptParent) MaterialBatchItem.this.parent).getBatchCurrency();
 						}
 
 						@Override
 						public BigDecimal getRate() {
-							return ((IMaterialBatchReceiptParent) MaterialBatchItem.this.parent).getRate();
+							return ((IMaterialBatchReceiptParent) MaterialBatchItem.this.parent).getBatchRate();
 						}
 
 					}
@@ -938,12 +938,12 @@ public class MaterialBatchItem extends BusinessObject<MaterialBatchItem>
 
 						@Override
 						public String getCurrency() {
-							return ((IMaterialBatchIssueParent) MaterialBatchItem.this.parent).getCurrency();
+							return ((IMaterialBatchIssueParent) MaterialBatchItem.this.parent).getBatchCurrency();
 						}
 
 						@Override
 						public BigDecimal getRate() {
-							return ((IMaterialBatchIssueParent) MaterialBatchItem.this.parent).getRate();
+							return ((IMaterialBatchIssueParent) MaterialBatchItem.this.parent).getBatchRate();
 						}
 					}
 
