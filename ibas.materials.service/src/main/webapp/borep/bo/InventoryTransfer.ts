@@ -1064,7 +1064,7 @@ namespace materials {
                 this.serialManagement = data.serialManagement;
                 this.price = data.price;
                 this.currency = data.currency;
-                this.quantity = data.quantity;
+                this.quantity = data.quantity - data.closedQuantity;
                 this.uom = data.uom;
                 this.warehouse = data.warehouse;
                 this.reference1 = data.reference1;
@@ -1087,12 +1087,18 @@ namespace materials {
                 for (let batch of data.materialBatches) {
                     let myBatch: materials.bo.IMaterialBatchItem = this.materialBatches.create();
                     myBatch.batchCode = batch.batchCode;
-                    myBatch.quantity = batch.quantity;
+                    myBatch.quantity = this.quantity;
+                    if (this.materialBatches.total() >= this.quantity) {
+                        break;
+                    }
                 }
                 // 复制序列
                 for (let serial of data.materialSerials) {
                     let mySerial: materials.bo.IMaterialSerialItem = this.materialSerials.create();
                     mySerial.serialCode = serial.serialCode;
+                    if (this.materialSerials.length >= this.quantity) {
+                        break;
+                    }
                 }
             }
 

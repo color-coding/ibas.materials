@@ -79,8 +79,23 @@ public class BusinessRuleCalculateInventoryQuantity extends BusinessRuleCommon {
 		if (quantity == null) {
 			quantity = Decimal.ZERO;
 		}
-		context.getOutputValues().put(this.getInventoryQuantity(),
-				Decimal.round(Decimal.multiply(quantity, uomRate), Decimal.DECIMAL_PLACES_RUNNING));
+		BigDecimal inventoryQuantity = (BigDecimal) context.getInputValues().get(this.getInventoryQuantity());
+		if (inventoryQuantity == null) {
+			inventoryQuantity = Decimal.ZERO;
+		}
+		if (Decimal.ZERO.compareTo(inventoryQuantity) == 0 && Decimal.ZERO.compareTo(quantity) != 0) {
+			inventoryQuantity = Decimal.multiply(quantity, uomRate);
+			context.getOutputValues().put(this.getInventoryQuantity(), inventoryQuantity);
+		} else if (Decimal.ZERO.compareTo(quantity) == 0 && Decimal.ZERO.compareTo(inventoryQuantity) != 0) {
+			quantity = Decimal.divide(inventoryQuantity, uomRate);
+			context.getOutputValues().put(this.getQuantity(), quantity);
+		} else {
+			BigDecimal result = Decimal.multiply(quantity, uomRate);
+			if (Decimal.ONE
+					.compareTo(result.subtract(inventoryQuantity).abs().multiply(Decimal.ONE.add(Decimal.ONE))) <= 0) {
+				context.getOutputValues().put(this.getInventoryQuantity(), result);
+			}
+		}
 	}
 
 }

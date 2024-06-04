@@ -29,7 +29,6 @@ import org.colorcoding.ibas.bobas.rule.BusinessRuleException;
 import org.colorcoding.ibas.bobas.rule.IBusinessRule;
 import org.colorcoding.ibas.bobas.rule.ICheckRules;
 import org.colorcoding.ibas.bobas.rule.common.BusinessRuleMinValue;
-import org.colorcoding.ibas.bobas.rule.common.BusinessRuleMultiplication;
 import org.colorcoding.ibas.bobas.rule.common.BusinessRuleRequired;
 import org.colorcoding.ibas.materials.MyConfiguration;
 import org.colorcoding.ibas.materials.bo.inventorytransferrequest.InventoryTransferRequest;
@@ -41,6 +40,7 @@ import org.colorcoding.ibas.materials.logic.IInventoryTransferRequestClosingCont
 import org.colorcoding.ibas.materials.logic.IMaterialIssueContract;
 import org.colorcoding.ibas.materials.logic.IMaterialReceiptContract;
 import org.colorcoding.ibas.materials.logic.IMaterialWarehouseCheckContract;
+import org.colorcoding.ibas.materials.rules.BusinessRuleDeductionPriceQtyTotal;
 
 /**
  * 获取-库存转储-行
@@ -1609,7 +1609,8 @@ public class InventoryTransferLine extends BusinessObject<InventoryTransferLine>
 				new BusinessRuleRequired(PROPERTY_WAREHOUSE), // 要求有值
 				new BusinessRuleMinValue<BigDecimal>(Decimal.ZERO, PROPERTY_QUANTITY), // 不能低于0
 				new BusinessRuleMinValue<BigDecimal>(Decimal.ZERO, PROPERTY_PRICE), // 不能低于0
-				new BusinessRuleMultiplication(PROPERTY_LINETOTAL, PROPERTY_QUANTITY, PROPERTY_PRICE), // 计算总计 = 数量 * 价格
+				// 计算总计 = 数量 * 价格
+				new BusinessRuleDeductionPriceQtyTotal(PROPERTY_LINETOTAL, PROPERTY_QUANTITY, PROPERTY_PRICE),
 				new BusinessRuleMinValue<BigDecimal>(Decimal.ZERO, PROPERTY_LINETOTAL), // 不能低于0
 		};
 	}

@@ -12,10 +12,10 @@ declare namespace materials {
              * 仓库选择-选择框
              */
             class WarehouseSelect extends sap.extension.m.ComboBox {
-                /** 绑定分支数据对象 */
-                setBranchData(data: ibas.Bindable): WarehouseSelect;
-                /** 绑定分支数据对象 */
-                getBranchData(): ibas.Bindable;
+                /** 设置分支 */
+                setBranch(data: string): WarehouseSelect;
+                /** 获取分支 */
+                getBranch(): string;
             }
             /**
              * 物料或物料组-文本框

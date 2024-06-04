@@ -807,8 +807,8 @@ namespace materials {
                     sap.extension.pages.changeStatus(this.page);
                     // 设置分支对象
                     if (accounting.config.isEnableBranch()) {
-                        this.fromWarehouseSelect.setBranchData(data);
-                        this.toWarehouseSelect.setBranchData(data);
+                        this.fromWarehouseSelect.setModel(new sap.extension.model.JSONModel(data));
+                        this.toWarehouseSelect.setModel(new sap.extension.model.JSONModel(data));
                     }
                 }
                 /** 显示数据-库存转储-行 */

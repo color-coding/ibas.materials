@@ -744,6 +744,19 @@ namespace materials {
                         condition.alias = bo.Warehouse.PROPERTY_BRANCH_NAME;
                         condition.operation = ibas.emConditionOperation.EQUAL;
                         condition.value = branch;
+                        condition.bracketOpen = 1;
+                        conditions.add(condition);
+                        condition = new ibas.Condition();
+                        condition.alias = bo.Warehouse.PROPERTY_BRANCH_NAME;
+                        condition.operation = ibas.emConditionOperation.EQUAL;
+                        condition.relationship = ibas.emConditionRelationship.OR;
+                        condition.value = "";
+                        conditions.add(condition);
+                        condition = new ibas.Condition();
+                        condition.alias = bo.Warehouse.PROPERTY_BRANCH_NAME;
+                        condition.operation = ibas.emConditionOperation.IS_NULL;
+                        condition.relationship = ibas.emConditionRelationship.OR;
+                        condition.bracketClose = 1;
                         conditions.add(condition);
                     } else {
                         condition = new ibas.Condition();
