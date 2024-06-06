@@ -7,10 +7,8 @@
  */
 namespace materials {
     export namespace bo {
-
         /** 物料 */
         export class Material extends ibas.BOMasterData<Material> implements IMaterial {
-
             /** 业务对象编码 */
             static BUSINESS_OBJECT_CODE: string = BO_CODE_MATERIAL;
             /** 构造函数 */
@@ -859,10 +857,8 @@ namespace materials {
             }
         }
 
-
         /** 物料数量 */
         export class MaterialQuantity extends ibas.BusinessObject<MaterialQuantity> implements IMaterialQuantity {
-
             /** 映射的属性名称-物料编码 */
             static PROPERTY_ITEMCODE_NAME: string = "ItemCode";
             /** 获取-物料编码 */
@@ -990,7 +986,6 @@ namespace materials {
         }
         /** 物料价格 */
         export class MaterialPrice extends ibas.BusinessObject<MaterialPrice> implements IMaterialPrice {
-
             /** 映射的属性名称-数据源 */
             static PROPERTY_SOURCE_NAME: string = "Source";
             /** 获取-数据源 */
@@ -1033,6 +1028,17 @@ namespace materials {
             /** 设置-物料标识 */
             set itemSign(value: string) {
                 this.setProperty(MaterialPrice.PROPERTY_ITEMSIGN_NAME, value);
+            }
+
+            /** 映射的属性名称-单位 */
+            static PROPERTY_UOM_NAME: string = "UOM";
+            /** 获取-单位 */
+            get uom(): string {
+                return this.getProperty<string>(MaterialPrice.PROPERTY_UOM_NAME);
+            }
+            /** 设置-单位 */
+            set uom(value: string) {
+                this.setProperty(MaterialPrice.PROPERTY_UOM_NAME, value);
             }
 
             /** 映射的属性名称-价格 */
@@ -1106,7 +1112,12 @@ namespace materials {
             protected init(): void {
                 //
             }
-
+            markOld(): void {
+                super.markOld();
+                if (this.isLoading === false) {
+                    (<any>ibas.Bindable.prototype).firePropertyChanged.call(this, "isDirty");
+                }
+            }
         }
     }
 }

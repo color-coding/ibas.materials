@@ -95,6 +95,9 @@ namespace materials {
             /** 物料编码 */
             itemCode: string;
 
+            /** 计量单位 */
+            uom: string;
+
             /** 价格 */
             price: number;
 

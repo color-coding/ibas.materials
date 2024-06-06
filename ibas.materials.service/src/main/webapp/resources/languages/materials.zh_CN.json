@@ -154,6 +154,7 @@
   "materials_import_prices": "导入价格",
   "materials_no_tax": "不含税",
   "materials_taxed": "含税",
+  "materials_clone_selected": "复制选中",
   "materials_some_count": "{0} - {1}行",
   "materials_valid_data_only": "仅有效数据",
   "materials_select_used": "选择用过的",
@@ -215,5 +216,6 @@
   "materials_invaild_status_not_support_turn_to_operation": "单据的状态无效，不支持此操作",
   "materials_change_item_price_continue": "价格清单已更新，是否更改单据行的价格？",
   "materials_not_found_reserved_data_report": "未找到关联应用[{0}]的预留单据报表",
+  "materials_from_based_list_unsupported_operation": "价格[{0} - {1}]来自基于的清单，不支持此操作",
   "materials_closing_delimiter": "----结束----"
 }

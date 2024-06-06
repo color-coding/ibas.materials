@@ -347,6 +347,7 @@
         "bo_materialprice_itemcode": "物料编码",
         "bo_materialprice_itemname": "物料名称",
         "bo_materialprice_itemsign": "物料标识",
+        "bo_materialprice_uom": "单位",
         "bo_materialprice_price": "价格",
         "bo_materialprice_currency": "货币",
         "bo_material_closing_delimiter": "----结束----"
@@ -578,6 +579,7 @@
         "bo_materialpricelist_materialpriceitems": "物料价格项目集合",
         "bo_materialpriceitem": "物料价格项目",
         "bo_materialpriceitem_itemcode": "物料编码",
+        "bo_materialpriceitem_uom": "单位",
         "bo_materialpriceitem_price": "价格",
         "bo_materialpriceitem_objectkey": "对象编号",
         "bo_materialpriceitem_lineid": "对象行号",

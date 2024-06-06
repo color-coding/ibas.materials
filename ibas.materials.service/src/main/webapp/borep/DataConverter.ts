@@ -540,27 +540,23 @@ namespace materials {
             /** 计算规则 */
             protected compute(context: ibas.BusinessRuleContextCommon): void {
                 let uomRate: number = ibas.numbers.valueOf(context.inputValues.get(this.uomRate));
+                let quantity: number = ibas.numbers.valueOf(context.inputValues.get(this.quantity));
+                let inventoryQuantity: number = ibas.numbers.valueOf(context.inputValues.get(this.inventoryQuantity));
                 if (uomRate <= 0) {
                     uomRate = 1;
                     context.outputValues.set(this.uomRate, uomRate);
                 }
                 if (ibas.strings.equalsIgnoreCase(context.trigger, this.inventoryQuantity)) {
                     // 输入库存数量，反推率
-                    let inventoryQuantity: number = context.inputValues.get(this.inventoryQuantity);
-                    let quantity: number = context.inputValues.get(this.quantity);
                     let result: number = inventoryQuantity > 0 ? inventoryQuantity / quantity : 0;
-                    if (ibas.numbers.isApproximated(uomRate, result, DECIMAL_PLACES_RATE, 10)) {
+                    if (ibas.numbers.isApproximated(uomRate, result, DECIMAL_PLACES_RATE)) {
                         return;
                     }
-                    context.outputValues.set(this.uomRate, ibas.numbers.round(result, DECIMAL_PLACES_RATE + 2));
+                    context.outputValues.set(this.uomRate, ibas.numbers.round(result));
                 } else {
-                    let inventoryQuantity: number = context.inputValues.get(this.inventoryQuantity);
-                    let quantity: number = ibas.numbers.valueOf(context.inputValues.get(this.quantity));
+                    // 数量及率触发，不近似比较
                     let result: number = quantity * uomRate;
-                    if (ibas.numbers.isApproximated(inventoryQuantity, result, DECIMAL_PLACES_QUANTITY)) {
-                        return;
-                    }
-                    context.outputValues.set(this.inventoryQuantity, ibas.numbers.round(result, DECIMAL_PLACES_QUANTITY));
+                    context.outputValues.set(this.inventoryQuantity, ibas.numbers.round(result));
                 }
             }
         }

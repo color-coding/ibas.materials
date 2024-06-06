@@ -1087,7 +1087,7 @@ namespace materials {
                 for (let batch of data.materialBatches) {
                     let myBatch: materials.bo.IMaterialBatchItem = this.materialBatches.create();
                     myBatch.batchCode = batch.batchCode;
-                    myBatch.quantity = this.quantity;
+                    myBatch.quantity = batch.quantity;
                     if (this.materialBatches.total() >= this.quantity) {
                         break;
                     }

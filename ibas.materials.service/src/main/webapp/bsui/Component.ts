@@ -459,7 +459,7 @@ namespace materials {
                         editable: this.getEditable(),
                         showValueHelp: this.getEditable(),
                         valueHelpRequest: function (event: sap.ui.base.Event): void {
-                            let source: any = event.getSource();
+                            let source: any = sap.ui.getCore().byId(event.getParameter("id"));
                             if (source instanceof sap.m.Input) {
                                 let that: any = source.getParent();
                                 if (that instanceof SpecificationInput) {

@@ -280,6 +280,9 @@ namespace materials {
             /** 物料标记 */
             itemSign: string;
 
+            /** 单位 */
+            uom: string;
+
             /** 价格 */
             price: number;
 

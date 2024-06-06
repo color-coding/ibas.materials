@@ -120,4 +120,17 @@ public interface IMaterialPrice {
 	 */
 	void setTaxed(emYesNo value);
 
+	/**
+	 * 获取-单位
+	 * 
+	 * @return 值
+	 */
+	String getUOM();
+
+	/**
+	 * 设置-单位
+	 * 
+	 * @param value 值
+	 */
+	void setUOM(String uom);
 }

@@ -748,11 +748,15 @@ namespace materials {
                     this.messages(ibas.emMessageType.WARNING, ibas.i18n.prop("materials_no_data_to_be_processed"));
                     return;
                 }
-                let journal: BatchWorkingItemResult = this.workingData.results.create(data);
+                let journal: BatchWorkingItemResult = this.workingData.results.firstOrDefault(c => c.batchCode === data.batchCode);
+                if (ibas.objects.isNull(journal)) {
+                    journal = this.workingData.results.create(data);
+                    journal.quantity = 0;
+                }
                 if (total > (data.quantity - data.reservedQuantity)) {
-                    journal.quantity = (data.quantity - data.reservedQuantity);
+                    journal.quantity += (data.quantity - data.reservedQuantity);
                 } else {
-                    journal.quantity = total;
+                    journal.quantity += total;
                 }
                 data.quantity = data.quantity - journal.quantity;
                 this.view.showMaterialBatchItems(this.workingData.results.filterDeleted());

@@ -39,23 +39,33 @@ public class MaterialPrice extends Serializable implements IMaterialPrice {
 	 * 查询条件字段-价格清单
 	 */
 	public static final String CONDITION_ALIAS_PRICELIST = "PriceList";
+	/**
+	 * 查询条件字段-单位
+	 */
+	public static final String CONDITION_ALIAS_UOM = "UOM";
+	/**
+	 * 查询条件字段-组
+	 */
+	public static final String CONDITION_ALIAS_GROUP = "GROUP";
 
-	public static IMaterialPrice create(IMaterial material) {
+	public static MaterialPrice create(IMaterial material) {
 		MaterialPrice materialPrice = new MaterialPrice();
 		materialPrice.setItemCode(material.getCode());
 		materialPrice.setItemName(material.getName());
 		materialPrice.setItemSign(material.getSign());
 		materialPrice.setPrice(material.getAvgPrice());
+		materialPrice.setUOM(material.getInventoryUOM());
 		materialPrice.setTaxed(emYesNo.NO);
 		return materialPrice;
 	}
 
-	public static IMaterialPrice create(IProduct material) {
+	public static MaterialPrice create(IProduct material) {
 		MaterialPrice materialPrice = new MaterialPrice();
 		materialPrice.setItemCode(material.getCode());
 		materialPrice.setItemName(material.getName());
 		materialPrice.setItemSign(material.getSign());
 		materialPrice.setPrice(material.getPrice());
+		materialPrice.setUOM(material.getInventoryUOM());
 		materialPrice.setTaxed(material.getTaxed());
 		return materialPrice;
 	}
@@ -63,8 +73,9 @@ public class MaterialPrice extends Serializable implements IMaterialPrice {
 	public static IMaterialPrice create(IMaterialPriceItem materialPriceItem) {
 		MaterialPrice materialPrice = new MaterialPrice();
 		materialPrice.setItemCode(materialPriceItem.getItemCode());
+		materialPrice.setUOM(materialPriceItem.getUOM());
 		materialPrice.setPrice(materialPriceItem.getPrice());
-		materialPrice.setSource(Integer.toString(materialPriceItem.getObjectKey()));
+		materialPrice.setSource(materialPriceItem.getObjectKey(), materialPriceItem.getLineId());
 		return materialPrice;
 	}
 
@@ -89,6 +100,10 @@ public class MaterialPrice extends Serializable implements IMaterialPrice {
 
 	public void setSource(String source) {
 		this.source = source;
+	}
+
+	public void setSource(Integer listKey, Integer listLine) {
+		this.source = String.format("%s-%s", listKey, listLine);
 	}
 
 	private String itemCode;
@@ -165,9 +180,21 @@ public class MaterialPrice extends Serializable implements IMaterialPrice {
 		this.taxed = taxed;
 	}
 
+	private String uom;
+
+	@XmlElement(name = "UOM")
+	public final String getUOM() {
+		return uom;
+	}
+
+	public final void setUOM(String uom) {
+		this.uom = uom;
+	}
+
 	@Override
 	public final String toString() {
-		return String.format("{materialPrice: %s %s%s}", this.getItemCode(), this.getPrice(), this.getCurrency());
+		return String.format("{materialPrice: %s %s%s/%s}", this.getItemCode(), this.getPrice(), this.getCurrency(),
+				this.getUOM());
 	}
 
 }

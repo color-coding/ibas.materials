@@ -146,7 +146,7 @@ public class MaterialsInventoryCost extends MaterialsCost {
 				throw new BusinessLogicException(I18N.prop("msg_mm_material_is_not_batchmanagement", material.getCode())
 						+ "\n" + I18N.prop("msg_mm_material_is_not_serialmanagement", material.getCode()));
 			}
-			quantities.setScale(this.getQuantity().scale());
+			quantities.setScale(this.getQuantity().scale(), Decimal.ROUNDING_MODE_DEFAULT);
 			if (Decimal.isZero(quantities)) {
 				// 避免0除
 				return Decimal.ZERO;
@@ -276,7 +276,7 @@ public class MaterialsInventoryCost extends MaterialsCost {
 						+ "\n" + I18N.prop("msg_mm_material_is_not_serialmanagement", material.getCode()));
 			}
 		}
-		quantities.setScale(this.getQuantity().scale());
+		quantities.setScale(this.getQuantity().scale(), Decimal.ROUNDING_MODE_DEFAULT);
 		if (noJournals && Decimal.isZero(quantities) && Decimal.isZero(totals)) {
 			// 都是0，则无记录
 			return null;

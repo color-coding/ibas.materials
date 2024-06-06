@@ -29,9 +29,11 @@ namespace materials {
                 // 其他事件
                 this.view.editDataEvent = this.editData;
                 this.view.deleteDataEvent = this.deleteData;
-                this.view.fetchPriceEvent = this.fetchPrice;
-                this.view.exportPriceEvent = this.exportPrice;
-                this.view.savePriceListItemEvent = this.savePriceListItem;
+                this.view.selectedPriceListEvent = this.selectedPriceList;
+                this.view.fetchPriceItemEvent = this.fetchPriceItem;
+                this.view.exportPriceItemEvent = this.exportPriceItem;
+                this.view.savePriceItemEvent = this.savePriceItem;
+                this.view.addPriceItemEvent = this.addPriceItem;
             }
             /** 视图显示后 */
             protected viewShowed(): void {
@@ -171,12 +173,36 @@ namespace materials {
                     }
                 });
             }
-            /** 查询价格 */
-            protected fetchPrice(criteria: ibas.ICriteria): void {
-                // 检查目标数据
-                if (ibas.objects.isNull(criteria) || criteria.conditions.length === 0) {
-                    throw new Error(ibas.i18n.prop("sys_invalid_parameter", "criteria"));
+            protected currentPriceList: bo.MaterialPriceList = null;
+            protected selectedPriceList(priceList: bo.MaterialPriceList): void {
+                if (ibas.objects.isNull(priceList)) {
+                    this.messages(ibas.emMessageType.WARNING, ibas.i18n.prop("shell_please_chooose_data",
+                        ibas.i18n.prop("bo_materialpricelist")
+                    )); return;
                 }
+                this.currentPriceList = priceList;
+                this.view.showPriceItems(undefined);
+            }
+            /** 查询价格 */
+            protected fetchPriceItem(criteria: ibas.ICriteria): void {
+                if (ibas.objects.isNull(this.currentPriceList)) {
+                    this.messages(ibas.emMessageType.WARNING, ibas.i18n.prop("shell_please_chooose_data",
+                        ibas.i18n.prop("bo_materialpricelist")
+                    )); return;
+                }
+                if (ibas.objects.isNull(criteria)) {
+                    criteria = new ibas.Criteria();
+                    criteria.result = ibas.config.get(ibas.CONFIG_ITEM_CRITERIA_RESULT_COUNT, 30);
+                }
+                let condition: ibas.ICondition;
+                if (criteria.conditions.length > 1) {
+                    criteria.conditions.firstOrDefault().bracketOpen += 1;
+                    criteria.conditions.lastOrDefault().bracketClose += 1;
+                }
+                condition = criteria.conditions.create();
+                condition.alias = app.conditions.materialprice.CONDITION_ALIAS_PRICELIST;
+                condition.operation = ibas.emConditionOperation.EQUAL;
+                condition.value = String(this.currentPriceList.objectKey);
                 this.busy(true);
                 let that: this = this;
                 let boRepository: bo.BORepositoryMaterials = new bo.BORepositoryMaterials();
@@ -192,7 +218,7 @@ namespace materials {
                                 that.proceeding(ibas.emMessageType.INFORMATION, ibas.i18n.prop("shell_data_fetched_none"));
                             }
                             opRslt.resultObjects.forEach(c => c.markOld());
-                            that.view.showPrices(opRslt.resultObjects);
+                            that.view.showPriceItems(opRslt.resultObjects);
                         } catch (error) {
                             that.messages(error);
                         }
@@ -201,23 +227,67 @@ namespace materials {
                 this.proceeding(ibas.emMessageType.INFORMATION, ibas.i18n.prop("shell_fetching_data"));
             }
             /** 保存价格清单项目 */
-            protected savePriceListItem(data: bo.MaterialPriceItem | bo.MaterialPriceItem[]): void {
+            protected savePriceItem(data: bo.MaterialPrice | bo.MaterialPrice[]): void {
+                if (ibas.objects.isNull(this.currentPriceList)) {
+                    this.messages(ibas.emMessageType.WARNING, ibas.i18n.prop("shell_please_chooose_data",
+                        ibas.i18n.prop("bo_materialpricelist")
+                    )); return;
+                }
+                let beSavedItem: bo.MaterialPriceItem = null;
                 let beSaved: bo.MaterialPriceList = new bo.MaterialPriceList();
+                beSaved.objectKey = this.currentPriceList.objectKey;
                 beSaved.isSavable = false;// 主对象不保存
                 beSaved.markOld(true);
                 for (let item of ibas.arrays.create(data)) {
-                    if (!(item instanceof bo.MaterialPriceItem)) {
+                    if (!(item instanceof bo.MaterialPrice)) {
+                        continue;
+                    }
+                    let priceListKey: number = 0, priceListLine: number = 0;
+                    if (item.source?.indexOf("-") > 0) {
+                        priceListKey = Number(item.source.split("-")[0]);
+                        priceListLine = Number(item.source.split("-")[1]);
+                    } else {
+                        priceListKey = Number(item.source);
+                    }
+                    if (!(priceListKey > 0)) {
                         continue;
                     }
                     if (item.price < 0) {
                         continue;
                     }
-                    beSaved.materialPriceItems.add(item);
-                    beSaved.objectKey = item.objectKey;
+                    // 先删除
+                    if (priceListKey === this.currentPriceList.objectKey) {
+                        // 非此价格清单内容，不能删除
+                        beSavedItem = new bo.MaterialPriceItem();
+                        beSavedItem.objectKey = priceListKey;
+                        beSavedItem.lineId = priceListLine;
+                        if (item.isNew === false) {
+                            // 非新建的，设置行号
+                            beSavedItem.isNew = false;
+                        }
+                        beSavedItem.itemCode = item.itemCode;
+                        beSavedItem.uom = item.uom;
+                        beSavedItem.price = item.price;
+                        beSavedItem.delete();
+                        beSaved.materialPriceItems.add(beSavedItem);
+                        if (item.isDeleted) {
+                            continue;
+                        }
+                    }
+                    // 再添加
+                    beSavedItem = new bo.MaterialPriceItem();
+                    beSavedItem.objectKey = this.currentPriceList.objectKey;
+                    beSavedItem.lineId = priceListLine;
+                    beSavedItem.itemCode = item.itemCode;
+                    beSavedItem.uom = item.uom;
+                    beSavedItem.price = item.price;
+                    beSaved.materialPriceItems.add(beSavedItem);
                 }
                 // 没有选择删除的对象
                 if (beSaved.materialPriceItems.length === 0) {
-                    return;
+                    this.messages(ibas.emMessageType.WARNING, ibas.i18n.prop("shell_please_chooose_data",
+                        ibas.i18n.prop("shell_data_save")
+                    )); return;
                 }
                 let that: this = this;
                 that.busy(true);
@@ -230,6 +300,18 @@ namespace materials {
                             if (opRslt.resultCode !== 0) {
                                 throw new Error(opRslt.message);
                             }
+                            for (let item of ibas.arrays.create(data)) {
+                                if (!(item instanceof bo.MaterialPrice)) {
+                                    continue;
+                                }
+                                if (item.price < 0) {
+                                    continue;
+                                }
+                                if (item.isDeleted) {
+                                    continue;
+                                }
+                                item.markOld();
+                            }
                             that.messages(ibas.emMessageType.SUCCESS,
                                 ibas.i18n.prop("shell_data_save") + ibas.i18n.prop("shell_sucessful"));
                         } catch (error) {
@@ -241,16 +323,17 @@ namespace materials {
                 this.proceeding(ibas.emMessageType.INFORMATION, ibas.i18n.prop("shell_saving_data"));
             }
             /** 导出价格 */
-            protected exportPrice(criteria: ibas.ICriteria): void {
-                // 检查目标数据
-                if (ibas.objects.isNull(criteria) || criteria.conditions.length === 0) {
-                    throw new Error(ibas.i18n.prop("sys_invalid_parameter", "criteria"));
+            protected exportPriceItem(): void {
+                if (ibas.objects.isNull(this.currentPriceList)) {
+                    this.messages(ibas.emMessageType.WARNING, ibas.i18n.prop("shell_please_chooose_data",
+                        ibas.i18n.prop("bo_materialpricelist")
+                    )); return;
                 }
                 this.busy(true);
                 let that: this = this;
                 let boRepository: bo.BORepositoryMaterials = new bo.BORepositoryMaterials();
                 boRepository.fetchMaterialPrice({
-                    criteria: criteria,
+                    criteria: new ibas.Criteria(),
                     onCompleted(opRslt: ibas.IOperationResult<bo.MaterialPrice>): void {
                         try {
                             that.busy(false);
@@ -268,6 +351,60 @@ namespace materials {
                 });
                 this.proceeding(ibas.emMessageType.INFORMATION, ibas.i18n.prop("shell_fetching_data"));
             }
+            /** 添加价格 */
+            protected addPriceItem(items: bo.MaterialPrice[]): void {
+                if (ibas.objects.isNull(this.currentPriceList)) {
+                    this.messages(ibas.emMessageType.WARNING, ibas.i18n.prop("shell_please_chooose_data",
+                        ibas.i18n.prop("bo_materialpricelist")
+                    )); return;
+                }
+                if (items instanceof Array && items.length > 0) {
+                    let newItems: ibas.IList<bo.MaterialPrice> = new ibas.ArrayList<bo.MaterialPrice>();
+                    let builder: ibas.StringBuilder = new ibas.StringBuilder();
+                    builder.append(ibas.i18n.prop("shell_data_new_line"));
+                    builder.append(" [");
+                    for (let item of items) {
+                        let newItem: bo.MaterialPrice = item.clone();
+                        newItem.source = ibas.strings.format("{0}-0", this.currentPriceList.objectKey);
+                        if (builder.length > 2) {
+                            builder.append(", ");
+                        }
+                        builder.append(newItem.itemCode);
+                        newItems.add(newItem);
+                    }
+                    builder.append("] ");
+                    if (builder.length > 3) {
+                        this.proceeding(ibas.emMessageType.WARNING, builder.toString());
+                    }
+                    if (newItems.length > 0) {
+                        this.view.showPriceItems(newItems);
+                    }
+                } else {
+                    let that: this = this;
+                    let conditions: ibas.IList<ibas.ICondition> = app.conditions.material.create();
+                    // 调用选择服务
+                    ibas.servicesManager.runChooseService<bo.Material | bo.Product>({
+                        boCode: bo.BO_CODE_MATERIAL,
+                        criteria: conditions,
+                        onCompleted(selecteds: ibas.IList<bo.Material | bo.Product>): void {
+                            let newItems: ibas.IList<bo.MaterialPrice> = new ibas.ArrayList<bo.MaterialPrice>();
+                            for (let selected of selecteds) {
+                                let newItem: bo.MaterialPrice = new bo.MaterialPrice();
+                                newItem.source = ibas.strings.format("{0}-0", that.currentPriceList.objectKey);
+                                newItem.itemCode = selected.code;
+                                newItem.itemName = selected.name;
+                                newItem.itemSign = selected.sign;
+                                newItem.price = -1;
+
+                                newItems.add(newItem);
+                            }
+                            if (newItems.length > 0) {
+                                that.view.showPriceItems(newItems);
+                            }
+                        }
+                    });
+                }
+            }
         }
         /** 视图-物料价格清单 */
         export interface IMaterialPriceListListView extends ibas.IBOListView {
@@ -277,16 +414,25 @@ namespace materials {
             deleteDataEvent: Function;
             /** 显示数据 */
             showPriceList(datas: bo.MaterialPriceList[]): void;
-            /** 查询价格事件 */
-            fetchPriceEvent: Function;
-            /** 显示数据 */
-            showPrices(datas: bo.MaterialPrice[]): void;
+            /** 选中价格清单事件 */
+            selectedPriceListEvent: Function;
             /** 保存价格项目事件 */
-            savePriceListItemEvent: Function;
+            savePriceItemEvent: Function;
+            /** 添加价格项目事件 */
+            addPriceItemEvent: Function;
+            /** 查询价格事件 */
+            fetchPriceItemEvent: Function;
+            /** 显示数据 */
+            showPriceItems(datas: bo.MaterialPrice[]): void;
             /** 导出价格事件 */
-            exportPriceEvent: Function;
+            exportPriceItemEvent: Function;
             /** 保存数据 */
             savePrices(datas: bo.MaterialPrice[]): void;
         }
+        /** 权限元素-物料价格清单编辑 */
+        export const ELEMENT_MATERIAL_PRICE_LIST_EDIT: ibas.IElement = {
+            id: MaterialPriceListEditApp.APPLICATION_ID,
+            name: MaterialPriceListEditApp.APPLICATION_NAME,
+        };
     }
 }

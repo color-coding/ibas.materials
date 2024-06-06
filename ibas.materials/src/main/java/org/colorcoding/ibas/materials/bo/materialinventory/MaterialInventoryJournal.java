@@ -1413,6 +1413,7 @@ public class MaterialInventoryJournal extends BusinessObject<MaterialInventoryJo
 				public String getCurrency() {
 					return null;
 				}
+
 			});
 		}
 		return contracts.toArray(new IBusinessLogicContract[] {});

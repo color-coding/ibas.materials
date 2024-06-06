@@ -108,7 +108,13 @@ class MaterialBatchItems extends org.colorcoding.ibas.materials.bo.materialbatch
 			}
 			total = total.add(item.getQuantity());
 		}
-		if (total.compareTo(Decimal.round(this.getParent().getTargetQuantity().abs(), total.scale())) != 0) {
+		BigDecimal parentTotal = this.getParent().getTargetQuantity().abs();
+		if (parentTotal.scale() > total.scale()) {
+			parentTotal.setScale(total.scale(), Decimal.ROUNDING_MODE_DEFAULT);
+		} else if (parentTotal.scale() < total.scale()) {
+			total.setScale(parentTotal.scale(), Decimal.ROUNDING_MODE_DEFAULT);
+		}
+		if (total.compareTo(parentTotal) != 0) {
 			throw new BusinessRuleException(
 					I18N.prop("msg_mm_document_material_batch_quantity_deviates", this.getParent()));
 		}

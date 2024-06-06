@@ -26,6 +26,20 @@ public interface IMaterialPriceItem extends IBOSimpleLine {
 	void setItemCode(String value);
 
 	/**
+	 * 获取-单位
+	 * 
+	 * @return 值
+	 */
+	String getUOM();
+
+	/**
+	 * 设置-单位
+	 * 
+	 * @param value 值
+	 */
+	void setUOM(String value);
+
+	/**
 	 * 获取-价格
 	 * 
 	 * @return 值

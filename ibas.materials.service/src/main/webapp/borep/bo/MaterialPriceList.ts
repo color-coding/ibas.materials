@@ -315,6 +315,16 @@ namespace materials {
             set itemCode(value: string) {
                 this.setProperty(MaterialPriceItem.PROPERTY_ITEMCODE_NAME, value);
             }
+            /** 映射的属性名称-计量单位 */
+            static PROPERTY_UOM_NAME: string = "UOM";
+            /** 获取-计量单位 */
+            get uom(): string {
+                return this.getProperty<string>(MaterialPriceItem.PROPERTY_UOM_NAME);
+            }
+            /** 设置-计量单位 */
+            set uom(value: string) {
+                this.setProperty(MaterialPriceItem.PROPERTY_UOM_NAME, value);
+            }
             /** 映射的属性名称-价格 */
             static PROPERTY_PRICE_NAME: string = "Price";
             /** 获取-价格 */

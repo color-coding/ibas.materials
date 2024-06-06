@@ -825,6 +825,10 @@ namespace materials {
                 export const CONDITION_ALIAS_ITEMSIGN: string = "ItemSign";
                 /** 查询条件字段-价格清单 */
                 export const CONDITION_ALIAS_PRICELIST: string = "PriceList";
+                /** 查询条件字段-单位 */
+                export const CONDITION_ALIAS_UOM: string = "UOM";
+                /** 查询条件字段-组 */
+                export const CONDITION_ALIAS_GROUP: string = "GROUP";
             }
             export namespace materialquantity {
                 /** 查询条件字段-物料编码 */

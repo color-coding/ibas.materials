@@ -17,6 +17,7 @@ import org.colorcoding.ibas.bobas.rule.IBusinessRule;
 import org.colorcoding.ibas.bobas.rule.common.BusinessRuleMinValue;
 import org.colorcoding.ibas.bobas.rule.common.BusinessRuleRequired;
 import org.colorcoding.ibas.materials.MyConfiguration;
+import org.colorcoding.ibas.materials.data.DataConvert;
 
 /**
  * 获取-物料价格项目
@@ -59,7 +60,7 @@ public class MaterialPriceItem extends BusinessObject<MaterialPriceItem> impleme
 	/**
 	 * 物料编码 属性
 	 */
-	@DbField(name = "ItemCode", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME, primaryKey = false, uniqueKey = true)
+	@DbField(name = "ItemCode", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME, uniqueKey = true)
 	public static final IPropertyInfo<String> PROPERTY_ITEMCODE = registerProperty(PROPERTY_ITEMCODE_NAME, String.class,
 			MY_CLASS);
 
@@ -80,6 +81,37 @@ public class MaterialPriceItem extends BusinessObject<MaterialPriceItem> impleme
 	 */
 	public final void setItemCode(String value) {
 		this.setProperty(PROPERTY_ITEMCODE, value);
+	}
+
+	/**
+	 * 属性名称-单位
+	 */
+	private static final String PROPERTY_UOM_NAME = "UOM";
+
+	/**
+	 * 单位 属性
+	 */
+	@DbField(name = "UOM", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME, uniqueKey = true)
+	public static final IPropertyInfo<String> PROPERTY_UOM = registerProperty(PROPERTY_UOM_NAME, String.class,
+			MY_CLASS);
+
+	/**
+	 * 获取-单位
+	 * 
+	 * @return 值
+	 */
+	@XmlElement(name = PROPERTY_UOM_NAME)
+	public final String getUOM() {
+		return this.getProperty(PROPERTY_UOM);
+	}
+
+	/**
+	 * 设置-单位
+	 * 
+	 * @param value 值
+	 */
+	public final void setUOM(String value) {
+		this.setProperty(PROPERTY_UOM, value);
 	}
 
 	/**
@@ -550,7 +582,7 @@ public class MaterialPriceItem extends BusinessObject<MaterialPriceItem> impleme
 	protected void initialize() {
 		super.initialize();// 基类初始化，不可去除
 		this.setObjectCode(MyConfiguration.applyVariables(BUSINESS_OBJECT_CODE));
-
+		this.setUOM(DataConvert.STRING_VALUE_EMPTY);
 	}
 
 	@Override

@@ -356,19 +356,27 @@ namespace materials {
                 });
             }
             /** 更改行价格 */
-            private changePurchaseOrderItemPrice(priceList: number | ibas.Criteria): void {
+            private changePurchaseOrderItemPrice(priceList: number | ibas.Criteria, items?: bo.GoodsReceiptLine[]): void {
+                if (ibas.objects.isNull(items)) {
+                    items = this.editData.goodsReceiptLines.filterDeleted();
+                }
                 if (typeof priceList === "number" && ibas.numbers.valueOf(priceList) !== 0) {
                     let criteria: ibas.Criteria = new ibas.Criteria();
                     let condition: ibas.ICondition = criteria.conditions.create();
                     condition.alias = materials.app.conditions.materialprice.CONDITION_ALIAS_PRICELIST;
                     condition.value = priceList.toString();
-                    for (let item of this.editData.goodsReceiptLines) {
+                    for (let item of items) {
                         condition = criteria.conditions.create();
                         condition.alias = materials.app.conditions.materialprice.CONDITION_ALIAS_ITEMCODE;
                         condition.value = item.itemCode;
+                        condition.bracketOpen = 1;
                         if (criteria.conditions.length > 2) {
                             condition.relationship = ibas.emConditionRelationship.OR;
                         }
+                        condition = criteria.conditions.create();
+                        condition.alias = materials.app.conditions.materialprice.CONDITION_ALIAS_UOM;
+                        condition.value = item.uom;
+                        condition.bracketClose = 1;
                     }
                     if (criteria.conditions.length < 2) {
                         return;
@@ -386,7 +394,7 @@ namespace materials {
                         ],
                         onCompleted: (result) => {
                             if (result === ibas.emMessageAction.YES) {
-                                this.changePurchaseOrderItemPrice(criteria);
+                                this.changePurchaseOrderItemPrice(criteria, items);
                             }
                         }
                     });
@@ -397,8 +405,9 @@ namespace materials {
                         criteria: priceList,
                         onCompleted: (opRslt) => {
                             for (let item of opRslt.resultObjects) {
-                                this.editData.goodsReceiptLines.forEach((value) => {
-                                    if (item.itemCode === value.itemCode) {
+                                items.forEach((value) => {
+                                    if (item.itemCode === value.itemCode
+                                        && (ibas.strings.isEmpty(value.uom) || item.uom === value.uom)) {
                                         value.price = item.price;
                                         value.currency = item.currency;
                                     }

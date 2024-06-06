@@ -117,6 +117,7 @@ namespace materials {
 
                 // 注册权限元素
                 this.register(ELEMENT_DOCUMENT_WAREHOUSE);
+                this.register(ELEMENT_MATERIAL_PRICE_LIST_EDIT);
             }
             /** 运行 */
             run(): void {

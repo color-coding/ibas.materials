@@ -16,6 +16,7 @@ import org.colorcoding.ibas.materials.bo.materialpricelist.IMaterialPriceItem;
 import org.colorcoding.ibas.materials.bo.materialpricelist.IMaterialPriceList;
 import org.colorcoding.ibas.materials.bo.materialpricelist.MaterialPriceItem;
 import org.colorcoding.ibas.materials.bo.materialpricelist.MaterialPriceList;
+import org.colorcoding.ibas.materials.data.DataConvert;
 import org.colorcoding.ibas.materials.repository.BORepositoryMaterials;
 
 @LogicContract(IMaterialPriceContract.class)
@@ -87,7 +88,7 @@ public class MaterialPriceService extends MaterialBusinessLogic<IMaterialPriceCo
 	@Override
 	protected void impact(IMaterialPriceContract contract) {
 		IMaterialPriceList materialPriceList = this.getBeAffected();
-		if (contract.getCurrency() != null && !contract.getCurrency().isEmpty()) {
+		if (!DataConvert.isNullOrEmpty(contract.getCurrency())) {
 			// 设置了货币，则比较货币是否匹配
 			if (!contract.getCurrency().equals(materialPriceList.getCurrency())) {
 				throw new BusinessLogicException(I18N.prop("msg_mm_wrong_currency_of_price_list",
@@ -102,6 +103,7 @@ public class MaterialPriceService extends MaterialBusinessLogic<IMaterialPriceCo
 			materialPriceItem.setItemCode(contract.getItemCode());
 		}
 		materialPriceItem.setPrice(contract.getPrice());
+		materialPriceItem.setUOM(contract.getUOM());
 	}
 
 	@Override
