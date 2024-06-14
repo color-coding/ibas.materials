@@ -772,14 +772,14 @@ namespace materials {
             }
 
             /** 映射的属性名称-库存数量 */
-            static PROPERTY_INVENTORYQUANTITY_NAME: string = "InventoryQuantity";
+            static PROPERTY_STOCKQUANTITY_NAME: string = "StockQuantity";
             /** 获取-库存数量 */
-            get inventoryQuantity(): number {
-                return this.getProperty<number>(InventoryCountingLine.PROPERTY_INVENTORYQUANTITY_NAME);
+            get stockQuantity(): number {
+                return this.getProperty<number>(InventoryCountingLine.PROPERTY_STOCKQUANTITY_NAME);
             }
             /** 设置-库存数量 */
-            set inventoryQuantity(value: number) {
-                this.setProperty(InventoryCountingLine.PROPERTY_INVENTORYQUANTITY_NAME, value);
+            set stockQuantity(value: number) {
+                this.setProperty(InventoryCountingLine.PROPERTY_STOCKQUANTITY_NAME, value);
             }
 
             /** 映射的属性名称-盘点数量 */
@@ -902,8 +902,8 @@ namespace materials {
                 this.setProperty(InventoryCountingLine.PROPERTY_MATERIALSERIALS_NAME, value);
             }
 
-            get targetQuantity(): number {
-                return this.countQuantity;
+            get inventoryQuantity(): number {
+                return this.difference;
             }
 
             /** 初始化数据 */
@@ -917,7 +917,7 @@ namespace materials {
                 return [
                     // 差额 = 盘点数 - 库存数
                     new ibas.BusinessRuleSubtraction(
-                        InventoryCountingLine.PROPERTY_DIFFERENCE_NAME, InventoryCountingLine.PROPERTY_COUNTQUANTITY_NAME, InventoryCountingLine.PROPERTY_INVENTORYQUANTITY_NAME),
+                        InventoryCountingLine.PROPERTY_DIFFERENCE_NAME, InventoryCountingLine.PROPERTY_COUNTQUANTITY_NAME, InventoryCountingLine.PROPERTY_STOCKQUANTITY_NAME),
                     // 计算总计 = 数量 * 价格
                     new ibas.BusinessRuleMultiplication(
                         InventoryCountingLine.PROPERTY_LINETOTAL_NAME, InventoryCountingLine.PROPERTY_DIFFERENCE_NAME, InventoryCountingLine.PROPERTY_PRICE_NAME
@@ -931,7 +931,7 @@ namespace materials {
                 if (ibas.strings.equalsIgnoreCase(InventoryCountingLine.PROPERTY_COUNTED_NAME, name)) {
                     if (this.counted === ibas.emYesNo.YES) {
                         if (isNaN(this.countQuantity) || this.countQuantity === 0) {
-                            this.countQuantity = this.inventoryQuantity;
+                            this.countQuantity = this.stockQuantity;
                         }
                     }
                 }

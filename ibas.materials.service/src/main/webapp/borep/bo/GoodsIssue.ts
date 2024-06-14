@@ -979,7 +979,7 @@ namespace materials {
                 this.setProperty(GoodsIssueLine.PROPERTY_MATERIALSERIALS_NAME, value);
             }
 
-            get targetQuantity(): number {
+            get inventoryQuantity(): number {
                 return this.quantity;
             }
 

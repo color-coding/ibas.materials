@@ -86,7 +86,7 @@ class MaterialBatchItem extends org.colorcoding.ibas.materials.bo.materialbatch.
 
 					@Override
 					public String getUOM() {
-						return MaterialBatchItem.this.parent.getTargetUOM();
+						return MaterialBatchItem.this.parent.getInventoryUOM();
 					}
 
 					@Override
@@ -174,7 +174,7 @@ class MaterialBatchItem extends org.colorcoding.ibas.materials.bo.materialbatch.
 
 					@Override
 					public String getUOM() {
-						return MaterialBatchItem.this.parent.getTargetUOM();
+						return MaterialBatchItem.this.parent.getInventoryUOM();
 					}
 
 					@Override

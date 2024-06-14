@@ -66,23 +66,23 @@ public interface IMaterialSerialReceiptParent extends IMaterialSerialItemParent,
 	Integer getBaseDocumentLineId();
 
 	/**
-	 * 获取-价格
+	 * 获取-库存价格
 	 * 
 	 * @return 值
 	 */
-	BigDecimal getSerialPrice();
+	BigDecimal getInventoryPrice();
 
 	/**
-	 * 获取-货币
+	 * 获取-库存价格货币
 	 * 
 	 * @return 值
 	 */
-	String getSerialCurrency();
+	String getInventoryCurrency();
 
 	/**
-	 * 获取-汇率
+	 * 获取-库存价格汇率
 	 * 
 	 * @return 值
 	 */
-	BigDecimal getSerialRate();
+	BigDecimal getInventoryRate();
 }

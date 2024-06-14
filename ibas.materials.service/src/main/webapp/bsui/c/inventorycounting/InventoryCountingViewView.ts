@@ -33,7 +33,7 @@ namespace materials {
                                 header: ibas.i18n.prop("bo_inventorycountingline_warehouse"),
                             }),
                             new sap.extension.m.Column("", {
-                                header: ibas.i18n.prop("bo_inventorycountingline_inventoryquantity"),
+                                header: ibas.i18n.prop("bo_inventorycountingline_stockquantity"),
                             }),
                             new sap.extension.m.Column("", {
                                 header: ibas.i18n.prop("bo_inventorycountingline_countquantity"),
@@ -98,7 +98,7 @@ namespace materials {
                                     }),
                                     new sap.extension.m.ObjectNumber("", {
                                         number: {
-                                            path: "inventoryQuantity",
+                                            path: "stockQuantity",
                                             type: new sap.extension.data.Quantity(),
                                         },
                                         unit: {

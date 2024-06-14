@@ -744,7 +744,7 @@ public class MaterialBatchItem extends BusinessObject<MaterialBatchItem>
 
 						@Override
 						public String getUOM() {
-							return MaterialBatchItem.this.parent.getTargetUOM();
+							return MaterialBatchItem.this.parent.getInventoryUOM();
 						}
 
 						@Override
@@ -795,17 +795,17 @@ public class MaterialBatchItem extends BusinessObject<MaterialBatchItem>
 
 						@Override
 						public BigDecimal getPrice() {
-							return ((IMaterialBatchReceiptParent) MaterialBatchItem.this.parent).getBatchPrice();
+							return ((IMaterialBatchReceiptParent) MaterialBatchItem.this.parent).getInventoryPrice();
 						}
 
 						@Override
 						public String getCurrency() {
-							return ((IMaterialBatchReceiptParent) MaterialBatchItem.this.parent).getBatchCurrency();
+							return ((IMaterialBatchReceiptParent) MaterialBatchItem.this.parent).getInventoryCurrency();
 						}
 
 						@Override
 						public BigDecimal getRate() {
-							return ((IMaterialBatchReceiptParent) MaterialBatchItem.this.parent).getBatchRate();
+							return ((IMaterialBatchReceiptParent) MaterialBatchItem.this.parent).getInventoryRate();
 						}
 
 					}
@@ -883,7 +883,7 @@ public class MaterialBatchItem extends BusinessObject<MaterialBatchItem>
 
 						@Override
 						public String getUOM() {
-							return MaterialBatchItem.this.parent.getTargetUOM();
+							return MaterialBatchItem.this.parent.getInventoryUOM();
 						}
 
 						@Override
@@ -933,17 +933,17 @@ public class MaterialBatchItem extends BusinessObject<MaterialBatchItem>
 
 						@Override
 						public BigDecimal getPrice() {
-							return ((IMaterialBatchIssueParent) MaterialBatchItem.this.parent).getBatchPrice();
+							return ((IMaterialBatchIssueParent) MaterialBatchItem.this.parent).getInventoryPrice();
 						}
 
 						@Override
 						public String getCurrency() {
-							return ((IMaterialBatchIssueParent) MaterialBatchItem.this.parent).getBatchCurrency();
+							return ((IMaterialBatchIssueParent) MaterialBatchItem.this.parent).getInventoryCurrency();
 						}
 
 						@Override
 						public BigDecimal getRate() {
-							return ((IMaterialBatchIssueParent) MaterialBatchItem.this.parent).getBatchRate();
+							return ((IMaterialBatchIssueParent) MaterialBatchItem.this.parent).getInventoryRate();
 						}
 					}
 

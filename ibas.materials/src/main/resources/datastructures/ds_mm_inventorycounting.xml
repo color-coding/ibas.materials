@@ -65,7 +65,7 @@
     <Property Name="SerialManagement" Description="序号管理" DataType="Alphanumeric" DataSubType="Default" EditSize="1" DeclaredType="emYesNo" Mapped="SerialMgment"/>
     <Property Name="BatchManagement" Description="批号管理" DataType="Alphanumeric" DataSubType="Default" EditSize="1" DeclaredType="emYesNo" Mapped="BatchMgment"/>
     <Property Name="Warehouse" Description="仓库" DataType="Alphanumeric" DataSubType="Default" EditSize="8" Mapped="WhsCode"/>
-    <Property Name="InventoryQuantity" Description="库存数量" DataType="Decimal" DataSubType="Quantity" EditSize="8" Mapped="InvtQty"/>
+    <Property Name="StockQuantity" Description="库存数量" DataType="Decimal" DataSubType="Quantity" EditSize="8" Mapped="InvtQty"/>
     <Property Name="CountQuantity" Description="盘点数量" DataType="Decimal" DataSubType="Quantity" EditSize="8" Mapped="CountQty"/>
     <Property Name="Difference" Description="差额" DataType="Decimal" DataSubType="Quantity" EditSize="8" Mapped="Difference"/>
     <Property Name="UOM" Description="单位" DataType="Alphanumeric" DataSubType="Default" EditSize="8" Mapped="UOM"/>

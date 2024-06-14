@@ -394,8 +394,8 @@ namespace materials {
                                 newItem.itemCode = selected.code;
                                 newItem.itemName = selected.name;
                                 newItem.itemSign = selected.sign;
+                                newItem.uom = selected.inventoryUOM;
                                 newItem.price = -1;
-
                                 newItems.add(newItem);
                             }
                             if (newItems.length > 0) {

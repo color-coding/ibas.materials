@@ -145,7 +145,7 @@ namespace materials {
             /** 仓库 */
             warehouse: string;
             /** 库存数量 */
-            inventoryQuantity: number;
+            stockQuantity: number;
             /** 盘点数量 */
             countQuantity: number;
             /** 差额 */

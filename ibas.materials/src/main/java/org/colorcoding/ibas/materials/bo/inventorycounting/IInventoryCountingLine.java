@@ -356,35 +356,35 @@ public interface IInventoryCountingLine extends IBODocumentLine, IMaterialBatchI
 	 * 
 	 * @return 值
 	 */
-	BigDecimal getInventoryQuantity();
+	BigDecimal getStockQuantity();
 
 	/**
 	 * 设置-库存数量
 	 * 
 	 * @param value 值
 	 */
-	void setInventoryQuantity(BigDecimal value);
+	void setStockQuantity(BigDecimal value);
 
 	/**
 	 * 设置-库存数量
 	 * 
 	 * @param value 值
 	 */
-	void setInventoryQuantity(String value);
+	void setStockQuantity(String value);
 
 	/**
 	 * 设置-库存数量
 	 * 
 	 * @param value 值
 	 */
-	void setInventoryQuantity(int value);
+	void setStockQuantity(int value);
 
 	/**
 	 * 设置-库存数量
 	 * 
 	 * @param value 值
 	 */
-	void setInventoryQuantity(double value);
+	void setStockQuantity(double value);
 
 	/**
 	 * 获取-盘点数量
@@ -616,4 +616,5 @@ public interface IInventoryCountingLine extends IBODocumentLine, IMaterialBatchI
 	 * @param value 值
 	 */
 	void setLineTotal(double value);
+
 }

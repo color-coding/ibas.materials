@@ -266,7 +266,7 @@ namespace materials {
                                     if (item.warehouse !== line.warehouse) {
                                         continue;
                                     }
-                                    line.inventoryQuantity = item.onHand;
+                                    line.stockQuantity = item.onHand;
                                     line.price = item.avgPrice;
                                     break;
                                 }
@@ -375,7 +375,7 @@ namespace materials {
                             item.batchManagement = selected.batchManagement;
                             item.warehouse = selected.warehouse;
                             item.uom = selected.inventoryUOM;
-                            item.inventoryQuantity = selected.onHand;
+                            item.stockQuantity = selected.onHand;
                             item.price = selected.price;
                             if (!ibas.strings.isEmpty(that.view.defaultWarehouse)) {
                                 item.warehouse = that.view.defaultWarehouse;
@@ -470,7 +470,7 @@ namespace materials {
                             let item: bo.InventoryCountingLine = that.editData.inventoryCountingLines.create();
                             item.itemCode = selected.itemCode;
                             item.warehouse = selected.warehouse;
-                            item.inventoryQuantity = selected.onHand;
+                            item.stockQuantity = selected.onHand;
                             that.view.defaultWarehouse = item.warehouse;
                             if (criteria.conditions.firstOrDefault(c => c.value === item.itemCode) === null) {
                                 // 查询物料

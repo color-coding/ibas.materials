@@ -1548,42 +1548,27 @@ public class GoodsIssueLine extends BusinessObject<GoodsIssueLine>
 	}
 
 	@Override
-	public BigDecimal getTargetQuantity() {
+	public BigDecimal getInventoryQuantity() {
 		return this.getQuantity();
 	}
 
 	@Override
-	public String getTargetUOM() {
+	public String getInventoryUOM() {
 		return this.getUOM();
 	}
 
 	@Override
-	public BigDecimal getBatchPrice() {
+	public BigDecimal getInventoryPrice() {
 		return this.getPrice();
 	}
 
 	@Override
-	public String getBatchCurrency() {
+	public String getInventoryCurrency() {
 		return this.getCurrency();
 	}
 
 	@Override
-	public BigDecimal getBatchRate() {
-		return this.getRate();
-	}
-
-	@Override
-	public BigDecimal getSerialPrice() {
-		return this.getPrice();
-	}
-
-	@Override
-	public String getSerialCurrency() {
-		return this.getCurrency();
-	}
-
-	@Override
-	public BigDecimal getSerialRate() {
+	public BigDecimal getInventoryRate() {
 		return this.getRate();
 	}
 

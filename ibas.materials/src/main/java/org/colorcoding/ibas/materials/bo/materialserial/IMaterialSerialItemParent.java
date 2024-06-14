@@ -58,12 +58,12 @@ public interface IMaterialSerialItemParent extends IBusinessObject {
 	/**
 	 * 数量
 	 */
-	BigDecimal getTargetQuantity();
+	BigDecimal getInventoryQuantity();
 
 	/**
 	 * 单位
 	 */
-	String getTargetUOM();
+	String getInventoryUOM();
 
 	/**
 	 * 物料序列集合

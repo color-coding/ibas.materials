@@ -776,14 +776,13 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 						if (opRsltInventory.getError() != null) {
 							throw opRsltInventory.getError();
 						}
-						countingLine.setInventoryQuantity(Decimal.ZERO);
+						countingLine.setStockQuantity(Decimal.ZERO);
 						for (IMaterialInventory invItem : opRsltInventory.getResultObjects()) {
-							countingLine
-									.setInventoryQuantity(countingLine.getInventoryQuantity().add(invItem.getOnHand()));
+							countingLine.setStockQuantity(countingLine.getStockQuantity().add(invItem.getOnHand()));
 						}
 						// 检查库存记录
 						countingLine.setDifference(
-								countingLine.getCountQuantity().subtract(countingLine.getInventoryQuantity()));
+								countingLine.getCountQuantity().subtract(countingLine.getStockQuantity()));
 						// 修改状态
 						countingLine.setLineStatus(emDocumentStatus.CLOSED);
 					}

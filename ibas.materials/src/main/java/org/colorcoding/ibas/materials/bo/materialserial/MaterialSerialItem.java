@@ -680,7 +680,7 @@ public class MaterialSerialItem extends BusinessObject<MaterialSerialItem>
 
 						@Override
 						public String getUOM() {
-							return MaterialSerialItem.this.parent.getTargetUOM();
+							return MaterialSerialItem.this.parent.getInventoryUOM();
 						}
 
 						@Override
@@ -733,17 +733,18 @@ public class MaterialSerialItem extends BusinessObject<MaterialSerialItem>
 
 						@Override
 						public BigDecimal getPrice() {
-							return ((IMaterialSerialReceiptParent) MaterialSerialItem.this.parent).getSerialPrice();
+							return ((IMaterialSerialReceiptParent) MaterialSerialItem.this.parent).getInventoryPrice();
 						}
 
 						@Override
 						public String getCurrency() {
-							return ((IMaterialSerialReceiptParent) MaterialSerialItem.this.parent).getSerialCurrency();
+							return ((IMaterialSerialReceiptParent) MaterialSerialItem.this.parent)
+									.getInventoryCurrency();
 						}
 
 						@Override
 						public BigDecimal getRate() {
-							return ((IMaterialSerialReceiptParent) MaterialSerialItem.this.parent).getSerialRate();
+							return ((IMaterialSerialReceiptParent) MaterialSerialItem.this.parent).getInventoryRate();
 						}
 					}
 
@@ -810,7 +811,7 @@ public class MaterialSerialItem extends BusinessObject<MaterialSerialItem>
 
 						@Override
 						public String getUOM() {
-							return MaterialSerialItem.this.parent.getTargetUOM();
+							return MaterialSerialItem.this.parent.getInventoryUOM();
 						}
 
 						@Override
@@ -861,17 +862,17 @@ public class MaterialSerialItem extends BusinessObject<MaterialSerialItem>
 
 						@Override
 						public BigDecimal getPrice() {
-							return ((IMaterialSerialIssueParent) MaterialSerialItem.this.parent).getSerialPrice();
+							return ((IMaterialSerialIssueParent) MaterialSerialItem.this.parent).getInventoryPrice();
 						}
 
 						@Override
 						public String getCurrency() {
-							return ((IMaterialSerialIssueParent) MaterialSerialItem.this.parent).getSerialCurrency();
+							return ((IMaterialSerialIssueParent) MaterialSerialItem.this.parent).getInventoryCurrency();
 						}
 
 						@Override
 						public BigDecimal getRate() {
-							return ((IMaterialSerialIssueParent) MaterialSerialItem.this.parent).getSerialRate();
+							return ((IMaterialSerialIssueParent) MaterialSerialItem.this.parent).getInventoryRate();
 						}
 					}
 

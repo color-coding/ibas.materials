@@ -850,23 +850,23 @@ public class InventoryCountingLine extends BusinessObject<InventoryCountingLine>
 	/**
 	 * 属性名称-库存数量
 	 */
-	private static final String PROPERTY_INVENTORYQUANTITY_NAME = "InventoryQuantity";
+	private static final String PROPERTY_STOCKQUANTITY_NAME = "StockQuantity";
 
 	/**
 	 * 库存数量 属性
 	 */
 	@DbField(name = "InvtQty", type = DbFieldType.DECIMAL, table = DB_TABLE_NAME, primaryKey = false)
-	public static final IPropertyInfo<BigDecimal> PROPERTY_INVENTORYQUANTITY = registerProperty(
-			PROPERTY_INVENTORYQUANTITY_NAME, BigDecimal.class, MY_CLASS);
+	public static final IPropertyInfo<BigDecimal> PROPERTY_STOCKQUANTITY = registerProperty(PROPERTY_STOCKQUANTITY_NAME,
+			BigDecimal.class, MY_CLASS);
 
 	/**
 	 * 获取-库存数量
 	 * 
 	 * @return 值
 	 */
-	@XmlElement(name = PROPERTY_INVENTORYQUANTITY_NAME)
-	public final BigDecimal getInventoryQuantity() {
-		return this.getProperty(PROPERTY_INVENTORYQUANTITY);
+	@XmlElement(name = PROPERTY_STOCKQUANTITY_NAME)
+	public final BigDecimal getStockQuantity() {
+		return this.getProperty(PROPERTY_STOCKQUANTITY);
 	}
 
 	/**
@@ -874,8 +874,8 @@ public class InventoryCountingLine extends BusinessObject<InventoryCountingLine>
 	 * 
 	 * @param value 值
 	 */
-	public final void setInventoryQuantity(BigDecimal value) {
-		this.setProperty(PROPERTY_INVENTORYQUANTITY, value);
+	public final void setStockQuantity(BigDecimal value) {
+		this.setProperty(PROPERTY_STOCKQUANTITY, value);
 	}
 
 	/**
@@ -883,8 +883,8 @@ public class InventoryCountingLine extends BusinessObject<InventoryCountingLine>
 	 * 
 	 * @param value 值
 	 */
-	public final void setInventoryQuantity(String value) {
-		this.setInventoryQuantity(Decimal.valueOf(value));
+	public final void setStockQuantity(String value) {
+		this.setStockQuantity(Decimal.valueOf(value));
 	}
 
 	/**
@@ -892,8 +892,8 @@ public class InventoryCountingLine extends BusinessObject<InventoryCountingLine>
 	 * 
 	 * @param value 值
 	 */
-	public final void setInventoryQuantity(int value) {
-		this.setInventoryQuantity(Decimal.valueOf(value));
+	public final void setStockQuantity(int value) {
+		this.setStockQuantity(Decimal.valueOf(value));
 	}
 
 	/**
@@ -901,8 +901,8 @@ public class InventoryCountingLine extends BusinessObject<InventoryCountingLine>
 	 * 
 	 * @param value 值
 	 */
-	public final void setInventoryQuantity(double value) {
-		this.setInventoryQuantity(Decimal.valueOf(value));
+	public final void setStockQuantity(double value) {
+		this.setStockQuantity(Decimal.valueOf(value));
 	}
 
 	/**
@@ -1384,12 +1384,12 @@ public class InventoryCountingLine extends BusinessObject<InventoryCountingLine>
 	}
 
 	@Override
-	public BigDecimal getTargetQuantity() {
+	public BigDecimal getInventoryQuantity() {
 		return this.getDifference();
 	}
 
 	@Override
-	public String getTargetUOM() {
+	public String getInventoryUOM() {
 		return this.getUOM();
 	}
 
@@ -1410,7 +1410,7 @@ public class InventoryCountingLine extends BusinessObject<InventoryCountingLine>
 		return new IBusinessRule[] { // 注册的业务规则
 				new BusinessRuleRequired(PROPERTY_ITEMCODE), // 要求有值
 				new BusinessRuleRequired(PROPERTY_WAREHOUSE), // 要求有值
-				new BusinessRuleMinValue<BigDecimal>(Decimal.ZERO, PROPERTY_INVENTORYQUANTITY), // 不能低于0
+				new BusinessRuleMinValue<BigDecimal>(Decimal.ZERO, PROPERTY_STOCKQUANTITY), // 不能低于0
 				new BusinessRuleMinValue<BigDecimal>(Decimal.ZERO, PROPERTY_COUNTQUANTITY), // 不能低于0
 				// 计算总计 = 数量 * 价格
 				new BusinessRuleDeductionPriceQtyTotal(PROPERTY_LINETOTAL, PROPERTY_DIFFERENCE, PROPERTY_PRICE), };

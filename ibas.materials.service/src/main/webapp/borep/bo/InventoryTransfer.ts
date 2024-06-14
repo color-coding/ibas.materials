@@ -1027,7 +1027,7 @@ namespace materials {
                 this.setProperty(InventoryTransferLine.PROPERTY_MATERIALSERIALS_NAME, value);
             }
 
-            get targetQuantity(): number {
+            get inventoryQuantity(): number {
                 return this.quantity;
             }
             /** 初始化数据 */

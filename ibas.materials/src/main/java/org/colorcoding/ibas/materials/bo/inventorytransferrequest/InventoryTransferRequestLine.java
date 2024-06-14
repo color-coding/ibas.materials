@@ -1604,12 +1604,12 @@ public class InventoryTransferRequestLine extends BusinessObject<InventoryTransf
 	}
 
 	@Override
-	public BigDecimal getTargetQuantity() {
+	public BigDecimal getInventoryQuantity() {
 		return this.getQuantity();
 	}
 
 	@Override
-	public String getTargetUOM() {
+	public String getInventoryUOM() {
 		return this.getUOM();
 	}
 

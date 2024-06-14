@@ -360,10 +360,10 @@ namespace materials {
                                         }),
                                     }),
                                     new sap.extension.table.DataColumn("", {
-                                        label: ibas.i18n.prop("bo_inventorycountingline_inventoryquantity"),
+                                        label: ibas.i18n.prop("bo_inventorycountingline_stockquantity"),
                                         template: new sap.extension.m.Text("", {
                                         }).bindProperty("bindingValue", {
-                                            path: "inventoryQuantity",
+                                            path: "stockQuantity",
                                             type: new sap.extension.data.Quantity()
                                         }),
                                     }),

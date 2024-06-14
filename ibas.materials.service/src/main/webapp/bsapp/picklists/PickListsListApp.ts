@@ -40,8 +40,11 @@ namespace materials {
             protected fetchData(criteria: ibas.ICriteria): void {
                 this.busy(true);
                 if (!ibas.objects.isNull(criteria)) {
-                    // 不查询子项
+                    // 默认不查询子项，有条件则查
                     criteria.noChilds = true;
+                    if (criteria.childCriterias.length > 0) {
+                        criteria.noChilds = false;
+                    }
                 }
                 let that: this = this;
                 let boRepository: bo.BORepositoryMaterials = new bo.BORepositoryMaterials();
