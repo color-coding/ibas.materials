@@ -45,13 +45,15 @@ public abstract class MaterialInventoryBusinessLogic<L extends IBusinessLogicCon
 	public static final String DATASOURCE_SIGN_OFFSETTING_JOURNAL = "JNL-OFF";
 
 	public MaterialInventoryBusinessLogic() {
-		this.setEnableMaterialCosts(
-				MyConfiguration.getConfigValue(MyConfiguration.CONFIG_ITEM_ENABLE_MATERIAL_COSTS, false));
 	}
 
-	private boolean enableMaterialCosts;
+	private Boolean enableMaterialCosts = null;
 
 	public final boolean isEnableMaterialCosts() {
+		if (this.enableMaterialCosts == null) {
+			this.setEnableMaterialCosts(
+					MyConfiguration.getConfigValue(MyConfiguration.CONFIG_ITEM_ENABLE_MATERIAL_COSTS, false));
+		}
 		return enableMaterialCosts;
 	}
 

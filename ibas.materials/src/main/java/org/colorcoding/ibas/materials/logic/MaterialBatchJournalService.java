@@ -72,8 +72,6 @@ public class MaterialBatchJournalService
 					if (!MyConfiguration.getConfigValue(MyConfiguration.CONFIG_ITEM_ENABLE_MATERIAL_COSTS, false)) {
 						this.setEnableMaterialCosts(false);
 					}
-				} else {
-					this.setEnableMaterialCosts(false);
 				}
 			}
 		}
