@@ -716,6 +716,11 @@ namespace materials {
                                 }).addStyleClass("sapUiSmallMarginBegin"),
                                 */
                                 new sap.m.ToolbarSpacer(""),
+                                new sap.m.CheckBox("", {
+                                    text: ibas.i18n.prop("materials_valid_data_only"),
+                                    selected: true,
+                                }),
+                                new sap.m.ToolbarSeparator(""),
                                 new sap.m.Button("", {
                                     icon: "sap-icon://sys-cancel",
                                     tooltip: ibas.i18n.prop("materials_release_reservation"),
@@ -727,7 +732,9 @@ namespace materials {
                                 new sap.m.Button("", {
                                     icon: "sap-icon://refresh",
                                     press: function (this: sap.m.Button): void {
-                                        that.fireViewEvents(that.fetchMaterialReservationEvent, that.tableMaterials.getSelecteds().firstOrDefault());
+                                        that.fireViewEvents(that.fetchMaterialReservationEvent, that.tableMaterials.getSelecteds().firstOrDefault(),
+                                            (<sap.m.CheckBox>(<sap.m.Toolbar>this.getParent()).getContent()[2]).getSelected()
+                                        );
                                     }
                                 }),
                             ]
@@ -762,6 +769,31 @@ namespace materials {
                                             },
                                         }),
                                     ]
+                                }),
+                                rowSettingsTemplate: new sap.ui.table.RowSettings("", {
+                                    highlight: {
+                                        parts: [
+                                            {
+                                                path: "status",
+                                            },
+                                            {
+                                                path: "quantity",
+                                            },
+                                            {
+                                                path: "closedQuantity",
+                                            }
+                                        ],
+                                        path: "Status",
+                                        formatter(status: ibas.emBOStatus, quantity: number, closedQuantity: number): sap.ui.core.ValueState {
+                                            if (closedQuantity >= quantity && quantity > 0) {
+                                                return sap.ui.core.ValueState.Success;
+                                            }
+                                            if (status === ibas.emBOStatus.OPEN) {
+                                                return sap.ui.core.ValueState.Warning;
+                                            }
+                                            return sap.ui.core.ValueState.Error;
+                                        }
+                                    }
                                 }),
                                 columns: [
                                     new sap.extension.table.DataColumn("", {

@@ -101,16 +101,10 @@ namespace materials {
                             ]
                         }),
                         headerContent: [
-                            new sap.extension.m.RepositoryObjectAttribute("", {
-                                title: ibas.i18n.prop("bo_warehouse_supplier"),
-                                repository: businesspartner.bo.BORepositoryBusinessPartner,
-                                dataInfo: {
-                                    type: businesspartner.bo.Supplier,
-                                    key: businesspartner.bo.Supplier.PROPERTY_CODE_NAME,
-                                    text: businesspartner.bo.Supplier.PROPERTY_NAME_NAME
-                                },
+                            new sap.extension.m.ObjectAttribute("", {
+                                title: ibas.i18n.prop("bo_warehouse_barcode"),
                                 bindingValue: {
-                                    path: "supplier",
+                                    path: "barCode",
                                     type: new sap.extension.data.Alphanumeric(),
                                 }
                             }),
@@ -131,14 +125,20 @@ namespace materials {
                         ],
                         sections: [
                             new sap.uxap.ObjectPageSection("", {
-                                showTitle: false,
+                                title: ibas.i18n.prop("materials_title_general"),
                                 subSections: [
                                     new sap.uxap.ObjectPageSubSection("", {
                                         blocks: [
-                                            new sap.extension.m.ObjectAttribute("", {
-                                                title: ibas.i18n.prop("bo_warehouse_barcode"),
+                                            new sap.extension.m.RepositoryObjectAttribute("", {
+                                                title: ibas.i18n.prop("bo_warehouse_supplier"),
+                                                repository: businesspartner.bo.BORepositoryBusinessPartner,
+                                                dataInfo: {
+                                                    type: businesspartner.bo.Supplier,
+                                                    key: businesspartner.bo.Supplier.PROPERTY_CODE_NAME,
+                                                    text: businesspartner.bo.Supplier.PROPERTY_NAME_NAME
+                                                },
                                                 bindingValue: {
-                                                    path: "barCode",
+                                                    path: "supplier",
                                                     type: new sap.extension.data.Alphanumeric(),
                                                 }
                                             }),
@@ -147,7 +147,17 @@ namespace materials {
                                     new sap.uxap.ObjectPageSubSection("", {
                                         blocks: [
                                             new sap.extension.m.ObjectAttribute("", {
-                                                title: ibas.i18n.prop("bo_warehouse_address"),
+                                                title: ibas.i18n.prop("bo_warehouse_street"),
+                                                bindingValue: {
+                                                    path: "street",
+                                                    type: new sap.extension.data.Alphanumeric(),
+                                                }
+                                            }),
+                                            new sap.extension.m.ObjectAttribute("", {
+                                                title: ibas.i18n.prop("bo_warehouse_country") +
+                                                    "/" + ibas.i18n.prop("bo_warehouse_province") +
+                                                    "/" + ibas.i18n.prop("bo_warehouse_city") +
+                                                    "/" + ibas.i18n.prop("bo_warehouse_district"),
                                                 bindingValue: {
                                                     parts: [
                                                         {
@@ -167,20 +177,21 @@ namespace materials {
                                                 }
                                             }),
                                         ],
-                                    }),
+                                    })
+                                ]
+                            }),
+                            new sap.uxap.ObjectPageSection("", {
+                                title: ibas.i18n.prop("materials_title_others"),
+                                subSections: [
                                     new sap.uxap.ObjectPageSubSection("", {
                                         blocks: [
-                                            new sap.extension.m.ObjectAttribute("", {
-                                                title: ibas.i18n.prop("bo_warehouse_street"),
+                                            new sap.extension.m.UserObjectAttribute("", {
+                                                title: ibas.i18n.prop("bo_warehouse_dataowner"),
                                                 bindingValue: {
-                                                    path: "street",
-                                                    type: new sap.extension.data.Alphanumeric(),
+                                                    path: "dataOwner",
+                                                    type: new sap.extension.data.Numeric(),
                                                 }
                                             }),
-                                        ],
-                                    }),
-                                    new sap.uxap.ObjectPageSubSection("", {
-                                        blocks: [
                                             new sap.extension.m.OrganizationObjectAttribute("", {
                                                 title: ibas.i18n.prop("bo_warehouse_organization"),
                                                 bindingValue: {

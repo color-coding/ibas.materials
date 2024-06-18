@@ -325,7 +325,7 @@ namespace materials {
                     app.run(data);
                 }
             }
-            private fetchMaterialReservation(data: bo.IMaterial): void {
+            private fetchMaterialReservation(data: bo.IMaterial, validOnly: boolean = true): void {
                 // 检查目标数据
                 if (ibas.objects.isNull(data)) {
                     this.proceeding(ibas.emMessageType.WARNING, ibas.i18n.prop("shell_please_chooose_data", ""));
@@ -337,16 +337,18 @@ namespace materials {
                 condition.alias = bo.MaterialInventoryReservation.PROPERTY_ITEMCODE_NAME;
                 condition.value = data.code;
                 condition = criteria.conditions.create();
-                condition.alias = bo.MaterialInventoryReservation.PROPERTY_STATUS_NAME;
-                condition.value = ibas.emBOStatus.OPEN.toString();
-                condition = criteria.conditions.create();
                 condition.alias = bo.MaterialInventoryReservation.PROPERTY_QUANTITY_NAME;
                 condition.operation = ibas.emConditionOperation.GRATER_THAN;
                 condition.value = "0";
-                condition = criteria.conditions.create();
-                condition.alias = bo.MaterialInventoryReservation.PROPERTY_QUANTITY_NAME;
-                condition.operation = ibas.emConditionOperation.GRATER_THAN;
-                condition.comparedAlias = bo.MaterialInventoryReservation.PROPERTY_CLOSEDQUANTITY_NAME;
+                if (validOnly !== false) {
+                    condition = criteria.conditions.create();
+                    condition.alias = bo.MaterialInventoryReservation.PROPERTY_STATUS_NAME;
+                    condition.value = ibas.emBOStatus.OPEN.toString();
+                    condition = criteria.conditions.create();
+                    condition.alias = bo.MaterialInventoryReservation.PROPERTY_QUANTITY_NAME;
+                    condition.operation = ibas.emConditionOperation.GRATER_THAN;
+                    condition.comparedAlias = bo.MaterialInventoryReservation.PROPERTY_CLOSEDQUANTITY_NAME;
+                }
                 let that: this = this;
                 let boRepository: bo.BORepositoryMaterials = new bo.BORepositoryMaterials();
                 boRepository.fetchMaterialInventoryReservation({
