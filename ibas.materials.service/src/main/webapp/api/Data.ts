@@ -10,6 +10,10 @@ namespace materials {
     export const CONSOLE_ID: string = "bad47859-3d74-4b2b-975a-48c635406be4";
     /** 模块-名称 */
     export const CONSOLE_NAME: string = "Materials";
+    /** 模块-标识 */
+    export const CONSOLE_ID_INVENTORY: string = "bad47859-3d74-4b2b-975a-7b60b88c6527";
+    /** 模块-名称 */
+    export const CONSOLE_NAME_INVENTORY: string = "MaterialsInventory";
     /** 模块-版本 */
     export const CONSOLE_VERSION: string = "0.1.0";
 
@@ -20,6 +24,8 @@ namespace materials {
         export const CONFIG_ITEM_ENABLE_MATERIAL_RESERVATION_CHOOSE_REPORT: string = "enableMaterialReservationReport";
         /** 配置项目-出库时显示物料价格 */
         export const CONFIG_ITEM_DISPALY_MATERIAL_AVGPRICE_ISSUE: string = "dispalyMaterialAvgPriceIssue";
+        /** 配置项目-启用物料特殊价格 */
+        export const CONFIG_ITEM_ENABLE_MATERIAL_SPECIAL_PRICES: string = "enableMaterialSpecialPrices";
         /**
          * 获取此模块配置
          * @param key 配置项
@@ -34,6 +40,12 @@ namespace materials {
          */
         export function isEnableMaterialVersions(): boolean {
             return get(CONFIG_ITEM_ENABLE_MATERIAL_VERSIONS, false);
+        }
+        /**
+         * 是否启用物料特殊价格
+         */
+        export function isEnableMaterialSpecialPrices(): boolean {
+            return get(CONFIG_ITEM_ENABLE_MATERIAL_SPECIAL_PRICES, false);
         }
     }
     export namespace bo {
@@ -99,6 +111,8 @@ namespace materials {
         export const BO_CODE_INVENTORYTRANSFERREQUEST: string = "${Company}_MM_TRANSFERREQUEST";
         /** 业务对象编码-物料扩展库存 */
         export const BO_CODE_PRODUCT_INVENTORY: string = "${Company}_MM_INVENTORIES";
+        /** 业务对象编码-物料特殊价格 */
+        export const BO_CODE_MATERIALSPECIALPRICE: string = "${Company}_MM_SPECIALPRICE";
 
         /** 物料类型 */
         export enum emItemType {
@@ -829,6 +843,10 @@ namespace materials {
                 export const CONDITION_ALIAS_UOM: string = "UOM";
                 /** 查询条件字段-组 */
                 export const CONDITION_ALIAS_GROUP: string = "GROUP";
+                /** 查询条件字段-客户 */
+                export const CONDITION_ALIAS_CUSTOMER: string = "Customer";
+                /** 查询条件字段-供应商 */
+                export const CONDITION_ALIAS_SUPPLIER: string = "Supplier";
             }
             export namespace materialquantity {
                 /** 查询条件字段-物料编码 */

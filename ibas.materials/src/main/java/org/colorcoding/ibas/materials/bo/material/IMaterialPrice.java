@@ -5,7 +5,7 @@ import java.math.BigDecimal;
 import org.colorcoding.ibas.bobas.data.emYesNo;
 
 /**
- * @author Fancy
+ * 物料价格
  */
 public interface IMaterialPrice {
 	/**

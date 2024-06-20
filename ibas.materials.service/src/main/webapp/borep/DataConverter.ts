@@ -303,6 +303,10 @@ namespace materials {
                         || property === bo.PickListsLine.PROPERTY_BATCHMANAGEMENT_NAME) {
                         return ibas.enums.toString(ibas.emYesNo, value);
                     }
+                } else if (boName === bo.MaterialSpecialPrice.name) {
+                    if (property === bo.MaterialSpecialPrice.PROPERTY_BUSINESSPARTNERTYPE_NAME) {
+                        return ibas.enums.toString(businesspartner.bo.emBusinessPartnerType, value);
+                    }
                 }
                 return super.convertData(boName, property, value);
             }
@@ -478,6 +482,10 @@ namespace materials {
                     } else if (property === bo.PickListsLine.PROPERTY_SERIALMANAGEMENT_NAME
                         || property === bo.PickListsLine.PROPERTY_BATCHMANAGEMENT_NAME) {
                         return ibas.enums.valueOf(ibas.emYesNo, value);
+                    }
+                } else if (boName === bo.MaterialSpecialPrice.name) {
+                    if (property === bo.MaterialSpecialPrice.PROPERTY_BUSINESSPARTNERTYPE_NAME) {
+                        return ibas.enums.valueOf(businesspartner.bo.emBusinessPartnerType, value);
                     }
                 }
                 return super.parsingData(boName, property, value);

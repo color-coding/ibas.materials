@@ -291,6 +291,17 @@ namespace materials {
              * @param saver 保存者
              */
             saveInventoryTransferRequest(saver: ibas.ISaveCaller<bo.IInventoryTransferRequest>): void;
+            /**
+             * 查询 物料特殊价格
+             * @param fetcher 查询者
+             */
+            fetchMaterialSpecialPrice(fetcher: ibas.IFetchCaller<bo.IMaterialSpecialPrice>): void;
+            /**
+             * 保存 物料特殊价格
+             * @param saver 保存者
+             */
+            saveMaterialSpecialPrice(saver: ibas.ISaveCaller<bo.IMaterialSpecialPrice>): void;
+
 
 
         }

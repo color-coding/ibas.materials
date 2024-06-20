@@ -28,6 +28,7 @@ import org.colorcoding.ibas.businesspartner.bo.customer.Customer;
 import org.colorcoding.ibas.businesspartner.bo.customer.ICustomer;
 import org.colorcoding.ibas.businesspartner.bo.supplier.ISupplier;
 import org.colorcoding.ibas.businesspartner.bo.supplier.Supplier;
+import org.colorcoding.ibas.businesspartner.data.emBusinessPartnerType;
 import org.colorcoding.ibas.businesspartner.repository.BORepositoryBusinessPartner;
 import org.colorcoding.ibas.materials.MyConfiguration;
 import org.colorcoding.ibas.materials.bo.goodsissue.GoodsIssue;
@@ -51,6 +52,7 @@ import org.colorcoding.ibas.materials.bo.material.IMaterialSubstitute;
 import org.colorcoding.ibas.materials.bo.material.IMaterialVersion;
 import org.colorcoding.ibas.materials.bo.material.IProduct;
 import org.colorcoding.ibas.materials.bo.material.Material;
+import org.colorcoding.ibas.materials.bo.material.MaterialBase;
 import org.colorcoding.ibas.materials.bo.material.MaterialGroup;
 import org.colorcoding.ibas.materials.bo.material.MaterialPrice;
 import org.colorcoding.ibas.materials.bo.material.MaterialQuantity;
@@ -73,8 +75,10 @@ import org.colorcoding.ibas.materials.bo.materialinventory.MaterialInventoryRese
 import org.colorcoding.ibas.materials.bo.materialinventory.MaterialOrderedReservation;
 import org.colorcoding.ibas.materials.bo.materialpricelist.IMaterialPriceItem;
 import org.colorcoding.ibas.materials.bo.materialpricelist.IMaterialPriceList;
+import org.colorcoding.ibas.materials.bo.materialpricelist.IMaterialSpecialPrice;
 import org.colorcoding.ibas.materials.bo.materialpricelist.MaterialPriceItem;
 import org.colorcoding.ibas.materials.bo.materialpricelist.MaterialPriceList;
+import org.colorcoding.ibas.materials.bo.materialpricelist.MaterialSpecialPrice;
 import org.colorcoding.ibas.materials.bo.materialscrap.IMaterialScrap;
 import org.colorcoding.ibas.materials.bo.materialscrap.MaterialScrap;
 import org.colorcoding.ibas.materials.bo.materialserial.IMaterialSerial;
@@ -94,6 +98,7 @@ import org.colorcoding.ibas.materials.bo.unit.Unit;
 import org.colorcoding.ibas.materials.bo.unit.UnitRate;
 import org.colorcoding.ibas.materials.bo.warehouse.IWarehouse;
 import org.colorcoding.ibas.materials.bo.warehouse.Warehouse;
+import org.colorcoding.ibas.materials.data.DataConvert;
 import org.colorcoding.ibas.materials.data.MaterialInventoryTransfer;
 import org.colorcoding.ibas.materials.data.MaterialNumberChange;
 import org.colorcoding.ibas.materials.data.emSpecificationAssigned;
@@ -822,83 +827,6 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 	// --------------------------------------------------------------------------------------------//
 
 	/**
-	 * 过滤查询条件
-	 * 
-	 * @param criteria 原始查询
-	 * @param include  true，包含条件；false，不包含条件
-	 * @param alias    条件名称
-	 * @return
-	 */
-	protected ICriteria filterConditions(ICriteria criteria, boolean include, String... alias) {
-		if (criteria == null || alias == null || alias.length == 0) {
-			return criteria;
-		}
-		ICriteria tmpCriteria = criteria.clone();
-		int cIndex = -1;
-		criteria = new Criteria();
-		for (int i = 0; i < tmpCriteria.getConditions().size(); i++) {
-			ICondition condition = tmpCriteria.getConditions().get(i);
-			boolean exist = false;
-			for (String item : alias) {
-				if (item.equalsIgnoreCase(condition.getAlias())) {
-					exist = true;
-					cIndex = i;
-					break;
-				}
-			}
-			boolean used = false;
-			if (exist && include) {
-				used = true;
-			} else if (!exist && !include) {
-				used = true;
-			}
-			if (used) {
-				criteria.getConditions().add(condition);
-			} else {
-				if (cIndex < i && cIndex >= 0) {
-					// 使用的查询以后条件，括号归集到最近使用查询
-					if (condition.getBracketOpen() > 0) {
-						ICondition tmpCondition = tmpCriteria.getConditions().get(cIndex);
-						tmpCondition.setBracketOpen(tmpCondition.getBracketOpen() + condition.getBracketOpen());
-					}
-					if (condition.getBracketClose() > 0) {
-						ICondition tmpCondition = tmpCriteria.getConditions().get(cIndex);
-						tmpCondition.setBracketClose(tmpCondition.getBracketClose() + condition.getBracketClose());
-					}
-				} else {
-					if (condition.getBracketOpen() > 0 && i + 1 < tmpCriteria.getConditions().size()) {
-						ICondition tmpCondition = tmpCriteria.getConditions().get(i + 1);
-						tmpCondition.setBracketOpen(tmpCondition.getBracketOpen() + condition.getBracketOpen());
-					}
-					if (condition.getBracketClose() > 0 && i + 1 < tmpCriteria.getConditions().size()) {
-						ICondition tmpCondition = tmpCriteria.getConditions().get(i + 1);
-						tmpCondition.setBracketClose(tmpCondition.getBracketClose() + condition.getBracketClose());
-					}
-				}
-			}
-		}
-		for (ISort sort : tmpCriteria.getSorts()) {
-			boolean exist = false;
-			for (String item : alias) {
-				if (item.equalsIgnoreCase(sort.getAlias())) {
-					exist = true;
-					break;
-				}
-			}
-			boolean used = false;
-			if (exist && include) {
-				used = true;
-			} else if (!exist && !include) {
-				used = true;
-			}
-			if (used) {
-				criteria.getSorts().add(sort);
-			}
-		}
-		return criteria;
-	}
-
-	/**
 	 * 查询-物料价格（提前设置用户口令）
 	 *
 	 * @param criteria 查询
@@ -924,7 +852,7 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 				throw new Exception(I18N.prop("msg_bobas_invaild_criteria"));
 			}
 			// 查询物料
-			ICriteria maCriteria = this.filterConditions(criteria, true, MaterialPrice.CONDITION_ALIAS_ITEMCODE,
+			ICriteria maCriteria = DataConvert.filterConditions(criteria, true, MaterialPrice.CONDITION_ALIAS_ITEMCODE,
 					MaterialPrice.CONDITION_ALIAS_ITEMNAME, MaterialPrice.CONDITION_ALIAS_ITEMSIGN,
 					MaterialPrice.CONDITION_ALIAS_GROUP);
 			maCriteria.setResultCount(criteria.getResultCount());
@@ -937,66 +865,313 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 					condition.setAlias(Material.PROPERTY_SIGN.getName());
 				}
 			}
-			if (maCriteria.getSorts()
-					.firstOrDefault(c -> Material.PROPERTY_CODE.getName().equalsIgnoreCase(c.getAlias())) == null) {
-				ISort sort = maCriteria.getSorts().create();
-				sort.setAlias(Material.PROPERTY_CODE.getName());
-				sort.setSortType(SortType.ASCENDING);
-			}
 			IOperationResult<IMaterial> opRsltMaterial = this.fetchMaterial(maCriteria);
 			if (opRsltMaterial.getError() != null) {
 				throw opRsltMaterial.getError();
 			}
 			// 查询物料价格
-			ICondition plCondition = criteria.getConditions()
-					.firstOrDefault(c -> MaterialPrice.CONDITION_ALIAS_PRICELIST.equalsIgnoreCase(c.getAlias()));
-			if (plCondition == null) {
-				return new OperationResult<>();
-			}
-			List<String> itemCodes = new ArrayList<String>(opRsltMaterial.getResultObjects().size());
-			for (IMaterial item : opRsltMaterial.getResultObjects()) {
-				itemCodes.add(item.getCode());
-			}
-			// 重新查询价格
-			List<IMaterialPrice> newPrices = this.getMaterialPrices(itemCodes, Integer.valueOf(plCondition.getValue()));
-			// 获取默认值
-			String currency = null;
-			emYesNo taxed = emYesNo.NO;
-			BigDecimal initialPrice = MyConfiguration
-					.getConfigValue(MyConfiguration.CONFIG_ITEM_PRICE_LIST_INITIAL_PRICE, Decimal.MINUS_ONE);
-			if (!newPrices.isEmpty()) {
-				currency = newPrices.firstOrDefault().getCurrency();
-				taxed = newPrices.firstOrDefault().getTaxed();
-			}
-			MaterialPrice materialPrice;
-			List<IMaterialPrice> materialPrices;
-			OperationResult<MaterialPrice> operationResult = new OperationResult<>();
-			for (IMaterial material : opRsltMaterial.getResultObjects()) {
-				materialPrices = newPrices.where(c -> c.getItemCode().equals(material.getCode()));
-				if (materialPrices.isEmpty()) {
-					materialPrice = MaterialPrice.create(material);
-					materialPrice.setSource(Integer.parseInt(plCondition.getValue()), 0);
-					materialPrice.setPrice(initialPrice);// 设置到未初始价格
-					materialPrice.setCurrency(currency);
-					materialPrice.setTaxed(taxed);
-					operationResult.addResultObjects(materialPrice);
-				} else {
-					for (IMaterialPrice newPrice : materialPrices) {
-						materialPrice = MaterialPrice.create(material);
-						materialPrice.setUOM(newPrice.getUOM());
-						materialPrice.setSource(newPrice.getSource());
-						materialPrice.setPrice(newPrice.getPrice());
-						materialPrice.setCurrency(newPrice.getCurrency());
-						materialPrice.setTaxed(newPrice.getTaxed());
-						operationResult.addResultObjects(materialPrice);
+			emBusinessPartnerType partnerType = null;
+			String partnerCode = null;
+			Integer priceList = null;
+			String today = null;
+			for (ICondition item : criteria.getConditions()) {
+				if (MaterialPrice.CONDITION_ALIAS_CUSTOMER.equalsIgnoreCase(item.getAlias())) {
+					partnerType = emBusinessPartnerType.CUSTOMER;
+					partnerCode = item.getValue();
+				} else if (MaterialPrice.CONDITION_ALIAS_SUPPLIER.equalsIgnoreCase(item.getAlias())) {
+					partnerType = emBusinessPartnerType.SUPPLIER;
+					partnerCode = item.getValue();
+				} else if (MaterialPrice.CONDITION_ALIAS_PRICELIST.equalsIgnoreCase(item.getAlias())) {
+					priceList = Integer.valueOf(item.getValue());
+				} else if (MaterialSpecialPrice.PROPERTY_VALIDDATE.getName().equalsIgnoreCase(item.getAlias())
+						|| MaterialSpecialPrice.PROPERTY_INVALIDDATE.getName().equalsIgnoreCase(item.getAlias())) {
+					if (!DataConvert.isNullOrEmpty(item.getValue())) {
+						today = item.getValue();
 					}
 				}
+			}
+			List<IMaterialPrice> materialPrices = this.getMaterialPrices(
+					opRsltMaterial.getResultObjects().toArray(new MaterialBase<?>[] {}), priceList, partnerType,
+					partnerCode, today);
+			// 按物料顺序重新排序
+			OperationResult<MaterialPrice> operationResult = new OperationResult<>();
+			for (IMaterial material : opRsltMaterial.getResultObjects()) {
+				operationResult.addResultObjects(
+						materialPrices.where(c -> material.getCode().equalsIgnoreCase(c.getItemCode())));
 			}
 			return operationResult;
 		} catch (Exception e) {
 			return new OperationResult<>(e);
 		}
 	}
+
+	/**
+	 * 查询物料价格（首先特殊价格，然后价格清单）
+	 * 
+	 * @param materials   待查物料
+	 * @param priceList   价格清单
+	 * @param partnerType 业务伙伴类型
+	 * @param partnerCode 业务伙伴
+	 * @return
+	 * @throws Exception
+	 */
+	protected List<IMaterialPrice> getMaterialPrices(MaterialBase<?>[] materials, Integer priceList,
+			emBusinessPartnerType partnerType, String partnerCode, String today) throws Exception {
+		// 查询物料特殊价格
+		List<IMaterialPrice> materialPrices = new ArrayList<>(materials.length * 2);
+		if (partnerType != null && !DataConvert.isNullOrEmpty(partnerCode) && materials.length > 0) {
+			Criteria maCriteria = new Criteria();
+			ICondition condition = maCriteria.getConditions().create();
+			condition.setAlias(MaterialSpecialPrice.PROPERTY_BUSINESSPARTNERTYPE.getName());
+			condition.setValue(partnerType);
+			condition = maCriteria.getConditions().create();
+			condition.setAlias(MaterialSpecialPrice.PROPERTY_BUSINESSPARTNERCODE.getName());
+			condition.setValue(partnerCode);
+			for (MaterialBase<?> item : materials) {
+				condition = maCriteria.getConditions().create();
+				condition.setAlias(MaterialSpecialPrice.PROPERTY_ITEMCODE.getName());
+				condition.setValue(item.getCode());
+				if (maCriteria.getConditions().size() > 3) {
+					condition.setRelationship(ConditionRelationship.OR);
+				}
+			}
+			if (maCriteria.getConditions().size() > 3) {
+				condition = maCriteria.getConditions().get(2);
+				condition.setBracketOpen(condition.getBracketOpen() + 1);
+				condition = maCriteria.getConditions().get(maCriteria.getConditions().size() - 1);
+				condition.setBracketClose(condition.getBracketClose() + 1);
+			}
+			if (!DataConvert.isNullOrEmpty(today)) {
+				// 有效日期
+				condition = maCriteria.getConditions().create();
+				condition.setBracketOpen(1);
+				condition.setAlias(Specification.PROPERTY_VALIDDATE.getName());
+				condition.setOperation(ConditionOperation.IS_NULL);
+				condition = maCriteria.getConditions().create();
+				condition.setRelationship(ConditionRelationship.OR);
+				condition.setBracketOpen(1);
+				condition.setAlias(Specification.PROPERTY_VALIDDATE.getName());
+				condition.setOperation(ConditionOperation.NOT_NULL);
+				condition = maCriteria.getConditions().create();
+				condition.setBracketClose(2);
+				condition.setAlias(Specification.PROPERTY_VALIDDATE.getName());
+				condition.setOperation(ConditionOperation.LESS_EQUAL);
+				condition.setValue(today);
+				// 失效日期
+				condition = maCriteria.getConditions().create();
+				condition.setBracketOpen(1);
+				condition.setAlias(Specification.PROPERTY_INVALIDDATE.getName());
+				condition.setOperation(ConditionOperation.IS_NULL);
+				condition = maCriteria.getConditions().create();
+				condition.setRelationship(ConditionRelationship.OR);
+				condition.setBracketOpen(1);
+				condition.setAlias(Specification.PROPERTY_INVALIDDATE.getName());
+				condition.setOperation(ConditionOperation.NOT_NULL);
+				condition = maCriteria.getConditions().create();
+				condition.setBracketClose(2);
+				condition.setAlias(Specification.PROPERTY_INVALIDDATE.getName());
+				condition.setOperation(ConditionOperation.GRATER_EQUAL);
+				condition.setValue(today);
+			}
+			MaterialPrice materialPrice;
+			for (IMaterialSpecialPrice item : this.fetchMaterialSpecialPrice(maCriteria).getResultObjects()) {
+				materialPrice = MaterialPrice.create(item);
+				for (MaterialBase<?> material : materials) {
+					if (material.getCode().equals(materialPrice.getItemCode())) {
+						// 标记已获得特殊价格物料
+						material.markDeleted();
+						materialPrice.setItemName(material.getName());
+						break;
+					}
+				}
+				materialPrices.add(materialPrice);
+			}
+		}
+		// 未提供价格清单，则退出
+		if (priceList == null || Integer.compare(priceList, 0) == 0) {
+			return materialPrices;
+		}
+		// 查询价格清单价格
+		List<IMaterialPrice> newPrices = this.getMaterialPrices(materials, priceList);
+		// 获取默认值
+		String currency = null;
+		emYesNo taxed = emYesNo.NO;
+		if (!newPrices.isEmpty()) {
+			currency = newPrices.firstOrDefault().getCurrency();
+			taxed = newPrices.firstOrDefault().getTaxed();
+		}
+		BigDecimal initialPrice = MyConfiguration.getConfigValue(MyConfiguration.CONFIG_ITEM_PRICE_LIST_INITIAL_PRICE,
+				Decimal.MINUS_ONE);
+		Integer size;
+		MaterialPrice materialPrice;
+		for (MaterialBase<?> material : materials) {
+			// 跳过已有价格物料
+			if (materialPrices.firstOrDefault(c -> material.getCode().equalsIgnoreCase(c.getItemCode())) != null) {
+				continue;
+			}
+			size = materialPrices.size();
+			for (IMaterialPrice newPrice : newPrices.where(c -> c.getItemCode().equals(material.getCode()))) {
+				materialPrice = MaterialPrice.create(material);
+				materialPrice.setUOM(newPrice.getUOM());
+				materialPrice.setSource(newPrice.getSource());
+				materialPrice.setPrice(newPrice.getPrice());
+				materialPrice.setCurrency(newPrice.getCurrency());
+				materialPrice.setTaxed(newPrice.getTaxed());
+				materialPrices.add(materialPrice);
+			}
+			if (size >= materialPrices.size()) {
+				// 没有新增
+				materialPrice = MaterialPrice.create(material);
+				materialPrice.setSource(priceList, 0);
+				materialPrice.setPrice(initialPrice);// 设置到未初始价格
+				materialPrice.setCurrency(currency);
+				materialPrice.setTaxed(taxed);
+				materialPrices.add(materialPrice);
+			}
+		}
+		return materialPrices;
+
+	}
+
+	/**
+	 * 查询物料对应价格清单的价格
+	 *
+	 * @param itemCodes 物料编码
+	 * @param priceList 价格清单
+	 * @param factory   价格清单系数
+	 * @return
+	 * @throws Exception
+	 */
+	protected List<IMaterialPrice> getMaterialPrices(MaterialBase<?>[] materials, Integer priceList) throws Exception {
+		return this.getMaterialPrices(materials, priceList, 0);
+	}
+
+	/**
+	 * 查询物料对应价格清单的价格
+	 *
+	 * @param itemCode  物料
+	 * @param priceList 价格清单
+	 * @param level     层级
+	 * @return
+	 * @throws Exception
+	 */
+	private List<IMaterialPrice> getMaterialPrices(MaterialBase<?>[] materials, Integer priceList, int level)
+			throws Exception {
+		level++;
+		if (level > MyConfiguration.getConfigValue(MyConfiguration.CONFIG_ITEM_PRICE_LIST_MAX_LEVEL, 3)) {
+			StringBuilder stringBuilder = new StringBuilder();
+			for (MaterialBase<?> material : materials) {
+				if (material == null || material.isDeleted()) {
+					continue;
+				}
+				if (stringBuilder.length() > 0) {
+					stringBuilder.append(", ");
+				}
+				stringBuilder.append(material.getCode());
+			}
+			if (stringBuilder.length() > 0) {
+				throw new Exception(
+						I18N.prop("msg_mm_material_price_list_more_than_max_level", stringBuilder.toString()));
+			}
+		}
+		ICriteria criteria = new Criteria();
+		ICondition condition = criteria.getConditions().create();
+		condition.setAlias(MaterialPriceList.PROPERTY_OBJECTKEY.getName());
+		condition.setValue(priceList);
+		IChildCriteria childCriteria = criteria.getChildCriterias().create();
+		childCriteria.setPropertyPath(MaterialPriceList.PROPERTY_MATERIALPRICEITEMS.getName());
+		childCriteria.setOnlyHasChilds(false);
+		for (MaterialBase<?> material : materials) {
+			if (material == null || material.isDeleted()) {
+				continue;
+			}
+			condition = childCriteria.getConditions().create();
+			condition.setAlias(MaterialPriceItem.PROPERTY_ITEMCODE.getName());
+			condition.setOperation(ConditionOperation.EQUAL);
+			condition.setValue(material.getCode());
+			if (childCriteria.getConditions().size() > 1) {
+				condition.setRelationship(ConditionRelationship.OR);
+			}
+		}
+		if (childCriteria.getConditions().size() > 1) {
+			condition = childCriteria.getConditions().firstOrDefault();
+			condition.setBracketOpen(condition.getBracketOpen() + 1);
+			condition = childCriteria.getConditions().lastOrDefault();
+			condition.setBracketClose(condition.getBracketClose() + 1);
+		}
+		ISort sort = childCriteria.getSorts().create();
+		sort.setAlias(MaterialPriceItem.PROPERTY_ITEMCODE.getName());
+		sort.setSortType(SortType.ASCENDING);
+		sort = childCriteria.getSorts().create();
+		sort.setAlias(MaterialPriceItem.PROPERTY_UOM.getName());
+		sort.setSortType(SortType.ASCENDING);
+		// 没有条件则跳出
+		if (childCriteria.getConditions().isEmpty()) {
+			return new ArrayList<>();
+		}
+		IOperationResult<IMaterialPriceList> opRsltPriceList = this.fetchMaterialPriceList(criteria);
+		if (opRsltPriceList.getError() != null) {
+			throw opRsltPriceList.getError();
+		}
+		// 价格清单未找到
+		if (opRsltPriceList.getResultObjects().isEmpty()) {
+			return new ArrayList<>();
+		}
+		List<IMaterialPriceItem> priceItems = null;
+		List<IMaterialPrice> materialPrices = new ArrayList<>();
+		IMaterialPriceList materialPriceList = opRsltPriceList.getResultObjects().firstOrDefault();
+		for (MaterialBase<?> material : materials) {
+			if (material == null || material.isDeleted()) {
+				continue;
+			}
+			priceItems = materialPriceList.getMaterialPriceItems()
+					.where(c -> material.getCode().equals(c.getItemCode()));
+			if (!priceItems.isEmpty()) {
+				// 按单位排序
+				priceItems.sort(new Comparator<IMaterialPriceItem>() {
+
+					@Override
+					public int compare(IMaterialPriceItem o1, IMaterialPriceItem o2) {
+						if (o1.getUOM() == o2.getUOM()) {
+							return 0;
+						}
+						if (o1.getUOM() == null && o2.getUOM() != null) {
+							return -1;
+						}
+						if (o1.getUOM() != null && o2.getUOM() == null) {
+							return 1;
+						}
+						return o1.getUOM().compareTo(o2.getUOM());
+					}
+				});
+				// 价格清单定义了价格
+				for (IMaterialPriceItem priceItem : priceItems) {
+					IMaterialPrice newPrice = MaterialPrice.create(priceItem);
+					newPrice.setCurrency(materialPriceList.getCurrency());
+					newPrice.setTaxed(materialPriceList.getTaxed());
+					materialPrices.add(newPrice);
+				}
+				// 有内容则不再查
+				material.markDeleted();
+			}
+		}
+		// 有基于清单，继续查询未找到的
+		if (materialPriceList.getBasedOnList() != null && materialPriceList.getBasedOnList().compareTo(priceList) != 0
+				&& materialPriceList.getBasedOnList() > 0) {
+			for (IMaterialPrice newPrice : this.getMaterialPrices(materials, materialPriceList.getBasedOnList(),
+					level)) {
+				if (!Decimal.isZero(materialPriceList.getFactor())) {
+					newPrice.setPrice(Decimal.multiply(newPrice.getPrice(), materialPriceList.getFactor()));
+				}
+				newPrice.setCurrency(materialPriceList.getCurrency());
+				newPrice.setTaxed(materialPriceList.getTaxed());
+				materialPrices.add(newPrice);
+			}
+		}
+		return materialPrices;
+	}
+
+	// --------------------------------------------------------------------------------------------//
 
 	/**
 	 * 查询-物料数量（提前设置用户口令）
@@ -1024,8 +1199,8 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 				throw new Exception(I18N.prop("msg_bobas_invaild_criteria"));
 			}
 			// 查询物料
-			ICriteria maCriteria = this.filterConditions(criteria, true, MaterialQuantity.CONDITION_ALIAS_ITEMCODE,
-					MaterialQuantity.CONDITION_ALIAS_ITEMNAME);
+			ICriteria maCriteria = DataConvert.filterConditions(criteria, true,
+					MaterialQuantity.CONDITION_ALIAS_ITEMCODE, MaterialQuantity.CONDITION_ALIAS_ITEMNAME);
 			maCriteria.setResultCount(criteria.getResultCount());
 			for (ICondition condition : maCriteria.getConditions()) {
 				if (MaterialQuantity.CONDITION_ALIAS_ITEMCODE.equalsIgnoreCase(condition.getAlias())) {
@@ -1034,58 +1209,15 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 					condition.setAlias(Material.PROPERTY_NAME.getName());
 				}
 			}
-			if (maCriteria.getSorts()
-					.firstOrDefault(c -> Material.PROPERTY_CODE.getName().equalsIgnoreCase(c.getAlias())) == null) {
-				ISort sort = maCriteria.getSorts().create();
-				sort.setAlias(Material.PROPERTY_CODE.getName());
-				sort.setSortType(SortType.ASCENDING);
-			}
 			IOperationResult<IMaterial> opRsltMaterial = this.fetchMaterial(maCriteria);
 			if (opRsltMaterial.getError() != null) {
 				throw opRsltMaterial.getError();
 			}
 			OperationResult<MaterialQuantity> operationResult = new OperationResult<>();
-			operationResult.addResultObjects(MaterialQuantity.create(opRsltMaterial.getResultObjects()));
-			// 查询物料库存
-			ICriteria whCriteria = this.filterConditions(criteria, true, MaterialQuantity.CONDITION_ALIAS_WAREHOUSE);
-			if (whCriteria != null && !whCriteria.getConditions().isEmpty()) {
-				// 添加物料的条件
-				for (int i = 0; i < operationResult.getResultObjects().size(); i++) {
-					IMaterialQuantity item = operationResult.getResultObjects().get(i);
-					ICondition condition = whCriteria.getConditions().create();
-					condition.setAlias(MaterialQuantity.CONDITION_ALIAS_ITEMCODE);
-					condition.setOperation(ConditionOperation.EQUAL);
-					condition.setValue(item.getItemCode());
-					condition.setRelationship(ConditionRelationship.OR);
-					// 修正条件参数
-					if (i == 0) {
-						// 第一个
-						condition.setRelationship(ConditionRelationship.AND);
-						condition.setBracketOpen(1);
-					}
-					if (i == operationResult.getResultObjects().size() - 1) {
-						// 最后一个
-						condition.setBracketClose(1);
-					}
-				}
-				IOperationResult<IMaterialInventory> opRsltInventory = this.fetchMaterialInventory(whCriteria);
-				if (opRsltInventory.getError() != null) {
-					throw opRsltInventory.getError();
-				}
-				for (IMaterialQuantity item : operationResult.getResultObjects()) {
-					// 数量清零
-					item.setOnHand(Decimal.ZERO);
-					item.setOnCommited(Decimal.ZERO);
-					item.setOnOrdered(Decimal.ZERO);
-					// 重新计算数量
-					for (IMaterialInventory inventory : opRsltInventory.getResultObjects()) {
-						if (item.getItemCode().equals(inventory.getItemCode())) {
-							item.setOnHand(item.getOnHand().add(inventory.getOnHand()));
-							item.setOnCommited(item.getOnCommited().add(inventory.getOnCommited()));
-							item.setOnOrdered(item.getOnOrdered().add(inventory.getOnOrdered()));
-						}
-					}
-				}
+			for (IMaterialQuantity materialQuantity : this.getMaterialQuantities(
+					opRsltMaterial.getResultObjects().toArray(new MaterialBase<?>[] {}),
+					DataConvert.filterConditions(criteria, true, MaterialQuantity.CONDITION_ALIAS_WAREHOUSE))) {
+				operationResult.addResultObjects(materialQuantity);
 			}
 			return operationResult;
 		} catch (Exception e) {
@@ -1093,6 +1225,73 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 		}
 	}
 
+	/**
+	 * 获取物料库存数量
+	 * 
+	 * @param materials  物料
+	 * @param whCriteria 仓库条件
+	 * @return
+	 * @throws Exception
+	 */
+	protected List<IMaterialQuantity> getMaterialQuantities(MaterialBase<?>[] materials, ICriteria whCriteria)
+			throws Exception {
+		// 初始物料数量
+		List<IMaterialQuantity> materialQuantities = new ArrayList<>();
+		for (MaterialBase<?> material : materials) {
+			materialQuantities.add(MaterialQuantity.create(material));
+		}
+		if (whCriteria != null && !whCriteria.getConditions().isEmpty()) {
+			// 添加物料的条件
+			ICondition condition;
+			if (whCriteria.getConditions().size() > 1) {
+				condition = whCriteria.getConditions().firstOrDefault();
+				condition.setBracketOpen(condition.getBracketOpen() + 1);
+				condition = whCriteria.getConditions().lastOrDefault();
+				condition.setBracketClose(condition.getBracketClose() + 1);
+			}
+			int size = whCriteria.getConditions().size();
+			for (MaterialBase<?> product : materials) {
+				condition = whCriteria.getConditions().create();
+				condition.setAlias(MaterialQuantity.CONDITION_ALIAS_ITEMCODE);
+				condition.setOperation(ConditionOperation.EQUAL);
+				condition.setValue(product.getCode());
+				if (whCriteria.getConditions().size() > size + 1) {
+					condition.setRelationship(ConditionRelationship.OR);
+				}
+			}
+			if (whCriteria.getConditions().size() > size + 2) {
+				condition = whCriteria.getConditions().get(size);
+				condition.setBracketOpen(condition.getBracketOpen() + 1);
+				condition = whCriteria.getConditions().get(whCriteria.getConditions().size() - 1);
+				condition.setBracketClose(condition.getBracketClose() + 1);
+			}
+			IOperationResult<IMaterialInventory> opRsltInventory = this.fetchMaterialInventory(whCriteria);
+			if (opRsltInventory.getError() != null) {
+				throw opRsltInventory.getError();
+			}
+			for (IMaterialQuantity item : materialQuantities) {
+				// 数量清零
+				item.setOnHand(Decimal.ZERO);
+				item.setOnCommited(Decimal.ZERO);
+				item.setOnOrdered(Decimal.ZERO);
+				item.setOnReserved(Decimal.ZERO);
+				// 重新计算数量
+				for (IMaterialInventory inventory : opRsltInventory.getResultObjects()) {
+					if (item.getItemCode().equals(inventory.getItemCode())) {
+						item.setOnHand(item.getOnHand().add(inventory.getOnHand()));
+						item.setOnCommited(item.getOnCommited().add(inventory.getOnCommited()));
+						item.setOnOrdered(item.getOnOrdered().add(inventory.getOnOrdered()));
+						item.setOnReserved(item.getOnReserved().add(inventory.getOnReserved()));
+						item.setSource(item.getSource() + (!DataConvert.isNullOrEmpty(item.getSource()) ? "," : "")
+								+ inventory.getWarehouse());
+					}
+				}
+			}
+		}
+		return materialQuantities;
+	}
+
+	// --------------------------------------------------------------------------------------------//
 	/**
 	 * 查询-产品信息（提前设置用户口令）
 	 *
@@ -1119,94 +1318,119 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 				throw new Exception(I18N.prop("msg_bobas_invaild_criteria"));
 			}
 			// 查询物料
-			ICriteria pdCriteria = this.filterConditions(criteria, false, Product.CONDITION_ALIAS_WAREHOUSE,
-					Product.CONDITION_ALIAS_PRICELIST);
+			ICriteria pdCriteria = DataConvert.filterConditions(criteria, false, Product.CONDITION_ALIAS_WAREHOUSE,
+					Product.CONDITION_ALIAS_PRICELIST, MaterialPrice.CONDITION_ALIAS_CUSTOMER,
+					MaterialPrice.CONDITION_ALIAS_SUPPLIER);
 			pdCriteria.setResultCount(criteria.getResultCount());
-			OperationResult<Product> operationResult = this.fetch(pdCriteria, token, Product.class);
-			if (operationResult.getError() != null) {
-				throw operationResult.getError();
+			OperationResult<Product> opRsltProduct = this.fetch(pdCriteria, token, Product.class);
+			if (opRsltProduct.getError() != null) {
+				throw opRsltProduct.getError();
 			}
 			// 查询物料的库存
-			ICriteria whCriteria = this.filterConditions(criteria, true, Product.CONDITION_ALIAS_WAREHOUSE);
-			if (whCriteria != null && !whCriteria.getConditions().isEmpty()) {
-				for (int i = 0; i < operationResult.getResultObjects().size(); i++) {
-					IProduct product = operationResult.getResultObjects().get(i);
-					ICondition condition = whCriteria.getConditions().create();
-					condition.setAlias(MaterialQuantity.CONDITION_ALIAS_ITEMCODE);
-					condition.setOperation(ConditionOperation.EQUAL);
-					condition.setValue(product.getCode());
-					condition.setRelationship(ConditionRelationship.OR);
-					if (i == 0) {
-						// 第一个条件
-						condition.setBracketOpen(1);
-						condition.setRelationship(ConditionRelationship.AND);
-					}
-					if (i == operationResult.getResultObjects().size() - 1) {
-						// 最后条件
-						condition.setBracketClose(1);
-					}
+			if (criteria.getConditions()
+					.firstOrDefault(c -> Product.CONDITION_ALIAS_WAREHOUSE.equalsIgnoreCase(c.getAlias())) != null) {
+				// 有仓库条件，则数量清零
+				for (IProduct product : opRsltProduct.getResultObjects()) {
+					product.setOnHand(Decimal.ZERO);
+					product.setOnCommited(Decimal.ZERO);
+					product.setOnOrdered(Decimal.ZERO);
+					product.setOnReserved(Decimal.ZERO);
+					product.setWarehouse(DataConvert.STRING_VALUE_EMPTY);
 				}
-				IOperationResult<IMaterialInventory> opRsltInventory = this.fetchMaterialInventory(whCriteria);
-				if (opRsltInventory.getError() != null) {
-					throw opRsltInventory.getError();
-				}
-				for (IProduct item : operationResult.getResultObjects()) {
-					// 数量清零
-					item.setOnHand(Decimal.ZERO);
-					item.setOnCommited(Decimal.ZERO);
-					item.setOnOrdered(Decimal.ZERO);
-					// 重新计算数量
-					for (IMaterialInventory inventory : opRsltInventory.getResultObjects()) {
-						if (item.getCode().equals(inventory.getItemCode())) {
-							item.setOnHand(item.getOnHand().add(inventory.getOnHand()));
-							item.setOnCommited(item.getOnCommited().add(inventory.getOnCommited()));
-							item.setOnOrdered(item.getOnOrdered().add(inventory.getOnOrdered()));
-							if (item.getWarehouse() == null) {
-								item.setWarehouse("");
-							}
-							if (!item.getWarehouse().isEmpty()) {
-								item.setWarehouse(item.getWarehouse() + ",");
-							}
-							item.setWarehouse(item.getWarehouse() + inventory.getWarehouse());
+			}
+			for (IMaterialQuantity materialQuantity : this.getMaterialQuantities(
+					opRsltProduct.getResultObjects().toArray(new MaterialBase<?>[] {}),
+					DataConvert.filterConditions(criteria, true, Product.CONDITION_ALIAS_WAREHOUSE))) {
+				// 重新计算数量
+				for (IProduct product : opRsltProduct.getResultObjects()) {
+					if (product.getCode().equalsIgnoreCase(materialQuantity.getItemCode())) {
+						product.setOnHand(product.getOnHand().add(materialQuantity.getOnHand()));
+						product.setOnCommited(product.getOnCommited().add(materialQuantity.getOnCommited()));
+						product.setOnOrdered(product.getOnOrdered().add(materialQuantity.getOnOrdered()));
+						product.setOnReserved(product.getOnReserved().add(materialQuantity.getOnReserved()));
+						if (product.getWarehouse() == null) {
+							product.setWarehouse(DataConvert.STRING_VALUE_EMPTY);
 						}
+						product.setWarehouse(
+								product.getWarehouse() + (!DataConvert.isNullOrEmpty(product.getWarehouse()) ? "," : "")
+										+ materialQuantity.getSource());
 					}
 				}
 			}
 			// 查询物料的价格
-			ICondition plCondition = criteria.getConditions()
-					.firstOrDefault(c -> MaterialPrice.CONDITION_ALIAS_PRICELIST.equalsIgnoreCase(c.getAlias()));
-			if (plCondition != null) {
-				List<String> itemCodes = new ArrayList<String>(operationResult.getResultObjects().size());
-				for (IProduct item : operationResult.getResultObjects()) {
-					itemCodes.add(item.getCode());
-				}
-				// 重新查询价格
-				List<IMaterialPrice> newPrices = this.getMaterialPrices(itemCodes,
-						Integer.valueOf(plCondition.getValue()));
-				// 获取默认币种
-				String currency = null;
-				if (!newPrices.isEmpty()) {
-					currency = newPrices.firstOrDefault().getCurrency();
-				}
-				for (IProduct item : operationResult.getResultObjects()) {
-					item.setPrice(Decimal.MINUS_ONE);// 设置到未初始价格
-					item.setCurrency(currency);
-					for (IMaterialPrice newPrice : newPrices) {
-						if (item.getCode().equals(newPrice.getItemCode())) {
-							item.setPrice(newPrice.getPrice());
-							item.setCurrency(newPrice.getCurrency());
-							item.setTaxed(newPrice.getTaxed());
-							break;
-						}
+			emBusinessPartnerType partnerType = null;
+			String partnerCode = null;
+			Integer priceList = null;
+			String today = null;
+			for (ICondition item : criteria.getConditions()) {
+				if (MaterialPrice.CONDITION_ALIAS_CUSTOMER.equalsIgnoreCase(item.getAlias())) {
+					partnerType = emBusinessPartnerType.CUSTOMER;
+					partnerCode = item.getValue();
+				} else if (MaterialPrice.CONDITION_ALIAS_SUPPLIER.equalsIgnoreCase(item.getAlias())) {
+					partnerType = emBusinessPartnerType.SUPPLIER;
+					partnerCode = item.getValue();
+				} else if (MaterialPrice.CONDITION_ALIAS_PRICELIST.equalsIgnoreCase(item.getAlias())) {
+					priceList = Integer.valueOf(item.getValue());
+				} else if (MaterialSpecialPrice.PROPERTY_VALIDDATE.getName().equalsIgnoreCase(item.getAlias())
+						|| MaterialSpecialPrice.PROPERTY_INVALIDDATE.getName().equalsIgnoreCase(item.getAlias())) {
+					if (!DataConvert.isNullOrEmpty(item.getValue())) {
+						today = item.getValue();
 					}
 				}
 			}
-			return operationResult;
+			List<IMaterialPrice> materialPrices = this.getMaterialPrices(
+					opRsltProduct.getResultObjects().toArray(new MaterialBase<?>[] {}), priceList, partnerType,
+					partnerCode, today);
+			// 根据条件，判断使用哪个单位价格
+			IMaterialPrice priceItem;
+			List<IMaterialPrice> priceItems;
+			for (Product product : opRsltProduct.getResultObjects()) {
+				priceItems = materialPrices.where(c -> product.getCode().equalsIgnoreCase(c.getItemCode()));
+				if (partnerType == emBusinessPartnerType.CUSTOMER
+						&& !DataConvert.isNullOrEmpty(product.getSalesUOM())) {
+					priceItem = priceItems.firstOrDefault(c -> product.getSalesUOM().equals(c.getUOM()));
+					if (priceItem != null) {
+						product.setPrice(priceItem.getPrice());
+						product.setCurrency(priceItem.getCurrency());
+						product.markOld();
+						continue;
+					}
+				}
+				if (partnerType == emBusinessPartnerType.SUPPLIER
+						&& !DataConvert.isNullOrEmpty(product.getPurchaseUOM())) {
+					priceItem = priceItems.firstOrDefault(c -> product.getPurchaseUOM().equals(c.getUOM()));
+					if (priceItem != null) {
+						product.setPrice(priceItem.getPrice());
+						product.setCurrency(priceItem.getCurrency());
+						product.markOld();
+						continue;
+					}
+				}
+				if (!DataConvert.isNullOrEmpty(product.getInventoryUOM())) {
+					priceItem = priceItems.firstOrDefault(c -> product.getInventoryUOM().equals(c.getUOM()));
+					if (priceItem != null) {
+						product.setPrice(priceItem.getPrice());
+						product.setCurrency(priceItem.getCurrency());
+						product.markOld();
+						continue;
+					}
+				}
+				priceItem = priceItems.firstOrDefault();
+				if (priceItem != null) {
+					product.setPrice(priceItem.getPrice());
+					product.setCurrency(priceItem.getCurrency());
+					product.markOld();
+					continue;
+				}
+				product.markOld();
+			}
+			return opRsltProduct;
 		} catch (Exception e) {
 			return new OperationResult<>(e);
 		}
 	}
 
+	// --------------------------------------------------------------------------------------------//
 	@Override
 	public IOperationResult<IProduct> fetchProductInventory(ICriteria criteria) {
 		return new OperationResult<IProduct>(this.fetchProduct(criteria, this.getUserToken()));
@@ -1220,38 +1444,46 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 				throw new Exception(I18N.prop("msg_bobas_invaild_criteria"));
 			}
 			// 查询物料
-			ICriteria pdCriteria = this.filterConditions(criteria, false, Product.CONDITION_ALIAS_WAREHOUSE,
-					Product.CONDITION_ALIAS_PRICELIST);
+			ICriteria pdCriteria = DataConvert.filterConditions(criteria, false, Product.CONDITION_ALIAS_WAREHOUSE);
 			pdCriteria.setResultCount(criteria.getResultCount());
-			OperationResult<Product> opRsltProduct = this.fetch(pdCriteria, token, Product.class);
+			OperationResult<Product> opRsltProduct = this.fetchProduct(pdCriteria, this.getUserToken());
 			if (opRsltProduct.getError() != null) {
 				throw opRsltProduct.getError();
 			}
-			OperationResult<Product> operationResult = new OperationResult<>();
 			// 查询物料的库存
-			ICriteria whCriteria = this.filterConditions(criteria, true, Product.CONDITION_ALIAS_WAREHOUSE,
+			ICriteria whCriteria = DataConvert.filterConditions(criteria, true, Product.CONDITION_ALIAS_WAREHOUSE,
 					Product.PROPERTY_ONHAND.getName(), Product.PROPERTY_ONCOMMITED.getName(),
 					Product.PROPERTY_ONORDERED.getName(), Product.PROPERTY_ONRESERVED.getName());
 			if (whCriteria == null) {
 				whCriteria = new Criteria();
 			}
-			for (int i = 0; i < opRsltProduct.getResultObjects().size(); i++) {
-				IProduct product = opRsltProduct.getResultObjects().get(i);
-				ICondition condition = whCriteria.getConditions().create();
+			ICondition condition;
+			if (whCriteria.getConditions().size() > 1) {
+				condition = whCriteria.getConditions().firstOrDefault();
+				condition.setBracketOpen(condition.getBracketOpen() + 1);
+				condition = whCriteria.getConditions().lastOrDefault();
+				condition.setBracketClose(condition.getBracketClose() + 1);
+			}
+			int size = whCriteria.getConditions().size();
+			for (Product product : opRsltProduct.getResultObjects()) {
+				condition = whCriteria.getConditions().create();
 				condition.setAlias(MaterialQuantity.CONDITION_ALIAS_ITEMCODE);
 				condition.setOperation(ConditionOperation.EQUAL);
 				condition.setValue(product.getCode());
-				condition.setRelationship(ConditionRelationship.OR);
-				if (i == 0) {
-					// 第一个条件
-					condition.setBracketOpen(1);
-					condition.setRelationship(ConditionRelationship.AND);
-				}
-				if (i == opRsltProduct.getResultObjects().size() - 1) {
-					// 最后条件
-					condition.setBracketClose(1);
+				if (whCriteria.getConditions().size() > size + 1) {
+					condition.setRelationship(ConditionRelationship.OR);
 				}
 			}
+			if (whCriteria.getConditions().size() > size + 2) {
+				condition = whCriteria.getConditions().get(size);
+				condition.setBracketOpen(condition.getBracketOpen() + 1);
+				condition = whCriteria.getConditions().get(whCriteria.getConditions().size() - 1);
+				condition.setBracketClose(condition.getBracketClose() + 1);
+			}
+			if (whCriteria.getConditions().isEmpty()) {
+				return new OperationResult<>();
+			}
+			OperationResult<Product> operationResult = new OperationResult<>();
 			IOperationResult<IMaterialInventory> opRsltInventory = this.fetchMaterialInventory(whCriteria);
 			if (opRsltInventory.getError() != null) {
 				throw opRsltInventory.getError();
@@ -1268,7 +1500,7 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 					product.setOnCommited(inventory.getOnCommited());
 					product.setOnOrdered(inventory.getOnOrdered());
 					product.setOnReserved(inventory.getOnReserved());
-					product.setPrice(inventory.getAvgPrice());
+					product.markOld();
 					operationResult.addResultObjects(product);
 				}
 			}
@@ -1597,145 +1829,6 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 	}
 	// --------------------------------------------------------------------------------------------//
 
-	/**
-	 * 查询物料对应价格清单的价格
-	 *
-	 * @param itemCodes 物料编码
-	 * @param priceList 价格清单
-	 * @param factory   价格清单系数
-	 * @return
-	 * @throws Exception
-	 */
-	public List<IMaterialPrice> getMaterialPrices(List<String> itemCodes, Integer priceList) throws Exception {
-		return this.getMaterialPrices(itemCodes, priceList, 0);
-	}
-
-	/**
-	 * 查询物料对应价格清单的价格
-	 *
-	 * @param itemCode  物料
-	 * @param priceList 价格清单
-	 * @param level     层级
-	 * @return
-	 * @throws Exception
-	 */
-	private List<IMaterialPrice> getMaterialPrices(List<String> itemCodes, Integer priceList, int level)
-			throws Exception {
-		level++;
-		if (level > MyConfiguration.getConfigValue(MyConfiguration.CONFIG_ITEM_PRICE_LIST_MAX_LEVEL, 3)) {
-			StringBuilder stringBuilder = new StringBuilder();
-			for (String itemCode : itemCodes) {
-				if (itemCode == null || itemCode.isEmpty()) {
-					continue;
-				}
-				if (stringBuilder.length() > 0) {
-					stringBuilder.append(", ");
-				}
-				stringBuilder.append(itemCode);
-			}
-			throw new Exception(I18N.prop("msg_mm_material_price_list_more_than_max_level", stringBuilder.toString()));
-		}
-		ICriteria criteria = new Criteria();
-		ICondition condition = criteria.getConditions().create();
-		condition.setAlias(MaterialPriceList.PROPERTY_OBJECTKEY.getName());
-		condition.setValue(priceList);
-		IChildCriteria childCriteria = criteria.getChildCriterias().create();
-		childCriteria.setPropertyPath(MaterialPriceList.PROPERTY_MATERIALPRICEITEMS.getName());
-		childCriteria.setOnlyHasChilds(false);
-		for (int i = 0; i < itemCodes.size(); i++) {
-			String itemCode = itemCodes.get(i);
-			if (itemCode == null || itemCode.isEmpty()) {
-				continue;
-			}
-			condition = childCriteria.getConditions().create();
-			condition.setAlias(MaterialPriceItem.PROPERTY_ITEMCODE.getName());
-			condition.setOperation(ConditionOperation.EQUAL);
-			condition.setValue(itemCode);
-			condition.setRelationship(ConditionRelationship.OR);
-			// 修正条件参数
-			if (i == 0) {
-				// 第一个
-				condition.setRelationship(ConditionRelationship.AND);
-				condition.setBracketOpen(1);
-			}
-			if (i == itemCodes.size() - 1) {
-				// 最后一个
-				condition.setBracketClose(1);
-			}
-		}
-		ISort sort = childCriteria.getSorts().create();
-		sort.setAlias(MaterialPriceItem.PROPERTY_ITEMCODE.getName());
-		sort.setSortType(SortType.ASCENDING);
-		sort = childCriteria.getSorts().create();
-		sort.setAlias(MaterialPriceItem.PROPERTY_UOM.getName());
-		sort.setSortType(SortType.ASCENDING);
-		// 没有条件则跳出
-		if (childCriteria.getConditions().isEmpty()) {
-			return new ArrayList<>();
-		}
-		IOperationResult<IMaterialPriceList> opRsltPriceList = this.fetchMaterialPriceList(criteria);
-		if (opRsltPriceList.getError() != null) {
-			throw opRsltPriceList.getError();
-		}
-		List<IMaterialPrice> newPrices = new ArrayList<>();
-		if (opRsltPriceList.getResultObjects().isEmpty()) {
-			// 价格清单未找到
-			return newPrices;
-		}
-		List<IMaterialPriceItem> priceItems = null;
-		List<String> noItemCodes = new ArrayList<>();
-		IMaterialPriceList materialPriceList = opRsltPriceList.getResultObjects().firstOrDefault();
-		for (String itemCode : itemCodes) {
-			if (itemCode == null || itemCode.isEmpty()) {
-				continue;
-			}
-			priceItems = materialPriceList.getMaterialPriceItems().where(c -> itemCode.equals(c.getItemCode()));
-			if (priceItems == null || priceItems.isEmpty()) {
-				noItemCodes.add(itemCode);
-			} else {
-				// 按单位排序
-				priceItems.sort(new Comparator<IMaterialPriceItem>() {
-
-					@Override
-					public int compare(IMaterialPriceItem o1, IMaterialPriceItem o2) {
-						if (o1.getUOM() == o2.getUOM()) {
-							return 0;
-						}
-						if (o1.getUOM() == null && o2.getUOM() != null) {
-							return -1;
-						}
-						if (o1.getUOM() != null && o2.getUOM() == null) {
-							return 1;
-						}
-						return o1.getUOM().compareTo(o2.getUOM());
-					}
-				});
-				// 价格清单定义了价格
-				for (IMaterialPriceItem priceItem : priceItems) {
-					IMaterialPrice newPrice = MaterialPrice.create(priceItem);
-					newPrice.setCurrency(materialPriceList.getCurrency());
-					newPrice.setTaxed(materialPriceList.getTaxed());
-					newPrices.add(newPrice);
-				}
-			}
-		}
-		if (!noItemCodes.isEmpty() && materialPriceList.getBasedOnList() != null
-				&& materialPriceList.getBasedOnList() > 0 && materialPriceList.getBasedOnList() != priceList) {
-			List<IMaterialPrice> tmpPrices = this.getMaterialPrices(noItemCodes, materialPriceList.getBasedOnList(),
-					level);
-			for (IMaterialPrice newPrice : tmpPrices) {
-				if (!Decimal.isZero(materialPriceList.getFactor())) {
-					newPrice.setPrice(Decimal.multiply(newPrice.getPrice(), materialPriceList.getFactor()));
-				}
-				newPrice.setCurrency(materialPriceList.getCurrency());
-				newPrice.setTaxed(materialPriceList.getTaxed());
-				newPrices.add(newPrice);
-			}
-		}
-		return newPrices;
-	}
-
-	// --------------------------------------------------------------------------------------------//
 	/**
 	 * 查询-计量单位
 	 * 
@@ -2298,7 +2391,52 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 	public IOperationResult<IInventoryTransferRequest> saveInventoryTransferRequest(IInventoryTransferRequest bo) {
 		return new OperationResult<IInventoryTransferRequest>(
 				this.saveInventoryTransferRequest((InventoryTransferRequest) bo, this.getUserToken()));
+	} // --------------------------------------------------------------------------------------------//
+
+	/**
+	 * 查询-物料特殊价格
+	 * 
+	 * @param criteria 查询
+	 * @param token    口令
+	 * @return 操作结果
+	 */
+	public OperationResult<MaterialSpecialPrice> fetchMaterialSpecialPrice(ICriteria criteria, String token) {
+		return super.fetch(criteria, token, MaterialSpecialPrice.class);
 	}
+
+	/**
+	 * 查询-物料特殊价格（提前设置用户口令）
+	 * 
+	 * @param criteria 查询
+	 * @return 操作结果
+	 */
+	public IOperationResult<IMaterialSpecialPrice> fetchMaterialSpecialPrice(ICriteria criteria) {
+		return new OperationResult<IMaterialSpecialPrice>(
+				this.fetchMaterialSpecialPrice(criteria, this.getUserToken()));
+	}
+
+	/**
+	 * 保存-物料特殊价格
+	 * 
+	 * @param bo    对象实例
+	 * @param token 口令
+	 * @return 操作结果
+	 */
+	public OperationResult<MaterialSpecialPrice> saveMaterialSpecialPrice(MaterialSpecialPrice bo, String token) {
+		return super.save(bo, token);
+	}
+
+	/**
+	 * 保存-物料特殊价格（提前设置用户口令）
+	 * 
+	 * @param bo 对象实例
+	 * @return 操作结果
+	 */
+	public IOperationResult<IMaterialSpecialPrice> saveMaterialSpecialPrice(IMaterialSpecialPrice bo) {
+		return new OperationResult<IMaterialSpecialPrice>(
+				this.saveMaterialSpecialPrice((MaterialSpecialPrice) bo, this.getUserToken()));
+	}
+
 	// --------------------------------------------------------------------------------------------//
 
 }

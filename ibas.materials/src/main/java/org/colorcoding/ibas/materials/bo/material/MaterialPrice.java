@@ -1,7 +1,6 @@
 package org.colorcoding.ibas.materials.bo.material;
 
 import java.math.BigDecimal;
-import java.util.Collection;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -9,13 +8,13 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
-import org.colorcoding.ibas.bobas.data.ArrayList;
 import org.colorcoding.ibas.bobas.data.Decimal;
-import org.colorcoding.ibas.bobas.data.List;
 import org.colorcoding.ibas.bobas.data.emYesNo;
 import org.colorcoding.ibas.bobas.serialization.Serializable;
+import org.colorcoding.ibas.businesspartner.data.emBusinessPartnerType;
 import org.colorcoding.ibas.materials.MyConfiguration;
 import org.colorcoding.ibas.materials.bo.materialpricelist.IMaterialPriceItem;
+import org.colorcoding.ibas.materials.bo.materialpricelist.IMaterialSpecialPrice;
 
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlType(name = "MaterialPrice", namespace = MyConfiguration.NAMESPACE_BO)
@@ -39,6 +38,14 @@ public class MaterialPrice extends Serializable implements IMaterialPrice {
 	 * 查询条件字段-价格清单
 	 */
 	public static final String CONDITION_ALIAS_PRICELIST = "PriceList";
+	/**
+	 * 查询条件字段-客户
+	 */
+	public static final String CONDITION_ALIAS_CUSTOMER = "Customer";
+	/**
+	 * 查询条件字段-供应商
+	 */
+	public static final String CONDITION_ALIAS_SUPPLIER = "Supplier";
 	/**
 	 * 查询条件字段-单位
 	 */
@@ -70,7 +77,7 @@ public class MaterialPrice extends Serializable implements IMaterialPrice {
 		return materialPrice;
 	}
 
-	public static IMaterialPrice create(IMaterialPriceItem materialPriceItem) {
+	public static MaterialPrice create(IMaterialPriceItem materialPriceItem) {
 		MaterialPrice materialPrice = new MaterialPrice();
 		materialPrice.setItemCode(materialPriceItem.getItemCode());
 		materialPrice.setUOM(materialPriceItem.getUOM());
@@ -79,16 +86,23 @@ public class MaterialPrice extends Serializable implements IMaterialPrice {
 		return materialPrice;
 	}
 
-	public static List<IMaterialPrice> create(Collection<?> materials) {
-		ArrayList<IMaterialPrice> materialPrices = new ArrayList<>();
-		for (Object item : materials) {
-			if (item instanceof IProduct) {
-				materialPrices.add(create((IProduct) item));
-			} else if (item instanceof IMaterial) {
-				materialPrices.add(create((IMaterial) item));
-			}
+	public static MaterialPrice create(IMaterialSpecialPrice specialPrice) {
+		MaterialPrice materialPrice = new MaterialPrice();
+		materialPrice.setItemCode(specialPrice.getItemCode());
+		materialPrice.setUOM(specialPrice.getUOM());
+		materialPrice.setPrice(specialPrice.getPrice());
+		materialPrice.setCurrency(specialPrice.getCurrency());
+		materialPrice.setSource(specialPrice.getBusinessPartnerType(), specialPrice.getBusinessPartnerCode());
+		return materialPrice;
+	}
+
+	public static MaterialPrice create(MaterialBase<?> material) {
+		if (material instanceof IProduct) {
+			return create((IProduct) material);
+		} else if (material instanceof IMaterial) {
+			return create((IMaterial) material);
 		}
-		return materialPrices;
+		throw null;
 	}
 
 	private String source;
@@ -104,6 +118,10 @@ public class MaterialPrice extends Serializable implements IMaterialPrice {
 
 	public void setSource(Integer listKey, Integer listLine) {
 		this.source = String.format("%s-%s", listKey, listLine);
+	}
+
+	public void setSource(emBusinessPartnerType bpType, String bpCode) {
+		this.source = String.format("%s-%s", bpType, bpCode);
 	}
 
 	private String itemCode;

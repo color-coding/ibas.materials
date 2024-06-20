@@ -34,6 +34,7 @@
 /// <reference path="./bo/MaterialEstimateJournal.ts" />
 /// <reference path="./bo/PickLists.ts" />
 /// <reference path="./bo/InventoryTransferRequest.ts" />
+/// <reference path="./bo/MaterialSpecialPrice.ts" />
 /// <reference path="./DataConverter.ts" />
 /// <reference path="./BORepository.ts" />
 
@@ -71,5 +72,7 @@ namespace materials {
         boFactory.register(MaterialEstimateJournal.BUSINESS_OBJECT_CODE, MaterialEstimateJournal);
         boFactory.register(PickLists.BUSINESS_OBJECT_CODE, PickLists);
         boFactory.register(InventoryTransferRequest.BUSINESS_OBJECT_CODE, InventoryTransferRequest);
+        boFactory.register(MaterialSpecialPrice.BUSINESS_OBJECT_CODE, MaterialSpecialPrice);
+        boFactory.register(BO_CODE_PRODUCT_INVENTORY, Object);// 没有实际意义
     }
 }

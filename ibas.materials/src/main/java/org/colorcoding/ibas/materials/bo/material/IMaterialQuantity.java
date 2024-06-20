@@ -3,10 +3,23 @@ package org.colorcoding.ibas.materials.bo.material;
 import java.math.BigDecimal;
 
 /**
- * @author Fancy
- * @date 2017/11/17
+ * 物料数量
  */
 public interface IMaterialQuantity {
+	/**
+	 * 获取-价格来源
+	 *
+	 * @return
+	 */
+	String getSource();
+
+	/**
+	 * 设置-价格来源
+	 *
+	 * @param value
+	 */
+	void setSource(String value);
+
 	/**
 	 * 获取-物料编码
 	 *
@@ -34,6 +47,20 @@ public interface IMaterialQuantity {
 	 * @param value 值
 	 */
 	void setItemName(String value);
+
+	/**
+	 * 获取-物料标识
+	 * 
+	 * @return 值
+	 */
+	String getItemSign();
+
+	/**
+	 * 设置-物料标识
+	 * 
+	 * @param value 值
+	 */
+	void setItemSign(String value);
 
 	/**
 	 * 获取-库存

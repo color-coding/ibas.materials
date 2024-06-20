@@ -484,6 +484,21 @@ namespace materials {
                 super.save(bo.InventoryTransferRequest.name, saver);
             }
 
+            /**
+             * 查询 物料特殊价格
+             * @param fetcher 查询者
+             */
+            fetchMaterialSpecialPrice(fetcher: ibas.IFetchCaller<bo.MaterialSpecialPrice>): void {
+                super.fetch(bo.MaterialSpecialPrice.name, fetcher);
+            }
+            /**
+             * 保存 物料特殊价格
+             * @param saver 保存者
+             */
+            saveMaterialSpecialPrice(saver: ibas.ISaveCaller<bo.MaterialSpecialPrice>): void {
+                super.save(bo.MaterialSpecialPrice.name, saver);
+            }
+
         }
         export interface IChangeCaller extends ibas.IMethodCaller<string> {
             /** 改变内容 */

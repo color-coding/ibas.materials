@@ -31,6 +31,7 @@ import org.colorcoding.ibas.materials.bo.materialinventory.MaterialInventoryJour
 import org.colorcoding.ibas.materials.bo.materialinventory.MaterialInventoryReservation;
 import org.colorcoding.ibas.materials.bo.materialinventory.MaterialOrderedReservation;
 import org.colorcoding.ibas.materials.bo.materialpricelist.MaterialPriceList;
+import org.colorcoding.ibas.materials.bo.materialpricelist.MaterialSpecialPrice;
 import org.colorcoding.ibas.materials.bo.materialscrap.MaterialScrap;
 import org.colorcoding.ibas.materials.bo.materialserial.MaterialSerial;
 import org.colorcoding.ibas.materials.bo.materialserial.MaterialSerialJournal;
@@ -941,6 +942,39 @@ public class DataService extends BORepositoryMaterials {
 	public OperationResult<InventoryTransferRequest> saveInventoryTransferRequest(InventoryTransferRequest bo,
 			@HeaderParam("authorization") String authorization, @QueryParam("token") String token) {
 		return super.saveInventoryTransferRequest(bo, MyConfiguration.optToken(authorization, token));
+	}
+
+	// --------------------------------------------------------------------------------------------//
+	/**
+	 * 查询-物料特殊价格
+	 * 
+	 * @param criteria 查询
+	 * @param token    口令
+	 * @return 操作结果
+	 */
+	@POST
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Path("fetchMaterialSpecialPrice")
+	public OperationResult<MaterialSpecialPrice> fetchMaterialSpecialPrice(Criteria criteria,
+			@HeaderParam("authorization") String authorization, @QueryParam("token") String token) {
+		return super.fetchMaterialSpecialPrice(criteria, MyConfiguration.optToken(authorization, token));
+	}
+
+	/**
+	 * 保存-物料特殊价格
+	 * 
+	 * @param bo    对象实例
+	 * @param token 口令
+	 * @return 操作结果
+	 */
+	@POST
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Path("saveMaterialSpecialPrice")
+	public OperationResult<MaterialSpecialPrice> saveMaterialSpecialPrice(MaterialSpecialPrice bo,
+			@HeaderParam("authorization") String authorization, @QueryParam("token") String token) {
+		return super.saveMaterialSpecialPrice(bo, MyConfiguration.optToken(authorization, token));
 	}
 
 	// --------------------------------------------------------------------------------------------//

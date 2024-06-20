@@ -234,6 +234,14 @@ namespace materials {
                                     type: new sap.extension.data.Alphanumeric()
                                 })
                             }),
+                            new sap.extension.table.Column("", {
+                                label: ibas.i18n.prop("bo_materialprice_currency"),
+                                template: new sap.extension.m.Text("", {
+                                }).bindProperty("bindingValue", {
+                                    path: "currency",
+                                    type: new sap.extension.data.Alphanumeric()
+                                })
+                            }),
                         ],
                         nextDataSet(event: sap.ui.base.Event): void {
                             // 查询下一个数据集

@@ -36,4 +36,5 @@
 /// <reference path="./bo/MaterialEstimateJournal.ts" />
 /// <reference path="./bo/PickLists.ts" />
 /// <reference path="./bo/InventoryTransferRequest.ts" />
+/// <reference path="./bo/MaterialSpecialPrice.ts" />
 /// <reference path="./BORepository.ts" />

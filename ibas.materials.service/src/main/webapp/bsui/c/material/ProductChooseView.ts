@@ -97,6 +97,22 @@ namespace materials {
                                 }),
                             }),
                             new sap.extension.table.DataColumn("", {
+                                label: ibas.i18n.prop("bo_material_price"),
+                                template: new sap.extension.m.Text("", {
+                                }).bindProperty("bindingValue", {
+                                    parts: [
+                                        {
+                                            path: "price",
+                                            type: new sap.extension.data.Price()
+                                        },
+                                        {
+                                            path: "currency",
+                                            type: new sap.extension.data.Alphanumeric()
+                                        },
+                                    ]
+                                }),
+                            }),
+                            new sap.extension.table.DataColumn("", {
                                 label: ibas.i18n.prop("bo_material_remarks"),
                                 template: new sap.extension.m.Text("", {
                                 }).bindProperty("bindingValue", {

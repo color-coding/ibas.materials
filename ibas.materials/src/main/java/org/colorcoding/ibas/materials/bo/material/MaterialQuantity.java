@@ -1,7 +1,6 @@
 package org.colorcoding.ibas.materials.bo.material;
 
 import java.math.BigDecimal;
-import java.util.Collection;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -9,12 +8,10 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
-import org.colorcoding.ibas.bobas.common.ICondition;
-import org.colorcoding.ibas.bobas.data.ArrayList;
 import org.colorcoding.ibas.bobas.data.Decimal;
-import org.colorcoding.ibas.bobas.data.List;
 import org.colorcoding.ibas.bobas.serialization.Serializable;
 import org.colorcoding.ibas.materials.MyConfiguration;
+import org.colorcoding.ibas.materials.data.DataConvert;
 
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlType(name = "MaterialQuantity", namespace = MyConfiguration.NAMESPACE_BO)
@@ -35,50 +32,52 @@ public class MaterialQuantity extends Serializable implements IMaterialQuantity 
 	 */
 	public static final String CONDITION_ALIAS_WAREHOUSE = "WhsCode";
 
-	public static void transform(Iterable<ICondition> conditions) {
-		for (ICondition condition : conditions) {
-			if (condition.getAlias().equalsIgnoreCase(CONDITION_ALIAS_ITEMCODE)) {
-				condition.setAlias(Material.PROPERTY_CODE.getName());
-			} else if (condition.getAlias().equalsIgnoreCase(CONDITION_ALIAS_ITEMNAME)) {
-				condition.setAlias(Material.PROPERTY_NAME.getName());
-			}
-		}
-	}
-
-	public static IMaterialQuantity create(IMaterial material) {
+	public static MaterialQuantity create(IMaterial material) {
 		MaterialQuantity materialQuantity = new MaterialQuantity();
 		materialQuantity.setItemCode(material.getCode());
 		materialQuantity.setItemName(material.getName());
+		materialQuantity.setItemSign(material.getSign());
 		materialQuantity.setOnHand(material.getOnHand());
 		materialQuantity.setOnOrdered(material.getOnOrdered());
 		materialQuantity.setOnCommited(material.getOnCommited());
 		materialQuantity.setOnReserved(material.getOnReserved());
 		materialQuantity.setUOM(material.getInventoryUOM());
+		materialQuantity.setSource(DataConvert.STRING_VALUE_EMPTY);
 		return materialQuantity;
 	}
 
-	public static IMaterialQuantity create(IProduct material) {
+	public static MaterialQuantity create(IProduct material) {
 		MaterialQuantity materialQuantity = new MaterialQuantity();
 		materialQuantity.setItemCode(material.getCode());
 		materialQuantity.setItemName(material.getName());
+		materialQuantity.setItemSign(material.getSign());
 		materialQuantity.setOnHand(material.getOnHand());
 		materialQuantity.setOnOrdered(material.getOnOrdered());
 		materialQuantity.setOnCommited(material.getOnCommited());
 		materialQuantity.setOnReserved(material.getOnReserved());
 		materialQuantity.setUOM(material.getInventoryUOM());
+		materialQuantity.setSource(DataConvert.STRING_VALUE_EMPTY);
 		return materialQuantity;
 	}
 
-	public static List<IMaterialQuantity> create(Collection<?> materials) {
-		ArrayList<IMaterialQuantity> materialQuantities = new ArrayList<>();
-		for (Object item : materials) {
-			if (item instanceof IProduct) {
-				materialQuantities.add(create((IProduct) item));
-			} else if (item instanceof IMaterial) {
-				materialQuantities.add(create((IMaterial) item));
-			}
+	public static MaterialQuantity create(MaterialBase<?> material) {
+		if (material instanceof IProduct) {
+			return create((IProduct) material);
+		} else if (material instanceof IMaterial) {
+			return create((IMaterial) material);
 		}
-		return materialQuantities;
+		throw null;
+	}
+
+	private String source;
+
+	@XmlElement(name = "Source")
+	public String getSource() {
+		return source;
+	}
+
+	public void setSource(String source) {
+		this.source = source;
 	}
 
 	private String itemCode;
@@ -101,6 +100,17 @@ public class MaterialQuantity extends Serializable implements IMaterialQuantity 
 
 	public void setItemName(String value) {
 		this.itemName = value;
+	}
+
+	private String itemSign;
+
+	@XmlElement(name = "ItemSign")
+	public final String getItemSign() {
+		return itemSign;
+	}
+
+	public final void setItemSign(String itemSign) {
+		this.itemSign = itemSign;
 	}
 
 	private BigDecimal onHand;

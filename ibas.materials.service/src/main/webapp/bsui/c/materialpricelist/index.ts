@@ -7,3 +7,4 @@
 /// <reference path="./MaterialPriceListChooseView.ts" />
 /// <reference path="./MaterialPriceListEditView.ts" />
 /// <reference path="./MaterialPriceListListView.ts" />
+/// <reference path="./MaterialSpecialPriceListView.ts" />

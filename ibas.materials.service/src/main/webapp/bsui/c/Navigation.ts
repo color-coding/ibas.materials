@@ -164,6 +164,9 @@ namespace materials {
                     case app.MaterialPriceListEditApp.APPLICATION_ID:
                         view = new c.MaterialPriceListEditView();
                         break;
+                    case app.MaterialSpecialPriceListApp.APPLICATION_ID:
+                        view = new c.MaterialSpecialPriceListView();
+                        break;
                     case app.InventoryCountingListApp.APPLICATION_ID:
                         view = new c.InventoryCountingListView();
                         break;

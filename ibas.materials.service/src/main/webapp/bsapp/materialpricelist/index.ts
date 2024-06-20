@@ -9,3 +9,4 @@
 /// <reference path="./MaterialPriceListFunc.ts" />
 /// <reference path="./MaterialPriceListListApp.ts" />
 /// <reference path="./MaterialPriceListViewApp.ts" />
+/// <reference path="./MaterialSpecialPriceListApp.ts" />
