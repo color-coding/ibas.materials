@@ -34,6 +34,8 @@ namespace materials {
                 exportPriceItemEvent: Function;
                 /** 添加价格项目事件 */
                 addPriceItemEvent: Function;
+                /** 选择价格项目单位事件 */
+                choosePriceItemUnitEvent: Function;
                 /** 绘制视图 */
                 draw(): any {
                     let that: this = this;

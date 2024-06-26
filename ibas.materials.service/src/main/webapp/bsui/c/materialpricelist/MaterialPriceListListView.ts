@@ -34,6 +34,8 @@ namespace materials {
                 exportPriceItemEvent: Function;
                 /** 添加价格项目事件 */
                 addPriceItemEvent: Function;
+                /** 选择价格项目单位事件 */
+                choosePriceItemUnitEvent: Function;
                 /** 绘制视图 */
                 draw(): any {
                     let that: this = this;
@@ -408,19 +410,12 @@ namespace materials {
                                                     icon: "sap-icon://edit",
                                                     press(): void {
                                                         that.tablePrices.getColumns()[3].setTemplate(
-                                                            new sap.extension.m.SelectionInput("", {
+                                                            new sap.extension.m.Input("", {
                                                                 showValueHelp: true,
                                                                 valueHelpOnly: false,
-                                                                chooseType: ibas.emChooseType.SINGLE,
-                                                                repository: bo.BORepositoryMaterials,
-                                                                dataInfo: {
-                                                                    type: bo.Unit,
-                                                                    key: bo.Unit.PROPERTY_NAME_NAME,
-                                                                    text: bo.Unit.PROPERTY_NAME_NAME,
-                                                                },
-                                                                criteria: [
-                                                                    new ibas.Condition(bo.Unit.PROPERTY_ACTIVATED_NAME, ibas.emConditionOperation.EQUAL, ibas.emYesNo.YES)
-                                                                ],
+                                                                valueHelpRequest(this: sap.m.Input): void {
+                                                                    that.fireViewEvents(that.choosePriceItemUnitEvent, this.getBindingContext().getObject());
+                                                                }
                                                             }).bindProperty("bindingValue", {
                                                                 path: "uom",
                                                                 type: new sap.extension.data.Alphanumeric()

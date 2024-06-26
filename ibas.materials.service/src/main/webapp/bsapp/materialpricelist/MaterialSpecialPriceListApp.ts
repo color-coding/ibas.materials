@@ -34,6 +34,7 @@ namespace materials {
                 this.view.exportPriceItemEvent = this.exportPriceItem;
                 this.view.savePriceItemEvent = this.savePriceItem;
                 this.view.addPriceItemEvent = this.addPriceItem;
+                this.view.choosePriceItemUnitEvent = this.choosePriceItemUnit;
             }
             /** 视图显示后 */
             protected viewShowed(): void {
@@ -296,6 +297,36 @@ namespace materials {
                     });
                 }
             }
+            /** 选择价格项目单位 */
+            private choosePriceItemUnit(data: bo.MaterialPrice): void {
+                let criteria: ibas.ICriteria = new ibas.Criteria();
+                let condition: ibas.ICondition = criteria.conditions.create();
+                condition.alias = materials.bo.Unit.PROPERTY_ACTIVATED_NAME;
+                condition.value = String(ibas.emYesNo.YES);
+                ibas.servicesManager.runChooseService<materials.bo.IUnit>({
+                    boCode: materials.bo.BO_CODE_UNIT,
+                    chooseType: ibas.emChooseType.SINGLE,
+                    criteria: criteria,
+                    onCompleted(selecteds: ibas.IList<materials.bo.IUnit>): void {
+                        for (let selected of selecteds) {
+                            if (data.price > 0 && selected.name !== data.uom) {
+                                // 根据汇率计算价格
+                                materials.app.changeMaterialsUnitRate({
+                                    data: {
+                                        sourceUnit: selected.name,
+                                        targetUnit: data.uom,
+                                        material: data.itemCode,
+                                        setUnitRate(rate: number): void {
+                                            data.price = data.price * rate;
+                                        }
+                                    }
+                                });
+                            }
+                            data.uom = selected.name;
+                        }
+                    }
+                });
+            }
         }
         /** 视图-物料特殊价格 */
         export interface IMaterialSpecialPriceListView extends ibas.IBOListView {
@@ -319,6 +350,8 @@ namespace materials {
             exportPriceItemEvent: Function;
             /** 保存数据 */
             savePrices(datas: bo.MaterialSpecialPrice[]): void;
+            /** 选择价格项目单位事件 */
+            choosePriceItemUnitEvent: Function;
         }
     }
 }
