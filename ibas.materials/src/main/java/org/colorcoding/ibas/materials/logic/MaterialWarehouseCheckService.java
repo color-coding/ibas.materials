@@ -93,13 +93,17 @@ public class MaterialWarehouseCheckService
 		// 库存物料、非服务物料
 		if (material.getInventoryItem() == emYesNo.YES || material.getItemType() != emItemType.SERVICES) {
 			// 检查仓库是否有效
-			if (DataConvert.isNullOrEmpty(contract.getWarehouse())) {
+			if (contract.getWarehouse() == null) {
 				throw new BusinessLogicException(
 						I18N.prop("msg_mm_document_not_specified_warehouse", contract.getIdentifiers()));
 			}
-			IWarehouse warehouse = this.checkWarehouse(contract.getWarehouse());
-			if (!warehouse.getCode().equals(contract.getWarehouse())) {
-				throw new BusinessLogicException(I18N.prop("msg_mm_warehouse_is_not_exist", contract.getWarehouse()));
+			// 空值则不检查
+			if (!DataConvert.isNullOrEmpty(contract.getWarehouse())) {
+				IWarehouse warehouse = this.checkWarehouse(contract.getWarehouse());
+				if (!warehouse.getCode().equals(contract.getWarehouse())) {
+					throw new BusinessLogicException(
+							I18N.prop("msg_mm_warehouse_is_not_exist", contract.getWarehouse()));
+				}
 			}
 			// 批次管理物料
 			if (material.getBatchManagement() == emYesNo.YES) {
