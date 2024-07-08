@@ -14,5 +14,5 @@ public interface IDocumentCloseAmountOperator extends IDocumentOperatingTarget, 
 	 * 
 	 * @return
 	 */
-	Iterator<IDocumentClosingItem> getAmountItems();
+	Iterator<IDocumentClosingAmountItem> getAmountItems();
 }

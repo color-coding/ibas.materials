@@ -5,7 +5,7 @@ import java.math.BigDecimal;
 import org.colorcoding.ibas.bobas.data.emDocumentStatus;
 import org.colorcoding.ibas.bobas.data.emYesNo;
 
-public interface IDocumentClosingItem {
+public interface IDocumentClosingAmountItem {
 
 	/**
 	 * 获取-类型
@@ -26,21 +26,21 @@ public interface IDocumentClosingItem {
 	 * 
 	 * @return 值
 	 */
-	BigDecimal getQuantity();
+	BigDecimal getAmount();
 
 	/**
 	 * 获取-已清数量
 	 * 
 	 * @return 值
 	 */
-	BigDecimal getClosedQuantity();
+	BigDecimal getClosedAmount();
 
 	/**
 	 * 设置-已清数量
 	 * 
 	 * @param value 值
 	 */
-	void setClosedQuantity(BigDecimal value);
+	void setClosedAmount(BigDecimal value);
 
 	/**
 	 * 获取-单据状态

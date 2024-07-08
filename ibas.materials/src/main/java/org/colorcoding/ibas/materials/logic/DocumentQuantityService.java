@@ -21,7 +21,7 @@ import org.colorcoding.ibas.bobas.logic.BusinessLogicException;
 import org.colorcoding.ibas.bobas.logic.IBusinessLogicContract;
 import org.colorcoding.ibas.document.DocumentFetcherManager;
 import org.colorcoding.ibas.document.IDocumentCloseQuantityOperator;
-import org.colorcoding.ibas.document.IDocumentClosingItem;
+import org.colorcoding.ibas.document.IDocumentClosingQuantityItem;
 import org.colorcoding.ibas.document.IDocumentFetcher;
 import org.colorcoding.ibas.document.IDocumentOperatingTarget;
 
@@ -720,8 +720,8 @@ public abstract class DocumentQuantityService<L extends IBusinessLogicContract>
 		}
 
 		@Override
-		public Iterator<IDocumentClosingItem> getQuantityItems() {
-			return new Iterator<IDocumentClosingItem>() {
+		public Iterator<IDocumentClosingQuantityItem> getQuantityItems() {
+			return new Iterator<IDocumentClosingQuantityItem>() {
 
 				@Override
 				public boolean hasNext() {
@@ -729,7 +729,7 @@ public abstract class DocumentQuantityService<L extends IBusinessLogicContract>
 				}
 
 				@Override
-				public IDocumentClosingItem next() {
+				public IDocumentClosingQuantityItem next() {
 					return null;
 				}
 			};

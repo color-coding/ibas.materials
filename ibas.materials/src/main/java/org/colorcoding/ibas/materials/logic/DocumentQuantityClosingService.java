@@ -12,7 +12,7 @@ import org.colorcoding.ibas.bobas.message.Logger;
 import org.colorcoding.ibas.bobas.message.MessageLevel;
 import org.colorcoding.ibas.document.DocumentFetcherManager;
 import org.colorcoding.ibas.document.IDocumentCloseQuantityOperator;
-import org.colorcoding.ibas.document.IDocumentClosingItem;
+import org.colorcoding.ibas.document.IDocumentClosingQuantityItem;
 
 /**
  * 单据数量关闭服务
@@ -56,9 +56,9 @@ public class DocumentQuantityClosingService extends DocumentQuantityService<IDoc
 
 	@Override
 	protected void impact(IDocumentQuantityClosingContract contract) {
-		Iterator<IDocumentClosingItem> iterator = this.getBeAffected().getQuantityItems();
+		Iterator<IDocumentClosingQuantityItem> iterator = this.getBeAffected().getQuantityItems();
 		while (iterator.hasNext()) {
-			IDocumentClosingItem item = iterator.next();
+			IDocumentClosingQuantityItem item = iterator.next();
 			if (!item.getObjectCode().equalsIgnoreCase(contract.getBaseDocumentType())) {
 				continue;
 			}
@@ -83,9 +83,9 @@ public class DocumentQuantityClosingService extends DocumentQuantityService<IDoc
 
 	@Override
 	protected void revoke(IDocumentQuantityClosingContract contract) {
-		Iterator<IDocumentClosingItem> iterator = this.getBeAffected().getQuantityItems();
+		Iterator<IDocumentClosingQuantityItem> iterator = this.getBeAffected().getQuantityItems();
 		while (iterator.hasNext()) {
-			IDocumentClosingItem item = iterator.next();
+			IDocumentClosingQuantityItem item = iterator.next();
 			if (item.getLineId().compareTo(contract.getBaseDocumentLineId()) != 0) {
 				continue;
 			}

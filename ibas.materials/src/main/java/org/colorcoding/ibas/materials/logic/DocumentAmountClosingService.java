@@ -26,7 +26,7 @@ import org.colorcoding.ibas.bobas.message.Logger;
 import org.colorcoding.ibas.bobas.message.MessageLevel;
 import org.colorcoding.ibas.document.DocumentFetcherManager;
 import org.colorcoding.ibas.document.IDocumentCloseAmountOperator;
-import org.colorcoding.ibas.document.IDocumentClosingItem;
+import org.colorcoding.ibas.document.IDocumentClosingAmountItem;
 import org.colorcoding.ibas.document.IDocumentFetcher;
 import org.colorcoding.ibas.document.IDocumentOperatingTarget;
 
@@ -111,25 +111,27 @@ public class DocumentAmountClosingService
 
 	@Override
 	protected void impact(IDocumentAmountClosingContract contract) {
-		Iterator<IDocumentClosingItem> iterator = this.getBeAffected().getAmountItems();
+		Iterator<IDocumentClosingAmountItem> iterator = this.getBeAffected().getAmountItems();
 		while (iterator.hasNext()) {
-			IDocumentClosingItem item = iterator.next();
+			IDocumentClosingAmountItem item = iterator.next();
 			if (!item.getObjectCode().equalsIgnoreCase(contract.getBaseDocumentType())) {
 				continue;
 			}
 			if (item.getLineId().compareTo(contract.getBaseDocumentLineId()) != 0) {
 				continue;
 			}
-			BigDecimal closedAmount = item.getClosedQuantity();
+			BigDecimal closedAmount = item.getClosedAmount();
 			if (closedAmount == null) {
 				closedAmount = Decimal.ZERO;
 			}
 			closedAmount = closedAmount.add(contract.getAmount());
-			item.setClosedQuantity(closedAmount);
-			if (item.getLineStatus() == emDocumentStatus.RELEASED && closedAmount.compareTo(item.getQuantity()) >= 0) {
+			item.setClosedAmount(closedAmount);
+			/** 金额不主动关闭单据状态
+			if (item.getLineStatus() == emDocumentStatus.RELEASED && closedAmount.compareTo(item.getAmount()) >= 0) {
 				item.setLineStatus(emDocumentStatus.FINISHED);
 			}
-			if (item.getClosedQuantity().compareTo(Decimal.ZERO) > 0) {
+			*/
+			if (item.getClosedAmount().compareTo(Decimal.ZERO) > 0) {
 				item.setReferenced(emYesNo.YES);
 			}
 		}
@@ -137,22 +139,24 @@ public class DocumentAmountClosingService
 
 	@Override
 	protected void revoke(IDocumentAmountClosingContract contract) {
-		Iterator<IDocumentClosingItem> iterator = this.getBeAffected().getAmountItems();
+		Iterator<IDocumentClosingAmountItem> iterator = this.getBeAffected().getAmountItems();
 		while (iterator.hasNext()) {
-			IDocumentClosingItem item = iterator.next();
+			IDocumentClosingAmountItem item = iterator.next();
 			if (item.getLineId().compareTo(contract.getBaseDocumentLineId()) != 0) {
 				continue;
 			}
-			BigDecimal closedAmount = item.getClosedQuantity();
+			BigDecimal closedAmount = item.getClosedAmount();
 			if (closedAmount == null) {
 				closedAmount = Decimal.ZERO;
 			}
 			closedAmount = closedAmount.subtract(contract.getAmount());
-			item.setClosedQuantity(closedAmount);
-			if (item.getLineStatus() == emDocumentStatus.FINISHED && closedAmount.compareTo(item.getQuantity()) < 0) {
+			item.setClosedAmount(closedAmount);
+			/** 金额不主动关闭单据状态
+			if (item.getLineStatus() == emDocumentStatus.FINISHED && closedAmount.compareTo(item.getAmount()) < 0) {
 				item.setLineStatus(emDocumentStatus.RELEASED);
 			}
-			if (item.getClosedQuantity().compareTo(Decimal.ZERO) <= 0) {
+			*/
+			if (item.getClosedAmount().compareTo(Decimal.ZERO) <= 0) {
 				item.setReferenced(emYesNo.NO);
 			}
 		}
@@ -809,8 +813,8 @@ public class DocumentAmountClosingService
 		}
 
 		@Override
-		public Iterator<IDocumentClosingItem> getAmountItems() {
-			return new Iterator<IDocumentClosingItem>() {
+		public Iterator<IDocumentClosingAmountItem> getAmountItems() {
+			return new Iterator<IDocumentClosingAmountItem>() {
 
 				@Override
 				public boolean hasNext() {
@@ -818,7 +822,7 @@ public class DocumentAmountClosingService
 				}
 
 				@Override
-				public IDocumentClosingItem next() {
+				public IDocumentClosingAmountItem next() {
 					return null;
 				}
 			};
