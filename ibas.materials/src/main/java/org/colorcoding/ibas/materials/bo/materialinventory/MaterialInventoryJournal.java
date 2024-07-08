@@ -1218,10 +1218,9 @@ public class MaterialInventoryJournal extends BusinessObject<MaterialInventoryJo
 		return new IBusinessRule[] { // 注册的业务规则
 				new BusinessRuleRequired(PROPERTY_ITEMCODE), // 要求有值
 				new BusinessRuleRequired(PROPERTY_WAREHOUSE), // 要求有值
-				/**
-				 * // 取消逻辑，去除此限制 // new BusinessRuleMinValue<BigDecimal>(Decimal.ZERO,
-				 * PROPERTY_QUANTITY), // 不能低于0
-				 */
+				/** 取消逻辑，去除此限制
+				new BusinessRuleMinValue<BigDecimal>(Decimal.ZERO, PROPERTY_QUANTITY), // 不能低于0
+				*/
 				new BusinessRuleMinValue<BigDecimal>(Decimal.ZERO, PROPERTY_PRICE), // 不能低于0
 				// 交易价值 = 数量 * 成本价格
 				new BusinessRuleMultiplication(PROPERTY_TRANSACTIONVALUE, PROPERTY_QUANTITY, PROPERTY_CALCULATEDPRICE),

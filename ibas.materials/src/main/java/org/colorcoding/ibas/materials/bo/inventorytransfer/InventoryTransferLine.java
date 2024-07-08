@@ -1624,6 +1624,10 @@ public class InventoryTransferLine extends BusinessObject<InventoryTransferLine>
 						I18N.prop("msg_mm_document_transfer_to_warehouse_is_same_as_original", this.toString()));
 			}
 		}
+		// 数量检查
+		if (Decimal.ZERO.compareTo(this.getInventoryQuantity()) >= 0) {
+			throw new BusinessRuleException(I18N.prop("msg_mm_document_material_quantity_invaild", this.toString()));
+		}
 		// 批次检查
 		this.getMaterialBatches().check();
 		// 序列检查

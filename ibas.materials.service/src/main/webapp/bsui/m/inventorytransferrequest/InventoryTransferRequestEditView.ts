@@ -36,8 +36,13 @@ namespace materials {
                 chooseInventoryTransferRequestLineMaterialVersionEvent: Function;
                 /** 转为库存转储申请事件 */
                 turnToInventoryTransferEvent: Function;
+                /** 预留物料库存 */
+                reserveMaterialsInventoryEvent: Function;
+                /** 从仓库 */
                 fromWarehouse: string;
+                /** 目标仓库 */
                 toWarehouse: string;
+
                 draw(): any {
                     let that: this = this;
                     return this.page = new sap.extension.uxap.DataObjectPageLayout("", {

@@ -39,6 +39,7 @@ namespace materials {
                 this.view.chooseInventoryTransferRequestLineDistributionRuleEvent = this.chooseInventoryTransferRequestLineDistributionRule;
                 this.view.chooseInventoryTransferRequestLineMaterialVersionEvent = this.chooseInventoryTransferRequestLineMaterialVersion;
                 this.view.turnToInventoryTransferEvent = this.turnToInventoryTransfer;
+                this.view.reserveMaterialsInventoryEvent = this.reserveMaterialsInventory;
             }
             /** 视图显示后 */
             protected viewShowed(): void {
@@ -458,10 +459,77 @@ namespace materials {
                             }
                             let target: bo.InventoryTransfer = new bo.InventoryTransfer();
                             target.baseDocument(this.editData);
-                            let app: InventoryTransferEditApp = new InventoryTransferEditApp();
-                            app.navigation = this.navigation;
-                            app.viewShower = this.viewShower;
-                            app.run(target);
+                            // 使用预留库存
+                            materials.app.useReservedMaterialsInventory({
+                                targetType: this.editData.objectCode,
+                                targetEntries: this.editData.docEntry,
+                                onCompleted: (results) => {
+                                    if (results instanceof Error) {
+                                        // 错误
+                                        this.messages(results);
+                                    } else if (results.length > 0) {
+                                        // 出库数预置为0，包括基于来的批次数量
+                                        for (let item of target.inventoryTransferLines) {
+                                            if (this.editData.objectCode === item.baseDocumentType
+                                                && this.editData.docEntry === item.baseDocumentEntry) {
+                                                item.quantity = 0;
+                                                item.materialBatches.forEach(d => d.quantity = 0);
+                                            }
+                                        }
+                                        // 使用预留库存
+                                        for (let result of results) {
+                                            if (result.status === ibas.emBOStatus.CLOSED) {
+                                                continue;
+                                            }
+                                            if (result.closedQuantity >= result.quantity) {
+                                                continue;
+                                            }
+                                            let wItems: bo.InventoryTransferLine[] = target.inventoryTransferLines.where(c =>
+                                                result.targetDocumentType === c.baseDocumentType
+                                                && result.targetDocumentEntry === c.baseDocumentEntry
+                                                && result.targetDocumentLineId === c.baseDocumentLineId
+                                                && result.itemCode === c.itemCode
+                                            );
+                                            if (wItems.length === 0) {
+                                                continue;
+                                            }
+                                            let wItem: bo.InventoryTransferLine = wItems.find(c => c.fromWarehouse === result.warehouse);
+                                            if (ibas.objects.isNull(wItem)) {
+                                                // 没有同仓库的，则新建行
+                                                wItem = wItems[0].clone();
+                                                wItem.fromWarehouse = result.warehouse;
+                                                target.inventoryTransferLines.add(wItem);
+                                            }
+                                            // 应用库存
+                                            wItem.quantity = ibas.numbers.round(wItem.quantity + result.quantity - result.closedQuantity);
+                                            // 处理明细项
+                                            if (!ibas.strings.isEmpty(result.batchCode)) {
+                                                // 批次管理
+                                                let bItem: materials.bo.IMaterialBatchItem = wItem.materialBatches.find(c => c.batchCode === result.batchCode);
+                                                if (ibas.objects.isNull(bItem)) {
+                                                    // 没有同批次的，则新建行
+                                                    bItem = wItem.materialBatches.create();
+                                                    bItem.batchCode = result.batchCode;
+                                                    bItem.quantity = 0;
+                                                }
+                                                bItem.quantity = ibas.numbers.round(bItem.quantity + result.quantity - result.closedQuantity);
+                                            } else if (!ibas.strings.isEmpty(result.serialCode)) {
+                                                // 序列管理
+                                                let sItem: materials.bo.IMaterialSerialItem = wItem.materialSerials.find(c => c.serialCode === result.serialCode);
+                                                if (ibas.objects.isNull(sItem)) {
+                                                    sItem = wItem.materialSerials.create();
+                                                    sItem.serialCode = result.serialCode;
+                                                }
+                                            }
+                                        }
+                                        this.messages(ibas.emMessageType.WARNING, ibas.i18n.prop("sales_used_reserved_materials_inventory"));
+                                    }
+                                    let app: InventoryTransferEditApp = new InventoryTransferEditApp();
+                                    app.navigation = this.navigation;
+                                    app.viewShower = this.viewShower;
+                                    app.run(target);
+                                }
+                            });
                         } catch (error) {
                             this.messages(error);
                         }
@@ -488,6 +556,31 @@ namespace materials {
                             caller.itemVersion = selected.name;
                         }
                     }
+                });
+            }
+            /** 预留物料库存 */
+            private reserveMaterialsInventory(): void {
+                if (ibas.objects.isNull(this.editData) || this.editData.isDirty) {
+                    throw new Error(ibas.i18n.prop("shell_data_saved_first"));
+                }
+                let contract: materials.app.IMaterialInventoryReservationTarget = {
+                    targetType: this.editData.objectCode,
+                    targetEntry: this.editData.docEntry,
+                    items: []
+                };
+                for (let item of this.editData.inventoryTransferRequestLines) {
+                    contract.items.push({
+                        targetLineId: item.lineId,
+                        itemCode: item.itemCode,
+                        itemDescription: item.itemDescription,
+                        itemVersion: item.itemVersion,
+                        warehouse: item.fromWarehouse,
+                        quantity: ibas.numbers.valueOf(item.quantity) - ibas.numbers.valueOf(item.closedQuantity),
+                        uom: item.uom,
+                    });
+                }
+                ibas.servicesManager.runApplicationService<materials.app.IMaterialInventoryReservationTarget | materials.app.IMaterialInventoryReservationTarget[]>({
+                    proxy: new materials.app.MaterialInventoryReservationServiceProxy(contract)
                 });
             }
         }
@@ -525,6 +618,8 @@ namespace materials {
             toWarehouse: string;
             /** 转为库存转储申请事件 */
             turnToInventoryTransferEvent: Function;
+            /** 预留物料库存 */
+            reserveMaterialsInventoryEvent: Function;
         }
         /** 库存转储申请编辑服务映射 */
         export class InventoryTransferRequestEditServiceMapping extends ibas.BOEditServiceMapping {

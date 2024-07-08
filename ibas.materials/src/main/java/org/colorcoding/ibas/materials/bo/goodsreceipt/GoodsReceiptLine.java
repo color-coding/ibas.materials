@@ -19,6 +19,7 @@ import org.colorcoding.ibas.bobas.data.Decimal;
 import org.colorcoding.ibas.bobas.data.emBOStatus;
 import org.colorcoding.ibas.bobas.data.emDocumentStatus;
 import org.colorcoding.ibas.bobas.data.emYesNo;
+import org.colorcoding.ibas.bobas.i18n.I18N;
 import org.colorcoding.ibas.bobas.logic.IBusinessLogicContract;
 import org.colorcoding.ibas.bobas.logic.IBusinessLogicsHost;
 import org.colorcoding.ibas.bobas.mapping.DbField;
@@ -1598,6 +1599,10 @@ public class GoodsReceiptLine extends BusinessObject<GoodsReceiptLine>
 
 	@Override
 	public void check() throws BusinessRuleException {
+		// 数量检查
+		if (Decimal.ZERO.compareTo(this.getInventoryQuantity()) >= 0) {
+			throw new BusinessRuleException(I18N.prop("msg_mm_document_material_quantity_invaild", this.toString()));
+		}
 		// 批次检查
 		this.getMaterialBatches().check();
 		// 序列检查

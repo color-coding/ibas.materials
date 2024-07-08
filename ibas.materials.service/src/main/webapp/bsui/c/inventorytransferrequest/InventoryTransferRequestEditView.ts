@@ -36,6 +36,8 @@ namespace materials {
                 chooseInventoryTransferRequestLineDistributionRuleEvent: Function;
                 /** 转为库存转储申请事件 */
                 turnToInventoryTransferEvent: Function;
+                /** 预留物料库存 */
+                reserveMaterialsInventoryEvent: Function;
                 /** 绘制视图 */
                 draw(): any {
                     let that: this = this;
@@ -719,6 +721,17 @@ namespace materials {
                                                 visible: shell.app.privileges.canRun({
                                                     id: app.InventoryTransferFunc.FUNCTION_ID,
                                                     name: app.InventoryTransferFunc.FUNCTION_NAME,
+                                                })
+                                            }),
+                                            new sap.m.MenuItem("", {
+                                                text: ibas.i18n.prop("materials_inventory_reservation"),
+                                                icon: "sap-icon://blank-tag",
+                                                press: function (): void {
+                                                    that.fireViewEvents(that.reserveMaterialsInventoryEvent);
+                                                },
+                                                visible: shell.app.privileges.canRun({
+                                                    id: app.MaterialInventoryReservationService.APPLICATION_ID,
+                                                    name: app.MaterialInventoryReservationService.APPLICATION_NAME,
                                                 })
                                             }),
                                         ],

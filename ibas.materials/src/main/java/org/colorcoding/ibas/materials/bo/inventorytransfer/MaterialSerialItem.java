@@ -110,6 +110,21 @@ class MaterialSerialItem extends org.colorcoding.ibas.materials.bo.materialseria
 					}
 
 					@Override
+					public String getBaseDocumentType() {
+						return MaterialSerialItem.this.parent.getBaseDocumentType();
+					}
+
+					@Override
+					public Integer getBaseDocumentEntry() {
+						return MaterialSerialItem.this.parent.getBaseDocumentEntry();
+					}
+
+					@Override
+					public Integer getBaseDocumentLineId() {
+						return MaterialSerialItem.this.parent.getBaseDocumentLineId();
+					}
+
+					@Override
 					public BigDecimal getPrice() {
 						return MaterialSerialItem.this.parent.getPrice();
 					}
@@ -202,6 +217,21 @@ class MaterialSerialItem extends org.colorcoding.ibas.materials.bo.materialseria
 					@Override
 					public DateTime getDocumentDate() {
 						return MaterialSerialItem.this.parent.parent.getDocumentDate();
+					}
+
+					@Override
+					public String getBaseDocumentType() {
+						return MaterialSerialItem.this.parent.getBaseDocumentType();
+					}
+
+					@Override
+					public Integer getBaseDocumentEntry() {
+						return MaterialSerialItem.this.parent.getBaseDocumentEntry();
+					}
+
+					@Override
+					public Integer getBaseDocumentLineId() {
+						return MaterialSerialItem.this.parent.getBaseDocumentLineId();
 					}
 
 					@Override
