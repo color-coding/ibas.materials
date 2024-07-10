@@ -92,10 +92,9 @@ namespace materials {
                                     enumType: bo.emItemType
                                 })
                             }).bindProperty("editable", {
-                                path: "onHand",
+                                path: "referenced",
                                 formatter(data: any): boolean {
-                                    // 有库存不能改此项
-                                    if (data > 0) {
+                                    if (data === ibas.emYesNo.YES) {
                                         return false;
                                     }
                                     return true;
@@ -146,10 +145,9 @@ namespace materials {
                                 path: "phantomItem",
                                 type: new sap.extension.data.YesNo()
                             }).bindProperty("editable", {
-                                path: "onHand",
+                                path: "referenced",
                                 formatter(data: any): boolean {
-                                    // 有库存不能改此项
-                                    if (data > 0) {
+                                    if (data === ibas.emYesNo.YES) {
                                         return false;
                                     }
                                     return true;
@@ -336,10 +334,29 @@ namespace materials {
                                                             maxLength: 8
                                                         }),
                                                     }).bindProperty("editable", {
-                                                        path: "onHand",
-                                                        formatter(data: any): boolean {
+                                                        parts: [
+                                                            {
+                                                                path: "onHand",
+                                                            },
+                                                            {
+                                                                path: "onCommited",
+                                                            },
+                                                            {
+                                                                path: "onOrdered",
+                                                            },
+                                                            {
+                                                                path: "onReserved",
+                                                            }
+                                                        ],
+                                                        formatter(onHand: number, onCommited: number, onOrdered: number, onReserved: number): boolean {
                                                             // 有库存不能改此项
-                                                            if (data > 0) {
+                                                            if (onHand > 0) {
+                                                                return false;
+                                                            } else if (onCommited > 0) {
+                                                                return false;
+                                                            } else if (onOrdered > 0) {
+                                                                return false;
+                                                            } else if (onReserved > 0) {
                                                                 return false;
                                                             }
                                                             return true;
@@ -390,10 +407,9 @@ namespace materials {
                                                         path: "inventoryItem",
                                                         type: new sap.extension.data.YesNo()
                                                     }).bindProperty("editable", {
-                                                        path: "onHand",
+                                                        path: "referenced",
                                                         formatter(data: any): boolean {
-                                                            // 有库存不能改此项
-                                                            if (data > 0) {
+                                                            if (data === ibas.emYesNo.YES) {
                                                                 return false;
                                                             }
                                                             return true;

@@ -637,6 +637,14 @@ namespace materials {
                                             type: new sap.extension.data.Alphanumeric({
                                                 maxLength: 50
                                             }),
+                                        }).bindProperty("editable", {
+                                            path: "closedQuantity",
+                                            formatter(closedQuantity: number): boolean {
+                                                if (closedQuantity > 0) {
+                                                    return false;
+                                                }
+                                                return true;
+                                            }
                                         }),
                                         new sap.m.Label("", { text: ibas.i18n.prop("bo_inventorytransferrequestline_itemdescription") }),
                                         new sap.extension.m.Input("", {

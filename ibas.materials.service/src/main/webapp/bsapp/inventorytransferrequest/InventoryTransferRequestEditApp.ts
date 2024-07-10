@@ -469,9 +469,13 @@ namespace materials {
                                         this.messages(results);
                                     } else if (results.length > 0) {
                                         // 出库数预置为0，包括基于来的批次数量
+                                        let qtyMap: Map<any, number> = new Map<any, number>();
                                         for (let item of target.inventoryTransferLines) {
                                             if (this.editData.objectCode === item.baseDocumentType
                                                 && this.editData.docEntry === item.baseDocumentEntry) {
+                                                // 不激活逻辑计算
+                                                qtyMap.set(item, item.quantity);
+                                                item.isLoading = true;
                                                 item.quantity = 0;
                                                 item.materialBatches.forEach(d => d.quantity = 0);
                                             }
@@ -496,9 +500,13 @@ namespace materials {
                                             let wItem: bo.InventoryTransferLine = wItems.find(c => c.fromWarehouse === result.warehouse);
                                             if (ibas.objects.isNull(wItem)) {
                                                 // 没有同仓库的，则新建行
-                                                wItem = wItems[0].clone();
-                                                wItem.fromWarehouse = result.warehouse;
-                                                target.inventoryTransferLines.add(wItem);
+                                                if (wItems[0].quantity === 0) {
+                                                    wItem = wItems[0];
+                                                } else {
+                                                    wItem = wItems[0].clone();
+                                                    target.inventoryTransferLines.add(wItem);
+                                                }
+                                                wItem.warehouse = result.warehouse;
                                             }
                                             // 应用库存
                                             wItem.quantity = ibas.numbers.round(wItem.quantity + result.quantity - result.closedQuantity);
@@ -520,6 +528,16 @@ namespace materials {
                                                     sItem = wItem.materialSerials.create();
                                                     sItem.serialCode = result.serialCode;
                                                 }
+                                            }
+                                        }
+                                        // 数量被修改的行激活逻辑计算
+                                        for (let item of target.inventoryTransferLines) {
+                                            if (item.isLoading !== true) {
+                                                continue;
+                                            }
+                                            item.isLoading = false;
+                                            if (qtyMap.get(item) !== item.quantity) {
+                                                (<any>item).firePropertyChanged(bo.InventoryTransferLine.PROPERTY_QUANTITY_NAME);
                                             }
                                         }
                                         this.messages(ibas.emMessageType.WARNING, ibas.i18n.prop("sales_used_reserved_materials_inventory"));
