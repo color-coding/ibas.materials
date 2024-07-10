@@ -262,7 +262,7 @@ public class MaterialSerialJournalService
 					price = Decimal.ZERO;
 				}
 				if (contract.getRate() != null && !Decimal.isZero(contract.getRate())) {
-					price = Decimal.divide(price, contract.getRate());
+					price = Decimal.multiply(price, contract.getRate());
 				}
 				// 查询时点库存及价值
 				BigDecimal inventoryValue = Decimal.ZERO;
@@ -338,7 +338,7 @@ public class MaterialSerialJournalService
 						}
 						// 增加，其他行增加的量
 						inventoryQuantity = inventoryQuantity.add(item.getQuantity());
-						inventoryValue = inventoryValue.add(Decimal.multiply(Decimal.divide(item.getPrice(),
+						inventoryValue = inventoryValue.add(Decimal.multiply(Decimal.multiply(item.getPrice(),
 								item.getRate() == null || Decimal.isZero(item.getRate()) ? Decimal.ONE
 										: item.getRate()),
 								item.getQuantity()));
