@@ -308,7 +308,12 @@ namespace materials {
                                 customHeader: new sap.m.Toolbar("", {
                                     content: [
                                         new sap.m.SearchField("", {
-                                            search(): void {
+                                            search(this: sap.m.SearchField): void {
+                                                let search: string = this.getValue();
+                                                if (!ibas.strings.isEmpty(search)) {
+                                                    // 拆词，替换查询空格为%
+                                                    search = ibas.strings.replace(search, " ", "%");
+                                                }
                                                 let condition: ibas.ICondition;
                                                 let criteria: ibas.ICriteria = new ibas.Criteria();
                                                 criteria.result = ibas.config.get(ibas.CONFIG_ITEM_CRITERIA_RESULT_COUNT, 30);
@@ -316,6 +321,19 @@ namespace materials {
                                                 condition = criteria.conditions.create();
                                                 condition.alias = businesspartner.bo.Customer.PROPERTY_ACTIVATED_NAME;
                                                 condition.value = ibas.emYesNo.YES.toString();
+                                                if (!ibas.strings.isEmpty(search)) {
+                                                    condition = criteria.conditions.create();
+                                                    condition.bracketOpen = 1;
+                                                    condition.alias = businesspartner.bo.Customer.PROPERTY_CODE_NAME;
+                                                    condition.operation = ibas.emConditionOperation.CONTAIN;
+                                                    condition.value = search;
+                                                    condition = criteria.conditions.create();
+                                                    condition.alias = businesspartner.bo.Customer.PROPERTY_NAME_NAME;
+                                                    condition.operation = ibas.emConditionOperation.CONTAIN;
+                                                    condition.value = search;
+                                                    condition.relationship = ibas.emConditionRelationship.OR;
+                                                    condition.bracketClose = 1;
+                                                }
                                                 let sort: ibas.ISort = criteria.sorts.create();
                                                 sort.alias = businesspartner.bo.Customer.PROPERTY_DOCENTRY_NAME;
                                                 sort.sortType = ibas.emSortType.DESCENDING;
@@ -603,8 +621,9 @@ namespace materials {
                                                 type: new sap.extension.data.Alphanumeric()
                                             })
                                         );
-                                        (<sap.m.Toolbar>this.getParent().getParent()).getContent()[6].setVisible(false);
-                                        (<sap.m.Toolbar>this.getParent().getParent()).getContent()[7].setVisible(false);
+                                        let toolbar: sap.m.Toolbar = (<sap.m.Toolbar>this.getParent().getParent());
+                                        toolbar.getContent()[toolbar.getContent().length - 1].setVisible(false);
+                                        toolbar.getContent()[toolbar.getContent().length - 2].setVisible(false);
                                         (<sap.m.Page>that.tablePrices.getParent()).setShowFooter(false);
                                     }
                                 }),
@@ -662,8 +681,9 @@ namespace materials {
                                                 type: new sap.extension.data.Alphanumeric()
                                             })
                                         );
-                                        (<sap.m.Toolbar>this.getParent().getParent()).getContent()[6].setVisible(true);
-                                        (<sap.m.Toolbar>this.getParent().getParent()).getContent()[7].setVisible(true);
+                                        let toolbar: sap.m.Toolbar = (<sap.m.Toolbar>this.getParent().getParent());
+                                        toolbar.getContent()[toolbar.getContent().length - 1].setVisible(true);
+                                        toolbar.getContent()[toolbar.getContent().length - 2].setVisible(true);
                                         (<sap.m.Page>that.tablePrices.getParent()).setShowFooter(true);
                                     }
                                 }),

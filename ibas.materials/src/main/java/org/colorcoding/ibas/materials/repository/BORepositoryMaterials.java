@@ -1392,6 +1392,7 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 					if (priceItem != null) {
 						product.setPrice(priceItem.getPrice());
 						product.setCurrency(priceItem.getCurrency());
+						product.setTaxed(priceItem.getTaxed());
 						product.markOld();
 						continue;
 					}
@@ -1402,6 +1403,7 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 					if (priceItem != null) {
 						product.setPrice(priceItem.getPrice());
 						product.setCurrency(priceItem.getCurrency());
+						product.setTaxed(priceItem.getTaxed());
 						product.markOld();
 						continue;
 					}
@@ -1411,6 +1413,7 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 					if (priceItem != null) {
 						product.setPrice(priceItem.getPrice());
 						product.setCurrency(priceItem.getCurrency());
+						product.setTaxed(priceItem.getTaxed());
 						product.markOld();
 						continue;
 					}
@@ -1419,6 +1422,7 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 				if (priceItem != null) {
 					product.setPrice(priceItem.getPrice());
 					product.setCurrency(priceItem.getCurrency());
+					product.setTaxed(priceItem.getTaxed());
 					product.markOld();
 					continue;
 				}

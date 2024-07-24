@@ -92,6 +92,7 @@ public class MaterialPrice extends Serializable implements IMaterialPrice {
 		materialPrice.setUOM(specialPrice.getUOM());
 		materialPrice.setPrice(specialPrice.getPrice());
 		materialPrice.setCurrency(specialPrice.getCurrency());
+		materialPrice.setTaxed(emYesNo.NO);
 		materialPrice.setSource(specialPrice.getBusinessPartnerType(), specialPrice.getBusinessPartnerCode());
 		return materialPrice;
 	}
