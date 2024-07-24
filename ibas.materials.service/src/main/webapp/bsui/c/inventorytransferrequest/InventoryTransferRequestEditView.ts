@@ -304,7 +304,7 @@ namespace materials {
                                     }),
                                     new sap.extension.table.DataColumn("", {
                                         label: ibas.i18n.prop("bo_inventorytransferrequestline_itemcode"),
-                                        template: new sap.extension.m.Input("", {
+                                        template: new sap.extension.m.RepositoryInput("", {
                                             showValueHelp: true,
                                             valueHelpRequest: function (): void {
                                                 that.fireViewEvents(that.chooseInventoryTransferRequestLineMaterialEvent,
@@ -318,7 +318,24 @@ namespace materials {
                                                     boCode: materials.bo.Material.BUSINESS_OBJECT_CODE,
                                                     linkValue: event.getParameter("value")
                                                 });
-                                            }
+                                            },
+                                            describeValue: false,
+                                            showSuggestion: true,
+                                            repository: materials.bo.BORepositoryMaterials,
+                                            dataInfo: {
+                                                type: materials.bo.Material,
+                                                key: materials.bo.Material.PROPERTY_CODE_NAME,
+                                                text: materials.bo.Material.PROPERTY_NAME_NAME
+                                            },
+                                            suggestionItemSelected: function (this: sap.extension.m.RepositoryInput, event: sap.ui.base.Event): void {
+                                                let selectedItem: any = event.getParameter("selectedItem");
+                                                if (!ibas.objects.isNull(selectedItem)) {
+                                                    that.fireViewEvents(that.chooseInventoryTransferRequestLineMaterialEvent, this.getBindingContext().getObject(), null, this.itemConditions(selectedItem));
+                                                }
+                                            },
+                                            criteria: [
+                                                new ibas.Condition(materials.app.conditions.product.CONDITION_ALIAS_INVENTORY_ITEM, ibas.emConditionOperation.EQUAL, ibas.emYesNo.YES)
+                                            ]
                                         }).bindProperty("bindingValue", {
                                             path: "itemCode",
                                             type: new sap.extension.data.Alphanumeric({
@@ -375,7 +392,17 @@ namespace materials {
                                                     this.getBindingContext().getObject(),
                                                     ibas.emDirection.OUT,
                                                 );
-                                            }
+                                            },
+                                            showSuggestion: true,
+                                            suggestionItemSelected: function (this: sap.extension.m.RepositoryInput, event: sap.ui.base.Event): void {
+                                                let selectedItem: any = event.getParameter("selectedItem");
+                                                if (!ibas.objects.isNull(selectedItem)) {
+                                                    that.fireViewEvents(that.chooseInventoryTransferRequestLineWarehouseEvent, ibas.emDirection.OUT, this.getBindingContext().getObject(), this.itemConditions(selectedItem));
+                                                }
+                                            },
+                                            criteria: [
+                                                new ibas.Condition(materials.bo.Warehouse.PROPERTY_ACTIVATED_NAME, ibas.emConditionOperation.EQUAL, ibas.emYesNo.YES)
+                                            ]
                                         }).bindProperty("bindingValue", {
                                             path: "fromWarehouse",
                                             type: new sap.extension.data.Alphanumeric({
@@ -398,7 +425,17 @@ namespace materials {
                                                     this.getBindingContext().getObject(),
                                                     ibas.emDirection.IN,
                                                 );
-                                            }
+                                            },
+                                            showSuggestion: true,
+                                            suggestionItemSelected: function (this: sap.extension.m.RepositoryInput, event: sap.ui.base.Event): void {
+                                                let selectedItem: any = event.getParameter("selectedItem");
+                                                if (!ibas.objects.isNull(selectedItem)) {
+                                                    that.fireViewEvents(that.chooseInventoryTransferRequestLineWarehouseEvent, ibas.emDirection.IN, this.getBindingContext().getObject(), this.itemConditions(selectedItem));
+                                                }
+                                            },
+                                            criteria: [
+                                                new ibas.Condition(materials.bo.Warehouse.PROPERTY_ACTIVATED_NAME, ibas.emConditionOperation.EQUAL, ibas.emYesNo.YES)
+                                            ]
                                         }).bindProperty("bindingValue", {
                                             path: "warehouse",
                                             type: new sap.extension.data.Alphanumeric({

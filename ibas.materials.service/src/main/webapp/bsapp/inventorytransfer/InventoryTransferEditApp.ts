@@ -288,10 +288,18 @@ namespace materials {
                 }
             }
             /** 选择库存转储订单行物料事件 */
-            private chooseInventoryTransferLineMaterial(caller: bo.InventoryTransferLine, type?: string): void {
+            private chooseInventoryTransferLineMaterial(caller: bo.InventoryTransferLine, type?: string, filterConditions?: ibas.ICondition[]): void {
                 let that: this = this;
                 let condition: ibas.ICondition;
                 let conditions: ibas.IList<ibas.ICondition> = app.conditions.material.create();
+                // 添加输入条件
+                if (filterConditions instanceof Array && filterConditions.length > 0) {
+                    if (conditions.length > 1) {
+                        conditions.firstOrDefault().bracketOpen++;
+                        conditions.lastOrDefault().bracketClose++;
+                    }
+                    conditions.add(filterConditions);
+                }
                 // 库存物料
                 condition = new ibas.Condition();
                 condition.alias = app.conditions.material.CONDITION_ALIAS_INVENTORY_ITEM;
@@ -368,12 +376,21 @@ namespace materials {
                 });
             }
             /** 选择库存转储订单行仓库事件 */
-            private chooseInventoryTransferLineWarehouse(caller: bo.InventoryTransferLine, direction: ibas.emDirection): void {
+            private chooseInventoryTransferLineWarehouse(caller: bo.InventoryTransferLine, direction: ibas.emDirection, filterConditions?: ibas.ICondition[]): void {
+                let conditions: ibas.IList<ibas.ICondition> = materials.app.conditions.warehouse.create(this.editData.branch);
+                // 添加输入条件
+                if (filterConditions instanceof Array && filterConditions.length > 0) {
+                    if (conditions.length > 1) {
+                        conditions.firstOrDefault().bracketOpen++;
+                        conditions.lastOrDefault().bracketClose++;
+                    }
+                    conditions.add(filterConditions);
+                }
                 let that: this = this;
                 ibas.servicesManager.runChooseService<bo.Warehouse>({
                     boCode: bo.Warehouse.BUSINESS_OBJECT_CODE,
                     chooseType: ibas.emChooseType.SINGLE,
-                    criteria: conditions.warehouse.create(this.editData.branch),
+                    criteria: conditions,
                     onCompleted(selecteds: ibas.IList<bo.Warehouse>): void {
                         // 获取触发的对象
                         let index: number = that.editData.inventoryTransferLines.indexOf(caller);

@@ -278,10 +278,18 @@ namespace materials {
             }
 
             /** 选择库存收货订单行物料事件 */
-            private chooseGoodsReceiptLineMaterial(caller: bo.GoodsReceiptLine): void {
+            private chooseGoodsReceiptLineMaterial(caller: bo.GoodsReceiptLine, filterConditions?: ibas.ICondition[]): void {
                 let that: this = this;
                 let condition: ibas.ICondition;
                 let conditions: ibas.IList<ibas.ICondition> = app.conditions.material.create();
+                // 添加输入条件
+                if (filterConditions instanceof Array && filterConditions.length > 0) {
+                    if (conditions.length > 1) {
+                        conditions.firstOrDefault().bracketOpen++;
+                        conditions.lastOrDefault().bracketClose++;
+                    }
+                    conditions.add(filterConditions);
+                }
                 // 添加价格清单条件
                 if (ibas.numbers.valueOf(this.editData.priceList) !== 0) {
                     condition = new ibas.Condition();
@@ -420,12 +428,21 @@ namespace materials {
             }
 
             /** 选择库存收货订单行物料事件 */
-            private chooseGoodsReceiptLineWarehouse(caller: bo.GoodsReceiptLine): void {
+            private chooseGoodsReceiptLineWarehouse(caller: bo.GoodsReceiptLine, filterConditions?: ibas.ICondition[]): void {
+                let conditions: ibas.IList<ibas.ICondition> = materials.app.conditions.warehouse.create(this.editData.branch);
+                // 添加输入条件
+                if (filterConditions instanceof Array && filterConditions.length > 0) {
+                    if (conditions.length > 1) {
+                        conditions.firstOrDefault().bracketOpen++;
+                        conditions.lastOrDefault().bracketClose++;
+                    }
+                    conditions.add(filterConditions);
+                }
                 let that: this = this;
                 ibas.servicesManager.runChooseService<bo.Warehouse>({
                     boCode: bo.Warehouse.BUSINESS_OBJECT_CODE,
                     chooseType: ibas.emChooseType.SINGLE,
-                    criteria: conditions.warehouse.create(this.editData.branch),
+                    criteria: conditions,
                     onCompleted(selecteds: ibas.IList<bo.Warehouse>): void {
                         // 获取触发的对象
                         let index: number = that.editData.goodsReceiptLines.indexOf(caller);

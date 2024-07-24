@@ -309,7 +309,7 @@ namespace materials {
                 this.view.showInventoryCountingLines(this.editData.inventoryCountingLines.filterDeleted());
             }
             /** 选择库存盘点行物料事件 */
-            private chooseInventoryCountingLineMaterial(caller: bo.InventoryCountingLine): void {
+            private chooseInventoryCountingLineMaterial(caller: bo.InventoryCountingLine, filterConditions?: ibas.ICondition[]): void {
                 if (ibas.strings.isEmpty(this.view.defaultWarehouse)) {
                     this.messages(ibas.emMessageType.WARNING, ibas.i18n.prop("materials_please_choose_warehouse"));
                     return;
@@ -317,6 +317,14 @@ namespace materials {
                 let that: this = this;
                 let condition: ibas.ICondition;
                 let conditions: ibas.IList<ibas.ICondition> = materials.app.conditions.product.create();
+                // 添加输入条件
+                if (filterConditions instanceof Array && filterConditions.length > 0) {
+                    if (conditions.length > 1) {
+                        conditions.firstOrDefault().bracketOpen++;
+                        conditions.lastOrDefault().bracketClose++;
+                    }
+                    conditions.add(filterConditions);
+                }
                 // 添加仓库条件
                 if (!ibas.objects.isNull(caller) && !ibas.strings.isEmpty(caller.warehouse)) {
                     condition = new ibas.Condition();
@@ -389,12 +397,21 @@ namespace materials {
                 });
             }
             /** 选择库存盘点行物料事件 */
-            private chooseInventoryCountingLineWarehouse(caller: bo.InventoryCountingLine): void {
+            private chooseInventoryCountingLineWarehouse(caller: bo.InventoryCountingLine, filterConditions?: ibas.ICondition[]): void {
+                let conditions: ibas.IList<ibas.ICondition> = materials.app.conditions.warehouse.create(this.editData.branch);
+                // 添加输入条件
+                if (filterConditions instanceof Array && filterConditions.length > 0) {
+                    if (conditions.length > 1) {
+                        conditions.firstOrDefault().bracketOpen++;
+                        conditions.lastOrDefault().bracketClose++;
+                    }
+                    conditions.add(filterConditions);
+                }
                 let that: this = this;
                 ibas.servicesManager.runChooseService<bo.Warehouse>({
                     boCode: bo.Warehouse.BUSINESS_OBJECT_CODE,
                     chooseType: ibas.emChooseType.SINGLE,
-                    criteria: conditions.warehouse.create(this.editData.branch),
+                    criteria: conditions,
                     onCompleted(selecteds: ibas.IList<bo.Warehouse>): void {
                         // 获取触发的对象
                         let index: number = that.editData.inventoryCountingLines.indexOf(caller);
