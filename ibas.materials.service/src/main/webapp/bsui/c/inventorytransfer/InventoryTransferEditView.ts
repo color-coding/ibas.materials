@@ -138,7 +138,10 @@ namespace materials {
                                             menu: this.menuAdd = new sap.m.Menu("", {
                                                 items: [
                                                 ]
-                                            })
+                                            }),
+                                            defaultAction(): void {
+                                                that.fireViewEvents(that.addInventoryTransferLineEvent, []);
+                                            }
                                         }),
                                         new sap.m.Button("", {
                                             text: ibas.i18n.prop("shell_data_remove"),
@@ -327,11 +330,14 @@ namespace materials {
                                     }),
                                     new sap.extension.table.DataColumn("", {
                                         label: ibas.i18n.prop("bo_inventorytransferline_itemdescription"),
-                                        template: new sap.extension.m.Text("", {
+                                        template: new sap.extension.m.Input("", {
                                         }).bindProperty("bindingValue", {
                                             path: "itemDescription",
-                                            type: new sap.extension.data.Alphanumeric()
-                                        })
+                                            type: new sap.extension.data.Alphanumeric({
+                                                maxLength: 100
+                                            })
+                                        }),
+                                        width: "16rem",
                                     }),
                                     new sap.extension.table.DataColumn("", {
                                         label: ibas.i18n.prop("bo_inventorytransferline_itemversion"),

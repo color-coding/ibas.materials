@@ -345,11 +345,14 @@ namespace materials {
                                     }),
                                     new sap.extension.table.DataColumn("", {
                                         label: ibas.i18n.prop("bo_inventorycountingline_itemdescription"),
-                                        template: new sap.extension.m.Text("", {
+                                        template: new sap.extension.m.Input("", {
                                         }).bindProperty("bindingValue", {
                                             path: "itemDescription",
-                                            type: new sap.extension.data.Alphanumeric()
-                                        })
+                                            type: new sap.extension.data.Alphanumeric({
+                                                maxLength: 100
+                                            })
+                                        }),
+                                        width: "16rem",
                                     }),
                                     new sap.extension.table.DataColumn("", {
                                         label: ibas.i18n.prop("bo_inventorycountingline_freeze"),

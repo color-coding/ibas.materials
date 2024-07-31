@@ -156,7 +156,10 @@ namespace materials {
                                                         }
                                                     }),
                                                 ]
-                                            })
+                                            }),
+                                            defaultAction(): void {
+                                                that.fireViewEvents(that.addInventoryTransferRequestLineEvent, []);
+                                            }
                                         }),
                                         new sap.m.Button("", {
                                             text: ibas.i18n.prop("shell_data_remove"),
@@ -353,11 +356,14 @@ namespace materials {
                                     }),
                                     new sap.extension.table.DataColumn("", {
                                         label: ibas.i18n.prop("bo_inventorytransferrequestline_itemdescription"),
-                                        template: new sap.extension.m.Text("", {
+                                        template: new sap.extension.m.Input("", {
                                         }).bindProperty("bindingValue", {
                                             path: "itemDescription",
-                                            type: new sap.extension.data.Alphanumeric()
-                                        })
+                                            type: new sap.extension.data.Alphanumeric({
+                                                maxLength: 100
+                                            })
+                                        }),
+                                        width: "16rem",
                                     }),
                                     new sap.extension.table.DataColumn("", {
                                         label: ibas.i18n.prop("bo_inventorytransferrequestline_itemversion"),

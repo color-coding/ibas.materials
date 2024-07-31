@@ -248,6 +248,9 @@ namespace materials {
                         this.proceeding(ibas.emMessageType.WARNING, builder.toString());
                         this.view.showGoodsReceiptLines(this.editData.goodsReceiptLines.filterDeleted());
                     }
+                } else if (items instanceof Array) {
+                    this.editData.goodsReceiptLines.create();
+                    this.view.showGoodsReceiptLines(this.editData.goodsReceiptLines.filterDeleted());
                 } else {
                     this.chooseGoodsReceiptLineMaterial(undefined);
                 }

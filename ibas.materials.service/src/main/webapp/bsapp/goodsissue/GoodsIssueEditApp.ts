@@ -225,6 +225,9 @@ namespace materials {
                         this.proceeding(ibas.emMessageType.WARNING, builder.toString());
                         this.view.showGoodsIssueLines(this.editData.goodsIssueLines.filterDeleted());
                     }
+                } else if (items instanceof Array) {
+                    this.editData.goodsIssueLines.create();
+                    this.view.showGoodsIssueLines(this.editData.goodsIssueLines.filterDeleted());
                 } else {
                     this.chooseGoodsIssueLineMaterial(undefined);
                 }
