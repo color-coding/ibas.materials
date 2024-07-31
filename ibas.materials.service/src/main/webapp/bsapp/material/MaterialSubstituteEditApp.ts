@@ -7,8 +7,8 @@
  */
 namespace materials {
     export namespace app {
-        /** 列表应用-物料替代 */
-        export class MaterialSubstituteListApp extends ibas.Application<IMaterialSubstituteListView> {
+        /** 应用-物料替代 */
+        export class MaterialSubstituteEditApp extends ibas.Application<IMaterialSubstituteEditView> {
             /** 应用标识 */
             static APPLICATION_ID: string = "cdfe7e53-e07b-454f-9bb8-28c4bcfe36df";
             /** 应用名称 */
@@ -16,8 +16,8 @@ namespace materials {
             /** 构造函数 */
             constructor() {
                 super();
-                this.id = MaterialSubstituteListApp.APPLICATION_ID;
-                this.name = MaterialSubstituteListApp.APPLICATION_NAME;
+                this.id = MaterialSubstituteEditApp.APPLICATION_ID;
+                this.name = MaterialSubstituteEditApp.APPLICATION_NAME;
                 this.description = ibas.i18n.prop(this.name);
             }
             /** 注册视图 */
@@ -247,7 +247,7 @@ namespace materials {
             }
         }
         /** 视图-物料替代 */
-        export interface IMaterialSubstituteListView extends ibas.IView {
+        export interface IMaterialSubstituteEditView extends ibas.IView {
             /** 保存数据事件 */
             saveSubstituteEvent: Function;
             /** 添加数据事件 */

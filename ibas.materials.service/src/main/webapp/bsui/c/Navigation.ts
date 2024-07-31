@@ -242,8 +242,11 @@ namespace materials {
                     case app.MaterialInventoryReservationService.APPLICATION_ID:
                         view = new c.MaterialInventoryReservationView();
                         break;
-                    case app.MaterialSubstituteListApp.APPLICATION_ID:
-                        view = new c.MaterialSubstituteListView();
+                    case app.MaterialSubstituteEditApp.APPLICATION_ID:
+                        view = new c.MaterialSubstituteEditView();
+                        break;
+                    case app.MaterialSubstituteApp.APPLICATION_ID:
+                        view = new c.MaterialSubstituteView();
                         break;
                     case app.MaterialOrderedReservationService.APPLICATION_ID:
                         view = new c.MaterialOrderedReservationView();

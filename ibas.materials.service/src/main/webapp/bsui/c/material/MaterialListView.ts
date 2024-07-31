@@ -24,6 +24,8 @@ namespace materials {
                 materialGroupEvent: Function;
                 /** 物料单位事件 */
                 materialUnitEvent: Function;
+                /** 物料替代事件 */
+                materialSubstituteEvent: Function;
                 /** 绘制视图 */
                 draw(): any {
                     let that: this = this;
@@ -190,6 +192,13 @@ namespace materials {
                                                 icon: "sap-icon://measure",
                                                 press: function (): void {
                                                     that.fireViewEvents(that.materialUnitEvent);
+                                                },
+                                            }),
+                                            new sap.m.MenuItem("", {
+                                                text: ibas.i18n.prop("materials_func_materialsubstitute"),
+                                                icon: "sap-icon://add-product",
+                                                press: function (): void {
+                                                    that.fireViewEvents(that.materialSubstituteEvent);
                                                 },
                                             }),
                                         ],

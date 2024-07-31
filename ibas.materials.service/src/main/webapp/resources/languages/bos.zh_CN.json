@@ -1119,6 +1119,7 @@
         "bo_materialsubstitute_organization": "数据所属组织",
         "bo_materialsubstitute_itemcode": "物料编码",
         "bo_materialsubstitute_position": "位置",
+        "bo_materialsubstitute_original": "原始物料",
         "bo_materialsubstitute_substitute": "替代物料",
         "bo_materialsubstitute_version": "物料版本",
         "bo_materialsubstitute_description": "物料描述",

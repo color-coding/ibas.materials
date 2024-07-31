@@ -9,6 +9,9 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
 import org.colorcoding.ibas.bobas.bo.BusinessObject;
+import org.colorcoding.ibas.bobas.common.Criteria;
+import org.colorcoding.ibas.bobas.common.ICondition;
+import org.colorcoding.ibas.bobas.common.ICriteria;
 import org.colorcoding.ibas.bobas.core.IPropertyInfo;
 import org.colorcoding.ibas.bobas.data.DateTime;
 import org.colorcoding.ibas.bobas.data.emYesNo;
@@ -18,6 +21,7 @@ import org.colorcoding.ibas.bobas.mapping.DbFieldType;
 import org.colorcoding.ibas.bobas.rule.IBusinessRule;
 import org.colorcoding.ibas.bobas.rule.common.BusinessRuleRequired;
 import org.colorcoding.ibas.materials.MyConfiguration;
+import org.colorcoding.ibas.materials.data.DataConvert;
 
 /**
  * 物料替代
@@ -558,7 +562,7 @@ public class MaterialSubstitute extends BusinessObject<MaterialSubstitute> imple
 	/**
 	 * 位置 属性
 	 */
-	@DbField(name = "Position", type = DbFieldType.NUMERIC, table = DB_TABLE_NAME)
+	@DbField(name = "Position", type = DbFieldType.NUMERIC, table = DB_TABLE_NAME, uniqueKey = true)
 	public static final IPropertyInfo<Integer> PROPERTY_POSITION = registerProperty(PROPERTY_POSITION_NAME,
 			Integer.class, MY_CLASS);
 
@@ -589,7 +593,7 @@ public class MaterialSubstitute extends BusinessObject<MaterialSubstitute> imple
 	/**
 	 * 替代物料 属性
 	 */
-	@DbField(name = "Substitute", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME, uniqueKey = true)
+	@DbField(name = "Substitute", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<String> PROPERTY_SUBSTITUTE = registerProperty(PROPERTY_SUBSTITUTE_NAME,
 			String.class, MY_CLASS);
 
@@ -837,7 +841,28 @@ public class MaterialSubstitute extends BusinessObject<MaterialSubstitute> imple
 		super.initialize();// 基类初始化，不可去除
 		this.setObjectCode(MyConfiguration.applyVariables(BUSINESS_OBJECT_CODE));
 		this.setActivated(emYesNo.YES);
+	}
 
+	@Override
+	public ICriteria getCriteria() {
+		if (this.isNew()) {
+			ICriteria criteria = new Criteria();
+			ICondition condition = criteria.getConditions().create();
+			condition.setAlias(PROPERTY_ITEMCODE_NAME);
+			condition.setValue(this.getItemCode());
+			// 查询条件，优先位置，然后替代料（使用版本时，必须位置）
+			if (this.getPosition() > 0) {
+				condition = criteria.getConditions().create();
+				condition.setAlias(PROPERTY_POSITION_NAME);
+				condition.setValue(this.getPosition());
+			} else if (!DataConvert.isNullOrEmpty(this.getSubstitute())) {
+				condition = criteria.getConditions().create();
+				condition.setAlias(PROPERTY_SUBSTITUTE_NAME);
+				condition.setValue(this.getSubstitute());
+			}
+			return criteria;
+		}
+		return super.getCriteria();
 	}
 
 	@Override

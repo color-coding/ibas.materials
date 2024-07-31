@@ -119,10 +119,10 @@
     <Property Name="UpdateActionId" Description="更新动作标识" DataType="Alphanumeric" DataSubType="Default" EditSize="36" Mapped="UpdateActId"/>
     <Property Name="DataOwner" Description="数据所有者" DataType="Numeric" DataSubType="Default" EditSize="8" Mapped="DataOwner"/>
     <Property Name="Organization" Description="数据所属组织" DataType="Alphanumeric" DataSubType="Default" EditSize="8" Mapped="OrgCode"/>
-    <Property Name="ItemCode" Description="物料编码" DataType="Alphanumeric" DataSubType="Default" EditSize="50" Mapped="ItemCode" UniqueKey="Yes"/>
+    <Property Name="ItemCode" Description="物料编码" DataType="Alphanumeric" DataSubType="Default" EditSize="50" Mapped="ItemCode"/>
     <Property Name="Position" Description="位置" DataType="Numeric" DataSubType="Default" EditSize="8" Mapped="Position"/>
-    <Property Name="Substitute" Description="替代物料" DataType="Alphanumeric" DataSubType="Default" EditSize="50" Mapped="Substitute" UniqueKey="Yes"/>
-    <Property Name="Version" Description="替代物料版本" DataType="Alphanumeric" DataSubType="Default" EditSize="10" Mapped="Version" UniqueKey="Yes"/>
+    <Property Name="Substitute" Description="替代物料" DataType="Alphanumeric" DataSubType="Default" EditSize="50" Mapped="Substitute"/>
+    <Property Name="Version" Description="替代物料版本" DataType="Alphanumeric" DataSubType="Default" EditSize="10" Mapped="Version"/>
     <Property Name="Activated" Description="已激活的" DataType="Alphanumeric" DataSubType="Default" EditSize="1" DeclaredType="emYesNo" Mapped="Activated"/>
     <Property Name="Quantity" Description="数量" DataType="Decimal" DataSubType="Quantity" EditSize="8" Mapped="Quantity"/>
     <Property Name="UOM" Description="单位" DataType="Alphanumeric" DataSubType="Default" EditSize="8" Mapped="UOM"/>

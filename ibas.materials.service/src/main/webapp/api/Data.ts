@@ -1079,16 +1079,23 @@ namespace materials {
             condition = criteria.conditions.create();
             condition.alias = bo.MaterialInventoryReservation.PROPERTY_TARGETDOCUMENTTYPE_NAME;
             condition.value = caller.targetType;
+            condition = criteria.conditions.create();
+            condition.alias = bo.MaterialInventoryReservation.PROPERTY_STATUS_NAME;
+            condition.value = ibas.emBOStatus.OPEN.toString();
+            condition = criteria.conditions.create();
+            condition.alias = bo.MaterialInventoryReservation.PROPERTY_QUANTITY_NAME;
+            condition.operation = ibas.emConditionOperation.GRATER_THAN;
+            condition.comparedAlias = bo.MaterialInventoryReservation.PROPERTY_CLOSEDQUANTITY_NAME;
             for (let item of ibas.arrays.create(caller.targetEntries)) {
                 condition = criteria.conditions.create();
                 condition.alias = bo.MaterialInventoryReservation.PROPERTY_TARGETDOCUMENTENTRY_NAME;
                 condition.value = item.toString();
-                if (criteria.conditions.length > 2) {
+                if (criteria.conditions.length > 4) {
                     condition.relationship = ibas.emConditionRelationship.OR;
                 }
             }
-            if (criteria.conditions.length > 2) {
-                criteria.conditions[1].bracketOpen += 1;
+            if (criteria.conditions.length > 4) {
+                criteria.conditions[3].bracketOpen += 1;
                 criteria.conditions.lastOrDefault().bracketClose += 1;
             }
             let sort: ibas.ISort = criteria.sorts.create();

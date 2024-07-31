@@ -299,7 +299,7 @@ namespace materials {
             }
             /** 编辑物料替代事件 */
             private editMaterialSubstitute(): void {
-                let app: MaterialSubstituteListApp = new MaterialSubstituteListApp();
+                let app: MaterialSubstituteEditApp = new MaterialSubstituteEditApp();
                 app.navigation = this.navigation;
                 app.viewShower = this.viewShower;
                 app.run(this.editData);

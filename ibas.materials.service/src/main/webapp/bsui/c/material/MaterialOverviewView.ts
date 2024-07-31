@@ -732,8 +732,9 @@ namespace materials {
                                 new sap.m.Button("", {
                                     icon: "sap-icon://refresh",
                                     press: function (this: sap.m.Button): void {
+                                        let toolbar: sap.m.Toolbar = <sap.m.Toolbar>this.getParent();
                                         that.fireViewEvents(that.fetchMaterialReservationEvent, that.tableMaterials.getSelecteds().firstOrDefault(),
-                                            (<sap.m.CheckBox>(<sap.m.Toolbar>this.getParent()).getContent()[2]).getSelected()
+                                            (<sap.m.CheckBox>(toolbar).getContent()[toolbar.indexOfContent(this) - 4]).getSelected()
                                         );
                                     }
                                 }),

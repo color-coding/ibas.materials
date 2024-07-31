@@ -8,8 +8,8 @@
 namespace materials {
     export namespace ui {
         export namespace c {
-            /** 列表视图-物料替代 */
-            export class MaterialSubstituteListView extends ibas.DialogView implements app.IMaterialSubstituteListView {
+            /** 视图-物料替代 */
+            export class MaterialSubstituteEditView extends ibas.DialogView implements app.IMaterialSubstituteEditView {
                 /** 保存数据事件 */
                 saveSubstituteEvent: Function;
                 /** 添加数据事件 */
@@ -106,16 +106,7 @@ namespace materials {
                                     path: "version",
                                     type: new sap.extension.data.Alphanumeric(),
                                 }),
-                                width: "8rem",
-                            }),
-                            new sap.extension.table.DataColumn("", {
-                                label: ibas.i18n.prop("bo_materialsubstitute_activated"),
-                                template: new sap.extension.m.EnumSelect("", {
-                                    enumType: ibas.emYesNo,
-                                }).bindProperty("bindingValue", {
-                                    path: "activated",
-                                    type: new sap.extension.data.YesNo(),
-                                }),
+                                visible: config.isEnableMaterialVersions(),
                                 width: "8rem",
                             }),
                             new sap.extension.table.DataColumn("", {
@@ -147,6 +138,16 @@ namespace materials {
                                     type: new sap.extension.data.Alphanumeric({
                                         maxLength: 8
                                     })
+                                }),
+                                width: "8rem",
+                            }),
+                            new sap.extension.table.DataColumn("", {
+                                label: ibas.i18n.prop("bo_materialsubstitute_activated"),
+                                template: new sap.extension.m.EnumSelect("", {
+                                    enumType: ibas.emYesNo,
+                                }).bindProperty("bindingValue", {
+                                    path: "activated",
+                                    type: new sap.extension.data.YesNo(),
                                 }),
                                 width: "8rem",
                             }),
