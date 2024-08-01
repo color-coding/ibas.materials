@@ -344,6 +344,17 @@ namespace materials {
                 this.setProperty(Material.PROPERTY_ORDERMULTIPLE_NAME, value);
             }
 
+            /** 映射的属性名称-预留可超订购量 */
+            static PROPERTY_RESERVEEXCESSORDERED_NAME: string = "ReserveExcessOrdered";
+            /** 获取-预留可超订购量 */
+            get reserveExcessOrdered(): ibas.emYesNo {
+                return this.getProperty<ibas.emYesNo>(Material.PROPERTY_RESERVEEXCESSORDERED_NAME);
+            }
+            /** 设置-预留可超订购量 */
+            set reserveExcessOrdered(value: ibas.emYesNo) {
+                this.setProperty(Material.PROPERTY_RESERVEEXCESSORDERED_NAME, value);
+            }
+
             /** 映射的属性名称-提前期（天） */
             static PROPERTY_LEADTIME_NAME: string = "LeadTime";
             /** 获取-提前期（天） */
@@ -839,6 +850,7 @@ namespace materials {
                 this.salesItem = ibas.emYesNo.YES;
                 this.manageByWarehouse = ibas.emYesNo.YES;
                 this.valuationMethod = bo.emValuationMethod.MOVING_AVERAGE;
+                this.reserveExcessOrdered = ibas.emYesNo.NO;
             }
             /** 重置 */
             reset(): void {

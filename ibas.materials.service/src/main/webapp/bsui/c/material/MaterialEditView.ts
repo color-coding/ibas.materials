@@ -534,6 +534,13 @@ namespace materials {
                                                             maxLength: 8
                                                         }),
                                                     }),
+                                                    new sap.m.Label("", { text: ibas.i18n.prop("bo_material_reserveexcessordered") }),
+                                                    new sap.extension.m.EnumSelect("", {
+                                                        enumType: ibas.emYesNo
+                                                    }).bindProperty("bindingValue", {
+                                                        path: "reserveExcessOrdered",
+                                                        type: new sap.extension.data.YesNo()
+                                                    }),
                                                 ]
                                             })
                                         ]

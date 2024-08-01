@@ -100,6 +100,9 @@ namespace materials {
             /** 订购倍数 */
             orderMultiple: number;
 
+            /** 预留可超订购量 */
+            reserveExcessOrdered: ibas.emYesNo;
+
             /** 提前期（天） */
             leadTime: number;
 

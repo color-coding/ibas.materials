@@ -369,27 +369,41 @@ namespace materials {
                 this.view.showReservations(this.currentWorkingItem.results.filterDeleted());
             }
             /** 保存预留库存 */
-            private saveReservation(): void {
+            private saveReservation(datas?: ibas.ArrayList<bo.MaterialOrderedReservation>): void {
                 let builder: ibas.StringBuilder = new ibas.StringBuilder();
-                let datas: ibas.ArrayList<bo.MaterialOrderedReservation> = new ibas.ArrayList<bo.MaterialOrderedReservation>();
-                for (let workingData of this.workingDatas) {
-                    for (let item of workingData.items) {
-                        if (item.remaining < 0) {
-                            builder.append(ibas.i18n.prop("materials_material_reserved_quantity_exceeds_available_quantity", workingData.sourceEntry, item.itemCode, item.itemDescription));
-                            if (builder.length > 0) {
-                                builder.append("\n");
+                if (ibas.objects.isNull(datas)) {
+                    datas = new ibas.ArrayList<bo.MaterialOrderedReservation>();
+                    for (let workingData of this.workingDatas) {
+                        for (let item of workingData.items) {
+                            if (item.remaining < 0) {
+                                builder.append(ibas.i18n.prop("materials_material_reserved_quantity_exceeds_available_quantity",
+                                    workingData.sourceEntry, item.itemCode, item.itemDescription, item.inventoryQuantity
+                                ));
+                                if (builder.length > 0) {
+                                    builder.append("\n");
+                                }
                             }
-                        }
-                        for (let rItem of item.results) {
-                            if (rItem.isDirty === true) {
-                                datas.add(rItem);
+                            for (let rItem of item.results) {
+                                if (rItem.isDirty === true) {
+                                    datas.add(rItem);
+                                }
                             }
                         }
                     }
                 }
                 if (builder.length > 0) {
-                    this.messages(ibas.emMessageType.ERROR, builder.toString());
-                    return;
+                    this.messages({
+                        type: ibas.emMessageType.WARNING,
+                        message: ibas.i18n.prop("materials_message_continue", builder.toString()),
+                        actions: [
+                            ibas.emMessageAction.YES, ibas.emMessageAction.NO
+                        ],
+                        onCompleted: (result) => {
+                            if (result === ibas.emMessageAction.YES) {
+                                this.saveReservation(datas);
+                            }
+                        }
+                    }); return;
                 }
                 if (datas.length > 0) {
                     this.busy(true);

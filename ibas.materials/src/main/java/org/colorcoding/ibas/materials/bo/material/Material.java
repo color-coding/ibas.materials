@@ -390,6 +390,37 @@ public class Material extends MaterialBase<Material>
 	}
 
 	/**
+	* 属性名称-预留可超订购量
+	*/
+	private static final String PROPERTY_RESERVEEXCESSORDERED_NAME = "ReserveExcessOrdered";
+
+	/**
+	* 预留可超订购量 属性
+	*/
+	@DbField(name = "ReservExOrder", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME)
+	public static final IPropertyInfo<emYesNo> PROPERTY_RESERVEEXCESSORDERED = registerProperty(
+			PROPERTY_RESERVEEXCESSORDERED_NAME, emYesNo.class, MY_CLASS);
+
+	/**
+	* 获取-预留可超订购量
+	* 
+	* @return 值
+	*/
+	@XmlElement(name = PROPERTY_RESERVEEXCESSORDERED_NAME)
+	public final emYesNo getReserveExcessOrdered() {
+		return this.getProperty(PROPERTY_RESERVEEXCESSORDERED);
+	}
+
+	/**
+	* 设置-预留可超订购量
+	* 
+	* @param value 值
+	*/
+	public final void setReserveExcessOrdered(emYesNo value) {
+		this.setProperty(PROPERTY_RESERVEEXCESSORDERED, value);
+	}
+
+	/**
 	 * 属性名称-创建日期
 	 */
 	private static final String PROPERTY_CREATEDATE_NAME = "CreateDate";
@@ -780,6 +811,7 @@ public class Material extends MaterialBase<Material>
 		this.setPurchaseItem(emYesNo.YES);
 		this.setValuationMethod(emValuationMethod.MOVING_AVERAGE);
 		this.setManageByWarehouse(emYesNo.YES);
+		this.setReserveExcessOrdered(emYesNo.NO);
 	}
 
 	@Override
@@ -793,8 +825,10 @@ public class Material extends MaterialBase<Material>
 				// 库存价值 = 库存量 * 成本价格
 				new BusinessRuleMultiplication(PROPERTY_INVENTORYVALUE, PROPERTY_ONHAND, PROPERTY_AVGPRICE),
 				// 存在先下单再订购，已承诺不做最低值控制
-				/* // 预留数量不能大于订购数量 new BusinessRuleMaxProperty<BigDecimal>(PROPERTY_ONHAND,
-				 * PROPERTY_ONRESERVED) */
+				/*
+				 * // 预留数量不能大于订购数量 new BusinessRuleMaxProperty<BigDecimal>(PROPERTY_ONHAND,
+				 * PROPERTY_ONRESERVED)
+				 */
 
 		};
 	}

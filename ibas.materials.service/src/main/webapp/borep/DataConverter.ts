@@ -178,7 +178,8 @@ namespace materials {
                         || property === bo.Material.PROPERTY_CHECKCOMPLETENESS_NAME
                         || property === bo.Material.PROPERTY_MIXINGBATCHES_NAME
                         || property === bo.Material.PROPERTY_VERSIONMANAGEMENT_NAME
-                        || property === bo.Material.PROPERTY_MADETOORDER_NAME) {
+                        || property === bo.Material.PROPERTY_MADETOORDER_NAME
+                        || property === bo.Material.PROPERTY_RESERVEEXCESSORDERED_NAME) {
                         return ibas.enums.toString(ibas.emYesNo, value);
                     } else if (property === bo.Material.PROPERTY_ITEMTYPE_NAME) {
                         return ibas.enums.toString(bo.emItemType, value);
@@ -351,7 +352,8 @@ namespace materials {
                         || property === bo.Material.PROPERTY_CHECKCOMPLETENESS_NAME
                         || property === bo.Material.PROPERTY_MIXINGBATCHES_NAME
                         || property === bo.Material.PROPERTY_VERSIONMANAGEMENT_NAME
-                        || property === bo.Material.PROPERTY_MADETOORDER_NAME) {
+                        || property === bo.Material.PROPERTY_MADETOORDER_NAME
+                        || property === bo.Material.PROPERTY_RESERVEEXCESSORDERED_NAME) {
                         return ibas.enums.valueOf(ibas.emYesNo, value);
                     } else if (property === bo.Material.PROPERTY_ITEMTYPE_NAME) {
                         return ibas.enums.valueOf(bo.emItemType, value);

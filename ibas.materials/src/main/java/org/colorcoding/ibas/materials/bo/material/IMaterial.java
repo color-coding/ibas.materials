@@ -544,6 +544,20 @@ public interface IMaterial extends IBOMasterData {
 	void setOrderMultiple(BigDecimal value);
 
 	/**
+	* 获取-预留可超订购量
+	* 
+	* @return 值
+	*/
+	emYesNo getReserveExcessOrdered();
+
+	/**
+	* 设置-预留可超订购量
+	* 
+	* @param value 值
+	*/
+	void setReserveExcessOrdered(emYesNo value);
+
+	/**
 	 * 获取-提前期（天）
 	 * 
 	 * @return 值
