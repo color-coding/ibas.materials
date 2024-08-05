@@ -214,6 +214,7 @@
   "materials_reservation_error": "预留错误：{0}",
   "materials_reservation_blocked": "预留限制变更数量",
   "materials_reservation_causes": "原因：{0}",
+  "materials_reservation_quantities": "预留：{0}，已完成：{1}",
   "materials_transfer_not_found_material": "未找到物料[{0}]，请重新选择",
   "materials_transfer_quantity_grater_than_onhand": "物料[{0}]批/序号[{1}]的变更数量，超过原有数量。",
   "materials_transfer_quantity_grater_than_availabled": "物料[{0}]批/序号[{1}]的变更数量，超过可用数量。",

@@ -332,7 +332,11 @@ public class MaterialsInventoryCost extends MaterialsCost {
 				}
 			}
 			if (avaPrice != null) {
-				this.setAmount(Decimal.multiply(this.getQuantity(), avaPrice));
+				BigDecimal amount = Decimal.multiply(this.getQuantity(), avaPrice);
+				if (this.getAmount() != null && this.getAmount().scale() > 0) {
+					amount.setScale(this.getAmount().scale(), Decimal.ROUNDING_MODE_DEFAULT);
+				}
+				this.setAmount(amount);
 			} else {
 				this.setAmount(Decimal.ZERO);
 			}

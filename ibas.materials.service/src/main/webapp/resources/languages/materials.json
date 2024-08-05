@@ -213,6 +213,7 @@
     "materials_reservation_error": "Reservation error: {0}",
     "materials_reservation_blocked": "Reservation blocked, change in quantity limit",
     "materials_reservation_causes": "Reason: {0}",
+    "materials_reservation_quantities": "Reservation：{0}，Closed：{1}",
     "materials_transfer_not_found_material": "Material [{0}] not found, please select again",
     "materials_transfer_quantity_grater_than_onhand": "Quantity change for material [{0}], batch/serial number [{1}], exceeds current quantity",
     "materials_transfer_quantity_grater_than_availabled": "Quantity change for material [{0}], batch/serial number [{1}], exceeds available quantity",

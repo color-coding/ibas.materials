@@ -919,6 +919,19 @@ namespace materials {
                                     new sap.extension.table.DataColumn("", {
                                         label: ibas.i18n.prop("bo_materialinventoryreservation_quantity"),
                                         template: new sap.extension.m.Text("", {
+                                            tooltip: {
+                                                parts: [
+                                                    {
+                                                        path: "quantity",
+                                                    },
+                                                    {
+                                                        path: "closedQuantity",
+                                                    }
+                                                ],
+                                                formatter(quantity: number, closedQuantity: number): string {
+                                                    return ibas.i18n.prop("materials_reservation_quantities", quantity, closedQuantity);
+                                                }
+                                            },
                                         }).bindProperty("bindingValue", {
                                             parts: [
                                                 {

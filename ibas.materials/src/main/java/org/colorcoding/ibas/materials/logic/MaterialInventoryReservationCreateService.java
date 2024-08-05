@@ -8,6 +8,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 
 import org.colorcoding.ibas.bobas.bo.BusinessObject;
+import org.colorcoding.ibas.bobas.bo.IBOStorageTag;
 import org.colorcoding.ibas.bobas.bo.IBusinessObject;
 import org.colorcoding.ibas.bobas.common.ConditionOperation;
 import org.colorcoding.ibas.bobas.common.ConditionRelationship;
@@ -191,11 +192,26 @@ public class MaterialInventoryReservationCreateService extends
 			// 空数据不做处理
 			return;
 		}
+		if (this.getHost() instanceof IBOStorageTag) {
+			IBOStorageTag boTag = (IBOStorageTag) this.getHost();
+			if (boTag.getLogInst() > 1) {
+				// 有版本号，即保存过
+				if (reservationGroup.getItems().isEmpty()) {
+					// 没有库存预留，可能已被删除
+					if (reservationGroup.getCausalDatas()
+							.firstOrDefault(c -> c.getClosedQuantity().compareTo(Decimal.ZERO) > 0) != null) {
+						// 已处理过，不再执行。基于的退货
+						return;
+					}
+				}
+			}
+		}
 		BigDecimal remQuantity;
 		BigDecimal avaQuantity = contract.getQuantity();
 		IMaterialInventoryReservation gItem;
 		String causes = String.format("FROM:%s-%s-%s", contract.getSourceDocumentType(),
 				contract.getSourceDocumentEntry(), contract.getSourceDocumentLineId());
+
 		for (IMaterialOrderedReservation item : reservationGroup.getCausalDatas()) {
 			if (item.getTargetDocumentType() == null) {
 				continue;

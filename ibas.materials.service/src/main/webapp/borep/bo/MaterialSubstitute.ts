@@ -311,18 +311,20 @@ namespace materials {
              */
             protected afterAdd(item: MaterialSubstitute): void {
                 super.afterAdd(item);
-                let max: number = 0;
-                for (let element of this) {
-                    if (item === element) {
-                        continue;
+                if (item.isNew === true) {
+                    let max: number = 0;
+                    for (let element of this) {
+                        if (item === element) {
+                            continue;
+                        }
+                        if (element.position > max) {
+                            max = element.position;
+                        }
                     }
-                    if (element.position > max) {
-                        max = element.position;
+                    item.position = (Math.round((max / 10)) + 1) * 10;
+                    if (item.position <= 0) {
+                        item.position = 10;
                     }
-                }
-                item.position = (Math.round((max / 10)) + 1) * 10;
-                if (item.position <= 0) {
-                    item.position = 10;
                 }
             }
         }
