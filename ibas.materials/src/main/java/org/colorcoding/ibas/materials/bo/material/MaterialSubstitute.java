@@ -9,10 +9,14 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
 import org.colorcoding.ibas.bobas.bo.BusinessObject;
+import org.colorcoding.ibas.bobas.bo.IBOMaxValueKey;
+import org.colorcoding.ibas.bobas.common.Condition;
+import org.colorcoding.ibas.bobas.common.ConditionOperation;
 import org.colorcoding.ibas.bobas.common.Criteria;
 import org.colorcoding.ibas.bobas.common.ICondition;
 import org.colorcoding.ibas.bobas.common.ICriteria;
 import org.colorcoding.ibas.bobas.core.IPropertyInfo;
+import org.colorcoding.ibas.bobas.core.fields.IFieldDataDb;
 import org.colorcoding.ibas.bobas.data.DateTime;
 import org.colorcoding.ibas.bobas.data.emYesNo;
 import org.colorcoding.ibas.bobas.mapping.BusinessObjectUnit;
@@ -31,7 +35,8 @@ import org.colorcoding.ibas.materials.data.DataConvert;
 @XmlType(name = MaterialSubstitute.BUSINESS_OBJECT_NAME, namespace = MyConfiguration.NAMESPACE_BO)
 @XmlRootElement(name = MaterialSubstitute.BUSINESS_OBJECT_NAME, namespace = MyConfiguration.NAMESPACE_BO)
 @BusinessObjectUnit(code = MaterialSubstitute.BUSINESS_OBJECT_CODE)
-public class MaterialSubstitute extends BusinessObject<MaterialSubstitute> implements IMaterialSubstitute {
+public class MaterialSubstitute extends BusinessObject<MaterialSubstitute>
+		implements IMaterialSubstitute, IBOMaxValueKey {
 
 	/**
 	 * 序列化版本标记
@@ -871,6 +876,87 @@ public class MaterialSubstitute extends BusinessObject<MaterialSubstitute> imple
 				new BusinessRuleRequired(PROPERTY_ITEMCODE), // 要求有值
 				new BusinessRuleRequired(PROPERTY_SUBSTITUTE), // 要求有值
 		};
+	}
+
+	@Override
+	public int getMaxValueStep() {
+		return 10;
+	}
+
+	@Override
+	public IFieldDataDb getMaxValueField() {
+		return new IFieldDataDb() {
+
+			@Override
+			public boolean setValue(Object value) {
+				if (MaterialSubstitute.this.getPosition() > 0) {
+					return false;
+				}
+				MaterialSubstitute.this.setPosition((int) value);
+				return true;
+			}
+
+			@Override
+			public boolean isUniqueKey() {
+				return true;
+			}
+
+			@Override
+			public boolean isSavable() {
+				return true;
+			}
+
+			@Override
+			public boolean isPrimaryKey() {
+				return false;
+			}
+
+			@Override
+			public boolean isOriginal() {
+				return true;
+			}
+
+			@Override
+			public Class<?> getValueType() {
+				return Integer.class;
+			}
+
+			@Override
+			public Object getValue() {
+				return MaterialSubstitute.this.getPosition();
+			}
+
+			@Override
+			public String getName() {
+				return MaterialSubstitute.PROPERTY_POSITION_NAME;
+			}
+
+			@Override
+			public DbFieldType getFieldType() {
+				return DbFieldType.NUMERIC;
+			}
+
+			@Override
+			public String getDbTable() {
+				return MyConfiguration.applyVariables(DB_TABLE_NAME);
+			}
+
+			@Override
+			public int getDbIndex() {
+				return -1;
+			}
+
+			@Override
+			public String getDbField() {
+				return "Position";
+			}
+		};
+	}
+
+	@Override
+	public ICondition[] getMaxValueConditions() {
+		return new ICondition[] { new Condition(PROPERTY_ITEMCODE.getName(), ConditionOperation.EQUAL,
+				MaterialSubstitute.this.getItemCode()) };
 	}
 
 }

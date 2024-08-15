@@ -1441,7 +1441,7 @@ public class GoodsReceipt extends BusinessObject<GoodsReceipt> implements IGoods
 								continue;
 							}
 							// 库存科目
-							jeContent = new MaterialsReceiptReverseCost(line, line.getQuantity());
+							jeContent = new MaterialsReceiptReverseCost(line, line.getQuantity(), true);
 							jeContent.setCategory(Category.Debit);
 							jeContent.setLedger(Ledgers.LEDGER_INVENTORY_INVENTORY_ACCOUNT);
 							jeContent.setAmount(line.getLineTotal());
@@ -1449,7 +1449,7 @@ public class GoodsReceipt extends BusinessObject<GoodsReceipt> implements IGoods
 							jeContent.setRate(line.getRate());
 							jeContents.add(jeContent);
 							// 价格差异科目
-							jeContent = new MaterialsReceiptReverseCostDiff(line, line.getQuantity());
+							jeContent = new MaterialsReceiptReverseCostDiff(line, line.getQuantity(), true);
 							jeContent.setCategory(Category.Debit);
 							jeContent.setLedger(Ledgers.LEDGER_INVENTORY_PRICE_DIFFERENCE_ACCOUNT);
 							jeContent.setAmount(line.getLineTotal());

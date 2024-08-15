@@ -31,9 +31,9 @@ public class MaterialsReceiptReverseCostDiff extends MaterialsReceiptReverseCost
 
 	@Override
 	protected boolean caculate(String itemCode, String warehouse) {
-		BigDecimal amount = this.getAmount().abs();
+		BigDecimal amount = this.getAmount();
 		if (super.caculate(itemCode, warehouse)) {
-			this.setAmount(amount.subtract(this.getAmount().abs()));
+			this.setAmount(amount.subtract(this.getAmount()));
 			return true;
 		} else {
 			return false;

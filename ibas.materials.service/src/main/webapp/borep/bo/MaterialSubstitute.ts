@@ -317,6 +317,11 @@ namespace materials {
                         if (item === element) {
                             continue;
                         }
+                        if (!ibas.strings.isEmpty(item.itemCode)) {
+                            if (element.itemCode !== item.itemCode) {
+                                continue;
+                            }
+                        }
                         if (element.position > max) {
                             max = element.position;
                         }

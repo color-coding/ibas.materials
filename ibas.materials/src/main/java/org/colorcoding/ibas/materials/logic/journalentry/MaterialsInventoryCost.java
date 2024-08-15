@@ -301,9 +301,13 @@ public class MaterialsInventoryCost extends MaterialsCost {
 				// 计算不成功，报错
 				throw new Exception(I18N.prop("msg_bobas_not_support_the_compute"));
 			}
-			if (this.getAmount() != null && this.getAmount().compareTo(Decimal.ZERO) > 0) {
+			if (this.getAmount() != null) {
 				if (this.isNegate()) {
-					this.setAmount(this.getAmount().negate());
+					if (this.getAmount().compareTo(Decimal.ZERO) > 0) {
+						this.setAmount(this.getAmount().negate());
+					} else {
+						this.setAmount(this.getAmount().abs());
+					}
 				}
 			}
 		}
