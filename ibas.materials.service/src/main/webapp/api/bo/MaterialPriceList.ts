@@ -101,6 +101,9 @@ namespace materials {
             /** 价格 */
             price: number;
 
+            /** 货币 */
+            currency: string;
+
             /** 对象编号 */
             objectKey: number;
 

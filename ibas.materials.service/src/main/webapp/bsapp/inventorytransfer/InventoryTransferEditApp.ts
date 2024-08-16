@@ -149,8 +149,12 @@ namespace materials {
                     actions: [ibas.emMessageAction.YES, ibas.emMessageAction.NO],
                     onCompleted(action: ibas.emMessageAction): void {
                         if (action === ibas.emMessageAction.YES) {
-                            that.editData.delete();
-                            that.saveData();
+                            if (that.editData.referenced === ibas.emYesNo.YES) {
+                                that.proceeding(ibas.emMessageType.WARNING, ibas.i18n.prop("shell_data_referenced", that.editData.toString()));
+                            } else {
+                                that.editData.delete();
+                                that.saveData();
+                            }
                         }
                     }
                 });
@@ -257,7 +261,11 @@ namespace materials {
                             this.editData.inventoryTransferLines.remove(item);
                         } else {
                             // 非新建标记删除
-                            item.delete();
+                            if (item.referenced === ibas.emYesNo.YES) {
+                                this.proceeding(ibas.emMessageType.WARNING, ibas.i18n.prop("shell_data_referenced", item.toString()));
+                            } else {
+                                item.delete();
+                            }
                         }
                     }
                 }
@@ -294,7 +302,7 @@ namespace materials {
             private chooseInventoryTransferLineMaterial(caller: bo.InventoryTransferLine, type?: string, filterConditions?: ibas.ICondition[]): void {
                 let that: this = this;
                 let condition: ibas.ICondition;
-                let conditions: ibas.IList<ibas.ICondition> = app.conditions.material.create();
+                let conditions: ibas.IList<ibas.ICondition> = app.conditions.material.create(this.editData.documentDate);
                 // 添加输入条件
                 if (filterConditions instanceof Array && filterConditions.length > 0) {
                     if (conditions.length > 1) {

@@ -80,6 +80,11 @@ declare namespace materials {
             class Splitter extends sap.ui.layout.Splitter {
 
             }
+            /**
+             * 货币-选择框
+             */
+            class CurrencySelect extends sap.extension.m.Select {
+            }
         }
     }
 }

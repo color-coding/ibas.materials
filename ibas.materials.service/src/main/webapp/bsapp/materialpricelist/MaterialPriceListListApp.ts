@@ -269,6 +269,7 @@ namespace materials {
                         beSavedItem.itemCode = item.itemCode;
                         beSavedItem.uom = item.uom;
                         beSavedItem.price = item.price;
+                        beSavedItem.currency = item.currency;
                         beSavedItem.delete();
                         beSaved.materialPriceItems.add(beSavedItem);
                         if (item.isDeleted) {
@@ -282,6 +283,7 @@ namespace materials {
                     beSavedItem.itemCode = item.itemCode;
                     beSavedItem.uom = item.uom;
                     beSavedItem.price = item.price;
+                    beSavedItem.currency = item.currency;
                     beSaved.materialPriceItems.add(beSavedItem);
                 }
                 // 没有选择删除的对象
@@ -397,6 +399,7 @@ namespace materials {
                                 newItem.itemSign = selected.sign;
                                 newItem.uom = selected.inventoryUOM;
                                 newItem.price = -1;
+                                newItem.currency = that.currentPriceList.currency;
                                 newItems.add(newItem);
                             }
                             if (newItems.length > 0) {

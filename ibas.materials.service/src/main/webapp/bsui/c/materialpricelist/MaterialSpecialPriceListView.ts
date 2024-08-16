@@ -654,7 +654,7 @@ namespace materials {
                                             })
                                         );
                                         that.tablePrices.getColumns()[4].setTemplate(
-                                            new sap.extension.m.CurrencySelect("", {
+                                            new component.CurrencySelect("", {
                                             }).bindProperty("bindingValue", {
                                                 path: "currency",
                                                 type: new sap.extension.data.Alphanumeric()

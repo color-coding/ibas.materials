@@ -619,6 +619,72 @@ namespace materials {
                     }
                 }
             });
+            /**
+             * 货币选择-选择框
+             */
+            sap.extension.m.Select.extend("materials.ui.component.CurrencySelect", {
+                metadata: {
+                    properties: {
+                        /** 比例 */
+                        columnRatio: { type: "string", defaultValue: "1:2" },
+                    },
+                    events: {
+                    },
+                },
+                renderer: {
+                },
+                /** 加载可选值 */
+                loadItems(this: CurrencySelect): CurrencySelect {
+                    if (this.getItems().length > 0) {
+                        return this;
+                    }
+                    if (CURRENCY_CACHE?.length > 0) {
+                        let deCurrency: string = ibas.config.get(ibas.CONFIG_ITEM_DEFAULT_CURRENCY, "");
+                        for (let item of CURRENCY_CACHE) {
+                            this.addItem(new sap.extension.m.SelectItem("", {
+                                key: item.code,
+                                text: item.code,
+                                additionalText: item.name,
+                                tooltip: ibas.strings.format("{0} - {1}", item.code, item.name + (item.iso && item.iso !== item.iso ? ibas.strings.format(" ({0})", item.iso) : "")),
+                                default: (deCurrency === item.code || deCurrency === item.iso) ? true : undefined,
+                            }));
+                        }
+                    } else if (CURRENCY_CACHE === undefined) {
+                        CURRENCY_CACHE = null;
+                        let boRepository: accounting.bo.BORepositoryAccounting = new accounting.bo.BORepositoryAccounting();
+                        boRepository.fetchCurrency({
+                            criteria: [
+                                new ibas.Condition(accounting.bo.Currency.PROPERTY_ACTIVATED_NAME, ibas.emConditionOperation.EQUAL, ibas.emYesNo.YES)
+                            ],
+                            onCompleted: (opRslt) => {
+                                CURRENCY_CACHE = new ibas.ArrayList<accounting.bo.Currency>();
+                                if (opRslt.resultObjects.length > 0) {
+                                    for (let item of opRslt.resultObjects) {
+                                        CURRENCY_CACHE.add(item);
+                                    }
+                                    this.loadItems();
+                                }
+                            }
+                        });
+                    } else if (CURRENCY_CACHE === null) {
+                        setTimeout(() => {
+                            this.loadItems();
+                        }, 100);
+                    }
+                    return this;
+                },
+                applySettings(this: CurrencySelect, mSettings: any): CurrencySelect {
+                    if (ibas.objects.isNull(mSettings?.showSecondaryValues)) {
+                        if (!mSettings) {
+                            mSettings = {};
+                        }
+                        mSettings.showSecondaryValues = true;
+                    }
+                    sap.extension.m.Select.prototype.applySettings.call(this, mSettings);
+                    return this;
+                },
+            });
+            let CURRENCY_CACHE: ibas.IList<accounting.bo.Currency> = undefined;
         }
     }
 }

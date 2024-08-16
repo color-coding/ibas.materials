@@ -8,6 +8,7 @@ import javax.xml.bind.annotation.XmlType;
 import org.colorcoding.ibas.bobas.bo.BusinessObjects;
 import org.colorcoding.ibas.bobas.common.ICriteria;
 import org.colorcoding.ibas.materials.MyConfiguration;
+import org.colorcoding.ibas.materials.data.DataConvert;
 
 /**
  * 物料价格项目 集合
@@ -67,6 +68,9 @@ public class MaterialPriceItems extends BusinessObjects<IMaterialPriceItem, IMat
 	@Override
 	protected void afterAddItem(IMaterialPriceItem item) {
 		super.afterAddItem(item);
+		if (DataConvert.isNullOrEmpty(item.getCurrency())) {
+			item.setCurrency(this.getParent().getCurrency());
+		}
 	}
 
 	@Override
@@ -78,5 +82,16 @@ public class MaterialPriceItems extends BusinessObjects<IMaterialPriceItem, IMat
 	@Override
 	protected void onParentPropertyChanged(PropertyChangeEvent evt) {
 		super.onParentPropertyChanged(evt);
+		if (MaterialPriceList.PROPERTY_CURRENCY.getName().equalsIgnoreCase(evt.getPropertyName())) {
+			String currency = this.getParent().getCurrency();
+			if (!DataConvert.isNullOrEmpty(currency)) {
+				for (IMaterialPriceItem item : this) {
+					if (DataConvert.isNullOrEmpty(item.getCurrency())) {
+						continue;
+					}
+					item.setCurrency(currency);
+				}
+			}
+		}
 	}
 }

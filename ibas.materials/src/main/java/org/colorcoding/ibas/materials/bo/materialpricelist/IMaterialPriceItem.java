@@ -75,6 +75,20 @@ public interface IMaterialPriceItem extends IBOSimpleLine {
 	void setPrice(double value);
 
 	/**
+	 * 获取-货币
+	 * 
+	 * @return 值
+	 */
+	String getCurrency();
+
+	/**
+	 * 设置-货币
+	 * 
+	 * @param value 值
+	 */
+	void setCurrency(String value);
+
+	/**
 	 * 获取-对象编号
 	 * 
 	 * @return 值

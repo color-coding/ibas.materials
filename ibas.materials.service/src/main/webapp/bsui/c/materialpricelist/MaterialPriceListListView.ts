@@ -236,14 +236,6 @@ namespace materials {
                                     type: new sap.extension.data.Alphanumeric()
                                 })
                             }),
-                            new sap.extension.table.Column("", {
-                                label: ibas.i18n.prop("bo_materialprice_currency"),
-                                template: new sap.extension.m.Text("", {
-                                }).bindProperty("bindingValue", {
-                                    path: "currency",
-                                    type: new sap.extension.data.Alphanumeric()
-                                })
-                            }),
                         ],
                         nextDataSet(event: sap.ui.base.Event): void {
                             // 查询下一个数据集
@@ -282,6 +274,12 @@ namespace materials {
                             let criteria: ibas.ICriteria = that.lastPriceCriteria.next(data);
                             if (ibas.objects.isNull(criteria)) {
                                 return;
+                            }
+                            if (that.isBusy === true) {
+                                let source: any = event.getSource();
+                                if (source.getBusy() === true) {
+                                    source.setBusy(false);
+                                }
                             }
                             ibas.logger.log(ibas.emMessageLevel.DEBUG, "result: {0}", criteria.toString());
                             that.fireViewEvents(that.fetchPriceItemEvent, criteria);
@@ -396,6 +394,13 @@ namespace materials {
                                                                 type: new sap.extension.data.Price()
                                                             })
                                                         );
+                                                        that.tablePrices.getColumns()[5].setTemplate(
+                                                            new sap.extension.m.Text("", {
+                                                            }).bindProperty("bindingValue", {
+                                                                path: "currency",
+                                                                type: new sap.extension.data.Alphanumeric()
+                                                            })
+                                                        );
                                                         (<sap.m.Toolbar>this.getParent().getParent()).getContent()[6].setVisible(false);
                                                         (<sap.m.Toolbar>this.getParent().getParent()).getContent()[7].setVisible(false);
                                                         (<sap.m.Page>that.tablePriceList.getParent()).setShowFooter(false);
@@ -426,6 +431,13 @@ namespace materials {
                                                             }).bindProperty("bindingValue", {
                                                                 path: "price",
                                                                 type: new sap.extension.data.Price()
+                                                            })
+                                                        );
+                                                        that.tablePrices.getColumns()[5].setTemplate(
+                                                            new component.CurrencySelect("", {
+                                                            }).bindProperty("bindingValue", {
+                                                                path: "currency",
+                                                                type: new sap.extension.data.Alphanumeric()
                                                             })
                                                         );
                                                         (<sap.m.Toolbar>this.getParent().getParent()).getContent()[6].setVisible(true);

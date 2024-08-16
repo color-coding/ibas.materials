@@ -582,6 +582,7 @@
         "bo_materialpriceitem_itemcode": "Item Code",
         "bo_materialpriceitem_uom": "Unit of Measure",
         "bo_materialpriceitem_price": "Price",
+        "bo_materialpriceitem_currency": "Currency",
         "bo_materialpriceitem_objectkey": "Object Key",
         "bo_materialpriceitem_lineid": "Line ID",
         "bo_materialpriceitem_objectcode": "Object Type",

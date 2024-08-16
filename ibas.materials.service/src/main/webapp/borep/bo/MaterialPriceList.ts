@@ -298,6 +298,13 @@ namespace materials {
                 this.add(item);
                 return item;
             }
+
+            protected afterAdd(item: MaterialPriceItem): void {
+                super.afterAdd(item);
+                if (ibas.strings.isEmpty(item.currency)) {
+                    item.currency = this.parent.currency;
+                }
+            }
         }
 
         export class MaterialPriceItem extends ibas.BOSimpleLine<MaterialPriceItem> implements IMaterialPriceItem {
@@ -334,6 +341,16 @@ namespace materials {
             /** 设置-价格 */
             set price(value: number) {
                 this.setProperty(MaterialPriceItem.PROPERTY_PRICE_NAME, value);
+            }
+            /** 映射的属性名称-货币 */
+            static PROPERTY_CURRENCY_NAME: string = "Currency";
+            /** 获取-货币 */
+            get currency(): string {
+                return this.getProperty<string>(MaterialPriceItem.PROPERTY_CURRENCY_NAME);
+            }
+            /** 设置-货币 */
+            set currency(value: string) {
+                this.setProperty(MaterialPriceItem.PROPERTY_CURRENCY_NAME, value);
             }
             /** 映射的属性名称-对象编号 */
             static PROPERT_OBJECTKEY_NAME: string = "ObjectKey";

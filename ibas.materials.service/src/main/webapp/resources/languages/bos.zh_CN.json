@@ -584,6 +584,7 @@
         "bo_materialpriceitem_itemcode": "物料编码",
         "bo_materialpriceitem_uom": "单位",
         "bo_materialpriceitem_price": "价格",
+        "bo_materialpriceitem_currency": "货币",
         "bo_materialpriceitem_objectkey": "对象编号",
         "bo_materialpriceitem_lineid": "对象行号",
         "bo_materialpriceitem_objectcode": "对象类型",

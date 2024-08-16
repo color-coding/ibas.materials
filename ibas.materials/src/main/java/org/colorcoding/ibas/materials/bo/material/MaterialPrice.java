@@ -82,6 +82,7 @@ public class MaterialPrice extends Serializable implements IMaterialPrice {
 		materialPrice.setItemCode(materialPriceItem.getItemCode());
 		materialPrice.setUOM(materialPriceItem.getUOM());
 		materialPrice.setPrice(materialPriceItem.getPrice());
+		materialPrice.setCurrency(materialPriceItem.getCurrency());
 		materialPrice.setSource(materialPriceItem.getObjectKey(), materialPriceItem.getLineId());
 		return materialPrice;
 	}

@@ -3,6 +3,9 @@ package org.colorcoding.ibas.materials.repository;
 import java.math.BigDecimal;
 import java.util.Comparator;
 
+import org.colorcoding.ibas.accounting.bo.currency.CurrencyRate;
+import org.colorcoding.ibas.accounting.bo.currency.ICurrencyRate;
+import org.colorcoding.ibas.accounting.repository.BORepositoryAccounting;
 import org.colorcoding.ibas.bobas.common.ConditionOperation;
 import org.colorcoding.ibas.bobas.common.ConditionRelationship;
 import org.colorcoding.ibas.bobas.common.Criteria;
@@ -871,8 +874,8 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 			}
 			// 查询物料价格
 			emBusinessPartnerType partnerType = null;
+			IMaterialPriceList priceList = null;
 			String partnerCode = null;
-			Integer priceList = null;
 			String today = null;
 			for (ICondition item : criteria.getConditions()) {
 				if (MaterialPrice.CONDITION_ALIAS_CUSTOMER.equalsIgnoreCase(item.getAlias())) {
@@ -882,7 +885,16 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 					partnerType = emBusinessPartnerType.SUPPLIER;
 					partnerCode = item.getValue();
 				} else if (MaterialPrice.CONDITION_ALIAS_PRICELIST.equalsIgnoreCase(item.getAlias())) {
-					priceList = Integer.valueOf(item.getValue());
+					if (Integer.valueOf(item.getValue()) != 0) {
+						// 获取价格清单实例
+						ICriteria plCriteria = new Criteria();
+						plCriteria.setResultCount(1);
+						plCriteria.setNoChilds(true);
+						ICondition condition = plCriteria.getConditions().create();
+						condition.setAlias(MaterialPriceList.PROPERTY_OBJECTKEY.getName());
+						condition.setValue(item.getValue());
+						priceList = this.fetchMaterialPriceList(plCriteria).getResultObjects().firstOrDefault();
+					}
 				} else if (MaterialSpecialPrice.PROPERTY_VALIDDATE.getName().equalsIgnoreCase(item.getAlias())
 						|| MaterialSpecialPrice.PROPERTY_INVALIDDATE.getName().equalsIgnoreCase(item.getAlias())) {
 					if (!DataConvert.isNullOrEmpty(item.getValue())) {
@@ -915,7 +927,7 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 	 * @return
 	 * @throws Exception
 	 */
-	protected List<IMaterialPrice> getMaterialPrices(MaterialBase<?>[] materials, Integer priceList,
+	protected List<IMaterialPrice> getMaterialPrices(MaterialBase<?>[] materials, IMaterialPriceList priceList,
 			emBusinessPartnerType partnerType, String partnerCode, String today) throws Exception {
 		// 查询物料特殊价格
 		List<IMaterialPrice> materialPrices = new ArrayList<>(materials.length * 2);
@@ -988,17 +1000,21 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 			}
 		}
 		// 未提供价格清单，则退出
-		if (priceList == null || Integer.compare(priceList, 0) == 0) {
+		if (priceList == null) {
 			return materialPrices;
 		}
 		// 查询价格清单价格
 		List<IMaterialPrice> newPrices = this.getMaterialPrices(materials, priceList);
 		// 获取默认值
-		String currency = null;
-		emYesNo taxed = emYesNo.NO;
+		String currency = priceList.getCurrency();
+		emYesNo taxed = priceList.getTaxed();
 		if (!newPrices.isEmpty()) {
-			currency = newPrices.firstOrDefault().getCurrency();
-			taxed = newPrices.firstOrDefault().getTaxed();
+			if (DataConvert.isNullOrEmpty(currency)) {
+				currency = newPrices.firstOrDefault().getCurrency();
+			}
+			if (taxed == null) {
+				taxed = newPrices.firstOrDefault().getTaxed();
+			}
 		}
 		BigDecimal initialPrice = MyConfiguration.getConfigValue(MyConfiguration.CONFIG_ITEM_PRICE_LIST_INITIAL_PRICE,
 				Decimal.MINUS_ONE);
@@ -1022,11 +1038,96 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 			if (size >= materialPrices.size()) {
 				// 没有新增
 				materialPrice = MaterialPrice.create(material);
-				materialPrice.setSource(priceList, 0);
+				materialPrice.setSource(priceList.getObjectKey(), 0);
 				materialPrice.setPrice(initialPrice);// 设置到未初始价格
 				materialPrice.setCurrency(currency);
 				materialPrice.setTaxed(taxed);
 				materialPrices.add(materialPrice);
+			}
+		}
+		// 转换物料价格货币到价格清单主货币
+		if (!DataConvert.isNullOrEmpty(priceList.getCurrency()) && !DataConvert.isNullOrEmpty(today)) {
+			Criteria criteria = new Criteria();
+			ICondition condition = criteria.getConditions().create();
+			condition.setAlias(CurrencyRate.PROPERTY_CURRENCY.getName());
+			condition.setValue(priceList.getCurrency());
+			for (IMaterialPrice item : materialPrices) {
+				if (DataConvert.isNullOrEmpty(item.getCurrency())) {
+					continue;
+				}
+				if (Decimal.ZERO.compareTo(item.getPrice()) >= 0) {
+					continue;
+				}
+				if (criteria.getConditions()
+						.firstOrDefault(c -> c.getValue().equalsIgnoreCase(item.getCurrency())) != null) {
+					continue;
+				}
+				condition = criteria.getConditions().create();
+				condition.setAlias(CurrencyRate.PROPERTY_CURRENCY.getName());
+				condition.setValue(item.getCurrency());
+				if (criteria.getConditions().size() > 1) {
+					condition.setRelationship(ConditionRelationship.OR);
+				}
+			}
+			if (!criteria.getConditions().isEmpty()) {
+				if (criteria.getConditions().size() > 1) {
+					condition = criteria.getConditions().firstOrDefault();
+					condition.setBracketOpen(1);
+					condition = criteria.getConditions().lastOrDefault();
+					condition.setBracketClose(1);
+				}
+				condition = criteria.getConditions().create();
+				condition.setAlias(CurrencyRate.PROPERTY_DATE.getName());
+				condition.setValue(today);
+				BORepositoryAccounting acRepository = new BORepositoryAccounting();
+				acRepository.setRepository(this.getRepository());
+				List<ICurrencyRate> currencyRates = acRepository.fetchCurrencyRate(criteria).getResultObjects();
+				BigDecimal newPrice;
+				ICurrencyRate currencyRate;
+				ICurrencyRate listCurrencyRate = null;
+				String listCurrency = priceList.getCurrency();
+				String localCurrency = org.colorcoding.ibas.accounting.MyConfiguration
+						.getConfigValue(org.colorcoding.ibas.accounting.MyConfiguration.CONFIG_ITEM_LOCAL_CURRENCY);
+				if (!listCurrency.equalsIgnoreCase(localCurrency)) {
+					// 清单与本币不一致，获取清单币到本币汇率
+					listCurrencyRate = currencyRates
+							.firstOrDefault(c -> listCurrency.equalsIgnoreCase(c.getCurrency()));
+					if (listCurrencyRate == null) {
+						throw new Exception(I18N.prop("msg_mm_not_found_currency_rate", today, listCurrency));
+					}
+				}
+				for (IMaterialPrice priceItem : materialPrices) {
+					if (DataConvert.isNullOrEmpty(priceItem.getCurrency())
+							|| Decimal.ZERO.compareTo(priceItem.getPrice()) >= 0) {
+						// 未设置币种，则为清单币
+						priceItem.setCurrency(listCurrency);
+						continue;
+					} else if (priceItem.getCurrency().equalsIgnoreCase(listCurrency)) {
+						// 清单币，跳过
+						continue;
+					}
+					if (priceItem.getCurrency().equalsIgnoreCase(localCurrency)) {
+						// 本币
+						newPrice = Decimal.multiply(priceItem.getPrice(), Decimal.ONE);
+					} else {
+						// 先到本币
+						currencyRate = currencyRates
+								.firstOrDefault(c -> priceItem.getCurrency().equalsIgnoreCase(c.getCurrency()));
+						if (currencyRate == null) {
+							throw new Exception(
+									I18N.prop("msg_mm_not_found_currency_rate", today, priceItem.getCurrency()));
+						}
+						newPrice = Decimal.multiply(priceItem.getPrice(), currencyRate.getRate());
+					}
+					if (listCurrencyRate != null) {
+						// 本币再到清单币
+						newPrice = Decimal.divide(newPrice, listCurrencyRate.getRate());
+					}
+					// 设置保留小数位
+					newPrice = newPrice.setScale(priceItem.getPrice().scale(), Decimal.ROUNDING_MODE_DEFAULT);
+					priceItem.setPrice(newPrice);
+					priceItem.setCurrency(listCurrency);
+				}
 			}
 		}
 		return materialPrices;
@@ -1042,7 +1143,8 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 	 * @return
 	 * @throws Exception
 	 */
-	protected List<IMaterialPrice> getMaterialPrices(MaterialBase<?>[] materials, Integer priceList) throws Exception {
+	protected List<IMaterialPrice> getMaterialPrices(MaterialBase<?>[] materials, IMaterialPriceList priceList)
+			throws Exception {
 		return this.getMaterialPrices(materials, priceList, 0);
 	}
 
@@ -1055,7 +1157,7 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 	 * @return
 	 * @throws Exception
 	 */
-	private List<IMaterialPrice> getMaterialPrices(MaterialBase<?>[] materials, Integer priceList, int level)
+	private List<IMaterialPrice> getMaterialPrices(MaterialBase<?>[] materials, IMaterialPriceList priceList, int level)
 			throws Exception {
 		level++;
 		if (level > MyConfiguration.getConfigValue(MyConfiguration.CONFIG_ITEM_PRICE_LIST_MAX_LEVEL, 3)) {
@@ -1077,7 +1179,7 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 		ICriteria criteria = new Criteria();
 		ICondition condition = criteria.getConditions().create();
 		condition.setAlias(MaterialPriceList.PROPERTY_OBJECTKEY.getName());
-		condition.setValue(priceList);
+		condition.setValue(priceList.getObjectKey());
 		IChildCriteria childCriteria = criteria.getChildCriterias().create();
 		childCriteria.setPropertyPath(MaterialPriceList.PROPERTY_MATERIALPRICEITEMS.getName());
 		childCriteria.setOnlyHasChilds(false);
@@ -1147,7 +1249,9 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 				// 价格清单定义了价格
 				for (IMaterialPriceItem priceItem : priceItems) {
 					IMaterialPrice newPrice = MaterialPrice.create(priceItem);
-					newPrice.setCurrency(materialPriceList.getCurrency());
+					if (DataConvert.isNullOrEmpty(newPrice.getCurrency())) {
+						newPrice.setCurrency(materialPriceList.getCurrency());
+					}
 					newPrice.setTaxed(materialPriceList.getTaxed());
 					materialPrices.add(newPrice);
 				}
@@ -1156,16 +1260,27 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 			}
 		}
 		// 有基于清单，继续查询未找到的
-		if (materialPriceList.getBasedOnList() != null && materialPriceList.getBasedOnList().compareTo(priceList) != 0
+		if (materialPriceList.getBasedOnList() != null
+				&& materialPriceList.getBasedOnList().compareTo(priceList.getObjectKey()) != 0
 				&& materialPriceList.getBasedOnList() > 0) {
-			for (IMaterialPrice newPrice : this.getMaterialPrices(materials, materialPriceList.getBasedOnList(),
-					level)) {
-				if (!Decimal.isZero(materialPriceList.getFactor())) {
-					newPrice.setPrice(Decimal.multiply(newPrice.getPrice(), materialPriceList.getFactor()));
+			criteria = new Criteria();
+			criteria.setResultCount(1);
+			criteria.setNoChilds(true);
+			condition = criteria.getConditions().create();
+			condition.setAlias(MaterialPriceList.PROPERTY_OBJECTKEY.getName());
+			condition.setValue(materialPriceList.getBasedOnList());
+			priceList = this.fetchMaterialPriceList(criteria).getResultObjects().firstOrDefault();
+			if (priceList != null) {
+				for (IMaterialPrice newPrice : this.getMaterialPrices(materials, priceList, level)) {
+					if (!Decimal.isZero(materialPriceList.getFactor())) {
+						newPrice.setPrice(Decimal.multiply(newPrice.getPrice(), materialPriceList.getFactor()));
+					}
+					if (DataConvert.isNullOrEmpty(newPrice.getCurrency())) {
+						newPrice.setCurrency(materialPriceList.getCurrency());
+					}
+					newPrice.setTaxed(materialPriceList.getTaxed());
+					materialPrices.add(newPrice);
 				}
-				newPrice.setCurrency(materialPriceList.getCurrency());
-				newPrice.setTaxed(materialPriceList.getTaxed());
-				materialPrices.add(newPrice);
 			}
 		}
 		return materialPrices;
@@ -1359,8 +1474,8 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 			}
 			// 查询物料的价格
 			emBusinessPartnerType partnerType = null;
+			IMaterialPriceList priceList = null;
 			String partnerCode = null;
-			Integer priceList = null;
 			String today = null;
 			for (ICondition item : criteria.getConditions()) {
 				if (MaterialPrice.CONDITION_ALIAS_CUSTOMER.equalsIgnoreCase(item.getAlias())) {
@@ -1370,7 +1485,16 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 					partnerType = emBusinessPartnerType.SUPPLIER;
 					partnerCode = item.getValue();
 				} else if (MaterialPrice.CONDITION_ALIAS_PRICELIST.equalsIgnoreCase(item.getAlias())) {
-					priceList = Integer.valueOf(item.getValue());
+					if (Integer.valueOf(item.getValue()) != 0) {
+						// 获取价格清单实例
+						ICriteria plCriteria = new Criteria();
+						plCriteria.setResultCount(1);
+						plCriteria.setNoChilds(true);
+						ICondition condition = plCriteria.getConditions().create();
+						condition.setAlias(MaterialPriceList.PROPERTY_OBJECTKEY.getName());
+						condition.setValue(item.getValue());
+						priceList = this.fetchMaterialPriceList(plCriteria).getResultObjects().firstOrDefault();
+					}
 				} else if (MaterialSpecialPrice.PROPERTY_VALIDDATE.getName().equalsIgnoreCase(item.getAlias())
 						|| MaterialSpecialPrice.PROPERTY_INVALIDDATE.getName().equalsIgnoreCase(item.getAlias())) {
 					if (!DataConvert.isNullOrEmpty(item.getValue())) {
