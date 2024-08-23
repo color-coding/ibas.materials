@@ -362,6 +362,8 @@ public class MaterialSerialJournalService
 					materialSerialJournal.setInventoryQuantity(inventoryQuantity);
 					materialSerialJournal.setInventoryValue(inventoryValue);
 				}
+				// 触发成本价计算完成
+				contract.onCalculatedCostPrice(materialSerialJournal.getCalculatedPrice());
 			}
 		} else {
 			// 不计算物料成本

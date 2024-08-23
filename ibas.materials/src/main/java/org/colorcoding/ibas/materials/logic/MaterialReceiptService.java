@@ -358,6 +358,8 @@ public class MaterialReceiptService
 						materialJournal.setCalculatedPrice(Decimal.ZERO);
 					}
 				}
+				// 触发成本价计算完成
+				contract.onCalculatedCostPrice(materialJournal.getCalculatedPrice());
 			}
 		} else {
 			// 不计算物料成本

@@ -27,6 +27,11 @@ class MaterialBatchItem extends org.colorcoding.ibas.materials.bo.materialbatch.
 
 	InventoryTransferLine parent;
 
+	/**
+	 * 出库价格
+	 */
+	private BigDecimal issuePrice;
+
 	@Override
 	public IBusinessLogicContract[] getContracts() {
 		return new IBusinessLogicContract[] {
@@ -247,6 +252,9 @@ class MaterialBatchItem extends org.colorcoding.ibas.materials.bo.materialbatch.
 
 					@Override
 					public BigDecimal getPrice() {
+						if (MaterialBatchItem.this.issuePrice != null) {
+							return MaterialBatchItem.this.issuePrice;
+						}
 						return MaterialBatchItem.this.parent.getPrice();
 					}
 

@@ -1639,6 +1639,11 @@ public class InventoryTransferLine extends BusinessObject<InventoryTransferLine>
 	 */
 	IInventoryTransfer parent;
 
+	/**
+	 * 出库价格
+	 */
+	private BigDecimal issuePrice;
+
 	@Override
 	public IBusinessLogicContract[] getContracts() {
 		ArrayList<IBusinessLogicContract> contracts = new ArrayList<>(4);
@@ -1847,6 +1852,11 @@ public class InventoryTransferLine extends BusinessObject<InventoryTransferLine>
 			public String getItemVersion() {
 				return InventoryTransferLine.this.getItemVersion();
 			}
+
+			@Override
+			public void onCalculatedCostPrice(BigDecimal price) {
+				InventoryTransferLine.this.issuePrice = price;
+			}
 		});
 		// 物料收货
 		contracts.add(new IMaterialReceiptContract() {
@@ -1973,6 +1983,9 @@ public class InventoryTransferLine extends BusinessObject<InventoryTransferLine>
 
 			@Override
 			public BigDecimal getPrice() {
+				if (InventoryTransferLine.this.issuePrice != null) {
+					return InventoryTransferLine.this.issuePrice;
+				}
 				return InventoryTransferLine.this.getPrice();
 			}
 

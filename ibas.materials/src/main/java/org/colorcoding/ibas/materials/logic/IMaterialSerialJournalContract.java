@@ -149,4 +149,11 @@ public interface IMaterialSerialJournalContract extends IBusinessLogicContract {
 		return null;
 	}
 
+	/**
+	 * 成本价格计算后
+	 * @param price 成本价格
+	 */
+	default void onCalculatedCostPrice(BigDecimal price) {
+
+	}
 }

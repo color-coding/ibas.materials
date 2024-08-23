@@ -284,6 +284,8 @@ public class MaterialIssueService
 					materialJournal.setInventoryQuantity(inventoryQuantity);
 					materialJournal.setInventoryValue(inventoryValue);
 				}
+				// 触发成本价计算完成
+				contract.onCalculatedCostPrice(materialJournal.getCalculatedPrice());
 			}
 		} else {
 			// 不计算物料成本

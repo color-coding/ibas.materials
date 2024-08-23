@@ -359,6 +359,8 @@ public class MaterialBatchJournalService
 					materialBatchJournal.setInventoryQuantity(inventoryQuantity);
 					materialBatchJournal.setInventoryValue(inventoryValue);
 				}
+				// 触发成本价计算完成
+				contract.onCalculatedCostPrice(materialBatchJournal.getCalculatedPrice());
 			}
 		} else {
 			// 不计算物料成本
