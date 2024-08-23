@@ -880,6 +880,14 @@ namespace materials {
                     for (let item of workingData.items) {
                         for (let rItem of item.results) {
                             if (rItem.isDirty === true) {
+                                if (rItem.closedQuantity > 0 && rItem.quantity < rItem.closedQuantity) {
+                                    this.messages({
+                                        type: ibas.emMessageType.ERROR,
+                                        message: ibas.i18n.prop("materials_material_reserved_quantity_below_closed_quantity",
+                                            workingData.targetEntry, item.itemCode, item.itemDescription, rItem.closedQuantity
+                                        )
+                                    }); return;
+                                }
                                 datas.add(rItem);
                             }
                         }

@@ -46,20 +46,6 @@ namespace materials {
                 this.busy(true);
                 if (!ibas.objects.isNull(criteria)) {
                     criteria.noChilds = true;// 不加载子项
-                    if (criteria.conditions.firstOrDefault(
-                        c => c.alias === bo.MaterialPriceList.PROPERTY_OBJECTKEY_NAME
-                            && c.operation === ibas.emConditionOperation.GRATER_THAN
-                            && c.value === "0"
-                    ) === null) {
-                        if (criteria.conditions.length > 2) {
-                            criteria.conditions.firstOrDefault().bracketOpen++;
-                            criteria.conditions.lastOrDefault().bracketClose++;
-                        }
-                        let condition: ibas.ICondition = criteria.conditions.create();
-                        condition.alias = bo.MaterialPriceList.PROPERTY_OBJECTKEY_NAME;
-                        condition.operation = ibas.emConditionOperation.GRATER_THAN;
-                        condition.value = "0";
-                    }
                 }
                 let that: this = this;
                 let boRepository: bo.BORepositoryMaterials = new bo.BORepositoryMaterials();
@@ -233,6 +219,11 @@ namespace materials {
                     this.messages(ibas.emMessageType.WARNING, ibas.i18n.prop("shell_please_chooose_data",
                         ibas.i18n.prop("bo_materialpricelist")
                     )); return;
+                }
+                if (this.currentPriceList.objectKey < 0) {
+                    this.messages(ibas.emMessageType.WARNING, ibas.i18n.prop("materials_price_list_is_non_editable",
+                        this.currentPriceList.objectKey, this.currentPriceList.name));
+                    return;
                 }
                 let beSavedItem: bo.MaterialPriceItem = null;
                 let beSaved: bo.MaterialPriceList = new bo.MaterialPriceList();

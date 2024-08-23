@@ -128,7 +128,18 @@ namespace materials {
                             })
                         },
                         selectionChange(): void {
-                            that.fireViewEvents(that.selectedPriceListEvent, that.tablePriceList.getSelecteds().firstOrDefault());
+                            let priceList: bo.MaterialPriceList = that.tablePriceList.getSelecteds<bo.MaterialPriceList>().firstOrDefault();
+                            that.fireViewEvents(that.selectedPriceListEvent, priceList);
+                            if (priceList?.objectKey < 0) {
+                                let firstItem: sap.m.SegmentedButtonItem = that.segmentedButton.getItems()[0];
+                                if (that.segmentedButton.getSelectedItem() !== firstItem.getId()) {
+                                    that.segmentedButton.setSelectedItem(firstItem);
+                                    (<any>firstItem).firePress();
+                                }
+                                that.segmentedButton.getItems()[1].setEnabled(false);
+                            } else {
+                                that.segmentedButton.getItems()[1].setEnabled(true);
+                            }
                         },
                         nextDataSet(event: sap.ui.base.Event): void {
                             // 查询下一个数据集
@@ -375,7 +386,7 @@ namespace materials {
                                 showHeader: true,
                                 customHeader: new sap.m.Toolbar("", {
                                     content: [
-                                        new sap.m.SegmentedButton("", {
+                                        this.segmentedButton = new sap.m.SegmentedButton("", {
                                             items: [
                                                 new sap.m.SegmentedButtonItem("", {
                                                     icon: "sap-icon://show",
@@ -414,36 +425,38 @@ namespace materials {
                                                     }),
                                                     icon: "sap-icon://edit",
                                                     press(): void {
-                                                        that.tablePrices.getColumns()[3].setTemplate(
-                                                            new sap.extension.m.Input("", {
-                                                                showValueHelp: true,
-                                                                valueHelpOnly: false,
-                                                                valueHelpRequest(this: sap.m.Input): void {
-                                                                    that.fireViewEvents(that.choosePriceItemUnitEvent, this.getBindingContext().getObject());
-                                                                }
-                                                            }).bindProperty("bindingValue", {
-                                                                path: "uom",
-                                                                type: new sap.extension.data.Alphanumeric()
-                                                            })
-                                                        );
-                                                        that.tablePrices.getColumns()[4].setTemplate(
-                                                            new sap.extension.m.Input("", {
-                                                            }).bindProperty("bindingValue", {
-                                                                path: "price",
-                                                                type: new sap.extension.data.Price()
-                                                            })
-                                                        );
-                                                        that.tablePrices.getColumns()[5].setTemplate(
-                                                            new component.CurrencySelect("", {
-                                                            }).bindProperty("bindingValue", {
-                                                                path: "currency",
-                                                                type: new sap.extension.data.Alphanumeric()
-                                                            })
-                                                        );
-                                                        (<sap.m.Toolbar>this.getParent().getParent()).getContent()[6].setVisible(true);
-                                                        (<sap.m.Toolbar>this.getParent().getParent()).getContent()[7].setVisible(true);
-                                                        (<sap.m.Page>that.tablePriceList.getParent()).setShowFooter(true);
-                                                        (<sap.m.Page>that.tablePrices.getParent()).setShowFooter(true);
+                                                        if (that.tablePriceList.getSelecteds<bo.MaterialPriceList>().firstOrDefault().objectKey > 0) {
+                                                            that.tablePrices.getColumns()[3].setTemplate(
+                                                                new sap.extension.m.Input("", {
+                                                                    showValueHelp: true,
+                                                                    valueHelpOnly: false,
+                                                                    valueHelpRequest(this: sap.m.Input): void {
+                                                                        that.fireViewEvents(that.choosePriceItemUnitEvent, this.getBindingContext().getObject());
+                                                                    }
+                                                                }).bindProperty("bindingValue", {
+                                                                    path: "uom",
+                                                                    type: new sap.extension.data.Alphanumeric()
+                                                                })
+                                                            );
+                                                            that.tablePrices.getColumns()[4].setTemplate(
+                                                                new sap.extension.m.Input("", {
+                                                                }).bindProperty("bindingValue", {
+                                                                    path: "price",
+                                                                    type: new sap.extension.data.Price()
+                                                                })
+                                                            );
+                                                            that.tablePrices.getColumns()[5].setTemplate(
+                                                                new component.CurrencySelect("", {
+                                                                }).bindProperty("bindingValue", {
+                                                                    path: "currency",
+                                                                    type: new sap.extension.data.Alphanumeric()
+                                                                })
+                                                            );
+                                                            (<sap.m.Toolbar>this.getParent().getParent()).getContent()[6].setVisible(true);
+                                                            (<sap.m.Toolbar>this.getParent().getParent()).getContent()[7].setVisible(true);
+                                                            (<sap.m.Page>that.tablePriceList.getParent()).setShowFooter(true);
+                                                            (<sap.m.Page>that.tablePrices.getParent()).setShowFooter(true);
+                                                        }
                                                     }
                                                 }),
                                             ]
@@ -782,6 +795,7 @@ namespace materials {
                 private searchPrice: sap.m.SearchField;
                 private tablePrices: sap.extension.table.Table;
                 private groupComboBox: sap.extension.m.MultiComboBox;
+                private segmentedButton: sap.m.SegmentedButton;
 
                 /** 上一次使用的价格查询 */
                 private lastPriceCriteria: ibas.ICriteria;

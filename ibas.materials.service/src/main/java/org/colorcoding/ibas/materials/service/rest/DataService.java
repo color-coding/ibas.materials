@@ -299,7 +299,8 @@ public class DataService extends BORepositoryMaterials {
 	public OperationResult<MaterialInventoryJournal> fetchMaterialInventoryJournal(Criteria criteria,
 			@HeaderParam("authorization") String authorization, @QueryParam("token") String token) {
 		return super.fetchMaterialInventoryJournal(criteria, MyConfiguration.optToken(authorization, token));
-	} // --------------------------------------------------------------------------------------------//
+	}
+	// --------------------------------------------------------------------------------------------//
 
 	/**
 	 * 查询-仓库预估日记账
@@ -727,7 +728,8 @@ public class DataService extends BORepositoryMaterials {
 	public OperationResult<MaterialVersion> saveMaterialVersion(MaterialVersion bo,
 			@HeaderParam("authorization") String authorization, @QueryParam("token") String token) {
 		return super.saveMaterialVersion(bo, MyConfiguration.optToken(authorization, token));
-	} // --------------------------------------------------------------------------------------------//
+	}
+	// --------------------------------------------------------------------------------------------//
 
 	/**
 	 * 查询-物料废品率
@@ -759,7 +761,8 @@ public class DataService extends BORepositoryMaterials {
 	public OperationResult<MaterialScrap> saveMaterialScrap(MaterialScrap bo,
 			@HeaderParam("authorization") String authorization, @QueryParam("token") String token) {
 		return super.saveMaterialScrap(bo, MyConfiguration.optToken(authorization, token));
-	} // --------------------------------------------------------------------------------------------//
+	}
+	// --------------------------------------------------------------------------------------------//
 
 	/**
 	 * 查询-物料库存预留
@@ -825,7 +828,8 @@ public class DataService extends BORepositoryMaterials {
 	public OperationResult<MaterialSubstitute> saveMaterialSubstitute(MaterialSubstitute bo,
 			@HeaderParam("authorization") String authorization, @QueryParam("token") String token) {
 		return super.saveMaterialSubstitute(bo, MyConfiguration.optToken(authorization, token));
-	} // --------------------------------------------------------------------------------------------//
+	}
+	// --------------------------------------------------------------------------------------------//
 
 	/**
 	 * 查询-物料订购预留

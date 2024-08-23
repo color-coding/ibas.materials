@@ -638,6 +638,8 @@ namespace materials {
                 export const CONDITION_ALIAS_WAREHOUSE: string = "WhsCode";
                 /** 查询条件字段-价格清单 */
                 export const CONDITION_ALIAS_PRICELIST: string = "PriceList";
+                /** 查询条件字段-价格货币 */
+                export const CONDITION_ALIAS_CURRENCY: string = "Currency";
                 /** 查询条件字段-销售物料 */
                 export const CONDITION_ALIAS_SALES_ITEM: string = "SalesItem";
                 /** 查询条件字段-采购物料 */
@@ -839,6 +841,8 @@ namespace materials {
                 export const CONDITION_ALIAS_ITEMSIGN: string = "ItemSign";
                 /** 查询条件字段-价格清单 */
                 export const CONDITION_ALIAS_PRICELIST: string = "PriceList";
+                /** 查询条件字段-价格货币 */
+                export const CONDITION_ALIAS_CURRENCY: string = "Currency";
                 /** 查询条件字段-单位 */
                 export const CONDITION_ALIAS_UOM: string = "UOM";
                 /** 查询条件字段-组 */

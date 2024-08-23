@@ -178,6 +178,7 @@
   "materials_material_inventories": "物料库存",
   "materials_material_not_specified_version": "#{0}，物料[{1} - {2}]未指定版本",
   "materials_material_reserved_quantity_exceeds_available_quantity": "#{0}，物料[{1} - {2}]的预留数量超过可用量[{3}]",
+  "materials_material_reserved_quantity_below_closed_quantity": "#{0}，物料[{1} - {2}]的预留数量低于已清量[{3}]",
   "materials_no_warehouses_for_reservation": "没有允许预留的仓库",
   "materials_insufficient_inventory": "库存不足，此项不可用",
   "materials_no_remaining": "没有未分配数量",
@@ -224,5 +225,6 @@
   "materials_change_item_price_continue": "价格清单已更新，是否更改单据行的价格？",
   "materials_not_found_reserved_data_report": "未找到关联应用[{0}]的预留单据报表",
   "materials_from_based_list_unsupported_operation": "价格[{0} - {1}]来自基于的清单，不支持此操作",
+  "materials_price_list_is_non_editable": "价格清单[{0} - {1}]不可编辑",
   "materials_closing_delimiter": "----结束----"
 }

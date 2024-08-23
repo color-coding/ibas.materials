@@ -877,6 +877,7 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 			IMaterialPriceList priceList = null;
 			String partnerCode = null;
 			String today = null;
+			String currency = null;
 			for (ICondition item : criteria.getConditions()) {
 				if (MaterialPrice.CONDITION_ALIAS_CUSTOMER.equalsIgnoreCase(item.getAlias())) {
 					partnerType = emBusinessPartnerType.CUSTOMER;
@@ -900,6 +901,16 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 					if (!DataConvert.isNullOrEmpty(item.getValue())) {
 						today = item.getValue();
 					}
+				} else if (MaterialPrice.CONDITION_ALIAS_CURRENCY.equalsIgnoreCase(item.getAlias())) {
+					if (!DataConvert.isNullOrEmpty(item.getValue())) {
+						currency = item.getValue();
+					}
+				}
+			}
+			// 根据条件改变货币类型
+			if (!DataConvert.isNullOrEmpty(currency)) {
+				if (priceList != null) {
+					priceList.setCurrency(currency);
 				}
 			}
 			List<IMaterialPrice> materialPrices = this.getMaterialPrices(
@@ -1121,7 +1132,7 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 					}
 					if (listCurrencyRate != null) {
 						// 本币再到清单币
-						newPrice = Decimal.divide(newPrice, listCurrencyRate.getRate());
+						newPrice = Decimal.multiply(newPrice, listCurrencyRate.getRate());
 					}
 					// 设置保留小数位
 					newPrice = newPrice.setScale(priceItem.getPrice().scale(), Decimal.ROUNDING_MODE_DEFAULT);
@@ -1435,7 +1446,7 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 			// 查询物料
 			ICriteria pdCriteria = DataConvert.filterConditions(criteria, false, Product.CONDITION_ALIAS_WAREHOUSE,
 					Product.CONDITION_ALIAS_PRICELIST, MaterialPrice.CONDITION_ALIAS_CUSTOMER,
-					MaterialPrice.CONDITION_ALIAS_SUPPLIER);
+					MaterialPrice.CONDITION_ALIAS_CURRENCY, MaterialPrice.CONDITION_ALIAS_SUPPLIER);
 			pdCriteria.setResultCount(criteria.getResultCount());
 			OperationResult<Product> opRsltProduct = this.fetch(pdCriteria, token, Product.class);
 			if (opRsltProduct.getError() != null) {
@@ -1477,6 +1488,7 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 			IMaterialPriceList priceList = null;
 			String partnerCode = null;
 			String today = null;
+			String currency = null;
 			for (ICondition item : criteria.getConditions()) {
 				if (MaterialPrice.CONDITION_ALIAS_CUSTOMER.equalsIgnoreCase(item.getAlias())) {
 					partnerType = emBusinessPartnerType.CUSTOMER;
@@ -1500,6 +1512,16 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 					if (!DataConvert.isNullOrEmpty(item.getValue())) {
 						today = item.getValue();
 					}
+				} else if (MaterialPrice.CONDITION_ALIAS_CURRENCY.equalsIgnoreCase(item.getAlias())) {
+					if (!DataConvert.isNullOrEmpty(item.getValue())) {
+						currency = item.getValue();
+					}
+				}
+			}
+			// 根据条件改变货币类型
+			if (!DataConvert.isNullOrEmpty(currency)) {
+				if (priceList != null) {
+					priceList.setCurrency(currency);
 				}
 			}
 			List<IMaterialPrice> materialPrices = this.getMaterialPrices(
@@ -2219,7 +2241,8 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 	public IOperationResult<IMaterialSubstitute> saveMaterialSubstitute(IMaterialSubstitute bo) {
 		return new OperationResult<IMaterialSubstitute>(
 				this.saveMaterialSubstitute((MaterialSubstitute) bo, this.getUserToken()));
-	} // --------------------------------------------------------------------------------------------//
+	}
+	// --------------------------------------------------------------------------------------------//
 
 	/**
 	 * 查询-物料订购预留
@@ -2519,7 +2542,8 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 	public IOperationResult<IInventoryTransferRequest> saveInventoryTransferRequest(IInventoryTransferRequest bo) {
 		return new OperationResult<IInventoryTransferRequest>(
 				this.saveInventoryTransferRequest((InventoryTransferRequest) bo, this.getUserToken()));
-	} // --------------------------------------------------------------------------------------------//
+	}
+	// --------------------------------------------------------------------------------------------//
 
 	/**
 	 * 查询-物料特殊价格
