@@ -1451,6 +1451,37 @@ public abstract class MaterialBase<T extends MaterialBase<T>> extends BusinessOb
 	}
 
 	/**
+	* 属性名称-关键件
+	*/
+	private static final String PROPERTY_KEYCOMPONENT_NAME = "KeyComponent";
+
+	/**
+	* 关键件 属性
+	*/
+	@DbField(name = "KeyItem", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME)
+	public static final IPropertyInfo<emYesNo> PROPERTY_KEYCOMPONENT = registerProperty(PROPERTY_KEYCOMPONENT_NAME,
+			emYesNo.class, MY_CLASS);
+
+	/**
+	* 获取-关键件
+	* 
+	* @return 值
+	*/
+	@XmlElement(name = PROPERTY_KEYCOMPONENT_NAME)
+	public final emYesNo getKeyComponent() {
+		return this.getProperty(PROPERTY_KEYCOMPONENT);
+	}
+
+	/**
+	* 设置-关键件
+	* 
+	* @param value 值
+	*/
+	public final void setKeyComponent(emYesNo value) {
+		this.setProperty(PROPERTY_KEYCOMPONENT, value);
+	}
+
+	/**
 	 * 属性名称-生效日期
 	 */
 	private static final String PROPERTY_VALIDDATE_NAME = "ValidDate";

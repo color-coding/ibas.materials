@@ -545,6 +545,16 @@ namespace materials {
                                                     }),
                                                 }
                                             }),
+                                            new sap.extension.m.ObjectEnumStatus("", {
+                                                title: ibas.i18n.prop("bo_material_keycomponent"),
+                                                text: {
+                                                    path: "keyComponent",
+                                                    type: new sap.extension.data.Enum({
+                                                        enumType: ibas.emYesNo,
+                                                        describe: true,
+                                                    }),
+                                                }
+                                            }),
                                             new sap.extension.m.ObjectAttribute("", {
                                                 title: ibas.i18n.prop("bo_material_darwingnumber"),
                                                 bindingValue: {

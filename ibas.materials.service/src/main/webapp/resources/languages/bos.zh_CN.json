@@ -314,6 +314,7 @@
         "bo_material_scraprate": "变动损耗",
         "bo_material_scrapvalue": "固定损耗",
         "bo_material_scheduler": "计划员",
+        "bo_material_keycomponent": "关键件",
         "bo_material_picture": "图片",
         "bo_material_remarks": "备注",
         "bo_material_referenced": "已引用",

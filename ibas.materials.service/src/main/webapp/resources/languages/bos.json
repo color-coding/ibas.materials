@@ -314,6 +314,7 @@
         "bo_material_scraprate": "Variable Scrap",
         "bo_material_scrapvalue": "Fixed Scrap",
         "bo_material_scheduler": "Planner",
+        "bo_material_keycomponent": "Key Component",
         "bo_material_picture": "Picture",
         "bo_material_remarks": "Remarks",
         "bo_material_referenced": "Referenced",

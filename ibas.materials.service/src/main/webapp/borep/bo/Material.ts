@@ -598,6 +598,17 @@ namespace materials {
                 this.setProperty(Material.PROPERTY_SCHEDULER_NAME, value);
             }
 
+            /** 映射的属性名称-关键件 */
+            static PROPERTY_KEYCOMPONENT_NAME: string = "KeyComponent";
+            /** 获取-关键件 */
+            get keyComponent(): ibas.emYesNo {
+                return this.getProperty<ibas.emYesNo>(Material.PROPERTY_KEYCOMPONENT_NAME);
+            }
+            /** 设置-关键件 */
+            set keyComponent(value: ibas.emYesNo) {
+                this.setProperty(Material.PROPERTY_KEYCOMPONENT_NAME, value);
+            }
+
             /** 映射的属性名称-生效日期 */
             static PROPERTY_VALIDDATE_NAME: string = "ValidDate";
             /** 获取-生效日期 */

@@ -866,6 +866,20 @@ public interface IMaterial extends IBOMasterData {
 	void setScheduler(String value);
 
 	/**
+	* 获取-关键件
+	* 
+	* @return 值
+	*/
+	emYesNo getKeyComponent();
+
+	/**
+	* 设置-关键件
+	* 
+	* @param value 值
+	*/
+	void setKeyComponent(emYesNo value);
+
+	/**
 	 * 获取-生效日期
 	 * 
 	 * @return 值

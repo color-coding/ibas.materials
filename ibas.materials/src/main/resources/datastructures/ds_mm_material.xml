@@ -55,6 +55,7 @@
     <Property Name="ScrapRate" Description="变动损耗" DataType="Decimal" DataSubType="Percentage" EditSize="8" Mapped="ScrapRate"/>
     <Property Name="ScrapValue" Description="固定损耗" DataType="Decimal" DataSubType="Quantity" EditSize="8" Mapped="ScrapValue"/>
     <Property Name="Scheduler" Description="计划员" DataType="Alphanumeric" DataSubType="Default" EditSize="8" Mapped="Scheduler"/>
+    <Property Name="KeyComponent" Description="关键件" DataType="Alphanumeric" DataSubType="Default" EditSize="1" DeclaredType="emYesNo" Mapped="KeyItem"/>
     <Property Name="ValidDate" Description="生效日期" DataType="Date" DataSubType="Default" EditSize="8" Mapped="ValidDate"/>
     <Property Name="InvalidDate" Description="失效日期" DataType="Date" DataSubType="Default" EditSize="8" Mapped="InvalidDate"/>
     <Property Name="Picture" Description="图片" DataType="Alphanumeric" DataSubType="Default" EditSize="250" Mapped="Picture"/>

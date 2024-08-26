@@ -72,7 +72,8 @@ namespace materials {
                                     }),
                                     new sap.extension.m.ObjectAttribute("", {
                                         title: ibas.i18n.prop("bo_materialpricelist_basedonlist"),
-                                        bindingValue: "#{basedOnList} × {factor}"
+                                        bindingValue: "#{basedOnList} × {factor}",
+                                        wrapping: false,
                                     }).bindProperty("visible", {
                                         path: "basedOnList",
                                         formatter(data: number): boolean {

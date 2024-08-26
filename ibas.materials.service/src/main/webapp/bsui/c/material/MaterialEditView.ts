@@ -832,6 +832,18 @@ namespace materials {
                                                         path: "mixingBatches",
                                                         type: new sap.extension.data.YesNo(),
                                                     }),
+                                                    new sap.m.Label("", { text: ibas.i18n.prop("bo_material_keycomponent") }),
+                                                    new sap.extension.m.EnumSelect("", {
+                                                        enumType: ibas.emYesNo
+                                                    }).bindProperty("bindingValue", {
+                                                        path: "keyComponent",
+                                                        type: new sap.extension.data.YesNo(),
+                                                    }).bindProperty("editable", {
+                                                        path: "serialManagement",
+                                                        formatter(data: any): boolean {
+                                                            return data === ibas.emYesNo.YES ? true : false;
+                                                        }
+                                                    }),
                                                 ]
                                             })
                                         ]

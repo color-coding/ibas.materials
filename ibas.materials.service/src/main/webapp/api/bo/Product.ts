@@ -136,6 +136,9 @@ namespace materials {
             /** 计划员 */
             scheduler: string;
 
+            /** 关键件 */
+            keyComponent: ibas.emYesNo;
+
             /** 生效日期 */
             validDate: Date;
 
