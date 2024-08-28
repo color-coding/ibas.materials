@@ -26,6 +26,8 @@ namespace materials {
         export const CONFIG_ITEM_DISPALY_MATERIAL_AVGPRICE_ISSUE: string = "dispalyMaterialAvgPriceIssue";
         /** 配置项目-启用物料特殊价格 */
         export const CONFIG_ITEM_ENABLE_MATERIAL_SPECIAL_PRICES: string = "enableMaterialSpecialPrices";
+        /** 配置项目-单据行显示库存 */
+        export const CONFIG_ITEM_DOCUMENT_LINE_DISPLAY_INVENTORY: string = "documentLineDisplayInventory";
         /**
          * 获取此模块配置
          * @param key 配置项

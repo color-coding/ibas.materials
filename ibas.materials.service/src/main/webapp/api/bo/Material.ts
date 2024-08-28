@@ -266,9 +266,23 @@ namespace materials {
             /** 单位 */
             uom: string;
 
+            /** 来源 */
+            source: string;
+
             /** 可用量（库存 + 已订购 - 已承诺 - 已预留） */
             onAvailable(): number;
 
+            /** 全部库存数量 */
+            totalHand: number;
+
+            /** 全部已承诺 */
+            totalCommited: number;
+
+            /** 全部已订购 */
+            totalOrdered: number;
+
+            /** 全部已预留 */
+            totalReserved: number;
         }
 
         /** 物料价格 */

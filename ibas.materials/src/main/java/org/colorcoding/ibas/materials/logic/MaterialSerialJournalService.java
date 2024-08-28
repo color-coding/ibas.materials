@@ -336,6 +336,9 @@ public class MaterialSerialJournalService
 						if (item.getDirection() != contract.getDirection()) {
 							continue;
 						}
+						if (Decimal.ZERO.compareTo(item.getQuantity()) <= 0) {
+							continue;
+						}
 						// 增加，其他行增加的量
 						inventoryQuantity = inventoryQuantity.add(item.getQuantity());
 						inventoryValue = inventoryValue.add(Decimal.multiply(Decimal.multiply(item.getPrice(),
@@ -346,8 +349,14 @@ public class MaterialSerialJournalService
 					// 记录时点库存及价值
 					materialSerialJournal.setInventoryQuantity(inventoryQuantity);
 					materialSerialJournal.setInventoryValue(inventoryValue);
-					// 库存总价值 = 时点库存价值 + (本次入库价格 * 本次入库数量)
-					inventoryValue = inventoryValue.add(Decimal.multiply(price, Decimal.ONE));
+					if (contract.getDirection() == emDirection.OUT && contract.isOffsetting()) {
+						// 库存总价值 = 时点库存价值 + (正向出库价格 * 本次入库数量)
+						inventoryValue = inventoryValue
+								.add(Decimal.multiply(materialSerialJournal.getCalculatedPrice(), Decimal.ONE));
+					} else {
+						// 库存总价值 = 时点库存价值 + (本次入库价格 * 本次入库数量)
+						inventoryValue = inventoryValue.add(Decimal.multiply(price, Decimal.ONE));
+					}
 					// 库存总数量 = 时点库存数量 + 本次入库数量
 					inventoryQuantity = inventoryQuantity.add(Decimal.ONE);
 					// 成本价格 = 总价值 / 总数量

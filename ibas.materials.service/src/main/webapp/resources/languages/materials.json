@@ -223,5 +223,6 @@
     "materials_change_item_price_continue": "Price list updated, change document line prices?",
     "materials_not_found_reserved_data_report": "No reservation document report found for associated application [{0}]",
     "materials_from_based_list_unsupported_operation": "Price [{0} - {1}] based on list, operation not supported",
+    "materials_document_inventoryquantity": "Whs Qty/Total Qty",
     "materials_closing_delimiter": "---- End ----"
 }

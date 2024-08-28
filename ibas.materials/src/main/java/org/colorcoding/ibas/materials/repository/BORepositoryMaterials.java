@@ -1385,7 +1385,7 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 					condition.setRelationship(ConditionRelationship.OR);
 				}
 			}
-			if (whCriteria.getConditions().size() > size + 2) {
+			if (whCriteria.getConditions().size() > size + 1) {
 				condition = whCriteria.getConditions().get(size);
 				condition.setBracketOpen(condition.getBracketOpen() + 1);
 				condition = whCriteria.getConditions().get(whCriteria.getConditions().size() - 1);
@@ -1453,20 +1453,18 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 				throw opRsltProduct.getError();
 			}
 			// 查询物料的库存
-			if (criteria.getConditions()
-					.firstOrDefault(c -> Product.CONDITION_ALIAS_WAREHOUSE.equalsIgnoreCase(c.getAlias())) != null) {
-				// 有仓库条件，则数量清零
-				for (IProduct product : opRsltProduct.getResultObjects()) {
-					product.setOnHand(Decimal.ZERO);
-					product.setOnCommited(Decimal.ZERO);
-					product.setOnOrdered(Decimal.ZERO);
-					product.setOnReserved(Decimal.ZERO);
-					product.setWarehouse(DataConvert.STRING_VALUE_EMPTY);
-				}
+			pdCriteria = DataConvert.filterConditions(criteria, true, Product.CONDITION_ALIAS_WAREHOUSE);
+			List<IMaterialQuantity> materialQuantities = this.getMaterialQuantities(
+					opRsltProduct.getResultObjects().toArray(new MaterialBase<?>[] {}), pdCriteria);
+			// 有仓库条件，则数量清零
+			for (IProduct product : opRsltProduct.getResultObjects()) {
+				product.setOnHand(Decimal.ZERO);
+				product.setOnCommited(Decimal.ZERO);
+				product.setOnOrdered(Decimal.ZERO);
+				product.setOnReserved(Decimal.ZERO);
+				product.setWarehouse(DataConvert.STRING_VALUE_EMPTY);
 			}
-			for (IMaterialQuantity materialQuantity : this.getMaterialQuantities(
-					opRsltProduct.getResultObjects().toArray(new MaterialBase<?>[] {}),
-					DataConvert.filterConditions(criteria, true, Product.CONDITION_ALIAS_WAREHOUSE))) {
+			for (IMaterialQuantity materialQuantity : materialQuantities) {
 				// 重新计算数量
 				for (IProduct product : opRsltProduct.getResultObjects()) {
 					if (product.getCode().equalsIgnoreCase(materialQuantity.getItemCode())) {
@@ -1624,7 +1622,7 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 					condition.setRelationship(ConditionRelationship.OR);
 				}
 			}
-			if (whCriteria.getConditions().size() > size + 2) {
+			if (whCriteria.getConditions().size() > size + 1) {
 				condition = whCriteria.getConditions().get(size);
 				condition.setBracketOpen(condition.getBracketOpen() + 1);
 				condition = whCriteria.getConditions().get(whCriteria.getConditions().size() - 1);

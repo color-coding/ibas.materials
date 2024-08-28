@@ -959,6 +959,61 @@ namespace materials {
                 this.setProperty(MaterialQuantity.PROPERTY_UOM_NAME, value);
             }
 
+            /** 映射的属性名称-数据源 */
+            static PROPERTY_SOURCE_NAME: string = "Source";
+            /** 获取-数据源 */
+            get source(): string {
+                return this.getProperty<string>(MaterialQuantity.PROPERTY_SOURCE_NAME);
+            }
+            /** 设置-数据源 */
+            set source(value: string) {
+                this.setProperty(MaterialQuantity.PROPERTY_SOURCE_NAME, value);
+            }
+
+            /** 映射的属性名称-库存 */
+            static PROPERTY_TOTALHAND_NAME: string = "TotalHand";
+            /** 获取-库存 */
+            get totalHand(): number {
+                return this.getProperty<number>(MaterialQuantity.PROPERTY_TOTALHAND_NAME);
+            }
+            /** 设置-库存 */
+            set totalHand(value: number) {
+                this.setProperty(MaterialQuantity.PROPERTY_TOTALHAND_NAME, value);
+            }
+
+            /** 映射的属性名称-库存 */
+            static PROPERTY_TOTALORDERED_NAME: string = "TotalOrdered";
+            /** 获取-库存 */
+            get totalOrdered(): number {
+                return this.getProperty<number>(MaterialQuantity.PROPERTY_TOTALORDERED_NAME);
+            }
+            /** 设置-库存 */
+            set totalOrdered(value: number) {
+                this.setProperty(MaterialQuantity.PROPERTY_TOTALORDERED_NAME, value);
+            }
+
+            /** 映射的属性名称-库存 */
+            static PROPERTY_TOTALCOMMITED_NAME: string = "TotalCommited";
+            /** 获取-库存 */
+            get totalCommited(): number {
+                return this.getProperty<number>(MaterialQuantity.PROPERTY_TOTALCOMMITED_NAME);
+            }
+            /** 设置-库存 */
+            set totalCommited(value: number) {
+                this.setProperty(MaterialQuantity.PROPERTY_TOTALCOMMITED_NAME, value);
+            }
+
+            /** 映射的属性名称-已预留 */
+            static PROPERTY_TOTALRESERVED_NAME: string = "TotalReserved";
+            /** 获取-已预留 */
+            get totalReserved(): number {
+                return this.getProperty<number>(MaterialQuantity.PROPERTY_TOTALRESERVED_NAME);
+            }
+            /** 设置-已预留 */
+            set totalReserved(value: number) {
+                this.setProperty(MaterialQuantity.PROPERTY_TOTALRESERVED_NAME, value);
+            }
+
             /** 字符串 */
             toString(): string {
                 let builder: ibas.StringBuilder = new ibas.StringBuilder();

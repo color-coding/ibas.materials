@@ -10,7 +10,9 @@ import javax.xml.bind.annotation.XmlType;
 
 import org.colorcoding.ibas.bobas.bo.BusinessObject;
 import org.colorcoding.ibas.bobas.core.IPropertyInfo;
+import org.colorcoding.ibas.bobas.data.ArrayList;
 import org.colorcoding.ibas.bobas.data.DateTime;
+import org.colorcoding.ibas.bobas.data.Decimal;
 import org.colorcoding.ibas.bobas.data.emBOStatus;
 import org.colorcoding.ibas.bobas.data.emYesNo;
 import org.colorcoding.ibas.bobas.logic.IBusinessLogicContract;
@@ -1065,59 +1067,60 @@ public class MaterialOrderedReservation extends BusinessObject<MaterialOrderedRe
 
 	@Override
 	public IBusinessLogicContract[] getContracts() {
-		return new IBusinessLogicContract[] {
-				// 订购量占用
-				new IMaterialEstimateReservedContract() {
+		ArrayList<IBusinessLogicContract> contracts = new ArrayList<>(4);
+		if (this.getQuantity().compareTo(Decimal.ZERO) > 0) {
+			// 订购量占用，数量大于0才有效
+			contracts.add(new IMaterialEstimateReservedContract() {
 
-					@Override
-					public String getIdentifiers() {
-						return MaterialOrderedReservation.this.getIdentifiers();
-					}
-
-					@Override
-					public emEstimateType getEstimateType() {
-						return emEstimateType.ORDERED;
-					}
-
-					@Override
-					public String getDocumentType() {
-						return MaterialOrderedReservation.this.getSourceDocumentType();
-					}
-
-					@Override
-					public Integer getDocumentEntry() {
-						return MaterialOrderedReservation.this.getSourceDocumentEntry();
-					}
-
-					@Override
-					public Integer getDocumentLineId() {
-						return MaterialOrderedReservation.this.getSourceDocumentLineId();
-					}
-
-					@Override
-					public String getItemCode() {
-						return MaterialOrderedReservation.this.getItemCode();
-					}
-
-					@Override
-					public String getWarehouse() {
-						return MaterialOrderedReservation.this.getWarehouse();
-					}
-
-					@Override
-					public BigDecimal getQuantity() {
-						return MaterialOrderedReservation.this.getQuantity()
-								.subtract(MaterialOrderedReservation.this.getClosedQuantity());
-					}
-
-					@Override
-					public emBOStatus getStatus() {
-						return MaterialOrderedReservation.this.getStatus();
-					}
-
+				@Override
+				public String getIdentifiers() {
+					return MaterialOrderedReservation.this.getIdentifiers();
 				}
 
-		};
+				@Override
+				public emEstimateType getEstimateType() {
+					return emEstimateType.ORDERED;
+				}
+
+				@Override
+				public String getDocumentType() {
+					return MaterialOrderedReservation.this.getSourceDocumentType();
+				}
+
+				@Override
+				public Integer getDocumentEntry() {
+					return MaterialOrderedReservation.this.getSourceDocumentEntry();
+				}
+
+				@Override
+				public Integer getDocumentLineId() {
+					return MaterialOrderedReservation.this.getSourceDocumentLineId();
+				}
+
+				@Override
+				public String getItemCode() {
+					return MaterialOrderedReservation.this.getItemCode();
+				}
+
+				@Override
+				public String getWarehouse() {
+					return MaterialOrderedReservation.this.getWarehouse();
+				}
+
+				@Override
+				public BigDecimal getQuantity() {
+					return MaterialOrderedReservation.this.getQuantity()
+							.subtract(MaterialOrderedReservation.this.getClosedQuantity());
+				}
+
+				@Override
+				public emBOStatus getStatus() {
+					return MaterialOrderedReservation.this.getStatus();
+				}
+
+			});
+		}
+		return contracts.toArray(new IBusinessLogicContract[] {});
 	}
 
 }

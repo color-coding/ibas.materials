@@ -70,21 +70,21 @@ public interface IMaterialQuantity {
 	BigDecimal getOnHand();
 
 	/**
-	 * 设置库存
+	 * 设置-库存
 	 *
 	 * @param value
 	 */
 	void setOnHand(BigDecimal value);
 
 	/**
-	 * 设置库存
+	 * 设置-库存
 	 *
 	 * @param value
 	 */
 	void setOnHand(int value);
 
 	/**
-	 * 设置库存
+	 * 设置-库存
 	 *
 	 * @param value
 	 */
@@ -98,21 +98,21 @@ public interface IMaterialQuantity {
 	BigDecimal getOnCommited();
 
 	/**
-	 * 设置已承诺
+	 * 设置-已承诺
 	 *
 	 * @param value
 	 */
 	void setOnCommited(BigDecimal value);
 
 	/**
-	 * 设置已承诺
+	 * 设置-已承诺
 	 *
 	 * @param value
 	 */
 	void setOnCommited(int value);
 
 	/**
-	 * 设置已承诺
+	 * 设置-已承诺
 	 *
 	 * @param value
 	 */
@@ -126,21 +126,21 @@ public interface IMaterialQuantity {
 	BigDecimal getOnOrdered();
 
 	/**
-	 * 设置已订购
+	 * 设置-已订购
 	 *
 	 * @param value
 	 */
 	void setOnOrdered(BigDecimal value);
 
 	/**
-	 * 设置已订购
+	 * 设置-已订购
 	 *
 	 * @param value
 	 */
 	void setOnOrdered(int value);
 
 	/**
-	 * 设置已订购
+	 * 设置-已订购
 	 *
 	 * @param value
 	 */
@@ -154,35 +154,35 @@ public interface IMaterialQuantity {
 	BigDecimal getOnReserved();
 
 	/**
-	 * 设置已预留
+	 * 设置-已预留
 	 *
 	 * @param value
 	 */
 	void setOnReserved(BigDecimal value);
 
 	/**
-	 * 设置已预留
+	 * 设置-已预留
 	 *
 	 * @param value
 	 */
 	void setOnReserved(int value);
 
 	/**
-	 * 设置已预留
+	 * 设置-已预留
 	 *
 	 * @param value
 	 */
 	void setOnReserved(double value);
 
 	/**
-	 * 获取库存单位
+	 * 获取-库存单位
 	 * 
 	 * @return
 	 */
 	String getUOM();
 
 	/**
-	 * 设置库存单位
+	 * 设置-库存单位
 	 * 
 	 * @param uom
 	 */
@@ -194,4 +194,116 @@ public interface IMaterialQuantity {
 	 * @return
 	 */
 	BigDecimal getOnAvailable();
+
+	/**
+	 * 获取-全部库存
+	 *
+	 * @return
+	 */
+	BigDecimal getTotalHand();
+
+	/**
+	 * 设置-全部库存
+	 *
+	 * @param value
+	 */
+	void setTotalHand(BigDecimal value);
+
+	/**
+	 * 设置-全部库存
+	 *
+	 * @param value
+	 */
+	void setTotalHand(int value);
+
+	/**
+	 * 设置-全部库存
+	 *
+	 * @param value
+	 */
+	void setTotalHand(double value);
+
+	/**
+	 * 获取-全部已承诺
+	 *
+	 * @return
+	 */
+	BigDecimal getTotalCommited();
+
+	/**
+	 * 设置-全部已承诺
+	 *
+	 * @param value
+	 */
+	void setTotalCommited(BigDecimal value);
+
+	/**
+	 * 设置-全部已承诺
+	 *
+	 * @param value
+	 */
+	void setTotalCommited(int value);
+
+	/**
+	 * 设置-全部已承诺
+	 *
+	 * @param value
+	 */
+	void setTotalCommited(double value);
+
+	/**
+	 * 获取-全部已订购
+	 *
+	 * @return
+	 */
+	BigDecimal getTotalOrdered();
+
+	/**
+	 * 设置-全部已订购
+	 *
+	 * @param value
+	 */
+	void setTotalOrdered(BigDecimal value);
+
+	/**
+	 * 设置-全部已订购
+	 *
+	 * @param value
+	 */
+	void setTotalOrdered(int value);
+
+	/**
+	 * 设置-全部已订购
+	 *
+	 * @param value
+	 */
+	void setTotalOrdered(double value);
+
+	/**
+	 * 获取-全部已预留
+	 *
+	 * @return
+	 */
+	BigDecimal getTotalReserved();
+
+	/**
+	 * 设置-全部已预留
+	 *
+	 * @param value
+	 */
+	void setTotalReserved(BigDecimal value);
+
+	/**
+	 * 设置-全部已预留
+	 *
+	 * @param value
+	 */
+	void setTotalReserved(int value);
+
+	/**
+	 * 设置-全部已预留
+	 *
+	 * @param value
+	 */
+	void setTotalReserved(double value);
 }

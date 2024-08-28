@@ -42,6 +42,10 @@ public class MaterialQuantity extends Serializable implements IMaterialQuantity 
 		materialQuantity.setOnCommited(material.getOnCommited());
 		materialQuantity.setOnReserved(material.getOnReserved());
 		materialQuantity.setUOM(material.getInventoryUOM());
+		materialQuantity.setTotalHand(material.getOnHand());
+		materialQuantity.setTotalOrdered(material.getOnOrdered());
+		materialQuantity.setTotalCommited(material.getOnCommited());
+		materialQuantity.setTotalReserved(material.getOnReserved());
 		materialQuantity.setSource(DataConvert.STRING_VALUE_EMPTY);
 		return materialQuantity;
 	}
@@ -56,6 +60,10 @@ public class MaterialQuantity extends Serializable implements IMaterialQuantity 
 		materialQuantity.setOnCommited(material.getOnCommited());
 		materialQuantity.setOnReserved(material.getOnReserved());
 		materialQuantity.setUOM(material.getInventoryUOM());
+		materialQuantity.setTotalHand(material.getOnHand());
+		materialQuantity.setTotalOrdered(material.getOnOrdered());
+		materialQuantity.setTotalCommited(material.getOnCommited());
+		materialQuantity.setTotalReserved(material.getOnReserved());
 		materialQuantity.setSource(DataConvert.STRING_VALUE_EMPTY);
 		return materialQuantity;
 	}
@@ -204,6 +212,82 @@ public class MaterialQuantity extends Serializable implements IMaterialQuantity 
 	public BigDecimal getOnAvailable() {
 		return Decimal.add(this.getOnHand(), this.getOnOrdered(), this.getOnCommited().negate(),
 				this.getOnReserved().negate());
+	}
+
+	private BigDecimal totalHand;
+
+	@XmlElement(name = "TotalHand")
+	public final BigDecimal getTotalHand() {
+		return totalHand;
+	}
+
+	public final void setTotalHand(BigDecimal totalHand) {
+		this.totalHand = totalHand;
+	}
+
+	public final void setTotalHand(int value) {
+		this.setTotalHand(Decimal.valueOf(value));
+	}
+
+	public final void setTotalHand(double value) {
+		this.setTotalHand(Decimal.valueOf(value));
+	}
+
+	private BigDecimal totalOrdered;
+
+	@XmlElement(name = "TotalOrdered")
+	public final BigDecimal getTotalOrdered() {
+		return totalOrdered;
+	}
+
+	public final void setTotalOrdered(BigDecimal totalOrdered) {
+		this.totalOrdered = totalOrdered;
+	}
+
+	public final void setTotalOrdered(int value) {
+		this.setTotalOrdered(Decimal.valueOf(value));
+	}
+
+	public final void setTotalOrdered(double value) {
+		this.setTotalOrdered(Decimal.valueOf(value));
+	}
+
+	private BigDecimal totalCommited;
+
+	@XmlElement(name = "TotalCommited")
+	public final BigDecimal getTotalCommited() {
+		return totalCommited;
+	}
+
+	public final void setTotalCommited(BigDecimal totalCommited) {
+		this.totalCommited = totalCommited;
+	}
+
+	public final void setTotalCommited(int value) {
+		this.setTotalCommited(Decimal.valueOf(value));
+	}
+
+	public final void setTotalCommited(double value) {
+		this.setTotalCommited(Decimal.valueOf(value));
+	}
+
+	private BigDecimal totalReserved;
+
+	@XmlElement(name = "TotalReserved")
+	public final BigDecimal getTotalReserved() {
+		return totalReserved;
+	}
+
+	public final void setTotalReserved(BigDecimal totalReserved) {
+		this.totalReserved = totalReserved;
+	}
+
+	public final void setTotalReserved(int value) {
+		this.setTotalReserved(Decimal.valueOf(value));
+	}
+
+	public final void setTotalReserved(double value) {
+		this.setTotalReserved(Decimal.valueOf(value));
 	}
 
 	@Override

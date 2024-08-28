@@ -955,143 +955,146 @@ public class MaterialInventoryReservation extends BusinessObject<MaterialInvento
 	@Override
 	public IBusinessLogicContract[] getContracts() {
 		ArrayList<IBusinessLogicContract> contracts = new ArrayList<>(4);
-		if (!DataConvert.isNullOrEmpty(this.getSerialCode())) {
-			// 序列占用
-			contracts.add(new IMaterialSerialReservedContract() {
+		if (this.getQuantity().compareTo(Decimal.ZERO) > 0) {
+			// 预留数量大于0才有效
+			if (!DataConvert.isNullOrEmpty(this.getSerialCode())) {
+				// 序列占用
+				contracts.add(new IMaterialSerialReservedContract() {
 
-				@Override
-				public String getIdentifiers() {
-					return MaterialInventoryReservation.this.getIdentifiers();
-				}
+					@Override
+					public String getIdentifiers() {
+						return MaterialInventoryReservation.this.getIdentifiers();
+					}
 
-				@Override
-				public String getWarehouse() {
-					return MaterialInventoryReservation.this.getWarehouse();
-				}
+					@Override
+					public String getWarehouse() {
+						return MaterialInventoryReservation.this.getWarehouse();
+					}
 
-				@Override
-				public String getSerialCode() {
-					return MaterialInventoryReservation.this.getSerialCode();
-				}
+					@Override
+					public String getSerialCode() {
+						return MaterialInventoryReservation.this.getSerialCode();
+					}
 
-				@Override
-				public String getItemCode() {
-					return MaterialInventoryReservation.this.getItemCode();
-				}
+					@Override
+					public String getItemCode() {
+						return MaterialInventoryReservation.this.getItemCode();
+					}
 
-				@Override
-				public emBOStatus getStatus() {
-					return MaterialInventoryReservation.this.getStatus();
-				}
+					@Override
+					public emBOStatus getStatus() {
+						return MaterialInventoryReservation.this.getStatus();
+					}
 
-				@Override
-				public BigDecimal getQuantity() {
-					// 数量占用 = 预留数量 - 已完成数量（出库）
-					return MaterialInventoryReservation.this.getQuantity()
-							.subtract(MaterialInventoryReservation.this.getClosedQuantity());
-				}
-			});
-		}
-		if (!DataConvert.isNullOrEmpty(this.getBatchCode())) {
-			// 批次占用
-			contracts.add(new IMaterialBatchReservedContract() {
+					@Override
+					public BigDecimal getQuantity() {
+						// 数量占用 = 预留数量 - 已完成数量（出库）
+						return MaterialInventoryReservation.this.getQuantity()
+								.subtract(MaterialInventoryReservation.this.getClosedQuantity());
+					}
+				});
+			}
+			if (!DataConvert.isNullOrEmpty(this.getBatchCode())) {
+				// 批次占用
+				contracts.add(new IMaterialBatchReservedContract() {
 
-				@Override
-				public String getIdentifiers() {
-					return MaterialInventoryReservation.this.getIdentifiers();
-				}
+					@Override
+					public String getIdentifiers() {
+						return MaterialInventoryReservation.this.getIdentifiers();
+					}
 
-				@Override
-				public String getWarehouse() {
-					return MaterialInventoryReservation.this.getWarehouse();
-				}
+					@Override
+					public String getWarehouse() {
+						return MaterialInventoryReservation.this.getWarehouse();
+					}
 
-				@Override
-				public BigDecimal getQuantity() {
-					// 数量占用 = 预留数量 - 已完成数量（出库）
-					return MaterialInventoryReservation.this.getQuantity()
-							.subtract(MaterialInventoryReservation.this.getClosedQuantity());
-				}
+					@Override
+					public BigDecimal getQuantity() {
+						// 数量占用 = 预留数量 - 已完成数量（出库）
+						return MaterialInventoryReservation.this.getQuantity()
+								.subtract(MaterialInventoryReservation.this.getClosedQuantity());
+					}
 
-				@Override
-				public String getItemCode() {
-					return MaterialInventoryReservation.this.getItemCode();
-				}
+					@Override
+					public String getItemCode() {
+						return MaterialInventoryReservation.this.getItemCode();
+					}
 
-				@Override
-				public String getBatchCode() {
-					return MaterialInventoryReservation.this.getBatchCode();
-				}
+					@Override
+					public String getBatchCode() {
+						return MaterialInventoryReservation.this.getBatchCode();
+					}
 
-				@Override
-				public emBOStatus getStatus() {
-					return MaterialInventoryReservation.this.getStatus();
-				}
-			});
-		}
-		if (!DataConvert.isNullOrEmpty(this.getWarehouse())) {
-			// 仓库占用
-			contracts.add(new IMaterialWarehouseReservedContract() {
+					@Override
+					public emBOStatus getStatus() {
+						return MaterialInventoryReservation.this.getStatus();
+					}
+				});
+			}
+			if (!DataConvert.isNullOrEmpty(this.getWarehouse())) {
+				// 仓库占用
+				contracts.add(new IMaterialWarehouseReservedContract() {
 
-				@Override
-				public String getIdentifiers() {
-					return MaterialInventoryReservation.this.getIdentifiers();
-				}
+					@Override
+					public String getIdentifiers() {
+						return MaterialInventoryReservation.this.getIdentifiers();
+					}
 
-				@Override
-				public String getWarehouse() {
-					return MaterialInventoryReservation.this.getWarehouse();
-				}
+					@Override
+					public String getWarehouse() {
+						return MaterialInventoryReservation.this.getWarehouse();
+					}
 
-				@Override
-				public BigDecimal getQuantity() {
-					// 数量占用 = 预留数量 - 已完成数量（出库）
-					return MaterialInventoryReservation.this.getQuantity()
-							.subtract(MaterialInventoryReservation.this.getClosedQuantity());
-				}
+					@Override
+					public BigDecimal getQuantity() {
+						// 数量占用 = 预留数量 - 已完成数量（出库）
+						return MaterialInventoryReservation.this.getQuantity()
+								.subtract(MaterialInventoryReservation.this.getClosedQuantity());
+					}
 
-				@Override
-				public String getItemCode() {
-					return MaterialInventoryReservation.this.getItemCode();
-				}
+					@Override
+					public String getItemCode() {
+						return MaterialInventoryReservation.this.getItemCode();
+					}
 
-				@Override
-				public emBOStatus getStatus() {
-					return MaterialInventoryReservation.this.getStatus();
-				}
-			});
-		}
-		if (!DataConvert.isNullOrEmpty(this.getItemCode())) {
-			// 物料占用
-			contracts.add(new IMaterialReservedContract() {
+					@Override
+					public emBOStatus getStatus() {
+						return MaterialInventoryReservation.this.getStatus();
+					}
+				});
+			}
+			if (!DataConvert.isNullOrEmpty(this.getItemCode())) {
+				// 物料占用
+				contracts.add(new IMaterialReservedContract() {
 
-				@Override
-				public String getIdentifiers() {
-					return MaterialInventoryReservation.this.getIdentifiers();
-				}
+					@Override
+					public String getIdentifiers() {
+						return MaterialInventoryReservation.this.getIdentifiers();
+					}
 
-				@Override
-				public BigDecimal getQuantity() {
-					// 数量占用 = 预留数量 - 已完成数量（出库）
-					return MaterialInventoryReservation.this.getQuantity()
-							.subtract(MaterialInventoryReservation.this.getClosedQuantity());
-				}
+					@Override
+					public BigDecimal getQuantity() {
+						// 数量占用 = 预留数量 - 已完成数量（出库）
+						return MaterialInventoryReservation.this.getQuantity()
+								.subtract(MaterialInventoryReservation.this.getClosedQuantity());
+					}
 
-				@Override
-				public String getItemCode() {
-					return MaterialInventoryReservation.this.getItemCode();
-				}
+					@Override
+					public String getItemCode() {
+						return MaterialInventoryReservation.this.getItemCode();
+					}
 
-				@Override
-				public emBOStatus getStatus() {
-					return MaterialInventoryReservation.this.getStatus();
-				}
+					@Override
+					public emBOStatus getStatus() {
+						return MaterialInventoryReservation.this.getStatus();
+					}
 
-				@Override
-				public String getWarehouse() {
-					return MaterialInventoryReservation.this.getWarehouse();
-				}
-			});
+					@Override
+					public String getWarehouse() {
+						return MaterialInventoryReservation.this.getWarehouse();
+					}
+				});
+			}
 		}
 		return contracts.toArray(new IBusinessLogicContract[] {});
 	}
