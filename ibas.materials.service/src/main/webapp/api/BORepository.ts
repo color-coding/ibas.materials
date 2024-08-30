@@ -302,6 +302,16 @@ namespace materials {
              */
             saveMaterialSpecialPrice(saver: ibas.ISaveCaller<bo.IMaterialSpecialPrice>): void;
 
+            /**
+             * 查询 物料系号关联
+             * @param fetcher 查询者
+             */
+            fetchMaterialNumberAssociation(fetcher: ibas.IFetchCaller<bo.IMaterialNumberAssociation>): void;
+            /**
+             * 保存 物料系号关联
+             * @param saver 保存者
+             */
+            saveMaterialNumberAssociation(saver: ibas.ISaveCaller<bo.IMaterialNumberAssociation>): void;
 
 
         }

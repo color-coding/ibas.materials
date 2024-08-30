@@ -572,6 +572,10 @@ namespace materials {
                 }
                 if (ibas.strings.equalsIgnoreCase(context.trigger, this.inventoryQuantity)) {
                     // 输入库存数量，反推率
+                    if (uomRate > 0 && (inventoryQuantity === 0 || quantity === 0)) {
+                        // 0数据不完整
+                        return;
+                    }
                     let result: number = inventoryQuantity > 0 ? inventoryQuantity / quantity : 0;
                     if (ibas.numbers.isApproximated(uomRate, result, DECIMAL_PLACES_RATE)) {
                         return;

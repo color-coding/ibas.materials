@@ -61,8 +61,6 @@ namespace materials {
             updateTime: number;
             /** 版本 */
             logInst: number;
-            /** 服务系列 */
-            series: number;
             /** 数据源 */
             dataSource: string;
             /** 创建用户 */

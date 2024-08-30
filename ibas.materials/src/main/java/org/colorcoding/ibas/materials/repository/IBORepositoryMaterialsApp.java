@@ -22,6 +22,7 @@ import org.colorcoding.ibas.materials.bo.materialinventory.IMaterialInventory;
 import org.colorcoding.ibas.materials.bo.materialinventory.IMaterialInventoryJournal;
 import org.colorcoding.ibas.materials.bo.materialinventory.IMaterialInventoryReservation;
 import org.colorcoding.ibas.materials.bo.materialinventory.IMaterialOrderedReservation;
+import org.colorcoding.ibas.materials.bo.materialnumberassociation.IMaterialNumberAssociation;
 import org.colorcoding.ibas.materials.bo.materialpricelist.IMaterialPriceList;
 import org.colorcoding.ibas.materials.bo.materialpricelist.IMaterialSpecialPrice;
 import org.colorcoding.ibas.materials.bo.materialscrap.IMaterialScrap;
@@ -545,6 +546,21 @@ public interface IBORepositoryMaterialsApp extends IBORepositoryApplication {
 	 * @return 操作结果
 	 */
 	IOperationResult<IMaterialSpecialPrice> saveMaterialSpecialPrice(IMaterialSpecialPrice bo);
+
+	// --------------------------------------------------------------------------------------------//
+	/**
+	 * 查询-物料系号关联
+	 * @param criteria 查询
+	 * @return 操作结果
+	 */
+	IOperationResult<IMaterialNumberAssociation> fetchMaterialNumberAssociation(ICriteria criteria);
+
+	/**
+	 * 保存-物料系号关联
+	 * @param bo 对象实例
+	 * @return 操作结果
+	 */
+	IOperationResult<IMaterialNumberAssociation> saveMaterialNumberAssociation(IMaterialNumberAssociation bo);
 
 	// --------------------------------------------------------------------------------------------//
 

@@ -30,6 +30,7 @@ import org.colorcoding.ibas.materials.bo.materialinventory.MaterialInventory;
 import org.colorcoding.ibas.materials.bo.materialinventory.MaterialInventoryJournal;
 import org.colorcoding.ibas.materials.bo.materialinventory.MaterialInventoryReservation;
 import org.colorcoding.ibas.materials.bo.materialinventory.MaterialOrderedReservation;
+import org.colorcoding.ibas.materials.bo.materialnumberassociation.MaterialNumberAssociation;
 import org.colorcoding.ibas.materials.bo.materialpricelist.MaterialPriceList;
 import org.colorcoding.ibas.materials.bo.materialpricelist.MaterialSpecialPrice;
 import org.colorcoding.ibas.materials.bo.materialscrap.MaterialScrap;
@@ -979,6 +980,37 @@ public class DataService extends BORepositoryMaterials {
 	public OperationResult<MaterialSpecialPrice> saveMaterialSpecialPrice(MaterialSpecialPrice bo,
 			@HeaderParam("authorization") String authorization, @QueryParam("token") String token) {
 		return super.saveMaterialSpecialPrice(bo, MyConfiguration.optToken(authorization, token));
+	}
+
+	// --------------------------------------------------------------------------------------------//
+	/**
+	 * 查询-物料系号关联
+	 * @param criteria 查询
+	 * @param token 口令
+	 * @return 操作结果
+	 */
+	@POST
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Path("fetchMaterialNumberAssociation")
+	public OperationResult<MaterialNumberAssociation> fetchMaterialNumberAssociation(Criteria criteria,
+			@HeaderParam("authorization") String authorization, @QueryParam("token") String token) {
+		return super.fetchMaterialNumberAssociation(criteria, MyConfiguration.optToken(authorization, token));
+	}
+
+	/**
+	 * 保存-物料系号关联
+	 * @param bo 对象实例
+	 * @param token 口令
+	 * @return 操作结果
+	 */
+	@POST
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Path("saveMaterialNumberAssociation")
+	public OperationResult<MaterialNumberAssociation> saveMaterialNumberAssociation(MaterialNumberAssociation bo,
+			@HeaderParam("authorization") String authorization, @QueryParam("token") String token) {
+		return super.saveMaterialNumberAssociation(bo, MyConfiguration.optToken(authorization, token));
 	}
 
 	// --------------------------------------------------------------------------------------------//

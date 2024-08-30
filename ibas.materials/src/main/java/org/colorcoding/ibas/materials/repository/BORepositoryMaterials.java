@@ -63,6 +63,7 @@ import org.colorcoding.ibas.materials.bo.material.MaterialSubstitute;
 import org.colorcoding.ibas.materials.bo.material.MaterialVersion;
 import org.colorcoding.ibas.materials.bo.material.Product;
 import org.colorcoding.ibas.materials.bo.materialbatch.IMaterialBatch;
+import org.colorcoding.ibas.materials.bo.materialbatch.IMaterialBatchItem;
 import org.colorcoding.ibas.materials.bo.materialbatch.IMaterialBatchJournal;
 import org.colorcoding.ibas.materials.bo.materialbatch.MaterialBatch;
 import org.colorcoding.ibas.materials.bo.materialbatch.MaterialBatchJournal;
@@ -76,6 +77,8 @@ import org.colorcoding.ibas.materials.bo.materialinventory.MaterialInventory;
 import org.colorcoding.ibas.materials.bo.materialinventory.MaterialInventoryJournal;
 import org.colorcoding.ibas.materials.bo.materialinventory.MaterialInventoryReservation;
 import org.colorcoding.ibas.materials.bo.materialinventory.MaterialOrderedReservation;
+import org.colorcoding.ibas.materials.bo.materialnumberassociation.IMaterialNumberAssociation;
+import org.colorcoding.ibas.materials.bo.materialnumberassociation.MaterialNumberAssociation;
 import org.colorcoding.ibas.materials.bo.materialpricelist.IMaterialPriceItem;
 import org.colorcoding.ibas.materials.bo.materialpricelist.IMaterialPriceList;
 import org.colorcoding.ibas.materials.bo.materialpricelist.IMaterialSpecialPrice;
@@ -85,6 +88,7 @@ import org.colorcoding.ibas.materials.bo.materialpricelist.MaterialSpecialPrice;
 import org.colorcoding.ibas.materials.bo.materialscrap.IMaterialScrap;
 import org.colorcoding.ibas.materials.bo.materialscrap.MaterialScrap;
 import org.colorcoding.ibas.materials.bo.materialserial.IMaterialSerial;
+import org.colorcoding.ibas.materials.bo.materialserial.IMaterialSerialItem;
 import org.colorcoding.ibas.materials.bo.materialserial.IMaterialSerialJournal;
 import org.colorcoding.ibas.materials.bo.materialserial.MaterialSerial;
 import org.colorcoding.ibas.materials.bo.materialserial.MaterialSerialJournal;
@@ -2410,6 +2414,65 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 						}
 					}
 				}
+				// 保存批次/序列号变化关系
+				if (changes.getReceipt() != null && changes.getIssue() != null) {
+					// 入库记录出库关系
+					IGoodsIssueLine issueLine;
+					IGoodsReceiptLine receiptLine;
+					IMaterialBatchItem batchItem;
+					IMaterialSerialItem serialItem;
+					IMaterialNumberAssociation association = null;
+					ArrayList<IMaterialNumberAssociation> associations = new ArrayList<>();
+					for (int i = 0; i < changes.getIssue().getGoodsIssueLines().size(); i++) {
+						issueLine = changes.getIssue().getGoodsIssueLines().get(i);
+						receiptLine = changes.getReceipt().getGoodsReceiptLines().get(i);
+						receiptLine.setBaseDocumentType(issueLine.getObjectCode());
+						receiptLine.setBaseDocumentEntry(issueLine.getDocEntry());
+						receiptLine.setBaseDocumentLineId(issueLine.getLineId());
+						for (int j = 0; j < issueLine.getMaterialBatches().size(); j++) {
+							batchItem = issueLine.getMaterialBatches().get(j);
+							association = new MaterialNumberAssociation();
+							association.setBaseDocumentType(receiptLine.getObjectCode());
+							association.setBaseDocumentEntry(receiptLine.getDocEntry());
+							association.setBaseDocumentLineId(receiptLine.getLineId());
+							association.setRelation("CHANGE");
+							association.setItemCode(issueLine.getItemCode());
+							association.setWarehouse(issueLine.getWarehouse());
+							association.setBatchCode(batchItem.getBatchCode());
+							association.setSerialCode(DataConvert.STRING_VALUE_EMPTY);
+							association.setQuantity(batchItem.getQuantity());
+							association.setAssociatedItem(receiptLine.getItemCode());
+							association.setAssociatedWarehouse(receiptLine.getWarehouse());
+							association.setAssociatedBatch(receiptLine.getMaterialBatches().get(j).getBatchCode());
+							association.setAssociatedSerial(DataConvert.STRING_VALUE_EMPTY);
+							associations.add(association);
+						}
+						for (int j = 0; j < issueLine.getMaterialSerials().size(); j++) {
+							serialItem = issueLine.getMaterialSerials().get(j);
+							association = new MaterialNumberAssociation();
+							association.setBaseDocumentType(receiptLine.getObjectCode());
+							association.setBaseDocumentEntry(receiptLine.getDocEntry());
+							association.setBaseDocumentLineId(receiptLine.getLineId());
+							association.setRelation("CHANGE");
+							association.setItemCode(issueLine.getItemCode());
+							association.setWarehouse(issueLine.getWarehouse());
+							association.setBatchCode(DataConvert.STRING_VALUE_EMPTY);
+							association.setSerialCode(serialItem.getSerialCode());
+							association.setQuantity(Decimal.ONE);
+							association.setAssociatedItem(receiptLine.getItemCode());
+							association.setAssociatedWarehouse(receiptLine.getWarehouse());
+							association.setAssociatedBatch(DataConvert.STRING_VALUE_EMPTY);
+							association.setAssociatedSerial(receiptLine.getMaterialSerials().get(j).getSerialCode());
+							associations.add(association);
+						}
+					}
+					for (IMaterialNumberAssociation item : associations) {
+						IOperationResult<IMaterialNumberAssociation> opRslt = this.saveMaterialNumberAssociation(item);
+						if (opRslt.getError() != null) {
+							throw opRslt.getError();
+						}
+					}
+				}
 				if (myTrans) {
 					this.commitTransaction();
 				}
@@ -2587,6 +2650,47 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 				this.saveMaterialSpecialPrice((MaterialSpecialPrice) bo, this.getUserToken()));
 	}
 
+	// --------------------------------------------------------------------------------------------//
+	/**
+	 * 查询-物料系号关联
+	 * @param criteria 查询
+	 * @param token 口令
+	 * @return 操作结果
+	 */
+	public OperationResult<MaterialNumberAssociation> fetchMaterialNumberAssociation(ICriteria criteria, String token) {
+		return super.fetch(criteria, token, MaterialNumberAssociation.class);
+	}
+
+	/**
+	 * 查询-物料系号关联（提前设置用户口令）
+	 * @param criteria 查询
+	 * @return 操作结果
+	 */
+	public IOperationResult<IMaterialNumberAssociation> fetchMaterialNumberAssociation(ICriteria criteria) {
+		return new OperationResult<IMaterialNumberAssociation>(
+				this.fetchMaterialNumberAssociation(criteria, this.getUserToken()));
+	}
+
+	/**
+	 * 保存-物料系号关联
+	 * @param bo 对象实例
+	 * @param token 口令
+	 * @return 操作结果
+	 */
+	public OperationResult<MaterialNumberAssociation> saveMaterialNumberAssociation(MaterialNumberAssociation bo,
+			String token) {
+		return super.save(bo, token);
+	}
+
+	/**
+	 * 保存-物料系号关联（提前设置用户口令）
+	 * @param bo 对象实例
+	 * @return 操作结果
+	 */
+	public IOperationResult<IMaterialNumberAssociation> saveMaterialNumberAssociation(IMaterialNumberAssociation bo) {
+		return new OperationResult<IMaterialNumberAssociation>(
+				this.saveMaterialNumberAssociation((MaterialNumberAssociation) bo, this.getUserToken()));
+	}
 	// --------------------------------------------------------------------------------------------//
 
 }
