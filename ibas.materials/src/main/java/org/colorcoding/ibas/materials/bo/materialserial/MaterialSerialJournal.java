@@ -1270,14 +1270,16 @@ public class MaterialSerialJournal extends BusinessObject<MaterialSerialJournal>
 
 			@Override
 			public BigDecimal getCalculatedPrice() {
-				if (MaterialSerialJournal.this.getUpdateActionId() == null) {
-					// 入库，数量大于0；出库，数量小于0
-					if ((MaterialSerialJournal.this.getDirection() == emDirection.IN
-							&& MaterialSerialJournal.this.getQuantity().compareTo(Decimal.ZERO) > 0)
-							|| (MaterialSerialJournal.this.getDirection() == emDirection.OUT
-									&& MaterialSerialJournal.this.getQuantity().compareTo(Decimal.ZERO) < 0)) {
-						return MaterialSerialJournal.this.getCalculatedPrice();
-					}
+				if ((MaterialSerialJournal.this.getDirection() == emDirection.IN
+						&& MaterialSerialJournal.this.getQuantity().compareTo(Decimal.ZERO) > 0)
+						|| (MaterialSerialJournal.this.getDirection() == emDirection.OUT
+								&& MaterialSerialJournal.this.getQuantity().compareTo(Decimal.ZERO) < 0)) {
+					BigDecimal inventoryQuantity = Decimal.add(MaterialSerialJournal.this.getInventoryQuantity(),
+							MaterialSerialJournal.this.getQuantity().abs());
+					BigDecimal inventoryValue = Decimal.add(MaterialSerialJournal.this.getInventoryValue(),
+							MaterialSerialJournal.this.getTransactionValue().abs());
+					return Decimal.isZero(inventoryQuantity) ? Decimal.ZERO
+							: Decimal.divide(inventoryValue, inventoryQuantity);
 				}
 				return null;
 			}

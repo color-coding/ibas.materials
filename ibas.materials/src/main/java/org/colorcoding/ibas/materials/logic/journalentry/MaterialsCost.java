@@ -35,7 +35,8 @@ public abstract class MaterialsCost extends JournalEntrySmartContent {
 				return false;
 			}
 			if (item.getInventoryItem() == emYesNo.NO) {
-				return false;
+				// 非库存物料，成本返回0.
+				// return false;
 			}
 		}
 		return true;

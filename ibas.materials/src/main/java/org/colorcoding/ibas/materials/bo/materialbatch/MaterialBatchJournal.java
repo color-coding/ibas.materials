@@ -1269,14 +1269,16 @@ public class MaterialBatchJournal extends BusinessObject<MaterialBatchJournal>
 
 			@Override
 			public BigDecimal getCalculatedPrice() {
-				if (MaterialBatchJournal.this.getUpdateActionId() == null) {
-					// 入库，数量大于0；出库，数量小于0
-					if ((MaterialBatchJournal.this.getDirection() == emDirection.IN
-							&& MaterialBatchJournal.this.getQuantity().compareTo(Decimal.ZERO) > 0)
-							|| (MaterialBatchJournal.this.getDirection() == emDirection.OUT
-									&& MaterialBatchJournal.this.getQuantity().compareTo(Decimal.ZERO) < 0)) {
-						return MaterialBatchJournal.this.getCalculatedPrice();
-					}
+				if ((MaterialBatchJournal.this.getDirection() == emDirection.IN
+						&& MaterialBatchJournal.this.getQuantity().compareTo(Decimal.ZERO) > 0)
+						|| (MaterialBatchJournal.this.getDirection() == emDirection.OUT
+								&& MaterialBatchJournal.this.getQuantity().compareTo(Decimal.ZERO) < 0)) {
+					BigDecimal inventoryQuantity = Decimal.add(MaterialBatchJournal.this.getInventoryQuantity(),
+							MaterialBatchJournal.this.getQuantity().abs());
+					BigDecimal inventoryValue = Decimal.add(MaterialBatchJournal.this.getInventoryValue(),
+							MaterialBatchJournal.this.getTransactionValue().abs());
+					return Decimal.isZero(inventoryQuantity) ? Decimal.ZERO
+							: Decimal.divide(inventoryValue, inventoryQuantity);
 				}
 				return null;
 			}

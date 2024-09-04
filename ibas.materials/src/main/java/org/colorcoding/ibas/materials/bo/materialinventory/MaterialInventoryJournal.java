@@ -25,7 +25,6 @@ import org.colorcoding.ibas.bobas.rule.BusinessRuleException;
 import org.colorcoding.ibas.bobas.rule.IBusinessRule;
 import org.colorcoding.ibas.bobas.rule.ICheckRules;
 import org.colorcoding.ibas.bobas.rule.common.BusinessRuleMinValue;
-import org.colorcoding.ibas.bobas.rule.common.BusinessRuleMultiplication;
 import org.colorcoding.ibas.bobas.rule.common.BusinessRuleRequired;
 import org.colorcoding.ibas.materials.MyConfiguration;
 import org.colorcoding.ibas.materials.logic.IMaterialInventoryContract;
@@ -1218,13 +1217,7 @@ public class MaterialInventoryJournal extends BusinessObject<MaterialInventoryJo
 		return new IBusinessRule[] { // 注册的业务规则
 				new BusinessRuleRequired(PROPERTY_ITEMCODE), // 要求有值
 				new BusinessRuleRequired(PROPERTY_WAREHOUSE), // 要求有值
-				/** 取消逻辑，去除此限制
-				new BusinessRuleMinValue<BigDecimal>(Decimal.ZERO, PROPERTY_QUANTITY), // 不能低于0
-				*/
 				new BusinessRuleMinValue<BigDecimal>(Decimal.ZERO, PROPERTY_PRICE), // 不能低于0
-				// 交易价值 = 数量 * 成本价格
-				new BusinessRuleMultiplication(PROPERTY_TRANSACTIONVALUE, PROPERTY_QUANTITY, PROPERTY_CALCULATEDPRICE),
-
 		};
 	}
 
@@ -1297,11 +1290,18 @@ public class MaterialInventoryJournal extends BusinessObject<MaterialInventoryJo
 
 			@Override
 			public BigDecimal getCalculatedPrice() {
-				if (MaterialInventoryJournal.this.getUpdateActionId() == null) {
-					return MaterialInventoryJournal.this.getCalculatedPrice();
-				} else {
-					return null;
+				if ((MaterialInventoryJournal.this.getDirection() == emDirection.IN
+						&& MaterialInventoryJournal.this.getQuantity().compareTo(Decimal.ZERO) > 0)
+						|| (MaterialInventoryJournal.this.getDirection() == emDirection.OUT
+								&& MaterialInventoryJournal.this.getQuantity().compareTo(Decimal.ZERO) < 0)) {
+					BigDecimal inventoryQuantity = Decimal.add(MaterialInventoryJournal.this.getInventoryQuantity(),
+							MaterialInventoryJournal.this.getQuantity().abs());
+					BigDecimal inventoryValue = Decimal.add(MaterialInventoryJournal.this.getInventoryValue(),
+							MaterialInventoryJournal.this.getTransactionValue().abs());
+					return Decimal.isZero(inventoryQuantity) ? Decimal.ZERO
+							: Decimal.divide(inventoryValue, inventoryQuantity);
 				}
+				return null;
 			}
 		});
 		// 物料仓库库存
@@ -1333,11 +1333,18 @@ public class MaterialInventoryJournal extends BusinessObject<MaterialInventoryJo
 
 			@Override
 			public BigDecimal getCalculatedPrice() {
-				if (MaterialInventoryJournal.this.getUpdateActionId() == null) {
-					return MaterialInventoryJournal.this.getCalculatedPrice();
-				} else {
-					return null;
+				if ((MaterialInventoryJournal.this.getDirection() == emDirection.IN
+						&& MaterialInventoryJournal.this.getQuantity().compareTo(Decimal.ZERO) > 0)
+						|| (MaterialInventoryJournal.this.getDirection() == emDirection.OUT
+								&& MaterialInventoryJournal.this.getQuantity().compareTo(Decimal.ZERO) < 0)) {
+					BigDecimal inventoryQuantity = Decimal.add(MaterialInventoryJournal.this.getInventoryQuantity(),
+							MaterialInventoryJournal.this.getQuantity().abs());
+					BigDecimal inventoryValue = Decimal.add(MaterialInventoryJournal.this.getInventoryValue(),
+							MaterialInventoryJournal.this.getTransactionValue().abs());
+					return Decimal.isZero(inventoryQuantity) ? Decimal.ZERO
+							: Decimal.divide(inventoryValue, inventoryQuantity);
 				}
+				return null;
 			}
 		});
 		// 入库

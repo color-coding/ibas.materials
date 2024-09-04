@@ -639,7 +639,20 @@ namespace materials {
                                                 showHeader: false,
                                                 content: [
                                                     this.tableInventoryJournal
-                                                ]
+                                                ],
+                                                showFooter: true,
+                                                floatingFooter: true,
+                                                footer: new sap.m.Toolbar("", {
+                                                    content: [
+                                                        new sap.m.ToolbarSpacer(""),
+                                                        new sap.m.Label("", {
+                                                            showColon: true,
+                                                            text: ibas.i18n.prop("materials_material_inventories"),
+                                                        }),
+                                                        this.txtInventories = new sap.m.Text("", {
+                                                        }).addStyleClass("sapUiTinyMarginBegin"),
+                                                    ]
+                                                }),
                                             }),
                                             new sap.m.Page("", {
                                                 showHeader: false,
@@ -669,6 +682,7 @@ namespace materials {
                 private container: sap.m.NavContainer;
                 private dateFrom: sap.m.DatePicker;
                 private dateTo: sap.m.DatePicker;
+                private txtInventories: sap.m.Text;
                 /** 嵌入查询面板 */
                 embedded(view: any): void {
                     if (view instanceof sap.m.Toolbar) {
@@ -744,6 +758,11 @@ namespace materials {
                 showInventoryJournals(datas: bo.MaterialInventoryJournal[]): void {
                     this.container.to(this.tableInventoryJournal.getParent().getId());
                     this.tableInventoryJournal.setModel(new sap.extension.model.JSONModel({ rows: datas }));
+                    setTimeout(() => {
+                        let total: number = 0;
+                        datas.forEach(c => total += c.quantity);
+                        this.txtInventories.setText(sap.extension.data.formatValue(sap.extension.data.Quantity, total, "string"));
+                    }, 30);
                 }
                 /** 显示物料订购交易数据 */
                 showOrderedJournals(datas: bo.MaterialEstimateJournal[]): void {

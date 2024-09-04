@@ -38,12 +38,20 @@ public class MaterialInventoryService extends MaterialInventoryBusinessLogic<IMa
 	protected void impact(IMaterialInventoryContract contract) {
 		IMaterial material = this.getBeAffected();
 		BigDecimal onHand = material.getOnHand();
-		if (contract.getDirection() == emDirection.OUT) {
-			onHand = onHand.subtract(contract.getQuantity());
-		} else {
+		if (contract.getDirection() == emDirection.IN) {
 			onHand = onHand.add(contract.getQuantity());
-			if (contract.getCalculatedPrice() != null) {
-				if (!MyConfiguration.getConfigValue(MyConfiguration.CONFIG_ITEM_MANAGE_MATERIAL_COSTS_BY_WAREHOUSE,
+			if (contract.getQuantity().compareTo(Decimal.ZERO) > 0 && contract.getCalculatedPrice() != null) {
+				if (MyConfiguration.getConfigValue(MyConfiguration.CONFIG_ITEM_MANAGE_MATERIAL_COSTS_BY_WAREHOUSE,
+						true)) {
+					material.setAvgPrice(contract.getCalculatedPrice());
+				} else {
+					material.setAvgPrice(Decimal.ZERO);
+				}
+			}
+		} else if (contract.getDirection() == emDirection.OUT) {
+			onHand = onHand.subtract(contract.getQuantity());
+			if (contract.getQuantity().compareTo(Decimal.ZERO) < 0 && contract.getCalculatedPrice() != null) {
+				if (MyConfiguration.getConfigValue(MyConfiguration.CONFIG_ITEM_MANAGE_MATERIAL_COSTS_BY_WAREHOUSE,
 						true)) {
 					material.setAvgPrice(contract.getCalculatedPrice());
 				} else {

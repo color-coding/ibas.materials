@@ -149,6 +149,11 @@ class MaterialBatchItem extends org.colorcoding.ibas.materials.bo.materialbatch.
 					public BigDecimal getRate() {
 						return MaterialBatchItem.this.parent.getRate();
 					}
+
+					@Override
+					public void onCalculatedCostPrice(BigDecimal price) {
+						MaterialBatchItem.this.issuePrice = price;
+					}
 				},
 
 				new IMaterialBatchJournalContract() {

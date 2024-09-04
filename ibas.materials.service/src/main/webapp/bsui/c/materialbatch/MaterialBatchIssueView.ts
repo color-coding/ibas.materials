@@ -124,7 +124,7 @@ namespace materials {
                             path: "/rows",
                             template: new sap.m.CustomListItem("", {
                                 content: [
-                                    new sap.m.Panel("", {
+                                    this.itmPanelTemplate = new sap.m.Panel("", {
                                         expandable: true,
                                         expanded: false,
                                         backgroundDesign: sap.m.BackgroundDesign.Translucent,
@@ -286,7 +286,7 @@ namespace materials {
                             path: "/rows",
                             template: new sap.extension.m.CustomListItem("", {
                                 content: [
-                                    new sap.m.Panel("", {
+                                    this.invPanelTemplate = new sap.m.Panel("", {
                                         expandable: true,
                                         expanded: false,
                                         backgroundDesign: sap.m.BackgroundDesign.Translucent,
@@ -541,47 +541,38 @@ namespace materials {
                                                         showHeader: false,
                                                         subHeader: new sap.m.Toolbar("", {
                                                             content: [
-                                                                new sap.m.MenuButton("", {
-                                                                    icon: "sap-icon://indent",
+                                                                new sap.m.Button("", {
                                                                     type: sap.m.ButtonType.Transparent,
-                                                                    menuPosition: sap.ui.core.Popup.Dock.BeginBottom,
-                                                                    tooltip: ibas.strings.format("{0}/{1}", ibas.i18n.prop("shell_show"), ibas.i18n.prop("shell_hide")),
-                                                                    menu: new sap.m.Menu("", {
-                                                                        items: [
-                                                                            new sap.m.MenuItem("", {
-                                                                                icon: "sap-icon://navigation-down-arrow",
-                                                                                text: ibas.i18n.prop(["shell_show", "materials_details"]),
-                                                                                press: function (): void {
-                                                                                    that.tableInventories.setBusy(true);
-                                                                                    for (let item of that.tableInventories.getItems()) {
-                                                                                        if (item instanceof sap.m.CustomListItem) {
-                                                                                            let panel: any = item.getContent()[0];
-                                                                                            if (panel instanceof sap.m.Panel) {
-                                                                                                panel.setExpanded(true);
-                                                                                            }
-                                                                                        }
+                                                                    icon: "sap-icon://navigation-right-arrow",
+                                                                    press: function (this: sap.m.Button): void {
+                                                                        if (this.getIcon() === "sap-icon://navigation-right-arrow") {
+                                                                            that.tableInventories.setBusy(true);
+                                                                            for (let item of that.tableInventories.getItems()) {
+                                                                                if (item instanceof sap.m.CustomListItem) {
+                                                                                    let panel: any = item.getContent()[0];
+                                                                                    if (panel instanceof sap.m.Panel) {
+                                                                                        panel.setExpanded(true);
                                                                                     }
-                                                                                    that.tableInventories.setBusy(false);
                                                                                 }
-                                                                            }),
-                                                                            new sap.m.MenuItem("", {
-                                                                                icon: "sap-icon://navigation-right-arrow",
-                                                                                text: ibas.i18n.prop(["shell_hide", "materials_details"]),
-                                                                                press: function (): void {
-                                                                                    that.tableInventories.setBusy(true);
-                                                                                    for (let item of that.tableInventories.getItems()) {
-                                                                                        if (item instanceof sap.m.CustomListItem) {
-                                                                                            let panel: any = item.getContent()[0];
-                                                                                            if (panel instanceof sap.m.Panel) {
-                                                                                                panel.setExpanded(false);
-                                                                                            }
-                                                                                        }
+                                                                            }
+                                                                            that.tableInventories.setBusy(false);
+                                                                            that.invPanelTemplate.setExpanded(true);
+                                                                            this.setIcon("sap-icon://navigation-down-arrow");
+                                                                        } else {
+                                                                            that.tableInventories.setBusy(true);
+                                                                            for (let item of that.tableInventories.getItems()) {
+                                                                                if (item instanceof sap.m.CustomListItem) {
+                                                                                    let panel: any = item.getContent()[0];
+                                                                                    if (panel instanceof sap.m.Panel) {
+                                                                                        panel.setExpanded(false);
                                                                                     }
-                                                                                    that.tableInventories.setBusy(false);
                                                                                 }
-                                                                            }),
-                                                                        ],
-                                                                    })
+                                                                            }
+                                                                            that.tableInventories.setBusy(false);
+                                                                            that.invPanelTemplate.setExpanded(false);
+                                                                            this.setIcon("sap-icon://navigation-right-arrow");
+                                                                        }
+                                                                    }
                                                                 }),
                                                                 new sap.m.ToolbarSeparator(""),
                                                                 new sap.m.SearchField("", {
@@ -639,47 +630,38 @@ namespace materials {
                                                         floatingFooter: true,
                                                         subHeader: new sap.m.Toolbar("", {
                                                             content: [
-                                                                new sap.m.MenuButton("", {
-                                                                    icon: "sap-icon://indent",
+                                                                new sap.m.Button("", {
                                                                     type: sap.m.ButtonType.Transparent,
-                                                                    menuPosition: sap.ui.core.Popup.Dock.BeginBottom,
-                                                                    tooltip: ibas.strings.format("{0}/{1}", ibas.i18n.prop("shell_show"), ibas.i18n.prop("shell_hide")),
-                                                                    menu: new sap.m.Menu("", {
-                                                                        items: [
-                                                                            new sap.m.MenuItem("", {
-                                                                                icon: "sap-icon://navigation-down-arrow",
-                                                                                text: ibas.i18n.prop(["shell_show", "materials_details"]),
-                                                                                press: function (): void {
-                                                                                    that.tableItems.setBusy(true);
-                                                                                    for (let item of that.tableItems.getItems()) {
-                                                                                        if (item instanceof sap.m.CustomListItem) {
-                                                                                            let panel: any = item.getContent()[0];
-                                                                                            if (panel instanceof sap.m.Panel) {
-                                                                                                panel.setExpanded(true);
-                                                                                            }
-                                                                                        }
+                                                                    icon: "sap-icon://navigation-right-arrow",
+                                                                    press: function (this: sap.m.Button): void {
+                                                                        if (this.getIcon() === "sap-icon://navigation-right-arrow") {
+                                                                            that.tableItems.setBusy(true);
+                                                                            for (let item of that.tableItems.getItems()) {
+                                                                                if (item instanceof sap.m.CustomListItem) {
+                                                                                    let panel: any = item.getContent()[0];
+                                                                                    if (panel instanceof sap.m.Panel) {
+                                                                                        panel.setExpanded(true);
                                                                                     }
-                                                                                    that.tableItems.setBusy(false);
                                                                                 }
-                                                                            }),
-                                                                            new sap.m.MenuItem("", {
-                                                                                icon: "sap-icon://navigation-right-arrow",
-                                                                                text: ibas.i18n.prop(["shell_hide", "materials_details"]),
-                                                                                press: function (): void {
-                                                                                    that.tableItems.setBusy(true);
-                                                                                    for (let item of that.tableItems.getItems()) {
-                                                                                        if (item instanceof sap.m.CustomListItem) {
-                                                                                            let panel: any = item.getContent()[0];
-                                                                                            if (panel instanceof sap.m.Panel) {
-                                                                                                panel.setExpanded(false);
-                                                                                            }
-                                                                                        }
+                                                                            }
+                                                                            that.tableItems.setBusy(false);
+                                                                            that.itmPanelTemplate.setExpanded(true);
+                                                                            this.setIcon("sap-icon://navigation-down-arrow");
+                                                                        } else {
+                                                                            that.tableItems.setBusy(true);
+                                                                            for (let item of that.tableItems.getItems()) {
+                                                                                if (item instanceof sap.m.CustomListItem) {
+                                                                                    let panel: any = item.getContent()[0];
+                                                                                    if (panel instanceof sap.m.Panel) {
+                                                                                        panel.setExpanded(false);
                                                                                     }
-                                                                                    that.tableItems.setBusy(false);
                                                                                 }
-                                                                            }),
-                                                                        ],
-                                                                    })
+                                                                            }
+                                                                            that.tableItems.setBusy(false);
+                                                                            that.itmPanelTemplate.setExpanded(false);
+                                                                            this.setIcon("sap-icon://navigation-right-arrow");
+                                                                        }
+                                                                    }
                                                                 }),
                                                                 new sap.m.ToolbarSeparator(""),
                                                                 new sap.m.SearchField("", {
@@ -775,6 +757,8 @@ namespace materials {
                 private tableWorkDatas: sap.extension.m.List;
                 private tableItems: sap.extension.m.List;
                 private tableInventories: sap.extension.m.List;
+                private invPanelTemplate: sap.m.Panel;
+                private itmPanelTemplate: sap.m.Panel;
                 /** 显示待处理数据 */
                 showWorkDatas(datas: app.BatchWorkingItem[]): void {
                     this.tableWorkDatas.setModel(new sap.extension.model.JSONModel({ rows: datas }));

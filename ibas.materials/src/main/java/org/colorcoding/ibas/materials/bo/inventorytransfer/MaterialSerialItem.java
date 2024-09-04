@@ -143,6 +143,11 @@ class MaterialSerialItem extends org.colorcoding.ibas.materials.bo.materialseria
 					public BigDecimal getRate() {
 						return MaterialSerialItem.this.parent.getRate();
 					}
+
+					@Override
+					public void onCalculatedCostPrice(BigDecimal price) {
+						MaterialSerialItem.this.issuePrice = price;
+					}
 				},
 
 				new IMaterialSerialJournalContract() {

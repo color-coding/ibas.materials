@@ -92,15 +92,21 @@ public class MaterialBatchInventorySerivce
 	protected void impact(IMaterialBatchInventoryContract contract) {
 		IMaterialBatch materialBatch = this.getBeAffected();
 		BigDecimal quantity = materialBatch.getQuantity();
-		if (contract.getDirection().equals(emDirection.IN)) {
+		if (contract.getDirection() == emDirection.IN) {
 			quantity = quantity.add(contract.getQuantity());
-		} else {
+			if (contract.getQuantity().compareTo(Decimal.ZERO) > 0 && contract.getCalculatedPrice() != null) {
+				if (this.checkMaterial(materialBatch.getItemCode())
+						.getValuationMethod() == emValuationMethod.BATCH_MOVING_AVERAGE) {
+					materialBatch.setAvgPrice(contract.getCalculatedPrice());
+				}
+			}
+		} else if (contract.getDirection() == emDirection.OUT) {
 			quantity = quantity.subtract(contract.getQuantity());
-		}
-		if (this.checkMaterial(materialBatch.getItemCode())
-				.getValuationMethod() == emValuationMethod.BATCH_MOVING_AVERAGE) {
-			if (contract.getCalculatedPrice() != null) {
-				materialBatch.setAvgPrice(contract.getCalculatedPrice());
+			if (contract.getQuantity().compareTo(Decimal.ZERO) < 0 && contract.getCalculatedPrice() != null) {
+				if (this.checkMaterial(materialBatch.getItemCode())
+						.getValuationMethod() == emValuationMethod.BATCH_MOVING_AVERAGE) {
+					materialBatch.setAvgPrice(contract.getCalculatedPrice());
+				}
 			}
 		}
 		if (Decimal.ZERO.compareTo(quantity) > 0) {

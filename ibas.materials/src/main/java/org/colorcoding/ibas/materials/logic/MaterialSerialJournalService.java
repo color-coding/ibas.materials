@@ -200,12 +200,15 @@ public class MaterialSerialJournalService
 		IMaterialSerialJournal materialSerialJournal = this.getBeAffected();
 		// 开启物料成本计算
 		if (this.isEnableMaterialCosts()) {
+			String localCurrency = org.colorcoding.ibas.accounting.MyConfiguration
+					.getConfigValue(org.colorcoding.ibas.accounting.MyConfiguration.CONFIG_ITEM_LOCAL_CURRENCY);
 			if (!materialSerialJournal.isNew() || (contract.isOffsetting() && materialSerialJournal.isNew())) {
 				// 更新的或取消的
 				if (!materialSerialJournal.getItemCode().equals(contract.getItemCode())
 						|| !materialSerialJournal.getWarehouse().equals(contract.getWarehouse())
 						|| !materialSerialJournal.getSerialCode().equals(contract.getSerialCode())
-						|| materialSerialJournal.getPrice().compareTo(contract.getPrice()) != 0) {
+						|| (materialSerialJournal.getPrice().compareTo(contract.getPrice()) != 0
+								&& contract.getPrice().compareTo(Decimal.ZERO) > 0)) {
 					// 修改入库物料、仓库、价格，影响成本计算，不允许
 					throw new BusinessLogicException(
 							I18N.prop(
@@ -223,9 +226,7 @@ public class MaterialSerialJournalService
 			if (materialSerialJournal.isNew()) {
 				// 交易币转为本位币
 				if (!DataConvert.isNullOrEmpty(contract.getCurrency())) {
-					if (!contract.getCurrency()
-							.equalsIgnoreCase(org.colorcoding.ibas.accounting.MyConfiguration.getConfigValue(
-									org.colorcoding.ibas.accounting.MyConfiguration.CONFIG_ITEM_LOCAL_CURRENCY))) {
+					if (!contract.getCurrency().equalsIgnoreCase(localCurrency)) {
 						// 非本币
 						if (contract.getRate() == null || Decimal.ZERO.compareTo(contract.getRate()) >= 0) {
 							// 未设置有效汇率
@@ -256,120 +257,121 @@ public class MaterialSerialJournalService
 						}
 					}
 				}
-				// 本币价格
-				BigDecimal price = contract.getPrice();
-				if (price == null) {
-					price = Decimal.ZERO;
-				}
-				if (contract.getRate() != null && !Decimal.isZero(contract.getRate())) {
-					price = Decimal.multiply(price, contract.getRate());
-				}
 				// 查询时点库存及价值
 				BigDecimal inventoryValue = Decimal.ZERO;
 				BigDecimal inventoryQuantity = Decimal.ZERO;
 				BigDecimal calculatedPrice = Decimal.ZERO;
-				IMaterialSerial materialInventory = this.checkMaterialSerial(contract.getItemCode(),
+				IMaterialSerial materialSerial = this.checkMaterialSerial(contract.getItemCode(),
 						contract.getWarehouse(), contract.getSerialCode());
-				if (materialInventory != null) {
+				if (materialSerial != null) {
 					// 库存价值 = 当前仓库库存价值
-					inventoryQuantity = materialInventory.getInStock() == emYesNo.YES ? Decimal.ONE : Decimal.ZERO;
-					inventoryValue = materialInventory.getInStock() == emYesNo.YES
-							? materialInventory.getInventoryValue()
+					inventoryQuantity = materialSerial.getInStock() == emYesNo.YES ? Decimal.ONE : Decimal.ZERO;
+					inventoryValue = materialSerial.getInStock() == emYesNo.YES ? materialSerial.getInventoryValue()
 							: Decimal.ZERO;
-					calculatedPrice = materialInventory.getAvgPrice();
+					calculatedPrice = materialSerial.getAvgPrice();
 				}
-				if (contract.getDirection() == emDirection.IN && contract.isOffsetting()) {
-					// 入库反向，加载内存中数据（同单同物料）
+				// 根据情况调整价格
+				if (contract.getDirection() == emDirection.OUT && contract.isOffsetting()) {
+					// 出库的取消，价格使用出库价格
+					calculatedPrice = materialSerialJournal.getCalculatedPrice();
+				} else if (contract.getDirection() == emDirection.IN && !contract.isOffsetting()) {
+					// 入库，使用单据价格
+					calculatedPrice = contract.getPrice();
+					if (calculatedPrice == null) {
+						calculatedPrice = Decimal.ZERO;
+					}
+					if (contract.getRate() != null && !Decimal.isZero(contract.getRate())) {
+						calculatedPrice = Decimal.multiply(calculatedPrice, contract.getRate());
+					}
+				}
+				// 价格小于0，通过基于单据查询
+				if (contract.getPrice().compareTo(Decimal.ZERO) < 0) {
 					Criteria criteria = new Criteria();
+					criteria.setResultCount(1);
 					ICondition condition = criteria.getConditions().create();
-					condition.setAlias(MaterialSerialJournal.PROPERTY_ITEMCODE.getName());
-					condition.setValue(contract.getItemCode());
+					condition.setAlias(MaterialSerialJournal.PROPERTY_BASEDOCUMENTTYPE.getName());
+					condition.setValue(contract.getBaseDocumentType());
 					condition = criteria.getConditions().create();
-					condition.setAlias(MaterialSerialJournal.PROPERTY_WAREHOUSE.getName());
-					condition.setValue(contract.getWarehouse());
+					condition.setAlias(MaterialSerialJournal.PROPERTY_BASEDOCUMENTENTRY.getName());
+					condition.setValue(contract.getBaseDocumentEntry());
+					condition = criteria.getConditions().create();
+					condition.setAlias(MaterialSerialJournal.PROPERTY_BASEDOCUMENTLINEID.getName());
+					condition.setValue(contract.getBaseDocumentLineId());
+					condition = criteria.getConditions().create();
+					condition.setAlias(MaterialSerialJournal.PROPERTY_QUANTITY.getName());
+					condition.setOperation(ConditionOperation.GRATER_EQUAL);
+					condition.setValue(Decimal.ZERO);
+					condition = criteria.getConditions().create();
+					condition.setAlias(MaterialSerialJournal.PROPERTY_DATASOURCE.getName());
+					condition.setValue(DATASOURCE_SIGN_REGULAR_JOURNAL);
 					condition = criteria.getConditions().create();
 					condition.setAlias(MaterialSerialJournal.PROPERTY_SERIALCODE.getName());
 					condition.setValue(contract.getSerialCode());
-					for (IMaterialSerialJournal item : this.getLogicChain().fetchBeAffected(criteria,
-							IMaterialSerialJournal.class, true)) {
-						if (item == materialSerialJournal) {
-							continue;
-						}
-						if (item.getDirection() != contract.getDirection()) {
-							continue;
-						}
-						// 增加，其他行增加的量
+					BORepositoryMaterials boRepository = new BORepositoryMaterials();
+					boRepository.setRepository(this.getRepository());
+					IOperationResult<IMaterialSerialJournal> operationResult = boRepository
+							.fetchMaterialSerialJournal(criteria);
+					if (operationResult.getError() != null) {
+						throw new BusinessLogicException(operationResult.getError());
+					}
+					if (operationResult.getResultObjects().isEmpty()) {
+						throw new BusinessLogicException(I18N.prop("msg_mm_document_not_found_receipt_journal",
+								String.format("{[%s].[DocEntry = %s]%s}", contract.getBaseDocumentEntry(),
+										contract.getBaseDocumentEntry(),
+										contract.getBaseDocumentLineId() > 0
+												? String.format("&&[LineId = %s]", contract.getBaseDocumentLineId())
+												: "")));
+					}
+					for (IMaterialSerialJournal item : operationResult.getResultObjects()) {
+						calculatedPrice = item.getCalculatedPrice();
+					}
+				}
+				if (calculatedPrice == null || calculatedPrice.compareTo(Decimal.ZERO) < 0) {
+					throw new BusinessLogicException(
+							I18N.prop("msg_mm_document_material_price_invaild", contract.getIdentifiers()));
+				}
+				Criteria criteria = new Criteria();
+				ICondition condition = criteria.getConditions().create();
+				condition.setAlias(MaterialSerialJournal.PROPERTY_ITEMCODE.getName());
+				condition.setValue(contract.getItemCode());
+				condition = criteria.getConditions().create();
+				condition.setAlias(MaterialSerialJournal.PROPERTY_WAREHOUSE.getName());
+				condition.setValue(contract.getWarehouse());
+				condition = criteria.getConditions().create();
+				condition.setAlias(MaterialSerialJournal.PROPERTY_SERIALCODE.getName());
+				condition.setValue(contract.getSerialCode());
+				for (IMaterialSerialJournal item : this.getLogicChain().fetchBeAffected(criteria,
+						IMaterialSerialJournal.class, true)) {
+					if (item == materialSerialJournal) {
+						continue;
+					}
+					if (item.getDirection() != contract.getDirection()) {
+						continue;
+					}
+					if (contract.isOffsetting() && Decimal.ZERO.compareTo(item.getQuantity()) < 0) {
+						continue;
+					} else if (!contract.isOffsetting() && Decimal.ZERO.compareTo(item.getQuantity()) > 0) {
+						continue;
+					}
+					if (contract.getDirection() == emDirection.IN) {
+						// 增加，其他行的量
 						inventoryQuantity = inventoryQuantity.add(item.getQuantity());
 						inventoryValue = inventoryValue.add(item.getTransactionValue());
+					} else if (contract.getDirection() == emDirection.OUT) {
+						// 减少，其他行的量
+						inventoryQuantity = inventoryQuantity.subtract(item.getQuantity());
+						inventoryValue = inventoryValue.subtract(item.getTransactionValue());
 					}
-					// 记录时点库存及价值
-					materialSerialJournal.setInventoryQuantity(inventoryQuantity);
-					materialSerialJournal.setInventoryValue(inventoryValue);
-					// 库存总价值 = 时点库存价值 - (本次入库价格 * 本次入库数量)
-					inventoryValue = inventoryValue.subtract(Decimal.multiply(price, Decimal.ONE));
-					// 库存总数量 = 时点库存数量 - 本次入库数量
-					inventoryQuantity = inventoryQuantity.subtract(Decimal.ONE);
-					// 成本价格 = 总价值 / 总数量
-					if (!Decimal.isZero(inventoryQuantity)) {
-						materialSerialJournal.setCalculatedPrice(Decimal.divide(inventoryValue, inventoryQuantity));
-					} else {
-						materialSerialJournal.setCalculatedPrice(Decimal.ZERO);
-					}
-				} else if (contract.getDirection() == emDirection.IN
-						|| (contract.getDirection() == emDirection.OUT && contract.isOffsetting())) {
-					// 入库或出库反向，加载内存中数据（同单同物料）
-					Criteria criteria = new Criteria();
-					ICondition condition = criteria.getConditions().create();
-					condition.setAlias(MaterialSerialJournal.PROPERTY_ITEMCODE.getName());
-					condition.setValue(contract.getItemCode());
-					condition = criteria.getConditions().create();
-					condition.setAlias(MaterialSerialJournal.PROPERTY_WAREHOUSE.getName());
-					condition.setValue(contract.getWarehouse());
-					condition = criteria.getConditions().create();
-					condition.setAlias(MaterialSerialJournal.PROPERTY_SERIALCODE.getName());
-					condition.setValue(contract.getSerialCode());
-					for (IMaterialSerialJournal item : this.getLogicChain().fetchBeAffected(criteria,
-							IMaterialSerialJournal.class, true)) {
-						if (item == materialSerialJournal) {
-							continue;
-						}
-						if (item.getDirection() != contract.getDirection()) {
-							continue;
-						}
-						if (Decimal.ZERO.compareTo(item.getQuantity()) <= 0) {
-							continue;
-						}
-						// 增加，其他行增加的量
-						inventoryQuantity = inventoryQuantity.add(item.getQuantity());
-						inventoryValue = inventoryValue.add(Decimal.multiply(Decimal.multiply(item.getPrice(),
-								item.getRate() == null || Decimal.isZero(item.getRate()) ? Decimal.ONE
-										: item.getRate()),
-								item.getQuantity()));
-					}
-					// 记录时点库存及价值
-					materialSerialJournal.setInventoryQuantity(inventoryQuantity);
-					materialSerialJournal.setInventoryValue(inventoryValue);
-					if (contract.getDirection() == emDirection.OUT && contract.isOffsetting()) {
-						// 库存总价值 = 时点库存价值 + (正向出库价格 * 本次入库数量)
-						inventoryValue = inventoryValue
-								.add(Decimal.multiply(materialSerialJournal.getCalculatedPrice(), Decimal.ONE));
-					} else {
-						// 库存总价值 = 时点库存价值 + (本次入库价格 * 本次入库数量)
-						inventoryValue = inventoryValue.add(Decimal.multiply(price, Decimal.ONE));
-					}
-					// 库存总数量 = 时点库存数量 + 本次入库数量
-					inventoryQuantity = inventoryQuantity.add(Decimal.ONE);
-					// 成本价格 = 总价值 / 总数量
-					if (!Decimal.isZero(inventoryQuantity)) {
-						materialSerialJournal.setCalculatedPrice(Decimal.divide(inventoryValue, inventoryQuantity));
-					} else {
-						materialSerialJournal.setCalculatedPrice(Decimal.ZERO);
-					}
-				} else if (contract.getDirection() == emDirection.OUT) {
-					// 出库
-					materialSerialJournal.setCalculatedPrice(calculatedPrice);
-					materialSerialJournal.setInventoryQuantity(inventoryQuantity);
-					materialSerialJournal.setInventoryValue(inventoryValue);
+				}
+				// 记录时点库存及价值
+				materialSerialJournal.setInventoryQuantity(inventoryQuantity);
+				materialSerialJournal.setInventoryValue(inventoryValue);
+				materialSerialJournal.setCalculatedPrice(calculatedPrice);
+				// 本次交易价值 = 本次入库价格 * 本次入库数量
+				materialSerialJournal.setTransactionValue(Decimal.multiply(calculatedPrice, Decimal.ONE));
+				// 取消则负数
+				if (contract.isOffsetting()) {
+					materialSerialJournal.setTransactionValue(materialSerialJournal.getTransactionValue().negate());
 				}
 				// 触发成本价计算完成
 				contract.onCalculatedCostPrice(materialSerialJournal.getCalculatedPrice());
@@ -393,7 +395,7 @@ public class MaterialSerialJournalService
 			materialSerialJournal.setDocumentDate(contract.getDocumentDate());
 			materialSerialJournal.setDeliveryDate(contract.getDeliveryDate());
 			materialSerialJournal.setQuantity(Decimal.ONE);
-			materialSerialJournal.setPrice(contract.getPrice());
+			materialSerialJournal.setPrice(contract.getPrice().abs());
 			materialSerialJournal.setCurrency(contract.getCurrency());
 			materialSerialJournal.setRate(contract.getRate());
 			materialSerialJournal.setOriginalDocumentType(contract.getBaseDocumentType());

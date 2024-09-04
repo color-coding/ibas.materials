@@ -382,7 +382,20 @@ namespace materials {
                         }),
                         content: [
                             this.tableBatchJournal
-                        ]
+                        ],
+                        showFooter: true,
+                        floatingFooter: true,
+                        footer: new sap.m.Toolbar("", {
+                            content: [
+                                new sap.m.ToolbarSpacer(""),
+                                new sap.m.Label("", {
+                                    showColon: true,
+                                    text: ibas.i18n.prop("materials_material_inventories"),
+                                }),
+                                this.txtInventories = new sap.m.Text("", {
+                                }).addStyleClass("sapUiTinyMarginBegin"),
+                            ]
+                        }),
                     });
                     return new sap.m.SplitContainer("", {
                         masterPages: [
@@ -437,10 +450,16 @@ namespace materials {
                 }
                 private pageBatchJournal: sap.m.Page;
                 private tableBatchJournal: sap.extension.table.Table;
+                private txtInventories: sap.m.Text;
 
                 /** 显示物料批次交易数据 */
                 showDataJournals(datas: bo.MaterialBatchJournal[]): void {
                     this.tableBatchJournal.setModel(new sap.extension.model.JSONModel({ rows: datas }));
+                    setTimeout(() => {
+                        let total: number = 0;
+                        datas.forEach(c => total += c.quantity);
+                        this.txtInventories.setText(sap.extension.data.formatValue(sap.extension.data.Quantity, total, "string"));
+                    }, 30);
                 }
             }
         }

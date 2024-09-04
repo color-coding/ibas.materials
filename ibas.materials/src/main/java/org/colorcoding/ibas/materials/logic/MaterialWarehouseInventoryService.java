@@ -80,11 +80,19 @@ public class MaterialWarehouseInventoryService
 	protected void impact(IMaterialWarehouseInventoryContract contract) {
 		IMaterialInventory materialInventory = this.getBeAffected();
 		BigDecimal onHand = materialInventory.getOnHand();
-		if (contract.getDirection() == emDirection.OUT) {
-			onHand = onHand.subtract(contract.getQuantity());
-		} else {
+		if (contract.getDirection() == emDirection.IN) {
 			onHand = onHand.add(contract.getQuantity());
-			if (contract.getCalculatedPrice() != null) {
+			if (contract.getQuantity().compareTo(Decimal.ZERO) > 0 && contract.getCalculatedPrice() != null) {
+				if (MyConfiguration.getConfigValue(MyConfiguration.CONFIG_ITEM_MANAGE_MATERIAL_COSTS_BY_WAREHOUSE,
+						true)) {
+					materialInventory.setAvgPrice(contract.getCalculatedPrice());
+				} else {
+					materialInventory.setAvgPrice(Decimal.ZERO);
+				}
+			}
+		} else if (contract.getDirection() == emDirection.OUT) {
+			onHand = onHand.subtract(contract.getQuantity());
+			if (contract.getQuantity().compareTo(Decimal.ZERO) < 0 && contract.getCalculatedPrice() != null) {
 				if (MyConfiguration.getConfigValue(MyConfiguration.CONFIG_ITEM_MANAGE_MATERIAL_COSTS_BY_WAREHOUSE,
 						true)) {
 					materialInventory.setAvgPrice(contract.getCalculatedPrice());
