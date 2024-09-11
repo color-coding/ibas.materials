@@ -146,6 +146,12 @@ namespace materials {
                     case app.MaterialSerialEditApp.APPLICATION_ID:
                         view = new c.MaterialSerialEditView();
                         break;
+                    case app.MaterialSerialViewApp.APPLICATION_ID:
+                        view = new c.MaterialSerialViewView();
+                        break;
+                    case app.MaterialSerialViewApp.APPLICATION_ID:
+                        view = new c.MaterialSerialEditView();
+                        break;
                     case app.MaterialBatchListApp.APPLICATION_ID:
                         view = new c.MaterialBatchListView();
                         break;
@@ -154,6 +160,9 @@ namespace materials {
                         break;
                     case app.MaterialBatchEditApp.APPLICATION_ID:
                         view = new c.MaterialBatchEditView();
+                        break;
+                    case app.MaterialBatchViewApp.APPLICATION_ID:
+                        view = new c.MaterialBatchViewView();
                         break;
                     case app.MaterialPriceListListApp.APPLICATION_ID:
                         view = new c.MaterialPriceListListView();

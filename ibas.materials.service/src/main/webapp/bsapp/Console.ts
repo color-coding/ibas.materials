@@ -71,7 +71,9 @@ namespace materials {
                 this.register(new MaterialSerialListServiceMapping());
                 this.register(new MaterialPriceListChooseServiceMapping());
                 this.register(new MaterialSerialChooseServiceMapping());
+                this.register(new MaterialSerialLinkServiceMapping());
                 this.register(new MaterialBatchChooseServiceMapping());
+                this.register(new MaterialBatchLinkServiceMapping());
                 this.register(new MaterialSpecificationChooseServiceMapping());
                 this.register(new MaterialSpecificationLinkServiceMapping());
                 this.register(new SpecificationChooseServiceMapping());

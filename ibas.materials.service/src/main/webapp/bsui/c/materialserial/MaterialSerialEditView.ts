@@ -30,7 +30,7 @@ namespace materials {
                         userFieldsTitle: "",
                         editable: true,
                         content: [
-                            new sap.m.Label("", { text: ibas.i18n.prop("bo_materialserial_itemcode") }),
+                            new sap.m.Label("", { text: ibas.i18n.prop("bo_material") }),
                             new sap.extension.m.RepositoryInput("", {
                                 editable: false,
                                 repository: bo.BORepositoryMaterials,
@@ -48,10 +48,10 @@ namespace materials {
                             }).bindProperty("bindingValue", {
                                 path: "/itemCode",
                                 type: new sap.extension.data.Alphanumeric({
-                                    maxLength: 20
+                                    maxLength: 50
                                 })
                             }),
-                            new sap.m.Label("", { text: ibas.i18n.prop("bo_materialserial_warehouse") }),
+                            new sap.m.Label("", { text: ibas.i18n.prop("bo_warehouse") }),
                             new sap.extension.m.RepositoryInput("", {
                                 editable: false,
                                 repository: bo.BORepositoryMaterials,
@@ -66,9 +66,16 @@ namespace materials {
                                     maxLength: 8
                                 })
                             }),
+                            new sap.extension.m.Input("", {
+                                editable: false,
+                            }).bindProperty("bindingValue", {
+                                path: "/warehouse",
+                                type: new sap.extension.data.Alphanumeric({
+                                    maxLength: 8
+                                })
+                            }),
                             new sap.m.Label("", { text: ibas.i18n.prop("bo_materialserial_serialcode") }),
-                            new sap.m.Input("", {
-                                type: sap.m.InputType.Text,
+                            new sap.extension.m.Input("", {
                                 editable: false,
                             }).bindProperty("value", {
                                 path: "/serialCode",
@@ -210,7 +217,7 @@ namespace materials {
                             this.formTop
                         ],
                         buttons: [
-                            this.buttonSave = new sap.m.Button("", {
+                            new sap.m.Button("", {
                                 text: ibas.i18n.prop("shell_data_save"),
                                 type: sap.m.ButtonType.Transparent,
                                 icon: "sap-icon://save",
@@ -232,13 +239,9 @@ namespace materials {
                 }
 
                 private formTop: sap.ui.layout.form.SimpleForm;
-                private buttonSave: sap.m.Button;
 
                 /** 显示数据 */
-                showMaterialSerial(data: bo.MaterialSerial, viewMode: ibas.emViewMode): void {
-                    if (viewMode !== ibas.emViewMode.VIEW) {
-                        this.buttonSave.setVisible(true);
-                    }
+                showMaterialSerial(data: bo.MaterialSerial): void {
                     this.formTop.setModel(new sap.extension.model.JSONModel(data));
                 }
             }

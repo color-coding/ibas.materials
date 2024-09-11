@@ -10,3 +10,4 @@
 /// <reference path="./MaterialBatchFunc.ts" />
 /// <reference path="./MaterialBatchListApp.ts" />
 /// <reference path="./MaterialBatchService.ts" />
+/// <reference path="./MaterialBatchViewApp.ts" />

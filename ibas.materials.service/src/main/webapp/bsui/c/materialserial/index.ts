@@ -11,3 +11,4 @@
 /// <reference path="./MaterialSerialIssueView.ts" />
 /// <reference path="./MaterialSerialListsView.ts" />
 /// <reference path="./MaterialSerialReceiptView.ts" />
+/// <reference path="./MaterialSerialViewView.ts" />

@@ -10,3 +10,4 @@
 /// <reference path="./MaterialSerialFunc.ts" />
 /// <reference path="./MaterialSerialListApp.ts" />
 /// <reference path="./MaterialSerialService.ts" />
+/// <reference path="./MaterialSerialViewApp.ts" />

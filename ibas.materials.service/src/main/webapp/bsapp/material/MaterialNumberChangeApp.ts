@@ -561,10 +561,9 @@ namespace materials {
                     )); return;
                 }
                 if (data instanceof bo.MaterialSerial) {
-                    let app: MaterialSerialEditApp = new MaterialSerialEditApp();
+                    let app: MaterialSerialViewApp = new MaterialSerialViewApp();
                     app.navigation = this.navigation;
                     app.viewShower = this.viewShower;
-                    app.viewMode = ibas.emViewMode.VIEW;
                     app.run(data);
                 }
             }
@@ -576,10 +575,9 @@ namespace materials {
                     )); return;
                 }
                 if (data instanceof bo.MaterialBatch) {
-                    let app: MaterialBatchEditApp = new MaterialBatchEditApp();
+                    let app: MaterialBatchViewApp = new MaterialBatchViewApp();
                     app.navigation = this.navigation;
                     app.viewShower = this.viewShower;
-                    app.viewMode = ibas.emViewMode.VIEW;
                     app.run(data);
                 }
             }

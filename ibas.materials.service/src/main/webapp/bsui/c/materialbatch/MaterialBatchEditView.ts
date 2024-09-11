@@ -29,7 +29,7 @@ namespace materials {
                         userFieldsTitle: "",
                         editable: true,
                         content: [
-                            new sap.m.Label("", { text: ibas.i18n.prop("bo_materialbatch_itemcode") }),
+                            new sap.m.Label("", { text: ibas.i18n.prop("bo_material") }),
                             new sap.extension.m.RepositoryInput("", {
                                 editable: false,
                                 repository: bo.BORepositoryMaterials,
@@ -47,10 +47,10 @@ namespace materials {
                             }).bindProperty("bindingValue", {
                                 path: "/itemCode",
                                 type: new sap.extension.data.Alphanumeric({
-                                    maxLength: 20
+                                    maxLength: 50
                                 })
                             }),
-                            new sap.m.Label("", { text: ibas.i18n.prop("bo_materialbatch_warehouse") }),
+                            new sap.m.Label("", { text: ibas.i18n.prop("bo_warehouse") }),
                             new sap.extension.m.RepositoryInput("", {
                                 editable: false,
                                 repository: bo.BORepositoryMaterials,
@@ -59,6 +59,14 @@ namespace materials {
                                     key: bo.Warehouse.PROPERTY_CODE_NAME,
                                     text: bo.Warehouse.PROPERTY_NAME_NAME
                                 },
+                            }).bindProperty("bindingValue", {
+                                path: "/warehouse",
+                                type: new sap.extension.data.Alphanumeric({
+                                    maxLength: 8
+                                })
+                            }),
+                            new sap.extension.m.Input("", {
+                                editable: false,
                             }).bindProperty("bindingValue", {
                                 path: "/warehouse",
                                 type: new sap.extension.data.Alphanumeric({
@@ -196,7 +204,7 @@ namespace materials {
                             this.formTop
                         ],
                         buttons: [
-                            this.buttonSave = new sap.m.Button("", {
+                            new sap.m.Button("", {
                                 text: ibas.i18n.prop("shell_data_save"),
                                 type: sap.m.ButtonType.Transparent,
                                 icon: "sap-icon://save",
@@ -217,13 +225,9 @@ namespace materials {
                     }).addStyleClass("sapUiNoContentPadding");
                 }
                 private formTop: sap.ui.layout.form.SimpleForm;
-                private buttonSave: sap.m.Button;
 
                 /** 显示数据 */
-                showMaterialBatch(data: bo.MaterialBatch, viewMode: ibas.emViewMode): void {
-                    if (viewMode !== ibas.emViewMode.VIEW) {
-                        this.buttonSave.setVisible(true);
-                    }
+                showMaterialBatch(data: bo.MaterialBatch): void {
                     this.formTop.setModel(new sap.extension.model.JSONModel(data));
                 }
             }

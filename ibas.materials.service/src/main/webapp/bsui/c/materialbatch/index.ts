@@ -11,3 +11,4 @@
 /// <reference path="./MaterialBatchReceiptView.ts" />
 /// <reference path="./MaterialBatchIssueView.ts" />
 /// <reference path="./MaterialBatchListsView.ts" />
+/// <reference path="./MaterialBatchViewView.ts" />
