@@ -86,6 +86,18 @@ namespace materials {
                                                         path: "decimalPlaces",
                                                         type: new sap.extension.data.Numeric(),
                                                     }),
+                                                    new sap.m.Label("", { text: ibas.i18n.prop("bo_unit_category") }),
+                                                    new sap.extension.m.PropertySelect("", {
+                                                        dataInfo: {
+                                                            code: bo.Unit.BUSINESS_OBJECT_CODE,
+                                                        },
+                                                        propertyName: "category",
+                                                    }).bindProperty("bindingValue", {
+                                                        path: "category",
+                                                        type: new sap.extension.data.Alphanumeric({
+                                                            maxLength: 30
+                                                        })
+                                                    }),
                                                 ]
                                             })
                                         ]

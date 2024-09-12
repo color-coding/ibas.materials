@@ -4,5 +4,6 @@
     <Name>米</Name>
     <ForeignName>metre</ForeignName>
     <Symbol>m</Symbol>
+    <Category>SIZE</Category>
     <Activated>YES</Activated>
 </ns:Unit>

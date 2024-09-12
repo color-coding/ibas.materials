@@ -11,6 +11,14 @@ namespace materials {
         export class Unit extends ibas.BOSimple<Unit> implements IUnit {
             /** 业务对象编码 */
             static BUSINESS_OBJECT_CODE: string = BO_CODE_UNIT;
+            /** 类别：尺寸 */
+            static CATEGORY_SIZE: string = "SIZE";
+            /** 类别：面积 */
+            static CATEGORY_SQUARE: string = "SQUARE";
+            /** 类别：体积 */
+            static CATEGORY_VOLUME: string = "VOLUME";
+            /** 类别：重量 */
+            static CATEGORY_WEIGHT: string = "WEIGHT";
             /** 构造函数 */
             constructor() {
                 super();
@@ -222,6 +230,17 @@ namespace materials {
             /** 设置-小数位数 */
             set decimalPlaces(value: number) {
                 this.setProperty(Unit.PROPERTY_DECIMALPLACES_NAME, value);
+            }
+
+            /** 映射的属性名称-类别 */
+            static PROPERTY_CATEGORY_NAME: string = "Category";
+            /** 获取-类别 */
+            get category(): string {
+                return this.getProperty<string>(Unit.PROPERTY_CATEGORY_NAME);
+            }
+            /** 设置-类别 */
+            set category(value: string) {
+                this.setProperty(Unit.PROPERTY_CATEGORY_NAME, value);
             }
 
             /** 映射的属性名称-备注 */

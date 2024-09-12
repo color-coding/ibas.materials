@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!DOCTYPE Unit>
+<ns:UnitRate xmlns:ns="http://colorcoding.org/ibas/materials/bo">
+    <Source>立方米</Source>
+    <Target>立方厘米</Target>
+    <Rate>1000000</Rate>
+    <Condition></Condition>
+</ns:UnitRate>

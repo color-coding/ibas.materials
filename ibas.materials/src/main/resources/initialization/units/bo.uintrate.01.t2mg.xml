@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!DOCTYPE Unit>
+<ns:UnitRate xmlns:ns="http://colorcoding.org/ibas/materials/bo">
+    <Source>吨</Source>
+    <Target>豪克</Target>
+    <Rate>1000000000</Rate>
+    <Condition></Condition>
+</ns:UnitRate>

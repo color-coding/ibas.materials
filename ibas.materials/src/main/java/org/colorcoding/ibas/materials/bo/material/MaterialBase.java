@@ -1482,6 +1482,750 @@ public abstract class MaterialBase<T extends MaterialBase<T>> extends BusinessOb
 	}
 
 	/**
+	* 属性名称-销售-长
+	*/
+	private static final String PROPERTY_SALESLENGTH_NAME = "SalesLength";
+
+	/**
+	* 销售-长 属性
+	*/
+	@DbField(name = "SalesLength", type = DbFieldType.DECIMAL, table = DB_TABLE_NAME)
+	public static final IPropertyInfo<BigDecimal> PROPERTY_SALESLENGTH = registerProperty(PROPERTY_SALESLENGTH_NAME,
+			BigDecimal.class, MY_CLASS);
+
+	/**
+	* 获取-销售-长
+	* 
+	* @return 值
+	*/
+	@XmlElement(name = PROPERTY_SALESLENGTH_NAME)
+	public final BigDecimal getSalesLength() {
+		return this.getProperty(PROPERTY_SALESLENGTH);
+	}
+
+	/**
+	* 设置-销售-长
+	* 
+	* @param value 值
+	*/
+	public final void setSalesLength(BigDecimal value) {
+		this.setProperty(PROPERTY_SALESLENGTH, value);
+	}
+
+	/**
+	* 属性名称-销售-宽
+	*/
+	private static final String PROPERTY_SALESWIDTH_NAME = "SalesWidth";
+
+	/**
+	* 销售-宽 属性
+	*/
+	@DbField(name = "SalesWidth", type = DbFieldType.DECIMAL, table = DB_TABLE_NAME)
+	public static final IPropertyInfo<BigDecimal> PROPERTY_SALESWIDTH = registerProperty(PROPERTY_SALESWIDTH_NAME,
+			BigDecimal.class, MY_CLASS);
+
+	/**
+	* 获取-销售-宽
+	* 
+	* @return 值
+	*/
+	@XmlElement(name = PROPERTY_SALESWIDTH_NAME)
+	public final BigDecimal getSalesWidth() {
+		return this.getProperty(PROPERTY_SALESWIDTH);
+	}
+
+	/**
+	* 设置-销售-宽
+	* 
+	* @param value 值
+	*/
+	public final void setSalesWidth(BigDecimal value) {
+		this.setProperty(PROPERTY_SALESWIDTH, value);
+	}
+
+	/**
+	* 属性名称-销售-高
+	*/
+	private static final String PROPERTY_SALESHEIGHT_NAME = "SalesHeight";
+
+	/**
+	* 销售-高 属性
+	*/
+	@DbField(name = "SalesHeight", type = DbFieldType.DECIMAL, table = DB_TABLE_NAME)
+	public static final IPropertyInfo<BigDecimal> PROPERTY_SALESHEIGHT = registerProperty(PROPERTY_SALESHEIGHT_NAME,
+			BigDecimal.class, MY_CLASS);
+
+	/**
+	* 获取-销售-高
+	* 
+	* @return 值
+	*/
+	@XmlElement(name = PROPERTY_SALESHEIGHT_NAME)
+	public final BigDecimal getSalesHeight() {
+		return this.getProperty(PROPERTY_SALESHEIGHT);
+	}
+
+	/**
+	* 设置-销售-高
+	* 
+	* @param value 值
+	*/
+	public final void setSalesHeight(BigDecimal value) {
+		this.setProperty(PROPERTY_SALESHEIGHT, value);
+	}
+
+	/**
+	* 属性名称-销售-尺寸单位
+	*/
+	private static final String PROPERTY_SALESSIZEUNIT_NAME = "SalesSizeUnit";
+
+	/**
+	* 销售-尺寸单位 属性
+	*/
+	@DbField(name = "SalesSizeUnit", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME)
+	public static final IPropertyInfo<String> PROPERTY_SALESSIZEUNIT = registerProperty(PROPERTY_SALESSIZEUNIT_NAME,
+			String.class, MY_CLASS);
+
+	/**
+	* 获取-销售-尺寸单位
+	* 
+	* @return 值
+	*/
+	@XmlElement(name = PROPERTY_SALESSIZEUNIT_NAME)
+	public final String getSalesSizeUnit() {
+		return this.getProperty(PROPERTY_SALESSIZEUNIT);
+	}
+
+	/**
+	* 设置-销售-尺寸单位
+	* 
+	* @param value 值
+	*/
+	public final void setSalesSizeUnit(String value) {
+		this.setProperty(PROPERTY_SALESSIZEUNIT, value);
+	}
+
+	/**
+	* 属性名称-销售-体积
+	*/
+	private static final String PROPERTY_SALESVOLUME_NAME = "SalesVolume";
+
+	/**
+	* 销售-体积 属性
+	*/
+	@DbField(name = "SalesVolume", type = DbFieldType.DECIMAL, table = DB_TABLE_NAME)
+	public static final IPropertyInfo<BigDecimal> PROPERTY_SALESVOLUME = registerProperty(PROPERTY_SALESVOLUME_NAME,
+			BigDecimal.class, MY_CLASS);
+
+	/**
+	* 获取-销售-体积
+	* 
+	* @return 值
+	*/
+	@XmlElement(name = PROPERTY_SALESVOLUME_NAME)
+	public final BigDecimal getSalesVolume() {
+		return this.getProperty(PROPERTY_SALESVOLUME);
+	}
+
+	/**
+	* 设置-销售-体积
+	* 
+	* @param value 值
+	*/
+	public final void setSalesVolume(BigDecimal value) {
+		this.setProperty(PROPERTY_SALESVOLUME, value);
+	}
+
+	/**
+	* 属性名称-销售-体积单位
+	*/
+	private static final String PROPERTY_SALESVOLUMEUNIT_NAME = "SalesVolumeUnit";
+
+	/**
+	* 销售-体积单位 属性
+	*/
+	@DbField(name = "SalesVolumeUnit", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME)
+	public static final IPropertyInfo<String> PROPERTY_SALESVOLUMEUNIT = registerProperty(PROPERTY_SALESVOLUMEUNIT_NAME,
+			String.class, MY_CLASS);
+
+	/**
+	* 获取-销售-体积单位
+	* 
+	* @return 值
+	*/
+	@XmlElement(name = PROPERTY_SALESVOLUMEUNIT_NAME)
+	public final String getSalesVolumeUnit() {
+		return this.getProperty(PROPERTY_SALESVOLUMEUNIT);
+	}
+
+	/**
+	* 设置-销售-体积单位
+	* 
+	* @param value 值
+	*/
+	public final void setSalesVolumeUnit(String value) {
+		this.setProperty(PROPERTY_SALESVOLUMEUNIT, value);
+	}
+
+	/**
+	* 属性名称-销售-重量
+	*/
+	private static final String PROPERTY_SALESWEIGHT_NAME = "SalesWeight";
+
+	/**
+	* 销售-重量 属性
+	*/
+	@DbField(name = "SalesWeight", type = DbFieldType.DECIMAL, table = DB_TABLE_NAME)
+	public static final IPropertyInfo<BigDecimal> PROPERTY_SALESWEIGHT = registerProperty(PROPERTY_SALESWEIGHT_NAME,
+			BigDecimal.class, MY_CLASS);
+
+	/**
+	* 获取-销售-重量
+	* 
+	* @return 值
+	*/
+	@XmlElement(name = PROPERTY_SALESWEIGHT_NAME)
+	public final BigDecimal getSalesWeight() {
+		return this.getProperty(PROPERTY_SALESWEIGHT);
+	}
+
+	/**
+	* 设置-销售-重量
+	* 
+	* @param value 值
+	*/
+	public final void setSalesWeight(BigDecimal value) {
+		this.setProperty(PROPERTY_SALESWEIGHT, value);
+	}
+
+	/**
+	* 属性名称-销售-重量单位
+	*/
+	private static final String PROPERTY_SALESWEIGHTUNIT_NAME = "SalesWeightUnit";
+
+	/**
+	* 销售-重量单位 属性
+	*/
+	@DbField(name = "SalesWeightUnit", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME)
+	public static final IPropertyInfo<String> PROPERTY_SALESWEIGHTUNIT = registerProperty(PROPERTY_SALESWEIGHTUNIT_NAME,
+			String.class, MY_CLASS);
+
+	/**
+	* 获取-销售-重量单位
+	* 
+	* @return 值
+	*/
+	@XmlElement(name = PROPERTY_SALESWEIGHTUNIT_NAME)
+	public final String getSalesWeightUnit() {
+		return this.getProperty(PROPERTY_SALESWEIGHTUNIT);
+	}
+
+	/**
+	* 设置-销售-重量单位
+	* 
+	* @param value 值
+	*/
+	public final void setSalesWeightUnit(String value) {
+		this.setProperty(PROPERTY_SALESWEIGHTUNIT, value);
+	}
+
+	/**
+	* 属性名称-采购-长
+	*/
+	private static final String PROPERTY_PURCHASELENGTH_NAME = "PurchaseLength";
+
+	/**
+	* 采购-长 属性
+	*/
+	@DbField(name = "PrchseLength", type = DbFieldType.DECIMAL, table = DB_TABLE_NAME)
+	public static final IPropertyInfo<BigDecimal> PROPERTY_PURCHASELENGTH = registerProperty(
+			PROPERTY_PURCHASELENGTH_NAME, BigDecimal.class, MY_CLASS);
+
+	/**
+	* 获取-采购-长
+	* 
+	* @return 值
+	*/
+	@XmlElement(name = PROPERTY_PURCHASELENGTH_NAME)
+	public final BigDecimal getPurchaseLength() {
+		return this.getProperty(PROPERTY_PURCHASELENGTH);
+	}
+
+	/**
+	* 设置-采购-长
+	* 
+	* @param value 值
+	*/
+	public final void setPurchaseLength(BigDecimal value) {
+		this.setProperty(PROPERTY_PURCHASELENGTH, value);
+	}
+
+	/**
+	* 属性名称-采购-宽
+	*/
+	private static final String PROPERTY_PURCHASEWIDTH_NAME = "PurchaseWidth";
+
+	/**
+	* 采购-宽 属性
+	*/
+	@DbField(name = "PrchseWidth", type = DbFieldType.DECIMAL, table = DB_TABLE_NAME)
+	public static final IPropertyInfo<BigDecimal> PROPERTY_PURCHASEWIDTH = registerProperty(PROPERTY_PURCHASEWIDTH_NAME,
+			BigDecimal.class, MY_CLASS);
+
+	/**
+	* 获取-采购-宽
+	* 
+	* @return 值
+	*/
+	@XmlElement(name = PROPERTY_PURCHASEWIDTH_NAME)
+	public final BigDecimal getPurchaseWidth() {
+		return this.getProperty(PROPERTY_PURCHASEWIDTH);
+	}
+
+	/**
+	* 设置-采购-宽
+	* 
+	* @param value 值
+	*/
+	public final void setPurchaseWidth(BigDecimal value) {
+		this.setProperty(PROPERTY_PURCHASEWIDTH, value);
+	}
+
+	/**
+	* 属性名称-采购-高
+	*/
+	private static final String PROPERTY_PURCHASEHEIGHT_NAME = "PurchaseHeight";
+
+	/**
+	* 采购-高 属性
+	*/
+	@DbField(name = "PrchseHeight", type = DbFieldType.DECIMAL, table = DB_TABLE_NAME)
+	public static final IPropertyInfo<BigDecimal> PROPERTY_PURCHASEHEIGHT = registerProperty(
+			PROPERTY_PURCHASEHEIGHT_NAME, BigDecimal.class, MY_CLASS);
+
+	/**
+	* 获取-采购-高
+	* 
+	* @return 值
+	*/
+	@XmlElement(name = PROPERTY_PURCHASEHEIGHT_NAME)
+	public final BigDecimal getPurchaseHeight() {
+		return this.getProperty(PROPERTY_PURCHASEHEIGHT);
+	}
+
+	/**
+	* 设置-采购-高
+	* 
+	* @param value 值
+	*/
+	public final void setPurchaseHeight(BigDecimal value) {
+		this.setProperty(PROPERTY_PURCHASEHEIGHT, value);
+	}
+
+	/**
+	* 属性名称-销售-尺寸单位
+	*/
+	private static final String PROPERTY_PURCHASESIZEUNIT_NAME = "PurchaseSizeUnit";
+
+	/**
+	* 销售-尺寸单位 属性
+	*/
+	@DbField(name = "PrchseSizeUnit", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME)
+	public static final IPropertyInfo<String> PROPERTY_PURCHASESIZEUNIT = registerProperty(
+			PROPERTY_PURCHASESIZEUNIT_NAME, String.class, MY_CLASS);
+
+	/**
+	* 获取-销售-尺寸单位
+	* 
+	* @return 值
+	*/
+	@XmlElement(name = PROPERTY_PURCHASESIZEUNIT_NAME)
+	public final String getPurchaseSizeUnit() {
+		return this.getProperty(PROPERTY_PURCHASESIZEUNIT);
+	}
+
+	/**
+	* 设置-销售-尺寸单位
+	* 
+	* @param value 值
+	*/
+	public final void setPurchaseSizeUnit(String value) {
+		this.setProperty(PROPERTY_PURCHASESIZEUNIT, value);
+	}
+
+	/**
+	* 属性名称-采购-体积
+	*/
+	private static final String PROPERTY_PURCHASEVOLUME_NAME = "PurchaseVolume";
+
+	/**
+	* 采购-体积 属性
+	*/
+	@DbField(name = "PrchseVolume", type = DbFieldType.DECIMAL, table = DB_TABLE_NAME)
+	public static final IPropertyInfo<BigDecimal> PROPERTY_PURCHASEVOLUME = registerProperty(
+			PROPERTY_PURCHASEVOLUME_NAME, BigDecimal.class, MY_CLASS);
+
+	/**
+	* 获取-采购-体积
+	* 
+	* @return 值
+	*/
+	@XmlElement(name = PROPERTY_PURCHASEVOLUME_NAME)
+	public final BigDecimal getPurchaseVolume() {
+		return this.getProperty(PROPERTY_PURCHASEVOLUME);
+	}
+
+	/**
+	* 设置-采购-体积
+	* 
+	* @param value 值
+	*/
+	public final void setPurchaseVolume(BigDecimal value) {
+		this.setProperty(PROPERTY_PURCHASEVOLUME, value);
+	}
+
+	/**
+	* 属性名称-采购-体积单位
+	*/
+	private static final String PROPERTY_PURCHASEVOLUMEUNIT_NAME = "PurchaseVolumeUnit";
+
+	/**
+	* 采购-体积单位 属性
+	*/
+	@DbField(name = "PrchseVolumeUnit", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME)
+	public static final IPropertyInfo<String> PROPERTY_PURCHASEVOLUMEUNIT = registerProperty(
+			PROPERTY_PURCHASEVOLUMEUNIT_NAME, String.class, MY_CLASS);
+
+	/**
+	* 获取-采购-体积单位
+	* 
+	* @return 值
+	*/
+	@XmlElement(name = PROPERTY_PURCHASEVOLUMEUNIT_NAME)
+	public final String getPurchaseVolumeUnit() {
+		return this.getProperty(PROPERTY_PURCHASEVOLUMEUNIT);
+	}
+
+	/**
+	* 设置-采购-体积单位
+	* 
+	* @param value 值
+	*/
+	public final void setPurchaseVolumeUnit(String value) {
+		this.setProperty(PROPERTY_PURCHASEVOLUMEUNIT, value);
+	}
+
+	/**
+	* 属性名称-采购-重量
+	*/
+	private static final String PROPERTY_PURCHASEWEIGHT_NAME = "PurchaseWeight";
+
+	/**
+	* 采购-重量 属性
+	*/
+	@DbField(name = "PrchseWeight", type = DbFieldType.DECIMAL, table = DB_TABLE_NAME)
+	public static final IPropertyInfo<BigDecimal> PROPERTY_PURCHASEWEIGHT = registerProperty(
+			PROPERTY_PURCHASEWEIGHT_NAME, BigDecimal.class, MY_CLASS);
+
+	/**
+	* 获取-采购-重量
+	* 
+	* @return 值
+	*/
+	@XmlElement(name = PROPERTY_PURCHASEWEIGHT_NAME)
+	public final BigDecimal getPurchaseWeight() {
+		return this.getProperty(PROPERTY_PURCHASEWEIGHT);
+	}
+
+	/**
+	* 设置-采购-重量
+	* 
+	* @param value 值
+	*/
+	public final void setPurchaseWeight(BigDecimal value) {
+		this.setProperty(PROPERTY_PURCHASEWEIGHT, value);
+	}
+
+	/**
+	* 属性名称-采购-重量单位
+	*/
+	private static final String PROPERTY_PURCHASEWEIGHTUNIT_NAME = "PurchaseWeightUnit";
+
+	/**
+	* 采购-重量单位 属性
+	*/
+	@DbField(name = "PrchseWeightUnit", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME)
+	public static final IPropertyInfo<String> PROPERTY_PURCHASEWEIGHTUNIT = registerProperty(
+			PROPERTY_PURCHASEWEIGHTUNIT_NAME, String.class, MY_CLASS);
+
+	/**
+	* 获取-采购-重量单位
+	* 
+	* @return 值
+	*/
+	@XmlElement(name = PROPERTY_PURCHASEWEIGHTUNIT_NAME)
+	public final String getPurchaseWeightUnit() {
+		return this.getProperty(PROPERTY_PURCHASEWEIGHTUNIT);
+	}
+
+	/**
+	* 设置-采购-重量单位
+	* 
+	* @param value 值
+	*/
+	public final void setPurchaseWeightUnit(String value) {
+		this.setProperty(PROPERTY_PURCHASEWEIGHTUNIT, value);
+	}
+
+	/**
+	* 属性名称-库存-长
+	*/
+	private static final String PROPERTY_INVENTORYLENGTH_NAME = "InventoryLength";
+
+	/**
+	* 库存-长 属性
+	*/
+	@DbField(name = "InvntLength", type = DbFieldType.DECIMAL, table = DB_TABLE_NAME)
+	public static final IPropertyInfo<BigDecimal> PROPERTY_INVENTORYLENGTH = registerProperty(
+			PROPERTY_INVENTORYLENGTH_NAME, BigDecimal.class, MY_CLASS);
+
+	/**
+	* 获取-库存-长
+	* 
+	* @return 值
+	*/
+	@XmlElement(name = PROPERTY_INVENTORYLENGTH_NAME)
+	public final BigDecimal getInventoryLength() {
+		return this.getProperty(PROPERTY_INVENTORYLENGTH);
+	}
+
+	/**
+	* 设置-库存-长
+	* 
+	* @param value 值
+	*/
+	public final void setInventoryLength(BigDecimal value) {
+		this.setProperty(PROPERTY_INVENTORYLENGTH, value);
+	}
+
+	/**
+	* 属性名称-库存-宽
+	*/
+	private static final String PROPERTY_INVENTORYWIDTH_NAME = "InventoryWidth";
+
+	/**
+	* 库存-宽 属性
+	*/
+	@DbField(name = "InvntWidth", type = DbFieldType.DECIMAL, table = DB_TABLE_NAME)
+	public static final IPropertyInfo<BigDecimal> PROPERTY_INVENTORYWIDTH = registerProperty(
+			PROPERTY_INVENTORYWIDTH_NAME, BigDecimal.class, MY_CLASS);
+
+	/**
+	* 获取-库存-宽
+	* 
+	* @return 值
+	*/
+	@XmlElement(name = PROPERTY_INVENTORYWIDTH_NAME)
+	public final BigDecimal getInventoryWidth() {
+		return this.getProperty(PROPERTY_INVENTORYWIDTH);
+	}
+
+	/**
+	* 设置-库存-宽
+	* 
+	* @param value 值
+	*/
+	public final void setInventoryWidth(BigDecimal value) {
+		this.setProperty(PROPERTY_INVENTORYWIDTH, value);
+	}
+
+	/**
+	* 属性名称-库存-高
+	*/
+	private static final String PROPERTY_INVENTORYHEIGHT_NAME = "InventoryHeight";
+
+	/**
+	* 库存-高 属性
+	*/
+	@DbField(name = "InvntHeight", type = DbFieldType.DECIMAL, table = DB_TABLE_NAME)
+	public static final IPropertyInfo<BigDecimal> PROPERTY_INVENTORYHEIGHT = registerProperty(
+			PROPERTY_INVENTORYHEIGHT_NAME, BigDecimal.class, MY_CLASS);
+
+	/**
+	* 获取-库存-高
+	* 
+	* @return 值
+	*/
+	@XmlElement(name = PROPERTY_INVENTORYHEIGHT_NAME)
+	public final BigDecimal getInventoryHeight() {
+		return this.getProperty(PROPERTY_INVENTORYHEIGHT);
+	}
+
+	/**
+	* 设置-库存-高
+	* 
+	* @param value 值
+	*/
+	public final void setInventoryHeight(BigDecimal value) {
+		this.setProperty(PROPERTY_INVENTORYHEIGHT, value);
+	}
+
+	/**
+	* 属性名称-销售-尺寸单位
+	*/
+	private static final String PROPERTY_INVENTORYSIZEUNIT_NAME = "InventorySizeUnit";
+
+	/**
+	* 销售-尺寸单位 属性
+	*/
+	@DbField(name = "InvntSizeUnit", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME)
+	public static final IPropertyInfo<String> PROPERTY_INVENTORYSIZEUNIT = registerProperty(
+			PROPERTY_INVENTORYSIZEUNIT_NAME, String.class, MY_CLASS);
+
+	/**
+	* 获取-销售-尺寸单位
+	* 
+	* @return 值
+	*/
+	@XmlElement(name = PROPERTY_INVENTORYSIZEUNIT_NAME)
+	public final String getInventorySizeUnit() {
+		return this.getProperty(PROPERTY_INVENTORYSIZEUNIT);
+	}
+
+	/**
+	* 设置-销售-尺寸单位
+	* 
+	* @param value 值
+	*/
+	public final void setInventorySizeUnit(String value) {
+		this.setProperty(PROPERTY_INVENTORYSIZEUNIT, value);
+	}
+
+	/**
+	* 属性名称-库存-体积
+	*/
+	private static final String PROPERTY_INVENTORYVOLUME_NAME = "InventoryVolume";
+
+	/**
+	* 库存-体积 属性
+	*/
+	@DbField(name = "InvntVolume", type = DbFieldType.DECIMAL, table = DB_TABLE_NAME)
+	public static final IPropertyInfo<BigDecimal> PROPERTY_INVENTORYVOLUME = registerProperty(
+			PROPERTY_INVENTORYVOLUME_NAME, BigDecimal.class, MY_CLASS);
+
+	/**
+	* 获取-库存-体积
+	* 
+	* @return 值
+	*/
+	@XmlElement(name = PROPERTY_INVENTORYVOLUME_NAME)
+	public final BigDecimal getInventoryVolume() {
+		return this.getProperty(PROPERTY_INVENTORYVOLUME);
+	}
+
+	/**
+	* 设置-库存-体积
+	* 
+	* @param value 值
+	*/
+	public final void setInventoryVolume(BigDecimal value) {
+		this.setProperty(PROPERTY_INVENTORYVOLUME, value);
+	}
+
+	/**
+	* 属性名称-采购-体积单位
+	*/
+	private static final String PROPERTY_INVENTORYVOLUMEUNIT_NAME = "InventoryVolumeUnit";
+
+	/**
+	* 采购-体积单位 属性
+	*/
+	@DbField(name = "InvntVolumeUnit", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME)
+	public static final IPropertyInfo<String> PROPERTY_INVENTORYVOLUMEUNIT = registerProperty(
+			PROPERTY_INVENTORYVOLUMEUNIT_NAME, String.class, MY_CLASS);
+
+	/**
+	* 获取-采购-体积单位
+	* 
+	* @return 值
+	*/
+	@XmlElement(name = PROPERTY_INVENTORYVOLUMEUNIT_NAME)
+	public final String getInventoryVolumeUnit() {
+		return this.getProperty(PROPERTY_INVENTORYVOLUMEUNIT);
+	}
+
+	/**
+	* 设置-采购-体积单位
+	* 
+	* @param value 值
+	*/
+	public final void setInventoryVolumeUnit(String value) {
+		this.setProperty(PROPERTY_INVENTORYVOLUMEUNIT, value);
+	}
+
+	/**
+	* 属性名称-库存-重量
+	*/
+	private static final String PROPERTY_INVENTORYWEIGHT_NAME = "InventoryWeight";
+
+	/**
+	* 库存-重量 属性
+	*/
+	@DbField(name = "InvntWeight", type = DbFieldType.DECIMAL, table = DB_TABLE_NAME)
+	public static final IPropertyInfo<BigDecimal> PROPERTY_INVENTORYWEIGHT = registerProperty(
+			PROPERTY_INVENTORYWEIGHT_NAME, BigDecimal.class, MY_CLASS);
+
+	/**
+	* 获取-库存-重量
+	* 
+	* @return 值
+	*/
+	@XmlElement(name = PROPERTY_INVENTORYWEIGHT_NAME)
+	public final BigDecimal getInventoryWeight() {
+		return this.getProperty(PROPERTY_INVENTORYWEIGHT);
+	}
+
+	/**
+	* 设置-库存-重量
+	* 
+	* @param value 值
+	*/
+	public final void setInventoryWeight(BigDecimal value) {
+		this.setProperty(PROPERTY_INVENTORYWEIGHT, value);
+	}
+
+	/**
+	* 属性名称-库存-重量单位
+	*/
+	private static final String PROPERTY_INVENTORYWEIGHTUNIT_NAME = "InventoryWeightUnit";
+
+	/**
+	* 库存-重量单位 属性
+	*/
+	@DbField(name = "InvntWeightUnit", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME)
+	public static final IPropertyInfo<String> PROPERTY_INVENTORYWEIGHTUNIT = registerProperty(
+			PROPERTY_INVENTORYWEIGHTUNIT_NAME, String.class, MY_CLASS);
+
+	/**
+	* 获取-库存-重量单位
+	* 
+	* @return 值
+	*/
+	@XmlElement(name = PROPERTY_INVENTORYWEIGHTUNIT_NAME)
+	public final String getInventoryWeightUnit() {
+		return this.getProperty(PROPERTY_INVENTORYWEIGHTUNIT);
+	}
+
+	/**
+	* 设置-库存-重量单位
+	* 
+	* @param value 值
+	*/
+	public final void setInventoryWeightUnit(String value) {
+		this.setProperty(PROPERTY_INVENTORYWEIGHTUNIT, value);
+	}
+
+	/**
 	 * 属性名称-生效日期
 	 */
 	private static final String PROPERTY_VALIDDATE_NAME = "ValidDate";

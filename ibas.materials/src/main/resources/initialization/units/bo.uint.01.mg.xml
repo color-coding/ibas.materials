@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <!DOCTYPE Unit>
 <ns:Unit xmlns:ns="http://colorcoding.org/ibas/materials/bo">
-    <Name>厘米</Name>
-    <ForeignName>centimeter</ForeignName>
-    <Symbol>cm</Symbol>
-    <Category>SIZE</Category>
+    <Name>毫克</Name>
+    <ForeignName>milligram</ForeignName>
+    <Symbol>mg</Symbol>
+    <Category>WEIGHT</Category>
     <Activated>YES</Activated>
 </ns:Unit>

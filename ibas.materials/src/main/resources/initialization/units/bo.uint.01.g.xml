@@ -4,5 +4,6 @@
     <Name>克</Name>
     <ForeignName>gram</ForeignName>
     <Symbol>g</Symbol>
+    <Category>WEIGHT</Category>
     <Activated>YES</Activated>
 </ns:Unit>

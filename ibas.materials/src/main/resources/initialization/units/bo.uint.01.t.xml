@@ -4,5 +4,6 @@
     <Name>吨</Name>
     <ForeignName>ton</ForeignName>
     <Symbol>t</Symbol>
+    <Category>WEIGHT</Category>
     <Activated>YES</Activated>
 </ns:Unit>

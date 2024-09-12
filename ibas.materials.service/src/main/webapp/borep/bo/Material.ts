@@ -608,6 +608,269 @@ namespace materials {
             set keyComponent(value: ibas.emYesNo) {
                 this.setProperty(Material.PROPERTY_KEYCOMPONENT_NAME, value);
             }
+            /** 映射的属性名称-销售-长 */
+            static PROPERTY_SALESLENGTH_NAME: string = "SalesLength";
+            /** 获取-销售-长 */
+            get salesLength(): number {
+                return this.getProperty<number>(Material.PROPERTY_SALESLENGTH_NAME);
+            }
+            /** 设置-销售-长 */
+            set salesLength(value: number) {
+                this.setProperty(Material.PROPERTY_SALESLENGTH_NAME, value);
+            }
+
+            /** 映射的属性名称-销售-宽 */
+            static PROPERTY_SALESWIDTH_NAME: string = "SalesWidth";
+            /** 获取-销售-宽 */
+            get salesWidth(): number {
+                return this.getProperty<number>(Material.PROPERTY_SALESWIDTH_NAME);
+            }
+            /** 设置-销售-宽 */
+            set salesWidth(value: number) {
+                this.setProperty(Material.PROPERTY_SALESWIDTH_NAME, value);
+            }
+
+            /** 映射的属性名称-销售-高 */
+            static PROPERTY_SALESHEIGHT_NAME: string = "SalesHeight";
+            /** 获取-销售-高 */
+            get salesHeight(): number {
+                return this.getProperty<number>(Material.PROPERTY_SALESHEIGHT_NAME);
+            }
+            /** 设置-销售-高 */
+            set salesHeight(value: number) {
+                this.setProperty(Material.PROPERTY_SALESHEIGHT_NAME, value);
+            }
+
+            /** 映射的属性名称-销售-尺寸单位 */
+            static PROPERTY_SALESSIZEUNIT_NAME: string = "SalesSizeUnit";
+            /** 获取-销售-尺寸单位 */
+            get salesSizeUnit(): string {
+                return this.getProperty<string>(Material.PROPERTY_SALESSIZEUNIT_NAME);
+            }
+            /** 设置-销售-尺寸单位 */
+            set salesSizeUnit(value: string) {
+                this.setProperty(Material.PROPERTY_SALESSIZEUNIT_NAME, value);
+            }
+
+            /** 映射的属性名称-销售-体积 */
+            static PROPERTY_SALESVOLUME_NAME: string = "SalesVolume";
+            /** 获取-销售-体积 */
+            get salesVolume(): number {
+                return this.getProperty<number>(Material.PROPERTY_SALESVOLUME_NAME);
+            }
+            /** 设置-销售-体积 */
+            set salesVolume(value: number) {
+                this.setProperty(Material.PROPERTY_SALESVOLUME_NAME, value);
+            }
+
+            /** 映射的属性名称-销售-体积单位 */
+            static PROPERTY_SALESVOLUMEUNIT_NAME: string = "SalesVolumeUnit";
+            /** 获取-销售-体积单位 */
+            get salesVolumeUnit(): string {
+                return this.getProperty<string>(Material.PROPERTY_SALESVOLUMEUNIT_NAME);
+            }
+            /** 设置-销售-体积单位 */
+            set salesVolumeUnit(value: string) {
+                this.setProperty(Material.PROPERTY_SALESVOLUMEUNIT_NAME, value);
+            }
+
+            /** 映射的属性名称-销售-重量 */
+            static PROPERTY_SALESWEIGHT_NAME: string = "SalesWeight";
+            /** 获取-销售-重量 */
+            get salesWeight(): number {
+                return this.getProperty<number>(Material.PROPERTY_SALESWEIGHT_NAME);
+            }
+            /** 设置-销售-重量 */
+            set salesWeight(value: number) {
+                this.setProperty(Material.PROPERTY_SALESWEIGHT_NAME, value);
+            }
+
+            /** 映射的属性名称-销售-重量单位 */
+            static PROPERTY_SALESWEIGHTUNIT_NAME: string = "SalesWeightUnit";
+            /** 获取-销售-重量单位 */
+            get salesWeightUnit(): string {
+                return this.getProperty<string>(Material.PROPERTY_SALESWEIGHTUNIT_NAME);
+            }
+            /** 设置-销售-重量单位 */
+            set salesWeightUnit(value: string) {
+                this.setProperty(Material.PROPERTY_SALESWEIGHTUNIT_NAME, value);
+            }
+
+            /** 映射的属性名称-采购-长 */
+            static PROPERTY_PURCHASELENGTH_NAME: string = "PurchaseLength";
+            /** 获取-采购-长 */
+            get purchaseLength(): number {
+                return this.getProperty<number>(Material.PROPERTY_PURCHASELENGTH_NAME);
+            }
+            /** 设置-采购-长 */
+            set purchaseLength(value: number) {
+                this.setProperty(Material.PROPERTY_PURCHASELENGTH_NAME, value);
+            }
+
+            /** 映射的属性名称-采购-宽 */
+            static PROPERTY_PURCHASEWIDTH_NAME: string = "PurchaseWidth";
+            /** 获取-采购-宽 */
+            get purchaseWidth(): number {
+                return this.getProperty<number>(Material.PROPERTY_PURCHASEWIDTH_NAME);
+            }
+            /** 设置-采购-宽 */
+            set purchaseWidth(value: number) {
+                this.setProperty(Material.PROPERTY_PURCHASEWIDTH_NAME, value);
+            }
+
+            /** 映射的属性名称-采购-高 */
+            static PROPERTY_PURCHASEHEIGHT_NAME: string = "PurchaseHeight";
+            /** 获取-采购-高 */
+            get purchaseHeight(): number {
+                return this.getProperty<number>(Material.PROPERTY_PURCHASEHEIGHT_NAME);
+            }
+            /** 设置-采购-高 */
+            set purchaseHeight(value: number) {
+                this.setProperty(Material.PROPERTY_PURCHASEHEIGHT_NAME, value);
+            }
+
+            /** 映射的属性名称-销售-尺寸单位 */
+            static PROPERTY_PURCHASESIZEUNIT_NAME: string = "PurchaseSizeUnit";
+            /** 获取-销售-尺寸单位 */
+            get purchaseSizeUnit(): string {
+                return this.getProperty<string>(Material.PROPERTY_PURCHASESIZEUNIT_NAME);
+            }
+            /** 设置-销售-尺寸单位 */
+            set purchaseSizeUnit(value: string) {
+                this.setProperty(Material.PROPERTY_PURCHASESIZEUNIT_NAME, value);
+            }
+
+            /** 映射的属性名称-采购-体积 */
+            static PROPERTY_PURCHASEVOLUME_NAME: string = "PurchaseVolume";
+            /** 获取-采购-体积 */
+            get purchaseVolume(): number {
+                return this.getProperty<number>(Material.PROPERTY_PURCHASEVOLUME_NAME);
+            }
+            /** 设置-采购-体积 */
+            set purchaseVolume(value: number) {
+                this.setProperty(Material.PROPERTY_PURCHASEVOLUME_NAME, value);
+            }
+
+            /** 映射的属性名称-采购-体积单位 */
+            static PROPERTY_PURCHASEVOLUMEUNIT_NAME: string = "PurchaseVolumeUnit";
+            /** 获取-采购-体积单位 */
+            get purchaseVolumeUnit(): string {
+                return this.getProperty<string>(Material.PROPERTY_PURCHASEVOLUMEUNIT_NAME);
+            }
+            /** 设置-采购-体积单位 */
+            set purchaseVolumeUnit(value: string) {
+                this.setProperty(Material.PROPERTY_PURCHASEVOLUMEUNIT_NAME, value);
+            }
+
+            /** 映射的属性名称-采购-重量 */
+            static PROPERTY_PURCHASEWEIGHT_NAME: string = "PurchaseWeight";
+            /** 获取-采购-重量 */
+            get purchaseWeight(): number {
+                return this.getProperty<number>(Material.PROPERTY_PURCHASEWEIGHT_NAME);
+            }
+            /** 设置-采购-重量 */
+            set purchaseWeight(value: number) {
+                this.setProperty(Material.PROPERTY_PURCHASEWEIGHT_NAME, value);
+            }
+
+            /** 映射的属性名称-采购-重量单位 */
+            static PROPERTY_PURCHASEWEIGHTUNIT_NAME: string = "PurchaseWeightUnit";
+            /** 获取-采购-重量单位 */
+            get purchaseWeightUnit(): string {
+                return this.getProperty<string>(Material.PROPERTY_PURCHASEWEIGHTUNIT_NAME);
+            }
+            /** 设置-采购-重量单位 */
+            set purchaseWeightUnit(value: string) {
+                this.setProperty(Material.PROPERTY_PURCHASEWEIGHTUNIT_NAME, value);
+            }
+
+            /** 映射的属性名称-库存-长 */
+            static PROPERTY_INVENTORYLENGTH_NAME: string = "InventoryLength";
+            /** 获取-库存-长 */
+            get inventoryLength(): number {
+                return this.getProperty<number>(Material.PROPERTY_INVENTORYLENGTH_NAME);
+            }
+            /** 设置-库存-长 */
+            set inventoryLength(value: number) {
+                this.setProperty(Material.PROPERTY_INVENTORYLENGTH_NAME, value);
+            }
+
+            /** 映射的属性名称-库存-宽 */
+            static PROPERTY_INVENTORYWIDTH_NAME: string = "InventoryWidth";
+            /** 获取-库存-宽 */
+            get inventoryWidth(): number {
+                return this.getProperty<number>(Material.PROPERTY_INVENTORYWIDTH_NAME);
+            }
+            /** 设置-库存-宽 */
+            set inventoryWidth(value: number) {
+                this.setProperty(Material.PROPERTY_INVENTORYWIDTH_NAME, value);
+            }
+
+            /** 映射的属性名称-库存-高 */
+            static PROPERTY_INVENTORYHEIGHT_NAME: string = "InventoryHeight";
+            /** 获取-库存-高 */
+            get inventoryHeight(): number {
+                return this.getProperty<number>(Material.PROPERTY_INVENTORYHEIGHT_NAME);
+            }
+            /** 设置-库存-高 */
+            set inventoryHeight(value: number) {
+                this.setProperty(Material.PROPERTY_INVENTORYHEIGHT_NAME, value);
+            }
+
+            /** 映射的属性名称-销售-尺寸单位 */
+            static PROPERTY_INVENTORYSIZEUNIT_NAME: string = "InventorySizeUnit";
+            /** 获取-销售-尺寸单位 */
+            get inventorySizeUnit(): string {
+                return this.getProperty<string>(Material.PROPERTY_INVENTORYSIZEUNIT_NAME);
+            }
+            /** 设置-销售-尺寸单位 */
+            set inventorySizeUnit(value: string) {
+                this.setProperty(Material.PROPERTY_INVENTORYSIZEUNIT_NAME, value);
+            }
+
+            /** 映射的属性名称-库存-体积 */
+            static PROPERTY_INVENTORYVOLUME_NAME: string = "InventoryVolume";
+            /** 获取-库存-体积 */
+            get inventoryVolume(): number {
+                return this.getProperty<number>(Material.PROPERTY_INVENTORYVOLUME_NAME);
+            }
+            /** 设置-库存-体积 */
+            set inventoryVolume(value: number) {
+                this.setProperty(Material.PROPERTY_INVENTORYVOLUME_NAME, value);
+            }
+
+            /** 映射的属性名称-采购-体积单位 */
+            static PROPERTY_INVENTORYVOLUMEUNIT_NAME: string = "InventoryVolumeUnit";
+            /** 获取-采购-体积单位 */
+            get inventoryVolumeUnit(): string {
+                return this.getProperty<string>(Material.PROPERTY_INVENTORYVOLUMEUNIT_NAME);
+            }
+            /** 设置-采购-体积单位 */
+            set inventoryVolumeUnit(value: string) {
+                this.setProperty(Material.PROPERTY_INVENTORYVOLUMEUNIT_NAME, value);
+            }
+
+            /** 映射的属性名称-库存-重量 */
+            static PROPERTY_INVENTORYWEIGHT_NAME: string = "InventoryWeight";
+            /** 获取-库存-重量 */
+            get inventoryWeight(): number {
+                return this.getProperty<number>(Material.PROPERTY_INVENTORYWEIGHT_NAME);
+            }
+            /** 设置-库存-重量 */
+            set inventoryWeight(value: number) {
+                this.setProperty(Material.PROPERTY_INVENTORYWEIGHT_NAME, value);
+            }
+
+            /** 映射的属性名称-库存-重量单位 */
+            static PROPERTY_INVENTORYWEIGHTUNIT_NAME: string = "InventoryWeightUnit";
+            /** 获取-库存-重量单位 */
+            get inventoryWeightUnit(): string {
+                return this.getProperty<string>(Material.PROPERTY_INVENTORYWEIGHTUNIT_NAME);
+            }
+            /** 设置-库存-重量单位 */
+            set inventoryWeightUnit(value: string) {
+                this.setProperty(Material.PROPERTY_INVENTORYWEIGHTUNIT_NAME, value);
+            }
 
             /** 映射的属性名称-生效日期 */
             static PROPERTY_VALIDDATE_NAME: string = "ValidDate";

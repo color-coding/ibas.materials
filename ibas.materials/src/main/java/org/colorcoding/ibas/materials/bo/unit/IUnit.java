@@ -277,6 +277,20 @@ public interface IUnit extends IBOSimple {
 	void setDecimalPlaces(Integer value);
 
 	/**
+	* 获取-类别
+	* 
+	* @return 值
+	*/
+	String getCategory();
+
+	/**
+	* 设置-类别
+	* 
+	* @param value 值
+	*/
+	void setCategory(String value);
+
+	/**
 	 * 获取-备注
 	 * 
 	 * @return 值

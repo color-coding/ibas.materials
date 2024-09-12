@@ -55,7 +55,31 @@
     <Property Name="ScrapRate" Description="变动损耗" DataType="Decimal" DataSubType="Percentage" EditSize="8" Mapped="ScrapRate"/>
     <Property Name="ScrapValue" Description="固定损耗" DataType="Decimal" DataSubType="Quantity" EditSize="8" Mapped="ScrapValue"/>
     <Property Name="Scheduler" Description="计划员" DataType="Alphanumeric" DataSubType="Default" EditSize="8" Mapped="Scheduler"/>
-    <Property Name="KeyComponent" Description="关键件" DataType="Alphanumeric" DataSubType="Default" EditSize="1" DeclaredType="emYesNo" Mapped="KeyItem"/>
+    <Property Name="KeyComponent" Description="关键件" DataType="Alphanumeric" DataSubType="Default" EditSize="1" DeclaredType="emYesNo" Mapped="KeyItem"/>    
+    <Property Name="SalesLength" Description="销售-长" DataType="Decimal" DataSubType="Measurement" EditSize="8" Mapped="SalesLength"/>
+    <Property Name="SalesWidth" Description="销售-宽" DataType="Decimal" DataSubType="Measurement" EditSize="8" Mapped="SalesWidth"/>
+    <Property Name="SalesHeight" Description="销售-高" DataType="Decimal" DataSubType="Measurement" EditSize="8" Mapped="SalesHeight"/>
+    <Property Name="SalesSizeUnit" Description="销售-尺寸单位" DataType="Alphanumeric" DataSubType="Default" EditSize="8" Mapped="SalesSizeUnit"/>
+    <Property Name="SalesVolume" Description="销售-体积" DataType="Decimal" DataSubType="Measurement" EditSize="8" Mapped="SalesVolume"/>
+    <Property Name="SalesVolumeUnit" Description="销售-体积单位" DataType="Alphanumeric" DataSubType="Default" EditSize="8" Mapped="SalesVolumeUnit"/>
+    <Property Name="SalesWeight" Description="销售-重量" DataType="Decimal" DataSubType="Measurement" EditSize="8" Mapped="SalesWeight"/>
+    <Property Name="SalesWeightUnit" Description="销售-重量单位" DataType="Alphanumeric" DataSubType="Default" EditSize="8" Mapped="SalesWeightUnit"/>
+    <Property Name="PurchaseLength" Description="采购-长" DataType="Decimal" DataSubType="Measurement" EditSize="8" Mapped="PrchseLength"/>
+    <Property Name="PurchaseWidth" Description="采购-宽" DataType="Decimal" DataSubType="Measurement" EditSize="8" Mapped="PrchseWidth"/>
+    <Property Name="PurchaseHeight" Description="采购-高" DataType="Decimal" DataSubType="Measurement" EditSize="8" Mapped="PrchseHeight"/>
+    <Property Name="PurchaseSizeUnit" Description="销售-尺寸单位" DataType="Alphanumeric" DataSubType="Default" EditSize="8" Mapped="PrchseSizeUnit"/>
+    <Property Name="PurchaseVolume" Description="采购-体积" DataType="Decimal" DataSubType="Measurement" EditSize="8" Mapped="PrchseVolume"/>
+    <Property Name="PurchaseVolumeUnit" Description="采购-体积单位" DataType="Alphanumeric" DataSubType="Default" EditSize="8" Mapped="PrchseVolumeUnit"/>
+    <Property Name="PurchaseWeight" Description="采购-重量" DataType="Decimal" DataSubType="Measurement" EditSize="8" Mapped="PrchseWeight"/>
+    <Property Name="PurchaseWeightUnit" Description="采购-重量单位" DataType="Alphanumeric" DataSubType="Default" EditSize="8" Mapped="PrchseWeightUnit"/>
+    <Property Name="InventoryLength" Description="库存-长" DataType="Decimal" DataSubType="Measurement" EditSize="8" Mapped="InvntLength"/>
+    <Property Name="InventoryWidth" Description="库存-宽" DataType="Decimal" DataSubType="Measurement" EditSize="8" Mapped="InvntWidth"/>
+    <Property Name="InventoryHeight" Description="库存-高" DataType="Decimal" DataSubType="Measurement" EditSize="8" Mapped="InvntHeight"/>
+    <Property Name="InventorySizeUnit" Description="销售-尺寸单位" DataType="Alphanumeric" DataSubType="Default" EditSize="8" Mapped="InvntSizeUnit"/>
+    <Property Name="InventoryVolume" Description="库存-体积" DataType="Decimal" DataSubType="Measurement" EditSize="8" Mapped="InvntVolume"/>
+    <Property Name="InventoryVolumeUnit" Description="采购-体积单位" DataType="Alphanumeric" DataSubType="Default" EditSize="8" Mapped="InvntVolumeUnit"/>
+    <Property Name="InventoryWeight" Description="库存-重量" DataType="Decimal" DataSubType="Measurement" EditSize="8" Mapped="InvntWeight"/>
+    <Property Name="InventoryWeightUnit" Description="库存-重量单位" DataType="Alphanumeric" DataSubType="Default" EditSize="8" Mapped="InvntWeightUnit"/>    
     <Property Name="ValidDate" Description="生效日期" DataType="Date" DataSubType="Default" EditSize="8" Mapped="ValidDate"/>
     <Property Name="InvalidDate" Description="失效日期" DataType="Date" DataSubType="Default" EditSize="8" Mapped="InvalidDate"/>
     <Property Name="Picture" Description="图片" DataType="Alphanumeric" DataSubType="Default" EditSize="250" Mapped="Picture"/>

@@ -880,6 +880,342 @@ public interface IMaterial extends IBOMasterData {
 	void setKeyComponent(emYesNo value);
 
 	/**
+	* 获取-销售-长
+	* 
+	* @return 值
+	*/
+	BigDecimal getSalesLength();
+
+	/**
+	* 设置-销售-长
+	* 
+	* @param value 值
+	*/
+	void setSalesLength(BigDecimal value);
+
+	/**
+	* 获取-销售-宽
+	* 
+	* @return 值
+	*/
+	BigDecimal getSalesWidth();
+
+	/**
+	* 设置-销售-宽
+	* 
+	* @param value 值
+	*/
+	void setSalesWidth(BigDecimal value);
+
+	/**
+	* 获取-销售-高
+	* 
+	* @return 值
+	*/
+	BigDecimal getSalesHeight();
+
+	/**
+	* 设置-销售-高
+	* 
+	* @param value 值
+	*/
+	void setSalesHeight(BigDecimal value);
+
+	/**
+	* 获取-销售-尺寸单位
+	* 
+	* @return 值
+	*/
+	String getSalesSizeUnit();
+
+	/**
+	* 设置-销售-尺寸单位
+	* 
+	* @param value 值
+	*/
+	void setSalesSizeUnit(String value);
+
+	/**
+	* 获取-销售-体积
+	* 
+	* @return 值
+	*/
+	BigDecimal getSalesVolume();
+
+	/**
+	* 设置-销售-体积
+	* 
+	* @param value 值
+	*/
+	void setSalesVolume(BigDecimal value);
+
+	/**
+	* 获取-销售-体积单位
+	* 
+	* @return 值
+	*/
+	String getSalesVolumeUnit();
+
+	/**
+	* 设置-销售-体积单位
+	* 
+	* @param value 值
+	*/
+	void setSalesVolumeUnit(String value);
+
+	/**
+	* 获取-销售-重量
+	* 
+	* @return 值
+	*/
+	BigDecimal getSalesWeight();
+
+	/**
+	* 设置-销售-重量
+	* 
+	* @param value 值
+	*/
+	void setSalesWeight(BigDecimal value);
+
+	/**
+	* 获取-销售-重量单位
+	* 
+	* @return 值
+	*/
+	String getSalesWeightUnit();
+
+	/**
+	* 设置-销售-重量单位
+	* 
+	* @param value 值
+	*/
+	void setSalesWeightUnit(String value);
+
+	/**
+	* 获取-采购-长
+	* 
+	* @return 值
+	*/
+	BigDecimal getPurchaseLength();
+
+	/**
+	* 设置-采购-长
+	* 
+	* @param value 值
+	*/
+	void setPurchaseLength(BigDecimal value);
+
+	/**
+	* 获取-采购-宽
+	* 
+	* @return 值
+	*/
+	BigDecimal getPurchaseWidth();
+
+	/**
+	* 设置-采购-宽
+	* 
+	* @param value 值
+	*/
+	void setPurchaseWidth(BigDecimal value);
+
+	/**
+	* 获取-采购-高
+	* 
+	* @return 值
+	*/
+	BigDecimal getPurchaseHeight();
+
+	/**
+	* 设置-采购-高
+	* 
+	* @param value 值
+	*/
+	void setPurchaseHeight(BigDecimal value);
+
+	/**
+	* 获取-销售-尺寸单位
+	* 
+	* @return 值
+	*/
+	String getPurchaseSizeUnit();
+
+	/**
+	* 设置-销售-尺寸单位
+	* 
+	* @param value 值
+	*/
+	void setPurchaseSizeUnit(String value);
+
+	/**
+	* 获取-采购-体积
+	* 
+	* @return 值
+	*/
+	BigDecimal getPurchaseVolume();
+
+	/**
+	* 设置-采购-体积
+	* 
+	* @param value 值
+	*/
+	void setPurchaseVolume(BigDecimal value);
+
+	/**
+	* 获取-采购-体积单位
+	* 
+	* @return 值
+	*/
+	String getPurchaseVolumeUnit();
+
+	/**
+	* 设置-采购-体积单位
+	* 
+	* @param value 值
+	*/
+	void setPurchaseVolumeUnit(String value);
+
+	/**
+	* 获取-采购-重量
+	* 
+	* @return 值
+	*/
+	BigDecimal getPurchaseWeight();
+
+	/**
+	* 设置-采购-重量
+	* 
+	* @param value 值
+	*/
+	void setPurchaseWeight(BigDecimal value);
+
+	/**
+	* 获取-采购-重量单位
+	* 
+	* @return 值
+	*/
+	String getPurchaseWeightUnit();
+
+	/**
+	* 设置-采购-重量单位
+	* 
+	* @param value 值
+	*/
+	void setPurchaseWeightUnit(String value);
+
+	/**
+	* 获取-库存-长
+	* 
+	* @return 值
+	*/
+	BigDecimal getInventoryLength();
+
+	/**
+	* 设置-库存-长
+	* 
+	* @param value 值
+	*/
+	void setInventoryLength(BigDecimal value);
+
+	/**
+	* 获取-库存-宽
+	* 
+	* @return 值
+	*/
+	BigDecimal getInventoryWidth();
+
+	/**
+	* 设置-库存-宽
+	* 
+	* @param value 值
+	*/
+	void setInventoryWidth(BigDecimal value);
+
+	/**
+	* 获取-库存-高
+	* 
+	* @return 值
+	*/
+	BigDecimal getInventoryHeight();
+
+	/**
+	* 设置-库存-高
+	* 
+	* @param value 值
+	*/
+	void setInventoryHeight(BigDecimal value);
+
+	/**
+	* 获取-销售-尺寸单位
+	* 
+	* @return 值
+	*/
+	String getInventorySizeUnit();
+
+	/**
+	* 设置-销售-尺寸单位
+	* 
+	* @param value 值
+	*/
+	void setInventorySizeUnit(String value);
+
+	/**
+	* 获取-库存-体积
+	* 
+	* @return 值
+	*/
+	BigDecimal getInventoryVolume();
+
+	/**
+	* 设置-库存-体积
+	* 
+	* @param value 值
+	*/
+	void setInventoryVolume(BigDecimal value);
+
+	/**
+	* 获取-采购-体积单位
+	* 
+	* @return 值
+	*/
+	String getInventoryVolumeUnit();
+
+	/**
+	* 设置-采购-体积单位
+	* 
+	* @param value 值
+	*/
+	void setInventoryVolumeUnit(String value);
+
+	/**
+	* 获取-库存-重量
+	* 
+	* @return 值
+	*/
+	BigDecimal getInventoryWeight();
+
+	/**
+	* 设置-库存-重量
+	* 
+	* @param value 值
+	*/
+	void setInventoryWeight(BigDecimal value);
+
+	/**
+	* 获取-库存-重量单位
+	* 
+	* @return 值
+	*/
+	String getInventoryWeightUnit();
+
+	/**
+	* 设置-库存-重量单位
+	* 
+	* @param value 值
+	*/
+	void setInventoryWeightUnit(String value);
+
+	/**
 	 * 获取-生效日期
 	 * 
 	 * @return 值

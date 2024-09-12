@@ -4,5 +4,6 @@
     <Name>千克</Name>
     <ForeignName>kilogram</ForeignName>
     <Symbol>kg</Symbol>
+    <Category>WEIGHT</Category>
     <Activated>YES</Activated>
 </ns:Unit>

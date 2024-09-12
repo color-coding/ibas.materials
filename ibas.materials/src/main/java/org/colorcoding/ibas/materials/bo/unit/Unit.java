@@ -642,6 +642,37 @@ public class Unit extends BusinessObject<Unit> implements IUnit {
 	}
 
 	/**
+	* 属性名称-类别
+	*/
+	private static final String PROPERTY_CATEGORY_NAME = "Category";
+
+	/**
+	* 类别 属性
+	*/
+	@DbField(name = "Category", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME)
+	public static final IPropertyInfo<String> PROPERTY_CATEGORY = registerProperty(PROPERTY_CATEGORY_NAME, String.class,
+			MY_CLASS);
+
+	/**
+	* 获取-类别
+	* 
+	* @return 值
+	*/
+	@XmlElement(name = PROPERTY_CATEGORY_NAME)
+	public final String getCategory() {
+		return this.getProperty(PROPERTY_CATEGORY);
+	}
+
+	/**
+	* 设置-类别
+	* 
+	* @param value 值
+	*/
+	public final void setCategory(String value) {
+		this.setProperty(PROPERTY_CATEGORY, value);
+	}
+
+	/**
 	 * 属性名称-备注
 	 */
 	private static final String PROPERTY_REMARKS_NAME = "Remarks";

@@ -362,6 +362,28 @@ namespace materials {
                                                             return true;
                                                         }
                                                     }),
+                                                    new sap.m.Label("", {
+                                                        text: ibas.strings.format("{0}/{1}",
+                                                            ibas.i18n.prop("bo_material_minimuminventory"),
+                                                            ibas.i18n.prop("bo_material_maximuminventory"),
+                                                        )
+                                                    }),
+                                                    new sap.m.HBox("", {
+                                                        width: "100%",
+                                                        renderType: sap.m.FlexRendertype.Bare,
+                                                        items: [
+                                                            new sap.extension.m.Input("", {
+                                                            }).bindProperty("bindingValue", {
+                                                                path: "minimumInventory",
+                                                                type: new sap.extension.data.Quantity()
+                                                            }),
+                                                            new sap.extension.m.Input("", {
+                                                            }).bindProperty("bindingValue", {
+                                                                path: "maximumInventory",
+                                                                type: new sap.extension.data.Quantity()
+                                                            }).addStyleClass("sapUiTinyMarginBegin"),
+                                                        ]
+                                                    }),
                                                     new sap.m.Label("", { text: ibas.i18n.prop("bo_material_defaultwarehouse") }),
                                                     new sap.extension.m.RepositoryInput("", {
                                                         showValueHelp: true,
@@ -380,24 +402,154 @@ namespace materials {
                                                             maxLength: 8
                                                         })
                                                     }),
-                                                    new sap.m.Label("", { text: ibas.i18n.prop("bo_material_managebywarehouse") }),
-                                                    new sap.extension.m.EnumSelect("", {
-                                                        enumType: ibas.emYesNo
-                                                    }).bindProperty("bindingValue", {
-                                                        path: "manageByWarehouse",
-                                                        type: new sap.extension.data.YesNo(),
+                                                    new sap.m.Label("", {
+                                                        text: ibas.strings.format("{0}/{1}/{2}",
+                                                            ibas.i18n.prop("bo_material_length"),
+                                                            ibas.i18n.prop("bo_material_width"),
+                                                            ibas.i18n.prop("bo_material_height")
+                                                        )
                                                     }),
-                                                    new sap.m.Label("", { text: ibas.i18n.prop("bo_material_minimuminventory") }),
-                                                    new sap.extension.m.Input("", {
-                                                    }).bindProperty("bindingValue", {
-                                                        path: "minimumInventory",
-                                                        type: new sap.extension.data.Quantity()
+                                                    new sap.m.HBox("", {
+                                                        width: "100%",
+                                                        renderType: sap.m.FlexRendertype.Bare,
+                                                        items: [
+                                                            new sap.extension.m.Input("", {
+                                                            }).bindProperty("bindingValue", {
+                                                                path: "inventoryLength",
+                                                                type: new sap.extension.data.Measurement(),
+                                                            }),
+                                                            new sap.extension.m.Input("", {
+                                                            }).bindProperty("bindingValue", {
+                                                                path: "inventoryWidth",
+                                                                type: new sap.extension.data.Measurement(),
+                                                            }).addStyleClass("sapUiTinyMarginBegin"),
+                                                            new sap.extension.m.Input("", {
+                                                            }).bindProperty("bindingValue", {
+                                                                path: "inventoryHeight",
+                                                                type: new sap.extension.data.Measurement(),
+                                                            }).addStyleClass("sapUiTinyMarginBegin"),
+                                                            new sap.extension.m.SelectionInput("", {
+                                                                showValueHelp: true,
+                                                                repository: bo.BORepositoryMaterials,
+                                                                dataInfo: {
+                                                                    type: bo.Unit,
+                                                                    key: bo.Unit.PROPERTY_NAME_NAME,
+                                                                    text: bo.Unit.PROPERTY_NAME_NAME
+                                                                },
+                                                                criteria: [
+                                                                    new ibas.Condition(bo.Unit.PROPERTY_CATEGORY_NAME, ibas.emConditionOperation.EQUAL, bo.Unit.CATEGORY_SIZE)
+                                                                ]
+                                                            }).bindProperty("bindingValue", {
+                                                                path: "inventorySizeUnit",
+                                                                type: new sap.extension.data.Alphanumeric({
+                                                                    maxLength: 8
+                                                                }),
+                                                            }).addStyleClass("sapUiTinyMarginBegin"),
+                                                        ]
                                                     }),
-                                                    new sap.m.Label("", { text: ibas.i18n.prop("bo_material_maximuminventory") }),
-                                                    new sap.extension.m.Input("", {
-                                                    }).bindProperty("bindingValue", {
-                                                        path: "maximumInventory",
-                                                        type: new sap.extension.data.Quantity()
+                                                    new sap.m.Label("", { text: ibas.i18n.prop("bo_material_volume") }),
+                                                    new sap.m.HBox("", {
+                                                        width: "100%",
+                                                        renderType: sap.m.FlexRendertype.Bare,
+                                                        items: [
+                                                            new sap.extension.m.Input("", {
+                                                                editable: {
+                                                                    parts: [
+                                                                        {
+                                                                            path: "inventoryLength",
+                                                                        },
+                                                                        {
+                                                                            path: "inventoryWidth",
+                                                                        },
+                                                                        {
+                                                                            path: "inventoryHeight",
+                                                                        },
+                                                                    ],
+                                                                    formatter(length: number, width: number, height: number): boolean {
+                                                                        if (length > 0) {
+                                                                            return false;
+                                                                        } if (width > 0) {
+                                                                            return false;
+                                                                        } if (height > 0) {
+                                                                            return false;
+                                                                        }
+                                                                        return true;
+                                                                    }
+                                                                }
+                                                            }).bindProperty("bindingValue", {
+                                                                path: "inventoryVolume",
+                                                                type: new sap.extension.data.Measurement(),
+                                                            }),
+                                                            new sap.extension.m.SelectionInput("", {
+                                                                showValueHelp: true,
+                                                                repository: bo.BORepositoryMaterials,
+                                                                dataInfo: {
+                                                                    type: bo.Unit,
+                                                                    key: bo.Unit.PROPERTY_NAME_NAME,
+                                                                    text: bo.Unit.PROPERTY_NAME_NAME
+                                                                },
+                                                                criteria: [
+                                                                    new ibas.Condition(bo.Unit.PROPERTY_CATEGORY_NAME, ibas.emConditionOperation.EQUAL, bo.Unit.CATEGORY_VOLUME)
+                                                                ],
+                                                                editable: {
+                                                                    parts: [
+                                                                        {
+                                                                            path: "inventoryLength",
+                                                                        },
+                                                                        {
+                                                                            path: "inventoryWidth",
+                                                                        },
+                                                                        {
+                                                                            path: "inventoryHeight",
+                                                                        },
+                                                                    ],
+                                                                    formatter(length: number, width: number, height: number): boolean {
+                                                                        if (length > 0) {
+                                                                            return false;
+                                                                        } if (width > 0) {
+                                                                            return false;
+                                                                        } if (height > 0) {
+                                                                            return false;
+                                                                        }
+                                                                        return true;
+                                                                    }
+                                                                }
+                                                            }).bindProperty("bindingValue", {
+                                                                path: "inventoryVolumeUnit",
+                                                                type: new sap.extension.data.Alphanumeric({
+                                                                    maxLength: 8
+                                                                }),
+                                                            }).addStyleClass("sapUiTinyMarginBegin"),
+                                                        ]
+                                                    }),
+                                                    new sap.m.Label("", { text: ibas.i18n.prop("bo_material_weight") }),
+                                                    new sap.m.HBox("", {
+                                                        width: "100%",
+                                                        renderType: sap.m.FlexRendertype.Bare,
+                                                        items: [
+                                                            new sap.extension.m.Input("", {
+                                                            }).bindProperty("bindingValue", {
+                                                                path: "inventoryWeight",
+                                                                type: new sap.extension.data.Measurement(),
+                                                            }),
+                                                            new sap.extension.m.SelectionInput("", {
+                                                                showValueHelp: true,
+                                                                repository: bo.BORepositoryMaterials,
+                                                                dataInfo: {
+                                                                    type: bo.Unit,
+                                                                    key: bo.Unit.PROPERTY_NAME_NAME,
+                                                                    text: bo.Unit.PROPERTY_NAME_NAME
+                                                                },
+                                                                criteria: [
+                                                                    new ibas.Condition(bo.Unit.PROPERTY_CATEGORY_NAME, ibas.emConditionOperation.EQUAL, bo.Unit.CATEGORY_WEIGHT)
+                                                                ]
+                                                            }).bindProperty("bindingValue", {
+                                                                path: "inventoryWeightUnit",
+                                                                type: new sap.extension.data.Alphanumeric({
+                                                                    maxLength: 8
+                                                                }),
+                                                            }).addStyleClass("sapUiTinyMarginBegin"),
+                                                        ]
                                                     }),
                                                     new sap.m.Toolbar("", { visible: false }),
                                                     new sap.m.Label("", { text: ibas.i18n.prop("bo_material_inventoryitem") }),
@@ -406,6 +558,21 @@ namespace materials {
                                                     }).bindProperty("bindingValue", {
                                                         path: "inventoryItem",
                                                         type: new sap.extension.data.YesNo()
+                                                    }).bindProperty("editable", {
+                                                        path: "referenced",
+                                                        formatter(data: any): boolean {
+                                                            if (data === ibas.emYesNo.YES) {
+                                                                return false;
+                                                            }
+                                                            return true;
+                                                        }
+                                                    }),
+                                                    new sap.m.Label("", { text: ibas.i18n.prop("bo_material_managebywarehouse") }),
+                                                    new sap.extension.m.EnumSelect("", {
+                                                        enumType: ibas.emYesNo
+                                                    }).bindProperty("bindingValue", {
+                                                        path: "manageByWarehouse",
+                                                        type: new sap.extension.data.YesNo(),
                                                     }).bindProperty("editable", {
                                                         path: "referenced",
                                                         formatter(data: any): boolean {
@@ -466,6 +633,36 @@ namespace materials {
                                                             },
                                                         ]
                                                     }),
+                                                    new sap.m.Label("", {
+                                                        text: ibas.strings.format("{0}/{1}",
+                                                            ibas.i18n.prop("bo_material_minimumorderquantity"),
+                                                            ibas.i18n.prop("bo_material_ordermultiple")
+                                                        )
+                                                    }),
+                                                    new sap.m.HBox("", {
+                                                        width: "100%",
+                                                        renderType: sap.m.FlexRendertype.Bare,
+                                                        items: [
+                                                            new sap.extension.m.Input("", {
+                                                            }).bindProperty("bindingValue", {
+                                                                path: "minimumOrderQuantity",
+                                                                type: new sap.extension.data.Quantity()
+                                                            }),
+                                                            // new sap.m.Label("", { text: ibas.i18n.prop("bo_material_ordermultiple") }),
+                                                            new sap.extension.m.Input("", {
+                                                            }).bindProperty("bindingValue", {
+                                                                path: "orderMultiple",
+                                                                type: new sap.extension.data.Quantity(),
+                                                            }).addStyleClass("sapUiTinyMarginBegin"),
+                                                        ]
+                                                    }),
+                                                    new sap.m.Label("", { text: ibas.i18n.prop("bo_material_leadtime") }),
+                                                    new sap.extension.m.Input("", {
+
+                                                    }).bindProperty("bindingValue", {
+                                                        path: "leadTime",
+                                                        type: new sap.extension.data.Numeric()
+                                                    }),
                                                     new sap.m.Label("", { text: ibas.i18n.prop("bo_material_preferredvendor") }),
                                                     new sap.extension.m.SelectionInput("", {
                                                         showValueHelp: true,
@@ -484,17 +681,162 @@ namespace materials {
                                                             maxLength: 20
                                                         }),
                                                     }),
-                                                    new sap.m.Label("", { text: ibas.i18n.prop("bo_material_minimumorderquantity") }),
-                                                    new sap.extension.m.Input("", {
-                                                    }).bindProperty("bindingValue", {
-                                                        path: "minimumOrderQuantity",
-                                                        type: new sap.extension.data.Quantity()
+                                                    new sap.m.Label("", {
+                                                        text: ibas.strings.format("{0}/{1}/{2}",
+                                                            ibas.i18n.prop("bo_material_length"),
+                                                            ibas.i18n.prop("bo_material_width"),
+                                                            ibas.i18n.prop("bo_material_height")
+                                                        )
                                                     }),
-                                                    new sap.m.Label("", { text: ibas.i18n.prop("bo_material_ordermultiple") }),
-                                                    new sap.extension.m.Input("", {
+                                                    new sap.m.HBox("", {
+                                                        width: "100%",
+                                                        renderType: sap.m.FlexRendertype.Bare,
+                                                        items: [
+                                                            new sap.extension.m.Input("", {
+                                                            }).bindProperty("bindingValue", {
+                                                                path: "purchaseLength",
+                                                                type: new sap.extension.data.Measurement(),
+                                                            }),
+                                                            new sap.extension.m.Input("", {
+                                                            }).bindProperty("bindingValue", {
+                                                                path: "purchaseWidth",
+                                                                type: new sap.extension.data.Measurement(),
+                                                            }).addStyleClass("sapUiTinyMarginBegin"),
+                                                            new sap.extension.m.Input("", {
+                                                            }).bindProperty("bindingValue", {
+                                                                path: "purchaseHeight",
+                                                                type: new sap.extension.data.Measurement(),
+                                                            }).addStyleClass("sapUiTinyMarginBegin"),
+                                                            new sap.extension.m.SelectionInput("", {
+                                                                showValueHelp: true,
+                                                                repository: bo.BORepositoryMaterials,
+                                                                dataInfo: {
+                                                                    type: bo.Unit,
+                                                                    key: bo.Unit.PROPERTY_NAME_NAME,
+                                                                    text: bo.Unit.PROPERTY_NAME_NAME
+                                                                },
+                                                                criteria: [
+                                                                    new ibas.Condition(bo.Unit.PROPERTY_CATEGORY_NAME, ibas.emConditionOperation.EQUAL, bo.Unit.CATEGORY_SIZE)
+                                                                ]
+                                                            }).bindProperty("bindingValue", {
+                                                                path: "purchaseSizeUnit",
+                                                                type: new sap.extension.data.Alphanumeric({
+                                                                    maxLength: 8
+                                                                }),
+                                                            }).addStyleClass("sapUiTinyMarginBegin"),
+                                                        ]
+                                                    }),
+                                                    new sap.m.Label("", { text: ibas.i18n.prop("bo_material_volume") }),
+                                                    new sap.m.HBox("", {
+                                                        width: "100%",
+                                                        renderType: sap.m.FlexRendertype.Bare,
+                                                        items: [
+                                                            new sap.extension.m.Input("", {
+                                                                editable: {
+                                                                    parts: [
+                                                                        {
+                                                                            path: "purchaseLength",
+                                                                        },
+                                                                        {
+                                                                            path: "purchaseWidth",
+                                                                        },
+                                                                        {
+                                                                            path: "purchaseHeight",
+                                                                        },
+                                                                    ],
+                                                                    formatter(length: number, width: number, height: number): boolean {
+                                                                        if (length > 0) {
+                                                                            return false;
+                                                                        } if (width > 0) {
+                                                                            return false;
+                                                                        } if (height > 0) {
+                                                                            return false;
+                                                                        }
+                                                                        return true;
+                                                                    }
+                                                                }
+                                                            }).bindProperty("bindingValue", {
+                                                                path: "purchaseVolume",
+                                                                type: new sap.extension.data.Measurement(),
+                                                            }),
+                                                            new sap.extension.m.SelectionInput("", {
+                                                                showValueHelp: true,
+                                                                repository: bo.BORepositoryMaterials,
+                                                                dataInfo: {
+                                                                    type: bo.Unit,
+                                                                    key: bo.Unit.PROPERTY_NAME_NAME,
+                                                                    text: bo.Unit.PROPERTY_NAME_NAME
+                                                                },
+                                                                criteria: [
+                                                                    new ibas.Condition(bo.Unit.PROPERTY_CATEGORY_NAME, ibas.emConditionOperation.EQUAL, bo.Unit.CATEGORY_VOLUME)
+                                                                ],
+                                                                editable: {
+                                                                    parts: [
+                                                                        {
+                                                                            path: "purchaseLength",
+                                                                        },
+                                                                        {
+                                                                            path: "purchaseWidth",
+                                                                        },
+                                                                        {
+                                                                            path: "purchaseHeight",
+                                                                        },
+                                                                    ],
+                                                                    formatter(length: number, width: number, height: number): boolean {
+                                                                        if (length > 0) {
+                                                                            return false;
+                                                                        } if (width > 0) {
+                                                                            return false;
+                                                                        } if (height > 0) {
+                                                                            return false;
+                                                                        }
+                                                                        return true;
+                                                                    }
+                                                                }
+                                                            }).bindProperty("bindingValue", {
+                                                                path: "purchaseVolumeUnit",
+                                                                type: new sap.extension.data.Alphanumeric({
+                                                                    maxLength: 8
+                                                                }),
+                                                            }).addStyleClass("sapUiTinyMarginBegin"),
+                                                        ]
+                                                    }),
+                                                    new sap.m.Label("", { text: ibas.i18n.prop("bo_material_weight") }),
+                                                    new sap.m.HBox("", {
+                                                        width: "100%",
+                                                        renderType: sap.m.FlexRendertype.Bare,
+                                                        items: [
+                                                            new sap.extension.m.Input("", {
+                                                            }).bindProperty("bindingValue", {
+                                                                path: "purchaseWeight",
+                                                                type: new sap.extension.data.Measurement(),
+                                                            }),
+                                                            new sap.extension.m.SelectionInput("", {
+                                                                showValueHelp: true,
+                                                                repository: bo.BORepositoryMaterials,
+                                                                dataInfo: {
+                                                                    type: bo.Unit,
+                                                                    key: bo.Unit.PROPERTY_NAME_NAME,
+                                                                    text: bo.Unit.PROPERTY_NAME_NAME
+                                                                },
+                                                                criteria: [
+                                                                    new ibas.Condition(bo.Unit.PROPERTY_CATEGORY_NAME, ibas.emConditionOperation.EQUAL, bo.Unit.CATEGORY_WEIGHT)
+                                                                ]
+                                                            }).bindProperty("bindingValue", {
+                                                                path: "purchaseWeightUnit",
+                                                                type: new sap.extension.data.Alphanumeric({
+                                                                    maxLength: 8
+                                                                }),
+                                                            }).addStyleClass("sapUiTinyMarginBegin"),
+                                                        ]
+                                                    }),
+                                                    new sap.m.Toolbar("", { visible: false }),
+                                                    new sap.m.Label("", { text: ibas.i18n.prop("bo_material_purchaseitem") }),
+                                                    new sap.extension.m.EnumSelect("", {
+                                                        enumType: ibas.emYesNo
                                                     }).bindProperty("bindingValue", {
-                                                        path: "orderMultiple",
-                                                        type: new sap.extension.data.Quantity(),
+                                                        path: "purchaseItem",
+                                                        type: new sap.extension.data.YesNo()
                                                     }),
                                                     new sap.m.Label("", { text: ibas.i18n.prop("bo_material_purchaseuom") }),
                                                     new sap.extension.m.Input("", {
@@ -507,21 +849,6 @@ namespace materials {
                                                         type: new sap.extension.data.Alphanumeric({
                                                             maxLength: 8
                                                         }),
-                                                    }),
-                                                    new sap.m.Label("", { text: ibas.i18n.prop("bo_material_leadtime") }),
-                                                    new sap.extension.m.Input("", {
-
-                                                    }).bindProperty("bindingValue", {
-                                                        path: "leadTime",
-                                                        type: new sap.extension.data.Numeric()
-                                                    }),
-                                                    new sap.m.Toolbar("", { visible: false }),
-                                                    new sap.m.Label("", { text: ibas.i18n.prop("bo_material_purchaseitem") }),
-                                                    new sap.extension.m.EnumSelect("", {
-                                                        enumType: ibas.emYesNo
-                                                    }).bindProperty("bindingValue", {
-                                                        path: "purchaseItem",
-                                                        type: new sap.extension.data.YesNo()
                                                     }),
                                                     new sap.m.Label("", { text: ibas.i18n.prop("bo_material_purchasetaxgroup") }),
                                                     new component.TaxGroupInput("", {
@@ -567,6 +894,163 @@ namespace materials {
                                                             },
                                                         ]
                                                     }),
+                                                    new sap.m.Label("", {
+                                                        text: ibas.strings.format("{0}/{1}/{2}",
+                                                            ibas.i18n.prop("bo_material_length"),
+                                                            ibas.i18n.prop("bo_material_width"),
+                                                            ibas.i18n.prop("bo_material_height")
+                                                        )
+                                                    }),
+                                                    new sap.m.HBox("", {
+                                                        width: "100%",
+                                                        renderType: sap.m.FlexRendertype.Bare,
+                                                        items: [
+                                                            new sap.extension.m.Input("", {
+                                                            }).bindProperty("bindingValue", {
+                                                                path: "salesLength",
+                                                                type: new sap.extension.data.Measurement(),
+                                                            }),
+                                                            new sap.extension.m.Input("", {
+                                                            }).bindProperty("bindingValue", {
+                                                                path: "salesWidth",
+                                                                type: new sap.extension.data.Measurement(),
+                                                            }).addStyleClass("sapUiTinyMarginBegin"),
+                                                            new sap.extension.m.Input("", {
+                                                            }).bindProperty("bindingValue", {
+                                                                path: "salesHeight",
+                                                                type: new sap.extension.data.Measurement(),
+                                                            }).addStyleClass("sapUiTinyMarginBegin"),
+                                                            new sap.extension.m.SelectionInput("", {
+                                                                showValueHelp: true,
+                                                                repository: bo.BORepositoryMaterials,
+                                                                dataInfo: {
+                                                                    type: bo.Unit,
+                                                                    key: bo.Unit.PROPERTY_NAME_NAME,
+                                                                    text: bo.Unit.PROPERTY_NAME_NAME
+                                                                },
+                                                                criteria: [
+                                                                    new ibas.Condition(bo.Unit.PROPERTY_CATEGORY_NAME, ibas.emConditionOperation.EQUAL, bo.Unit.CATEGORY_SIZE)
+                                                                ]
+                                                            }).bindProperty("bindingValue", {
+                                                                path: "salesSizeUnit",
+                                                                type: new sap.extension.data.Alphanumeric({
+                                                                    maxLength: 8
+                                                                }),
+                                                            }).addStyleClass("sapUiTinyMarginBegin"),
+                                                        ]
+                                                    }),
+                                                    new sap.m.Label("", { text: ibas.i18n.prop("bo_material_volume") }),
+                                                    new sap.m.HBox("", {
+                                                        width: "100%",
+                                                        renderType: sap.m.FlexRendertype.Bare,
+                                                        items: [
+                                                            new sap.extension.m.Input("", {
+                                                                editable: {
+                                                                    parts: [
+                                                                        {
+                                                                            path: "salesLength",
+                                                                        },
+                                                                        {
+                                                                            path: "salesWidth",
+                                                                        },
+                                                                        {
+                                                                            path: "salesHeight",
+                                                                        },
+                                                                    ],
+                                                                    formatter(length: number, width: number, height: number): boolean {
+                                                                        if (length > 0) {
+                                                                            return false;
+                                                                        } if (width > 0) {
+                                                                            return false;
+                                                                        } if (height > 0) {
+                                                                            return false;
+                                                                        }
+                                                                        return true;
+                                                                    }
+                                                                }
+                                                            }).bindProperty("bindingValue", {
+                                                                path: "salesVolume",
+                                                                type: new sap.extension.data.Measurement(),
+                                                            }),
+                                                            new sap.extension.m.SelectionInput("", {
+                                                                showValueHelp: true,
+                                                                repository: bo.BORepositoryMaterials,
+                                                                dataInfo: {
+                                                                    type: bo.Unit,
+                                                                    key: bo.Unit.PROPERTY_NAME_NAME,
+                                                                    text: bo.Unit.PROPERTY_NAME_NAME
+                                                                },
+                                                                criteria: [
+                                                                    new ibas.Condition(bo.Unit.PROPERTY_CATEGORY_NAME, ibas.emConditionOperation.EQUAL, bo.Unit.CATEGORY_VOLUME)
+                                                                ],
+                                                                editable: {
+                                                                    parts: [
+                                                                        {
+                                                                            path: "salesLength",
+                                                                        },
+                                                                        {
+                                                                            path: "salesWidth",
+                                                                        },
+                                                                        {
+                                                                            path: "salesHeight",
+                                                                        },
+                                                                    ],
+                                                                    formatter(length: number, width: number, height: number): boolean {
+                                                                        if (length > 0) {
+                                                                            return false;
+                                                                        } if (width > 0) {
+                                                                            return false;
+                                                                        } if (height > 0) {
+                                                                            return false;
+                                                                        }
+                                                                        return true;
+                                                                    }
+                                                                }
+                                                            }).bindProperty("bindingValue", {
+                                                                path: "salesVolumeUnit",
+                                                                type: new sap.extension.data.Alphanumeric({
+                                                                    maxLength: 8
+                                                                }),
+                                                            }).addStyleClass("sapUiTinyMarginBegin"),
+                                                        ]
+                                                    }),
+                                                    new sap.m.Label("", { text: ibas.i18n.prop("bo_material_weight") }),
+                                                    new sap.m.HBox("", {
+                                                        width: "100%",
+                                                        renderType: sap.m.FlexRendertype.Bare,
+                                                        items: [
+                                                            new sap.extension.m.Input("", {
+                                                            }).bindProperty("bindingValue", {
+                                                                path: "salesWeight",
+                                                                type: new sap.extension.data.Measurement(),
+                                                            }),
+                                                            new sap.extension.m.SelectionInput("", {
+                                                                showValueHelp: true,
+                                                                repository: bo.BORepositoryMaterials,
+                                                                dataInfo: {
+                                                                    type: bo.Unit,
+                                                                    key: bo.Unit.PROPERTY_NAME_NAME,
+                                                                    text: bo.Unit.PROPERTY_NAME_NAME
+                                                                },
+                                                                criteria: [
+                                                                    new ibas.Condition(bo.Unit.PROPERTY_CATEGORY_NAME, ibas.emConditionOperation.EQUAL, bo.Unit.CATEGORY_WEIGHT)
+                                                                ]
+                                                            }).bindProperty("bindingValue", {
+                                                                path: "salesWeightUnit",
+                                                                type: new sap.extension.data.Alphanumeric({
+                                                                    maxLength: 8
+                                                                }),
+                                                            }).addStyleClass("sapUiTinyMarginBegin"),
+                                                        ]
+                                                    }),
+                                                    new sap.m.Toolbar("", { visible: false }),
+                                                    new sap.m.Label("", { text: ibas.i18n.prop("bo_material_salesitem") }),
+                                                    new sap.extension.m.EnumSelect("", {
+                                                        enumType: ibas.emYesNo
+                                                    }).bindProperty("bindingValue", {
+                                                        path: "salesItem",
+                                                        type: new sap.extension.data.YesNo()
+                                                    }),
                                                     new sap.m.Label("", { text: ibas.i18n.prop("bo_material_salesuom") }),
                                                     new sap.extension.m.Input("", {
                                                         showValueHelp: true,
@@ -578,14 +1062,6 @@ namespace materials {
                                                         type: new sap.extension.data.Alphanumeric({
                                                             maxLength: 8
                                                         }),
-                                                    }),
-                                                    new sap.m.Toolbar("", { visible: false }),
-                                                    new sap.m.Label("", { text: ibas.i18n.prop("bo_material_salesitem") }),
-                                                    new sap.extension.m.EnumSelect("", {
-                                                        enumType: ibas.emYesNo
-                                                    }).bindProperty("bindingValue", {
-                                                        path: "salesItem",
-                                                        type: new sap.extension.data.YesNo()
                                                     }),
                                                     new sap.m.Label("", { text: ibas.i18n.prop("bo_material_salestaxgroup") }),
                                                     new component.TaxGroupInput("", {
@@ -637,18 +1113,6 @@ namespace materials {
                                                     }).bindProperty("bindingValue", {
                                                         path: "lotSize",
                                                         type: new sap.extension.data.Quantity(),
-                                                    }),
-                                                    new sap.m.Label("", { text: ibas.i18n.prop("bo_material_productionuom") }),
-                                                    new sap.extension.m.Input("", {
-                                                        showValueHelp: true,
-                                                        valueHelpRequest: function (): void {
-                                                            that.fireViewEvents(that.chooseMaterialUOMEvent, bo.Material.PROPERTY_PRODUCTIONUOM_NAME);
-                                                        }
-                                                    }).bindProperty("bindingValue", {
-                                                        path: "productionUOM",
-                                                        type: new sap.extension.data.Alphanumeric({
-                                                            maxLength: 8
-                                                        }),
                                                     }),
                                                     new sap.m.Label("", { text: ibas.i18n.prop("bo_material_issuemethod") }),
                                                     new sap.extension.m.EnumSelect("", {
@@ -802,6 +1266,18 @@ namespace materials {
                                                             enumType: bo.emProcurementMethod
                                                         }),
                                                     }),
+                                                    new sap.m.Label("", { text: ibas.i18n.prop("bo_material_productionuom") }),
+                                                    new sap.extension.m.Input("", {
+                                                        showValueHelp: true,
+                                                        valueHelpRequest: function (): void {
+                                                            that.fireViewEvents(that.chooseMaterialUOMEvent, bo.Material.PROPERTY_PRODUCTIONUOM_NAME);
+                                                        }
+                                                    }).bindProperty("bindingValue", {
+                                                        path: "productionUOM",
+                                                        type: new sap.extension.data.Alphanumeric({
+                                                            maxLength: 8
+                                                        }),
+                                                    }),
                                                     new sap.m.Label("", { text: ibas.i18n.prop("bo_material_planningmethod") }),
                                                     new sap.extension.m.EnumSelect("", {
                                                         enumType: bo.emPlanningMethod
@@ -839,9 +1315,22 @@ namespace materials {
                                                         path: "keyComponent",
                                                         type: new sap.extension.data.YesNo(),
                                                     }).bindProperty("editable", {
-                                                        path: "serialManagement",
-                                                        formatter(data: any): boolean {
-                                                            return data === ibas.emYesNo.YES ? true : false;
+                                                        parts: [
+                                                            {
+                                                                path: "batchManagement"
+                                                            },
+                                                            {
+                                                                path: "serialManagement",
+                                                            }
+                                                        ],
+                                                        formatter(batch: any, serial: any): boolean {
+                                                            if (batch === ibas.emYesNo.YES) {
+                                                                return true;
+                                                            }
+                                                            if (serial === ibas.emYesNo.YES) {
+                                                                return true;
+                                                            }
+                                                            return false;
                                                         }
                                                     }),
                                                 ]

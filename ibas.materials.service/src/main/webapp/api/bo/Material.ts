@@ -171,6 +171,54 @@ namespace materials {
 
             /** 关键件 */
             keyComponent: ibas.emYesNo;
+            /** 销售-长 */
+            salesLength: number;
+            /** 销售-宽 */
+            salesWidth: number;
+            /** 销售-高 */
+            salesHeight: number;
+            /** 销售-尺寸单位 */
+            salesSizeUnit: string;
+            /** 销售-体积 */
+            salesVolume: number;
+            /** 销售-体积单位 */
+            salesVolumeUnit: string;
+            /** 销售-重量 */
+            salesWeight: number;
+            /** 销售-重量单位 */
+            salesWeightUnit: string;
+            /** 采购-长 */
+            purchaseLength: number;
+            /** 采购-宽 */
+            purchaseWidth: number;
+            /** 采购-高 */
+            purchaseHeight: number;
+            /** 销售-尺寸单位 */
+            purchaseSizeUnit: string;
+            /** 采购-体积 */
+            purchaseVolume: number;
+            /** 采购-体积单位 */
+            purchaseVolumeUnit: string;
+            /** 采购-重量 */
+            purchaseWeight: number;
+            /** 采购-重量单位 */
+            purchaseWeightUnit: string;
+            /** 库存-长 */
+            inventoryLength: number;
+            /** 库存-宽 */
+            inventoryWidth: number;
+            /** 库存-高 */
+            inventoryHeight: number;
+            /** 销售-尺寸单位 */
+            inventorySizeUnit: string;
+            /** 库存-体积 */
+            inventoryVolume: number;
+            /** 采购-体积单位 */
+            inventoryVolumeUnit: string;
+            /** 库存-重量 */
+            inventoryWeight: number;
+            /** 库存-重量单位 */
+            inventoryWeightUnit: string;
 
             /** 生效日期 */
             validDate: Date;
