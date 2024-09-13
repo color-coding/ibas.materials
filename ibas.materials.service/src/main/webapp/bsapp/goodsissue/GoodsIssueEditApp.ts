@@ -207,7 +207,7 @@ namespace materials {
                 }
             }
             /** 添加库存发货-行事件 */
-            private addGoodsIssueLine(items: bo.GoodsIssueLine[]): void {
+            private addGoodsIssueLine(items: bo.GoodsIssueLine[] | number): void {
                 if (items instanceof Array && items.length > 0) {
                     let builder: ibas.StringBuilder = new ibas.StringBuilder();
                     builder.append(ibas.i18n.prop("shell_data_new_line"));
@@ -229,8 +229,10 @@ namespace materials {
                         this.proceeding(ibas.emMessageType.WARNING, builder.toString());
                         this.view.showGoodsIssueLines(this.editData.goodsIssueLines.filterDeleted());
                     }
-                } else if (items instanceof Array) {
-                    this.editData.goodsIssueLines.create();
+                } else if (typeof items === "number" && items > 0) {
+                    for (let i: number = 0; i < items; i++) {
+                        this.editData.goodsIssueLines.create();
+                    }
                     this.view.showGoodsIssueLines(this.editData.goodsIssueLines.filterDeleted());
                 } else {
                     this.chooseGoodsIssueLineMaterial(undefined);

@@ -155,7 +155,7 @@ namespace materials {
                                                 ]
                                             }),
                                             defaultAction(): void {
-                                                that.fireViewEvents(that.addGoodsIssueLineEvent, []);
+                                                that.fireViewEvents(that.addGoodsIssueLineEvent, 1);
                                             }
                                         }),
                                         new sap.m.Button("", {
@@ -309,7 +309,32 @@ namespace materials {
                                             },
                                             criteria: [
                                                 new ibas.Condition(materials.bo.Material.PROPERTY_INVENTORYITEM_NAME, ibas.emConditionOperation.EQUAL, ibas.emYesNo.YES)
-                                            ]
+                                            ],
+                                            valuePaste: function (this: sap.extension.m.Input, event: sap.ui.base.Event): void {
+                                                let source: any = <any>event.getSource();
+                                                let data: any = event.getParameter("data");
+                                                if (typeof data === "string") {
+                                                    if (data?.indexOf("\n") > 0) {
+                                                        sap.extension.tables.fillingCellsData(source, data,
+                                                            (rowCount) => {
+                                                                that.fireViewEvents(that.addGoodsIssueLineEvent, rowCount);
+                                                                return true;
+                                                            },
+                                                            (cell, value) => {
+                                                                (<any>cell).setValue(value);
+                                                                (<any>cell).fireSuggest({ suggestValue: value, autoSelected: true });
+                                                            }
+                                                        );
+                                                    } else {
+                                                        setTimeout(() => {
+                                                            (<any>source).fireSuggest({ suggestValue: data, autoSelected: true });
+                                                        }, 10);
+                                                    }
+                                                    // 不执行后续事件
+                                                    event.preventDefault();
+                                                    event.cancelBubble();
+                                                }
+                                            },
                                         }).bindProperty("bindingValue", {
                                             path: "itemCode",
                                             type: new sap.extension.data.Alphanumeric({
@@ -382,7 +407,16 @@ namespace materials {
                                     new sap.extension.table.DataColumn("", {
                                         label: ibas.i18n.prop("bo_goodsissueline_quantity"),
                                         template: new sap.extension.m.Input("", {
-
+                                            valuePaste: function (this: sap.extension.m.Input, event: sap.ui.base.Event): void {
+                                                let source: any = <any>event.getSource();
+                                                let data: any = event.getParameter("data");
+                                                if (typeof data === "string" && data?.indexOf("\n") > 0) {
+                                                    sap.extension.tables.fillingCellsData(source, data);
+                                                    // 不执行后续事件
+                                                    event.preventDefault();
+                                                    event.cancelBubble();
+                                                }
+                                            },
                                         }).bindProperty("bindingValue", {
                                             path: "quantity",
                                             type: new sap.extension.data.Quantity()

@@ -209,7 +209,7 @@ namespace materials {
                 }
             }
             /** 添加库存转储申请-行事件 */
-            private addInventoryTransferRequestLine(items: bo.InventoryTransferRequestLine[]): void {
+            private addInventoryTransferRequestLine(items: bo.InventoryTransferRequestLine[] | number): void {
                 if (items instanceof Array && items.length > 0) {
                     let builder: ibas.StringBuilder = new ibas.StringBuilder();
                     builder.append(ibas.i18n.prop("shell_data_new_line"));
@@ -231,8 +231,10 @@ namespace materials {
                         this.proceeding(ibas.emMessageType.WARNING, builder.toString());
                         this.view.showInventoryTransferRequestLines(this.editData.inventoryTransferRequestLines.filterDeleted());
                     }
-                } else if (items instanceof Array) {
-                    this.editData.inventoryTransferRequestLines.create();
+                } else if (typeof items === "number" && items > 0) {
+                    for (let i: number = 0; i < items; i++) {
+                        this.editData.inventoryTransferRequestLines.create();
+                    }
                     this.view.showInventoryTransferRequestLines(this.editData.inventoryTransferRequestLines.filterDeleted());
                 } else {
                     this.chooseInventoryTransferRequestLineMaterial(undefined);

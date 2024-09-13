@@ -335,7 +335,32 @@ namespace materials {
                                             },
                                             criteria: [
                                                 new ibas.Condition(materials.app.conditions.product.CONDITION_ALIAS_INVENTORY_ITEM, ibas.emConditionOperation.EQUAL, ibas.emYesNo.YES)
-                                            ]
+                                            ],
+                                            valuePaste: function (this: sap.extension.m.Input, event: sap.ui.base.Event): void {
+                                                let source: any = <any>event.getSource();
+                                                let data: any = event.getParameter("data");
+                                                if (typeof data === "string") {
+                                                    if (data?.indexOf("\n") > 0) {
+                                                        sap.extension.tables.fillingCellsData(source, data,
+                                                            (rowCount) => {
+                                                                that.fireViewEvents(that.addInventoryCountingLineEvent, rowCount);
+                                                                return true;
+                                                            },
+                                                            (cell, value) => {
+                                                                (<any>cell).setValue(value);
+                                                                (<any>cell).fireSuggest({ suggestValue: value, autoSelected: true });
+                                                            }
+                                                        );
+                                                    } else {
+                                                        setTimeout(() => {
+                                                            (<any>source).fireSuggest({ suggestValue: data, autoSelected: true });
+                                                        }, 10);
+                                                    }
+                                                    // 不执行后续事件
+                                                    event.preventDefault();
+                                                    event.cancelBubble();
+                                                }
+                                            },
                                         }).bindProperty("bindingValue", {
                                             path: "itemCode",
                                             type: new sap.extension.data.Alphanumeric({

@@ -230,7 +230,7 @@ namespace materials {
                 }
             }
             /** 添加库存收货-行事件 */
-            private addGoodsReceiptLine(items: bo.GoodsReceiptLine[]): void {
+            private addGoodsReceiptLine(items: bo.GoodsReceiptLine[] | number): void {
                 if (items instanceof Array && items.length > 0) {
                     let builder: ibas.StringBuilder = new ibas.StringBuilder();
                     builder.append(ibas.i18n.prop("shell_data_new_line"));
@@ -252,8 +252,10 @@ namespace materials {
                         this.proceeding(ibas.emMessageType.WARNING, builder.toString());
                         this.view.showGoodsReceiptLines(this.editData.goodsReceiptLines.filterDeleted());
                     }
-                } else if (items instanceof Array) {
-                    this.editData.goodsReceiptLines.create();
+                } else if (typeof items === "number" && items > 0) {
+                    for (let i: number = 0; i < items; i++) {
+                        this.editData.goodsReceiptLines.create();
+                    }
                     this.view.showGoodsReceiptLines(this.editData.goodsReceiptLines.filterDeleted());
                 } else {
                     this.chooseGoodsReceiptLineMaterial(undefined);
