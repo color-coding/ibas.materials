@@ -40,6 +40,7 @@ namespace materials {
                 this.view.chooseInventoryTransferRequestLineMaterialVersionEvent = this.chooseInventoryTransferRequestLineMaterialVersion;
                 this.view.turnToInventoryTransferEvent = this.turnToInventoryTransfer;
                 this.view.reserveMaterialsInventoryEvent = this.reserveMaterialsInventory;
+                this.view.measuringMaterialsEvent = this.measuringMaterials;
             }
             /** 视图显示后 */
             protected viewShowed(): void {
@@ -631,6 +632,26 @@ namespace materials {
                     proxy: new materials.app.MaterialInventoryReservationServiceProxy(contract)
                 });
             }
+            protected measuringMaterials(): void {
+                let lines: ibas.ArrayList<IMaterialMeasurementContractLine> = new ibas.ArrayList<IMaterialMeasurementContractLine>();
+                for (let item of this.editData.inventoryTransferRequestLines) {
+                    lines.add({
+                        lineId: item.lineId,
+                        itemCode: item.itemCode,
+                        itemDescription: item.itemDescription,
+                        quantity: item.quantity,
+                        uom: item.uom,
+                    });
+                }
+                ibas.servicesManager.runApplicationService<IMaterialMeasurementContract>({
+                    proxy: new MaterialMeasurementServiceProxy({
+                        mode: "INVENTORY",
+                        documentType: this.editData.objectCode,
+                        documentEntry: this.editData.docEntry,
+                        lines: lines,
+                    })
+                });
+            }
         }
         /** 视图-库存转储申请 */
         export interface IInventoryTransferRequestEditView extends ibas.IBOEditView {
@@ -660,14 +681,16 @@ namespace materials {
             chooseInventoryTransferRequestLineDistributionRuleEvent: Function;
             /** 选择库存转储申请-行 物料版本 */
             chooseInventoryTransferRequestLineMaterialVersionEvent: Function;
-            /** 从仓库 */
-            fromWarehouse: string;
-            /** 目标仓库 */
-            toWarehouse: string;
             /** 转为库存转储申请事件 */
             turnToInventoryTransferEvent: Function;
             /** 预留物料库存 */
             reserveMaterialsInventoryEvent: Function;
+            /** 测量物料 */
+            measuringMaterialsEvent: Function;
+            /** 从仓库 */
+            fromWarehouse: string;
+            /** 目标仓库 */
+            toWarehouse: string;
         }
         /** 库存转储申请编辑服务映射 */
         export class InventoryTransferRequestEditServiceMapping extends ibas.BOEditServiceMapping {

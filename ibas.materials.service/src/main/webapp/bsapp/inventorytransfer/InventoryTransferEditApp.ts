@@ -40,6 +40,7 @@ namespace materials {
                 this.view.chooseInventoryTransferLineTransferRequestEvent = this.chooseInventoryTransferLineTransferRequest;
                 this.view.chooseInventoryTransferLineMaterialVersionEvent = this.chooseInventoryTransferLineMaterialVersion;
                 this.view.callInventoryTransferAddServiceEvent = this.callInventoryTransferAddService;
+                this.view.measuringMaterialsEvent = this.measuringMaterials;
             }
             /** 视图显示后 */
             protected viewShowed(): void {
@@ -592,6 +593,26 @@ namespace materials {
                     }
                 });
             }
+            protected measuringMaterials(): void {
+                let lines: ibas.ArrayList<IMaterialMeasurementContractLine> = new ibas.ArrayList<IMaterialMeasurementContractLine>();
+                for (let item of this.editData.inventoryTransferLines) {
+                    lines.add({
+                        lineId: item.lineId,
+                        itemCode: item.itemCode,
+                        itemDescription: item.itemDescription,
+                        quantity: item.quantity,
+                        uom: item.uom,
+                    });
+                }
+                ibas.servicesManager.runApplicationService<IMaterialMeasurementContract>({
+                    proxy: new MaterialMeasurementServiceProxy({
+                        mode: "INVENTORY",
+                        documentType: this.editData.objectCode,
+                        documentEntry: this.editData.docEntry,
+                        lines: lines,
+                    })
+                });
+            }
         }
         /** 视图-库存转储 */
         export interface IInventoryTransferEditView extends ibas.IBOEditView {
@@ -627,6 +648,8 @@ namespace materials {
             showServiceAgent(datas: ibas.IServiceAgent[]): void;
             /** 选择库存转储-行 物料版本 */
             chooseInventoryTransferLineMaterialVersionEvent: Function;
+            /** 测量物料 */
+            measuringMaterialsEvent: Function;
             /** 从仓库 */
             fromWarehouse: string;
             /** 目标仓库 */

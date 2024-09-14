@@ -38,6 +38,7 @@ namespace materials {
                 this.view.chooseGoodsReceiptMaterialPriceListEvent = this.chooseeGoodsReceiptMaterialPriceList;
                 this.view.chooseGoodsReceiptLineDistributionRuleEvent = this.chooseGoodsReceiptLineDistributionRule;
                 this.view.chooseGoodsReceiptLineMaterialVersionEvent = this.chooseGoodsReceiptLineMaterialVersion;
+                this.view.measuringMaterialsEvent = this.measuringMaterials;
             }
             /** 视图显示后 */
             protected viewShowed(): void {
@@ -585,6 +586,26 @@ namespace materials {
                     }
                 });
             }
+            protected measuringMaterials(): void {
+                let lines: ibas.ArrayList<IMaterialMeasurementContractLine> = new ibas.ArrayList<IMaterialMeasurementContractLine>();
+                for (let item of this.editData.goodsReceiptLines) {
+                    lines.add({
+                        lineId: item.lineId,
+                        itemCode: item.itemCode,
+                        itemDescription: item.itemDescription,
+                        quantity: item.quantity,
+                        uom: item.uom,
+                    });
+                }
+                ibas.servicesManager.runApplicationService<IMaterialMeasurementContract>({
+                    proxy: new MaterialMeasurementServiceProxy({
+                        mode: "INVENTORY",
+                        documentType: this.editData.objectCode,
+                        documentEntry: this.editData.docEntry,
+                        lines: lines,
+                    })
+                });
+            }
         }
         /** 视图-库存收货 */
         export interface IGoodsReceiptEditView extends ibas.IBOEditView {
@@ -614,6 +635,8 @@ namespace materials {
             chooseGoodsReceiptLineDistributionRuleEvent: Function;
             /** 选择库存收货-行 物料版本 */
             chooseGoodsReceiptLineMaterialVersionEvent: Function;
+            /** 测量物料 */
+            measuringMaterialsEvent: Function;
             /** 默认仓库 */
             defaultWarehouse: string;
         }

@@ -553,6 +553,26 @@ namespace materials {
         export class MaterialInventoryTransAddServiceProxy extends ibas.ServiceProxy<IInventoryTransferTarget> {
 
         }
+
+        /** 物料测量服务契约 */
+        export interface IMaterialMeasurementContract extends ibas.IServiceContract {
+            mode: "INVENTORY" | "PURCHASE" | "SALES";
+            documentType: string;
+            documentEntry: number;
+            lines: IMaterialMeasurementContractLine[];
+        }
+        export interface IMaterialMeasurementContractLine {
+            lineId: number;
+            itemCode: string;
+            itemDescription: string;
+            quantity: number;
+            uom: string;
+        }
+        /** 物料测量服务代理 */
+        export class MaterialMeasurementServiceProxy
+            extends ibas.ServiceProxy<IMaterialMeasurementContract> {
+        }
+
         /** 查询条件 */
         export namespace conditions {
             export namespace material {

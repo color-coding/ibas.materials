@@ -32,6 +32,9 @@ namespace materials {
                 chooseGoodsIssueLineDistributionRuleEvent: Function;
                 /** 选择库存发货-行 物料版本 */
                 chooseGoodsIssueLineMaterialVersionEvent: Function;
+                /** 测量物料 */
+                measuringMaterialsEvent: Function;
+                /** 默认仓库 */
                 defaultWarehouse: string;
                 draw(): any {
                     let that: this = this;

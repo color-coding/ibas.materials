@@ -6683,10 +6683,12 @@ declare namespace initialfantasy {
             type: any;
         }
         interface IFetchSourceCaller extends ibas.IMethodCaller<ibas.IBODocument> {
-            origin: ibas.IBODocument;
+            origin: DocumentChain;
+            onCompleted(opRslt: ibas.IOperationResult<ibas.IBODocument>, childOrigin?: DocumentChain): void;
         }
         interface IFetchTargetCaller extends ibas.IMethodCaller<ibas.IBODocument> {
-            origin: ibas.IBODocument;
+            origin: DocumentChain;
+            onCompleted(opRslt: ibas.IOperationResult<ibas.IBODocument>, childOrigin?: DocumentChain): void;
         }
         class DocumentRepository {
             constructor();
@@ -6696,7 +6698,7 @@ declare namespace initialfantasy {
             protected boShipMap: ibas.IList<bo.IBORelationship>;
             fetchSources(fetcher: IFetchSourceCaller): void;
             fetchTargets(fetcher: IFetchTargetCaller): void;
-            protected fetchDatas(criterias: ibas.ICriteria[], onCompleted: (opRslt: ibas.IOperationResult<ibas.IBODocument>) => void): void;
+            protected fetchDatas(criterias: ibas.ICriteria[], onCompleted: (opRslt: ibas.IOperationResult<ibas.IBODocument>, childOrigin?: DocumentChain) => void, origin: DocumentChain): void;
         }
         export class DocumentChain {
             constructor(data?: ibas.IBODocument);

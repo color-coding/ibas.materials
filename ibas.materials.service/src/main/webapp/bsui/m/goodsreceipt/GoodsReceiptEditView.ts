@@ -32,6 +32,9 @@ namespace materials {
                 chooseGoodsReceiptLineDistributionRuleEvent: Function;
                 /** 选择库存收货-行 物料版本 */
                 chooseGoodsReceiptLineMaterialVersionEvent: Function;
+                /** 测量物料 */
+                measuringMaterialsEvent: Function;
+                /** 默认仓库 */
                 defaultWarehouse: string;
                 /** 绘制视图 */
                 draw(): any {

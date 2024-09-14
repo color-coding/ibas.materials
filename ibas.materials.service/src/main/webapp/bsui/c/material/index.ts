@@ -19,3 +19,4 @@
 /// <reference path="./MaterialInventoryTransferView.ts" />
 /// <reference path="./ProductInventoryChooseView.ts" />
 /// <reference path="./MaterialSubstituteView.ts" />
+/// <reference path="./MaterialMeasurementView.ts" />

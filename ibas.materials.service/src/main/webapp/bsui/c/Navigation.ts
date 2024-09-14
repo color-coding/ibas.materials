@@ -296,6 +296,9 @@ namespace materials {
                     case app.MaterialInventoryTransferApp.APPLICATION_ID:
                         view = new c.MaterialInventoryTransferView();
                         break;
+                    case app.MaterialMeasurementService.APPLICATION_ID:
+                        view = new c.MaterialMeasurementView();
+                        break;
                     default:
                         break;
                 }

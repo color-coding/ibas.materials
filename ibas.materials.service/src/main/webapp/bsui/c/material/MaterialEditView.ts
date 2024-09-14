@@ -433,8 +433,8 @@ namespace materials {
                                                                 repository: bo.BORepositoryMaterials,
                                                                 dataInfo: {
                                                                     type: bo.Unit,
-                                                                    key: bo.Unit.PROPERTY_NAME_NAME,
-                                                                    text: bo.Unit.PROPERTY_NAME_NAME
+                                                                    key: bo.Unit.PROPERTY_SYMBOL_NAME,
+                                                                    text: bo.Unit.PROPERTY_SYMBOL_NAME
                                                                 },
                                                                 criteria: [
                                                                     new ibas.Condition(bo.Unit.PROPERTY_CATEGORY_NAME, ibas.emConditionOperation.EQUAL, bo.Unit.CATEGORY_SIZE)
@@ -485,8 +485,8 @@ namespace materials {
                                                                 repository: bo.BORepositoryMaterials,
                                                                 dataInfo: {
                                                                     type: bo.Unit,
-                                                                    key: bo.Unit.PROPERTY_NAME_NAME,
-                                                                    text: bo.Unit.PROPERTY_NAME_NAME
+                                                                    key: bo.Unit.PROPERTY_SYMBOL_NAME,
+                                                                    text: bo.Unit.PROPERTY_SYMBOL_NAME
                                                                 },
                                                                 criteria: [
                                                                     new ibas.Condition(bo.Unit.PROPERTY_CATEGORY_NAME, ibas.emConditionOperation.EQUAL, bo.Unit.CATEGORY_VOLUME)
@@ -537,8 +537,8 @@ namespace materials {
                                                                 repository: bo.BORepositoryMaterials,
                                                                 dataInfo: {
                                                                     type: bo.Unit,
-                                                                    key: bo.Unit.PROPERTY_NAME_NAME,
-                                                                    text: bo.Unit.PROPERTY_NAME_NAME
+                                                                    key: bo.Unit.PROPERTY_SYMBOL_NAME,
+                                                                    text: bo.Unit.PROPERTY_SYMBOL_NAME
                                                                 },
                                                                 criteria: [
                                                                     new ibas.Condition(bo.Unit.PROPERTY_CATEGORY_NAME, ibas.emConditionOperation.EQUAL, bo.Unit.CATEGORY_WEIGHT)
@@ -712,8 +712,8 @@ namespace materials {
                                                                 repository: bo.BORepositoryMaterials,
                                                                 dataInfo: {
                                                                     type: bo.Unit,
-                                                                    key: bo.Unit.PROPERTY_NAME_NAME,
-                                                                    text: bo.Unit.PROPERTY_NAME_NAME
+                                                                    key: bo.Unit.PROPERTY_SYMBOL_NAME,
+                                                                    text: bo.Unit.PROPERTY_SYMBOL_NAME
                                                                 },
                                                                 criteria: [
                                                                     new ibas.Condition(bo.Unit.PROPERTY_CATEGORY_NAME, ibas.emConditionOperation.EQUAL, bo.Unit.CATEGORY_SIZE)
@@ -764,8 +764,8 @@ namespace materials {
                                                                 repository: bo.BORepositoryMaterials,
                                                                 dataInfo: {
                                                                     type: bo.Unit,
-                                                                    key: bo.Unit.PROPERTY_NAME_NAME,
-                                                                    text: bo.Unit.PROPERTY_NAME_NAME
+                                                                    key: bo.Unit.PROPERTY_SYMBOL_NAME,
+                                                                    text: bo.Unit.PROPERTY_SYMBOL_NAME
                                                                 },
                                                                 criteria: [
                                                                     new ibas.Condition(bo.Unit.PROPERTY_CATEGORY_NAME, ibas.emConditionOperation.EQUAL, bo.Unit.CATEGORY_VOLUME)
@@ -816,8 +816,8 @@ namespace materials {
                                                                 repository: bo.BORepositoryMaterials,
                                                                 dataInfo: {
                                                                     type: bo.Unit,
-                                                                    key: bo.Unit.PROPERTY_NAME_NAME,
-                                                                    text: bo.Unit.PROPERTY_NAME_NAME
+                                                                    key: bo.Unit.PROPERTY_SYMBOL_NAME,
+                                                                    text: bo.Unit.PROPERTY_SYMBOL_NAME
                                                                 },
                                                                 criteria: [
                                                                     new ibas.Condition(bo.Unit.PROPERTY_CATEGORY_NAME, ibas.emConditionOperation.EQUAL, bo.Unit.CATEGORY_WEIGHT)
@@ -925,8 +925,8 @@ namespace materials {
                                                                 repository: bo.BORepositoryMaterials,
                                                                 dataInfo: {
                                                                     type: bo.Unit,
-                                                                    key: bo.Unit.PROPERTY_NAME_NAME,
-                                                                    text: bo.Unit.PROPERTY_NAME_NAME
+                                                                    key: bo.Unit.PROPERTY_SYMBOL_NAME,
+                                                                    text: bo.Unit.PROPERTY_SYMBOL_NAME
                                                                 },
                                                                 criteria: [
                                                                     new ibas.Condition(bo.Unit.PROPERTY_CATEGORY_NAME, ibas.emConditionOperation.EQUAL, bo.Unit.CATEGORY_SIZE)
@@ -977,8 +977,8 @@ namespace materials {
                                                                 repository: bo.BORepositoryMaterials,
                                                                 dataInfo: {
                                                                     type: bo.Unit,
-                                                                    key: bo.Unit.PROPERTY_NAME_NAME,
-                                                                    text: bo.Unit.PROPERTY_NAME_NAME
+                                                                    key: bo.Unit.PROPERTY_SYMBOL_NAME,
+                                                                    text: bo.Unit.PROPERTY_SYMBOL_NAME
                                                                 },
                                                                 criteria: [
                                                                     new ibas.Condition(bo.Unit.PROPERTY_CATEGORY_NAME, ibas.emConditionOperation.EQUAL, bo.Unit.CATEGORY_VOLUME)
@@ -1029,8 +1029,8 @@ namespace materials {
                                                                 repository: bo.BORepositoryMaterials,
                                                                 dataInfo: {
                                                                     type: bo.Unit,
-                                                                    key: bo.Unit.PROPERTY_NAME_NAME,
-                                                                    text: bo.Unit.PROPERTY_NAME_NAME
+                                                                    key: bo.Unit.PROPERTY_SYMBOL_NAME,
+                                                                    text: bo.Unit.PROPERTY_SYMBOL_NAME
                                                                 },
                                                                 criteria: [
                                                                     new ibas.Condition(bo.Unit.PROPERTY_CATEGORY_NAME, ibas.emConditionOperation.EQUAL, bo.Unit.CATEGORY_WEIGHT)

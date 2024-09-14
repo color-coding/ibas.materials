@@ -34,6 +34,8 @@ namespace materials {
                 chooseGoodsReceiptLineMaterialVersionEvent: Function;
                 /** 选择库存收货单行成本中心事件 */
                 chooseGoodsReceiptLineDistributionRuleEvent: Function;
+                /** 测量物料 */
+                measuringMaterialsEvent: Function;
 
                 /** 绘制视图 */
                 draw(): any {
@@ -758,6 +760,17 @@ namespace materials {
                                                 visible: shell.app.privileges.canRun({
                                                     id: accounting.app.JournalEntryViewApp.APPLICATION_ID,
                                                     name: accounting.app.JournalEntryViewApp.APPLICATION_NAME,
+                                                })
+                                            }),
+                                            new sap.m.MenuItem("", {
+                                                text: ibas.strings.format("{0}&{1}", ibas.i18n.prop("bo_material_volume"), ibas.i18n.prop("bo_material_weight")),
+                                                icon: "sap-icon://measuring-point",
+                                                press: function (): void {
+                                                    that.fireViewEvents(that.measuringMaterialsEvent);
+                                                },
+                                                visible: shell.app.privileges.canRun({
+                                                    id: materials.app.MaterialMeasurementService.APPLICATION_ID,
+                                                    name: materials.app.MaterialMeasurementService.APPLICATION_NAME,
                                                 })
                                             }),
                                         ],

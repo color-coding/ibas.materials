@@ -38,9 +38,11 @@ namespace materials {
                 turnToInventoryTransferEvent: Function;
                 /** 预留物料库存 */
                 reserveMaterialsInventoryEvent: Function;
-                /** 从仓库 */
+                /** 测量物料 */
+                measuringMaterialsEvent: Function;
+                /** 默认仓库（从） */
                 fromWarehouse: string;
-                /** 目标仓库 */
+                /** 默认仓库（到） */
                 toWarehouse: string;
 
                 draw(): any {

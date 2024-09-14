@@ -83,6 +83,7 @@ namespace materials {
                 this.register(new MaterialVersionLinkServiceMapping());
                 this.register(new MaterialScrapChooseServiceMapping());
                 this.register(new MaterialScrapLinkServiceMapping());
+                this.register(new MaterialMeasurementServiceMapping());
                 // 注册常驻应用
 
                 // 注册权限元素

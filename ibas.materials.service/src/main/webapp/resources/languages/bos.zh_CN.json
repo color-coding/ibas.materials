@@ -1519,6 +1519,21 @@
         "bo_materialnumberassociation_closing_delimiter": "----结束----"
     },
     {
+        "bo_materialmeasurement": "物料测量",
+        "bo_materialmeasurement_documenttype": "单据类型",
+        "bo_materialmeasurement_documententry": "单据编号",
+        "bo_materialmeasurement_documentlineid": "单据行号",
+        "bo_materialmeasurement_documentitemcode": "物料",
+        "bo_materialmeasurement_documentitemdescription": "描述",
+        "bo_materialmeasurement_quantity": "数量",
+        "bo_materialmeasurement_total_quantity": "总数量",
+        "bo_materialmeasurement_total_volume": "总体积",
+        "bo_materialmeasurement_total_weight": "总重量",
+        "bo_materialmeasurement_unit_quantity": "数量单位",
+        "bo_materialmeasurement_unit_volume": "体积单位",
+        "bo_materialmeasurement_unit_weight": "重量单位"
+    },
+    {
         "em_itemtype_item": "物料",
         "em_itemtype_services": "服务"
     },

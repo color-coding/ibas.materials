@@ -38,7 +38,11 @@ namespace materials {
                 chooseInventoryTransferLineDistributionRuleEvent: Function;
                 /** 选择库存转储-行 物料版本 */
                 chooseInventoryTransferLineMaterialVersionEvent: Function;
+                /** 测量物料 */
+                measuringMaterialsEvent: Function;
+                /** 默认仓库（从） */
                 fromWarehouse: string;
+                /** 默认仓库（到） */
                 toWarehouse: string;
                 draw(): any {
                     let that: this = this;
