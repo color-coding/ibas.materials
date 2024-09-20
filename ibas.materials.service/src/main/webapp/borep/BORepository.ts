@@ -512,6 +512,20 @@ namespace materials {
             saveMaterialNumberAssociation(saver: ibas.ISaveCaller<bo.MaterialNumberAssociation>): void {
                 super.save(bo.MaterialNumberAssociation.name, saver);
             }
+            /**
+             * 查询 业务伙伴物料目录
+             * @param fetcher 查询者
+             */
+            fetchBusinessPartnerMaterialCatalog(fetcher: ibas.IFetchCaller<bo.BusinessPartnerMaterialCatalog>): void {
+                super.fetch(bo.BusinessPartnerMaterialCatalog.name, fetcher);
+            }
+            /**
+             * 保存 业务伙伴物料目录
+             * @param saver 保存者
+             */
+            saveBusinessPartnerMaterialCatalog(saver: ibas.ISaveCaller<bo.BusinessPartnerMaterialCatalog>): void {
+                super.save(bo.BusinessPartnerMaterialCatalog.name, saver);
+            }
 
         }
         export interface IChangeCaller extends ibas.IMethodCaller<string> {

@@ -1,71 +1,42 @@
-package org.colorcoding.ibas.materials.bo.materialnumberassociation;
-
-import java.math.BigDecimal;
+package org.colorcoding.ibas.materials.bo.materialcatalog;
 
 import org.colorcoding.ibas.bobas.bo.IBOSimple;
 import org.colorcoding.ibas.bobas.data.DateTime;
+import org.colorcoding.ibas.businesspartner.data.emBusinessPartnerType;
 
 /**
-* 物料系号关联 接口
+* 业务伙伴物料目录 接口
 * 
 */
-public interface IMaterialNumberAssociation extends IBOSimple {
+public interface IBusinessPartnerMaterialCatalog extends IBOSimple {
 
 	/**
-	* 获取-基于单据类型
+	* 获取-业务伙伴类型
 	* 
 	* @return 值
 	*/
-	String getBaseDocumentType();
+	emBusinessPartnerType getBusinessPartnerType();
 
 	/**
-	* 设置-基于单据类型
+	* 设置-业务伙伴类型
 	* 
 	* @param value 值
 	*/
-	void setBaseDocumentType(String value);
+	void setBusinessPartnerType(emBusinessPartnerType value);
 
 	/**
-	* 获取-基于单据编号
+	* 获取-业务伙伴代码
 	* 
 	* @return 值
 	*/
-	Integer getBaseDocumentEntry();
+	String getBusinessPartnerCode();
 
 	/**
-	* 设置-基于单据编号
+	* 设置-业务伙伴代码
 	* 
 	* @param value 值
 	*/
-	void setBaseDocumentEntry(Integer value);
-
-	/**
-	* 获取-基于单据行号
-	* 
-	* @return 值
-	*/
-	Integer getBaseDocumentLineId();
-
-	/**
-	* 设置-基于单据行号
-	* 
-	* @param value 值
-	*/
-	void setBaseDocumentLineId(Integer value);
-
-	/**
-	* 获取-关系
-	* 
-	* @return 值
-	*/
-	String getRelation();
-
-	/**
-	* 设置-关系
-	* 
-	* @param value 值
-	*/
-	void setRelation(String value);
+	void setBusinessPartnerCode(String value);
 
 	/**
 	* 获取-物料编码
@@ -82,144 +53,32 @@ public interface IMaterialNumberAssociation extends IBOSimple {
 	void setItemCode(String value);
 
 	/**
-	* 获取-仓库编码
+	* 获取-目录编码
 	* 
 	* @return 值
 	*/
-	String getWarehouse();
+	String getCatalogCode();
 
 	/**
-	* 设置-仓库编码
+	* 设置-目录编码
 	* 
 	* @param value 值
 	*/
-	void setWarehouse(String value);
+	void setCatalogCode(String value);
 
 	/**
-	* 获取-批次编码
+	* 获取-目录名称
 	* 
 	* @return 值
 	*/
-	String getBatchCode();
+	String getCatalogName();
 
 	/**
-	* 设置-批次编码
+	* 设置-目录名称
 	* 
 	* @param value 值
 	*/
-	void setBatchCode(String value);
-
-	/**
-	* 获取-序列编码
-	* 
-	* @return 值
-	*/
-	String getSerialCode();
-
-	/**
-	* 设置-序列编码
-	* 
-	* @param value 值
-	*/
-	void setSerialCode(String value);
-
-	/**
-	* 获取-关联物料编码
-	* 
-	* @return 值
-	*/
-	String getAssociatedItem();
-
-	/**
-	* 设置-关联物料编码
-	* 
-	* @param value 值
-	*/
-	void setAssociatedItem(String value);
-
-	/**
-	* 获取-关联仓库编码
-	* 
-	* @return 值
-	*/
-	String getAssociatedWarehouse();
-
-	/**
-	* 设置-关联仓库编码
-	* 
-	* @param value 值
-	*/
-	void setAssociatedWarehouse(String value);
-
-	/**
-	* 获取-关联批次编码
-	* 
-	* @return 值
-	*/
-	String getAssociatedBatch();
-
-	/**
-	* 设置-关联批次编码
-	* 
-	* @param value 值
-	*/
-	void setAssociatedBatch(String value);
-
-	/**
-	* 获取-关联序列编码
-	* 
-	* @return 值
-	*/
-	String getAssociatedSerial();
-
-	/**
-	* 设置-关联序列编码
-	* 
-	* @param value 值
-	*/
-	void setAssociatedSerial(String value);
-
-	/**
-	* 获取-数量
-	* 
-	* @return 值
-	*/
-	BigDecimal getQuantity();
-
-	/**
-	* 设置-数量
-	* 
-	* @param value 值
-	*/
-	void setQuantity(BigDecimal value);
-
-	/**
-	* 获取-原因
-	* 
-	* @return 值
-	*/
-	String getCauses();
-
-	/**
-	* 设置-原因
-	* 
-	* @param value 值
-	*/
-	void setCauses(String value);
-
-	/**
-	* 获取-失效日期
-	* 
-	* @return 值
-	*/
-	DateTime getExpirationDate();
-
-	/**
-	* 设置-失效日期
-	* 
-	* @param value 值
-	*/
-	void setExpirationDate(DateTime value);
+	void setCatalogName(String value);
 
 	/**
 	* 获取-对象编号
@@ -318,6 +177,20 @@ public interface IMaterialNumberAssociation extends IBOSimple {
 	* @param value 值
 	*/
 	void setLogInst(Integer value);
+
+	/**
+	* 获取-服务系列
+	* 
+	* @return 值
+	*/
+	Integer getSeries();
+
+	/**
+	* 设置-服务系列
+	* 
+	* @param value 值
+	*/
+	void setSeries(Integer value);
 
 	/**
 	* 获取-数据源
@@ -430,5 +303,4 @@ public interface IMaterialNumberAssociation extends IBOSimple {
 	* @param value 值
 	*/
 	void setRemarks(String value);
-
 }

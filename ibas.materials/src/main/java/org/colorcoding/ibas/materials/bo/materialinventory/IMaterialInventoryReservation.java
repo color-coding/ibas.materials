@@ -195,34 +195,6 @@ public interface IMaterialInventoryReservation extends IBOSimple {
 	void setClosedQuantity(BigDecimal value);
 
 	/**
-	 * 获取-数据所有者
-	 * 
-	 * @return 值
-	 */
-	Integer getDataOwner();
-
-	/**
-	 * 设置-数据所有者
-	 * 
-	 * @param value 值
-	 */
-	void setDataOwner(Integer value);
-
-	/**
-	 * 获取-备注
-	 * 
-	 * @return 值
-	 */
-	String getRemarks();
-
-	/**
-	 * 设置-备注
-	 * 
-	 * @param value 值
-	 */
-	void setRemarks(String value);
-
-	/**
 	 * 获取-对象编号
 	 * 
 	 * @return 值
@@ -404,4 +376,45 @@ public interface IMaterialInventoryReservation extends IBOSimple {
 	 */
 	void setUpdateActionId(String value);
 
+	/**
+	 * 获取-数据所有者
+	 * 
+	 * @return 值
+	 */
+	Integer getDataOwner();
+
+	/**
+	 * 设置-数据所有者
+	 * 
+	 * @param value 值
+	 */
+	void setDataOwner(Integer value);
+
+	/**
+	 * 获取-数据所属组织
+	 * 
+	 * @return 值
+	 */
+	String getOrganization();
+
+	/**
+	 * 设置-数据所属组织
+	 * 
+	 * @param value 值
+	 */
+	void setOrganization(String value);
+
+	/**
+	 * 获取-备注
+	 * 
+	 * @return 值
+	 */
+	String getRemarks();
+
+	/**
+	 * 设置-备注
+	 * 
+	 * @param value 值
+	 */
+	void setRemarks(String value);
 }

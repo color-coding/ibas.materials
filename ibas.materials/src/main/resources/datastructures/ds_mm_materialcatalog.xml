@@ -1,20 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE Domain>
 <Domain Name="Materials" ShortName="MM">
-  <Model Name="MaterialInventoryReservation" Description="物料库存预留" ModelType="Simple" Mapped="${Company}_MM_OMIR">
-    <Property Name="ItemCode" Description="物料编码" DataType="Alphanumeric" DataSubType="Default" EditSize="50" Mapped="ItemCode"/>
-    <Property Name="Warehouse" Description="仓库编码" DataType="Alphanumeric" DataSubType="Default" EditSize="8" Mapped="WhsCode"/>
-    <Property Name="BatchCode" Description="批次编码" DataType="Alphanumeric" DataSubType="Default" EditSize="36" Mapped="BatchCode"/>
-    <Property Name="SerialCode" Description="序列编码" DataType="Alphanumeric" DataSubType="Default" EditSize="36" Mapped="SerialCode"/>
-    <Property Name="Quantity" Description="数量" DataType="Decimal" DataSubType="Quantity" EditSize="8" Mapped="Quantity"/>
-    <Property Name="InvalidDate" Description="失效日期" DataType="Date" DataSubType="Default" EditSize="8" Mapped="InvalidDate"/>
-    <Property Name="InvalidTime" Description="失效时间" DataType="Date" DataSubType="Time" EditSize="8" Mapped="InvalidTime"/>
-    <Property Name="TargetDocumentType" Description="目标单据类型" DataType="Alphanumeric" DataSubType="Default" EditSize="30" Mapped="TargetType"/>
-    <Property Name="TargetDocumentEntry" Description="目标单据编号" DataType="Numeric" DataSubType="Default" EditSize="8" Mapped="TargetEntry"/>
-    <Property Name="TargetDocumentLineId" Description="目标单据行号" DataType="Numeric" DataSubType="Default" EditSize="8" Mapped="TargetLine"/>
-    <Property Name="Causes" Description="原因" DataType="Alphanumeric" DataSubType="Default" EditSize="100" Mapped="Causes"/>
-    <Property Name="Status" Description="状态" DataType="Alphanumeric" DataSubType="Default" EditSize="1" DeclaredType="emBOStatus" Mapped="Status"/>
-    <Property Name="ClosedQuantity" Description="已清数量" DataType="Decimal" DataSubType="Quantity" EditSize="8" Mapped="ClosedQty"/>
+  <Model Name="BusinessPartnerMaterialCatalog" Description="业务伙伴物料目录" ModelType="Simple" Mapped="${Company}_MM_OBPC">
+    <Property Name="BusinessPartnerType" Description="业务伙伴类型" DataType="Alphanumeric" DataSubType="Default" EditSize="1" DeclaredType="emBusinessPartnerType" Mapped="CardType" UniqueKey="Yes"/>
+    <Property Name="BusinessPartnerCode" Description="业务伙伴代码" DataType="Alphanumeric" DataSubType="Default" EditSize="20" Mapped="CardCode" UniqueKey="Yes"/>
+    <Property Name="ItemCode" Description="物料编码" DataType="Alphanumeric" DataSubType="Default" EditSize="50" Mapped="ItemCode" UniqueKey="Yes"/>
+    <Property Name="CatalogCode" Description="目录编码" DataType="Alphanumeric" DataSubType="Default" EditSize="50" Mapped="CatalogCode" UniqueKey="Yes"/>
+    <Property Name="CatalogName" Description="目录名称" DataType="Alphanumeric" DataSubType="Default" EditSize="200" Mapped="CatalogName"/>
     <Property Name="ObjectKey" Description="对象编号" DataType="Numeric" DataSubType="Default" EditSize="8" Mapped="ObjectKey" PrimaryKey="Yes"/>
     <Property Name="ObjectCode" Description="对象类型" DataType="Alphanumeric" DataSubType="Default" EditSize="30" Mapped="ObjectCode"/>
     <Property Name="CreateDate" Description="创建日期" DataType="Date" DataSubType="Default" EditSize="8" Mapped="CreateDate"/>
@@ -32,5 +24,5 @@
     <Property Name="Organization" Description="数据所属组织" DataType="Alphanumeric" DataSubType="Default" EditSize="8" Mapped="OrgCode"/>
     <Property Name="Remarks" Description="备注" DataType="Memo" DataSubType="Default" EditSize="8" Mapped="Remarks"/>
   </Model>
-  <BusinessObject MappedModel="MaterialInventoryReservation" ShortName="${Company}_MM_RESERVATION"/>
+  <BusinessObject MappedModel="BusinessPartnerMaterialCatalog" ShortName="${Company}_MM_BPCATALOG"/>
 </Domain>

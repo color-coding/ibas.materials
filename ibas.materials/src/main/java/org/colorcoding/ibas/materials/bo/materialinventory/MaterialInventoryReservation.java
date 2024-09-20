@@ -19,6 +19,7 @@ import org.colorcoding.ibas.bobas.logic.IBusinessLogicsHost;
 import org.colorcoding.ibas.bobas.mapping.BusinessObjectUnit;
 import org.colorcoding.ibas.bobas.mapping.DbField;
 import org.colorcoding.ibas.bobas.mapping.DbFieldType;
+import org.colorcoding.ibas.bobas.ownership.IDataOwnership;
 import org.colorcoding.ibas.bobas.rule.IBusinessRule;
 import org.colorcoding.ibas.bobas.rule.common.BusinessRuleMinValue;
 import org.colorcoding.ibas.bobas.rule.common.BusinessRuleRequired;
@@ -38,7 +39,7 @@ import org.colorcoding.ibas.materials.logic.IMaterialWarehouseReservedContract;
 @XmlRootElement(name = MaterialInventoryReservation.BUSINESS_OBJECT_NAME, namespace = MyConfiguration.NAMESPACE_BO)
 @BusinessObjectUnit(code = MaterialInventoryReservation.BUSINESS_OBJECT_CODE)
 public class MaterialInventoryReservation extends BusinessObject<MaterialInventoryReservation>
-		implements IMaterialInventoryReservation, IBusinessLogicsHost {
+		implements IMaterialInventoryReservation, IDataOwnership, IBusinessLogicsHost {
 
 	/**
 	 * 序列化版本标记
@@ -469,68 +470,6 @@ public class MaterialInventoryReservation extends BusinessObject<MaterialInvento
 	}
 
 	/**
-	 * 属性名称-数据所有者
-	 */
-	private static final String PROPERTY_DATAOWNER_NAME = "DataOwner";
-
-	/**
-	 * 数据所有者 属性
-	 */
-	@DbField(name = "DataOwner", type = DbFieldType.NUMERIC, table = DB_TABLE_NAME)
-	public static final IPropertyInfo<Integer> PROPERTY_DATAOWNER = registerProperty(PROPERTY_DATAOWNER_NAME,
-			Integer.class, MY_CLASS);
-
-	/**
-	 * 获取-数据所有者
-	 * 
-	 * @return 值
-	 */
-	@XmlElement(name = PROPERTY_DATAOWNER_NAME)
-	public final Integer getDataOwner() {
-		return this.getProperty(PROPERTY_DATAOWNER);
-	}
-
-	/**
-	 * 设置-数据所有者
-	 * 
-	 * @param value 值
-	 */
-	public final void setDataOwner(Integer value) {
-		this.setProperty(PROPERTY_DATAOWNER, value);
-	}
-
-	/**
-	 * 属性名称-备注
-	 */
-	private static final String PROPERTY_REMARKS_NAME = "Remarks";
-
-	/**
-	 * 备注 属性
-	 */
-	@DbField(name = "Remarks", type = DbFieldType.MEMO, table = DB_TABLE_NAME)
-	public static final IPropertyInfo<String> PROPERTY_REMARKS = registerProperty(PROPERTY_REMARKS_NAME, String.class,
-			MY_CLASS);
-
-	/**
-	 * 获取-备注
-	 * 
-	 * @return 值
-	 */
-	@XmlElement(name = PROPERTY_REMARKS_NAME)
-	public final String getRemarks() {
-		return this.getProperty(PROPERTY_REMARKS);
-	}
-
-	/**
-	 * 设置-备注
-	 * 
-	 * @param value 值
-	 */
-	public final void setRemarks(String value) {
-		this.setProperty(PROPERTY_REMARKS, value);
-	}
-
-	/**
 	 * 属性名称-对象编号
 	 */
 	private static final String PROPERTY_OBJECTKEY_NAME = "ObjectKey";
@@ -931,6 +870,99 @@ public class MaterialInventoryReservation extends BusinessObject<MaterialInvento
 	 */
 	public final void setUpdateActionId(String value) {
 		this.setProperty(PROPERTY_UPDATEACTIONID, value);
+	}
+
+	/**
+	 * 属性名称-数据所有者
+	 */
+	private static final String PROPERTY_DATAOWNER_NAME = "DataOwner";
+
+	/**
+	 * 数据所有者 属性
+	 */
+	@DbField(name = "DataOwner", type = DbFieldType.NUMERIC, table = DB_TABLE_NAME)
+	public static final IPropertyInfo<Integer> PROPERTY_DATAOWNER = registerProperty(PROPERTY_DATAOWNER_NAME,
+			Integer.class, MY_CLASS);
+
+	/**
+	 * 获取-数据所有者
+	 * 
+	 * @return 值
+	 */
+	@XmlElement(name = PROPERTY_DATAOWNER_NAME)
+	public final Integer getDataOwner() {
+		return this.getProperty(PROPERTY_DATAOWNER);
+	}
+
+	/**
+	 * 设置-数据所有者
+	 * 
+	 * @param value 值
+	 */
+	public final void setDataOwner(Integer value) {
+		this.setProperty(PROPERTY_DATAOWNER, value);
+	}
+
+	/**
+	 * 属性名称-数据所属组织
+	 */
+	private static final String PROPERTY_ORGANIZATION_NAME = "Organization";
+
+	/**
+	 * 数据所属组织 属性
+	 */
+	@DbField(name = "OrgCode", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME, primaryKey = false)
+	public static final IPropertyInfo<String> PROPERTY_ORGANIZATION = registerProperty(PROPERTY_ORGANIZATION_NAME,
+			String.class, MY_CLASS);
+
+	/**
+	 * 获取-数据所属组织
+	 * 
+	 * @return 值
+	 */
+	@XmlElement(name = PROPERTY_ORGANIZATION_NAME)
+	public final String getOrganization() {
+		return this.getProperty(PROPERTY_ORGANIZATION);
+	}
+
+	/**
+	 * 设置-数据所属组织
+	 * 
+	 * @param value 值
+	 */
+	public final void setOrganization(String value) {
+		this.setProperty(PROPERTY_ORGANIZATION, value);
+	}
+
+	/**
+	 * 属性名称-备注
+	 */
+	private static final String PROPERTY_REMARKS_NAME = "Remarks";
+
+	/**
+	 * 备注 属性
+	 */
+	@DbField(name = "Remarks", type = DbFieldType.MEMO, table = DB_TABLE_NAME)
+	public static final IPropertyInfo<String> PROPERTY_REMARKS = registerProperty(PROPERTY_REMARKS_NAME, String.class,
+			MY_CLASS);
+
+	/**
+	 * 获取-备注
+	 * 
+	 * @return 值
+	 */
+	@XmlElement(name = PROPERTY_REMARKS_NAME)
+	public final String getRemarks() {
+		return this.getProperty(PROPERTY_REMARKS);
+	}
+
+	/**
+	 * 设置-备注
+	 * 
+	 * @param value 值
+	 */
+	public final void setRemarks(String value) {
+		this.setProperty(PROPERTY_REMARKS, value);
 	}
 
 	/**

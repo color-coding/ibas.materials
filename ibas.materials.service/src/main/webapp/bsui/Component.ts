@@ -399,7 +399,7 @@ namespace materials {
                         }
                         this.setDataInfo(dataInfo);
                     }
-                    let criteria: ibas.ICriteria | ibas.ICondition[] = this.getCriteria();
+                    let criteria: ibas.ICriteria | ibas.ICondition[] | Function = this.getCriteria();
                     if (ibas.objects.isNull(criteria)) {
                         criteria = sap.extension.variables.get(TaxGroupInput, "criteria");
                         if (ibas.objects.isNull(criteria)) {

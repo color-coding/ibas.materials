@@ -169,17 +169,6 @@ namespace materials {
                 this.setProperty(MaterialOrderedReservation.PROPERTY_TARGETDOCUMENTCLOSED_NAME, value);
             }
 
-            /** 映射的属性名称-数据所有者 */
-            static PROPERTY_DATAOWNER_NAME: string = "DataOwner";
-            /** 获取-数据所有者 */
-            get dataOwner(): number {
-                return this.getProperty<number>(MaterialOrderedReservation.PROPERTY_DATAOWNER_NAME);
-            }
-            /** 设置-数据所有者 */
-            set dataOwner(value: number) {
-                this.setProperty(MaterialOrderedReservation.PROPERTY_DATAOWNER_NAME, value);
-            }
-
             /** 映射的属性名称-原因 */
             static PROPERTY_CAUSES_NAME: string = "Causes";
             /** 获取-原因 */
@@ -211,17 +200,6 @@ namespace materials {
             /** 设置-已清数量 */
             set closedQuantity(value: number) {
                 this.setProperty(MaterialOrderedReservation.PROPERTY_CLOSEDQUANTITY_NAME, value);
-            }
-
-            /** 映射的属性名称-备注 */
-            static PROPERTY_REMARKS_NAME: string = "Remarks";
-            /** 获取-备注 */
-            get remarks(): string {
-                return this.getProperty<string>(MaterialOrderedReservation.PROPERTY_REMARKS_NAME);
-            }
-            /** 设置-备注 */
-            set remarks(value: string) {
-                this.setProperty(MaterialOrderedReservation.PROPERTY_REMARKS_NAME, value);
             }
 
             /** 映射的属性名称-对象编号 */
@@ -365,6 +343,39 @@ namespace materials {
             /** 设置-更新动作标识 */
             set updateActionId(value: string) {
                 this.setProperty(MaterialOrderedReservation.PROPERTY_UPDATEACTIONID_NAME, value);
+            }
+
+            /** 映射的属性名称-数据所有者 */
+            static PROPERTY_DATAOWNER_NAME: string = "DataOwner";
+            /** 获取-数据所有者 */
+            get dataOwner(): number {
+                return this.getProperty<number>(MaterialOrderedReservation.PROPERTY_DATAOWNER_NAME);
+            }
+            /** 设置-数据所有者 */
+            set dataOwner(value: number) {
+                this.setProperty(MaterialOrderedReservation.PROPERTY_DATAOWNER_NAME, value);
+            }
+
+            /** 映射的属性名称-数据所属组织 */
+            static PROPERTY_ORGANIZATION_NAME: string = "Organization";
+            /** 获取-数据所属组织 */
+            get organization(): string {
+                return this.getProperty<string>(MaterialOrderedReservation.PROPERTY_ORGANIZATION_NAME);
+            }
+            /** 设置-数据所属组织 */
+            set organization(value: string) {
+                this.setProperty(MaterialOrderedReservation.PROPERTY_ORGANIZATION_NAME, value);
+            }
+
+            /** 映射的属性名称-备注 */
+            static PROPERTY_REMARKS_NAME: string = "Remarks";
+            /** 获取-备注 */
+            get remarks(): string {
+                return this.getProperty<string>(MaterialOrderedReservation.PROPERTY_REMARKS_NAME);
+            }
+            /** 设置-备注 */
+            set remarks(value: string) {
+                this.setProperty(MaterialOrderedReservation.PROPERTY_REMARKS_NAME, value);
             }
 
             /** 初始化数据 */

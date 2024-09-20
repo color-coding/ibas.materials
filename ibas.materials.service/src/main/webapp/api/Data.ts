@@ -117,6 +117,9 @@ namespace materials {
         export const BO_CODE_MATERIALSPECIALPRICE: string = "${Company}_MM_SPECIALPRICE";
         /** 业务对象编码-物料系号关联 */
         export const BO_CODE_MATERIALNUMBERASSOCIATION: string = "${Company}_MM_NUMASSOC";
+        /** 业务对象编码-业务伙伴物料目录 */
+        export const BO_CODE_BUSINESSPARTNERMATERIALCATALOG: string = "${Company}_MM_BPCATALOG";
+
 
         /** 物料类型 */
         export enum emItemType {

@@ -323,6 +323,18 @@ namespace materials {
                 this.setProperty(MaterialNumberAssociation.PROPERTY_DATAOWNER_NAME, value);
             }
 
+            /** 映射的属性名称-数据所属组织 */
+            static PROPERTY_ORGANIZATION_NAME: string = "Organization";
+            /** 获取-数据所属组织 */
+            get organization(): string {
+                return this.getProperty<string>(MaterialNumberAssociation.PROPERTY_ORGANIZATION_NAME);
+            }
+            /** 设置-数据所属组织 */
+            set organization(value: string) {
+                this.setProperty(MaterialNumberAssociation.PROPERTY_ORGANIZATION_NAME, value);
+            }
+
+
             /** 映射的属性名称-备注 */
             static PROPERTY_REMARKS_NAME: string = "Remarks";
             /** 获取-备注 */

@@ -36,6 +36,7 @@
 /// <reference path="./bo/InventoryTransferRequest.ts" />
 /// <reference path="./bo/MaterialSpecialPrice.ts" />
 /// <reference path="./bo/MaterialNumberAssociation.ts" />
+/// <reference path="./bo/MaterialCatalog.ts" />
 /// <reference path="./DataConverter.ts" />
 /// <reference path="./BORepository.ts" />
 
@@ -75,6 +76,7 @@ namespace materials {
         boFactory.register(InventoryTransferRequest.BUSINESS_OBJECT_CODE, InventoryTransferRequest);
         boFactory.register(MaterialSpecialPrice.BUSINESS_OBJECT_CODE, MaterialSpecialPrice);
         boFactory.register(MaterialNumberAssociation.BUSINESS_OBJECT_CODE, MaterialNumberAssociation);
+        boFactory.register(BusinessPartnerMaterialCatalog.BUSINESS_OBJECT_CODE, BusinessPartnerMaterialCatalog);
         boFactory.register(BO_CODE_PRODUCT_INVENTORY, Object);// 没有实际意义
     }
 }

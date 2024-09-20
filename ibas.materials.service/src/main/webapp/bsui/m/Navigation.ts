@@ -19,6 +19,7 @@
 /// <reference path="./materialversion/index.ts" />
 /// <reference path="./unit/index.ts" />
 /// <reference path="./inventorytransferrequest/index.ts" />
+/// <reference path="./materialcatalog/index.ts" />
 namespace materials {
     export namespace ui {
         /**
@@ -130,6 +131,9 @@ namespace materials {
                         break;
                     case app.InventoryTransferRequestViewApp.APPLICATION_ID:
                         view = new m.InventoryTransferRequestViewView();
+                        break;
+                    case app.BusinessPartnerMaterialCatalogChooseApp.APPLICATION_ID:
+                        view = new m.BusinessPartnerMaterialCatalogChooseView();
                         break;
                     default:
                         break;

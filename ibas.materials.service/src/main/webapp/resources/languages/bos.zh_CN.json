@@ -1140,6 +1140,7 @@
         "bo_materialinventoryreservation_updateusersign": "修改用户",
         "bo_materialinventoryreservation_createactionid": "创建动作标识",
         "bo_materialinventoryreservation_updateactionid": "更新动作标识",
+        "bo_materialinventoryreservation_organization": "数据所属组织",
         "bo_materialinventoryreservation_closing_delimiter": "----结束----"
     },
     {
@@ -1209,6 +1210,7 @@
         "bo_materialorderedreservation_updateusersign": "修改用户",
         "bo_materialorderedreservation_createactionid": "创建动作标识",
         "bo_materialorderedreservation_updateactionid": "更新动作标识",
+        "bo_materialorderedreservation_organization": "数据所属组织",
         "bo_materialorderedreservation_closing_delimiter": "----结束----"
     },
     {
@@ -1515,6 +1517,7 @@
         "bo_materialnumberassociation_createactionid": "创建动作标识",
         "bo_materialnumberassociation_updateactionid": "更新动作标识",
         "bo_materialnumberassociation_dataowner": "数据所有者",
+        "bo_materialnumberassociation_organization": "数据所属组织",
         "bo_materialnumberassociation_remarks": "备注",
         "bo_materialnumberassociation_closing_delimiter": "----结束----"
     },
@@ -1532,6 +1535,40 @@
         "bo_materialmeasurement_unit_quantity": "数量单位",
         "bo_materialmeasurement_unit_volume": "体积单位",
         "bo_materialmeasurement_unit_weight": "重量单位"
+    },
+    {
+        "bo_businesspartnermaterialcatalog": "业务伙伴物料目录",
+        "bo_businesspartnermaterialcatalog_businesspartnertype": "业务伙伴类型",
+        "bo_businesspartnermaterialcatalog_businesspartnercode": "业务伙伴代码",
+        "bo_businesspartnermaterialcatalog_businesspartnername": "业务伙伴名称",
+        "bo_businesspartnermaterialcatalog_businesspartner": "业务伙伴",
+        "bo_businesspartnermaterialcatalog_customer": "客户",
+        "bo_businesspartnermaterialcatalog_supplier": "供应商",
+        "bo_businesspartnermaterialcatalog_material": "物料",
+        "bo_businesspartnermaterialcatalog_itemcode": "物料编码",
+        "bo_businesspartnermaterialcatalog_itemname": "物料描述",
+        "bo_businesspartnermaterialcatalog_catalogcode": "目录编码",
+        "bo_businesspartnermaterialcatalog_catalogname": "目录名称",
+        "bo_businesspartnermaterialcatalog_code": "编码",
+        "bo_businesspartnermaterialcatalog_name": "名称",
+        "bo_businesspartnermaterialcatalog_group": "组",
+        "bo_businesspartnermaterialcatalog_remarks": "备注",
+        "bo_businesspartnermaterialcatalog_objectkey": "对象编号",
+        "bo_businesspartnermaterialcatalog_objectcode": "对象类型",
+        "bo_businesspartnermaterialcatalog_createdate": "创建日期",
+        "bo_businesspartnermaterialcatalog_createtime": "创建时间",
+        "bo_businesspartnermaterialcatalog_updatedate": "修改日期",
+        "bo_businesspartnermaterialcatalog_updatetime": "修改时间",
+        "bo_businesspartnermaterialcatalog_loginst": "版本",
+        "bo_businesspartnermaterialcatalog_series": "服务系列",
+        "bo_businesspartnermaterialcatalog_datasource": "数据源",
+        "bo_businesspartnermaterialcatalog_createusersign": "创建用户",
+        "bo_businesspartnermaterialcatalog_updateusersign": "修改用户",
+        "bo_businesspartnermaterialcatalog_createactionid": "创建动作标识",
+        "bo_businesspartnermaterialcatalog_updateactionid": "更新动作标识",
+        "bo_businesspartnermaterialcatalog_dataowner": "数据所有者",
+        "bo_businesspartnermaterialcatalog_organization": "数据所属组织",
+        "bo_businesspartnermaterialcatalog_closing_delimiter": "----结束----"
     },
     {
         "em_itemtype_item": "物料",

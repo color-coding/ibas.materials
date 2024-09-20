@@ -7,34 +7,18 @@
  */
 namespace materials {
     export namespace bo {
-        /** 物料库存预留 */
-        export interface IMaterialInventoryReservation extends ibas.IBOSimple {
+        /** 业务伙伴物料目录 */
+        export interface IBusinessPartnerMaterialCatalog extends ibas.IBOSimple {
+            /** 业务伙伴类型 */
+            businessPartnerType: businesspartner.bo.emBusinessPartnerType;
+            /** 业务伙伴代码 */
+            businessPartnerCode: string;
             /** 物料编码 */
             itemCode: string;
-            /** 仓库编码 */
-            warehouse: string;
-            /** 批次编码 */
-            batchCode: string;
-            /** 序列编码 */
-            serialCode: string;
-            /** 数量 */
-            quantity: number;
-            /** 失效日期 */
-            invalidDate: Date;
-            /** 失效时间 */
-            invalidTime: number;
-            /** 目标单据类型 */
-            targetDocumentType: string;
-            /** 目标单据编号 */
-            targetDocumentEntry: number;
-            /** 目标单据行号 */
-            targetDocumentLineId: number;
-            /** 原因 */
-            causes: string;
-            /** 状态 */
-            status: ibas.emBOStatus;
-            /** 已清数量 */
-            closedQuantity: number;
+            /** 目录编码 */
+            catalogCode: string;
+            /** 目录名称 */
+            catalogName: string;
             /** 对象编号 */
             objectKey: number;
             /** 对象类型 */
@@ -67,12 +51,7 @@ namespace materials {
             organization: string;
             /** 备注 */
             remarks: string;
-            /** 基于物料库存信息 */
-            baseBusinessObject(data: IMaterialInventory): void;
-            /** 基于物料批次信息 */
-            baseBusinessObject(data: IMaterialBatch): void;
-            /** 基于物料序列信息 */
-            baseBusinessObject(data: IMaterialSerial): void;
+
         }
 
 

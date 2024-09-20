@@ -37,16 +37,12 @@ namespace materials {
             targetDocumentLineId: number;
             /** 目标单据关闭 */
             targetDocumentClosed: ibas.emYesNo;
-            /** 数据所有者 */
-            dataOwner: number;
             /** 原因 */
             causes: string;
             /** 状态 */
             status: ibas.emBOStatus;
             /** 已清数量 */
             closedQuantity: number;
-            /** 备注 */
-            remarks: string;
             /** 对象编号 */
             objectKey: number;
             /** 对象类型 */
@@ -71,6 +67,12 @@ namespace materials {
             createActionId: string;
             /** 更新动作标识 */
             updateActionId: string;
+            /** 数据所有者 */
+            dataOwner: number;
+            /** 数据所属组织 */
+            organization: string;
+            /** 备注 */
+            remarks: string;
 
         }
 

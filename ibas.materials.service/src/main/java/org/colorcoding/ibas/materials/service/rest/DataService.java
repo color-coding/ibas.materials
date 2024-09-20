@@ -25,6 +25,7 @@ import org.colorcoding.ibas.materials.bo.material.MaterialVersion;
 import org.colorcoding.ibas.materials.bo.material.Product;
 import org.colorcoding.ibas.materials.bo.materialbatch.MaterialBatch;
 import org.colorcoding.ibas.materials.bo.materialbatch.MaterialBatchJournal;
+import org.colorcoding.ibas.materials.bo.materialcatalog.BusinessPartnerMaterialCatalog;
 import org.colorcoding.ibas.materials.bo.materialinventory.MaterialEstimateJournal;
 import org.colorcoding.ibas.materials.bo.materialinventory.MaterialInventory;
 import org.colorcoding.ibas.materials.bo.materialinventory.MaterialInventoryJournal;
@@ -1013,5 +1014,36 @@ public class DataService extends BORepositoryMaterials {
 		return super.saveMaterialNumberAssociation(bo, MyConfiguration.optToken(authorization, token));
 	}
 
+	// --------------------------------------------------------------------------------------------//
+	/**
+	 * 查询-业务伙伴物料目录
+	 * @param criteria 查询
+	 * @param token 口令
+	 * @return 操作结果
+	 */
+	@POST
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Path("fetchBusinessPartnerMaterialCatalog")
+	public OperationResult<BusinessPartnerMaterialCatalog> fetchBusinessPartnerMaterialCatalog(Criteria criteria,
+			@HeaderParam("authorization") String authorization, @QueryParam("token") String token) {
+		return super.fetchBusinessPartnerMaterialCatalog(criteria, MyConfiguration.optToken(authorization, token));
+	}
+
+	/**
+	 * 保存-业务伙伴物料目录
+	 * @param bo 对象实例
+	 * @param token 口令
+	 * @return 操作结果
+	 */
+	@POST
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Path("saveBusinessPartnerMaterialCatalog")
+	public OperationResult<BusinessPartnerMaterialCatalog> saveBusinessPartnerMaterialCatalog(
+			BusinessPartnerMaterialCatalog bo, @HeaderParam("authorization") String authorization,
+			@QueryParam("token") String token) {
+		return super.saveBusinessPartnerMaterialCatalog(bo, MyConfiguration.optToken(authorization, token));
+	}
 	// --------------------------------------------------------------------------------------------//
 }

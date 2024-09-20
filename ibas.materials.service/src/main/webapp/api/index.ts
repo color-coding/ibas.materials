@@ -38,4 +38,5 @@
 /// <reference path="./bo/InventoryTransferRequest.ts" />
 /// <reference path="./bo/MaterialSpecialPrice.ts" />
 /// <reference path="./bo/MaterialNumberAssociation.ts" />
+/// <reference path="./bo/MaterialCatalog.ts" />
 /// <reference path="./BORepository.ts" />

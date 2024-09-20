@@ -65,6 +65,8 @@ namespace materials {
             updateActionId: string;
             /** 数据所有者 */
             dataOwner: number;
+            /** 数据所属组织 */
+            organization: string;
             /** 备注 */
             remarks: string;
 

@@ -1114,6 +1114,7 @@
         "bo_materialinventoryreservation_updateusersign": "Updated By",
         "bo_materialinventoryreservation_createactionid": "Creation Action ID",
         "bo_materialinventoryreservation_updateactionid": "Update Action ID",
+        "bo_materialinventoryreservation_organization": "Organization",
         "bo_materialinventoryreservation_closing_delimiter": "----End----"
     },
     {
@@ -1182,6 +1183,7 @@
         "bo_materialorderedreservation_updateusersign": "Update User",
         "bo_materialorderedreservation_createactionid": "Create Action ID",
         "bo_materialorderedreservation_updateactionid": "Update Action ID",
+        "bo_materialorderedreservation_organization": "Organization",
         "bo_materialorderedreservation_closing_delimiter": "---- End ----"
     },
     {
@@ -1487,8 +1489,34 @@
         "bo_materialnumberassociation_createactionid": "Creation Action ID",
         "bo_materialnumberassociation_updateactionid": "Update Action ID",
         "bo_materialnumberassociation_dataowner": "Data Owner",
-        "bo_materialnumberassociation_remarks": "Remarks",
-        "bo_materialnumberassociation_closing_delimiter": "----结束----"
+        "bo_materialnumberassociation_organization": "Organization",
+        "bo_materialnumberassociation_remarks": "Remarks"
+    },
+    {
+        "bo_businesspartnermaterialcatalog": "BP Material Catalog",
+        "bo_businesspartnermaterialcatalog_businesspartnertype": "BP Type",
+        "bo_businesspartnermaterialcatalog_businesspartnercode": "BP Code",
+        "bo_businesspartnermaterialcatalog_businesspartnername": "BP Name",
+        "bo_businesspartnermaterialcatalog_itemcode": "Item Code",
+        "bo_businesspartnermaterialcatalog_itemname": "Item Name",
+        "bo_businesspartnermaterialcatalog_catalogcode": "Code",
+        "bo_businesspartnermaterialcatalog_catalogname": "Name",
+        "bo_businesspartnermaterialcatalog_remarks": "Remarks",
+        "bo_businesspartnermaterialcatalog_objectkey": "Object ID",
+        "bo_businesspartnermaterialcatalog_objectcode": "Object Type",
+        "bo_businesspartnermaterialcatalog_createdate": "Creation Date",
+        "bo_businesspartnermaterialcatalog_createtime": "Creation Time",
+        "bo_businesspartnermaterialcatalog_updatedate": "Update Date",
+        "bo_businesspartnermaterialcatalog_updatetime": "Update Time",
+        "bo_businesspartnermaterialcatalog_loginst": "Instance Number",
+        "bo_businesspartnermaterialcatalog_series": "Series",
+        "bo_businesspartnermaterialcatalog_datasource": "Data Source",
+        "bo_businesspartnermaterialcatalog_createusersign": "Created By",
+        "bo_businesspartnermaterialcatalog_updateusersign": "Updated By",
+        "bo_businesspartnermaterialcatalog_createactionid": "Creation Action ID",
+        "bo_businesspartnermaterialcatalog_updateactionid": "Update Action ID",
+        "bo_businesspartnermaterialcatalog_dataowner": "Data Owner",
+        "bo_businesspartnermaterialcatalog_organization": "Organization"
     },
     {
         "em_itemtype_item": "Material",

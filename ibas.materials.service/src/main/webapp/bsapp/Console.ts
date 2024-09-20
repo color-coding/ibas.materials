@@ -23,6 +23,7 @@
 /// <reference path="./materialversion/index.ts" />
 /// <reference path="./picklists/index.ts" />
 /// <reference path="./inventorytransferrequest/index.ts" />
+/// <reference path="./materialcatalog/index.ts" />
 /// <reference path="./others/index.ts" />
 
 namespace materials {
@@ -53,6 +54,7 @@ namespace materials {
                     this.register(new MaterialSpecialPriceListFunc());
                 }
                 this.register(new MaterialSpecificationFunc());
+                this.register(new BusinessPartnerMaterialCatalogFunc());
                 // this.register(new MaterialInventoryFunc());
                 // this.register(new MaterialBatchFunc());
                 // this.register(new MaterialSerialFunc());
@@ -84,6 +86,7 @@ namespace materials {
                 this.register(new MaterialScrapChooseServiceMapping());
                 this.register(new MaterialScrapLinkServiceMapping());
                 this.register(new MaterialMeasurementServiceMapping());
+                this.register(new BusinessPartnerMaterialCatalogChooseServiceMapping());
                 // 注册常驻应用
 
                 // 注册权限元素

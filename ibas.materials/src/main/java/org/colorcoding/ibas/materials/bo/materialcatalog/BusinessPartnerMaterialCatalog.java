@@ -1,6 +1,4 @@
-package org.colorcoding.ibas.materials.bo.materialnumberassociation;
-
-import java.math.BigDecimal;
+package org.colorcoding.ibas.materials.bo.materialcatalog;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -15,166 +13,105 @@ import org.colorcoding.ibas.bobas.mapping.BusinessObjectUnit;
 import org.colorcoding.ibas.bobas.mapping.DbField;
 import org.colorcoding.ibas.bobas.mapping.DbFieldType;
 import org.colorcoding.ibas.bobas.ownership.IDataOwnership;
+import org.colorcoding.ibas.businesspartner.data.emBusinessPartnerType;
 import org.colorcoding.ibas.materials.MyConfiguration;
 
 /**
-* 物料系号关联
+* 业务伙伴物料目录
 * 
 */
 @XmlAccessorType(XmlAccessType.NONE)
-@XmlType(name = MaterialNumberAssociation.BUSINESS_OBJECT_NAME, namespace = MyConfiguration.NAMESPACE_BO)
-@XmlRootElement(name = MaterialNumberAssociation.BUSINESS_OBJECT_NAME, namespace = MyConfiguration.NAMESPACE_BO)
-@BusinessObjectUnit(code = MaterialNumberAssociation.BUSINESS_OBJECT_CODE)
-public class MaterialNumberAssociation extends BusinessObject<MaterialNumberAssociation>
-		implements IMaterialNumberAssociation, IDataOwnership {
+@XmlType(name = BusinessPartnerMaterialCatalog.BUSINESS_OBJECT_NAME, namespace = MyConfiguration.NAMESPACE_BO)
+@XmlRootElement(name = BusinessPartnerMaterialCatalog.BUSINESS_OBJECT_NAME, namespace = MyConfiguration.NAMESPACE_BO)
+@BusinessObjectUnit(code = BusinessPartnerMaterialCatalog.BUSINESS_OBJECT_CODE)
+public class BusinessPartnerMaterialCatalog extends BusinessObject<BusinessPartnerMaterialCatalog>
+		implements IBusinessPartnerMaterialCatalog, IDataOwnership {
 
 	/**
 	 * 序列化版本标记
 	 */
-	private static final long serialVersionUID = 9182673634670842431L;
+	private static final long serialVersionUID = -2128215844650146406L;
 
 	/**
 	* 当前类型
 	*/
-	private static final Class<?> MY_CLASS = MaterialNumberAssociation.class;
+	private static final Class<?> MY_CLASS = BusinessPartnerMaterialCatalog.class;
 
 	/**
 	* 数据库表
 	*/
-	public static final String DB_TABLE_NAME = "${Company}_MM_OMNA";
+	public static final String DB_TABLE_NAME = "${Company}_MM_OBPC";
 
 	/**
 	* 业务对象编码
 	*/
-	public static final String BUSINESS_OBJECT_CODE = "${Company}_MM_NUMASSOC";
+	public static final String BUSINESS_OBJECT_CODE = "${Company}_MM_BPCATALOG";
 
 	/**
 	* 业务对象名称
 	*/
-	public static final String BUSINESS_OBJECT_NAME = "MaterialNumberAssociation";
+	public static final String BUSINESS_OBJECT_NAME = "BusinessPartnerMaterialCatalog";
 
 	/**
-	* 属性名称-基于单据类型
+	* 属性名称-业务伙伴类型
 	*/
-	private static final String PROPERTY_BASEDOCUMENTTYPE_NAME = "BaseDocumentType";
+	private static final String PROPERTY_BUSINESSPARTNERTYPE_NAME = "BusinessPartnerType";
 
 	/**
-	* 基于单据类型 属性
+	* 业务伙伴类型 属性
 	*/
-	@DbField(name = "BaseType", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME)
-	public static final IPropertyInfo<String> PROPERTY_BASEDOCUMENTTYPE = registerProperty(
-			PROPERTY_BASEDOCUMENTTYPE_NAME, String.class, MY_CLASS);
+	@DbField(name = "CardType", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME, uniqueKey = true)
+	public static final IPropertyInfo<emBusinessPartnerType> PROPERTY_BUSINESSPARTNERTYPE = registerProperty(
+			PROPERTY_BUSINESSPARTNERTYPE_NAME, emBusinessPartnerType.class, MY_CLASS);
 
 	/**
-	* 获取-基于单据类型
+	* 获取-业务伙伴类型
 	* 
 	* @return 值
 	*/
-	@XmlElement(name = PROPERTY_BASEDOCUMENTTYPE_NAME)
-	public final String getBaseDocumentType() {
-		return this.getProperty(PROPERTY_BASEDOCUMENTTYPE);
+	@XmlElement(name = PROPERTY_BUSINESSPARTNERTYPE_NAME)
+	public final emBusinessPartnerType getBusinessPartnerType() {
+		return this.getProperty(PROPERTY_BUSINESSPARTNERTYPE);
 	}
 
 	/**
-	* 设置-基于单据类型
+	* 设置-业务伙伴类型
 	* 
 	* @param value 值
 	*/
-	public final void setBaseDocumentType(String value) {
-		this.setProperty(PROPERTY_BASEDOCUMENTTYPE, value);
+	public final void setBusinessPartnerType(emBusinessPartnerType value) {
+		this.setProperty(PROPERTY_BUSINESSPARTNERTYPE, value);
 	}
 
 	/**
-	* 属性名称-基于单据编号
+	* 属性名称-业务伙伴代码
 	*/
-	private static final String PROPERTY_BASEDOCUMENTENTRY_NAME = "BaseDocumentEntry";
+	private static final String PROPERTY_BUSINESSPARTNERCODE_NAME = "BusinessPartnerCode";
 
 	/**
-	* 基于单据编号 属性
+	* 业务伙伴代码 属性
 	*/
-	@DbField(name = "BaseEntry", type = DbFieldType.NUMERIC, table = DB_TABLE_NAME)
-	public static final IPropertyInfo<Integer> PROPERTY_BASEDOCUMENTENTRY = registerProperty(
-			PROPERTY_BASEDOCUMENTENTRY_NAME, Integer.class, MY_CLASS);
+	@DbField(name = "CardCode", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME, uniqueKey = true)
+	public static final IPropertyInfo<String> PROPERTY_BUSINESSPARTNERCODE = registerProperty(
+			PROPERTY_BUSINESSPARTNERCODE_NAME, String.class, MY_CLASS);
 
 	/**
-	* 获取-基于单据编号
+	* 获取-业务伙伴代码
 	* 
 	* @return 值
 	*/
-	@XmlElement(name = PROPERTY_BASEDOCUMENTENTRY_NAME)
-	public final Integer getBaseDocumentEntry() {
-		return this.getProperty(PROPERTY_BASEDOCUMENTENTRY);
+	@XmlElement(name = PROPERTY_BUSINESSPARTNERCODE_NAME)
+	public final String getBusinessPartnerCode() {
+		return this.getProperty(PROPERTY_BUSINESSPARTNERCODE);
 	}
 
 	/**
-	* 设置-基于单据编号
+	* 设置-业务伙伴代码
 	* 
 	* @param value 值
 	*/
-	public final void setBaseDocumentEntry(Integer value) {
-		this.setProperty(PROPERTY_BASEDOCUMENTENTRY, value);
-	}
-
-	/**
-	* 属性名称-基于单据行号
-	*/
-	private static final String PROPERTY_BASEDOCUMENTLINEID_NAME = "BaseDocumentLineId";
-
-	/**
-	* 基于单据行号 属性
-	*/
-	@DbField(name = "BaseLine", type = DbFieldType.NUMERIC, table = DB_TABLE_NAME)
-	public static final IPropertyInfo<Integer> PROPERTY_BASEDOCUMENTLINEID = registerProperty(
-			PROPERTY_BASEDOCUMENTLINEID_NAME, Integer.class, MY_CLASS);
-
-	/**
-	* 获取-基于单据行号
-	* 
-	* @return 值
-	*/
-	@XmlElement(name = PROPERTY_BASEDOCUMENTLINEID_NAME)
-	public final Integer getBaseDocumentLineId() {
-		return this.getProperty(PROPERTY_BASEDOCUMENTLINEID);
-	}
-
-	/**
-	* 设置-基于单据行号
-	* 
-	* @param value 值
-	*/
-	public final void setBaseDocumentLineId(Integer value) {
-		this.setProperty(PROPERTY_BASEDOCUMENTLINEID, value);
-	}
-
-	/**
-	* 属性名称-关系
-	*/
-	private static final String PROPERTY_RELATION_NAME = "Relation";
-
-	/**
-	* 关系 属性
-	*/
-	@DbField(name = "Relation", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME)
-	public static final IPropertyInfo<String> PROPERTY_RELATION = registerProperty(PROPERTY_RELATION_NAME, String.class,
-			MY_CLASS);
-
-	/**
-	* 获取-关系
-	* 
-	* @return 值
-	*/
-	@XmlElement(name = PROPERTY_RELATION_NAME)
-	public final String getRelation() {
-		return this.getProperty(PROPERTY_RELATION);
-	}
-
-	/**
-	* 设置-关系
-	* 
-	* @param value 值
-	*/
-	public final void setRelation(String value) {
-		this.setProperty(PROPERTY_RELATION, value);
+	public final void setBusinessPartnerCode(String value) {
+		this.setProperty(PROPERTY_BUSINESSPARTNERCODE, value);
 	}
 
 	/**
@@ -185,7 +122,7 @@ public class MaterialNumberAssociation extends BusinessObject<MaterialNumberAsso
 	/**
 	* 物料编码 属性
 	*/
-	@DbField(name = "ItemCode", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME)
+	@DbField(name = "ItemCode", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME, uniqueKey = true)
 	public static final IPropertyInfo<String> PROPERTY_ITEMCODE = registerProperty(PROPERTY_ITEMCODE_NAME, String.class,
 			MY_CLASS);
 
@@ -209,313 +146,65 @@ public class MaterialNumberAssociation extends BusinessObject<MaterialNumberAsso
 	}
 
 	/**
-	* 属性名称-仓库编码
+	* 属性名称-目录编码
 	*/
-	private static final String PROPERTY_WAREHOUSE_NAME = "Warehouse";
+	private static final String PROPERTY_CATALOGCODE_NAME = "CatalogCode";
 
 	/**
-	* 仓库编码 属性
+	* 目录编码 属性
 	*/
-	@DbField(name = "WhsCode", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME)
-	public static final IPropertyInfo<String> PROPERTY_WAREHOUSE = registerProperty(PROPERTY_WAREHOUSE_NAME,
+	@DbField(name = "CatalogCode", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME, uniqueKey = true)
+	public static final IPropertyInfo<String> PROPERTY_CATALOGCODE = registerProperty(PROPERTY_CATALOGCODE_NAME,
 			String.class, MY_CLASS);
 
 	/**
-	* 获取-仓库编码
+	* 获取-目录编码
 	* 
 	* @return 值
 	*/
-	@XmlElement(name = PROPERTY_WAREHOUSE_NAME)
-	public final String getWarehouse() {
-		return this.getProperty(PROPERTY_WAREHOUSE);
+	@XmlElement(name = PROPERTY_CATALOGCODE_NAME)
+	public final String getCatalogCode() {
+		return this.getProperty(PROPERTY_CATALOGCODE);
 	}
 
 	/**
-	* 设置-仓库编码
+	* 设置-目录编码
 	* 
 	* @param value 值
 	*/
-	public final void setWarehouse(String value) {
-		this.setProperty(PROPERTY_WAREHOUSE, value);
+	public final void setCatalogCode(String value) {
+		this.setProperty(PROPERTY_CATALOGCODE, value);
 	}
 
 	/**
-	* 属性名称-批次编码
+	* 属性名称-目录名称
 	*/
-	private static final String PROPERTY_BATCHCODE_NAME = "BatchCode";
+	private static final String PROPERTY_CATALOGNAME_NAME = "CatalogName";
 
 	/**
-	* 批次编码 属性
+	* 目录名称 属性
 	*/
-	@DbField(name = "BatchCode", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME)
-	public static final IPropertyInfo<String> PROPERTY_BATCHCODE = registerProperty(PROPERTY_BATCHCODE_NAME,
+	@DbField(name = "CatalogName", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME)
+	public static final IPropertyInfo<String> PROPERTY_CATALOGNAME = registerProperty(PROPERTY_CATALOGNAME_NAME,
 			String.class, MY_CLASS);
 
 	/**
-	* 获取-批次编码
+	* 获取-目录名称
 	* 
 	* @return 值
 	*/
-	@XmlElement(name = PROPERTY_BATCHCODE_NAME)
-	public final String getBatchCode() {
-		return this.getProperty(PROPERTY_BATCHCODE);
+	@XmlElement(name = PROPERTY_CATALOGNAME_NAME)
+	public final String getCatalogName() {
+		return this.getProperty(PROPERTY_CATALOGNAME);
 	}
 
 	/**
-	* 设置-批次编码
+	* 设置-目录名称
 	* 
 	* @param value 值
 	*/
-	public final void setBatchCode(String value) {
-		this.setProperty(PROPERTY_BATCHCODE, value);
-	}
-
-	/**
-	* 属性名称-序列编码
-	*/
-	private static final String PROPERTY_SERIALCODE_NAME = "SerialCode";
-
-	/**
-	* 序列编码 属性
-	*/
-	@DbField(name = "SerialCode", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME)
-	public static final IPropertyInfo<String> PROPERTY_SERIALCODE = registerProperty(PROPERTY_SERIALCODE_NAME,
-			String.class, MY_CLASS);
-
-	/**
-	* 获取-序列编码
-	* 
-	* @return 值
-	*/
-	@XmlElement(name = PROPERTY_SERIALCODE_NAME)
-	public final String getSerialCode() {
-		return this.getProperty(PROPERTY_SERIALCODE);
-	}
-
-	/**
-	* 设置-序列编码
-	* 
-	* @param value 值
-	*/
-	public final void setSerialCode(String value) {
-		this.setProperty(PROPERTY_SERIALCODE, value);
-	}
-
-	/**
-	* 属性名称-关联物料编码
-	*/
-	private static final String PROPERTY_ASSOCIATEDITEM_NAME = "AssociatedItem";
-
-	/**
-	* 关联物料编码 属性
-	*/
-	@DbField(name = "AssocItem", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME)
-	public static final IPropertyInfo<String> PROPERTY_ASSOCIATEDITEM = registerProperty(PROPERTY_ASSOCIATEDITEM_NAME,
-			String.class, MY_CLASS);
-
-	/**
-	* 获取-关联物料编码
-	* 
-	* @return 值
-	*/
-	@XmlElement(name = PROPERTY_ASSOCIATEDITEM_NAME)
-	public final String getAssociatedItem() {
-		return this.getProperty(PROPERTY_ASSOCIATEDITEM);
-	}
-
-	/**
-	* 设置-关联物料编码
-	* 
-	* @param value 值
-	*/
-	public final void setAssociatedItem(String value) {
-		this.setProperty(PROPERTY_ASSOCIATEDITEM, value);
-	}
-
-	/**
-	* 属性名称-关联仓库编码
-	*/
-	private static final String PROPERTY_ASSOCIATEDWAREHOUSE_NAME = "AssociatedWarehouse";
-
-	/**
-	* 关联仓库编码 属性
-	*/
-	@DbField(name = "AssocWhs", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME)
-	public static final IPropertyInfo<String> PROPERTY_ASSOCIATEDWAREHOUSE = registerProperty(
-			PROPERTY_ASSOCIATEDWAREHOUSE_NAME, String.class, MY_CLASS);
-
-	/**
-	* 获取-关联仓库编码
-	* 
-	* @return 值
-	*/
-	@XmlElement(name = PROPERTY_ASSOCIATEDWAREHOUSE_NAME)
-	public final String getAssociatedWarehouse() {
-		return this.getProperty(PROPERTY_ASSOCIATEDWAREHOUSE);
-	}
-
-	/**
-	* 设置-关联仓库编码
-	* 
-	* @param value 值
-	*/
-	public final void setAssociatedWarehouse(String value) {
-		this.setProperty(PROPERTY_ASSOCIATEDWAREHOUSE, value);
-	}
-
-	/**
-	* 属性名称-关联批次编码
-	*/
-	private static final String PROPERTY_ASSOCIATEDBATCH_NAME = "AssociatedBatch";
-
-	/**
-	* 关联批次编码 属性
-	*/
-	@DbField(name = "AssocBatch", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME)
-	public static final IPropertyInfo<String> PROPERTY_ASSOCIATEDBATCH = registerProperty(PROPERTY_ASSOCIATEDBATCH_NAME,
-			String.class, MY_CLASS);
-
-	/**
-	* 获取-关联批次编码
-	* 
-	* @return 值
-	*/
-	@XmlElement(name = PROPERTY_ASSOCIATEDBATCH_NAME)
-	public final String getAssociatedBatch() {
-		return this.getProperty(PROPERTY_ASSOCIATEDBATCH);
-	}
-
-	/**
-	* 设置-关联批次编码
-	* 
-	* @param value 值
-	*/
-	public final void setAssociatedBatch(String value) {
-		this.setProperty(PROPERTY_ASSOCIATEDBATCH, value);
-	}
-
-	/**
-	* 属性名称-关联序列编码
-	*/
-	private static final String PROPERTY_ASSOCIATEDSERIAL_NAME = "AssociatedSerial";
-
-	/**
-	* 关联序列编码 属性
-	*/
-	@DbField(name = "AssocSerial", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME)
-	public static final IPropertyInfo<String> PROPERTY_ASSOCIATEDSERIAL = registerProperty(
-			PROPERTY_ASSOCIATEDSERIAL_NAME, String.class, MY_CLASS);
-
-	/**
-	* 获取-关联序列编码
-	* 
-	* @return 值
-	*/
-	@XmlElement(name = PROPERTY_ASSOCIATEDSERIAL_NAME)
-	public final String getAssociatedSerial() {
-		return this.getProperty(PROPERTY_ASSOCIATEDSERIAL);
-	}
-
-	/**
-	* 设置-关联序列编码
-	* 
-	* @param value 值
-	*/
-	public final void setAssociatedSerial(String value) {
-		this.setProperty(PROPERTY_ASSOCIATEDSERIAL, value);
-	}
-
-	/**
-	* 属性名称-数量
-	*/
-	private static final String PROPERTY_QUANTITY_NAME = "Quantity";
-
-	/**
-	* 数量 属性
-	*/
-	@DbField(name = "Quantity", type = DbFieldType.DECIMAL, table = DB_TABLE_NAME)
-	public static final IPropertyInfo<BigDecimal> PROPERTY_QUANTITY = registerProperty(PROPERTY_QUANTITY_NAME,
-			BigDecimal.class, MY_CLASS);
-
-	/**
-	* 获取-数量
-	* 
-	* @return 值
-	*/
-	@XmlElement(name = PROPERTY_QUANTITY_NAME)
-	public final BigDecimal getQuantity() {
-		return this.getProperty(PROPERTY_QUANTITY);
-	}
-
-	/**
-	* 设置-数量
-	* 
-	* @param value 值
-	*/
-	public final void setQuantity(BigDecimal value) {
-		this.setProperty(PROPERTY_QUANTITY, value);
-	}
-
-	/**
-	* 属性名称-原因
-	*/
-	private static final String PROPERTY_CAUSES_NAME = "Causes";
-
-	/**
-	* 原因 属性
-	*/
-	@DbField(name = "Causes", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME)
-	public static final IPropertyInfo<String> PROPERTY_CAUSES = registerProperty(PROPERTY_CAUSES_NAME, String.class,
-			MY_CLASS);
-
-	/**
-	* 获取-原因
-	* 
-	* @return 值
-	*/
-	@XmlElement(name = PROPERTY_CAUSES_NAME)
-	public final String getCauses() {
-		return this.getProperty(PROPERTY_CAUSES);
-	}
-
-	/**
-	* 设置-原因
-	* 
-	* @param value 值
-	*/
-	public final void setCauses(String value) {
-		this.setProperty(PROPERTY_CAUSES, value);
-	}
-
-	/**
-	* 属性名称-失效日期
-	*/
-	private static final String PROPERTY_EXPIRATIONDATE_NAME = "ExpirationDate";
-
-	/**
-	* 失效日期 属性
-	*/
-	@DbField(name = "ExpDate", type = DbFieldType.DATE, table = DB_TABLE_NAME)
-	public static final IPropertyInfo<DateTime> PROPERTY_EXPIRATIONDATE = registerProperty(PROPERTY_EXPIRATIONDATE_NAME,
-			DateTime.class, MY_CLASS);
-
-	/**
-	* 获取-失效日期
-	* 
-	* @return 值
-	*/
-	@XmlElement(name = PROPERTY_EXPIRATIONDATE_NAME)
-	public final DateTime getExpirationDate() {
-		return this.getProperty(PROPERTY_EXPIRATIONDATE);
-	}
-
-	/**
-	* 设置-失效日期
-	* 
-	* @param value 值
-	*/
-	public final void setExpirationDate(DateTime value) {
-		this.setProperty(PROPERTY_EXPIRATIONDATE, value);
+	public final void setCatalogName(String value) {
+		this.setProperty(PROPERTY_CATALOGNAME, value);
 	}
 
 	/**
@@ -733,6 +422,37 @@ public class MaterialNumberAssociation extends BusinessObject<MaterialNumberAsso
 	*/
 	public final void setLogInst(Integer value) {
 		this.setProperty(PROPERTY_LOGINST, value);
+	}
+
+	/**
+	* 属性名称-服务系列
+	*/
+	private static final String PROPERTY_SERIES_NAME = "Series";
+
+	/**
+	* 服务系列 属性
+	*/
+	@DbField(name = "Series", type = DbFieldType.NUMERIC, table = DB_TABLE_NAME)
+	public static final IPropertyInfo<Integer> PROPERTY_SERIES = registerProperty(PROPERTY_SERIES_NAME, Integer.class,
+			MY_CLASS);
+
+	/**
+	* 获取-服务系列
+	* 
+	* @return 值
+	*/
+	@XmlElement(name = PROPERTY_SERIES_NAME)
+	public final Integer getSeries() {
+		return this.getProperty(PROPERTY_SERIES);
+	}
+
+	/**
+	* 设置-服务系列
+	* 
+	* @param value 值
+	*/
+	public final void setSeries(Integer value) {
+		this.setProperty(PROPERTY_SERIES, value);
 	}
 
 	/**
@@ -990,7 +710,7 @@ public class MaterialNumberAssociation extends BusinessObject<MaterialNumberAsso
 	protected void initialize() {
 		super.initialize();// 基类初始化，不可去除
 		this.setObjectCode(MyConfiguration.applyVariables(BUSINESS_OBJECT_CODE));
-
+		this.setBusinessPartnerType(emBusinessPartnerType.CUSTOMER);
 	}
 
 }

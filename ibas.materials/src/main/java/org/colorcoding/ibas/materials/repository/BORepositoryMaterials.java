@@ -67,6 +67,8 @@ import org.colorcoding.ibas.materials.bo.materialbatch.IMaterialBatchItem;
 import org.colorcoding.ibas.materials.bo.materialbatch.IMaterialBatchJournal;
 import org.colorcoding.ibas.materials.bo.materialbatch.MaterialBatch;
 import org.colorcoding.ibas.materials.bo.materialbatch.MaterialBatchJournal;
+import org.colorcoding.ibas.materials.bo.materialcatalog.BusinessPartnerMaterialCatalog;
+import org.colorcoding.ibas.materials.bo.materialcatalog.IBusinessPartnerMaterialCatalog;
 import org.colorcoding.ibas.materials.bo.materialinventory.IMaterialEstimateJournal;
 import org.colorcoding.ibas.materials.bo.materialinventory.IMaterialInventory;
 import org.colorcoding.ibas.materials.bo.materialinventory.IMaterialInventoryJournal;
@@ -2691,6 +2693,51 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 		return new OperationResult<IMaterialNumberAssociation>(
 				this.saveMaterialNumberAssociation((MaterialNumberAssociation) bo, this.getUserToken()));
 	}
+
+	// --------------------------------------------------------------------------------------------//
+	/**
+	 * 查询-业务伙伴物料目录
+	 * @param criteria 查询
+	 * @param token 口令
+	 * @return 操作结果
+	 */
+	public OperationResult<BusinessPartnerMaterialCatalog> fetchBusinessPartnerMaterialCatalog(ICriteria criteria,
+			String token) {
+		return super.fetch(criteria, token, BusinessPartnerMaterialCatalog.class);
+	}
+
+	/**
+	 * 查询-业务伙伴物料目录（提前设置用户口令）
+	 * @param criteria 查询
+	 * @return 操作结果
+	 */
+	public IOperationResult<IBusinessPartnerMaterialCatalog> fetchBusinessPartnerMaterialCatalog(ICriteria criteria) {
+		return new OperationResult<IBusinessPartnerMaterialCatalog>(
+				this.fetchBusinessPartnerMaterialCatalog(criteria, this.getUserToken()));
+	}
+
+	/**
+	 * 保存-业务伙伴物料目录
+	 * @param bo 对象实例
+	 * @param token 口令
+	 * @return 操作结果
+	 */
+	public OperationResult<BusinessPartnerMaterialCatalog> saveBusinessPartnerMaterialCatalog(
+			BusinessPartnerMaterialCatalog bo, String token) {
+		return super.save(bo, token);
+	}
+
+	/**
+	 * 保存-业务伙伴物料目录（提前设置用户口令）
+	 * @param bo 对象实例
+	 * @return 操作结果
+	 */
+	public IOperationResult<IBusinessPartnerMaterialCatalog> saveBusinessPartnerMaterialCatalog(
+			IBusinessPartnerMaterialCatalog bo) {
+		return new OperationResult<IBusinessPartnerMaterialCatalog>(
+				this.saveBusinessPartnerMaterialCatalog((BusinessPartnerMaterialCatalog) bo, this.getUserToken()));
+	}
+
 	// --------------------------------------------------------------------------------------------//
 
 }
