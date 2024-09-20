@@ -71,8 +71,12 @@ public class DocumentQuantityReturnService extends DocumentQuantityService<IDocu
 			}
 			closedQuantity = closedQuantity.subtract(contract.getQuantity());
 			item.setClosedQuantity(closedQuantity);
-			if (item.getLineStatus() == emDocumentStatus.FINISHED && closedQuantity.compareTo(item.getQuantity()) < 0) {
-				item.setLineStatus(emDocumentStatus.RELEASED);
+			if (contract.isSmartDocumentStatus() == true) {
+				// 处理单据状态
+				if (item.getLineStatus() == emDocumentStatus.FINISHED
+						&& closedQuantity.compareTo(item.getQuantity()) < 0) {
+					item.setLineStatus(emDocumentStatus.RELEASED);
+				}
 			}
 			item.setReferenced(emYesNo.YES);
 		}
@@ -83,6 +87,9 @@ public class DocumentQuantityReturnService extends DocumentQuantityService<IDocu
 		Iterator<IDocumentClosingQuantityItem> iterator = this.getBeAffected().getQuantityItems();
 		while (iterator.hasNext()) {
 			IDocumentClosingQuantityItem item = iterator.next();
+			if (!item.getObjectCode().equalsIgnoreCase(contract.getBaseDocumentType())) {
+				continue;
+			}
 			if (item.getLineId().compareTo(contract.getBaseDocumentLineId()) != 0) {
 				continue;
 			}
@@ -92,9 +99,12 @@ public class DocumentQuantityReturnService extends DocumentQuantityService<IDocu
 			}
 			closedQuantity = closedQuantity.add(contract.getQuantity());
 			item.setClosedQuantity(closedQuantity);
-			if (item.getLineStatus() == emDocumentStatus.RELEASED
-					&& closedQuantity.compareTo(item.getQuantity()) >= 0) {
-				item.setLineStatus(emDocumentStatus.FINISHED);
+			if (contract.isSmartDocumentStatus() == true) {
+				// 处理单据状态
+				if (item.getLineStatus() == emDocumentStatus.RELEASED
+						&& closedQuantity.compareTo(item.getQuantity()) >= 0) {
+					item.setLineStatus(emDocumentStatus.FINISHED);
+				}
 			}
 			item.setReferenced(emYesNo.YES);
 		}

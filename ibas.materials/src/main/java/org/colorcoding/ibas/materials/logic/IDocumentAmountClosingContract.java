@@ -25,6 +25,15 @@ public interface IDocumentAmountClosingContract extends IBusinessLogicContract {
 	}
 
 	/**
+	 * 自动处理单据状态
+	 * 关闭数量大于数量，完成订单
+	 * @return
+	 */
+	default boolean isSmartDocumentStatus() {
+		return false;
+	}
+
+	/**
 	 * 基于单据类型
 	 * 
 	 * @return

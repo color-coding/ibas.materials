@@ -126,11 +126,13 @@ public class DocumentAmountClosingService
 			}
 			closedAmount = closedAmount.add(contract.getAmount());
 			item.setClosedAmount(closedAmount);
-			/** 金额不主动关闭单据状态
-			if (item.getLineStatus() == emDocumentStatus.RELEASED && closedAmount.compareTo(item.getAmount()) >= 0) {
-				item.setLineStatus(emDocumentStatus.FINISHED);
+			if (contract.isSmartDocumentStatus() == true) {
+				// 处理单据状态
+				if (item.getLineStatus() == emDocumentStatus.RELEASED
+						&& closedAmount.compareTo(item.getAmount()) >= 0) {
+					item.setLineStatus(emDocumentStatus.FINISHED);
+				}
 			}
-			*/
 			if (item.getClosedAmount().compareTo(Decimal.ZERO) > 0) {
 				item.setReferenced(emYesNo.YES);
 			}
@@ -142,6 +144,9 @@ public class DocumentAmountClosingService
 		Iterator<IDocumentClosingAmountItem> iterator = this.getBeAffected().getAmountItems();
 		while (iterator.hasNext()) {
 			IDocumentClosingAmountItem item = iterator.next();
+			if (!item.getObjectCode().equalsIgnoreCase(contract.getBaseDocumentType())) {
+				continue;
+			}
 			if (item.getLineId().compareTo(contract.getBaseDocumentLineId()) != 0) {
 				continue;
 			}
@@ -151,11 +156,12 @@ public class DocumentAmountClosingService
 			}
 			closedAmount = closedAmount.subtract(contract.getAmount());
 			item.setClosedAmount(closedAmount);
-			/** 金额不主动关闭单据状态
-			if (item.getLineStatus() == emDocumentStatus.FINISHED && closedAmount.compareTo(item.getAmount()) < 0) {
-				item.setLineStatus(emDocumentStatus.RELEASED);
+			if (contract.isSmartDocumentStatus() == true) {
+				// 处理单据状态
+				if (item.getLineStatus() == emDocumentStatus.FINISHED && closedAmount.compareTo(item.getAmount()) < 0) {
+					item.setLineStatus(emDocumentStatus.RELEASED);
+				}
 			}
-			*/
 			if (item.getClosedAmount().compareTo(Decimal.ZERO) <= 0) {
 				item.setReferenced(emYesNo.NO);
 			}
