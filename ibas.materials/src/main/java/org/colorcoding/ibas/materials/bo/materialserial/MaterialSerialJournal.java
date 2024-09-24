@@ -22,6 +22,7 @@ import org.colorcoding.ibas.bobas.mapping.DbFieldType;
 import org.colorcoding.ibas.bobas.rule.IBusinessRule;
 import org.colorcoding.ibas.bobas.rule.common.BusinessRuleRequired;
 import org.colorcoding.ibas.materials.MyConfiguration;
+import org.colorcoding.ibas.materials.data.DataConvert;
 import org.colorcoding.ibas.materials.logic.IMaterialInventoryReservationCreateContract;
 import org.colorcoding.ibas.materials.logic.IMaterialInventoryReservationReleaseContract;
 import org.colorcoding.ibas.materials.logic.IMaterialSerialInventoryContract;
@@ -1270,16 +1271,19 @@ public class MaterialSerialJournal extends BusinessObject<MaterialSerialJournal>
 
 			@Override
 			public BigDecimal getCalculatedPrice() {
-				if ((MaterialSerialJournal.this.getDirection() == emDirection.IN
-						&& MaterialSerialJournal.this.getQuantity().compareTo(Decimal.ZERO) > 0)
-						|| (MaterialSerialJournal.this.getDirection() == emDirection.OUT
-								&& MaterialSerialJournal.this.getQuantity().compareTo(Decimal.ZERO) < 0)) {
-					BigDecimal inventoryQuantity = Decimal.add(MaterialSerialJournal.this.getInventoryQuantity(),
-							MaterialSerialJournal.this.getQuantity().abs());
-					BigDecimal inventoryValue = Decimal.add(MaterialSerialJournal.this.getInventoryValue(),
-							MaterialSerialJournal.this.getTransactionValue().abs());
-					return Decimal.isZero(inventoryQuantity) ? Decimal.ZERO
-							: Decimal.divide(inventoryValue, inventoryQuantity);
+				if (DataConvert.isNullOrEmpty(MaterialSerialJournal.this.getUpdateActionId())) {
+					// 仅新状态影响成本
+					if ((MaterialSerialJournal.this.getDirection() == emDirection.IN
+							&& MaterialSerialJournal.this.getQuantity().compareTo(Decimal.ZERO) > 0)
+							|| (MaterialSerialJournal.this.getDirection() == emDirection.OUT
+									&& MaterialSerialJournal.this.getQuantity().compareTo(Decimal.ZERO) < 0)) {
+						BigDecimal inventoryQuantity = Decimal.add(MaterialSerialJournal.this.getInventoryQuantity(),
+								MaterialSerialJournal.this.getQuantity().abs());
+						BigDecimal inventoryValue = Decimal.add(MaterialSerialJournal.this.getInventoryValue(),
+								MaterialSerialJournal.this.getTransactionValue().abs());
+						return Decimal.isZero(inventoryQuantity) ? Decimal.ZERO
+								: Decimal.divide(inventoryValue, inventoryQuantity);
+					}
 				}
 				return null;
 			}

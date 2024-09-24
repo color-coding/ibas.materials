@@ -94,18 +94,20 @@ public class MaterialBatchInventorySerivce
 		BigDecimal quantity = materialBatch.getQuantity();
 		if (contract.getDirection() == emDirection.IN) {
 			quantity = quantity.add(contract.getQuantity());
-			if (contract.getQuantity().compareTo(Decimal.ZERO) > 0 && contract.getCalculatedPrice() != null) {
-				if (this.checkMaterial(materialBatch.getItemCode())
-						.getValuationMethod() == emValuationMethod.BATCH_MOVING_AVERAGE) {
-					materialBatch.setAvgPrice(contract.getCalculatedPrice());
+			if (this.checkMaterial(materialBatch.getItemCode())
+					.getValuationMethod() == emValuationMethod.BATCH_MOVING_AVERAGE) {
+				BigDecimal avgPrice = contract.getCalculatedPrice();
+				if (contract.getQuantity().compareTo(Decimal.ZERO) > 0 && avgPrice != null) {
+					materialBatch.setAvgPrice(avgPrice);
 				}
 			}
 		} else if (contract.getDirection() == emDirection.OUT) {
 			quantity = quantity.subtract(contract.getQuantity());
-			if (contract.getQuantity().compareTo(Decimal.ZERO) < 0 && contract.getCalculatedPrice() != null) {
-				if (this.checkMaterial(materialBatch.getItemCode())
-						.getValuationMethod() == emValuationMethod.BATCH_MOVING_AVERAGE) {
-					materialBatch.setAvgPrice(contract.getCalculatedPrice());
+			if (this.checkMaterial(materialBatch.getItemCode())
+					.getValuationMethod() == emValuationMethod.BATCH_MOVING_AVERAGE) {
+				BigDecimal avgPrice = contract.getCalculatedPrice();
+				if (contract.getQuantity().compareTo(Decimal.ZERO) < 0 && avgPrice != null) {
+					materialBatch.setAvgPrice(avgPrice);
 				}
 			}
 		}

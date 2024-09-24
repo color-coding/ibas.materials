@@ -1,5 +1,7 @@
 package org.colorcoding.ibas.materials.logic;
 
+import java.math.BigDecimal;
+
 import org.colorcoding.ibas.bobas.bo.BusinessObject;
 import org.colorcoding.ibas.bobas.common.ConditionOperation;
 import org.colorcoding.ibas.bobas.common.ConditionRelationship;
@@ -107,8 +109,9 @@ public class MaterialSerialInventoryService
 				materialSerial.setInStock(emYesNo.YES);
 				if (this.checkMaterial(materialSerial.getItemCode())
 						.getValuationMethod() == emValuationMethod.BATCH_MOVING_AVERAGE) {
-					if (contract.getCalculatedPrice() != null) {
-						materialSerial.setAvgPrice(contract.getCalculatedPrice());
+					BigDecimal avgPrice = contract.getCalculatedPrice();
+					if (avgPrice != null) {
+						materialSerial.setAvgPrice(avgPrice);
 					}
 				}
 			} else {

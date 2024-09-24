@@ -22,6 +22,7 @@ import org.colorcoding.ibas.bobas.mapping.DbFieldType;
 import org.colorcoding.ibas.bobas.rule.IBusinessRule;
 import org.colorcoding.ibas.bobas.rule.common.BusinessRuleRequired;
 import org.colorcoding.ibas.materials.MyConfiguration;
+import org.colorcoding.ibas.materials.data.DataConvert;
 import org.colorcoding.ibas.materials.logic.IMaterialBatchInventoryContract;
 import org.colorcoding.ibas.materials.logic.IMaterialInventoryReservationCreateContract;
 import org.colorcoding.ibas.materials.logic.IMaterialInventoryReservationReleaseContract;
@@ -1269,16 +1270,19 @@ public class MaterialBatchJournal extends BusinessObject<MaterialBatchJournal>
 
 			@Override
 			public BigDecimal getCalculatedPrice() {
-				if ((MaterialBatchJournal.this.getDirection() == emDirection.IN
-						&& MaterialBatchJournal.this.getQuantity().compareTo(Decimal.ZERO) > 0)
-						|| (MaterialBatchJournal.this.getDirection() == emDirection.OUT
-								&& MaterialBatchJournal.this.getQuantity().compareTo(Decimal.ZERO) < 0)) {
-					BigDecimal inventoryQuantity = Decimal.add(MaterialBatchJournal.this.getInventoryQuantity(),
-							MaterialBatchJournal.this.getQuantity().abs());
-					BigDecimal inventoryValue = Decimal.add(MaterialBatchJournal.this.getInventoryValue(),
-							MaterialBatchJournal.this.getTransactionValue().abs());
-					return Decimal.isZero(inventoryQuantity) ? Decimal.ZERO
-							: Decimal.divide(inventoryValue, inventoryQuantity);
+				if (DataConvert.isNullOrEmpty(MaterialBatchJournal.this.getUpdateActionId())) {
+					// 仅新状态影响成本
+					if ((MaterialBatchJournal.this.getDirection() == emDirection.IN
+							&& MaterialBatchJournal.this.getQuantity().compareTo(Decimal.ZERO) > 0)
+							|| (MaterialBatchJournal.this.getDirection() == emDirection.OUT
+									&& MaterialBatchJournal.this.getQuantity().compareTo(Decimal.ZERO) < 0)) {
+						BigDecimal inventoryQuantity = Decimal.add(MaterialBatchJournal.this.getInventoryQuantity(),
+								MaterialBatchJournal.this.getQuantity().abs());
+						BigDecimal inventoryValue = Decimal.add(MaterialBatchJournal.this.getInventoryValue(),
+								MaterialBatchJournal.this.getTransactionValue().abs());
+						return Decimal.isZero(inventoryQuantity) ? Decimal.ZERO
+								: Decimal.divide(inventoryValue, inventoryQuantity);
+					}
 				}
 				return null;
 			}

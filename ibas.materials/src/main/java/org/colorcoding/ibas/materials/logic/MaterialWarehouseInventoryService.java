@@ -82,20 +82,20 @@ public class MaterialWarehouseInventoryService
 		BigDecimal onHand = materialInventory.getOnHand();
 		if (contract.getDirection() == emDirection.IN) {
 			onHand = onHand.add(contract.getQuantity());
-			if (contract.getQuantity().compareTo(Decimal.ZERO) > 0 && contract.getCalculatedPrice() != null) {
-				if (MyConfiguration.getConfigValue(MyConfiguration.CONFIG_ITEM_MANAGE_MATERIAL_COSTS_BY_WAREHOUSE,
-						true)) {
-					materialInventory.setAvgPrice(contract.getCalculatedPrice());
+			if (MyConfiguration.getConfigValue(MyConfiguration.CONFIG_ITEM_MANAGE_MATERIAL_COSTS_BY_WAREHOUSE, true)) {
+				BigDecimal avgPrice = contract.getCalculatedPrice();
+				if (contract.getQuantity().compareTo(Decimal.ZERO) > 0 && avgPrice != null) {
+					materialInventory.setAvgPrice(avgPrice);
 				} else {
 					materialInventory.setAvgPrice(Decimal.ZERO);
 				}
 			}
 		} else if (contract.getDirection() == emDirection.OUT) {
 			onHand = onHand.subtract(contract.getQuantity());
-			if (contract.getQuantity().compareTo(Decimal.ZERO) < 0 && contract.getCalculatedPrice() != null) {
-				if (MyConfiguration.getConfigValue(MyConfiguration.CONFIG_ITEM_MANAGE_MATERIAL_COSTS_BY_WAREHOUSE,
-						true)) {
-					materialInventory.setAvgPrice(contract.getCalculatedPrice());
+			if (MyConfiguration.getConfigValue(MyConfiguration.CONFIG_ITEM_MANAGE_MATERIAL_COSTS_BY_WAREHOUSE, true)) {
+				BigDecimal avgPrice = contract.getCalculatedPrice();
+				if (contract.getQuantity().compareTo(Decimal.ZERO) < 0 && avgPrice != null) {
+					materialInventory.setAvgPrice(avgPrice);
 				} else {
 					materialInventory.setAvgPrice(Decimal.ZERO);
 				}

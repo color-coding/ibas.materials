@@ -27,6 +27,7 @@ import org.colorcoding.ibas.bobas.rule.ICheckRules;
 import org.colorcoding.ibas.bobas.rule.common.BusinessRuleMinValue;
 import org.colorcoding.ibas.bobas.rule.common.BusinessRuleRequired;
 import org.colorcoding.ibas.materials.MyConfiguration;
+import org.colorcoding.ibas.materials.data.DataConvert;
 import org.colorcoding.ibas.materials.logic.IMaterialInventoryContract;
 import org.colorcoding.ibas.materials.logic.IMaterialInventoryReservationCreateContract;
 import org.colorcoding.ibas.materials.logic.IMaterialInventoryReservationReleaseContract;
@@ -1290,16 +1291,19 @@ public class MaterialInventoryJournal extends BusinessObject<MaterialInventoryJo
 
 			@Override
 			public BigDecimal getCalculatedPrice() {
-				if ((MaterialInventoryJournal.this.getDirection() == emDirection.IN
-						&& MaterialInventoryJournal.this.getQuantity().compareTo(Decimal.ZERO) > 0)
-						|| (MaterialInventoryJournal.this.getDirection() == emDirection.OUT
-								&& MaterialInventoryJournal.this.getQuantity().compareTo(Decimal.ZERO) < 0)) {
-					BigDecimal inventoryQuantity = Decimal.add(MaterialInventoryJournal.this.getInventoryQuantity(),
-							MaterialInventoryJournal.this.getQuantity().abs());
-					BigDecimal inventoryValue = Decimal.add(MaterialInventoryJournal.this.getInventoryValue(),
-							MaterialInventoryJournal.this.getTransactionValue().abs());
-					return Decimal.isZero(inventoryQuantity) ? Decimal.ZERO
-							: Decimal.divide(inventoryValue, inventoryQuantity);
+				if (DataConvert.isNullOrEmpty(MaterialInventoryJournal.this.getUpdateActionId())) {
+					// 仅新状态影响成本
+					if ((MaterialInventoryJournal.this.getDirection() == emDirection.IN
+							&& MaterialInventoryJournal.this.getQuantity().compareTo(Decimal.ZERO) > 0)
+							|| (MaterialInventoryJournal.this.getDirection() == emDirection.OUT
+									&& MaterialInventoryJournal.this.getQuantity().compareTo(Decimal.ZERO) < 0)) {
+						BigDecimal inventoryQuantity = Decimal.add(MaterialInventoryJournal.this.getInventoryQuantity(),
+								MaterialInventoryJournal.this.getQuantity().abs());
+						BigDecimal inventoryValue = Decimal.add(MaterialInventoryJournal.this.getInventoryValue(),
+								MaterialInventoryJournal.this.getTransactionValue().abs());
+						return Decimal.isZero(inventoryQuantity) ? Decimal.ZERO
+								: Decimal.divide(inventoryValue, inventoryQuantity);
+					}
 				}
 				return null;
 			}
@@ -1333,16 +1337,19 @@ public class MaterialInventoryJournal extends BusinessObject<MaterialInventoryJo
 
 			@Override
 			public BigDecimal getCalculatedPrice() {
-				if ((MaterialInventoryJournal.this.getDirection() == emDirection.IN
-						&& MaterialInventoryJournal.this.getQuantity().compareTo(Decimal.ZERO) > 0)
-						|| (MaterialInventoryJournal.this.getDirection() == emDirection.OUT
-								&& MaterialInventoryJournal.this.getQuantity().compareTo(Decimal.ZERO) < 0)) {
-					BigDecimal inventoryQuantity = Decimal.add(MaterialInventoryJournal.this.getInventoryQuantity(),
-							MaterialInventoryJournal.this.getQuantity().abs());
-					BigDecimal inventoryValue = Decimal.add(MaterialInventoryJournal.this.getInventoryValue(),
-							MaterialInventoryJournal.this.getTransactionValue().abs());
-					return Decimal.isZero(inventoryQuantity) ? Decimal.ZERO
-							: Decimal.divide(inventoryValue, inventoryQuantity);
+				if (DataConvert.isNullOrEmpty(MaterialInventoryJournal.this.getUpdateActionId())) {
+					// 仅新状态影响成本
+					if ((MaterialInventoryJournal.this.getDirection() == emDirection.IN
+							&& MaterialInventoryJournal.this.getQuantity().compareTo(Decimal.ZERO) > 0)
+							|| (MaterialInventoryJournal.this.getDirection() == emDirection.OUT
+									&& MaterialInventoryJournal.this.getQuantity().compareTo(Decimal.ZERO) < 0)) {
+						BigDecimal inventoryQuantity = Decimal.add(MaterialInventoryJournal.this.getInventoryQuantity(),
+								MaterialInventoryJournal.this.getQuantity().abs());
+						BigDecimal inventoryValue = Decimal.add(MaterialInventoryJournal.this.getInventoryValue(),
+								MaterialInventoryJournal.this.getTransactionValue().abs());
+						return Decimal.isZero(inventoryQuantity) ? Decimal.ZERO
+								: Decimal.divide(inventoryValue, inventoryQuantity);
+					}
 				}
 				return null;
 			}
