@@ -109,7 +109,7 @@ namespace materials {
                                                 maxLength: 100
                                             })
                                         }),
-                                        width: "16rem",
+                                        width: "14rem",
                                     }),
                                     new sap.extension.table.DataColumn("", {
                                         label: ibas.i18n.prop("bo_materialmeasurement_quantity"),
@@ -126,6 +126,7 @@ namespace materials {
                                                 },
                                             ]
                                         }),
+                                        width: "8rem",
                                     }),
                                     new sap.extension.table.DataColumn("", {
                                         label: ibas.i18n.prop("bo_material_length"),
@@ -142,6 +143,7 @@ namespace materials {
                                                 },
                                             ]
                                         }),
+                                        width: "8rem",
                                     }),
                                     new sap.extension.table.DataColumn("", {
                                         label: ibas.i18n.prop("bo_material_width"),
@@ -158,6 +160,7 @@ namespace materials {
                                                 },
                                             ]
                                         }),
+                                        width: "8rem",
                                     }),
                                     new sap.extension.table.DataColumn("", {
                                         label: ibas.i18n.prop("bo_material_height"),
@@ -174,6 +177,7 @@ namespace materials {
                                                 },
                                             ]
                                         }),
+                                        width: "8rem",
                                     }),
                                     new sap.extension.table.DataColumn("", {
                                         label: ibas.i18n.prop("bo_material_volume"),
@@ -208,6 +212,7 @@ namespace materials {
                                         }),
                                     }),
                                 ],
+                                fixedColumnCount: 4,
                                 footer: new sap.m.Toolbar("", {
                                     content: [
                                         new sap.m.ToolbarSpacer(""),
@@ -271,7 +276,7 @@ namespace materials {
                                     "{[" + item.documentType + "].[DocEntry = " + String(item.documentEntry) + "]}"
                                 ));
                             }
-                            item.registerListener(this.propertyListener)
+                            item.registerListener(this.propertyListener);
                         }
                     }
                     let qtyUnits: ibas.IList<string> = new ibas.ArrayList<string>();
@@ -294,24 +299,24 @@ namespace materials {
                     }
                     let qtyBuilder: ibas.StringBuilder = new ibas.StringBuilder();
                     for (let item of qtyUnits) {
-                        qtyBuilder.append(item);
-                        if (qtyBuilder.length > 1) {
+                        if (qtyBuilder.length >= 1) {
                             qtyBuilder.append("/");
                         }
+                        qtyBuilder.append(item);
                     }
                     let volBuilder: ibas.StringBuilder = new ibas.StringBuilder();
                     for (let item of volUnits) {
-                        volBuilder.append(item);
-                        if (volBuilder.length > 1) {
+                        if (volBuilder.length >= 1) {
                             volBuilder.append("/");
                         }
+                        volBuilder.append(item);
                     }
                     let wghBuilder: ibas.StringBuilder = new ibas.StringBuilder();
                     for (let item of wghUnits) {
-                        wghBuilder.append(item);
-                        if (wghBuilder.length > 1) {
+                        if (wghBuilder.length >= 1) {
                             wghBuilder.append("/");
                         }
+                        wghBuilder.append(item);
                     }
                     this.textQuantity.setText(ibas.strings.format("{0} {1}",
                         sap.extension.data.formatValue(sap.extension.data.Quantity, sumQuantity, "string"),
@@ -342,10 +347,10 @@ namespace materials {
                             }
                             let volBuilder: ibas.StringBuilder = new ibas.StringBuilder();
                             for (let item of volUnits) {
-                                volBuilder.append(item);
-                                if (volBuilder.length > 1) {
+                                if (volBuilder.length >= 1) {
                                     volBuilder.append("/");
                                 }
+                                volBuilder.append(item);
                             }
                             this.textVolume.setText(ibas.strings.format("{0} {1}",
                                 sap.extension.data.formatValue(sap.extension.data.Measurement, sumVolume, "string"),
@@ -364,10 +369,10 @@ namespace materials {
                             }
                             let wghBuilder: ibas.StringBuilder = new ibas.StringBuilder();
                             for (let item of wghUnits) {
-                                wghBuilder.append(item);
-                                if (wghBuilder.length > 1) {
+                                if (wghBuilder.length >= 1) {
                                     wghBuilder.append("/");
                                 }
+                                wghBuilder.append(item);
                             }
                             this.textWeight.setText(ibas.strings.format("{0} {1}",
                                 sap.extension.data.formatValue(sap.extension.data.Measurement, sumWeight, "string"),

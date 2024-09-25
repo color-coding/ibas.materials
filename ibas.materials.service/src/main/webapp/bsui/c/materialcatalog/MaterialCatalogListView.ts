@@ -224,12 +224,13 @@ namespace materials {
                                                                     let condition: ibas.ICondition = criteria.conditions.create();
                                                                     condition.alias = businesspartner.bo.Customer.PROPERTY_CODE_NAME;
                                                                     condition.operation = ibas.emConditionOperation.CONTAIN;
-                                                                    condition.value = searchText;
+                                                                    condition.value = ibas.strings.replace(searchText, " ", "%");
                                                                     condition.bracketOpen = 1;
                                                                     condition = criteria.conditions.create();
                                                                     condition.alias = businesspartner.bo.Customer.PROPERTY_NAME_NAME;
                                                                     condition.operation = ibas.emConditionOperation.CONTAIN;
-                                                                    condition.value = searchText;
+                                                                    condition.value = ibas.strings.replace(searchText, " ", "%");
+                                                                    condition.relationship = ibas.emConditionRelationship.OR;
                                                                     condition.bracketClose = 1;
                                                                 }
                                                                 let sort: ibas.ISort = criteria.sorts.create();
@@ -317,12 +318,13 @@ namespace materials {
                                                                     let condition: ibas.ICondition = criteria.conditions.create();
                                                                     condition.alias = businesspartner.bo.Supplier.PROPERTY_CODE_NAME;
                                                                     condition.operation = ibas.emConditionOperation.CONTAIN;
-                                                                    condition.value = searchText;
+                                                                    condition.value = ibas.strings.replace(searchText, " ", "%");
                                                                     condition.bracketOpen = 1;
                                                                     condition = criteria.conditions.create();
                                                                     condition.alias = businesspartner.bo.Supplier.PROPERTY_NAME_NAME;
                                                                     condition.operation = ibas.emConditionOperation.CONTAIN;
-                                                                    condition.value = searchText;
+                                                                    condition.value = ibas.strings.replace(searchText, " ", "%");
+                                                                    condition.relationship = ibas.emConditionRelationship.OR;
                                                                     condition.bracketClose = 1;
                                                                 }
                                                                 let sort: ibas.ISort = criteria.sorts.create();
@@ -410,12 +412,13 @@ namespace materials {
                                                                     let condition: ibas.ICondition = criteria.conditions.create();
                                                                     condition.alias = materials.bo.Material.PROPERTY_CODE_NAME;
                                                                     condition.operation = ibas.emConditionOperation.CONTAIN;
-                                                                    condition.value = searchText;
+                                                                    condition.value = ibas.strings.replace(searchText, " ", "%");
                                                                     condition.bracketOpen = 1;
                                                                     condition = criteria.conditions.create();
                                                                     condition.alias = materials.bo.Material.PROPERTY_NAME_NAME;
                                                                     condition.operation = ibas.emConditionOperation.CONTAIN;
-                                                                    condition.value = searchText;
+                                                                    condition.value = ibas.strings.replace(searchText, " ", "%");
+                                                                    condition.relationship = ibas.emConditionRelationship.OR;
                                                                     condition.bracketClose = 1;
                                                                 }
                                                                 let sort: ibas.ISort = criteria.sorts.create();
@@ -796,16 +799,16 @@ namespace materials {
                         let condition: ibas.ICondition = criteria.conditions.create();
                         condition.alias = materials.bo.BusinessPartnerMaterialCatalog.PROPERTY_CATALOGCODE_NAME;
                         condition.operation = ibas.emConditionOperation.CONTAIN;
-                        condition.value = searchText;
+                        condition.value = ibas.strings.replace(searchText, " ", "%");
                         condition.bracketOpen = 1;
                         condition = criteria.conditions.create();
                         condition.alias = materials.bo.BusinessPartnerMaterialCatalog.PROPERTY_CATALOGNAME_NAME;
                         condition.operation = ibas.emConditionOperation.CONTAIN;
-                        condition.value = searchText;
+                        condition.value = ibas.strings.replace(searchText, " ", "%");
                         condition = criteria.conditions.create();
                         condition.alias = materials.bo.BusinessPartnerMaterialCatalog.PROPERTY_REMARKS_NAME;
                         condition.operation = ibas.emConditionOperation.CONTAIN;
-                        condition.value = searchText;
+                        condition.value = ibas.strings.replace(searchText, " ", "%");
                         condition.bracketClose = 1;
                     }
                     if (this.buttonTab.getSelectedKey() === "CUSTOMER") {

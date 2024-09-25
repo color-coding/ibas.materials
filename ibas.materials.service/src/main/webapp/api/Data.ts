@@ -575,6 +575,42 @@ namespace materials {
         export class MaterialMeasurementServiceProxy
             extends ibas.ServiceProxy<IMaterialMeasurementContract> {
         }
+        /** 物料毛利润服务契约 */
+        export interface IMaterialGrossProfitContract extends ibas.IServiceContract {
+            /** 单据类型 */
+            documentType: string;
+            /** 单据编号 */
+            documentEntry: number;
+            /** 单据货币 */
+            documentCurrency: string;
+            /** 毛利价格清单 */
+            getGrossProfitList(): number;
+            setGrossProfitList(value: number): void;
+            /** 毛利 */
+            getGrossProfit(): number;
+            setGrossProfit(value: number): void;
+            /** 行项目 */
+            lines: IMaterialGrossProfitContractLine[];
+        }
+        export interface IMaterialGrossProfitContractLine {
+            lineId: number;
+            itemCode: string;
+            itemDescription: string;
+            quantity: number;
+            uom: string;
+            price: number;
+            currency: string;
+            /** 毛利价格来源 */
+            getGrossProfitSource(): number;
+            setGrossProfitSource(value: number): void;
+            /** 毛利价格 */
+            getGrossProfitPrice(): number;
+            setGrossProfitPrice(value: number): void;
+        }
+        /** 物料毛利润服务代理 */
+        export class MaterialGrossProfitServiceProxy
+            extends ibas.ServiceProxy<IMaterialGrossProfitContract> {
+        }
 
         /** 查询条件 */
         export namespace conditions {

@@ -249,7 +249,7 @@ namespace materials {
                 }
             }
         }
-        /** 选择应用-物料 */
+        /** 物料测量服务 */
         export class MaterialMeasurementService extends ibas.ServiceApplication<IMaterialMeasurementView, IMaterialMeasurementContract> {
             /** 应用标识 */
             static APPLICATION_ID: string = "e7501a32-730d-4aa5-bc7a-05fd7b9d0510";

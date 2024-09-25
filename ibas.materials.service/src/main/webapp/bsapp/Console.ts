@@ -87,6 +87,7 @@ namespace materials {
                 this.register(new MaterialScrapLinkServiceMapping());
                 this.register(new MaterialMeasurementServiceMapping());
                 this.register(new BusinessPartnerMaterialCatalogChooseServiceMapping());
+                this.register(new MaterialGrossProfitServiceMapping());
                 // 注册常驻应用
 
                 // 注册权限元素

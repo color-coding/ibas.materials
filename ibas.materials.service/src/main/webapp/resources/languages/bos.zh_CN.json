@@ -1537,6 +1537,22 @@
         "bo_materialmeasurement_unit_weight": "重量单位"
     },
     {
+        "bo_materialgrossprofit": "物料毛利润",
+        "bo_materialgrossprofit_documenttype": "单据类型",
+        "bo_materialgrossprofit_documententry": "单据编号",
+        "bo_materialgrossprofit_documentlineid": "单据行号",
+        "bo_materialgrossprofit_grossprofitlist": "基础价格清单",
+        "bo_materialgrossprofit_itemcode": "物料",
+        "bo_materialgrossprofit_itemdescription": "描述",
+        "bo_materialgrossprofit_quantity": "数量",
+        "bo_materialgrossprofit_total_quantity": "总数量",
+        "bo_materialgrossprofit_price": "销售价格",
+        "bo_materialgrossprofit_grossprofit": "毛利",
+        "bo_materialgrossprofit_grossprofit_rate": "毛利率",
+        "bo_materialgrossprofit_grossprofitsource": "基础价格来源",
+        "bo_materialgrossprofit_grossprofitprice": "基础价格"
+    },
+    {
         "bo_businesspartnermaterialcatalog": "业务伙伴物料目录",
         "bo_businesspartnermaterialcatalog_businesspartnertype": "业务伙伴类型",
         "bo_businesspartnermaterialcatalog_businesspartnercode": "业务伙伴代码",

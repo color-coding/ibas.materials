@@ -306,6 +306,9 @@ namespace materials {
                     case app.BusinessPartnerMaterialCatalogChooseApp.APPLICATION_ID:
                         view = new c.BusinessPartnerMaterialCatalogChooseView();
                         break;
+                    case app.MaterialGrossProfitService.APPLICATION_ID:
+                        view = new c.MaterialGrossProfitView();
+                        break;
                     default:
                         break;
                 }

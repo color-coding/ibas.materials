@@ -134,6 +134,7 @@
     "materials_func_materialcatalog": "BP Material Catalog",
     "materials_app_materialcatalog_list": "BP Material Catalog List",
     "materials_app_materialcatalog_choose": "Choose BP Material Catalog",
+    "materials_app_material_grossprofit": "Material Gross Profit",
     "materials_title_general": "General Information",
     "materials_title_status": "Status Information",
     "materials_title_total": "Total Information",
@@ -228,5 +229,6 @@
     "materials_not_found_reserved_data_report": "No reservation document report found for associated application [{0}]",
     "materials_from_based_list_unsupported_operation": "Price [{0} - {1}] based on list, operation not supported",
     "materials_document_inventoryquantity": "Whs Qty/Total Qty",
+    "materials_document_apply_changes_continue": "Apply Changes？",
     "materials_closing_delimiter": "---- End ----"
 }

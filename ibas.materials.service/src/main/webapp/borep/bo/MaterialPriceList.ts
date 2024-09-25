@@ -9,13 +9,15 @@ namespace materials {
     export namespace bo {
         export class MaterialPriceList extends ibas.BOSimple<MaterialPriceList> implements IMaterialPriceList {
 
+            /** 价格清单：成本价格 */
+            static PRICE_LIST_COST_PRICE: number = -1;
+
             /** 业务对象编码 */
             static BUSINESS_OBJECT_CODE: string = BO_CODE_MATERIALPRICELIST;
             /** 构造函数 */
             constructor() {
                 super();
             }
-
             /** 映射的属性名称-名称 */
             static PROPERTY_NAME_NAME: string = "Name";
             /** 获取-名称 */

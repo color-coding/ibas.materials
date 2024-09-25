@@ -1222,6 +1222,17 @@ public class MaterialInventoryJournal extends BusinessObject<MaterialInventoryJo
 		};
 	}
 
+	public BigDecimal getAvgPrice() {
+		// 仅新状态影响成本
+		if ((this.getDirection() == emDirection.IN && this.getQuantity().compareTo(Decimal.ZERO) > 0)
+				|| (this.getDirection() == emDirection.OUT && this.getQuantity().compareTo(Decimal.ZERO) < 0)) {
+			BigDecimal inventoryQuantity = Decimal.add(this.getInventoryQuantity(), this.getQuantity().abs());
+			BigDecimal inventoryValue = Decimal.add(this.getInventoryValue(), this.getTransactionValue().abs());
+			return Decimal.isZero(inventoryQuantity) ? Decimal.ZERO : Decimal.divide(inventoryValue, inventoryQuantity);
+		}
+		return null;
+	}
+
 	@Override
 	public IBusinessLogicContract[] getContracts() {
 		ArrayList<IBusinessLogicContract> contracts = new ArrayList<>(4);
@@ -1293,17 +1304,7 @@ public class MaterialInventoryJournal extends BusinessObject<MaterialInventoryJo
 			public BigDecimal getCalculatedPrice() {
 				if (DataConvert.isNullOrEmpty(MaterialInventoryJournal.this.getUpdateActionId())) {
 					// 仅新状态影响成本
-					if ((MaterialInventoryJournal.this.getDirection() == emDirection.IN
-							&& MaterialInventoryJournal.this.getQuantity().compareTo(Decimal.ZERO) > 0)
-							|| (MaterialInventoryJournal.this.getDirection() == emDirection.OUT
-									&& MaterialInventoryJournal.this.getQuantity().compareTo(Decimal.ZERO) < 0)) {
-						BigDecimal inventoryQuantity = Decimal.add(MaterialInventoryJournal.this.getInventoryQuantity(),
-								MaterialInventoryJournal.this.getQuantity().abs());
-						BigDecimal inventoryValue = Decimal.add(MaterialInventoryJournal.this.getInventoryValue(),
-								MaterialInventoryJournal.this.getTransactionValue().abs());
-						return Decimal.isZero(inventoryQuantity) ? Decimal.ZERO
-								: Decimal.divide(inventoryValue, inventoryQuantity);
-					}
+					return MaterialInventoryJournal.this.getAvgPrice();
 				}
 				return null;
 			}
@@ -1339,17 +1340,7 @@ public class MaterialInventoryJournal extends BusinessObject<MaterialInventoryJo
 			public BigDecimal getCalculatedPrice() {
 				if (DataConvert.isNullOrEmpty(MaterialInventoryJournal.this.getUpdateActionId())) {
 					// 仅新状态影响成本
-					if ((MaterialInventoryJournal.this.getDirection() == emDirection.IN
-							&& MaterialInventoryJournal.this.getQuantity().compareTo(Decimal.ZERO) > 0)
-							|| (MaterialInventoryJournal.this.getDirection() == emDirection.OUT
-									&& MaterialInventoryJournal.this.getQuantity().compareTo(Decimal.ZERO) < 0)) {
-						BigDecimal inventoryQuantity = Decimal.add(MaterialInventoryJournal.this.getInventoryQuantity(),
-								MaterialInventoryJournal.this.getQuantity().abs());
-						BigDecimal inventoryValue = Decimal.add(MaterialInventoryJournal.this.getInventoryValue(),
-								MaterialInventoryJournal.this.getTransactionValue().abs());
-						return Decimal.isZero(inventoryQuantity) ? Decimal.ZERO
-								: Decimal.divide(inventoryValue, inventoryQuantity);
-					}
+					return MaterialInventoryJournal.this.getAvgPrice();
 				}
 				return null;
 			}
@@ -1410,21 +1401,16 @@ public class MaterialInventoryJournal extends BusinessObject<MaterialInventoryJo
 
 				@Override
 				public BigDecimal getPrice() {
-					if (MaterialInventoryJournal.this.getUpdateActionId() == null) {
-						return MaterialInventoryJournal.this.getCalculatedPrice();
-					} else {
-						return null;
+					if (DataConvert.isNullOrEmpty(MaterialInventoryJournal.this.getUpdateActionId())) {
+						// 仅新状态影响成本
+						return MaterialInventoryJournal.this.getAvgPrice();
 					}
+					return null;
 				}
 
 				@Override
 				public String getItemCode() {
 					return MaterialInventoryJournal.this.getItemCode();
-				}
-
-				@Override
-				public String getCurrency() {
-					return null;
 				}
 
 			});

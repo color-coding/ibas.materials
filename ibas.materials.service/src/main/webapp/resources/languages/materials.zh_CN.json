@@ -134,6 +134,7 @@
   "materials_func_materialcatalog": "业务伙伴目录",
   "materials_app_materialcatalog_list": "业务伙伴物料目录",
   "materials_app_materialcatalog_choose": "业务伙伴物料目录选择",
+  "materials_app_material_grossprofit": "物料毛利润",
   "materials_title_general": "常规信息",
   "materials_title_status": "状态信息",
   "materials_title_total": "总计信息",
@@ -233,5 +234,6 @@
   "materials_from_based_list_unsupported_operation": "价格[{0} - {1}]来自基于的清单，不支持此操作",
   "materials_price_list_is_non_editable": "价格清单[{0} - {1}]不可编辑",
   "materials_document_inventoryquantity": "仓库数量/总数量",
+  "materials_document_apply_changes_continue": "应用修改到单据，是否继续？",
   "materials_closing_delimiter": "----结束----"
 }
