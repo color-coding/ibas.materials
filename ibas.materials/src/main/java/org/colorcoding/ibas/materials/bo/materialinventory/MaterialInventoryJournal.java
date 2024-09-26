@@ -1222,6 +1222,22 @@ public class MaterialInventoryJournal extends BusinessObject<MaterialInventoryJo
 		};
 	}
 
+	@Override
+	public void check() throws BusinessRuleException {
+		if (this.getCalculatedPrice() != null && !Decimal.isZero(this.getCalculatedPrice())) {
+			if (this.isDeleted()) {
+				// 修改入库物料、仓库、价格，影响成本计算，不允许
+				throw new BusinessLogicException(
+						I18N.prop("msg_mm_document_completed_material_cost_calculation_not_support_operation",
+								String.format("{[%s].[DocEntry = %s]%s}", this.getBaseDocumentType(),
+										this.getBaseDocumentEntry(),
+										this.getBaseDocumentLineId() > 0
+												? String.format("&&[LineId = %s]", this.getBaseDocumentLineId())
+												: "")));
+			}
+		}
+	}
+
 	public BigDecimal getAvgPrice() {
 		// 仅新状态影响成本
 		if ((this.getDirection() == emDirection.IN && this.getQuantity().compareTo(Decimal.ZERO) > 0)
@@ -1418,19 +1434,4 @@ public class MaterialInventoryJournal extends BusinessObject<MaterialInventoryJo
 		return contracts.toArray(new IBusinessLogicContract[] {});
 	}
 
-	@Override
-	public void check() throws BusinessRuleException {
-		if (this.getCalculatedPrice() != null && !Decimal.isZero(this.getCalculatedPrice())) {
-			if (this.isDeleted()) {
-				// 修改入库物料、仓库、价格，影响成本计算，不允许
-				throw new BusinessLogicException(
-						I18N.prop("msg_mm_document_completed_material_cost_calculation_not_support_operation",
-								String.format("{[%s].[DocEntry = %s]%s}", this.getBaseDocumentType(),
-										this.getBaseDocumentEntry(),
-										this.getBaseDocumentLineId() > 0
-												? String.format("&&[LineId = %s]", this.getBaseDocumentLineId())
-												: "")));
-			}
-		}
-	}
 }

@@ -86,9 +86,9 @@ public class MaterialWarehouseInventoryService
 				BigDecimal avgPrice = contract.getCalculatedPrice();
 				if (contract.getQuantity().compareTo(Decimal.ZERO) > 0 && avgPrice != null) {
 					materialInventory.setAvgPrice(avgPrice);
-				} else {
-					materialInventory.setAvgPrice(Decimal.ZERO);
 				}
+			} else {
+				materialInventory.setAvgPrice(Decimal.ZERO);
 			}
 		} else if (contract.getDirection() == emDirection.OUT) {
 			onHand = onHand.subtract(contract.getQuantity());
@@ -96,9 +96,9 @@ public class MaterialWarehouseInventoryService
 				BigDecimal avgPrice = contract.getCalculatedPrice();
 				if (contract.getQuantity().compareTo(Decimal.ZERO) < 0 && avgPrice != null) {
 					materialInventory.setAvgPrice(avgPrice);
-				} else {
-					materialInventory.setAvgPrice(Decimal.ZERO);
 				}
+			} else {
+				materialInventory.setAvgPrice(Decimal.ZERO);
 			}
 		}
 		if (Decimal.ZERO.compareTo(onHand) > 0) {

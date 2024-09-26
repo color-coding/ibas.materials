@@ -2,6 +2,7 @@ package org.colorcoding.ibas.materials.logic;
 
 import java.math.BigDecimal;
 
+import org.colorcoding.ibas.bobas.approval.IApprovalData;
 import org.colorcoding.ibas.bobas.bo.IBOTagCanceled;
 import org.colorcoding.ibas.bobas.bo.IBOTagDeleted;
 import org.colorcoding.ibas.bobas.common.ConditionOperation;
@@ -12,6 +13,7 @@ import org.colorcoding.ibas.bobas.common.ICriteria;
 import org.colorcoding.ibas.bobas.common.IOperationResult;
 import org.colorcoding.ibas.bobas.core.ITrackStatus;
 import org.colorcoding.ibas.bobas.data.Decimal;
+import org.colorcoding.ibas.bobas.data.emApprovalStatus;
 import org.colorcoding.ibas.bobas.data.emDirection;
 import org.colorcoding.ibas.bobas.data.emYesNo;
 import org.colorcoding.ibas.bobas.i18n.I18N;
@@ -376,6 +378,13 @@ public class MaterialIssueService
 		} else if (this.getLogicChain().getTrigger().isDeleted() == true) {
 			// 触发对象删除（正向逻辑不被执行），删除
 			materialJournal.delete();
+		} else if (this.getLogicChain().getTrigger() instanceof IApprovalData) {
+			// 重新进入审批的数据，删除
+			IApprovalData approvalData = (IApprovalData) this.getLogicChain().getTrigger();
+			if (!(approvalData.getApprovalStatus() == emApprovalStatus.APPROVED
+					|| approvalData.getApprovalStatus() == emApprovalStatus.UNAFFECTED)) {
+				materialJournal.delete();
+			}
 		}
 	}
 

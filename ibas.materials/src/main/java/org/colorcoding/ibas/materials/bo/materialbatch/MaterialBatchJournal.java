@@ -14,12 +14,16 @@ import org.colorcoding.ibas.bobas.data.ArrayList;
 import org.colorcoding.ibas.bobas.data.DateTime;
 import org.colorcoding.ibas.bobas.data.Decimal;
 import org.colorcoding.ibas.bobas.data.emDirection;
+import org.colorcoding.ibas.bobas.i18n.I18N;
+import org.colorcoding.ibas.bobas.logic.BusinessLogicException;
 import org.colorcoding.ibas.bobas.logic.IBusinessLogicContract;
 import org.colorcoding.ibas.bobas.logic.IBusinessLogicsHost;
 import org.colorcoding.ibas.bobas.mapping.BusinessObjectUnit;
 import org.colorcoding.ibas.bobas.mapping.DbField;
 import org.colorcoding.ibas.bobas.mapping.DbFieldType;
+import org.colorcoding.ibas.bobas.rule.BusinessRuleException;
 import org.colorcoding.ibas.bobas.rule.IBusinessRule;
+import org.colorcoding.ibas.bobas.rule.ICheckRules;
 import org.colorcoding.ibas.bobas.rule.common.BusinessRuleRequired;
 import org.colorcoding.ibas.materials.MyConfiguration;
 import org.colorcoding.ibas.materials.data.DataConvert;
@@ -36,7 +40,7 @@ import org.colorcoding.ibas.materials.logic.IMaterialInventoryReservationRelease
 @XmlRootElement(name = MaterialBatchJournal.BUSINESS_OBJECT_NAME, namespace = MyConfiguration.NAMESPACE_BO)
 @BusinessObjectUnit(code = MaterialBatch.BUSINESS_OBJECT_CODE)
 public class MaterialBatchJournal extends BusinessObject<MaterialBatchJournal>
-		implements IMaterialBatchJournal, IBusinessLogicsHost {
+		implements IMaterialBatchJournal, IBusinessLogicsHost, ICheckRules {
 
 	/**
 	 * 序列化版本标记
@@ -1187,6 +1191,22 @@ public class MaterialBatchJournal extends BusinessObject<MaterialBatchJournal>
 	}
 
 	@Override
+	public void check() throws BusinessRuleException {
+		if (this.getCalculatedPrice() != null && !Decimal.isZero(this.getCalculatedPrice())) {
+			if (this.isDeleted()) {
+				// 修改入库物料、仓库、价格，影响成本计算，不允许
+				throw new BusinessLogicException(
+						I18N.prop("msg_mm_document_completed_material_cost_calculation_not_support_operation",
+								String.format("{[%s].[DocEntry = %s]%s}", this.getBaseDocumentType(),
+										this.getBaseDocumentEntry(),
+										this.getBaseDocumentLineId() > 0
+												? String.format("&&[LineId = %s]", this.getBaseDocumentLineId())
+												: "")));
+			}
+		}
+	}
+
+	@Override
 	public IBusinessLogicContract[] getContracts() {
 		ArrayList<IBusinessLogicContract> contracts = new ArrayList<>(4);
 		// 出库
@@ -1335,4 +1355,5 @@ public class MaterialBatchJournal extends BusinessObject<MaterialBatchJournal>
 		}
 		return contracts.toArray(new IBusinessLogicContract[] {});
 	}
+
 }
