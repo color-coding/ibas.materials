@@ -105,6 +105,11 @@ class MaterialBatchItem extends org.colorcoding.ibas.materials.bo.materialbatch.
 					}
 
 					@Override
+					public Integer getDocumentIndex() {
+						return MaterialBatchItem.this.getObjectKey();
+					}
+
+					@Override
 					public DateTime getPostingDate() {
 						return MaterialBatchItem.this.parent.parent.getPostingDate();
 					}
@@ -190,6 +195,11 @@ class MaterialBatchItem extends org.colorcoding.ibas.materials.bo.materialbatch.
 					@Override
 					public Integer getDocumentEntry() {
 						return MaterialBatchItem.this.getDocumentEntry();
+					}
+
+					@Override
+					public Integer getDocumentIndex() {
+						return MaterialBatchItem.this.getObjectKey();
 					}
 
 					@Override

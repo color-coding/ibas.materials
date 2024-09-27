@@ -763,6 +763,11 @@ public class MaterialBatchItem extends BusinessObject<MaterialBatchItem>
 						}
 
 						@Override
+						public Integer getDocumentIndex() {
+							return MaterialBatchItem.this.getObjectKey();
+						}
+
+						@Override
 						public String getBaseDocumentType() {
 							return ((IMaterialBatchReceiptParent) MaterialBatchItem.this.parent).getBaseDocumentType();
 						}
@@ -899,6 +904,11 @@ public class MaterialBatchItem extends BusinessObject<MaterialBatchItem>
 						@Override
 						public Integer getDocumentEntry() {
 							return MaterialBatchItem.this.getDocumentEntry();
+						}
+
+						@Override
+						public Integer getDocumentIndex() {
+							return MaterialBatchItem.this.getObjectKey();
 						}
 
 						@Override

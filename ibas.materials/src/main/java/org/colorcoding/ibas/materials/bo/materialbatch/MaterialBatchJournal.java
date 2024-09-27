@@ -75,7 +75,7 @@ public class MaterialBatchJournal extends BusinessObject<MaterialBatchJournal>
 	/**
 	 * 物料编码 属性
 	 */
-	@DbField(name = "ItemCode", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME, primaryKey = false)
+	@DbField(name = "ItemCode", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<String> PROPERTY_ITEMCODE = registerProperty(PROPERTY_ITEMCODE_NAME, String.class,
 			MY_CLASS);
 
@@ -106,7 +106,7 @@ public class MaterialBatchJournal extends BusinessObject<MaterialBatchJournal>
 	/**
 	 * 批次编码 属性
 	 */
-	@DbField(name = "BatchCode", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME, primaryKey = false)
+	@DbField(name = "BatchCode", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<String> PROPERTY_BATCHCODE = registerProperty(PROPERTY_BATCHCODE_NAME,
 			String.class, MY_CLASS);
 
@@ -137,7 +137,7 @@ public class MaterialBatchJournal extends BusinessObject<MaterialBatchJournal>
 	/**
 	 * 仓库编码 属性
 	 */
-	@DbField(name = "WhsCode", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME, primaryKey = false)
+	@DbField(name = "WhsCode", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<String> PROPERTY_WAREHOUSE = registerProperty(PROPERTY_WAREHOUSE_NAME,
 			String.class, MY_CLASS);
 
@@ -168,7 +168,7 @@ public class MaterialBatchJournal extends BusinessObject<MaterialBatchJournal>
 	/**
 	 * 方向 属性
 	 */
-	@DbField(name = "Direction", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME, primaryKey = false)
+	@DbField(name = "Direction", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME, uniqueKey = true)
 	public static final IPropertyInfo<emDirection> PROPERTY_DIRECTION = registerProperty(PROPERTY_DIRECTION_NAME,
 			emDirection.class, MY_CLASS);
 
@@ -199,7 +199,7 @@ public class MaterialBatchJournal extends BusinessObject<MaterialBatchJournal>
 	/**
 	 * 数量 属性
 	 */
-	@DbField(name = "Quantity", type = DbFieldType.DECIMAL, table = DB_TABLE_NAME, primaryKey = false)
+	@DbField(name = "Quantity", type = DbFieldType.DECIMAL, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<BigDecimal> PROPERTY_QUANTITY = registerProperty(PROPERTY_QUANTITY_NAME,
 			BigDecimal.class, MY_CLASS);
 
@@ -257,7 +257,7 @@ public class MaterialBatchJournal extends BusinessObject<MaterialBatchJournal>
 	/**
 	 * 价格 属性
 	 */
-	@DbField(name = "Price", type = DbFieldType.DECIMAL, table = DB_TABLE_NAME, primaryKey = false)
+	@DbField(name = "Price", type = DbFieldType.DECIMAL, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<BigDecimal> PROPERTY_PRICE = registerProperty(PROPERTY_PRICE_NAME,
 			BigDecimal.class, MY_CLASS);
 
@@ -315,7 +315,7 @@ public class MaterialBatchJournal extends BusinessObject<MaterialBatchJournal>
 	/**
 	 * 货币 属性
 	 */
-	@DbField(name = "Currency", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME, primaryKey = false)
+	@DbField(name = "Currency", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<String> PROPERTY_CURRENCY = registerProperty(PROPERTY_CURRENCY_NAME, String.class,
 			MY_CLASS);
 
@@ -346,7 +346,7 @@ public class MaterialBatchJournal extends BusinessObject<MaterialBatchJournal>
 	/**
 	 * 汇率 属性
 	 */
-	@DbField(name = "Rate", type = DbFieldType.DECIMAL, table = DB_TABLE_NAME, primaryKey = false)
+	@DbField(name = "Rate", type = DbFieldType.DECIMAL, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<BigDecimal> PROPERTY_RATE = registerProperty(PROPERTY_RATE_NAME, BigDecimal.class,
 			MY_CLASS);
 
@@ -466,7 +466,7 @@ public class MaterialBatchJournal extends BusinessObject<MaterialBatchJournal>
 	/**
 	 * 过账日期 属性
 	 */
-	@DbField(name = "DocDate", type = DbFieldType.DATE, table = DB_TABLE_NAME, primaryKey = false)
+	@DbField(name = "DocDate", type = DbFieldType.DATE, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<DateTime> PROPERTY_POSTINGDATE = registerProperty(PROPERTY_POSTINGDATE_NAME,
 			DateTime.class, MY_CLASS);
 
@@ -497,7 +497,7 @@ public class MaterialBatchJournal extends BusinessObject<MaterialBatchJournal>
 	/**
 	 * 到期日 属性
 	 */
-	@DbField(name = "DueDate", type = DbFieldType.DATE, table = DB_TABLE_NAME, primaryKey = false)
+	@DbField(name = "DueDate", type = DbFieldType.DATE, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<DateTime> PROPERTY_DELIVERYDATE = registerProperty(PROPERTY_DELIVERYDATE_NAME,
 			DateTime.class, MY_CLASS);
 
@@ -528,7 +528,7 @@ public class MaterialBatchJournal extends BusinessObject<MaterialBatchJournal>
 	/**
 	 * 凭证日期 属性
 	 */
-	@DbField(name = "TaxDate", type = DbFieldType.DATE, table = DB_TABLE_NAME, primaryKey = false)
+	@DbField(name = "TaxDate", type = DbFieldType.DATE, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<DateTime> PROPERTY_DOCUMENTDATE = registerProperty(PROPERTY_DOCUMENTDATE_NAME,
 			DateTime.class, MY_CLASS);
 
@@ -621,7 +621,7 @@ public class MaterialBatchJournal extends BusinessObject<MaterialBatchJournal>
 	/**
 	 * 基于类型 属性
 	 */
-	@DbField(name = "BaseType", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME, primaryKey = false)
+	@DbField(name = "BaseType", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME, uniqueKey = true)
 	public static final IPropertyInfo<String> PROPERTY_BASEDOCUMENTTYPE = registerProperty(
 			PROPERTY_BASEDOCUMENTTYPE_NAME, String.class, MY_CLASS);
 
@@ -652,7 +652,7 @@ public class MaterialBatchJournal extends BusinessObject<MaterialBatchJournal>
 	/**
 	 * 基于标识 属性
 	 */
-	@DbField(name = "BaseEntry", type = DbFieldType.NUMERIC, table = DB_TABLE_NAME, primaryKey = false)
+	@DbField(name = "BaseEntry", type = DbFieldType.NUMERIC, table = DB_TABLE_NAME, uniqueKey = true)
 	public static final IPropertyInfo<Integer> PROPERTY_BASEDOCUMENTENTRY = registerProperty(
 			PROPERTY_BASEDOCUMENTENTRY_NAME, Integer.class, MY_CLASS);
 
@@ -683,7 +683,7 @@ public class MaterialBatchJournal extends BusinessObject<MaterialBatchJournal>
 	/**
 	 * 基于行号 属性
 	 */
-	@DbField(name = "BaseLine", type = DbFieldType.NUMERIC, table = DB_TABLE_NAME, primaryKey = false)
+	@DbField(name = "BaseLine", type = DbFieldType.NUMERIC, table = DB_TABLE_NAME, uniqueKey = true)
 	public static final IPropertyInfo<Integer> PROPERTY_BASEDOCUMENTLINEID = registerProperty(
 			PROPERTY_BASEDOCUMENTLINEID_NAME, Integer.class, MY_CLASS);
 
@@ -707,6 +707,37 @@ public class MaterialBatchJournal extends BusinessObject<MaterialBatchJournal>
 	}
 
 	/**
+	* 属性名称-基于索引
+	*/
+	private static final String PROPERTY_BASEDOCUMENTINDEX_NAME = "BaseDocumentIndex";
+
+	/**
+	* 基于索引 属性
+	*/
+	@DbField(name = "BaseIndex", type = DbFieldType.NUMERIC, table = DB_TABLE_NAME, uniqueKey = true)
+	public static final IPropertyInfo<Integer> PROPERTY_BASEDOCUMENTINDEX = registerProperty(
+			PROPERTY_BASEDOCUMENTINDEX_NAME, Integer.class, MY_CLASS);
+
+	/**
+	* 获取-基于索引
+	* 
+	* @return 值
+	*/
+	@XmlElement(name = PROPERTY_BASEDOCUMENTINDEX_NAME)
+	public final Integer getBaseDocumentIndex() {
+		return this.getProperty(PROPERTY_BASEDOCUMENTINDEX);
+	}
+
+	/**
+	* 设置-基于索引
+	* 
+	* @param value 值
+	*/
+	public final void setBaseDocumentIndex(Integer value) {
+		this.setProperty(PROPERTY_BASEDOCUMENTINDEX, value);
+	}
+
+	/**
 	 * 属性名称-原始类型
 	 */
 	private static final String PROPERTY_ORIGINALDOCUMENTTYPE_NAME = "OriginalDocumentType";
@@ -714,7 +745,7 @@ public class MaterialBatchJournal extends BusinessObject<MaterialBatchJournal>
 	/**
 	 * 原始类型 属性
 	 */
-	@DbField(name = "OrgnlType", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME, primaryKey = false)
+	@DbField(name = "OrgnlType", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<String> PROPERTY_ORIGINALDOCUMENTTYPE = registerProperty(
 			PROPERTY_ORIGINALDOCUMENTTYPE_NAME, String.class, MY_CLASS);
 
@@ -745,7 +776,7 @@ public class MaterialBatchJournal extends BusinessObject<MaterialBatchJournal>
 	/**
 	 * 原始标识 属性
 	 */
-	@DbField(name = "OrgnlEntry", type = DbFieldType.NUMERIC, table = DB_TABLE_NAME, primaryKey = false)
+	@DbField(name = "OrgnlEntry", type = DbFieldType.NUMERIC, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<Integer> PROPERTY_ORIGINALDOCUMENTENTRY = registerProperty(
 			PROPERTY_ORIGINALDOCUMENTENTRY_NAME, Integer.class, MY_CLASS);
 
@@ -776,7 +807,7 @@ public class MaterialBatchJournal extends BusinessObject<MaterialBatchJournal>
 	/**
 	 * 原始行号 属性
 	 */
-	@DbField(name = "OrgnlLine", type = DbFieldType.NUMERIC, table = DB_TABLE_NAME, primaryKey = false)
+	@DbField(name = "OrgnlLine", type = DbFieldType.NUMERIC, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<Integer> PROPERTY_ORIGINALDOCUMENTLINEID = registerProperty(
 			PROPERTY_ORIGINALDOCUMENTLINEID_NAME, Integer.class, MY_CLASS);
 
@@ -838,7 +869,7 @@ public class MaterialBatchJournal extends BusinessObject<MaterialBatchJournal>
 	/**
 	 * 对象类型 属性
 	 */
-	@DbField(name = "ObjectCode", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME, primaryKey = false)
+	@DbField(name = "ObjectCode", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<String> PROPERTY_OBJECTCODE = registerProperty(PROPERTY_OBJECTCODE_NAME,
 			String.class, MY_CLASS);
 
@@ -869,7 +900,7 @@ public class MaterialBatchJournal extends BusinessObject<MaterialBatchJournal>
 	/**
 	 * 实例号 属性
 	 */
-	@DbField(name = "LogInst", type = DbFieldType.NUMERIC, table = DB_TABLE_NAME, primaryKey = false)
+	@DbField(name = "LogInst", type = DbFieldType.NUMERIC, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<Integer> PROPERTY_LOGINST = registerProperty(PROPERTY_LOGINST_NAME, Integer.class,
 			MY_CLASS);
 
@@ -900,7 +931,7 @@ public class MaterialBatchJournal extends BusinessObject<MaterialBatchJournal>
 	/**
 	 * 数据源 属性
 	 */
-	@DbField(name = "DataSource", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME, primaryKey = false)
+	@DbField(name = "DataSource", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME, uniqueKey = true)
 	public static final IPropertyInfo<String> PROPERTY_DATASOURCE = registerProperty(PROPERTY_DATASOURCE_NAME,
 			String.class, MY_CLASS);
 
@@ -931,7 +962,7 @@ public class MaterialBatchJournal extends BusinessObject<MaterialBatchJournal>
 	/**
 	 * 创建日期 属性
 	 */
-	@DbField(name = "CreateDate", type = DbFieldType.DATE, table = DB_TABLE_NAME, primaryKey = false)
+	@DbField(name = "CreateDate", type = DbFieldType.DATE, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<DateTime> PROPERTY_CREATEDATE = registerProperty(PROPERTY_CREATEDATE_NAME,
 			DateTime.class, MY_CLASS);
 
@@ -962,7 +993,7 @@ public class MaterialBatchJournal extends BusinessObject<MaterialBatchJournal>
 	/**
 	 * 创建时间 属性
 	 */
-	@DbField(name = "CreateTime", type = DbFieldType.NUMERIC, table = DB_TABLE_NAME, primaryKey = false)
+	@DbField(name = "CreateTime", type = DbFieldType.NUMERIC, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<Short> PROPERTY_CREATETIME = registerProperty(PROPERTY_CREATETIME_NAME,
 			Short.class, MY_CLASS);
 
@@ -993,7 +1024,7 @@ public class MaterialBatchJournal extends BusinessObject<MaterialBatchJournal>
 	/**
 	 * 更新日期 属性
 	 */
-	@DbField(name = "UpdateDate", type = DbFieldType.DATE, table = DB_TABLE_NAME, primaryKey = false)
+	@DbField(name = "UpdateDate", type = DbFieldType.DATE, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<DateTime> PROPERTY_UPDATEDATE = registerProperty(PROPERTY_UPDATEDATE_NAME,
 			DateTime.class, MY_CLASS);
 
@@ -1024,7 +1055,7 @@ public class MaterialBatchJournal extends BusinessObject<MaterialBatchJournal>
 	/**
 	 * 更新时间 属性
 	 */
-	@DbField(name = "UpdateTime", type = DbFieldType.NUMERIC, table = DB_TABLE_NAME, primaryKey = false)
+	@DbField(name = "UpdateTime", type = DbFieldType.NUMERIC, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<Short> PROPERTY_UPDATETIME = registerProperty(PROPERTY_UPDATETIME_NAME,
 			Short.class, MY_CLASS);
 
@@ -1055,7 +1086,7 @@ public class MaterialBatchJournal extends BusinessObject<MaterialBatchJournal>
 	/**
 	 * 创建用户 属性
 	 */
-	@DbField(name = "Creator", type = DbFieldType.NUMERIC, table = DB_TABLE_NAME, primaryKey = false)
+	@DbField(name = "Creator", type = DbFieldType.NUMERIC, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<Integer> PROPERTY_CREATEUSERSIGN = registerProperty(PROPERTY_CREATEUSERSIGN_NAME,
 			Integer.class, MY_CLASS);
 
@@ -1086,7 +1117,7 @@ public class MaterialBatchJournal extends BusinessObject<MaterialBatchJournal>
 	/**
 	 * 更新用户 属性
 	 */
-	@DbField(name = "Updator", type = DbFieldType.NUMERIC, table = DB_TABLE_NAME, primaryKey = false)
+	@DbField(name = "Updator", type = DbFieldType.NUMERIC, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<Integer> PROPERTY_UPDATEUSERSIGN = registerProperty(PROPERTY_UPDATEUSERSIGN_NAME,
 			Integer.class, MY_CLASS);
 
@@ -1117,7 +1148,7 @@ public class MaterialBatchJournal extends BusinessObject<MaterialBatchJournal>
 	/**
 	 * 创建动作标识 属性
 	 */
-	@DbField(name = "CreateActId", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME, primaryKey = false)
+	@DbField(name = "CreateActId", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<String> PROPERTY_CREATEACTIONID = registerProperty(PROPERTY_CREATEACTIONID_NAME,
 			String.class, MY_CLASS);
 
@@ -1148,7 +1179,7 @@ public class MaterialBatchJournal extends BusinessObject<MaterialBatchJournal>
 	/**
 	 * 更新动作标识 属性
 	 */
-	@DbField(name = "UpdateActId", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME, primaryKey = false)
+	@DbField(name = "UpdateActId", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<String> PROPERTY_UPDATEACTIONID = registerProperty(PROPERTY_UPDATEACTIONID_NAME,
 			String.class, MY_CLASS);
 

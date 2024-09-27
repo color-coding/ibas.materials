@@ -328,6 +328,20 @@ public interface IMaterialSerialJournal extends IBOSimple {
 	void setBaseDocumentLineId(Integer value);
 
 	/**
+	* 获取-基于索引
+	* 
+	* @return 值
+	*/
+	Integer getBaseDocumentIndex();
+
+	/**
+	* 设置-基于索引
+	* 
+	* @param value 值
+	*/
+	void setBaseDocumentIndex(Integer value);
+
+	/**
 	 * 获取-原始类型
 	 * 
 	 * @return 值

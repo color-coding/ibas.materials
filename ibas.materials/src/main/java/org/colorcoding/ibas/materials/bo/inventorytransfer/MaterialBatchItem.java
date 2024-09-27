@@ -6,6 +6,8 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
 
+import org.colorcoding.ibas.bobas.bo.IBOTagCanceled;
+import org.colorcoding.ibas.bobas.bo.IBOTagDeleted;
 import org.colorcoding.ibas.bobas.data.DateTime;
 import org.colorcoding.ibas.bobas.data.emDirection;
 import org.colorcoding.ibas.bobas.data.emYesNo;
@@ -44,17 +46,35 @@ class MaterialBatchItem extends org.colorcoding.ibas.materials.bo.materialbatch.
 
 					@Override
 					public boolean isOffsetting() {
+						if (MaterialBatchItem.this.isDeleted()) {
+							return true;
+						}
+						if (MaterialBatchItem.this instanceof IBOTagCanceled) {
+							IBOTagCanceled boTag = (IBOTagCanceled) MaterialBatchItem.this;
+							if (boTag.getCanceled() == emYesNo.YES) {
+								return true;
+							}
+						}
+						if (MaterialBatchItem.this instanceof IBOTagDeleted) {
+							IBOTagDeleted boTag = (IBOTagDeleted) MaterialBatchItem.this;
+							if (boTag.getDeleted() == emYesNo.YES) {
+								return true;
+							}
+						}
 						if (MaterialBatchItem.this.parent.isDeleted()) {
 							return true;
 						}
-						if (MaterialBatchItem.this.parent.getCanceled() == emYesNo.YES) {
-							return true;
+						if (MaterialBatchItem.this.parent instanceof IBOTagCanceled) {
+							IBOTagCanceled boTag = (IBOTagCanceled) MaterialBatchItem.this.parent;
+							if (boTag.getCanceled() == emYesNo.YES) {
+								return true;
+							}
 						}
-						if (MaterialBatchItem.this.parent.parent.isDeleted()) {
-							return true;
-						}
-						if (MaterialBatchItem.this.parent.parent.getCanceled() == emYesNo.YES) {
-							return true;
+						if (MaterialBatchItem.this.parent instanceof IBOTagDeleted) {
+							IBOTagDeleted boTag = (IBOTagDeleted) MaterialBatchItem.this.parent;
+							if (boTag.getDeleted() == emYesNo.YES) {
+								return true;
+							}
 						}
 						return false;
 					}
@@ -103,6 +123,11 @@ class MaterialBatchItem extends org.colorcoding.ibas.materials.bo.materialbatch.
 					@Override
 					public Integer getDocumentEntry() {
 						return MaterialBatchItem.this.getDocumentEntry();
+					}
+
+					@Override
+					public Integer getDocumentIndex() {
+						return MaterialBatchItem.this.getObjectKey();
 					}
 
 					@Override
@@ -164,17 +189,35 @@ class MaterialBatchItem extends org.colorcoding.ibas.materials.bo.materialbatch.
 
 					@Override
 					public boolean isOffsetting() {
+						if (MaterialBatchItem.this.isDeleted()) {
+							return true;
+						}
+						if (MaterialBatchItem.this instanceof IBOTagCanceled) {
+							IBOTagCanceled boTag = (IBOTagCanceled) MaterialBatchItem.this;
+							if (boTag.getCanceled() == emYesNo.YES) {
+								return true;
+							}
+						}
+						if (MaterialBatchItem.this instanceof IBOTagDeleted) {
+							IBOTagDeleted boTag = (IBOTagDeleted) MaterialBatchItem.this;
+							if (boTag.getDeleted() == emYesNo.YES) {
+								return true;
+							}
+						}
 						if (MaterialBatchItem.this.parent.isDeleted()) {
 							return true;
 						}
-						if (MaterialBatchItem.this.parent.getCanceled() == emYesNo.YES) {
-							return true;
+						if (MaterialBatchItem.this.parent instanceof IBOTagCanceled) {
+							IBOTagCanceled boTag = (IBOTagCanceled) MaterialBatchItem.this.parent;
+							if (boTag.getCanceled() == emYesNo.YES) {
+								return true;
+							}
 						}
-						if (MaterialBatchItem.this.parent.parent.isDeleted()) {
-							return true;
-						}
-						if (MaterialBatchItem.this.parent.parent.getCanceled() == emYesNo.YES) {
-							return true;
+						if (MaterialBatchItem.this.parent instanceof IBOTagDeleted) {
+							IBOTagDeleted boTag = (IBOTagDeleted) MaterialBatchItem.this.parent;
+							if (boTag.getDeleted() == emYesNo.YES) {
+								return true;
+							}
 						}
 						return false;
 					}
@@ -223,6 +266,11 @@ class MaterialBatchItem extends org.colorcoding.ibas.materials.bo.materialbatch.
 					@Override
 					public Integer getDocumentEntry() {
 						return MaterialBatchItem.this.getDocumentEntry();
+					}
+
+					@Override
+					public Integer getDocumentIndex() {
+						return MaterialBatchItem.this.getObjectKey();
 					}
 
 					@Override

@@ -699,6 +699,11 @@ public class MaterialSerialItem extends BusinessObject<MaterialSerialItem>
 						}
 
 						@Override
+						public Integer getDocumentIndex() {
+							return MaterialSerialItem.this.getObjectKey();
+						}
+
+						@Override
 						public String getBaseDocumentType() {
 							return ((IMaterialSerialReceiptParent) MaterialSerialItem.this.parent)
 									.getBaseDocumentType();
@@ -762,6 +767,9 @@ public class MaterialSerialItem extends BusinessObject<MaterialSerialItem>
 
 						@Override
 						public boolean isOffsetting() {
+							if (MaterialSerialItem.this.isDeleted()) {
+								return true;
+							}
 							if (MaterialSerialItem.this instanceof IBOTagCanceled) {
 								IBOTagCanceled boTag = (IBOTagCanceled) MaterialSerialItem.this;
 								if (boTag.getCanceled() == emYesNo.YES) {
@@ -773,6 +781,9 @@ public class MaterialSerialItem extends BusinessObject<MaterialSerialItem>
 								if (boTag.getDeleted() == emYesNo.YES) {
 									return true;
 								}
+							}
+							if (MaterialSerialItem.this.parent.isDeleted()) {
+								return true;
 							}
 							if (MaterialSerialItem.this.parent instanceof IBOTagCanceled) {
 								IBOTagCanceled boTag = (IBOTagCanceled) MaterialSerialItem.this.parent;
@@ -827,6 +838,11 @@ public class MaterialSerialItem extends BusinessObject<MaterialSerialItem>
 						@Override
 						public Integer getDocumentEntry() {
 							return MaterialSerialItem.this.getDocumentEntry();
+						}
+
+						@Override
+						public Integer getDocumentIndex() {
+							return MaterialSerialItem.this.getObjectKey();
 						}
 
 						@Override

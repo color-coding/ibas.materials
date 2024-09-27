@@ -38,7 +38,7 @@
   <BusinessObject MappedModel="MaterialBatch" ShortName="${Company}_MM_BATCH"/>
   <Model Name="MaterialBatchJournal" Description="物料批次日记账" ModelType="Simple" Mapped="${Company}_MM_MBT1">
     <Property Name="ItemCode" Description="物料编码" DataType="Alphanumeric" DataSubType="Default" EditSize="50" Mapped="ItemCode"/>
-    <Property Name="BatchCode" Description="批次编码" DataType="Alphanumeric" DataSubType="Default" EditSize="36" Mapped="BatchCode" UniqueKey="Yes"/>
+    <Property Name="BatchCode" Description="批次编码" DataType="Alphanumeric" DataSubType="Default" EditSize="36" Mapped="BatchCode"/>
     <Property Name="Warehouse" Description="仓库编码" DataType="Alphanumeric" DataSubType="Default" EditSize="8" Mapped="WhsCode"/>
     <Property Name="Direction" Description="方向" DataType="Alphanumeric" DataSubType="Default" EditSize="1" DeclaredType="emDirection" Mapped="Direction" UniqueKey="Yes"/>
     <Property Name="Quantity" Description="数量" DataType="Decimal" DataSubType="Quantity" EditSize="8" Mapped="Quantity"/>
@@ -55,6 +55,7 @@
     <Property Name="BaseDocumentType" Description="基于类型" DataType="Alphanumeric" DataSubType="Default" EditSize="30" Mapped="BaseType" UniqueKey="Yes"/>
     <Property Name="BaseDocumentEntry" Description="基于标识" DataType="Numeric" DataSubType="Default" EditSize="8" Mapped="BaseEntry" UniqueKey="Yes"/>
     <Property Name="BaseDocumentLineId" Description="基于行号" DataType="Numeric" DataSubType="Default" EditSize="8" Mapped="BaseLine" UniqueKey="Yes"/>
+    <Property Name="BaseDocumentIndex" Description="基于索引" DataType="Numeric" DataSubType="Default" EditSize="8" Mapped="BaseIndex" UniqueKey="Yes"/>
     <Property Name="OriginalDocumentType" Description="原始类型" DataType="Alphanumeric" DataSubType="Default" EditSize="30" Mapped="OrgnlType"/>
     <Property Name="OriginalDocumentEntry" Description="原始标识" DataType="Numeric" DataSubType="Default" EditSize="8" Mapped="OrgnlEntry"/>
     <Property Name="OriginalDocumentLineId" Description="原始行号" DataType="Numeric" DataSubType="Default" EditSize="8" Mapped="OrgnlLine"/>

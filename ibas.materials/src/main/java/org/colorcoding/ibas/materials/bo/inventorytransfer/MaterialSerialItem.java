@@ -6,6 +6,8 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
 
+import org.colorcoding.ibas.bobas.bo.IBOTagCanceled;
+import org.colorcoding.ibas.bobas.bo.IBOTagDeleted;
 import org.colorcoding.ibas.bobas.data.DateTime;
 import org.colorcoding.ibas.bobas.data.emDirection;
 import org.colorcoding.ibas.bobas.data.emYesNo;
@@ -44,17 +46,35 @@ class MaterialSerialItem extends org.colorcoding.ibas.materials.bo.materialseria
 
 					@Override
 					public boolean isOffsetting() {
+						if (MaterialSerialItem.this.isDeleted()) {
+							return true;
+						}
+						if (MaterialSerialItem.this instanceof IBOTagCanceled) {
+							IBOTagCanceled boTag = (IBOTagCanceled) MaterialSerialItem.this;
+							if (boTag.getCanceled() == emYesNo.YES) {
+								return true;
+							}
+						}
+						if (MaterialSerialItem.this instanceof IBOTagDeleted) {
+							IBOTagDeleted boTag = (IBOTagDeleted) MaterialSerialItem.this;
+							if (boTag.getDeleted() == emYesNo.YES) {
+								return true;
+							}
+						}
 						if (MaterialSerialItem.this.parent.isDeleted()) {
 							return true;
 						}
-						if (MaterialSerialItem.this.parent.getCanceled() == emYesNo.YES) {
-							return true;
+						if (MaterialSerialItem.this.parent instanceof IBOTagCanceled) {
+							IBOTagCanceled boTag = (IBOTagCanceled) MaterialSerialItem.this.parent;
+							if (boTag.getCanceled() == emYesNo.YES) {
+								return true;
+							}
 						}
-						if (MaterialSerialItem.this.parent.parent.isDeleted()) {
-							return true;
-						}
-						if (MaterialSerialItem.this.parent.parent.getCanceled() == emYesNo.YES) {
-							return true;
+						if (MaterialSerialItem.this.parent instanceof IBOTagDeleted) {
+							IBOTagDeleted boTag = (IBOTagDeleted) MaterialSerialItem.this.parent;
+							if (boTag.getDeleted() == emYesNo.YES) {
+								return true;
+							}
 						}
 						return false;
 					}
@@ -97,6 +117,11 @@ class MaterialSerialItem extends org.colorcoding.ibas.materials.bo.materialseria
 					@Override
 					public Integer getDocumentEntry() {
 						return MaterialSerialItem.this.getDocumentEntry();
+					}
+
+					@Override
+					public Integer getDocumentIndex() {
+						return MaterialSerialItem.this.getObjectKey();
 					}
 
 					@Override
@@ -159,17 +184,35 @@ class MaterialSerialItem extends org.colorcoding.ibas.materials.bo.materialseria
 
 					@Override
 					public boolean isOffsetting() {
+						if (MaterialSerialItem.this.isDeleted()) {
+							return true;
+						}
+						if (MaterialSerialItem.this instanceof IBOTagCanceled) {
+							IBOTagCanceled boTag = (IBOTagCanceled) MaterialSerialItem.this;
+							if (boTag.getCanceled() == emYesNo.YES) {
+								return true;
+							}
+						}
+						if (MaterialSerialItem.this instanceof IBOTagDeleted) {
+							IBOTagDeleted boTag = (IBOTagDeleted) MaterialSerialItem.this;
+							if (boTag.getDeleted() == emYesNo.YES) {
+								return true;
+							}
+						}
 						if (MaterialSerialItem.this.parent.isDeleted()) {
 							return true;
 						}
-						if (MaterialSerialItem.this.parent.getCanceled() == emYesNo.YES) {
-							return true;
+						if (MaterialSerialItem.this.parent instanceof IBOTagCanceled) {
+							IBOTagCanceled boTag = (IBOTagCanceled) MaterialSerialItem.this.parent;
+							if (boTag.getCanceled() == emYesNo.YES) {
+								return true;
+							}
 						}
-						if (MaterialSerialItem.this.parent.parent.isDeleted()) {
-							return true;
-						}
-						if (MaterialSerialItem.this.parent.parent.getCanceled() == emYesNo.YES) {
-							return true;
+						if (MaterialSerialItem.this.parent instanceof IBOTagDeleted) {
+							IBOTagDeleted boTag = (IBOTagDeleted) MaterialSerialItem.this.parent;
+							if (boTag.getDeleted() == emYesNo.YES) {
+								return true;
+							}
 						}
 						return false;
 					}
@@ -212,6 +255,11 @@ class MaterialSerialItem extends org.colorcoding.ibas.materials.bo.materialseria
 					@Override
 					public Integer getDocumentEntry() {
 						return MaterialSerialItem.this.getDocumentEntry();
+					}
+
+					@Override
+					public Integer getDocumentIndex() {
+						return MaterialSerialItem.this.getObjectKey();
 					}
 
 					@Override

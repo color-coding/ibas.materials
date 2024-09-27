@@ -91,29 +91,25 @@ public class MaterialSerialJournalService
 		// 检查物料序列记录
 		ICriteria criteria = new Criteria();
 		ICondition condition = criteria.getConditions().create();
-		condition.setAlias(MaterialSerialJournal.PROPERTY_SERIALCODE.getName());
-		condition.setOperation(ConditionOperation.EQUAL);
-		condition.setValue(contract.getSerialCode());
-		condition = criteria.getConditions().create();
-		condition.setRelationship(ConditionRelationship.AND);
 		condition.setAlias(MaterialSerialJournal.PROPERTY_DIRECTION.getName());
 		condition.setOperation(ConditionOperation.EQUAL);
 		condition.setValue(contract.getDirection());
 		condition = criteria.getConditions().create();
-		condition.setRelationship(ConditionRelationship.AND);
 		condition.setAlias(MaterialSerialJournal.PROPERTY_BASEDOCUMENTTYPE.getName());
 		condition.setOperation(ConditionOperation.EQUAL);
 		condition.setValue(contract.getDocumentType());
 		condition = criteria.getConditions().create();
-		condition.setRelationship(ConditionRelationship.AND);
 		condition.setAlias(MaterialSerialJournal.PROPERTY_BASEDOCUMENTENTRY.getName());
 		condition.setOperation(ConditionOperation.EQUAL);
 		condition.setValue(contract.getDocumentEntry());
 		condition = criteria.getConditions().create();
-		condition.setRelationship(ConditionRelationship.AND);
 		condition.setAlias(MaterialSerialJournal.PROPERTY_BASEDOCUMENTLINEID.getName());
 		condition.setOperation(ConditionOperation.EQUAL);
 		condition.setValue(contract.getDocumentLineId());
+		condition = criteria.getConditions().create();
+		condition.setAlias(MaterialSerialJournal.PROPERTY_BASEDOCUMENTINDEX.getName());
+		condition.setOperation(ConditionOperation.EQUAL);
+		condition.setValue(contract.getDocumentIndex());
 		if (this.isEnableMaterialCosts() && contract.isOffsetting()) {
 			// 计算成本，且取消逻辑
 			condition = criteria.getConditions().create();
@@ -186,11 +182,11 @@ public class MaterialSerialJournalService
 				materialSerialJournal.setTransactionValue(materialSerialJournal.getTransactionValue().negate());
 			} else {
 				materialSerialJournal = new MaterialSerialJournal();
-				materialSerialJournal.setSerialCode(contract.getSerialCode());
 				materialSerialJournal.setDirection(contract.getDirection());
 				materialSerialJournal.setBaseDocumentType(contract.getDocumentType());
 				materialSerialJournal.setBaseDocumentEntry(contract.getDocumentEntry());
 				materialSerialJournal.setBaseDocumentLineId(contract.getDocumentLineId());
+				materialSerialJournal.setBaseDocumentIndex(contract.getDocumentIndex());
 				materialSerialJournal.setDataSource(DATASOURCE_SIGN_REGULAR_JOURNAL);
 			}
 		}
@@ -393,6 +389,7 @@ public class MaterialSerialJournalService
 			// 非取消逻辑
 			materialSerialJournal.setItemCode(contract.getItemCode());
 			materialSerialJournal.setWarehouse(contract.getWarehouse());
+			materialSerialJournal.setSerialCode(contract.getSerialCode());
 			materialSerialJournal.setPostingDate(contract.getPostingDate());
 			materialSerialJournal.setDocumentDate(contract.getDocumentDate());
 			materialSerialJournal.setDeliveryDate(contract.getDeliveryDate());

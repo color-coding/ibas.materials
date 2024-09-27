@@ -75,6 +75,13 @@ public interface IMaterialSerialJournalContract extends IBusinessLogicContract {
 	Integer getDocumentLineId();
 
 	/**
+	 * 单据索引
+	 *
+	 * @return
+	 */
+	Integer getDocumentIndex();
+
+	/**
 	 * 获取-价格
 	 * 
 	 * @return 值
