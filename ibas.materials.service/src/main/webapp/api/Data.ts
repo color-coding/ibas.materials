@@ -583,6 +583,8 @@ namespace materials {
             documentEntry: number;
             /** 单据货币 */
             documentCurrency: string;
+            /** 单据日期 */
+            documentDate: Date;
             /** 毛利价格清单 */
             getGrossProfitList(): number;
             setGrossProfitList(value: number): void;

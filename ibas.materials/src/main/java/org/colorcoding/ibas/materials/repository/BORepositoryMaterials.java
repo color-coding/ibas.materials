@@ -1138,7 +1138,7 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 					}
 					if (listCurrencyRate != null) {
 						// 本币再到清单币
-						newPrice = Decimal.multiply(newPrice, listCurrencyRate.getRate());
+						newPrice = Decimal.divide(newPrice, listCurrencyRate.getRate());
 					}
 					// 设置保留小数位
 					newPrice = newPrice.setScale(priceItem.getPrice().scale(), Decimal.ROUNDING_MODE_DEFAULT);

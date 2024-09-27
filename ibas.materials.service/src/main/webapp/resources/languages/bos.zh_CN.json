@@ -1541,6 +1541,7 @@
         "bo_materialgrossprofit_documenttype": "单据类型",
         "bo_materialgrossprofit_documententry": "单据编号",
         "bo_materialgrossprofit_documentlineid": "单据行号",
+        "bo_materialgrossprofit_documentdate": "单据日期",
         "bo_materialgrossprofit_grossprofitlist": "基础价格清单",
         "bo_materialgrossprofit_itemcode": "物料",
         "bo_materialgrossprofit_itemdescription": "描述",

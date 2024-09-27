@@ -48,6 +48,16 @@ namespace materials {
                                                 }
                                             }
                                         }),
+                                        new sap.m.Label("", {
+                                            showColon: true,
+                                            text: ibas.i18n.prop("bo_materialgrossprofit_documentdate"),
+                                        }).addStyleClass("sapUiSmallMarginBegin"),
+                                        new sap.extension.m.Text("", {
+                                            bindingValue: {
+                                                path: "/documentDate",
+                                                type: new sap.extension.data.Date(),
+                                            },
+                                        }),
                                         new sap.m.ToolbarSpacer(""),
                                         new sap.m.Label("", {
                                             showColon: true,
@@ -188,7 +198,7 @@ namespace materials {
                                                         type: new sap.extension.data.Sum(),
                                                     },
                                                     {
-                                                        path: "currency",
+                                                        path: "/currency",
                                                         type: new sap.extension.data.Alphanumeric()
                                                     },
                                                 ]

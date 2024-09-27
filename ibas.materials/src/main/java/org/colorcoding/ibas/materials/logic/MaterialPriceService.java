@@ -97,13 +97,19 @@ public class MaterialPriceService extends MaterialBusinessLogic<IMaterialPriceCo
 			}
 		}
 		IMaterialPriceItem materialPriceItem = materialPriceList.getMaterialPriceItems()
-				.firstOrDefault(c -> c.getItemCode().equals(contract.getItemCode()));
+				.firstOrDefault(c -> c.getItemCode().equals(contract.getItemCode())
+						// 提供单位，则要求单位一致
+						&& ((!DataConvert.isNullOrEmpty(contract.getUOM()) && contract.getUOM().equals(c.getUOM())
+								|| DataConvert.isNullOrEmpty(contract.getUOM()))));
 		if (materialPriceItem == null) {
 			materialPriceItem = materialPriceList.getMaterialPriceItems().create();
 			materialPriceItem.setItemCode(contract.getItemCode());
 		}
+		materialPriceItem.setUOM(
+				DataConvert.isNullOrEmpty(contract.getUOM()) ? DataConvert.STRING_VALUE_EMPTY : contract.getUOM());
 		materialPriceItem.setPrice(contract.getPrice());
-		materialPriceItem.setUOM(contract.getUOM());
+		materialPriceItem.setCurrency(DataConvert.isNullOrEmpty(contract.getCurrency()) ? DataConvert.STRING_VALUE_EMPTY
+				: contract.getCurrency());
 	}
 
 	@Override

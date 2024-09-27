@@ -11,6 +11,7 @@ namespace materials {
         const PROPERTY_LINES: symbol = Symbol("lines");
         const PROPERTY_PARENT: symbol = Symbol("parent");
         const PROPERTY_ISDIRTY: symbol = Symbol("isDirty");
+        const PROPERTY_DATE: symbol = Symbol("date");
         const PROPERTY_GROSSPROFIT: symbol = Symbol("grossProfit");
         const PROPERTY_GROSSPROFITLIST: symbol = Symbol("grossProfitList");
         const PROPERTY_GROSSPROFITPRICE: symbol = Symbol("grossProfitPrice");
@@ -22,6 +23,7 @@ namespace materials {
                 this[PROPERTY_ORIGINAL] = original;
                 this[PROPERTY_GROSSPROFITLIST] = original.getGrossProfitList() === 0 ? undefined : original.getGrossProfitList();
                 this[PROPERTY_GROSSPROFIT] = original.getGrossProfit();
+                this[PROPERTY_DATE] = original.documentDate instanceof Date ? original.documentDate : ibas.dates.today();
                 if (original.lines instanceof Array) {
                     for (let line of original.lines) {
                         let item: MaterialGrossProfitLine = new MaterialGrossProfitLine(line);
@@ -61,6 +63,13 @@ namespace materials {
             }
             set documentEntry(value: number) {
                 this.original.documentEntry = value;
+            }
+            get documentDate(): Date {
+                return this[PROPERTY_DATE];
+            }
+            set documentDate(value: Date) {
+                this[PROPERTY_DATE] = value;
+                this.firePropertyChanged("documentDate");
             }
             get grossProfitList(): number {
                 return this[PROPERTY_GROSSPROFITLIST];
@@ -247,6 +256,7 @@ namespace materials {
                         documentType: "",
                         documentEntry: -1,
                         documentCurrency: "",
+                        documentDate: ibas.dates.today(),
                         getGrossProfitList(): number {
                             return undefined;
                         },
@@ -325,6 +335,17 @@ namespace materials {
                 boRepository.fetchMaterialPriceList({
                     criteria: criteria,
                     onCompleted: (opRslt) => {
+                        // 默认系统币
+                        for (let item of opRslt.resultObjects) {
+                            if (ibas.strings.isEmpty(item.currency)) {
+                                item.currency = accounting.config.currency("LOCAL");
+                            }
+                            for (let sItem of item.materialPriceItems) {
+                                if (ibas.strings.isEmpty(sItem.currency)) {
+                                    sItem.currency = item.currency;
+                                }
+                            }
+                        }
                         if (caller instanceof MaterialGrossProfitLine) {
                             for (let item of opRslt.resultObjects) {
                                 for (let sItem of item.materialPriceItems) {
@@ -336,9 +357,22 @@ namespace materials {
                                         continue;
                                     }
                                     caller[PROPERTY_GROSSPROFITLIST] = item.objectKey;
-                                    caller[PROPERTY_GROSSPROFITPRICE] = sItem.price;
-                                    caller.calculate();
-                                    return;
+                                    accounting.currency.exchange(
+                                        {
+                                            currency: sItem.currency,
+                                            amount: sItem.price,
+                                        },
+                                        caller.currency,
+                                        (result) => {
+                                            if (result instanceof Error) {
+                                                this.messages(result);
+                                            } else {
+                                                caller[PROPERTY_GROSSPROFITPRICE] = result.amount;
+                                                caller.calculate();
+                                            }
+                                        },
+                                        this.grossProfitData.documentDate
+                                    ); return;
                                 }
                             }
                             // 未找到价格的，设置为0
@@ -347,9 +381,9 @@ namespace materials {
                             caller.calculate();
                         } else {
                             let lines: ibas.IList<MaterialGrossProfitLine> = ibas.arrays.create(this.grossProfitData.lines);
-                            for (let item of opRslt.resultObjects) {
-                                for (let sItem of item.materialPriceItems) {
-                                    for (let line of this.grossProfitData.lines) {
+                            ibas.queues.execute(lines, (line, next) => {
+                                for (let item of opRslt.resultObjects) {
+                                    for (let sItem of item.materialPriceItems) {
                                         if (sItem.itemCode !== line.itemCode) {
                                             continue;
                                         }
@@ -358,18 +392,39 @@ namespace materials {
                                             continue;
                                         }
                                         line[PROPERTY_GROSSPROFITLIST] = item.objectKey;
-                                        line[PROPERTY_GROSSPROFITPRICE] = sItem.price;
-                                        line.calculate();
-                                        lines.remove(line);
+                                        accounting.currency.exchange(
+                                            {
+                                                currency: sItem.currency,
+                                                amount: sItem.price,
+                                            },
+                                            line.currency,
+                                            (result) => {
+                                                if (result instanceof Error) {
+                                                    this.messages(result);
+                                                } else {
+                                                    line[PROPERTY_GROSSPROFITPRICE] = result.amount;
+                                                    line.calculate();
+                                                    lines.remove(line);
+                                                    next();
+                                                }
+                                            },
+                                            this.grossProfitData.documentDate
+                                        ); return;
                                     }
                                 }
-                            }
-                            // 未找到价格的，设置为0
-                            for (let line of lines) {
-                                line[PROPERTY_GROSSPROFITLIST] = priceList;
-                                line[PROPERTY_GROSSPROFITPRICE] = 0;
-                                line.calculate();
-                            }
+                                next();
+                            }, (result) => {
+                                if (result instanceof Error) {
+                                    this.messages(result);
+                                } else {
+                                    // 未找到价格的，设置为0
+                                    for (let line of lines) {
+                                        line[PROPERTY_GROSSPROFITLIST] = priceList;
+                                        line[PROPERTY_GROSSPROFITPRICE] = 0;
+                                        line.calculate();
+                                    }
+                                }
+                            });
                         }
                     }
                 });

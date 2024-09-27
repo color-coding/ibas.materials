@@ -86,7 +86,7 @@ public class MaterialPriceItems extends BusinessObjects<IMaterialPriceItem, IMat
 			String currency = this.getParent().getCurrency();
 			if (!DataConvert.isNullOrEmpty(currency)) {
 				for (IMaterialPriceItem item : this) {
-					if (DataConvert.isNullOrEmpty(item.getCurrency())) {
+					if (!DataConvert.isNullOrEmpty(item.getCurrency())) {
 						continue;
 					}
 					item.setCurrency(currency);

@@ -4,7 +4,7 @@
   <Model Name="MaterialPriceList" Description="物料价格清单" ModelType="Simple" Mapped="${Company}_MM_OMPL">
     <Property Name="Name" Description="名称" DataType="Alphanumeric" DataSubType="Default" EditSize="60" Mapped="Name" UniqueKey="Yes"/>
     <Property Name="Group" Description="分组" DataType="Alphanumeric" DataSubType="Default" EditSize="8" Mapped="Group"/>
-    <Property Name="Currency" Description="货币" DataType="Alphanumeric" DataSubType="Default" EditSize="8" Mapped="Currency" UniqueKey="Yes"/>
+    <Property Name="Currency" Description="货币" DataType="Alphanumeric" DataSubType="Default" EditSize="8" Mapped="Currency"/>
     <Property Name="BasedOnList" Description="基于的清单" DataType="Numeric" DataSubType="Default" EditSize="8" Mapped="BasedOn"/>
     <Property Name="Factor" Description="系数" DataType="Decimal" DataSubType="Percentage" EditSize="8" Mapped="Factor"/>
     <Property Name="Taxed" Description="含税" DataType="Alphanumeric" DataSubType="Default" EditSize="1" DeclaredType="emYesNo" Mapped="Taxed"/>

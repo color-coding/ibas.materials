@@ -67,7 +67,7 @@ public class MaterialPriceList extends BusinessObject<MaterialPriceList>
 	/**
 	 * 名称 属性
 	 */
-	@DbField(name = "Name", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME, primaryKey = false, uniqueKey = true)
+	@DbField(name = "Name", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME, uniqueKey = true)
 	public static final IPropertyInfo<String> PROPERTY_NAME = registerProperty(PROPERTY_NAME_NAME, String.class,
 			MY_CLASS);
 
@@ -901,15 +901,18 @@ public class MaterialPriceList extends BusinessObject<MaterialPriceList>
 		super.initialize();// 基类初始化，不可去除
 		this.setMaterialPriceItems(new MaterialPriceItems(this));
 		this.setObjectCode(MyConfiguration.applyVariables(BUSINESS_OBJECT_CODE));
-		this.setCurrency(MyConfiguration.getConfigValue(MyConfiguration.CONFIG_ITEM_DEFAULT_CURRENCY, "CNY"));
 		this.setFactor(Decimal.ONE);
 		this.setTaxed(emYesNo.YES);
 	}
 
 	@Override
 	protected IBusinessRule[] registerRules() {
-		return new IBusinessRule[] { // 注册的业务规则
-				new BusinessRuleMinValue<BigDecimal>(Decimal.ZERO, PROPERTY_FACTOR) };
+		// 注册的业务规则
+		return new IBusinessRule[] {
+				// 系数不能小于0
+				new BusinessRuleMinValue<BigDecimal>(Decimal.ZERO, PROPERTY_FACTOR)
+
+		};
 	}
 
 }
