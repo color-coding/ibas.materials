@@ -8,3 +8,4 @@
 /// <reference path="./MaterialPriceListEditView.ts" />
 /// <reference path="./MaterialPriceListListView.ts" />
 /// <reference path="./MaterialSpecialPriceListView.ts" />
+/// <reference path="./MaterialHistoricalPricesView.ts" />

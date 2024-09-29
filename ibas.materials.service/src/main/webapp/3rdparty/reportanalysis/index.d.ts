@@ -80,6 +80,8 @@ declare namespace reportanalysis {
             criteria: ibas.ICriteria | ibas.ICondition[];
             /** 报表参数 */
             parameters?: ibas.KeyText[];
+            /** 选择类型 */
+            chooseType: ibas.emChooseType;
         }
         /** 报表数据服务代理 */
         class ReportDataServiceProxy extends ibas.ServiceProxy<IReportDataServiceContract> {
@@ -1275,6 +1277,11 @@ declare namespace reportanalysis {
             /** 视图显示后 */
             protected viewShowed(): void;
             private chooseData;
+            run(): void;
+            run(report: bo.Report): void;
+            run(report: bo.Report, chooseType: ibas.emChooseType): void;
+            run(report: bo.UserReport): void;
+            run(report: bo.UserReport, chooseType: ibas.emChooseType): void;
             /** 数据选择完成 */
             onChoosedData: (table: ibas.DataTable) => void;
         }
@@ -1282,6 +1289,8 @@ declare namespace reportanalysis {
         export interface IReportDataChooseView extends IReportViewView {
             /** 选择数据 */
             chooseDataEvent: Function;
+            /** 选择类型 */
+            chooseType: ibas.emChooseType;
         }
         export {};
     }
@@ -1502,6 +1511,7 @@ declare namespace reportanalysis {
             protected registerView(): void;
             protected runService(contract: IReportDataServiceContract): void;
             private parameters?;
+            private dataChooseType;
             protected viewShowed(): void;
             /** 新建数据 */
             protected newData(): void;

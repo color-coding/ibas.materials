@@ -1588,6 +1588,28 @@
         "bo_businesspartnermaterialcatalog_closing_delimiter": "----结束----"
     },
     {
+        "bo_materialhistoricalprice": "物料历史价格",
+        "bo_materialhistoricalprice_documenttype": "单据类型",
+        "bo_materialhistoricalprice_documententry": "单据编号",
+        "bo_materialhistoricalprice_documentlineid": "单据行号",
+        "bo_materialhistoricalprice_documentdate": "单据日期",
+        "bo_materialhistoricalprice_document": "单据",
+        "bo_materialhistoricalprice_result": "结果",
+        "bo_materialhistoricalprice_businesspartnertype": "业务伙伴类型",
+        "bo_materialhistoricalprice_businesspartner": "业务伙伴",
+        "bo_materialhistoricalprice_customer": "客户",
+        "bo_materialhistoricalprice_supplier": "供应商",
+        "bo_materialhistoricalprice_itemcode": "物料",
+        "bo_materialhistoricalprice_itemdescription": "描述",
+        "bo_materialhistoricalprice_quantity": "数量",
+        "bo_materialhistoricalprice_uom": "单位",
+        "bo_materialhistoricalprice_price": "价格",
+        "bo_materialhistoricalprice_currency": "货币",
+        "bo_materialhistoricalprice_discount": "行折扣",
+        "bo_materialhistoricalprice_pretaxprice": "税前价格",
+        "bo_materialhistoricalprice_unitprice": "折扣前价格"
+    },
+    {
         "em_itemtype_item": "物料",
         "em_itemtype_services": "服务"
     },

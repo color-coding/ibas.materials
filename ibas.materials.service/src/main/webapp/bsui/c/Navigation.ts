@@ -309,6 +309,9 @@ namespace materials {
                     case app.MaterialGrossProfitService.APPLICATION_ID:
                         view = new c.MaterialGrossProfitView();
                         break;
+                    case app.MaterialHistoricalPricesService.APPLICATION_ID:
+                        view = new c.MaterialHistoricalPricesView();
+                        break;
                     default:
                         break;
                 }

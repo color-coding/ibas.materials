@@ -1493,6 +1493,27 @@
         "bo_materialnumberassociation_remarks": "Remarks"
     },
     {
+        "bo_materialhistoricalprice": "Material Historical Price",
+        "bo_materialhistoricalprice_documenttype": "Document Type",
+        "bo_materialhistoricalprice_documententry": "Document Entry",
+        "bo_materialhistoricalprice_documentlineid": "Document Line Id",
+        "bo_materialhistoricalprice_document": "Document",
+        "bo_materialhistoricalprice_documentdate": "Document Date",
+        "bo_materialhistoricalprice_businesspartnertype": "BP Type",
+        "bo_materialhistoricalprice_businesspartner": "Business Partner",
+        "bo_materialhistoricalprice_customer": "Customer",
+        "bo_materialhistoricalprice_supplier": "Supplier",
+        "bo_materialhistoricalprice_itemcode": "Material",
+        "bo_materialhistoricalprice_itemdescription": "Description",
+        "bo_materialhistoricalprice_quantity": "Quantity",
+        "bo_materialhistoricalprice_uom": "UOM",
+        "bo_materialhistoricalprice_price": "Price",
+        "bo_materialhistoricalprice_currency": "Currency",
+        "bo_materialhistoricalprice_discount": "Discount",
+        "bo_materialhistoricalprice_pretaxprice": "Pre-Tax Price",
+        "bo_materialhistoricalprice_unitprice": "Pre-Discount Price"
+    },
+    {
         "bo_businesspartnermaterialcatalog": "BP Material Catalog",
         "bo_businesspartnermaterialcatalog_businesspartnertype": "BP Type",
         "bo_businesspartnermaterialcatalog_businesspartnercode": "BP Code",

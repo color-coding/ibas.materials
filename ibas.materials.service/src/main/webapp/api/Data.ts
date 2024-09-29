@@ -613,6 +613,96 @@ namespace materials {
         export class MaterialGrossProfitServiceProxy
             extends ibas.ServiceProxy<IMaterialGrossProfitContract> {
         }
+        /** 物料历史价格服务契约 */
+        export interface IMaterialHistoricalPricesContract extends ibas.IServiceContract {
+            /** 业务伙伴类型 */
+            businessPartnerType: businesspartner.bo.emBusinessPartnerType;
+            /** 业务伙伴编码 */
+            businessPartnerCode: string;
+            /** 业务伙伴名称 */
+            businessPartnerName: string;
+            /** 单据类型 */
+            documentType: string;
+            /** 单据编号 */
+            documentEntry: number;
+            /** 单据行号 */
+            documentLineId?: number;
+            /** 单据日期 */
+            documentDate: Date;
+            /** 物料编码 */
+            itemCode: string;
+            /** 物料描述 */
+            itemDescription: string;
+            /** 数量 */
+            quantity: number;
+            /** 单位 */
+            uom: string;
+            /**
+             * 应用价格
+             * @param price 税前价格
+             * @param currency 货币
+             */
+            applyPrice?: (price: number, currency: string) => void;
+        }
+        /** 物料历史价格服务代理 */
+        export class MaterialHistoricalPricesServiceProxy
+            extends ibas.ServiceProxy<IMaterialHistoricalPricesContract> {
+        }
+        /** 单据物料价格服务契约 */
+        export interface IDocumentMaterialPriceContract extends ibas.IServiceContract {
+            /** 业务伙伴类型 */
+            businessPartnerType: businesspartner.bo.emBusinessPartnerType;
+            /** 业务伙伴编码 */
+            businessPartnerCode?: string;
+            /** 单据日期 */
+            documentDate?: Date;
+            /** 结果数量 */
+            resultCount?: number;
+            /** 分支 */
+            branch?: string;
+            /** 物料编码 */
+            itemCode: string;
+            /** 查询完成时 */
+            onCompleted(results: Error | IDocumentMaterialPriceData[]): void;
+        }
+        export interface IDocumentMaterialPriceData {
+            /** 业务伙伴类型 */
+            businessPartnerType: businesspartner.bo.emBusinessPartnerType;
+            /** 业务伙伴编码 */
+            businessPartnerCode: string;
+            /** 业务伙伴名称 */
+            businessPartnerName: string;
+            /** 单据类型 */
+            documentType: string;
+            /** 单据编号 */
+            documentEntry: number;
+            /** 单据日期 */
+            documentDate: Date;
+            /** 单据行号 */
+            documentLineId: number;
+            /** 物料编码 */
+            itemCode: string;
+            /** 物料描述 */
+            itemDescription: string;
+            /** 数量 */
+            quantity: number;
+            /** 单位 */
+            uom: string;
+            /** 价格 */
+            price: number;
+            /** 货币 */
+            currency: string;
+            /** 税前价格 */
+            preTaxPrice: number;
+            /** 折扣 */
+            discount: number;
+            /** 折前价格 */
+            unitPrice: number;
+        }
+        /** 单据物料价格服务代理 */
+        export class DocumentMaterialPriceServiceProxy
+            extends ibas.ServiceProxy<IDocumentMaterialPriceContract> {
+        }
 
         /** 查询条件 */
         export namespace conditions {
