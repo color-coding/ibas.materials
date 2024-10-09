@@ -29,6 +29,7 @@ import org.colorcoding.ibas.document.IDocumentCloseAmountOperator;
 import org.colorcoding.ibas.document.IDocumentClosingAmountItem;
 import org.colorcoding.ibas.document.IDocumentFetcher;
 import org.colorcoding.ibas.document.IDocumentOperatingTarget;
+import org.colorcoding.ibas.materials.MyConfiguration;
 
 /**
  * 单据金额关闭服务
@@ -111,6 +112,11 @@ public class DocumentAmountClosingService
 
 	@Override
 	protected void impact(IDocumentAmountClosingContract contract) {
+		String documents = MyConfiguration.getConfigValue(MyConfiguration.CONFIG_ITEM_LIMIT_CLOSED_AMOUNT_DOCUMENTS,
+				"");
+		if (!documents.isEmpty() && !documents.endsWith(";")) {
+			documents = documents + ";";
+		}
 		Iterator<IDocumentClosingAmountItem> iterator = this.getBeAffected().getAmountItems();
 		while (iterator.hasNext()) {
 			IDocumentClosingAmountItem item = iterator.next();
@@ -125,6 +131,14 @@ public class DocumentAmountClosingService
 				closedAmount = Decimal.ZERO;
 			}
 			closedAmount = closedAmount.add(contract.getAmount());
+			if (closedAmount.compareTo(item.getAmount()) > 0) {
+				if (documents.indexOf(item.getObjectCode() + ";") >= 0) {
+					throw new BusinessLogicException(I18N.prop("msg_mm_document_closed_amount_exceeds_amount",
+							String.format("{[%s].[DocEntry = %s]%s}", this.getBeAffected().getObjectCode(),
+									this.getBeAffected().getDocEntry(),
+									item.getLineId() > 0 ? String.format("&&[LineId = %s]", item.getLineId()) : "")));
+				}
+			}
 			item.setClosedAmount(closedAmount);
 			if (contract.isSmartDocumentStatus() == true) {
 				// 处理单据状态

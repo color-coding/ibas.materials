@@ -7,12 +7,15 @@ import org.colorcoding.ibas.bobas.data.DataConvert;
 import org.colorcoding.ibas.bobas.data.Decimal;
 import org.colorcoding.ibas.bobas.data.emDocumentStatus;
 import org.colorcoding.ibas.bobas.data.emYesNo;
+import org.colorcoding.ibas.bobas.i18n.I18N;
+import org.colorcoding.ibas.bobas.logic.BusinessLogicException;
 import org.colorcoding.ibas.bobas.mapping.LogicContract;
 import org.colorcoding.ibas.bobas.message.Logger;
 import org.colorcoding.ibas.bobas.message.MessageLevel;
 import org.colorcoding.ibas.document.DocumentFetcherManager;
 import org.colorcoding.ibas.document.IDocumentCloseQuantityOperator;
 import org.colorcoding.ibas.document.IDocumentClosingQuantityItem;
+import org.colorcoding.ibas.materials.MyConfiguration;
 
 /**
  * 单据数量关闭服务
@@ -56,6 +59,11 @@ public class DocumentQuantityClosingService extends DocumentQuantityService<IDoc
 
 	@Override
 	protected void impact(IDocumentQuantityClosingContract contract) {
+		String documents = MyConfiguration.getConfigValue(MyConfiguration.CONFIG_ITEM_LIMIT_CLOSED_QUANTIT_DOCUMENTS,
+				"");
+		if (!documents.isEmpty() && !documents.endsWith(";")) {
+			documents = documents + ";";
+		}
 		Iterator<IDocumentClosingQuantityItem> iterator = this.getBeAffected().getQuantityItems();
 		while (iterator.hasNext()) {
 			IDocumentClosingQuantityItem item = iterator.next();
@@ -70,6 +78,14 @@ public class DocumentQuantityClosingService extends DocumentQuantityService<IDoc
 				closedQuantity = Decimal.ZERO;
 			}
 			closedQuantity = closedQuantity.add(contract.getQuantity());
+			if (closedQuantity.compareTo(item.getQuantity()) > 0) {
+				if (documents.indexOf(item.getObjectCode() + ";") >= 0) {
+					throw new BusinessLogicException(I18N.prop("msg_mm_document_closed_quantity_exceeds_quantity",
+							String.format("{[%s].[DocEntry = %s]%s}", this.getBeAffected().getObjectCode(),
+									this.getBeAffected().getDocEntry(),
+									item.getLineId() > 0 ? String.format("&&[LineId = %s]", item.getLineId()) : "")));
+				}
+			}
 			item.setClosedQuantity(closedQuantity);
 			if (contract.isSmartDocumentStatus() == true) {
 				// 处理单据状态

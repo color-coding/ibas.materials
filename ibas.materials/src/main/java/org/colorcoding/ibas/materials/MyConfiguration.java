@@ -72,4 +72,10 @@ public class MyConfiguration extends org.colorcoding.ibas.initialfantasy.MyConfi
 
 	/** 配置项目-启用物料成本 */
 	public final static String CONFIG_ITEM_ENABLE_MATERIAL_COSTS = "enableMaterialCosts";
+
+	/** 配置项目-限制关闭金额的单据 */
+	public final static String CONFIG_ITEM_LIMIT_CLOSED_AMOUNT_DOCUMENTS = "limitClosedAmountDocuments";
+
+	/** 配置项目-限制关闭数量的单据 */
+	public final static String CONFIG_ITEM_LIMIT_CLOSED_QUANTIT_DOCUMENTS = "limitClosedQuantityDocuments";
 }
