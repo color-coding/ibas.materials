@@ -55,6 +55,7 @@ namespace materials {
                             for (let item of opRslt.resultObjects) {
                                 ibas.servicesManager.runApplicationService<reportanalysis.app.IReportDataServiceContract, ibas.DataTable>({
                                     proxy: new reportanalysis.app.ReportDataServiceProxy({
+                                        chooseType: ibas.emChooseType.MULTIPLE,
                                         criteria: item.criteria(),
                                         parameters: [
                                             new ibas.KeyText("${" + bo.MaterialOrderedReservation.PROPERTY_ITEMCODE_NAME + "}", contract.itemCode),
@@ -165,6 +166,7 @@ namespace materials {
                             for (let item of opRslt.resultObjects) {
                                 ibas.servicesManager.runApplicationService<reportanalysis.app.IReportDataServiceContract, ibas.DataTable>({
                                     proxy: new reportanalysis.app.ReportDataServiceProxy({
+                                        chooseType: ibas.emChooseType.MULTIPLE,
                                         criteria: item.criteria(),
                                         parameters: [
                                             new ibas.KeyText("${" + bo.MaterialOrderedReservation.PROPERTY_ITEMCODE_NAME + "}", contract.itemCode),

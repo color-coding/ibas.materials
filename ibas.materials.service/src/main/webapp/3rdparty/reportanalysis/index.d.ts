@@ -1234,8 +1234,8 @@ declare namespace reportanalysis {
             run(report: bo.Report): void;
             run(report: bo.UserReport): void;
             protected report: bo.UserReport;
-            private runReport;
-            private valueLink;
+            protected runReport(): void;
+            protected valueLink(objectCode: string, value: string, rowData?: any): void;
         }
         /** 视图-报表 */
         export interface IReportViewView extends ibas.IView {
@@ -1278,10 +1278,8 @@ declare namespace reportanalysis {
             protected viewShowed(): void;
             private chooseData;
             run(): void;
-            run(report: bo.Report): void;
-            run(report: bo.Report, chooseType: ibas.emChooseType): void;
-            run(report: bo.UserReport): void;
-            run(report: bo.UserReport, chooseType: ibas.emChooseType): void;
+            run(report: bo.Report, chooseType?: ibas.emChooseType, chooseFirst?: ibas.emYesNo): void;
+            run(report: bo.UserReport, chooseType?: ibas.emChooseType, chooseFirst?: ibas.emYesNo): void;
             /** 数据选择完成 */
             onChoosedData: (table: ibas.DataTable) => void;
         }
@@ -1291,6 +1289,8 @@ declare namespace reportanalysis {
             chooseDataEvent: Function;
             /** 选择类型 */
             chooseType: ibas.emChooseType;
+            /** 选择第一行 */
+            chooseFirtData: ibas.emYesNo;
         }
         export {};
     }
@@ -1510,8 +1510,10 @@ declare namespace reportanalysis {
             /** 注册视图 */
             protected registerView(): void;
             protected runService(contract: IReportDataServiceContract): void;
+            private triggerData?;
             private parameters?;
             private dataChooseType;
+            private chooseFirstData;
             protected viewShowed(): void;
             /** 新建数据 */
             protected newData(): void;
