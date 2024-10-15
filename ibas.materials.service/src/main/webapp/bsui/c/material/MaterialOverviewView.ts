@@ -1042,19 +1042,6 @@ namespace materials {
                                 chooseType: ibas.emChooseType.MULTIPLE,
                                 visibleRowCount: 6,
                                 rows: "{/rows}",
-                                rowActionCount: 1,
-                                rowActionTemplate: new sap.ui.table.RowAction("", {
-                                    items: [
-                                        new sap.ui.table.RowActionItem("", {
-                                            icon: "sap-icon://show-edit",
-                                            press: function (oEvent: any): void {
-                                                that.fireViewEvents(that.editMaterialBatchEvent
-                                                    , this.getBindingContext().getObject()
-                                                );
-                                            },
-                                        }),
-                                    ]
-                                }),
                                 columns: [
                                     new sap.extension.table.Column("", {
                                         label: ibas.i18n.prop("bo_warehouse") + ibas.i18n.prop("bo_warehouse_code"),

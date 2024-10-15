@@ -732,7 +732,7 @@ namespace materials {
                         mSettings = {};
                     }
                     if (ibas.objects.isNull(mSettings.inventoryChange)) {
-                        mSettings.inventoryChange = function (event: sap.ui.base.Event): void {
+                        mSettings.inventoryChange = function (this: InventoryQuantityText, event: sap.ui.base.Event): void {
                             let source: any = event.getSource();
                             if (source instanceof InventoryQuantityText) {
                                 let itemCode: string = event.getParameter("itemCode");
@@ -744,6 +744,18 @@ namespace materials {
                                     clearTimeout(source.getInventoryTaskId());
                                 }
                                 source.setInventoryTaskId(setTimeout(() => {
+                                    // 首先从缓存中获取
+                                    let id: string = source.getId().split("-")[0];
+                                    if (INVENTORY_QUANTITY_CACHE.has(id)) {
+                                        let data: { leftQuantity: number, rightQuantity: number }
+                                            = INVENTORY_QUANTITY_CACHE.get(id)?.get(ibas.strings.format("{0}_&_{1}", itemCode, warehouse));
+                                        if (!ibas.objects.isNull(data)) {
+                                            source.setLeftQuantity(data.leftQuantity);
+                                            source.setRightQuantity(data.rightQuantity);
+                                            source.updateText();
+                                            return;
+                                        }
+                                    }
                                     let criteria: ibas.ICriteria = new ibas.Criteria();
                                     let condition: ibas.ICondition = criteria.conditions.create();
                                     condition.alias = materials.app.conditions.materialquantity.CONDITION_ALIAS_ITEMCODE;
@@ -768,6 +780,10 @@ namespace materials {
                                             source.setLeftQuantity(leftQuantity);
                                             source.setRightQuantity(rightQuantity);
                                             source.updateText();
+                                            INVENTORY_QUANTITY_CACHE.get(id)
+                                                .set(ibas.strings.format("{0}_&_{1}", itemCode, warehouse),
+                                                    { leftQuantity: leftQuantity, rightQuantity: rightQuantity }
+                                                );
                                         }
                                     });
                                 }, 45));
@@ -788,8 +804,19 @@ namespace materials {
                         sap.extension.data.formatValue(sap.extension.data.Quantity, leftQuantity, "string"),
                         sap.extension.data.formatValue(sap.extension.data.Quantity, rightQuantity, "string")
                     ));
+                },
+                init(this: sap.m.Text): void {
+                    (<any>sap.m.Text.prototype).init.apply(this, arguments);
+                    INVENTORY_QUANTITY_CACHE.set(this.getId().split("-")[0], new Map<string, { leftQuantity: number, rightQuantity: number }>());
+                },
+                exit(this: sap.m.Text): void {
+                    INVENTORY_QUANTITY_CACHE.delete(this.getId().split("-")[0]);
+                    (<any>sap.m.Text.prototype).exit.apply(this, arguments);
                 }
             });
+
+            const INVENTORY_QUANTITY_CACHE: Map<string, Map<string, { leftQuantity: number, rightQuantity: number }>>
+                = new Map<string, Map<string, { leftQuantity: number, rightQuantity: number }>>();
         }
     }
 }

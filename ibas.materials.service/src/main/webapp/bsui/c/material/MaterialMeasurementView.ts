@@ -38,26 +38,6 @@ namespace materials {
                                         new sap.m.ToolbarSeparator(""),
                                         new sap.m.Label("", {
                                             showColon: true,
-                                            text: ibas.i18n.prop("bo_materialmeasurement_unit_volume"),
-                                        }),
-                                        this.selectVolume = new sap.extension.m.RepositorySelect("", {
-                                            repository: bo.BORepositoryMaterials,
-                                            dataInfo: {
-                                                type: bo.Unit,
-                                                key: bo.Unit.PROPERTY_SYMBOL_NAME,
-                                                text: bo.Unit.PROPERTY_SYMBOL_NAME
-                                            },
-                                            criteria: [
-                                                new ibas.Condition(bo.Unit.PROPERTY_CATEGORY_NAME, ibas.emConditionOperation.EQUAL, bo.Unit.CATEGORY_VOLUME)
-                                            ],
-                                            change(this: sap.m.Select, event: sap.ui.base.Event): void {
-                                                that.fireViewEvents(that.changeUnitEvent, bo.Unit.CATEGORY_VOLUME, this.getSelectedKey());
-                                            },
-                                            // forceSelection: true,
-                                        }),
-                                        new sap.m.ToolbarSeparator(""),
-                                        new sap.m.Label("", {
-                                            showColon: true,
                                             text: ibas.i18n.prop("bo_materialmeasurement_unit_weight"),
                                         }),
                                         this.selectWeight = new sap.extension.m.RepositorySelect("", {
@@ -72,6 +52,26 @@ namespace materials {
                                             ],
                                             change(this: sap.m.Select, event: sap.ui.base.Event): void {
                                                 that.fireViewEvents(that.changeUnitEvent, bo.Unit.CATEGORY_WEIGHT, this.getSelectedKey());
+                                            },
+                                            // forceSelection: true,
+                                        }),
+                                        new sap.m.ToolbarSeparator(""),
+                                        new sap.m.Label("", {
+                                            showColon: true,
+                                            text: ibas.i18n.prop("bo_materialmeasurement_unit_volume"),
+                                        }),
+                                        this.selectVolume = new sap.extension.m.RepositorySelect("", {
+                                            repository: bo.BORepositoryMaterials,
+                                            dataInfo: {
+                                                type: bo.Unit,
+                                                key: bo.Unit.PROPERTY_SYMBOL_NAME,
+                                                text: bo.Unit.PROPERTY_SYMBOL_NAME
+                                            },
+                                            criteria: [
+                                                new ibas.Condition(bo.Unit.PROPERTY_CATEGORY_NAME, ibas.emConditionOperation.EQUAL, bo.Unit.CATEGORY_VOLUME)
+                                            ],
+                                            change(this: sap.m.Select, event: sap.ui.base.Event): void {
+                                                that.fireViewEvents(that.changeUnitEvent, bo.Unit.CATEGORY_VOLUME, this.getSelectedKey());
                                             },
                                             // forceSelection: true,
                                         }),
@@ -180,22 +180,6 @@ namespace materials {
                                         width: "8rem",
                                     }),
                                     new sap.extension.table.DataColumn("", {
-                                        label: ibas.i18n.prop("bo_material_volume"),
-                                        template: new sap.extension.m.Text("", {
-                                        }).bindProperty("bindingValue", {
-                                            parts: [
-                                                {
-                                                    path: "volume",
-                                                    type: new sap.extension.data.Measurement()
-                                                },
-                                                {
-                                                    path: "volumeUnit",
-                                                    type: new sap.extension.data.Alphanumeric()
-                                                },
-                                            ]
-                                        }),
-                                    }),
-                                    new sap.extension.table.DataColumn("", {
                                         label: ibas.i18n.prop("bo_material_weight"),
                                         template: new sap.extension.m.Text("", {
                                         }).bindProperty("bindingValue", {
@@ -206,6 +190,22 @@ namespace materials {
                                                 },
                                                 {
                                                     path: "weightUnit",
+                                                    type: new sap.extension.data.Alphanumeric()
+                                                },
+                                            ]
+                                        }),
+                                    }),
+                                    new sap.extension.table.DataColumn("", {
+                                        label: ibas.i18n.prop("bo_material_volume"),
+                                        template: new sap.extension.m.Text("", {
+                                        }).bindProperty("bindingValue", {
+                                            parts: [
+                                                {
+                                                    path: "volume",
+                                                    type: new sap.extension.data.Measurement()
+                                                },
+                                                {
+                                                    path: "volumeUnit",
                                                     type: new sap.extension.data.Alphanumeric()
                                                 },
                                             ]
@@ -225,16 +225,16 @@ namespace materials {
                                         new sap.m.ToolbarSeparator(""),
                                         new sap.m.Label("", {
                                             showColon: true,
-                                            text: ibas.i18n.prop("bo_materialmeasurement_total_volume"),
+                                            text: ibas.i18n.prop("bo_materialmeasurement_total_weight"),
                                         }),
-                                        this.textVolume = new sap.m.Text("", {
+                                        this.textWeight = new sap.m.Text("", {
                                         }),
                                         new sap.m.ToolbarSeparator(""),
                                         new sap.m.Label("", {
                                             showColon: true,
-                                            text: ibas.i18n.prop("bo_materialmeasurement_total_weight"),
+                                            text: ibas.i18n.prop("bo_materialmeasurement_total_volume"),
                                         }),
-                                        this.textWeight = new sap.m.Text("", {
+                                        this.textVolume = new sap.m.Text("", {
                                         }),
                                         new sap.m.ToolbarSeparator(""),
                                     ]

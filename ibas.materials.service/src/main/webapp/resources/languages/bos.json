@@ -1493,6 +1493,38 @@
         "bo_materialnumberassociation_remarks": "Remarks"
     },
     {
+        "bo_materialmeasurement": "Material Measurement",
+        "bo_materialmeasurement_documenttype": "Document Type",
+        "bo_materialmeasurement_documententry": "Document Entry",
+        "bo_materialmeasurement_documentlineid": "Document Line Id",
+        "bo_materialmeasurement_documentitemcode": "Material Code",
+        "bo_materialmeasurement_documentitemdescription": "Material Description",
+        "bo_materialmeasurement_quantity": "Quantity",
+        "bo_materialmeasurement_total_quantity": "Quantity Total",
+        "bo_materialmeasurement_total_volume": "Volume Total",
+        "bo_materialmeasurement_total_weight": "Weight Total",
+        "bo_materialmeasurement_unit_quantity": "Unit of Quantity",
+        "bo_materialmeasurement_unit_volume": "Unit of Volume",
+        "bo_materialmeasurement_unit_weight": "Unit of Weight"
+    },
+    {
+        "bo_materialgrossprofit": "Gross Profit",
+        "bo_materialgrossprofit_documenttype":"Document Type",
+        "bo_materialgrossprofit_documententry": "Document Entry",
+        "bo_materialgrossprofit_documentlineid":"Document Line Id",
+        "bo_materialgrossprofit_documentdate": "Document Date",
+        "bo_materialgrossprofit_grossprofitlist": "Gross Profit List",
+        "bo_materialgrossprofit_itemcode": "Material Code",
+        "bo_materialgrossprofit_itemdescription": "Material Description",
+        "bo_materialgrossprofit_quantity": "Quantity",
+        "bo_materialgrossprofit_total_quantity":  "Quantity Total",
+        "bo_materialgrossprofit_price": "Price",
+        "bo_materialgrossprofit_grossprofit": "Gross Profit",
+        "bo_materialgrossprofit_grossprofit_rate": "Gross Profit %",
+        "bo_materialgrossprofit_grossprofitsource": "Gross Profit Source",
+        "bo_materialgrossprofit_grossprofitprice": "Base Price"
+    },
+    {
         "bo_materialhistoricalprice": "Material Historical Price",
         "bo_materialhistoricalprice_documenttype": "Document Type",
         "bo_materialhistoricalprice_documententry": "Document Entry",
