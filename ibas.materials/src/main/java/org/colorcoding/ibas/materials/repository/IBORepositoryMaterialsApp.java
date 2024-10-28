@@ -15,6 +15,7 @@ import org.colorcoding.ibas.materials.bo.material.IMaterialQuantity;
 import org.colorcoding.ibas.materials.bo.material.IMaterialSubstitute;
 import org.colorcoding.ibas.materials.bo.material.IMaterialVersion;
 import org.colorcoding.ibas.materials.bo.material.IProduct;
+import org.colorcoding.ibas.materials.bo.material.ISchedulingGroup;
 import org.colorcoding.ibas.materials.bo.materialbatch.IMaterialBatch;
 import org.colorcoding.ibas.materials.bo.materialbatch.IMaterialBatchJournal;
 import org.colorcoding.ibas.materials.bo.materialcatalog.IBusinessPartnerMaterialCatalog;
@@ -579,6 +580,20 @@ public interface IBORepositoryMaterialsApp extends IBORepositoryApplication {
 	IOperationResult<IBusinessPartnerMaterialCatalog> saveBusinessPartnerMaterialCatalog(
 			IBusinessPartnerMaterialCatalog bo);
 
+	// --------------------------------------------------------------------------------------------//
+	/**
+	 * 查询-计划组
+	 * @param criteria 查询
+	 * @return 操作结果
+	 */
+	IOperationResult<ISchedulingGroup> fetchSchedulingGroup(ICriteria criteria);
+
+	/**
+	 * 保存-计划组
+	 * @param bo 对象实例
+	 * @return 操作结果
+	 */
+	IOperationResult<ISchedulingGroup> saveSchedulingGroup(ISchedulingGroup bo);
 	// --------------------------------------------------------------------------------------------//
 
 }

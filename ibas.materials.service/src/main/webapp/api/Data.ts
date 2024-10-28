@@ -119,6 +119,8 @@ namespace materials {
         export const BO_CODE_MATERIALNUMBERASSOCIATION: string = "${Company}_MM_NUMASSOC";
         /** 业务对象编码-业务伙伴物料目录 */
         export const BO_CODE_BUSINESSPARTNERMATERIALCATALOG: string = "${Company}_MM_BPCATALOG";
+        /** 业务对象编码-计划组 */
+        export const BO_CODE_SCHEDULINGGROUP: string = "${Company}_MM_SCHEDULINGGROUP";
 
 
         /** 物料类型 */

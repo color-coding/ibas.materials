@@ -9,3 +9,7 @@
 /// <reference path="./MaterialGroupEditApp.ts" />
 /// <reference path="./MaterialGroupFunc.ts" />
 /// <reference path="./MaterialGroupListApp.ts" />
+/// <reference path="./SchedulingGroupFunc.ts" />
+/// <reference path="./SchedulingGroupListApp.ts" />
+/// <reference path="./SchedulingGroupChooseApp.ts" />
+/// <reference path="./SchedulingGroupEditApp.ts" />

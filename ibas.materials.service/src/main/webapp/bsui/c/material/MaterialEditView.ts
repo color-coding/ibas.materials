@@ -1108,6 +1108,15 @@ namespace materials {
                                                             maxLength: 60
                                                         }),
                                                     }),
+                                                    new sap.m.Label("", { text: ibas.i18n.prop("bo_material_procurementmethod") }),
+                                                    new sap.extension.m.EnumSelect("", {
+                                                        enumType: bo.emProcurementMethod
+                                                    }).bindProperty("bindingValue", {
+                                                        path: "procurementMethod",
+                                                        type: new sap.extension.data.Enum({
+                                                            enumType: bo.emProcurementMethod
+                                                        }),
+                                                    }),
                                                     new sap.m.Label("", { text: ibas.i18n.prop("bo_material_lotsize") }),
                                                     new sap.extension.m.Input("", {
                                                     }).bindProperty("bindingValue", {
@@ -1238,34 +1247,7 @@ namespace materials {
                                                             maxLength: 8
                                                         }),
                                                     }),
-                                                    new sap.m.Label("", { text: ibas.i18n.prop("bo_material_scheduler") }),
-                                                    new sap.extension.m.RepositoryInput("", {
-                                                        showValueHelp: true,
-                                                        valueHelpRequest: function (): void {
-                                                            that.fireViewEvents(that.chooseSchedulerEvent);
-                                                        },
-                                                        repository: initialfantasy.bo.BORepositoryInitialFantasy,
-                                                        dataInfo: {
-                                                            type: initialfantasy.bo.User,
-                                                            key: initialfantasy.bo.User.PROPERTY_CODE_NAME,
-                                                            text: initialfantasy.bo.User.PROPERTY_NAME_NAME,
-                                                        },
-                                                    }).bindProperty("bindingValue", {
-                                                        path: "scheduler",
-                                                        type: new sap.extension.data.Alphanumeric({
-                                                            maxLength: 8
-                                                        }),
-                                                    }),
                                                     new sap.m.Toolbar("", { visible: false }),
-                                                    new sap.m.Label("", { text: ibas.i18n.prop("bo_material_procurementmethod") }),
-                                                    new sap.extension.m.EnumSelect("", {
-                                                        enumType: bo.emProcurementMethod
-                                                    }).bindProperty("bindingValue", {
-                                                        path: "procurementMethod",
-                                                        type: new sap.extension.data.Enum({
-                                                            enumType: bo.emProcurementMethod
-                                                        }),
-                                                    }),
                                                     new sap.m.Label("", { text: ibas.i18n.prop("bo_material_productionuom") }),
                                                     new sap.extension.m.Input("", {
                                                         showValueHelp: true,
@@ -1285,6 +1267,42 @@ namespace materials {
                                                         path: "planningMethod",
                                                         type: new sap.extension.data.Enum({
                                                             enumType: bo.emPlanningMethod
+                                                        }),
+                                                    }),
+                                                    new sap.m.Label("", { text: ibas.i18n.prop("bo_material_schedulinggroup") }),
+                                                    new sap.extension.m.SelectionInput("", {
+                                                        showValueHelp: true,
+                                                        repository: bo.BORepositoryMaterials,
+                                                        dataInfo: {
+                                                            type: bo.SchedulingGroup,
+                                                            key: bo.SchedulingGroup.PROPERTY_CODE_NAME,
+                                                            text: bo.SchedulingGroup.PROPERTY_NAME_NAME
+                                                        },
+                                                        criteria: [
+                                                            new ibas.Condition(bo.SchedulingGroup.PROPERTY_ACTIVATED_NAME, ibas.emConditionOperation.EQUAL, ibas.emYesNo.YES)
+                                                        ]
+                                                    }).bindProperty("bindingValue", {
+                                                        path: "schedulingGroup",
+                                                        type: new sap.extension.data.Alphanumeric({
+                                                            maxLength: 8
+                                                        }),
+                                                    }),
+                                                    new sap.m.Label("", { text: ibas.i18n.prop("bo_material_scheduler") }),
+                                                    new sap.extension.m.RepositoryInput("", {
+                                                        showValueHelp: true,
+                                                        valueHelpRequest: function (): void {
+                                                            that.fireViewEvents(that.chooseSchedulerEvent);
+                                                        },
+                                                        repository: initialfantasy.bo.BORepositoryInitialFantasy,
+                                                        dataInfo: {
+                                                            type: initialfantasy.bo.User,
+                                                            key: initialfantasy.bo.User.PROPERTY_CODE_NAME,
+                                                            text: initialfantasy.bo.User.PROPERTY_NAME_NAME,
+                                                        },
+                                                    }).bindProperty("bindingValue", {
+                                                        path: "scheduler",
+                                                        type: new sap.extension.data.Alphanumeric({
+                                                            maxLength: 8
                                                         }),
                                                     }),
                                                     new sap.m.Label("", { text: ibas.i18n.prop("bo_material_madetoorder") }),

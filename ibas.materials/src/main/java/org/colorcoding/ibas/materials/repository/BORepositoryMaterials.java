@@ -54,6 +54,7 @@ import org.colorcoding.ibas.materials.bo.material.IMaterialQuantity;
 import org.colorcoding.ibas.materials.bo.material.IMaterialSubstitute;
 import org.colorcoding.ibas.materials.bo.material.IMaterialVersion;
 import org.colorcoding.ibas.materials.bo.material.IProduct;
+import org.colorcoding.ibas.materials.bo.material.ISchedulingGroup;
 import org.colorcoding.ibas.materials.bo.material.Material;
 import org.colorcoding.ibas.materials.bo.material.MaterialBase;
 import org.colorcoding.ibas.materials.bo.material.MaterialGroup;
@@ -62,6 +63,7 @@ import org.colorcoding.ibas.materials.bo.material.MaterialQuantity;
 import org.colorcoding.ibas.materials.bo.material.MaterialSubstitute;
 import org.colorcoding.ibas.materials.bo.material.MaterialVersion;
 import org.colorcoding.ibas.materials.bo.material.Product;
+import org.colorcoding.ibas.materials.bo.material.SchedulingGroup;
 import org.colorcoding.ibas.materials.bo.materialbatch.IMaterialBatch;
 import org.colorcoding.ibas.materials.bo.materialbatch.IMaterialBatchItem;
 import org.colorcoding.ibas.materials.bo.materialbatch.IMaterialBatchJournal;
@@ -2738,6 +2740,45 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 				this.saveBusinessPartnerMaterialCatalog((BusinessPartnerMaterialCatalog) bo, this.getUserToken()));
 	}
 
+	// --------------------------------------------------------------------------------------------//
+	/**
+	 * 查询-计划组
+	 * @param criteria 查询
+	 * @param token 口令
+	 * @return 操作结果
+	 */
+	public OperationResult<SchedulingGroup> fetchSchedulingGroup(ICriteria criteria, String token) {
+		return super.fetch(criteria, token, SchedulingGroup.class);
+	}
+
+	/**
+	 * 查询-计划组（提前设置用户口令）
+	 * @param criteria 查询
+	 * @return 操作结果
+	 */
+	public IOperationResult<ISchedulingGroup> fetchSchedulingGroup(ICriteria criteria) {
+		return new OperationResult<ISchedulingGroup>(this.fetchSchedulingGroup(criteria, this.getUserToken()));
+	}
+
+	/**
+	 * 保存-计划组
+	 * @param bo 对象实例
+	 * @param token 口令
+	 * @return 操作结果
+	 */
+	public OperationResult<SchedulingGroup> saveSchedulingGroup(SchedulingGroup bo, String token) {
+		return super.save(bo, token);
+	}
+
+	/**
+	 * 保存-计划组（提前设置用户口令）
+	 * @param bo 对象实例
+	 * @return 操作结果
+	 */
+	public IOperationResult<ISchedulingGroup> saveSchedulingGroup(ISchedulingGroup bo) {
+		return new OperationResult<ISchedulingGroup>(
+				this.saveSchedulingGroup((SchedulingGroup) bo, this.getUserToken()));
+	}
 	// --------------------------------------------------------------------------------------------//
 
 }

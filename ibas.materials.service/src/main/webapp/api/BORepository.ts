@@ -322,6 +322,17 @@ namespace materials {
              * @param saver 保存者
              */
             saveBusinessPartnerMaterialCatalog(saver: ibas.ISaveCaller<bo.IBusinessPartnerMaterialCatalog>): void;
+            /**
+             * 查询 计划组
+             * @param fetcher 查询者
+             */
+            fetchSchedulingGroup(fetcher: ibas.IFetchCaller<bo.ISchedulingGroup>): void;
+            /**
+             * 保存 计划组
+             * @param saver 保存者
+             */
+            saveSchedulingGroup(saver: ibas.ISaveCaller<bo.ISchedulingGroup>): void;
+
 
 
         }

@@ -312,6 +312,15 @@ namespace materials {
                     case app.MaterialHistoricalPricesService.APPLICATION_ID:
                         view = new c.MaterialHistoricalPricesView();
                         break;
+                    case app.SchedulingGroupListApp.APPLICATION_ID:
+                        view = new c.SchedulingGroupListView();
+                        break;
+                    case app.SchedulingGroupChooseApp.APPLICATION_ID:
+                        view = new c.SchedulingGroupChooseView();
+                        break;
+                    case app.SchedulingGroupEditApp.APPLICATION_ID:
+                        view = new c.SchedulingGroupEditView();
+                        break;
                     default:
                         break;
                 }

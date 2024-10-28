@@ -7,20 +7,20 @@
  */
 namespace materials {
     export namespace app {
-        /** 列表应用-物料 */
-        export class MaterialListApp extends ibas.BOListApplication<IMaterialListView, bo.Material> {
+        /** 列表应用-计划组 */
+        export class SchedulingGroupListApp extends ibas.BOListApplication<ISchedulingGroupListView, bo.SchedulingGroup> {
             /** 应用标识 */
-            static APPLICATION_ID: string = "0167e0d9-e399-422d-b060-f34abbc5e73c";
+            static APPLICATION_ID: string = "0591b502-f677-4fac-92f8-0de9da1e4581";
             /** 应用名称 */
-            static APPLICATION_NAME: string = "materials_app_material_list";
+            static APPLICATION_NAME: string = "materials_app_schedulinggroup_list";
             /** 业务对象编码 */
-            static BUSINESS_OBJECT_CODE: string = bo.Material.BUSINESS_OBJECT_CODE;
+            static BUSINESS_OBJECT_CODE: string = bo.SchedulingGroup.BUSINESS_OBJECT_CODE;
             /** 构造函数 */
             constructor() {
                 super();
-                this.id = MaterialListApp.APPLICATION_ID;
-                this.name = MaterialListApp.APPLICATION_NAME;
-                this.boCode = MaterialListApp.BUSINESS_OBJECT_CODE;
+                this.id = SchedulingGroupListApp.APPLICATION_ID;
+                this.name = SchedulingGroupListApp.APPLICATION_NAME;
+                this.boCode = SchedulingGroupListApp.BUSINESS_OBJECT_CODE;
                 this.description = ibas.i18n.prop(this.name);
             }
             /** 注册视图 */
@@ -29,10 +29,6 @@ namespace materials {
                 // 其他事件
                 this.view.editDataEvent = this.editData;
                 this.view.deleteDataEvent = this.deleteData;
-                this.view.materialGroupEvent = this.materialGroup;
-                this.view.materialUnitEvent = this.materialUnit;
-                this.view.materialSubstituteEvent = this.materialSubstitute;
-                this.view.schedulingGroupEvent = this.schedulingGroup;
             }
             /** 视图显示后 */
             protected viewShowed(): void {
@@ -42,15 +38,26 @@ namespace materials {
             /** 查询数据 */
             protected fetchData(criteria: ibas.ICriteria): void {
                 this.busy(true);
+                if (!ibas.objects.isNull(criteria)) {
+                    // 默认不查询子项，有条件则查
+                    criteria.noChilds = true;
+                    if (criteria.childCriterias.length > 0) {
+                        criteria.noChilds = false;
+                    }
+                }
                 let that: this = this;
                 let boRepository: bo.BORepositoryMaterials = new bo.BORepositoryMaterials();
-                boRepository.fetchMaterial({
+                boRepository.fetchSchedulingGroup({
                     criteria: criteria,
-                    onCompleted(opRslt: ibas.IOperationResult<bo.Material>): void {
+                    onCompleted(opRslt: ibas.IOperationResult<bo.SchedulingGroup>): void {
                         try {
                             that.busy(false);
                             if (opRslt.resultCode !== 0) {
                                 throw new Error(opRslt.message);
+                            }
+                            if (!that.isViewShowed()) {
+                                // 没显示视图，先显示
+                                that.show();
                             }
                             if (opRslt.resultObjects.length === 0) {
                                 that.proceeding(ibas.emMessageType.INFORMATION, ibas.i18n.prop("shell_data_fetched_none"));
@@ -65,13 +72,13 @@ namespace materials {
             }
             /** 新建数据 */
             protected newData(): void {
-                let app: MaterialEditApp = new MaterialEditApp();
+                let app: SchedulingGroupEditApp = new SchedulingGroupEditApp();
                 app.navigation = this.navigation;
                 app.viewShower = this.viewShower;
                 app.run();
             }
             /** 查看数据，参数：目标数据 */
-            protected viewData(data: bo.Material): void {
+            protected viewData(data: bo.SchedulingGroup): void {
                 // 检查目标数据
                 if (ibas.objects.isNull(data)) {
                     this.messages(ibas.emMessageType.WARNING, ibas.i18n.prop("shell_please_chooose_data",
@@ -79,14 +86,9 @@ namespace materials {
                     ));
                     return;
                 }
-                let app: MaterialViewApp = new MaterialViewApp();
-                app.navigation = this.navigation;
-                app.viewShower = this.viewShower;
-                app.run(data);
-
             }
             /** 编辑数据，参数：目标数据 */
-            protected editData(data: bo.Material): void {
+            protected editData(data: bo.SchedulingGroup): void {
                 // 检查目标数据
                 if (ibas.objects.isNull(data)) {
                     this.messages(ibas.emMessageType.WARNING, ibas.i18n.prop("shell_please_chooose_data",
@@ -94,14 +96,14 @@ namespace materials {
                     ));
                     return;
                 }
-                let app: MaterialEditApp = new MaterialEditApp();
+                let app: SchedulingGroupEditApp = new SchedulingGroupEditApp();
                 app.navigation = this.navigation;
                 app.viewShower = this.viewShower;
                 app.run(data);
             }
             /** 删除数据，参数：目标数据集合 */
-            protected deleteData(data: bo.Material | bo.Material[]): void {
-                let beDeleteds: ibas.IList<bo.Material> = ibas.arrays.create(data);
+            protected deleteData(data: bo.SchedulingGroup | bo.SchedulingGroup[]): void {
+                let beDeleteds: ibas.IList<bo.SchedulingGroup> = ibas.arrays.create(data);
                 // 没有选择删除的对象
                 if (beDeleteds.length === 0) {
                     this.messages(ibas.emMessageType.WARNING, ibas.i18n.prop("shell_please_chooose_data",
@@ -109,10 +111,6 @@ namespace materials {
                     ));
                     return;
                 }
-                // 标记删除对象
-                beDeleteds.forEach((value) => {
-                    value.delete();
-                });
                 let that: this = this;
                 this.messages({
                     type: ibas.emMessageType.QUESTION,
@@ -123,12 +121,16 @@ namespace materials {
                         if (action !== ibas.emMessageAction.YES) {
                             return;
                         }
+                        // 标记删除对象
+                        beDeleteds.forEach((value) => {
+                            value.delete();
+                        });
                         let boRepository: bo.BORepositoryMaterials = new bo.BORepositoryMaterials();
                         ibas.queues.execute(beDeleteds, (data, next) => {
                             // 处理数据
-                            boRepository.saveMaterial({
+                            boRepository.saveSchedulingGroup({
                                 beSaved: data,
-                                onCompleted(opRslt: ibas.IOperationResult<bo.Material>): void {
+                                onCompleted(opRslt: ibas.IOperationResult<bo.SchedulingGroup>): void {
                                     if (opRslt.resultCode !== 0) {
                                         next(new Error(ibas.i18n.prop("shell_data_delete_error", data, opRslt.message)));
                                     } else {
@@ -151,47 +153,15 @@ namespace materials {
                     }
                 });
             }
-            private materialGroup(): void {
-                let app: MaterialGroupListApp = new MaterialGroupListApp();
-                app.navigation = this.navigation;
-                app.viewShower = this.viewShower;
-                app.run();
-            }
-            private materialUnit(): void {
-                let app: UnitListApp = new UnitListApp();
-                app.navigation = this.navigation;
-                app.viewShower = this.viewShower;
-                app.run();
-            }
-            private materialSubstitute(): void {
-                let app: MaterialSubstituteApp = new MaterialSubstituteApp();
-                app.navigation = this.navigation;
-                app.viewShower = this.viewShower;
-                app.run();
-            }
-            private schedulingGroup(): void {
-                let app: SchedulingGroupListApp = new SchedulingGroupListApp();
-                app.navigation = this.navigation;
-                app.viewShower = this.viewShower;
-                app.run();
-            }
         }
-        /** 视图-物料 */
-        export interface IMaterialListView extends ibas.IBOListView {
+        /** 视图-计划组 */
+        export interface ISchedulingGroupListView extends ibas.IBOListView {
             /** 编辑数据事件，参数：编辑对象 */
             editDataEvent: Function;
             /** 删除数据事件，参数：删除对象集合 */
             deleteDataEvent: Function;
-            /** 物料组事件 */
-            materialGroupEvent: Function;
-            /** 物料单位事件 */
-            materialUnitEvent: Function;
-            /** 计划组事件 */
-            schedulingGroupEvent: Function;
-            /** 物料替代事件 */
-            materialSubstituteEvent: Function;
             /** 显示数据 */
-            showData(datas: bo.Material[]): void;
+            showData(datas: bo.SchedulingGroup[]): void;
         }
     }
 }

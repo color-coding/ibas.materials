@@ -1451,6 +1451,37 @@ public abstract class MaterialBase<T extends MaterialBase<T>> extends BusinessOb
 	}
 
 	/**
+	* 属性名称-计划组
+	*/
+	private static final String PROPERTY_SCHEDULINGGROUP_NAME = "SchedulingGroup";
+
+	/**
+	* 计划组 属性
+	*/
+	@DbField(name = "SchdGroup", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME)
+	public static final IPropertyInfo<String> PROPERTY_SCHEDULINGGROUP = registerProperty(PROPERTY_SCHEDULINGGROUP_NAME,
+			String.class, MY_CLASS);
+
+	/**
+	* 获取-计划组
+	* 
+	* @return 值
+	*/
+	@XmlElement(name = PROPERTY_SCHEDULINGGROUP_NAME)
+	public final String getSchedulingGroup() {
+		return this.getProperty(PROPERTY_SCHEDULINGGROUP);
+	}
+
+	/**
+	* 设置-计划组
+	* 
+	* @param value 值
+	*/
+	public final void setSchedulingGroup(String value) {
+		this.setProperty(PROPERTY_SCHEDULINGGROUP, value);
+	}
+
+	/**
 	* 属性名称-关键件
 	*/
 	private static final String PROPERTY_KEYCOMPONENT_NAME = "KeyComponent";

@@ -498,6 +498,17 @@ namespace materials {
                 this.setProperty(Product.PROPERTY_SCHEDULER_NAME, value);
             }
 
+            /** 映射的属性名称-计划组 */
+            static PROPERTY_SCHEDULINGGROUP_NAME: string = "SchedulingGroup";
+            /** 获取-计划组 */
+            get schedulingGroup(): string {
+                return this.getProperty<string>(Material.PROPERTY_SCHEDULINGGROUP_NAME);
+            }
+            /** 设置-计划组 */
+            set schedulingGroup(value: string) {
+                this.setProperty(Material.PROPERTY_SCHEDULINGGROUP_NAME, value);
+            }
+
             /** 映射的属性名称-关键件 */
             static PROPERTY_KEYCOMPONENT_NAME: string = "KeyComponent";
             /** 获取-关键件 */

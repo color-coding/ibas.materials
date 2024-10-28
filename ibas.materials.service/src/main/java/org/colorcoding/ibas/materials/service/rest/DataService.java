@@ -23,6 +23,7 @@ import org.colorcoding.ibas.materials.bo.material.MaterialQuantity;
 import org.colorcoding.ibas.materials.bo.material.MaterialSubstitute;
 import org.colorcoding.ibas.materials.bo.material.MaterialVersion;
 import org.colorcoding.ibas.materials.bo.material.Product;
+import org.colorcoding.ibas.materials.bo.material.SchedulingGroup;
 import org.colorcoding.ibas.materials.bo.materialbatch.MaterialBatch;
 import org.colorcoding.ibas.materials.bo.materialbatch.MaterialBatchJournal;
 import org.colorcoding.ibas.materials.bo.materialcatalog.BusinessPartnerMaterialCatalog;
@@ -1045,5 +1046,37 @@ public class DataService extends BORepositoryMaterials {
 			@QueryParam("token") String token) {
 		return super.saveBusinessPartnerMaterialCatalog(bo, MyConfiguration.optToken(authorization, token));
 	}
+
+	// --------------------------------------------------------------------------------------------//
+	/**
+	 * 查询-计划组
+	 * @param criteria 查询
+	 * @param token 口令
+	 * @return 操作结果
+	 */
+	@POST
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Path("fetchSchedulingGroup")
+	public OperationResult<SchedulingGroup> fetchSchedulingGroup(Criteria criteria,
+			@HeaderParam("authorization") String authorization, @QueryParam("token") String token) {
+		return super.fetchSchedulingGroup(criteria, MyConfiguration.optToken(authorization, token));
+	}
+
+	/**
+	 * 保存-计划组
+	 * @param bo 对象实例
+	 * @param token 口令
+	 * @return 操作结果
+	 */
+	@POST
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Path("saveSchedulingGroup")
+	public OperationResult<SchedulingGroup> saveSchedulingGroup(SchedulingGroup bo,
+			@HeaderParam("authorization") String authorization, @QueryParam("token") String token) {
+		return super.saveSchedulingGroup(bo, MyConfiguration.optToken(authorization, token));
+	}
+
 	// --------------------------------------------------------------------------------------------//
 }

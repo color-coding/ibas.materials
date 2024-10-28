@@ -136,6 +136,9 @@ namespace materials {
             /** 计划员 */
             scheduler: string;
 
+            /** 计划组 */
+            schedulingGroup: string;
+
             /** 关键件 */
             keyComponent: ibas.emYesNo;
 

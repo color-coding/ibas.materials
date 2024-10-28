@@ -526,6 +526,20 @@ namespace materials {
             saveBusinessPartnerMaterialCatalog(saver: ibas.ISaveCaller<bo.BusinessPartnerMaterialCatalog>): void {
                 super.save(bo.BusinessPartnerMaterialCatalog.name, saver);
             }
+            /**
+             * 查询 计划组
+             * @param fetcher 查询者
+             */
+            fetchSchedulingGroup(fetcher: ibas.IFetchCaller<bo.SchedulingGroup>): void {
+                super.fetch(bo.SchedulingGroup.name, fetcher);
+            }
+            /**
+             * 保存 计划组
+             * @param saver 保存者
+             */
+            saveSchedulingGroup(saver: ibas.ISaveCaller<bo.SchedulingGroup>): void {
+                super.save(bo.SchedulingGroup.name, saver);
+            }
 
         }
         export interface IChangeCaller extends ibas.IMethodCaller<string> {

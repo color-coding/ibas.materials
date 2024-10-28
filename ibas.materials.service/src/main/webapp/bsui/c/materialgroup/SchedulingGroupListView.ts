@@ -8,26 +8,16 @@
 namespace materials {
     export namespace ui {
         export namespace c {
-            /**
-             * 列表视图-物料
-             */
-            export class MaterialListView extends ibas.BOListView implements app.IMaterialListView {
+            /** 列表视图-计划组 */
+            export class SchedulingGroupListView extends ibas.BOListView implements app.ISchedulingGroupListView {
                 /** 返回查询的对象 */
                 get queryTarget(): any {
-                    return bo.Material;
+                    return bo.SchedulingGroup;
                 }
                 /** 编辑数据，参数：目标数据 */
                 editDataEvent: Function;
                 /** 删除数据事件，参数：删除对象集合 */
                 deleteDataEvent: Function;
-                /** 物料组事件 */
-                materialGroupEvent: Function;
-                /** 物料单位事件 */
-                materialUnitEvent: Function;
-                /** 物料替代事件 */
-                materialSubstituteEvent: Function;
-                /** 计划组事件 */
-                schedulingGroupEvent: Function;
                 /** 绘制视图 */
                 draw(): any {
                     let that: this = this;
@@ -39,85 +29,38 @@ namespace materials {
                         rows: "{/rows}",
                         columns: [
                             new sap.extension.table.DataColumn("", {
-                                label: ibas.i18n.prop("bo_material_code"),
-                                template: new sap.extension.m.DataLink("", {
-                                    objectCode: bo.Material.BUSINESS_OBJECT_CODE,
+                                label: ibas.i18n.prop("bo_schedulinggroup_code"),
+                                template: new sap.extension.m.Text("", {
                                 }).bindProperty("bindingValue", {
                                     path: "code",
                                     type: new sap.extension.data.Alphanumeric()
                                 }),
-                                width: "12rem",
                             }),
                             new sap.extension.table.DataColumn("", {
-                                label: ibas.i18n.prop("bo_material_name"),
-                                width: "20rem",
+                                label: ibas.i18n.prop("bo_schedulinggroup_name"),
                                 template: new sap.extension.m.Text("", {
                                 }).bindProperty("bindingValue", {
-                                    parts: [
-                                        {
-                                            path: "name",
-                                            type: new sap.extension.data.Alphanumeric()
-                                        },
-                                        {
-                                            path: "sign",
-                                            type: new sap.extension.data.Alphanumeric(),
-                                            formatter(data: string): string {
-                                                return ibas.strings.isEmpty(data) ? "" : ibas.strings.format(" ({0})", data);
-                                            }
-                                        },
-                                    ]
-                                }),
-                            }),
-                            new sap.extension.table.DataColumn("", {
-                                label: ibas.i18n.prop("bo_material_itemtype"),
-                                template: new sap.extension.m.Text("", {
-                                }).bindProperty("bindingValue", {
-                                    path: "itemType",
-                                    type: new sap.extension.data.Enum({
-                                        enumType: bo.emItemType,
-                                        describe: true,
-                                    })
-                                }),
-                                width: "8rem",
-                            }),
-                            new sap.extension.table.DataColumn("", {
-                                label: ibas.i18n.prop("bo_material_group"),
-                                template: new sap.extension.m.RepositoryText("", {
-                                    repository: bo.BORepositoryMaterials,
-                                    dataInfo: {
-                                        type: bo.MaterialGroup,
-                                        key: bo.MaterialGroup.PROPERTY_CODE_NAME,
-                                        text: bo.MaterialGroup.PROPERTY_NAME_NAME
-                                    },
-                                }).bindProperty("bindingValue", {
-                                    path: "group",
-                                    type: new sap.extension.data.Alphanumeric()
-                                }),
-                            }),
-                            new sap.extension.table.DataColumn("", {
-                                label: ibas.i18n.prop("bo_material_onhand"),
-                                template: new sap.extension.m.Text("", {
-                                }).bindProperty("bindingValue", {
-                                    parts: [
-                                        {
-                                            path: "onHand",
-                                            type: new sap.extension.data.Quantity()
-                                        },
-                                        {
-                                            path: "inventoryUOM",
-                                            type: new sap.extension.data.Alphanumeric()
-                                        },
-                                    ]
-                                }),
-                            }),
-                            new sap.extension.table.DataColumn("", {
-                                label: ibas.i18n.prop("bo_material_remarks"),
-                                template: new sap.extension.m.Text("", {
-                                }).bindProperty("bindingValue", {
-                                    path: "remarks",
+                                    path: "name",
                                     type: new sap.extension.data.Alphanumeric()
                                 }),
                                 width: "16rem",
+                            }),
+                            new sap.extension.table.DataColumn("", {
+                                label: ibas.i18n.prop("bo_schedulinggroup_activated"),
+                                template: new sap.extension.m.Text("", {
+                                }).bindProperty("bindingValue", {
+                                    path: "activated",
+                                    type: new sap.extension.data.YesNo(true)
+                                }),
+                            }),
+                            new sap.extension.table.DataColumn("", {
+                                label: ibas.i18n.prop("bo_schedulinggroup_remarks"),
+                                template: new sap.extension.m.Text("", {
+                                }).bindProperty("bindingValue", {
+                                    path: "remarks",
+                                    type: new sap.extension.data.Alphanumeric(),
+                                }),
+                                width: "20rem",
                             }),
                         ],
                         nextDataSet(event: sap.ui.base.Event): void {
@@ -145,23 +88,15 @@ namespace materials {
                                     text: ibas.i18n.prop("shell_data_new"),
                                     type: sap.m.ButtonType.Transparent,
                                     icon: "sap-icon://create",
-                                    press: function (): void {
-                                        that.fireViewEvents(that.newDataEvent);
-                                    }
-                                }),
-                                new sap.m.Button("", {
-                                    text: ibas.i18n.prop("shell_data_view"),
-                                    type: sap.m.ButtonType.Transparent,
-                                    icon: "sap-icon://display",
                                     press(): void {
-                                        that.fireViewEvents(that.viewDataEvent, that.table.getSelecteds().firstOrDefault());
+                                        that.fireViewEvents(that.newDataEvent);
                                     }
                                 }),
                                 new sap.m.Button("", {
                                     text: ibas.i18n.prop("shell_data_edit"),
                                     type: sap.m.ButtonType.Transparent,
                                     icon: "sap-icon://edit",
-                                    press: function (): void {
+                                    press(): void {
                                         that.fireViewEvents(that.editDataEvent, that.table.getSelecteds().firstOrDefault());
                                     }
                                 }),
@@ -170,54 +105,15 @@ namespace materials {
                                     text: ibas.i18n.prop("shell_data_delete"),
                                     type: sap.m.ButtonType.Transparent,
                                     icon: "sap-icon://delete",
-                                    press: function (): void {
+                                    press(): void {
                                         that.fireViewEvents(that.deleteDataEvent, that.table.getSelecteds());
                                     }
-                                }),
-                                new sap.m.ToolbarSeparator(""),
-                                new sap.extension.m.MenuButton("", {
-                                    autoHide: true,
-                                    text: ibas.i18n.prop("shell_quick_to"),
-                                    icon: "sap-icon://generate-shortcut",
-                                    type: sap.m.ButtonType.Transparent,
-                                    menu: new sap.m.Menu("", {
-                                        items: [
-                                            new sap.m.MenuItem("", {
-                                                text: ibas.i18n.prop("materials_func_materialgroup"),
-                                                icon: "sap-icon://dimension",
-                                                press: function (): void {
-                                                    that.fireViewEvents(that.materialGroupEvent);
-                                                },
-                                            }),
-                                            new sap.m.MenuItem("", {
-                                                text: ibas.i18n.prop("bo_material_schedulinggroup"),
-                                                icon: "sap-icon://washing-machine",
-                                                press: function (): void {
-                                                    that.fireViewEvents(that.schedulingGroupEvent);
-                                                },
-                                            }),
-                                            new sap.m.MenuItem("", {
-                                                text: ibas.i18n.prop("materials_func_unit"),
-                                                icon: "sap-icon://measure",
-                                                press: function (): void {
-                                                    that.fireViewEvents(that.materialUnitEvent);
-                                                },
-                                            }),
-                                            new sap.m.MenuItem("", {
-                                                text: ibas.i18n.prop("materials_func_materialsubstitute"),
-                                                icon: "sap-icon://add-product",
-                                                press: function (): void {
-                                                    that.fireViewEvents(that.materialSubstituteEvent);
-                                                },
-                                            }),
-                                        ],
-                                    })
                                 }),
                                 new sap.m.ToolbarSpacer(""),
                                 new sap.m.Button("", {
                                     type: sap.m.ButtonType.Transparent,
                                     icon: "sap-icon://action",
-                                    press: function (event: any): void {
+                                    press(event: sap.ui.base.Event): void {
                                         ibas.servicesManager.showServices({
                                             proxy: new ibas.BOServiceProxy({
                                                 data: that.table.getSelecteds(),
@@ -271,7 +167,7 @@ namespace materials {
                 }
                 private table: sap.extension.table.Table;
                 /** 显示数据 */
-                showData(datas: bo.Material[]): void {
+                showData(datas: bo.SchedulingGroup[]): void {
                     let model: sap.ui.model.Model = this.table.getModel();
                     if (model instanceof sap.extension.model.JSONModel) {
                         // 已绑定过数据
@@ -282,7 +178,6 @@ namespace materials {
                     }
                     this.table.setBusy(false);
                 }
-
                 /** 记录上次查询条件，表格滚动时自动触发 */
                 query(criteria: ibas.ICriteria): void {
                     super.query(criteria);

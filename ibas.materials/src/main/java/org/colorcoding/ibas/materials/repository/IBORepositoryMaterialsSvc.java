@@ -15,6 +15,7 @@ import org.colorcoding.ibas.materials.bo.material.MaterialQuantity;
 import org.colorcoding.ibas.materials.bo.material.MaterialSubstitute;
 import org.colorcoding.ibas.materials.bo.material.MaterialVersion;
 import org.colorcoding.ibas.materials.bo.material.Product;
+import org.colorcoding.ibas.materials.bo.material.SchedulingGroup;
 import org.colorcoding.ibas.materials.bo.materialbatch.MaterialBatch;
 import org.colorcoding.ibas.materials.bo.materialbatch.MaterialBatchJournal;
 import org.colorcoding.ibas.materials.bo.materialcatalog.BusinessPartnerMaterialCatalog;
@@ -643,5 +644,21 @@ public interface IBORepositoryMaterialsSvc extends IBORepositorySmartService {
 	OperationResult<BusinessPartnerMaterialCatalog> saveBusinessPartnerMaterialCatalog(
 			BusinessPartnerMaterialCatalog bo, String token);
 
+	// --------------------------------------------------------------------------------------------//
+	/**
+	 * 查询-计划组
+	 * @param criteria 查询
+	 * @param token 口令
+	 * @return 操作结果
+	 */
+	OperationResult<SchedulingGroup> fetchSchedulingGroup(ICriteria criteria, String token);
+
+	/**
+	 * 保存-计划组
+	 * @param bo 对象实例
+	 * @param token 口令
+	 * @return 操作结果
+	 */
+	OperationResult<SchedulingGroup> saveSchedulingGroup(SchedulingGroup bo, String token);
 	// --------------------------------------------------------------------------------------------//
 }

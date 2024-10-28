@@ -866,6 +866,20 @@ public interface IMaterial extends IBOMasterData {
 	void setScheduler(String value);
 
 	/**
+	* 获取-计划组
+	* 
+	* @return 值
+	*/
+	String getSchedulingGroup();
+
+	/**
+	* 设置-计划组
+	* 
+	* @param value 值
+	*/
+	void setSchedulingGroup(String value);
+
+	/**
 	* 获取-关键件
 	* 
 	* @return 值
