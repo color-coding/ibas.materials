@@ -282,13 +282,15 @@ namespace materials {
                     }
                     conditions.add(filterConditions);
                 }
-                // 库存物料
-                condition = new ibas.Condition();
-                condition.alias = app.conditions.material.CONDITION_ALIAS_INVENTORY_ITEM;
-                condition.value = ibas.emYesNo.YES.toString();
-                condition.operation = ibas.emConditionOperation.EQUAL;
-                condition.relationship = ibas.emConditionRelationship.AND;
-                conditions.add(condition);
+                if (config.get<boolean>(config.CONFIG_ITEM_ENABLE_NON_INVENTORY_ITEM_TRANSACTIONS, false) !== true) {
+                    // 库存物料
+                    condition = new ibas.Condition();
+                    condition.alias = app.conditions.material.CONDITION_ALIAS_INVENTORY_ITEM;
+                    condition.value = ibas.emYesNo.YES.toString();
+                    condition.operation = ibas.emConditionOperation.EQUAL;
+                    condition.relationship = ibas.emConditionRelationship.AND;
+                    conditions.add(condition);
+                }
                 // 物料类型
                 condition = new ibas.Condition();
                 condition.alias = app.conditions.material.CONDITION_ALIAS_ITEM_TYPE;

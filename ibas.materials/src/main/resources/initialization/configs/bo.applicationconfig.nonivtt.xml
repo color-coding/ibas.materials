@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!DOCTYPE ApplicationConfig>
+<ns:ApplicationConfig xmlns:ns="http://colorcoding.org/ibas/initialfantasy/bo">
+	<ConfigKey>enableNonInventoryItemTransactions</ConfigKey>
+	<ConfigDescription>启用非库存物料交易</ConfigDescription>
+	<ConfigGroup>bad47859-3d74-4b2b-975a-48c635406be4</ConfigGroup>
+	<ConfigValue>false</ConfigValue>
+	<Settings>[{"Key":true,"Text":"是"},{"Key":false,"Text":"否"}]</Settings>
+	<Category>CLIENT</Category>
+	<Activated>YES</Activated>
+</ns:ApplicationConfig>

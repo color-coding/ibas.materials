@@ -320,7 +320,11 @@ namespace materials {
                                                 }
                                             },
                                             criteria: [
-                                                new ibas.Condition(materials.app.conditions.product.CONDITION_ALIAS_INVENTORY_ITEM, ibas.emConditionOperation.EQUAL, ibas.emYesNo.YES)
+                                                new ibas.Condition(materials.bo.Material.PROPERTY_ITEMTYPE_NAME, ibas.emConditionOperation.EQUAL, bo.emItemType.ITEM),
+                                                new ibas.Condition(materials.bo.Material.PROPERTY_PHANTOMITEM_NAME, ibas.emConditionOperation.NOT_EQUAL, ibas.emYesNo.YES),
+                                                config.get<boolean>(config.CONFIG_ITEM_ENABLE_NON_INVENTORY_ITEM_TRANSACTIONS, false) !== true
+                                                    ? new ibas.Condition(materials.bo.Material.PROPERTY_ITEMTYPE_NAME, ibas.emConditionOperation.EQUAL, ibas.emYesNo.YES)
+                                                    : new ibas.Condition(materials.bo.Material.PROPERTY_ITEMTYPE_NAME, ibas.emConditionOperation.NOT_NULL)
                                             ],
                                             valuePaste: function (this: sap.extension.m.Input, event: sap.ui.base.Event): void {
                                                 let source: any = <any>event.getSource();

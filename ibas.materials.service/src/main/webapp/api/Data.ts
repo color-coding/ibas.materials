@@ -28,6 +28,8 @@ namespace materials {
         export const CONFIG_ITEM_ENABLE_MATERIAL_SPECIAL_PRICES: string = "enableMaterialSpecialPrices";
         /** 配置项目-单据行显示库存 */
         export const CONFIG_ITEM_DOCUMENT_LINE_DISPLAY_INVENTORY: string = "documentLineDisplayInventory";
+        /** 配置项目-启用非库存物料交易 */
+        export const CONFIG_ITEM_ENABLE_NON_INVENTORY_ITEM_TRANSACTIONS: string = "enableNonInventoryItemTransactions";
         /**
          * 获取此模块配置
          * @param key 配置项
