@@ -460,16 +460,6 @@ namespace materials {
                                                         text: ibas.i18n.prop("materials_import_prices"),
                                                         icon: "sap-icon://cause",
                                                         press: function (event: sap.ui.base.Event): void {
-                                                            let priceList: bo.MaterialPriceList
-                                                                = that.tablePartners.getSelecteds<bo.MaterialPriceList>().firstOrDefault();
-                                                            if (ibas.objects.isNull(priceList)) {
-                                                                that.application.viewShower.messages({
-                                                                    title: that.application.description,
-                                                                    message: ibas.i18n.prop("shell_please_chooose_data", ibas.i18n.prop("bo_materialpricelist")),
-                                                                    type: ibas.emMessageType.WARNING
-                                                                }); return;
-                                                            }
-
                                                             ibas.servicesManager.runApplicationService<any, ibas.DataTable>({
                                                                 proxy: new importexport.app.FileParsingServiceProxy({
                                                                     outType: "array"

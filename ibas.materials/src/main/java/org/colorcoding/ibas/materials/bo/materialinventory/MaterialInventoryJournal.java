@@ -1402,34 +1402,37 @@ public class MaterialInventoryJournal extends BusinessObject<MaterialInventoryJo
 				}
 
 			});
-			// 记录成本到价格清单
-			contracts.add(new IMaterialPriceContract() {
+			if (MyConfiguration.getConfigValue(MyConfiguration.CONFIG_ITEM_ENABLE_MATERIAL_COST_PRICE_RECORDING,
+					true)) {
+				// 记录成本到价格清单
+				contracts.add(new IMaterialPriceContract() {
 
-				@Override
-				public String getIdentifiers() {
-					return MaterialInventoryJournal.this.getIdentifiers();
-				}
-
-				@Override
-				public Integer getPriceList() {
-					return MyConfiguration.DATA_MATERIALS_COST_PRICE_LIST;
-				}
-
-				@Override
-				public BigDecimal getPrice() {
-					if (DataConvert.isNullOrEmpty(MaterialInventoryJournal.this.getUpdateActionId())) {
-						// 仅新状态影响成本
-						return MaterialInventoryJournal.this.getAvgPrice();
+					@Override
+					public String getIdentifiers() {
+						return MaterialInventoryJournal.this.getIdentifiers();
 					}
-					return null;
-				}
 
-				@Override
-				public String getItemCode() {
-					return MaterialInventoryJournal.this.getItemCode();
-				}
+					@Override
+					public Integer getPriceList() {
+						return MyConfiguration.DATA_MATERIALS_COST_PRICE_LIST;
+					}
 
-			});
+					@Override
+					public BigDecimal getPrice() {
+						if (DataConvert.isNullOrEmpty(MaterialInventoryJournal.this.getUpdateActionId())) {
+							// 仅新状态影响成本
+							return MaterialInventoryJournal.this.getAvgPrice();
+						}
+						return null;
+					}
+
+					@Override
+					public String getItemCode() {
+						return MaterialInventoryJournal.this.getItemCode();
+					}
+
+				});
+			}
 		}
 		return contracts.toArray(new IBusinessLogicContract[] {});
 	}

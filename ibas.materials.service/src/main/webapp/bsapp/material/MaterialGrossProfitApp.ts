@@ -220,7 +220,8 @@ namespace materials {
                 this[PROPERTY_GROSSPROFIT] =
                     ibas.numbers.round((price - grossPrice) * quantity, ibas.config.get(ibas.CONFIG_ITEM_DECIMAL_PLACES_SUM));
                 this[PROPERTY_GROSSPROFITRATE] =
-                    ibas.numbers.round(this.grossProfit / (price * quantity), ibas.config.get(ibas.CONFIG_ITEM_DECIMAL_PLACES_PERCENTAGE));
+                    ibas.numbers.round(price > 0 ? this.grossProfit / (price * quantity) : 0,
+                        ibas.config.get(ibas.CONFIG_ITEM_DECIMAL_PLACES_PERCENTAGE));
                 if (slient !== true) {
                     this.firePropertyChanged("grossProfitPrice");
                 }
