@@ -81,16 +81,15 @@ namespace materials {
                                 label: ibas.i18n.prop("bo_inventorytransferrequest_documenttotal"),
                                 template: new sap.extension.m.Text("", {
                                 }).bindProperty("bindingValue", {
-                                    path: "documentTotal",
-                                    type: new sap.extension.data.Sum()
-                                }),
-                            }),
-                            new sap.extension.table.DataColumn("", {
-                                label: ibas.i18n.prop("bo_inventorytransferrequest_documentcurrency"),
-                                template: new sap.extension.m.Text("", {
-                                }).bindProperty("bindingValue", {
-                                    path: "documentCurrency",
-                                    type: new sap.extension.data.Alphanumeric()
+                                    parts: [
+                                        {
+                                            path: "documentTotal",
+                                            type: new sap.extension.data.Sum()
+                                        }, {
+                                            path: "documentCurrency",
+                                            type: new sap.extension.data.Alphanumeric()
+                                        }
+                                    ]
                                 }),
                             }),
                             new sap.extension.table.DataColumn("", {

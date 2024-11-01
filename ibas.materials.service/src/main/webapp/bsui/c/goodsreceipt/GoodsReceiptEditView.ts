@@ -57,20 +57,45 @@ namespace materials {
                                 })
                             }),
                             new sap.m.Label("", { text: ibas.i18n.prop("bo_goodsreceipt_pricelist") }),
-                            new sap.extension.m.RepositoryInput("", {
-                                showValueHelp: true,
-                                repository: materials.bo.BORepositoryMaterials,
-                                dataInfo: {
-                                    type: materials.bo.MaterialPriceList,
-                                    key: materials.bo.MaterialPriceList.PROPERTY_OBJECTKEY_NAME,
-                                    text: materials.bo.MaterialPriceList.PROPERTY_NAME_NAME
-                                },
-                                valueHelpRequest: function (): void {
-                                    that.fireViewEvents(that.chooseGoodsReceiptMaterialPriceListEvent);
-                                },
-                            }).bindProperty("bindingValue", {
-                                path: "priceList",
-                                type: new sap.extension.data.Numeric()
+                            new sap.m.FlexBox("", {
+                                width: "100%",
+                                justifyContent: sap.m.FlexJustifyContent.Start,
+                                renderType: sap.m.FlexRendertype.Bare,
+                                alignContent: sap.m.FlexAlignContent.Center,
+                                alignItems: sap.m.FlexAlignItems.Center,
+                                items: [
+                                    new sap.extension.m.RepositoryInput("", {
+                                        width: "70%",
+                                        showValueHelp: true,
+                                        repository: materials.bo.BORepositoryMaterials,
+                                        dataInfo: {
+                                            type: materials.bo.MaterialPriceList,
+                                            key: materials.bo.MaterialPriceList.PROPERTY_OBJECTKEY_NAME,
+                                            text: materials.bo.MaterialPriceList.PROPERTY_NAME_NAME
+                                        },
+                                        valueHelpRequest: function (): void {
+                                            that.fireViewEvents(that.chooseGoodsReceiptMaterialPriceListEvent);
+                                        },
+                                    }).bindProperty("bindingValue", {
+                                        path: "priceList",
+                                        type: new sap.extension.data.Numeric()
+                                    }).addStyleClass("sapUiTinyMarginEnd"),
+                                    new sap.extension.m.CurrencyRateSelect("", {
+                                        baseCurrency: accounting.config.currency("LOCAL"),
+                                        currency: {
+                                            path: "documentCurrency",
+                                            type: new sap.extension.data.Alphanumeric()
+                                        },
+                                        rate: {
+                                            path: "documentRate",
+                                            type: new sap.extension.data.Rate()
+                                        },
+                                        date: {
+                                            path: "documentDate",
+                                            type: new sap.extension.data.Date()
+                                        }
+                                    }),
+                                ]
                             }),
                             new sap.m.Label("", { text: ibas.i18n.prop("bo_goodsreceipt_reference1") }),
                             new sap.extension.m.Input("", {
@@ -96,6 +121,30 @@ namespace materials {
                             }).bindProperty("bindingValue", {
                                 path: "docEntry",
                                 type: new sap.extension.data.Numeric()
+                            }),
+                            new sap.m.Label("", { text: ibas.i18n.prop("bo_goodsreceipt_docnum") }),
+                            new sap.extension.m.Input("", {
+                            }).bindProperty("bindingValue", {
+                                path: "docNum",
+                                type: new sap.extension.data.Alphanumeric({
+                                    maxLength: 20
+                                })
+                            }).bindProperty("editable", {
+                                path: "series",
+                                formatter(data: any): any {
+                                    return data > 0 ? false : true;
+                                }
+                            }),
+                            new sap.extension.m.SeriesSelect("", {
+                                objectCode: bo.BO_CODE_GOODSRECEIPT,
+                            }).bindProperty("bindingValue", {
+                                path: "series",
+                                type: new sap.extension.data.Numeric()
+                            }).bindProperty("editable", {
+                                path: "isNew",
+                                formatter(data: any): any {
+                                    return data === false ? false : true;
+                                }
                             }),
                             new sap.m.Label("", { text: ibas.i18n.prop("bo_goodsreceipt_documentstatus") }),
                             new sap.extension.m.EnumSelect("", {
@@ -439,18 +488,28 @@ namespace materials {
                                     new sap.extension.table.DataColumn("", {
                                         label: ibas.i18n.prop("bo_goodsreceiptline_price"),
                                         template: new sap.extension.m.Input("", {
-
+                                            fieldWidth: "70%",
                                         }).bindProperty("bindingValue", {
                                             path: "price",
                                             type: new sap.extension.data.Price()
+                                        }).bindProperty("description", {
+                                            path: "currency",
+                                            type: new sap.extension.data.Alphanumeric()
                                         }),
                                     }),
                                     new sap.extension.table.DataColumn("", {
                                         label: ibas.i18n.prop("bo_goodsreceiptline_linetotal"),
                                         template: new sap.extension.m.Text("", {
                                         }).bindProperty("bindingValue", {
-                                            path: "lineTotal",
-                                            type: new sap.extension.data.Sum()
+                                            parts: [
+                                                {
+                                                    path: "lineTotal",
+                                                    type: new sap.extension.data.Sum()
+                                                }, {
+                                                    path: "currency",
+                                                    type: new sap.extension.data.Alphanumeric()
+                                                }
+                                            ]
                                         }),
                                     }),
                                     new sap.extension.table.DataColumn("", {

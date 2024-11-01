@@ -391,8 +391,78 @@ namespace materials {
                         let selected: bo.MaterialPriceList = selecteds.firstOrDefault();
                         that.editData.priceList = selected.objectKey;
                         that.editData.documentCurrency = selected.currency;
+                        that.changeGoodsIssueLinePrice(that.editData.priceList);
                     }
                 });
+            }
+            /** 更改行价格 */
+            private changeGoodsIssueLinePrice(priceList: number | ibas.ICriteria, items?: bo.GoodsIssueLine[]): void {
+                if (ibas.objects.isNull(items)) {
+                    items = this.editData.goodsIssueLines.filterDeleted();
+                }
+                if (typeof priceList === "number" && ibas.numbers.valueOf(priceList) !== 0) {
+                    let criteria: ibas.ICriteria = materials.app.conditions.materialprice.create(this.editData.documentDate);
+                    let condition: ibas.ICondition = criteria.conditions.create();
+                    condition.alias = materials.app.conditions.materialprice.CONDITION_ALIAS_PRICELIST;
+                    condition.value = priceList.toString();
+                    if (!ibas.strings.isEmpty(this.editData.documentCurrency)) {
+                        condition = criteria.conditions.create();
+                        condition.alias = materials.app.conditions.materialprice.CONDITION_ALIAS_CURRENCY;
+                        condition.value = this.editData.documentCurrency;
+                    }
+                    let count: number = criteria.conditions.length;
+                    for (let item of items) {
+                        condition = criteria.conditions.create();
+                        condition.alias = materials.app.conditions.materialprice.CONDITION_ALIAS_ITEMCODE;
+                        condition.value = item.itemCode;
+                        condition.bracketOpen = 1;
+                        if (criteria.conditions.length > count + 1) {
+                            condition.relationship = ibas.emConditionRelationship.OR;
+                        }
+                        condition = criteria.conditions.create();
+                        condition.alias = materials.app.conditions.materialprice.CONDITION_ALIAS_UOM;
+                        condition.value = item.uom;
+                        condition.bracketClose = 1;
+                    }
+                    if (criteria.conditions.length < count + 1) {
+                        return;
+                    }
+                    if (criteria.conditions.length > count + 1) {
+                        criteria.conditions[count].bracketOpen += 1;
+                        criteria.conditions[criteria.conditions.length - 1].bracketClose += 1;
+                    }
+                    this.messages({
+                        type: ibas.emMessageType.QUESTION,
+                        message: ibas.i18n.prop("materials_change_item_price_continue"),
+                        actions: [
+                            ibas.emMessageAction.YES,
+                            ibas.emMessageAction.NO,
+                        ],
+                        onCompleted: (result) => {
+                            if (result === ibas.emMessageAction.YES) {
+                                this.changeGoodsIssueLinePrice(criteria, items);
+                            }
+                        }
+                    });
+                } else if (priceList instanceof ibas.Criteria) {
+                    this.busy(true);
+                    let boRepository: materials.bo.BORepositoryMaterials = new materials.bo.BORepositoryMaterials();
+                    boRepository.fetchMaterialPrice({
+                        criteria: priceList,
+                        onCompleted: (opRslt) => {
+                            for (let item of opRslt.resultObjects) {
+                                items.forEach((value) => {
+                                    if (item.itemCode === value.itemCode
+                                        && (ibas.strings.isEmpty(value.uom) || item.uom === value.uom)) {
+                                        value.price = item.price;
+                                        value.currency = item.currency;
+                                    }
+                                });
+                            }
+                            this.busy(false);
+                        }
+                    });
+                }
             }
             /** 选择库存发货行批次事件 */
             private chooseGoodsIssueLineMaterialBatch(): void {

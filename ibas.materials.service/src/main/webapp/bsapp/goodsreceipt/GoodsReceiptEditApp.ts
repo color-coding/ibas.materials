@@ -382,12 +382,12 @@ namespace materials {
                         let selected: bo.MaterialPriceList = selecteds.firstOrDefault();
                         that.editData.priceList = selected.objectKey;
                         that.editData.documentCurrency = selected.currency;
-                        that.changePurchaseOrderItemPrice(that.editData.priceList);
+                        that.changeGoodsReceiptLinePrice(that.editData.priceList);
                     }
                 });
             }
             /** 更改行价格 */
-            private changePurchaseOrderItemPrice(priceList: number | ibas.ICriteria, items?: bo.GoodsReceiptLine[]): void {
+            private changeGoodsReceiptLinePrice(priceList: number | ibas.ICriteria, items?: bo.GoodsReceiptLine[]): void {
                 if (ibas.objects.isNull(items)) {
                     items = this.editData.goodsReceiptLines.filterDeleted();
                 }
@@ -431,7 +431,7 @@ namespace materials {
                         ],
                         onCompleted: (result) => {
                             if (result === ibas.emMessageAction.YES) {
-                                this.changePurchaseOrderItemPrice(criteria, items);
+                                this.changeGoodsReceiptLinePrice(criteria, items);
                             }
                         }
                     });
