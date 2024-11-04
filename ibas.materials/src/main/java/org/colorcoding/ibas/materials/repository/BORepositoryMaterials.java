@@ -1125,7 +1125,8 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 						// 清单币，跳过
 						continue;
 					}
-					if (priceItem.getCurrency().equalsIgnoreCase(localCurrency)) {
+					if (DataConvert.isNullOrEmpty(priceItem.getCurrency())
+							|| priceItem.getCurrency().equalsIgnoreCase(localCurrency)) {
 						// 本币
 						newPrice = Decimal.multiply(priceItem.getPrice(), Decimal.ONE);
 					} else {
@@ -2657,8 +2658,9 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 	// --------------------------------------------------------------------------------------------//
 	/**
 	 * 查询-物料系号关联
+	 * 
 	 * @param criteria 查询
-	 * @param token 口令
+	 * @param token    口令
 	 * @return 操作结果
 	 */
 	public OperationResult<MaterialNumberAssociation> fetchMaterialNumberAssociation(ICriteria criteria, String token) {
@@ -2667,6 +2669,7 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 
 	/**
 	 * 查询-物料系号关联（提前设置用户口令）
+	 * 
 	 * @param criteria 查询
 	 * @return 操作结果
 	 */
@@ -2677,7 +2680,8 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 
 	/**
 	 * 保存-物料系号关联
-	 * @param bo 对象实例
+	 * 
+	 * @param bo    对象实例
 	 * @param token 口令
 	 * @return 操作结果
 	 */
@@ -2688,6 +2692,7 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 
 	/**
 	 * 保存-物料系号关联（提前设置用户口令）
+	 * 
 	 * @param bo 对象实例
 	 * @return 操作结果
 	 */
@@ -2699,8 +2704,9 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 	// --------------------------------------------------------------------------------------------//
 	/**
 	 * 查询-业务伙伴物料目录
+	 * 
 	 * @param criteria 查询
-	 * @param token 口令
+	 * @param token    口令
 	 * @return 操作结果
 	 */
 	public OperationResult<BusinessPartnerMaterialCatalog> fetchBusinessPartnerMaterialCatalog(ICriteria criteria,
@@ -2710,6 +2716,7 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 
 	/**
 	 * 查询-业务伙伴物料目录（提前设置用户口令）
+	 * 
 	 * @param criteria 查询
 	 * @return 操作结果
 	 */
@@ -2720,7 +2727,8 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 
 	/**
 	 * 保存-业务伙伴物料目录
-	 * @param bo 对象实例
+	 * 
+	 * @param bo    对象实例
 	 * @param token 口令
 	 * @return 操作结果
 	 */
@@ -2731,6 +2739,7 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 
 	/**
 	 * 保存-业务伙伴物料目录（提前设置用户口令）
+	 * 
 	 * @param bo 对象实例
 	 * @return 操作结果
 	 */
@@ -2743,8 +2752,9 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 	// --------------------------------------------------------------------------------------------//
 	/**
 	 * 查询-计划组
+	 * 
 	 * @param criteria 查询
-	 * @param token 口令
+	 * @param token    口令
 	 * @return 操作结果
 	 */
 	public OperationResult<SchedulingGroup> fetchSchedulingGroup(ICriteria criteria, String token) {
@@ -2753,6 +2763,7 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 
 	/**
 	 * 查询-计划组（提前设置用户口令）
+	 * 
 	 * @param criteria 查询
 	 * @return 操作结果
 	 */
@@ -2762,7 +2773,8 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 
 	/**
 	 * 保存-计划组
-	 * @param bo 对象实例
+	 * 
+	 * @param bo    对象实例
 	 * @param token 口令
 	 * @return 操作结果
 	 */
@@ -2772,6 +2784,7 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 
 	/**
 	 * 保存-计划组（提前设置用户口令）
+	 * 
 	 * @param bo 对象实例
 	 * @return 操作结果
 	 */

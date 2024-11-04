@@ -38,7 +38,7 @@ import org.colorcoding.ibas.materials.logic.IMaterialInventoryReservationRelease
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlType(name = MaterialBatchJournal.BUSINESS_OBJECT_NAME, namespace = MyConfiguration.NAMESPACE_BO)
 @XmlRootElement(name = MaterialBatchJournal.BUSINESS_OBJECT_NAME, namespace = MyConfiguration.NAMESPACE_BO)
-@BusinessObjectUnit(code = MaterialBatch.BUSINESS_OBJECT_CODE)
+@BusinessObjectUnit(code = MaterialBatchJournal.BUSINESS_OBJECT_CODE)
 public class MaterialBatchJournal extends BusinessObject<MaterialBatchJournal>
 		implements IMaterialBatchJournal, IBusinessLogicsHost, ICheckRules {
 
