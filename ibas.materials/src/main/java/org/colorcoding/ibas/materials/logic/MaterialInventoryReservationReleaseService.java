@@ -15,6 +15,7 @@ import org.colorcoding.ibas.bobas.common.ICriteria;
 import org.colorcoding.ibas.bobas.common.IOperationResult;
 import org.colorcoding.ibas.bobas.core.IPropertyInfo;
 import org.colorcoding.ibas.bobas.data.Decimal;
+import org.colorcoding.ibas.bobas.data.emBOStatus;
 import org.colorcoding.ibas.bobas.data.emYesNo;
 import org.colorcoding.ibas.bobas.logic.BusinessLogicException;
 import org.colorcoding.ibas.bobas.logic.IBusinessObjectGroup;
@@ -157,6 +158,10 @@ public class MaterialInventoryReservationReleaseService extends
 			BigDecimal remQuantity;
 			BigDecimal avaQuantity = contract.getQuantity();
 			for (IMaterialInventoryReservation item : reservationGroup.getItems()) {
+				// 已经取消的不做处理
+				if (item.getStatus() == emBOStatus.CLOSED) {
+					continue;
+				}
 				remQuantity = item.getQuantity().subtract(item.getClosedQuantity());
 				if (remQuantity.compareTo(Decimal.ZERO) <= 0) {
 					continue;

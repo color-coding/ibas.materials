@@ -457,6 +457,7 @@ namespace materials {
                 this.project = data.project;
                 this.documentCurrency = data.documentCurrency;
                 this.branch = data.branch;
+                this.orderType = data.orderType;
                 // 复制自定义字段
                 for (let item of data.userFields.forEach()) {
                     let myItem: ibas.IUserField = this.userFields.get(item.name);

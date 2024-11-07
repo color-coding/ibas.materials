@@ -539,7 +539,7 @@ namespace materials {
                                                     wItem = wItems[0].clone();
                                                     target.inventoryTransferLines.add(wItem);
                                                 }
-                                                wItem.warehouse = result.warehouse;
+                                                wItem.fromWarehouse = result.warehouse;
                                             }
                                             // 应用库存
                                             wItem.quantity = ibas.numbers.round(wItem.quantity + result.quantity - result.closedQuantity);
