@@ -1074,9 +1074,6 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 				if (DataConvert.isNullOrEmpty(item.getCurrency())) {
 					continue;
 				}
-				if (Decimal.ZERO.compareTo(item.getPrice()) >= 0) {
-					continue;
-				}
 				if (criteria.getConditions()
 						.firstOrDefault(c -> c.getValue().equalsIgnoreCase(item.getCurrency())) != null) {
 					continue;
@@ -1108,7 +1105,7 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 				String localCurrency = org.colorcoding.ibas.accounting.MyConfiguration
 						.getConfigValue(org.colorcoding.ibas.accounting.MyConfiguration.CONFIG_ITEM_LOCAL_CURRENCY);
 				if (!listCurrency.equalsIgnoreCase(localCurrency)) {
-					// 清单与本币不一致，获取清单币到本币汇率
+					// 获取清单币到本币汇率
 					listCurrencyRate = currencyRates
 							.firstOrDefault(c -> listCurrency.equalsIgnoreCase(c.getCurrency()));
 					if (listCurrencyRate == null) {
@@ -1116,12 +1113,7 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 					}
 				}
 				for (IMaterialPrice priceItem : materialPrices) {
-					if (DataConvert.isNullOrEmpty(priceItem.getCurrency())
-							|| Decimal.ZERO.compareTo(priceItem.getPrice()) >= 0) {
-						// 未设置币种，则为清单币
-						priceItem.setCurrency(listCurrency);
-						continue;
-					} else if (priceItem.getCurrency().equalsIgnoreCase(listCurrency)) {
+					if (priceItem.getCurrency().equalsIgnoreCase(listCurrency)) {
 						// 清单币，跳过
 						continue;
 					}
@@ -1137,11 +1129,11 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 							throw new Exception(
 									I18N.prop("msg_mm_not_found_currency_rate", today, priceItem.getCurrency()));
 						}
-						newPrice = Decimal.multiply(priceItem.getPrice(), currencyRate.getRate());
+						newPrice = Decimal.divide(priceItem.getPrice(), currencyRate.getRate());
 					}
 					if (listCurrencyRate != null) {
 						// 本币再到清单币
-						newPrice = Decimal.divide(newPrice, listCurrencyRate.getRate());
+						newPrice = Decimal.multiply(newPrice, listCurrencyRate.getRate());
 					}
 					// 设置保留小数位
 					newPrice = newPrice.setScale(priceItem.getPrice().scale(), Decimal.ROUNDING_MODE_DEFAULT);

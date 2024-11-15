@@ -459,7 +459,7 @@ namespace materials {
             protected afterAdd(item: GoodsReceiptLine): void {
                 super.afterAdd(item);
                 if (!this.parent.isLoading) {
-                    if (item.isNew && !item.isLoading) {
+                    if (item.isNew) {
                         item.rate = this.parent.documentRate;
                         item.currency = this.parent.documentCurrency;
                     }

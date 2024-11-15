@@ -18,6 +18,9 @@ namespace materials {
         const PROPERTY_GROSSPROFITRATE: symbol = Symbol("grossProfitRate");
 
         export class MaterialGrossProfit extends ibas.Bindable {
+
+            static BUSINESS_OBJECT_CODE: string = "${Company}_MM_GROSSPROFIT";
+
             constructor(original: IMaterialGrossProfitContract) {
                 super();
                 this[PROPERTY_ORIGINAL] = original;

@@ -270,6 +270,16 @@ namespace materials {
                                                 width: "14rem",
                                             }),
                                             new sap.extension.table.DataColumn("", {
+                                                label: ibas.i18n.prop("bo_materialhistoricalprice_documentdate"),
+                                                template: new sap.extension.m.Text("", {
+                                                }).bindProperty("bindingValue", {
+                                                    path: "documentDate",
+                                                    type: new sap.extension.data.Date()
+                                                }),
+                                                width: "8rem",
+                                                sortProperty: "documentDate",
+                                            }),
+                                            new sap.extension.table.DataColumn("", {
                                                 label: ibas.i18n.prop("bo_materialhistoricalprice_itemcode"),
                                                 template: new sap.extension.m.DataLink("", {
                                                     objectCode: bo.Material.BUSINESS_OBJECT_CODE

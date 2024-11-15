@@ -26,9 +26,12 @@ namespace materials {
                         contentHeight: "80%",
                         contentWidth: "80%",
                         content: [
-                            this.table = new sap.extension.table.Table("", {
+                            this.table = new sap.extension.table.DataTable("", {
                                 enableSelectAll: false,
                                 visibleRowCountMode: sap.ui.table.VisibleRowCountMode.Auto,
+                                dataInfo: {
+                                    code: app.MaterialGrossProfit.BUSINESS_OBJECT_CODE,
+                                },
                                 toolbar: this.toolbar = new sap.m.Toolbar("", {
                                     content: [
                                         new sap.m.Title("", {

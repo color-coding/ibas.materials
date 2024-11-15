@@ -529,6 +529,11 @@ namespace materials {
                     }
                 }
             }
+            if (source instanceof bo.Product) {
+                if (!ibas.strings.isEmpty(source.currency)) {
+                    target.currency = source.currency;
+                }
+            }
             // 复制自定义字段
             for (let item of source.userFields.forEach()) {
                 let myItem: ibas.IUserField = target.userFields.get(item.name);
