@@ -464,6 +464,37 @@ public class Warehouse extends BusinessObject<Warehouse>
 	}
 
 	/**
+	* 属性名称-废料仓
+	*/
+	private static final String PROPERTY_SCRAP_NAME = "Scrap";
+
+	/**
+	* 废料仓 属性
+	*/
+	@DbField(name = "Scrap", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME)
+	public static final IPropertyInfo<emYesNo> PROPERTY_SCRAP = registerProperty(PROPERTY_SCRAP_NAME, emYesNo.class,
+			MY_CLASS);
+
+	/**
+	* 获取-废料仓
+	* 
+	* @return 值
+	*/
+	@XmlElement(name = PROPERTY_SCRAP_NAME)
+	public final emYesNo getScrap() {
+		return this.getProperty(PROPERTY_SCRAP);
+	}
+
+	/**
+	* 设置-废料仓
+	* 
+	* @param value 值
+	*/
+	public final void setScrap(emYesNo value) {
+		this.setProperty(PROPERTY_SCRAP, value);
+	}
+
+	/**
 	 * 属性名称-已引用
 	 */
 	private static final String PROPERTY_REFERENCED_NAME = "Referenced";
@@ -1098,6 +1129,7 @@ public class Warehouse extends BusinessObject<Warehouse>
 		this.setActivated(emYesNo.YES);
 		this.setSchedulable(emYesNo.YES);
 		this.setReservable(emYesNo.YES);
+		this.setScrap(emYesNo.NO);
 	}
 
 	@Override

@@ -122,6 +122,14 @@ namespace materials {
                                     type: new sap.extension.data.YesNo(),
                                 }
                             }),
+                            new sap.extension.m.ObjectYesNoStatus("", {
+                                title: ibas.i18n.prop("bo_warehouse_scrap"),
+                                enumValue: {
+                                    path: "scrap",
+                                    type: new sap.extension.data.YesNo(),
+                                },
+                                negative: true,
+                            }),
                         ],
                         sections: [
                             new sap.uxap.ObjectPageSection("", {

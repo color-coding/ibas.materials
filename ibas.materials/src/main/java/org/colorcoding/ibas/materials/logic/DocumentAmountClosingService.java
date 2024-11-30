@@ -44,7 +44,7 @@ public class DocumentAmountClosingService
 	protected boolean checkDataStatus(Object data) {
 		if (data instanceof IDocumentAmountClosingContract) {
 			IDocumentAmountClosingContract contract = (IDocumentAmountClosingContract) data;
-			if (contract.checkDataStatus() == false) {
+			if (contract.checkDataStatus(this.getRepository()) == false) {
 				Logger.log(MessageLevel.DEBUG, MSG_LOGICS_SKIP_LOGIC_EXECUTION, this.getClass().getName(), "DataStatus",
 						String.format("%s-%s-%s", contract.getBaseDocumentType(), contract.getBaseDocumentEntry(),
 								contract.getBaseDocumentLineId()));

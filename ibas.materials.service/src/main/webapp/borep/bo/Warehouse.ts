@@ -160,6 +160,17 @@ namespace materials {
                 this.setProperty(Warehouse.PROPERTY_RESERVABLE_NAME, value);
             }
 
+            /** 映射的属性名称-废料仓 */
+            static PROPERTY_SCRAP_NAME: string = "Scrap";
+            /** 获取-废料仓 */
+            get scrap(): ibas.emYesNo {
+                return this.getProperty<ibas.emYesNo>(Warehouse.PROPERTY_SCRAP_NAME);
+            }
+            /** 设置-废料仓 */
+            set scrap(value: ibas.emYesNo) {
+                this.setProperty(Warehouse.PROPERTY_SCRAP_NAME, value);
+            }
+
             /** 映射的属性名称-已引用 */
             static PROPERTY_REFERENCED_NAME: string = "Referenced";
             /** 获取-已引用 */
@@ -388,6 +399,7 @@ namespace materials {
                 this.activated = ibas.emYesNo.YES;
                 this.schedulable = ibas.emYesNo.YES;
                 this.reservable = ibas.emYesNo.YES;
+                this.scrap = ibas.emYesNo.NO;
             }
         }
     }

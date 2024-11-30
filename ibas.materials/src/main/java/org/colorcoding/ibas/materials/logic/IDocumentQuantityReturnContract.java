@@ -2,6 +2,7 @@ package org.colorcoding.ibas.materials.logic;
 
 import java.math.BigDecimal;
 
+import org.colorcoding.ibas.bobas.core.IBORepository;
 import org.colorcoding.ibas.bobas.data.DataConvert;
 import org.colorcoding.ibas.bobas.logic.IBusinessLogicContract;
 
@@ -14,7 +15,7 @@ public interface IDocumentQuantityReturnContract extends IBusinessLogicContract 
 	 * 
 	 * @return
 	 */
-	default boolean checkDataStatus() {
+	default boolean checkDataStatus(IBORepository repository) {
 		if (DataConvert.isNullOrEmpty(this.getBaseDocumentType())) {
 			return false;
 		}

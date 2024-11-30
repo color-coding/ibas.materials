@@ -90,7 +90,7 @@ namespace materials {
                             }),
                         ]
                     });
-                    let formBottom: sap.ui.layout.form.SimpleForm = new sap.ui.layout.form.SimpleForm("", {
+                    let formMiddle: sap.ui.layout.form.SimpleForm = new sap.ui.layout.form.SimpleForm("", {
                         editable: true,
                         content: [
                             new sap.m.IconTabBar("", {
@@ -134,21 +134,12 @@ namespace materials {
                                                             maxLength: 20
                                                         }),
                                                     }),
-                                                    new sap.m.Label("", { text: ibas.i18n.prop("bo_warehouse_organization") }),
-                                                    new sap.extension.m.DataOrganizationInput("", {
-                                                        showValueHelp: true,
+                                                    new sap.m.Label("", { text: ibas.i18n.prop("bo_warehouse_scrap") }),
+                                                    new sap.extension.m.EnumSelect("", {
+                                                        enumType: ibas.emYesNo
                                                     }).bindProperty("bindingValue", {
-                                                        path: "organization",
-                                                        type: new sap.extension.data.Alphanumeric({
-                                                            maxLength: 8
-                                                        })
-                                                    }),
-                                                    new sap.m.Label("", { text: ibas.i18n.prop("bo_warehouse_remarks") }),
-                                                    new sap.extension.m.TextArea("", {
-                                                        rows: 3,
-                                                    }).bindProperty("bindingValue", {
-                                                        path: "remarks",
-                                                        type: new sap.extension.data.Alphanumeric(),
+                                                        path: "scrap",
+                                                        type: new sap.extension.data.YesNo(),
                                                     }),
                                                     new sap.m.Toolbar("", { visible: false }),
                                                     new sap.m.Label("", {
@@ -176,6 +167,29 @@ namespace materials {
                                     }),
                                 ]
                             })
+                        ]
+                    });
+                    let formBottom: sap.ui.layout.form.SimpleForm = new sap.ui.layout.form.SimpleForm("", {
+                        editable: true,
+                        content: [
+                            new sap.m.Toolbar("", { visible: false }),
+                            new sap.m.Label("", { text: ibas.i18n.prop("bo_warehouse_organization") }),
+                            new sap.extension.m.DataOrganizationInput("", {
+                                showValueHelp: true,
+                            }).bindProperty("bindingValue", {
+                                path: "organization",
+                                type: new sap.extension.data.Alphanumeric({
+                                    maxLength: 8
+                                })
+                            }),
+                            new sap.m.Label("", { text: ibas.i18n.prop("bo_warehouse_remarks") }),
+                            new sap.extension.m.TextArea("", {
+                                rows: 3,
+                            }).bindProperty("bindingValue", {
+                                path: "remarks",
+                                type: new sap.extension.data.Alphanumeric(),
+                            }),
+                            new sap.m.Toolbar("", { visible: false }),
                         ]
                     });
                     return this.page = new sap.extension.m.DataPage("", {
@@ -254,6 +268,7 @@ namespace materials {
                         }),
                         content: [
                             formTop,
+                            formMiddle,
                             formBottom,
                         ]
                     });

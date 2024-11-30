@@ -761,6 +761,7 @@
         "bo_warehouse_supplier": "Supplier",
         "bo_warehouse_schedulable": "Schedulable",
         "bo_warehouse_reservable": "Reservable",
+        "bo_warehouse_scrap": "scrap",
         "bo_warehouse_referenced": "Referenced",
         "bo_warehouse_deleted": "Deleted",
         "bo_warehouse_docentry": "Object Entry",

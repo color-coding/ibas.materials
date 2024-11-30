@@ -787,6 +787,7 @@
         "bo_warehouse_supplier": "供应商",
         "bo_warehouse_schedulable": "可排程",
         "bo_warehouse_reservable": "可预留",
+        "bo_warehouse_scrap": "废料仓",
         "bo_warehouse_referenced": "已引用",
         "bo_warehouse_deleted": "已删除",
         "bo_warehouse_docentry": "对象编号",

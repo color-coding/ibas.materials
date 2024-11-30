@@ -27,7 +27,7 @@ public class DocumentQuantityClosingService extends DocumentQuantityService<IDoc
 	protected boolean checkDataStatus(Object data) {
 		if (data instanceof IDocumentQuantityClosingContract) {
 			IDocumentQuantityClosingContract contract = (IDocumentQuantityClosingContract) data;
-			if (contract.checkDataStatus() == false) {
+			if (contract.checkDataStatus(this.getRepository()) == false) {
 				Logger.log(MessageLevel.DEBUG, MSG_LOGICS_SKIP_LOGIC_EXECUTION, this.getClass().getName(), "DataStatus",
 						String.format("%s-%s-%s", contract.getBaseDocumentType(), contract.getBaseDocumentEntry(),
 								contract.getBaseDocumentLineId()));

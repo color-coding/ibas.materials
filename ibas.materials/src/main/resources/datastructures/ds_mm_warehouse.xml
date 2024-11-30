@@ -15,6 +15,7 @@
     <Property Name="Supplier" Description="供应商" DataType="Alphanumeric" DataSubType="Default" EditSize="20" Mapped="Supplier"/>
     <Property Name="Schedulable" Description="可排程" DataType="Alphanumeric" DataSubType="Default" EditSize="1" DeclaredType="emYesNo" Mapped="Schedulable"/>
     <Property Name="Reservable" Description="可预留" DataType="Alphanumeric" DataSubType="Default" EditSize="1" DeclaredType="emYesNo" Mapped="Reservable"/>
+    <Property Name="Scrap" Description="废料仓" DataType="Alphanumeric" DataSubType="Default" EditSize="1" DeclaredType="emYesNo" Mapped="Scrap"/>
     <Property Name="Referenced" Description="已引用" DataType="Alphanumeric" DataSubType="Default" EditSize="1" DeclaredType="emYesNo" Mapped="Refed"/>
     <Property Name="Deleted" Description="已删除" DataType="Alphanumeric" DataSubType="Default" EditSize="1" DeclaredType="emYesNo" Mapped="Deleted"/>
     <Property Name="DocEntry" Description="对象编号" DataType="Numeric" DataSubType="Default" EditSize="8" Mapped="DocEntry" PrimaryKey="Yes"/>

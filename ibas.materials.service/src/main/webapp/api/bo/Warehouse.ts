@@ -49,6 +49,9 @@ namespace materials {
 
             /** 可预留 */
             reservable: ibas.emYesNo;
+            /** 废料仓 */
+            scrap: ibas.emYesNo;
+
             /** 已引用 */
             referenced: ibas.emYesNo;
 

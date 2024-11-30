@@ -194,6 +194,20 @@ public interface IWarehouse extends IBOMasterData {
 	void setReservable(emYesNo value);
 
 	/**
+	* 获取-废料仓
+	* 
+	* @return 值
+	*/
+	emYesNo getScrap();
+
+	/**
+	* 设置-废料仓
+	* 
+	* @param value 值
+	*/
+	void setScrap(emYesNo value);
+
+	/**
 	 * 获取-已引用
 	 * 
 	 * @return 值
