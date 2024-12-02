@@ -30,6 +30,8 @@ namespace materials {
         export const CONFIG_ITEM_DOCUMENT_LINE_DISPLAY_INVENTORY: string = "documentLineDisplayInventory";
         /** 配置项目-启用非库存物料交易 */
         export const CONFIG_ITEM_ENABLE_NON_INVENTORY_ITEM_TRANSACTIONS: string = "enableNonInventoryItemTransactions";
+        /** 配置项目-历史价格的默认单据（; 分割） */
+        export const CONFIG_ITEM_DEFAULT_HISTORICAL_PRICE_DOCUMENTS: string = "defaultHistoricalPriceDocuments";
         /**
          * 获取此模块配置
          * @param key 配置项
