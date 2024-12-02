@@ -11,6 +11,7 @@ import javax.xml.bind.annotation.XmlType;
 import org.colorcoding.ibas.bobas.bo.BusinessObject;
 import org.colorcoding.ibas.bobas.bo.IBOTagCanceled;
 import org.colorcoding.ibas.bobas.bo.IBOTagDeleted;
+import org.colorcoding.ibas.bobas.bo.IBOUserFields;
 import org.colorcoding.ibas.bobas.core.IPropertyInfo;
 import org.colorcoding.ibas.bobas.data.DateTime;
 import org.colorcoding.ibas.bobas.data.Decimal;
@@ -36,7 +37,7 @@ import org.colorcoding.ibas.materials.logic.IMaterialBatchJournalContract;
 @XmlRootElement(name = MaterialBatchItem.BUSINESS_OBJECT_NAME, namespace = MyConfiguration.NAMESPACE_BO)
 @BusinessObjectUnit(code = MaterialBatchItem.BUSINESS_OBJECT_CODE)
 public class MaterialBatchItem extends BusinessObject<MaterialBatchItem>
-		implements IMaterialBatchItem, IBusinessLogicsHost {
+		implements IMaterialBatchItem, IBusinessLogicsHost, IBOUserFields {
 
 	/**
 	 * 序列化版本标记

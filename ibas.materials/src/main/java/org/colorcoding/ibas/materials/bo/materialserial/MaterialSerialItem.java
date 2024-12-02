@@ -11,6 +11,7 @@ import javax.xml.bind.annotation.XmlType;
 import org.colorcoding.ibas.bobas.bo.BusinessObject;
 import org.colorcoding.ibas.bobas.bo.IBOTagCanceled;
 import org.colorcoding.ibas.bobas.bo.IBOTagDeleted;
+import org.colorcoding.ibas.bobas.bo.IBOUserFields;
 import org.colorcoding.ibas.bobas.core.IPropertyInfo;
 import org.colorcoding.ibas.bobas.data.DateTime;
 import org.colorcoding.ibas.bobas.data.emDirection;
@@ -34,7 +35,7 @@ import org.colorcoding.ibas.materials.logic.IMaterialSerialJournalContract;
 @XmlRootElement(name = MaterialSerialItem.BUSINESS_OBJECT_NAME, namespace = MyConfiguration.NAMESPACE_BO)
 @BusinessObjectUnit(code = MaterialSerialItem.BUSINESS_OBJECT_CODE)
 public class MaterialSerialItem extends BusinessObject<MaterialSerialItem>
-		implements IMaterialSerialItem, IBusinessLogicsHost {
+		implements IMaterialSerialItem, IBusinessLogicsHost, IBOUserFields {
 
 	/**
 	 * 序列化版本标记

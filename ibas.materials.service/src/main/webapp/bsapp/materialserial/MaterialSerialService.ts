@@ -460,20 +460,20 @@ namespace materials {
                         continue;
                     }
                     for (let item of contract.materialSerials) {
-                        if (item.isNew === false) {
-                            condition = criteria.conditions.create();
-                            condition.alias = bo.MaterialSerial.PROPERTY_ITEMCODE_NAME;
-                            condition.value = contract.itemCode;
-                            condition.bracketOpen = 1;
-                            condition.relationship = ibas.emConditionRelationship.OR;
-                            condition = criteria.conditions.create();
-                            condition.alias = bo.MaterialSerial.PROPERTY_WAREHOUSE_NAME;
-                            condition.value = contract.warehouse;
-                            condition = criteria.conditions.create();
-                            condition.alias = bo.MaterialSerial.PROPERTY_SERIALCODE_NAME;
-                            condition.value = item.serialCode;
-                            condition.bracketClose = 1;
-                        }
+
+                        condition = criteria.conditions.create();
+                        condition.alias = bo.MaterialSerial.PROPERTY_ITEMCODE_NAME;
+                        condition.value = contract.itemCode;
+                        condition.bracketOpen = 1;
+                        condition.relationship = ibas.emConditionRelationship.OR;
+                        condition = criteria.conditions.create();
+                        condition.alias = bo.MaterialSerial.PROPERTY_WAREHOUSE_NAME;
+                        condition.value = contract.warehouse;
+                        condition = criteria.conditions.create();
+                        condition.alias = bo.MaterialSerial.PROPERTY_SERIALCODE_NAME;
+                        condition.value = item.serialCode;
+                        condition.bracketClose = 1;
+
                     }
                 }
                 if (criteria.conditions.length > 0) {
@@ -497,22 +497,27 @@ namespace materials {
                                         if (!ibas.strings.equals(contract.itemCode, serial.itemCode)) {
                                             continue;
                                         }
-                                        contract.serials.push({
-                                            itemCode: serial.itemCode,
-                                            warehouse: serial.warehouse,
-                                            serialCode: serial.serialCode,
-                                            supplierSerial: serial.supplierSerial,
-                                            batchSerial: serial.batchSerial,
-                                            expirationDate: serial.expirationDate,
-                                            manufacturingDate: serial.manufacturingDate,
-                                            specification: serial.specification,
-                                            admissionDate: serial.admissionDate,
-                                            warrantyStartDate: serial.warrantyStartDate,
-                                            warrantyEndDate: serial.warrantyEndDate,
-                                            location: serial.location,
-                                            version: serial.version,
-                                            notes: serial.notes,
-                                        });
+                                        let extraReuslt: ExtraResultMaterialSerial = new ExtraResultMaterialSerial(
+                                            serial.itemCode,
+                                            serial.warehouse,
+                                            serial.serialCode,
+                                        );
+                                        extraReuslt.itemCode = serial.itemCode;
+                                        extraReuslt.warehouse = serial.warehouse;
+                                        extraReuslt.serialCode = serial.serialCode;
+                                        extraReuslt.supplierSerial = serial.supplierSerial;
+                                        extraReuslt.batchSerial = serial.batchSerial;
+                                        extraReuslt.expirationDate = serial.expirationDate;
+                                        extraReuslt.manufacturingDate = serial.manufacturingDate;
+                                        extraReuslt.specification = serial.specification;
+                                        extraReuslt.admissionDate = serial.admissionDate;
+                                        extraReuslt.warrantyStartDate = serial.warrantyStartDate;
+                                        extraReuslt.warrantyEndDate = serial.warrantyEndDate;
+                                        extraReuslt.location = serial.location;
+                                        extraReuslt.version = serial.version;
+                                        extraReuslt.notes = serial.notes;
+                                        extraReuslt[PROPERTY_ISDIRTY] = false;
+                                        contract.serials.push(extraReuslt);
                                     }
                                 }
                                 this.runService(contracts);

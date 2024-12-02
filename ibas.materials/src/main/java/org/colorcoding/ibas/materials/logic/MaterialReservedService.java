@@ -30,6 +30,25 @@ public class MaterialReservedService extends MaterialInventoryBusinessLogic<IMat
 						contract.getQuantity());
 				return false;
 			}
+			IMaterial material = this.checkMaterial(contract.getItemCode());
+			if (material.getItemType() == emItemType.SERVICES) {
+				// 服务物料，不执行此逻辑
+				Logger.log(MessageLevel.DEBUG, MSG_LOGICS_SKIP_LOGIC_EXECUTION, this.getClass().getName(), "ItemType",
+						material.getItemType());
+				return false;
+			}
+			if (material.getPhantomItem() == emYesNo.YES) {
+				// 虚拟物料，不执行此逻辑
+				Logger.log(MessageLevel.DEBUG, MSG_LOGICS_SKIP_LOGIC_EXECUTION, this.getClass().getName(),
+						"PhantomItem", material.getPhantomItem());
+				return false;
+			}
+			if (material.getInventoryItem() == emYesNo.NO) {
+				Logger.log(MessageLevel.DEBUG, MSG_LOGICS_SKIP_LOGIC_EXECUTION, this.getClass().getName(),
+						"InventoryItem", material.getInventoryItem());
+				// 非库存物料，不执行此逻辑
+				return false;
+			}
 			if (this.checkWarehouse(contract.getWarehouse()).getReservable() == emYesNo.NO) {
 				// 不可预留仓库
 				Logger.log(MessageLevel.DEBUG, MSG_LOGICS_SKIP_LOGIC_EXECUTION, this.getClass().getName(),

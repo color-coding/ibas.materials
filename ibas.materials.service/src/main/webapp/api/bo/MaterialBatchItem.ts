@@ -9,7 +9,7 @@ namespace materials {
     export namespace bo {
 
         /** 物料批次项目 */
-        export interface IMaterialBatchItem extends ibas.IBOSimple {
+        export interface IMaterialBatchItem extends ibas.IBOSimple, ibas.IBOUserFields {
 
             /** 批次编码 */
             batchCode: string;

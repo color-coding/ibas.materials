@@ -1292,6 +1292,34 @@ declare namespace reportanalysis {
             /** 选择第一行 */
             chooseFirtData: ibas.emYesNo;
         }
+        /** 查看应用-报表 */
+        export class ReportDataViewApp extends ibas.BOViewService<ibas.IBOViewView, bo.Report> {
+            /** 应用标识 */
+            static APPLICATION_ID: string;
+            /** 应用名称 */
+            static APPLICATION_NAME: string;
+            /** 业务对象编码 */
+            static BUSINESS_OBJECT_CODE: string;
+            /** 构造函数 */
+            constructor();
+            /** 注册视图 */
+            protected registerView(): void;
+            /** 视图显示后 */
+            protected viewShowed(): void;
+            /** 编辑数据，参数：目标数据 */
+            protected editData(): void;
+            run(): void;
+            run(data: bo.Report): void;
+            /** 查询数据 */
+            protected fetchData(criteria: ibas.ICriteria | string): void;
+        }
+        /** 报表连接服务映射 */
+        export class ReportLinkServiceMapping extends ibas.BOLinkServiceMapping {
+            /** 构造函数 */
+            constructor();
+            /** 创建服务实例 */
+            create(): ibas.IBOLinkService;
+        }
         export {};
     }
 }

@@ -449,20 +449,20 @@ namespace materials {
                         continue;
                     }
                     for (let item of contract.materialBatches) {
-                        if (item.isNew === false) {
-                            condition = criteria.conditions.create();
-                            condition.alias = bo.MaterialBatch.PROPERTY_ITEMCODE_NAME;
-                            condition.value = contract.itemCode;
-                            condition.bracketOpen = 1;
-                            condition.relationship = ibas.emConditionRelationship.OR;
-                            condition = criteria.conditions.create();
-                            condition.alias = bo.MaterialBatch.PROPERTY_WAREHOUSE_NAME;
-                            condition.value = contract.warehouse;
-                            condition = criteria.conditions.create();
-                            condition.alias = bo.MaterialBatch.PROPERTY_BATCHCODE_NAME;
-                            condition.value = item.batchCode;
-                            condition.bracketClose = 1;
-                        }
+
+                        condition = criteria.conditions.create();
+                        condition.alias = bo.MaterialBatch.PROPERTY_ITEMCODE_NAME;
+                        condition.value = contract.itemCode;
+                        condition.bracketOpen = 1;
+                        condition.relationship = ibas.emConditionRelationship.OR;
+                        condition = criteria.conditions.create();
+                        condition.alias = bo.MaterialBatch.PROPERTY_WAREHOUSE_NAME;
+                        condition.value = contract.warehouse;
+                        condition = criteria.conditions.create();
+                        condition.alias = bo.MaterialBatch.PROPERTY_BATCHCODE_NAME;
+                        condition.value = item.batchCode;
+                        condition.bracketClose = 1;
+
                     }
                 }
                 if (criteria.conditions.length > 0) {
@@ -486,19 +486,21 @@ namespace materials {
                                         if (!ibas.strings.equals(contract.itemCode, batch.itemCode)) {
                                             continue;
                                         }
-                                        contract.batches.push({
-                                            itemCode: batch.itemCode,
-                                            warehouse: batch.warehouse,
-                                            batchCode: batch.batchCode,
-                                            supplierSerial: batch.supplierSerial,
-                                            expirationDate: batch.expirationDate,
-                                            manufacturingDate: batch.manufacturingDate,
-                                            admissionDate: batch.admissionDate,
-                                            specification: batch.specification,
-                                            location: batch.location,
-                                            version: batch.version,
-                                            notes: batch.notes,
-                                        });
+                                        let extraReuslt: IExtraResultMaterialBatch = new ExtraResultMaterialBatch(
+                                            batch.itemCode,
+                                            batch.warehouse,
+                                            batch.batchCode,
+                                        );
+                                        extraReuslt.supplierSerial = batch.supplierSerial;
+                                        extraReuslt.expirationDate = batch.expirationDate;
+                                        extraReuslt.manufacturingDate = batch.manufacturingDate;
+                                        extraReuslt.admissionDate = batch.admissionDate;
+                                        extraReuslt.specification = batch.specification;
+                                        extraReuslt.location = batch.location;
+                                        extraReuslt.version = batch.version;
+                                        extraReuslt.notes = batch.notes;
+                                        extraReuslt[PROPERTY_ISDIRTY] = false;
+                                        contract.batches.push(extraReuslt);
                                     }
                                 }
                                 this.runService(contracts);
