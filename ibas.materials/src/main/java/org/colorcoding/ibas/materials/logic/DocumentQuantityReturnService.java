@@ -22,7 +22,7 @@ public class DocumentQuantityReturnService extends DocumentQuantityService<IDocu
 
 	@Override
 	protected boolean checkDataStatus(Object data) {
-		if (data instanceof IDocumentQuantityClosingContract) {
+		if (data instanceof IDocumentQuantityReturnContract) {
 			IDocumentQuantityReturnContract contract = (IDocumentQuantityReturnContract) data;
 			if (contract.checkDataStatus(this.getRepository()) == false) {
 				Logger.log(MessageLevel.DEBUG, MSG_LOGICS_SKIP_LOGIC_EXECUTION, this.getClass().getName(), "DataStatus",
