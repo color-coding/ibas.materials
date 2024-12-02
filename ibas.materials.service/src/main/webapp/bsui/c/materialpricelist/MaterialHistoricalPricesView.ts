@@ -50,7 +50,7 @@ namespace materials {
                                                 alignContent: sap.m.FlexAlignItems.Stretch,
                                                 justifyContent: sap.m.FlexJustifyContent.Start,
                                                 items: [
-                                                    new sap.m.Toolbar("", {
+                                                    new sap.m.OverflowToolbar("", {
                                                         content: [
                                                             this.bpButton = new sap.m.SegmentedButton("", {
                                                                 items: [
@@ -79,7 +79,25 @@ namespace materials {
                                                         content: {
                                                             path: "/",
                                                             template: new sap.m.ToggleButton("", {
-                                                                pressed: true,
+                                                                pressed: {
+                                                                    path: "description",
+                                                                    formatter(data: string): boolean {
+                                                                        let documents: string = config.get(config.CONFIG_ITEM_DEFAULT_HISTORICAL_PRICE_DOCUMENTS);
+                                                                        if (ibas.strings.isEmpty(documents)) {
+                                                                            return true;
+                                                                        }
+                                                                        for (let item of documents.split(";")) {
+                                                                            let description: string = ibas.businessobjects.resource(ibas.businessobjects.name(item));
+                                                                            if (description === data) {
+                                                                                return true;
+                                                                            }
+                                                                        }
+                                                                        if (documents.indexOf(data) > 0) {
+                                                                            return true;
+                                                                        }
+                                                                        return false;
+                                                                    }
+                                                                },
                                                                 text: {
                                                                     path: "description",
                                                                     type: new sap.extension.data.Alphanumeric(),
@@ -87,7 +105,7 @@ namespace materials {
                                                             })
                                                         }
                                                     }),
-                                                    this.itemToolbar = new sap.m.Toolbar("", {
+                                                    this.itemToolbar = new sap.m.OverflowToolbar("", {
                                                         content: [
                                                             new sap.m.ToolbarSeparator(),
                                                             new sap.m.Label("", {

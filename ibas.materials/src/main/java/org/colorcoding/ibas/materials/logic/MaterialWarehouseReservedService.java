@@ -29,6 +29,16 @@ public class MaterialWarehouseReservedService
 	protected boolean checkDataStatus(Object data) {
 		if (data instanceof IMaterialWarehouseReservedContract) {
 			IMaterialWarehouseReservedContract contract = (IMaterialWarehouseReservedContract) data;
+			if (contract.getStatus() == emBOStatus.CLOSED && this.impactReserved.compareTo(Decimal.ZERO) == 0) {
+				Logger.log(MessageLevel.DEBUG, MSG_LOGICS_SKIP_LOGIC_EXECUTION, this.getClass().getName(), "Status",
+						contract.getStatus());
+				return false;
+			}
+			if (contract.getQuantity().compareTo(Decimal.ZERO) <= 0) {
+				Logger.log(MessageLevel.DEBUG, MSG_LOGICS_SKIP_LOGIC_EXECUTION, this.getClass().getName(), "Quantity",
+						contract.getQuantity());
+				return false;
+			}
 			IMaterial material = this.checkMaterial(contract.getItemCode());
 			if (material.getItemType() == emItemType.SERVICES) {
 				// 服务物料，不执行此逻辑
@@ -46,16 +56,6 @@ public class MaterialWarehouseReservedService
 				Logger.log(MessageLevel.DEBUG, MSG_LOGICS_SKIP_LOGIC_EXECUTION, this.getClass().getName(),
 						"InventoryItem", material.getInventoryItem());
 				// 非库存物料，不执行此逻辑
-				return false;
-			}
-			if (contract.getStatus() == emBOStatus.CLOSED && this.impactReserved.compareTo(Decimal.ZERO) == 0) {
-				Logger.log(MessageLevel.DEBUG, MSG_LOGICS_SKIP_LOGIC_EXECUTION, this.getClass().getName(), "Status",
-						contract.getStatus());
-				return false;
-			}
-			if (contract.getQuantity().compareTo(Decimal.ZERO) <= 0) {
-				Logger.log(MessageLevel.DEBUG, MSG_LOGICS_SKIP_LOGIC_EXECUTION, this.getClass().getName(), "Quantity",
-						contract.getQuantity());
 				return false;
 			}
 			if (this.checkWarehouse(contract.getWarehouse()).getReservable() == emYesNo.NO) {
