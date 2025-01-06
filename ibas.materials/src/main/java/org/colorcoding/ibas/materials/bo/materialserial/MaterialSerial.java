@@ -1178,7 +1178,12 @@ public class MaterialSerial extends BusinessObject<MaterialSerial>
 	@Override
 	public void setReserved(emYesNo value, boolean noCheck) {
 		this.setReserved(value);
-		this.noCheck = noCheck;
+		if (this.noCheck != noCheck) {
+			this.noCheck = noCheck;
+			if (this.isDirty() == false) {
+				this.markDirty();
+			}
+		}
 	}
 
 	@Override

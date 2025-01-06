@@ -151,7 +151,11 @@ public class MaterialBatchReservedSerivce
 		IMaterialBatch materialBatch = this.getBeAffected();
 		BigDecimal onReserved = materialBatch.getReservedQuantity();
 		onReserved = onReserved.add(this.revokeReserved).subtract(contract.getQuantity());
-		materialBatch.setReservedQuantity(onReserved, true);
+		if (Decimal.isZero(this.revokeReserved)) {
+			materialBatch.setReservedQuantity(onReserved, true);
+		} else {
+			materialBatch.setReservedQuantity(onReserved, false);
+		}
 		// 记录本次增加值
 		this.revokeReserved = revokeReserved.add(contract.getQuantity());
 	}

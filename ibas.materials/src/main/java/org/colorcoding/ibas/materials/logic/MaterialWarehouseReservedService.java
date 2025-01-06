@@ -146,7 +146,7 @@ public class MaterialWarehouseReservedService
 			materialInventory.setOnReserved(onReserved, true);
 		} else {
 			if (Decimal.isZero(this.revokeReserved) || this.getLogicChain().getTrigger().isDeleted()) {
-				materialInventory.setOnReserved(onReserved);
+				materialInventory.setOnReserved(onReserved, false);
 			} else {
 				materialInventory.setOnReserved(onReserved, true);
 			}

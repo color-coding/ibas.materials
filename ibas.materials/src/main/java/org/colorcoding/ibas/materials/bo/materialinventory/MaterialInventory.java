@@ -906,7 +906,12 @@ public class MaterialInventory extends BusinessObject<MaterialInventory> impleme
 	@Override
 	public void setOnReserved(BigDecimal value, boolean noCheck) {
 		this.setOnReserved(value);
-		this.noCheck = noCheck;
+		if (this.noCheck != noCheck) {
+			this.noCheck = noCheck;
+			if (this.isDirty() == false) {
+				this.markDirty();
+			}
+		}
 	}
 
 }
