@@ -97,7 +97,7 @@ public class BusinessRuleDeductionPriceQtyTotal extends BusinessRuleCommon {
 				if (Decimal.ZERO.compareTo(price) == 0) {
 					context.getOutputValues().put(this.getPrice(), result);
 				} else {
-					result.setScale(price.scale(), Decimal.ROUNDING_MODE_DEFAULT);
+					result = result.setScale(price.scale(), Decimal.ROUNDING_MODE_DEFAULT);
 					if (Decimal.ONE
 							.compareTo(result.subtract(price).abs().multiply(Decimal.ONE.add(Decimal.ONE))) <= 0) {
 						context.getOutputValues().put(this.getPrice(), result);

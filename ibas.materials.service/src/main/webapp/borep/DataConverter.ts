@@ -550,6 +550,8 @@ namespace materials {
         }
         const DECIMAL_PLACES_QUANTITY: number = ibas.config.get(ibas.CONFIG_ITEM_DECIMAL_PLACES_QUANTITY);
         const DECIMAL_PLACES_RATE: number = ibas.config.get(ibas.CONFIG_ITEM_DECIMAL_PLACES_RATE);
+        const TRUNCATE_DECIMALS: boolean = ibas.config.get(ibas.CONFIG_ITEM_TRUNCATE_DECIMALS, false);
+
         /** 业务规则-计算库存数量 */
         export class BusinessRuleCalculateInventoryQuantity extends ibas.BusinessRuleCommon {
             /**
@@ -595,11 +597,11 @@ namespace materials {
                     if (ibas.numbers.isApproximated(uomRate, result, DECIMAL_PLACES_RATE)) {
                         return;
                     }
-                    context.outputValues.set(this.uomRate, ibas.numbers.round(result));
+                    context.outputValues.set(this.uomRate, ibas.numbers.round(result, TRUNCATE_DECIMALS ? DECIMAL_PLACES_RATE : undefined));
                 } else {
                     // 数量及率触发，不近似比较
                     let result: number = quantity * uomRate;
-                    context.outputValues.set(this.inventoryQuantity, ibas.numbers.round(result));
+                    context.outputValues.set(this.inventoryQuantity, ibas.numbers.round(result, TRUNCATE_DECIMALS ? DECIMAL_PLACES_QUANTITY : undefined));
                 }
             }
         }
