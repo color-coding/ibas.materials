@@ -287,6 +287,9 @@ namespace materials {
             /** 数据所属组织 */
             organization: string;
 
+            /** 质检方案 */
+            qcSchema: string;
+
             /** 可用量（库存+已订购-已承诺） */
             onAvailable(): number;
         }

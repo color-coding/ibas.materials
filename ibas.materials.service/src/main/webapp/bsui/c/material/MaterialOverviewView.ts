@@ -1680,7 +1680,7 @@ namespace materials {
                 showMaterial(data: bo.IMaterial): void {
                     this.split.to(this.pageOverview.getId(), null, null, null);
                     this.pageOverview.setModel(new sap.extension.model.JSONModel(data));
-                    this.panelInventory.setVisible(data.itemType === bo.emItemType.ITEM && data.inventoryItem === ibas.emYesNo.YES ? true : false);
+                    this.panelInventory.setVisible(data.itemType === bo.emItemType.ITEM ? true : false);
                     this.panelInventory.getContent()[0].setModel(undefined);
                     this.panelInventory.setExpanded(false);
                     this.panelBatch.setVisible(data.batchManagement === ibas.emYesNo.YES ? true : false);
@@ -1689,13 +1689,13 @@ namespace materials {
                     this.panelSerial.setVisible(data.serialManagement === ibas.emYesNo.YES ? true : false);
                     this.panelSerial.getContent()[0].setModel(undefined);
                     this.panelSerial.setExpanded(false);
-                    this.panelOrdered.setVisible(data.itemType === bo.emItemType.ITEM && data.inventoryItem === ibas.emYesNo.YES && data.onOrdered > 0 ? true : false);
+                    this.panelOrdered.setVisible(data.itemType === bo.emItemType.ITEM && data.onOrdered > 0 ? true : false);
                     this.panelOrdered.getContent()[0].setModel(undefined);
                     this.panelOrdered.setExpanded(false);
-                    this.panelCommited.setVisible(data.itemType === bo.emItemType.ITEM && data.inventoryItem === ibas.emYesNo.YES && data.onCommited > 0 ? true : false);
+                    this.panelCommited.setVisible(data.itemType === bo.emItemType.ITEM && data.onCommited > 0 ? true : false);
                     this.panelCommited.getContent()[0].setModel(undefined);
                     this.panelCommited.setExpanded(false);
-                    this.panelReservation.setVisible(data.itemType === bo.emItemType.ITEM && data.inventoryItem === ibas.emYesNo.YES ? true : false);
+                    this.panelReservation.setVisible(data.itemType === bo.emItemType.ITEM ? true : false);
                     this.panelReservation.getContent()[0].setModel(undefined);
                     this.panelReservation.setExpanded(false);
                     this.panelButton.setIcon("sap-icon://navigation-right-arrow");

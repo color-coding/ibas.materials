@@ -1538,6 +1538,20 @@ public interface IMaterial extends IBOMasterData {
 	void setOrganization(String value);
 
 	/**
+	 * 获取-质检方案
+	 * 
+	 * @return 值
+	 */
+	String getQCSchema();
+
+	/**
+	 * 设置-质检方案
+	 * 
+	 * @param value 值
+	 */
+	void setQCSchema(String value);
+
+	/**
 	 * 获取-可用数量（库存数+已订购-已承诺）
 	 * 
 	 * @return

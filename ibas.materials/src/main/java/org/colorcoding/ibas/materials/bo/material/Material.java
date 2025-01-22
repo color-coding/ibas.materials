@@ -793,6 +793,37 @@ public class Material extends MaterialBase<Material>
 		this.setProperty(PROPERTY_REFERENCED, value);
 	}
 
+	/**
+	 * 属性名称-质检方案
+	 */
+	private static final String PROPERTY_QCSCHEMA_NAME = "QCSchema";
+
+	/**
+	 * 质检方案 属性
+	 */
+	@DbField(name = "QCSchema", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME)
+	public static final IPropertyInfo<String> PROPERTY_QCSCHEMA = registerProperty(PROPERTY_QCSCHEMA_NAME, String.class,
+			MY_CLASS);
+
+	/**
+	 * 获取-质检方案
+	 *
+	 * @return 值
+	 */
+	@XmlElement(name = PROPERTY_QCSCHEMA_NAME)
+	public final String getQCSchema() {
+		return this.getProperty(PROPERTY_QCSCHEMA);
+	}
+
+	/**
+	 * 设置-质检方案
+	 *
+	 * @param value 值
+	 */
+	public final void setQCSchema(String value) {
+		this.setProperty(PROPERTY_QCSCHEMA, value);
+	}
+
 	@Override
 	public void setSeriesValue(Object value) {
 		this.setCode((String) value);

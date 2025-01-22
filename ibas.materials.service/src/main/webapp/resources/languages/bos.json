@@ -346,6 +346,7 @@
         "bo_material_volumeunit": "Volume Unit",
         "bo_material_weight": "Weight",
         "bo_material_weightunit": "Weight Unit",
+        "bo_material_qcschema": "QC Schema",
         "bo_materialquantity": "Material Quantity",
         "bo_materialquantity_itemcode": "Material Code",
         "bo_materialquantity_itemname": "Material Name",

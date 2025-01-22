@@ -103,6 +103,7 @@
     <Property Name="ApprovalStatus" Description="审批状态" DataType="Alphanumeric" DataSubType="Default" EditSize="1" DeclaredType="emApprovalStatus" Mapped="ApvlStatus"/>
     <Property Name="DataOwner" Description="数据所有者" DataType="Numeric" DataSubType="Default" EditSize="8" Mapped="DataOwner"/>
     <Property Name="Organization" Description="数据所属组织" DataType="Alphanumeric" DataSubType="Default" EditSize="8" Mapped="OrgCode"/>
+    <Property Name="QCSchema" Description="质检方案" DataType="Alphanumeric" DataSubType="Default" EditSize="120" Mapped="QCSchema"/>
   </Model>
   <BusinessObject MappedModel="Material" ShortName="${Company}_MM_MATERIAL"/>
   <Model Name="MaterialVersion" Description="物料版本" ModelType="Simple" Mapped="${Company}_MM_IMVER">

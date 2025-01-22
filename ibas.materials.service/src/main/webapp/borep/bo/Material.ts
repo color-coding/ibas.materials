@@ -1125,6 +1125,17 @@ namespace materials {
                 this.setProperty(Material.PROPERTY_ORGANIZATION_NAME, value);
             }
 
+            /** 映射的属性名称-质检方案 */
+            static PROPERTY_QCSCHEMA_NAME: string = "QCSchema";
+            /** 获取-质检方案 */
+            get qcSchema(): string {
+                return this.getProperty<string>(Material.PROPERTY_QCSCHEMA_NAME);
+            }
+            /** 设置-质检方案 */
+            set qcSchema(value: string) {
+                this.setProperty(Material.PROPERTY_QCSCHEMA_NAME, value);
+            }
+
             /** 初始化数据 */
             protected init(): void {
                 this.objectCode = ibas.config.applyVariables(Material.BUSINESS_OBJECT_CODE);

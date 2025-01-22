@@ -373,6 +373,7 @@
         "bo_material_volumeunit": "体积单位",
         "bo_material_weight": "重量",
         "bo_material_weightunit": "重量单位",
+        "bo_material_qcschema": "质检方案",
         "bo_materialquantity_itemcode": "物料编码",
         "bo_materialquantity_itemname": "物料名称",
         "bo_materialquantity_onhand": "库存",
