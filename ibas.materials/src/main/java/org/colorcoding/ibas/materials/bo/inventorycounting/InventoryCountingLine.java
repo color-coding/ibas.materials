@@ -1743,6 +1743,10 @@ public class InventoryCountingLine extends BusinessObject<InventoryCountingLine>
 			return this.getItemCode();
 		case Ledgers.CONDITION_PROPERTY_WAREHOUSE:
 			return this.getWarehouse();
+		case Ledgers.CONDITION_PROPERTY_REFERENCE_1:
+			return this.getReference1();
+		case Ledgers.CONDITION_PROPERTY_REFERENCE_2:
+			return this.getReference2();
 		default:
 			return null;
 		}

@@ -601,6 +601,9 @@ namespace materials {
                 } else {
                     // 数量及率触发，不近似比较
                     let result: number = quantity * uomRate;
+                    if (ibas.numbers.isApproximated(inventoryQuantity, result, DECIMAL_PLACES_QUANTITY)) {
+                        return;
+                    }
                     context.outputValues.set(this.inventoryQuantity, ibas.numbers.round(result, TRUNCATE_DECIMALS ? DECIMAL_PLACES_QUANTITY : undefined));
                 }
             }

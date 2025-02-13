@@ -2028,6 +2028,10 @@ public class InventoryTransferLine extends BusinessObject<InventoryTransferLine>
 			return this.getWarehouse();
 		case Ledgers.CONDITION_PROPERTY_FROM_WAREHOUSE:
 			return this.getFromWarehouse();
+		case Ledgers.CONDITION_PROPERTY_REFERENCE_1:
+			return this.getReference1();
+		case Ledgers.CONDITION_PROPERTY_REFERENCE_2:
+			return this.getReference2();
 		default:
 			return null;
 		}

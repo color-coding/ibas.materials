@@ -457,7 +457,7 @@ namespace materials {
                     this.tableBatchJournal.setModel(new sap.extension.model.JSONModel({ rows: datas }));
                     setTimeout(() => {
                         let total: number = 0;
-                        datas.forEach(c => total += c.quantity);
+                        datas.forEach(c => total = total + (c.direction === ibas.emDirection.IN ? c.quantity : -c.quantity));
                         this.txtInventories.setText(sap.extension.data.formatValue(sap.extension.data.Quantity, total, "string"));
                     }, 30);
                 }

@@ -109,9 +109,8 @@ class MaterialBatchItems extends org.colorcoding.ibas.materials.bo.materialbatch
 			total = total.add(item.getQuantity());
 		}
 		BigDecimal parentTotal = this.getParent().getInventoryQuantity().abs();
-		if (parentTotal.scale() > total.scale()) {
-			parentTotal = parentTotal.setScale(total.scale(), Decimal.ROUNDING_MODE_DEFAULT);
-		} else if (parentTotal.scale() < total.scale()) {
+		// 使用非库存单位时，容易出现差异
+		if (total.scale() > parentTotal.scale()) {
 			total = total.setScale(parentTotal.scale(), Decimal.ROUNDING_MODE_DEFAULT);
 		}
 		if (total.compareTo(parentTotal) != 0) {
