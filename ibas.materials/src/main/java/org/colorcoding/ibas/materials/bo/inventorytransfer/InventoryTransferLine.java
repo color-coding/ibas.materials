@@ -1718,6 +1718,9 @@ public class InventoryTransferLine extends BusinessObject<InventoryTransferLine>
 				if (InventoryTransferLine.this.isDeleted()) {
 					return true;
 				}
+				if (InventoryTransferLine.this.getLineStatus() == emDocumentStatus.PLANNED) {
+					return true;
+				}
 				if (InventoryTransferLine.this instanceof IBOTagCanceled) {
 					IBOTagCanceled boTag = (IBOTagCanceled) InventoryTransferLine.this;
 					if (boTag.getCanceled() == emYesNo.YES) {
@@ -1864,6 +1867,9 @@ public class InventoryTransferLine extends BusinessObject<InventoryTransferLine>
 			@Override
 			public boolean isOffsetting() {
 				if (InventoryTransferLine.this.isDeleted()) {
+					return true;
+				}
+				if (InventoryTransferLine.this.getLineStatus() == emDocumentStatus.PLANNED) {
 					return true;
 				}
 				if (InventoryTransferLine.this instanceof IBOTagCanceled) {

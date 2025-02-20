@@ -142,8 +142,14 @@ namespace materials {
                                     }),
                                 }
                             }),
-                            new sap.extension.m.ObjectAttribute("", {
+                            new sap.extension.m.RepositoryObjectAttribute("", {
                                 title: ibas.i18n.prop("bo_material_group"),
+                                repository: bo.BORepositoryMaterials,
+                                dataInfo: {
+                                    type: bo.MaterialGroup,
+                                    key: bo.MaterialGroup.PROPERTY_CODE_NAME,
+                                    text: bo.MaterialGroup.PROPERTY_NAME_NAME,
+                                },
                                 bindingValue: {
                                     path: "group",
                                     type: new sap.extension.data.Alphanumeric(),

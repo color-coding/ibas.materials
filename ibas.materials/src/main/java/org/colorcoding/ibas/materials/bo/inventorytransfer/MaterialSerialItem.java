@@ -6,10 +6,13 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
 
+import org.colorcoding.ibas.bobas.bo.IBODocument;
+import org.colorcoding.ibas.bobas.bo.IBODocumentLine;
 import org.colorcoding.ibas.bobas.bo.IBOTagCanceled;
 import org.colorcoding.ibas.bobas.bo.IBOTagDeleted;
 import org.colorcoding.ibas.bobas.data.DateTime;
 import org.colorcoding.ibas.bobas.data.emDirection;
+import org.colorcoding.ibas.bobas.data.emDocumentStatus;
 import org.colorcoding.ibas.bobas.data.emYesNo;
 import org.colorcoding.ibas.bobas.logic.IBusinessLogicContract;
 import org.colorcoding.ibas.materials.MyConfiguration;
@@ -63,6 +66,18 @@ class MaterialSerialItem extends org.colorcoding.ibas.materials.bo.materialseria
 						}
 						if (MaterialSerialItem.this.parent.isDeleted()) {
 							return true;
+						}
+						if (MaterialSerialItem.this.parent instanceof IBODocument) {
+							IBODocument document = (IBODocument) MaterialSerialItem.this.parent;
+							if (document.getDocumentStatus() == emDocumentStatus.PLANNED) {
+								return true;
+							}
+						}
+						if (MaterialSerialItem.this.parent instanceof IBODocumentLine) {
+							IBODocumentLine document = (IBODocumentLine) MaterialSerialItem.this.parent;
+							if (document.getLineStatus() == emDocumentStatus.PLANNED) {
+								return true;
+							}
 						}
 						if (MaterialSerialItem.this.parent instanceof IBOTagCanceled) {
 							IBOTagCanceled boTag = (IBOTagCanceled) MaterialSerialItem.this.parent;
@@ -201,6 +216,18 @@ class MaterialSerialItem extends org.colorcoding.ibas.materials.bo.materialseria
 						}
 						if (MaterialSerialItem.this.parent.isDeleted()) {
 							return true;
+						}
+						if (MaterialSerialItem.this.parent instanceof IBODocument) {
+							IBODocument document = (IBODocument) MaterialSerialItem.this.parent;
+							if (document.getDocumentStatus() == emDocumentStatus.PLANNED) {
+								return true;
+							}
+						}
+						if (MaterialSerialItem.this.parent instanceof IBODocumentLine) {
+							IBODocumentLine document = (IBODocumentLine) MaterialSerialItem.this.parent;
+							if (document.getLineStatus() == emDocumentStatus.PLANNED) {
+								return true;
+							}
 						}
 						if (MaterialSerialItem.this.parent instanceof IBOTagCanceled) {
 							IBOTagCanceled boTag = (IBOTagCanceled) MaterialSerialItem.this.parent;

@@ -9,6 +9,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
 import org.colorcoding.ibas.bobas.bo.BusinessObject;
+import org.colorcoding.ibas.bobas.bo.IBODocument;
+import org.colorcoding.ibas.bobas.bo.IBODocumentLine;
 import org.colorcoding.ibas.bobas.bo.IBOTagCanceled;
 import org.colorcoding.ibas.bobas.bo.IBOTagDeleted;
 import org.colorcoding.ibas.bobas.bo.IBOUserFields;
@@ -16,6 +18,7 @@ import org.colorcoding.ibas.bobas.core.IPropertyInfo;
 import org.colorcoding.ibas.bobas.data.DateTime;
 import org.colorcoding.ibas.bobas.data.Decimal;
 import org.colorcoding.ibas.bobas.data.emDirection;
+import org.colorcoding.ibas.bobas.data.emDocumentStatus;
 import org.colorcoding.ibas.bobas.data.emYesNo;
 import org.colorcoding.ibas.bobas.logic.IBusinessLogicContract;
 import org.colorcoding.ibas.bobas.logic.IBusinessLogicsHost;
@@ -698,6 +701,18 @@ public class MaterialBatchItem extends BusinessObject<MaterialBatchItem>
 							if (MaterialBatchItem.this.parent.isDeleted()) {
 								return true;
 							}
+							if (MaterialBatchItem.this.parent instanceof IBODocument) {
+								IBODocument document = (IBODocument) MaterialBatchItem.this.parent;
+								if (document.getDocumentStatus() == emDocumentStatus.PLANNED) {
+									return true;
+								}
+							}
+							if (MaterialBatchItem.this.parent instanceof IBODocumentLine) {
+								IBODocumentLine document = (IBODocumentLine) MaterialBatchItem.this.parent;
+								if (document.getLineStatus() == emDocumentStatus.PLANNED) {
+									return true;
+								}
+							}
 							if (MaterialBatchItem.this.parent instanceof IBOTagCanceled) {
 								IBOTagCanceled boTag = (IBOTagCanceled) MaterialBatchItem.this.parent;
 								if (boTag.getCanceled() == emYesNo.YES) {
@@ -846,6 +861,18 @@ public class MaterialBatchItem extends BusinessObject<MaterialBatchItem>
 							}
 							if (MaterialBatchItem.this.parent.isDeleted()) {
 								return true;
+							}
+							if (MaterialBatchItem.this.parent instanceof IBODocument) {
+								IBODocument document = (IBODocument) MaterialBatchItem.this.parent;
+								if (document.getDocumentStatus() == emDocumentStatus.PLANNED) {
+									return true;
+								}
+							}
+							if (MaterialBatchItem.this.parent instanceof IBODocumentLine) {
+								IBODocumentLine document = (IBODocumentLine) MaterialBatchItem.this.parent;
+								if (document.getLineStatus() == emDocumentStatus.PLANNED) {
+									return true;
+								}
 							}
 							if (MaterialBatchItem.this.parent instanceof IBOTagCanceled) {
 								IBOTagCanceled boTag = (IBOTagCanceled) MaterialBatchItem.this.parent;

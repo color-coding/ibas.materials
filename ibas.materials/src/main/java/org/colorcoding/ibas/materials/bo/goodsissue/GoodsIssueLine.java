@@ -1672,6 +1672,9 @@ public class GoodsIssueLine extends BusinessObject<GoodsIssueLine>
 						if (GoodsIssueLine.this.isDeleted()) {
 							return true;
 						}
+						if (GoodsIssueLine.this.getLineStatus() == emDocumentStatus.PLANNED) {
+							return true;
+						}
 						if (GoodsIssueLine.this instanceof IBOTagCanceled) {
 							IBOTagCanceled boTag = (IBOTagCanceled) GoodsIssueLine.this;
 							if (boTag.getCanceled() == emYesNo.YES) {

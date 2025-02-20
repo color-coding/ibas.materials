@@ -1673,6 +1673,9 @@ public class GoodsReceiptLine extends BusinessObject<GoodsReceiptLine>
 						if (GoodsReceiptLine.this.isDeleted()) {
 							return true;
 						}
+						if (GoodsReceiptLine.this.getLineStatus() == emDocumentStatus.PLANNED) {
+							return true;
+						}
 						if (GoodsReceiptLine.this instanceof IBOTagCanceled) {
 							IBOTagCanceled boTag = (IBOTagCanceled) GoodsReceiptLine.this;
 							if (boTag.getCanceled() == emYesNo.YES) {

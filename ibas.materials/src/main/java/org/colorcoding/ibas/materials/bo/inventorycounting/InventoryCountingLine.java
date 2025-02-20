@@ -1471,6 +1471,9 @@ public class InventoryCountingLine extends BusinessObject<InventoryCountingLine>
 						if (InventoryCountingLine.this.isDeleted()) {
 							return true;
 						}
+						if (InventoryCountingLine.this.getLineStatus() == emDocumentStatus.PLANNED) {
+							return true;
+						}
 						if (InventoryCountingLine.this instanceof IBOTagCanceled) {
 							IBOTagCanceled boTag = (IBOTagCanceled) InventoryCountingLine.this;
 							if (boTag.getCanceled() == emYesNo.YES) {
@@ -1598,6 +1601,9 @@ public class InventoryCountingLine extends BusinessObject<InventoryCountingLine>
 					@Override
 					public boolean isOffsetting() {
 						if (InventoryCountingLine.this.isDeleted()) {
+							return true;
+						}
+						if (InventoryCountingLine.this.getLineStatus() == emDocumentStatus.PLANNED) {
 							return true;
 						}
 						if (InventoryCountingLine.this instanceof IBOTagCanceled) {

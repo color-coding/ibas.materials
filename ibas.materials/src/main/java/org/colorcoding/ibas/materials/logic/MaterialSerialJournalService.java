@@ -3,6 +3,8 @@ package org.colorcoding.ibas.materials.logic;
 import java.math.BigDecimal;
 
 import org.colorcoding.ibas.bobas.approval.IApprovalData;
+import org.colorcoding.ibas.bobas.bo.IBODocument;
+import org.colorcoding.ibas.bobas.bo.IBODocumentLine;
 import org.colorcoding.ibas.bobas.bo.IBOTagCanceled;
 import org.colorcoding.ibas.bobas.bo.IBOTagDeleted;
 import org.colorcoding.ibas.bobas.common.ConditionOperation;
@@ -81,7 +83,12 @@ public class MaterialSerialJournalService
 		boolean status = super.checkDataStatus(data);
 		if (status == false && this.isEnableMaterialCosts()) {
 			// 取消和标记删除时，执行逻辑
-			status = super.checkDataStatus(data, ITrackStatus.class, IBOTagCanceled.class, IBOTagDeleted.class);
+			if (this.getParent() == data) {
+				status = super.checkDataStatus(data, ITrackStatus.class, IBOTagCanceled.class, IBOTagDeleted.class,
+						IBODocument.class, IBODocumentLine.class);
+			} else {
+				status = super.checkDataStatus(data, ITrackStatus.class, IBOTagCanceled.class, IBOTagDeleted.class);
+			}
 		}
 		return status;
 	}
