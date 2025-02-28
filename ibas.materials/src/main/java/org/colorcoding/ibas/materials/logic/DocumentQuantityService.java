@@ -47,7 +47,7 @@ public abstract class DocumentQuantityService<L extends IBusinessLogicContract>
 			condition.setAlias("DocEntry");
 			condition.setOperation(ConditionOperation.EQUAL);
 			condition.setValue(docEntry);
-			IDocumentOperatingTarget document = this.fetchBeAffected(criteria, IDocumentCloseQuantityOperator.class);
+			IDocumentOperatingTarget document = this.fetchBeAffected(criteria, IDocumentOperatingTarget.class);
 			if (document == null) {
 				IDocumentFetcher<IDocumentOperatingTarget> fetcher = DocumentFetcherManager.create()
 						.newFetcher(documentType);

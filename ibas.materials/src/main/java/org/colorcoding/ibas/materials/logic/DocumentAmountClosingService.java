@@ -87,7 +87,7 @@ public class DocumentAmountClosingService
 			condition.setAlias("DocEntry");
 			condition.setOperation(ConditionOperation.EQUAL);
 			condition.setValue(contract.getBaseDocumentEntry());
-			IDocumentOperatingTarget document = this.fetchBeAffected(criteria, IDocumentCloseAmountOperator.class);
+			IDocumentOperatingTarget document = this.fetchBeAffected(criteria, IDocumentOperatingTarget.class);
 			if (document == null) {
 				IDocumentFetcher<IDocumentOperatingTarget> fetcher = DocumentFetcherManager.create()
 						.newFetcher(contract.getBaseDocumentType());
