@@ -183,6 +183,8 @@ public class MaterialBatchItems extends BusinessObjects<IMaterialBatchItem, IMat
 			total = total.add(item.getQuantity());
 		}
 		BigDecimal parentTotal = this.getParent().getInventoryQuantity().abs();
+		// 收缩小数位，去除尾部的0
+		parentTotal = parentTotal.stripTrailingZeros();
 		// 使用非库存单位时，容易出现差异
 		if (total.scale() > parentTotal.scale()) {
 			total = total.setScale(parentTotal.scale(), Decimal.ROUNDING_MODE_DEFAULT);
