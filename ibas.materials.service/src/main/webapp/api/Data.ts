@@ -32,6 +32,8 @@ namespace materials {
         export const CONFIG_ITEM_ENABLE_NON_INVENTORY_ITEM_TRANSACTIONS: string = "enableNonInventoryItemTransactions";
         /** 配置项目-历史价格的默认单据（; 分割） */
         export const CONFIG_ITEM_DEFAULT_HISTORICAL_PRICE_DOCUMENTS: string = "defaultHistoricalPriceDocuments";
+        /** 配置项目-历史价格的默认应用的价格 */
+        export const CONFIG_ITEM_DEFAULT_HISTORICAL_PRICE_WHICH_APPLY: string = "defaultHistoricalPriceApplyWhich";
         /**
          * 获取此模块配置
          * @param key 配置项
@@ -645,10 +647,11 @@ namespace materials {
             uom: string;
             /**
              * 应用价格
-             * @param price 税前价格
+             * @param type 价格类型
+             * @param price 价格
              * @param currency 货币
              */
-            applyPrice?: (price: number, currency: string) => void;
+            applyPrice?: (type: "PRICE" | "PRETAXPRICE" | "UNITPRICE", price: number, currency: string) => void;
         }
         /** 物料历史价格服务代理 */
         export class MaterialHistoricalPricesServiceProxy

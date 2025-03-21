@@ -125,7 +125,7 @@ namespace materials {
                         itemDescription: "",
                         quantity: 0,
                         uom: "",
-                        applyPrice: (price, currency) => {
+                        applyPrice: (type, price, currency) => {
                         }
                     });
                 }
@@ -176,7 +176,7 @@ namespace materials {
                     this.proceeding(ibas.emMessageType.INFORMATION, ibas.i18n.prop("shell_fetching_data"));
                 }
             }
-            protected apply(data: IDocumentMaterialPriceData): void {
+            protected apply(data: IDocumentMaterialPriceData, type: "PRICE" | "PRETAXPRICE" | "UNITPRICE"): void {
                 if (ibas.objects.isNull(data)) {
                     this.messages(ibas.emMessageType.WARNING, ibas.i18n.prop("shell_please_chooose_data",
                         ibas.i18n.prop("shell_apply")
@@ -185,16 +185,24 @@ namespace materials {
                 if (!(this.contract.original.applyPrice instanceof Function)) {
                     return;
                 }
+                let price: number = 0;
+                if (ibas.strings.equalsIgnoreCase(type, "PRICE")) {
+                    price = data.price;
+                } else if (ibas.strings.equalsIgnoreCase(type, "PRETAXPRICE")) {
+                    price = data.preTaxPrice;
+                } else {
+                    price = data.unitPrice;
+                }
                 this.messages({
                     type: ibas.emMessageType.QUESTION,
-                    message: ibas.i18n.prop("materials_document_apply_price_continue", data.preTaxPrice, data.currency),
+                    message: ibas.i18n.prop("materials_document_apply_price_continue", price, data.currency),
                     actions: [
                         ibas.emMessageAction.YES,
                         ibas.emMessageAction.NO
                     ],
                     onCompleted: (action) => {
                         if (action === ibas.emMessageAction.YES) {
-                            this.contract.original.applyPrice(data.preTaxPrice, data.currency);
+                            this.contract.original.applyPrice(type, price, data.currency);
                             this.close();
                         }
                     }

@@ -323,6 +323,12 @@ namespace materials {
                                     batch.itemCode = data.itemCode;
                                     batch.warehouse = data.warehouse;
                                     batch.batchCode = data.batchCode;
+                                    // 如果数据不完整，则不保存
+                                    if (ibas.strings.isEmpty(batch.itemCode)
+                                        || ibas.strings.isEmpty(batch.warehouse)
+                                        || ibas.strings.isEmpty(batch.batchCode)) {
+                                        batch.isSavable = false;
+                                    }
                                 }
                                 if (!ibas.strings.isEmpty(data.supplierSerial)) { batch.supplierSerial = data.supplierSerial; }
                                 if (ibas.dates.isDate(data.manufacturingDate)) { batch.manufacturingDate = data.manufacturingDate; }
@@ -333,7 +339,7 @@ namespace materials {
                                 if (!ibas.strings.isEmpty(data.notes)) { batch.notes = data.notes; }
                                 // if (!ibas.strings.isEmpty(data.notes)) { batch.notes = (ibas.objects.isNull(batch.notes) ? "" : batch.notes + ";") + data.notes; }
                                 if (data.specification > 0) { batch.specification = data.specification; }
-                                if (batch.isDirty) {
+                                if (batch.isDirty && batch.isSavable) {
                                     boRepository.saveMaterialBatch({
                                         beSaved: batch,
                                         onCompleted: (opRslt) => {

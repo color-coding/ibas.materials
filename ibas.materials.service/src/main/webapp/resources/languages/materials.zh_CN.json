@@ -242,6 +242,7 @@
   "materials_price_list_is_non_editable": "价格清单[{0} - {1}]不可编辑",
   "materials_document_inventoryquantity": "仓库数量/总数量",
   "materials_document_apply_changes_continue": "应用修改到单据，是否继续？",
-  "materials_document_apply_price_continue": "应用税前价格[{0} {1}]到单据，是否继续？",
+  "materials_document_apply_price_which": "应用价格",
+  "materials_document_apply_price_continue": "应用价格[{0} {1}]到单据，是否继续？",
   "materials_closing_delimiter": "----结束----"
 }

@@ -1874,6 +1874,60 @@ declare namespace reportanalysis {
  * Use of this source code is governed by an Apache License, Version 2.0
  * that can be found in the LICENSE file at http://www.apache.org/licenses/LICENSE-2.0
  */
+declare namespace reportanalysis {
+    namespace app {
+        /** 应用-报表图表 */
+        class ReportChartsApp extends ibas.Application<IReportChartsView> {
+            /** 应用标识 */
+            static APPLICATION_ID: string;
+            /** 应用名称 */
+            static APPLICATION_NAME: string;
+            /** 构造函数 */
+            constructor();
+            /** 注册视图 */
+            protected registerView(): void;
+            /** 视图显示后 */
+            protected viewShowed(): void;
+            protected chartData: ibas.DataTable;
+            protected chartType: ChartType;
+            /**
+             * 运行
+             * @param data 展示数据
+             * @param chartType 展示方式
+             */
+            run(data?: ibas.DataTable, chartType?: ChartType): void;
+            protected drawChart(label: ibas.DataTableColumn, ...datas: ibas.DataTableColumn[]): void;
+        }
+        enum ChartType {
+            /** 饼图 */
+            "PIE" = 0,
+            /** 折线图 */
+            "LINE" = 1,
+            /** 气泡图 */
+            "BUBBLE" = 2,
+            /** 散点图 */
+            "SCATTER" = 3
+        }
+        /** 视图-报表图表 */
+        interface IReportChartsView extends ibas.IView {
+            /** 显示标签列 */
+            showLabels(columns: ibas.DataTableColumn[]): void;
+            /** 显示内容列 */
+            showContents(columns: ibas.DataTableColumn[]): void;
+            /** 绘制图表 */
+            drawChartEvent: Function;
+            /** 显示展现数据 */
+            showChart(type: ChartType, labels: string[], ...datas: any[]): void;
+        }
+    }
+}
+/**
+ * @license
+ * Copyright color-coding studio. All Rights Reserved.
+ *
+ * Use of this source code is governed by an Apache License, Version 2.0
+ * that can be found in the LICENSE file at http://www.apache.org/licenses/LICENSE-2.0
+ */
 /**
  * @license
  * Copyright Color-Coding Studio. All Rights Reserved.

@@ -331,6 +331,12 @@ namespace materials {
                                     serial.itemCode = data.itemCode;
                                     serial.warehouse = data.warehouse;
                                     serial.serialCode = data.serialCode;
+                                    // 如果数据不完整，则不保存
+                                    if (ibas.strings.isEmpty(serial.itemCode)
+                                        || ibas.strings.isEmpty(serial.warehouse)
+                                        || ibas.strings.isEmpty(serial.serialCode)) {
+                                        serial.isSavable = false;
+                                    }
                                 }
                                 if (!ibas.strings.isEmpty(data.supplierSerial)) { serial.supplierSerial = data.supplierSerial; }
                                 if (!ibas.strings.isEmpty(data.batchSerial)) { serial.batchSerial = data.batchSerial; }
@@ -344,7 +350,7 @@ namespace materials {
                                 if (!ibas.strings.isEmpty(data.notes)) { serial.notes = data.notes; }
                                 // if (!ibas.strings.isEmpty(data.notes)) { serial.notes = (ibas.objects.isNull(serial.notes) ? "" : serial.notes + ";") + data.notes; }
                                 if (data.specification > 0) { serial.specification = data.specification; }
-                                if (serial.isDirty) {
+                                if (serial.isDirty && serial.isSavable) {
                                     boRepository.saveMaterialSerial({
                                         beSaved: serial,
                                         onCompleted: (opRslt) => {
