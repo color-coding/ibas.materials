@@ -17,6 +17,8 @@ declare namespace initialfantasy {
     /** 配置值-数据权限方式 */
     const CONFIG_VALUE_OWNERSHIP_WAY: string;
     namespace config {
+        /** 配置值-用户密码过期天数 */
+        const CONFIG_VALUE_USER_PASSWORD_EXPIRATION_DAYS: string;
         /**
          * 获取此模块配置
          * @param key 配置项
@@ -699,6 +701,8 @@ declare namespace initialfantasy {
             description: string;
             /** 默认值 */
             default: ibas.emYesNo;
+            /** 显示顺序 */
+            visOrder: number;
         }
         /** 业务对象属性信息 集合 */
         interface IBOPropertyValues extends ibas.IBusinessObjects<IBOPropertyValue> {
@@ -865,6 +869,8 @@ declare namespace initialfantasy {
             validDate: Date;
             /** 失效日期 */
             invalidDate: Date;
+            /** 密码修改日期 */
+            lastPwdSetDate: Date;
             /** 对象编号 */
             docEntry: number;
             /** 对象类型 */
@@ -2703,6 +2709,12 @@ declare namespace initialfantasy {
             get default(): ibas.emYesNo;
             /** 设置-默认值 */
             set default(value: ibas.emYesNo);
+            /** 映射的属性名称-显示顺序 */
+            static PROPERTY_VISORDER_NAME: string;
+            /** 获取-显示顺序 */
+            get visOrder(): number;
+            /** 设置-显示顺序 */
+            set visOrder(value: number);
             /** 字符串 */
             toString(): string;
             /** 获取查询 */
@@ -3216,6 +3228,12 @@ declare namespace initialfantasy {
             get invalidDate(): Date;
             /** 设置-失效日期 */
             set invalidDate(value: Date);
+            /** 映射的属性名称-密码修改日期 */
+            static PROPERTY_LASTPWDSETDATE_NAME: string;
+            /** 获取-密码修改日期 */
+            get lastPwdSetDate(): Date;
+            /** 设置-密码修改日期 */
+            set lastPwdSetDate(value: Date);
             /** 映射的属性名称-对象编号 */
             static PROPERTY_DOCENTRY_NAME: string;
             /** 获取-对象编号 */
@@ -6970,6 +6988,7 @@ declare namespace initialfantasy {
             private user;
             private fetchUser;
             private editUser;
+            protected barShowed(): void;
         }
         /** 视图-用户配置 */
         interface IUserProfileView extends ibas.IResidentView {

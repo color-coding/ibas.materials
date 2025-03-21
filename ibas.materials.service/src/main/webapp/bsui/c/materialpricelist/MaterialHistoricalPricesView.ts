@@ -397,26 +397,48 @@ namespace materials {
                                                 width: "8rem",
                                             }),
                                         ],
-                                    })
+                                    }),
+                                    new sap.m.Toolbar("", {
+                                        height: "2.5rem",
+                                        content: [
+                                            new sap.m.Label("", { showColon: true, text: ibas.i18n.prop("materials_document_apply_price_which") }),
+                                            this.priSegmented = new sap.m.SegmentedButton("", {
+                                                selectedKey: config.get(config.CONFIG_ITEM_DEFAULT_HISTORICAL_PRICE_WHICH_APPLY, "PRETAXPRICE"),
+                                                items: [
+                                                    new sap.m.SegmentedButtonItem("", {
+                                                        key: "PRICE",
+                                                        text: ibas.i18n.prop("bo_materialhistoricalprice_price"),
+                                                    }),
+                                                    new sap.m.SegmentedButtonItem("", {
+                                                        key: "PRETAXPRICE",
+                                                        text: ibas.i18n.prop("bo_materialhistoricalprice_pretaxprice"),
+                                                    }),
+                                                    new sap.m.SegmentedButtonItem("", {
+                                                        key: "UNITPRICE",
+                                                        text: ibas.i18n.prop("bo_materialhistoricalprice_unitprice"),
+                                                    }),
+                                                ]
+                                            }),
+                                            new sap.m.ToolbarSpacer(),
+                                            new sap.m.Button("", {
+                                                text: ibas.i18n.prop("shell_apply"),
+                                                type: sap.m.ButtonType.Transparent,
+                                                press: function (): void {
+                                                    that.fireViewEvents(that.applyEvent, that.table.getSelecteds().firstOrDefault(), that.priSegmented.getSelectedKey());
+                                                }
+                                            }),
+                                            new sap.m.Button("", {
+                                                text: ibas.i18n.prop("shell_data_close"),
+                                                type: sap.m.ButtonType.Transparent,
+                                                press: function (): void {
+                                                    that.fireViewEvents(that.closeEvent);
+                                                }
+                                            }),
+                                        ]
+                                    }).addStyleClass("sapMDialogFooter sapMOTB sapMTBNoBorders sapMIBar-CTX sapMFooter-CTX sapContrast sapContrastPlus")
                                 ]
                             }),
                         ],
-                        buttons: [
-                            new sap.m.Button("", {
-                                text: ibas.i18n.prop("shell_apply"),
-                                type: sap.m.ButtonType.Transparent,
-                                press: function (): void {
-                                    that.fireViewEvents(that.applyEvent, that.table.getSelecteds().firstOrDefault());
-                                }
-                            }),
-                            new sap.m.Button("", {
-                                text: ibas.i18n.prop("shell_data_close"),
-                                type: sap.m.ButtonType.Transparent,
-                                press: function (): void {
-                                    that.fireViewEvents(that.closeEvent);
-                                }
-                            }),
-                        ]
                     }).addStyleClass("sapUiNoContentPadding");
                 }
 
@@ -426,6 +448,7 @@ namespace materials {
                 private bpButton: sap.m.SegmentedButton;
                 private bpColumn: sap.ui.table.Column;
                 private countInput: sap.m.Input;
+                private priSegmented: sap.m.SegmentedButton;
 
                 showDocument(data: app.MaterialHistoricalPrice): void {
                     this.bpButton.destroyItems();
