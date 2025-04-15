@@ -46,6 +46,7 @@ import org.colorcoding.ibas.materials.data.Ledgers;
 import org.colorcoding.ibas.materials.logic.journalentry.JournalEntrySmartContent;
 import org.colorcoding.ibas.materials.logic.journalentry.MaterialsReceiptReverseCost;
 import org.colorcoding.ibas.materials.logic.journalentry.MaterialsReceiptReverseCostDiff;
+import org.colorcoding.ibas.materials.rules.BusinessRulePreventCancelDocument;
 
 /**
  * 获取-库存收货
@@ -1314,7 +1315,9 @@ public class GoodsReceipt extends BusinessObject<GoodsReceipt> implements IGoods
 
 	@Override
 	protected IBusinessRule[] registerRules() {
-		return new IBusinessRule[] { // 注册的业务规则
+		return new IBusinessRule[] {
+				// 注册的业务规则
+				new BusinessRulePreventCancelDocument(PROPERTY_CANCELED, PROPERTY_DOCUMENTSTATUS), // 阻止取消单据
 				new BusinessRuleRequiredElements(PROPERTY_GOODSRECEIPTLINES), // 要求有元素
 				new BusinessRuleDocumentStatus(PROPERTY_DOCUMENTSTATUS, PROPERTY_GOODSRECEIPTLINES,
 						GoodsReceiptLine.PROPERTY_LINESTATUS), // 使用集合元素状态

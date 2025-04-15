@@ -44,6 +44,7 @@ import org.colorcoding.ibas.bobas.rule.common.BusinessRuleSumElements;
 import org.colorcoding.ibas.materials.MyConfiguration;
 import org.colorcoding.ibas.materials.data.Ledgers;
 import org.colorcoding.ibas.materials.logic.journalentry.MaterialsInventoryCost;
+import org.colorcoding.ibas.materials.rules.BusinessRulePreventCancelDocument;
 
 /**
  * 获取-库存发货
@@ -1312,7 +1313,9 @@ public class GoodsIssue extends BusinessObject<GoodsIssue> implements IGoodsIssu
 
 	@Override
 	protected IBusinessRule[] registerRules() {
-		return new IBusinessRule[] { // 注册的业务规则
+		return new IBusinessRule[] {
+				// 注册的业务规则
+				new BusinessRulePreventCancelDocument(PROPERTY_CANCELED, PROPERTY_DOCUMENTSTATUS), // 阻止取消单据
 				new BusinessRuleRequiredElements(PROPERTY_GOODSISSUELINES), // 要求有元素
 				new BusinessRuleDocumentStatus(PROPERTY_DOCUMENTSTATUS, PROPERTY_GOODSISSUELINES,
 						GoodsIssueLine.PROPERTY_LINESTATUS), // 使用集合元素状态

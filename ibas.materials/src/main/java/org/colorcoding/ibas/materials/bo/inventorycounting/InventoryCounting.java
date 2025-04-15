@@ -42,6 +42,7 @@ import org.colorcoding.ibas.bobas.rule.common.BusinessRuleSumElements;
 import org.colorcoding.ibas.materials.MyConfiguration;
 import org.colorcoding.ibas.materials.data.Ledgers;
 import org.colorcoding.ibas.materials.logic.journalentry.JournalEntrySmartContent;
+import org.colorcoding.ibas.materials.rules.BusinessRulePreventCancelDocument;
 
 /**
  * 库存盘点
@@ -1310,7 +1311,9 @@ public class InventoryCounting extends BusinessObject<InventoryCounting> impleme
 
 	@Override
 	protected IBusinessRule[] registerRules() {
-		return new IBusinessRule[] { // 注册的业务规则
+		return new IBusinessRule[] {
+				// 注册的业务规则
+				new BusinessRulePreventCancelDocument(PROPERTY_CANCELED, PROPERTY_DOCUMENTSTATUS), // 阻止取消单据
 				new BusinessRuleRequiredElements(PROPERTY_INVENTORYCOUNTINGLINES), // 要求有元素
 				new BusinessRuleDocumentStatus(PROPERTY_DOCUMENTSTATUS, PROPERTY_INVENTORYCOUNTINGLINES,
 						InventoryCountingLine.PROPERTY_LINESTATUS), // 使用集合元素状态
