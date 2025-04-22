@@ -26,19 +26,15 @@ namespace materials {
                             path: "/rows",
                             template: new sap.m.ObjectListItem("", {
                                 title: {
-                                    path: "itemDescription",
-                                    mode: sap.ui.model.BindingMode.OneTime,
-                                    type: new sap.extension.data.Alphanumeric()
+                                    path: "itemDescription", type: new sap.extension.data.Alphanumeric()
                                 },
                                 number: {
                                     parts: [
                                         {
                                             path: "quantity",
-                                            mode: sap.ui.model.BindingMode.OneTime,
-                                            type: new sap.extension.data.Numeric()
+                                            type: new sap.extension.data.Quantity()
                                         }, {
                                             path: "uom",
-                                            mode: sap.ui.model.BindingMode.OneTime,
                                             type: new sap.extension.data.Alphanumeric()
                                         }
                                     ]
@@ -48,7 +44,7 @@ namespace materials {
                                         parts: [
                                             {
                                                 path: "remaining",
-                                                type: new sap.extension.data.Numeric()
+                                                type: new sap.extension.data.Quantity()
                                             }, {
                                                 path: "uom",
                                                 type: new sap.extension.data.Alphanumeric()
@@ -57,7 +53,7 @@ namespace materials {
                                     },
                                     state: {
                                         path: "remaining",
-                                        type: new sap.extension.data.Numeric(),
+                                        type: new sap.extension.data.Quantity(),
                                         formatter(data: number): sap.ui.core.ValueState {
                                             if (data < 0) {
                                                 return sap.ui.core.ValueState.Error;
@@ -73,7 +69,6 @@ namespace materials {
                                         title: ibas.i18n.prop("bo_materialbatchitem_itemcode"),
                                         bindingValue: {
                                             path: "itemCode",
-                                            mode: sap.ui.model.BindingMode.OneTime,
                                             type: new sap.extension.data.Alphanumeric()
                                         }
                                     }),
@@ -81,7 +76,6 @@ namespace materials {
                                         title: ibas.i18n.prop("bo_warehouse"),
                                         bindingValue: {
                                             path: "warehouse",
-                                            mode: sap.ui.model.BindingMode.OneTime,
                                             type: new sap.extension.data.Alphanumeric()
                                         },
                                         repository: bo.BORepositoryMaterials,

@@ -1332,7 +1332,7 @@ public class MaterialBatchJournal extends BusinessObject<MaterialBatchJournal>
 						BigDecimal inventoryValue = Decimal.add(MaterialBatchJournal.this.getInventoryValue(),
 								MaterialBatchJournal.this.getTransactionValue().abs());
 						return Decimal.isZero(inventoryQuantity) ? Decimal.ZERO
-								: Decimal.divide(inventoryValue, inventoryQuantity);
+								: Decimal.divide(inventoryValue, inventoryQuantity, Decimal.DECIMAL_PLACES_STORAGE);
 					}
 				}
 				return null;

@@ -148,10 +148,13 @@ namespace materials {
                             this.tableBatch
                         ]
                     });
-                    this.tableBatchJournal = new sap.extension.table.Table("", {
+                    this.tableBatchJournal = new sap.extension.table.DataTable("", {
                         enableSelectAll: false,
                         visibleRowCount: sap.extension.table.visibleRowCount(15),
                         visibleRowCountMode: sap.ui.table.VisibleRowCountMode.Interactive,
+                        dataInfo: {
+                            code: bo.MaterialBatchJournal.BUSINESS_OBJECT_CODE,
+                        },
                         rows: "{/rows}",
                         columns: [
                             new sap.extension.table.Column("", {

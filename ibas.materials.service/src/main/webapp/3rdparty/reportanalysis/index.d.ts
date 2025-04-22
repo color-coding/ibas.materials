@@ -1310,6 +1310,7 @@ declare namespace reportanalysis {
             protected editData(): void;
             run(): void;
             run(data: bo.Report): void;
+            private triggerData?;
             /** 查询数据 */
             protected fetchData(criteria: ibas.ICriteria | string): void;
         }
