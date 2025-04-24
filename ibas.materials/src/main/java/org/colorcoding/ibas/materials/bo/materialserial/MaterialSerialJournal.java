@@ -9,24 +9,24 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
 import org.colorcoding.ibas.bobas.bo.BusinessObject;
+import org.colorcoding.ibas.bobas.bo.BusinessObjectUnit;
+import org.colorcoding.ibas.bobas.common.Decimals;
+import org.colorcoding.ibas.bobas.common.Strings;
 import org.colorcoding.ibas.bobas.core.IPropertyInfo;
 import org.colorcoding.ibas.bobas.data.ArrayList;
 import org.colorcoding.ibas.bobas.data.DateTime;
-import org.colorcoding.ibas.bobas.data.Decimal;
 import org.colorcoding.ibas.bobas.data.emDirection;
+import org.colorcoding.ibas.bobas.db.DbField;
+import org.colorcoding.ibas.bobas.db.DbFieldType;
 import org.colorcoding.ibas.bobas.i18n.I18N;
 import org.colorcoding.ibas.bobas.logic.BusinessLogicException;
 import org.colorcoding.ibas.bobas.logic.IBusinessLogicContract;
 import org.colorcoding.ibas.bobas.logic.IBusinessLogicsHost;
-import org.colorcoding.ibas.bobas.mapping.BusinessObjectUnit;
-import org.colorcoding.ibas.bobas.mapping.DbField;
-import org.colorcoding.ibas.bobas.mapping.DbFieldType;
 import org.colorcoding.ibas.bobas.rule.BusinessRuleException;
 import org.colorcoding.ibas.bobas.rule.IBusinessRule;
 import org.colorcoding.ibas.bobas.rule.ICheckRules;
 import org.colorcoding.ibas.bobas.rule.common.BusinessRuleRequired;
 import org.colorcoding.ibas.materials.MyConfiguration;
-import org.colorcoding.ibas.materials.data.DataConvert;
 import org.colorcoding.ibas.materials.logic.IMaterialInventoryReservationCreateContract;
 import org.colorcoding.ibas.materials.logic.IMaterialInventoryReservationReleaseContract;
 import org.colorcoding.ibas.materials.logic.IMaterialSerialInventoryContract;
@@ -228,7 +228,7 @@ public class MaterialSerialJournal extends BusinessObject<MaterialSerialJournal>
 	 * @param value 值
 	 */
 	public final void setQuantity(String value) {
-		this.setQuantity(Decimal.valueOf(value));
+		this.setQuantity(Decimals.valueOf(value));
 	}
 
 	/**
@@ -237,7 +237,7 @@ public class MaterialSerialJournal extends BusinessObject<MaterialSerialJournal>
 	 * @param value 值
 	 */
 	public final void setQuantity(int value) {
-		this.setQuantity(Decimal.valueOf(value));
+		this.setQuantity(Decimals.valueOf(value));
 	}
 
 	/**
@@ -246,7 +246,7 @@ public class MaterialSerialJournal extends BusinessObject<MaterialSerialJournal>
 	 * @param value 值
 	 */
 	public final void setQuantity(double value) {
-		this.setQuantity(Decimal.valueOf(value));
+		this.setQuantity(Decimals.valueOf(value));
 	}
 
 	/**
@@ -286,7 +286,7 @@ public class MaterialSerialJournal extends BusinessObject<MaterialSerialJournal>
 	 * @param value 值
 	 */
 	public final void setPrice(String value) {
-		this.setPrice(Decimal.valueOf(value));
+		this.setPrice(Decimals.valueOf(value));
 	}
 
 	/**
@@ -295,7 +295,7 @@ public class MaterialSerialJournal extends BusinessObject<MaterialSerialJournal>
 	 * @param value 值
 	 */
 	public final void setPrice(int value) {
-		this.setPrice(Decimal.valueOf(value));
+		this.setPrice(Decimals.valueOf(value));
 	}
 
 	/**
@@ -304,7 +304,7 @@ public class MaterialSerialJournal extends BusinessObject<MaterialSerialJournal>
 	 * @param value 值
 	 */
 	public final void setPrice(double value) {
-		this.setPrice(Decimal.valueOf(value));
+		this.setPrice(Decimals.valueOf(value));
 	}
 
 	/**
@@ -375,7 +375,7 @@ public class MaterialSerialJournal extends BusinessObject<MaterialSerialJournal>
 	 * @param value 值
 	 */
 	public final void setRate(String value) {
-		this.setRate(Decimal.valueOf(value));
+		this.setRate(Decimals.valueOf(value));
 	}
 
 	/**
@@ -384,7 +384,7 @@ public class MaterialSerialJournal extends BusinessObject<MaterialSerialJournal>
 	 * @param value 值
 	 */
 	public final void setRate(int value) {
-		this.setRate(Decimal.valueOf(value));
+		this.setRate(Decimals.valueOf(value));
 	}
 
 	/**
@@ -393,7 +393,7 @@ public class MaterialSerialJournal extends BusinessObject<MaterialSerialJournal>
 	 * @param value 值
 	 */
 	public final void setRate(double value) {
-		this.setRate(Decimal.valueOf(value));
+		this.setRate(Decimals.valueOf(value));
 	}
 
 	/**
@@ -707,32 +707,32 @@ public class MaterialSerialJournal extends BusinessObject<MaterialSerialJournal>
 	}
 
 	/**
-	* 属性名称-基于索引
-	*/
+	 * 属性名称-基于索引
+	 */
 	private static final String PROPERTY_BASEDOCUMENTINDEX_NAME = "BaseDocumentIndex";
 
 	/**
-	* 基于索引 属性
-	*/
+	 * 基于索引 属性
+	 */
 	@DbField(name = "BaseIndex", type = DbFieldType.NUMERIC, table = DB_TABLE_NAME, uniqueKey = true)
 	public static final IPropertyInfo<Integer> PROPERTY_BASEDOCUMENTINDEX = registerProperty(
 			PROPERTY_BASEDOCUMENTINDEX_NAME, Integer.class, MY_CLASS);
 
 	/**
-	* 获取-基于索引
-	* 
-	* @return 值
-	*/
+	 * 获取-基于索引
+	 * 
+	 * @return 值
+	 */
 	@XmlElement(name = PROPERTY_BASEDOCUMENTINDEX_NAME)
 	public final Integer getBaseDocumentIndex() {
 		return this.getProperty(PROPERTY_BASEDOCUMENTINDEX);
 	}
 
 	/**
-	* 设置-基于索引
-	* 
-	* @param value 值
-	*/
+	 * 设置-基于索引
+	 * 
+	 * @param value 值
+	 */
 	public final void setBaseDocumentIndex(Integer value) {
 		this.setProperty(PROPERTY_BASEDOCUMENTINDEX, value);
 	}
@@ -1209,7 +1209,7 @@ public class MaterialSerialJournal extends BusinessObject<MaterialSerialJournal>
 	protected void initialize() {
 		super.initialize();// 基类初始化，不可去除
 		this.setObjectCode(MyConfiguration.applyVariables(BUSINESS_OBJECT_CODE));
-		this.setQuantity(Decimal.ONE);
+		this.setQuantity(Decimals.VALUE_ONE);
 	}
 
 	@Override
@@ -1223,7 +1223,7 @@ public class MaterialSerialJournal extends BusinessObject<MaterialSerialJournal>
 
 	@Override
 	public void check() throws BusinessRuleException {
-		if (this.getCalculatedPrice() != null && !Decimal.isZero(this.getCalculatedPrice())) {
+		if (this.getCalculatedPrice() != null && !Decimals.isZero(this.getCalculatedPrice())) {
 			if (this.isDeleted()) {
 				// 修改入库物料、仓库、价格，影响成本计算，不允许
 				throw new BusinessLogicException(
@@ -1241,7 +1241,7 @@ public class MaterialSerialJournal extends BusinessObject<MaterialSerialJournal>
 	public IBusinessLogicContract[] getContracts() {
 		ArrayList<IBusinessLogicContract> contracts = new ArrayList<>(4);
 		// 出库
-		if (this.getDirection() == emDirection.OUT && this.getQuantity().compareTo(Decimal.ZERO) > 0) {
+		if (this.getDirection() == emDirection.OUT && this.getQuantity().compareTo(Decimals.VALUE_ZERO) > 0) {
 			// 出库预留释放，仅正向逻辑执行
 			contracts.add(new IMaterialInventoryReservationReleaseContract() {
 
@@ -1322,18 +1322,18 @@ public class MaterialSerialJournal extends BusinessObject<MaterialSerialJournal>
 
 			@Override
 			public BigDecimal getCalculatedPrice() {
-				if (DataConvert.isNullOrEmpty(MaterialSerialJournal.this.getUpdateActionId())) {
+				if (Strings.isNullOrEmpty(MaterialSerialJournal.this.getUpdateActionId())) {
 					// 仅新状态影响成本
 					if ((MaterialSerialJournal.this.getDirection() == emDirection.IN
-							&& MaterialSerialJournal.this.getQuantity().compareTo(Decimal.ZERO) > 0)
+							&& MaterialSerialJournal.this.getQuantity().compareTo(Decimals.VALUE_ZERO) > 0)
 							|| (MaterialSerialJournal.this.getDirection() == emDirection.OUT
-									&& MaterialSerialJournal.this.getQuantity().compareTo(Decimal.ZERO) < 0)) {
-						BigDecimal inventoryQuantity = Decimal.add(MaterialSerialJournal.this.getInventoryQuantity(),
+									&& MaterialSerialJournal.this.getQuantity().compareTo(Decimals.VALUE_ZERO) < 0)) {
+						BigDecimal inventoryQuantity = Decimals.add(MaterialSerialJournal.this.getInventoryQuantity(),
 								MaterialSerialJournal.this.getQuantity().abs());
-						BigDecimal inventoryValue = Decimal.add(MaterialSerialJournal.this.getInventoryValue(),
+						BigDecimal inventoryValue = Decimals.add(MaterialSerialJournal.this.getInventoryValue(),
 								MaterialSerialJournal.this.getTransactionValue().abs());
-						return Decimal.isZero(inventoryQuantity) ? Decimal.ZERO
-								: Decimal.divide(inventoryValue, inventoryQuantity);
+						return Decimals.isZero(inventoryQuantity) ? Decimals.VALUE_ZERO
+								: Decimals.divide(inventoryValue, inventoryQuantity);
 					}
 				}
 				return null;
@@ -1341,7 +1341,7 @@ public class MaterialSerialJournal extends BusinessObject<MaterialSerialJournal>
 
 		});
 		// 入库
-		if (this.getDirection() == emDirection.IN && this.getQuantity().compareTo(Decimal.ZERO) > 0) {
+		if (this.getDirection() == emDirection.IN && this.getQuantity().compareTo(Decimals.VALUE_ZERO) > 0) {
 			// 物料订购预留转库存占用，仅正向逻辑执行
 			contracts.add(new IMaterialInventoryReservationCreateContract() {
 

@@ -5,7 +5,7 @@ import java.math.BigDecimal;
 import javax.xml.bind.annotation.XmlSeeAlso;
 import javax.xml.bind.annotation.XmlType;
 
-import org.colorcoding.ibas.bobas.data.Decimal;
+import org.colorcoding.ibas.bobas.common.Decimals;
 import org.colorcoding.ibas.bobas.data.emDocumentStatus;
 import org.colorcoding.ibas.bobas.data.emYesNo;
 import org.colorcoding.ibas.bobas.i18n.I18N;
@@ -81,7 +81,7 @@ class MaterialBatchItems extends org.colorcoding.ibas.materials.bo.materialbatch
 		if (lineId == null) {
 			lineId = 0;
 		}
-		BigDecimal total = Decimal.ZERO;
+		BigDecimal total = Decimals.VALUE_ZERO;
 		for (IMaterialBatchItem item : this) {
 			if (item.isDeleted()) {
 				continue;
@@ -113,7 +113,7 @@ class MaterialBatchItems extends org.colorcoding.ibas.materials.bo.materialbatch
 		parentTotal = parentTotal.stripTrailingZeros();
 		// 使用非库存单位时，容易出现差异
 		if (total.scale() > parentTotal.scale()) {
-			total = total.setScale(parentTotal.scale(), Decimal.ROUNDING_MODE_DEFAULT);
+			total = total.setScale(parentTotal.scale(), Decimals.ROUNDING_MODE_DEFAULT);
 		}
 		if (total.compareTo(parentTotal) != 0) {
 			throw new BusinessRuleException(

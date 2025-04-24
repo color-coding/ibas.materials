@@ -9,21 +9,21 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
 import org.colorcoding.ibas.bobas.bo.BusinessObject;
+import org.colorcoding.ibas.bobas.bo.BusinessObjectUnit;
+import org.colorcoding.ibas.bobas.common.Decimals;
+import org.colorcoding.ibas.bobas.common.Strings;
 import org.colorcoding.ibas.bobas.core.IPropertyInfo;
 import org.colorcoding.ibas.bobas.data.ArrayList;
 import org.colorcoding.ibas.bobas.data.DateTime;
-import org.colorcoding.ibas.bobas.data.Decimal;
 import org.colorcoding.ibas.bobas.data.emBOStatus;
+import org.colorcoding.ibas.bobas.db.DbField;
+import org.colorcoding.ibas.bobas.db.DbFieldType;
 import org.colorcoding.ibas.bobas.logic.IBusinessLogicContract;
 import org.colorcoding.ibas.bobas.logic.IBusinessLogicsHost;
-import org.colorcoding.ibas.bobas.mapping.BusinessObjectUnit;
-import org.colorcoding.ibas.bobas.mapping.DbField;
-import org.colorcoding.ibas.bobas.mapping.DbFieldType;
 import org.colorcoding.ibas.bobas.ownership.IDataOwnership;
 import org.colorcoding.ibas.bobas.rule.IBusinessRule;
 import org.colorcoding.ibas.bobas.rule.common.BusinessRuleMinValue;
 import org.colorcoding.ibas.bobas.rule.common.BusinessRuleRequired;
-import org.colorcoding.ibas.initialfantasy.data.DataConvert;
 import org.colorcoding.ibas.materials.MyConfiguration;
 import org.colorcoding.ibas.materials.logic.IMaterialBatchReservedContract;
 import org.colorcoding.ibas.materials.logic.IMaterialReservedContract;
@@ -980,16 +980,16 @@ public class MaterialInventoryReservation extends BusinessObject<MaterialInvento
 		return new IBusinessRule[] { // 注册的业务规则
 				new BusinessRuleRequired(PROPERTY_ITEMCODE), // 要求有值
 				new BusinessRuleRequired(PROPERTY_WAREHOUSE), // 要求有值
-				new BusinessRuleMinValue<BigDecimal>(Decimal.ZERO, PROPERTY_QUANTITY), // 不能低于0
+				new BusinessRuleMinValue<BigDecimal>(Decimals.VALUE_ZERO, PROPERTY_QUANTITY), // 不能低于0
 		};
 	}
 
 	@Override
 	public IBusinessLogicContract[] getContracts() {
 		ArrayList<IBusinessLogicContract> contracts = new ArrayList<>(4);
-		if (this.getQuantity().compareTo(Decimal.ZERO) > 0) {
+		if (this.getQuantity().compareTo(Decimals.VALUE_ZERO) > 0) {
 			// 预留数量大于0才有效
-			if (!DataConvert.isNullOrEmpty(this.getSerialCode())) {
+			if (!Strings.isNullOrEmpty(this.getSerialCode())) {
 				// 序列占用
 				contracts.add(new IMaterialSerialReservedContract() {
 
@@ -1026,7 +1026,7 @@ public class MaterialInventoryReservation extends BusinessObject<MaterialInvento
 					}
 				});
 			}
-			if (!DataConvert.isNullOrEmpty(this.getBatchCode())) {
+			if (!Strings.isNullOrEmpty(this.getBatchCode())) {
 				// 批次占用
 				contracts.add(new IMaterialBatchReservedContract() {
 
@@ -1063,7 +1063,7 @@ public class MaterialInventoryReservation extends BusinessObject<MaterialInvento
 					}
 				});
 			}
-			if (!DataConvert.isNullOrEmpty(this.getWarehouse())) {
+			if (!Strings.isNullOrEmpty(this.getWarehouse())) {
 				// 仓库占用
 				contracts.add(new IMaterialWarehouseReservedContract() {
 
@@ -1095,7 +1095,7 @@ public class MaterialInventoryReservation extends BusinessObject<MaterialInvento
 					}
 				});
 			}
-			if (!DataConvert.isNullOrEmpty(this.getItemCode())) {
+			if (!Strings.isNullOrEmpty(this.getItemCode())) {
 				// 物料占用
 				contracts.add(new IMaterialReservedContract() {
 

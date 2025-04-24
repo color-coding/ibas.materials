@@ -3,15 +3,15 @@ package org.colorcoding.ibas.materials.logic;
 import java.math.BigDecimal;
 import java.util.Iterator;
 
-import org.colorcoding.ibas.bobas.data.DataConvert;
-import org.colorcoding.ibas.bobas.data.Decimal;
+import org.colorcoding.ibas.bobas.common.Decimals;
+import org.colorcoding.ibas.bobas.common.Strings;
 import org.colorcoding.ibas.bobas.data.emDocumentStatus;
 import org.colorcoding.ibas.bobas.data.emYesNo;
 import org.colorcoding.ibas.bobas.i18n.I18N;
-import org.colorcoding.ibas.bobas.logic.BusinessLogicException;
-import org.colorcoding.ibas.bobas.mapping.LogicContract;
 import org.colorcoding.ibas.bobas.message.Logger;
 import org.colorcoding.ibas.bobas.message.MessageLevel;
+import org.colorcoding.ibas.bobas.logic.BusinessLogicException;
+import org.colorcoding.ibas.bobas.logic.LogicContract;
 import org.colorcoding.ibas.document.DocumentFetcherManager;
 import org.colorcoding.ibas.document.IDocumentCloseQuantityOperator;
 import org.colorcoding.ibas.document.IDocumentClosingQuantityItem;
@@ -27,13 +27,13 @@ public class DocumentQuantityClosingService extends DocumentQuantityService<IDoc
 	protected boolean checkDataStatus(Object data) {
 		if (data instanceof IDocumentQuantityClosingContract) {
 			IDocumentQuantityClosingContract contract = (IDocumentQuantityClosingContract) data;
-			if (contract.checkDataStatus(this.getRepository()) == false) {
+			if (contract.checkDataStatus(this.getTransaction()) == false) {
 				Logger.log(MessageLevel.DEBUG, MSG_LOGICS_SKIP_LOGIC_EXECUTION, this.getClass().getName(), "DataStatus",
 						String.format("%s-%s-%s", contract.getBaseDocumentType(), contract.getBaseDocumentEntry(),
 								contract.getBaseDocumentLineId()));
 				return false;
 			}
-			if (DataConvert.isNullOrEmpty(contract.getBaseDocumentType())) {
+			if (Strings.isNullOrEmpty(contract.getBaseDocumentType())) {
 				Logger.log(MessageLevel.DEBUG, MSG_LOGICS_SKIP_LOGIC_EXECUTION, this.getClass().getName(),
 						"BaseDocumentType", "EMPTY");
 				return false;
@@ -75,7 +75,7 @@ public class DocumentQuantityClosingService extends DocumentQuantityService<IDoc
 			}
 			BigDecimal closedQuantity = item.getClosedQuantity();
 			if (closedQuantity == null) {
-				closedQuantity = Decimal.ZERO;
+				closedQuantity = Decimals.VALUE_ZERO;
 			}
 			closedQuantity = closedQuantity.add(contract.getQuantity());
 			if (closedQuantity.compareTo(item.getQuantity()) > 0) {
@@ -94,7 +94,7 @@ public class DocumentQuantityClosingService extends DocumentQuantityService<IDoc
 					item.setLineStatus(emDocumentStatus.FINISHED);
 				}
 			}
-			if (item.getClosedQuantity().compareTo(Decimal.ZERO) > 0) {
+			if (item.getClosedQuantity().compareTo(Decimals.VALUE_ZERO) > 0) {
 				item.setReferenced(emYesNo.YES);
 			}
 		}
@@ -113,7 +113,7 @@ public class DocumentQuantityClosingService extends DocumentQuantityService<IDoc
 			}
 			BigDecimal closedQuantity = item.getClosedQuantity();
 			if (closedQuantity == null) {
-				closedQuantity = Decimal.ZERO;
+				closedQuantity = Decimals.VALUE_ZERO;
 			}
 			closedQuantity = closedQuantity.subtract(contract.getQuantity());
 			item.setClosedQuantity(closedQuantity);
@@ -124,7 +124,7 @@ public class DocumentQuantityClosingService extends DocumentQuantityService<IDoc
 					item.setLineStatus(emDocumentStatus.RELEASED);
 				}
 			}
-			if (item.getClosedQuantity().compareTo(Decimal.ZERO) <= 0) {
+			if (item.getClosedQuantity().compareTo(Decimals.VALUE_ZERO) <= 0) {
 				item.setReferenced(emYesNo.NO);
 			}
 		}

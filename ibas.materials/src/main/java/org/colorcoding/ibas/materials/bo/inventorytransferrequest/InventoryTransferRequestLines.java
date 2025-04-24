@@ -7,9 +7,9 @@ import javax.xml.bind.annotation.XmlType;
 
 import org.colorcoding.ibas.bobas.bo.BusinessObjects;
 import org.colorcoding.ibas.bobas.common.ICriteria;
+import org.colorcoding.ibas.bobas.common.Strings;
 import org.colorcoding.ibas.materials.MyConfiguration;
 import org.colorcoding.ibas.materials.bo.inventorytransfer.InventoryTransfer;
-import org.colorcoding.ibas.materials.data.DataConvert;
 
 /**
  * 库存转储请求-行 集合
@@ -74,7 +74,7 @@ public class InventoryTransferRequestLines
 		}
 		// 记录父项的值
 		if (!this.getParent().isLoading()) {
-			if (item.isNew() && DataConvert.isNullOrEmpty(item.getBaseDocumentType())) {
+			if (item.isNew() && Strings.isNullOrEmpty(item.getBaseDocumentType())) {
 				item.setRate(this.getParent().getDocumentRate());
 				item.setCurrency(this.getParent().getDocumentCurrency());
 			}
@@ -91,10 +91,10 @@ public class InventoryTransferRequestLines
 	protected void onParentPropertyChanged(PropertyChangeEvent evt) {
 		super.onParentPropertyChanged(evt);
 		if (InventoryTransfer.PROPERTY_DOCUMENTCURRENCY.getName().equals(evt.getPropertyName())) {
-			this.where(c -> DataConvert.isNullOrEmpty(c.getBaseDocumentType()))
+			this.where(c -> Strings.isNullOrEmpty(c.getBaseDocumentType()))
 					.forEach(c -> c.setCurrency(this.getParent().getDocumentCurrency()));
 		} else if (InventoryTransfer.PROPERTY_DOCUMENTRATE.getName().equals(evt.getPropertyName())) {
-			this.where(c -> DataConvert.isNullOrEmpty(c.getBaseDocumentType()))
+			this.where(c -> Strings.isNullOrEmpty(c.getBaseDocumentType()))
 					.forEach(c -> c.setRate(this.getParent().getDocumentRate()));
 		}
 	}

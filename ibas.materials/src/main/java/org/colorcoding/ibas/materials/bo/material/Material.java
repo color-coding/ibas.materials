@@ -14,12 +14,12 @@ import org.colorcoding.ibas.bobas.bo.IBOTagDeleted;
 import org.colorcoding.ibas.bobas.bo.IBOUserFields;
 import org.colorcoding.ibas.bobas.core.IPropertyInfo;
 import org.colorcoding.ibas.bobas.data.DateTime;
-import org.colorcoding.ibas.bobas.data.Decimal;
+import org.colorcoding.ibas.bobas.common.Decimals;
 import org.colorcoding.ibas.bobas.data.emYesNo;
 import org.colorcoding.ibas.bobas.i18n.I18N;
-import org.colorcoding.ibas.bobas.mapping.BusinessObjectUnit;
-import org.colorcoding.ibas.bobas.mapping.DbField;
-import org.colorcoding.ibas.bobas.mapping.DbFieldType;
+import org.colorcoding.ibas.bobas.bo.BusinessObjectUnit;
+import org.colorcoding.ibas.bobas.db.DbField;
+import org.colorcoding.ibas.bobas.db.DbFieldType;
 import org.colorcoding.ibas.bobas.ownership.IDataOwnership;
 import org.colorcoding.ibas.bobas.rule.BusinessRuleException;
 import org.colorcoding.ibas.bobas.rule.IBusinessRule;
@@ -156,7 +156,7 @@ public class Material extends MaterialBase<Material>
 	 * @param value 值
 	 */
 	public final void setAvgPrice(String value) {
-		this.setAvgPrice(Decimal.valueOf(value));
+		this.setAvgPrice(Decimals.valueOf(value));
 	}
 
 	/**
@@ -165,7 +165,7 @@ public class Material extends MaterialBase<Material>
 	 * @param value 值
 	 */
 	public final void setAvgPrice(int value) {
-		this.setAvgPrice(Decimal.valueOf(value));
+		this.setAvgPrice(Decimals.valueOf(value));
 	}
 
 	/**
@@ -174,7 +174,7 @@ public class Material extends MaterialBase<Material>
 	 * @param value 值
 	 */
 	public final void setAvgPrice(double value) {
-		this.setAvgPrice(Decimal.valueOf(value));
+		this.setAvgPrice(Decimals.valueOf(value));
 	}
 
 	/**
@@ -338,7 +338,7 @@ public class Material extends MaterialBase<Material>
 	 * @param value 值
 	 */
 	public final void setMinimumOrderQuantity(String value) {
-		this.setMinimumOrderQuantity(Decimal.valueOf(value));
+		this.setMinimumOrderQuantity(Decimals.valueOf(value));
 	}
 
 	/**
@@ -347,7 +347,7 @@ public class Material extends MaterialBase<Material>
 	 * @param value 值
 	 */
 	public final void setMinimumOrderQuantity(int value) {
-		this.setMinimumOrderQuantity(Decimal.valueOf(value));
+		this.setMinimumOrderQuantity(Decimals.valueOf(value));
 	}
 
 	/**
@@ -356,7 +356,7 @@ public class Material extends MaterialBase<Material>
 	 * @param value 值
 	 */
 	public final void setMinimumOrderQuantity(double value) {
-		this.setMinimumOrderQuantity(Decimal.valueOf(value));
+		this.setMinimumOrderQuantity(Decimals.valueOf(value));
 	}
 
 	/**
@@ -852,10 +852,10 @@ public class Material extends MaterialBase<Material>
 				// 注册的业务规则
 				new BusinessRuleTrim(PROPERTY_CODE), // 去除两边空格
 				new BusinessRuleRequired(PROPERTY_CODE), // 要求有值
-				new BusinessRuleMinValue<BigDecimal>(Decimal.ZERO, PROPERTY_ONHAND), // 不能低于0
-				new BusinessRuleMinValue<BigDecimal>(Decimal.ZERO, PROPERTY_ONORDERED), // 不能低于0
-				new BusinessRuleMinValue<BigDecimal>(Decimal.ZERO, PROPERTY_AVGPRICE), // 不能低于0
-				new BusinessRuleMinValue<BigDecimal>(Decimal.ZERO, PROPERTY_ONRESERVED), // 不能低于0
+				new BusinessRuleMinValue<BigDecimal>(Decimals.VALUE_ZERO, PROPERTY_ONHAND), // 不能低于0
+				new BusinessRuleMinValue<BigDecimal>(Decimals.VALUE_ZERO, PROPERTY_ONORDERED), // 不能低于0
+				new BusinessRuleMinValue<BigDecimal>(Decimals.VALUE_ZERO, PROPERTY_AVGPRICE), // 不能低于0
+				new BusinessRuleMinValue<BigDecimal>(Decimals.VALUE_ZERO, PROPERTY_ONRESERVED), // 不能低于0
 				// 库存价值 = 库存量 * 成本价格
 				new BusinessRuleMultiplication(PROPERTY_INVENTORYVALUE, PROPERTY_ONHAND, PROPERTY_AVGPRICE),
 				// 存在先下单再订购，已承诺不做最低值控制
@@ -870,22 +870,22 @@ public class Material extends MaterialBase<Material>
 	@Override
 	public void reset() {
 		super.reset();
-		this.setOnCommited(Decimal.ZERO);
-		this.setOnOrdered(Decimal.ZERO);
-		this.setOnHand(Decimal.ZERO);
-		this.setOnReserved(Decimal.ZERO);
+		this.setOnCommited(Decimals.VALUE_ZERO);
+		this.setOnOrdered(Decimals.VALUE_ZERO);
+		this.setOnHand(Decimals.VALUE_ZERO);
+		this.setOnReserved(Decimals.VALUE_ZERO);
 	}
 
 	@Override
 	public void check() throws BusinessRuleException {
 		if (this.getDeleted() == emYesNo.YES || this.isDeleted()) {
-			if (!Decimal.isZero(this.getOnHand())) {
+			if (!Decimals.isZero(this.getOnHand())) {
 				throw new BusinessRuleException(I18N.prop("msg_mm_material_onhand_not_zero", this.getCode()));
 			}
-			if (!Decimal.isZero(this.getOnCommited())) {
+			if (!Decimals.isZero(this.getOnCommited())) {
 				throw new BusinessRuleException(I18N.prop("msg_mm_material_oncommited_not_zero", this.getCode()));
 			}
-			if (!Decimal.isZero(this.getOnOrdered())) {
+			if (!Decimals.isZero(this.getOnOrdered())) {
 				throw new BusinessRuleException(I18N.prop("msg_mm_material_onordered_not_zero", this.getCode()));
 			}
 		}

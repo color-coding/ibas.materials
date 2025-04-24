@@ -5,17 +5,17 @@ import java.math.BigDecimal;
 import org.colorcoding.ibas.bobas.common.ConditionOperation;
 import org.colorcoding.ibas.bobas.common.ConditionRelationship;
 import org.colorcoding.ibas.bobas.common.Criteria;
+import org.colorcoding.ibas.bobas.common.Decimals;
 import org.colorcoding.ibas.bobas.common.ICondition;
 import org.colorcoding.ibas.bobas.common.ICriteria;
 import org.colorcoding.ibas.bobas.common.IOperationResult;
-import org.colorcoding.ibas.bobas.data.Decimal;
 import org.colorcoding.ibas.bobas.data.emBOStatus;
 import org.colorcoding.ibas.bobas.data.emYesNo;
 import org.colorcoding.ibas.bobas.i18n.I18N;
-import org.colorcoding.ibas.bobas.logic.BusinessLogicException;
-import org.colorcoding.ibas.bobas.mapping.LogicContract;
 import org.colorcoding.ibas.bobas.message.Logger;
 import org.colorcoding.ibas.bobas.message.MessageLevel;
+import org.colorcoding.ibas.bobas.logic.BusinessLogicException;
+import org.colorcoding.ibas.bobas.logic.LogicContract;
 import org.colorcoding.ibas.materials.bo.material.IMaterial;
 import org.colorcoding.ibas.materials.bo.materialbatch.IMaterialBatch;
 import org.colorcoding.ibas.materials.bo.materialbatch.MaterialBatch;
@@ -49,12 +49,12 @@ public class MaterialBatchReservedSerivce
 				// 非库存物料，不执行此逻辑
 				return false;
 			}
-			if (contract.getStatus() == emBOStatus.CLOSED && this.impactReserved.compareTo(Decimal.ZERO) == 0) {
+			if (contract.getStatus() == emBOStatus.CLOSED && this.impactReserved.compareTo(Decimals.VALUE_ZERO) == 0) {
 				Logger.log(MessageLevel.DEBUG, MSG_LOGICS_SKIP_LOGIC_EXECUTION, this.getClass().getName(), "Status",
 						contract.getStatus());
 				return false;
 			}
-			if (contract.getQuantity().compareTo(Decimal.ZERO) <= 0) {
+			if (contract.getQuantity().compareTo(Decimals.VALUE_ZERO) <= 0) {
 				Logger.log(MessageLevel.DEBUG, MSG_LOGICS_SKIP_LOGIC_EXECUTION, this.getClass().getName(), "Quantity",
 						contract.getQuantity());
 				return false;
@@ -97,15 +97,16 @@ public class MaterialBatchReservedSerivce
 		condition.setOperation(ConditionOperation.EQUAL);
 		condition.setValue(contract.getWarehouse());
 
-		IMaterialBatch materialBatch = this.fetchBeAffected(criteria, IMaterialBatch.class);
+		IMaterialBatch materialBatch = this.fetchBeAffected(IMaterialBatch.class, criteria);
 		if (materialBatch == null) {
-			BORepositoryMaterials boRepository = new BORepositoryMaterials();
-			boRepository.setRepository(super.getRepository());
-			IOperationResult<IMaterialBatch> operationResult = boRepository.fetchMaterialBatch(criteria);
-			if (operationResult.getError() != null) {
-				throw new BusinessLogicException(operationResult.getError());
+			try (BORepositoryMaterials boRepository = new BORepositoryMaterials()) {
+				boRepository.setTransaction(this.getTransaction());
+				IOperationResult<IMaterialBatch> operationResult = boRepository.fetchMaterialBatch(criteria);
+				if (operationResult.getError() != null) {
+					throw new BusinessLogicException(operationResult.getError());
+				}
+				materialBatch = operationResult.getResultObjects().firstOrDefault();
 			}
-			materialBatch = operationResult.getResultObjects().firstOrDefault();
 		}
 		if (materialBatch == null) {
 			throw new BusinessLogicException(I18N.prop("msg_mm_material_batch_is_unavailable", contract.getWarehouse(),
@@ -124,7 +125,7 @@ public class MaterialBatchReservedSerivce
 		return true;
 	}
 
-	BigDecimal impactReserved = Decimal.ZERO;
+	BigDecimal impactReserved = Decimals.VALUE_ZERO;
 
 	@Override
 	protected void impact(IMaterialBatchReservedContract contract) {
@@ -132,8 +133,8 @@ public class MaterialBatchReservedSerivce
 		BigDecimal onReserved = materialBatch.getReservedQuantity();
 		// 减去上次增加值（同物料多行时）,关闭时数量零
 		onReserved = onReserved.subtract(this.impactReserved)
-				.add(contract.getStatus() == emBOStatus.CLOSED ? Decimal.ZERO : contract.getQuantity());
-		if (this.getLogicChain().getTrigger() == this.getHost()) {
+				.add(contract.getStatus() == emBOStatus.CLOSED ? Decimals.VALUE_ZERO : contract.getQuantity());
+		if (this.getTrigger() == this.getHost()) {
 			// 触发对象简单
 			materialBatch.setReservedQuantity(onReserved, false);
 		} else {
@@ -141,17 +142,17 @@ public class MaterialBatchReservedSerivce
 		}
 		// 记录本次增加值,关闭时数量零
 		this.impactReserved = impactReserved
-				.add(contract.getStatus() == emBOStatus.CLOSED ? Decimal.ZERO : contract.getQuantity());
+				.add(contract.getStatus() == emBOStatus.CLOSED ? Decimals.VALUE_ZERO : contract.getQuantity());
 	}
 
-	BigDecimal revokeReserved = Decimal.ZERO;
+	BigDecimal revokeReserved = Decimals.VALUE_ZERO;
 
 	@Override
 	protected void revoke(IMaterialBatchReservedContract contract) {
 		IMaterialBatch materialBatch = this.getBeAffected();
 		BigDecimal onReserved = materialBatch.getReservedQuantity();
 		onReserved = onReserved.add(this.revokeReserved).subtract(contract.getQuantity());
-		if (Decimal.isZero(this.revokeReserved)) {
+		if (Decimals.isZero(this.revokeReserved)) {
 			materialBatch.setReservedQuantity(onReserved, true);
 		} else {
 			materialBatch.setReservedQuantity(onReserved, false);

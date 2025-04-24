@@ -3,21 +3,21 @@ package org.colorcoding.ibas.materials.logic;
 import org.colorcoding.ibas.bobas.common.ConditionOperation;
 import org.colorcoding.ibas.bobas.common.ConditionRelationship;
 import org.colorcoding.ibas.bobas.common.Criteria;
+import org.colorcoding.ibas.bobas.common.Decimals;
 import org.colorcoding.ibas.bobas.common.ICondition;
 import org.colorcoding.ibas.bobas.common.ICriteria;
 import org.colorcoding.ibas.bobas.common.IOperationResult;
-import org.colorcoding.ibas.bobas.data.Decimal;
+import org.colorcoding.ibas.bobas.common.Strings;
 import org.colorcoding.ibas.bobas.data.emBOStatus;
 import org.colorcoding.ibas.bobas.data.emYesNo;
 import org.colorcoding.ibas.bobas.i18n.I18N;
-import org.colorcoding.ibas.bobas.logic.BusinessLogicException;
-import org.colorcoding.ibas.bobas.mapping.LogicContract;
 import org.colorcoding.ibas.bobas.message.Logger;
 import org.colorcoding.ibas.bobas.message.MessageLevel;
+import org.colorcoding.ibas.bobas.logic.BusinessLogicException;
+import org.colorcoding.ibas.bobas.logic.LogicContract;
 import org.colorcoding.ibas.materials.bo.material.IMaterial;
 import org.colorcoding.ibas.materials.bo.materialinventory.IMaterialEstimateJournal;
 import org.colorcoding.ibas.materials.bo.materialinventory.MaterialEstimateJournal;
-import org.colorcoding.ibas.materials.data.DataConvert;
 import org.colorcoding.ibas.materials.data.emEstimateType;
 import org.colorcoding.ibas.materials.data.emItemType;
 import org.colorcoding.ibas.materials.repository.BORepositoryMaterials;
@@ -48,8 +48,7 @@ public class MaterialCommitedJournalService extends MaterialEstimateService<IMat
 				// 非库存物料，不执行此逻辑
 				return false;
 			}
-			if (!DataConvert.isNullOrEmpty(material.getInventoryUOM())
-					&& !DataConvert.isNullOrEmpty(contract.getUOM())) {
+			if (!Strings.isNullOrEmpty(material.getInventoryUOM()) && !Strings.isNullOrEmpty(contract.getUOM())) {
 				// 检查库存单位是否一致
 				if (!material.getInventoryUOM().equalsIgnoreCase(contract.getUOM())) {
 					throw new BusinessLogicException(I18N.prop("msg_mm_document_uom_is_not_same_material_setting",
@@ -88,16 +87,17 @@ public class MaterialCommitedJournalService extends MaterialEstimateService<IMat
 		condition.setOperation(ConditionOperation.EQUAL);
 		condition.setValue(emEstimateType.COMMITED);
 
-		IMaterialEstimateJournal materialJournal = this.fetchBeAffected(criteria, IMaterialEstimateJournal.class);
+		IMaterialEstimateJournal materialJournal = this.fetchBeAffected(IMaterialEstimateJournal.class, criteria);
 		if (materialJournal == null) {
-			BORepositoryMaterials boRepository = new BORepositoryMaterials();
-			boRepository.setRepository(super.getRepository());
-			IOperationResult<IMaterialEstimateJournal> operationResult = boRepository
-					.fetchMaterialEstimateJournal(criteria);
-			if (operationResult.getError() != null) {
-				throw new BusinessLogicException(operationResult.getError());
+			try (BORepositoryMaterials boRepository = new BORepositoryMaterials()) {
+				boRepository.setTransaction(this.getTransaction());
+				IOperationResult<IMaterialEstimateJournal> operationResult = boRepository
+						.fetchMaterialEstimateJournal(criteria);
+				if (operationResult.getError() != null) {
+					throw new BusinessLogicException(operationResult.getError());
+				}
+				materialJournal = operationResult.getResultObjects().firstOrDefault();
 			}
-			materialJournal = operationResult.getResultObjects().firstOrDefault();
 		}
 		if (materialJournal == null) {
 			materialJournal = new MaterialEstimateJournal();
@@ -126,30 +126,30 @@ public class MaterialCommitedJournalService extends MaterialEstimateService<IMat
 		IMaterial material = this.checkMaterial(contract.getItemCode());
 		materialJournal.setItemName(material.getName());
 		if (material.getVersionManagement() == emYesNo.YES) {
-			if (DataConvert.isNullOrEmpty(contract.getItemVersion())) {
+			if (Strings.isNullOrEmpty(contract.getItemVersion())) {
 				throw new BusinessLogicException(
 						I18N.prop("msg_mm_document_not_specified_material_version", contract.getIdentifiers()));
 			}
 		}
 		// 预留触发的，不进行可用量逻辑
 		if (materialJournal instanceof MaterialEstimateJournal) {
-			((MaterialEstimateJournal) materialJournal).busy(true);
+			((MaterialEstimateJournal) materialJournal).setBusy(true);
 		}
 	}
 
 	@Override
 	protected void revoke(IMaterialCommitedJournalContract contract) {
 		IMaterialEstimateJournal materialJournal = this.getBeAffected();
-		materialJournal.setQuantity(Decimal.ZERO);
-		materialJournal.setClosedQuantity(Decimal.ZERO);
+		materialJournal.setQuantity(Decimals.VALUE_ZERO);
+		materialJournal.setClosedQuantity(Decimals.VALUE_ZERO);
 		materialJournal.setStatus(emBOStatus.CLOSED);
-		if (Decimal.isZero(materialJournal.getQuantity())) {
+		if (Decimals.isZero(materialJournal.getQuantity())) {
 			// 已为0，则删除此条数据
 			materialJournal.delete();
 		}
 		// 预留触发的，不进行可用量逻辑
 		if (materialJournal instanceof MaterialEstimateJournal) {
-			((MaterialEstimateJournal) materialJournal).busy(true);
+			((MaterialEstimateJournal) materialJournal).setBusy(true);
 		}
 	}
 

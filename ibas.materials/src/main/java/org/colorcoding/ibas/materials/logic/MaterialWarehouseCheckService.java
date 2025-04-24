@@ -1,88 +1,28 @@
 package org.colorcoding.ibas.materials.logic;
 
-import org.colorcoding.ibas.bobas.common.ICriteria;
+import org.colorcoding.ibas.bobas.bo.BOUtilities;
+import org.colorcoding.ibas.bobas.bo.IBusinessObject;
+import org.colorcoding.ibas.bobas.common.Strings;
 import org.colorcoding.ibas.bobas.data.emYesNo;
 import org.colorcoding.ibas.bobas.i18n.I18N;
 import org.colorcoding.ibas.bobas.logic.BusinessLogicException;
-import org.colorcoding.ibas.bobas.logic.IBusinessObjectProxy;
-import org.colorcoding.ibas.bobas.mapping.LogicContract;
+import org.colorcoding.ibas.bobas.logic.LogicContract;
 import org.colorcoding.ibas.materials.bo.material.IMaterial;
 import org.colorcoding.ibas.materials.bo.warehouse.IWarehouse;
-import org.colorcoding.ibas.materials.data.DataConvert;
 import org.colorcoding.ibas.materials.data.emItemType;
 
 @LogicContract(IMaterialWarehouseCheckContract.class)
 public class MaterialWarehouseCheckService
-		extends MaterialInventoryBusinessLogic<IMaterialWarehouseCheckContract, IBusinessObjectProxy> {
+		extends MaterialInventoryBusinessLogic<IMaterialWarehouseCheckContract, IBusinessObject> {
 
 	@Override
-	protected IBusinessObjectProxy fetchBeAffected(IMaterialWarehouseCheckContract contract) {
-		return new IBusinessObjectProxy() {
-			private static final long serialVersionUID = 1L;
-
-			@Override
-			public String getIdentifiers() {
-				return this.toString();
-			}
-
-			@Override
-			public void delete() {
-			}
-
-			@Override
-			public void undelete() {
-			}
-
-			@Override
-			public String toString(String type) {
-				return this.toString();
-			}
-
-			@Override
-			public ICriteria getCriteria() {
-				return null;
-			}
-
-			@Override
-			public boolean isValid() {
-				return false;
-			}
-
-			@Override
-			public boolean isDirty() {
-				return false;
-			}
-
-			@Override
-			public boolean isDeleted() {
-				return false;
-			}
-
-			@Override
-			public boolean isNew() {
-				return false;
-			}
-
-			@Override
-			public boolean isSavable() {
-				return false;
-			}
-
-			@Override
-			public boolean isBusy() {
-				return false;
-			}
-
-			@Override
-			public boolean isLoading() {
-				return false;
-			}
-		};
+	protected IBusinessObject fetchBeAffected(IMaterialWarehouseCheckContract contract) {
+		return BOUtilities.VALUE_EMPTY;
 	}
 
 	@Override
 	protected void impact(IMaterialWarehouseCheckContract contract) {
-		if (DataConvert.isNullOrEmpty(contract.getItemCode())) {
+		if (Strings.isNullOrEmpty(contract.getItemCode())) {
 			throw new BusinessLogicException(
 					I18N.prop("msg_mm_document_not_specified_material", contract.getIdentifiers()));
 		}
@@ -98,7 +38,7 @@ public class MaterialWarehouseCheckService
 						I18N.prop("msg_mm_document_not_specified_warehouse", contract.getIdentifiers()));
 			}
 			// 空值则不检查
-			if (!DataConvert.isNullOrEmpty(contract.getWarehouse())) {
+			if (!Strings.isNullOrEmpty(contract.getWarehouse())) {
 				IWarehouse warehouse = this.checkWarehouse(contract.getWarehouse());
 				if (!warehouse.getCode().equals(contract.getWarehouse())) {
 					throw new BusinessLogicException(
@@ -114,7 +54,7 @@ public class MaterialWarehouseCheckService
 									contract.getIdentifiers(), contract.getItemCode()));
 				}
 				if (material.getVersionManagement() == emYesNo.YES) {
-					if (DataConvert.isNullOrEmpty(contract.getItemVersion())) {
+					if (Strings.isNullOrEmpty(contract.getItemVersion())) {
 						throw new BusinessLogicException(
 								I18N.prop("msg_mm_document_not_specified_material_version", contract.getIdentifiers()));
 					}
@@ -129,7 +69,7 @@ public class MaterialWarehouseCheckService
 									contract.getIdentifiers(), contract.getItemCode()));
 				}
 				if (material.getVersionManagement() == emYesNo.YES) {
-					if (DataConvert.isNullOrEmpty(contract.getItemVersion())) {
+					if (Strings.isNullOrEmpty(contract.getItemVersion())) {
 						throw new BusinessLogicException(
 								I18N.prop("msg_mm_document_not_specified_material_version", contract.getIdentifiers()));
 					}

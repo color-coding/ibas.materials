@@ -11,7 +11,7 @@ import org.colorcoding.ibas.bobas.common.ConditionOperation;
 import org.colorcoding.ibas.bobas.common.Criteria;
 import org.colorcoding.ibas.bobas.common.ICondition;
 import org.colorcoding.ibas.bobas.common.ICriteria;
-import org.colorcoding.ibas.bobas.data.Decimal;
+import org.colorcoding.ibas.bobas.common.Decimals;
 import org.colorcoding.ibas.bobas.data.emDocumentStatus;
 import org.colorcoding.ibas.bobas.data.emYesNo;
 import org.colorcoding.ibas.bobas.i18n.I18N;
@@ -155,7 +155,7 @@ public class MaterialBatchItems extends BusinessObjects<IMaterialBatchItem, IMat
 		if (lineId == null) {
 			lineId = 0;
 		}
-		BigDecimal total = Decimal.ZERO;
+		BigDecimal total = Decimals.VALUE_ZERO;
 		for (IMaterialBatchItem item : this) {
 			if (item.isDeleted()) {
 				continue;
@@ -187,7 +187,7 @@ public class MaterialBatchItems extends BusinessObjects<IMaterialBatchItem, IMat
 		parentTotal = parentTotal.stripTrailingZeros();
 		// 使用非库存单位时，容易出现差异
 		if (total.scale() > parentTotal.scale()) {
-			total = total.setScale(parentTotal.scale(), Decimal.ROUNDING_MODE_DEFAULT);
+			total = total.setScale(parentTotal.scale(), Decimals.ROUNDING_MODE_DEFAULT);
 		}
 		if (total.compareTo(parentTotal) != 0) {
 			throw new BusinessRuleException(

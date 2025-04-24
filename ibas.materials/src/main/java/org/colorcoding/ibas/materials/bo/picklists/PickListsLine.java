@@ -12,10 +12,10 @@ import org.colorcoding.ibas.bobas.bo.BusinessObject;
 import org.colorcoding.ibas.bobas.bo.IBOUserFields;
 import org.colorcoding.ibas.bobas.core.IPropertyInfo;
 import org.colorcoding.ibas.bobas.data.DateTime;
-import org.colorcoding.ibas.bobas.data.Decimal;
+import org.colorcoding.ibas.bobas.common.Decimals;
 import org.colorcoding.ibas.bobas.data.emYesNo;
-import org.colorcoding.ibas.bobas.mapping.DbField;
-import org.colorcoding.ibas.bobas.mapping.DbFieldType;
+import org.colorcoding.ibas.bobas.db.DbField;
+import org.colorcoding.ibas.bobas.db.DbFieldType;
 import org.colorcoding.ibas.bobas.rule.IBusinessRule;
 import org.colorcoding.ibas.bobas.rule.common.BusinessRuleMinValue;
 import org.colorcoding.ibas.bobas.rule.common.BusinessRuleRequired;
@@ -1098,13 +1098,13 @@ public class PickListsLine extends BusinessObject<PickListsLine> implements IPic
 				new BusinessRuleRequired(PROPERTY_WAREHOUSE), // 要求有值
 				new BusinessRuleRequired(PROPERTY_BASEDOCUMENTTYPE), // 要求有值
 				new BusinessRuleRequired(PROPERTY_BASEDOCUMENTENTRY), // 要求有值
-				new BusinessRuleMinValue<BigDecimal>(Decimal.ZERO, PROPERTY_CLOSEDQUANTITY), // 不能低于0
-				new BusinessRuleMinValue<BigDecimal>(Decimal.ZERO, PROPERTY_QUANTITY), // 不能低于0
-				new BusinessRuleMinValue<BigDecimal>(Decimal.ZERO, PROPERTY_UOMRATE), // 不能低于0
+				new BusinessRuleMinValue<BigDecimal>(Decimals.VALUE_ZERO, PROPERTY_CLOSEDQUANTITY), // 不能低于0
+				new BusinessRuleMinValue<BigDecimal>(Decimals.VALUE_ZERO, PROPERTY_QUANTITY), // 不能低于0
+				new BusinessRuleMinValue<BigDecimal>(Decimals.VALUE_ZERO, PROPERTY_UOMRATE), // 不能低于0
 				// 库存数量 = 数量 * 单位换算率
 				new BusinessRuleCalculateInventoryQuantity(PROPERTY_INVENTORYQUANTITY, PROPERTY_QUANTITY,
 						PROPERTY_UOMRATE),
-				new BusinessRuleMinValue<BigDecimal>(Decimal.ZERO, PROPERTY_INVENTORYQUANTITY), // 不能低于0
+				new BusinessRuleMinValue<BigDecimal>(Decimals.VALUE_ZERO, PROPERTY_INVENTORYQUANTITY), // 不能低于0
 		};
 	}
 

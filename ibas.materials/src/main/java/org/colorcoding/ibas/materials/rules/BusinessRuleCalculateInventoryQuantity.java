@@ -3,7 +3,7 @@ package org.colorcoding.ibas.materials.rules;
 import java.math.BigDecimal;
 
 import org.colorcoding.ibas.bobas.core.IPropertyInfo;
-import org.colorcoding.ibas.bobas.data.Decimal;
+import org.colorcoding.ibas.bobas.common.Decimals;
 import org.colorcoding.ibas.bobas.i18n.I18N;
 import org.colorcoding.ibas.bobas.rule.BusinessRuleCommon;
 
@@ -69,30 +69,30 @@ public class BusinessRuleCalculateInventoryQuantity extends BusinessRuleCommon {
 	protected void execute(BusinessRuleContext context) throws Exception {
 		BigDecimal uomRate = (BigDecimal) context.getInputValues().get(this.getUOMRate());
 		if (uomRate == null) {
-			uomRate = Decimal.ZERO;
+			uomRate = Decimals.VALUE_ZERO;
 		}
-		if (Decimal.ZERO.compareTo(uomRate) >= 0) {
-			uomRate = Decimal.ONE;
+		if (Decimals.VALUE_ZERO.compareTo(uomRate) >= 0) {
+			uomRate = Decimals.VALUE_ONE;
 			context.getOutputValues().put(this.getUOMRate(), uomRate);
 		}
 		BigDecimal quantity = (BigDecimal) context.getInputValues().get(this.getQuantity());
 		if (quantity == null) {
-			quantity = Decimal.ZERO;
+			quantity = Decimals.VALUE_ZERO;
 		}
 		BigDecimal inventoryQuantity = (BigDecimal) context.getInputValues().get(this.getInventoryQuantity());
 		if (inventoryQuantity == null) {
-			inventoryQuantity = Decimal.ZERO;
+			inventoryQuantity = Decimals.VALUE_ZERO;
 		}
-		if (Decimal.ZERO.compareTo(inventoryQuantity) == 0 && Decimal.ZERO.compareTo(quantity) != 0) {
-			inventoryQuantity = Decimal.multiply(quantity, uomRate);
+		if (Decimals.VALUE_ZERO.compareTo(inventoryQuantity) == 0 && Decimals.VALUE_ZERO.compareTo(quantity) != 0) {
+			inventoryQuantity = Decimals.multiply(quantity, uomRate);
 			context.getOutputValues().put(this.getInventoryQuantity(), inventoryQuantity);
-		} else if (Decimal.ZERO.compareTo(quantity) == 0 && Decimal.ZERO.compareTo(inventoryQuantity) != 0) {
-			quantity = Decimal.divide(inventoryQuantity, uomRate);
+		} else if (Decimals.VALUE_ZERO.compareTo(quantity) == 0 && Decimals.VALUE_ZERO.compareTo(inventoryQuantity) != 0) {
+			quantity = Decimals.divide(inventoryQuantity, uomRate);
 			context.getOutputValues().put(this.getQuantity(), quantity);
 		} else {
-			BigDecimal result = Decimal.multiply(quantity, uomRate);
-			if (Decimal.ONE
-					.compareTo(result.subtract(inventoryQuantity).abs().multiply(Decimal.ONE.add(Decimal.ONE))) <= 0) {
+			BigDecimal result = Decimals.multiply(quantity, uomRate);
+			if (Decimals.VALUE_ONE
+					.compareTo(result.subtract(inventoryQuantity).abs().multiply(Decimals.VALUE_ONE.add(Decimals.VALUE_ONE))) <= 0) {
 				context.getOutputValues().put(this.getInventoryQuantity(), result);
 			}
 		}

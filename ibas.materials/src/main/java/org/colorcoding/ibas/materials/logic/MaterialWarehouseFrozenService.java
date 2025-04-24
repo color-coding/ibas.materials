@@ -8,7 +8,7 @@ import org.colorcoding.ibas.bobas.common.ICriteria;
 import org.colorcoding.ibas.bobas.common.IOperationResult;
 import org.colorcoding.ibas.bobas.data.emYesNo;
 import org.colorcoding.ibas.bobas.logic.BusinessLogicException;
-import org.colorcoding.ibas.bobas.mapping.LogicContract;
+import org.colorcoding.ibas.bobas.logic.LogicContract;
 import org.colorcoding.ibas.materials.bo.materialinventory.IMaterialInventory;
 import org.colorcoding.ibas.materials.bo.materialinventory.MaterialInventory;
 import org.colorcoding.ibas.materials.repository.BORepositoryMaterials;
@@ -34,15 +34,16 @@ public class MaterialWarehouseFrozenService
 		condition.setOperation(ConditionOperation.EQUAL);
 		condition.setValue(contract.getWarehouse());
 
-		IMaterialInventory materialInventory = this.fetchBeAffected(criteria, IMaterialInventory.class);
+		IMaterialInventory materialInventory = this.fetchBeAffected(IMaterialInventory.class, criteria);
 		if (materialInventory == null) {
-			BORepositoryMaterials boRepository = new BORepositoryMaterials();
-			boRepository.setRepository(super.getRepository());
-			IOperationResult<IMaterialInventory> operationResult = boRepository.fetchMaterialInventory(criteria);
-			if (operationResult.getError() != null) {
-				throw new BusinessLogicException(operationResult.getError());
+			try (BORepositoryMaterials boRepository = new BORepositoryMaterials()) {
+				boRepository.setTransaction(this.getTransaction());
+				IOperationResult<IMaterialInventory> operationResult = boRepository.fetchMaterialInventory(criteria);
+				if (operationResult.getError() != null) {
+					throw new BusinessLogicException(operationResult.getError());
+				}
+				materialInventory = operationResult.getResultObjects().firstOrDefault();
 			}
-			materialInventory = operationResult.getResultObjects().firstOrDefault();
 		}
 		if (materialInventory == null) {
 			materialInventory = new MaterialInventory();

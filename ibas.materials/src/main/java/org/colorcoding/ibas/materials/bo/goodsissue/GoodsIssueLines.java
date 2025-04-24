@@ -7,8 +7,8 @@ import javax.xml.bind.annotation.XmlType;
 
 import org.colorcoding.ibas.bobas.bo.BusinessObjects;
 import org.colorcoding.ibas.bobas.common.ICriteria;
+import org.colorcoding.ibas.bobas.common.Strings;
 import org.colorcoding.ibas.materials.MyConfiguration;
-import org.colorcoding.ibas.materials.data.DataConvert;
 
 /**
  * 库存发货-行 集合
@@ -71,7 +71,7 @@ public class GoodsIssueLines extends BusinessObjects<IGoodsIssueLine, IGoodsIssu
 		}
 		// 记录父项的值
 		if (!this.getParent().isLoading()) {
-			if (item.isNew() && DataConvert.isNullOrEmpty(item.getBaseDocumentType())) {
+			if (item.isNew() && Strings.isNullOrEmpty(item.getBaseDocumentType())) {
 				item.setRate(this.getParent().getDocumentRate());
 				item.setCurrency(this.getParent().getDocumentCurrency());
 			}
@@ -88,10 +88,10 @@ public class GoodsIssueLines extends BusinessObjects<IGoodsIssueLine, IGoodsIssu
 	protected void onParentPropertyChanged(PropertyChangeEvent evt) {
 		super.onParentPropertyChanged(evt);
 		if (GoodsIssue.PROPERTY_DOCUMENTCURRENCY.getName().equals(evt.getPropertyName())) {
-			this.where(c -> DataConvert.isNullOrEmpty(c.getBaseDocumentType()))
+			this.where(c -> Strings.isNullOrEmpty(c.getBaseDocumentType()))
 					.forEach(c -> c.setCurrency(this.getParent().getDocumentCurrency()));
 		} else if (GoodsIssue.PROPERTY_DOCUMENTRATE.getName().equals(evt.getPropertyName())) {
-			this.where(c -> DataConvert.isNullOrEmpty(c.getBaseDocumentType()))
+			this.where(c -> Strings.isNullOrEmpty(c.getBaseDocumentType()))
 					.forEach(c -> c.setRate(this.getParent().getDocumentRate()));
 		}
 	}

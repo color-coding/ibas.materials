@@ -8,22 +8,23 @@ import org.colorcoding.ibas.bobas.bo.IBODocument;
 import org.colorcoding.ibas.bobas.common.ConditionOperation;
 import org.colorcoding.ibas.bobas.common.ConditionRelationship;
 import org.colorcoding.ibas.bobas.common.Criteria;
+import org.colorcoding.ibas.bobas.common.DateTimes;
+import org.colorcoding.ibas.bobas.common.Decimals;
 import org.colorcoding.ibas.bobas.common.ICondition;
 import org.colorcoding.ibas.bobas.common.ICriteria;
+import org.colorcoding.ibas.bobas.common.Strings;
 import org.colorcoding.ibas.bobas.core.IPropertyInfo;
-import org.colorcoding.ibas.bobas.data.DataConvert;
 import org.colorcoding.ibas.bobas.data.DateTime;
-import org.colorcoding.ibas.bobas.data.Decimal;
 import org.colorcoding.ibas.bobas.data.emApprovalStatus;
 import org.colorcoding.ibas.bobas.data.emBOStatus;
 import org.colorcoding.ibas.bobas.data.emDocumentStatus;
 import org.colorcoding.ibas.bobas.data.emYesNo;
 import org.colorcoding.ibas.bobas.i18n.I18N;
-import org.colorcoding.ibas.bobas.logic.BusinessLogic;
-import org.colorcoding.ibas.bobas.logic.BusinessLogicException;
-import org.colorcoding.ibas.bobas.mapping.LogicContract;
 import org.colorcoding.ibas.bobas.message.Logger;
 import org.colorcoding.ibas.bobas.message.MessageLevel;
+import org.colorcoding.ibas.bobas.logic.BusinessLogic;
+import org.colorcoding.ibas.bobas.logic.BusinessLogicException;
+import org.colorcoding.ibas.bobas.logic.LogicContract;
 import org.colorcoding.ibas.document.DocumentFetcherManager;
 import org.colorcoding.ibas.document.IDocumentCloseAmountOperator;
 import org.colorcoding.ibas.document.IDocumentClosingAmountItem;
@@ -44,13 +45,13 @@ public class DocumentAmountClosingService
 	protected boolean checkDataStatus(Object data) {
 		if (data instanceof IDocumentAmountClosingContract) {
 			IDocumentAmountClosingContract contract = (IDocumentAmountClosingContract) data;
-			if (contract.checkDataStatus(this.getRepository()) == false) {
+			if (contract.checkDataStatus(this.getTransaction()) == false) {
 				Logger.log(MessageLevel.DEBUG, MSG_LOGICS_SKIP_LOGIC_EXECUTION, this.getClass().getName(), "DataStatus",
 						String.format("%s-%s-%s", contract.getBaseDocumentType(), contract.getBaseDocumentEntry(),
 								contract.getBaseDocumentLineId()));
 				return false;
 			}
-			if (DataConvert.isNullOrEmpty(contract.getBaseDocumentType())) {
+			if (Strings.isNullOrEmpty(contract.getBaseDocumentType())) {
 				Logger.log(MessageLevel.DEBUG, MSG_LOGICS_SKIP_LOGIC_EXECUTION, this.getClass().getName(),
 						"BaseDocumentType", "EMPTY");
 				return false;
@@ -87,7 +88,7 @@ public class DocumentAmountClosingService
 			condition.setAlias("DocEntry");
 			condition.setOperation(ConditionOperation.EQUAL);
 			condition.setValue(contract.getBaseDocumentEntry());
-			IDocumentOperatingTarget document = this.fetchBeAffected(criteria, IDocumentOperatingTarget.class);
+			IDocumentOperatingTarget document = this.fetchBeAffected(IDocumentOperatingTarget.class, criteria);
 			if (document == null) {
 				IDocumentFetcher<IDocumentOperatingTarget> fetcher = DocumentFetcherManager.create()
 						.newFetcher(contract.getBaseDocumentType());
@@ -95,7 +96,7 @@ public class DocumentAmountClosingService
 					throw new BusinessLogicException(
 							I18N.prop("msg_mm_document_not_found_fether", contract.getBaseDocumentType()));
 				}
-				fetcher.setRepository(this.getRepository());
+				fetcher.setTransaction(this.getTransaction());
 				document = fetcher.fetch(contract.getBaseDocumentEntry());
 			}
 			if (document instanceof IDocumentCloseAmountOperator) {
@@ -128,7 +129,7 @@ public class DocumentAmountClosingService
 			}
 			BigDecimal closedAmount = item.getClosedAmount();
 			if (closedAmount == null) {
-				closedAmount = Decimal.ZERO;
+				closedAmount = Decimals.VALUE_ZERO;
 			}
 			closedAmount = closedAmount.add(contract.getAmount());
 			if (closedAmount.compareTo(item.getAmount()) > 0) {
@@ -147,7 +148,7 @@ public class DocumentAmountClosingService
 					item.setLineStatus(emDocumentStatus.FINISHED);
 				}
 			}
-			if (item.getClosedAmount().compareTo(Decimal.ZERO) > 0) {
+			if (item.getClosedAmount().compareTo(Decimals.VALUE_ZERO) > 0) {
 				item.setReferenced(emYesNo.YES);
 			}
 		}
@@ -166,7 +167,7 @@ public class DocumentAmountClosingService
 			}
 			BigDecimal closedAmount = item.getClosedAmount();
 			if (closedAmount == null) {
-				closedAmount = Decimal.ZERO;
+				closedAmount = Decimals.VALUE_ZERO;
 			}
 			closedAmount = closedAmount.subtract(contract.getAmount());
 			item.setClosedAmount(closedAmount);
@@ -176,7 +177,7 @@ public class DocumentAmountClosingService
 					item.setLineStatus(emDocumentStatus.RELEASED);
 				}
 			}
-			if (item.getClosedAmount().compareTo(Decimal.ZERO) <= 0) {
+			if (item.getClosedAmount().compareTo(Decimals.VALUE_ZERO) <= 0) {
 				item.setReferenced(emYesNo.NO);
 			}
 		}
@@ -855,9 +856,9 @@ public class DocumentAmountClosingService
 		protected void initialize() {
 			super.initialize();
 			this.setObjectCode("EMPTY_DATA");
-			this.setPostingDate(DateTime.getToday());
-			this.setDocumentDate(DateTime.getToday());
-			this.setDeliveryDate(DateTime.getToday());
+			this.setPostingDate(DateTimes.today());
+			this.setDocumentDate(DateTimes.today());
+			this.setDeliveryDate(DateTimes.today());
 			this.setDocumentStatus(emDocumentStatus.RELEASED);
 
 		}

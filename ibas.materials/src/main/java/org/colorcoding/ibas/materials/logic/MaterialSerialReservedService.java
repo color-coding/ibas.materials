@@ -3,17 +3,17 @@ package org.colorcoding.ibas.materials.logic;
 import org.colorcoding.ibas.bobas.common.ConditionOperation;
 import org.colorcoding.ibas.bobas.common.ConditionRelationship;
 import org.colorcoding.ibas.bobas.common.Criteria;
+import org.colorcoding.ibas.bobas.common.Decimals;
 import org.colorcoding.ibas.bobas.common.ICondition;
 import org.colorcoding.ibas.bobas.common.ICriteria;
 import org.colorcoding.ibas.bobas.common.IOperationResult;
-import org.colorcoding.ibas.bobas.data.Decimal;
 import org.colorcoding.ibas.bobas.data.emBOStatus;
 import org.colorcoding.ibas.bobas.data.emYesNo;
 import org.colorcoding.ibas.bobas.i18n.I18N;
-import org.colorcoding.ibas.bobas.logic.BusinessLogicException;
-import org.colorcoding.ibas.bobas.mapping.LogicContract;
 import org.colorcoding.ibas.bobas.message.Logger;
 import org.colorcoding.ibas.bobas.message.MessageLevel;
+import org.colorcoding.ibas.bobas.logic.BusinessLogicException;
+import org.colorcoding.ibas.bobas.logic.LogicContract;
 import org.colorcoding.ibas.materials.bo.material.IMaterial;
 import org.colorcoding.ibas.materials.bo.materialserial.IMaterialSerial;
 import org.colorcoding.ibas.materials.bo.materialserial.MaterialSerial;
@@ -52,7 +52,7 @@ public class MaterialSerialReservedService
 						contract.getStatus());
 				return false;
 			}
-			if (contract.getQuantity().compareTo(Decimal.ZERO) <= 0) {
+			if (contract.getQuantity().compareTo(Decimals.VALUE_ZERO) <= 0) {
 				Logger.log(MessageLevel.DEBUG, MSG_LOGICS_SKIP_LOGIC_EXECUTION, this.getClass().getName(), "Quantity",
 						contract.getQuantity());
 				return false;
@@ -95,19 +95,20 @@ public class MaterialSerialReservedService
 		condition.setOperation(ConditionOperation.EQUAL);
 		condition.setValue(contract.getWarehouse());
 
-		IMaterialSerial materialSerial = this.fetchBeAffected(criteria, IMaterialSerial.class);
+		IMaterialSerial materialSerial = this.fetchBeAffected(IMaterialSerial.class, criteria);
 		if (materialSerial == null) {
-			BORepositoryMaterials boRepository = new BORepositoryMaterials();
-			boRepository.setRepository(super.getRepository());
-			IOperationResult<IMaterialSerial> operationResult = boRepository.fetchMaterialSerial(criteria);
-			if (operationResult.getError() != null) {
-				throw new BusinessLogicException(operationResult.getError());
+			try (BORepositoryMaterials boRepository = new BORepositoryMaterials()) {
+				boRepository.setTransaction(this.getTransaction());
+				IOperationResult<IMaterialSerial> operationResult = boRepository.fetchMaterialSerial(criteria);
+				if (operationResult.getError() != null) {
+					throw new BusinessLogicException(operationResult.getError());
+				}
+				materialSerial = operationResult.getResultObjects().firstOrDefault();
 			}
-			materialSerial = operationResult.getResultObjects().firstOrDefault();
-		}
-		if (materialSerial == null) {
-			throw new BusinessLogicException(I18N.prop("msg_mm_material_serial_is_unavailable", contract.getWarehouse(),
-					contract.getItemCode(), contract.getSerialCode()));
+			if (materialSerial == null) {
+				throw new BusinessLogicException(I18N.prop("msg_mm_material_serial_is_unavailable",
+						contract.getWarehouse(), contract.getItemCode(), contract.getSerialCode()));
+			}
 		}
 		return materialSerial;
 	}

@@ -5,22 +5,21 @@ import java.math.BigDecimal;
 import org.colorcoding.ibas.bobas.common.ConditionOperation;
 import org.colorcoding.ibas.bobas.common.ConditionRelationship;
 import org.colorcoding.ibas.bobas.common.Criteria;
+import org.colorcoding.ibas.bobas.common.Decimals;
 import org.colorcoding.ibas.bobas.common.ICondition;
 import org.colorcoding.ibas.bobas.common.ICriteria;
 import org.colorcoding.ibas.bobas.common.IOperationResult;
-import org.colorcoding.ibas.bobas.data.Decimal;
+import org.colorcoding.ibas.bobas.common.Strings;
 import org.colorcoding.ibas.bobas.data.emBOStatus;
 import org.colorcoding.ibas.bobas.data.emYesNo;
 import org.colorcoding.ibas.bobas.i18n.I18N;
-import org.colorcoding.ibas.bobas.logic.BusinessLogicException;
-import org.colorcoding.ibas.bobas.logic.IBusinessLogicContract;
-import org.colorcoding.ibas.bobas.mapping.LogicContract;
 import org.colorcoding.ibas.bobas.message.Logger;
 import org.colorcoding.ibas.bobas.message.MessageLevel;
+import org.colorcoding.ibas.bobas.logic.BusinessLogicException;
+import org.colorcoding.ibas.bobas.logic.LogicContract;
 import org.colorcoding.ibas.materials.bo.material.IMaterial;
 import org.colorcoding.ibas.materials.bo.materialinventory.IMaterialEstimateJournal;
 import org.colorcoding.ibas.materials.bo.materialinventory.MaterialEstimateJournal;
-import org.colorcoding.ibas.materials.data.DataConvert;
 import org.colorcoding.ibas.materials.data.emItemType;
 import org.colorcoding.ibas.materials.repository.BORepositoryMaterials;
 
@@ -31,7 +30,7 @@ public class MaterialEstimateReservedService extends MaterialEstimateService<IMa
 	protected boolean checkDataStatus(Object data) {
 		if (data instanceof IMaterialEstimateReservedContract) {
 			IMaterialEstimateReservedContract contract = (IMaterialEstimateReservedContract) data;
-			if (DataConvert.isNullOrEmpty(contract.getWarehouse())) {
+			if (Strings.isNullOrEmpty(contract.getWarehouse())) {
 				// 无仓库信息，不执行此逻辑
 				Logger.log(MessageLevel.DEBUG, MSG_LOGICS_SKIP_LOGIC_EXECUTION, this.getClass().getName(), "Warehouse",
 						contract.getWarehouse());
@@ -88,19 +87,20 @@ public class MaterialEstimateReservedService extends MaterialEstimateService<IMa
 		condition.setOperation(ConditionOperation.EQUAL);
 		condition.setValue(contract.getEstimateType());
 
-		IMaterialEstimateJournal materialJournal = this.fetchBeAffected(criteria, IMaterialEstimateJournal.class);
+		IMaterialEstimateJournal materialJournal = this.fetchBeAffected(IMaterialEstimateJournal.class, criteria);
 		if (materialJournal == null) {
-			BORepositoryMaterials boRepository = new BORepositoryMaterials();
-			boRepository.setRepository(super.getRepository());
-			IOperationResult<IMaterialEstimateJournal> operationResult = boRepository
-					.fetchMaterialEstimateJournal(criteria);
-			if (operationResult.getError() != null) {
-				throw new BusinessLogicException(operationResult.getError());
+			try (BORepositoryMaterials boRepository = new BORepositoryMaterials()) {
+				boRepository.setTransaction(this.getTransaction());
+				IOperationResult<IMaterialEstimateJournal> operationResult = boRepository
+						.fetchMaterialEstimateJournal(criteria);
+				if (operationResult.getError() != null) {
+					throw new BusinessLogicException(operationResult.getError());
+				}
+				materialJournal = operationResult.getResultObjects().firstOrDefault();
 			}
-			materialJournal = operationResult.getResultObjects().firstOrDefault();
 		}
 		if (materialJournal == null) {
-			materialJournal = new _MaterialEstimateJournal();
+			materialJournal = new MaterialEstimateJournal();
 			materialJournal.setEstimate(contract.getEstimateType());
 			materialJournal.setBaseDocumentType(contract.getDocumentType());
 			materialJournal.setBaseDocumentEntry(contract.getDocumentEntry());
@@ -112,10 +112,10 @@ public class MaterialEstimateReservedService extends MaterialEstimateService<IMa
 	@Override
 	protected void impact(IMaterialEstimateReservedContract contract) {
 		IMaterialEstimateJournal materialJournal = this.getBeAffected();
-		if (DataConvert.isNullOrEmpty(materialJournal.getItemCode())) {
+		if (Strings.isNullOrEmpty(materialJournal.getItemCode())) {
 			materialJournal.setItemCode(contract.getItemCode());
 		}
-		if (DataConvert.isNullOrEmpty(materialJournal.getWarehouse())) {
+		if (Strings.isNullOrEmpty(materialJournal.getWarehouse())) {
 			materialJournal.setWarehouse(contract.getWarehouse());
 		}
 		IMaterial material = this.checkMaterial(contract.getItemCode());
@@ -127,9 +127,9 @@ public class MaterialEstimateReservedService extends MaterialEstimateService<IMa
 			// 关闭的，不更新数量
 			reserved = reserved.add(contract.getQuantity());
 		}
-		if (Decimal.ZERO.compareTo(reserved) <= 0) {
+		if (Decimals.VALUE_ZERO.compareTo(reserved) <= 0) {
 			if (reserved.compareTo(materialJournal.getQuantity()) > 0
-					&& Decimal.ZERO.compareTo(materialJournal.getQuantity()) != 0) {
+					&& Decimals.VALUE_ZERO.compareTo(materialJournal.getQuantity()) != 0) {
 				if (material.getReserveExcessOrdered() != emYesNo.YES) {
 					throw new BusinessLogicException(
 							I18N.prop("msg_mm_material_not_enough_in_order", materialJournal.getWarehouse(),
@@ -148,19 +148,10 @@ public class MaterialEstimateReservedService extends MaterialEstimateService<IMa
 			// 关闭的，不更新数量
 			reserved = reserved.subtract(contract.getQuantity());
 		}
-		if (Decimal.ZERO.compareTo(reserved) > 0) {
-			reserved = Decimal.ZERO;
+		if (Decimals.VALUE_ZERO.compareTo(reserved) > 0) {
+			reserved = Decimals.VALUE_ZERO;
 		}
 		materialJournal.setReservedQuantity(reserved);
 	}
 
-	private class _MaterialEstimateJournal extends MaterialEstimateJournal {
-
-		private static final long serialVersionUID = 1L;
-
-		@Override
-		public IBusinessLogicContract[] getContracts() {
-			return null;
-		}
-	}
 }

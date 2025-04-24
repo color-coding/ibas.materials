@@ -2,12 +2,12 @@ package org.colorcoding.ibas.materials.logic;
 
 import java.math.BigDecimal;
 
-import org.colorcoding.ibas.bobas.data.Decimal;
+import org.colorcoding.ibas.bobas.common.Decimals;
 import org.colorcoding.ibas.bobas.data.emBOStatus;
 import org.colorcoding.ibas.bobas.data.emYesNo;
 import org.colorcoding.ibas.bobas.i18n.I18N;
 import org.colorcoding.ibas.bobas.logic.BusinessLogicException;
-import org.colorcoding.ibas.bobas.mapping.LogicContract;
+import org.colorcoding.ibas.bobas.logic.LogicContract;
 import org.colorcoding.ibas.bobas.message.Logger;
 import org.colorcoding.ibas.bobas.message.MessageLevel;
 import org.colorcoding.ibas.materials.bo.material.IMaterial;
@@ -20,12 +20,12 @@ public class MaterialReservedService extends MaterialInventoryBusinessLogic<IMat
 	protected boolean checkDataStatus(Object data) {
 		if (data instanceof IMaterialReservedContract) {
 			IMaterialReservedContract contract = (IMaterialReservedContract) data;
-			if (contract.getStatus() == emBOStatus.CLOSED && this.impactReserved.compareTo(Decimal.ZERO) == 0) {
+			if (contract.getStatus() == emBOStatus.CLOSED && this.impactReserved.compareTo(Decimals.VALUE_ZERO) == 0) {
 				Logger.log(MessageLevel.DEBUG, MSG_LOGICS_SKIP_LOGIC_EXECUTION, this.getClass().getName(), "Status",
 						contract.getStatus());
 				return false;
 			}
-			if (contract.getQuantity().compareTo(Decimal.ZERO) <= 0) {
+			if (contract.getQuantity().compareTo(Decimals.VALUE_ZERO) <= 0) {
 				Logger.log(MessageLevel.DEBUG, MSG_LOGICS_SKIP_LOGIC_EXECUTION, this.getClass().getName(), "Quantity",
 						contract.getQuantity());
 				return false;
@@ -88,7 +88,7 @@ public class MaterialReservedService extends MaterialInventoryBusinessLogic<IMat
 		return true;
 	}
 
-	BigDecimal impactReserved = Decimal.ZERO;
+	BigDecimal impactReserved = Decimals.VALUE_ZERO;
 
 	@Override
 	protected void impact(IMaterialReservedContract contract) {
@@ -96,14 +96,14 @@ public class MaterialReservedService extends MaterialInventoryBusinessLogic<IMat
 		BigDecimal onReserved = material.getOnReserved();
 		// 减去上次增加值（同物料多行时）,关闭时数量零
 		onReserved = onReserved.subtract(this.impactReserved)
-				.add(contract.getStatus() == emBOStatus.CLOSED ? Decimal.ZERO : contract.getQuantity());
+				.add(contract.getStatus() == emBOStatus.CLOSED ? Decimals.VALUE_ZERO : contract.getQuantity());
 		material.setOnReserved(onReserved);
 		// 记录本次增加值,关闭时数量零
 		this.impactReserved = impactReserved
-				.add(contract.getStatus() == emBOStatus.CLOSED ? Decimal.ZERO : contract.getQuantity());
+				.add(contract.getStatus() == emBOStatus.CLOSED ? Decimals.VALUE_ZERO : contract.getQuantity());
 	}
 
-	BigDecimal revokeReserved = Decimal.ZERO;
+	BigDecimal revokeReserved = Decimals.VALUE_ZERO;
 
 	@Override
 	protected void revoke(IMaterialReservedContract contract) {

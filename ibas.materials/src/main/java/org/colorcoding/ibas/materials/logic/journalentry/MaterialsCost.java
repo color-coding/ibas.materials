@@ -21,22 +21,23 @@ public abstract class MaterialsCost extends JournalEntrySmartContent {
 		ICondition condition = criteria.getConditions().create();
 		condition.setAlias(Material.PROPERTY_CODE.getName());
 		condition.setValue(itemCode);
-		BORepositoryMaterials boRepository = new BORepositoryMaterials();
-		boRepository.setRepository(this.getService().getRepository());
-		IOperationResult<IMaterial> operationResult = boRepository.fetchMaterial(criteria);
-		if (operationResult.getError() != null) {
-			throw new BusinessLogicException(operationResult.getError());
-		}
-		for (IMaterial item : operationResult.getResultObjects()) {
-			if (!item.getCode().equals(itemCode)) {
-				continue;
+		try (BORepositoryMaterials boRepository = new BORepositoryMaterials()) {
+			boRepository.setTransaction(this.getService().getTransaction());
+			IOperationResult<IMaterial> operationResult = boRepository.fetchMaterial(criteria);
+			if (operationResult.getError() != null) {
+				throw new BusinessLogicException(operationResult.getError());
 			}
-			if (item.getItemType() == emItemType.SERVICES) {
-				return false;
-			}
-			if (item.getInventoryItem() == emYesNo.NO) {
-				// 非库存物料，成本返回0.
-				// return false;
+			for (IMaterial item : operationResult.getResultObjects()) {
+				if (!item.getCode().equals(itemCode)) {
+					continue;
+				}
+				if (item.getItemType() == emItemType.SERVICES) {
+					return false;
+				}
+				if (item.getInventoryItem() == emYesNo.NO) {
+					// 非库存物料，成本返回0.
+					// return false;
+				}
 			}
 		}
 		return true;

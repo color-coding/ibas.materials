@@ -9,23 +9,20 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
 import org.colorcoding.ibas.bobas.bo.BusinessObject;
+import org.colorcoding.ibas.bobas.bo.BusinessObjectUnit;
 import org.colorcoding.ibas.bobas.bo.IBOMaxValueKey;
-import org.colorcoding.ibas.bobas.common.Condition;
-import org.colorcoding.ibas.bobas.common.ConditionOperation;
 import org.colorcoding.ibas.bobas.common.Criteria;
 import org.colorcoding.ibas.bobas.common.ICondition;
 import org.colorcoding.ibas.bobas.common.ICriteria;
+import org.colorcoding.ibas.bobas.common.Strings;
 import org.colorcoding.ibas.bobas.core.IPropertyInfo;
-import org.colorcoding.ibas.bobas.core.fields.IFieldDataDb;
 import org.colorcoding.ibas.bobas.data.DateTime;
 import org.colorcoding.ibas.bobas.data.emYesNo;
-import org.colorcoding.ibas.bobas.mapping.BusinessObjectUnit;
-import org.colorcoding.ibas.bobas.mapping.DbField;
-import org.colorcoding.ibas.bobas.mapping.DbFieldType;
+import org.colorcoding.ibas.bobas.db.DbField;
+import org.colorcoding.ibas.bobas.db.DbFieldType;
 import org.colorcoding.ibas.bobas.rule.IBusinessRule;
 import org.colorcoding.ibas.bobas.rule.common.BusinessRuleRequired;
 import org.colorcoding.ibas.materials.MyConfiguration;
-import org.colorcoding.ibas.materials.data.DataConvert;
 
 /**
  * 物料替代
@@ -860,7 +857,7 @@ public class MaterialSubstitute extends BusinessObject<MaterialSubstitute>
 				condition = criteria.getConditions().create();
 				condition.setAlias(PROPERTY_POSITION_NAME);
 				condition.setValue(this.getPosition());
-			} else if (!DataConvert.isNullOrEmpty(this.getSubstitute())) {
+			} else if (!Strings.isNullOrEmpty(this.getSubstitute())) {
 				condition = criteria.getConditions().create();
 				condition.setAlias(PROPERTY_SUBSTITUTE_NAME);
 				condition.setValue(this.getSubstitute());
@@ -884,79 +881,19 @@ public class MaterialSubstitute extends BusinessObject<MaterialSubstitute>
 	}
 
 	@Override
-	public IFieldDataDb getMaxValueField() {
-		return new IFieldDataDb() {
-
-			@Override
-			public boolean setValue(Object value) {
-				if (MaterialSubstitute.this.getPosition() > 0) {
-					return false;
-				}
-				MaterialSubstitute.this.setPosition((int) value);
-				return true;
-			}
-
-			@Override
-			public boolean isUniqueKey() {
-				return true;
-			}
-
-			@Override
-			public boolean isSavable() {
-				return true;
-			}
-
-			@Override
-			public boolean isPrimaryKey() {
-				return false;
-			}
-
-			@Override
-			public boolean isOriginal() {
-				return true;
-			}
-
-			@Override
-			public Class<?> getValueType() {
-				return Integer.class;
-			}
-
-			@Override
-			public Object getValue() {
-				return MaterialSubstitute.this.getPosition();
-			}
-
-			@Override
-			public String getName() {
-				return MaterialSubstitute.PROPERTY_POSITION_NAME;
-			}
-
-			@Override
-			public DbFieldType getFieldType() {
-				return DbFieldType.NUMERIC;
-			}
-
-			@Override
-			public String getDbTable() {
-				return MyConfiguration.applyVariables(DB_TABLE_NAME);
-			}
-
-			@Override
-			public int getDbIndex() {
-				return -1;
-			}
-
-			@Override
-			public String getDbField() {
-				return "Position";
-			}
-		};
+	public IPropertyInfo<?>[] getMaxValueConditions() {
+		return new IPropertyInfo[] { PROPERTY_ITEMCODE };
 	}
 
 	@Override
-	public ICondition[] getMaxValueConditions() {
-		return new ICondition[] { new Condition(PROPERTY_ITEMCODE.getName(), ConditionOperation.EQUAL,
-				MaterialSubstitute.this.getItemCode()) };
+	public IPropertyInfo<?> getMaxValueField() {
+		return PROPERTY_POSITION;
+	}
+
+	@Override
+	public boolean setMaxValue(Integer arg0) {
+		this.setPosition(arg0);
+		return true;
 	}
 
 }

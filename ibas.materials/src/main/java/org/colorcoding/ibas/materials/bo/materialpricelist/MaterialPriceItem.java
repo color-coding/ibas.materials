@@ -8,16 +8,16 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
 import org.colorcoding.ibas.bobas.bo.BusinessObject;
+import org.colorcoding.ibas.bobas.common.Decimals;
+import org.colorcoding.ibas.bobas.common.Strings;
 import org.colorcoding.ibas.bobas.core.IPropertyInfo;
 import org.colorcoding.ibas.bobas.data.DateTime;
-import org.colorcoding.ibas.bobas.data.Decimal;
-import org.colorcoding.ibas.bobas.mapping.DbField;
-import org.colorcoding.ibas.bobas.mapping.DbFieldType;
+import org.colorcoding.ibas.bobas.db.DbField;
+import org.colorcoding.ibas.bobas.db.DbFieldType;
 import org.colorcoding.ibas.bobas.rule.IBusinessRule;
 import org.colorcoding.ibas.bobas.rule.common.BusinessRuleMinValue;
 import org.colorcoding.ibas.bobas.rule.common.BusinessRuleRequired;
 import org.colorcoding.ibas.materials.MyConfiguration;
-import org.colorcoding.ibas.materials.data.DataConvert;
 
 /**
  * 获取-物料价格项目
@@ -151,7 +151,7 @@ public class MaterialPriceItem extends BusinessObject<MaterialPriceItem> impleme
 	 * @param value 值
 	 */
 	public final void setPrice(String value) {
-		this.setPrice(Decimal.valueOf(value));
+		this.setPrice(Decimals.valueOf(value));
 	}
 
 	/**
@@ -160,7 +160,7 @@ public class MaterialPriceItem extends BusinessObject<MaterialPriceItem> impleme
 	 * @param value 值
 	 */
 	public final void setPrice(int value) {
-		this.setPrice(Decimal.valueOf(value));
+		this.setPrice(Decimals.valueOf(value));
 	}
 
 	/**
@@ -169,7 +169,7 @@ public class MaterialPriceItem extends BusinessObject<MaterialPriceItem> impleme
 	 * @param value 值
 	 */
 	public final void setPrice(double value) {
-		this.setPrice(Decimal.valueOf(value));
+		this.setPrice(Decimals.valueOf(value));
 	}
 
 	/**
@@ -613,7 +613,7 @@ public class MaterialPriceItem extends BusinessObject<MaterialPriceItem> impleme
 	protected void initialize() {
 		super.initialize();// 基类初始化，不可去除
 		this.setObjectCode(MyConfiguration.applyVariables(BUSINESS_OBJECT_CODE));
-		this.setUOM(DataConvert.STRING_VALUE_EMPTY);
+		this.setUOM(Strings.VALUE_EMPTY);
 	}
 
 	@Override
@@ -621,7 +621,7 @@ public class MaterialPriceItem extends BusinessObject<MaterialPriceItem> impleme
 		return new IBusinessRule[] {
 				// 注册的业务规则
 				new BusinessRuleRequired(PROPERTY_ITEMCODE), // 要求有值
-				new BusinessRuleMinValue<BigDecimal>(Decimal.ZERO, PROPERTY_PRICE), // 不能低于0
+				new BusinessRuleMinValue<BigDecimal>(Decimals.VALUE_ZERO, PROPERTY_PRICE), // 不能低于0
 		};
 	}
 }

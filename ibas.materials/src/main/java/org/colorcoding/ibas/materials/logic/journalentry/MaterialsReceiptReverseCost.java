@@ -87,65 +87,67 @@ public class MaterialsReceiptReverseCost extends MaterialsInventoryCost {
 		}
 		IMaterialInventory inventory = null;
 		if (criteria.getConditions().size() > 3) {
-			BORepositoryMaterials boRepository = new BORepositoryMaterials();
-			boRepository.setRepository(this.getService().getRepository());
-			IOperationResult<IMaterialInventoryJournal> operationResult = boRepository
-					.fetchMaterialInventoryJournal(criteria);
-			if (operationResult.getError() != null) {
-				throw new BusinessLogicException(operationResult.getError());
-			}
-			for (IMaterialInventoryJournal journal : operationResult.getResultObjects()) {
-				if (!journal.getItemCode().equals(itemCode)) {
-					continue;
+			try (BORepositoryMaterials boRepository = new BORepositoryMaterials()) {
+				boRepository.setTransaction(this.getService().getTransaction());
+				IOperationResult<IMaterialInventoryJournal> operationResult = boRepository
+						.fetchMaterialInventoryJournal(criteria);
+				if (operationResult.getError() != null) {
+					throw new BusinessLogicException(operationResult.getError());
 				}
-				if (!journal.getWarehouse().equals(warehouse)) {
-					continue;
-				}
-				inventory = new MaterialInventory();
-				inventory.setItemCode(journal.getItemCode());
-				inventory.setOnHand(journal.getInventoryQuantity());
-				inventory.setAvgPrice(journal.getCalculatedPrice());
-				inventory.setInventoryValue(journal.getInventoryValue());
-				break;
-			}
-			if (inventory == null) {
-				if (MyConfiguration.getConfigValue(MyConfiguration.CONFIG_ITEM_MANAGE_MATERIAL_COSTS_BY_WAREHOUSE,
-						true)) {
-					/* 按仓库核算成本 */
-					criteria = new Criteria();
-					condition = criteria.getConditions().create();
-					condition.setAlias(MaterialInventory.PROPERTY_ITEMCODE.getName());
-					condition.setValue(itemCode);
-					condition = criteria.getConditions().create();
-					condition.setAlias(MaterialInventory.PROPERTY_WAREHOUSE.getName());
-					condition.setValue(warehouse);
-					for (IMaterialInventory item : boRepository.fetchMaterialInventory(criteria).getResultObjects()) {
-						inventory = item;
-						break;
+				for (IMaterialInventoryJournal journal : operationResult.getResultObjects()) {
+					if (!journal.getItemCode().equals(itemCode)) {
+						continue;
 					}
-				} else {
-					/* 按物料核算成本 */
-					criteria = new Criteria();
-					condition = criteria.getConditions().create();
-					condition.setAlias(Material.PROPERTY_CODE.getName());
-					condition.setValue(itemCode);
-					for (IMaterial material : boRepository.fetchMaterial(criteria).getResultObjects()) {
-						inventory = new MaterialInventory();
-						inventory.setItemCode(material.getCode());
-						inventory.setOnCommited(material.getOnCommited());
-						inventory.setOnHand(material.getOnHand());
-						inventory.setOnOrdered(material.getOnOrdered());
-						inventory.setOnReserved(material.getOnReserved());
-						inventory.setAvgPrice(material.getAvgPrice());
-						inventory.setInventoryValue(material.getInventoryValue());
-						break;
+					if (!journal.getWarehouse().equals(warehouse)) {
+						continue;
+					}
+					inventory = new MaterialInventory();
+					inventory.setItemCode(journal.getItemCode());
+					inventory.setOnHand(journal.getInventoryQuantity());
+					inventory.setAvgPrice(journal.getCalculatedPrice());
+					inventory.setInventoryValue(journal.getInventoryValue());
+					break;
+				}
+				if (inventory == null) {
+					if (MyConfiguration.getConfigValue(MyConfiguration.CONFIG_ITEM_MANAGE_MATERIAL_COSTS_BY_WAREHOUSE,
+							true)) {
+						/* 按仓库核算成本 */
+						criteria = new Criteria();
+						condition = criteria.getConditions().create();
+						condition.setAlias(MaterialInventory.PROPERTY_ITEMCODE.getName());
+						condition.setValue(itemCode);
+						condition = criteria.getConditions().create();
+						condition.setAlias(MaterialInventory.PROPERTY_WAREHOUSE.getName());
+						condition.setValue(warehouse);
+						for (IMaterialInventory item : boRepository.fetchMaterialInventory(criteria)
+								.getResultObjects()) {
+							inventory = item;
+							break;
+						}
+					} else {
+						/* 按物料核算成本 */
+						criteria = new Criteria();
+						condition = criteria.getConditions().create();
+						condition.setAlias(Material.PROPERTY_CODE.getName());
+						condition.setValue(itemCode);
+						for (IMaterial material : boRepository.fetchMaterial(criteria).getResultObjects()) {
+							inventory = new MaterialInventory();
+							inventory.setItemCode(material.getCode());
+							inventory.setOnCommited(material.getOnCommited());
+							inventory.setOnHand(material.getOnHand());
+							inventory.setOnOrdered(material.getOnOrdered());
+							inventory.setOnReserved(material.getOnReserved());
+							inventory.setAvgPrice(material.getAvgPrice());
+							inventory.setInventoryValue(material.getInventoryValue());
+							break;
+						}
 					}
 				}
-			}
-			if (inventory != null) {
-				if (inventory.getOnHand().compareTo(this.getQuantity()) <= 0
-						|| inventory.getInventoryValue().compareTo(this.getAmount().abs()) < 0) {
-					this.setAmount(inventory.getInventoryValue());
+				if (inventory != null) {
+					if (inventory.getOnHand().compareTo(this.getQuantity()) <= 0
+							|| inventory.getInventoryValue().compareTo(this.getAmount().abs()) < 0) {
+						this.setAmount(inventory.getInventoryValue());
+					}
 				}
 			}
 		}

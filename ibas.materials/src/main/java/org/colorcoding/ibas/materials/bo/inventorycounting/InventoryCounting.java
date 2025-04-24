@@ -15,24 +15,25 @@ import org.colorcoding.ibas.accounting.logic.JournalEntryContent;
 import org.colorcoding.ibas.accounting.logic.JournalEntryContent.Category;
 import org.colorcoding.ibas.bobas.approval.IApprovalData;
 import org.colorcoding.ibas.bobas.bo.BusinessObject;
+import org.colorcoding.ibas.bobas.bo.BusinessObjectUnit;
 import org.colorcoding.ibas.bobas.bo.IBOSeriesKey;
 import org.colorcoding.ibas.bobas.bo.IBOTagCanceled;
 import org.colorcoding.ibas.bobas.bo.IBOTagDeleted;
 import org.colorcoding.ibas.bobas.bo.IBOUserFields;
+import org.colorcoding.ibas.bobas.common.DateTimes;
+import org.colorcoding.ibas.bobas.common.Decimals;
 import org.colorcoding.ibas.bobas.core.IPropertyInfo;
 import org.colorcoding.ibas.bobas.data.ArrayList;
 import org.colorcoding.ibas.bobas.data.DateTime;
-import org.colorcoding.ibas.bobas.data.Decimal;
 import org.colorcoding.ibas.bobas.data.List;
 import org.colorcoding.ibas.bobas.data.emApprovalStatus;
 import org.colorcoding.ibas.bobas.data.emBOStatus;
 import org.colorcoding.ibas.bobas.data.emDocumentStatus;
 import org.colorcoding.ibas.bobas.data.emYesNo;
+import org.colorcoding.ibas.bobas.db.DbField;
+import org.colorcoding.ibas.bobas.db.DbFieldType;
 import org.colorcoding.ibas.bobas.logic.IBusinessLogicContract;
 import org.colorcoding.ibas.bobas.logic.IBusinessLogicsHost;
-import org.colorcoding.ibas.bobas.mapping.BusinessObjectUnit;
-import org.colorcoding.ibas.bobas.mapping.DbField;
-import org.colorcoding.ibas.bobas.mapping.DbFieldType;
 import org.colorcoding.ibas.bobas.ownership.IDataOwnership;
 import org.colorcoding.ibas.bobas.period.IPeriodData;
 import org.colorcoding.ibas.bobas.rule.IBusinessRule;
@@ -1109,7 +1110,7 @@ public class InventoryCounting extends BusinessObject<InventoryCounting> impleme
 	 * @param value 值
 	 */
 	public final void setDocumentRate(String value) {
-		this.setDocumentRate(Decimal.valueOf(value));
+		this.setDocumentRate(Decimals.valueOf(value));
 	}
 
 	/**
@@ -1118,7 +1119,7 @@ public class InventoryCounting extends BusinessObject<InventoryCounting> impleme
 	 * @param value 值
 	 */
 	public final void setDocumentRate(int value) {
-		this.setDocumentRate(Decimal.valueOf(value));
+		this.setDocumentRate(Decimals.valueOf(value));
 	}
 
 	/**
@@ -1127,7 +1128,7 @@ public class InventoryCounting extends BusinessObject<InventoryCounting> impleme
 	 * @param value 值
 	 */
 	public final void setDocumentRate(double value) {
-		this.setDocumentRate(Decimal.valueOf(value));
+		this.setDocumentRate(Decimals.valueOf(value));
 	}
 
 	/**
@@ -1167,7 +1168,7 @@ public class InventoryCounting extends BusinessObject<InventoryCounting> impleme
 	 * @param value 值
 	 */
 	public final void setDocumentTotal(String value) {
-		this.setDocumentTotal(Decimal.valueOf(value));
+		this.setDocumentTotal(Decimals.valueOf(value));
 	}
 
 	/**
@@ -1176,7 +1177,7 @@ public class InventoryCounting extends BusinessObject<InventoryCounting> impleme
 	 * @param value 值
 	 */
 	public final void setDocumentTotal(int value) {
-		this.setDocumentTotal(Decimal.valueOf(value));
+		this.setDocumentTotal(Decimals.valueOf(value));
 	}
 
 	/**
@@ -1185,7 +1186,7 @@ public class InventoryCounting extends BusinessObject<InventoryCounting> impleme
 	 * @param value 值
 	 */
 	public final void setDocumentTotal(double value) {
-		this.setDocumentTotal(Decimal.valueOf(value));
+		this.setDocumentTotal(Decimals.valueOf(value));
 	}
 
 	/**
@@ -1290,9 +1291,9 @@ public class InventoryCounting extends BusinessObject<InventoryCounting> impleme
 		super.initialize();// 基类初始化，不可去除
 		this.setInventoryCountingLines(new InventoryCountingLines(this));
 		this.setObjectCode(MyConfiguration.applyVariables(BUSINESS_OBJECT_CODE));
-		this.setPostingDate(DateTime.getToday());
-		this.setDocumentDate(DateTime.getToday());
-		this.setDeliveryDate(DateTime.getToday());
+		this.setPostingDate(DateTimes.today());
+		this.setDocumentDate(DateTimes.today());
+		this.setDeliveryDate(DateTimes.today());
 		this.setDocumentStatus(emDocumentStatus.RELEASED);
 
 	}
@@ -1405,7 +1406,7 @@ public class InventoryCounting extends BusinessObject<InventoryCounting> impleme
 						if (line.getLineStatus() != emDocumentStatus.CLOSED) {
 							continue;
 						}
-						if (Decimal.ZERO.compareTo(line.getDifference()) > 0) {
+						if (Decimals.VALUE_ZERO.compareTo(line.getDifference()) > 0) {
 							// 盘亏
 							jeContent = new JournalEntrySmartContent(line);
 							jeContent.setCategory(Category.Credit);
@@ -1421,7 +1422,7 @@ public class InventoryCounting extends BusinessObject<InventoryCounting> impleme
 							jeContent.setCurrency(line.getCurrency());
 							jeContent.setRate(line.getRate());
 							jeContents.add(jeContent);
-						} else if (Decimal.ZERO.compareTo(line.getDifference()) < 0) {
+						} else if (Decimals.VALUE_ZERO.compareTo(line.getDifference()) < 0) {
 							// 盘盈
 							jeContent = new JournalEntrySmartContent(line);
 							jeContent.setCategory(Category.Credit);

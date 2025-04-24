@@ -8,9 +8,9 @@ import org.colorcoding.ibas.bobas.bo.IBOSimple;
 import org.colorcoding.ibas.bobas.bo.IBOSimpleLine;
 import org.colorcoding.ibas.bobas.bo.IBusinessObject;
 import org.colorcoding.ibas.bobas.common.Criteria;
+import org.colorcoding.ibas.bobas.common.Decimals;
 import org.colorcoding.ibas.bobas.common.ICondition;
 import org.colorcoding.ibas.bobas.common.IOperationResult;
-import org.colorcoding.ibas.bobas.data.Decimal;
 import org.colorcoding.ibas.bobas.data.emDirection;
 import org.colorcoding.ibas.bobas.data.emYesNo;
 import org.colorcoding.ibas.bobas.i18n.I18N;
@@ -95,83 +95,87 @@ public class MaterialsInventoryCost extends MaterialsCost {
 		ICondition condition = criteria.getConditions().create();
 		condition.setAlias(Material.PROPERTY_CODE.getName());
 		condition.setValue(itemCode);
-		BORepositoryMaterials boRepository = new BORepositoryMaterials();
-		boRepository.setRepository(this.getService().getRepository());
-		IMaterial material = boRepository.fetchMaterial(criteria).getResultObjects().firstOrDefault();
-		if (material == null) {
-			throw new BusinessLogicException(I18N.prop("msg_mm_material_is_not_exist", itemCode));
-		}
-		if (material.getValuationMethod() == emValuationMethod.BATCH_MOVING_AVERAGE) {
-			criteria = new Criteria();
-			condition = criteria.getConditions().create();
-			condition.setAlias(MaterialBatch.PROPERTY_ITEMCODE.getName());
-			condition.setValue(itemCode);
-			condition = criteria.getConditions().create();
-			condition.setAlias(MaterialBatch.PROPERTY_WAREHOUSE.getName());
-			condition.setValue(warehouse);
-			// 计算总数量，去平均价格
-			BigDecimal quantities = Decimal.ZERO;
-			BigDecimal totals = Decimal.ZERO;
-			if (material.getBatchManagement() == emYesNo.YES
-					&& this.getSourceData() instanceof IMaterialBatchItemParent) {
-				IOperationResult<IMaterialBatch> operationResult;
-				condition = criteria.getConditions().create();
-				condition.setAlias(MaterialBatch.PROPERTY_BATCHCODE.getName());
-				IMaterialBatchItemParent batchItemParent = (IMaterialBatchItemParent) this.getSourceData();
-				for (IMaterialBatchItem journal : batchItemParent.getMaterialBatches()) {
-					condition.setValue(journal.getBatchCode());
-					operationResult = boRepository.fetchMaterialBatch(criteria);
-					quantities = quantities.add(journal.getQuantity());
-					totals = totals.add(Decimal.multiply(journal.getQuantity(),
-							operationResult.getResultObjects().isEmpty() ? Decimal.ZERO
-									: operationResult.getResultObjects().firstOrDefault().getAvgPrice()));
-				}
-			} else if (material.getSerialManagement() == emYesNo.YES) {
-				IOperationResult<IMaterialSerial> operationResult;
-				condition = criteria.getConditions().create();
-				condition.setAlias(MaterialSerial.PROPERTY_SERIALCODE.getName());
-				IMaterialSerialItemParent serialItemParent = (IMaterialSerialItemParent) this.getSourceData();
-				for (IMaterialSerialItem journal : serialItemParent.getMaterialSerials()) {
-					condition.setValue(journal.getSerialCode());
-					operationResult = boRepository.fetchMaterialSerial(criteria);
-					if (operationResult.getResultObjects().isEmpty()) {
-						throw new BusinessLogicException(I18N.prop("msg_mm_material_serial_is_unavailable", warehouse,
-								itemCode, journal.getSerialCode()));
-					}
-					quantities = quantities.add(Decimal.ONE);
-					totals = totals.add(Decimal.multiply(Decimal.ONE,
-							operationResult.getResultObjects().firstOrDefault().getAvgPrice()));
-				}
-			} else {
-				throw new BusinessLogicException(I18N.prop("msg_mm_material_is_not_batchmanagement", material.getCode())
-						+ "\n" + I18N.prop("msg_mm_material_is_not_serialmanagement", material.getCode()));
+		try (BORepositoryMaterials boRepository = new BORepositoryMaterials()) {
+			boRepository.setTransaction(this.getService().getTransaction());
+			IMaterial material = boRepository.fetchMaterial(criteria).getResultObjects().firstOrDefault();
+			if (material == null) {
+				throw new BusinessLogicException(I18N.prop("msg_mm_material_is_not_exist", itemCode));
 			}
-			quantities = quantities.setScale(this.getQuantity().scale(), Decimal.ROUNDING_MODE_DEFAULT);
-			if (Decimal.isZero(quantities)) {
-				// 避免0除
-				return Decimal.ZERO;
-			}
-			return Decimal.divide(totals, quantities);
-		} else {
-			if (MyConfiguration.getConfigValue(MyConfiguration.CONFIG_ITEM_MANAGE_MATERIAL_COSTS_BY_WAREHOUSE, true)) {
-				/* 按仓库核算成本 */
+			if (material.getValuationMethod() == emValuationMethod.BATCH_MOVING_AVERAGE) {
 				criteria = new Criteria();
 				condition = criteria.getConditions().create();
-				condition.setAlias(MaterialInventory.PROPERTY_ITEMCODE.getName());
+				condition.setAlias(MaterialBatch.PROPERTY_ITEMCODE.getName());
 				condition.setValue(itemCode);
 				condition = criteria.getConditions().create();
-				condition.setAlias(MaterialInventory.PROPERTY_WAREHOUSE.getName());
+				condition.setAlias(MaterialBatch.PROPERTY_WAREHOUSE.getName());
 				condition.setValue(warehouse);
-				IOperationResult<IMaterialInventory> operationResult = boRepository.fetchMaterialInventory(criteria);
-				if (operationResult.getError() != null) {
-					throw new BusinessLogicException(operationResult.getError());
+				// 计算总数量，去平均价格
+				BigDecimal quantities = Decimals.VALUE_ZERO;
+				BigDecimal totals = Decimals.VALUE_ZERO;
+				if (material.getBatchManagement() == emYesNo.YES
+						&& this.getSourceData() instanceof IMaterialBatchItemParent) {
+					IOperationResult<IMaterialBatch> operationResult;
+					condition = criteria.getConditions().create();
+					condition.setAlias(MaterialBatch.PROPERTY_BATCHCODE.getName());
+					IMaterialBatchItemParent batchItemParent = (IMaterialBatchItemParent) this.getSourceData();
+					for (IMaterialBatchItem journal : batchItemParent.getMaterialBatches()) {
+						condition.setValue(journal.getBatchCode());
+						operationResult = boRepository.fetchMaterialBatch(criteria);
+						quantities = quantities.add(journal.getQuantity());
+						totals = totals.add(Decimals.multiply(journal.getQuantity(),
+								operationResult.getResultObjects().isEmpty() ? Decimals.VALUE_ZERO
+										: operationResult.getResultObjects().firstOrDefault().getAvgPrice()));
+					}
+				} else if (material.getSerialManagement() == emYesNo.YES) {
+					IOperationResult<IMaterialSerial> operationResult;
+					condition = criteria.getConditions().create();
+					condition.setAlias(MaterialSerial.PROPERTY_SERIALCODE.getName());
+					IMaterialSerialItemParent serialItemParent = (IMaterialSerialItemParent) this.getSourceData();
+					for (IMaterialSerialItem journal : serialItemParent.getMaterialSerials()) {
+						condition.setValue(journal.getSerialCode());
+						operationResult = boRepository.fetchMaterialSerial(criteria);
+						if (operationResult.getResultObjects().isEmpty()) {
+							throw new BusinessLogicException(I18N.prop("msg_mm_material_serial_is_unavailable",
+									warehouse, itemCode, journal.getSerialCode()));
+						}
+						quantities = quantities.add(Decimals.VALUE_ONE);
+						totals = totals.add(Decimals.multiply(Decimals.VALUE_ONE,
+								operationResult.getResultObjects().firstOrDefault().getAvgPrice()));
+					}
+				} else {
+					throw new BusinessLogicException(
+							I18N.prop("msg_mm_material_is_not_batchmanagement", material.getCode()) + "\n"
+									+ I18N.prop("msg_mm_material_is_not_serialmanagement", material.getCode()));
 				}
-				for (IMaterialInventory materialInventory : operationResult.getResultObjects()) {
-					return materialInventory.getAvgPrice();
+				quantities = quantities.setScale(this.getQuantity().scale(), Decimals.ROUNDING_MODE_DEFAULT);
+				if (Decimals.isZero(quantities)) {
+					// 避免0除
+					return Decimals.VALUE_ZERO;
 				}
+				return Decimals.divide(totals, quantities);
 			} else {
-				/* 按物料核算成本 */
-				return material.getAvgPrice();
+				if (MyConfiguration.getConfigValue(MyConfiguration.CONFIG_ITEM_MANAGE_MATERIAL_COSTS_BY_WAREHOUSE,
+						true)) {
+					/* 按仓库核算成本 */
+					criteria = new Criteria();
+					condition = criteria.getConditions().create();
+					condition.setAlias(MaterialInventory.PROPERTY_ITEMCODE.getName());
+					condition.setValue(itemCode);
+					condition = criteria.getConditions().create();
+					condition.setAlias(MaterialInventory.PROPERTY_WAREHOUSE.getName());
+					condition.setValue(warehouse);
+					IOperationResult<IMaterialInventory> operationResult = boRepository
+							.fetchMaterialInventory(criteria);
+					if (operationResult.getError() != null) {
+						throw new BusinessLogicException(operationResult.getError());
+					}
+					for (IMaterialInventory materialInventory : operationResult.getResultObjects()) {
+						return materialInventory.getAvgPrice();
+					}
+				} else {
+					/* 按物料核算成本 */
+					return material.getAvgPrice();
+				}
 			}
 		}
 		return null;
@@ -182,71 +186,56 @@ public class MaterialsInventoryCost extends MaterialsCost {
 		ICondition condition = criteria.getConditions().create();
 		condition.setAlias(Material.PROPERTY_CODE.getName());
 		condition.setValue(itemCode);
-		BORepositoryMaterials boRepository = new BORepositoryMaterials();
-		boRepository.setRepository(this.getService().getRepository());
-		IMaterial material = boRepository.fetchMaterial(criteria).getResultObjects().firstOrDefault();
-		if (material == null) {
-			throw new BusinessLogicException(I18N.prop("msg_mm_material_is_not_exist", itemCode));
-		}
-		criteria = new Criteria();
-		condition = criteria.getConditions().create();
-		condition.setAlias(MaterialInventoryJournal.PROPERTY_DIRECTION.getName());
-		condition.setValue(emDirection.OUT);
-		if (this.getSourceData() instanceof IMaterialBatchReceiptParent
-				|| this.getSourceData() instanceof IMaterialSerialReceiptParent) {
-			condition.setValue(emDirection.IN);
-		}
-		condition = criteria.getConditions().create();
-		condition.setAlias(MaterialInventoryJournal.PROPERTY_BASEDOCUMENTTYPE.getName());
-		condition.setValue(this.getSourceDataPropertyValue(Ledgers.CONDITION_PROPERTY_OBJECTCODE));
-		if (this.getSourceData() instanceof IBODocument) {
-			condition = criteria.getConditions().create();
-			condition.setAlias(MaterialInventoryJournal.PROPERTY_BASEDOCUMENTENTRY.getName());
-			condition.setValue(((IBODocument) this.getSourceData()).getDocEntry());
-		} else if (this.getSourceData() instanceof IBODocumentLine) {
-			condition = criteria.getConditions().create();
-			condition.setAlias(MaterialInventoryJournal.PROPERTY_BASEDOCUMENTENTRY.getName());
-			condition.setValue(((IBODocumentLine) this.getSourceData()).getDocEntry());
-			condition = criteria.getConditions().create();
-			condition.setAlias(MaterialInventoryJournal.PROPERTY_BASEDOCUMENTLINEID.getName());
-			condition.setValue(((IBODocumentLine) this.getSourceData()).getLineId());
-		} else if (this.getSourceData() instanceof IBOSimple) {
-			condition = criteria.getConditions().create();
-			condition.setAlias(MaterialInventoryJournal.PROPERTY_BASEDOCUMENTENTRY.getName());
-			condition.setValue(((IBOSimple) this.getSourceData()).getObjectKey());
-		} else if (this.getSourceData() instanceof IBOSimpleLine) {
-			condition = criteria.getConditions().create();
-			condition.setAlias(MaterialInventoryJournal.PROPERTY_BASEDOCUMENTENTRY.getName());
-			condition.setValue(((IBOSimpleLine) this.getSourceData()).getObjectKey());
-			condition = criteria.getConditions().create();
-			condition.setAlias(MaterialInventoryJournal.PROPERTY_BASEDOCUMENTLINEID.getName());
-			condition.setValue(((IBOSimpleLine) this.getSourceData()).getLineId());
-		}
-		if (criteria.getConditions().size() < 3) {
-			throw new BusinessLogicException(
-					I18N.prop("msg_mm_document_not_found_receipt_journal", this.getSourceData()));
-		}
-		boolean noJournals = true;
-		BigDecimal quantities = Decimal.ZERO;
-		BigDecimal totals = Decimal.ZERO;
-		if (material.getValuationMethod() == emValuationMethod.MOVING_AVERAGE) {
-			// 移动平均物料
-			for (IMaterialInventoryJournal journal : boRepository.fetchMaterialInventoryJournal(criteria)
-					.getResultObjects()) {
-				if (!journal.getItemCode().equals(itemCode)) {
-					continue;
-				}
-				if (!journal.getWarehouse().equals(warehouse)) {
-					continue;
-				}
-				quantities = quantities.add(journal.getInventoryQuantity());
-				totals = totals.add(Decimal.multiply(journal.getInventoryQuantity(), journal.getCalculatedPrice()));
-				noJournals = false;
+		try (BORepositoryMaterials boRepository = new BORepositoryMaterials()) {
+			boRepository.setTransaction(this.getService().getTransaction());
+			IMaterial material = boRepository.fetchMaterial(criteria).getResultObjects().firstOrDefault();
+			if (material == null) {
+				throw new BusinessLogicException(I18N.prop("msg_mm_material_is_not_exist", itemCode));
 			}
-		} else if (material.getValuationMethod() == emValuationMethod.BATCH_MOVING_AVERAGE) {
-			// 批次平均物料
-			if (material.getBatchManagement() == emYesNo.YES) {
-				for (IMaterialBatchJournal journal : boRepository.fetchMaterialBatchJournal(criteria)
+			criteria = new Criteria();
+			condition = criteria.getConditions().create();
+			condition.setAlias(MaterialInventoryJournal.PROPERTY_DIRECTION.getName());
+			condition.setValue(emDirection.OUT);
+			if (this.getSourceData() instanceof IMaterialBatchReceiptParent
+					|| this.getSourceData() instanceof IMaterialSerialReceiptParent) {
+				condition.setValue(emDirection.IN);
+			}
+			condition = criteria.getConditions().create();
+			condition.setAlias(MaterialInventoryJournal.PROPERTY_BASEDOCUMENTTYPE.getName());
+			condition.setValue(this.getSourceDataPropertyValue(Ledgers.CONDITION_PROPERTY_OBJECTCODE));
+			if (this.getSourceData() instanceof IBODocument) {
+				condition = criteria.getConditions().create();
+				condition.setAlias(MaterialInventoryJournal.PROPERTY_BASEDOCUMENTENTRY.getName());
+				condition.setValue(((IBODocument) this.getSourceData()).getDocEntry());
+			} else if (this.getSourceData() instanceof IBODocumentLine) {
+				condition = criteria.getConditions().create();
+				condition.setAlias(MaterialInventoryJournal.PROPERTY_BASEDOCUMENTENTRY.getName());
+				condition.setValue(((IBODocumentLine) this.getSourceData()).getDocEntry());
+				condition = criteria.getConditions().create();
+				condition.setAlias(MaterialInventoryJournal.PROPERTY_BASEDOCUMENTLINEID.getName());
+				condition.setValue(((IBODocumentLine) this.getSourceData()).getLineId());
+			} else if (this.getSourceData() instanceof IBOSimple) {
+				condition = criteria.getConditions().create();
+				condition.setAlias(MaterialInventoryJournal.PROPERTY_BASEDOCUMENTENTRY.getName());
+				condition.setValue(((IBOSimple) this.getSourceData()).getObjectKey());
+			} else if (this.getSourceData() instanceof IBOSimpleLine) {
+				condition = criteria.getConditions().create();
+				condition.setAlias(MaterialInventoryJournal.PROPERTY_BASEDOCUMENTENTRY.getName());
+				condition.setValue(((IBOSimpleLine) this.getSourceData()).getObjectKey());
+				condition = criteria.getConditions().create();
+				condition.setAlias(MaterialInventoryJournal.PROPERTY_BASEDOCUMENTLINEID.getName());
+				condition.setValue(((IBOSimpleLine) this.getSourceData()).getLineId());
+			}
+			if (criteria.getConditions().size() < 3) {
+				throw new BusinessLogicException(
+						I18N.prop("msg_mm_document_not_found_receipt_journal", this.getSourceData()));
+			}
+			boolean noJournals = true;
+			BigDecimal quantities = Decimals.VALUE_ZERO;
+			BigDecimal totals = Decimals.VALUE_ZERO;
+			if (material.getValuationMethod() == emValuationMethod.MOVING_AVERAGE) {
+				// 移动平均物料
+				for (IMaterialInventoryJournal journal : boRepository.fetchMaterialInventoryJournal(criteria)
 						.getResultObjects()) {
 					if (!journal.getItemCode().equals(itemCode)) {
 						continue;
@@ -255,37 +244,57 @@ public class MaterialsInventoryCost extends MaterialsCost {
 						continue;
 					}
 					quantities = quantities.add(journal.getInventoryQuantity());
-					totals = totals.add(Decimal.multiply(journal.getInventoryQuantity(), journal.getCalculatedPrice()));
+					totals = totals
+							.add(Decimals.multiply(journal.getInventoryQuantity(), journal.getCalculatedPrice()));
 					noJournals = false;
 				}
-			} else if (material.getSerialManagement() == emYesNo.YES) {
-				for (IMaterialSerialJournal journal : boRepository.fetchMaterialSerialJournal(criteria)
-						.getResultObjects()) {
-					if (!journal.getItemCode().equals(itemCode)) {
-						continue;
+			} else if (material.getValuationMethod() == emValuationMethod.BATCH_MOVING_AVERAGE) {
+				// 批次平均物料
+				if (material.getBatchManagement() == emYesNo.YES) {
+					for (IMaterialBatchJournal journal : boRepository.fetchMaterialBatchJournal(criteria)
+							.getResultObjects()) {
+						if (!journal.getItemCode().equals(itemCode)) {
+							continue;
+						}
+						if (!journal.getWarehouse().equals(warehouse)) {
+							continue;
+						}
+						quantities = quantities.add(journal.getInventoryQuantity());
+						totals = totals
+								.add(Decimals.multiply(journal.getInventoryQuantity(), journal.getCalculatedPrice()));
+						noJournals = false;
 					}
-					if (!journal.getWarehouse().equals(warehouse)) {
-						continue;
+				} else if (material.getSerialManagement() == emYesNo.YES) {
+					for (IMaterialSerialJournal journal : boRepository.fetchMaterialSerialJournal(criteria)
+							.getResultObjects()) {
+						if (!journal.getItemCode().equals(itemCode)) {
+							continue;
+						}
+						if (!journal.getWarehouse().equals(warehouse)) {
+							continue;
+						}
+						quantities = quantities.add(journal.getInventoryQuantity());
+						totals = totals
+								.add(Decimals.multiply(journal.getInventoryQuantity(), journal.getCalculatedPrice()));
+						noJournals = false;
 					}
-					quantities = quantities.add(journal.getInventoryQuantity());
-					totals = totals.add(Decimal.multiply(journal.getInventoryQuantity(), journal.getCalculatedPrice()));
-					noJournals = false;
+				} else {
+					throw new BusinessLogicException(
+							I18N.prop("msg_mm_material_is_not_batchmanagement", material.getCode()) + "\n"
+									+ I18N.prop("msg_mm_material_is_not_serialmanagement", material.getCode()));
 				}
-			} else {
-				throw new BusinessLogicException(I18N.prop("msg_mm_material_is_not_batchmanagement", material.getCode())
-						+ "\n" + I18N.prop("msg_mm_material_is_not_serialmanagement", material.getCode()));
 			}
+			quantities = quantities.setScale(this.getQuantity().scale(), Decimals.ROUNDING_MODE_DEFAULT);
+			if (noJournals && Decimals.isZero(quantities) && Decimals.isZero(totals)) {
+				// 都是0，则无记录
+				return null;
+			}
+			if (Decimals.isZero(quantities)) {
+				// 避免0除
+				return Decimals.VALUE_ZERO;
+			}
+			return Decimals.divide(totals, quantities);
 		}
-		quantities = quantities.setScale(this.getQuantity().scale(), Decimal.ROUNDING_MODE_DEFAULT);
-		if (noJournals && Decimal.isZero(quantities) && Decimal.isZero(totals)) {
-			// 都是0，则无记录
-			return null;
-		}
-		if (Decimal.isZero(quantities)) {
-			// 避免0除
-			return Decimal.ZERO;
-		}
-		return Decimal.divide(totals, quantities);
 	}
 
 	@Override
@@ -303,7 +312,7 @@ public class MaterialsInventoryCost extends MaterialsCost {
 			}
 			if (this.getAmount() != null) {
 				if (this.isNegate()) {
-					if (this.getAmount().compareTo(Decimal.ZERO) > 0) {
+					if (this.getAmount().compareTo(Decimals.VALUE_ZERO) > 0) {
 						this.setAmount(this.getAmount().negate());
 					} else {
 						this.setAmount(this.getAmount().abs());
@@ -336,18 +345,18 @@ public class MaterialsInventoryCost extends MaterialsCost {
 				}
 			}
 			if (avaPrice != null) {
-				BigDecimal amount = Decimal.multiply(this.getQuantity(), avaPrice);
+				BigDecimal amount = Decimals.multiply(this.getQuantity(), avaPrice);
 				if (this.getAmount() != null && this.getAmount().scale() > 0) {
-					amount = amount.setScale(this.getAmount().scale(), Decimal.ROUNDING_MODE_DEFAULT);
+					amount = amount.setScale(this.getAmount().scale(), Decimals.ROUNDING_MODE_DEFAULT);
 				}
 				this.setAmount(amount);
 			} else {
-				this.setAmount(Decimal.ZERO);
+				this.setAmount(Decimals.VALUE_ZERO);
 			}
 			// 设置未本币（物料成本均为本币）
 			this.setCurrency(org.colorcoding.ibas.accounting.MyConfiguration
 					.getConfigValue(org.colorcoding.ibas.accounting.MyConfiguration.CONFIG_ITEM_LOCAL_CURRENCY));
-			this.setRate(Decimal.ONE);
+			this.setRate(Decimals.VALUE_ONE);
 		}
 		return true;
 	}

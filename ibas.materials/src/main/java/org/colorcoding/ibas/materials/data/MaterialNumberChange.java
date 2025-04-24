@@ -7,7 +7,7 @@ import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
-import org.colorcoding.ibas.bobas.serialization.Serializable;
+import org.colorcoding.ibas.bobas.core.Serializable;
 import org.colorcoding.ibas.materials.MyConfiguration;
 import org.colorcoding.ibas.materials.bo.goodsissue.GoodsIssue;
 import org.colorcoding.ibas.materials.bo.goodsreceipt.GoodsReceipt;

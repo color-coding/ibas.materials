@@ -4,15 +4,15 @@ import java.math.BigDecimal;
 
 import org.colorcoding.ibas.bobas.common.ConditionOperation;
 import org.colorcoding.ibas.bobas.common.Criteria;
+import org.colorcoding.ibas.bobas.common.Decimals;
 import org.colorcoding.ibas.bobas.common.ICondition;
 import org.colorcoding.ibas.bobas.common.ICriteria;
 import org.colorcoding.ibas.bobas.common.IOperationResult;
-import org.colorcoding.ibas.bobas.data.Decimal;
 import org.colorcoding.ibas.bobas.data.emDocumentStatus;
 import org.colorcoding.ibas.bobas.data.emYesNo;
 import org.colorcoding.ibas.bobas.i18n.I18N;
 import org.colorcoding.ibas.bobas.logic.BusinessLogicException;
-import org.colorcoding.ibas.bobas.mapping.LogicContract;
+import org.colorcoding.ibas.bobas.logic.LogicContract;
 import org.colorcoding.ibas.materials.bo.inventorytransferrequest.IInventoryTransferRequest;
 import org.colorcoding.ibas.materials.bo.inventorytransferrequest.IInventoryTransferRequestLine;
 import org.colorcoding.ibas.materials.bo.inventorytransferrequest.InventoryTransferRequest;
@@ -41,20 +41,21 @@ public class InventoryTransferRequestClosingService
 		condition.setOperation(ConditionOperation.EQUAL);
 		condition.setValue(contract.getBaseDocumentEntry());
 
-		IInventoryTransferRequest order = this.fetchBeAffected(criteria, IInventoryTransferRequest.class);
+		IInventoryTransferRequest order = this.fetchBeAffected(IInventoryTransferRequest.class, criteria);
 		if (order == null) {
-			BORepositoryMaterials boRepository = new BORepositoryMaterials();
-			boRepository.setRepository(super.getRepository());
-			IOperationResult<IInventoryTransferRequest> operationResult = boRepository
-					.fetchInventoryTransferRequest(criteria);
-			if (operationResult.getError() != null) {
-				throw new BusinessLogicException(operationResult.getError());
+			try (BORepositoryMaterials boRepository = new BORepositoryMaterials()) {
+				boRepository.setTransaction(this.getTransaction());
+				IOperationResult<IInventoryTransferRequest> operationResult = boRepository
+						.fetchInventoryTransferRequest(criteria);
+				if (operationResult.getError() != null) {
+					throw new BusinessLogicException(operationResult.getError());
+				}
+				order = operationResult.getResultObjects().firstOrDefault();
 			}
-			order = operationResult.getResultObjects().firstOrDefault();
-		}
-		if (order == null) {
-			throw new BusinessLogicException(I18N.prop("msg_mm_document_not_found_inventory_transfer_request",
-					contract.getBaseDocumentEntry(), contract.getBaseDocumentLineId()));
+			if (order == null) {
+				throw new BusinessLogicException(I18N.prop("msg_mm_document_not_found_inventory_transfer_request",
+						contract.getBaseDocumentEntry(), contract.getBaseDocumentLineId()));
+			}
 		}
 		return order;
 	}
@@ -72,7 +73,7 @@ public class InventoryTransferRequestClosingService
 		}
 		BigDecimal closedQuantity = orderLine.getClosedQuantity();
 		if (closedQuantity == null) {
-			closedQuantity = Decimal.ZERO;
+			closedQuantity = Decimals.VALUE_ZERO;
 		}
 		closedQuantity = closedQuantity.add(contract.getQuantity());
 		orderLine.setClosedQuantity(closedQuantity);
@@ -80,7 +81,7 @@ public class InventoryTransferRequestClosingService
 				&& closedQuantity.compareTo(orderLine.getQuantity()) >= 0) {
 			orderLine.setLineStatus(emDocumentStatus.FINISHED);
 		}
-		if (orderLine.getClosedQuantity().compareTo(Decimal.ZERO) > 0) {
+		if (orderLine.getClosedQuantity().compareTo(Decimals.VALUE_ZERO) > 0) {
 			orderLine.setReferenced(emYesNo.YES);
 		}
 	}
@@ -98,7 +99,7 @@ public class InventoryTransferRequestClosingService
 		}
 		BigDecimal closedQuantity = orderLine.getClosedQuantity();
 		if (closedQuantity == null) {
-			closedQuantity = Decimal.ZERO;
+			closedQuantity = Decimals.VALUE_ZERO;
 		}
 		closedQuantity = closedQuantity.subtract(contract.getQuantity());
 		orderLine.setClosedQuantity(closedQuantity);
@@ -106,7 +107,7 @@ public class InventoryTransferRequestClosingService
 				&& closedQuantity.compareTo(orderLine.getQuantity()) < 0) {
 			orderLine.setLineStatus(emDocumentStatus.RELEASED);
 		}
-		if (orderLine.getClosedQuantity().compareTo(Decimal.ZERO) <= 0) {
+		if (orderLine.getClosedQuantity().compareTo(Decimals.VALUE_ZERO) <= 0) {
 			orderLine.setReferenced(emYesNo.NO);
 		}
 	}

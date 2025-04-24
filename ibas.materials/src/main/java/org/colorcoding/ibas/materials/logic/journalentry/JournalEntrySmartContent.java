@@ -4,11 +4,11 @@ import org.colorcoding.ibas.bobas.common.ConditionRelationship;
 import org.colorcoding.ibas.bobas.common.Criteria;
 import org.colorcoding.ibas.bobas.common.ICondition;
 import org.colorcoding.ibas.bobas.common.IOperationResult;
+import org.colorcoding.ibas.bobas.common.Strings;
 import org.colorcoding.ibas.bobas.data.ArrayList;
 import org.colorcoding.ibas.bobas.logic.BusinessLogicException;
 import org.colorcoding.ibas.materials.bo.material.IMaterial;
 import org.colorcoding.ibas.materials.bo.material.Material;
-import org.colorcoding.ibas.materials.data.DataConvert;
 import org.colorcoding.ibas.materials.data.Ledgers;
 import org.colorcoding.ibas.materials.repository.BORepositoryMaterials;
 
@@ -41,29 +41,30 @@ public class JournalEntrySmartContent
 					condition.setValue(material);
 				}
 				if (!criteria.getConditions().isEmpty()) {
-					BORepositoryMaterials boRepository = new BORepositoryMaterials();
-					boRepository.setRepository(this.getService().getRepository());
-					IOperationResult<IMaterial> operationResult = boRepository.fetchMaterial(criteria);
-					if (operationResult.getError() != null) {
-						throw new BusinessLogicException(operationResult.getError());
-					}
-					ArrayList<String> groups = new ArrayList<>();
-					for (IMaterial item : operationResult.getResultObjects()) {
-						if (DataConvert.isNullOrEmpty(item.getGroup())) {
-							continue;
+					try (BORepositoryMaterials boRepository = new BORepositoryMaterials()) {
+						boRepository.setTransaction(this.getService().getTransaction());
+						IOperationResult<IMaterial> operationResult = boRepository.fetchMaterial(criteria);
+						if (operationResult.getError() != null) {
+							throw new BusinessLogicException(operationResult.getError());
 						}
-						if (groups.firstOrDefault(c -> c.equalsIgnoreCase(item.getGroup())) == null) {
-							groups.add(item.getGroup());
+						ArrayList<String> groups = new ArrayList<>();
+						for (IMaterial item : operationResult.getResultObjects()) {
+							if (Strings.isNullOrEmpty(item.getGroup())) {
+								continue;
+							}
+							if (groups.firstOrDefault(c -> c.equalsIgnoreCase(item.getGroup())) == null) {
+								groups.add(item.getGroup());
+							}
 						}
-					}
-					StringBuilder builder = new StringBuilder();
-					for (String item : groups) {
-						if (builder.length() > 0) {
-							builder.append(",");
+						StringBuilder builder = new StringBuilder();
+						for (String item : groups) {
+							if (builder.length() > 0) {
+								builder.append(",");
+							}
+							builder.append(item);
 						}
-						builder.append(item);
+						return builder.toString();
 					}
-					return builder.toString();
 				}
 			}
 		} else if (Ledgers.CONDITION_PROPERTY_MATERIAL_TYPE.equals(property)) {
@@ -86,27 +87,28 @@ public class JournalEntrySmartContent
 					condition.setValue(material);
 				}
 				if (!criteria.getConditions().isEmpty()) {
-					BORepositoryMaterials boRepository = new BORepositoryMaterials();
-					boRepository.setRepository(this.getService().getRepository());
-					IOperationResult<IMaterial> operationResult = boRepository.fetchMaterial(criteria);
-					if (operationResult.getError() != null) {
-						throw new BusinessLogicException(operationResult.getError());
-					}
-					ArrayList<String> itemTypes = new ArrayList<>();
-					for (IMaterial item : operationResult.getResultObjects()) {
-						String value = String.valueOf(item.getItemType());
-						if (itemTypes.firstOrDefault(c -> c.equalsIgnoreCase(value)) == null) {
-							itemTypes.add(value);
+					try (BORepositoryMaterials boRepository = new BORepositoryMaterials()) {
+						boRepository.setTransaction(this.getService().getTransaction());
+						IOperationResult<IMaterial> operationResult = boRepository.fetchMaterial(criteria);
+						if (operationResult.getError() != null) {
+							throw new BusinessLogicException(operationResult.getError());
 						}
-					}
-					StringBuilder builder = new StringBuilder();
-					for (String item : itemTypes) {
-						if (builder.length() > 0) {
-							builder.append(",");
+						ArrayList<String> itemTypes = new ArrayList<>();
+						for (IMaterial item : operationResult.getResultObjects()) {
+							String value = String.valueOf(item.getItemType());
+							if (itemTypes.firstOrDefault(c -> c.equalsIgnoreCase(value)) == null) {
+								itemTypes.add(value);
+							}
 						}
-						builder.append(item);
+						StringBuilder builder = new StringBuilder();
+						for (String item : itemTypes) {
+							if (builder.length() > 0) {
+								builder.append(",");
+							}
+							builder.append(item);
+						}
+						return builder.toString();
 					}
-					return builder.toString();
 				}
 			}
 		}

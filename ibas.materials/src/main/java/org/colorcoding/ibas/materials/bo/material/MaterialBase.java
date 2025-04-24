@@ -7,11 +7,11 @@ import javax.xml.bind.annotation.XmlElement;
 import org.colorcoding.ibas.bobas.bo.BusinessObject;
 import org.colorcoding.ibas.bobas.core.IPropertyInfo;
 import org.colorcoding.ibas.bobas.data.DateTime;
-import org.colorcoding.ibas.bobas.data.Decimal;
+import org.colorcoding.ibas.bobas.common.Decimals;
 import org.colorcoding.ibas.bobas.data.emApprovalStatus;
 import org.colorcoding.ibas.bobas.data.emYesNo;
-import org.colorcoding.ibas.bobas.mapping.DbField;
-import org.colorcoding.ibas.bobas.mapping.DbFieldType;
+import org.colorcoding.ibas.bobas.db.DbField;
+import org.colorcoding.ibas.bobas.db.DbFieldType;
 import org.colorcoding.ibas.materials.data.emIssueMethod;
 import org.colorcoding.ibas.materials.data.emItemType;
 import org.colorcoding.ibas.materials.data.emPlanningMethod;
@@ -600,7 +600,7 @@ public abstract class MaterialBase<T extends MaterialBase<T>> extends BusinessOb
 	 * @param value 值
 	 */
 	public final void setOnHand(String value) {
-		this.setOnHand(Decimal.valueOf(value));
+		this.setOnHand(Decimals.valueOf(value));
 	}
 
 	/**
@@ -609,7 +609,7 @@ public abstract class MaterialBase<T extends MaterialBase<T>> extends BusinessOb
 	 * @param value 值
 	 */
 	public final void setOnHand(int value) {
-		this.setOnHand(Decimal.valueOf(value));
+		this.setOnHand(Decimals.valueOf(value));
 	}
 
 	/**
@@ -618,7 +618,7 @@ public abstract class MaterialBase<T extends MaterialBase<T>> extends BusinessOb
 	 * @param value 值
 	 */
 	public final void setOnHand(double value) {
-		this.setOnHand(Decimal.valueOf(value));
+		this.setOnHand(Decimals.valueOf(value));
 	}
 
 	/**
@@ -658,7 +658,7 @@ public abstract class MaterialBase<T extends MaterialBase<T>> extends BusinessOb
 	 * @param value 值
 	 */
 	public final void setOnCommited(String value) {
-		this.setOnCommited(Decimal.valueOf(value));
+		this.setOnCommited(Decimals.valueOf(value));
 	}
 
 	/**
@@ -667,7 +667,7 @@ public abstract class MaterialBase<T extends MaterialBase<T>> extends BusinessOb
 	 * @param value 值
 	 */
 	public final void setOnCommited(int value) {
-		this.setOnCommited(Decimal.valueOf(value));
+		this.setOnCommited(Decimals.valueOf(value));
 	}
 
 	/**
@@ -676,7 +676,7 @@ public abstract class MaterialBase<T extends MaterialBase<T>> extends BusinessOb
 	 * @param value 值
 	 */
 	public final void setOnCommited(double value) {
-		this.setOnCommited(Decimal.valueOf(value));
+		this.setOnCommited(Decimals.valueOf(value));
 	}
 
 	/**
@@ -716,7 +716,7 @@ public abstract class MaterialBase<T extends MaterialBase<T>> extends BusinessOb
 	 * @param value 值
 	 */
 	public final void setOnOrdered(String value) {
-		this.setOnOrdered(Decimal.valueOf(value));
+		this.setOnOrdered(Decimals.valueOf(value));
 	}
 
 	/**
@@ -725,7 +725,7 @@ public abstract class MaterialBase<T extends MaterialBase<T>> extends BusinessOb
 	 * @param value 值
 	 */
 	public final void setOnOrdered(int value) {
-		this.setOnOrdered(Decimal.valueOf(value));
+		this.setOnOrdered(Decimals.valueOf(value));
 	}
 
 	/**
@@ -734,7 +734,7 @@ public abstract class MaterialBase<T extends MaterialBase<T>> extends BusinessOb
 	 * @param value 值
 	 */
 	public final void setOnOrdered(double value) {
-		this.setOnOrdered(Decimal.valueOf(value));
+		this.setOnOrdered(Decimals.valueOf(value));
 	}
 
 	/**
@@ -2567,6 +2567,6 @@ public abstract class MaterialBase<T extends MaterialBase<T>> extends BusinessOb
 	}
 
 	public BigDecimal getOnAvailable() {
-		return Decimal.add(this.getOnHand(), this.getOnOrdered(), this.getOnCommited().negate());
+		return Decimals.add(this.getOnHand(), this.getOnOrdered(), this.getOnCommited().negate());
 	}
 }

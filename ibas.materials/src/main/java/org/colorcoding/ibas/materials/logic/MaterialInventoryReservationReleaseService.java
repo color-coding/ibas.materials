@@ -10,20 +10,21 @@ import javax.xml.bind.annotation.XmlElementWrapper;
 import org.colorcoding.ibas.bobas.bo.BusinessObject;
 import org.colorcoding.ibas.bobas.bo.IBusinessObject;
 import org.colorcoding.ibas.bobas.common.Criteria;
+import org.colorcoding.ibas.bobas.common.Decimals;
 import org.colorcoding.ibas.bobas.common.ICondition;
 import org.colorcoding.ibas.bobas.common.ICriteria;
 import org.colorcoding.ibas.bobas.common.IOperationResult;
+import org.colorcoding.ibas.bobas.common.Strings;
 import org.colorcoding.ibas.bobas.core.IPropertyInfo;
-import org.colorcoding.ibas.bobas.data.Decimal;
 import org.colorcoding.ibas.bobas.data.emBOStatus;
 import org.colorcoding.ibas.bobas.data.emYesNo;
-import org.colorcoding.ibas.bobas.logic.BusinessLogicException;
-import org.colorcoding.ibas.bobas.logic.IBusinessObjectGroup;
-import org.colorcoding.ibas.bobas.mapping.DbField;
-import org.colorcoding.ibas.bobas.mapping.DbFieldType;
-import org.colorcoding.ibas.bobas.mapping.LogicContract;
+import org.colorcoding.ibas.bobas.db.DbField;
+import org.colorcoding.ibas.bobas.db.DbFieldType;
 import org.colorcoding.ibas.bobas.message.Logger;
 import org.colorcoding.ibas.bobas.message.MessageLevel;
+import org.colorcoding.ibas.bobas.logic.BusinessLogicException;
+import org.colorcoding.ibas.bobas.logic.IBusinessObjectGroup;
+import org.colorcoding.ibas.bobas.logic.LogicContract;
 import org.colorcoding.ibas.materials.bo.material.IMaterial;
 import org.colorcoding.ibas.materials.bo.materialbatch.IMaterialBatchJournal;
 import org.colorcoding.ibas.materials.bo.materialinventory.IMaterialInventoryReservation;
@@ -31,7 +32,6 @@ import org.colorcoding.ibas.materials.bo.materialinventory.IMaterialInventoryRes
 import org.colorcoding.ibas.materials.bo.materialinventory.MaterialInventoryReservation;
 import org.colorcoding.ibas.materials.bo.materialinventory.MaterialInventoryReservations;
 import org.colorcoding.ibas.materials.bo.materialserial.IMaterialSerialJournal;
-import org.colorcoding.ibas.materials.data.DataConvert;
 import org.colorcoding.ibas.materials.data.emItemType;
 import org.colorcoding.ibas.materials.repository.BORepositoryMaterials;
 
@@ -64,12 +64,12 @@ public class MaterialInventoryReservationReleaseService extends
 				// 非库存物料，不执行此逻辑
 				return false;
 			}
-			if (contract.getQuantity().compareTo(Decimal.ZERO) <= 0) {
+			if (contract.getQuantity().compareTo(Decimals.VALUE_ZERO) <= 0) {
 				Logger.log(MessageLevel.DEBUG, MSG_LOGICS_SKIP_LOGIC_EXECUTION, this.getClass().getName(), "Quantity",
 						contract.getQuantity());
 				return false;
 			}
-			if (DataConvert.isNullOrEmpty(contract.getTargetDocumentType())) {
+			if (Strings.isNullOrEmpty(contract.getTargetDocumentType())) {
 				Logger.log(MessageLevel.DEBUG, MSG_LOGICS_SKIP_LOGIC_EXECUTION, this.getClass().getName(),
 						"TargetDocumentType", "EMPTY");
 				return false;
@@ -117,34 +117,35 @@ public class MaterialInventoryReservationReleaseService extends
 				return EMPTY_DATA;
 			}
 		}
-		IMaterialInventoryReservationGroup4Release reservationGroup = this.fetchBeAffected(criteria,
-				IMaterialInventoryReservationGroup4Release.class);
+		IMaterialInventoryReservationGroup4Release reservationGroup = this
+				.fetchBeAffected(IMaterialInventoryReservationGroup4Release.class, criteria);
 		if (reservationGroup == null) {
-			BORepositoryMaterials boRepository = new BORepositoryMaterials();
-			boRepository.setRepository(super.getRepository());
-			IOperationResult<IMaterialInventoryReservation> opRsltInventory = boRepository
-					.fetchMaterialInventoryReservation(criteria);
-			if (opRsltInventory.getError() != null) {
-				throw new BusinessLogicException(opRsltInventory.getError());
-			}
-			reservationGroup = new MaterialInventoryReservationGroup4Release();
-			reservationGroup.setTargetDocumentType(contract.getTargetDocumentType());
-			reservationGroup.setTargetDocumentEntry(contract.getTargetDocumentEntry());
-			reservationGroup.setTargetDocumentLineId(contract.getTargetDocumentLineId());
-			reservationGroup.setItemCode(contract.getItemCode());
-			reservationGroup.setWarehouse(contract.getWarehouse());
-			reservationGroup.setBatchCode(contract.getBatchCode());
-			reservationGroup.setSerialCode(contract.getSerialCode());
-			IMaterialInventoryReservation reservation;
-			for (IMaterialInventoryReservation item : opRsltInventory.getResultObjects()) {
-				// 判断内存中是否已有
-				reservation = this.fetchBeAffected(item.getCriteria(), IMaterialInventoryReservation.class);
-				if (reservation == null) {
-					// 使用数据库的
-					reservationGroup.getItems().add(item);
-				} else {
-					// 使用内存的
-					reservationGroup.getItems().add(reservation);
+			try (BORepositoryMaterials boRepository = new BORepositoryMaterials()) {
+				boRepository.setTransaction(this.getTransaction());
+				IOperationResult<IMaterialInventoryReservation> opRsltInventory = boRepository
+						.fetchMaterialInventoryReservation(criteria);
+				if (opRsltInventory.getError() != null) {
+					throw new BusinessLogicException(opRsltInventory.getError());
+				}
+				reservationGroup = new MaterialInventoryReservationGroup4Release();
+				reservationGroup.setTargetDocumentType(contract.getTargetDocumentType());
+				reservationGroup.setTargetDocumentEntry(contract.getTargetDocumentEntry());
+				reservationGroup.setTargetDocumentLineId(contract.getTargetDocumentLineId());
+				reservationGroup.setItemCode(contract.getItemCode());
+				reservationGroup.setWarehouse(contract.getWarehouse());
+				reservationGroup.setBatchCode(contract.getBatchCode());
+				reservationGroup.setSerialCode(contract.getSerialCode());
+				IMaterialInventoryReservation reservation;
+				for (IMaterialInventoryReservation item : opRsltInventory.getResultObjects()) {
+					// 判断内存中是否已有
+					reservation = this.fetchBeAffected(IMaterialInventoryReservation.class, item.getCriteria());
+					if (reservation == null) {
+						// 使用数据库的
+						reservationGroup.getItems().add(item);
+					} else {
+						// 使用内存的
+						reservationGroup.getItems().add(reservation);
+					}
 				}
 			}
 		}
@@ -163,17 +164,17 @@ public class MaterialInventoryReservationReleaseService extends
 					continue;
 				}
 				remQuantity = item.getQuantity().subtract(item.getClosedQuantity());
-				if (remQuantity.compareTo(Decimal.ZERO) <= 0) {
+				if (remQuantity.compareTo(Decimals.VALUE_ZERO) <= 0) {
 					continue;
 				}
 				if (remQuantity.compareTo(avaQuantity) >= 0) {
 					item.setClosedQuantity(item.getClosedQuantity().add(avaQuantity));
-					avaQuantity = BigDecimal.ZERO;
+					avaQuantity = Decimals.VALUE_ZERO;
 				} else {
 					item.setClosedQuantity(item.getClosedQuantity().add(remQuantity));
 					avaQuantity = avaQuantity.subtract(remQuantity);
 				}
-				if (avaQuantity.compareTo(Decimal.ZERO) <= 0) {
+				if (avaQuantity.compareTo(Decimals.VALUE_ZERO) <= 0) {
 					// 无可用量
 					break;
 				}
@@ -189,17 +190,17 @@ public class MaterialInventoryReservationReleaseService extends
 			BigDecimal avaQuantity = contract.getQuantity();
 			for (IMaterialInventoryReservation item : reservationGroup.getItems()) {
 				remQuantity = item.getClosedQuantity();
-				if (remQuantity.compareTo(Decimal.ZERO) <= 0) {
+				if (remQuantity.compareTo(Decimals.VALUE_ZERO) <= 0) {
 					continue;
 				}
 				if (remQuantity.compareTo(avaQuantity) >= 0) {
 					item.setClosedQuantity(item.getClosedQuantity().subtract(avaQuantity));
-					avaQuantity = BigDecimal.ZERO;
+					avaQuantity = Decimals.VALUE_ZERO;
 				} else {
 					item.setClosedQuantity(item.getClosedQuantity().subtract(remQuantity));
 					avaQuantity = avaQuantity.subtract(remQuantity);
 				}
-				if (avaQuantity.compareTo(Decimal.ZERO) <= 0) {
+				if (avaQuantity.compareTo(Decimals.VALUE_ZERO) <= 0) {
 					// 无可用量
 					break;
 				}

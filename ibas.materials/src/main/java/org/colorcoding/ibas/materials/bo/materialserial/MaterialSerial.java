@@ -12,13 +12,13 @@ import org.colorcoding.ibas.bobas.bo.BusinessObject;
 import org.colorcoding.ibas.bobas.bo.IBOUserFields;
 import org.colorcoding.ibas.bobas.core.IPropertyInfo;
 import org.colorcoding.ibas.bobas.data.DateTime;
-import org.colorcoding.ibas.bobas.data.Decimal;
+import org.colorcoding.ibas.bobas.common.Decimals;
 import org.colorcoding.ibas.bobas.data.emYesNo;
 import org.colorcoding.ibas.bobas.i18n.I18N;
 import org.colorcoding.ibas.bobas.logic.BusinessLogicException;
-import org.colorcoding.ibas.bobas.mapping.BusinessObjectUnit;
-import org.colorcoding.ibas.bobas.mapping.DbField;
-import org.colorcoding.ibas.bobas.mapping.DbFieldType;
+import org.colorcoding.ibas.bobas.bo.BusinessObjectUnit;
+import org.colorcoding.ibas.bobas.db.DbField;
+import org.colorcoding.ibas.bobas.db.DbFieldType;
 import org.colorcoding.ibas.bobas.rule.BusinessRuleException;
 import org.colorcoding.ibas.bobas.rule.IBusinessRule;
 import org.colorcoding.ibas.bobas.rule.ICheckRules;
@@ -1190,9 +1190,9 @@ public class MaterialSerial extends BusinessObject<MaterialSerial>
 	public void check() throws BusinessRuleException {
 		// 库存价值 = 库存量 * 成本价格
 		if (this.getInStock() == emYesNo.YES) {
-			this.setInventoryValue(Decimal.multiply(this.getAvgPrice(), Decimal.ONE));
+			this.setInventoryValue(Decimals.multiply(this.getAvgPrice(), Decimals.VALUE_ONE));
 		} else {
-			this.setInventoryValue(Decimal.ZERO);
+			this.setInventoryValue(Decimals.VALUE_ZERO);
 		}
 		if (this.getInStock() == emYesNo.NO && this.getReserved() == emYesNo.YES && !this.noCheck) {
 			throw new BusinessLogicException(I18N.prop("msg_mm_material_serial_is_reserved", this.getWarehouse(),

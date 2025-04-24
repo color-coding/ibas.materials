@@ -8,7 +8,7 @@ import javax.xml.bind.annotation.XmlType;
 
 import org.colorcoding.ibas.bobas.data.ArrayList;
 import org.colorcoding.ibas.bobas.data.DateTime;
-import org.colorcoding.ibas.bobas.data.Decimal;
+import org.colorcoding.ibas.bobas.common.Decimals;
 import org.colorcoding.ibas.bobas.data.emDirection;
 import org.colorcoding.ibas.bobas.data.emDocumentStatus;
 import org.colorcoding.ibas.bobas.logic.IBusinessLogicContract;
@@ -34,7 +34,7 @@ class MaterialSerialItem extends org.colorcoding.ibas.materials.bo.materialseria
 		ArrayList<IBusinessLogicContract> contracts = new ArrayList<>();
 		// 仅结算状态影响库存
 		if (this.parent.getLineStatus() == emDocumentStatus.CLOSED) {
-			if (Decimal.ZERO.compareTo(this.parent.getDifference()) > 0) {
+			if (Decimals.VALUE_ZERO.compareTo(this.parent.getDifference()) > 0) {
 				// 盘亏，发货
 				contracts.add(new IMaterialSerialJournalContract() {
 					@Override
@@ -122,7 +122,7 @@ class MaterialSerialItem extends org.colorcoding.ibas.materials.bo.materialseria
 						return MaterialSerialItem.this.parent.getRate();
 					}
 				});
-			} else if (Decimal.ZERO.compareTo(this.parent.getDifference()) < 0) {
+			} else if (Decimals.VALUE_ZERO.compareTo(this.parent.getDifference()) < 0) {
 				// 盘盈，收货
 				contracts.add(new IMaterialSerialJournalContract() {
 

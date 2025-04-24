@@ -7,6 +7,7 @@ import org.colorcoding.ibas.bobas.bo.IBODocument;
 import org.colorcoding.ibas.bobas.common.ConditionOperation;
 import org.colorcoding.ibas.bobas.common.ConditionRelationship;
 import org.colorcoding.ibas.bobas.common.Criteria;
+import org.colorcoding.ibas.bobas.common.DateTimes;
 import org.colorcoding.ibas.bobas.common.ICondition;
 import org.colorcoding.ibas.bobas.common.ICriteria;
 import org.colorcoding.ibas.bobas.core.IPropertyInfo;
@@ -47,14 +48,14 @@ public abstract class DocumentQuantityService<L extends IBusinessLogicContract>
 			condition.setAlias("DocEntry");
 			condition.setOperation(ConditionOperation.EQUAL);
 			condition.setValue(docEntry);
-			IDocumentOperatingTarget document = this.fetchBeAffected(criteria, IDocumentOperatingTarget.class);
+			IDocumentOperatingTarget document = this.fetchBeAffected(IDocumentOperatingTarget.class, criteria);
 			if (document == null) {
 				IDocumentFetcher<IDocumentOperatingTarget> fetcher = DocumentFetcherManager.create()
 						.newFetcher(documentType);
 				if (fetcher == null) {
 					throw new BusinessLogicException(I18N.prop("msg_mm_document_not_found_fether", documentType));
 				}
-				fetcher.setRepository(this.getRepository());
+				fetcher.setTransaction(this.getTransaction());
 				document = fetcher.fetch(docEntry);
 			}
 			if (document instanceof IDocumentCloseQuantityOperator) {
@@ -742,9 +743,9 @@ public abstract class DocumentQuantityService<L extends IBusinessLogicContract>
 		protected void initialize() {
 			super.initialize();
 			this.setObjectCode("EMPTY_DATA");
-			this.setPostingDate(DateTime.getToday());
-			this.setDocumentDate(DateTime.getToday());
-			this.setDeliveryDate(DateTime.getToday());
+			this.setPostingDate(DateTimes.today());
+			this.setDocumentDate(DateTimes.today());
+			this.setDeliveryDate(DateTimes.today());
 			this.setDocumentStatus(emDocumentStatus.RELEASED);
 
 		}

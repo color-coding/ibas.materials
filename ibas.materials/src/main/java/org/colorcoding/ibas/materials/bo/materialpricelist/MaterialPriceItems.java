@@ -7,8 +7,8 @@ import javax.xml.bind.annotation.XmlType;
 
 import org.colorcoding.ibas.bobas.bo.BusinessObjects;
 import org.colorcoding.ibas.bobas.common.ICriteria;
+import org.colorcoding.ibas.bobas.common.Strings;
 import org.colorcoding.ibas.materials.MyConfiguration;
-import org.colorcoding.ibas.materials.data.DataConvert;
 
 /**
  * 物料价格项目 集合
@@ -38,8 +38,7 @@ public class MaterialPriceItems extends BusinessObjects<IMaterialPriceItem, IMat
 	/**
 	 * 构造方法
 	 * 
-	 * @param parent
-	 *            父项对象
+	 * @param parent 父项对象
 	 */
 	public MaterialPriceItems(IMaterialPriceList parent) {
 		super(parent);
@@ -68,7 +67,7 @@ public class MaterialPriceItems extends BusinessObjects<IMaterialPriceItem, IMat
 	@Override
 	protected void afterAddItem(IMaterialPriceItem item) {
 		super.afterAddItem(item);
-		if (DataConvert.isNullOrEmpty(item.getCurrency())) {
+		if (Strings.isNullOrEmpty(item.getCurrency())) {
 			item.setCurrency(this.getParent().getCurrency());
 		}
 	}
@@ -84,9 +83,9 @@ public class MaterialPriceItems extends BusinessObjects<IMaterialPriceItem, IMat
 		super.onParentPropertyChanged(evt);
 		if (MaterialPriceList.PROPERTY_CURRENCY.getName().equalsIgnoreCase(evt.getPropertyName())) {
 			String currency = this.getParent().getCurrency();
-			if (!DataConvert.isNullOrEmpty(currency)) {
+			if (!Strings.isNullOrEmpty(currency)) {
 				for (IMaterialPriceItem item : this) {
-					if (!DataConvert.isNullOrEmpty(item.getCurrency())) {
+					if (!Strings.isNullOrEmpty(item.getCurrency())) {
 						continue;
 					}
 					item.setCurrency(currency);

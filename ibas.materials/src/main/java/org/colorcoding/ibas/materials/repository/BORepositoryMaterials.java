@@ -9,6 +9,8 @@ import org.colorcoding.ibas.accounting.repository.BORepositoryAccounting;
 import org.colorcoding.ibas.bobas.common.ConditionOperation;
 import org.colorcoding.ibas.bobas.common.ConditionRelationship;
 import org.colorcoding.ibas.bobas.common.Criteria;
+import org.colorcoding.ibas.bobas.common.DateTimes;
+import org.colorcoding.ibas.bobas.common.Decimals;
 import org.colorcoding.ibas.bobas.common.IChildCriteria;
 import org.colorcoding.ibas.bobas.common.ICondition;
 import org.colorcoding.ibas.bobas.common.ICriteria;
@@ -16,9 +18,8 @@ import org.colorcoding.ibas.bobas.common.IOperationResult;
 import org.colorcoding.ibas.bobas.common.ISort;
 import org.colorcoding.ibas.bobas.common.OperationResult;
 import org.colorcoding.ibas.bobas.common.SortType;
+import org.colorcoding.ibas.bobas.common.Strings;
 import org.colorcoding.ibas.bobas.data.ArrayList;
-import org.colorcoding.ibas.bobas.data.DateTime;
-import org.colorcoding.ibas.bobas.data.Decimal;
 import org.colorcoding.ibas.bobas.data.List;
 import org.colorcoding.ibas.bobas.data.emApprovalStatus;
 import org.colorcoding.ibas.bobas.data.emDocumentStatus;
@@ -131,7 +132,7 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 	 * @return 操作结果
 	 */
 	public OperationResult<GoodsIssue> fetchGoodsIssue(ICriteria criteria, String token) {
-		return super.fetch(criteria, token, GoodsIssue.class);
+		return super.fetch(GoodsIssue.class, criteria, token);
 	}
 
 	/**
@@ -175,7 +176,7 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 	 * @return 操作结果
 	 */
 	public OperationResult<GoodsReceipt> fetchGoodsReceipt(ICriteria criteria, String token) {
-		return super.fetch(criteria, token, GoodsReceipt.class);
+		return super.fetch(GoodsReceipt.class, criteria, token);
 	}
 
 	/**
@@ -219,7 +220,7 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 	 * @return 操作结果
 	 */
 	public OperationResult<InventoryTransfer> fetchInventoryTransfer(ICriteria criteria, String token) {
-		return super.fetch(criteria, token, InventoryTransfer.class);
+		return super.fetch(InventoryTransfer.class, criteria, token);
 	}
 
 	/**
@@ -264,7 +265,7 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 	 * @return 操作结果
 	 */
 	public OperationResult<Material> fetchMaterial(ICriteria criteria, String token) {
-		return super.fetch(criteria, token, Material.class);
+		return super.fetch(Material.class, criteria, token);
 	}
 
 	/**
@@ -308,7 +309,7 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 	 * @return 操作结果
 	 */
 	public OperationResult<MaterialGroup> fetchMaterialGroup(ICriteria criteria, String token) {
-		return super.fetch(criteria, token, MaterialGroup.class);
+		return super.fetch(MaterialGroup.class, criteria, token);
 	}
 
 	/**
@@ -352,7 +353,7 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 	 * @return 操作结果
 	 */
 	public OperationResult<MaterialInventory> fetchMaterialInventory(ICriteria criteria, String token) {
-		return super.fetch(criteria, token, MaterialInventory.class);
+		return super.fetch(MaterialInventory.class, criteria, token);
 	}
 
 	/**
@@ -375,7 +376,7 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 	 * @return 操作结果
 	 */
 	public OperationResult<MaterialInventoryJournal> fetchMaterialInventoryJournal(ICriteria criteria, String token) {
-		return super.fetch(criteria, token, MaterialInventoryJournal.class);
+		return super.fetch(MaterialInventoryJournal.class, criteria, token);
 	}
 
 	/**
@@ -422,7 +423,7 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 	 * @return 操作结果
 	 */
 	public OperationResult<MaterialPriceList> fetchMaterialPriceList(ICriteria criteria, String token) {
-		return super.fetch(criteria, token, MaterialPriceList.class);
+		return super.fetch(MaterialPriceList.class, criteria, token);
 	}
 
 	/**
@@ -467,7 +468,7 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 	 * @return 操作结果
 	 */
 	public OperationResult<MaterialBatch> fetchMaterialBatch(ICriteria criteria, String token) {
-		return super.fetch(criteria, token, MaterialBatch.class);
+		return super.fetch(MaterialBatch.class, criteria, token);
 	}
 
 	/**
@@ -512,7 +513,7 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 	 */
 	@Override
 	public OperationResult<MaterialBatchJournal> fetchMaterialBatchJournal(ICriteria criteria, String token) {
-		return super.fetch(criteria, token, MaterialBatchJournal.class);
+		return super.fetch(MaterialBatchJournal.class, criteria, token);
 	}
 
 	/**
@@ -538,7 +539,7 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 	 */
 	@Override
 	public OperationResult<MaterialSerial> fetchMaterialSerial(ICriteria criteria, String token) {
-		return super.fetch(criteria, token, MaterialSerial.class);
+		return super.fetch(MaterialSerial.class, criteria, token);
 	}
 
 	/**
@@ -586,7 +587,7 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 	 */
 	@Override
 	public OperationResult<MaterialSerialJournal> fetchMaterialSerialJournal(ICriteria criteria, String token) {
-		return super.fetch(criteria, token, MaterialSerialJournal.class);
+		return super.fetch(MaterialSerialJournal.class, criteria, token);
 	}
 
 	/**
@@ -612,7 +613,7 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 	 */
 	@Override
 	public OperationResult<Warehouse> fetchWarehouse(ICriteria criteria, String token) {
-		return super.fetch(criteria, token, Warehouse.class);
+		return super.fetch(Warehouse.class, criteria, token);
 	}
 
 	/**
@@ -658,7 +659,7 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 	 * @return 操作结果
 	 */
 	public OperationResult<MaterialEstimateJournal> fetchMaterialEstimateJournal(ICriteria criteria, String token) {
-		return super.fetch(criteria, token, MaterialEstimateJournal.class);
+		return super.fetch(MaterialEstimateJournal.class, criteria, token);
 	}
 
 	/**
@@ -704,7 +705,7 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 	 * @return 操作结果
 	 */
 	public OperationResult<InventoryCounting> fetchInventoryCounting(ICriteria criteria, String token) {
-		return super.fetch(criteria, token, InventoryCounting.class);
+		return super.fetch(InventoryCounting.class, criteria, token);
 	}
 
 	/**
@@ -751,7 +752,7 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 	 */
 	public OperationResult<String> closeInventoryCounting(ICriteria criteria, String token) {
 		try {
-			this.setCurrentUser(token);
+			this.setUserToken(token);
 			if (criteria == null || criteria.getConditions().size() <= 0) {
 				throw new Exception(I18N.prop("msg_bobas_invaild_criteria"));
 			}
@@ -792,7 +793,7 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 						if (opRsltInventory.getError() != null) {
 							throw opRsltInventory.getError();
 						}
-						countingLine.setStockQuantity(Decimal.ZERO);
+						countingLine.setStockQuantity(Decimals.VALUE_ZERO);
 						for (IMaterialInventory invItem : opRsltInventory.getResultObjects()) {
 							countingLine.setStockQuantity(countingLine.getStockQuantity().add(invItem.getOnHand()));
 						}
@@ -803,7 +804,7 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 						countingLine.setLineStatus(emDocumentStatus.CLOSED);
 					}
 					counting.setDocumentStatus(emDocumentStatus.CLOSED);
-					counting.setPostingDate(DateTime.getToday());
+					counting.setPostingDate(DateTimes.today());
 					// 保存盘点单据
 					opRsltSave = super.save(counting, token);
 					if (opRsltSave.getError() != null) {
@@ -906,17 +907,17 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 					}
 				} else if (MaterialSpecialPrice.PROPERTY_VALIDDATE.getName().equalsIgnoreCase(item.getAlias())
 						|| MaterialSpecialPrice.PROPERTY_INVALIDDATE.getName().equalsIgnoreCase(item.getAlias())) {
-					if (!DataConvert.isNullOrEmpty(item.getValue())) {
+					if (!Strings.isNullOrEmpty(item.getValue())) {
 						today = item.getValue();
 					}
 				} else if (MaterialPrice.CONDITION_ALIAS_CURRENCY.equalsIgnoreCase(item.getAlias())) {
-					if (!DataConvert.isNullOrEmpty(item.getValue())) {
+					if (!Strings.isNullOrEmpty(item.getValue())) {
 						currency = item.getValue();
 					}
 				}
 			}
 			// 根据条件改变货币类型
-			if (!DataConvert.isNullOrEmpty(currency)) {
+			if (!Strings.isNullOrEmpty(currency)) {
 				if (priceList != null) {
 					priceList.setCurrency(currency);
 				}
@@ -950,7 +951,7 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 			emBusinessPartnerType partnerType, String partnerCode, String today) throws Exception {
 		// 查询物料特殊价格
 		List<IMaterialPrice> materialPrices = new ArrayList<>(materials.length * 2);
-		if (partnerType != null && !DataConvert.isNullOrEmpty(partnerCode) && materials.length > 0) {
+		if (partnerType != null && !Strings.isNullOrEmpty(partnerCode) && materials.length > 0) {
 			Criteria maCriteria = new Criteria();
 			ICondition condition = maCriteria.getConditions().create();
 			condition.setAlias(MaterialSpecialPrice.PROPERTY_BUSINESSPARTNERTYPE.getName());
@@ -972,7 +973,7 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 				condition = maCriteria.getConditions().get(maCriteria.getConditions().size() - 1);
 				condition.setBracketClose(condition.getBracketClose() + 1);
 			}
-			if (!DataConvert.isNullOrEmpty(today)) {
+			if (!Strings.isNullOrEmpty(today)) {
 				// 有效日期
 				condition = maCriteria.getConditions().create();
 				condition.setBracketOpen(1);
@@ -1028,7 +1029,7 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 		String currency = priceList.getCurrency();
 		emYesNo taxed = priceList.getTaxed();
 		if (!newPrices.isEmpty()) {
-			if (DataConvert.isNullOrEmpty(currency)) {
+			if (Strings.isNullOrEmpty(currency)) {
 				currency = newPrices.firstOrDefault().getCurrency();
 			}
 			if (taxed == null) {
@@ -1036,7 +1037,7 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 			}
 		}
 		BigDecimal initialPrice = MyConfiguration.getConfigValue(MyConfiguration.CONFIG_ITEM_PRICE_LIST_INITIAL_PRICE,
-				Decimal.MINUS_ONE);
+				Decimals.VALUE_MINUS_ONE);
 		Integer size;
 		MaterialPrice materialPrice;
 		for (MaterialBase<?> material : materials) {
@@ -1065,13 +1066,13 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 			}
 		}
 		// 转换物料价格货币到价格清单主货币
-		if (!DataConvert.isNullOrEmpty(priceList.getCurrency()) && !DataConvert.isNullOrEmpty(today)) {
+		if (!Strings.isNullOrEmpty(priceList.getCurrency()) && !Strings.isNullOrEmpty(today)) {
 			Criteria criteria = new Criteria();
 			ICondition condition = criteria.getConditions().create();
 			condition.setAlias(CurrencyRate.PROPERTY_CURRENCY.getName());
 			condition.setValue(priceList.getCurrency());
 			for (IMaterialPrice item : materialPrices) {
-				if (DataConvert.isNullOrEmpty(item.getCurrency())) {
+				if (Strings.isNullOrEmpty(item.getCurrency())) {
 					continue;
 				}
 				if (criteria.getConditions()
@@ -1095,50 +1096,51 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 				condition = criteria.getConditions().create();
 				condition.setAlias(CurrencyRate.PROPERTY_DATE.getName());
 				condition.setValue(today);
-				BORepositoryAccounting acRepository = new BORepositoryAccounting();
-				acRepository.setRepository(this.getRepository());
-				List<ICurrencyRate> currencyRates = acRepository.fetchCurrencyRate(criteria).getResultObjects();
-				BigDecimal newPrice;
-				ICurrencyRate currencyRate;
-				ICurrencyRate listCurrencyRate = null;
-				String listCurrency = priceList.getCurrency();
-				String localCurrency = org.colorcoding.ibas.accounting.MyConfiguration
-						.getConfigValue(org.colorcoding.ibas.accounting.MyConfiguration.CONFIG_ITEM_LOCAL_CURRENCY);
-				if (!listCurrency.equalsIgnoreCase(localCurrency)) {
-					// 获取清单币到本币汇率
-					listCurrencyRate = currencyRates
-							.firstOrDefault(c -> listCurrency.equalsIgnoreCase(c.getCurrency()));
-					if (listCurrencyRate == null) {
-						throw new Exception(I18N.prop("msg_mm_not_found_currency_rate", today, listCurrency));
-					}
-				}
-				for (IMaterialPrice priceItem : materialPrices) {
-					if (priceItem.getCurrency().equalsIgnoreCase(listCurrency)) {
-						// 清单币，跳过
-						continue;
-					}
-					if (DataConvert.isNullOrEmpty(priceItem.getCurrency())
-							|| priceItem.getCurrency().equalsIgnoreCase(localCurrency)) {
-						// 本币
-						newPrice = Decimal.multiply(priceItem.getPrice(), Decimal.ONE);
-					} else {
-						// 先到本币
-						currencyRate = currencyRates
-								.firstOrDefault(c -> priceItem.getCurrency().equalsIgnoreCase(c.getCurrency()));
-						if (currencyRate == null) {
-							throw new Exception(
-									I18N.prop("msg_mm_not_found_currency_rate", today, priceItem.getCurrency()));
+				try (BORepositoryAccounting acRepository = new BORepositoryAccounting()) {
+					acRepository.setTransaction(this.getTransaction());
+					List<ICurrencyRate> currencyRates = acRepository.fetchCurrencyRate(criteria).getResultObjects();
+					BigDecimal newPrice;
+					ICurrencyRate currencyRate;
+					ICurrencyRate listCurrencyRate = null;
+					String listCurrency = priceList.getCurrency();
+					String localCurrency = org.colorcoding.ibas.accounting.MyConfiguration
+							.getConfigValue(org.colorcoding.ibas.accounting.MyConfiguration.CONFIG_ITEM_LOCAL_CURRENCY);
+					if (!listCurrency.equalsIgnoreCase(localCurrency)) {
+						// 获取清单币到本币汇率
+						listCurrencyRate = currencyRates
+								.firstOrDefault(c -> listCurrency.equalsIgnoreCase(c.getCurrency()));
+						if (listCurrencyRate == null) {
+							throw new Exception(I18N.prop("msg_mm_not_found_currency_rate", today, listCurrency));
 						}
-						newPrice = Decimal.divide(priceItem.getPrice(), currencyRate.getRate());
 					}
-					if (listCurrencyRate != null) {
-						// 本币再到清单币
-						newPrice = Decimal.multiply(newPrice, listCurrencyRate.getRate());
+					for (IMaterialPrice priceItem : materialPrices) {
+						if (priceItem.getCurrency().equalsIgnoreCase(listCurrency)) {
+							// 清单币，跳过
+							continue;
+						}
+						if (Strings.isNullOrEmpty(priceItem.getCurrency())
+								|| priceItem.getCurrency().equalsIgnoreCase(localCurrency)) {
+							// 本币
+							newPrice = Decimals.multiply(priceItem.getPrice(), Decimals.VALUE_ONE);
+						} else {
+							// 先到本币
+							currencyRate = currencyRates
+									.firstOrDefault(c -> priceItem.getCurrency().equalsIgnoreCase(c.getCurrency()));
+							if (currencyRate == null) {
+								throw new Exception(
+										I18N.prop("msg_mm_not_found_currency_rate", today, priceItem.getCurrency()));
+							}
+							newPrice = Decimals.divide(priceItem.getPrice(), currencyRate.getRate());
+						}
+						if (listCurrencyRate != null) {
+							// 本币再到清单币
+							newPrice = Decimals.multiply(newPrice, listCurrencyRate.getRate());
+						}
+						// 设置保留小数位
+						newPrice = newPrice.setScale(priceItem.getPrice().scale(), Decimals.ROUNDING_MODE_DEFAULT);
+						priceItem.setPrice(newPrice);
+						priceItem.setCurrency(listCurrency);
 					}
-					// 设置保留小数位
-					newPrice = newPrice.setScale(priceItem.getPrice().scale(), Decimal.ROUNDING_MODE_DEFAULT);
-					priceItem.setPrice(newPrice);
-					priceItem.setCurrency(listCurrency);
 				}
 			}
 		}
@@ -1261,7 +1263,7 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 				// 价格清单定义了价格
 				for (IMaterialPriceItem priceItem : priceItems) {
 					IMaterialPrice newPrice = MaterialPrice.create(priceItem);
-					if (DataConvert.isNullOrEmpty(newPrice.getCurrency())) {
+					if (Strings.isNullOrEmpty(newPrice.getCurrency())) {
 						newPrice.setCurrency(materialPriceList.getCurrency());
 					}
 					newPrice.setTaxed(materialPriceList.getTaxed());
@@ -1284,10 +1286,10 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 			priceList = this.fetchMaterialPriceList(criteria).getResultObjects().firstOrDefault();
 			if (priceList != null) {
 				for (IMaterialPrice newPrice : this.getMaterialPrices(materials, priceList, level)) {
-					if (!Decimal.isZero(materialPriceList.getFactor())) {
-						newPrice.setPrice(Decimal.multiply(newPrice.getPrice(), materialPriceList.getFactor()));
+					if (!Decimals.isZero(materialPriceList.getFactor())) {
+						newPrice.setPrice(Decimals.multiply(newPrice.getPrice(), materialPriceList.getFactor()));
 					}
-					if (DataConvert.isNullOrEmpty(newPrice.getCurrency())) {
+					if (Strings.isNullOrEmpty(newPrice.getCurrency())) {
 						newPrice.setCurrency(materialPriceList.getCurrency());
 					}
 					newPrice.setTaxed(materialPriceList.getTaxed());
@@ -1398,10 +1400,10 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 			}
 			for (IMaterialQuantity item : materialQuantities) {
 				// 数量清零
-				item.setOnHand(Decimal.ZERO);
-				item.setOnCommited(Decimal.ZERO);
-				item.setOnOrdered(Decimal.ZERO);
-				item.setOnReserved(Decimal.ZERO);
+				item.setOnHand(Decimals.VALUE_ZERO);
+				item.setOnCommited(Decimals.VALUE_ZERO);
+				item.setOnOrdered(Decimals.VALUE_ZERO);
+				item.setOnReserved(Decimals.VALUE_ZERO);
 				// 重新计算数量
 				for (IMaterialInventory inventory : opRsltInventory.getResultObjects()) {
 					if (item.getItemCode().equals(inventory.getItemCode())) {
@@ -1409,7 +1411,7 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 						item.setOnCommited(item.getOnCommited().add(inventory.getOnCommited()));
 						item.setOnOrdered(item.getOnOrdered().add(inventory.getOnOrdered()));
 						item.setOnReserved(item.getOnReserved().add(inventory.getOnReserved()));
-						item.setSource(item.getSource() + (!DataConvert.isNullOrEmpty(item.getSource()) ? "," : "")
+						item.setSource(item.getSource() + (!Strings.isNullOrEmpty(item.getSource()) ? "," : "")
 								+ inventory.getWarehouse());
 					}
 				}
@@ -1449,7 +1451,7 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 					Product.CONDITION_ALIAS_PRICELIST, MaterialPrice.CONDITION_ALIAS_CUSTOMER,
 					MaterialPrice.CONDITION_ALIAS_CURRENCY, MaterialPrice.CONDITION_ALIAS_SUPPLIER);
 			pdCriteria.setResultCount(criteria.getResultCount());
-			OperationResult<Product> opRsltProduct = this.fetch(pdCriteria, token, Product.class);
+			OperationResult<Product> opRsltProduct = this.fetch(Product.class, pdCriteria, token);
 			if (opRsltProduct.getError() != null) {
 				throw opRsltProduct.getError();
 			}
@@ -1459,11 +1461,11 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 					opRsltProduct.getResultObjects().toArray(new MaterialBase<?>[] {}), pdCriteria);
 			// 有仓库条件，则数量清零
 			for (IProduct product : opRsltProduct.getResultObjects()) {
-				product.setOnHand(Decimal.ZERO);
-				product.setOnCommited(Decimal.ZERO);
-				product.setOnOrdered(Decimal.ZERO);
-				product.setOnReserved(Decimal.ZERO);
-				product.setWarehouse(DataConvert.STRING_VALUE_EMPTY);
+				product.setOnHand(Decimals.VALUE_ZERO);
+				product.setOnCommited(Decimals.VALUE_ZERO);
+				product.setOnOrdered(Decimals.VALUE_ZERO);
+				product.setOnReserved(Decimals.VALUE_ZERO);
+				product.setWarehouse(Strings.VALUE_EMPTY);
 			}
 			for (IMaterialQuantity materialQuantity : materialQuantities) {
 				// 重新计算数量
@@ -1474,10 +1476,10 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 						product.setOnOrdered(product.getOnOrdered().add(materialQuantity.getOnOrdered()));
 						product.setOnReserved(product.getOnReserved().add(materialQuantity.getOnReserved()));
 						if (product.getWarehouse() == null) {
-							product.setWarehouse(DataConvert.STRING_VALUE_EMPTY);
+							product.setWarehouse(Strings.VALUE_EMPTY);
 						}
 						product.setWarehouse(
-								product.getWarehouse() + (!DataConvert.isNullOrEmpty(product.getWarehouse()) ? "," : "")
+								product.getWarehouse() + (!Strings.isNullOrEmpty(product.getWarehouse()) ? "," : "")
 										+ materialQuantity.getSource());
 					}
 				}
@@ -1508,17 +1510,17 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 					}
 				} else if (MaterialSpecialPrice.PROPERTY_VALIDDATE.getName().equalsIgnoreCase(item.getAlias())
 						|| MaterialSpecialPrice.PROPERTY_INVALIDDATE.getName().equalsIgnoreCase(item.getAlias())) {
-					if (!DataConvert.isNullOrEmpty(item.getValue())) {
+					if (!Strings.isNullOrEmpty(item.getValue())) {
 						today = item.getValue();
 					}
 				} else if (MaterialPrice.CONDITION_ALIAS_CURRENCY.equalsIgnoreCase(item.getAlias())) {
-					if (!DataConvert.isNullOrEmpty(item.getValue())) {
+					if (!Strings.isNullOrEmpty(item.getValue())) {
 						currency = item.getValue();
 					}
 				}
 			}
 			// 根据条件改变货币类型
-			if (!DataConvert.isNullOrEmpty(currency)) {
+			if (!Strings.isNullOrEmpty(currency)) {
 				if (priceList != null) {
 					priceList.setCurrency(currency);
 				}
@@ -1531,8 +1533,7 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 			List<IMaterialPrice> priceItems;
 			for (Product product : opRsltProduct.getResultObjects()) {
 				priceItems = materialPrices.where(c -> product.getCode().equalsIgnoreCase(c.getItemCode()));
-				if (partnerType == emBusinessPartnerType.CUSTOMER
-						&& !DataConvert.isNullOrEmpty(product.getSalesUOM())) {
+				if (partnerType == emBusinessPartnerType.CUSTOMER && !Strings.isNullOrEmpty(product.getSalesUOM())) {
 					priceItem = priceItems.firstOrDefault(c -> product.getSalesUOM().equals(c.getUOM()));
 					if (priceItem != null) {
 						product.setPrice(priceItem.getPrice());
@@ -1542,8 +1543,7 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 						continue;
 					}
 				}
-				if (partnerType == emBusinessPartnerType.SUPPLIER
-						&& !DataConvert.isNullOrEmpty(product.getPurchaseUOM())) {
+				if (partnerType == emBusinessPartnerType.SUPPLIER && !Strings.isNullOrEmpty(product.getPurchaseUOM())) {
 					priceItem = priceItems.firstOrDefault(c -> product.getPurchaseUOM().equals(c.getUOM()));
 					if (priceItem != null) {
 						product.setPrice(priceItem.getPrice());
@@ -1553,7 +1553,7 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 						continue;
 					}
 				}
-				if (!DataConvert.isNullOrEmpty(product.getInventoryUOM())) {
+				if (!Strings.isNullOrEmpty(product.getInventoryUOM())) {
 					priceItem = priceItems.firstOrDefault(c -> product.getInventoryUOM().equals(c.getUOM()));
 					if (priceItem != null) {
 						product.setPrice(priceItem.getPrice());
@@ -1668,7 +1668,7 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 	 * @return 操作结果
 	 */
 	public OperationResult<MaterialSpecification> fetchMaterialSpecification(ICriteria criteria, String token) {
-		return super.fetch(criteria, token, MaterialSpecification.class);
+		return super.fetch(MaterialSpecification.class, criteria, token);
 	}
 
 	/**
@@ -1713,7 +1713,7 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 	 * @return 操作结果
 	 */
 	public OperationResult<Specification> fetchSpecification(ICriteria criteria, String token) {
-		return super.fetch(criteria, token, Specification.class);
+		return super.fetch(Specification.class, criteria, token);
 	}
 
 	/**
@@ -1792,7 +1792,7 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 			// 供应商查询
 			ICriteria sCriteria = new Criteria();
 			// 当前日期
-			String date = DateTime.getToday().toString();
+			String date = DateTimes.today().toString();
 			for (ICondition item : criteria.getConditions()) {
 				if (item.getAlias().equalsIgnoreCase("Material")) {
 					// 物料条件
@@ -1809,19 +1809,20 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 					condition = iCriteria.getConditions().create();
 					condition.setAlias(Material.PROPERTY_CODE.getName());
 					condition.setValue(item.getValue());
-					BORepositoryMaterials boRepository = new BORepositoryMaterials();
-					boRepository.setUserToken(OrganizationFactory.SYSTEM_USER.getToken());
-					IMaterial material = boRepository.fetchMaterial(iCriteria).getResultObjects().firstOrDefault();
-					if (material != null && material.getGroup() != null && !material.getGroup().isEmpty()) {
-						condition = mCriteria.getConditions().create();
-						condition.setBracketOpen(1);
-						condition.setAlias(Specification.PROPERTY_TARGETTYPE.getName());
-						condition.setValue(emSpecificationTarget.MATERIAL_GROUP);
-						condition.setRelationship(ConditionRelationship.OR);
-						condition = mCriteria.getConditions().create();
-						condition.setBracketClose(1);
-						condition.setAlias(Specification.PROPERTY_TARGET.getName());
-						condition.setValue(material.getGroup());
+					try (BORepositoryMaterials boRepository = new BORepositoryMaterials()) {
+						boRepository.setUserToken(OrganizationFactory.SYSTEM_USER.getToken());
+						IMaterial material = boRepository.fetchMaterial(iCriteria).getResultObjects().firstOrDefault();
+						if (material != null && material.getGroup() != null && !material.getGroup().isEmpty()) {
+							condition = mCriteria.getConditions().create();
+							condition.setBracketOpen(1);
+							condition.setAlias(Specification.PROPERTY_TARGETTYPE.getName());
+							condition.setValue(emSpecificationTarget.MATERIAL_GROUP);
+							condition.setRelationship(ConditionRelationship.OR);
+							condition = mCriteria.getConditions().create();
+							condition.setBracketClose(1);
+							condition.setAlias(Specification.PROPERTY_TARGET.getName());
+							condition.setValue(material.getGroup());
+						}
 					}
 				} else if (item.getAlias().equalsIgnoreCase("Customer")) {
 					// 客户
@@ -1838,19 +1839,20 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 					condition = iCriteria.getConditions().create();
 					condition.setAlias(Customer.PROPERTY_CODE.getName());
 					condition.setValue(item.getValue());
-					BORepositoryBusinessPartner boRepository = new BORepositoryBusinessPartner();
-					boRepository.setUserToken(OrganizationFactory.SYSTEM_USER.getToken());
-					ICustomer customer = boRepository.fetchCustomer(iCriteria).getResultObjects().firstOrDefault();
-					if (customer != null && customer.getGroup() != null && !customer.getGroup().isEmpty()) {
-						condition = cCriteria.getConditions().create();
-						condition.setBracketOpen(1);
-						condition.setAlias(Specification.PROPERTY_ASSIGNEDTYPE.getName());
-						condition.setValue(emSpecificationAssigned.CUSTOMER);
-						condition.setRelationship(ConditionRelationship.OR);
-						condition = cCriteria.getConditions().create();
-						condition.setBracketClose(1);
-						condition.setAlias(Specification.PROPERTY_ASSIGNED.getName());
-						condition.setValue(customer.getGroup());
+					try (BORepositoryBusinessPartner boRepository = new BORepositoryBusinessPartner()) {
+						boRepository.setUserToken(OrganizationFactory.SYSTEM_USER.getToken());
+						ICustomer customer = boRepository.fetchCustomer(iCriteria).getResultObjects().firstOrDefault();
+						if (customer != null && customer.getGroup() != null && !customer.getGroup().isEmpty()) {
+							condition = cCriteria.getConditions().create();
+							condition.setBracketOpen(1);
+							condition.setAlias(Specification.PROPERTY_ASSIGNEDTYPE.getName());
+							condition.setValue(emSpecificationAssigned.CUSTOMER);
+							condition.setRelationship(ConditionRelationship.OR);
+							condition = cCriteria.getConditions().create();
+							condition.setBracketClose(1);
+							condition.setAlias(Specification.PROPERTY_ASSIGNED.getName());
+							condition.setValue(customer.getGroup());
+						}
 					}
 				} else if (item.getAlias().equalsIgnoreCase("Supplier")) {
 					// 供应商
@@ -1867,19 +1869,20 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 					condition = iCriteria.getConditions().create();
 					condition.setAlias(Supplier.PROPERTY_CODE.getName());
 					condition.setValue(item.getValue());
-					BORepositoryBusinessPartner boRepository = new BORepositoryBusinessPartner();
-					boRepository.setUserToken(OrganizationFactory.SYSTEM_USER.getToken());
-					ISupplier supplier = boRepository.fetchSupplier(iCriteria).getResultObjects().firstOrDefault();
-					if (supplier != null && supplier.getGroup() != null && !supplier.getGroup().isEmpty()) {
-						condition = sCriteria.getConditions().create();
-						condition.setBracketOpen(1);
-						condition.setAlias(Specification.PROPERTY_ASSIGNEDTYPE.getName());
-						condition.setValue(emSpecificationAssigned.SUPPLIER);
-						condition.setRelationship(ConditionRelationship.OR);
-						condition = sCriteria.getConditions().create();
-						condition.setBracketClose(1);
-						condition.setAlias(Specification.PROPERTY_ASSIGNED.getName());
-						condition.setValue(supplier.getGroup());
+					try (BORepositoryBusinessPartner boRepository = new BORepositoryBusinessPartner()) {
+						boRepository.setUserToken(OrganizationFactory.SYSTEM_USER.getToken());
+						ISupplier supplier = boRepository.fetchSupplier(iCriteria).getResultObjects().firstOrDefault();
+						if (supplier != null && supplier.getGroup() != null && !supplier.getGroup().isEmpty()) {
+							condition = sCriteria.getConditions().create();
+							condition.setBracketOpen(1);
+							condition.setAlias(Specification.PROPERTY_ASSIGNEDTYPE.getName());
+							condition.setValue(emSpecificationAssigned.SUPPLIER);
+							condition.setRelationship(ConditionRelationship.OR);
+							condition = sCriteria.getConditions().create();
+							condition.setBracketClose(1);
+							condition.setAlias(Specification.PROPERTY_ASSIGNED.getName());
+							condition.setValue(supplier.getGroup());
+						}
 					}
 				} else if (item.getAlias().equalsIgnoreCase("Date")) {
 					date = item.getValue();
@@ -1986,7 +1989,7 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 	 * @return 操作结果
 	 */
 	public OperationResult<Unit> fetchUnit(ICriteria criteria, String token) {
-		return super.fetch(criteria, token, Unit.class);
+		return super.fetch(Unit.class, criteria, token);
 	}
 
 	/**
@@ -2029,7 +2032,7 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 	 * @return 操作结果
 	 */
 	public OperationResult<UnitRate> fetchUnitRate(ICriteria criteria, String token) {
-		return super.fetch(criteria, token, UnitRate.class);
+		return super.fetch(UnitRate.class, criteria, token);
 	}
 
 	/**
@@ -2072,7 +2075,7 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 	 * @return 操作结果
 	 */
 	public OperationResult<MaterialScrap> fetchMaterialScrap(ICriteria criteria, String token) {
-		return super.fetch(criteria, token, MaterialScrap.class);
+		return super.fetch(MaterialScrap.class, criteria, token);
 	}
 
 	/**
@@ -2115,7 +2118,7 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 	 * @return 操作结果
 	 */
 	public OperationResult<MaterialVersion> fetchMaterialVersion(ICriteria criteria, String token) {
-		return super.fetch(criteria, token, MaterialVersion.class);
+		return super.fetch(MaterialVersion.class, criteria, token);
 	}
 
 	/**
@@ -2160,7 +2163,7 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 	 */
 	public OperationResult<MaterialInventoryReservation> fetchMaterialInventoryReservation(ICriteria criteria,
 			String token) {
-		return super.fetch(criteria, token, MaterialInventoryReservation.class);
+		return super.fetch(MaterialInventoryReservation.class, criteria, token);
 	}
 
 	/**
@@ -2207,7 +2210,7 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 	 * @return 操作结果
 	 */
 	public OperationResult<MaterialSubstitute> fetchMaterialSubstitute(ICriteria criteria, String token) {
-		return super.fetch(criteria, token, MaterialSubstitute.class);
+		return super.fetch(MaterialSubstitute.class, criteria, token);
 	}
 
 	/**
@@ -2252,7 +2255,7 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 	 */
 	public OperationResult<MaterialOrderedReservation> fetchMaterialOrderedReservation(ICriteria criteria,
 			String token) {
-		return super.fetch(criteria, token, MaterialOrderedReservation.class);
+		return super.fetch(MaterialOrderedReservation.class, criteria, token);
 	}
 
 	/**
@@ -2299,7 +2302,7 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 	 * @return 操作结果
 	 */
 	public OperationResult<PickLists> fetchPickLists(ICriteria criteria, String token) {
-		return super.fetch(criteria, token, PickLists.class);
+		return super.fetch(PickLists.class, criteria, token);
 	}
 
 	/**
@@ -2436,12 +2439,12 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 							association.setItemCode(issueLine.getItemCode());
 							association.setWarehouse(issueLine.getWarehouse());
 							association.setBatchCode(batchItem.getBatchCode());
-							association.setSerialCode(DataConvert.STRING_VALUE_EMPTY);
+							association.setSerialCode(Strings.VALUE_EMPTY);
 							association.setQuantity(batchItem.getQuantity());
 							association.setAssociatedItem(receiptLine.getItemCode());
 							association.setAssociatedWarehouse(receiptLine.getWarehouse());
 							association.setAssociatedBatch(receiptLine.getMaterialBatches().get(j).getBatchCode());
-							association.setAssociatedSerial(DataConvert.STRING_VALUE_EMPTY);
+							association.setAssociatedSerial(Strings.VALUE_EMPTY);
 							associations.add(association);
 						}
 						for (int j = 0; j < issueLine.getMaterialSerials().size(); j++) {
@@ -2453,12 +2456,12 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 							association.setRelation("CHANGE");
 							association.setItemCode(issueLine.getItemCode());
 							association.setWarehouse(issueLine.getWarehouse());
-							association.setBatchCode(DataConvert.STRING_VALUE_EMPTY);
+							association.setBatchCode(Strings.VALUE_EMPTY);
 							association.setSerialCode(serialItem.getSerialCode());
-							association.setQuantity(Decimal.ONE);
+							association.setQuantity(Decimals.VALUE_ONE);
 							association.setAssociatedItem(receiptLine.getItemCode());
 							association.setAssociatedWarehouse(receiptLine.getWarehouse());
-							association.setAssociatedBatch(DataConvert.STRING_VALUE_EMPTY);
+							association.setAssociatedBatch(Strings.VALUE_EMPTY);
 							association.setAssociatedSerial(receiptLine.getMaterialSerials().get(j).getSerialCode());
 							associations.add(association);
 						}
@@ -2565,7 +2568,7 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 	 * @return 操作结果
 	 */
 	public OperationResult<InventoryTransferRequest> fetchInventoryTransferRequest(ICriteria criteria, String token) {
-		return super.fetch(criteria, token, InventoryTransferRequest.class);
+		return super.fetch(InventoryTransferRequest.class, criteria, token);
 	}
 
 	/**
@@ -2611,7 +2614,7 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 	 * @return 操作结果
 	 */
 	public OperationResult<MaterialSpecialPrice> fetchMaterialSpecialPrice(ICriteria criteria, String token) {
-		return super.fetch(criteria, token, MaterialSpecialPrice.class);
+		return super.fetch(MaterialSpecialPrice.class, criteria, token);
 	}
 
 	/**
@@ -2656,7 +2659,7 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 	 * @return 操作结果
 	 */
 	public OperationResult<MaterialNumberAssociation> fetchMaterialNumberAssociation(ICriteria criteria, String token) {
-		return super.fetch(criteria, token, MaterialNumberAssociation.class);
+		return super.fetch(MaterialNumberAssociation.class, criteria, token);
 	}
 
 	/**
@@ -2703,7 +2706,7 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 	 */
 	public OperationResult<BusinessPartnerMaterialCatalog> fetchBusinessPartnerMaterialCatalog(ICriteria criteria,
 			String token) {
-		return super.fetch(criteria, token, BusinessPartnerMaterialCatalog.class);
+		return super.fetch(BusinessPartnerMaterialCatalog.class, criteria, token);
 	}
 
 	/**
@@ -2750,7 +2753,7 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 	 * @return 操作结果
 	 */
 	public OperationResult<SchedulingGroup> fetchSchedulingGroup(ICriteria criteria, String token) {
-		return super.fetch(criteria, token, SchedulingGroup.class);
+		return super.fetch(SchedulingGroup.class, criteria, token);
 	}
 
 	/**

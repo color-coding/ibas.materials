@@ -2,14 +2,15 @@ package org.colorcoding.ibas.materials.logic;
 
 import java.math.BigDecimal;
 
-import org.colorcoding.ibas.bobas.data.Decimal;
+import org.colorcoding.ibas.bobas.bo.IBusinessObject;
+import org.colorcoding.ibas.bobas.common.Decimals;
 import org.colorcoding.ibas.bobas.data.emBOStatus;
 import org.colorcoding.ibas.bobas.data.emYesNo;
 import org.colorcoding.ibas.bobas.i18n.I18N;
-import org.colorcoding.ibas.bobas.logic.BusinessLogicException;
-import org.colorcoding.ibas.bobas.mapping.LogicContract;
 import org.colorcoding.ibas.bobas.message.Logger;
 import org.colorcoding.ibas.bobas.message.MessageLevel;
+import org.colorcoding.ibas.bobas.logic.BusinessLogicException;
+import org.colorcoding.ibas.bobas.logic.LogicContract;
 import org.colorcoding.ibas.materials.bo.material.IMaterial;
 import org.colorcoding.ibas.materials.data.emItemType;
 
@@ -20,7 +21,7 @@ public class MaterialCommitedService extends MaterialInventoryBusinessLogic<IMat
 	protected boolean checkDataStatus(Object data) {
 		if (data instanceof IMaterialCommitedContract) {
 			IMaterialCommitedContract contract = (IMaterialCommitedContract) data;
-			if (contract.getQuantity().compareTo(Decimal.ZERO) <= 0) {
+			if (contract.getQuantity().compareTo(Decimals.VALUE_ZERO) <= 0) {
 				Logger.log(MessageLevel.DEBUG, MSG_LOGICS_SKIP_LOGIC_EXECUTION, this.getClass().getName(), "Quantity",
 						contract.getQuantity());
 				return false;
@@ -77,7 +78,7 @@ public class MaterialCommitedService extends MaterialInventoryBusinessLogic<IMat
 		BigDecimal onCommited = material.getOnCommited();
 		onCommited = onCommited.add(contract.getQuantity());
 		material.setOnCommited(onCommited);
-		if (this.getLogicChain().getTrigger().isBusy()) {
+		if (this.getTrigger() instanceof IBusinessObject && ((IBusinessObject) this.getTrigger()).isBusy()) {
 			this.done = true;
 		}
 	}
@@ -88,7 +89,7 @@ public class MaterialCommitedService extends MaterialInventoryBusinessLogic<IMat
 		BigDecimal onCommited = material.getOnCommited();
 		onCommited = onCommited.subtract(contract.getQuantity());
 		material.setOnCommited(onCommited);
-		if (this.getLogicChain().getTrigger().isBusy()) {
+		if (this.getTrigger() instanceof IBusinessObject && ((IBusinessObject) this.getTrigger()).isBusy()) {
 			this.done = true;
 		}
 	}

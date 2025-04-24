@@ -5,15 +5,15 @@ import java.math.BigDecimal;
 import org.colorcoding.ibas.bobas.common.ConditionOperation;
 import org.colorcoding.ibas.bobas.common.ConditionRelationship;
 import org.colorcoding.ibas.bobas.common.Criteria;
+import org.colorcoding.ibas.bobas.common.Decimals;
 import org.colorcoding.ibas.bobas.common.ICondition;
 import org.colorcoding.ibas.bobas.common.ICriteria;
 import org.colorcoding.ibas.bobas.common.IOperationResult;
-import org.colorcoding.ibas.bobas.data.Decimal;
 import org.colorcoding.ibas.bobas.data.emDirection;
 import org.colorcoding.ibas.bobas.data.emYesNo;
 import org.colorcoding.ibas.bobas.i18n.I18N;
 import org.colorcoding.ibas.bobas.logic.BusinessLogicException;
-import org.colorcoding.ibas.bobas.mapping.LogicContract;
+import org.colorcoding.ibas.bobas.logic.LogicContract;
 import org.colorcoding.ibas.materials.bo.material.IMaterial;
 import org.colorcoding.ibas.materials.bo.materialbatch.IMaterialBatch;
 import org.colorcoding.ibas.materials.bo.materialbatch.IMaterialBatchJournal;
@@ -65,15 +65,16 @@ public class MaterialBatchInventorySerivce
 		condition.setOperation(ConditionOperation.EQUAL);
 		condition.setValue(contract.getWarehouse());
 
-		IMaterialBatch materialBatch = this.fetchBeAffected(criteria, IMaterialBatch.class);
+		IMaterialBatch materialBatch = this.fetchBeAffected(IMaterialBatch.class, criteria);
 		if (materialBatch == null) {
-			BORepositoryMaterials boRepository = new BORepositoryMaterials();
-			boRepository.setRepository(super.getRepository());
-			IOperationResult<IMaterialBatch> operationResult = boRepository.fetchMaterialBatch(criteria);
-			if (operationResult.getError() != null) {
-				throw new BusinessLogicException(operationResult.getError());
+			try (BORepositoryMaterials boRepository = new BORepositoryMaterials()) {
+				boRepository.setTransaction(this.getTransaction());
+				IOperationResult<IMaterialBatch> operationResult = boRepository.fetchMaterialBatch(criteria);
+				if (operationResult.getError() != null) {
+					throw new BusinessLogicException(operationResult.getError());
+				}
+				materialBatch = operationResult.getResultObjects().firstOrDefault();
 			}
-			materialBatch = operationResult.getResultObjects().firstOrDefault();
 		}
 		if (materialBatch == null) {
 			materialBatch = new MaterialBatch();
@@ -97,7 +98,7 @@ public class MaterialBatchInventorySerivce
 			if (this.checkMaterial(materialBatch.getItemCode())
 					.getValuationMethod() == emValuationMethod.BATCH_MOVING_AVERAGE) {
 				BigDecimal avgPrice = contract.getCalculatedPrice();
-				if (contract.getQuantity().compareTo(Decimal.ZERO) > 0 && avgPrice != null) {
+				if (contract.getQuantity().compareTo(Decimals.VALUE_ZERO) > 0 && avgPrice != null) {
 					materialBatch.setAvgPrice(avgPrice);
 				}
 			}
@@ -106,12 +107,12 @@ public class MaterialBatchInventorySerivce
 			if (this.checkMaterial(materialBatch.getItemCode())
 					.getValuationMethod() == emValuationMethod.BATCH_MOVING_AVERAGE) {
 				BigDecimal avgPrice = contract.getCalculatedPrice();
-				if (contract.getQuantity().compareTo(Decimal.ZERO) < 0 && avgPrice != null) {
+				if (contract.getQuantity().compareTo(Decimals.VALUE_ZERO) < 0 && avgPrice != null) {
 					materialBatch.setAvgPrice(avgPrice);
 				}
 			}
 		}
-		if (Decimal.ZERO.compareTo(quantity) > 0) {
+		if (Decimals.VALUE_ZERO.compareTo(quantity) > 0) {
 			throw new BusinessLogicException(I18N.prop("msg_mm_material_batch_not_enough_in_stock",
 					contract.getWarehouse(), contract.getItemCode(), contract.getBatchCode(), quantity));
 		}
@@ -127,7 +128,7 @@ public class MaterialBatchInventorySerivce
 		} else {
 			quantity = quantity.add(contract.getQuantity());
 		}
-		if (Decimal.ZERO.compareTo(quantity) > 0 && !this.isSafeUpdate()) {
+		if (Decimals.VALUE_ZERO.compareTo(quantity) > 0 && !this.isSafeUpdate()) {
 			throw new BusinessLogicException(I18N.prop("msg_mm_material_batch_not_enough_in_stock",
 					contract.getWarehouse(), contract.getItemCode(), contract.getBatchCode(), quantity));
 		}
@@ -135,8 +136,8 @@ public class MaterialBatchInventorySerivce
 	}
 
 	private boolean isSafeUpdate() {
-		if (this.getLogicChain().getTrigger() instanceof IMaterialBatchJournal) {
-			IMaterialBatchJournal triggerJournal = (IMaterialBatchJournal) this.getLogicChain().getTrigger();
+		if (this.getTrigger() instanceof IMaterialBatchJournal) {
+			IMaterialBatchJournal triggerJournal = (IMaterialBatchJournal) this.getTrigger();
 			if (!triggerJournal.isDeleted()) {
 				return true;
 			}

@@ -14,7 +14,7 @@ import org.colorcoding.ibas.bobas.common.Criteria;
 import org.colorcoding.ibas.bobas.common.ICondition;
 import org.colorcoding.ibas.bobas.common.ICriteria;
 import org.colorcoding.ibas.bobas.common.IOperationResult;
-import org.colorcoding.ibas.bobas.core.ITrackStatus;
+import org.colorcoding.ibas.bobas.core.ITrackable;
 import org.colorcoding.ibas.bobas.data.emApprovalStatus;
 import org.colorcoding.ibas.bobas.data.emDocumentStatus;
 import org.colorcoding.ibas.bobas.data.emYesNo;
@@ -82,15 +82,16 @@ public abstract class MaterialInventoryBusinessLogic<L extends IBusinessLogicCon
 		condition.setAlias(Warehouse.PROPERTY_DELETED.getName());
 		condition.setOperation(ConditionOperation.IS_NULL);
 		condition.setRelationship(ConditionRelationship.OR);
-		IWarehouse warehouse = super.fetchBeAffected(criteria, IWarehouse.class);
+		IWarehouse warehouse = this.fetchBeAffected(IWarehouse.class, criteria);
 		if (warehouse == null) {
-			BORepositoryMaterials boRepository = new BORepositoryMaterials();
-			boRepository.setRepository(super.getRepository());
-			IOperationResult<IWarehouse> operationResult = boRepository.fetchWarehouse(criteria);
-			if (operationResult.getError() != null) {
-				throw new BusinessLogicException(operationResult.getError());
+			try (BORepositoryMaterials boRepository = new BORepositoryMaterials()) {
+				boRepository.setTransaction(this.getTransaction());
+				IOperationResult<IWarehouse> operationResult = boRepository.fetchWarehouse(criteria);
+				if (operationResult.getError() != null) {
+					throw new BusinessLogicException(operationResult.getError());
+				}
+				warehouse = operationResult.getResultObjects().firstOrDefault();
 			}
-			warehouse = operationResult.getResultObjects().firstOrDefault();
 		}
 		// 仓库不存在
 		if (warehouse == null) {
@@ -115,15 +116,16 @@ public abstract class MaterialInventoryBusinessLogic<L extends IBusinessLogicCon
 		condition.setAlias(MaterialInventory.PROPERTY_WAREHOUSE.getName());
 		condition.setValue(whsCode);
 		condition.setOperation(ConditionOperation.EQUAL);
-		IMaterialInventory materialInventory = super.fetchBeAffected(criteria, IMaterialInventory.class);
+		IMaterialInventory materialInventory = this.fetchBeAffected(IMaterialInventory.class, criteria);
 		if (materialInventory == null) {
-			BORepositoryMaterials boRepository = new BORepositoryMaterials();
-			boRepository.setRepository(super.getRepository());
-			IOperationResult<IMaterialInventory> operationResult = boRepository.fetchMaterialInventory(criteria);
-			if (operationResult.getError() != null) {
-				throw new BusinessLogicException(operationResult.getError());
+			try (BORepositoryMaterials boRepository = new BORepositoryMaterials()) {
+				boRepository.setTransaction(this.getTransaction());
+				IOperationResult<IMaterialInventory> operationResult = boRepository.fetchMaterialInventory(criteria);
+				if (operationResult.getError() != null) {
+					throw new BusinessLogicException(operationResult.getError());
+				}
+				materialInventory = operationResult.getResultObjects().firstOrDefault();
 			}
-			materialInventory = operationResult.getResultObjects().firstOrDefault();
 		}
 		return materialInventory;
 	}
@@ -142,15 +144,16 @@ public abstract class MaterialInventoryBusinessLogic<L extends IBusinessLogicCon
 		condition.setAlias(MaterialBatch.PROPERTY_BATCHCODE.getName());
 		condition.setValue(batchCode);
 		condition.setOperation(ConditionOperation.EQUAL);
-		IMaterialBatch materialInventory = super.fetchBeAffected(criteria, IMaterialBatch.class);
+		IMaterialBatch materialInventory = this.fetchBeAffected(IMaterialBatch.class, criteria);
 		if (materialInventory == null) {
-			BORepositoryMaterials boRepository = new BORepositoryMaterials();
-			boRepository.setRepository(super.getRepository());
-			IOperationResult<IMaterialBatch> operationResult = boRepository.fetchMaterialBatch(criteria);
-			if (operationResult.getError() != null) {
-				throw new BusinessLogicException(operationResult.getError());
+			try (BORepositoryMaterials boRepository = new BORepositoryMaterials()) {
+				boRepository.setTransaction(this.getTransaction());
+				IOperationResult<IMaterialBatch> operationResult = boRepository.fetchMaterialBatch(criteria);
+				if (operationResult.getError() != null) {
+					throw new BusinessLogicException(operationResult.getError());
+				}
+				materialInventory = operationResult.getResultObjects().firstOrDefault();
 			}
-			materialInventory = operationResult.getResultObjects().firstOrDefault();
 		}
 		return materialInventory;
 	}
@@ -169,15 +172,16 @@ public abstract class MaterialInventoryBusinessLogic<L extends IBusinessLogicCon
 		condition.setAlias(MaterialSerial.PROPERTY_SERIALCODE.getName());
 		condition.setValue(serialCode);
 		condition.setOperation(ConditionOperation.EQUAL);
-		IMaterialSerial materialInventory = super.fetchBeAffected(criteria, IMaterialSerial.class);
+		IMaterialSerial materialInventory = this.fetchBeAffected(IMaterialSerial.class, criteria);
 		if (materialInventory == null) {
-			BORepositoryMaterials boRepository = new BORepositoryMaterials();
-			boRepository.setRepository(super.getRepository());
-			IOperationResult<IMaterialSerial> operationResult = boRepository.fetchMaterialSerial(criteria);
-			if (operationResult.getError() != null) {
-				throw new BusinessLogicException(operationResult.getError());
+			try (BORepositoryMaterials boRepository = new BORepositoryMaterials()) {
+				boRepository.setTransaction(this.getTransaction());
+				IOperationResult<IMaterialSerial> operationResult = boRepository.fetchMaterialSerial(criteria);
+				if (operationResult.getError() != null) {
+					throw new BusinessLogicException(operationResult.getError());
+				}
+				materialInventory = operationResult.getResultObjects().firstOrDefault();
 			}
-			materialInventory = operationResult.getResultObjects().firstOrDefault();
 		}
 		return materialInventory;
 	}
@@ -190,11 +194,11 @@ public abstract class MaterialInventoryBusinessLogic<L extends IBusinessLogicCon
 	 * @return 有效，true；无效，false
 	 */
 	protected boolean checkDataStatus(Object data, Class<?>... skips) {
-		if (data instanceof ITrackStatus) {
+		if (data instanceof ITrackable) {
 			// 标记删除的数据无效
-			ITrackStatus status = (ITrackStatus) data;
+			ITrackable status = (ITrackable) data;
 			if (status.isDeleted()) {
-				if (!Arrays.asList(skips).contains(ITrackStatus.class)) {
+				if (!Arrays.asList(skips).contains(ITrackable.class)) {
 					return false;
 				}
 			}

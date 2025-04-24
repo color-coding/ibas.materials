@@ -8,9 +8,9 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
-import org.colorcoding.ibas.bobas.data.Decimal;
+import org.colorcoding.ibas.bobas.common.Decimals;
 import org.colorcoding.ibas.bobas.data.emYesNo;
-import org.colorcoding.ibas.bobas.serialization.Serializable;
+import org.colorcoding.ibas.bobas.core.Serializable;
 import org.colorcoding.ibas.businesspartner.data.emBusinessPartnerType;
 import org.colorcoding.ibas.materials.MyConfiguration;
 import org.colorcoding.ibas.materials.bo.materialpricelist.IMaterialPriceItem;
@@ -175,11 +175,11 @@ public class MaterialPrice extends Serializable implements IMaterialPrice {
 	}
 
 	public final void setPrice(int value) {
-		this.setPrice(Decimal.valueOf(value));
+		this.setPrice(Decimals.valueOf(value));
 	}
 
 	public final void setPrice(double value) {
-		this.setPrice(Decimal.valueOf(value));
+		this.setPrice(Decimals.valueOf(value));
 	}
 
 	private String currency;

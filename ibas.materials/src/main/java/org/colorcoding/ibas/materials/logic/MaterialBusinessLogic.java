@@ -40,15 +40,16 @@ public abstract class MaterialBusinessLogic<L extends IBusinessLogicContract, B 
 		condition.setAlias(Material.PROPERTY_DELETED.getName());
 		condition.setOperation(ConditionOperation.IS_NULL);
 		condition.setRelationship(ConditionRelationship.OR);
-		IMaterial material = super.fetchBeAffected(criteria, IMaterial.class);
+		IMaterial material = this.fetchBeAffected(IMaterial.class, criteria);
 		if (material == null) {
-			BORepositoryMaterials boRepository = new BORepositoryMaterials();
-			boRepository.setRepository(super.getRepository());
-			IOperationResult<IMaterial> operationResult = boRepository.fetchMaterial(criteria);
-			if (operationResult.getError() != null) {
-				throw new BusinessLogicException(operationResult.getError());
+			try (BORepositoryMaterials boRepository = new BORepositoryMaterials()) {
+				boRepository.setTransaction(this.getTransaction());
+				IOperationResult<IMaterial> operationResult = boRepository.fetchMaterial(criteria);
+				if (operationResult.getError() != null) {
+					throw new BusinessLogicException(operationResult.getError());
+				}
+				material = operationResult.getResultObjects().firstOrDefault();
 			}
-			material = operationResult.getResultObjects().firstOrDefault();
 		}
 		// 物料不存在
 		if (material == null) {

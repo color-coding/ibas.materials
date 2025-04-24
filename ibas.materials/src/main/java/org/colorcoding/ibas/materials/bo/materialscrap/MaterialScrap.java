@@ -12,11 +12,11 @@ import javax.xml.bind.annotation.XmlType;
 import org.colorcoding.ibas.bobas.bo.BusinessObject;
 import org.colorcoding.ibas.bobas.core.IPropertyInfo;
 import org.colorcoding.ibas.bobas.data.DateTime;
-import org.colorcoding.ibas.bobas.data.Decimal;
+import org.colorcoding.ibas.bobas.common.Decimals;
 import org.colorcoding.ibas.bobas.data.emYesNo;
-import org.colorcoding.ibas.bobas.mapping.BusinessObjectUnit;
-import org.colorcoding.ibas.bobas.mapping.DbField;
-import org.colorcoding.ibas.bobas.mapping.DbFieldType;
+import org.colorcoding.ibas.bobas.bo.BusinessObjectUnit;
+import org.colorcoding.ibas.bobas.db.DbField;
+import org.colorcoding.ibas.bobas.db.DbFieldType;
 import org.colorcoding.ibas.bobas.rule.IBusinessRule;
 import org.colorcoding.ibas.bobas.rule.common.BusinessRuleMinValue;
 import org.colorcoding.ibas.bobas.rule.common.BusinessRuleRequired;
@@ -788,8 +788,8 @@ public class MaterialScrap extends BusinessObject<MaterialScrap> implements IMat
 	protected IBusinessRule[] registerRules() {
 		return new IBusinessRule[] { // 注册的业务规则
 				new BusinessRuleRequired(PROPERTY_NAME), // 要求有值
-				new BusinessRuleMinValue<BigDecimal>(Decimal.ZERO, PROPERTY_RATE), // 不能低于0
-				new BusinessRuleMinValue<BigDecimal>(Decimal.ZERO, PROPERTY_VALUE), // 不能低于0
+				new BusinessRuleMinValue<BigDecimal>(Decimals.VALUE_ZERO, PROPERTY_RATE), // 不能低于0
+				new BusinessRuleMinValue<BigDecimal>(Decimals.VALUE_ZERO, PROPERTY_VALUE), // 不能低于0
 		};
 	}
 
@@ -800,31 +800,31 @@ public class MaterialScrap extends BusinessObject<MaterialScrap> implements IMat
 	 * @return 加了损耗的数量
 	 */
 	public BigDecimal compute(BigDecimal quantity) {
-		BigDecimal total = Decimal.ZERO;
+		BigDecimal total = Decimals.VALUE_ZERO;
 		if (this.getTiered() == emYesNo.YES) {
 			// 阶梯损耗
 			for (IMaterialScrapSection section : this.getMaterialScrapSections()) {
-				if (section.getSectionStart().compareTo(Decimal.ZERO) > 0
+				if (section.getSectionStart().compareTo(Decimals.VALUE_ZERO) > 0
 						&& section.getSectionStart().compareTo(quantity) > 0) {
 					continue;
 				}
-				if (section.getSectionEnd().compareTo(Decimal.ZERO) > 0
+				if (section.getSectionEnd().compareTo(Decimals.VALUE_ZERO) > 0
 						&& section.getSectionEnd().compareTo(quantity) > 0) {
 					continue;
 				}
-				if (section.getValue().compareTo(Decimal.ZERO) > 0) {
+				if (section.getValue().compareTo(Decimals.VALUE_ZERO) > 0) {
 					total = total.add(section.getValue());
 				}
-				if (section.getRate().compareTo(Decimal.ZERO) > 0) {
+				if (section.getRate().compareTo(Decimals.VALUE_ZERO) > 0) {
 					total = total.add(quantity.multiply(section.getRate()));
 				}
 				return quantity.add(total);
 			}
 		} else {
-			if (this.getValue().compareTo(Decimal.ZERO) > 0) {
+			if (this.getValue().compareTo(Decimals.VALUE_ZERO) > 0) {
 				total = total.add(this.getValue());
 			}
-			if (this.getRate().compareTo(Decimal.ZERO) > 0) {
+			if (this.getRate().compareTo(Decimals.VALUE_ZERO) > 0) {
 				total = total.add(quantity.multiply(this.getRate()));
 			}
 			return quantity.add(total);

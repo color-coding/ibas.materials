@@ -8,10 +8,10 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
-import org.colorcoding.ibas.bobas.data.Decimal;
-import org.colorcoding.ibas.bobas.serialization.Serializable;
+import org.colorcoding.ibas.bobas.common.Decimals;
+import org.colorcoding.ibas.bobas.common.Strings;
+import org.colorcoding.ibas.bobas.core.Serializable;
 import org.colorcoding.ibas.materials.MyConfiguration;
-import org.colorcoding.ibas.materials.data.DataConvert;
 
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlType(name = "MaterialQuantity", namespace = MyConfiguration.NAMESPACE_BO)
@@ -46,7 +46,7 @@ public class MaterialQuantity extends Serializable implements IMaterialQuantity 
 		materialQuantity.setTotalOrdered(material.getOnOrdered());
 		materialQuantity.setTotalCommited(material.getOnCommited());
 		materialQuantity.setTotalReserved(material.getOnReserved());
-		materialQuantity.setSource(DataConvert.STRING_VALUE_EMPTY);
+		materialQuantity.setSource(Strings.VALUE_EMPTY);
 		return materialQuantity;
 	}
 
@@ -64,7 +64,7 @@ public class MaterialQuantity extends Serializable implements IMaterialQuantity 
 		materialQuantity.setTotalOrdered(material.getOnOrdered());
 		materialQuantity.setTotalCommited(material.getOnCommited());
 		materialQuantity.setTotalReserved(material.getOnReserved());
-		materialQuantity.setSource(DataConvert.STRING_VALUE_EMPTY);
+		materialQuantity.setSource(Strings.VALUE_EMPTY);
 		return materialQuantity;
 	}
 
@@ -133,11 +133,11 @@ public class MaterialQuantity extends Serializable implements IMaterialQuantity 
 	}
 
 	public final void setOnHand(int value) {
-		this.setOnHand(Decimal.valueOf(value));
+		this.setOnHand(Decimals.valueOf(value));
 	}
 
 	public final void setOnHand(double value) {
-		this.setOnHand(Decimal.valueOf(value));
+		this.setOnHand(Decimals.valueOf(value));
 	}
 
 	private BigDecimal onOrdered;
@@ -152,11 +152,11 @@ public class MaterialQuantity extends Serializable implements IMaterialQuantity 
 	}
 
 	public final void setOnOrdered(int value) {
-		this.setOnOrdered(Decimal.valueOf(value));
+		this.setOnOrdered(Decimals.valueOf(value));
 	}
 
 	public final void setOnOrdered(double value) {
-		this.setOnOrdered(Decimal.valueOf(value));
+		this.setOnOrdered(Decimals.valueOf(value));
 	}
 
 	private BigDecimal onCommited;
@@ -171,11 +171,11 @@ public class MaterialQuantity extends Serializable implements IMaterialQuantity 
 	}
 
 	public final void setOnCommited(int value) {
-		this.setOnCommited(Decimal.valueOf(value));
+		this.setOnCommited(Decimals.valueOf(value));
 	}
 
 	public final void setOnCommited(double value) {
-		this.setOnCommited(Decimal.valueOf(value));
+		this.setOnCommited(Decimals.valueOf(value));
 	}
 
 	private BigDecimal onReserved;
@@ -190,11 +190,11 @@ public class MaterialQuantity extends Serializable implements IMaterialQuantity 
 	}
 
 	public final void setOnReserved(int value) {
-		this.setOnReserved(Decimal.valueOf(value));
+		this.setOnReserved(Decimals.valueOf(value));
 	}
 
 	public final void setOnReserved(double value) {
-		this.setOnReserved(Decimal.valueOf(value));
+		this.setOnReserved(Decimals.valueOf(value));
 	}
 
 	private String uom;
@@ -210,7 +210,7 @@ public class MaterialQuantity extends Serializable implements IMaterialQuantity 
 
 	@Override
 	public BigDecimal getOnAvailable() {
-		return Decimal.add(this.getOnHand(), this.getOnOrdered(), this.getOnCommited().negate(),
+		return Decimals.add(this.getOnHand(), this.getOnOrdered(), this.getOnCommited().negate(),
 				this.getOnReserved().negate());
 	}
 
@@ -226,11 +226,11 @@ public class MaterialQuantity extends Serializable implements IMaterialQuantity 
 	}
 
 	public final void setTotalHand(int value) {
-		this.setTotalHand(Decimal.valueOf(value));
+		this.setTotalHand(Decimals.valueOf(value));
 	}
 
 	public final void setTotalHand(double value) {
-		this.setTotalHand(Decimal.valueOf(value));
+		this.setTotalHand(Decimals.valueOf(value));
 	}
 
 	private BigDecimal totalOrdered;
@@ -245,11 +245,11 @@ public class MaterialQuantity extends Serializable implements IMaterialQuantity 
 	}
 
 	public final void setTotalOrdered(int value) {
-		this.setTotalOrdered(Decimal.valueOf(value));
+		this.setTotalOrdered(Decimals.valueOf(value));
 	}
 
 	public final void setTotalOrdered(double value) {
-		this.setTotalOrdered(Decimal.valueOf(value));
+		this.setTotalOrdered(Decimals.valueOf(value));
 	}
 
 	private BigDecimal totalCommited;
@@ -264,11 +264,11 @@ public class MaterialQuantity extends Serializable implements IMaterialQuantity 
 	}
 
 	public final void setTotalCommited(int value) {
-		this.setTotalCommited(Decimal.valueOf(value));
+		this.setTotalCommited(Decimals.valueOf(value));
 	}
 
 	public final void setTotalCommited(double value) {
-		this.setTotalCommited(Decimal.valueOf(value));
+		this.setTotalCommited(Decimals.valueOf(value));
 	}
 
 	private BigDecimal totalReserved;
@@ -283,11 +283,11 @@ public class MaterialQuantity extends Serializable implements IMaterialQuantity 
 	}
 
 	public final void setTotalReserved(int value) {
-		this.setTotalReserved(Decimal.valueOf(value));
+		this.setTotalReserved(Decimals.valueOf(value));
 	}
 
 	public final void setTotalReserved(double value) {
-		this.setTotalReserved(Decimal.valueOf(value));
+		this.setTotalReserved(Decimals.valueOf(value));
 	}
 
 	@Override

@@ -15,15 +15,15 @@ import org.colorcoding.ibas.bobas.bo.IBOTagDeleted;
 import org.colorcoding.ibas.bobas.bo.IBOUserFields;
 import org.colorcoding.ibas.bobas.core.IPropertyInfo;
 import org.colorcoding.ibas.bobas.data.DateTime;
-import org.colorcoding.ibas.bobas.data.Decimal;
+import org.colorcoding.ibas.bobas.common.Decimals;
 import org.colorcoding.ibas.bobas.data.emBOStatus;
 import org.colorcoding.ibas.bobas.data.emDocumentStatus;
 import org.colorcoding.ibas.bobas.data.emYesNo;
 import org.colorcoding.ibas.bobas.i18n.I18N;
 import org.colorcoding.ibas.bobas.logic.IBusinessLogicContract;
 import org.colorcoding.ibas.bobas.logic.IBusinessLogicsHost;
-import org.colorcoding.ibas.bobas.mapping.DbField;
-import org.colorcoding.ibas.bobas.mapping.DbFieldType;
+import org.colorcoding.ibas.bobas.db.DbField;
+import org.colorcoding.ibas.bobas.db.DbFieldType;
 import org.colorcoding.ibas.bobas.rule.BusinessRuleException;
 import org.colorcoding.ibas.bobas.rule.IBusinessRule;
 import org.colorcoding.ibas.bobas.rule.common.BusinessRuleMinValue;
@@ -1042,7 +1042,7 @@ public class GoodsIssueLine extends BusinessObject<GoodsIssueLine>
 	 * @param value 值
 	 */
 	public final void setQuantity(String value) {
-		this.setQuantity(Decimal.valueOf(value));
+		this.setQuantity(Decimals.valueOf(value));
 	}
 
 	/**
@@ -1051,7 +1051,7 @@ public class GoodsIssueLine extends BusinessObject<GoodsIssueLine>
 	 * @param value 值
 	 */
 	public final void setQuantity(int value) {
-		this.setQuantity(Decimal.valueOf(value));
+		this.setQuantity(Decimals.valueOf(value));
 	}
 
 	/**
@@ -1060,7 +1060,7 @@ public class GoodsIssueLine extends BusinessObject<GoodsIssueLine>
 	 * @param value 值
 	 */
 	public final void setQuantity(double value) {
-		this.setQuantity(Decimal.valueOf(value));
+		this.setQuantity(Decimals.valueOf(value));
 	}
 
 	/**
@@ -1162,7 +1162,7 @@ public class GoodsIssueLine extends BusinessObject<GoodsIssueLine>
 	 * @param value 值
 	 */
 	public final void setPrice(String value) {
-		this.setPrice(Decimal.valueOf(value));
+		this.setPrice(Decimals.valueOf(value));
 	}
 
 	/**
@@ -1171,7 +1171,7 @@ public class GoodsIssueLine extends BusinessObject<GoodsIssueLine>
 	 * @param value 值
 	 */
 	public final void setPrice(int value) {
-		this.setPrice(Decimal.valueOf(value));
+		this.setPrice(Decimals.valueOf(value));
 	}
 
 	/**
@@ -1180,7 +1180,7 @@ public class GoodsIssueLine extends BusinessObject<GoodsIssueLine>
 	 * @param value 值
 	 */
 	public final void setPrice(double value) {
-		this.setPrice(Decimal.valueOf(value));
+		this.setPrice(Decimals.valueOf(value));
 	}
 
 	/**
@@ -1251,7 +1251,7 @@ public class GoodsIssueLine extends BusinessObject<GoodsIssueLine>
 	 * @param value 值
 	 */
 	public final void setRate(String value) {
-		this.setRate(Decimal.valueOf(value));
+		this.setRate(Decimals.valueOf(value));
 	}
 
 	/**
@@ -1260,7 +1260,7 @@ public class GoodsIssueLine extends BusinessObject<GoodsIssueLine>
 	 * @param value 值
 	 */
 	public final void setRate(int value) {
-		this.setRate(Decimal.valueOf(value));
+		this.setRate(Decimals.valueOf(value));
 	}
 
 	/**
@@ -1269,7 +1269,7 @@ public class GoodsIssueLine extends BusinessObject<GoodsIssueLine>
 	 * @param value 值
 	 */
 	public final void setRate(double value) {
-		this.setRate(Decimal.valueOf(value));
+		this.setRate(Decimals.valueOf(value));
 	}
 
 	/**
@@ -1309,7 +1309,7 @@ public class GoodsIssueLine extends BusinessObject<GoodsIssueLine>
 	 * @param value 值
 	 */
 	public final void setLineTotal(String value) {
-		this.setLineTotal(Decimal.valueOf(value));
+		this.setLineTotal(Decimals.valueOf(value));
 	}
 
 	/**
@@ -1318,7 +1318,7 @@ public class GoodsIssueLine extends BusinessObject<GoodsIssueLine>
 	 * @param value 值
 	 */
 	public final void setLineTotal(int value) {
-		this.setLineTotal(Decimal.valueOf(value));
+		this.setLineTotal(Decimals.valueOf(value));
 	}
 
 	/**
@@ -1327,7 +1327,7 @@ public class GoodsIssueLine extends BusinessObject<GoodsIssueLine>
 	 * @param value 值
 	 */
 	public final void setLineTotal(double value) {
-		this.setLineTotal(Decimal.valueOf(value));
+		this.setLineTotal(Decimals.valueOf(value));
 	}
 
 	/**
@@ -1591,19 +1591,19 @@ public class GoodsIssueLine extends BusinessObject<GoodsIssueLine>
 				// 注册的业务规则
 				new BusinessRuleRequired(PROPERTY_ITEMCODE), // 要求有值
 				new BusinessRuleRequired(PROPERTY_WAREHOUSE), // 要求有值
-				new BusinessRuleMinValue<BigDecimal>(Decimal.ZERO, PROPERTY_QUANTITY), // 不能低于0
-				new BusinessRuleMinValue<BigDecimal>(Decimal.ZERO, PROPERTY_PRICE), // 不能低于0
+				new BusinessRuleMinValue<BigDecimal>(Decimals.VALUE_ZERO, PROPERTY_QUANTITY), // 不能低于0
+				new BusinessRuleMinValue<BigDecimal>(Decimals.VALUE_ZERO, PROPERTY_PRICE), // 不能低于0
 				new BusinessRulePreventCancelDocument(PROPERTY_CANCELED, PROPERTY_LINESTATUS), // 阻止取消单据
 				// 计算总计 = 数量 * 价格
 				new BusinessRuleDeductionPriceQtyTotal(PROPERTY_LINETOTAL, PROPERTY_QUANTITY, PROPERTY_PRICE),
-				new BusinessRuleMinValue<BigDecimal>(Decimal.ZERO, PROPERTY_LINETOTAL), // 不能低于0
+				new BusinessRuleMinValue<BigDecimal>(Decimals.VALUE_ZERO, PROPERTY_LINETOTAL), // 不能低于0
 		};
 	}
 
 	@Override
 	public void check() throws BusinessRuleException {
 		// 数量检查
-		if (Decimal.ZERO.compareTo(this.getInventoryQuantity()) >= 0) {
+		if (Decimals.VALUE_ZERO.compareTo(this.getInventoryQuantity()) >= 0) {
 			throw new BusinessRuleException(I18N.prop("msg_mm_document_material_quantity_invaild", this.toString()));
 		}
 		// 批次检查
