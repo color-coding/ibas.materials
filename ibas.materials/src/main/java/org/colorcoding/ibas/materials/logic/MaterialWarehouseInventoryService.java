@@ -5,15 +5,16 @@ import java.math.BigDecimal;
 import org.colorcoding.ibas.bobas.common.ConditionOperation;
 import org.colorcoding.ibas.bobas.common.ConditionRelationship;
 import org.colorcoding.ibas.bobas.common.Criteria;
+import org.colorcoding.ibas.bobas.common.Decimals;
 import org.colorcoding.ibas.bobas.common.ICondition;
 import org.colorcoding.ibas.bobas.common.ICriteria;
 import org.colorcoding.ibas.bobas.common.IOperationResult;
-import org.colorcoding.ibas.bobas.data.Decimal;
+import org.colorcoding.ibas.bobas.core.ITrackable;
 import org.colorcoding.ibas.bobas.data.emDirection;
 import org.colorcoding.ibas.bobas.data.emYesNo;
 import org.colorcoding.ibas.bobas.i18n.I18N;
 import org.colorcoding.ibas.bobas.logic.BusinessLogicException;
-import org.colorcoding.ibas.bobas.mapping.LogicContract;
+import org.colorcoding.ibas.bobas.logic.LogicContract;
 import org.colorcoding.ibas.materials.MyConfiguration;
 import org.colorcoding.ibas.materials.bo.material.IMaterial;
 import org.colorcoding.ibas.materials.bo.materialinventory.IMaterialInventory;
@@ -54,15 +55,16 @@ public class MaterialWarehouseInventoryService
 		condition.setOperation(ConditionOperation.EQUAL);
 		condition.setValue(contract.getWarehouse());
 
-		IMaterialInventory materialInventory = this.fetchBeAffected(criteria, IMaterialInventory.class);
+		IMaterialInventory materialInventory = this.fetchBeAffected(IMaterialInventory.class, criteria);
 		if (materialInventory == null) {
-			BORepositoryMaterials boRepository = new BORepositoryMaterials();
-			boRepository.setRepository(super.getRepository());
-			IOperationResult<IMaterialInventory> operationResult = boRepository.fetchMaterialInventory(criteria);
-			if (operationResult.getError() != null) {
-				throw new BusinessLogicException(operationResult.getError());
+			try (BORepositoryMaterials boRepository = new BORepositoryMaterials()) {
+				boRepository.setTransaction(this.getTransaction());
+				IOperationResult<IMaterialInventory> operationResult = boRepository.fetchMaterialInventory(criteria);
+				if (operationResult.getError() != null) {
+					throw new BusinessLogicException(operationResult.getError());
+				}
+				materialInventory = operationResult.getResultObjects().firstOrDefault();
 			}
-			materialInventory = operationResult.getResultObjects().firstOrDefault();
 		}
 		if (materialInventory == null) {
 			materialInventory = new MaterialInventory();
@@ -84,24 +86,24 @@ public class MaterialWarehouseInventoryService
 			onHand = onHand.add(contract.getQuantity());
 			if (MyConfiguration.getConfigValue(MyConfiguration.CONFIG_ITEM_MANAGE_MATERIAL_COSTS_BY_WAREHOUSE, true)) {
 				BigDecimal avgPrice = contract.getCalculatedPrice();
-				if (contract.getQuantity().compareTo(Decimal.ZERO) > 0 && avgPrice != null) {
+				if (contract.getQuantity().compareTo(Decimals.VALUE_ZERO) > 0 && avgPrice != null) {
 					materialInventory.setAvgPrice(avgPrice);
 				}
 			} else {
-				materialInventory.setAvgPrice(Decimal.ZERO);
+				materialInventory.setAvgPrice(Decimals.VALUE_ZERO);
 			}
 		} else if (contract.getDirection() == emDirection.OUT) {
 			onHand = onHand.subtract(contract.getQuantity());
 			if (MyConfiguration.getConfigValue(MyConfiguration.CONFIG_ITEM_MANAGE_MATERIAL_COSTS_BY_WAREHOUSE, true)) {
 				BigDecimal avgPrice = contract.getCalculatedPrice();
-				if (contract.getQuantity().compareTo(Decimal.ZERO) < 0 && avgPrice != null) {
+				if (contract.getQuantity().compareTo(Decimals.VALUE_ZERO) < 0 && avgPrice != null) {
 					materialInventory.setAvgPrice(avgPrice);
 				}
 			} else {
-				materialInventory.setAvgPrice(Decimal.ZERO);
+				materialInventory.setAvgPrice(Decimals.VALUE_ZERO);
 			}
 		}
-		if (Decimal.ZERO.compareTo(onHand) > 0) {
+		if (Decimals.VALUE_ZERO.compareTo(onHand) > 0) {
 			throw new BusinessLogicException(I18N.prop("msg_mm_material_not_enough_in_stock", contract.getWarehouse(),
 					contract.getItemCode(), onHand));
 		}
@@ -122,7 +124,8 @@ public class MaterialWarehouseInventoryService
 		} else {
 			onHand = onHand.subtract(contract.getQuantity());
 		}
-		if (Decimal.ZERO.compareTo(onHand) > 0 && this.getLogicChain().getTrigger().isDeleted()) {
+		if (Decimals.VALUE_ZERO.compareTo(onHand) > 0 && this.getTrigger() instanceof ITrackable
+				&& ((ITrackable) this.getTrigger()).isDeleted()) {
 			throw new BusinessLogicException(I18N.prop("msg_mm_material_not_enough_in_stock", contract.getWarehouse(),
 					contract.getItemCode(), onHand));
 		}

@@ -9,25 +9,25 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
 import org.colorcoding.ibas.bobas.bo.BusinessObject;
+import org.colorcoding.ibas.bobas.bo.BusinessObjectUnit;
+import org.colorcoding.ibas.bobas.common.Decimals;
+import org.colorcoding.ibas.bobas.common.Strings;
 import org.colorcoding.ibas.bobas.core.IPropertyInfo;
 import org.colorcoding.ibas.bobas.data.ArrayList;
 import org.colorcoding.ibas.bobas.data.DateTime;
-import org.colorcoding.ibas.bobas.data.Decimal;
 import org.colorcoding.ibas.bobas.data.emDirection;
+import org.colorcoding.ibas.bobas.db.DbField;
+import org.colorcoding.ibas.bobas.db.DbFieldType;
 import org.colorcoding.ibas.bobas.i18n.I18N;
 import org.colorcoding.ibas.bobas.logic.BusinessLogicException;
 import org.colorcoding.ibas.bobas.logic.IBusinessLogicContract;
 import org.colorcoding.ibas.bobas.logic.IBusinessLogicsHost;
-import org.colorcoding.ibas.bobas.mapping.BusinessObjectUnit;
-import org.colorcoding.ibas.bobas.mapping.DbField;
-import org.colorcoding.ibas.bobas.mapping.DbFieldType;
 import org.colorcoding.ibas.bobas.rule.BusinessRuleException;
 import org.colorcoding.ibas.bobas.rule.IBusinessRule;
 import org.colorcoding.ibas.bobas.rule.ICheckRules;
 import org.colorcoding.ibas.bobas.rule.common.BusinessRuleMinValue;
 import org.colorcoding.ibas.bobas.rule.common.BusinessRuleRequired;
 import org.colorcoding.ibas.materials.MyConfiguration;
-import org.colorcoding.ibas.materials.data.DataConvert;
 import org.colorcoding.ibas.materials.logic.IMaterialInventoryContract;
 import org.colorcoding.ibas.materials.logic.IMaterialInventoryReservationCreateContract;
 import org.colorcoding.ibas.materials.logic.IMaterialInventoryReservationReleaseContract;
@@ -230,7 +230,7 @@ public class MaterialInventoryJournal extends BusinessObject<MaterialInventoryJo
 	 * @param value 值
 	 */
 	public final void setQuantity(String value) {
-		this.setQuantity(Decimal.valueOf(value));
+		this.setQuantity(Decimals.valueOf(value));
 	}
 
 	/**
@@ -239,7 +239,7 @@ public class MaterialInventoryJournal extends BusinessObject<MaterialInventoryJo
 	 * @param value 值
 	 */
 	public final void setQuantity(int value) {
-		this.setQuantity(Decimal.valueOf(value));
+		this.setQuantity(Decimals.valueOf(value));
 	}
 
 	/**
@@ -248,7 +248,7 @@ public class MaterialInventoryJournal extends BusinessObject<MaterialInventoryJo
 	 * @param value 值
 	 */
 	public final void setQuantity(double value) {
-		this.setQuantity(Decimal.valueOf(value));
+		this.setQuantity(Decimals.valueOf(value));
 	}
 
 	/**
@@ -288,7 +288,7 @@ public class MaterialInventoryJournal extends BusinessObject<MaterialInventoryJo
 	 * @param value 值
 	 */
 	public final void setPrice(String value) {
-		this.setPrice(Decimal.valueOf(value));
+		this.setPrice(Decimals.valueOf(value));
 	}
 
 	/**
@@ -297,7 +297,7 @@ public class MaterialInventoryJournal extends BusinessObject<MaterialInventoryJo
 	 * @param value 值
 	 */
 	public final void setPrice(int value) {
-		this.setPrice(Decimal.valueOf(value));
+		this.setPrice(Decimals.valueOf(value));
 	}
 
 	/**
@@ -306,7 +306,7 @@ public class MaterialInventoryJournal extends BusinessObject<MaterialInventoryJo
 	 * @param value 值
 	 */
 	public final void setPrice(double value) {
-		this.setPrice(Decimal.valueOf(value));
+		this.setPrice(Decimals.valueOf(value));
 	}
 
 	/**
@@ -377,7 +377,7 @@ public class MaterialInventoryJournal extends BusinessObject<MaterialInventoryJo
 	 * @param value 值
 	 */
 	public final void setRate(String value) {
-		this.setRate(Decimal.valueOf(value));
+		this.setRate(Decimals.valueOf(value));
 	}
 
 	/**
@@ -386,7 +386,7 @@ public class MaterialInventoryJournal extends BusinessObject<MaterialInventoryJo
 	 * @param value 值
 	 */
 	public final void setRate(int value) {
-		this.setRate(Decimal.valueOf(value));
+		this.setRate(Decimals.valueOf(value));
 	}
 
 	/**
@@ -395,7 +395,7 @@ public class MaterialInventoryJournal extends BusinessObject<MaterialInventoryJo
 	 * @param value 值
 	 */
 	public final void setRate(double value) {
-		this.setRate(Decimal.valueOf(value));
+		this.setRate(Decimals.valueOf(value));
 	}
 
 	/**
@@ -1218,13 +1218,13 @@ public class MaterialInventoryJournal extends BusinessObject<MaterialInventoryJo
 		return new IBusinessRule[] { // 注册的业务规则
 				new BusinessRuleRequired(PROPERTY_ITEMCODE), // 要求有值
 				new BusinessRuleRequired(PROPERTY_WAREHOUSE), // 要求有值
-				new BusinessRuleMinValue<BigDecimal>(Decimal.ZERO, PROPERTY_PRICE), // 不能低于0
+				new BusinessRuleMinValue<BigDecimal>(Decimals.VALUE_ZERO, PROPERTY_PRICE), // 不能低于0
 		};
 	}
 
 	@Override
 	public void check() throws BusinessRuleException {
-		if (this.getCalculatedPrice() != null && !Decimal.isZero(this.getCalculatedPrice())) {
+		if (this.getCalculatedPrice() != null && !Decimals.isZero(this.getCalculatedPrice())) {
 			if (this.isDeleted()) {
 				// 修改入库物料、仓库、价格，影响成本计算，不允许
 				throw new BusinessLogicException(
@@ -1240,11 +1240,12 @@ public class MaterialInventoryJournal extends BusinessObject<MaterialInventoryJo
 
 	public BigDecimal getAvgPrice() {
 		// 仅新状态影响成本
-		if ((this.getDirection() == emDirection.IN && this.getQuantity().compareTo(Decimal.ZERO) > 0)
-				|| (this.getDirection() == emDirection.OUT && this.getQuantity().compareTo(Decimal.ZERO) < 0)) {
-			BigDecimal inventoryQuantity = Decimal.add(this.getInventoryQuantity(), this.getQuantity().abs());
-			BigDecimal inventoryValue = Decimal.add(this.getInventoryValue(), this.getTransactionValue().abs());
-			return Decimal.isZero(inventoryQuantity) ? Decimal.ZERO : Decimal.divide(inventoryValue, inventoryQuantity);
+		if ((this.getDirection() == emDirection.IN && this.getQuantity().compareTo(Decimals.VALUE_ZERO) > 0)
+				|| (this.getDirection() == emDirection.OUT && this.getQuantity().compareTo(Decimals.VALUE_ZERO) < 0)) {
+			BigDecimal inventoryQuantity = Decimals.add(this.getInventoryQuantity(), this.getQuantity().abs());
+			BigDecimal inventoryValue = Decimals.add(this.getInventoryValue(), this.getTransactionValue().abs());
+			return Decimals.isZero(inventoryQuantity) ? Decimals.VALUE_ZERO
+					: Decimals.divide(inventoryValue, inventoryQuantity);
 		}
 		return null;
 	}
@@ -1253,7 +1254,7 @@ public class MaterialInventoryJournal extends BusinessObject<MaterialInventoryJo
 	public IBusinessLogicContract[] getContracts() {
 		ArrayList<IBusinessLogicContract> contracts = new ArrayList<>(4);
 		// 出库
-		if (this.getDirection() == emDirection.OUT && this.getQuantity().compareTo(Decimal.ZERO) > 0) {
+		if (this.getDirection() == emDirection.OUT && this.getQuantity().compareTo(Decimals.VALUE_ZERO) > 0) {
 			// 物料库存占用的释放（出库），仅正向逻辑执行
 			contracts.add(new IMaterialInventoryReservationReleaseContract() {
 
@@ -1318,7 +1319,7 @@ public class MaterialInventoryJournal extends BusinessObject<MaterialInventoryJo
 
 			@Override
 			public BigDecimal getCalculatedPrice() {
-				if (DataConvert.isNullOrEmpty(MaterialInventoryJournal.this.getUpdateActionId())) {
+				if (Strings.isNullOrEmpty(MaterialInventoryJournal.this.getUpdateActionId())) {
 					// 仅新状态影响成本
 					return MaterialInventoryJournal.this.getAvgPrice();
 				}
@@ -1354,7 +1355,7 @@ public class MaterialInventoryJournal extends BusinessObject<MaterialInventoryJo
 
 			@Override
 			public BigDecimal getCalculatedPrice() {
-				if (DataConvert.isNullOrEmpty(MaterialInventoryJournal.this.getUpdateActionId())) {
+				if (Strings.isNullOrEmpty(MaterialInventoryJournal.this.getUpdateActionId())) {
 					// 仅新状态影响成本
 					return MaterialInventoryJournal.this.getAvgPrice();
 				}
@@ -1362,7 +1363,7 @@ public class MaterialInventoryJournal extends BusinessObject<MaterialInventoryJo
 			}
 		});
 		// 入库
-		if (this.getDirection() == emDirection.IN && this.getQuantity().compareTo(Decimal.ZERO) > 0) {
+		if (this.getDirection() == emDirection.IN && this.getQuantity().compareTo(Decimals.VALUE_ZERO) > 0) {
 			// 物料订购预留转库存占用，仅正向逻辑执行
 			contracts.add(new IMaterialInventoryReservationCreateContract() {
 
@@ -1419,7 +1420,7 @@ public class MaterialInventoryJournal extends BusinessObject<MaterialInventoryJo
 
 					@Override
 					public BigDecimal getPrice() {
-						if (DataConvert.isNullOrEmpty(MaterialInventoryJournal.this.getUpdateActionId())) {
+						if (Strings.isNullOrEmpty(MaterialInventoryJournal.this.getUpdateActionId())) {
 							// 仅新状态影响成本
 							return MaterialInventoryJournal.this.getAvgPrice();
 						}

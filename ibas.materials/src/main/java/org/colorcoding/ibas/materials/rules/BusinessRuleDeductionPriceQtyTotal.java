@@ -3,7 +3,7 @@ package org.colorcoding.ibas.materials.rules;
 import java.math.BigDecimal;
 
 import org.colorcoding.ibas.bobas.core.IPropertyInfo;
-import org.colorcoding.ibas.bobas.data.Decimal;
+import org.colorcoding.ibas.bobas.common.Decimals;
 import org.colorcoding.ibas.bobas.i18n.I18N;
 import org.colorcoding.ibas.bobas.rule.BusinessRuleCommon;
 
@@ -72,34 +72,34 @@ public class BusinessRuleDeductionPriceQtyTotal extends BusinessRuleCommon {
 	protected void execute(BusinessRuleContext context) throws Exception {
 		BigDecimal total = (BigDecimal) context.getInputValues().get(this.getTotal());
 		if (total == null) {
-			total = Decimal.ZERO;
+			total = Decimals.VALUE_ZERO;
 		}
 		BigDecimal price = (BigDecimal) context.getInputValues().get(this.getPrice());
 		if (price == null) {
-			price = Decimal.ZERO;
+			price = Decimals.VALUE_ZERO;
 		}
 		BigDecimal quantity = (BigDecimal) context.getInputValues().get(this.getQuantity());
 		if (quantity == null) {
-			quantity = Decimal.ZERO;
+			quantity = Decimals.VALUE_ZERO;
 		}
-		if (Decimal.ZERO.compareTo(quantity) == 0) {
+		if (Decimals.VALUE_ZERO.compareTo(quantity) == 0) {
 			/** 数量为0，总计等为0 */
-			if (Decimal.ZERO.compareTo(total) != 0) {
-				total = Decimal.ZERO;
-				context.getOutputValues().put(this.getTotal(), Decimal.ZERO);
+			if (Decimals.VALUE_ZERO.compareTo(total) != 0) {
+				total = Decimals.VALUE_ZERO;
+				context.getOutputValues().put(this.getTotal(), Decimals.VALUE_ZERO);
 			}
 		} else {
-			if (Decimal.ZERO.compareTo(total) == 0) {
-				total = Decimal.multiply(price, quantity);
+			if (Decimals.VALUE_ZERO.compareTo(total) == 0) {
+				total = Decimals.multiply(price, quantity);
 				context.getOutputValues().put(this.getTotal(), total);
 			} else {
-				BigDecimal result = Decimal.divide(total, quantity);
-				if (Decimal.ZERO.compareTo(price) == 0) {
+				BigDecimal result = Decimals.divide(total, quantity);
+				if (Decimals.VALUE_ZERO.compareTo(price) == 0) {
 					context.getOutputValues().put(this.getPrice(), result);
 				} else {
-					result = result.setScale(price.scale(), Decimal.ROUNDING_MODE_DEFAULT);
-					if (Decimal.ONE
-							.compareTo(result.subtract(price).abs().multiply(Decimal.ONE.add(Decimal.ONE))) <= 0) {
+					result = result.setScale(price.scale(), Decimals.ROUNDING_MODE_DEFAULT);
+					if (Decimals.VALUE_ONE
+							.compareTo(result.subtract(price).abs().multiply(Decimals.VALUE_ONE.add(Decimals.VALUE_ONE))) <= 0) {
 						context.getOutputValues().put(this.getPrice(), result);
 					}
 				}

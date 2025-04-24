@@ -12,13 +12,13 @@ import org.colorcoding.ibas.bobas.bo.BusinessObject;
 import org.colorcoding.ibas.bobas.bo.IBOUserFields;
 import org.colorcoding.ibas.bobas.core.IPropertyInfo;
 import org.colorcoding.ibas.bobas.data.DateTime;
-import org.colorcoding.ibas.bobas.data.Decimal;
+import org.colorcoding.ibas.bobas.common.Decimals;
 import org.colorcoding.ibas.bobas.data.emYesNo;
 import org.colorcoding.ibas.bobas.i18n.I18N;
 import org.colorcoding.ibas.bobas.logic.BusinessLogicException;
-import org.colorcoding.ibas.bobas.mapping.BusinessObjectUnit;
-import org.colorcoding.ibas.bobas.mapping.DbField;
-import org.colorcoding.ibas.bobas.mapping.DbFieldType;
+import org.colorcoding.ibas.bobas.bo.BusinessObjectUnit;
+import org.colorcoding.ibas.bobas.db.DbField;
+import org.colorcoding.ibas.bobas.db.DbFieldType;
 import org.colorcoding.ibas.bobas.rule.BusinessRuleException;
 import org.colorcoding.ibas.bobas.rule.IBusinessRule;
 import org.colorcoding.ibas.bobas.rule.ICheckRules;
@@ -192,7 +192,7 @@ public class MaterialBatch extends BusinessObject<MaterialBatch> implements IMat
 	 * @param value 值
 	 */
 	public final void setQuantity(String value) {
-		this.setQuantity(Decimal.valueOf(value));
+		this.setQuantity(Decimals.valueOf(value));
 	}
 
 	/**
@@ -201,7 +201,7 @@ public class MaterialBatch extends BusinessObject<MaterialBatch> implements IMat
 	 * @param value 值
 	 */
 	public final void setQuantity(int value) {
-		this.setQuantity(Decimal.valueOf(value));
+		this.setQuantity(Decimals.valueOf(value));
 	}
 
 	/**
@@ -210,7 +210,7 @@ public class MaterialBatch extends BusinessObject<MaterialBatch> implements IMat
 	 * @param value 值
 	 */
 	public final void setQuantity(double value) {
-		this.setQuantity(Decimal.valueOf(value));
+		this.setQuantity(Decimals.valueOf(value));
 	}
 
 	/**
@@ -1097,7 +1097,7 @@ public class MaterialBatch extends BusinessObject<MaterialBatch> implements IMat
 				new BusinessRuleRequired(PROPERTY_ITEMCODE), // 要求有值
 				new BusinessRuleRequired(PROPERTY_WAREHOUSE), // 要求有值
 				new BusinessRuleRequired(PROPERTY_BATCHCODE), // 要求有值
-				new BusinessRuleMinValue<BigDecimal>(Decimal.ZERO, PROPERTY_QUANTITY), // 不能低于0
+				new BusinessRuleMinValue<BigDecimal>(Decimals.VALUE_ZERO, PROPERTY_QUANTITY), // 不能低于0
 				// 库存价值 = 库存量 * 成本价格
 				new BusinessRuleMultiplication(PROPERTY_INVENTORYVALUE, PROPERTY_QUANTITY, PROPERTY_AVGPRICE),
 				/*
@@ -1110,8 +1110,8 @@ public class MaterialBatch extends BusinessObject<MaterialBatch> implements IMat
 	@Override
 	public void reset() {
 		super.reset();
-		this.setQuantity(Decimal.ZERO);
-		this.setReservedQuantity(Decimal.ZERO);
+		this.setQuantity(Decimals.VALUE_ZERO);
+		this.setReservedQuantity(Decimals.VALUE_ZERO);
 	}
 
 	private boolean noCheck = false;
@@ -1129,7 +1129,7 @@ public class MaterialBatch extends BusinessObject<MaterialBatch> implements IMat
 
 	@Override
 	public void check() throws BusinessRuleException {
-		if (Decimal.ZERO.compareTo(this.getQuantity().subtract(this.getReservedQuantity())) > 0 && !this.noCheck) {
+		if (Decimals.VALUE_ZERO.compareTo(this.getQuantity().subtract(this.getReservedQuantity())) > 0 && !this.noCheck) {
 			throw new BusinessLogicException(
 					I18N.prop("msg_mm_material_batch_not_enough_is_reserved", this.getWarehouse(), this.getItemCode(),
 							this.getBatchCode(), this.getQuantity(), this.getReservedQuantity()));
