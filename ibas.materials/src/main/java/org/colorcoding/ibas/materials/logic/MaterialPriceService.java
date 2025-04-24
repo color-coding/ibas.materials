@@ -7,16 +7,16 @@ import org.colorcoding.ibas.bobas.common.IChildCriteria;
 import org.colorcoding.ibas.bobas.common.ICondition;
 import org.colorcoding.ibas.bobas.common.ICriteria;
 import org.colorcoding.ibas.bobas.common.IOperationResult;
+import org.colorcoding.ibas.bobas.common.Strings;
 import org.colorcoding.ibas.bobas.i18n.I18N;
+import org.colorcoding.ibas.bobas.logging.Logger;
+import org.colorcoding.ibas.bobas.logging.LoggingLevel;
 import org.colorcoding.ibas.bobas.logic.BusinessLogicException;
-import org.colorcoding.ibas.bobas.mapping.LogicContract;
-import org.colorcoding.ibas.bobas.message.Logger;
-import org.colorcoding.ibas.bobas.message.MessageLevel;
+import org.colorcoding.ibas.bobas.logic.LogicContract;
 import org.colorcoding.ibas.materials.bo.materialpricelist.IMaterialPriceItem;
 import org.colorcoding.ibas.materials.bo.materialpricelist.IMaterialPriceList;
 import org.colorcoding.ibas.materials.bo.materialpricelist.MaterialPriceItem;
 import org.colorcoding.ibas.materials.bo.materialpricelist.MaterialPriceList;
-import org.colorcoding.ibas.materials.data.DataConvert;
 import org.colorcoding.ibas.materials.repository.BORepositoryMaterials;
 
 @LogicContract(IMaterialPriceContract.class)
@@ -28,13 +28,13 @@ public class MaterialPriceService extends MaterialBusinessLogic<IMaterialPriceCo
 			IMaterialPriceContract contract = (IMaterialPriceContract) data;
 			if (contract.getPrice() == null) {
 				// 无价格，不执行此逻辑
-				Logger.log(MessageLevel.DEBUG, MSG_LOGICS_SKIP_LOGIC_EXECUTION, this.getClass().getName(), "Non Price",
+				Logger.log(LoggingLevel.DEBUG, MSG_LOGICS_SKIP_LOGIC_EXECUTION, this.getClass().getName(), "Non Price",
 						contract.getPrice());
 				return false;
 			}
 			if (contract.getPriceList() == null) {
 				// 无价格清单，不执行此逻辑
-				Logger.log(MessageLevel.DEBUG, MSG_LOGICS_SKIP_LOGIC_EXECUTION, this.getClass().getName(),
+				Logger.log(LoggingLevel.DEBUG, MSG_LOGICS_SKIP_LOGIC_EXECUTION, this.getClass().getName(),
 						"Non PriceList", contract.getPriceList());
 				return false;
 			}
@@ -62,19 +62,20 @@ public class MaterialPriceService extends MaterialBusinessLogic<IMaterialPriceCo
 		childCondition.setOperation(ConditionOperation.EQUAL);
 		childCondition.setValue(contract.getItemCode());
 
-		IMaterialPriceList materialPriceList = super.fetchBeAffected(criteria, IMaterialPriceList.class);
+		IMaterialPriceList materialPriceList = this.fetchBeAffected(IMaterialPriceList.class, criteria);
 		if (materialPriceList == null) {
-			BORepositoryMaterials boRepository = new BORepositoryMaterials();
-			boRepository.setRepository(super.getRepository());
-			IOperationResult<IMaterialPriceList> operationResult = boRepository.fetchMaterialPriceList(criteria);
-			if (operationResult.getError() != null) {
-				throw new BusinessLogicException(operationResult.getError());
-			}
-			materialPriceList = operationResult.getResultObjects().firstOrDefault();
-			if (materialPriceList != null) {
-				// 不更新已经存在价格清单
-				BusinessObject<?> bo = (BusinessObject<?>) materialPriceList;
-				bo.unsavable();
+			try (BORepositoryMaterials boRepository = new BORepositoryMaterials()) {
+				boRepository.setTransaction(this.getTransaction());
+				IOperationResult<IMaterialPriceList> operationResult = boRepository.fetchMaterialPriceList(criteria);
+				if (operationResult.getError() != null) {
+					throw new BusinessLogicException(operationResult.getError());
+				}
+				materialPriceList = operationResult.getResultObjects().firstOrDefault();
+				if (materialPriceList != null) {
+					// 不更新已经存在价格清单
+					BusinessObject<?> bo = (BusinessObject<?>) materialPriceList;
+					bo.unsavable();
+				}
 			}
 		}
 		if (materialPriceList == null) {
@@ -88,7 +89,7 @@ public class MaterialPriceService extends MaterialBusinessLogic<IMaterialPriceCo
 	@Override
 	protected void impact(IMaterialPriceContract contract) {
 		IMaterialPriceList materialPriceList = this.getBeAffected();
-		if (!DataConvert.isNullOrEmpty(contract.getCurrency())) {
+		if (!Strings.isNullOrEmpty(contract.getCurrency())) {
 			// 设置了货币，则比较货币是否匹配
 			if (!contract.getCurrency().equals(materialPriceList.getCurrency())) {
 				throw new BusinessLogicException(I18N.prop("msg_mm_wrong_currency_of_price_list",
@@ -99,17 +100,16 @@ public class MaterialPriceService extends MaterialBusinessLogic<IMaterialPriceCo
 		IMaterialPriceItem materialPriceItem = materialPriceList.getMaterialPriceItems()
 				.firstOrDefault(c -> c.getItemCode().equals(contract.getItemCode())
 						// 提供单位，则要求单位一致
-						&& ((!DataConvert.isNullOrEmpty(contract.getUOM()) && contract.getUOM().equals(c.getUOM())
-								|| DataConvert.isNullOrEmpty(contract.getUOM()))));
+						&& ((!Strings.isNullOrEmpty(contract.getUOM()) && contract.getUOM().equals(c.getUOM())
+								|| Strings.isNullOrEmpty(contract.getUOM()))));
 		if (materialPriceItem == null) {
 			materialPriceItem = materialPriceList.getMaterialPriceItems().create();
 			materialPriceItem.setItemCode(contract.getItemCode());
 		}
-		materialPriceItem.setUOM(
-				DataConvert.isNullOrEmpty(contract.getUOM()) ? DataConvert.STRING_VALUE_EMPTY : contract.getUOM());
+		materialPriceItem.setUOM(Strings.isNullOrEmpty(contract.getUOM()) ? Strings.VALUE_EMPTY : contract.getUOM());
 		materialPriceItem.setPrice(contract.getPrice());
-		materialPriceItem.setCurrency(DataConvert.isNullOrEmpty(contract.getCurrency()) ? DataConvert.STRING_VALUE_EMPTY
-				: contract.getCurrency());
+		materialPriceItem.setCurrency(
+				Strings.isNullOrEmpty(contract.getCurrency()) ? Strings.VALUE_EMPTY : contract.getCurrency());
 	}
 
 	@Override

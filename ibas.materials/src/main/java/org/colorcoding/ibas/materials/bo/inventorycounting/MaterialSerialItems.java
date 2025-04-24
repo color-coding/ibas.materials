@@ -5,7 +5,7 @@ import java.math.BigDecimal;
 import javax.xml.bind.annotation.XmlSeeAlso;
 import javax.xml.bind.annotation.XmlType;
 
-import org.colorcoding.ibas.bobas.data.Decimal;
+import org.colorcoding.ibas.bobas.common.Decimals;
 import org.colorcoding.ibas.bobas.data.emDocumentStatus;
 import org.colorcoding.ibas.bobas.data.emYesNo;
 import org.colorcoding.ibas.bobas.i18n.I18N;
@@ -81,7 +81,7 @@ class MaterialSerialItems extends org.colorcoding.ibas.materials.bo.materialseri
 		if (lineId == null) {
 			lineId = 0;
 		}
-		BigDecimal total = Decimal.ZERO;
+		BigDecimal total = Decimals.VALUE_ZERO;
 		for (IMaterialSerialItem item : this) {
 			if (item.isDeleted()) {
 				continue;
@@ -106,9 +106,9 @@ class MaterialSerialItems extends org.colorcoding.ibas.materials.bo.materialseri
 				throw new BusinessRuleException(I18N.prop("msg_mm_document_material_serial_duplicate_code",
 						this.getParent(), tmpItem.getSerialCode()));
 			}
-			total = total.add(Decimal.ONE);
+			total = total.add(Decimals.VALUE_ONE);
 		}
-		if (total.compareTo(Decimal.round(this.getParent().getInventoryQuantity().abs(), total.scale())) != 0) {
+		if (total.compareTo(Decimals.round(this.getParent().getInventoryQuantity().abs(), total.scale())) != 0) {
 			throw new BusinessRuleException(
 					I18N.prop("msg_mm_document_material_serial_quantity_deviates", this.getParent()));
 		}

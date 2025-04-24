@@ -1,20 +1,20 @@
 package org.colorcoding.ibas.materials;
 
 import org.colorcoding.ibas.bobas.configuration.ConfigurationFactory;
-import org.colorcoding.ibas.bobas.configuration.IConfigurationManager;
+import org.colorcoding.ibas.bobas.configuration.ConfigurationManager;
 
 /**
  * 我的配置项
  */
 public class MyConfiguration extends org.colorcoding.ibas.initialfantasy.MyConfiguration {
 
-	private volatile static IConfigurationManager instance;
+	private volatile static ConfigurationManager instance;
 
-	public static IConfigurationManager create() {
+	public static ConfigurationManager create() {
 		if (instance == null) {
 			synchronized (MyConfiguration.class) {
 				if (instance == null) {
-					instance = ConfigurationFactory.create().createManager();
+					instance = ConfigurationFactory.createManager();
 					instance.setConfigSign(MODULE_ID);
 					instance.update();
 				}
@@ -57,9 +57,6 @@ public class MyConfiguration extends org.colorcoding.ibas.initialfantasy.MyConfi
 
 	/** 物料成本价格清单 */
 	public static final Integer DATA_MATERIALS_COST_PRICE_LIST = -1;
-
-	/** 配置项目-默认货币 */
-	public final static String CONFIG_ITEM_DEFAULT_CURRENCY = "defaultCurrency";
 
 	/** 配置项目-价格清单最大层级 */
 	public final static String CONFIG_ITEM_PRICE_LIST_MAX_LEVEL = "maxPriceListLevel";

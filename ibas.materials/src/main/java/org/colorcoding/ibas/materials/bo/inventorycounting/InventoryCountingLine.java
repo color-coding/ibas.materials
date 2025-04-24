@@ -16,14 +16,14 @@ import org.colorcoding.ibas.bobas.bo.IBOUserFields;
 import org.colorcoding.ibas.bobas.core.IPropertyInfo;
 import org.colorcoding.ibas.bobas.data.ArrayList;
 import org.colorcoding.ibas.bobas.data.DateTime;
-import org.colorcoding.ibas.bobas.data.Decimal;
+import org.colorcoding.ibas.bobas.common.Decimals;
 import org.colorcoding.ibas.bobas.data.emBOStatus;
 import org.colorcoding.ibas.bobas.data.emDocumentStatus;
 import org.colorcoding.ibas.bobas.data.emYesNo;
 import org.colorcoding.ibas.bobas.logic.IBusinessLogicContract;
 import org.colorcoding.ibas.bobas.logic.IBusinessLogicsHost;
-import org.colorcoding.ibas.bobas.mapping.DbField;
-import org.colorcoding.ibas.bobas.mapping.DbFieldType;
+import org.colorcoding.ibas.bobas.db.DbField;
+import org.colorcoding.ibas.bobas.db.DbFieldType;
 import org.colorcoding.ibas.bobas.rule.BusinessRuleException;
 import org.colorcoding.ibas.bobas.rule.IBusinessRule;
 import org.colorcoding.ibas.bobas.rule.ICheckRules;
@@ -884,7 +884,7 @@ public class InventoryCountingLine extends BusinessObject<InventoryCountingLine>
 	 * @param value 值
 	 */
 	public final void setStockQuantity(String value) {
-		this.setStockQuantity(Decimal.valueOf(value));
+		this.setStockQuantity(Decimals.valueOf(value));
 	}
 
 	/**
@@ -893,7 +893,7 @@ public class InventoryCountingLine extends BusinessObject<InventoryCountingLine>
 	 * @param value 值
 	 */
 	public final void setStockQuantity(int value) {
-		this.setStockQuantity(Decimal.valueOf(value));
+		this.setStockQuantity(Decimals.valueOf(value));
 	}
 
 	/**
@@ -902,7 +902,7 @@ public class InventoryCountingLine extends BusinessObject<InventoryCountingLine>
 	 * @param value 值
 	 */
 	public final void setStockQuantity(double value) {
-		this.setStockQuantity(Decimal.valueOf(value));
+		this.setStockQuantity(Decimals.valueOf(value));
 	}
 
 	/**
@@ -942,7 +942,7 @@ public class InventoryCountingLine extends BusinessObject<InventoryCountingLine>
 	 * @param value 值
 	 */
 	public final void setCountQuantity(String value) {
-		this.setCountQuantity(Decimal.valueOf(value));
+		this.setCountQuantity(Decimals.valueOf(value));
 	}
 
 	/**
@@ -951,7 +951,7 @@ public class InventoryCountingLine extends BusinessObject<InventoryCountingLine>
 	 * @param value 值
 	 */
 	public final void setCountQuantity(int value) {
-		this.setCountQuantity(Decimal.valueOf(value));
+		this.setCountQuantity(Decimals.valueOf(value));
 	}
 
 	/**
@@ -960,7 +960,7 @@ public class InventoryCountingLine extends BusinessObject<InventoryCountingLine>
 	 * @param value 值
 	 */
 	public final void setCountQuantity(double value) {
-		this.setCountQuantity(Decimal.valueOf(value));
+		this.setCountQuantity(Decimals.valueOf(value));
 	}
 
 	/**
@@ -1000,7 +1000,7 @@ public class InventoryCountingLine extends BusinessObject<InventoryCountingLine>
 	 * @param value 值
 	 */
 	public final void setDifference(String value) {
-		this.setDifference(Decimal.valueOf(value));
+		this.setDifference(Decimals.valueOf(value));
 	}
 
 	/**
@@ -1009,7 +1009,7 @@ public class InventoryCountingLine extends BusinessObject<InventoryCountingLine>
 	 * @param value 值
 	 */
 	public final void setDifference(int value) {
-		this.setDifference(Decimal.valueOf(value));
+		this.setDifference(Decimals.valueOf(value));
 	}
 
 	/**
@@ -1018,7 +1018,7 @@ public class InventoryCountingLine extends BusinessObject<InventoryCountingLine>
 	 * @param value 值
 	 */
 	public final void setDifference(double value) {
-		this.setDifference(Decimal.valueOf(value));
+		this.setDifference(Decimals.valueOf(value));
 	}
 
 	/**
@@ -1151,7 +1151,7 @@ public class InventoryCountingLine extends BusinessObject<InventoryCountingLine>
 	 * @param value 值
 	 */
 	public final void setPrice(String value) {
-		this.setPrice(Decimal.valueOf(value));
+		this.setPrice(Decimals.valueOf(value));
 	}
 
 	/**
@@ -1160,7 +1160,7 @@ public class InventoryCountingLine extends BusinessObject<InventoryCountingLine>
 	 * @param value 值
 	 */
 	public final void setPrice(int value) {
-		this.setPrice(Decimal.valueOf(value));
+		this.setPrice(Decimals.valueOf(value));
 	}
 
 	/**
@@ -1169,7 +1169,7 @@ public class InventoryCountingLine extends BusinessObject<InventoryCountingLine>
 	 * @param value 值
 	 */
 	public final void setPrice(double value) {
-		this.setPrice(Decimal.valueOf(value));
+		this.setPrice(Decimals.valueOf(value));
 	}
 
 	/**
@@ -1240,7 +1240,7 @@ public class InventoryCountingLine extends BusinessObject<InventoryCountingLine>
 	 * @param value 值
 	 */
 	public final void setRate(String value) {
-		this.setRate(Decimal.valueOf(value));
+		this.setRate(Decimals.valueOf(value));
 	}
 
 	/**
@@ -1249,7 +1249,7 @@ public class InventoryCountingLine extends BusinessObject<InventoryCountingLine>
 	 * @param value 值
 	 */
 	public final void setRate(int value) {
-		this.setRate(Decimal.valueOf(value));
+		this.setRate(Decimals.valueOf(value));
 	}
 
 	/**
@@ -1258,7 +1258,7 @@ public class InventoryCountingLine extends BusinessObject<InventoryCountingLine>
 	 * @param value 值
 	 */
 	public final void setRate(double value) {
-		this.setRate(Decimal.valueOf(value));
+		this.setRate(Decimals.valueOf(value));
 	}
 
 	/**
@@ -1298,7 +1298,7 @@ public class InventoryCountingLine extends BusinessObject<InventoryCountingLine>
 	 * @param value 值
 	 */
 	public final void setLineTotal(String value) {
-		this.setLineTotal(Decimal.valueOf(value));
+		this.setLineTotal(Decimals.valueOf(value));
 	}
 
 	/**
@@ -1307,7 +1307,7 @@ public class InventoryCountingLine extends BusinessObject<InventoryCountingLine>
 	 * @param value 值
 	 */
 	public final void setLineTotal(int value) {
-		this.setLineTotal(Decimal.valueOf(value));
+		this.setLineTotal(Decimals.valueOf(value));
 	}
 
 	/**
@@ -1316,7 +1316,7 @@ public class InventoryCountingLine extends BusinessObject<InventoryCountingLine>
 	 * @param value 值
 	 */
 	public final void setLineTotal(double value) {
-		this.setLineTotal(Decimal.valueOf(value));
+		this.setLineTotal(Decimals.valueOf(value));
 	}
 
 	/**
@@ -1411,8 +1411,8 @@ public class InventoryCountingLine extends BusinessObject<InventoryCountingLine>
 				// 注册的业务规则
 				new BusinessRuleRequired(PROPERTY_ITEMCODE), // 要求有值
 				new BusinessRuleRequired(PROPERTY_WAREHOUSE), // 要求有值
-				new BusinessRuleMinValue<BigDecimal>(Decimal.ZERO, PROPERTY_STOCKQUANTITY), // 不能低于0
-				new BusinessRuleMinValue<BigDecimal>(Decimal.ZERO, PROPERTY_COUNTQUANTITY), // 不能低于0
+				new BusinessRuleMinValue<BigDecimal>(Decimals.VALUE_ZERO, PROPERTY_STOCKQUANTITY), // 不能低于0
+				new BusinessRuleMinValue<BigDecimal>(Decimals.VALUE_ZERO, PROPERTY_COUNTQUANTITY), // 不能低于0
 				// 计算总计 = 数量 * 价格
 				new BusinessRuleDeductionPriceQtyTotal(PROPERTY_LINETOTAL, PROPERTY_DIFFERENCE, PROPERTY_PRICE), };
 	}
@@ -1464,7 +1464,7 @@ public class InventoryCountingLine extends BusinessObject<InventoryCountingLine>
 		}
 		// 仅结算状态影响库存
 		if (InventoryCountingLine.this.getLineStatus() == emDocumentStatus.CLOSED) {
-			if (Decimal.ZERO.compareTo(InventoryCountingLine.this.getDifference()) > 0) {
+			if (Decimals.VALUE_ZERO.compareTo(InventoryCountingLine.this.getDifference()) > 0) {
 				// 盘亏，发货
 				contracts.add(new IMaterialIssueContract() {
 					@Override
@@ -1596,7 +1596,7 @@ public class InventoryCountingLine extends BusinessObject<InventoryCountingLine>
 					}
 
 				});
-			} else if (Decimal.ZERO.compareTo(InventoryCountingLine.this.getDifference()) < 0) {
+			} else if (Decimals.VALUE_ZERO.compareTo(InventoryCountingLine.this.getDifference()) < 0) {
 				// 盘盈，收货
 				contracts.add(new IMaterialReceiptContract() {
 					@Override
