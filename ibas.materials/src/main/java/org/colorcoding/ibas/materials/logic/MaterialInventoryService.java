@@ -2,12 +2,13 @@ package org.colorcoding.ibas.materials.logic;
 
 import java.math.BigDecimal;
 
-import org.colorcoding.ibas.bobas.data.Decimal;
+import org.colorcoding.ibas.bobas.common.Decimals;
+import org.colorcoding.ibas.bobas.core.ITrackable;
 import org.colorcoding.ibas.bobas.data.emDirection;
 import org.colorcoding.ibas.bobas.data.emYesNo;
 import org.colorcoding.ibas.bobas.i18n.I18N;
 import org.colorcoding.ibas.bobas.logic.BusinessLogicException;
-import org.colorcoding.ibas.bobas.mapping.LogicContract;
+import org.colorcoding.ibas.bobas.logic.LogicContract;
 import org.colorcoding.ibas.materials.MyConfiguration;
 import org.colorcoding.ibas.materials.bo.material.IMaterial;
 import org.colorcoding.ibas.materials.data.emItemType;
@@ -43,25 +44,25 @@ public class MaterialInventoryService extends MaterialInventoryBusinessLogic<IMa
 			if (!MyConfiguration.getConfigValue(MyConfiguration.CONFIG_ITEM_MANAGE_MATERIAL_COSTS_BY_WAREHOUSE, true)) {
 				// 非仓库个别管理
 				BigDecimal avgPrice = contract.getCalculatedPrice();
-				if (contract.getQuantity().compareTo(Decimal.ZERO) > 0 && avgPrice != null) {
+				if (contract.getQuantity().compareTo(Decimals.VALUE_ZERO) > 0 && avgPrice != null) {
 					material.setAvgPrice(avgPrice);
 				}
 			} else {
-				material.setAvgPrice(Decimal.ZERO);
+				material.setAvgPrice(Decimals.VALUE_ZERO);
 			}
 		} else if (contract.getDirection() == emDirection.OUT) {
 			onHand = onHand.subtract(contract.getQuantity());
 			if (!MyConfiguration.getConfigValue(MyConfiguration.CONFIG_ITEM_MANAGE_MATERIAL_COSTS_BY_WAREHOUSE, true)) {
 				// 非仓库个别管理
 				BigDecimal avgPrice = contract.getCalculatedPrice();
-				if (contract.getQuantity().compareTo(Decimal.ZERO) < 0 && avgPrice != null) {
+				if (contract.getQuantity().compareTo(Decimals.VALUE_ZERO) < 0 && avgPrice != null) {
 					material.setAvgPrice(avgPrice);
 				}
 			} else {
-				material.setAvgPrice(Decimal.ZERO);
+				material.setAvgPrice(Decimals.VALUE_ZERO);
 			}
 		}
-		if (Decimal.ZERO.compareTo(onHand) > 0) {
+		if (Decimals.VALUE_ZERO.compareTo(onHand) > 0) {
 			throw new BusinessLogicException(I18N.prop("msg_mm_material_not_enough", contract.getItemCode(), onHand));
 		}
 		material.setOnHand(onHand);
@@ -76,7 +77,8 @@ public class MaterialInventoryService extends MaterialInventoryBusinessLogic<IMa
 		} else {
 			onHand = onHand.subtract(contract.getQuantity());
 		}
-		if (Decimal.ZERO.compareTo(onHand) > 0 && this.getLogicChain().getTrigger().isDeleted()) {
+		if (Decimals.VALUE_ZERO.compareTo(onHand) > 0 && this.getTrigger() instanceof ITrackable
+				&& ((ITrackable) this.getTrigger()).isDeleted()) {
 			throw new BusinessLogicException(I18N.prop("msg_mm_material_not_enough", contract.getItemCode(), onHand));
 		}
 		material.setOnHand(onHand);

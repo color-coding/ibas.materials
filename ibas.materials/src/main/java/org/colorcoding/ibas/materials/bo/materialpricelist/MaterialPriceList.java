@@ -13,11 +13,11 @@ import org.colorcoding.ibas.bobas.bo.BusinessObject;
 import org.colorcoding.ibas.bobas.bo.IBOUserFields;
 import org.colorcoding.ibas.bobas.core.IPropertyInfo;
 import org.colorcoding.ibas.bobas.data.DateTime;
-import org.colorcoding.ibas.bobas.data.Decimal;
+import org.colorcoding.ibas.bobas.common.Decimals;
 import org.colorcoding.ibas.bobas.data.emYesNo;
-import org.colorcoding.ibas.bobas.mapping.BusinessObjectUnit;
-import org.colorcoding.ibas.bobas.mapping.DbField;
-import org.colorcoding.ibas.bobas.mapping.DbFieldType;
+import org.colorcoding.ibas.bobas.bo.BusinessObjectUnit;
+import org.colorcoding.ibas.bobas.db.DbField;
+import org.colorcoding.ibas.bobas.db.DbFieldType;
 import org.colorcoding.ibas.bobas.ownership.IDataOwnership;
 import org.colorcoding.ibas.bobas.rule.IBusinessRule;
 import org.colorcoding.ibas.bobas.rule.common.BusinessRuleMinValue;
@@ -220,7 +220,7 @@ public class MaterialPriceList extends BusinessObject<MaterialPriceList>
 	 * @param value 值
 	 */
 	public final void setFactor(String value) {
-		this.setFactor(Decimal.valueOf(value));
+		this.setFactor(Decimals.valueOf(value));
 	}
 
 	/**
@@ -229,7 +229,7 @@ public class MaterialPriceList extends BusinessObject<MaterialPriceList>
 	 * @param value 值
 	 */
 	public final void setFactor(int value) {
-		this.setFactor(Decimal.valueOf(value));
+		this.setFactor(Decimals.valueOf(value));
 	}
 
 	/**
@@ -238,7 +238,7 @@ public class MaterialPriceList extends BusinessObject<MaterialPriceList>
 	 * @param value 值
 	 */
 	public final void setFactor(double value) {
-		this.setFactor(Decimal.valueOf(value));
+		this.setFactor(Decimals.valueOf(value));
 	}
 
 	/**
@@ -901,7 +901,7 @@ public class MaterialPriceList extends BusinessObject<MaterialPriceList>
 		super.initialize();// 基类初始化，不可去除
 		this.setMaterialPriceItems(new MaterialPriceItems(this));
 		this.setObjectCode(MyConfiguration.applyVariables(BUSINESS_OBJECT_CODE));
-		this.setFactor(Decimal.ONE);
+		this.setFactor(Decimals.VALUE_ONE);
 		this.setTaxed(emYesNo.YES);
 	}
 
@@ -910,7 +910,7 @@ public class MaterialPriceList extends BusinessObject<MaterialPriceList>
 		// 注册的业务规则
 		return new IBusinessRule[] {
 				// 系数不能小于0
-				new BusinessRuleMinValue<BigDecimal>(Decimal.ZERO, PROPERTY_FACTOR)
+				new BusinessRuleMinValue<BigDecimal>(Decimals.VALUE_ZERO, PROPERTY_FACTOR)
 
 		};
 	}
