@@ -11,7 +11,7 @@ import javax.xml.bind.annotation.XmlType;
 
 import org.colorcoding.ibas.bobas.data.ArrayList;
 import org.colorcoding.ibas.bobas.data.List;
-import org.colorcoding.ibas.bobas.serialization.Serializable;
+import org.colorcoding.ibas.bobas.core.Serializable;
 
 /**
  * 规格树

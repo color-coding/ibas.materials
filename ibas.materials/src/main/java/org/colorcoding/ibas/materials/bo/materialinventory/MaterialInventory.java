@@ -11,13 +11,13 @@ import javax.xml.bind.annotation.XmlType;
 import org.colorcoding.ibas.bobas.bo.BusinessObject;
 import org.colorcoding.ibas.bobas.core.IPropertyInfo;
 import org.colorcoding.ibas.bobas.data.DateTime;
-import org.colorcoding.ibas.bobas.data.Decimal;
+import org.colorcoding.ibas.bobas.common.Decimals;
 import org.colorcoding.ibas.bobas.data.emYesNo;
 import org.colorcoding.ibas.bobas.i18n.I18N;
 import org.colorcoding.ibas.bobas.logic.BusinessLogicException;
-import org.colorcoding.ibas.bobas.mapping.BusinessObjectUnit;
-import org.colorcoding.ibas.bobas.mapping.DbField;
-import org.colorcoding.ibas.bobas.mapping.DbFieldType;
+import org.colorcoding.ibas.bobas.bo.BusinessObjectUnit;
+import org.colorcoding.ibas.bobas.db.DbField;
+import org.colorcoding.ibas.bobas.db.DbFieldType;
 import org.colorcoding.ibas.bobas.rule.BusinessRuleException;
 import org.colorcoding.ibas.bobas.rule.IBusinessRule;
 import org.colorcoding.ibas.bobas.rule.ICheckRules;
@@ -190,7 +190,7 @@ public class MaterialInventory extends BusinessObject<MaterialInventory> impleme
 	 * @param value 值
 	 */
 	public final void setAvgPrice(String value) {
-		this.setAvgPrice(Decimal.valueOf(value));
+		this.setAvgPrice(Decimals.valueOf(value));
 	}
 
 	/**
@@ -199,7 +199,7 @@ public class MaterialInventory extends BusinessObject<MaterialInventory> impleme
 	 * @param value 值
 	 */
 	public final void setAvgPrice(int value) {
-		this.setAvgPrice(Decimal.valueOf(value));
+		this.setAvgPrice(Decimals.valueOf(value));
 	}
 
 	/**
@@ -208,7 +208,7 @@ public class MaterialInventory extends BusinessObject<MaterialInventory> impleme
 	 * @param value 值
 	 */
 	public final void setAvgPrice(double value) {
-		this.setAvgPrice(Decimal.valueOf(value));
+		this.setAvgPrice(Decimals.valueOf(value));
 	}
 
 	/**
@@ -248,7 +248,7 @@ public class MaterialInventory extends BusinessObject<MaterialInventory> impleme
 	 * @param value 值
 	 */
 	public final void setOnHand(String value) {
-		this.setOnHand(Decimal.valueOf(value));
+		this.setOnHand(Decimals.valueOf(value));
 	}
 
 	/**
@@ -257,7 +257,7 @@ public class MaterialInventory extends BusinessObject<MaterialInventory> impleme
 	 * @param value 值
 	 */
 	public final void setOnHand(int value) {
-		this.setOnHand(Decimal.valueOf(value));
+		this.setOnHand(Decimals.valueOf(value));
 	}
 
 	/**
@@ -266,7 +266,7 @@ public class MaterialInventory extends BusinessObject<MaterialInventory> impleme
 	 * @param value 值
 	 */
 	public final void setOnHand(double value) {
-		this.setOnHand(Decimal.valueOf(value));
+		this.setOnHand(Decimals.valueOf(value));
 	}
 
 	/**
@@ -306,7 +306,7 @@ public class MaterialInventory extends BusinessObject<MaterialInventory> impleme
 	 * @param value 值
 	 */
 	public final void setOnCommited(String value) {
-		this.setOnCommited(Decimal.valueOf(value));
+		this.setOnCommited(Decimals.valueOf(value));
 	}
 
 	/**
@@ -315,7 +315,7 @@ public class MaterialInventory extends BusinessObject<MaterialInventory> impleme
 	 * @param value 值
 	 */
 	public final void setOnCommited(int value) {
-		this.setOnCommited(Decimal.valueOf(value));
+		this.setOnCommited(Decimals.valueOf(value));
 	}
 
 	/**
@@ -324,7 +324,7 @@ public class MaterialInventory extends BusinessObject<MaterialInventory> impleme
 	 * @param value 值
 	 */
 	public final void setOnCommited(double value) {
-		this.setOnCommited(Decimal.valueOf(value));
+		this.setOnCommited(Decimals.valueOf(value));
 	}
 
 	/**
@@ -364,7 +364,7 @@ public class MaterialInventory extends BusinessObject<MaterialInventory> impleme
 	 * @param value 值
 	 */
 	public final void setOnOrdered(String value) {
-		this.setOnOrdered(Decimal.valueOf(value));
+		this.setOnOrdered(Decimals.valueOf(value));
 	}
 
 	/**
@@ -373,7 +373,7 @@ public class MaterialInventory extends BusinessObject<MaterialInventory> impleme
 	 * @param value 值
 	 */
 	public final void setOnOrdered(int value) {
-		this.setOnOrdered(Decimal.valueOf(value));
+		this.setOnOrdered(Decimals.valueOf(value));
 	}
 
 	/**
@@ -382,7 +382,7 @@ public class MaterialInventory extends BusinessObject<MaterialInventory> impleme
 	 * @param value 值
 	 */
 	public final void setOnOrdered(double value) {
-		this.setOnOrdered(Decimal.valueOf(value));
+		this.setOnOrdered(Decimals.valueOf(value));
 	}
 
 	/**
@@ -864,10 +864,10 @@ public class MaterialInventory extends BusinessObject<MaterialInventory> impleme
 		return new IBusinessRule[] { // 注册的业务规则
 				new BusinessRuleRequired(PROPERTY_ITEMCODE), // 要求有值
 				new BusinessRuleRequired(PROPERTY_WAREHOUSE), // 要求有值
-				new BusinessRuleMinValue<BigDecimal>(Decimal.ZERO, PROPERTY_ONHAND), // 不能低于0
-				new BusinessRuleMinValue<BigDecimal>(Decimal.ZERO, PROPERTY_ONORDERED), // 不能低于0
-				new BusinessRuleMinValue<BigDecimal>(Decimal.ZERO, PROPERTY_AVGPRICE), // 不能低于0
-				new BusinessRuleMinValue<BigDecimal>(Decimal.ZERO, PROPERTY_ONRESERVED), // 不能低于0
+				new BusinessRuleMinValue<BigDecimal>(Decimals.VALUE_ZERO, PROPERTY_ONHAND), // 不能低于0
+				new BusinessRuleMinValue<BigDecimal>(Decimals.VALUE_ZERO, PROPERTY_ONORDERED), // 不能低于0
+				new BusinessRuleMinValue<BigDecimal>(Decimals.VALUE_ZERO, PROPERTY_AVGPRICE), // 不能低于0
+				new BusinessRuleMinValue<BigDecimal>(Decimals.VALUE_ZERO, PROPERTY_ONRESERVED), // 不能低于0
 				// 库存价值 = 库存量 * 成本价格
 				new BusinessRuleMultiplication(PROPERTY_INVENTORYVALUE, PROPERTY_ONHAND, PROPERTY_AVGPRICE),
 				// 存在先下单再订购，已承诺不做最低值控制
@@ -882,20 +882,20 @@ public class MaterialInventory extends BusinessObject<MaterialInventory> impleme
 	@Override
 	public void reset() {
 		super.reset();
-		this.setOnCommited(Decimal.ZERO);
-		this.setOnOrdered(Decimal.ZERO);
-		this.setOnHand(Decimal.ZERO);
-		this.setOnReserved(Decimal.ZERO);
+		this.setOnCommited(Decimals.VALUE_ZERO);
+		this.setOnOrdered(Decimals.VALUE_ZERO);
+		this.setOnHand(Decimals.VALUE_ZERO);
+		this.setOnReserved(Decimals.VALUE_ZERO);
 	}
 
 	@Override
 	public BigDecimal getOnAvailable() {
-		return Decimal.add(this.getOnHand(), this.getOnOrdered(), this.getOnCommited().negate());
+		return Decimals.add(this.getOnHand(), this.getOnOrdered(), this.getOnCommited().negate());
 	}
 
 	@Override
 	public void check() throws BusinessRuleException {
-		if (Decimal.ZERO.compareTo(this.getOnHand().subtract(this.getOnReserved())) > 0 && !this.noCheck) {
+		if (Decimals.VALUE_ZERO.compareTo(this.getOnHand().subtract(this.getOnReserved())) > 0 && !this.noCheck) {
 			throw new BusinessLogicException(I18N.prop("msg_mm_material_not_enough_is_reserved", this.getWarehouse(),
 					this.getItemCode(), this.getOnHand(), this.getOnReserved()));
 		}

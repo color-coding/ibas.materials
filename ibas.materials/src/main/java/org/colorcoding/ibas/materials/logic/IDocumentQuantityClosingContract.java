@@ -2,9 +2,9 @@ package org.colorcoding.ibas.materials.logic;
 
 import java.math.BigDecimal;
 
-import org.colorcoding.ibas.bobas.core.IBORepository;
-import org.colorcoding.ibas.bobas.data.DataConvert;
+import org.colorcoding.ibas.bobas.common.Strings;
 import org.colorcoding.ibas.bobas.logic.IBusinessLogicContract;
+import org.colorcoding.ibas.bobas.repository.ITransaction;
 
 /**
  * 单据数量关闭契约
@@ -15,8 +15,8 @@ public interface IDocumentQuantityClosingContract extends IBusinessLogicContract
 	 * 
 	 * @return
 	 */
-	default boolean checkDataStatus(IBORepository repository) {
-		if (DataConvert.isNullOrEmpty(this.getBaseDocumentType())) {
+	default boolean checkDataStatus(ITransaction transaction) {
+		if (Strings.isNullOrEmpty(this.getBaseDocumentType())) {
 			return false;
 		}
 		if (Integer.compare(0, this.getBaseDocumentEntry()) >= 0) {
@@ -26,8 +26,8 @@ public interface IDocumentQuantityClosingContract extends IBusinessLogicContract
 	}
 
 	/**
-	 * 自动处理单据状态
-	 * 关闭数量大于数量，完成订单
+	 * 自动处理单据状态 关闭数量大于数量，完成订单
+	 * 
 	 * @return
 	 */
 	default boolean isSmartDocumentStatus() {

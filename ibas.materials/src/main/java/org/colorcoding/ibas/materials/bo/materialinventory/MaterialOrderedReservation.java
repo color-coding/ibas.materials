@@ -12,14 +12,14 @@ import org.colorcoding.ibas.bobas.bo.BusinessObject;
 import org.colorcoding.ibas.bobas.core.IPropertyInfo;
 import org.colorcoding.ibas.bobas.data.ArrayList;
 import org.colorcoding.ibas.bobas.data.DateTime;
-import org.colorcoding.ibas.bobas.data.Decimal;
+import org.colorcoding.ibas.bobas.common.Decimals;
 import org.colorcoding.ibas.bobas.data.emBOStatus;
 import org.colorcoding.ibas.bobas.data.emYesNo;
 import org.colorcoding.ibas.bobas.logic.IBusinessLogicContract;
 import org.colorcoding.ibas.bobas.logic.IBusinessLogicsHost;
-import org.colorcoding.ibas.bobas.mapping.BusinessObjectUnit;
-import org.colorcoding.ibas.bobas.mapping.DbField;
-import org.colorcoding.ibas.bobas.mapping.DbFieldType;
+import org.colorcoding.ibas.bobas.bo.BusinessObjectUnit;
+import org.colorcoding.ibas.bobas.db.DbField;
+import org.colorcoding.ibas.bobas.db.DbFieldType;
 import org.colorcoding.ibas.bobas.ownership.IDataOwnership;
 import org.colorcoding.ibas.materials.MyConfiguration;
 import org.colorcoding.ibas.materials.data.emEstimateType;
@@ -1100,7 +1100,7 @@ public class MaterialOrderedReservation extends BusinessObject<MaterialOrderedRe
 	@Override
 	public IBusinessLogicContract[] getContracts() {
 		ArrayList<IBusinessLogicContract> contracts = new ArrayList<>(4);
-		if (this.getQuantity().compareTo(Decimal.ZERO) > 0) {
+		if (this.getQuantity().compareTo(Decimals.VALUE_ZERO) > 0) {
 			// 订购量占用，数量大于0才有效
 			contracts.add(new IMaterialEstimateReservedContract() {
 

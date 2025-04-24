@@ -9,11 +9,9 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
 import org.colorcoding.ibas.bobas.bo.IBOUserFields;
+import org.colorcoding.ibas.bobas.common.Decimals;
 import org.colorcoding.ibas.bobas.core.IPropertyInfo;
-import org.colorcoding.ibas.bobas.data.Decimal;
 import org.colorcoding.ibas.bobas.data.emYesNo;
-import org.colorcoding.ibas.bobas.mapping.DbField;
-import org.colorcoding.ibas.bobas.mapping.DbFieldType;
 import org.colorcoding.ibas.bobas.ownership.IDataOwnership;
 import org.colorcoding.ibas.materials.MyConfiguration;
 
@@ -114,7 +112,7 @@ public class Product extends MaterialBase<Product> implements IProduct, IDataOwn
 	 * @param value 值
 	 */
 	public final void setPrice(String value) {
-		this.setPrice(Decimal.valueOf(value));
+		this.setPrice(Decimals.valueOf(value));
 	}
 
 	/**
@@ -123,7 +121,7 @@ public class Product extends MaterialBase<Product> implements IProduct, IDataOwn
 	 * @param value 值
 	 */
 	public final void setPrice(int value) {
-		this.setPrice(Decimal.valueOf(value));
+		this.setPrice(Decimals.valueOf(value));
 	}
 
 	/**
@@ -132,7 +130,7 @@ public class Product extends MaterialBase<Product> implements IProduct, IDataOwn
 	 * @param value 值
 	 */
 	public final void setPrice(double value) {
-		this.setPrice(Decimal.valueOf(value));
+		this.setPrice(Decimals.valueOf(value));
 	}
 
 	/**
@@ -173,7 +171,6 @@ public class Product extends MaterialBase<Product> implements IProduct, IDataOwn
 	/**
 	 * 含税 属性
 	 */
-	@DbField(name = "Taxed", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME, primaryKey = false)
 	public static final IPropertyInfo<emYesNo> PROPERTY_TAXED = registerProperty(PROPERTY_TAXED_NAME, emYesNo.class,
 			MY_CLASS);
 
