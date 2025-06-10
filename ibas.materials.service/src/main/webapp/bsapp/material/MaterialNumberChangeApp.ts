@@ -708,10 +708,18 @@ namespace materials {
                     this.messages(ibas.emMessageType.WARNING, ibas.i18n.prop("materials_no_data_to_be_processed"));
                 }
             }
-            private chooseTargetMaterial(caller: MaterialNumberItem): void {
+            private chooseTargetMaterial(caller: MaterialNumberItem, filterConditions?: ibas.ICondition[]): void {
                 let that: this = this;
                 let condition: ibas.ICondition;
                 let conditions: ibas.IList<ibas.ICondition> = app.conditions.material.create();
+                // 添加输入条件
+                if (filterConditions instanceof Array && filterConditions.length > 0) {
+                    if (conditions.length > 1) {
+                        conditions.firstOrDefault().bracketOpen++;
+                        conditions.lastOrDefault().bracketClose++;
+                    }
+                    conditions.add(filterConditions);
+                }
                 // 库存物料
                 condition = new ibas.Condition();
                 condition.alias = app.conditions.material.CONDITION_ALIAS_INVENTORY_ITEM;
