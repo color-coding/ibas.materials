@@ -71,7 +71,7 @@ public class MaterialIssueService
 		boolean status = super.checkDataStatus(data);
 		if (status == false && this.isEnableMaterialCosts()) {
 			// 取消和标记删除时，执行逻辑
-			if (this.getHost() == data) {
+			if (this.getRoot() == data || this.getHost() == data) {
 				status = super.checkDataStatus(data, ITrackStatus.class, IBOTagCanceled.class, IBOTagDeleted.class,
 						IBODocument.class, IBODocumentLine.class);
 			} else {

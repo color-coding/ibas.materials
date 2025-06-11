@@ -82,7 +82,7 @@ public class MaterialBatchJournalService
 		boolean status = super.checkDataStatus(data);
 		if (status == false && this.isEnableMaterialCosts()) {
 			// 取消和标记删除时，执行逻辑
-			if (this.getParent() == data) {
+			if (this.getRoot() == data || this.getParent() == data) {
 				status = super.checkDataStatus(data, ITrackStatus.class, IBOTagCanceled.class, IBOTagDeleted.class,
 						IBODocument.class, IBODocumentLine.class);
 			} else {
