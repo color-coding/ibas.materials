@@ -3,17 +3,12 @@ package org.colorcoding.ibas.materials.logic;
 import java.math.BigDecimal;
 
 import org.colorcoding.ibas.bobas.approval.IApprovalData;
-import org.colorcoding.ibas.bobas.bo.IBODocument;
-import org.colorcoding.ibas.bobas.bo.IBODocumentLine;
-import org.colorcoding.ibas.bobas.bo.IBOTagCanceled;
-import org.colorcoding.ibas.bobas.bo.IBOTagDeleted;
 import org.colorcoding.ibas.bobas.common.ConditionOperation;
 import org.colorcoding.ibas.bobas.common.ConditionRelationship;
 import org.colorcoding.ibas.bobas.common.Criteria;
 import org.colorcoding.ibas.bobas.common.ICondition;
 import org.colorcoding.ibas.bobas.common.ICriteria;
 import org.colorcoding.ibas.bobas.common.IOperationResult;
-import org.colorcoding.ibas.bobas.core.ITrackStatus;
 import org.colorcoding.ibas.bobas.data.Decimal;
 import org.colorcoding.ibas.bobas.data.emApprovalStatus;
 import org.colorcoding.ibas.bobas.data.emDirection;
@@ -81,13 +76,8 @@ public class MaterialBatchJournalService
 		}
 		boolean status = super.checkDataStatus(data);
 		if (status == false && this.isEnableMaterialCosts()) {
-			// 取消和标记删除时，执行逻辑
-			if (this.getRoot() == data || this.getParent() == data) {
-				status = super.checkDataStatus(data, ITrackStatus.class, IBOTagCanceled.class, IBOTagDeleted.class,
-						IBODocument.class, IBODocumentLine.class);
-			} else {
-				status = super.checkDataStatus(data, ITrackStatus.class, IBOTagCanceled.class, IBOTagDeleted.class);
-			}
+			// 激活成本计算时，正向逻辑都执行
+			status = true;
 		}
 		return status;
 	}
@@ -173,18 +163,21 @@ public class MaterialBatchJournalService
 					throw new BusinessLogicException(operationResult.getError());
 				}
 				if (operationResult.getResultObjects().isEmpty()) {
-					throw new BusinessLogicException(I18N.prop("msg_mm_document_not_found_receipt_journal",
-							String.format("{[%s].[DocEntry = %s]%s}", contract.getDocumentType(),
-									contract.getDocumentEntry(),
-									contract.getDocumentLineId() > 0
-											? String.format("&&[LineId = %s]", contract.getDocumentLineId())
-											: "")));
+					materialBatchJournal = new MaterialBatchJournal();
+					((MaterialBatchJournal) materialBatchJournal).unsavable();
+					materialBatchJournal.setDirection(contract.getDirection());
+					materialBatchJournal.setBaseDocumentType(contract.getDocumentType());
+					materialBatchJournal.setBaseDocumentEntry(contract.getDocumentEntry());
+					materialBatchJournal.setBaseDocumentLineId(contract.getDocumentLineId());
+					materialBatchJournal.setBaseDocumentIndex(contract.getDocumentIndex());
+					materialBatchJournal.setDataSource(DATASOURCE_SIGN_OFFSETTING_JOURNAL);
+				} else {
+					materialBatchJournal = operationResult.getResultObjects().firstOrDefault();
+					materialBatchJournal = ((MaterialBatchJournal) materialBatchJournal).clone();
+					materialBatchJournal.setDataSource(DATASOURCE_SIGN_OFFSETTING_JOURNAL);
+					materialBatchJournal.setQuantity(materialBatchJournal.getQuantity().negate());
+					materialBatchJournal.setTransactionValue(materialBatchJournal.getTransactionValue().negate());
 				}
-				materialBatchJournal = operationResult.getResultObjects().firstOrDefault();
-				materialBatchJournal = ((MaterialBatchJournal) materialBatchJournal).clone();
-				materialBatchJournal.setDataSource(DATASOURCE_SIGN_OFFSETTING_JOURNAL);
-				materialBatchJournal.setQuantity(materialBatchJournal.getQuantity().negate());
-				materialBatchJournal.setTransactionValue(materialBatchJournal.getTransactionValue().negate());
 			} else {
 				materialBatchJournal = new MaterialBatchJournal();
 				materialBatchJournal.setDirection(contract.getDirection());
@@ -201,6 +194,10 @@ public class MaterialBatchJournalService
 	@Override
 	protected void impact(IMaterialBatchJournalContract contract) {
 		IMaterialBatchJournal materialBatchJournal = this.getBeAffected();
+		// 不可保存对象，不执行逻辑
+		if (!materialBatchJournal.isSavable()) {
+			return;
+		}
 		// 开启物料成本计算
 		if (this.isEnableMaterialCosts()) {
 			String localCurrency = org.colorcoding.ibas.accounting.MyConfiguration
@@ -415,6 +412,10 @@ public class MaterialBatchJournalService
 	@Override
 	protected void revoke(IMaterialBatchJournalContract contract) {
 		IMaterialBatchJournal materialBatchJournal = this.getBeAffected();
+		// 不可保存对象，不执行逻辑
+		if (!materialBatchJournal.isSavable()) {
+			return;
+		}
 		if (!this.isEnableMaterialCosts() || contract.isOffsetting()) {
 			// 未开启成本的，删除
 			materialBatchJournal.delete();
