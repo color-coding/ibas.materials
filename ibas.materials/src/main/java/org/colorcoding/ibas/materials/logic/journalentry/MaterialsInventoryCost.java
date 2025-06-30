@@ -294,8 +294,8 @@ public class MaterialsInventoryCost extends MaterialsCost {
 		if (JournalEntrySmartContent.VALUE_NULL.equalsIgnoreCase(material)) {
 			throw new BusinessLogicException(I18N.prop("msg_mm_not_specified_material"));
 		}
-		// 库存物料时，重新计算成本
 		if (this.isInventoryMaterial(material)) {
+			// 库存物料时，重新计算成本
 			if (!this.caculate(material,
 					String.valueOf(super.getSourceDataPropertyValue(Ledgers.CONDITION_PROPERTY_WAREHOUSE)))) {
 				// 计算不成功，报错
@@ -310,6 +310,12 @@ public class MaterialsInventoryCost extends MaterialsCost {
 					}
 				}
 			}
+		} else {
+			// 非库存物料，物料成本是0
+			this.setAmount(Decimal.ZERO);
+			this.setRate(Decimal.ONE);
+			this.setCurrency(org.colorcoding.ibas.accounting.MyConfiguration
+					.getConfigValue(org.colorcoding.ibas.accounting.MyConfiguration.CONFIG_ITEM_LOCAL_CURRENCY));
 		}
 	}
 

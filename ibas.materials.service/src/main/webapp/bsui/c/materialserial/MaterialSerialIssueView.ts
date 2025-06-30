@@ -22,7 +22,7 @@ namespace materials {
                     this.tableWorkDatas = new sap.extension.m.List("", {
                         chooseType: ibas.emChooseType.SINGLE,
                         mode: sap.m.ListMode.SingleSelectMaster,
-                        growing: false,
+                        growing: true,
                         items: {
                             path: "/rows",
                             template: new sap.m.ObjectListItem("", {

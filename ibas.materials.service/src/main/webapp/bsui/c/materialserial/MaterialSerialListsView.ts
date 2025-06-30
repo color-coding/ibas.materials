@@ -21,7 +21,7 @@ namespace materials {
                     this.tableWorkDatas = new sap.extension.m.List("", {
                         chooseType: ibas.emChooseType.SINGLE,
                         mode: sap.m.ListMode.SingleSelectMaster,
-                        growing: false,
+                        growing: true,
                         items: {
                             path: "/rows",
                             template: new sap.m.ObjectListItem("", {
@@ -100,7 +100,7 @@ namespace materials {
                     this.tableItems = new sap.extension.m.List("", {
                         chooseType: ibas.emChooseType.MULTIPLE,
                         mode: sap.m.ListMode.MultiSelect,
-                        growing: false,
+                        growing: true,
                         noDataText: ibas.i18n.prop(["shell_please", "shell_data_create", "bo_materialserial"]),
                         items: {
                             path: "/rows",
