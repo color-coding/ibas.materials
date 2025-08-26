@@ -13,6 +13,8 @@ declare namespace reportanalysis {
     /** 模块-版本 */
     const CONSOLE_VERSION: string;
     namespace config {
+        /** 配置项目-禁用报表图形功能 */
+        const CONFIG_ITEM_DISABLE_REPORT_CHARTS: string;
         /**
          * 获取此模块配置
          * @param key 配置项
@@ -157,6 +159,8 @@ declare namespace reportanalysis {
             address: string;
             /** 第三方应用 */
             thirdPartyApp: string;
+            /** 追溯 */
+            traced: ibas.emYesNo;
             /** 备注 */
             remarks: string;
             /** 报表参数集合 */
@@ -543,6 +547,12 @@ declare namespace reportanalysis {
             get thirdPartyApp(): string;
             /** 设置-第三方应用 */
             set thirdPartyApp(value: string);
+            /** 映射的属性名称-追溯 */
+            static PROPERTY_TRACED_NAME: string;
+            /** 获取-追溯 */
+            get traced(): ibas.emYesNo;
+            /** 设置-追溯 */
+            set traced(value: ibas.emYesNo);
             /** 映射的属性名称-备注 */
             static PROPERTY_REMARKS_NAME: string;
             /** 获取-备注 */
@@ -965,6 +975,29 @@ declare namespace reportanalysis {
             /** 备注 */
             remarks: string;
         }
+        /** 报表数据日志 */
+        class ReportLog {
+            /** 标识 */
+            id: string;
+            /** 报表标识 */
+            reportId: string;
+            /** 报表名称 */
+            reportName: string;
+            /** 工作目录 */
+            workFolder: string;
+            /** 运行者 */
+            runner: string;
+            /** 开始时间 */
+            beginTime: Date;
+            /** 完成时间 */
+            finishTime: Date;
+            /** 内容 */
+            content: string;
+            /** 备注 */
+            remarks: string;
+            /** 参数 */
+            parameters: ibas.KeyText[];
+        }
     }
 }
 /**
@@ -1078,6 +1111,36 @@ declare namespace reportanalysis {
                 /** 备注 */
                 Remarks: string;
             }
+            /** 报表参数 */
+            interface IKeyText extends IDataDeclaration {
+                /** 名称 */
+                Key: string;
+                /** 值 */
+                Value: string;
+            }
+            /** 报表参数 */
+            interface IReportLog extends IDataDeclaration {
+                /** 标识 */
+                Id: string;
+                /** 报表标识 */
+                ReportId: string;
+                /** 报表名称 */
+                ReportName: string;
+                /** 工作目录 */
+                WorkFolder: string;
+                /** 运行者 */
+                Runner: string;
+                /** 备注 */
+                Remarks: string;
+                /** 开始时间 */
+                BeginTime: number;
+                /** 完成时间 */
+                FinishTime: number;
+                /** 内容 */
+                Content: string;
+                /** 参数 */
+                Parameters: IKeyText[];
+            }
         }
     }
 }
@@ -1170,6 +1233,11 @@ declare namespace reportanalysis {
              * @param saver 保存者
              */
             saveReportBook(saver: ibas.ISaveCaller<bo.ReportBook>): void;
+            /**
+             * 查询 报表日志
+             * @param fetcher 查询者
+             */
+            fetchReportLog(fetcher: ibas.IFetchCaller<bo.ReportLog>): void;
         }
         /**
          * 用户相关调用者
@@ -1252,13 +1320,6 @@ declare namespace reportanalysis {
         }
         /** 查看应用-报表普通 */
         export class ReportViewerApp extends ReportViewApp<IReportDataChooseView> {
-            /** 应用标识 */
-            static APPLICATION_ID: string;
-            /** 构造函数 */
-            constructor();
-        }
-        /** 查看应用-报表页签 */
-        export class ReportTabViewerApp extends ReportViewApp<IReportDataChooseView> {
             /** 应用标识 */
             static APPLICATION_ID: string;
             /** 构造函数 */
@@ -1415,6 +1476,7 @@ declare namespace reportanalysis {
             /** 下载文件 */
             protected downloadFile(): void;
             protected runReport(): void;
+            protected viewReportLogs(): void;
         }
         /** 视图-报表 */
         interface IReportEditView extends ibas.IBOEditView {
@@ -1444,6 +1506,8 @@ declare namespace reportanalysis {
             downloadReportEvent: Function;
             /** 运行报表 */
             runReportEvent: Function;
+            /** 查看运行报表日志 */
+            viewReportLogsEvent: Function;
         }
         /** 报表编辑服务映射 */
         class ReportEditServiceMapping extends ibas.BOEditServiceMapping {
@@ -1919,6 +1983,40 @@ declare namespace reportanalysis {
             drawChartEvent: Function;
             /** 显示展现数据 */
             showChart(type: ChartType, labels: string[], ...datas: any[]): void;
+        }
+    }
+}
+/**
+ * @license
+ * Copyright Color-Coding Studio. All Rights Reserved.
+ *
+ * Use of this source code is governed by an Apache License, Version 2.0
+ * that can be found in the LICENSE file at http://www.apache.org/licenses/LICENSE-2.0
+ */
+declare namespace reportanalysis {
+    namespace app {
+        /** 应用-报表日志 */
+        class ReportLogsApp extends ibas.Application<IReportLogsView> {
+            /** 应用标识 */
+            static APPLICATION_ID: string;
+            /** 应用名称 */
+            static APPLICATION_NAME: string;
+            /** 构造函数 */
+            constructor();
+            /** 注册视图 */
+            protected registerView(): void;
+            /** 视图显示后 */
+            protected viewShowed(): void;
+            private filter;
+            run(criteria?: ibas.ICriteria): void;
+            protected fetchReportLogs(criteria: ibas.ICriteria): void;
+        }
+        /** 视图-报表日志 */
+        interface IReportLogsView extends ibas.IView {
+            /** 获取报表日志 */
+            fetchReportLogsEvent: Function;
+            /** 显示报表日志 */
+            showReportLogs(datas: bo.ReportLog[]): void;
         }
     }
 }

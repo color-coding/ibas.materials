@@ -324,6 +324,17 @@ namespace materials {
                 this.setProperty(GoodsReceipt.PROPERTY_REFERENCED_NAME, value);
             }
 
+            /** 映射的属性名称-已打印 */
+            static PROPERTY_PRINTED_NAME: string = "Printed";
+            /** 获取-已打印 */
+            get printed(): ibas.emYesNo {
+                return this.getProperty<ibas.emYesNo>(GoodsReceipt.PROPERTY_PRINTED_NAME);
+            }
+            /** 设置-已打印 */
+            set printed(value: ibas.emYesNo) {
+                this.setProperty(GoodsReceipt.PROPERTY_PRINTED_NAME, value);
+            }
+
             /** 映射的属性名称-备注 */
             static PROPERTY_REMARKS_NAME: string = "Remarks";
             /** 获取-备注 */
