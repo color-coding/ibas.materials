@@ -13,6 +13,8 @@ declare namespace reportanalysis {
     /** 模块-版本 */
     const CONSOLE_VERSION: string;
     namespace config {
+        /** 配置项目-禁用报表图形功能 */
+        const CONFIG_ITEM_DISABLE_REPORT_CHARTS: string;
         /**
          * 获取此模块配置
          * @param key 配置项
@@ -29,6 +31,8 @@ declare namespace reportanalysis {
         const BO_CODE_REPORTBOOK: string;
         /** 业务对象编码-报表结果 */
         const BO_CODE_REPORTRESULT: string;
+        /** 业务对象编码-报表运行日志 */
+        const BO_CODE_REPORTRUNNINGLOG: string;
         /**
          * 报表类型
          */
@@ -157,6 +161,8 @@ declare namespace reportanalysis {
             address: string;
             /** 第三方应用 */
             thirdPartyApp: string;
+            /** 追溯 */
+            traced: ibas.emYesNo;
             /** 备注 */
             remarks: string;
             /** 报表参数集合 */
@@ -297,6 +303,70 @@ declare namespace reportanalysis {
         interface IReportBookItems extends ibas.IBusinessObjects<IReportBookItem> {
             /** 创建并添加子项 */
             create(): IReportBookItem;
+        }
+    }
+}
+/**
+ * @license
+ * Copyright Color-Coding Studio. All Rights Reserved.
+ *
+ * Use of this source code is governed by an Apache License, Version 2.0
+ * that can be found in the LICENSE file at http://www.apache.org/licenses/LICENSE-2.0
+ */
+declare namespace reportanalysis {
+    namespace bo {
+        /** 报表运行日志 */
+        interface IReportRunningLog extends ibas.IBOSimple {
+            /** 对象编号 */
+            objectKey: number;
+            /** 对象类型 */
+            objectCode: string;
+            /** 实例号 */
+            logInst: number;
+            /** 服务系列 */
+            series: number;
+            /** 数据源 */
+            dataSource: string;
+            /** 创建日期 */
+            createDate: Date;
+            /** 创建时间 */
+            createTime: number;
+            /** 更新日期 */
+            updateDate: Date;
+            /** 更新时间 */
+            updateTime: number;
+            /** 创建用户 */
+            createUserSign: number;
+            /** 更新用户 */
+            updateUserSign: number;
+            /** 创建动作标识 */
+            createActionId: string;
+            /** 更新动作标识 */
+            updateActionId: string;
+            /** 数据所有者 */
+            dataOwner: number;
+            /** 编号 */
+            sign: string;
+            /** 报表 */
+            report: number;
+            /** 报表名称 */
+            reportName: string;
+            /** 运行人 */
+            runner: string;
+            /** 开始日期 */
+            startDate: Date;
+            /** 开始时间 */
+            startTime: number;
+            /** 结束日期 */
+            endDate: Date;
+            /** 结束时间 */
+            endTime: number;
+            /** 参数文件 */
+            parameterFile: string;
+            /** 结果文件 */
+            resultFile: string;
+            /** 备注 */
+            remarks: string;
         }
     }
 }
@@ -543,6 +613,12 @@ declare namespace reportanalysis {
             get thirdPartyApp(): string;
             /** 设置-第三方应用 */
             set thirdPartyApp(value: string);
+            /** 映射的属性名称-追溯 */
+            static PROPERTY_TRACED_NAME: string;
+            /** 获取-追溯 */
+            get traced(): ibas.emYesNo;
+            /** 设置-追溯 */
+            set traced(value: ibas.emYesNo);
             /** 映射的属性名称-备注 */
             static PROPERTY_REMARKS_NAME: string;
             /** 获取-备注 */
@@ -1016,6 +1092,176 @@ declare namespace reportanalysis {
  */
 declare namespace reportanalysis {
     namespace bo {
+        /** 报表运行日志 */
+        class ReportRunningLog extends ibas.BOSimple<ReportRunningLog> implements IReportRunningLog {
+            /** 业务对象编码 */
+            static BUSINESS_OBJECT_CODE: string;
+            /** 构造函数 */
+            constructor();
+            /** 映射的属性名称-对象编号 */
+            static PROPERTY_OBJECTKEY_NAME: string;
+            /** 获取-对象编号 */
+            get objectKey(): number;
+            /** 设置-对象编号 */
+            set objectKey(value: number);
+            /** 映射的属性名称-对象类型 */
+            static PROPERTY_OBJECTCODE_NAME: string;
+            /** 获取-对象类型 */
+            get objectCode(): string;
+            /** 设置-对象类型 */
+            set objectCode(value: string);
+            /** 映射的属性名称-实例号 */
+            static PROPERTY_LOGINST_NAME: string;
+            /** 获取-实例号 */
+            get logInst(): number;
+            /** 设置-实例号 */
+            set logInst(value: number);
+            /** 映射的属性名称-服务系列 */
+            static PROPERTY_SERIES_NAME: string;
+            /** 获取-服务系列 */
+            get series(): number;
+            /** 设置-服务系列 */
+            set series(value: number);
+            /** 映射的属性名称-数据源 */
+            static PROPERTY_DATASOURCE_NAME: string;
+            /** 获取-数据源 */
+            get dataSource(): string;
+            /** 设置-数据源 */
+            set dataSource(value: string);
+            /** 映射的属性名称-创建日期 */
+            static PROPERTY_CREATEDATE_NAME: string;
+            /** 获取-创建日期 */
+            get createDate(): Date;
+            /** 设置-创建日期 */
+            set createDate(value: Date);
+            /** 映射的属性名称-创建时间 */
+            static PROPERTY_CREATETIME_NAME: string;
+            /** 获取-创建时间 */
+            get createTime(): number;
+            /** 设置-创建时间 */
+            set createTime(value: number);
+            /** 映射的属性名称-更新日期 */
+            static PROPERTY_UPDATEDATE_NAME: string;
+            /** 获取-更新日期 */
+            get updateDate(): Date;
+            /** 设置-更新日期 */
+            set updateDate(value: Date);
+            /** 映射的属性名称-更新时间 */
+            static PROPERTY_UPDATETIME_NAME: string;
+            /** 获取-更新时间 */
+            get updateTime(): number;
+            /** 设置-更新时间 */
+            set updateTime(value: number);
+            /** 映射的属性名称-创建用户 */
+            static PROPERTY_CREATEUSERSIGN_NAME: string;
+            /** 获取-创建用户 */
+            get createUserSign(): number;
+            /** 设置-创建用户 */
+            set createUserSign(value: number);
+            /** 映射的属性名称-更新用户 */
+            static PROPERTY_UPDATEUSERSIGN_NAME: string;
+            /** 获取-更新用户 */
+            get updateUserSign(): number;
+            /** 设置-更新用户 */
+            set updateUserSign(value: number);
+            /** 映射的属性名称-创建动作标识 */
+            static PROPERTY_CREATEACTIONID_NAME: string;
+            /** 获取-创建动作标识 */
+            get createActionId(): string;
+            /** 设置-创建动作标识 */
+            set createActionId(value: string);
+            /** 映射的属性名称-更新动作标识 */
+            static PROPERTY_UPDATEACTIONID_NAME: string;
+            /** 获取-更新动作标识 */
+            get updateActionId(): string;
+            /** 设置-更新动作标识 */
+            set updateActionId(value: string);
+            /** 映射的属性名称-数据所有者 */
+            static PROPERTY_DATAOWNER_NAME: string;
+            /** 获取-数据所有者 */
+            get dataOwner(): number;
+            /** 设置-数据所有者 */
+            set dataOwner(value: number);
+            /** 映射的属性名称-编号 */
+            static PROPERTY_SIGN_NAME: string;
+            /** 获取-编号 */
+            get sign(): string;
+            /** 设置-编号 */
+            set sign(value: string);
+            /** 映射的属性名称-报表 */
+            static PROPERTY_REPORT_NAME: string;
+            /** 获取-报表 */
+            get report(): number;
+            /** 设置-报表 */
+            set report(value: number);
+            /** 映射的属性名称-报表名称 */
+            static PROPERTY_REPORTNAME_NAME: string;
+            /** 获取-报表名称 */
+            get reportName(): string;
+            /** 设置-报表名称 */
+            set reportName(value: string);
+            /** 映射的属性名称-运行人 */
+            static PROPERTY_RUNNER_NAME: string;
+            /** 获取-运行人 */
+            get runner(): string;
+            /** 设置-运行人 */
+            set runner(value: string);
+            /** 映射的属性名称-开始日期 */
+            static PROPERTY_STARTDATE_NAME: string;
+            /** 获取-开始日期 */
+            get startDate(): Date;
+            /** 设置-开始日期 */
+            set startDate(value: Date);
+            /** 映射的属性名称-开始时间 */
+            static PROPERTY_STARTTIME_NAME: string;
+            /** 获取-开始时间 */
+            get startTime(): number;
+            /** 设置-开始时间 */
+            set startTime(value: number);
+            /** 映射的属性名称-结束日期 */
+            static PROPERTY_ENDDATE_NAME: string;
+            /** 获取-结束日期 */
+            get endDate(): Date;
+            /** 设置-结束日期 */
+            set endDate(value: Date);
+            /** 映射的属性名称-结束时间 */
+            static PROPERTY_ENDTIME_NAME: string;
+            /** 获取-结束时间 */
+            get endTime(): number;
+            /** 设置-结束时间 */
+            set endTime(value: number);
+            /** 映射的属性名称-参数文件 */
+            static PROPERTY_PARAMETERFILE_NAME: string;
+            /** 获取-参数文件 */
+            get parameterFile(): string;
+            /** 设置-参数文件 */
+            set parameterFile(value: string);
+            /** 映射的属性名称-结果文件 */
+            static PROPERTY_RESULTFILE_NAME: string;
+            /** 获取-结果文件 */
+            get resultFile(): string;
+            /** 设置-结果文件 */
+            set resultFile(value: string);
+            /** 映射的属性名称-备注 */
+            static PROPERTY_REMARKS_NAME: string;
+            /** 获取-备注 */
+            get remarks(): string;
+            /** 设置-备注 */
+            set remarks(value: string);
+            /** 初始化数据 */
+            protected init(): void;
+        }
+    }
+}
+/**
+ * @license
+ * Copyright Color-Coding Studio. All Rights Reserved.
+ *
+ * Use of this source code is governed by an Apache License, Version 2.0
+ * that can be found in the LICENSE file at http://www.apache.org/licenses/LICENSE-2.0
+ */
+declare namespace reportanalysis {
+    namespace bo {
         namespace ibas4j {
             /** ibas的java端数据声明 */
             /** 操作消息 */
@@ -1077,6 +1323,36 @@ declare namespace reportanalysis {
                 Name: string;
                 /** 备注 */
                 Remarks: string;
+            }
+            /** 报表参数 */
+            interface IKeyText extends IDataDeclaration {
+                /** 名称 */
+                Key: string;
+                /** 值 */
+                Value: string;
+            }
+            /** 报表参数 */
+            interface IReportLog extends IDataDeclaration {
+                /** 标识 */
+                Id: string;
+                /** 报表标识 */
+                ReportId: string;
+                /** 报表名称 */
+                ReportName: string;
+                /** 工作目录 */
+                WorkFolder: string;
+                /** 运行者 */
+                Runner: string;
+                /** 备注 */
+                Remarks: string;
+                /** 开始时间 */
+                BeginTime: number;
+                /** 完成时间 */
+                FinishTime: number;
+                /** 内容 */
+                Content: string;
+                /** 参数 */
+                Parameters: IKeyText[];
             }
         }
     }
@@ -1170,6 +1446,11 @@ declare namespace reportanalysis {
              * @param saver 保存者
              */
             saveReportBook(saver: ibas.ISaveCaller<bo.ReportBook>): void;
+            /**
+             * 查询 报表运行日志
+             * @param fetcher 查询者
+             */
+            fetchReportRunningLog(fetcher: ibas.IFetchCaller<bo.ReportRunningLog>): void;
         }
         /**
          * 用户相关调用者
@@ -1252,13 +1533,6 @@ declare namespace reportanalysis {
         }
         /** 查看应用-报表普通 */
         export class ReportViewerApp extends ReportViewApp<IReportDataChooseView> {
-            /** 应用标识 */
-            static APPLICATION_ID: string;
-            /** 构造函数 */
-            constructor();
-        }
-        /** 查看应用-报表页签 */
-        export class ReportTabViewerApp extends ReportViewApp<IReportDataChooseView> {
             /** 应用标识 */
             static APPLICATION_ID: string;
             /** 构造函数 */
@@ -1415,6 +1689,7 @@ declare namespace reportanalysis {
             /** 下载文件 */
             protected downloadFile(): void;
             protected runReport(): void;
+            protected viewReportLogs(): void;
         }
         /** 视图-报表 */
         interface IReportEditView extends ibas.IBOEditView {
@@ -1444,6 +1719,8 @@ declare namespace reportanalysis {
             downloadReportEvent: Function;
             /** 运行报表 */
             runReportEvent: Function;
+            /** 查看运行报表日志 */
+            viewReportLogsEvent: Function;
         }
         /** 报表编辑服务映射 */
         class ReportEditServiceMapping extends ibas.BOEditServiceMapping {
@@ -1919,6 +2196,40 @@ declare namespace reportanalysis {
             drawChartEvent: Function;
             /** 显示展现数据 */
             showChart(type: ChartType, labels: string[], ...datas: any[]): void;
+        }
+    }
+}
+/**
+ * @license
+ * Copyright Color-Coding Studio. All Rights Reserved.
+ *
+ * Use of this source code is governed by an Apache License, Version 2.0
+ * that can be found in the LICENSE file at http://www.apache.org/licenses/LICENSE-2.0
+ */
+declare namespace reportanalysis {
+    namespace app {
+        /** 应用-报表日志 */
+        class ReportLogsApp extends ibas.Application<IReportLogsView> {
+            /** 应用标识 */
+            static APPLICATION_ID: string;
+            /** 应用名称 */
+            static APPLICATION_NAME: string;
+            /** 构造函数 */
+            constructor();
+            /** 注册视图 */
+            protected registerView(): void;
+            /** 视图显示后 */
+            protected viewShowed(): void;
+            private filter;
+            run(criteria?: ibas.ICriteria): void;
+            protected fetchReportLogs(criteria: ibas.ICriteria): void;
+        }
+        /** 视图-报表日志 */
+        interface IReportLogsView extends ibas.IView {
+            /** 获取报表日志 */
+            fetchReportLogsEvent: Function;
+            /** 显示报表日志 */
+            showReportLogs(datas: bo.ReportRunningLog[]): void;
         }
     }
 }

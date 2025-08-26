@@ -155,7 +155,7 @@ namespace materials {
                             }),
                         ]
                     });
-                    let formBottom: sap.ui.layout.form.SimpleForm = new sap.ui.layout.form.SimpleForm("", {
+                    let formMiddle: sap.ui.layout.form.SimpleForm = new sap.ui.layout.form.SimpleForm("", {
                         editable: true,
                         content: [
                             new sap.m.IconTabBar("", {
@@ -193,13 +193,6 @@ namespace materials {
                                                         type: new sap.extension.data.Alphanumeric({
                                                             maxLength: 100
                                                         }),
-                                                    }),
-                                                    new sap.m.Label("", { text: ibas.i18n.prop("bo_material_remarks") }),
-                                                    new sap.extension.m.TextArea("", {
-                                                        rows: 3,
-                                                    }).bindProperty("bindingValue", {
-                                                        path: "remarks",
-                                                        type: new sap.extension.data.Alphanumeric()
                                                     }),
                                                     new sap.m.Toolbar("", { visible: false }),
                                                     new sap.m.Label("", { text: ibas.i18n.prop("bo_material_serialmanagement") }),
@@ -1359,6 +1352,40 @@ namespace materials {
                             })
                         ]
                     });
+                    let formBottom: sap.ui.layout.form.SimpleForm = new sap.ui.layout.form.SimpleForm("", {
+                        editable: true,
+                        content: [
+                            new sap.m.Toolbar("", { visible: false }),
+                            new sap.m.Label("", { text: ibas.i18n.prop("bo_material_dataowner") }),
+                            new sap.extension.m.DataOwnerInput("", {
+                                showValueHelp: true,
+                                organization: {
+                                    path: "organization",
+                                    type: new sap.extension.data.Alphanumeric({
+                                        maxLength: 8
+                                    })
+                                }
+                            }).bindProperty("bindingValue", {
+                                path: "dataOwner",
+                                type: new sap.extension.data.Numeric()
+                            }),
+                            new sap.m.Label("", { text: ibas.i18n.prop("bo_material_organization") }),
+                            new sap.extension.m.OrganizationInput("", {
+                                showValueHelp: true,
+                            }).bindProperty("bindingValue", {
+                                path: "organization",
+                                type: new sap.extension.data.Alphanumeric()
+                            }),
+                            new sap.m.Label("", { text: ibas.i18n.prop("bo_material_remarks") }),
+                            new sap.extension.m.TextArea("", {
+                                rows: 3,
+                            }).bindProperty("bindingValue", {
+                                path: "remarks",
+                                type: new sap.extension.data.Alphanumeric()
+                            }),
+                            new sap.m.Toolbar("", { visible: false }),
+                        ]
+                    });
                     return this.page = new sap.extension.m.DataPage("", {
                         showHeader: false,
                         dataInfo: {
@@ -1505,6 +1532,7 @@ namespace materials {
                         }),
                         content: [
                             formTop,
+                            formMiddle,
                             formBottom,
                         ]
                     });

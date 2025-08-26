@@ -36,10 +36,21 @@ namespace materials {
                                     }
                                 ]
                             },
+                            isObjectIconAlwaysVisible: true,
+                            // objectImageDensityAware: true,
                             objectImageShape: sap.uxap.ObjectPageHeaderPictureShape.Square,
                             objectImageURI: {
                                 path: "picture",
                                 type: new sap.extension.data.Alphanumeric(),
+                                formatter(data: any): string {
+                                    if (ibas.strings.isEmpty(data)) {
+                                        return "sap-icon://product";
+                                    }
+                                    if (ibas.strings.isWith(data, "http", undefined)) {
+                                        return ibas.urls.normalize(data);
+                                    }
+                                    return new bo.BORepositoryMaterials().toUrl(data);
+                                }
                             },
                             navigationBar: new sap.m.Bar("", {
                                 contentLeft: [
@@ -602,6 +613,20 @@ namespace materials {
                                                 title: ibas.i18n.prop("bo_material_remarks"),
                                                 bindingValue: {
                                                     path: "remarks",
+                                                    type: new sap.extension.data.Alphanumeric(),
+                                                }
+                                            }),
+                                            new sap.extension.m.UserObjectAttribute("", {
+                                                title: ibas.i18n.prop("bo_material_dataowner"),
+                                                bindingValue: {
+                                                    path: "dataOwner",
+                                                    type: new sap.extension.data.Numeric(),
+                                                }
+                                            }),
+                                            new sap.extension.m.OrganizationObjectAttribute("", {
+                                                title: ibas.i18n.prop("bo_material_organization"),
+                                                bindingValue: {
+                                                    path: "organization",
                                                     type: new sap.extension.data.Alphanumeric(),
                                                 }
                                             }),
