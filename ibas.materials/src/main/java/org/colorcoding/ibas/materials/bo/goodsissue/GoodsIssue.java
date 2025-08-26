@@ -41,6 +41,7 @@ import org.colorcoding.ibas.bobas.rule.common.BusinessRuleDocumentStatus;
 import org.colorcoding.ibas.bobas.rule.common.BusinessRuleMinValue;
 import org.colorcoding.ibas.bobas.rule.common.BusinessRuleRequiredElements;
 import org.colorcoding.ibas.bobas.rule.common.BusinessRuleSumElements;
+import org.colorcoding.ibas.document.IDocumentPrintedOperator;
 import org.colorcoding.ibas.materials.MyConfiguration;
 import org.colorcoding.ibas.materials.data.Ledgers;
 import org.colorcoding.ibas.materials.logic.journalentry.MaterialsInventoryCost;
@@ -54,8 +55,9 @@ import org.colorcoding.ibas.materials.rules.BusinessRulePreventCancelDocument;
 @XmlType(name = GoodsIssue.BUSINESS_OBJECT_NAME, namespace = MyConfiguration.NAMESPACE_BO)
 @XmlRootElement(name = GoodsIssue.BUSINESS_OBJECT_NAME, namespace = MyConfiguration.NAMESPACE_BO)
 @BusinessObjectUnit(code = GoodsIssue.BUSINESS_OBJECT_CODE)
-public class GoodsIssue extends BusinessObject<GoodsIssue> implements IGoodsIssue, IDataOwnership, IApprovalData,
-		IBOTagCanceled, IPeriodData, IProjectData, IBOSeriesKey, IBOUserFields, IBusinessLogicsHost {
+public class GoodsIssue extends BusinessObject<GoodsIssue>
+		implements IGoodsIssue, IDataOwnership, IApprovalData, IBOTagCanceled, IPeriodData, IProjectData, IBOSeriesKey,
+		IBOUserFields, IBusinessLogicsHost, IDocumentPrintedOperator {
 
 	/**
 	 * 序列化版本标记
@@ -948,6 +950,37 @@ public class GoodsIssue extends BusinessObject<GoodsIssue> implements IGoodsIssu
 	 */
 	public final void setReferenced(emYesNo value) {
 		this.setProperty(PROPERTY_REFERENCED, value);
+	}
+
+	/**
+	* 属性名称-已打印
+	*/
+	private static final String PROPERTY_PRINTED_NAME = "Printed";
+
+	/**
+	* 已打印 属性
+	*/
+	@DbField(name = "Printed", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME)
+	public static final IPropertyInfo<emYesNo> PROPERTY_PRINTED = registerProperty(PROPERTY_PRINTED_NAME, emYesNo.class,
+			MY_CLASS);
+
+	/**
+	* 获取-已打印
+	* 
+	* @return 值
+	*/
+	@XmlElement(name = PROPERTY_PRINTED_NAME)
+	public final emYesNo getPrinted() {
+		return this.getProperty(PROPERTY_PRINTED);
+	}
+
+	/**
+	* 设置-已打印
+	* 
+	* @param value 值
+	*/
+	public final void setPrinted(emYesNo value) {
+		this.setProperty(PROPERTY_PRINTED, value);
 	}
 
 	/**
