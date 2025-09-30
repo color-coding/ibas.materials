@@ -164,7 +164,7 @@ namespace materials {
                                                             }),
                                                             this.countInput = new sap.extension.m.Input("", {
                                                                 type: sap.m.InputType.Number,
-                                                                value: 10,
+                                                                value: config.get(config.CONFIG_ITEM_DEFAULT_HISTORICAL_PRICE_COUNT, 10),
                                                                 width: "4rem",
                                                                 change(): void {
                                                                     (<any>that.bpButton).fireSelectionChange({});

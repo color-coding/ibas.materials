@@ -34,6 +34,8 @@ namespace materials {
         export const CONFIG_ITEM_DEFAULT_HISTORICAL_PRICE_DOCUMENTS: string = "defaultHistoricalPriceDocuments";
         /** 配置项目-历史价格的默认应用的价格 */
         export const CONFIG_ITEM_DEFAULT_HISTORICAL_PRICE_WHICH_APPLY: string = "defaultHistoricalPriceApplyWhich";
+        /** 配置项目-历史价格的查询数 */
+        export const CONFIG_ITEM_DEFAULT_HISTORICAL_PRICE_COUNT: string = "defaultHistoricalPriceCount";
         /**
          * 获取此模块配置
          * @param key 配置项
