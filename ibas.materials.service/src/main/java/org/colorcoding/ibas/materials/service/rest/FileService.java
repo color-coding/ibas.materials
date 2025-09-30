@@ -82,14 +82,14 @@ public class FileService extends FileRepositoryService {
 	}
 
 	@GET
-	@Path("{resource}")
+	@Path("{resource:.*}")
 	public void resource(@PathParam("resource") String resource, @QueryParam("token") String token,
 			@Context HttpServletResponse response) {
 		try {
 			Criteria criteria = new Criteria();
 			ICondition condition = criteria.getConditions().create();
 			condition.setAlias(FileRepository.CRITERIA_CONDITION_ALIAS_FILE_NAME);
-			condition.setValue(resource);
+			condition.setValue(resource.replace("/", File.separator));
 			// 获取文件
 			IOperationResult<FileData> operationResult = this.fetch(criteria, token);
 			if (operationResult.getError() != null) {
