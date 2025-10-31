@@ -137,6 +137,17 @@ namespace materials {
                                     criteria: [
                                         new ibas.Condition(bo.Warehouse.PROPERTY_ACTIVATED_NAME, ibas.emConditionOperation.EQUAL, ibas.emYesNo.YES)
                                     ],
+                                    showValueLink: true,
+                                    showSuggestion: true,
+                                    suggestionItemSelected: function (this: sap.extension.m.RepositoryInput, event: sap.ui.base.Event): void {
+                                        let selectedItem: any = event.getParameter("selectedItem");
+                                        if (!ibas.objects.isNull(selectedItem)) {
+                                            let data: any = this.getBindingContext().getObject();
+                                            if (data instanceof app.MaterialInventoryItem) {
+                                                data.targetWarehouse = selectedItem.getKey();
+                                            }
+                                        }
+                                    },
                                 }).bindProperty("bindingValue", {
                                     path: "targetWarehouse",
                                     type: new sap.extension.data.Alphanumeric(),

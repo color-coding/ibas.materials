@@ -323,11 +323,19 @@ namespace materials {
                         ibas.i18n.prop("bo_materialpricelist")
                     )); return;
                 }
+                let criteria: ibas.ICriteria = app.conditions.materialprice.create();
+                let condition: ibas.ICondition = criteria.conditions.create();
+                condition.alias = materials.app.conditions.materialprice.CONDITION_ALIAS_PRICELIST;
+                condition.value = this.currentPriceList.objectKey.toString();
+                condition = criteria.conditions.create();
+                condition.alias = materials.app.conditions.materialprice.CONDITION_ALIAS_CURRENCY;
+                condition.value = this.currentPriceList.currency;
+
                 this.busy(true);
                 let that: this = this;
                 let boRepository: bo.BORepositoryMaterials = new bo.BORepositoryMaterials();
                 boRepository.fetchMaterialPrice({
-                    criteria: new ibas.Criteria(),
+                    criteria: criteria,
                     onCompleted(opRslt: ibas.IOperationResult<bo.MaterialPrice>): void {
                         try {
                             that.busy(false);

@@ -3,10 +3,6 @@ package org.colorcoding.ibas.materials.logic;
 import java.math.BigDecimal;
 
 import org.colorcoding.ibas.bobas.approval.IApprovalData;
-import org.colorcoding.ibas.bobas.bo.IBODocument;
-import org.colorcoding.ibas.bobas.bo.IBODocumentLine;
-import org.colorcoding.ibas.bobas.bo.IBOTagCanceled;
-import org.colorcoding.ibas.bobas.bo.IBOTagDeleted;
 import org.colorcoding.ibas.bobas.common.ConditionOperation;
 import org.colorcoding.ibas.bobas.common.ConditionRelationship;
 import org.colorcoding.ibas.bobas.common.Criteria;
@@ -20,10 +16,10 @@ import org.colorcoding.ibas.bobas.data.emApprovalStatus;
 import org.colorcoding.ibas.bobas.data.emDirection;
 import org.colorcoding.ibas.bobas.data.emYesNo;
 import org.colorcoding.ibas.bobas.i18n.I18N;
-import org.colorcoding.ibas.bobas.message.Logger;
-import org.colorcoding.ibas.bobas.message.MessageLevel;
 import org.colorcoding.ibas.bobas.logic.BusinessLogicException;
 import org.colorcoding.ibas.bobas.logic.LogicContract;
+import org.colorcoding.ibas.bobas.message.Logger;
+import org.colorcoding.ibas.bobas.message.MessageLevel;
 import org.colorcoding.ibas.materials.MyConfiguration;
 import org.colorcoding.ibas.materials.bo.material.IMaterial;
 import org.colorcoding.ibas.materials.bo.materialserial.IMaterialSerial;
@@ -81,13 +77,8 @@ public class MaterialSerialJournalService
 		}
 		boolean status = super.checkDataStatus(data);
 		if (status == false && this.isEnableMaterialCosts()) {
-			// 取消和标记删除时，执行逻辑
-			if (this.getRoot() == data || this.getParent() == data) {
-				status = super.checkDataStatus(data, ITrackable.class, IBOTagCanceled.class, IBOTagDeleted.class,
-						IBODocument.class, IBODocumentLine.class);
-			} else {
-				status = super.checkDataStatus(data, ITrackable.class, IBOTagCanceled.class, IBOTagDeleted.class);
-			}
+			// 激活成本计算时，正向逻辑都执行
+			status = true;
 		}
 		return status;
 	}
@@ -175,18 +166,21 @@ public class MaterialSerialJournalService
 						throw new BusinessLogicException(operationResult.getError());
 					}
 					if (operationResult.getResultObjects().isEmpty()) {
-						throw new BusinessLogicException(I18N.prop("msg_mm_document_not_found_receipt_journal",
-								String.format("{[%s].[DocEntry = %s]%s}", contract.getDocumentType(),
-										contract.getDocumentEntry(),
-										contract.getDocumentLineId() > 0
-												? String.format("&&[LineId = %s]", contract.getDocumentLineId())
-												: "")));
+						materialSerialJournal = new MaterialSerialJournal();
+						((MaterialSerialJournal) materialSerialJournal).unsavable();
+						materialSerialJournal.setDirection(contract.getDirection());
+						materialSerialJournal.setBaseDocumentType(contract.getDocumentType());
+						materialSerialJournal.setBaseDocumentEntry(contract.getDocumentEntry());
+						materialSerialJournal.setBaseDocumentLineId(contract.getDocumentLineId());
+						materialSerialJournal.setBaseDocumentIndex(contract.getDocumentIndex());
+						materialSerialJournal.setDataSource(DATASOURCE_SIGN_OFFSETTING_JOURNAL);
+					} else {
+						materialSerialJournal = operationResult.getResultObjects().firstOrDefault();
+						materialSerialJournal = ((MaterialSerialJournal) materialSerialJournal).clone();
+						materialSerialJournal.setDataSource(DATASOURCE_SIGN_OFFSETTING_JOURNAL);
+						materialSerialJournal.setQuantity(materialSerialJournal.getQuantity().negate());
+						materialSerialJournal.setTransactionValue(materialSerialJournal.getTransactionValue().negate());
 					}
-					materialSerialJournal = operationResult.getResultObjects().firstOrDefault();
-					materialSerialJournal = ((MaterialSerialJournal) materialSerialJournal).clone();
-					materialSerialJournal.setDataSource(DATASOURCE_SIGN_OFFSETTING_JOURNAL);
-					materialSerialJournal.setQuantity(materialSerialJournal.getQuantity().negate());
-					materialSerialJournal.setTransactionValue(materialSerialJournal.getTransactionValue().negate());
 				}
 			} else {
 				materialSerialJournal = new MaterialSerialJournal();
@@ -204,6 +198,10 @@ public class MaterialSerialJournalService
 	@Override
 	protected void impact(IMaterialSerialJournalContract contract) {
 		IMaterialSerialJournal materialSerialJournal = this.getBeAffected();
+		// 不可保存对象，不执行逻辑
+		if (!materialSerialJournal.isSavable()) {
+			return;
+		}
 		// 开启物料成本计算
 		if (this.isEnableMaterialCosts()) {
 			String localCurrency = org.colorcoding.ibas.accounting.MyConfiguration
@@ -420,6 +418,10 @@ public class MaterialSerialJournalService
 	@Override
 	protected void revoke(IMaterialSerialJournalContract contract) {
 		IMaterialSerialJournal materialSerialJournal = this.getBeAffected();
+		// 不可保存对象，不执行逻辑
+		if (!materialSerialJournal.isSavable()) {
+			return;
+		}
 		if (!this.isEnableMaterialCosts() || contract.isOffsetting()) {
 			// 未开启成本的，删除
 			materialSerialJournal.delete();

@@ -1245,7 +1245,7 @@ public class MaterialInventoryJournal extends BusinessObject<MaterialInventoryJo
 			BigDecimal inventoryQuantity = Decimals.add(this.getInventoryQuantity(), this.getQuantity().abs());
 			BigDecimal inventoryValue = Decimals.add(this.getInventoryValue(), this.getTransactionValue().abs());
 			return Decimals.isZero(inventoryQuantity) ? Decimals.VALUE_ZERO
-					: Decimals.divide(inventoryValue, inventoryQuantity);
+					: Decimals.divide(inventoryValue, inventoryQuantity, Decimals.DECIMAL_PLACES_STORAGE);
 		}
 		return null;
 	}

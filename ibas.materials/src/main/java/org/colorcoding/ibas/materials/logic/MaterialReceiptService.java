@@ -3,10 +3,6 @@ package org.colorcoding.ibas.materials.logic;
 import java.math.BigDecimal;
 
 import org.colorcoding.ibas.bobas.approval.IApprovalData;
-import org.colorcoding.ibas.bobas.bo.IBODocument;
-import org.colorcoding.ibas.bobas.bo.IBODocumentLine;
-import org.colorcoding.ibas.bobas.bo.IBOTagCanceled;
-import org.colorcoding.ibas.bobas.bo.IBOTagDeleted;
 import org.colorcoding.ibas.bobas.common.ConditionOperation;
 import org.colorcoding.ibas.bobas.common.ConditionRelationship;
 import org.colorcoding.ibas.bobas.common.Criteria;
@@ -20,10 +16,10 @@ import org.colorcoding.ibas.bobas.data.emApprovalStatus;
 import org.colorcoding.ibas.bobas.data.emDirection;
 import org.colorcoding.ibas.bobas.data.emYesNo;
 import org.colorcoding.ibas.bobas.i18n.I18N;
-import org.colorcoding.ibas.bobas.message.Logger;
-import org.colorcoding.ibas.bobas.message.MessageLevel;
 import org.colorcoding.ibas.bobas.logic.BusinessLogicException;
 import org.colorcoding.ibas.bobas.logic.LogicContract;
+import org.colorcoding.ibas.bobas.message.Logger;
+import org.colorcoding.ibas.bobas.message.MessageLevel;
 import org.colorcoding.ibas.materials.MyConfiguration;
 import org.colorcoding.ibas.materials.bo.material.IMaterial;
 import org.colorcoding.ibas.materials.bo.materialinventory.IMaterialInventory;
@@ -69,13 +65,8 @@ public class MaterialReceiptService
 		}
 		boolean status = super.checkDataStatus(data);
 		if (status == false && this.isEnableMaterialCosts()) {
-			// 取消和标记删除时，执行逻辑
-			if (this.getRoot() == data || this.getHost() == data) {
-				status = super.checkDataStatus(data, ITrackable.class, IBOTagCanceled.class, IBOTagDeleted.class,
-						IBODocument.class, IBODocumentLine.class);
-			} else {
-				status = super.checkDataStatus(data, ITrackable.class, IBOTagCanceled.class, IBOTagDeleted.class);
-			}
+			// 激活成本计算时，正向逻辑都执行
+			status = true;
 		}
 		return status;
 	}
@@ -171,18 +162,22 @@ public class MaterialReceiptService
 						throw new BusinessLogicException(operationResult.getError());
 					}
 					if (operationResult.getResultObjects().isEmpty()) {
-						throw new BusinessLogicException(I18N.prop("msg_mm_document_not_found_receipt_journal",
-								String.format("{[%s].[DocEntry = %s]%s}", contract.getDocumentType(),
-										contract.getDocumentEntry(),
-										contract.getDocumentLineId() > 0
-												? String.format("&&[LineId = %s]", contract.getDocumentLineId())
-												: "")));
+						// 没有正向数据，则构建临时对象
+						materialJournal = new MaterialInventoryJournal();
+						((MaterialInventoryJournal) materialJournal).unsavable();
+						materialJournal.setBaseDocumentType(contract.getDocumentType());
+						materialJournal.setBaseDocumentEntry(contract.getDocumentEntry());
+						materialJournal.setBaseDocumentLineId(contract.getDocumentLineId());
+						materialJournal.setQuantity(Decimals.VALUE_ZERO);
+						materialJournal.setDirection(emDirection.IN);
+						materialJournal.setDataSource(DATASOURCE_SIGN_OFFSETTING_JOURNAL);
+					} else {
+						materialJournal = operationResult.getResultObjects().firstOrDefault();
+						materialJournal = ((MaterialInventoryJournal) materialJournal).clone();
+						materialJournal.setDataSource(DATASOURCE_SIGN_OFFSETTING_JOURNAL);
+						materialJournal.setQuantity(materialJournal.getQuantity().negate());
+						materialJournal.setTransactionValue(materialJournal.getTransactionValue().negate());
 					}
-					materialJournal = operationResult.getResultObjects().firstOrDefault();
-					materialJournal = ((MaterialInventoryJournal) materialJournal).clone();
-					materialJournal.setDataSource(DATASOURCE_SIGN_OFFSETTING_JOURNAL);
-					materialJournal.setQuantity(materialJournal.getQuantity().negate());
-					materialJournal.setTransactionValue(materialJournal.getTransactionValue().negate());
 				}
 			} else {
 				materialJournal = new MaterialInventoryJournal();
@@ -212,6 +207,10 @@ public class MaterialReceiptService
 			}
 		}
 		IMaterialInventoryJournal materialJournal = this.getBeAffected();
+		// 不可保存对象，不执行逻辑
+		if (!materialJournal.isSavable()) {
+			return;
+		}
 		// 开启物料成本计算
 		if (this.isEnableMaterialCosts()) {
 			String localCurrency = org.colorcoding.ibas.accounting.MyConfiguration
@@ -425,6 +424,10 @@ public class MaterialReceiptService
 	@Override
 	protected void revoke(IMaterialReceiptContract contract) {
 		IMaterialInventoryJournal materialJournal = this.getBeAffected();
+		// 不可保存对象，不执行逻辑
+		if (!materialJournal.isSavable()) {
+			return;
+		}
 		if (!this.isEnableMaterialCosts() || contract.isOffsetting()) {
 			// 未开启成本的，删除
 			materialJournal.delete();

@@ -1333,7 +1333,7 @@ public class MaterialSerialJournal extends BusinessObject<MaterialSerialJournal>
 						BigDecimal inventoryValue = Decimals.add(MaterialSerialJournal.this.getInventoryValue(),
 								MaterialSerialJournal.this.getTransactionValue().abs());
 						return Decimals.isZero(inventoryQuantity) ? Decimals.VALUE_ZERO
-								: Decimals.divide(inventoryValue, inventoryQuantity);
+								: Decimals.divide(inventoryValue, inventoryQuantity, Decimals.DECIMAL_PLACES_STORAGE);
 					}
 				}
 				return null;

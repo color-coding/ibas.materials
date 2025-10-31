@@ -95,6 +95,9 @@ namespace materials {
             /** 已引用 */
             referenced: ibas.emYesNo;
 
+            /** 已打印 */
+            printed: ibas.emYesNo;
+
             /** 备注 */
             remarks: string;
 

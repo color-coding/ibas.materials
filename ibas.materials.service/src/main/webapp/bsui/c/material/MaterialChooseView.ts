@@ -26,6 +26,49 @@ namespace materials {
                         rows: "{/rows}",
                         columns: [
                             new sap.extension.table.DataColumn("", {
+                                label: ibas.i18n.prop("bo_material_picture"),
+                                template: new sap.m.Avatar("", {
+                                    decorative: true,
+                                    showBorder: false,
+                                    displayShape: sap.m.AvatarShape.Square,
+                                    imageFitType: sap.m.AvatarImageFitType.Contain,
+                                    press: function (oEvent: sap.ui.base.Event): void {
+                                        let src: string = this.getSrc();
+                                        if (!ibas.strings.isEmpty(src)) {
+                                            let lightBox: sap.m.LightBox = new sap.m.LightBox("", {
+                                                imageContent: [
+                                                    new sap.m.LightBoxItem("", {
+                                                        imageSrc: src
+                                                    })
+                                                ]
+                                            });
+                                            lightBox.open();
+                                        }
+                                    },
+                                    enabled: {
+                                        path: "picture",
+                                        formatter(value: string): boolean {
+                                            return !ibas.strings.isEmpty(value);
+                                        }
+                                    },
+                                    backgroundColor: sap.m.AvatarColor.Transparent,
+                                    fallbackIcon: "sap-icon://avatar-icon-none",
+                                }).bindProperty("src", {
+                                    path: "picture",
+                                    formatter: function (value: string): string {
+                                        if (ibas.strings.isEmpty(value)) {
+                                            return "";
+                                        }
+                                        if (ibas.strings.isWith(value, "http", undefined)) {
+                                            return ibas.urls.normalize(value);
+                                        }
+                                        return new bo.BORepositoryMaterials().toUrl(value);
+                                    }
+                                }),
+                                visible: false,
+                                width: "5rem",
+                            }),
+                            new sap.extension.table.DataColumn("", {
                                 label: ibas.i18n.prop("bo_material_code"),
                                 template: new sap.extension.m.Text("", {
                                 }).bindProperty("bindingValue", {
@@ -36,23 +79,12 @@ namespace materials {
                             }),
                             new sap.extension.table.DataColumn("", {
                                 label: ibas.i18n.prop("bo_material_name"),
-                                width: "20rem",
                                 template: new sap.extension.m.Text("", {
                                 }).bindProperty("bindingValue", {
-                                    parts: [
-                                        {
-                                            path: "name",
-                                            type: new sap.extension.data.Alphanumeric()
-                                        },
-                                        {
-                                            path: "sign",
-                                            type: new sap.extension.data.Alphanumeric(),
-                                            formatter(data: string): string {
-                                                return ibas.strings.isEmpty(data) ? "" : ibas.strings.format(" ({0})", data);
-                                            }
-                                        },
-                                    ]
+                                    path: "name",
+                                    type: new sap.extension.data.Alphanumeric()
                                 }),
+                                width: "20rem",
                             }),
                             new sap.extension.table.DataColumn("", {
                                 label: ibas.i18n.prop("bo_material_itemtype"),
@@ -65,6 +97,15 @@ namespace materials {
                                     })
                                 }),
                                 width: "8rem",
+                            }),
+                            new sap.extension.table.DataColumn("", {
+                                label: ibas.i18n.prop("bo_material_sign"),
+                                template: new sap.extension.m.Text("", {
+                                }).bindProperty("bindingValue", {
+                                    path: "sign",
+                                    type: new sap.extension.data.Alphanumeric()
+                                }),
+                                visible: false,
                             }),
                             new sap.extension.table.DataColumn("", {
                                 label: ibas.i18n.prop("bo_material_group"),

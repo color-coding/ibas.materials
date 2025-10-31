@@ -151,10 +151,13 @@ namespace materials {
                             this.tableSerial
                         ]
                     });
-                    this.tableSerialJournal = new sap.extension.table.Table("", {
+                    this.tableSerialJournal = new sap.extension.table.DataTable("", {
                         enableSelectAll: false,
                         visibleRowCount: sap.extension.table.visibleRowCount(15),
                         visibleRowCountMode: sap.ui.table.VisibleRowCountMode.Interactive,
+                        dataInfo: {
+                            code: bo.MaterialSerialJournal.BUSINESS_OBJECT_CODE,
+                        },
                         rows: "{/rows}",
                         columns: [
                             new sap.extension.table.Column("", {

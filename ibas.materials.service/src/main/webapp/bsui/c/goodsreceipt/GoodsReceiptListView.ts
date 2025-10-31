@@ -31,7 +31,7 @@ namespace materials {
                         rows: "{/rows}",
                         columns: [
                             new sap.extension.table.DataColumn("", {
-                                label: ibas.i18n.prop("bo_goodsissue_docentry"),
+                                label: ibas.i18n.prop("bo_goodsreceipt_docentry"),
                                 template: new sap.extension.m.DataLink("", {
                                     objectCode: {
                                         path: "objectCode",
@@ -43,7 +43,7 @@ namespace materials {
                                 }),
                             }),
                             new sap.extension.table.DataColumn("", {
-                                label: ibas.i18n.prop("bo_goodsissue_approvalstatus"),
+                                label: ibas.i18n.prop("bo_goodsreceipt_approvalstatus"),
                                 template: new sap.extension.m.Text("", {
                                 }).bindProperty("bindingValue", {
                                     path: "approvalStatus",
@@ -51,7 +51,7 @@ namespace materials {
                                 }),
                             }),
                             new sap.extension.table.DataColumn("", {
-                                label: ibas.i18n.prop("bo_goodsissue_canceled"),
+                                label: ibas.i18n.prop("bo_goodsreceipt_canceled"),
                                 template: new sap.extension.m.Text("", {
                                 }).bindProperty("bindingValue", {
                                     path: "canceled",
@@ -59,7 +59,15 @@ namespace materials {
                                 }),
                             }),
                             new sap.extension.table.DataColumn("", {
-                                label: ibas.i18n.prop("bo_goodsissue_documentstatus"),
+                                label: ibas.i18n.prop("bo_goodsreceipt_printed"),
+                                template: new sap.extension.m.Text("", {
+                                }).bindProperty("bindingValue", {
+                                    path: "printed",
+                                    type: new sap.extension.data.YesNo(true)
+                                }),
+                            }),
+                            new sap.extension.table.DataColumn("", {
+                                label: ibas.i18n.prop("bo_goodsreceipt_documentstatus"),
                                 template: new sap.extension.m.Text("", {
                                 }).bindProperty("bindingValue", {
                                     path: "documentStatus",
@@ -67,7 +75,7 @@ namespace materials {
                                 }),
                             }),
                             new sap.extension.table.DataColumn("", {
-                                label: ibas.i18n.prop("bo_goodsissue_documentdate"),
+                                label: ibas.i18n.prop("bo_goodsreceipt_documentdate"),
                                 template: new sap.extension.m.Text("", {
                                 }).bindProperty("bindingValue", {
                                     path: "documentDate",
@@ -83,7 +91,7 @@ namespace materials {
                                 }),
                             }),
                             new sap.extension.table.DataColumn("", {
-                                label: ibas.i18n.prop("bo_goodsissue_documenttotal"),
+                                label: ibas.i18n.prop("bo_goodsreceipt_documenttotal"),
                                 template: new sap.extension.m.Text("", {
                                 }).bindProperty("bindingValue", {
                                     parts: [
@@ -98,7 +106,7 @@ namespace materials {
                                 }),
                             }),
                             new sap.extension.table.DataColumn("", {
-                                label: ibas.i18n.prop("bo_goodsissue_ordertype"),
+                                label: ibas.i18n.prop("bo_goodsreceipt_ordertype"),
                                 template: new sap.extension.m.PropertyText("", {
                                     dataInfo: {
                                         code: bo.GoodsReceipt.BUSINESS_OBJECT_CODE,
@@ -118,7 +126,7 @@ namespace materials {
                                 }),
                             }),
                             new sap.extension.table.DataColumn("", {
-                                label: ibas.i18n.prop("bo_goodsissue_reference1"),
+                                label: ibas.i18n.prop("bo_goodsreceipt_reference1"),
                                 template: new sap.extension.m.Text("", {
                                 }).bindProperty("bindingValue", {
                                     path: "reference1",
@@ -126,7 +134,7 @@ namespace materials {
                                 }),
                             }),
                             new sap.extension.table.DataColumn("", {
-                                label: ibas.i18n.prop("bo_goodsissue_reference2"),
+                                label: ibas.i18n.prop("bo_goodsreceipt_reference2"),
                                 template: new sap.extension.m.Text("", {
                                 }).bindProperty("bindingValue", {
                                     path: "reference2",

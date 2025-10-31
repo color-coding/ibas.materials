@@ -155,6 +155,17 @@ namespace materials {
                                     criteria: [
                                         new ibas.Condition(bo.Warehouse.PROPERTY_ACTIVATED_NAME, ibas.emConditionOperation.EQUAL, ibas.emYesNo.YES)
                                     ],
+                                    showValueLink: true,
+                                    showSuggestion: true,
+                                    suggestionItemSelected: function (this: sap.extension.m.RepositoryInput, event: sap.ui.base.Event): void {
+                                        let selectedItem: any = event.getParameter("selectedItem");
+                                        if (!ibas.objects.isNull(selectedItem)) {
+                                            let data: any = this.getBindingContext().getObject();
+                                            if (data instanceof app.MaterialNumberItem) {
+                                                data.targetWarehouse = selectedItem.getKey();
+                                            }
+                                        }
+                                    },
                                 }).bindProperty("bindingValue", {
                                     path: "targetWarehouse",
                                     type: new sap.extension.data.Alphanumeric(),
@@ -163,7 +174,7 @@ namespace materials {
                             }),
                             new sap.extension.table.DataColumn("", {
                                 label: ibas.i18n.prop("bo_materialnumberitem_code_target"),
-                                template: new sap.extension.m.Input("", {
+                                template: new sap.extension.m.RepositoryInput("", {
                                     showValueHelp: true,
                                     valueHelpRequest(this: sap.extension.m.Input): void {
                                         that.fireViewEvents(that.chooseTargetMaterialEvent, this.getBindingContext().getObject());
@@ -177,7 +188,45 @@ namespace materials {
                                                 data.targetMaterial = undefined;
                                             }
                                         }
-                                    }
+                                    },
+                                    describeValue: false,
+                                    repository: bo.BORepositoryMaterials,
+                                    dataInfo: {
+                                        type: bo.Material,
+                                        key: bo.Material.PROPERTY_CODE_NAME,
+                                        text: bo.Material.PROPERTY_NAME_NAME
+                                    },
+                                    criteria(source: any): ibas.ICriteria {
+                                        let criteria: ibas.Criteria = new ibas.Criteria();
+                                        criteria.conditions.add(new ibas.Condition(bo.Material.PROPERTY_ACTIVATED_NAME, ibas.emConditionOperation.EQUAL, ibas.emYesNo.YES));
+                                        criteria.conditions.add(new ibas.Condition(bo.Material.PROPERTY_INVENTORYITEM_NAME, ibas.emConditionOperation.EQUAL, ibas.emYesNo.YES));
+                                        criteria.conditions.add(new ibas.Condition(bo.Material.PROPERTY_ITEMTYPE_NAME, ibas.emConditionOperation.EQUAL, bo.emItemType.ITEM));
+                                        criteria.conditions.add(new ibas.Condition(bo.Material.PROPERTY_PHANTOMITEM_NAME, ibas.emConditionOperation.EQUAL, ibas.emYesNo.NO));
+
+                                        if (source?.getBindingContext()?.getObject()?.source instanceof bo.MaterialBatch) {
+                                            // 批次管理
+                                            let condition: ibas.ICondition = new ibas.Condition();
+                                            condition.alias = bo.Material.PROPERTY_BATCHMANAGEMENT_NAME;
+                                            condition.value = ibas.emYesNo.YES.toString();
+                                            condition.operation = ibas.emConditionOperation.EQUAL;
+                                            criteria.conditions.add(condition);
+                                        } else if (source?.getBindingContext()?.getObject()?.source instanceof bo.MaterialSerial) {
+                                            // 序列管理
+                                            let condition: ibas.ICondition = new ibas.Condition();
+                                            condition.alias = bo.Material.PROPERTY_SERIALMANAGEMENT_NAME;
+                                            condition.value = ibas.emYesNo.YES.toString();
+                                            condition.operation = ibas.emConditionOperation.EQUAL;
+                                            criteria.conditions.add(condition);
+                                        }
+                                        return criteria;
+                                    },
+                                    showSuggestion: true,
+                                    suggestionItemSelected: function (this: sap.extension.m.RepositoryInput, event: sap.ui.base.Event): void {
+                                        let selectedItem: any = event.getParameter("selectedItem");
+                                        if (!ibas.objects.isNull(selectedItem)) {
+                                            that.fireViewEvents(that.chooseTargetMaterialEvent, this.getBindingContext().getObject(), this.itemConditions(selectedItem));
+                                        }
+                                    },
                                 }).bindProperty("bindingValue", {
                                     path: "targetMaterial/code",
                                     type: new sap.extension.data.Alphanumeric(),
