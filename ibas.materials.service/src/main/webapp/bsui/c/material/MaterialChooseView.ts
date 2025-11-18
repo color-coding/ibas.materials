@@ -27,11 +27,8 @@ namespace materials {
                         columns: [
                             new sap.extension.table.DataColumn("", {
                                 label: ibas.i18n.prop("bo_material_picture"),
-                                template: new sap.m.Avatar("", {
-                                    decorative: true,
-                                    showBorder: false,
-                                    displayShape: sap.m.AvatarShape.Square,
-                                    imageFitType: sap.m.AvatarImageFitType.Contain,
+                                template: new sap.m.Image("", {
+                                    mode: sap.m.ImageMode.Image,
                                     press: function (oEvent: sap.ui.base.Event): void {
                                         let src: string = this.getSrc();
                                         if (!ibas.strings.isEmpty(src)) {
@@ -45,14 +42,8 @@ namespace materials {
                                             lightBox.open();
                                         }
                                     },
-                                    enabled: {
-                                        path: "picture",
-                                        formatter(value: string): boolean {
-                                            return !ibas.strings.isEmpty(value);
-                                        }
-                                    },
-                                    backgroundColor: sap.m.AvatarColor.Transparent,
-                                    fallbackIcon: "sap-icon://avatar-icon-none",
+                                    height: "1.75rem",
+                                    width: "100%",
                                 }).bindProperty("src", {
                                     path: "picture",
                                     formatter: function (value: string): string {
