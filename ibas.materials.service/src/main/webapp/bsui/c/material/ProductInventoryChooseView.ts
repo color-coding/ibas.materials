@@ -26,6 +26,40 @@ namespace materials {
                         rows: "{/rows}",
                         columns: [
                             new sap.extension.table.DataColumn("", {
+                                label: ibas.i18n.prop("bo_material_picture"),
+                                template: new sap.m.Image("", {
+                                    mode: sap.m.ImageMode.Image,
+                                    press: function (oEvent: sap.ui.base.Event): void {
+                                        let src: string = this.getSrc();
+                                        if (!ibas.strings.isEmpty(src)) {
+                                            let lightBox: sap.m.LightBox = new sap.m.LightBox("", {
+                                                imageContent: [
+                                                    new sap.m.LightBoxItem("", {
+                                                        imageSrc: src
+                                                    })
+                                                ]
+                                            });
+                                            lightBox.open();
+                                        }
+                                    },
+                                    height: "1.75rem",
+                                    width: "100%",
+                                }).bindProperty("src", {
+                                    path: "picture",
+                                    formatter: function (value: string): string {
+                                        if (ibas.strings.isEmpty(value)) {
+                                            return "";
+                                        }
+                                        if (ibas.strings.isWith(value, "http", undefined)) {
+                                            return ibas.urls.normalize(value);
+                                        }
+                                        return new bo.BORepositoryMaterials().toUrl(value);
+                                    }
+                                }),
+                                visible: false,
+                                width: "5rem",
+                            }),
+                            new sap.extension.table.DataColumn("", {
                                 label: ibas.i18n.prop("bo_material_code"),
                                 template: new sap.extension.m.Text("", {
                                 }).bindProperty("bindingValue", {

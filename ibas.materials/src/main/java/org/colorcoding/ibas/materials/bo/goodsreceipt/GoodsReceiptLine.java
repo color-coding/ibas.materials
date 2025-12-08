@@ -9,21 +9,23 @@ import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlType;
 
 import org.colorcoding.ibas.accounting.logic.IJECPropertyValueGetter;
+import org.colorcoding.ibas.bobas.approval.IApprovalData;
 import org.colorcoding.ibas.bobas.bo.BusinessObject;
 import org.colorcoding.ibas.bobas.bo.IBOTagCanceled;
 import org.colorcoding.ibas.bobas.bo.IBOTagDeleted;
 import org.colorcoding.ibas.bobas.bo.IBOUserFields;
+import org.colorcoding.ibas.bobas.common.Decimals;
 import org.colorcoding.ibas.bobas.core.IPropertyInfo;
 import org.colorcoding.ibas.bobas.data.DateTime;
-import org.colorcoding.ibas.bobas.common.Decimals;
+import org.colorcoding.ibas.bobas.data.emApprovalStatus;
 import org.colorcoding.ibas.bobas.data.emBOStatus;
 import org.colorcoding.ibas.bobas.data.emDocumentStatus;
 import org.colorcoding.ibas.bobas.data.emYesNo;
+import org.colorcoding.ibas.bobas.db.DbField;
+import org.colorcoding.ibas.bobas.db.DbFieldType;
 import org.colorcoding.ibas.bobas.i18n.I18N;
 import org.colorcoding.ibas.bobas.logic.IBusinessLogicContract;
 import org.colorcoding.ibas.bobas.logic.IBusinessLogicsHost;
-import org.colorcoding.ibas.bobas.db.DbField;
-import org.colorcoding.ibas.bobas.db.DbFieldType;
 import org.colorcoding.ibas.bobas.rule.BusinessRuleException;
 import org.colorcoding.ibas.bobas.rule.IBusinessRule;
 import org.colorcoding.ibas.bobas.rule.common.BusinessRuleMinValue;
@@ -1703,6 +1705,13 @@ public class GoodsReceiptLine extends BusinessObject<GoodsReceiptLine>
 						if (GoodsReceiptLine.this.parent instanceof IBOTagDeleted) {
 							IBOTagDeleted boTag = (IBOTagDeleted) GoodsReceiptLine.this.parent;
 							if (boTag.getDeleted() == emYesNo.YES) {
+								return true;
+							}
+						}
+						if (GoodsReceiptLine.this.parent instanceof IApprovalData) {
+							IApprovalData apData = (IApprovalData) GoodsReceiptLine.this.parent;
+							if (apData.getApprovalStatus() != emApprovalStatus.UNAFFECTED
+									&& apData.getApprovalStatus() != emApprovalStatus.APPROVED) {
 								return true;
 							}
 						}
