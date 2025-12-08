@@ -45,7 +45,7 @@ public class TestGoodsIssue extends TestCase {
 	public void testBasicItems() throws Exception {
 		GoodsIssue bo = new GoodsIssue();
 		// 测试属性赋值
-
+		bo.setApprovalStatus(null);
 		// 测试库存发货-行
 		IGoodsIssueLine goodsissueline = bo.getGoodsIssueLines().create();
 		System.out.println(String.format("new item: %s", goodsissueline.toString()));
