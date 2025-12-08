@@ -3,6 +3,7 @@ package org.colorcoding.ibas.materials.logic;
 import java.math.BigDecimal;
 
 import org.colorcoding.ibas.bobas.approval.IApprovalData;
+import org.colorcoding.ibas.bobas.bo.BOUtilities;
 import org.colorcoding.ibas.bobas.common.ConditionOperation;
 import org.colorcoding.ibas.bobas.common.ConditionRelationship;
 import org.colorcoding.ibas.bobas.common.Criteria;
@@ -173,7 +174,7 @@ public class MaterialReceiptService
 						materialJournal.setDataSource(DATASOURCE_SIGN_OFFSETTING_JOURNAL);
 					} else {
 						materialJournal = operationResult.getResultObjects().firstOrDefault();
-						materialJournal = ((MaterialInventoryJournal) materialJournal).clone();
+						materialJournal = BOUtilities.clone(materialJournal);
 						materialJournal.setDataSource(DATASOURCE_SIGN_OFFSETTING_JOURNAL);
 						materialJournal.setQuantity(materialJournal.getQuantity().negate());
 						materialJournal.setTransactionValue(materialJournal.getTransactionValue().negate());

@@ -1334,7 +1334,7 @@ public class InventoryTransfer extends BusinessObject<InventoryTransfer>
 	}
 
 	@Override
-	public void reset() {
+	protected void reset() {
 		super.reset();
 		this.setDocumentStatus(emDocumentStatus.RELEASED);
 		this.getInventoryTransferLines().forEach(c -> c.setLineStatus(emDocumentStatus.RELEASED));

@@ -868,7 +868,7 @@ public class Material extends MaterialBase<Material>
 	}
 
 	@Override
-	public void reset() {
+	protected void reset() {
 		super.reset();
 		this.setOnCommited(Decimals.VALUE_ZERO);
 		this.setOnOrdered(Decimals.VALUE_ZERO);

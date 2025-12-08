@@ -1299,7 +1299,7 @@ public class InventoryCounting extends BusinessObject<InventoryCounting> impleme
 	}
 
 	@Override
-	public void reset() {
+	protected void reset() {
 		super.reset();
 		this.setDocumentStatus(emDocumentStatus.RELEASED);
 		this.getInventoryCountingLines().forEach(c -> c.setLineStatus(emDocumentStatus.RELEASED));

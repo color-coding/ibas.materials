@@ -1167,7 +1167,7 @@ public class MaterialSerial extends BusinessObject<MaterialSerial>
 	}
 
 	@Override
-	public void reset() {
+	protected void reset() {
 		super.reset();
 		this.setInStock(emYesNo.NO);
 		this.setReserved(emYesNo.NO);

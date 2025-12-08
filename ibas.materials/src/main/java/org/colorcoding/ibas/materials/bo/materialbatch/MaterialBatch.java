@@ -1108,7 +1108,7 @@ public class MaterialBatch extends BusinessObject<MaterialBatch> implements IMat
 	}
 
 	@Override
-	public void reset() {
+	protected void reset() {
 		super.reset();
 		this.setQuantity(Decimals.VALUE_ZERO);
 		this.setReservedQuantity(Decimals.VALUE_ZERO);

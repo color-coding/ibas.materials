@@ -78,18 +78,18 @@ public class TestMaterialsCost extends TestCase {
 			boRepository.setUserToken(OrganizationFactory.SYSTEM_USER);
 			// 基础数据
 			if (boRepository.fetchWarehouse(warehouse.getCriteria()).getResultObjects().isEmpty()) {
-				warehouse = BOUtilities.valueOf(boRepository.saveWarehouse(warehouse));
+				warehouse = BOUtilities.valueOf(boRepository.saveWarehouse(warehouse)).firstOrDefault();
 			}
 			if (boRepository.fetchMaterial(material.getCriteria()).getResultObjects().isEmpty()) {
-				material = BOUtilities.valueOf(boRepository.saveMaterial(material));
+				material = BOUtilities.valueOf(boRepository.saveMaterial(material)).firstOrDefault();
 			}
 			// 保存单据
-			goodsReceipt = BOUtilities.valueOf(boRepository.saveGoodsReceipt(goodsReceipt));
+			goodsReceipt = BOUtilities.valueOf(boRepository.saveGoodsReceipt(goodsReceipt)).firstOrDefault();
 			BigDecimal avgPrice = Decimals.divide(goodsReceipt.getGoodsReceiptLines().sum(c -> c.getLineTotal()),
 					goodsReceipt.getGoodsReceiptLines().sum(c -> c.getInventoryQuantity()));
 
 			// 检查库存数量
-			material = BOUtilities.valueOf(boRepository.fetchMaterial(material.getCriteria()));
+			material = BOUtilities.valueOf(boRepository.fetchMaterial(material.getCriteria())).firstOrDefault();
 			assertEquals("material onHand not equest.",
 					goodsReceipt.getGoodsReceiptLines().sum(c -> c.getInventoryQuantity()), material.getOnHand());
 			// 非个别管理时有意义
@@ -103,7 +103,8 @@ public class TestMaterialsCost extends TestCase {
 			condition = criteria.getConditions().create();
 			condition.setAlias(MaterialInventory.PROPERTY_WAREHOUSE);
 			condition.setValue(warehouse.getCode());
-			IMaterialInventory materialInventory = BOUtilities.valueOf(boRepository.fetchMaterialInventory(criteria));
+			IMaterialInventory materialInventory = BOUtilities.valueOf(boRepository.fetchMaterialInventory(criteria))
+					.firstOrDefault();
 			assertEquals("warehouse onHand not equest.", materialInventory.getOnHand().stripTrailingZeros(),
 					material.getOnHand().stripTrailingZeros());
 			assertEquals("material avgPrice not equest.", avgPrice.stripTrailingZeros(),
@@ -120,7 +121,8 @@ public class TestMaterialsCost extends TestCase {
 			condition.setAlias(MaterialBatch.PROPERTY_BATCHCODE);
 			condition.setValue(batchItem.getBatchCode());
 
-			IMaterialBatch materialBatch = BOUtilities.valueOf(boRepository.fetchMaterialBatch(criteria));
+			IMaterialBatch materialBatch = BOUtilities.valueOf(boRepository.fetchMaterialBatch(criteria))
+					.firstOrDefault();
 			assertEquals("batch onHand not equest.", materialBatch.getQuantity().stripTrailingZeros(),
 					material.getOnHand().stripTrailingZeros());
 			assertEquals("material avgPrice not equest.", avgPrice.stripTrailingZeros(),
@@ -128,10 +130,10 @@ public class TestMaterialsCost extends TestCase {
 
 			// 单据改为计划，库存是否回滚
 			goodsReceipt.setDocumentStatus(emDocumentStatus.PLANNED);
-			goodsReceipt = BOUtilities.valueOf(boRepository.saveGoodsReceipt(goodsReceipt));
-			material = BOUtilities.valueOf(boRepository.fetchMaterial(material.getCriteria()));
+			goodsReceipt = BOUtilities.valueOf(boRepository.saveGoodsReceipt(goodsReceipt)).firstOrDefault();
+			material = BOUtilities.valueOf(boRepository.fetchMaterial(material.getCriteria())).firstOrDefault();
 			assertEquals("material onHand not rolling back.", Decimals.VALUE_ZERO, material.getOnHand());
-			materialBatch = BOUtilities.valueOf(boRepository.fetchMaterialBatch(criteria));
+			materialBatch = BOUtilities.valueOf(boRepository.fetchMaterialBatch(criteria)).firstOrDefault();
 			assertEquals("batch onHand notrolling back.", Decimals.VALUE_ZERO, materialBatch.getQuantity());
 		}
 	}

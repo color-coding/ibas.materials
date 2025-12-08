@@ -1334,7 +1334,7 @@ public class GoodsIssue extends BusinessObject<GoodsIssue>
 	}
 
 	@Override
-	public void reset() {
+	protected void reset() {
 		super.reset();
 		this.setDocumentStatus(emDocumentStatus.RELEASED);
 		this.getGoodsIssueLines().forEach(c -> c.setLineStatus(emDocumentStatus.RELEASED));

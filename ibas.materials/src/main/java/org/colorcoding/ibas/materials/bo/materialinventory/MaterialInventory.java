@@ -880,7 +880,7 @@ public class MaterialInventory extends BusinessObject<MaterialInventory> impleme
 	}
 
 	@Override
-	public void reset() {
+	protected void reset() {
 		super.reset();
 		this.setOnCommited(Decimals.VALUE_ZERO);
 		this.setOnOrdered(Decimals.VALUE_ZERO);

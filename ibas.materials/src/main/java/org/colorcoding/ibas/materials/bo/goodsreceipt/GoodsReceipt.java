@@ -1336,7 +1336,7 @@ public class GoodsReceipt extends BusinessObject<GoodsReceipt>
 	}
 
 	@Override
-	public void reset() {
+	protected void reset() {
 		super.reset();
 		this.setDocumentStatus(emDocumentStatus.RELEASED);
 		this.getGoodsReceiptLines().forEach(c -> c.setLineStatus(emDocumentStatus.RELEASED));
