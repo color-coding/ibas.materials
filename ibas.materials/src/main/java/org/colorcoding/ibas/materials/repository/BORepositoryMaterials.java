@@ -1008,7 +1008,7 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 			for (IMaterialSpecialPrice item : this.fetchMaterialSpecialPrice(maCriteria).getResultObjects()) {
 				materialPrice = MaterialPrice.create(item);
 				for (MaterialBase<?> material : materials) {
-					if (material.getCode().equals(materialPrice.getItemCode())) {
+					if (material.getCode().equalsIgnoreCase(materialPrice.getItemCode())) {
 						// 标记已获得特殊价格物料
 						material.markDeleted();
 						materialPrice.setItemName(material.getName());
@@ -1045,7 +1045,7 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 				continue;
 			}
 			size = materialPrices.size();
-			for (IMaterialPrice newPrice : newPrices.where(c -> c.getItemCode().equals(material.getCode()))) {
+			for (IMaterialPrice newPrice : newPrices.where(c -> c.getItemCode().equalsIgnoreCase(material.getCode()))) {
 				materialPrice = MaterialPrice.create(material);
 				materialPrice.setUOM(newPrice.getUOM());
 				materialPrice.setSource(newPrice.getSource());
@@ -1239,7 +1239,7 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 				continue;
 			}
 			priceItems = materialPriceList.getMaterialPriceItems()
-					.where(c -> material.getCode().equals(c.getItemCode()));
+					.where(c -> material.getCode().equalsIgnoreCase(c.getItemCode()));
 			if (!priceItems.isEmpty()) {
 				// 按单位排序
 				priceItems.sort(new Comparator<IMaterialPriceItem>() {
@@ -1404,7 +1404,7 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 				item.setOnReserved(Decimal.ZERO);
 				// 重新计算数量
 				for (IMaterialInventory inventory : opRsltInventory.getResultObjects()) {
-					if (item.getItemCode().equals(inventory.getItemCode())) {
+					if (item.getItemCode().equalsIgnoreCase(inventory.getItemCode())) {
 						item.setOnHand(item.getOnHand().add(inventory.getOnHand()));
 						item.setOnCommited(item.getOnCommited().add(inventory.getOnCommited()));
 						item.setOnOrdered(item.getOnOrdered().add(inventory.getOnOrdered()));
