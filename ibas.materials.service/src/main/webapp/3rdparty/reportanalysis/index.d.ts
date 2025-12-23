@@ -1064,6 +1064,8 @@ declare namespace reportanalysis {
             category: emReportType;
             /** 组 */
             group: string;
+            /** 结果形式 */
+            resultMethod: string;
             /** 报表参数 */
             parameters: ibas.ArrayList<UserReportParameter>;
             /** 参数获取值 */
@@ -1279,6 +1281,8 @@ declare namespace reportanalysis {
                 Category: string;
                 /** 组 */
                 Group: string;
+                /** 结果形式 */
+                ResultMethod: string;
                 /** 报表参数 */
                 Parameters: IUserReportParameter[];
             }
