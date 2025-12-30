@@ -895,9 +895,12 @@ public class MaterialInventory extends BusinessObject<MaterialInventory> impleme
 
 	@Override
 	public void check() throws BusinessRuleException {
-		if (Decimal.ZERO.compareTo(this.getOnHand().subtract(this.getOnReserved())) > 0 && !this.noCheck) {
-			throw new BusinessLogicException(I18N.prop("msg_mm_material_not_enough_is_reserved", this.getWarehouse(),
-					this.getItemCode(), this.getOnHand(), this.getOnReserved()));
+		if (!MyConfiguration.getConfigValue(MyConfiguration.CONFIG_ITEM_DISABLE_MATERIAL_RESERVATION_RESTRICTIONS,
+				false)) {
+			if (Decimal.ZERO.compareTo(this.getOnHand().subtract(this.getOnReserved())) > 0 && !this.noCheck) {
+				throw new BusinessLogicException(I18N.prop("msg_mm_material_not_enough_is_reserved",
+						this.getWarehouse(), this.getItemCode(), this.getOnHand(), this.getOnReserved()));
+			}
 		}
 	}
 

@@ -15,6 +15,7 @@ import org.colorcoding.ibas.bobas.data.emYesNo;
 import org.colorcoding.ibas.bobas.i18n.I18N;
 import org.colorcoding.ibas.bobas.logic.BusinessLogicException;
 import org.colorcoding.ibas.bobas.mapping.LogicContract;
+import org.colorcoding.ibas.materials.MyConfiguration;
 import org.colorcoding.ibas.materials.bo.material.IMaterial;
 import org.colorcoding.ibas.materials.bo.materialserial.IMaterialSerial;
 import org.colorcoding.ibas.materials.bo.materialserial.IMaterialSerialJournal;
@@ -102,9 +103,12 @@ public class MaterialSerialInventoryService
 					throw new BusinessLogicException(I18N.prop("msg_mm_material_serial_in_stock",
 							contract.getWarehouse(), contract.getItemCode(), contract.getSerialCode()));
 				}
-				if (materialSerial.getReserved() == emYesNo.YES) {
-					throw new BusinessLogicException(I18N.prop("msg_mm_material_serial_is_reserved",
-							contract.getWarehouse(), contract.getItemCode(), contract.getSerialCode()));
+				if (!MyConfiguration
+						.getConfigValue(MyConfiguration.CONFIG_ITEM_DISABLE_MATERIAL_RESERVATION_RESTRICTIONS, false)) {
+					if (materialSerial.getReserved() == emYesNo.YES) {
+						throw new BusinessLogicException(I18N.prop("msg_mm_material_serial_is_reserved",
+								contract.getWarehouse(), contract.getItemCode(), contract.getSerialCode()));
+					}
 				}
 				materialSerial.setInStock(emYesNo.YES);
 				if (this.checkMaterial(materialSerial.getItemCode())

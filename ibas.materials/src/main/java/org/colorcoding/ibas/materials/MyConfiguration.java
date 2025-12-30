@@ -81,4 +81,7 @@ public class MyConfiguration extends org.colorcoding.ibas.initialfantasy.MyConfi
 
 	/** 配置项目-启用物料成本价格记录 */
 	public final static String CONFIG_ITEM_ENABLE_MATERIAL_COST_PRICE_RECORDING = "enableMaterialCostPriceRecording";
+
+	/** 配置项目-禁用物料预留限制 */
+	public final static String CONFIG_ITEM_DISABLE_MATERIAL_RESERVATION_RESTRICTIONS = "disableMaterialReservationRestrictions";
 }
