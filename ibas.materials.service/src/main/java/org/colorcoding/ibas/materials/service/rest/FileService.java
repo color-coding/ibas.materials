@@ -99,6 +99,11 @@ public class FileService extends FileRepositoryService {
 			if (fileData != null) {
 				// 设置内容类型
 				response.setContentType(this.getContentType(fileData));
+				// 设置缓存时间（单位：秒）
+				int cacheAge = 24 * 60 * 60 * 30;
+				// 设置缓存控制头
+				response.setHeader("Cache-Control", "public, max-age=" + cacheAge);
+				response.setDateHeader("Expires", System.currentTimeMillis() + cacheAge * 1000L);
 				// 写入响应输出流
 				OutputStream os = response.getOutputStream();
 				os.write(fileData.getFileBytes());
