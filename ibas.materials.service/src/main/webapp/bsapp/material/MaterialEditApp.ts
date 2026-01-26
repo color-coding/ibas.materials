@@ -219,7 +219,7 @@ namespace materials {
                 let boRepository: bo.BORepositoryMaterials = new bo.BORepositoryMaterials();
                 boRepository.upload({
                     fileData: formData,
-                    onCompleted(opRslt: ibas.IOperationResult<ibas.FileData>): void {
+                    onCompleted(opRslt: ibas.IOperationResult<ibas.FileItem>): void {
                         try {
                             that.busy(false);
                             if (opRslt.resultCode !== 0) {
@@ -227,8 +227,8 @@ namespace materials {
                             }
                             that.proceeding(ibas.emMessageType.INFORMATION,
                                 ibas.i18n.prop("shell_upload") + ibas.i18n.prop("shell_sucessful"));
-                            let fileData: ibas.FileData = opRslt.resultObjects.firstOrDefault();
-                            that.editData.picture = fileData.fileName;
+                            let fileData: ibas.FileItem = opRslt.resultObjects.firstOrDefault();
+                            that.editData.picture = fileData.name;
                         } catch (error) {
                             that.messages(error);
                         }
