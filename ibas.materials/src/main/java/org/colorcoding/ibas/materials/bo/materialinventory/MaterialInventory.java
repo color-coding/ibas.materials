@@ -9,15 +9,15 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
 import org.colorcoding.ibas.bobas.bo.BusinessObject;
+import org.colorcoding.ibas.bobas.bo.BusinessObjectUnit;
+import org.colorcoding.ibas.bobas.common.Decimals;
 import org.colorcoding.ibas.bobas.core.IPropertyInfo;
 import org.colorcoding.ibas.bobas.data.DateTime;
-import org.colorcoding.ibas.bobas.common.Decimals;
 import org.colorcoding.ibas.bobas.data.emYesNo;
-import org.colorcoding.ibas.bobas.i18n.I18N;
-import org.colorcoding.ibas.bobas.logic.BusinessLogicException;
-import org.colorcoding.ibas.bobas.bo.BusinessObjectUnit;
 import org.colorcoding.ibas.bobas.db.DbField;
 import org.colorcoding.ibas.bobas.db.DbFieldType;
+import org.colorcoding.ibas.bobas.i18n.I18N;
+import org.colorcoding.ibas.bobas.logic.BusinessLogicException;
 import org.colorcoding.ibas.bobas.rule.BusinessRuleException;
 import org.colorcoding.ibas.bobas.rule.IBusinessRule;
 import org.colorcoding.ibas.bobas.rule.ICheckRules;
@@ -895,9 +895,12 @@ public class MaterialInventory extends BusinessObject<MaterialInventory> impleme
 
 	@Override
 	public void check() throws BusinessRuleException {
-		if (Decimals.VALUE_ZERO.compareTo(this.getOnHand().subtract(this.getOnReserved())) > 0 && !this.noCheck) {
-			throw new BusinessLogicException(I18N.prop("msg_mm_material_not_enough_is_reserved", this.getWarehouse(),
-					this.getItemCode(), this.getOnHand(), this.getOnReserved()));
+		if (!MyConfiguration.getConfigValue(MyConfiguration.CONFIG_ITEM_DISABLE_MATERIAL_RESERVATION_RESTRICTIONS,
+				false)) {
+			if (Decimals.VALUE_ZERO.compareTo(this.getOnHand().subtract(this.getOnReserved())) > 0 && !this.noCheck) {
+				throw new BusinessLogicException(I18N.prop("msg_mm_material_not_enough_is_reserved",
+						this.getWarehouse(), this.getItemCode(), this.getOnHand(), this.getOnReserved()));
+			}
 		}
 	}
 

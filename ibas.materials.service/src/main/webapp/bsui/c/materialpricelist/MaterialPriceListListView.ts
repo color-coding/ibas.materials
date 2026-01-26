@@ -549,14 +549,14 @@ namespace materials {
                                                     let priceList: bo.MaterialPriceList = that.tablePriceList.getSelecteds<any>().firstOrDefault();
                                                     let datas: ibas.IList<bo.MaterialPrice> = new ibas.ArrayList<bo.MaterialPrice>();
                                                     for (let item of that.tablePrices.getSelecteds<bo.MaterialPrice>()) {
+                                                        if (item.isNew === true) {
+                                                            item.source = ibas.strings.format("{0}-0", priceList.objectKey);
+                                                        }
                                                         if (!ibas.strings.isWith(item.source, priceList?.objectKey + "-", undefined)) {
                                                             throw new Error(ibas.i18n.prop("materials_from_based_list_unsupported_operation", item.itemCode, item.uom));
                                                         }
                                                         item.delete();
                                                         if (!item.isDirty) {
-                                                            continue;
-                                                        }
-                                                        if (item.isNew) {
                                                             continue;
                                                         }
                                                         datas.add(item);

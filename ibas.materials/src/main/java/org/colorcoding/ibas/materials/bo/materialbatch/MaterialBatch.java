@@ -1129,11 +1129,13 @@ public class MaterialBatch extends BusinessObject<MaterialBatch> implements IMat
 
 	@Override
 	public void check() throws BusinessRuleException {
-		if (Decimals.VALUE_ZERO.compareTo(this.getQuantity().subtract(this.getReservedQuantity())) > 0 && !this.noCheck) {
-			throw new BusinessLogicException(
-					I18N.prop("msg_mm_material_batch_not_enough_is_reserved", this.getWarehouse(), this.getItemCode(),
-							this.getBatchCode(), this.getQuantity(), this.getReservedQuantity()));
+		if (!MyConfiguration.getConfigValue(MyConfiguration.CONFIG_ITEM_DISABLE_MATERIAL_RESERVATION_RESTRICTIONS,
+				false)) {
+			if (Decimals.VALUE_ZERO.compareTo(this.getQuantity().subtract(this.getReservedQuantity())) > 0 && !this.noCheck) {
+				throw new BusinessLogicException(I18N.prop("msg_mm_material_batch_not_enough_is_reserved",
+						this.getWarehouse(), this.getItemCode(), this.getBatchCode(), this.getQuantity(),
+						this.getReservedQuantity()));
+			}
 		}
-
 	}
 }

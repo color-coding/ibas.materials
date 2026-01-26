@@ -56,7 +56,7 @@ namespace materials {
                                         }
                                     },
                                     height: "1.75rem",
-                                    width: "100%",
+                                    width: "auto",
                                 }).bindProperty("src", {
                                     path: "picture",
                                     formatter: function (value: string): string {
