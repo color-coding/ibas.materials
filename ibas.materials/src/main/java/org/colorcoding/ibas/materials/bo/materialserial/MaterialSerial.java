@@ -1194,9 +1194,12 @@ public class MaterialSerial extends BusinessObject<MaterialSerial>
 		} else {
 			this.setInventoryValue(Decimals.VALUE_ZERO);
 		}
-		if (this.getInStock() == emYesNo.NO && this.getReserved() == emYesNo.YES && !this.noCheck) {
-			throw new BusinessLogicException(I18N.prop("msg_mm_material_serial_is_reserved", this.getWarehouse(),
-					this.getItemCode(), this.getSerialCode()));
+		if (!MyConfiguration.getConfigValue(MyConfiguration.CONFIG_ITEM_DISABLE_MATERIAL_RESERVATION_RESTRICTIONS,
+				false)) {
+			if (this.getInStock() == emYesNo.NO && this.getReserved() == emYesNo.YES && !this.noCheck) {
+				throw new BusinessLogicException(I18N.prop("msg_mm_material_serial_is_reserved", this.getWarehouse(),
+						this.getItemCode(), this.getSerialCode()));
+			}
 		}
 	}
 }

@@ -244,7 +244,7 @@ namespace materials {
                     if (!(priceListKey > 0)) {
                         continue;
                     }
-                    if (item.price < 0) {
+                    if (item.isDeleted === false && item.price < 0) {
                         continue;
                     }
                     // 先删除
