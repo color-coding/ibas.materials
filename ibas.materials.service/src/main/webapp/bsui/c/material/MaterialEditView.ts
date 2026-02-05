@@ -36,6 +36,8 @@ namespace materials {
                 chooseLedgerAccountEvent: Function;
                 /** 更多信息 */
                 overviewEvent: Function;
+                /** 关闭扩展视图 */
+                closeExtendedViewEvent: Function;
                 /** 绘制视图 */
                 public draw(): any {
                     let that: this = this;
@@ -153,12 +155,52 @@ namespace materials {
                                     return true;
                                 }
                             }),
+                            new sap.m.Label("", { text: ibas.i18n.prop("materials_enable_extended_setting"), visible: false }),
+                            this.settingFlex = new sap.m.FlexBox("", {
+                                width: "100%",
+                                visible: false,
+                                justifyContent: sap.m.FlexJustifyContent.Start,
+                                renderType: sap.m.FlexRendertype.Bare,
+                                items: {
+                                    path: "/settings",
+                                    template: new sap.extension.m.CheckBox("", {
+                                        name: {
+                                            path: "element",
+                                            type: new sap.extension.data.Alphanumeric(),
+                                        },
+                                        text: {
+                                            path: "description",
+                                            type: new sap.extension.data.Alphanumeric(),
+                                        },
+                                        selected: {
+                                            path: "enabled",
+                                            type: new sap.extension.data.YesNo(),
+                                        },
+                                        select(event: sap.ui.base.Event): void {
+                                            let source: any = event.getSource();
+                                            if (source instanceof sap.m.CheckBox) {
+                                                that.fireViewEvents(that.closeExtendedViewEvent, source.getName(), !source.getSelected());
+                                                if (source.getSelected() === false) {
+                                                    for (let item of that.tabContainer.getItems()) {
+                                                        if (item instanceof sap.m.IconTabFilter) {
+                                                            if (item.getKey() === source.getName()) {
+                                                                item.setVisible(false);
+                                                                return;
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }).addStyleClass("sapUiTinyMarginEnd"),
+                                },
+                            }),
                         ]
                     });
                     let formMiddle: sap.ui.layout.form.SimpleForm = new sap.ui.layout.form.SimpleForm("", {
                         editable: true,
                         content: [
-                            new sap.m.IconTabBar("", {
+                            this.tabContainer = new sap.m.IconTabBar("", {
                                 headerBackgroundDesign: sap.m.BackgroundDesign.Transparent,
                                 backgroundDesign: sap.m.BackgroundDesign.Transparent,
                                 expandable: false,
@@ -1543,6 +1585,54 @@ namespace materials {
                     this.page.setModel(new sap.extension.model.JSONModel(data));
                     // 改变页面状态
                     sap.extension.pages.changeStatus(this.page);
+                }
+                private tabContainer: sap.m.IconTabBar;
+                /** 显示扩展视图 */
+                showExtendedView(view: ibas.View): void {
+                    for (let item of this.tabContainer.getItems()) {
+                        if (item instanceof sap.m.IconTabFilter) {
+                            if (item.getKey() === view.application.id) {
+                                item.setVisible(true);
+                                return;
+                            }
+                        }
+                    }
+                    this.tabContainer.addItem(new sap.m.IconTabFilter("", {
+                        key: view.application.id,
+                        text: view.title,
+                        content: [
+                            view.draw()
+                        ]
+                    }));
+                }
+                private settingFlex: sap.m.FlexBox;
+                /** 显示扩展设置 */
+                showExtendedSettings(datas: bo.MaterialsExtendedSetting[]): void {
+                    if (datas?.length > 0) {
+                        this.settingFlex.setModel(new sap.extension.model.JSONModel({ settings: datas }));
+                        this.settingFlex.setVisible(true);
+                        let label: any = (<any>this.settingFlex.getParent()).getLabel();
+                        if (label instanceof sap.m.Label) {
+                            label.setVisible(true);
+                        }
+                    } else {
+                        this.settingFlex.setModel(undefined);
+                        this.settingFlex.setVisible(false);
+                        let label: any = (<any>this.settingFlex.getParent()).getLabel();
+                        if (label instanceof sap.m.Label) {
+                            label.setVisible(false);
+                        }
+                    }
+                    for (let item of this.tabContainer.getItems()) {
+                        if (item instanceof sap.m.IconTabFilter) {
+                            for (let data of datas) {
+                                if (item.getKey() === data.element) {
+                                    item.setVisible(data.enabled === ibas.emYesNo.YES ? true : false);
+                                    break;
+                                }
+                            }
+                        }
+                    }
                 }
             }
         }

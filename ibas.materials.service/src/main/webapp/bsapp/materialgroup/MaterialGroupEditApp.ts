@@ -42,6 +42,7 @@ namespace materials {
                     this.proceeding(ibas.emMessageType.WARNING, ibas.i18n.prop("shell_data_created_new"));
                 }
                 this.view.showMaterialGroup(this.editData);
+                this.showMaterialsExtendedSettings();
             }
             /** 运行,覆盖原方法 */
             run(): void;
@@ -111,11 +112,49 @@ namespace materials {
                             } else {
                                 // 替换编辑对象
                                 that.editData = opRslt.resultObjects.firstOrDefault();
+                                if (that.extendedSettings instanceof Array) {
+                                    for (let item of that.extendedSettings) {
+                                        item.targetCode = that.editData.objectCode;
+                                        item.targetKeys = that.editData.code;
+                                    }
+                                }
                                 that.messages(ibas.emMessageType.SUCCESS,
                                     ibas.i18n.prop("shell_data_save") + ibas.i18n.prop("shell_sucessful"));
                             }
-                            // 刷新当前视图
-                            that.viewShowed();
+                            // 保存扩展设置
+                            if (that.extendedSettings instanceof Array) {
+                                ibas.queues.execute(that.extendedSettings.filter(c => c.isDirty),
+                                    (data, next) => {
+                                        boRepository.saveMaterialsExtendedSetting({
+                                            beSaved: data,
+                                            onCompleted: (opRslt) => {
+                                                if (opRslt.resultCode !== 0) {
+                                                    next(new Error(opRslt.message));
+                                                } else {
+                                                    let index: number = that.extendedSettings.indexOf(data);
+                                                    if (index >= 0) {
+                                                        if (opRslt.resultObjects.length === 0) {
+                                                            that.extendedSettings.removeAt(index);
+                                                        } else {
+                                                            that.extendedSettings[index] = opRslt.resultObjects.firstOrDefault();
+                                                        }
+                                                    } next();
+                                                }
+                                            }
+                                        });
+                                    },
+                                    (error) => {
+                                        if (error instanceof Error) {
+                                            that.messages(error);
+                                        }
+                                        // 刷新当前视图
+                                        that.viewShowed();
+                                    }
+                                );
+                            } else {
+                                // 刷新当前视图
+                                that.viewShowed();
+                            }
                         } catch (error) {
                             that.messages(error);
                         }
@@ -134,6 +173,15 @@ namespace materials {
                     onCompleted(action: ibas.emMessageAction): void {
                         if (action === ibas.emMessageAction.YES) {
                             that.editData.delete();
+                            if (that.extendedSettings instanceof Array) {
+                                for (let item of that.extendedSettings) {
+                                    if (item.isNew) {
+                                        that.extendedSettings.remove(item);
+                                    } else {
+                                        item.delete();
+                                    }
+                                }
+                            }
                             that.saveData();
                         }
                     }
@@ -146,11 +194,17 @@ namespace materials {
                     if (clone) {
                         // 克隆对象
                         that.editData = that.editData.clone();
+                        if (that.extendedSettings instanceof Array) {
+                            for (let item of that.extendedSettings) {
+                                item.reset();
+                            }
+                        }
                         that.proceeding(ibas.emMessageType.WARNING, ibas.i18n.prop("shell_data_cloned_new"));
                         that.viewShowed();
                     } else {
                         // 新建对象
                         that.editData = new bo.MaterialGroup();
+                        that.extendedSettings = undefined;
                         that.proceeding(ibas.emMessageType.WARNING, ibas.i18n.prop("shell_data_created_new"));
                         that.viewShowed();
                     }
@@ -198,7 +252,7 @@ namespace materials {
                 });
             }
             /** 选择总账科目事件 */
-            private chooseLedgerAccount(): void {
+            protected chooseLedgerAccount(): void {
                 if (ibas.objects.isNull(this.editData) || this.editData.isDirty) {
                     throw new Error(ibas.i18n.prop("shell_data_saved_first"));
                 }
@@ -215,6 +269,62 @@ namespace materials {
                     }),
                 });
             }
+            protected extendedSettings: ibas.IList<bo.MaterialsExtendedSetting>;
+            /** 加载物料扩展设置 */
+            protected showMaterialsExtendedSettings(): void {
+                if (!(this.extendedSettings instanceof Array)) {
+                    if (this.editData.isNew === false) {
+                        let criteria: ibas.ICriteria = new ibas.Criteria();
+                        let condition: ibas.ICondition = criteria.conditions.create();
+                        condition.alias = bo.MaterialsExtendedSetting.PROPERTY_TARGETCODE_NAME;
+                        condition.value = this.editData.objectCode;
+                        condition = criteria.conditions.create();
+                        condition.alias = bo.MaterialsExtendedSetting.PROPERTY_TARGETKEYS_NAME;
+                        condition.value = this.editData.code;
+                        let boRepository: bo.BORepositoryMaterials = new bo.BORepositoryMaterials();
+                        boRepository.fetchMaterialsExtendedSetting({
+                            criteria: criteria,
+                            onCompleted: (opRslt) => {
+                                try {
+                                    if (opRslt.resultCode !== 0) {
+                                        throw new Error(opRslt.message);
+                                    }
+                                    this.extendedSettings = opRslt.resultObjects;
+                                    this.showMaterialsExtendedSettings();
+                                } catch (error) {
+                                    this.messages(error);
+                                }
+                            }
+                        }); return;
+                    } else {
+                        this.extendedSettings = new ibas.ArrayList<any>();
+                    }
+                }
+                let serviceAgents: ibas.IServiceAgent[] = ibas.servicesManager.getServices({
+                    proxy: new MaterialEditExtendedServiceProxy({
+                        /** 标识 */
+                        id: undefined,
+                        /** 数据改变 */
+                        dataChangeEvent(event: { reson: "CREATE" | "CLONE" | "FETCH" | "DELETE", data: bo.IMaterial }): void { },
+                        /** 数据保存 */
+                        dataSavingEvent(event: { data: bo.IMaterial }): void { },
+                    })
+                });
+                if (serviceAgents?.length > 0) {
+                    for (let agent of serviceAgents) {
+                        let setting: bo.MaterialsExtendedSetting = this.extendedSettings.find(c => c.element === agent.id);
+                        if (ibas.objects.isNull(setting)) {
+                            setting = new bo.MaterialsExtendedSetting();
+                            setting.element = agent.id;
+                            setting.description = agent.description;
+                            setting.targetCode = this.editData.objectCode;
+                            setting.targetKeys = this.editData.code;
+                            this.extendedSettings.add(setting);
+                        }
+                    }
+                }
+                this.view.showExtendedSettings(this.extendedSettings);
+            }
         }
         /** 视图-物料组 */
         export interface IMaterialGroupEditView extends ibas.IBOEditView {
@@ -228,6 +338,8 @@ namespace materials {
             chooseParentsEvent: Function;
             /** 选择总账科目事件 */
             chooseLedgerAccountEvent: Function;
+            /** 显示扩展设置 */
+            showExtendedSettings(datas: bo.MaterialsExtendedSetting[]): void;
         }
     }
 }

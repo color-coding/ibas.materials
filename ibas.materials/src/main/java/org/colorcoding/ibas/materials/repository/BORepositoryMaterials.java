@@ -97,6 +97,8 @@ import org.colorcoding.ibas.materials.bo.materialserial.IMaterialSerialItem;
 import org.colorcoding.ibas.materials.bo.materialserial.IMaterialSerialJournal;
 import org.colorcoding.ibas.materials.bo.materialserial.MaterialSerial;
 import org.colorcoding.ibas.materials.bo.materialserial.MaterialSerialJournal;
+import org.colorcoding.ibas.materials.bo.materialsextendedsetting.IMaterialsExtendedSetting;
+import org.colorcoding.ibas.materials.bo.materialsextendedsetting.MaterialsExtendedSetting;
 import org.colorcoding.ibas.materials.bo.materialspecification.IMaterialSpecification;
 import org.colorcoding.ibas.materials.bo.materialspecification.MaterialSpecification;
 import org.colorcoding.ibas.materials.bo.picklists.IPickLists;
@@ -2786,6 +2788,51 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 	public IOperationResult<ISchedulingGroup> saveSchedulingGroup(ISchedulingGroup bo) {
 		return new OperationResult<ISchedulingGroup>(
 				this.saveSchedulingGroup((SchedulingGroup) bo, this.getUserToken()));
+	} // --------------------------------------------------------------------------------------------//
+
+	/**
+	 * 查询-物料扩展设置
+	 * 
+	 * @param criteria 查询
+	 * @param token    口令
+	 * @return 操作结果
+	 */
+	public OperationResult<MaterialsExtendedSetting> fetchMaterialsExtendedSetting(ICriteria criteria, String token) {
+		return super.fetch(MaterialsExtendedSetting.class, criteria, token);
+	}
+
+	/**
+	 * 查询-物料扩展设置（提前设置用户口令）
+	 * 
+	 * @param criteria 查询
+	 * @return 操作结果
+	 */
+	public IOperationResult<IMaterialsExtendedSetting> fetchMaterialsExtendedSetting(ICriteria criteria) {
+		return new OperationResult<IMaterialsExtendedSetting>(
+				this.fetchMaterialsExtendedSetting(criteria, this.getUserToken()));
+	}
+
+	/**
+	 * 保存-物料扩展设置
+	 * 
+	 * @param bo    对象实例
+	 * @param token 口令
+	 * @return 操作结果
+	 */
+	public OperationResult<MaterialsExtendedSetting> saveMaterialsExtendedSetting(MaterialsExtendedSetting bo,
+			String token) {
+		return super.save(bo, token);
+	}
+
+	/**
+	 * 保存-物料扩展设置（提前设置用户口令）
+	 * 
+	 * @param bo 对象实例
+	 * @return 操作结果
+	 */
+	public IOperationResult<IMaterialsExtendedSetting> saveMaterialsExtendedSetting(IMaterialsExtendedSetting bo) {
+		return new OperationResult<IMaterialsExtendedSetting>(
+				this.saveMaterialsExtendedSetting((MaterialsExtendedSetting) bo, this.getUserToken()));
 	}
 	// --------------------------------------------------------------------------------------------//
 

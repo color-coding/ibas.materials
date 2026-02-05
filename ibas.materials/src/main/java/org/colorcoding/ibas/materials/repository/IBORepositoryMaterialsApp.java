@@ -30,6 +30,7 @@ import org.colorcoding.ibas.materials.bo.materialpricelist.IMaterialSpecialPrice
 import org.colorcoding.ibas.materials.bo.materialscrap.IMaterialScrap;
 import org.colorcoding.ibas.materials.bo.materialserial.IMaterialSerial;
 import org.colorcoding.ibas.materials.bo.materialserial.IMaterialSerialJournal;
+import org.colorcoding.ibas.materials.bo.materialsextendedsetting.IMaterialsExtendedSetting;
 import org.colorcoding.ibas.materials.bo.materialspecification.IMaterialSpecification;
 import org.colorcoding.ibas.materials.bo.picklists.IPickLists;
 import org.colorcoding.ibas.materials.bo.specification.ISpecification;
@@ -552,6 +553,7 @@ public interface IBORepositoryMaterialsApp extends IBORepositoryApplication {
 	// --------------------------------------------------------------------------------------------//
 	/**
 	 * 查询-物料系号关联
+	 * 
 	 * @param criteria 查询
 	 * @return 操作结果
 	 */
@@ -559,6 +561,7 @@ public interface IBORepositoryMaterialsApp extends IBORepositoryApplication {
 
 	/**
 	 * 保存-物料系号关联
+	 * 
 	 * @param bo 对象实例
 	 * @return 操作结果
 	 */
@@ -567,6 +570,7 @@ public interface IBORepositoryMaterialsApp extends IBORepositoryApplication {
 	// --------------------------------------------------------------------------------------------//
 	/**
 	 * 查询-业务伙伴物料目录
+	 * 
 	 * @param criteria 查询
 	 * @return 操作结果
 	 */
@@ -574,6 +578,7 @@ public interface IBORepositoryMaterialsApp extends IBORepositoryApplication {
 
 	/**
 	 * 保存-业务伙伴物料目录
+	 * 
 	 * @param bo 对象实例
 	 * @return 操作结果
 	 */
@@ -583,6 +588,7 @@ public interface IBORepositoryMaterialsApp extends IBORepositoryApplication {
 	// --------------------------------------------------------------------------------------------//
 	/**
 	 * 查询-计划组
+	 * 
 	 * @param criteria 查询
 	 * @return 操作结果
 	 */
@@ -590,10 +596,30 @@ public interface IBORepositoryMaterialsApp extends IBORepositoryApplication {
 
 	/**
 	 * 保存-计划组
+	 * 
 	 * @param bo 对象实例
 	 * @return 操作结果
 	 */
 	IOperationResult<ISchedulingGroup> saveSchedulingGroup(ISchedulingGroup bo);
+
+	// --------------------------------------------------------------------------------------------//
+
+	/**
+	 * 查询-物料扩展设置
+	 * 
+	 * @param criteria 查询
+	 * @return 操作结果
+	 */
+	IOperationResult<IMaterialsExtendedSetting> fetchMaterialsExtendedSetting(ICriteria criteria);
+
+	/**
+	 * 保存-物料扩展设置
+	 * 
+	 * @param bo 对象实例
+	 * @return 操作结果
+	 */
+	IOperationResult<IMaterialsExtendedSetting> saveMaterialsExtendedSetting(IMaterialsExtendedSetting bo);
+
 	// --------------------------------------------------------------------------------------------//
 
 }

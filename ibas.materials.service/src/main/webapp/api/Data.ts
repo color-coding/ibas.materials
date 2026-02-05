@@ -129,6 +129,8 @@ namespace materials {
         export const BO_CODE_BUSINESSPARTNERMATERIALCATALOG: string = "${Company}_MM_BPCATALOG";
         /** 业务对象编码-计划组 */
         export const BO_CODE_SCHEDULINGGROUP: string = "${Company}_MM_SCHEDULINGGROUP";
+        /** 业务对象编码-物料扩展设置 */
+        export const BO_CODE_MATERIALSEXTENDEDSETTING: string = "${Company}_MM_EXTDSETTING";
 
 
         /** 物料类型 */
@@ -713,6 +715,31 @@ namespace materials {
         /** 单据物料价格服务代理 */
         export class DocumentMaterialPriceServiceProxy
             extends ibas.ServiceProxy<IDocumentMaterialPriceContract> {
+        }
+
+        /** 物料查看扩展服务契约 */
+        export interface IMaterialViewExtendedContract extends ibas.IServiceContract {
+            /** 标识 */
+            id: string;
+            /** 数据改变 */
+            dataChangeEvent: (event: { reson: "CREATE" | "CLONE" | "FETCH" | "DELETE", data: bo.IMaterial }) => void;
+            /** 显示页面 */
+            showViewEvent?: () => void;
+            /** 关闭页面 */
+            closeViewEvent?: () => void;
+        }
+        /** 物料编辑扩展服务契约 */
+        export interface IMaterialEditExtendedContract extends IMaterialViewExtendedContract {
+            /** 数据保存 */
+            dataSavingEvent: (event: { reson: "SAVE" | "DELETE", data: bo.IMaterial }) => void;
+        }
+        /** 物料查看扩展服务代理 */
+        export class MaterialViewExtendedServiceProxy extends ibas.ServiceProxy<IMaterialViewExtendedContract> {
+
+        }
+        /** 物料编辑扩展服务代理 */
+        export class MaterialEditExtendedServiceProxy extends ibas.ServiceProxy<IMaterialEditExtendedContract> {
+
         }
 
         /** 查询条件 */

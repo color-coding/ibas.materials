@@ -68,6 +68,26 @@ namespace materials {
                                 path: "activated",
                                 type: new sap.extension.data.YesNo()
                             }),
+                            new sap.m.Label("", { text: ibas.i18n.prop("materials_enable_extended_setting"), visible: false }),
+                            this.settingFlex = new sap.m.FlexBox("", {
+                                visible: false,
+                                width: "100%",
+                                justifyContent: sap.m.FlexJustifyContent.Start,
+                                renderType: sap.m.FlexRendertype.Bare,
+                                items: {
+                                    path: "/settings",
+                                    template: new sap.extension.m.CheckBox("", {
+                                        text: {
+                                            path: "description",
+                                            type: new sap.extension.data.Alphanumeric(),
+                                        },
+                                        selected: {
+                                            path: "enabled",
+                                            type: new sap.extension.data.YesNo(),
+                                        }
+                                    }).addStyleClass("sapUiTinyMarginEnd"),
+                                },
+                            }),
                         ]
                     });
                     let formBottom: sap.ui.layout.form.SimpleForm = new sap.ui.layout.form.SimpleForm("", {
@@ -214,12 +234,31 @@ namespace materials {
                     });
                 }
                 private page: sap.extension.m.Page;
-
                 /** 显示数据 */
                 showMaterialGroup(data: bo.MaterialGroup): void {
                     this.page.setModel(new sap.extension.model.JSONModel(data));
                     // 改变页面状态
                     sap.extension.pages.changeStatus(this.page);
+                }
+
+                private settingFlex: sap.m.FlexBox;
+                /** 显示扩展设置 */
+                showExtendedSettings(datas: bo.MaterialsExtendedSetting[]): void {
+                    if (datas?.length > 0) {
+                        this.settingFlex.setModel(new sap.extension.model.JSONModel({ settings: datas }));
+                        this.settingFlex.setVisible(true);
+                        let label: any = sap.ui.getCore().byId(this.settingFlex.getId());
+                        if (label instanceof sap.m.Label) {
+                            label.setVisible(true);
+                        }
+                    } else {
+                        this.settingFlex.setModel(undefined);
+                        this.settingFlex.setVisible(false);
+                        let label: any = sap.ui.getCore().byId(this.settingFlex.getId());
+                        if (label instanceof sap.m.Label) {
+                            label.setVisible(false);
+                        }
+                    }
                 }
             }
         }

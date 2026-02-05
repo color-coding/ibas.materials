@@ -9,17 +9,19 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
 import org.colorcoding.ibas.bobas.approval.IApprovalData;
+import org.colorcoding.ibas.bobas.bo.BusinessObjectUnit;
 import org.colorcoding.ibas.bobas.bo.IBOSeriesKey;
 import org.colorcoding.ibas.bobas.bo.IBOTagDeleted;
 import org.colorcoding.ibas.bobas.bo.IBOUserFields;
+import org.colorcoding.ibas.bobas.common.Decimals;
 import org.colorcoding.ibas.bobas.core.IPropertyInfo;
 import org.colorcoding.ibas.bobas.data.DateTime;
-import org.colorcoding.ibas.bobas.common.Decimals;
 import org.colorcoding.ibas.bobas.data.emYesNo;
-import org.colorcoding.ibas.bobas.i18n.I18N;
-import org.colorcoding.ibas.bobas.bo.BusinessObjectUnit;
 import org.colorcoding.ibas.bobas.db.DbField;
 import org.colorcoding.ibas.bobas.db.DbFieldType;
+import org.colorcoding.ibas.bobas.i18n.I18N;
+import org.colorcoding.ibas.bobas.logic.IBusinessLogicContract;
+import org.colorcoding.ibas.bobas.logic.IBusinessLogicsHost;
 import org.colorcoding.ibas.bobas.ownership.IDataOwnership;
 import org.colorcoding.ibas.bobas.rule.BusinessRuleException;
 import org.colorcoding.ibas.bobas.rule.IBusinessRule;
@@ -31,6 +33,8 @@ import org.colorcoding.ibas.bobas.rule.common.BusinessRuleTrim;
 import org.colorcoding.ibas.materials.MyConfiguration;
 import org.colorcoding.ibas.materials.data.emItemType;
 import org.colorcoding.ibas.materials.data.emValuationMethod;
+import org.colorcoding.ibas.materials.logic.IMaterialExtendedDataCleaningContract;
+import org.colorcoding.ibas.materials.logic.IMaterialsExtendedSettingCleaningContract;
 
 /**
  * 获取-物料
@@ -39,8 +43,8 @@ import org.colorcoding.ibas.materials.data.emValuationMethod;
 @XmlType(name = Material.BUSINESS_OBJECT_NAME, namespace = MyConfiguration.NAMESPACE_BO)
 @XmlRootElement(name = Material.BUSINESS_OBJECT_NAME, namespace = MyConfiguration.NAMESPACE_BO)
 @BusinessObjectUnit(code = Material.BUSINESS_OBJECT_CODE)
-public class Material extends MaterialBase<Material>
-		implements IMaterial, IDataOwnership, IApprovalData, IBOSeriesKey, IBOTagDeleted, ICheckRules, IBOUserFields {
+public class Material extends MaterialBase<Material> implements IMaterial, IDataOwnership, IApprovalData, IBOSeriesKey,
+		IBOTagDeleted, ICheckRules, IBOUserFields, IBusinessLogicsHost {
 
 	/**
 	 * 序列化版本标记
@@ -391,32 +395,32 @@ public class Material extends MaterialBase<Material>
 	}
 
 	/**
-	* 属性名称-预留可超订购量
-	*/
+	 * 属性名称-预留可超订购量
+	 */
 	private static final String PROPERTY_RESERVEEXCESSORDERED_NAME = "ReserveExcessOrdered";
 
 	/**
-	* 预留可超订购量 属性
-	*/
+	 * 预留可超订购量 属性
+	 */
 	@DbField(name = "ReservExOrder", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<emYesNo> PROPERTY_RESERVEEXCESSORDERED = registerProperty(
 			PROPERTY_RESERVEEXCESSORDERED_NAME, emYesNo.class, MY_CLASS);
 
 	/**
-	* 获取-预留可超订购量
-	* 
-	* @return 值
-	*/
+	 * 获取-预留可超订购量
+	 * 
+	 * @return 值
+	 */
 	@XmlElement(name = PROPERTY_RESERVEEXCESSORDERED_NAME)
 	public final emYesNo getReserveExcessOrdered() {
 		return this.getProperty(PROPERTY_RESERVEEXCESSORDERED);
 	}
 
 	/**
-	* 设置-预留可超订购量
-	* 
-	* @param value 值
-	*/
+	 * 设置-预留可超订购量
+	 * 
+	 * @param value 值
+	 */
 	public final void setReserveExcessOrdered(emYesNo value) {
 		this.setProperty(PROPERTY_RESERVEEXCESSORDERED, value);
 	}
@@ -889,6 +893,45 @@ public class Material extends MaterialBase<Material>
 				throw new BusinessRuleException(I18N.prop("msg_mm_material_onordered_not_zero", this.getCode()));
 			}
 		}
+	}
+
+	@Override
+	public IBusinessLogicContract[] getContracts() {
+		return new IBusinessLogicContract[] {
+				// 物料扩展设置清除契约
+				new IMaterialsExtendedSettingCleaningContract() {
+
+					@Override
+					public String getIdentifiers() {
+						return Material.this.getIdentifiers();
+					}
+
+					@Override
+					public String getTargetKeys() {
+						return Material.this.getCode();
+					}
+
+					@Override
+					public String getTargetCode() {
+						return Material.this.getObjectCode();
+					}
+				},
+				// 物料扩展数据清除契约
+				new IMaterialExtendedDataCleaningContract() {
+
+					@Override
+					public String getIdentifiers() {
+						return Material.this.getIdentifiers();
+					}
+
+					@Override
+					public String getItemCode() {
+						return Material.this.getCode();
+					}
+
+				}
+
+		};
 	}
 
 }
