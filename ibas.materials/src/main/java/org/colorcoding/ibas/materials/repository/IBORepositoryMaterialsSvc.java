@@ -30,6 +30,7 @@ import org.colorcoding.ibas.materials.bo.materialpricelist.MaterialSpecialPrice;
 import org.colorcoding.ibas.materials.bo.materialscrap.MaterialScrap;
 import org.colorcoding.ibas.materials.bo.materialserial.MaterialSerial;
 import org.colorcoding.ibas.materials.bo.materialserial.MaterialSerialJournal;
+import org.colorcoding.ibas.materials.bo.materialsextendedsetting.MaterialsExtendedSetting;
 import org.colorcoding.ibas.materials.bo.materialspecification.MaterialSpecification;
 import org.colorcoding.ibas.materials.bo.picklists.PickLists;
 import org.colorcoding.ibas.materials.bo.specification.Specification;
@@ -610,15 +611,17 @@ public interface IBORepositoryMaterialsSvc extends IBORepositorySmartService {
 	// --------------------------------------------------------------------------------------------//
 	/**
 	 * 查询-物料系号关联
+	 * 
 	 * @param criteria 查询
-	 * @param token 口令
+	 * @param token    口令
 	 * @return 操作结果
 	 */
 	OperationResult<MaterialNumberAssociation> fetchMaterialNumberAssociation(ICriteria criteria, String token);
 
 	/**
 	 * 保存-物料系号关联
-	 * @param bo 对象实例
+	 * 
+	 * @param bo    对象实例
 	 * @param token 口令
 	 * @return 操作结果
 	 */
@@ -628,8 +631,9 @@ public interface IBORepositoryMaterialsSvc extends IBORepositorySmartService {
 	// --------------------------------------------------------------------------------------------//
 	/**
 	 * 查询-业务伙伴物料目录
+	 * 
 	 * @param criteria 查询
-	 * @param token 口令
+	 * @param token    口令
 	 * @return 操作结果
 	 */
 	OperationResult<BusinessPartnerMaterialCatalog> fetchBusinessPartnerMaterialCatalog(ICriteria criteria,
@@ -637,7 +641,8 @@ public interface IBORepositoryMaterialsSvc extends IBORepositorySmartService {
 
 	/**
 	 * 保存-业务伙伴物料目录
-	 * @param bo 对象实例
+	 * 
+	 * @param bo    对象实例
 	 * @param token 口令
 	 * @return 操作结果
 	 */
@@ -647,18 +652,40 @@ public interface IBORepositoryMaterialsSvc extends IBORepositorySmartService {
 	// --------------------------------------------------------------------------------------------//
 	/**
 	 * 查询-计划组
+	 * 
 	 * @param criteria 查询
-	 * @param token 口令
+	 * @param token    口令
 	 * @return 操作结果
 	 */
 	OperationResult<SchedulingGroup> fetchSchedulingGroup(ICriteria criteria, String token);
 
 	/**
 	 * 保存-计划组
-	 * @param bo 对象实例
+	 * 
+	 * @param bo    对象实例
 	 * @param token 口令
 	 * @return 操作结果
 	 */
 	OperationResult<SchedulingGroup> saveSchedulingGroup(SchedulingGroup bo, String token);
+
+	// --------------------------------------------------------------------------------------------//
+	/**
+	 * 查询-物料扩展设置
+	 * 
+	 * @param criteria 查询
+	 * @param token    口令
+	 * @return 操作结果
+	 */
+	OperationResult<MaterialsExtendedSetting> fetchMaterialsExtendedSetting(ICriteria criteria, String token);
+
+	/**
+	 * 保存-物料扩展设置
+	 * 
+	 * @param bo    对象实例
+	 * @param token 口令
+	 * @return 操作结果
+	 */
+	OperationResult<MaterialsExtendedSetting> saveMaterialsExtendedSetting(MaterialsExtendedSetting bo, String token);
+
 	// --------------------------------------------------------------------------------------------//
 }

@@ -205,8 +205,8 @@ namespace materials {
                                         ]
                                     }),
                                     this.table = new sap.extension.table.Table("", {
-                                        enableSelectAll: false,
                                         chooseType: ibas.emChooseType.SINGLE,
+                                        enableSelectAll: false, // 必须在下面
                                         visibleRowCount: sap.extension.table.visibleRowCount(10),
                                         rows: "{/rows}",
                                         columns: [

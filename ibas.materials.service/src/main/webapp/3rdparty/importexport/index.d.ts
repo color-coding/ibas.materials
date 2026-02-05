@@ -2672,8 +2672,6 @@ declare namespace importexport {
         class Console extends ibas.ModuleConsole {
             /** 构造函数 */
             constructor();
-            /** 创建视图导航 */
-            navigation(): ibas.IViewNavigation;
             /** 初始化 */
             protected registers(): void;
             /** 运行 */

@@ -154,6 +154,7 @@
   "materials_material_commited": "已承诺",
   "materials_material_reservation": "预留",
   "materials_release_reservation": "释放预留库存",
+  "materials_enable_extended_setting": "启用扩展",
   "materials_closing_inventorycounting": "正在结算库存判断，请稍后",
   "materials_no_data_to_be_processed": "没有需要处理的数据",
   "materials_no_work_datas_for_material_batch": "没有需要物料批次服务的数据",

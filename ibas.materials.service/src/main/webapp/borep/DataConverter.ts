@@ -315,6 +315,10 @@ namespace materials {
                     if (property === bo.BusinessPartnerMaterialCatalog.PROPERTY_BUSINESSPARTNERTYPE_NAME) {
                         return ibas.enums.toString(businesspartner.bo.emBusinessPartnerType, value);
                     }
+                } else if (boName === bo.MaterialsExtendedSetting.name) {
+                    if (property === bo.MaterialsExtendedSetting.PROPERTY_ENABLED_NAME) {
+                        return ibas.enums.toString(ibas.emYesNo, value);
+                    }
                 }
                 return super.convertData(boName, property, value);
             }
@@ -502,6 +506,10 @@ namespace materials {
                 } else if (boName === bo.BusinessPartnerMaterialCatalog.name) {
                     if (property === bo.BusinessPartnerMaterialCatalog.PROPERTY_BUSINESSPARTNERTYPE_NAME) {
                         return ibas.enums.valueOf(businesspartner.bo.emBusinessPartnerType, value);
+                    }
+                } else if (boName === bo.MaterialsExtendedSetting.name) {
+                    if (property === bo.MaterialsExtendedSetting.PROPERTY_ENABLED_NAME) {
+                        return ibas.enums.valueOf(ibas.emYesNo, value);
                     }
                 }
                 return super.parsingData(boName, property, value);

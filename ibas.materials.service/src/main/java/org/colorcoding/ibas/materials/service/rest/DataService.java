@@ -38,6 +38,7 @@ import org.colorcoding.ibas.materials.bo.materialpricelist.MaterialSpecialPrice;
 import org.colorcoding.ibas.materials.bo.materialscrap.MaterialScrap;
 import org.colorcoding.ibas.materials.bo.materialserial.MaterialSerial;
 import org.colorcoding.ibas.materials.bo.materialserial.MaterialSerialJournal;
+import org.colorcoding.ibas.materials.bo.materialsextendedsetting.MaterialsExtendedSetting;
 import org.colorcoding.ibas.materials.bo.materialspecification.MaterialSpecification;
 import org.colorcoding.ibas.materials.bo.picklists.PickLists;
 import org.colorcoding.ibas.materials.bo.specification.Specification;
@@ -987,8 +988,9 @@ public class DataService extends BORepositoryMaterials {
 	// --------------------------------------------------------------------------------------------//
 	/**
 	 * 查询-物料系号关联
+	 * 
 	 * @param criteria 查询
-	 * @param token 口令
+	 * @param token    口令
 	 * @return 操作结果
 	 */
 	@POST
@@ -1002,7 +1004,8 @@ public class DataService extends BORepositoryMaterials {
 
 	/**
 	 * 保存-物料系号关联
-	 * @param bo 对象实例
+	 * 
+	 * @param bo    对象实例
 	 * @param token 口令
 	 * @return 操作结果
 	 */
@@ -1018,8 +1021,9 @@ public class DataService extends BORepositoryMaterials {
 	// --------------------------------------------------------------------------------------------//
 	/**
 	 * 查询-业务伙伴物料目录
+	 * 
 	 * @param criteria 查询
-	 * @param token 口令
+	 * @param token    口令
 	 * @return 操作结果
 	 */
 	@POST
@@ -1033,7 +1037,8 @@ public class DataService extends BORepositoryMaterials {
 
 	/**
 	 * 保存-业务伙伴物料目录
-	 * @param bo 对象实例
+	 * 
+	 * @param bo    对象实例
 	 * @param token 口令
 	 * @return 操作结果
 	 */
@@ -1050,8 +1055,9 @@ public class DataService extends BORepositoryMaterials {
 	// --------------------------------------------------------------------------------------------//
 	/**
 	 * 查询-计划组
+	 * 
 	 * @param criteria 查询
-	 * @param token 口令
+	 * @param token    口令
 	 * @return 操作结果
 	 */
 	@POST
@@ -1065,7 +1071,8 @@ public class DataService extends BORepositoryMaterials {
 
 	/**
 	 * 保存-计划组
-	 * @param bo 对象实例
+	 * 
+	 * @param bo    对象实例
 	 * @param token 口令
 	 * @return 操作结果
 	 */
@@ -1076,6 +1083,39 @@ public class DataService extends BORepositoryMaterials {
 	public OperationResult<SchedulingGroup> saveSchedulingGroup(SchedulingGroup bo,
 			@HeaderParam("authorization") String authorization, @QueryParam("token") String token) {
 		return super.saveSchedulingGroup(bo, MyConfiguration.optToken(authorization, token));
+	}
+
+	// --------------------------------------------------------------------------------------------//
+	/**
+	 * 查询-物料扩展设置
+	 * 
+	 * @param criteria 查询
+	 * @param token    口令
+	 * @return 操作结果
+	 */
+	@POST
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Path("fetchMaterialsExtendedSetting")
+	public OperationResult<MaterialsExtendedSetting> fetchMaterialsExtendedSetting(Criteria criteria,
+			@HeaderParam("authorization") String authorization, @QueryParam("token") String token) {
+		return super.fetchMaterialsExtendedSetting(criteria, MyConfiguration.optToken(authorization, token));
+	}
+
+	/**
+	 * 保存-物料扩展设置
+	 * 
+	 * @param bo    对象实例
+	 * @param token 口令
+	 * @return 操作结果
+	 */
+	@POST
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Path("saveMaterialsExtendedSetting")
+	public OperationResult<MaterialsExtendedSetting> saveMaterialsExtendedSetting(MaterialsExtendedSetting bo,
+			@HeaderParam("authorization") String authorization, @QueryParam("token") String token) {
+		return super.saveMaterialsExtendedSetting(bo, MyConfiguration.optToken(authorization, token));
 	}
 
 	// --------------------------------------------------------------------------------------------//

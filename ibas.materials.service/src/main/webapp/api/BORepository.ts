@@ -333,9 +333,18 @@ namespace materials {
              */
             saveSchedulingGroup(saver: ibas.ISaveCaller<bo.ISchedulingGroup>): void;
 
-
-
+            /**
+             * 查询 物料扩展设置
+             * @param fetcher 查询者
+             */
+            fetchMaterialsExtendedSetting(fetcher: ibas.IFetchCaller<bo.IMaterialsExtendedSetting>): void;
+            /**
+             * 保存 物料扩展设置
+             * @param saver 保存者
+             */
+            saveMaterialsExtendedSetting(saver: ibas.ISaveCaller<bo.IMaterialsExtendedSetting>): void;
         }
+
         export interface ICloseCaller<T> extends ibas.IMethodCaller<string> {
             /** 查询条件 */
             criteria: ibas.ICriteria | ibas.ICondition[] | T;

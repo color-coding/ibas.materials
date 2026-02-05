@@ -40,4 +40,5 @@
 /// <reference path="./bo/MaterialNumberAssociation.ts" />
 /// <reference path="./bo/MaterialCatalog.ts" />
 /// <reference path="./bo/SchedulingGroup.ts" />
+/// <reference path="./bo/MaterialsExtendedSetting.ts" />
 /// <reference path="./BORepository.ts" />

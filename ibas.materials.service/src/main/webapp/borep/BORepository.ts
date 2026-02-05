@@ -541,6 +541,20 @@ namespace materials {
                 super.save(bo.SchedulingGroup.name, saver);
             }
 
+            /**
+             * 查询 物料扩展设置
+             * @param fetcher 查询者
+             */
+            fetchMaterialsExtendedSetting(fetcher: ibas.IFetchCaller<bo.MaterialsExtendedSetting>): void {
+                super.fetch(bo.MaterialsExtendedSetting.name, fetcher);
+            }
+            /**
+             * 保存 物料扩展设置
+             * @param saver 保存者
+             */
+            saveMaterialsExtendedSetting(saver: ibas.ISaveCaller<bo.MaterialsExtendedSetting>): void {
+                super.save(bo.MaterialsExtendedSetting.name, saver);
+            }
         }
         export interface IChangeCaller extends ibas.IMethodCaller<string> {
             /** 改变内容 */
