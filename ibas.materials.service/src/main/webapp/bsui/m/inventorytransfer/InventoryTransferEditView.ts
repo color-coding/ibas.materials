@@ -40,6 +40,8 @@ namespace materials {
                 chooseInventoryTransferLineMaterialVersionEvent: Function;
                 /** 测量物料 */
                 measuringMaterialsEvent: Function;
+                /** 计算数量 */
+                calculateQuantityEvent: Function;
                 /** 默认仓库（从） */
                 fromWarehouse: string;
                 /** 默认仓库（到） */
