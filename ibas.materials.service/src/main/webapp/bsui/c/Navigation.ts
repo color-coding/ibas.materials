@@ -321,6 +321,9 @@ namespace materials {
                     case app.SchedulingGroupEditApp.APPLICATION_ID:
                         view = new c.SchedulingGroupEditView();
                         break;
+                    case app.MaterialQuantitiesService.APPLICATION_ID:
+                        view = new c.MaterialQuantitiesView();
+                        break;
                     default:
                         break;
                 }

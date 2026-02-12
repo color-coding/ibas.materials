@@ -742,6 +742,54 @@ namespace materials {
 
         }
 
+        /** 物料数量服务契约 */
+        export interface IMaterialQuantitiesContract extends ibas.IServiceContract {
+            /** 业务伙伴类型 */
+            businessPartnerType?: businesspartner.bo.emBusinessPartnerType;
+            /** 业务伙伴编码 */
+            businessPartnerCode?: string;
+            /** 业务伙伴名称 */
+            businessPartnerName?: string;
+            /** 方向 */
+            direction: ibas.emDirection;
+            /** 单据类型 */
+            documentType: string;
+            /** 单据编号 */
+            documentEntry: number;
+            /** 单据行号 */
+            documentLineId?: number;
+            /** 单据日期 */
+            documentDate?: Date;
+            /** 物料编码 */
+            itemCode: string;
+            /** 物料描述 */
+            itemDescription: string;
+            /** 物料版本 */
+            itemVersion?: string;
+            /** 序号管理 */
+            serialManagement?: ibas.emYesNo;
+            /** 物料序列 */
+            materialSerials?: bo.IMaterialSerialItems;
+            /** 批号管理 */
+            batchManagement?: ibas.emYesNo;
+            /** 物料批次 */
+            materialBatches?: bo.IMaterialBatchItems;
+            /**
+             * 应用数量
+             * @param quantity 数量
+             * @param uom 单位
+             * @param warehouse 仓库
+             * @param batches 批次信息
+             * @param serials 序列号信息
+             */
+            applyQuantity?: (quantity: number, uom: string, warehouse: string, batches?: bo.IMaterialBatch[], serials?: bo.IMaterialSerial[]) => void;
+        }
+        /** 物料数量服务代理 */
+        export class MaterialQuantitiesServiceProxy
+            extends ibas.ServiceProxy<IMaterialQuantitiesContract> {
+        }
+
+
         /** 查询条件 */
         export namespace conditions {
             export namespace material {

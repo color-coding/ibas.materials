@@ -36,6 +36,8 @@ namespace materials {
                 chooseGoodsIssueLineDistributionRuleEvent: Function;
                 /** 测量物料 */
                 measuringMaterialsEvent: Function;
+                /** 计算数量 */
+                calculateQuantityEvent: Function;
 
                 /** 绘制视图 */
                 draw(): any {
@@ -517,6 +519,12 @@ namespace materials {
                                     new sap.extension.table.DataColumn("", {
                                         label: ibas.i18n.prop("bo_goodsissueline_quantity"),
                                         template: new sap.extension.m.Input("", {
+                                            showValueHelp: true,
+                                            valueHelpOnly: false,
+                                            valueHelpIconSrc: "sap-icon://simulate",
+                                            valueHelpRequest: function (): void {
+                                                that.fireViewEvents(that.calculateQuantityEvent, this.getBindingContext().getObject());
+                                            },
                                         }).bindProperty("bindingValue", {
                                             path: "quantity",
                                             type: new sap.extension.data.Quantity()

@@ -21,3 +21,4 @@
 /// <reference path="./MaterialSubstituteView.ts" />
 /// <reference path="./MaterialMeasurementView.ts" />
 /// <reference path="./MaterialGrossProfitView.ts" />
+/// <reference path="./MaterialQuantitiesView.ts" />

@@ -84,6 +84,7 @@ namespace materials {
                 this.register(new MaterialGrossProfitServiceMapping());
                 this.register(new MaterialHistoricalPricesServiceMapping());
                 this.register(new SchedulingGroupChooseServiceMapping());
+                this.register(new MaterialQuantitiesServiceMapping());
                 // 注册常驻应用
 
                 // 注册权限元素

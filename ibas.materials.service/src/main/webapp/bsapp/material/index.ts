@@ -21,3 +21,4 @@
 /// <reference path="./MaterialSubstituteApp.ts" />
 /// <reference path="./MaterialMeasurementApp.ts" />
 /// <reference path="./MaterialGrossProfitApp.ts" />
+/// <reference path="./MaterialQuantitiesService.ts" />

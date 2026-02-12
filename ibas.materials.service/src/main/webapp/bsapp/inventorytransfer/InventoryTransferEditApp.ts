@@ -41,6 +41,7 @@ namespace materials {
                 this.view.chooseInventoryTransferLineMaterialVersionEvent = this.chooseInventoryTransferLineMaterialVersion;
                 this.view.callInventoryTransferAddServiceEvent = this.callInventoryTransferAddService;
                 this.view.measuringMaterialsEvent = this.measuringMaterials;
+                this.view.calculateQuantityEvent = this.calculateQuantity;
             }
             /** 视图显示后 */
             protected viewShowed(): void {
@@ -615,6 +616,39 @@ namespace materials {
                     })
                 });
             }
+            protected calculateQuantity(caller: bo.InventoryTransferLine): void {
+                if (ibas.objects.isNull(caller)) {
+                    this.messages(ibas.emMessageType.WARNING, ibas.i18n.prop("shell_please_chooose_data",
+                        ibas.i18n.prop("shell_data_view")
+                    )); return;
+                }
+                if (ibas.strings.isEmpty(caller.itemCode)) {
+                    this.messages(
+                        ibas.emMessageType.WARNING, ibas.i18n.prop("sales_please_choose_material_first")
+                    ); return;
+                }
+                ibas.servicesManager.runApplicationService<materials.app.IMaterialQuantitiesContract>({
+                    proxy: new materials.app.MaterialQuantitiesServiceProxy({
+                        direction: ibas.emDirection.OUT,
+                        documentType: this.editData.objectCode,
+                        documentEntry: this.editData.docEntry,
+                        documentLineId: caller.lineId,
+                        documentDate: this.editData.documentDate,
+                        itemCode: caller.itemCode,
+                        itemDescription: caller.itemDescription,
+                        itemVersion: caller.itemVersion,
+                        serialManagement: caller.serialManagement,
+                        materialSerials: caller.materialSerials,
+                        batchManagement: caller.batchManagement,
+                        materialBatches: caller.materialBatches,
+                        applyQuantity: (quantity, uom, warehouse) => {
+                            caller.quantity = quantity;
+                            caller.uom = uom;
+                            caller.fromWarehouse = warehouse;
+                        }
+                    })
+                });
+            }
         }
         /** 视图-库存转储 */
         export interface IInventoryTransferEditView extends ibas.IBOEditView {
@@ -652,6 +686,8 @@ namespace materials {
             chooseInventoryTransferLineMaterialVersionEvent: Function;
             /** 测量物料 */
             measuringMaterialsEvent: Function;
+            /** 计算数量 */
+            calculateQuantityEvent: Function;
             /** 从仓库 */
             fromWarehouse: string;
             /** 目标仓库 */
