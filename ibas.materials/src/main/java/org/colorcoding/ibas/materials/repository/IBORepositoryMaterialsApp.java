@@ -17,6 +17,7 @@ import org.colorcoding.ibas.materials.bo.material.IMaterialVersion;
 import org.colorcoding.ibas.materials.bo.material.IProduct;
 import org.colorcoding.ibas.materials.bo.material.ISchedulingGroup;
 import org.colorcoding.ibas.materials.bo.materialbatch.IMaterialBatch;
+import org.colorcoding.ibas.materials.bo.materialbatch.IMaterialBatchItem;
 import org.colorcoding.ibas.materials.bo.materialbatch.IMaterialBatchJournal;
 import org.colorcoding.ibas.materials.bo.materialcatalog.IBusinessPartnerMaterialCatalog;
 import org.colorcoding.ibas.materials.bo.materialinventory.IMaterialEstimateJournal;
@@ -29,6 +30,7 @@ import org.colorcoding.ibas.materials.bo.materialpricelist.IMaterialPriceList;
 import org.colorcoding.ibas.materials.bo.materialpricelist.IMaterialSpecialPrice;
 import org.colorcoding.ibas.materials.bo.materialscrap.IMaterialScrap;
 import org.colorcoding.ibas.materials.bo.materialserial.IMaterialSerial;
+import org.colorcoding.ibas.materials.bo.materialserial.IMaterialSerialItem;
 import org.colorcoding.ibas.materials.bo.materialserial.IMaterialSerialJournal;
 import org.colorcoding.ibas.materials.bo.materialsextendedsetting.IMaterialsExtendedSetting;
 import org.colorcoding.ibas.materials.bo.materialspecification.IMaterialSpecification;
@@ -619,6 +621,40 @@ public interface IBORepositoryMaterialsApp extends IBORepositoryApplication {
 	 * @return 操作结果
 	 */
 	IOperationResult<IMaterialsExtendedSetting> saveMaterialsExtendedSetting(IMaterialsExtendedSetting bo);
+
+	// --------------------------------------------------------------------------------------------//
+	/**
+	 * 查询-物料序列项目
+	 * 
+	 * @param criteria 查询
+	 * @return 操作结果
+	 */
+	IOperationResult<IMaterialSerialItem> fetchMaterialSerialItem(ICriteria criteria);
+
+	/**
+	 * 保存-物料序列项目
+	 * 
+	 * @param bo 对象实例
+	 * @return 操作结果
+	 */
+	IOperationResult<IMaterialSerialItem> saveMaterialSerialItem(IMaterialSerialItem bo);
+
+	// --------------------------------------------------------------------------------------------//
+	/**
+	 * 查询-物料批次项目
+	 * 
+	 * @param criteria 查询
+	 * @return 操作结果
+	 */
+	IOperationResult<IMaterialBatchItem> fetchMaterialBatchItem(ICriteria criteria);
+
+	/**
+	 * 保存-物料批次项目
+	 * 
+	 * @param bo 对象实例
+	 * @return 操作结果
+	 */
+	IOperationResult<IMaterialBatchItem> saveMaterialBatchItem(IMaterialBatchItem bo);
 
 	// --------------------------------------------------------------------------------------------//
 

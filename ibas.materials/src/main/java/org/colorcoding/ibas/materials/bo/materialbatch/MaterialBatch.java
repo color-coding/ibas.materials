@@ -163,7 +163,7 @@ public class MaterialBatch extends BusinessObject<MaterialBatch> implements IMat
 	/**
 	 * 数量 属性
 	 */
-	@DbField(name = "Quantity", type = DbFieldType.DECIMAL, table = DB_TABLE_NAME, primaryKey = false)
+	@DbField(name = "Quantity", type = DbFieldType.DECIMAL, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<BigDecimal> PROPERTY_QUANTITY = registerProperty(PROPERTY_QUANTITY_NAME,
 			BigDecimal.class, MY_CLASS);
 
@@ -221,7 +221,7 @@ public class MaterialBatch extends BusinessObject<MaterialBatch> implements IMat
 	/**
 	 * 锁定 属性
 	 */
-	@DbField(name = "Locked", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME, primaryKey = false)
+	@DbField(name = "Locked", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<emYesNo> PROPERTY_LOCKED = registerProperty(PROPERTY_LOCKED_NAME, emYesNo.class,
 			MY_CLASS);
 
@@ -283,7 +283,7 @@ public class MaterialBatch extends BusinessObject<MaterialBatch> implements IMat
 	/**
 	 * 供应商序号 属性
 	 */
-	@DbField(name = "SuprSerial", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME, primaryKey = false)
+	@DbField(name = "SuprSerial", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<String> PROPERTY_SUPPLIERSERIAL = registerProperty(PROPERTY_SUPPLIERSERIAL_NAME,
 			String.class, MY_CLASS);
 
@@ -314,7 +314,7 @@ public class MaterialBatch extends BusinessObject<MaterialBatch> implements IMat
 	/**
 	 * 过期日期 属性
 	 */
-	@DbField(name = "ExpDate", type = DbFieldType.DATE, table = DB_TABLE_NAME, primaryKey = false)
+	@DbField(name = "ExpDate", type = DbFieldType.DATE, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<DateTime> PROPERTY_EXPIRATIONDATE = registerProperty(PROPERTY_EXPIRATIONDATE_NAME,
 			DateTime.class, MY_CLASS);
 
@@ -345,7 +345,7 @@ public class MaterialBatch extends BusinessObject<MaterialBatch> implements IMat
 	/**
 	 * 生产日期 属性
 	 */
-	@DbField(name = "MafDate", type = DbFieldType.DATE, table = DB_TABLE_NAME, primaryKey = false)
+	@DbField(name = "MafDate", type = DbFieldType.DATE, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<DateTime> PROPERTY_MANUFACTURINGDATE = registerProperty(
 			PROPERTY_MANUFACTURINGDATE_NAME, DateTime.class, MY_CLASS);
 
@@ -376,7 +376,7 @@ public class MaterialBatch extends BusinessObject<MaterialBatch> implements IMat
 	/**
 	 * 准入日期 属性
 	 */
-	@DbField(name = "AdmDate", type = DbFieldType.DATE, table = DB_TABLE_NAME, primaryKey = false)
+	@DbField(name = "AdmDate", type = DbFieldType.DATE, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<DateTime> PROPERTY_ADMISSIONDATE = registerProperty(PROPERTY_ADMISSIONDATE_NAME,
 			DateTime.class, MY_CLASS);
 
@@ -407,7 +407,7 @@ public class MaterialBatch extends BusinessObject<MaterialBatch> implements IMat
 	/**
 	 * 物料规格 属性
 	 */
-	@DbField(name = "Specification", type = DbFieldType.NUMERIC, table = DB_TABLE_NAME, primaryKey = false)
+	@DbField(name = "Specification", type = DbFieldType.NUMERIC, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<Integer> PROPERTY_SPECIFICATION = registerProperty(PROPERTY_SPECIFICATION_NAME,
 			Integer.class, MY_CLASS);
 
@@ -469,7 +469,7 @@ public class MaterialBatch extends BusinessObject<MaterialBatch> implements IMat
 	/**
 	 * 位置 属性
 	 */
-	@DbField(name = "Location", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME, primaryKey = false)
+	@DbField(name = "Location", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<String> PROPERTY_LOCATION = registerProperty(PROPERTY_LOCATION_NAME, String.class,
 			MY_CLASS);
 
@@ -500,7 +500,7 @@ public class MaterialBatch extends BusinessObject<MaterialBatch> implements IMat
 	/**
 	 * 备注 属性
 	 */
-	@DbField(name = "Notes", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME, primaryKey = false)
+	@DbField(name = "Notes", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<String> PROPERTY_NOTES = registerProperty(PROPERTY_NOTES_NAME, String.class,
 			MY_CLASS);
 
@@ -531,7 +531,7 @@ public class MaterialBatch extends BusinessObject<MaterialBatch> implements IMat
 	/**
 	 * 基于类型 属性
 	 */
-	@DbField(name = "BaseType", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME, primaryKey = false)
+	@DbField(name = "BaseType", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<String> PROPERTY_BASEDOCUMENTTYPE = registerProperty(
 			PROPERTY_BASEDOCUMENTTYPE_NAME, String.class, MY_CLASS);
 
@@ -562,7 +562,7 @@ public class MaterialBatch extends BusinessObject<MaterialBatch> implements IMat
 	/**
 	 * 基于标识 属性
 	 */
-	@DbField(name = "BaseEntry", type = DbFieldType.NUMERIC, table = DB_TABLE_NAME, primaryKey = false)
+	@DbField(name = "BaseEntry", type = DbFieldType.NUMERIC, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<Integer> PROPERTY_BASEDOCUMENTENTRY = registerProperty(
 			PROPERTY_BASEDOCUMENTENTRY_NAME, Integer.class, MY_CLASS);
 
@@ -593,7 +593,7 @@ public class MaterialBatch extends BusinessObject<MaterialBatch> implements IMat
 	/**
 	 * 基于行号 属性
 	 */
-	@DbField(name = "BaseLine", type = DbFieldType.NUMERIC, table = DB_TABLE_NAME, primaryKey = false)
+	@DbField(name = "BaseLine", type = DbFieldType.NUMERIC, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<Integer> PROPERTY_BASEDOCUMENTLINEID = registerProperty(
 			PROPERTY_BASEDOCUMENTLINEID_NAME, Integer.class, MY_CLASS);
 
@@ -624,7 +624,7 @@ public class MaterialBatch extends BusinessObject<MaterialBatch> implements IMat
 	/**
 	 * 价格 属性
 	 */
-	@DbField(name = "AvgPrice", type = DbFieldType.DECIMAL, table = DB_TABLE_NAME, primaryKey = false)
+	@DbField(name = "AvgPrice", type = DbFieldType.DECIMAL, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<BigDecimal> PROPERTY_AVGPRICE = registerProperty(PROPERTY_AVGPRICE_NAME,
 			BigDecimal.class, MY_CLASS);
 
@@ -717,7 +717,7 @@ public class MaterialBatch extends BusinessObject<MaterialBatch> implements IMat
 	/**
 	 * 对象类型 属性
 	 */
-	@DbField(name = "ObjectCode", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME, primaryKey = false)
+	@DbField(name = "ObjectCode", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<String> PROPERTY_OBJECTCODE = registerProperty(PROPERTY_OBJECTCODE_NAME,
 			String.class, MY_CLASS);
 
@@ -748,7 +748,7 @@ public class MaterialBatch extends BusinessObject<MaterialBatch> implements IMat
 	/**
 	 * 实例号 属性
 	 */
-	@DbField(name = "LogInst", type = DbFieldType.NUMERIC, table = DB_TABLE_NAME, primaryKey = false)
+	@DbField(name = "LogInst", type = DbFieldType.NUMERIC, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<Integer> PROPERTY_LOGINST = registerProperty(PROPERTY_LOGINST_NAME, Integer.class,
 			MY_CLASS);
 
@@ -779,7 +779,7 @@ public class MaterialBatch extends BusinessObject<MaterialBatch> implements IMat
 	/**
 	 * 服务系列 属性
 	 */
-	@DbField(name = "Series", type = DbFieldType.NUMERIC, table = DB_TABLE_NAME, primaryKey = false)
+	@DbField(name = "Series", type = DbFieldType.NUMERIC, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<Integer> PROPERTY_SERIES = registerProperty(PROPERTY_SERIES_NAME, Integer.class,
 			MY_CLASS);
 
@@ -810,7 +810,7 @@ public class MaterialBatch extends BusinessObject<MaterialBatch> implements IMat
 	/**
 	 * 数据源 属性
 	 */
-	@DbField(name = "DataSource", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME, primaryKey = false)
+	@DbField(name = "DataSource", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<String> PROPERTY_DATASOURCE = registerProperty(PROPERTY_DATASOURCE_NAME,
 			String.class, MY_CLASS);
 
@@ -841,7 +841,7 @@ public class MaterialBatch extends BusinessObject<MaterialBatch> implements IMat
 	/**
 	 * 创建日期 属性
 	 */
-	@DbField(name = "CreateDate", type = DbFieldType.DATE, table = DB_TABLE_NAME, primaryKey = false)
+	@DbField(name = "CreateDate", type = DbFieldType.DATE, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<DateTime> PROPERTY_CREATEDATE = registerProperty(PROPERTY_CREATEDATE_NAME,
 			DateTime.class, MY_CLASS);
 
@@ -872,7 +872,7 @@ public class MaterialBatch extends BusinessObject<MaterialBatch> implements IMat
 	/**
 	 * 创建时间 属性
 	 */
-	@DbField(name = "CreateTime", type = DbFieldType.NUMERIC, table = DB_TABLE_NAME, primaryKey = false)
+	@DbField(name = "CreateTime", type = DbFieldType.NUMERIC, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<Short> PROPERTY_CREATETIME = registerProperty(PROPERTY_CREATETIME_NAME,
 			Short.class, MY_CLASS);
 
@@ -903,7 +903,7 @@ public class MaterialBatch extends BusinessObject<MaterialBatch> implements IMat
 	/**
 	 * 更新日期 属性
 	 */
-	@DbField(name = "UpdateDate", type = DbFieldType.DATE, table = DB_TABLE_NAME, primaryKey = false)
+	@DbField(name = "UpdateDate", type = DbFieldType.DATE, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<DateTime> PROPERTY_UPDATEDATE = registerProperty(PROPERTY_UPDATEDATE_NAME,
 			DateTime.class, MY_CLASS);
 
@@ -934,7 +934,7 @@ public class MaterialBatch extends BusinessObject<MaterialBatch> implements IMat
 	/**
 	 * 更新时间 属性
 	 */
-	@DbField(name = "UpdateTime", type = DbFieldType.NUMERIC, table = DB_TABLE_NAME, primaryKey = false)
+	@DbField(name = "UpdateTime", type = DbFieldType.NUMERIC, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<Short> PROPERTY_UPDATETIME = registerProperty(PROPERTY_UPDATETIME_NAME,
 			Short.class, MY_CLASS);
 
@@ -965,7 +965,7 @@ public class MaterialBatch extends BusinessObject<MaterialBatch> implements IMat
 	/**
 	 * 创建用户 属性
 	 */
-	@DbField(name = "Creator", type = DbFieldType.NUMERIC, table = DB_TABLE_NAME, primaryKey = false)
+	@DbField(name = "Creator", type = DbFieldType.NUMERIC, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<Integer> PROPERTY_CREATEUSERSIGN = registerProperty(PROPERTY_CREATEUSERSIGN_NAME,
 			Integer.class, MY_CLASS);
 
@@ -996,7 +996,7 @@ public class MaterialBatch extends BusinessObject<MaterialBatch> implements IMat
 	/**
 	 * 更新用户 属性
 	 */
-	@DbField(name = "Updator", type = DbFieldType.NUMERIC, table = DB_TABLE_NAME, primaryKey = false)
+	@DbField(name = "Updator", type = DbFieldType.NUMERIC, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<Integer> PROPERTY_UPDATEUSERSIGN = registerProperty(PROPERTY_UPDATEUSERSIGN_NAME,
 			Integer.class, MY_CLASS);
 
@@ -1027,7 +1027,7 @@ public class MaterialBatch extends BusinessObject<MaterialBatch> implements IMat
 	/**
 	 * 创建动作标识 属性
 	 */
-	@DbField(name = "CreateActId", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME, primaryKey = false)
+	@DbField(name = "CreateActId", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<String> PROPERTY_CREATEACTIONID = registerProperty(PROPERTY_CREATEACTIONID_NAME,
 			String.class, MY_CLASS);
 
@@ -1058,7 +1058,7 @@ public class MaterialBatch extends BusinessObject<MaterialBatch> implements IMat
 	/**
 	 * 更新动作标识 属性
 	 */
-	@DbField(name = "UpdateActId", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME, primaryKey = false)
+	@DbField(name = "UpdateActId", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<String> PROPERTY_UPDATEACTIONID = registerProperty(PROPERTY_UPDATEACTIONID_NAME,
 			String.class, MY_CLASS);
 

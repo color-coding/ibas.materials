@@ -555,6 +555,22 @@ namespace materials {
             saveMaterialsExtendedSetting(saver: ibas.ISaveCaller<bo.MaterialsExtendedSetting>): void {
                 super.save(bo.MaterialsExtendedSetting.name, saver);
             }
+
+            /**
+             * 查询 物料序列项目
+             * @param fetcher 查询者
+             */
+            fetchMaterialSerialItem(fetcher: ibas.IFetchCaller<bo.MaterialSerialItem>): void {
+                super.fetch(bo.MaterialSerialItem.name, fetcher);
+            }
+
+            /**
+             * 查询 物料批次项目
+             * @param fetcher 查询者
+             */
+            fetchMaterialBatchItem(fetcher: ibas.IFetchCaller<bo.MaterialBatchItem>): void {
+                super.fetch(bo.MaterialBatchItem.name, fetcher);
+            }
         }
         export interface IChangeCaller extends ibas.IMethodCaller<string> {
             /** 改变内容 */

@@ -25,6 +25,7 @@ import org.colorcoding.ibas.materials.bo.material.MaterialVersion;
 import org.colorcoding.ibas.materials.bo.material.Product;
 import org.colorcoding.ibas.materials.bo.material.SchedulingGroup;
 import org.colorcoding.ibas.materials.bo.materialbatch.MaterialBatch;
+import org.colorcoding.ibas.materials.bo.materialbatch.MaterialBatchItem;
 import org.colorcoding.ibas.materials.bo.materialbatch.MaterialBatchJournal;
 import org.colorcoding.ibas.materials.bo.materialcatalog.BusinessPartnerMaterialCatalog;
 import org.colorcoding.ibas.materials.bo.materialinventory.MaterialEstimateJournal;
@@ -37,6 +38,7 @@ import org.colorcoding.ibas.materials.bo.materialpricelist.MaterialPriceList;
 import org.colorcoding.ibas.materials.bo.materialpricelist.MaterialSpecialPrice;
 import org.colorcoding.ibas.materials.bo.materialscrap.MaterialScrap;
 import org.colorcoding.ibas.materials.bo.materialserial.MaterialSerial;
+import org.colorcoding.ibas.materials.bo.materialserial.MaterialSerialItem;
 import org.colorcoding.ibas.materials.bo.materialserial.MaterialSerialJournal;
 import org.colorcoding.ibas.materials.bo.materialsextendedsetting.MaterialsExtendedSetting;
 import org.colorcoding.ibas.materials.bo.materialspecification.MaterialSpecification;
@@ -1116,6 +1118,40 @@ public class DataService extends BORepositoryMaterials {
 	public OperationResult<MaterialsExtendedSetting> saveMaterialsExtendedSetting(MaterialsExtendedSetting bo,
 			@HeaderParam("authorization") String authorization, @QueryParam("token") String token) {
 		return super.saveMaterialsExtendedSetting(bo, MyConfiguration.optToken(authorization, token));
+	}
+
+	// --------------------------------------------------------------------------------------------//
+	/**
+	 * 查询-物料序列项目
+	 * 
+	 * @param criteria 查询
+	 * @param token    口令
+	 * @return 操作结果
+	 */
+	@POST
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Path("fetchMaterialSerialItem")
+	public OperationResult<MaterialSerialItem> fetchMaterialSerialItem(Criteria criteria,
+			@HeaderParam("authorization") String authorization, @QueryParam("token") String token) {
+		return super.fetchMaterialSerialItem(criteria, MyConfiguration.optToken(authorization, token));
+	}
+
+	// --------------------------------------------------------------------------------------------//
+	/**
+	 * 查询-物料批次项目
+	 * 
+	 * @param criteria 查询
+	 * @param token    口令
+	 * @return 操作结果
+	 */
+	@POST
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Path("fetchMaterialBatchItem")
+	public OperationResult<MaterialBatchItem> fetchMaterialBatchItem(Criteria criteria,
+			@HeaderParam("authorization") String authorization, @QueryParam("token") String token) {
+		return super.fetchMaterialBatchItem(criteria, MyConfiguration.optToken(authorization, token));
 	}
 
 	// --------------------------------------------------------------------------------------------//
