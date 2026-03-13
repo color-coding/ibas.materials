@@ -69,6 +69,7 @@ import org.colorcoding.ibas.materials.bo.materialbatch.IMaterialBatch;
 import org.colorcoding.ibas.materials.bo.materialbatch.IMaterialBatchItem;
 import org.colorcoding.ibas.materials.bo.materialbatch.IMaterialBatchJournal;
 import org.colorcoding.ibas.materials.bo.materialbatch.MaterialBatch;
+import org.colorcoding.ibas.materials.bo.materialbatch.MaterialBatchItem;
 import org.colorcoding.ibas.materials.bo.materialbatch.MaterialBatchJournal;
 import org.colorcoding.ibas.materials.bo.materialcatalog.BusinessPartnerMaterialCatalog;
 import org.colorcoding.ibas.materials.bo.materialcatalog.IBusinessPartnerMaterialCatalog;
@@ -96,6 +97,7 @@ import org.colorcoding.ibas.materials.bo.materialserial.IMaterialSerial;
 import org.colorcoding.ibas.materials.bo.materialserial.IMaterialSerialItem;
 import org.colorcoding.ibas.materials.bo.materialserial.IMaterialSerialJournal;
 import org.colorcoding.ibas.materials.bo.materialserial.MaterialSerial;
+import org.colorcoding.ibas.materials.bo.materialserial.MaterialSerialItem;
 import org.colorcoding.ibas.materials.bo.materialserial.MaterialSerialJournal;
 import org.colorcoding.ibas.materials.bo.materialsextendedsetting.IMaterialsExtendedSetting;
 import org.colorcoding.ibas.materials.bo.materialsextendedsetting.MaterialsExtendedSetting;
@@ -2788,7 +2790,9 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 	public IOperationResult<ISchedulingGroup> saveSchedulingGroup(ISchedulingGroup bo) {
 		return new OperationResult<ISchedulingGroup>(
 				this.saveSchedulingGroup((SchedulingGroup) bo, this.getUserToken()));
-	} // --------------------------------------------------------------------------------------------//
+	}
+
+	// --------------------------------------------------------------------------------------------//
 
 	/**
 	 * 查询-物料扩展设置
@@ -2834,6 +2838,95 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 		return new OperationResult<IMaterialsExtendedSetting>(
 				this.saveMaterialsExtendedSetting((MaterialsExtendedSetting) bo, this.getUserToken()));
 	}
+
+	// --------------------------------------------------------------------------------------------//
+	/**
+	 * 查询-物料序列项目
+	 * 
+	 * @param criteria 查询
+	 * @param token    口令
+	 * @return 操作结果
+	 */
+	public OperationResult<MaterialSerialItem> fetchMaterialSerialItem(ICriteria criteria, String token) {
+		return super.fetch(MaterialSerialItem.class, criteria, token);
+	}
+
+	/**
+	 * 查询-物料序列项目（提前设置用户口令）
+	 * 
+	 * @param criteria 查询
+	 * @return 操作结果
+	 */
+	public IOperationResult<IMaterialSerialItem> fetchMaterialSerialItem(ICriteria criteria) {
+		return new OperationResult<IMaterialSerialItem>(this.fetchMaterialSerialItem(criteria, this.getUserToken()));
+	}
+
+	/**
+	 * 保存-物料序列项目
+	 * 
+	 * @param bo    对象实例
+	 * @param token 口令
+	 * @return 操作结果
+	 */
+	public OperationResult<MaterialSerialItem> saveMaterialSerialItem(MaterialSerialItem bo, String token) {
+		return super.save(bo, token);
+	}
+
+	/**
+	 * 保存-物料序列项目（提前设置用户口令）
+	 * 
+	 * @param bo 对象实例
+	 * @return 操作结果
+	 */
+	public IOperationResult<IMaterialSerialItem> saveMaterialSerialItem(IMaterialSerialItem bo) {
+		return new OperationResult<IMaterialSerialItem>(
+				this.saveMaterialSerialItem((MaterialSerialItem) bo, this.getUserToken()));
+	}
+
+	// --------------------------------------------------------------------------------------------//
+	/**
+	 * 查询-物料批次项目
+	 * 
+	 * @param criteria 查询
+	 * @param token    口令
+	 * @return 操作结果
+	 */
+	public OperationResult<MaterialBatchItem> fetchMaterialBatchItem(ICriteria criteria, String token) {
+		return super.fetch(MaterialBatchItem.class, criteria, token);
+	}
+
+	/**
+	 * 查询-物料批次项目（提前设置用户口令）
+	 * 
+	 * @param criteria 查询
+	 * @return 操作结果
+	 */
+	public IOperationResult<IMaterialBatchItem> fetchMaterialBatchItem(ICriteria criteria) {
+		return new OperationResult<IMaterialBatchItem>(this.fetchMaterialBatchItem(criteria, this.getUserToken()));
+	}
+
+	/**
+	 * 保存-物料批次项目
+	 * 
+	 * @param bo    对象实例
+	 * @param token 口令
+	 * @return 操作结果
+	 */
+	public OperationResult<MaterialBatchItem> saveMaterialBatchItem(MaterialBatchItem bo, String token) {
+		return super.save(bo, token);
+	}
+
+	/**
+	 * 保存-物料批次项目（提前设置用户口令）
+	 * 
+	 * @param bo 对象实例
+	 * @return 操作结果
+	 */
+	public IOperationResult<IMaterialBatchItem> saveMaterialBatchItem(IMaterialBatchItem bo) {
+		return new OperationResult<IMaterialBatchItem>(
+				this.saveMaterialBatchItem((MaterialBatchItem) bo, this.getUserToken()));
+	}
+
 	// --------------------------------------------------------------------------------------------//
 
 }
