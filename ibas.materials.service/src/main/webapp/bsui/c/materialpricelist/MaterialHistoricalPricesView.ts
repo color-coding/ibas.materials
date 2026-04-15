@@ -196,6 +196,9 @@ namespace materials {
                                                                 }
                                                             }
                                                             that.table.setModel(undefined);
+                                                            for (let item of that.table.getColumns()) {
+                                                                item.setSorted(false);
+                                                            }
                                                             that.fireViewEvents(that.fetchDocumentDatasEvent, agents);
                                                         },
                                                         width: "8rem",
@@ -286,6 +289,7 @@ namespace materials {
                                                     }
                                                 }),
                                                 width: "14rem",
+                                                sortProperty: "documentEntry",
                                             }),
                                             new sap.extension.table.DataColumn("", {
                                                 label: ibas.i18n.prop("bo_materialhistoricalprice_documentdate"),
