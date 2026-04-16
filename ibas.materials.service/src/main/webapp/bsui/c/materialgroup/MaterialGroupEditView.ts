@@ -72,6 +72,7 @@ namespace materials {
                             this.settingFlex = new sap.m.FlexBox("", {
                                 visible: false,
                                 width: "100%",
+                                wrap: sap.m.FlexWrap.Wrap,
                                 justifyContent: sap.m.FlexJustifyContent.Start,
                                 renderType: sap.m.FlexRendertype.Bare,
                                 items: {

@@ -286,6 +286,7 @@ namespace materials {
                                                     }
                                                 }),
                                                 width: "14rem",
+                                                sortProperty: "documentEntry",
                                             }),
                                             new sap.extension.table.DataColumn("", {
                                                 label: ibas.i18n.prop("bo_materialhistoricalprice_documentdate"),
