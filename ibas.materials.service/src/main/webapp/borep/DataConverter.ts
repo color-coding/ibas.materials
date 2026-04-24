@@ -516,9 +516,14 @@ namespace materials {
             }
         }
         export function baseMaterial(
-            target: IGoodsIssueLine | IGoodsReceiptLine | IInventoryTransferLine | IInventoryTransferRequestLine,
+            target: GoodsIssueLine | GoodsReceiptLine | InventoryTransferLine | InventoryTransferRequestLine,
             source: materials.bo.IMaterial | materials.bo.IProduct
         ): void {
+            // 改变物料，清除无效数据
+            if (!ibas.strings.equals(target.itemCode, source.code)) {
+                target.materialSerials.clear();
+                target.materialBatches.clear();
+            }
             target.itemCode = source.code;
             target.itemDescription = source.name;
             target.itemSign = source.sign;

@@ -60,6 +60,8 @@ namespace materials {
         boFactory.register(Warehouse.BUSINESS_OBJECT_CODE, Warehouse);
         boFactory.register(MaterialBatch.BUSINESS_OBJECT_CODE, MaterialBatch);
         boFactory.register(MaterialSerial.BUSINESS_OBJECT_CODE, MaterialSerial);
+        boFactory.register(MaterialBatchItem.BUSINESS_OBJECT_CODE, MaterialBatchItem);
+        boFactory.register(MaterialSerialItem.BUSINESS_OBJECT_CODE, MaterialSerialItem);
         boFactory.register(MaterialPriceList.BUSINESS_OBJECT_CODE, MaterialPriceList);
         boFactory.register(MaterialBatchJournal.BUSINESS_OBJECT_CODE, MaterialBatchJournal);
         boFactory.register(MaterialSerialJournal.BUSINESS_OBJECT_CODE, MaterialSerialJournal);
