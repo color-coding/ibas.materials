@@ -161,6 +161,11 @@ namespace materials {
                             if (that.extendedSettings instanceof Array) {
                                 ibas.queues.execute(that.extendedSettings.filter(c => c.isDirty),
                                     (data, next) => {
+                                        // 删除服务端已做
+                                        if (data.isDeleted === true) {
+                                            that.extendedSettings.remove(data);
+                                            next(); return;
+                                        }
                                         boRepository.saveMaterialsExtendedSetting({
                                             beSaved: data,
                                             onCompleted: (opRslt) => {
@@ -568,6 +573,8 @@ namespace materials {
                             let contract: IMaterialEditExtendedContract = {
                                 /** 标记 */
                                 id: serviceMapping.id,
+                                /** 设置 */
+                                setting: this.extendedSettings.firstOrDefault(c => c.element === agent.id),
                                 /** 数据改变 */
                                 dataChangeEvent(event: { reson: "CREATE" | "CLONE" | "FETCH" | "DELETE", data: bo.IMaterial }): void { },
                                 /** 数据保存 */

@@ -721,6 +721,8 @@ namespace materials {
         export interface IMaterialViewExtendedContract extends ibas.IServiceContract {
             /** 标识 */
             id: string;
+            /** 设置 */
+            setting?: bo.MaterialsExtendedSetting;
             /** 数据改变 */
             dataChangeEvent: (event: { reson: "CREATE" | "CLONE" | "FETCH" | "DELETE", data: bo.IMaterial }) => void;
             /** 显示页面 */
