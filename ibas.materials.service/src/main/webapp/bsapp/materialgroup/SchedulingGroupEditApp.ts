@@ -5,7 +5,7 @@
  * Use of this source code is governed by an Apache License, Version 2.0
  * that can be found in the LICENSE file at http://www.apache.org/licenses/LICENSE-2.0
  */
- namespace materials {
+namespace materials {
     export namespace app {
         /** 编辑应用-计划组 */
         export class SchedulingGroupEditApp extends ibas.BOEditApplication<ISchedulingGroupEditView, bo.SchedulingGroup> {
@@ -103,13 +103,13 @@
                             if (opRslt.resultObjects.length === 0) {
                                 // 删除成功，释放当前对象
                                 that.messages(ibas.emMessageType.SUCCESS,
-                                    ibas.i18n.prop("shell_data_delete") + ibas.i18n.prop("shell_sucessful"));
+                                    ibas.i18n.prop("shell_data_delete") + ibas.i18n.prop("shell_successful"));
                                 that.editData = undefined;
                             } else {
                                 // 替换编辑对象
                                 that.editData = opRslt.resultObjects.firstOrDefault();
                                 that.messages(ibas.emMessageType.SUCCESS,
-                                    ibas.i18n.prop("shell_data_save") + ibas.i18n.prop("shell_sucessful"));
+                                    ibas.i18n.prop("shell_data_save") + ibas.i18n.prop("shell_successful"));
                             }
                             // 刷新当前视图
                             that.viewShowed();

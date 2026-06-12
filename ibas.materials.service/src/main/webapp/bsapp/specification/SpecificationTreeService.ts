@@ -157,7 +157,7 @@ namespace materials {
                                         ibas.i18n.prop("bo_materialspecification"),
                                         data.objectKey,
                                         data.name,
-                                        ibas.i18n.prop("shell_sucessful")
+                                        ibas.i18n.prop("shell_successful")
                                     ));
                                 that.fireCompleted(opRslt.resultObjects.firstOrDefault());
                             }

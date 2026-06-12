@@ -59,7 +59,7 @@ namespace materials {
                                             let prdItem: MaterialSpecificationTreeItem = new MaterialSpecificationTreeItem(item);
                                             prdItem.editable = specItem.editable;
                                             prdItem.required = specItem.required;
-                                            prdItem.vaildValues = specItem.vaildValues;
+                                            prdItem.validValues = specItem.validValues;
                                             for (let sItem of specItem.items) {
                                                 let nItem: MaterialSpecificationTreeItem = createItem(sItem);
                                                 if (ibas.objects.isNull(nItem)) {
@@ -217,7 +217,7 @@ namespace materials {
         export class MaterialSpecificationTreeItem implements bo.ISpecificationTreeItem {
             constructor(data: bo.MaterialSpecificationItem) {
                 this.data = data;
-                this.vaildValues = new ibas.ArrayList<bo.ISpecificationTreeItemValue>();
+                this.validValues = new ibas.ArrayList<bo.ISpecificationTreeItemValue>();
                 this.items = new ibas.ArrayList<MaterialSpecificationTreeItem>();
             }
             data: bo.MaterialSpecificationItem;
@@ -261,7 +261,7 @@ namespace materials {
                 this.data.note = value;
             }
             /** 可选值 */
-            vaildValues: ibas.IList<bo.ISpecificationTreeItemValue>;
+            validValues: ibas.IList<bo.ISpecificationTreeItemValue>;
             /** 项目集合 */
             items: ibas.IList<bo.ISpecificationTreeItem>;
         }

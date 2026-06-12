@@ -137,7 +137,7 @@ namespace materials {
                             if (opRslt.resultObjects.length === 0) {
                                 // 删除成功，释放当前对象
                                 that.messages(ibas.emMessageType.SUCCESS,
-                                    ibas.i18n.prop("shell_data_delete") + ibas.i18n.prop("shell_sucessful"));
+                                    ibas.i18n.prop("shell_data_delete") + ibas.i18n.prop("shell_successful"));
                                 that.editData = undefined;
                             } else {
                                 // 替换编辑对象
@@ -149,7 +149,7 @@ namespace materials {
                                     }
                                 }
                                 that.messages(ibas.emMessageType.SUCCESS,
-                                    ibas.i18n.prop("shell_data_save") + ibas.i18n.prop("shell_sucessful"));
+                                    ibas.i18n.prop("shell_data_save") + ibas.i18n.prop("shell_successful"));
                             }
                             // 通知扩展视图，编辑保存
                             for (let contract of that.extendedContracts) {
@@ -371,7 +371,7 @@ namespace materials {
                                 throw new Error(opRslt.message);
                             }
                             that.proceeding(ibas.emMessageType.INFORMATION,
-                                ibas.i18n.prop("shell_upload") + ibas.i18n.prop("shell_sucessful"));
+                                ibas.i18n.prop("shell_upload") + ibas.i18n.prop("shell_successful"));
                             let fileData: ibas.FileItem = opRslt.resultObjects.firstOrDefault();
                             that.editData.picture = fileData.name;
                         } catch (error) {

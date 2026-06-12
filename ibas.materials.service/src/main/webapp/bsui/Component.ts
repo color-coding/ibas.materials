@@ -482,7 +482,7 @@ namespace materials {
                                                     chooseType: ibas.emChooseType.SINGLE,
                                                     criteria: [
                                                         new ibas.Condition(materials.bo.MaterialSpecification.PROPERTY_OBJECTKEY_NAME,
-                                                            ibas.emConditionOperation.GRATER_THAN, "0"),
+                                                            ibas.emConditionOperation.GREATER_THAN, "0"),
                                                         new ibas.Condition(materials.bo.MaterialSpecification.PROPERTY_ITEMCODE_NAME,
                                                             ibas.emConditionOperation.EQUAL, that.getMaterial()),
                                                     ],

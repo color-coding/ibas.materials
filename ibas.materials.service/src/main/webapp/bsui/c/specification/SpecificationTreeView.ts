@@ -149,7 +149,7 @@ namespace materials {
                                 template: new sap.m.ComboBox("", {
                                     width: "100%"
                                 }).bindItems({
-                                    path: "vaildValues",
+                                    path: "validValues",
                                     templateShareable: false,
                                     template: new sap.ui.core.ListItem("", {
                                         key: "{value}",

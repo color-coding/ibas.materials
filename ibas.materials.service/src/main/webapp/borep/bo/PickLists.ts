@@ -402,7 +402,7 @@ namespace materials {
                 condition.value = ibas.emBOStatus.OPEN.toString();
                 condition = criteria.conditions.create();
                 condition.alias = materials.bo.MaterialInventoryReservation.PROPERTY_QUANTITY_NAME;
-                condition.operation = ibas.emConditionOperation.GRATER_THAN;
+                condition.operation = ibas.emConditionOperation.GREATER_THAN;
                 condition.comparedAlias = materials.bo.MaterialInventoryReservation.PROPERTY_CLOSEDQUANTITY_NAME;
                 let promise: Promise<ibas.IList<materials.bo.MaterialInventoryReservation>> = new Promise<ibas.IList<materials.bo.MaterialInventoryReservation>>(async (resolve) => {
                     let boRepository: materials.bo.BORepositoryMaterials = new materials.bo.BORepositoryMaterials();

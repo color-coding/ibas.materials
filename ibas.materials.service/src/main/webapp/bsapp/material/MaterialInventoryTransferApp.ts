@@ -332,7 +332,7 @@ namespace materials {
                 condition = criteria.conditions.create();
                 condition.alias = bo.Product.PROPERTY_ONHAND_NAME;
                 condition.value = "0";
-                condition.operation = ibas.emConditionOperation.GRATER_THAN;
+                condition.operation = ibas.emConditionOperation.GREATER_THAN;
                 // 调用选择服务
                 ibas.servicesManager.runChooseService<bo.Product>({
                     boCode: bo.BO_CODE_PRODUCT_INVENTORY,
@@ -362,7 +362,7 @@ namespace materials {
                             condition = criteria.conditions.create();
                             condition.alias = bo.MaterialInventoryReservation.PROPERTY_QUANTITY_NAME;
                             condition.comparedAlias = bo.MaterialInventoryReservation.PROPERTY_CLOSEDQUANTITY_NAME;
-                            condition.operation = ibas.emConditionOperation.GRATER_THAN;
+                            condition.operation = ibas.emConditionOperation.GREATER_THAN;
                             condition.bracketOpen = 1;
                             condition = criteria.conditions.create();
                             condition.alias = bo.MaterialInventoryReservation.PROPERTY_STATUS_NAME;
@@ -422,7 +422,7 @@ namespace materials {
                 condition = criteria.conditions.create();
                 condition.alias = bo.MaterialBatch.PROPERTY_QUANTITY_NAME;
                 condition.value = "0";
-                condition.operation = ibas.emConditionOperation.GRATER_THAN;
+                condition.operation = ibas.emConditionOperation.GREATER_THAN;
                 // 未锁定
                 condition = criteria.conditions.create();
                 condition.alias = bo.MaterialBatch.PROPERTY_LOCKED_NAME;
@@ -460,7 +460,7 @@ namespace materials {
                             condition = criteria.conditions.create();
                             condition.alias = bo.MaterialInventoryReservation.PROPERTY_QUANTITY_NAME;
                             condition.comparedAlias = bo.MaterialInventoryReservation.PROPERTY_CLOSEDQUANTITY_NAME;
-                            condition.operation = ibas.emConditionOperation.GRATER_THAN;
+                            condition.operation = ibas.emConditionOperation.GREATER_THAN;
                             condition.bracketOpen = 1;
                             condition = criteria.conditions.create();
                             condition.alias = bo.MaterialInventoryReservation.PROPERTY_STATUS_NAME;
@@ -559,7 +559,7 @@ namespace materials {
                             condition = criteria.conditions.create();
                             condition.alias = bo.MaterialInventoryReservation.PROPERTY_QUANTITY_NAME;
                             condition.comparedAlias = bo.MaterialInventoryReservation.PROPERTY_CLOSEDQUANTITY_NAME;
-                            condition.operation = ibas.emConditionOperation.GRATER_THAN;
+                            condition.operation = ibas.emConditionOperation.GREATER_THAN;
                             condition.bracketOpen = 1;
                             condition = criteria.conditions.create();
                             condition.alias = bo.MaterialInventoryReservation.PROPERTY_STATUS_NAME;

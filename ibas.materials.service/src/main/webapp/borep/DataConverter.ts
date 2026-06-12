@@ -89,10 +89,10 @@ namespace materials {
                     newData.note = remote.Note;
                     newData.editable = remote.Editable;
                     newData.required = remote.Required;
-                    if (remote.VaildValues instanceof Array) {
-                        for (let item of remote.VaildValues) {
+                    if (remote.ValidValues instanceof Array) {
+                        for (let item of remote.ValidValues) {
                             item.type = bo.SpecificationTreeItemValue.name;
-                            newData.vaildValues.add(this.parsing(item, sign));
+                            newData.validValues.add(this.parsing(item, sign));
                         }
                     }
                     if (remote.Items instanceof Array) {
@@ -521,8 +521,12 @@ namespace materials {
         ): void {
             // 改变物料，清除无效数据
             if (!ibas.strings.equals(target.itemCode, source.code)) {
-                target.materialSerials.clear();
-                target.materialBatches.clear();
+                for (let item of target.materialSerials) {
+                    target.materialSerials.remove(item);
+                }
+                for (let item of target.materialBatches) {
+                    target.materialBatches.remove(item);
+                }
             }
             target.itemCode = source.code;
             target.itemDescription = source.name;
@@ -530,7 +534,24 @@ namespace materials {
             target.serialManagement = source.serialManagement;
             target.batchManagement = source.batchManagement;
             target.warehouse = source.defaultWarehouse;
-            target.quantity = 1;
+            target.itemVersion = undefined;
+            let quantity: number = 0;
+            if (target.serialManagement === ibas.emYesNo.YES) {
+                for (let item of target.materialSerials) {
+                    if (item.isDeleted) {
+                        continue;
+                    }
+                    quantity += 1;
+                }
+            } if (target.batchManagement === ibas.emYesNo.YES) {
+                for (let item of target.materialBatches) {
+                    if (item.isDeleted) {
+                        continue;
+                    }
+                    quantity += item.quantity;
+                }
+            }
+            target.quantity = quantity > 0 ? quantity : 1;
             target.uom = source.inventoryUOM;
             if (source instanceof bo.Material) {
                 target.price = source.avgPrice;
@@ -655,7 +676,7 @@ namespace materials {
                 /** 必填的 */
                 Required: boolean;
                 /** 可选值 */
-                VaildValues: ISpecificationTreeItemValue[];
+                ValidValues: ISpecificationTreeItemValue[];
                 /** 规格模板-项目集合 */
                 Items: ISpecificationTreeItem[];
             }

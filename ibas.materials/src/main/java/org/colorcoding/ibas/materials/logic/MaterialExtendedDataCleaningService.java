@@ -15,7 +15,7 @@ import org.colorcoding.ibas.bobas.common.ICriteria;
 import org.colorcoding.ibas.bobas.core.IPropertyInfo;
 import org.colorcoding.ibas.bobas.data.ArrayList;
 import org.colorcoding.ibas.bobas.db.DbField;
-import org.colorcoding.ibas.bobas.db.DbFieldType;
+import org.colorcoding.ibas.bobas.db.DataType;
 import org.colorcoding.ibas.bobas.logic.BusinessLogic;
 import org.colorcoding.ibas.bobas.logic.BusinessLogicException;
 import org.colorcoding.ibas.bobas.logic.IBusinessObjectGroup;
@@ -155,7 +155,7 @@ class MaterialExtendedDataGroup extends BusinessObject<IMaterialExtendedDataGrou
 
 	private static final String PROPERTY_ITEMCODE_NAME = "ItemCode";
 
-	@DbField(name = "ItemCode", type = DbFieldType.ALPHANUMERIC, uniqueKey = true)
+	@DbField(name = "ItemCode", type = DataType.ALPHANUMERIC, uniqueKey = true)
 	public static final IPropertyInfo<String> PROPERTY_ITEMCODE = registerProperty(PROPERTY_ITEMCODE_NAME, String.class,
 			MY_CLASS);
 

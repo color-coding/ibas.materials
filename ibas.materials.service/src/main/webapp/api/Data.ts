@@ -856,7 +856,7 @@ namespace materials {
                     condition = new ibas.Condition();
                     condition.bracketClose = 3;
                     condition.alias = bo.Material.PROPERTY_INVALIDDATE_NAME;
-                    condition.operation = ibas.emConditionOperation.GRATER_EQUAL;
+                    condition.operation = ibas.emConditionOperation.GREATER_EQUAL;
                     condition.value = today;
                     conditions.add(condition);
                     // 审批通过的或未进审批
@@ -944,7 +944,7 @@ namespace materials {
                     condition = new ibas.Condition();
                     condition.bracketClose = 3;
                     condition.alias = bo.Material.PROPERTY_INVALIDDATE_NAME;
-                    condition.operation = ibas.emConditionOperation.GRATER_EQUAL;
+                    condition.operation = ibas.emConditionOperation.GREATER_EQUAL;
                     condition.value = today;
                     conditions.add(condition);
                     // 审批通过的或未进审批
@@ -1070,7 +1070,7 @@ namespace materials {
                     condition = criteria.conditions.create();
                     condition.bracketClose = 2;
                     condition.alias = bo.MaterialPriceList.PROPERTY_INVALIDDATE_NAME;
-                    condition.operation = ibas.emConditionOperation.GRATER_EQUAL;
+                    condition.operation = ibas.emConditionOperation.GREATER_EQUAL;
                     condition.value = today;
                     return criteria;
                 }
@@ -1127,7 +1127,7 @@ namespace materials {
                     condition = criteria.conditions.create();
                     condition.bracketClose = 2;
                     condition.alias = bo.MaterialPriceList.PROPERTY_INVALIDDATE_NAME;
-                    condition.operation = ibas.emConditionOperation.GRATER_EQUAL;
+                    condition.operation = ibas.emConditionOperation.GREATER_EQUAL;
                     condition.value = today;
                     return criteria;
                 }
@@ -1220,7 +1220,7 @@ namespace materials {
                     condition = new ibas.Condition();
                     condition.bracketClose = 3;
                     condition.alias = bo.MaterialSubstitute.PROPERTY_INVALIDDATE_NAME;
-                    condition.operation = ibas.emConditionOperation.GRATER_EQUAL;
+                    condition.operation = ibas.emConditionOperation.GREATER_EQUAL;
                     condition.value = today;
                     conditions.add(condition);
                     return conditions;
@@ -1368,7 +1368,7 @@ namespace materials {
             condition.value = ibas.emBOStatus.OPEN.toString();
             condition = criteria.conditions.create();
             condition.alias = bo.MaterialInventoryReservation.PROPERTY_QUANTITY_NAME;
-            condition.operation = ibas.emConditionOperation.GRATER_THAN;
+            condition.operation = ibas.emConditionOperation.GREATER_THAN;
             condition.comparedAlias = bo.MaterialInventoryReservation.PROPERTY_CLOSEDQUANTITY_NAME;
             for (let item of ibas.arrays.create(caller.targetEntries)) {
                 condition = criteria.conditions.create();

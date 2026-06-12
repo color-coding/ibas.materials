@@ -758,7 +758,7 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 		try {
 			this.setUserToken(token);
 			if (criteria == null || criteria.getConditions().size() <= 0) {
-				throw new Exception(I18N.prop("msg_bobas_invaild_criteria"));
+				throw new Exception(I18N.prop("msg_bobas_invalid_criteria"));
 			}
 			IOperationResult<IInventoryCounting> opRsltData = this.fetchInventoryCounting(criteria);
 			if (opRsltData.getError() != null) {
@@ -865,7 +865,7 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 		try {
 			this.setUserToken(token);
 			if (criteria == null || criteria.getConditions().isEmpty()) {
-				throw new Exception(I18N.prop("msg_bobas_invaild_criteria"));
+				throw new Exception(I18N.prop("msg_bobas_invalid_criteria"));
 			}
 			// 查询物料
 			ICriteria maCriteria = DataConvert.filterConditions(criteria, true, MaterialPrice.CONDITION_ALIAS_ITEMCODE,
@@ -1006,7 +1006,7 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 				condition = maCriteria.getConditions().create();
 				condition.setBracketClose(2);
 				condition.setAlias(Specification.PROPERTY_INVALIDDATE.getName());
-				condition.setOperation(ConditionOperation.GRATER_EQUAL);
+				condition.setOperation(ConditionOperation.GREATER_EQUAL);
 				condition.setValue(today);
 			}
 			MaterialPrice materialPrice;
@@ -1329,7 +1329,7 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 		try {
 			this.setUserToken(token);
 			if (criteria == null || criteria.getConditions().isEmpty()) {
-				throw new Exception(I18N.prop("msg_bobas_invaild_criteria"));
+				throw new Exception(I18N.prop("msg_bobas_invalid_criteria"));
 			}
 			// 查询物料
 			ICriteria maCriteria = DataConvert.filterConditions(criteria, true,
@@ -1448,7 +1448,7 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 		try {
 			this.setUserToken(token);
 			if (criteria == null || criteria.getConditions().isEmpty()) {
-				throw new Exception(I18N.prop("msg_bobas_invaild_criteria"));
+				throw new Exception(I18N.prop("msg_bobas_invalid_criteria"));
 			}
 			// 查询物料
 			ICriteria pdCriteria = DataConvert.filterConditions(criteria, false, Product.CONDITION_ALIAS_WAREHOUSE,
@@ -1594,7 +1594,7 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 		try {
 			this.setUserToken(token);
 			if (criteria == null || criteria.getConditions().isEmpty()) {
-				throw new Exception(I18N.prop("msg_bobas_invaild_criteria"));
+				throw new Exception(I18N.prop("msg_bobas_invalid_criteria"));
 			}
 			// 查询物料
 			ICriteria pdCriteria = DataConvert.filterConditions(criteria, false, Product.CONDITION_ALIAS_WAREHOUSE);
@@ -1761,7 +1761,7 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 		try {
 			this.setUserToken(token);
 			if (criteria == null) {
-				throw new Exception(I18N.prop("msg_bobas_invaild_criteria"));
+				throw new Exception(I18N.prop("msg_bobas_invalid_criteria"));
 			}
 			OperationResult<SpecificationTree> operationResult;
 			IOperationResult<ISpecification> opRsltSpec;
@@ -1924,7 +1924,7 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 			condition = tCriteria.getConditions().create();
 			condition.setBracketClose(2);
 			condition.setAlias(Specification.PROPERTY_INVALIDDATE.getName());
-			condition.setOperation(ConditionOperation.GRATER_EQUAL);
+			condition.setOperation(ConditionOperation.GREATER_EQUAL);
 			condition.setValue(date);
 			ISort sort = tCriteria.getSorts().create();
 			sort.setAlias(Specification.PROPERTY_OBJECTKEY.getName());

@@ -207,7 +207,7 @@ namespace materials {
                 if (validOnly !== false) {
                     condition = criteria.conditions.create();
                     condition.alias = bo.MaterialBatch.PROPERTY_QUANTITY_NAME;
-                    condition.operation = ibas.emConditionOperation.GRATER_THAN;
+                    condition.operation = ibas.emConditionOperation.GREATER_THAN;
                     condition.value = "0";
                 }
                 let that: this = this;
@@ -338,7 +338,7 @@ namespace materials {
                 condition.value = data.code;
                 condition = criteria.conditions.create();
                 condition.alias = bo.MaterialInventoryReservation.PROPERTY_QUANTITY_NAME;
-                condition.operation = ibas.emConditionOperation.GRATER_THAN;
+                condition.operation = ibas.emConditionOperation.GREATER_THAN;
                 condition.value = "0";
                 if (validOnly !== false) {
                     condition = criteria.conditions.create();
@@ -346,7 +346,7 @@ namespace materials {
                     condition.value = ibas.emBOStatus.OPEN.toString();
                     condition = criteria.conditions.create();
                     condition.alias = bo.MaterialInventoryReservation.PROPERTY_QUANTITY_NAME;
-                    condition.operation = ibas.emConditionOperation.GRATER_THAN;
+                    condition.operation = ibas.emConditionOperation.GREATER_THAN;
                     condition.comparedAlias = bo.MaterialInventoryReservation.PROPERTY_CLOSEDQUANTITY_NAME;
                 }
                 let that: this = this;
@@ -450,7 +450,7 @@ namespace materials {
                                 that.messages(ibas.emMessageType.ERROR, error.message);
                             } else {
                                 that.messages(ibas.emMessageType.SUCCESS,
-                                    ibas.i18n.prop("shell_data_delete") + ibas.i18n.prop("shell_sucessful"));
+                                    ibas.i18n.prop("shell_data_delete") + ibas.i18n.prop("shell_successful"));
                             }
                             that.busy(false);
                         });
@@ -476,7 +476,7 @@ namespace materials {
                 condition.value = ibas.emBOStatus.OPEN.toString();
                 condition = criteria.conditions.create();
                 condition.alias = bo.MaterialEstimateJournal.PROPERTY_QUANTITY_NAME;
-                condition.operation = ibas.emConditionOperation.GRATER_THAN;
+                condition.operation = ibas.emConditionOperation.GREATER_THAN;
                 condition.comparedAlias = bo.MaterialEstimateJournal.PROPERTY_CLOSEDQUANTITY_NAME;
                 let that: this = this;
                 let boRepository: bo.BORepositoryMaterials = new bo.BORepositoryMaterials();
@@ -516,7 +516,7 @@ namespace materials {
                 condition.value = ibas.emBOStatus.OPEN.toString();
                 condition = criteria.conditions.create();
                 condition.alias = bo.MaterialEstimateJournal.PROPERTY_QUANTITY_NAME;
-                condition.operation = ibas.emConditionOperation.GRATER_THAN;
+                condition.operation = ibas.emConditionOperation.GREATER_THAN;
                 condition.comparedAlias = bo.MaterialEstimateJournal.PROPERTY_CLOSEDQUANTITY_NAME;
                 let that: this = this;
                 let boRepository: bo.BORepositoryMaterials = new bo.BORepositoryMaterials();

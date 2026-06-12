@@ -35,7 +35,7 @@ namespace materials {
             /** 必填的 */
             required: boolean;
             /** 可选值 */
-            vaildValues: ibas.IList<ISpecificationTreeItemValue>;
+            validValues: ibas.IList<ISpecificationTreeItemValue>;
             /** 规格模板-项目集合 */
             items: ibas.IList<ISpecificationTreeItem>;
         }

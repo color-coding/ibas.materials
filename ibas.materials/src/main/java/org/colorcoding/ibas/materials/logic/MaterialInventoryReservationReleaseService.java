@@ -19,7 +19,7 @@ import org.colorcoding.ibas.bobas.core.IPropertyInfo;
 import org.colorcoding.ibas.bobas.data.emBOStatus;
 import org.colorcoding.ibas.bobas.data.emYesNo;
 import org.colorcoding.ibas.bobas.db.DbField;
-import org.colorcoding.ibas.bobas.db.DbFieldType;
+import org.colorcoding.ibas.bobas.db.DataType;
 import org.colorcoding.ibas.bobas.message.Logger;
 import org.colorcoding.ibas.bobas.message.MessageLevel;
 import org.colorcoding.ibas.bobas.logic.BusinessLogicException;
@@ -351,7 +351,7 @@ class MaterialInventoryReservationGroup4Release extends BusinessObject<IMaterial
 	/**
 	 * 目标单据类型 属性
 	 */
-	@DbField(name = "TargetType", type = DbFieldType.ALPHANUMERIC)
+	@DbField(name = "TargetType", type = DataType.ALPHANUMERIC)
 	public static final IPropertyInfo<String> PROPERTY_TARGETDOCUMENTTYPE = registerProperty(
 			PROPERTY_TARGETDOCUMENTTYPE_NAME, String.class, MY_CLASS);
 
@@ -382,7 +382,7 @@ class MaterialInventoryReservationGroup4Release extends BusinessObject<IMaterial
 	/**
 	 * 目标单据编号 属性
 	 */
-	@DbField(name = "TargetEntry", type = DbFieldType.NUMERIC)
+	@DbField(name = "TargetEntry", type = DataType.NUMERIC)
 	public static final IPropertyInfo<Integer> PROPERTY_TARGETDOCUMENTENTRY = registerProperty(
 			PROPERTY_TARGETDOCUMENTENTRY_NAME, Integer.class, MY_CLASS);
 
@@ -413,7 +413,7 @@ class MaterialInventoryReservationGroup4Release extends BusinessObject<IMaterial
 	/**
 	 * 目标单据行号 属性
 	 */
-	@DbField(name = "TargetLine", type = DbFieldType.NUMERIC)
+	@DbField(name = "TargetLine", type = DataType.NUMERIC)
 	public static final IPropertyInfo<Integer> PROPERTY_TARGETDOCUMENTLINEID = registerProperty(
 			PROPERTY_TARGETDOCUMENTLINEID_NAME, Integer.class, MY_CLASS);
 
@@ -444,7 +444,7 @@ class MaterialInventoryReservationGroup4Release extends BusinessObject<IMaterial
 	/**
 	 * 物料编码 属性
 	 */
-	@DbField(name = "ItemCode", type = DbFieldType.ALPHANUMERIC)
+	@DbField(name = "ItemCode", type = DataType.ALPHANUMERIC)
 	public static final IPropertyInfo<String> PROPERTY_ITEMCODE = registerProperty(PROPERTY_ITEMCODE_NAME, String.class,
 			MY_CLASS);
 
@@ -475,7 +475,7 @@ class MaterialInventoryReservationGroup4Release extends BusinessObject<IMaterial
 	/**
 	 * 仓库 属性
 	 */
-	@DbField(name = "WhsCode", type = DbFieldType.ALPHANUMERIC)
+	@DbField(name = "WhsCode", type = DataType.ALPHANUMERIC)
 	public static final IPropertyInfo<String> PROPERTY_WAREHOUSE = registerProperty(PROPERTY_WAREHOUSE_NAME,
 			String.class, MY_CLASS);
 
@@ -506,7 +506,7 @@ class MaterialInventoryReservationGroup4Release extends BusinessObject<IMaterial
 	/**
 	 * 批次编码 属性
 	 */
-	@DbField(name = "BatchCode", type = DbFieldType.ALPHANUMERIC)
+	@DbField(name = "BatchCode", type = DataType.ALPHANUMERIC)
 	public static final IPropertyInfo<String> PROPERTY_BATCHCODE = registerProperty(PROPERTY_BATCHCODE_NAME,
 			String.class, MY_CLASS);
 
@@ -537,7 +537,7 @@ class MaterialInventoryReservationGroup4Release extends BusinessObject<IMaterial
 	/**
 	 * 序列编码 属性
 	 */
-	@DbField(name = "SerialCode", type = DbFieldType.ALPHANUMERIC)
+	@DbField(name = "SerialCode", type = DataType.ALPHANUMERIC)
 	public static final IPropertyInfo<String> PROPERTY_SERIALCODE = registerProperty(PROPERTY_SERIALCODE_NAME,
 			String.class, MY_CLASS);
 

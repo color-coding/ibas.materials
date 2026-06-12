@@ -53,7 +53,7 @@ public abstract class DocumentQuantityService<L extends IBusinessLogicContract>
 				IDocumentFetcher<IDocumentOperatingTarget> fetcher = DocumentFetcherManager.create()
 						.newFetcher(documentType);
 				if (fetcher == null) {
-					throw new BusinessLogicException(I18N.prop("msg_mm_document_not_found_fether", documentType));
+					throw new BusinessLogicException(I18N.prop("msg_mm_document_not_found_fetcher", documentType));
 				}
 				fetcher.setTransaction(this.getTransaction());
 				document = fetcher.fetch(docEntry);

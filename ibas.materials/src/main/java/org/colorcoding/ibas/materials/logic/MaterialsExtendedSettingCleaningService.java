@@ -14,7 +14,7 @@ import org.colorcoding.ibas.bobas.common.ICriteria;
 import org.colorcoding.ibas.bobas.common.IOperationResult;
 import org.colorcoding.ibas.bobas.core.IPropertyInfo;
 import org.colorcoding.ibas.bobas.db.DbField;
-import org.colorcoding.ibas.bobas.db.DbFieldType;
+import org.colorcoding.ibas.bobas.db.DataType;
 import org.colorcoding.ibas.bobas.logic.BusinessLogic;
 import org.colorcoding.ibas.bobas.logic.BusinessLogicException;
 import org.colorcoding.ibas.bobas.logic.IBusinessObjectGroup;
@@ -168,7 +168,7 @@ class MaterialsExtendedSettingGroup extends BusinessObject<IMaterialsExtendedSet
 	/**
 	 * 目标类型 属性
 	 */
-	@DbField(name = "TargetCode", type = DbFieldType.ALPHANUMERIC, uniqueKey = true)
+	@DbField(name = "TargetCode", type = DataType.ALPHANUMERIC, uniqueKey = true)
 	public static final IPropertyInfo<String> PROPERTY_TARGETCODE = registerProperty(PROPERTY_TARGETCODE_NAME,
 			String.class, MY_CLASS);
 
@@ -199,7 +199,7 @@ class MaterialsExtendedSettingGroup extends BusinessObject<IMaterialsExtendedSet
 	/**
 	 * 目标键值 属性
 	 */
-	@DbField(name = "TargetKeys", type = DbFieldType.ALPHANUMERIC, uniqueKey = true)
+	@DbField(name = "TargetKeys", type = DataType.ALPHANUMERIC, uniqueKey = true)
 	public static final IPropertyInfo<String> PROPERTY_TARGETKEYS = registerProperty(PROPERTY_TARGETKEYS_NAME,
 			String.class, MY_CLASS);
 

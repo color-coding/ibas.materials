@@ -94,7 +94,7 @@ namespace materials {
                         condition.value = ibas.emYesNo.NO.toString();
                         condition = criteria.conditions.create();
                         condition.alias = bo.MaterialBatch.PROPERTY_QUANTITY_NAME;
-                        condition.operation = ibas.emConditionOperation.GRATER_THAN;
+                        condition.operation = ibas.emConditionOperation.GREATER_THAN;
                         condition.value = "0";
                         let sort: ibas.ISort = criteria.sorts.create();
                         sort.alias = bo.MaterialBatch.PROPERTY_WAREHOUSE_NAME;
@@ -149,7 +149,7 @@ namespace materials {
                         condition.value = ibas.emYesNo.NO.toString();
                         condition = criteria.conditions.create();
                         condition.alias = bo.MaterialInventory.PROPERTY_ONHAND_NAME;
-                        condition.operation = ibas.emConditionOperation.GRATER_THAN;
+                        condition.operation = ibas.emConditionOperation.GREATER_THAN;
                         condition.value = "0";
                         let sort: ibas.ISort = criteria.sorts.create();
                         sort.alias = bo.MaterialInventory.PROPERTY_WAREHOUSE_NAME;

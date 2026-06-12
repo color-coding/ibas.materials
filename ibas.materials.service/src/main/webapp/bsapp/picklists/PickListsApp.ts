@@ -288,7 +288,7 @@ namespace materials {
                         this.view.showPickListsData(this.pickListsDatas);
                     }
                     callback();
-                    this.proceeding(ibas.emMessageType.SUCCESS, ibas.i18n.prop("shell_data_save") + ibas.i18n.prop("shell_sucessful"));
+                    this.proceeding(ibas.emMessageType.SUCCESS, ibas.i18n.prop("shell_data_save") + ibas.i18n.prop("shell_successful"));
                 } catch (error) {
                     callback(error);
                     this.messages(error);
@@ -432,7 +432,7 @@ namespace materials {
                         }
                         await this.saveData(pickListsData);
                     }
-                    this.messages(ibas.emMessageType.SUCCESS, ibas.i18n.prop("shell_data_save") + ibas.i18n.prop("shell_sucessful"));
+                    this.messages(ibas.emMessageType.SUCCESS, ibas.i18n.prop("shell_data_save") + ibas.i18n.prop("shell_successful"));
                 } catch (error) {
                     this.messages(error);
                 }

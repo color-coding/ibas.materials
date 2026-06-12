@@ -597,7 +597,7 @@ namespace materials {
                     condition.value = ibas.emYesNo.YES.toString();
                     condition = criteria.conditions.create();
                     condition.alias = bo.MaterialBatch.PROPERTY_QUANTITY_NAME;
-                    condition.operation = ibas.emConditionOperation.GRATER_THAN;
+                    condition.operation = ibas.emConditionOperation.GREATER_THAN;
                     condition.value = "0";
                     if (!ibas.strings.isEmpty(data.itemVersion) && data.versionManagement === ibas.emYesNo.YES) {
                         condition = criteria.conditions.create();
@@ -700,7 +700,7 @@ namespace materials {
                 } else {
                     condition = criteria.conditions.create();
                     condition.alias = bo.MaterialInventory.PROPERTY_ONHAND_NAME;
-                    condition.operation = ibas.emConditionOperation.GRATER_THAN;
+                    condition.operation = ibas.emConditionOperation.GREATER_THAN;
                     condition.value = "0";
                     boRepository.fetchMaterialInventory({
                         criteria: criteria,
@@ -938,7 +938,7 @@ namespace materials {
                             this.messages(ibas.emMessageType.ERROR, error.message);
                         } else {
                             this.messages(ibas.emMessageType.SUCCESS,
-                                ibas.i18n.prop("shell_data_save") + ibas.i18n.prop("shell_sucessful"));
+                                ibas.i18n.prop("shell_data_save") + ibas.i18n.prop("shell_successful"));
                         }
                         this.busy(false);
                     });

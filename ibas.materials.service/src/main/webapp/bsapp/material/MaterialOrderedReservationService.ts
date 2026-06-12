@@ -439,7 +439,7 @@ namespace materials {
                             this.messages(ibas.emMessageType.ERROR, error.message);
                         } else {
                             this.messages(ibas.emMessageType.SUCCESS,
-                                ibas.i18n.prop("shell_data_save") + ibas.i18n.prop("shell_sucessful"));
+                                ibas.i18n.prop("shell_data_save") + ibas.i18n.prop("shell_successful"));
                         }
                         this.busy(false);
                     });

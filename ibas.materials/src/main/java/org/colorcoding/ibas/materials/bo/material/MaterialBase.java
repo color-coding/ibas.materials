@@ -11,7 +11,7 @@ import org.colorcoding.ibas.bobas.common.Decimals;
 import org.colorcoding.ibas.bobas.data.emApprovalStatus;
 import org.colorcoding.ibas.bobas.data.emYesNo;
 import org.colorcoding.ibas.bobas.db.DbField;
-import org.colorcoding.ibas.bobas.db.DbFieldType;
+import org.colorcoding.ibas.bobas.db.DataType;
 import org.colorcoding.ibas.materials.data.emIssueMethod;
 import org.colorcoding.ibas.materials.data.emItemType;
 import org.colorcoding.ibas.materials.data.emPlanningMethod;
@@ -44,7 +44,7 @@ public abstract class MaterialBase<T extends MaterialBase<T>> extends BusinessOb
 	/**
 	 * 编码 属性
 	 */
-	@DbField(name = "Code", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME, uniqueKey = true)
+	@DbField(name = "Code", type = DataType.ALPHANUMERIC, table = DB_TABLE_NAME, uniqueKey = true)
 	public static final IPropertyInfo<String> PROPERTY_CODE = registerProperty(PROPERTY_CODE_NAME, String.class,
 			MY_CLASS);
 
@@ -75,7 +75,7 @@ public abstract class MaterialBase<T extends MaterialBase<T>> extends BusinessOb
 	/**
 	 * 名称 属性
 	 */
-	@DbField(name = "Name", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME)
+	@DbField(name = "Name", type = DataType.ALPHANUMERIC, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<String> PROPERTY_NAME = registerProperty(PROPERTY_NAME_NAME, String.class,
 			MY_CLASS);
 
@@ -106,7 +106,7 @@ public abstract class MaterialBase<T extends MaterialBase<T>> extends BusinessOb
 	/**
 	 * 外文名称 属性
 	 */
-	@DbField(name = "FrgnName", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME)
+	@DbField(name = "FrgnName", type = DataType.ALPHANUMERIC, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<String> PROPERTY_FOREIGNNAME = registerProperty(PROPERTY_FOREIGNNAME_NAME,
 			String.class, MY_CLASS);
 
@@ -137,7 +137,7 @@ public abstract class MaterialBase<T extends MaterialBase<T>> extends BusinessOb
 	/**
 	 * 标识 属性
 	 */
-	@DbField(name = "Sign", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME)
+	@DbField(name = "Sign", type = DataType.ALPHANUMERIC, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<String> PROPERTY_SIGN = registerProperty(PROPERTY_SIGN_NAME, String.class,
 			MY_CLASS);
 
@@ -168,7 +168,7 @@ public abstract class MaterialBase<T extends MaterialBase<T>> extends BusinessOb
 	/**
 	 * 物料组 属性
 	 */
-	@DbField(name = "Group", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME)
+	@DbField(name = "Group", type = DataType.ALPHANUMERIC, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<String> PROPERTY_GROUP = registerProperty(PROPERTY_GROUP_NAME, String.class,
 			MY_CLASS);
 
@@ -199,7 +199,7 @@ public abstract class MaterialBase<T extends MaterialBase<T>> extends BusinessOb
 	/**
 	 * 激活 属性
 	 */
-	@DbField(name = "Activated", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME)
+	@DbField(name = "Activated", type = DataType.ALPHANUMERIC, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<emYesNo> PROPERTY_ACTIVATED = registerProperty(PROPERTY_ACTIVATED_NAME,
 			emYesNo.class, MY_CLASS);
 
@@ -230,7 +230,7 @@ public abstract class MaterialBase<T extends MaterialBase<T>> extends BusinessOb
 	/**
 	 * 条形码 属性
 	 */
-	@DbField(name = "BarCode", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME)
+	@DbField(name = "BarCode", type = DataType.ALPHANUMERIC, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<String> PROPERTY_BARCODE = registerProperty(PROPERTY_BARCODE_NAME, String.class,
 			MY_CLASS);
 
@@ -261,7 +261,7 @@ public abstract class MaterialBase<T extends MaterialBase<T>> extends BusinessOb
 	/**
 	 * 物料类型 属性
 	 */
-	@DbField(name = "ItemType", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME)
+	@DbField(name = "ItemType", type = DataType.ALPHANUMERIC, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<emItemType> PROPERTY_ITEMTYPE = registerProperty(PROPERTY_ITEMTYPE_NAME,
 			emItemType.class, MY_CLASS);
 
@@ -292,7 +292,7 @@ public abstract class MaterialBase<T extends MaterialBase<T>> extends BusinessOb
 	/**
 	 * 采购物料 属性
 	 */
-	@DbField(name = "PrchseItem", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME)
+	@DbField(name = "PrchseItem", type = DataType.ALPHANUMERIC, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<emYesNo> PROPERTY_PURCHASEITEM = registerProperty(PROPERTY_PURCHASEITEM_NAME,
 			emYesNo.class, MY_CLASS);
 
@@ -323,7 +323,7 @@ public abstract class MaterialBase<T extends MaterialBase<T>> extends BusinessOb
 	/**
 	 * 销售物料 属性
 	 */
-	@DbField(name = "SalesItem", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME)
+	@DbField(name = "SalesItem", type = DataType.ALPHANUMERIC, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<emYesNo> PROPERTY_SALESITEM = registerProperty(PROPERTY_SALESITEM_NAME,
 			emYesNo.class, MY_CLASS);
 
@@ -354,7 +354,7 @@ public abstract class MaterialBase<T extends MaterialBase<T>> extends BusinessOb
 	/**
 	 * 库存物料 属性
 	 */
-	@DbField(name = "InvntItem", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME)
+	@DbField(name = "InvntItem", type = DataType.ALPHANUMERIC, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<emYesNo> PROPERTY_INVENTORYITEM = registerProperty(PROPERTY_INVENTORYITEM_NAME,
 			emYesNo.class, MY_CLASS);
 
@@ -385,7 +385,7 @@ public abstract class MaterialBase<T extends MaterialBase<T>> extends BusinessOb
 	/**
 	 * 虚拟物料 属性
 	 */
-	@DbField(name = "PhantomItem", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME)
+	@DbField(name = "PhantomItem", type = DataType.ALPHANUMERIC, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<emYesNo> PROPERTY_PHANTOMITEM = registerProperty(PROPERTY_PHANTOMITEM_NAME,
 			emYesNo.class, MY_CLASS);
 
@@ -416,7 +416,7 @@ public abstract class MaterialBase<T extends MaterialBase<T>> extends BusinessOb
 	/**
 	 * 缺省仓库 属性
 	 */
-	@DbField(name = "DfltWhs", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME)
+	@DbField(name = "DfltWhs", type = DataType.ALPHANUMERIC, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<String> PROPERTY_DEFAULTWAREHOUSE = registerProperty(
 			PROPERTY_DEFAULTWAREHOUSE_NAME, String.class, MY_CLASS);
 
@@ -447,7 +447,7 @@ public abstract class MaterialBase<T extends MaterialBase<T>> extends BusinessOb
 	/**
 	 * 首选供应商 属性
 	 */
-	@DbField(name = "Vendor", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME)
+	@DbField(name = "Vendor", type = DataType.ALPHANUMERIC, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<String> PROPERTY_PREFERREDVENDOR = registerProperty(PROPERTY_PREFERREDVENDOR_NAME,
 			String.class, MY_CLASS);
 
@@ -478,7 +478,7 @@ public abstract class MaterialBase<T extends MaterialBase<T>> extends BusinessOb
 	/**
 	 * 生产商 属性
 	 */
-	@DbField(name = "Manufacturer", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME)
+	@DbField(name = "Manufacturer", type = DataType.ALPHANUMERIC, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<String> PROPERTY_MANUFACTURER = registerProperty(PROPERTY_MANUFACTURER_NAME,
 			String.class, MY_CLASS);
 
@@ -509,7 +509,7 @@ public abstract class MaterialBase<T extends MaterialBase<T>> extends BusinessOb
 	/**
 	 * 库存单位 属性
 	 */
-	@DbField(name = "InvntUom", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME)
+	@DbField(name = "InvntUom", type = DataType.ALPHANUMERIC, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<String> PROPERTY_INVENTORYUOM = registerProperty(PROPERTY_INVENTORYUOM_NAME,
 			String.class, MY_CLASS);
 
@@ -540,7 +540,7 @@ public abstract class MaterialBase<T extends MaterialBase<T>> extends BusinessOb
 	/**
 	 * 评估方法 属性
 	 */
-	@DbField(name = "VaMethod", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME)
+	@DbField(name = "VaMethod", type = DataType.ALPHANUMERIC, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<emValuationMethod> PROPERTY_VALUATIONMETHOD = registerProperty(
 			PROPERTY_VALUATIONMETHOD_NAME, emValuationMethod.class, MY_CLASS);
 
@@ -571,7 +571,7 @@ public abstract class MaterialBase<T extends MaterialBase<T>> extends BusinessOb
 	/**
 	 * 库存 属性
 	 */
-	@DbField(name = "OnHand", type = DbFieldType.DECIMAL, table = DB_TABLE_NAME)
+	@DbField(name = "OnHand", type = DataType.DECIMAL, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<BigDecimal> PROPERTY_ONHAND = registerProperty(PROPERTY_ONHAND_NAME,
 			BigDecimal.class, MY_CLASS);
 
@@ -629,7 +629,7 @@ public abstract class MaterialBase<T extends MaterialBase<T>> extends BusinessOb
 	/**
 	 * 已承诺 属性
 	 */
-	@DbField(name = "OnCommited", type = DbFieldType.DECIMAL, table = DB_TABLE_NAME)
+	@DbField(name = "OnCommited", type = DataType.DECIMAL, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<BigDecimal> PROPERTY_ONCOMMITED = registerProperty(PROPERTY_ONCOMMITED_NAME,
 			BigDecimal.class, MY_CLASS);
 
@@ -687,7 +687,7 @@ public abstract class MaterialBase<T extends MaterialBase<T>> extends BusinessOb
 	/**
 	 * 已订购 属性
 	 */
-	@DbField(name = "OnOrdered", type = DbFieldType.DECIMAL, table = DB_TABLE_NAME)
+	@DbField(name = "OnOrdered", type = DataType.DECIMAL, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<BigDecimal> PROPERTY_ONORDERED = registerProperty(PROPERTY_ONORDERED_NAME,
 			BigDecimal.class, MY_CLASS);
 
@@ -745,7 +745,7 @@ public abstract class MaterialBase<T extends MaterialBase<T>> extends BusinessOb
 	/**
 	 * 已预留 属性
 	 */
-	@DbField(name = "OnReserved", type = DbFieldType.DECIMAL, table = DB_TABLE_NAME)
+	@DbField(name = "OnReserved", type = DataType.DECIMAL, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<BigDecimal> PROPERTY_ONRESERVED = registerProperty(PROPERTY_ONRESERVED_NAME,
 			BigDecimal.class, MY_CLASS);
 
@@ -776,7 +776,7 @@ public abstract class MaterialBase<T extends MaterialBase<T>> extends BusinessOb
 	/**
 	 * 提前期（天） 属性
 	 */
-	@DbField(name = "LeadTime", type = DbFieldType.NUMERIC, table = DB_TABLE_NAME)
+	@DbField(name = "LeadTime", type = DataType.NUMERIC, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<Integer> PROPERTY_LEADTIME = registerProperty(PROPERTY_LEADTIME_NAME,
 			Integer.class, MY_CLASS);
 
@@ -807,7 +807,7 @@ public abstract class MaterialBase<T extends MaterialBase<T>> extends BusinessOb
 	/**
 	 * 序号管理 属性
 	 */
-	@DbField(name = "SerialMgment", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME)
+	@DbField(name = "SerialMgment", type = DataType.ALPHANUMERIC, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<emYesNo> PROPERTY_SERIALMANAGEMENT = registerProperty(
 			PROPERTY_SERIALMANAGEMENT_NAME, emYesNo.class, MY_CLASS);
 
@@ -838,7 +838,7 @@ public abstract class MaterialBase<T extends MaterialBase<T>> extends BusinessOb
 	/**
 	 * 批号管理 属性
 	 */
-	@DbField(name = "BatchMgment", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME)
+	@DbField(name = "BatchMgment", type = DataType.ALPHANUMERIC, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<emYesNo> PROPERTY_BATCHMANAGEMENT = registerProperty(
 			PROPERTY_BATCHMANAGEMENT_NAME, emYesNo.class, MY_CLASS);
 
@@ -869,7 +869,7 @@ public abstract class MaterialBase<T extends MaterialBase<T>> extends BusinessOb
 	/**
 	 * 版本管理 属性
 	 */
-	@DbField(name = "VersonMgment", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME)
+	@DbField(name = "VersonMgment", type = DataType.ALPHANUMERIC, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<emYesNo> PROPERTY_VERSIONMANAGEMENT = registerProperty(
 			PROPERTY_VERSIONMANAGEMENT_NAME, emYesNo.class, MY_CLASS);
 
@@ -900,7 +900,7 @@ public abstract class MaterialBase<T extends MaterialBase<T>> extends BusinessOb
 	/**
 	 * 采购税收组 属性
 	 */
-	@DbField(name = "PrchseTax", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME)
+	@DbField(name = "PrchseTax", type = DataType.ALPHANUMERIC, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<String> PROPERTY_PURCHASETAXGROUP = registerProperty(
 			PROPERTY_PURCHASETAXGROUP_NAME, String.class, MY_CLASS);
 
@@ -931,7 +931,7 @@ public abstract class MaterialBase<T extends MaterialBase<T>> extends BusinessOb
 	/**
 	 * 销售税收组 属性
 	 */
-	@DbField(name = "SalesTax", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME)
+	@DbField(name = "SalesTax", type = DataType.ALPHANUMERIC, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<String> PROPERTY_SALESTAXGROUP = registerProperty(PROPERTY_SALESTAXGROUP_NAME,
 			String.class, MY_CLASS);
 
@@ -962,7 +962,7 @@ public abstract class MaterialBase<T extends MaterialBase<T>> extends BusinessOb
 	/**
 	 * 采购单位 属性
 	 */
-	@DbField(name = "PrchseUom", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME)
+	@DbField(name = "PrchseUom", type = DataType.ALPHANUMERIC, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<String> PROPERTY_PURCHASEUOM = registerProperty(PROPERTY_PURCHASEUOM_NAME,
 			String.class, MY_CLASS);
 
@@ -993,7 +993,7 @@ public abstract class MaterialBase<T extends MaterialBase<T>> extends BusinessOb
 	/**
 	 * 销售单位 属性
 	 */
-	@DbField(name = "SalesUom", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME)
+	@DbField(name = "SalesUom", type = DataType.ALPHANUMERIC, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<String> PROPERTY_SALESUOM = registerProperty(PROPERTY_SALESUOM_NAME, String.class,
 			MY_CLASS);
 
@@ -1024,7 +1024,7 @@ public abstract class MaterialBase<T extends MaterialBase<T>> extends BusinessOb
 	/**
 	 * 生产单位 属性
 	 */
-	@DbField(name = "PrdctUom", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME)
+	@DbField(name = "PrdctUom", type = DataType.ALPHANUMERIC, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<String> PROPERTY_PRODUCTIONUOM = registerProperty(PROPERTY_PRODUCTIONUOM_NAME,
 			String.class, MY_CLASS);
 
@@ -1055,7 +1055,7 @@ public abstract class MaterialBase<T extends MaterialBase<T>> extends BusinessOb
 	/**
 	 * 获取方式 属性
 	 */
-	@DbField(name = "PrcumtMthd", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME)
+	@DbField(name = "PrcumtMthd", type = DataType.ALPHANUMERIC, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<emProcurementMethod> PROPERTY_PROCUREMENTMETHOD = registerProperty(
 			PROPERTY_PROCUREMENTMETHOD_NAME, emProcurementMethod.class, MY_CLASS);
 
@@ -1086,7 +1086,7 @@ public abstract class MaterialBase<T extends MaterialBase<T>> extends BusinessOb
 	/**
 	 * 领料方式 属性
 	 */
-	@DbField(name = "IssueMthd", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME)
+	@DbField(name = "IssueMthd", type = DataType.ALPHANUMERIC, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<emIssueMethod> PROPERTY_ISSUEMETHOD = registerProperty(PROPERTY_ISSUEMETHOD_NAME,
 			emIssueMethod.class, MY_CLASS);
 
@@ -1117,7 +1117,7 @@ public abstract class MaterialBase<T extends MaterialBase<T>> extends BusinessOb
 	/**
 	 * 计划方式 属性
 	 */
-	@DbField(name = "PlanMthd", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME)
+	@DbField(name = "PlanMthd", type = DataType.ALPHANUMERIC, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<emPlanningMethod> PROPERTY_PLANNINGMETHOD = registerProperty(
 			PROPERTY_PLANNINGMETHOD_NAME, emPlanningMethod.class, MY_CLASS);
 
@@ -1148,7 +1148,7 @@ public abstract class MaterialBase<T extends MaterialBase<T>> extends BusinessOb
 	/**
 	 * 齐套检查 属性
 	 */
-	@DbField(name = "CheckCmpltns", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME)
+	@DbField(name = "CheckCmpltns", type = DataType.ALPHANUMERIC, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<emYesNo> PROPERTY_CHECKCOMPLETENESS = registerProperty(
 			PROPERTY_CHECKCOMPLETENESS_NAME, emYesNo.class, MY_CLASS);
 
@@ -1179,7 +1179,7 @@ public abstract class MaterialBase<T extends MaterialBase<T>> extends BusinessOb
 	/**
 	 * 批次混用 属性
 	 */
-	@DbField(name = "MixBatch", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME)
+	@DbField(name = "MixBatch", type = DataType.ALPHANUMERIC, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<emYesNo> PROPERTY_MIXINGBATCHES = registerProperty(PROPERTY_MIXINGBATCHES_NAME,
 			emYesNo.class, MY_CLASS);
 
@@ -1210,7 +1210,7 @@ public abstract class MaterialBase<T extends MaterialBase<T>> extends BusinessOb
 	/**
 	 * 订单生产 属性
 	 */
-	@DbField(name = "MadeToOrder", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME)
+	@DbField(name = "MadeToOrder", type = DataType.ALPHANUMERIC, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<emYesNo> PROPERTY_MADETOORDER = registerProperty(PROPERTY_MADETOORDER_NAME,
 			emYesNo.class, MY_CLASS);
 
@@ -1241,7 +1241,7 @@ public abstract class MaterialBase<T extends MaterialBase<T>> extends BusinessOb
 	/**
 	 * 图号 属性
 	 */
-	@DbField(name = "Darwing", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME)
+	@DbField(name = "Darwing", type = DataType.ALPHANUMERIC, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<String> PROPERTY_DARWINGNUMBER = registerProperty(PROPERTY_DARWINGNUMBER_NAME,
 			String.class, MY_CLASS);
 
@@ -1272,7 +1272,7 @@ public abstract class MaterialBase<T extends MaterialBase<T>> extends BusinessOb
 	/**
 	 * 匹配码 属性
 	 */
-	@DbField(name = "MatchCode", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME)
+	@DbField(name = "MatchCode", type = DataType.ALPHANUMERIC, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<String> PROPERTY_MATCHCODE = registerProperty(PROPERTY_MATCHCODE_NAME,
 			String.class, MY_CLASS);
 
@@ -1303,7 +1303,7 @@ public abstract class MaterialBase<T extends MaterialBase<T>> extends BusinessOb
 	/**
 	 * 生产批量 属性
 	 */
-	@DbField(name = "LotSize", type = DbFieldType.DECIMAL, table = DB_TABLE_NAME)
+	@DbField(name = "LotSize", type = DataType.DECIMAL, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<BigDecimal> PROPERTY_LOTSIZE = registerProperty(PROPERTY_LOTSIZE_NAME,
 			BigDecimal.class, MY_CLASS);
 
@@ -1334,7 +1334,7 @@ public abstract class MaterialBase<T extends MaterialBase<T>> extends BusinessOb
 	/**
 	 * 损耗率 属性
 	 */
-	@DbField(name = "Scrap", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME)
+	@DbField(name = "Scrap", type = DataType.ALPHANUMERIC, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<String> PROPERTY_SCRAP = registerProperty(PROPERTY_SCRAP_NAME, String.class,
 			MY_CLASS);
 
@@ -1365,7 +1365,7 @@ public abstract class MaterialBase<T extends MaterialBase<T>> extends BusinessOb
 	/**
 	 * 变动损耗 属性
 	 */
-	@DbField(name = "ScrapRate", type = DbFieldType.DECIMAL, table = DB_TABLE_NAME)
+	@DbField(name = "ScrapRate", type = DataType.DECIMAL, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<BigDecimal> PROPERTY_SCRAPRATE = registerProperty(PROPERTY_SCRAPRATE_NAME,
 			BigDecimal.class, MY_CLASS);
 
@@ -1396,7 +1396,7 @@ public abstract class MaterialBase<T extends MaterialBase<T>> extends BusinessOb
 	/**
 	 * 固定损耗 属性
 	 */
-	@DbField(name = "ScrapValue", type = DbFieldType.DECIMAL, table = DB_TABLE_NAME)
+	@DbField(name = "ScrapValue", type = DataType.DECIMAL, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<BigDecimal> PROPERTY_SCRAPVALUE = registerProperty(PROPERTY_SCRAPVALUE_NAME,
 			BigDecimal.class, MY_CLASS);
 
@@ -1427,7 +1427,7 @@ public abstract class MaterialBase<T extends MaterialBase<T>> extends BusinessOb
 	/**
 	 * 计划员 属性
 	 */
-	@DbField(name = "Scheduler", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME)
+	@DbField(name = "Scheduler", type = DataType.ALPHANUMERIC, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<String> PROPERTY_SCHEDULER = registerProperty(PROPERTY_SCHEDULER_NAME,
 			String.class, MY_CLASS);
 
@@ -1458,7 +1458,7 @@ public abstract class MaterialBase<T extends MaterialBase<T>> extends BusinessOb
 	/**
 	* 计划组 属性
 	*/
-	@DbField(name = "SchdGroup", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME)
+	@DbField(name = "SchdGroup", type = DataType.ALPHANUMERIC, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<String> PROPERTY_SCHEDULINGGROUP = registerProperty(PROPERTY_SCHEDULINGGROUP_NAME,
 			String.class, MY_CLASS);
 
@@ -1489,7 +1489,7 @@ public abstract class MaterialBase<T extends MaterialBase<T>> extends BusinessOb
 	/**
 	* 关键件 属性
 	*/
-	@DbField(name = "KeyItem", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME)
+	@DbField(name = "KeyItem", type = DataType.ALPHANUMERIC, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<emYesNo> PROPERTY_KEYCOMPONENT = registerProperty(PROPERTY_KEYCOMPONENT_NAME,
 			emYesNo.class, MY_CLASS);
 
@@ -1520,7 +1520,7 @@ public abstract class MaterialBase<T extends MaterialBase<T>> extends BusinessOb
 	/**
 	* 销售-长 属性
 	*/
-	@DbField(name = "SalesLength", type = DbFieldType.DECIMAL, table = DB_TABLE_NAME)
+	@DbField(name = "SalesLength", type = DataType.DECIMAL, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<BigDecimal> PROPERTY_SALESLENGTH = registerProperty(PROPERTY_SALESLENGTH_NAME,
 			BigDecimal.class, MY_CLASS);
 
@@ -1551,7 +1551,7 @@ public abstract class MaterialBase<T extends MaterialBase<T>> extends BusinessOb
 	/**
 	* 销售-宽 属性
 	*/
-	@DbField(name = "SalesWidth", type = DbFieldType.DECIMAL, table = DB_TABLE_NAME)
+	@DbField(name = "SalesWidth", type = DataType.DECIMAL, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<BigDecimal> PROPERTY_SALESWIDTH = registerProperty(PROPERTY_SALESWIDTH_NAME,
 			BigDecimal.class, MY_CLASS);
 
@@ -1582,7 +1582,7 @@ public abstract class MaterialBase<T extends MaterialBase<T>> extends BusinessOb
 	/**
 	* 销售-高 属性
 	*/
-	@DbField(name = "SalesHeight", type = DbFieldType.DECIMAL, table = DB_TABLE_NAME)
+	@DbField(name = "SalesHeight", type = DataType.DECIMAL, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<BigDecimal> PROPERTY_SALESHEIGHT = registerProperty(PROPERTY_SALESHEIGHT_NAME,
 			BigDecimal.class, MY_CLASS);
 
@@ -1613,7 +1613,7 @@ public abstract class MaterialBase<T extends MaterialBase<T>> extends BusinessOb
 	/**
 	* 销售-尺寸单位 属性
 	*/
-	@DbField(name = "SalesSizeUnit", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME)
+	@DbField(name = "SalesSizeUnit", type = DataType.ALPHANUMERIC, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<String> PROPERTY_SALESSIZEUNIT = registerProperty(PROPERTY_SALESSIZEUNIT_NAME,
 			String.class, MY_CLASS);
 
@@ -1644,7 +1644,7 @@ public abstract class MaterialBase<T extends MaterialBase<T>> extends BusinessOb
 	/**
 	* 销售-体积 属性
 	*/
-	@DbField(name = "SalesVolume", type = DbFieldType.DECIMAL, table = DB_TABLE_NAME)
+	@DbField(name = "SalesVolume", type = DataType.DECIMAL, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<BigDecimal> PROPERTY_SALESVOLUME = registerProperty(PROPERTY_SALESVOLUME_NAME,
 			BigDecimal.class, MY_CLASS);
 
@@ -1675,7 +1675,7 @@ public abstract class MaterialBase<T extends MaterialBase<T>> extends BusinessOb
 	/**
 	* 销售-体积单位 属性
 	*/
-	@DbField(name = "SalesVolumeUnit", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME)
+	@DbField(name = "SalesVolumeUnit", type = DataType.ALPHANUMERIC, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<String> PROPERTY_SALESVOLUMEUNIT = registerProperty(PROPERTY_SALESVOLUMEUNIT_NAME,
 			String.class, MY_CLASS);
 
@@ -1706,7 +1706,7 @@ public abstract class MaterialBase<T extends MaterialBase<T>> extends BusinessOb
 	/**
 	* 销售-重量 属性
 	*/
-	@DbField(name = "SalesWeight", type = DbFieldType.DECIMAL, table = DB_TABLE_NAME)
+	@DbField(name = "SalesWeight", type = DataType.DECIMAL, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<BigDecimal> PROPERTY_SALESWEIGHT = registerProperty(PROPERTY_SALESWEIGHT_NAME,
 			BigDecimal.class, MY_CLASS);
 
@@ -1737,7 +1737,7 @@ public abstract class MaterialBase<T extends MaterialBase<T>> extends BusinessOb
 	/**
 	* 销售-重量单位 属性
 	*/
-	@DbField(name = "SalesWeightUnit", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME)
+	@DbField(name = "SalesWeightUnit", type = DataType.ALPHANUMERIC, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<String> PROPERTY_SALESWEIGHTUNIT = registerProperty(PROPERTY_SALESWEIGHTUNIT_NAME,
 			String.class, MY_CLASS);
 
@@ -1768,7 +1768,7 @@ public abstract class MaterialBase<T extends MaterialBase<T>> extends BusinessOb
 	/**
 	* 采购-长 属性
 	*/
-	@DbField(name = "PrchseLength", type = DbFieldType.DECIMAL, table = DB_TABLE_NAME)
+	@DbField(name = "PrchseLength", type = DataType.DECIMAL, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<BigDecimal> PROPERTY_PURCHASELENGTH = registerProperty(
 			PROPERTY_PURCHASELENGTH_NAME, BigDecimal.class, MY_CLASS);
 
@@ -1799,7 +1799,7 @@ public abstract class MaterialBase<T extends MaterialBase<T>> extends BusinessOb
 	/**
 	* 采购-宽 属性
 	*/
-	@DbField(name = "PrchseWidth", type = DbFieldType.DECIMAL, table = DB_TABLE_NAME)
+	@DbField(name = "PrchseWidth", type = DataType.DECIMAL, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<BigDecimal> PROPERTY_PURCHASEWIDTH = registerProperty(PROPERTY_PURCHASEWIDTH_NAME,
 			BigDecimal.class, MY_CLASS);
 
@@ -1830,7 +1830,7 @@ public abstract class MaterialBase<T extends MaterialBase<T>> extends BusinessOb
 	/**
 	* 采购-高 属性
 	*/
-	@DbField(name = "PrchseHeight", type = DbFieldType.DECIMAL, table = DB_TABLE_NAME)
+	@DbField(name = "PrchseHeight", type = DataType.DECIMAL, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<BigDecimal> PROPERTY_PURCHASEHEIGHT = registerProperty(
 			PROPERTY_PURCHASEHEIGHT_NAME, BigDecimal.class, MY_CLASS);
 
@@ -1861,7 +1861,7 @@ public abstract class MaterialBase<T extends MaterialBase<T>> extends BusinessOb
 	/**
 	* 销售-尺寸单位 属性
 	*/
-	@DbField(name = "PrchseSizeUnit", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME)
+	@DbField(name = "PrchseSizeUnit", type = DataType.ALPHANUMERIC, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<String> PROPERTY_PURCHASESIZEUNIT = registerProperty(
 			PROPERTY_PURCHASESIZEUNIT_NAME, String.class, MY_CLASS);
 
@@ -1892,7 +1892,7 @@ public abstract class MaterialBase<T extends MaterialBase<T>> extends BusinessOb
 	/**
 	* 采购-体积 属性
 	*/
-	@DbField(name = "PrchseVolume", type = DbFieldType.DECIMAL, table = DB_TABLE_NAME)
+	@DbField(name = "PrchseVolume", type = DataType.DECIMAL, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<BigDecimal> PROPERTY_PURCHASEVOLUME = registerProperty(
 			PROPERTY_PURCHASEVOLUME_NAME, BigDecimal.class, MY_CLASS);
 
@@ -1923,7 +1923,7 @@ public abstract class MaterialBase<T extends MaterialBase<T>> extends BusinessOb
 	/**
 	* 采购-体积单位 属性
 	*/
-	@DbField(name = "PrchseVolumeUnit", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME)
+	@DbField(name = "PrchseVolumeUnit", type = DataType.ALPHANUMERIC, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<String> PROPERTY_PURCHASEVOLUMEUNIT = registerProperty(
 			PROPERTY_PURCHASEVOLUMEUNIT_NAME, String.class, MY_CLASS);
 
@@ -1954,7 +1954,7 @@ public abstract class MaterialBase<T extends MaterialBase<T>> extends BusinessOb
 	/**
 	* 采购-重量 属性
 	*/
-	@DbField(name = "PrchseWeight", type = DbFieldType.DECIMAL, table = DB_TABLE_NAME)
+	@DbField(name = "PrchseWeight", type = DataType.DECIMAL, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<BigDecimal> PROPERTY_PURCHASEWEIGHT = registerProperty(
 			PROPERTY_PURCHASEWEIGHT_NAME, BigDecimal.class, MY_CLASS);
 
@@ -1985,7 +1985,7 @@ public abstract class MaterialBase<T extends MaterialBase<T>> extends BusinessOb
 	/**
 	* 采购-重量单位 属性
 	*/
-	@DbField(name = "PrchseWeightUnit", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME)
+	@DbField(name = "PrchseWeightUnit", type = DataType.ALPHANUMERIC, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<String> PROPERTY_PURCHASEWEIGHTUNIT = registerProperty(
 			PROPERTY_PURCHASEWEIGHTUNIT_NAME, String.class, MY_CLASS);
 
@@ -2016,7 +2016,7 @@ public abstract class MaterialBase<T extends MaterialBase<T>> extends BusinessOb
 	/**
 	* 库存-长 属性
 	*/
-	@DbField(name = "InvntLength", type = DbFieldType.DECIMAL, table = DB_TABLE_NAME)
+	@DbField(name = "InvntLength", type = DataType.DECIMAL, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<BigDecimal> PROPERTY_INVENTORYLENGTH = registerProperty(
 			PROPERTY_INVENTORYLENGTH_NAME, BigDecimal.class, MY_CLASS);
 
@@ -2047,7 +2047,7 @@ public abstract class MaterialBase<T extends MaterialBase<T>> extends BusinessOb
 	/**
 	* 库存-宽 属性
 	*/
-	@DbField(name = "InvntWidth", type = DbFieldType.DECIMAL, table = DB_TABLE_NAME)
+	@DbField(name = "InvntWidth", type = DataType.DECIMAL, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<BigDecimal> PROPERTY_INVENTORYWIDTH = registerProperty(
 			PROPERTY_INVENTORYWIDTH_NAME, BigDecimal.class, MY_CLASS);
 
@@ -2078,7 +2078,7 @@ public abstract class MaterialBase<T extends MaterialBase<T>> extends BusinessOb
 	/**
 	* 库存-高 属性
 	*/
-	@DbField(name = "InvntHeight", type = DbFieldType.DECIMAL, table = DB_TABLE_NAME)
+	@DbField(name = "InvntHeight", type = DataType.DECIMAL, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<BigDecimal> PROPERTY_INVENTORYHEIGHT = registerProperty(
 			PROPERTY_INVENTORYHEIGHT_NAME, BigDecimal.class, MY_CLASS);
 
@@ -2109,7 +2109,7 @@ public abstract class MaterialBase<T extends MaterialBase<T>> extends BusinessOb
 	/**
 	* 销售-尺寸单位 属性
 	*/
-	@DbField(name = "InvntSizeUnit", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME)
+	@DbField(name = "InvntSizeUnit", type = DataType.ALPHANUMERIC, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<String> PROPERTY_INVENTORYSIZEUNIT = registerProperty(
 			PROPERTY_INVENTORYSIZEUNIT_NAME, String.class, MY_CLASS);
 
@@ -2140,7 +2140,7 @@ public abstract class MaterialBase<T extends MaterialBase<T>> extends BusinessOb
 	/**
 	* 库存-体积 属性
 	*/
-	@DbField(name = "InvntVolume", type = DbFieldType.DECIMAL, table = DB_TABLE_NAME)
+	@DbField(name = "InvntVolume", type = DataType.DECIMAL, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<BigDecimal> PROPERTY_INVENTORYVOLUME = registerProperty(
 			PROPERTY_INVENTORYVOLUME_NAME, BigDecimal.class, MY_CLASS);
 
@@ -2171,7 +2171,7 @@ public abstract class MaterialBase<T extends MaterialBase<T>> extends BusinessOb
 	/**
 	* 采购-体积单位 属性
 	*/
-	@DbField(name = "InvntVolumeUnit", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME)
+	@DbField(name = "InvntVolumeUnit", type = DataType.ALPHANUMERIC, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<String> PROPERTY_INVENTORYVOLUMEUNIT = registerProperty(
 			PROPERTY_INVENTORYVOLUMEUNIT_NAME, String.class, MY_CLASS);
 
@@ -2202,7 +2202,7 @@ public abstract class MaterialBase<T extends MaterialBase<T>> extends BusinessOb
 	/**
 	* 库存-重量 属性
 	*/
-	@DbField(name = "InvntWeight", type = DbFieldType.DECIMAL, table = DB_TABLE_NAME)
+	@DbField(name = "InvntWeight", type = DataType.DECIMAL, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<BigDecimal> PROPERTY_INVENTORYWEIGHT = registerProperty(
 			PROPERTY_INVENTORYWEIGHT_NAME, BigDecimal.class, MY_CLASS);
 
@@ -2233,7 +2233,7 @@ public abstract class MaterialBase<T extends MaterialBase<T>> extends BusinessOb
 	/**
 	* 库存-重量单位 属性
 	*/
-	@DbField(name = "InvntWeightUnit", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME)
+	@DbField(name = "InvntWeightUnit", type = DataType.ALPHANUMERIC, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<String> PROPERTY_INVENTORYWEIGHTUNIT = registerProperty(
 			PROPERTY_INVENTORYWEIGHTUNIT_NAME, String.class, MY_CLASS);
 
@@ -2264,7 +2264,7 @@ public abstract class MaterialBase<T extends MaterialBase<T>> extends BusinessOb
 	/**
 	 * 生效日期 属性
 	 */
-	@DbField(name = "ValidDate", type = DbFieldType.DATE, table = DB_TABLE_NAME)
+	@DbField(name = "ValidDate", type = DataType.DATE, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<DateTime> PROPERTY_VALIDDATE = registerProperty(PROPERTY_VALIDDATE_NAME,
 			DateTime.class, MY_CLASS);
 
@@ -2295,7 +2295,7 @@ public abstract class MaterialBase<T extends MaterialBase<T>> extends BusinessOb
 	/**
 	 * 失效日期 属性
 	 */
-	@DbField(name = "InvalidDate", type = DbFieldType.DATE, table = DB_TABLE_NAME)
+	@DbField(name = "InvalidDate", type = DataType.DATE, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<DateTime> PROPERTY_INVALIDDATE = registerProperty(PROPERTY_INVALIDDATE_NAME,
 			DateTime.class, MY_CLASS);
 
@@ -2326,7 +2326,7 @@ public abstract class MaterialBase<T extends MaterialBase<T>> extends BusinessOb
 	/**
 	 * 图片 属性
 	 */
-	@DbField(name = "Picture", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME)
+	@DbField(name = "Picture", type = DataType.ALPHANUMERIC, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<String> PROPERTY_PICTURE = registerProperty(PROPERTY_PICTURE_NAME, String.class,
 			MY_CLASS);
 
@@ -2357,7 +2357,7 @@ public abstract class MaterialBase<T extends MaterialBase<T>> extends BusinessOb
 	/**
 	 * 备注 属性
 	 */
-	@DbField(name = "Remarks", type = DbFieldType.MEMO, table = DB_TABLE_NAME)
+	@DbField(name = "Remarks", type = DataType.MEMO, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<String> PROPERTY_REMARKS = registerProperty(PROPERTY_REMARKS_NAME, String.class,
 			MY_CLASS);
 
@@ -2388,7 +2388,7 @@ public abstract class MaterialBase<T extends MaterialBase<T>> extends BusinessOb
 	/**
 	 * 已删除 属性
 	 */
-	@DbField(name = "Deleted", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME)
+	@DbField(name = "Deleted", type = DataType.ALPHANUMERIC, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<emYesNo> PROPERTY_DELETED = registerProperty(PROPERTY_DELETED_NAME, emYesNo.class,
 			MY_CLASS);
 
@@ -2419,7 +2419,7 @@ public abstract class MaterialBase<T extends MaterialBase<T>> extends BusinessOb
 	/**
 	 * 对象编号 属性
 	 */
-	@DbField(name = "DocEntry", type = DbFieldType.NUMERIC, table = DB_TABLE_NAME, primaryKey = true)
+	@DbField(name = "DocEntry", type = DataType.NUMERIC, table = DB_TABLE_NAME, primaryKey = true)
 	public static final IPropertyInfo<Integer> PROPERTY_DOCENTRY = registerProperty(PROPERTY_DOCENTRY_NAME,
 			Integer.class, MY_CLASS);
 
@@ -2450,7 +2450,7 @@ public abstract class MaterialBase<T extends MaterialBase<T>> extends BusinessOb
 	/**
 	 * 对象类型 属性
 	 */
-	@DbField(name = "ObjectCode", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME)
+	@DbField(name = "ObjectCode", type = DataType.ALPHANUMERIC, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<String> PROPERTY_OBJECTCODE = registerProperty(PROPERTY_OBJECTCODE_NAME,
 			String.class, MY_CLASS);
 
@@ -2481,7 +2481,7 @@ public abstract class MaterialBase<T extends MaterialBase<T>> extends BusinessOb
 	/**
 	 * 审批状态 属性
 	 */
-	@DbField(name = "ApvlStatus", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME)
+	@DbField(name = "ApvlStatus", type = DataType.ALPHANUMERIC, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<emApprovalStatus> PROPERTY_APPROVALSTATUS = registerProperty(
 			PROPERTY_APPROVALSTATUS_NAME, emApprovalStatus.class, MY_CLASS);
 
@@ -2512,7 +2512,7 @@ public abstract class MaterialBase<T extends MaterialBase<T>> extends BusinessOb
 	/**
 	 * 数据所有者 属性
 	 */
-	@DbField(name = "DataOwner", type = DbFieldType.NUMERIC, table = DB_TABLE_NAME)
+	@DbField(name = "DataOwner", type = DataType.NUMERIC, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<Integer> PROPERTY_DATAOWNER = registerProperty(PROPERTY_DATAOWNER_NAME,
 			Integer.class, MY_CLASS);
 
@@ -2543,7 +2543,7 @@ public abstract class MaterialBase<T extends MaterialBase<T>> extends BusinessOb
 	/**
 	 * 数据所属组织 属性
 	 */
-	@DbField(name = "OrgCode", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME)
+	@DbField(name = "OrgCode", type = DataType.ALPHANUMERIC, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<String> PROPERTY_ORGANIZATION = registerProperty(PROPERTY_ORGANIZATION_NAME,
 			String.class, MY_CLASS);
 

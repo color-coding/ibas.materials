@@ -705,7 +705,7 @@ namespace materials {
                                 condition.value = ibas.emBOStatus.OPEN.toString();
                                 condition = criteria.conditions.create();
                                 condition.alias = bo.MaterialInventoryReservation.PROPERTY_QUANTITY_NAME;
-                                condition.operation = ibas.emConditionOperation.GRATER_THAN;
+                                condition.operation = ibas.emConditionOperation.GREATER_THAN;
                                 condition.value = "0";
                                 boRepository.fetchMaterialInventoryReservation({
                                     criteria: criteria,

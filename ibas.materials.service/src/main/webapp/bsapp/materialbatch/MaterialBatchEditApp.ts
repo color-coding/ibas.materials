@@ -88,13 +88,13 @@ namespace materials {
                             if (opRslt.resultObjects.length === 0) {
                                 // 删除成功，释放当前对象
                                 that.messages(ibas.emMessageType.SUCCESS,
-                                    ibas.i18n.prop("shell_data_delete") + ibas.i18n.prop("shell_sucessful"));
+                                    ibas.i18n.prop("shell_data_delete") + ibas.i18n.prop("shell_successful"));
                                 that.editData = undefined;
                             } else {
                                 // 替换编辑对象
                                 that.editData = opRslt.resultObjects.firstOrDefault();
                                 that.messages(ibas.emMessageType.SUCCESS,
-                                    ibas.i18n.prop("shell_data_save") + ibas.i18n.prop("shell_sucessful"));
+                                    ibas.i18n.prop("shell_data_save") + ibas.i18n.prop("shell_successful"));
                             }
                             // 刷新当前视图
                             that.viewShowed();
@@ -132,7 +132,7 @@ namespace materials {
                                 chooseType: ibas.emChooseType.SINGLE,
                                 criteria: [
                                     new ibas.Condition(materials.bo.MaterialSpecification.PROPERTY_OBJECTKEY_NAME,
-                                        ibas.emConditionOperation.GRATER_THAN, "0"),
+                                        ibas.emConditionOperation.GREATER_THAN, "0"),
                                     new ibas.Condition(materials.bo.MaterialSpecification.PROPERTY_ITEMCODE_NAME,
                                         ibas.emConditionOperation.EQUAL, that.editData.itemCode),
                                 ],

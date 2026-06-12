@@ -32,8 +32,8 @@ namespace materials {
                     dataItem.description = item.description;
                     dataItem.content = item.content;
                     dataItem.note = item.note;
-                    if (item.vaildValues instanceof Array) {
-                        for (let value of item.vaildValues) {
+                    if (item.validValues instanceof Array) {
+                        for (let value of item.validValues) {
                             if (ibas.strings.equals(dataItem.content, value.description)) {
                                 dataItem.value = value.value;
                                 dataItem.associated = value.associated;
@@ -61,7 +61,7 @@ namespace materials {
         /** 规格模板-项目 */
         export class SpecificationTreeItem implements ISpecificationTreeItem {
             constructor() {
-                this.vaildValues = new ibas.ArrayList<SpecificationTreeItemValue>();
+                this.validValues = new ibas.ArrayList<SpecificationTreeItemValue>();
                 this.items = new ibas.ArrayList<SpecificationTreeItem>();
             }
             /** 标记 */
@@ -77,7 +77,7 @@ namespace materials {
             /** 必填的 */
             required: boolean;
             /** 可选值 */
-            vaildValues: ibas.IList<ISpecificationTreeItemValue>;
+            validValues: ibas.IList<ISpecificationTreeItemValue>;
             /** 规格模板-项目集合 */
             items: ibas.IList<ISpecificationTreeItem>;
         }

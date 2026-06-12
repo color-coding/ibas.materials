@@ -15,7 +15,8 @@ import org.colorcoding.ibas.bobas.data.DateTime;
 import org.colorcoding.ibas.bobas.data.emApprovalStatus;
 import org.colorcoding.ibas.bobas.bo.BusinessObjectUnit;
 import org.colorcoding.ibas.bobas.db.DbField;
-import org.colorcoding.ibas.bobas.db.DbFieldType;
+import org.colorcoding.ibas.bobas.db.DataType;
+import org.colorcoding.ibas.bobas.db.EditType;
 import org.colorcoding.ibas.bobas.ownership.IDataOwnership;
 import org.colorcoding.ibas.businesspartner.data.emBusinessPartnerType;
 import org.colorcoding.ibas.materials.MyConfiguration;
@@ -64,7 +65,7 @@ public class MaterialSpecification extends BusinessObject<MaterialSpecification>
 	/**
 	 * 对象编号 属性
 	 */
-	@DbField(name = "ObjectKey", type = DbFieldType.NUMERIC, table = DB_TABLE_NAME, primaryKey = true)
+	@DbField(name = "ObjectKey", type = DataType.NUMERIC, table = DB_TABLE_NAME, primaryKey = true)
 	public static final IPropertyInfo<Integer> PROPERTY_OBJECTKEY = registerProperty(PROPERTY_OBJECTKEY_NAME,
 			Integer.class, MY_CLASS);
 
@@ -95,7 +96,7 @@ public class MaterialSpecification extends BusinessObject<MaterialSpecification>
 	/**
 	 * 对象类型 属性
 	 */
-	@DbField(name = "ObjectCode", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME)
+	@DbField(name = "ObjectCode", type = DataType.ALPHANUMERIC, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<String> PROPERTY_OBJECTCODE = registerProperty(PROPERTY_OBJECTCODE_NAME,
 			String.class, MY_CLASS);
 
@@ -126,7 +127,7 @@ public class MaterialSpecification extends BusinessObject<MaterialSpecification>
 	/**
 	 * 创建日期 属性
 	 */
-	@DbField(name = "CreateDate", type = DbFieldType.DATE, table = DB_TABLE_NAME)
+	@DbField(name = "CreateDate", type = DataType.DATE, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<DateTime> PROPERTY_CREATEDATE = registerProperty(PROPERTY_CREATEDATE_NAME,
 			DateTime.class, MY_CLASS);
 
@@ -157,7 +158,7 @@ public class MaterialSpecification extends BusinessObject<MaterialSpecification>
 	/**
 	 * 创建时间 属性
 	 */
-	@DbField(name = "CreateTime", type = DbFieldType.NUMERIC, table = DB_TABLE_NAME)
+	@DbField(name = "CreateTime", type = DataType.NUMERIC, editType = EditType.TIME, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<Short> PROPERTY_CREATETIME = registerProperty(PROPERTY_CREATETIME_NAME,
 			Short.class, MY_CLASS);
 
@@ -188,7 +189,7 @@ public class MaterialSpecification extends BusinessObject<MaterialSpecification>
 	/**
 	 * 修改日期 属性
 	 */
-	@DbField(name = "UpdateDate", type = DbFieldType.DATE, table = DB_TABLE_NAME)
+	@DbField(name = "UpdateDate", type = DataType.DATE, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<DateTime> PROPERTY_UPDATEDATE = registerProperty(PROPERTY_UPDATEDATE_NAME,
 			DateTime.class, MY_CLASS);
 
@@ -219,7 +220,7 @@ public class MaterialSpecification extends BusinessObject<MaterialSpecification>
 	/**
 	 * 修改时间 属性
 	 */
-	@DbField(name = "UpdateTime", type = DbFieldType.NUMERIC, table = DB_TABLE_NAME)
+	@DbField(name = "UpdateTime", type = DataType.NUMERIC, editType = EditType.TIME, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<Short> PROPERTY_UPDATETIME = registerProperty(PROPERTY_UPDATETIME_NAME,
 			Short.class, MY_CLASS);
 
@@ -250,7 +251,7 @@ public class MaterialSpecification extends BusinessObject<MaterialSpecification>
 	/**
 	 * 版本 属性
 	 */
-	@DbField(name = "LogInst", type = DbFieldType.NUMERIC, table = DB_TABLE_NAME)
+	@DbField(name = "LogInst", type = DataType.NUMERIC, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<Integer> PROPERTY_LOGINST = registerProperty(PROPERTY_LOGINST_NAME, Integer.class,
 			MY_CLASS);
 
@@ -281,7 +282,7 @@ public class MaterialSpecification extends BusinessObject<MaterialSpecification>
 	/**
 	 * 服务系列 属性
 	 */
-	@DbField(name = "Series", type = DbFieldType.NUMERIC, table = DB_TABLE_NAME)
+	@DbField(name = "Series", type = DataType.NUMERIC, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<Integer> PROPERTY_SERIES = registerProperty(PROPERTY_SERIES_NAME, Integer.class,
 			MY_CLASS);
 
@@ -312,7 +313,7 @@ public class MaterialSpecification extends BusinessObject<MaterialSpecification>
 	/**
 	 * 数据源 属性
 	 */
-	@DbField(name = "DataSource", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME)
+	@DbField(name = "DataSource", type = DataType.ALPHANUMERIC, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<String> PROPERTY_DATASOURCE = registerProperty(PROPERTY_DATASOURCE_NAME,
 			String.class, MY_CLASS);
 
@@ -343,7 +344,7 @@ public class MaterialSpecification extends BusinessObject<MaterialSpecification>
 	/**
 	 * 创建用户 属性
 	 */
-	@DbField(name = "Creator", type = DbFieldType.NUMERIC, table = DB_TABLE_NAME)
+	@DbField(name = "Creator", type = DataType.NUMERIC, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<Integer> PROPERTY_CREATEUSERSIGN = registerProperty(PROPERTY_CREATEUSERSIGN_NAME,
 			Integer.class, MY_CLASS);
 
@@ -374,7 +375,7 @@ public class MaterialSpecification extends BusinessObject<MaterialSpecification>
 	/**
 	 * 修改用户 属性
 	 */
-	@DbField(name = "Updator", type = DbFieldType.NUMERIC, table = DB_TABLE_NAME)
+	@DbField(name = "Updator", type = DataType.NUMERIC, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<Integer> PROPERTY_UPDATEUSERSIGN = registerProperty(PROPERTY_UPDATEUSERSIGN_NAME,
 			Integer.class, MY_CLASS);
 
@@ -405,7 +406,7 @@ public class MaterialSpecification extends BusinessObject<MaterialSpecification>
 	/**
 	 * 创建动作标识 属性
 	 */
-	@DbField(name = "CreateActId", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME)
+	@DbField(name = "CreateActId", type = DataType.ALPHANUMERIC, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<String> PROPERTY_CREATEACTIONID = registerProperty(PROPERTY_CREATEACTIONID_NAME,
 			String.class, MY_CLASS);
 
@@ -436,7 +437,7 @@ public class MaterialSpecification extends BusinessObject<MaterialSpecification>
 	/**
 	 * 更新动作标识 属性
 	 */
-	@DbField(name = "UpdateActId", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME)
+	@DbField(name = "UpdateActId", type = DataType.ALPHANUMERIC, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<String> PROPERTY_UPDATEACTIONID = registerProperty(PROPERTY_UPDATEACTIONID_NAME,
 			String.class, MY_CLASS);
 
@@ -467,7 +468,7 @@ public class MaterialSpecification extends BusinessObject<MaterialSpecification>
 	/**
 	 * 审批状态 属性
 	 */
-	@DbField(name = "ApvlStatus", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME)
+	@DbField(name = "ApvlStatus", type = DataType.ALPHANUMERIC, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<emApprovalStatus> PROPERTY_APPROVALSTATUS = registerProperty(
 			PROPERTY_APPROVALSTATUS_NAME, emApprovalStatus.class, MY_CLASS);
 
@@ -498,7 +499,7 @@ public class MaterialSpecification extends BusinessObject<MaterialSpecification>
 	/**
 	 * 数据所有者 属性
 	 */
-	@DbField(name = "DataOwner", type = DbFieldType.NUMERIC, table = DB_TABLE_NAME)
+	@DbField(name = "DataOwner", type = DataType.NUMERIC, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<Integer> PROPERTY_DATAOWNER = registerProperty(PROPERTY_DATAOWNER_NAME,
 			Integer.class, MY_CLASS);
 
@@ -529,7 +530,7 @@ public class MaterialSpecification extends BusinessObject<MaterialSpecification>
 	/**
 	 * 团队成员 属性
 	 */
-	@DbField(name = "TeamMembers", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME)
+	@DbField(name = "TeamMembers", type = DataType.ALPHANUMERIC, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<String> PROPERTY_TEAMMEMBERS = registerProperty(PROPERTY_TEAMMEMBERS_NAME,
 			String.class, MY_CLASS);
 
@@ -560,7 +561,7 @@ public class MaterialSpecification extends BusinessObject<MaterialSpecification>
 	/**
 	 * 数据所属组织 属性
 	 */
-	@DbField(name = "OrgCode", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME)
+	@DbField(name = "OrgCode", type = DataType.ALPHANUMERIC, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<String> PROPERTY_ORGANIZATION = registerProperty(PROPERTY_ORGANIZATION_NAME,
 			String.class, MY_CLASS);
 
@@ -591,7 +592,7 @@ public class MaterialSpecification extends BusinessObject<MaterialSpecification>
 	/**
 	 * 名称 属性
 	 */
-	@DbField(name = "Name", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME)
+	@DbField(name = "Name", type = DataType.ALPHANUMERIC, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<String> PROPERTY_NAME = registerProperty(PROPERTY_NAME_NAME, String.class,
 			MY_CLASS);
 
@@ -622,7 +623,7 @@ public class MaterialSpecification extends BusinessObject<MaterialSpecification>
 	/**
 	 * 物料编码 属性
 	 */
-	@DbField(name = "ItemCode", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME)
+	@DbField(name = "ItemCode", type = DataType.ALPHANUMERIC, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<String> PROPERTY_ITEMCODE = registerProperty(PROPERTY_ITEMCODE_NAME, String.class,
 			MY_CLASS);
 
@@ -653,7 +654,7 @@ public class MaterialSpecification extends BusinessObject<MaterialSpecification>
 	/**
 	 * 规格模板 属性
 	 */
-	@DbField(name = "Specification", type = DbFieldType.NUMERIC, table = DB_TABLE_NAME)
+	@DbField(name = "Specification", type = DataType.NUMERIC, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<Integer> PROPERTY_SPECIFICATION = registerProperty(PROPERTY_SPECIFICATION_NAME,
 			Integer.class, MY_CLASS);
 
@@ -684,7 +685,7 @@ public class MaterialSpecification extends BusinessObject<MaterialSpecification>
 	/**
 	 * 业务伙伴类型 属性
 	 */
-	@DbField(name = "CardType", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME)
+	@DbField(name = "CardType", type = DataType.ALPHANUMERIC, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<emBusinessPartnerType> PROPERTY_BUSINESSPARTNERTYPE = registerProperty(
 			PROPERTY_BUSINESSPARTNERTYPE_NAME, emBusinessPartnerType.class, MY_CLASS);
 
@@ -715,7 +716,7 @@ public class MaterialSpecification extends BusinessObject<MaterialSpecification>
 	/**
 	 * 业务伙伴编码 属性
 	 */
-	@DbField(name = "CardCode", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME)
+	@DbField(name = "CardCode", type = DataType.ALPHANUMERIC, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<String> PROPERTY_BUSINESSPARTNERCODE = registerProperty(
 			PROPERTY_BUSINESSPARTNERCODE_NAME, String.class, MY_CLASS);
 
@@ -746,7 +747,7 @@ public class MaterialSpecification extends BusinessObject<MaterialSpecification>
 	/**
 	 * 项目代码 属性
 	 */
-	@DbField(name = "Project", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME)
+	@DbField(name = "Project", type = DataType.ALPHANUMERIC, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<String> PROPERTY_PROJECT = registerProperty(PROPERTY_PROJECT_NAME, String.class,
 			MY_CLASS);
 
@@ -777,7 +778,7 @@ public class MaterialSpecification extends BusinessObject<MaterialSpecification>
 	/**
 	 * 参考1 属性
 	 */
-	@DbField(name = "Ref1", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME)
+	@DbField(name = "Ref1", type = DataType.ALPHANUMERIC, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<String> PROPERTY_REFERENCE1 = registerProperty(PROPERTY_REFERENCE1_NAME,
 			String.class, MY_CLASS);
 
@@ -808,7 +809,7 @@ public class MaterialSpecification extends BusinessObject<MaterialSpecification>
 	/**
 	 * 参考2 属性
 	 */
-	@DbField(name = "Ref2", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME)
+	@DbField(name = "Ref2", type = DataType.ALPHANUMERIC, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<String> PROPERTY_REFERENCE2 = registerProperty(PROPERTY_REFERENCE2_NAME,
 			String.class, MY_CLASS);
 
@@ -839,7 +840,7 @@ public class MaterialSpecification extends BusinessObject<MaterialSpecification>
 	/**
 	 * 备注 属性
 	 */
-	@DbField(name = "Remarks", type = DbFieldType.MEMO, table = DB_TABLE_NAME)
+	@DbField(name = "Remarks", type = DataType.MEMO, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<String> PROPERTY_REMARKS = registerProperty(PROPERTY_REMARKS_NAME, String.class,
 			MY_CLASS);
 

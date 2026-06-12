@@ -152,7 +152,7 @@ namespace materials {
                 if (dateFrom instanceof Date) {
                     condition = criteria.conditions.create();
                     condition.alias = bo.MaterialInventoryJournal.PROPERTY_DELIVERYDATE_NAME;
-                    condition.operation = ibas.emConditionOperation.GRATER_EQUAL;
+                    condition.operation = ibas.emConditionOperation.GREATER_EQUAL;
                     condition.value = ibas.dates.toString(dateFrom, "yyyy-MM-dd");
                 }
                 if (dateTo instanceof Date) {
@@ -209,7 +209,7 @@ namespace materials {
                 if (dateFrom instanceof Date) {
                     condition = criteria.conditions.create();
                     condition.alias = bo.MaterialEstimateJournal.PROPERTY_DELIVERYDATE_NAME;
-                    condition.operation = ibas.emConditionOperation.GRATER_EQUAL;
+                    condition.operation = ibas.emConditionOperation.GREATER_EQUAL;
                     condition.value = ibas.dates.toString(dateFrom, "yyyy-MM-dd");
                 }
                 if (dateTo instanceof Date) {
@@ -266,7 +266,7 @@ namespace materials {
                 if (dateFrom instanceof Date) {
                     condition = criteria.conditions.create();
                     condition.alias = bo.MaterialEstimateJournal.PROPERTY_DELIVERYDATE_NAME;
-                    condition.operation = ibas.emConditionOperation.GRATER_EQUAL;
+                    condition.operation = ibas.emConditionOperation.GREATER_EQUAL;
                     condition.value = ibas.dates.toString(dateFrom, "yyyy-MM-dd");
                 }
                 if (dateTo instanceof Date) {

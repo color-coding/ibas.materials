@@ -18,7 +18,8 @@ import org.colorcoding.ibas.bobas.core.IPropertyInfo;
 import org.colorcoding.ibas.bobas.data.DateTime;
 import org.colorcoding.ibas.bobas.data.emYesNo;
 import org.colorcoding.ibas.bobas.db.DbField;
-import org.colorcoding.ibas.bobas.db.DbFieldType;
+import org.colorcoding.ibas.bobas.db.DataType;
+import org.colorcoding.ibas.bobas.db.EditType;
 import org.colorcoding.ibas.bobas.i18n.I18N;
 import org.colorcoding.ibas.bobas.logic.IBusinessLogicContract;
 import org.colorcoding.ibas.bobas.logic.IBusinessLogicsHost;
@@ -69,7 +70,7 @@ public class Material extends MaterialBase<Material> implements IMaterial, IData
 	/**
 	 * 固定资产 属性
 	 */
-	@DbField(name = "AssetItem", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME)
+	@DbField(name = "AssetItem", type = DataType.ALPHANUMERIC, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<emYesNo> PROPERTY_FIXEDASSET = registerProperty(PROPERTY_FIXEDASSET_NAME,
 			emYesNo.class, MY_CLASS);
 
@@ -100,7 +101,7 @@ public class Material extends MaterialBase<Material> implements IMaterial, IData
 	/**
 	 * 产品单元 属性
 	 */
-	@DbField(name = "PrdUnitItem", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME)
+	@DbField(name = "PrdUnitItem", type = DataType.ALPHANUMERIC, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<emYesNo> PROPERTY_PRODUCTUNIT = registerProperty(PROPERTY_PRODUCTUNIT_NAME,
 			emYesNo.class, MY_CLASS);
 
@@ -131,7 +132,7 @@ public class Material extends MaterialBase<Material> implements IMaterial, IData
 	/**
 	 * 价格 属性
 	 */
-	@DbField(name = "AvgPrice", type = DbFieldType.DECIMAL, table = DB_TABLE_NAME)
+	@DbField(name = "AvgPrice", type = DataType.DECIMAL, editType = EditType.QUANTITY, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<BigDecimal> PROPERTY_AVGPRICE = registerProperty(PROPERTY_AVGPRICE_NAME,
 			BigDecimal.class, MY_CLASS);
 
@@ -189,7 +190,7 @@ public class Material extends MaterialBase<Material> implements IMaterial, IData
 	/**
 	 * 库存价值 属性
 	 */
-	@DbField(name = "StockValue", type = DbFieldType.DECIMAL, table = DB_TABLE_NAME)
+	@DbField(name = "StockValue", type = DataType.DECIMAL, editType = EditType.SUM, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<BigDecimal> PROPERTY_INVENTORYVALUE = registerProperty(
 			PROPERTY_INVENTORYVALUE_NAME, BigDecimal.class, MY_CLASS);
 
@@ -220,7 +221,7 @@ public class Material extends MaterialBase<Material> implements IMaterial, IData
 	/**
 	 * 按仓库管理 属性
 	 */
-	@DbField(name = "ByWhs", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME)
+	@DbField(name = "ByWhs", type = DataType.ALPHANUMERIC, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<emYesNo> PROPERTY_MANAGEBYWAREHOUSE = registerProperty(
 			PROPERTY_MANAGEBYWAREHOUSE_NAME, emYesNo.class, MY_CLASS);
 
@@ -251,7 +252,7 @@ public class Material extends MaterialBase<Material> implements IMaterial, IData
 	/**
 	 * 最低库存量 属性
 	 */
-	@DbField(name = "MinInvnt", type = DbFieldType.DECIMAL, table = DB_TABLE_NAME)
+	@DbField(name = "MinInvnt", type = DataType.DECIMAL, editType = EditType.QUANTITY, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<BigDecimal> PROPERTY_MINIMUMINVENTORY = registerProperty(
 			PROPERTY_MINIMUMINVENTORY_NAME, BigDecimal.class, MY_CLASS);
 
@@ -282,7 +283,7 @@ public class Material extends MaterialBase<Material> implements IMaterial, IData
 	/**
 	 * 最高库存量 属性
 	 */
-	@DbField(name = "MaxInvnt", type = DbFieldType.DECIMAL, table = DB_TABLE_NAME)
+	@DbField(name = "MaxInvnt", type = DataType.DECIMAL, editType = EditType.QUANTITY, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<BigDecimal> PROPERTY_MAXIMUMINVENTORY = registerProperty(
 			PROPERTY_MAXIMUMINVENTORY_NAME, BigDecimal.class, MY_CLASS);
 
@@ -313,7 +314,7 @@ public class Material extends MaterialBase<Material> implements IMaterial, IData
 	/**
 	 * 最低订购数量 属性
 	 */
-	@DbField(name = "MinOrdrQty", type = DbFieldType.DECIMAL, table = DB_TABLE_NAME)
+	@DbField(name = "MinOrdrQty", type = DataType.DECIMAL, editType = EditType.QUANTITY, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<BigDecimal> PROPERTY_MINIMUMORDERQUANTITY = registerProperty(
 			PROPERTY_MINIMUMORDERQUANTITY_NAME, BigDecimal.class, MY_CLASS);
 
@@ -371,7 +372,7 @@ public class Material extends MaterialBase<Material> implements IMaterial, IData
 	/**
 	 * 订购倍数 属性
 	 */
-	@DbField(name = "OrdrMulti", type = DbFieldType.DECIMAL, table = DB_TABLE_NAME)
+	@DbField(name = "OrdrMulti", type = DataType.DECIMAL, editType = EditType.QUANTITY, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<BigDecimal> PROPERTY_ORDERMULTIPLE = registerProperty(PROPERTY_ORDERMULTIPLE_NAME,
 			BigDecimal.class, MY_CLASS);
 
@@ -402,7 +403,7 @@ public class Material extends MaterialBase<Material> implements IMaterial, IData
 	/**
 	 * 预留可超订购量 属性
 	 */
-	@DbField(name = "ReservExOrder", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME)
+	@DbField(name = "ReservExOrder", type = DataType.ALPHANUMERIC, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<emYesNo> PROPERTY_RESERVEEXCESSORDERED = registerProperty(
 			PROPERTY_RESERVEEXCESSORDERED_NAME, emYesNo.class, MY_CLASS);
 
@@ -433,7 +434,7 @@ public class Material extends MaterialBase<Material> implements IMaterial, IData
 	/**
 	 * 创建日期 属性
 	 */
-	@DbField(name = "CreateDate", type = DbFieldType.DATE, table = DB_TABLE_NAME)
+	@DbField(name = "CreateDate", type = DataType.DATE, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<DateTime> PROPERTY_CREATEDATE = registerProperty(PROPERTY_CREATEDATE_NAME,
 			DateTime.class, MY_CLASS);
 
@@ -464,7 +465,7 @@ public class Material extends MaterialBase<Material> implements IMaterial, IData
 	/**
 	 * 创建时间 属性
 	 */
-	@DbField(name = "CreateTime", type = DbFieldType.NUMERIC, table = DB_TABLE_NAME)
+	@DbField(name = "CreateTime", type = DataType.NUMERIC, editType = EditType.TIME, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<Short> PROPERTY_CREATETIME = registerProperty(PROPERTY_CREATETIME_NAME,
 			Short.class, MY_CLASS);
 
@@ -495,7 +496,7 @@ public class Material extends MaterialBase<Material> implements IMaterial, IData
 	/**
 	 * 修改日期 属性
 	 */
-	@DbField(name = "UpdateDate", type = DbFieldType.DATE, table = DB_TABLE_NAME)
+	@DbField(name = "UpdateDate", type = DataType.DATE, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<DateTime> PROPERTY_UPDATEDATE = registerProperty(PROPERTY_UPDATEDATE_NAME,
 			DateTime.class, MY_CLASS);
 
@@ -526,7 +527,7 @@ public class Material extends MaterialBase<Material> implements IMaterial, IData
 	/**
 	 * 修改时间 属性
 	 */
-	@DbField(name = "UpdateTime", type = DbFieldType.NUMERIC, table = DB_TABLE_NAME)
+	@DbField(name = "UpdateTime", type = DataType.NUMERIC, editType = EditType.TIME, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<Short> PROPERTY_UPDATETIME = registerProperty(PROPERTY_UPDATETIME_NAME,
 			Short.class, MY_CLASS);
 
@@ -557,7 +558,7 @@ public class Material extends MaterialBase<Material> implements IMaterial, IData
 	/**
 	 * 版本 属性
 	 */
-	@DbField(name = "LogInst", type = DbFieldType.NUMERIC, table = DB_TABLE_NAME)
+	@DbField(name = "LogInst", type = DataType.NUMERIC, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<Integer> PROPERTY_LOGINST = registerProperty(PROPERTY_LOGINST_NAME, Integer.class,
 			MY_CLASS);
 
@@ -588,7 +589,7 @@ public class Material extends MaterialBase<Material> implements IMaterial, IData
 	/**
 	 * 服务系列 属性
 	 */
-	@DbField(name = "Series", type = DbFieldType.NUMERIC, table = DB_TABLE_NAME)
+	@DbField(name = "Series", type = DataType.NUMERIC, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<Integer> PROPERTY_SERIES = registerProperty(PROPERTY_SERIES_NAME, Integer.class,
 			MY_CLASS);
 
@@ -619,7 +620,7 @@ public class Material extends MaterialBase<Material> implements IMaterial, IData
 	/**
 	 * 数据源 属性
 	 */
-	@DbField(name = "DataSource", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME)
+	@DbField(name = "DataSource", type = DataType.ALPHANUMERIC, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<String> PROPERTY_DATASOURCE = registerProperty(PROPERTY_DATASOURCE_NAME,
 			String.class, MY_CLASS);
 
@@ -650,7 +651,7 @@ public class Material extends MaterialBase<Material> implements IMaterial, IData
 	/**
 	 * 创建用户 属性
 	 */
-	@DbField(name = "Creator", type = DbFieldType.NUMERIC, table = DB_TABLE_NAME)
+	@DbField(name = "Creator", type = DataType.NUMERIC, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<Integer> PROPERTY_CREATEUSERSIGN = registerProperty(PROPERTY_CREATEUSERSIGN_NAME,
 			Integer.class, MY_CLASS);
 
@@ -681,7 +682,7 @@ public class Material extends MaterialBase<Material> implements IMaterial, IData
 	/**
 	 * 修改用户 属性
 	 */
-	@DbField(name = "Updator", type = DbFieldType.NUMERIC, table = DB_TABLE_NAME)
+	@DbField(name = "Updator", type = DataType.NUMERIC, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<Integer> PROPERTY_UPDATEUSERSIGN = registerProperty(PROPERTY_UPDATEUSERSIGN_NAME,
 			Integer.class, MY_CLASS);
 
@@ -712,7 +713,7 @@ public class Material extends MaterialBase<Material> implements IMaterial, IData
 	/**
 	 * 创建动作标识 属性
 	 */
-	@DbField(name = "CreateActId", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME)
+	@DbField(name = "CreateActId", type = DataType.ALPHANUMERIC, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<String> PROPERTY_CREATEACTIONID = registerProperty(PROPERTY_CREATEACTIONID_NAME,
 			String.class, MY_CLASS);
 
@@ -743,7 +744,7 @@ public class Material extends MaterialBase<Material> implements IMaterial, IData
 	/**
 	 * 更新动作标识 属性
 	 */
-	@DbField(name = "UpdateActId", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME)
+	@DbField(name = "UpdateActId", type = DataType.ALPHANUMERIC, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<String> PROPERTY_UPDATEACTIONID = registerProperty(PROPERTY_UPDATEACTIONID_NAME,
 			String.class, MY_CLASS);
 
@@ -774,7 +775,7 @@ public class Material extends MaterialBase<Material> implements IMaterial, IData
 	/**
 	 * 已引用 属性
 	 */
-	@DbField(name = "Refed", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME)
+	@DbField(name = "Refed", type = DataType.ALPHANUMERIC, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<emYesNo> PROPERTY_REFERENCED = registerProperty(PROPERTY_REFERENCED_NAME,
 			emYesNo.class, MY_CLASS);
 
@@ -805,7 +806,7 @@ public class Material extends MaterialBase<Material> implements IMaterial, IData
 	/**
 	 * 质检方案 属性
 	 */
-	@DbField(name = "QCSchema", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME)
+	@DbField(name = "QCSchema", type = DataType.ALPHANUMERIC, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<String> PROPERTY_QCSCHEMA = registerProperty(PROPERTY_QCSCHEMA_NAME, String.class,
 			MY_CLASS);
 

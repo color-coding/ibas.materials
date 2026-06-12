@@ -26,7 +26,8 @@ import org.colorcoding.ibas.bobas.data.emBOStatus;
 import org.colorcoding.ibas.bobas.data.emDocumentStatus;
 import org.colorcoding.ibas.bobas.data.emYesNo;
 import org.colorcoding.ibas.bobas.db.DbField;
-import org.colorcoding.ibas.bobas.db.DbFieldType;
+import org.colorcoding.ibas.bobas.db.DataType;
+import org.colorcoding.ibas.bobas.db.EditType;
 import org.colorcoding.ibas.bobas.logic.IBusinessLogicContract;
 import org.colorcoding.ibas.bobas.logic.IBusinessLogicsHost;
 import org.colorcoding.ibas.bobas.ownership.IDataOwnership;
@@ -84,7 +85,7 @@ public class InventoryTransferRequest extends BusinessObject<InventoryTransferRe
 	/**
 	 * 凭证编号 属性
 	 */
-	@DbField(name = "DocEntry", type = DbFieldType.NUMERIC, table = DB_TABLE_NAME, primaryKey = true)
+	@DbField(name = "DocEntry", type = DataType.NUMERIC, table = DB_TABLE_NAME, primaryKey = true)
 	public static final IPropertyInfo<Integer> PROPERTY_DOCENTRY = registerProperty(PROPERTY_DOCENTRY_NAME,
 			Integer.class, MY_CLASS);
 
@@ -115,7 +116,7 @@ public class InventoryTransferRequest extends BusinessObject<InventoryTransferRe
 	/**
 	 * 期间编号 属性
 	 */
-	@DbField(name = "DocNum", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME)
+	@DbField(name = "DocNum", type = DataType.ALPHANUMERIC, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<String> PROPERTY_DOCNUM = registerProperty(PROPERTY_DOCNUM_NAME, String.class,
 			MY_CLASS);
 
@@ -146,7 +147,7 @@ public class InventoryTransferRequest extends BusinessObject<InventoryTransferRe
 	/**
 	 * 期间 属性
 	 */
-	@DbField(name = "Period", type = DbFieldType.NUMERIC, table = DB_TABLE_NAME)
+	@DbField(name = "Period", type = DataType.NUMERIC, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<Integer> PROPERTY_PERIOD = registerProperty(PROPERTY_PERIOD_NAME, Integer.class,
 			MY_CLASS);
 
@@ -177,7 +178,7 @@ public class InventoryTransferRequest extends BusinessObject<InventoryTransferRe
 	/**
 	 * 取消 属性
 	 */
-	@DbField(name = "Canceled", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME)
+	@DbField(name = "Canceled", type = DataType.ALPHANUMERIC, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<emYesNo> PROPERTY_CANCELED = registerProperty(PROPERTY_CANCELED_NAME,
 			emYesNo.class, MY_CLASS);
 
@@ -208,7 +209,7 @@ public class InventoryTransferRequest extends BusinessObject<InventoryTransferRe
 	/**
 	 * 状态 属性
 	 */
-	@DbField(name = "Status", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME)
+	@DbField(name = "Status", type = DataType.ALPHANUMERIC, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<emBOStatus> PROPERTY_STATUS = registerProperty(PROPERTY_STATUS_NAME,
 			emBOStatus.class, MY_CLASS);
 
@@ -239,7 +240,7 @@ public class InventoryTransferRequest extends BusinessObject<InventoryTransferRe
 	/**
 	 * 审批状态 属性
 	 */
-	@DbField(name = "ApvlStatus", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME)
+	@DbField(name = "ApvlStatus", type = DataType.ALPHANUMERIC, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<emApprovalStatus> PROPERTY_APPROVALSTATUS = registerProperty(
 			PROPERTY_APPROVALSTATUS_NAME, emApprovalStatus.class, MY_CLASS);
 
@@ -270,7 +271,7 @@ public class InventoryTransferRequest extends BusinessObject<InventoryTransferRe
 	/**
 	 * 单据状态 属性
 	 */
-	@DbField(name = "DocStatus", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME)
+	@DbField(name = "DocStatus", type = DataType.ALPHANUMERIC, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<emDocumentStatus> PROPERTY_DOCUMENTSTATUS = registerProperty(
 			PROPERTY_DOCUMENTSTATUS_NAME, emDocumentStatus.class, MY_CLASS);
 
@@ -301,7 +302,7 @@ public class InventoryTransferRequest extends BusinessObject<InventoryTransferRe
 	/**
 	 * 对象类型 属性
 	 */
-	@DbField(name = "ObjectCode", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME)
+	@DbField(name = "ObjectCode", type = DataType.ALPHANUMERIC, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<String> PROPERTY_OBJECTCODE = registerProperty(PROPERTY_OBJECTCODE_NAME,
 			String.class, MY_CLASS);
 
@@ -332,7 +333,7 @@ public class InventoryTransferRequest extends BusinessObject<InventoryTransferRe
 	/**
 	 * 创建日期 属性
 	 */
-	@DbField(name = "CreateDate", type = DbFieldType.DATE, table = DB_TABLE_NAME)
+	@DbField(name = "CreateDate", type = DataType.DATE, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<DateTime> PROPERTY_CREATEDATE = registerProperty(PROPERTY_CREATEDATE_NAME,
 			DateTime.class, MY_CLASS);
 
@@ -363,7 +364,7 @@ public class InventoryTransferRequest extends BusinessObject<InventoryTransferRe
 	/**
 	 * 创建时间 属性
 	 */
-	@DbField(name = "CreateTime", type = DbFieldType.NUMERIC, table = DB_TABLE_NAME)
+	@DbField(name = "CreateTime", type = DataType.NUMERIC, editType = EditType.TIME, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<Short> PROPERTY_CREATETIME = registerProperty(PROPERTY_CREATETIME_NAME,
 			Short.class, MY_CLASS);
 
@@ -394,7 +395,7 @@ public class InventoryTransferRequest extends BusinessObject<InventoryTransferRe
 	/**
 	 * 修改日期 属性
 	 */
-	@DbField(name = "UpdateDate", type = DbFieldType.DATE, table = DB_TABLE_NAME)
+	@DbField(name = "UpdateDate", type = DataType.DATE, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<DateTime> PROPERTY_UPDATEDATE = registerProperty(PROPERTY_UPDATEDATE_NAME,
 			DateTime.class, MY_CLASS);
 
@@ -425,7 +426,7 @@ public class InventoryTransferRequest extends BusinessObject<InventoryTransferRe
 	/**
 	 * 修改时间 属性
 	 */
-	@DbField(name = "UpdateTime", type = DbFieldType.NUMERIC, table = DB_TABLE_NAME)
+	@DbField(name = "UpdateTime", type = DataType.NUMERIC, editType = EditType.TIME, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<Short> PROPERTY_UPDATETIME = registerProperty(PROPERTY_UPDATETIME_NAME,
 			Short.class, MY_CLASS);
 
@@ -456,7 +457,7 @@ public class InventoryTransferRequest extends BusinessObject<InventoryTransferRe
 	/**
 	 * 版本 属性
 	 */
-	@DbField(name = "LogInst", type = DbFieldType.NUMERIC, table = DB_TABLE_NAME)
+	@DbField(name = "LogInst", type = DataType.NUMERIC, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<Integer> PROPERTY_LOGINST = registerProperty(PROPERTY_LOGINST_NAME, Integer.class,
 			MY_CLASS);
 
@@ -487,7 +488,7 @@ public class InventoryTransferRequest extends BusinessObject<InventoryTransferRe
 	/**
 	 * 服务系列 属性
 	 */
-	@DbField(name = "Series", type = DbFieldType.NUMERIC, table = DB_TABLE_NAME)
+	@DbField(name = "Series", type = DataType.NUMERIC, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<Integer> PROPERTY_SERIES = registerProperty(PROPERTY_SERIES_NAME, Integer.class,
 			MY_CLASS);
 
@@ -518,7 +519,7 @@ public class InventoryTransferRequest extends BusinessObject<InventoryTransferRe
 	/**
 	 * 数据源 属性
 	 */
-	@DbField(name = "DataSource", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME)
+	@DbField(name = "DataSource", type = DataType.ALPHANUMERIC, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<String> PROPERTY_DATASOURCE = registerProperty(PROPERTY_DATASOURCE_NAME,
 			String.class, MY_CLASS);
 
@@ -549,7 +550,7 @@ public class InventoryTransferRequest extends BusinessObject<InventoryTransferRe
 	/**
 	 * 创建用户 属性
 	 */
-	@DbField(name = "Creator", type = DbFieldType.NUMERIC, table = DB_TABLE_NAME)
+	@DbField(name = "Creator", type = DataType.NUMERIC, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<Integer> PROPERTY_CREATEUSERSIGN = registerProperty(PROPERTY_CREATEUSERSIGN_NAME,
 			Integer.class, MY_CLASS);
 
@@ -580,7 +581,7 @@ public class InventoryTransferRequest extends BusinessObject<InventoryTransferRe
 	/**
 	 * 修改用户 属性
 	 */
-	@DbField(name = "Updator", type = DbFieldType.NUMERIC, table = DB_TABLE_NAME)
+	@DbField(name = "Updator", type = DataType.NUMERIC, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<Integer> PROPERTY_UPDATEUSERSIGN = registerProperty(PROPERTY_UPDATEUSERSIGN_NAME,
 			Integer.class, MY_CLASS);
 
@@ -611,7 +612,7 @@ public class InventoryTransferRequest extends BusinessObject<InventoryTransferRe
 	/**
 	 * 创建动作标识 属性
 	 */
-	@DbField(name = "CreateActId", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME)
+	@DbField(name = "CreateActId", type = DataType.ALPHANUMERIC, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<String> PROPERTY_CREATEACTIONID = registerProperty(PROPERTY_CREATEACTIONID_NAME,
 			String.class, MY_CLASS);
 
@@ -642,7 +643,7 @@ public class InventoryTransferRequest extends BusinessObject<InventoryTransferRe
 	/**
 	 * 更新动作标识 属性
 	 */
-	@DbField(name = "UpdateActId", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME)
+	@DbField(name = "UpdateActId", type = DataType.ALPHANUMERIC, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<String> PROPERTY_UPDATEACTIONID = registerProperty(PROPERTY_UPDATEACTIONID_NAME,
 			String.class, MY_CLASS);
 
@@ -673,7 +674,7 @@ public class InventoryTransferRequest extends BusinessObject<InventoryTransferRe
 	/**
 	 * 数据所有者 属性
 	 */
-	@DbField(name = "DataOwner", type = DbFieldType.NUMERIC, table = DB_TABLE_NAME)
+	@DbField(name = "DataOwner", type = DataType.NUMERIC, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<Integer> PROPERTY_DATAOWNER = registerProperty(PROPERTY_DATAOWNER_NAME,
 			Integer.class, MY_CLASS);
 
@@ -704,7 +705,7 @@ public class InventoryTransferRequest extends BusinessObject<InventoryTransferRe
 	/**
 	 * 团队成员 属性
 	 */
-	@DbField(name = "TeamMembers", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME)
+	@DbField(name = "TeamMembers", type = DataType.ALPHANUMERIC, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<String> PROPERTY_TEAMMEMBERS = registerProperty(PROPERTY_TEAMMEMBERS_NAME,
 			String.class, MY_CLASS);
 
@@ -735,7 +736,7 @@ public class InventoryTransferRequest extends BusinessObject<InventoryTransferRe
 	/**
 	 * 数据所属组织 属性
 	 */
-	@DbField(name = "OrgCode", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME)
+	@DbField(name = "OrgCode", type = DataType.ALPHANUMERIC, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<String> PROPERTY_ORGANIZATION = registerProperty(PROPERTY_ORGANIZATION_NAME,
 			String.class, MY_CLASS);
 
@@ -766,7 +767,7 @@ public class InventoryTransferRequest extends BusinessObject<InventoryTransferRe
 	/**
 	 * 过账日期 属性
 	 */
-	@DbField(name = "DocDate", type = DbFieldType.DATE, table = DB_TABLE_NAME)
+	@DbField(name = "DocDate", type = DataType.DATE, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<DateTime> PROPERTY_POSTINGDATE = registerProperty(PROPERTY_POSTINGDATE_NAME,
 			DateTime.class, MY_CLASS);
 
@@ -797,7 +798,7 @@ public class InventoryTransferRequest extends BusinessObject<InventoryTransferRe
 	/**
 	 * 到期日 属性
 	 */
-	@DbField(name = "DocDueDate", type = DbFieldType.DATE, table = DB_TABLE_NAME)
+	@DbField(name = "DocDueDate", type = DataType.DATE, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<DateTime> PROPERTY_DELIVERYDATE = registerProperty(PROPERTY_DELIVERYDATE_NAME,
 			DateTime.class, MY_CLASS);
 
@@ -828,7 +829,7 @@ public class InventoryTransferRequest extends BusinessObject<InventoryTransferRe
 	/**
 	 * 凭证日期 属性
 	 */
-	@DbField(name = "TaxDate", type = DbFieldType.DATE, table = DB_TABLE_NAME)
+	@DbField(name = "TaxDate", type = DataType.DATE, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<DateTime> PROPERTY_DOCUMENTDATE = registerProperty(PROPERTY_DOCUMENTDATE_NAME,
 			DateTime.class, MY_CLASS);
 
@@ -859,7 +860,7 @@ public class InventoryTransferRequest extends BusinessObject<InventoryTransferRe
 	/**
 	 * 参考1 属性
 	 */
-	@DbField(name = "Ref1", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME)
+	@DbField(name = "Ref1", type = DataType.ALPHANUMERIC, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<String> PROPERTY_REFERENCE1 = registerProperty(PROPERTY_REFERENCE1_NAME,
 			String.class, MY_CLASS);
 
@@ -890,7 +891,7 @@ public class InventoryTransferRequest extends BusinessObject<InventoryTransferRe
 	/**
 	 * 参考2 属性
 	 */
-	@DbField(name = "Ref2", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME)
+	@DbField(name = "Ref2", type = DataType.ALPHANUMERIC, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<String> PROPERTY_REFERENCE2 = registerProperty(PROPERTY_REFERENCE2_NAME,
 			String.class, MY_CLASS);
 
@@ -921,7 +922,7 @@ public class InventoryTransferRequest extends BusinessObject<InventoryTransferRe
 	/**
 	 * 已引用 属性
 	 */
-	@DbField(name = "Refed", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME)
+	@DbField(name = "Refed", type = DataType.ALPHANUMERIC, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<emYesNo> PROPERTY_REFERENCED = registerProperty(PROPERTY_REFERENCED_NAME,
 			emYesNo.class, MY_CLASS);
 
@@ -952,7 +953,7 @@ public class InventoryTransferRequest extends BusinessObject<InventoryTransferRe
 	/**
 	* 已打印 属性
 	*/
-	@DbField(name = "Printed", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME)
+	@DbField(name = "Printed", type = DataType.ALPHANUMERIC, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<emYesNo> PROPERTY_PRINTED = registerProperty(PROPERTY_PRINTED_NAME, emYesNo.class,
 			MY_CLASS);
 
@@ -983,7 +984,7 @@ public class InventoryTransferRequest extends BusinessObject<InventoryTransferRe
 	/**
 	 * 备注 属性
 	 */
-	@DbField(name = "Remarks", type = DbFieldType.MEMO, table = DB_TABLE_NAME)
+	@DbField(name = "Remarks", type = DataType.MEMO, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<String> PROPERTY_REMARKS = registerProperty(PROPERTY_REMARKS_NAME, String.class,
 			MY_CLASS);
 
@@ -1014,7 +1015,7 @@ public class InventoryTransferRequest extends BusinessObject<InventoryTransferRe
 	/**
 	 * 单据货币 属性
 	 */
-	@DbField(name = "DocCur", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME)
+	@DbField(name = "DocCur", type = DataType.ALPHANUMERIC, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<String> PROPERTY_DOCUMENTCURRENCY = registerProperty(
 			PROPERTY_DOCUMENTCURRENCY_NAME, String.class, MY_CLASS);
 
@@ -1045,7 +1046,7 @@ public class InventoryTransferRequest extends BusinessObject<InventoryTransferRe
 	/**
 	 * 单据汇率 属性
 	 */
-	@DbField(name = "DocRate", type = DbFieldType.DECIMAL, table = DB_TABLE_NAME)
+	@DbField(name = "DocRate", type = DataType.DECIMAL, editType = EditType.RATE, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<BigDecimal> PROPERTY_DOCUMENTRATE = registerProperty(PROPERTY_DOCUMENTRATE_NAME,
 			BigDecimal.class, MY_CLASS);
 
@@ -1103,7 +1104,7 @@ public class InventoryTransferRequest extends BusinessObject<InventoryTransferRe
 	/**
 	 * 单据总计 属性
 	 */
-	@DbField(name = "DocTotal", type = DbFieldType.DECIMAL, table = DB_TABLE_NAME)
+	@DbField(name = "DocTotal", type = DataType.DECIMAL, editType = EditType.SUM, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<BigDecimal> PROPERTY_DOCUMENTTOTAL = registerProperty(PROPERTY_DOCUMENTTOTAL_NAME,
 			BigDecimal.class, MY_CLASS);
 
@@ -1161,7 +1162,7 @@ public class InventoryTransferRequest extends BusinessObject<InventoryTransferRe
 	/**
 	 * 价格清单 属性
 	 */
-	@DbField(name = "PriceList", type = DbFieldType.NUMERIC, table = DB_TABLE_NAME)
+	@DbField(name = "PriceList", type = DataType.NUMERIC, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<Integer> PROPERTY_PRICELIST = registerProperty(PROPERTY_PRICELIST_NAME,
 			Integer.class, MY_CLASS);
 
@@ -1192,7 +1193,7 @@ public class InventoryTransferRequest extends BusinessObject<InventoryTransferRe
 	/**
 	 * 项目代码 属性
 	 */
-	@DbField(name = "Project", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME)
+	@DbField(name = "Project", type = DataType.ALPHANUMERIC, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<String> PROPERTY_PROJECT = registerProperty(PROPERTY_PROJECT_NAME, String.class,
 			MY_CLASS);
 
@@ -1223,7 +1224,7 @@ public class InventoryTransferRequest extends BusinessObject<InventoryTransferRe
 	/**
 	 * 单据类型 属性
 	 */
-	@DbField(name = "OrderType", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME)
+	@DbField(name = "OrderType", type = DataType.ALPHANUMERIC, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<String> PROPERTY_ORDERTYPE = registerProperty(PROPERTY_ORDERTYPE_NAME,
 			String.class, MY_CLASS);
 
@@ -1254,7 +1255,7 @@ public class InventoryTransferRequest extends BusinessObject<InventoryTransferRe
 	/**
 	 * 分支 属性
 	 */
-	@DbField(name = "Branch", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME)
+	@DbField(name = "Branch", type = DataType.ALPHANUMERIC, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<String> PROPERTY_BRANCH = registerProperty(PROPERTY_BRANCH_NAME, String.class,
 			MY_CLASS);
 

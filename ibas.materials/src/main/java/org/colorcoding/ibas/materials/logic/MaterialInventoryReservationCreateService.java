@@ -22,7 +22,7 @@ import org.colorcoding.ibas.bobas.core.IPropertyInfo;
 import org.colorcoding.ibas.bobas.data.emBOStatus;
 import org.colorcoding.ibas.bobas.data.emYesNo;
 import org.colorcoding.ibas.bobas.db.DbField;
-import org.colorcoding.ibas.bobas.db.DbFieldType;
+import org.colorcoding.ibas.bobas.db.DataType;
 import org.colorcoding.ibas.bobas.i18n.I18N;
 import org.colorcoding.ibas.bobas.message.Logger;
 import org.colorcoding.ibas.bobas.message.MessageLevel;
@@ -458,7 +458,7 @@ class MaterialInventoryReservationGroup4Causes extends BusinessObject<IMaterialI
 	/**
 	 * 原因 属性
 	 */
-	@DbField(name = "Causes", type = DbFieldType.ALPHANUMERIC)
+	@DbField(name = "Causes", type = DataType.ALPHANUMERIC)
 	public static final IPropertyInfo<String> PROPERTY_CAUSES = registerProperty(PROPERTY_CAUSES_NAME, String.class,
 			MY_CLASS);
 
@@ -489,7 +489,7 @@ class MaterialInventoryReservationGroup4Causes extends BusinessObject<IMaterialI
 	/**
 	 * 批次编码 属性
 	 */
-	@DbField(name = "BatchCode", type = DbFieldType.ALPHANUMERIC)
+	@DbField(name = "BatchCode", type = DataType.ALPHANUMERIC)
 	public static final IPropertyInfo<String> PROPERTY_BATCHCODE = registerProperty(PROPERTY_BATCHCODE_NAME,
 			String.class, MY_CLASS);
 
@@ -520,7 +520,7 @@ class MaterialInventoryReservationGroup4Causes extends BusinessObject<IMaterialI
 	/**
 	 * 序列编码 属性
 	 */
-	@DbField(name = "SerialCode", type = DbFieldType.ALPHANUMERIC)
+	@DbField(name = "SerialCode", type = DataType.ALPHANUMERIC)
 	public static final IPropertyInfo<String> PROPERTY_SERIALCODE = registerProperty(PROPERTY_SERIALCODE_NAME,
 			String.class, MY_CLASS);
 

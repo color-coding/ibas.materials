@@ -302,7 +302,7 @@ public class MaterialBatchJournalService
 					condition.setValue(contract.getBaseDocumentLineId());
 					condition = criteria.getConditions().create();
 					condition.setAlias(MaterialBatchJournal.PROPERTY_QUANTITY.getName());
-					condition.setOperation(ConditionOperation.GRATER_EQUAL);
+					condition.setOperation(ConditionOperation.GREATER_EQUAL);
 					condition.setValue(Decimals.VALUE_ZERO);
 					condition = criteria.getConditions().create();
 					condition.setAlias(MaterialBatchJournal.PROPERTY_DATASOURCE.getName());
@@ -332,7 +332,7 @@ public class MaterialBatchJournalService
 				}
 				if (calculatedPrice == null || calculatedPrice.compareTo(Decimals.VALUE_ZERO) < 0) {
 					throw new BusinessLogicException(
-							I18N.prop("msg_mm_document_material_price_invaild", contract.getIdentifiers()));
+							I18N.prop("msg_mm_document_material_price_invalid", contract.getIdentifiers()));
 				}
 				// 加载内存中数据（同单同物料）
 				Criteria criteria = new Criteria();

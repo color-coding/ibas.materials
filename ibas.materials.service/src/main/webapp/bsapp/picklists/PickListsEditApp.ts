@@ -143,10 +143,10 @@ namespace materials {
                                 // 删除成功，释放当前对象
                                 if (!showProceeding) {
                                     that.messages(ibas.emMessageType.SUCCESS,
-                                        ibas.i18n.prop("shell_data_delete") + ibas.i18n.prop("shell_sucessful"));
+                                        ibas.i18n.prop("shell_data_delete") + ibas.i18n.prop("shell_successful"));
                                 } else {
                                     that.proceeding(ibas.emMessageType.SUCCESS,
-                                        ibas.i18n.prop("shell_data_delete") + ibas.i18n.prop("shell_sucessful"));
+                                        ibas.i18n.prop("shell_data_delete") + ibas.i18n.prop("shell_successful"));
                                 }
                                 that.editData = undefined;
                             } else {
@@ -154,10 +154,10 @@ namespace materials {
                                 that.editData = opRslt.resultObjects.firstOrDefault();
                                 if (!showProceeding) {
                                     that.messages(ibas.emMessageType.SUCCESS,
-                                        ibas.i18n.prop("shell_data_save") + ibas.i18n.prop("shell_sucessful"));
+                                        ibas.i18n.prop("shell_data_save") + ibas.i18n.prop("shell_successful"));
                                 } else {
                                     that.proceeding(ibas.emMessageType.SUCCESS,
-                                        ibas.i18n.prop("shell_data_save") + ibas.i18n.prop("shell_sucessful"));
+                                        ibas.i18n.prop("shell_data_save") + ibas.i18n.prop("shell_successful"));
                                 }
                             }
                             // 刷新当前视图

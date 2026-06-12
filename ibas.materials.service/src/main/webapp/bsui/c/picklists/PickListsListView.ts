@@ -143,7 +143,7 @@ namespace materials {
                                 }),
                                 new sap.m.ToolbarSeparator(""),
                                 new sap.m.Button("", {
-                                    text: ibas.i18n.prop("materials_pick_wiazrd"),
+                                    text: ibas.i18n.prop("materials_pick_wizard"),
                                     type: sap.m.ButtonType.Transparent,
                                     icon: "sap-icon://add-product",
                                     press(): void {

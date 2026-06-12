@@ -194,7 +194,7 @@ public class MaterialIssueService
 	protected void impact(IMaterialIssueContract contract) {
 		if (contract.getQuantity().compareTo(Decimals.VALUE_ZERO) < 0) {
 			throw new BusinessLogicException(
-					I18N.prop("msg_mm_document_material_quantity_invaild", contract.getIdentifiers()));
+					I18N.prop("msg_mm_document_material_quantity_invalid", contract.getIdentifiers()));
 
 		}
 		IMaterial material = this.checkMaterial(contract.getItemCode());
@@ -272,7 +272,7 @@ public class MaterialIssueService
 					condition.setValue(contract.getBaseDocumentLineId());
 					condition = criteria.getConditions().create();
 					condition.setAlias(MaterialInventoryJournal.PROPERTY_QUANTITY.getName());
-					condition.setOperation(ConditionOperation.GRATER_EQUAL);
+					condition.setOperation(ConditionOperation.GREATER_EQUAL);
 					condition.setValue(Decimals.VALUE_ZERO);
 					condition = criteria.getConditions().create();
 					condition.setAlias(MaterialInventoryJournal.PROPERTY_DATASOURCE.getName());
@@ -299,7 +299,7 @@ public class MaterialIssueService
 				}
 				if (calculatedPrice == null || calculatedPrice.compareTo(Decimals.VALUE_ZERO) < 0) {
 					throw new BusinessLogicException(
-							I18N.prop("msg_mm_document_material_price_invaild", contract.getIdentifiers()));
+							I18N.prop("msg_mm_document_material_price_invalid", contract.getIdentifiers()));
 				}
 				// 加载内存中数据（同单同物料）
 				Criteria criteria = new Criteria();
