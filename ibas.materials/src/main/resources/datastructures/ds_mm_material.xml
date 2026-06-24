@@ -104,6 +104,11 @@
     <Property Name="DataOwner" Description="数据所有者" DataType="Numeric" DataSubType="Default" EditSize="8" Mapped="DataOwner"/>
     <Property Name="Organization" Description="数据所属组织" DataType="Alphanumeric" DataSubType="Default" EditSize="8" Mapped="OrgCode"/>
     <Property Name="QCSchema" Description="质检方案" DataType="Alphanumeric" DataSubType="Default" EditSize="120" Mapped="QCSchema"/>
+    <Index ShortName="MATERIAL_GROUP" Description="物料分组索引">
+      <IndexProperty Name="Group" />
+      <IndexProperty Name="ItemType" />
+      <IndexProperty Name="Activated" />
+    </Index>
   </Model>
   <BusinessObject MappedModel="Material" ShortName="${Company}_MM_MATERIAL"/>
   <Model Name="MaterialVersion" Description="物料版本" ModelType="Simple" Mapped="${Company}_MM_IMVER">

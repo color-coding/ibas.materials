@@ -39,6 +39,13 @@
     <Property Name="DocumentTotal" Description="单据总计" DataType="Decimal" DataSubType="Sum" EditSize="8" Mapped="DocTotal"/>
     <Property Name="OrderType" Description="单据类型" DataType="Alphanumeric" DataSubType="Default" EditSize="8" Mapped="OrderType"/>
     <Property Name="Branch" Description="分支" DataType="Alphanumeric" DataSubType="Default" EditSize="8" Mapped="Branch"/>
+    <Index ShortName="DOCUMENT_NUM" Description="单据编码索引">
+      <IndexProperty Name="DocNum" />
+    </Index>
+    <Index ShortName="DOCUMENT_DATE" Description="过账日期索引">
+      <IndexProperty Name="PostingDate" />
+      <IndexProperty Name="DocumentStatus" />
+    </Index>
   </Model>
   <Model Name="InventoryCountingLine" Description="库存盘点-行" ModelType="DocumentLine" Mapped="${Company}_MM_INC1">
     <Property Name="DocEntry" Description="凭证编号" DataType="Numeric" DataSubType="Default" EditSize="8" Mapped="DocEntry" PrimaryKey="Yes"/>
@@ -76,6 +83,10 @@
     <Property Name="Currency" Description="货币" DataType="Alphanumeric" DataSubType="Default" EditSize="8" Mapped="Currency"/>
     <Property Name="Rate" Description="汇率" DataType="Decimal" DataSubType="Rate" EditSize="8" Mapped="Rate"/>
     <Property Name="LineTotal" Description="行总计" DataType="Decimal" DataSubType="Sum" EditSize="8" Mapped="LineTotal"/>
+    <Index ShortName="LINE_ITEM" Description="物料行索引">
+      <IndexProperty Name="ItemCode" />
+      <IndexProperty Name="Warehouse" />
+    </Index>
   </Model>
   <BusinessObject MappedModel="InventoryCounting" ShortName="${Company}_MM_INVENTORYCOUNTING">
     <RelatedBO Relation="OneToMany" MappedModel="InventoryCountingLine"/>

@@ -71,6 +71,12 @@
     <Property Name="UpdateUserSign" Description="更新用户" DataType="Numeric" DataSubType="Default" EditSize="8" Mapped="Updator"/>
     <Property Name="CreateActionId" Description="创建动作标识" DataType="Alphanumeric" DataSubType="Default" EditSize="36" Mapped="CreateActId"/>
     <Property Name="UpdateActionId" Description="更新动作标识" DataType="Alphanumeric" DataSubType="Default" EditSize="36" Mapped="UpdateActId"/>
+    <Index ShortName="BATCH_JRNL_REPORT" Description="批次日记账索引">
+      <IndexProperty Name="ItemCode" />
+      <IndexProperty Name="Warehouse" />
+      <IndexProperty Name="BatchCode" />
+      <IndexProperty Name="DeliveryDate" />
+    </Index>
   </Model>
   <BusinessObject MappedModel="MaterialBatchJournal" ShortName="${Company}_MM_BATCHJOURNAL"/>
 </Domain>

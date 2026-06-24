@@ -74,6 +74,12 @@
     <Property Name="UpdateUserSign" Description="更新用户" DataType="Numeric" DataSubType="Default" EditSize="8" Mapped="Updator"/>
     <Property Name="CreateActionId" Description="创建动作标识" DataType="Alphanumeric" DataSubType="Default" EditSize="36" Mapped="CreateActId"/>
     <Property Name="UpdateActionId" Description="更新动作标识" DataType="Alphanumeric" DataSubType="Default" EditSize="36" Mapped="UpdateActId"/>
+    <Index ShortName="SERIAL_JRNL_REPORT" Description="序列流水报表索引">
+      <IndexProperty Name="ItemCode" />
+      <IndexProperty Name="Warehouse" />
+      <IndexProperty Name="SerialCode" />
+      <IndexProperty Name="DeliveryDate" />
+    </Index>
   </Model>
   <BusinessObject MappedModel="MaterialSerialJournal" ShortName="${Company}_MM_SERIALJOURNAL"/>
 </Domain>

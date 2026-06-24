@@ -39,6 +39,13 @@
     <Property Name="Project" Description="项目代码" DataType="Alphanumeric" DataSubType="Default" EditSize="20" Mapped="Project"/>
     <Property Name="OrderType" Description="单据类型" DataType="Alphanumeric" DataSubType="Default" EditSize="8" Mapped="OrderType"/>
     <Property Name="Branch" Description="分支" DataType="Alphanumeric" DataSubType="Default" EditSize="8" Mapped="Branch"/>
+    <Index ShortName="DOCUMENT_NUM" Description="单据编码索引">
+      <IndexProperty Name="DocNum" />
+    </Index>
+    <Index ShortName="DOCUMENT_DATE" Description="过账日期索引">
+      <IndexProperty Name="PostingDate" />
+      <IndexProperty Name="DocumentStatus" />
+    </Index>
   </Model>
   <Model Name="InventoryTransferLine" Description="库存转储-行" ModelType="DocumentLine" Mapped="${Company}_MM_WTR1">
     <Property Name="DocEntry" Description="凭证编号" DataType="Numeric" DataSubType="Default" EditSize="8" Mapped="DocEntry" PrimaryKey="Yes"/>
@@ -84,6 +91,15 @@
     <Property Name="DistributionRule3" Description="成本中心3" DataType="Alphanumeric" DataSubType="Default" EditSize="8" Mapped="OcrCode3"/>
     <Property Name="DistributionRule4" Description="成本中心4" DataType="Alphanumeric" DataSubType="Default" EditSize="8" Mapped="OcrCode4"/>
     <Property Name="DistributionRule5" Description="成本中心5" DataType="Alphanumeric" DataSubType="Default" EditSize="8" Mapped="OcrCode5"/>
+    <Index ShortName="DOCUMENT_BASED" Description="基于单据索引">
+      <IndexProperty Name="BaseDocumentType" />
+      <IndexProperty Name="BaseDocumentEntry" />
+      <IndexProperty Name="BaseDocumentLineId" />
+    </Index>
+    <Index ShortName="LINE_ITEM" Description="物料行索引">
+      <IndexProperty Name="ItemCode" />
+      <IndexProperty Name="Warehouse" />
+    </Index>
   </Model>
   <BusinessObject MappedModel="InventoryTransfer" ShortName="${Company}_MM_INVENTORYTRANSFER">
     <RelatedBO Relation="OneToMany" MappedModel="InventoryTransferLine"/>
