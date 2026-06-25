@@ -251,6 +251,64 @@ public class MaterialBatchItem extends BusinessObject<MaterialBatchItem>
 	}
 
 	/**
+	 * 属性名称-已清数量
+	 */
+	private static final String PROPERTY_CLOSEDQUANTITY_NAME = "ClosedQuantity";
+
+	/**
+	 * 已清数量 属性
+	 */
+	@DbField(name = "ClosedQty", type = DataType.DECIMAL, editType = EditType.QUANTITY, table = DB_TABLE_NAME)
+	public static final IPropertyInfo<BigDecimal> PROPERTY_CLOSEDQUANTITY = registerProperty(
+			PROPERTY_CLOSEDQUANTITY_NAME, BigDecimal.class, MY_CLASS);
+
+	/**
+	 * 获取-已清数量
+	 *
+	 * @return 值
+	 */
+	@XmlElement(name = PROPERTY_CLOSEDQUANTITY_NAME)
+	public final BigDecimal getClosedQuantity() {
+		return this.getProperty(PROPERTY_CLOSEDQUANTITY);
+	}
+
+	/**
+	 * 设置-已清数量
+	 *
+	 * @param value 值
+	 */
+	public final void setClosedQuantity(BigDecimal value) {
+		this.setProperty(PROPERTY_CLOSEDQUANTITY, value);
+	}
+
+	/**
+	 * 设置-已清数量
+	 *
+	 * @param value 值
+	 */
+	public final void setClosedQuantity(String value) {
+		this.setClosedQuantity(Decimals.valueOf(value));
+	}
+
+	/**
+	 * 设置-已清数量
+	 *
+	 * @param value 值
+	 */
+	public final void setClosedQuantity(int value) {
+		this.setClosedQuantity(Decimals.valueOf(value));
+	}
+
+	/**
+	 * 设置-已清数量
+	 *
+	 * @param value 值
+	 */
+	public final void setClosedQuantity(double value) {
+		this.setClosedQuantity(Decimals.valueOf(value));
+	}
+
+	/**
 	 * 属性名称-对象编号
 	 */
 	private static final String PROPERTY_OBJECTKEY_NAME = "ObjectKey";

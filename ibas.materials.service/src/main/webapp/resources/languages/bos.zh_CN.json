@@ -620,6 +620,7 @@
     {
         "bo_materialbatchitem": "物料批次项目",
         "bo_materialbatchitem_batchcode": "批次编码",
+        "bo_materialbatchitem_closedquantity": "已清数量",
         "bo_materialbatchitem_createactionid": "创建动作标识",
         "bo_materialbatchitem_createdate": "创建日期",
         "bo_materialbatchitem_createtime": "创建时间",
@@ -1183,6 +1184,7 @@
     },
     {
         "bo_materialserialitem": "物料序列项目",
+        "bo_materialserialitem_closed": "已清",
         "bo_materialserialitem_createactionid": "创建动作标识",
         "bo_materialserialitem_createdate": "创建日期",
         "bo_materialserialitem_createtime": "创建时间",

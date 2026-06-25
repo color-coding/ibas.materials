@@ -90,21 +90,56 @@ public interface IMaterialBatchItem extends IBOSimple {
 
 	/**
 	 * 获取-基于行号
-	 * 
+	 *
 	 * @return 值
 	 */
 	Integer getDocumentLineId();
 
 	/**
 	 * 设置-基于行号
-	 * 
+	 *
 	 * @param value 值
 	 */
 	void setDocumentLineId(Integer value);
 
 	/**
+	 * 获取-已清数量
+	 *
+	 * @return 值
+	 */
+	BigDecimal getClosedQuantity();
+
+	/**
+	 * 设置-已清数量
+	 *
+	 * @param value 值
+	 */
+	void setClosedQuantity(BigDecimal value);
+
+	/**
+	 * 设置-已清数量
+	 *
+	 * @param value 值
+	 */
+	void setClosedQuantity(String value);
+
+	/**
+	 * 设置-已清数量
+	 *
+	 * @param value 值
+	 */
+	void setClosedQuantity(int value);
+
+	/**
+	 * 设置-已清数量
+	 *
+	 * @param value 值
+	 */
+	void setClosedQuantity(double value);
+
+	/**
 	 * 获取-对象编号
-	 * 
+	 *
 	 * @return 值
 	 */
 	Integer getObjectKey();

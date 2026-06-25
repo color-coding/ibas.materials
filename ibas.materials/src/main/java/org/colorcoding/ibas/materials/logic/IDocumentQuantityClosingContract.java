@@ -5,6 +5,8 @@ import java.math.BigDecimal;
 import org.colorcoding.ibas.bobas.common.Strings;
 import org.colorcoding.ibas.bobas.logic.IBusinessLogicContract;
 import org.colorcoding.ibas.bobas.repository.ITransaction;
+import org.colorcoding.ibas.materials.bo.materialbatch.IMaterialBatchItems;
+import org.colorcoding.ibas.materials.bo.materialserial.IMaterialSerialItems;
 
 /**
  * 单据数量关闭契约
@@ -61,4 +63,18 @@ public interface IDocumentQuantityClosingContract extends IBusinessLogicContract
 	 * @return
 	 */
 	BigDecimal getQuantity();
+
+	/**
+	 * 物料批次项目集合
+	 */
+	default IMaterialBatchItems getMaterialBatches() {
+		return null;
+	}
+
+	/**
+	 * 物料序列集合
+	 */
+	default IMaterialSerialItems getMaterialSerials() {
+		return null;
+	}
 }

@@ -620,6 +620,7 @@
     {
         "bo_materialbatchitem": "Material Batch Item",
         "bo_materialbatchitem_batchcode": "Batch Code",
+        "bo_materialbatchitem_closedquantity": "Closed Quantity",
         "bo_materialbatchitem_createactionid": "Create Action ID",
         "bo_materialbatchitem_createdate": "Create Date",
         "bo_materialbatchitem_createtime": "Create Time",
@@ -1183,6 +1184,7 @@
     },
     {
         "bo_materialserialitem": "Material Serial Item",
+        "bo_materialserialitem_closed": "Closed",
         "bo_materialserialitem_createactionid": "Creation Action ID",
         "bo_materialserialitem_createdate": "Creation Date",
         "bo_materialserialitem_createtime": "Creation Time",

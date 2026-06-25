@@ -2,6 +2,7 @@ package org.colorcoding.ibas.materials.bo.materialserial;
 
 import org.colorcoding.ibas.bobas.bo.IBOSimple;
 import org.colorcoding.ibas.bobas.data.DateTime;
+import org.colorcoding.ibas.bobas.data.emYesNo;
 
 /**
  * 物料序列项目 接口
@@ -53,21 +54,35 @@ public interface IMaterialSerialItem extends IBOSimple {
 
 	/**
 	 * 获取-基于行号
-	 * 
+	 *
 	 * @return 值
 	 */
 	Integer getDocumentLineId();
 
 	/**
 	 * 设置-基于行号
-	 * 
+	 *
 	 * @param value 值
 	 */
 	void setDocumentLineId(Integer value);
 
 	/**
+	 * 获取-已清
+	 *
+	 * @return 值
+	 */
+	emYesNo getClosed();
+
+	/**
+	 * 设置-已清
+	 *
+	 * @param value 值
+	 */
+	void setClosed(emYesNo value);
+
+	/**
 	 * 获取-对象编号
-	 * 
+	 *
 	 * @return 值
 	 */
 	Integer getObjectKey();

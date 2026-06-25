@@ -26,6 +26,9 @@ namespace materials {
             /** 基于行号 */
             documentLineId: number;
 
+            /** 已清数量 */
+            closedQuantity: number;
+
             /** 对象编号 */
             objectKey: number;
 
@@ -166,6 +169,17 @@ namespace materials {
             /** 设置-基于行号 */
             set documentLineId(value: number) {
                 this.setProperty(MaterialBatchItem.PROPERTY_DOCUMENTLINEID_NAME, value);
+            }
+
+            /** 映射的属性名称-已清数量 */
+            static PROPERTY_CLOSEDQUANTITY_NAME: string = "ClosedQuantity";
+            /** 获取-已清数量 */
+            get closedQuantity(): number {
+                return this.getProperty<number>(MaterialBatchItem.PROPERTY_CLOSEDQUANTITY_NAME);
+            }
+            /** 设置-已清数量 */
+            set closedQuantity(value: number) {
+                this.setProperty(MaterialBatchItem.PROPERTY_CLOSEDQUANTITY_NAME, value);
             }
 
             /** 映射的属性名称-对象编号 */

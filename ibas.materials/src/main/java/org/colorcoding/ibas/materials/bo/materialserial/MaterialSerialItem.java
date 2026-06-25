@@ -191,6 +191,37 @@ public class MaterialSerialItem extends BusinessObject<MaterialSerialItem>
 	}
 
 	/**
+	 * 属性名称-已清
+	 */
+	private static final String PROPERTY_CLOSED_NAME = "Closed";
+
+	/**
+	 * 已清 属性
+	 */
+	@DbField(name = "Closed", type = DataType.ALPHANUMERIC, table = DB_TABLE_NAME)
+	public static final IPropertyInfo<emYesNo> PROPERTY_CLOSED = registerProperty(PROPERTY_CLOSED_NAME, emYesNo.class,
+			MY_CLASS);
+
+	/**
+	 * 获取-已清
+	 *
+	 * @return 值
+	 */
+	@XmlElement(name = PROPERTY_CLOSED_NAME)
+	public final emYesNo getClosed() {
+		return this.getProperty(PROPERTY_CLOSED);
+	}
+
+	/**
+	 * 设置-已清
+	 *
+	 * @param value 值
+	 */
+	public final void setClosed(emYesNo value) {
+		this.setProperty(PROPERTY_CLOSED, value);
+	}
+
+	/**
 	 * 属性名称-对象编号
 	 */
 	private static final String PROPERTY_OBJECTKEY_NAME = "ObjectKey";

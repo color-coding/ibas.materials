@@ -1122,6 +1122,25 @@ namespace materials {
                 this.setProperty(PickListsNumber.PROPERTY_PICKQUANTITY_NAME, value);
             }
 
+            /** 映射的属性名称-已清数量 */
+            static PROPERTY_CLOSEDQUANTITY_NAME: string = "ClosedQuantity";
+            /** 获取-已清数量 */
+            get closedQuantity(): number {
+                return this.getProperty<number>(MaterialBatchItem.PROPERTY_CLOSEDQUANTITY_NAME);
+            }
+            /** 设置-已清数量 */
+            set closedQuantity(value: number) {
+                this.setProperty(MaterialBatchItem.PROPERTY_CLOSEDQUANTITY_NAME, value);
+            }
+            /** 获取-已清 */
+            get closed(): ibas.emYesNo {
+                return this.closedQuantity > 0 ? ibas.emYesNo.YES : ibas.emYesNo.NO;
+            }
+            /** 设置-已清 */
+            set closed(value: ibas.emYesNo) {
+                this.closedQuantity = value === ibas.emYesNo.YES ? 1 : 0;
+            }
+
             get documentType(): string {
                 return this[PROPERTY_DOCUMENT_TYPE];
             }

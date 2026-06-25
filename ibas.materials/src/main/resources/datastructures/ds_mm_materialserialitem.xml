@@ -6,6 +6,7 @@
     <Property Name="DocumentType" Description="基于类型" DataType="Alphanumeric" DataSubType="Default" EditSize="30" Mapped="BaseType" UniqueKey="Yes"/>
     <Property Name="DocumentEntry" Description="基于标识" DataType="Numeric" DataSubType="Default" EditSize="8" Mapped="BaseEntry" UniqueKey="Yes"/>
     <Property Name="DocumentLineId" Description="基于行号" DataType="Numeric" DataSubType="Default" EditSize="8" Mapped="BaseLine" UniqueKey="Yes"/>
+    <Property Name="Closed" Description="已清" DataType="Alphanumeric" DataSubType="Default" EditSize="1" DeclaredType="emYesNo" Mapped="Closed"/>
     <Property Name="ObjectKey" Description="对象编号" DataType="Numeric" DataSubType="Default" EditSize="8" Mapped="ObjectKey" PrimaryKey="Yes"/>
     <Property Name="ObjectCode" Description="对象类型" DataType="Alphanumeric" DataSubType="Default" EditSize="30" Mapped="ObjectCode"/>
     <Property Name="LogInst" Description="实例号" DataType="Numeric" DataSubType="Default" EditSize="8" Mapped="LogInst"/>

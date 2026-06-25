@@ -23,6 +23,9 @@ namespace materials {
             /** 基于行号 */
             documentLineId: number;
 
+            /** 已清 */
+            closed: ibas.emYesNo;
+
             /** 对象编号 */
             objectKey: number;
 
@@ -152,6 +155,17 @@ namespace materials {
             /** 设置-基于行号 */
             set documentLineId(value: number) {
                 this.setProperty(MaterialSerialItem.PROPERTY_DOCUMENTLINEID_NAME, value);
+            }
+
+            /** 映射的属性名称-已清 */
+            static PROPERTY_CLOSED_NAME: string = "Closed";
+            /** 获取-已清 */
+            get closed(): ibas.emYesNo {
+                return this.getProperty<ibas.emYesNo>(MaterialSerialItem.PROPERTY_CLOSED_NAME);
+            }
+            /** 设置-已清 */
+            set closed(value: ibas.emYesNo) {
+                this.setProperty(MaterialSerialItem.PROPERTY_CLOSED_NAME, value);
             }
 
             /** 映射的属性名称-对象编号 */

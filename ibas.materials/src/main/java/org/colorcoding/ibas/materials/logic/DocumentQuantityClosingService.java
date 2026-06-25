@@ -8,14 +8,20 @@ import org.colorcoding.ibas.bobas.common.Strings;
 import org.colorcoding.ibas.bobas.data.emDocumentStatus;
 import org.colorcoding.ibas.bobas.data.emYesNo;
 import org.colorcoding.ibas.bobas.i18n.I18N;
-import org.colorcoding.ibas.bobas.message.Logger;
-import org.colorcoding.ibas.bobas.message.MessageLevel;
 import org.colorcoding.ibas.bobas.logic.BusinessLogicException;
 import org.colorcoding.ibas.bobas.logic.LogicContract;
+import org.colorcoding.ibas.bobas.message.Logger;
+import org.colorcoding.ibas.bobas.message.MessageLevel;
 import org.colorcoding.ibas.document.DocumentFetcherManager;
 import org.colorcoding.ibas.document.IDocumentCloseQuantityOperator;
 import org.colorcoding.ibas.document.IDocumentClosingQuantityItem;
 import org.colorcoding.ibas.materials.MyConfiguration;
+import org.colorcoding.ibas.materials.bo.materialbatch.IMaterialBatchItem;
+import org.colorcoding.ibas.materials.bo.materialbatch.IMaterialBatchItemParent;
+import org.colorcoding.ibas.materials.bo.materialbatch.IMaterialBatchItems;
+import org.colorcoding.ibas.materials.bo.materialserial.IMaterialSerialItem;
+import org.colorcoding.ibas.materials.bo.materialserial.IMaterialSerialItemParent;
+import org.colorcoding.ibas.materials.bo.materialserial.IMaterialSerialItems;
 
 /**
  * 单据数量关闭服务
@@ -87,6 +93,44 @@ public class DocumentQuantityClosingService extends DocumentQuantityService<IDoc
 				}
 			}
 			item.setClosedQuantity(closedQuantity);
+			// 关闭批次数量
+			IMaterialBatchItems batchItems = contract.getMaterialBatches();
+			if (batchItems != null && item instanceof IMaterialBatchItemParent) {
+				IMaterialBatchItems targetItems = ((IMaterialBatchItemParent) item).getMaterialBatches();
+				if (targetItems != null) {
+					for (IMaterialBatchItem batchItem : batchItems) {
+						for (IMaterialBatchItem targetItem : targetItems) {
+							if (Strings.equals(batchItem.getBatchCode(), targetItem.getBatchCode())) {
+								closedQuantity = targetItem.getClosedQuantity();
+								if (closedQuantity == null) {
+									closedQuantity = Decimals.VALUE_ZERO;
+								}
+								closedQuantity = closedQuantity.add(batchItem.getQuantity());
+								targetItem.setClosedQuantity(closedQuantity);
+								break;
+							}
+						}
+					}
+				}
+			}
+			batchItems = null;
+			// 关闭序列号
+			IMaterialSerialItems serialItems = contract.getMaterialSerials();
+			if (serialItems != null && item instanceof IMaterialSerialItemParent) {
+				IMaterialSerialItems targetItems = ((IMaterialSerialItemParent) item).getMaterialSerials();
+				if (targetItems != null) {
+					for (IMaterialSerialItem serialItem : serialItems) {
+						for (IMaterialSerialItem targetItem : targetItems) {
+							if (Strings.equals(serialItem.getSerialCode(), targetItem.getSerialCode())) {
+								targetItem.setClosed(emYesNo.YES);
+								break;
+							}
+						}
+					}
+				}
+			}
+			serialItems = null;
+
 			if (contract.isSmartDocumentStatus() == true) {
 				// 处理单据状态
 				if (item.getLineStatus() == emDocumentStatus.RELEASED
@@ -117,6 +161,44 @@ public class DocumentQuantityClosingService extends DocumentQuantityService<IDoc
 			}
 			closedQuantity = closedQuantity.subtract(contract.getQuantity());
 			item.setClosedQuantity(closedQuantity);
+			// 关闭批次数量
+			IMaterialBatchItems batchItems = contract.getMaterialBatches();
+			if (batchItems != null && item instanceof IMaterialBatchItemParent) {
+				IMaterialBatchItems targetItems = ((IMaterialBatchItemParent) item).getMaterialBatches();
+				if (targetItems != null) {
+					for (IMaterialBatchItem batchItem : batchItems) {
+						for (IMaterialBatchItem targetItem : targetItems) {
+							if (Strings.equals(batchItem.getBatchCode(), targetItem.getBatchCode())) {
+								closedQuantity = targetItem.getClosedQuantity();
+								if (closedQuantity == null) {
+									closedQuantity = Decimals.VALUE_ZERO;
+								}
+								closedQuantity = closedQuantity.subtract(batchItem.getQuantity());
+								targetItem.setClosedQuantity(closedQuantity);
+								break;
+							}
+						}
+					}
+				}
+			}
+			batchItems = null;
+			// 关闭序列号
+			IMaterialSerialItems serialItems = contract.getMaterialSerials();
+			if (serialItems != null && item instanceof IMaterialSerialItemParent) {
+				IMaterialSerialItems targetItems = ((IMaterialSerialItemParent) item).getMaterialSerials();
+				if (targetItems != null) {
+					for (IMaterialSerialItem serialItem : serialItems) {
+						for (IMaterialSerialItem targetItem : targetItems) {
+							if (Strings.equals(serialItem.getSerialCode(), targetItem.getSerialCode())) {
+								targetItem.setClosed(emYesNo.NO);
+								break;
+							}
+						}
+					}
+				}
+			}
+			serialItems = null;
+
 			if (contract.isSmartDocumentStatus() == true) {
 				// 处理单据状态
 				if (item.getLineStatus() == emDocumentStatus.FINISHED
