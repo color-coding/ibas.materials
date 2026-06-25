@@ -322,7 +322,7 @@ public class MaterialSerialJournalService
 						}
 						if (operationResult.getResultObjects().isEmpty()) {
 							throw new BusinessLogicException(I18N.prop("msg_mm_document_not_found_receipt_journal",
-									String.format("{[%s].[DocEntry = %s]%s}", contract.getBaseDocumentEntry(),
+									String.format("{[%s].[DocEntry = %s]%s}", contract.getBaseDocumentType(),
 											contract.getBaseDocumentEntry(),
 											contract.getBaseDocumentLineId() > 0
 													? String.format("&&[LineId = %s]", contract.getBaseDocumentLineId())

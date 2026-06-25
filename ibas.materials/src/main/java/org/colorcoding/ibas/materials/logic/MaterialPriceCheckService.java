@@ -65,9 +65,13 @@ public class MaterialPriceCheckService extends MaterialBusinessLogic<IMaterialPr
 			condition.setAlias(MaterialPriceItem.PROPERTY_ITEMCODE.getName());
 			condition.setOperation(ConditionOperation.EQUAL);
 			condition.setValue(item.getItemCode());
-			if (criteria.getConditions().size() > 1) {
+			if (criteria.getConditions().size() > 2) {
 				condition.setRelationship(ConditionRelationship.OR);
 			}
+		}
+		if (criteria.getConditions().size() > 2) {
+			criteria.getConditions().get(1).addBracketOpen();
+			criteria.getConditions().lastOrDefault().addBracketClose();
 		}
 		try (BORepositoryMaterials boRepository = new BORepositoryMaterials()) {
 			boRepository.setTransaction(this.getTransaction());

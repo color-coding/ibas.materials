@@ -177,13 +177,11 @@ namespace materials {
                     return;
                 }
                 let quantity: number = 0;
-                let uom: string = "";
                 let warehouse: string = "";
                 for (let data of datas) {
                     if (data instanceof bo.MaterialInventory) {
                         quantity += data.onHand;
                         warehouse = data.warehouse;
-                        uom = this.material.inventoryUOM;
                     } else if (data instanceof bo.MaterialBatch) {
                         let batchItem: bo.IMaterialBatchItem = this.contract.materialBatches.firstOrDefault(
                             c => c.batchCode === (<any>data).batchCode
@@ -197,7 +195,6 @@ namespace materials {
                         }
                         quantity += data.quantity;
                         warehouse = data.warehouse;
-                        uom = this.material.inventoryUOM;
                     } else if (data instanceof bo.MaterialSerial) {
                         let serialItem: bo.IMaterialSerialItem = this.contract.materialSerials.firstOrDefault(
                             c => c.serialCode === (<any>data).serialCode
@@ -210,11 +207,45 @@ namespace materials {
                         }
                         quantity += 1;
                         warehouse = data.warehouse;
-                        uom = this.material.inventoryUOM;
                     }
                 }
-                this.contract.applyQuantity(quantity, uom, warehouse);
-                this.close();
+                let uom: string = this.material.inventoryUOM;
+                if (!ibas.strings.isEmpty(this.contract.uom)) {
+                    uom = this.contract.uom;
+                }
+                if (!ibas.strings.isEmpty(uom)
+                    && !ibas.strings.equals(uom, this.material.inventoryUOM)) {
+                    // 单位不一致：按订单行单位进行换算
+                    let that: this = this;
+                    changeMaterialsUnitRate({
+                        data: {
+                            get material(): string {
+                                return that.material.code;
+                            },
+                            // 单位方向与单据保持一致
+                            get sourceUnit(): string {
+                                return uom;
+                            },
+                            get targetUnit(): string {
+                                return that.material.inventoryUOM;
+                            },
+                            setUnitRate(rate: number): void {
+                                // rate = targetUnit / sourceUnit 的换算系数
+                                quantity = rate > 0 ? quantity / rate : quantity;
+                                that.contract.applyQuantity(quantity, uom, warehouse);
+                                that.close();
+                            }
+                        },
+                        onCompleted: (error) => {
+                            if (error instanceof Error) {
+                                that.messages(error);
+                            }
+                        }
+                    });
+                } else {
+                    this.contract.applyQuantity(quantity, uom, warehouse);
+                    this.close();
+                }
             }
         }
         /** 视图-物料数量 */

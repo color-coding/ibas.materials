@@ -7,15 +7,15 @@ import org.colorcoding.ibas.bobas.common.Decimals;
 import org.colorcoding.ibas.bobas.common.Strings;
 import org.colorcoding.ibas.bobas.data.emDocumentStatus;
 import org.colorcoding.ibas.bobas.data.emYesNo;
+import org.colorcoding.ibas.bobas.logic.LogicContract;
 import org.colorcoding.ibas.bobas.message.Logger;
 import org.colorcoding.ibas.bobas.message.MessageLevel;
-import org.colorcoding.ibas.bobas.logic.LogicContract;
 import org.colorcoding.ibas.document.DocumentFetcherManager;
 import org.colorcoding.ibas.document.IDocumentCloseQuantityOperator;
 import org.colorcoding.ibas.document.IDocumentClosingQuantityItem;
 
 /**
- * 单据数量关闭服务
+ * 单据数量退回服务
  */
 @LogicContract(IDocumentQuantityReturnContract.class)
 public class DocumentQuantityReturnService extends DocumentQuantityService<IDocumentQuantityReturnContract> {
@@ -78,7 +78,10 @@ public class DocumentQuantityReturnService extends DocumentQuantityService<IDocu
 					item.setLineStatus(emDocumentStatus.RELEASED);
 				}
 			}
-			item.setReferenced(emYesNo.YES);
+			// 退货后若已关闭数量已退完，则取消引用标记
+			if (item.getClosedQuantity().compareTo(Decimals.VALUE_ZERO) <= 0) {
+				item.setReferenced(emYesNo.NO);
+			}
 		}
 	}
 
@@ -106,7 +109,10 @@ public class DocumentQuantityReturnService extends DocumentQuantityService<IDocu
 					item.setLineStatus(emDocumentStatus.FINISHED);
 				}
 			}
-			item.setReferenced(emYesNo.YES);
+			// 撤销退货后若已关闭数量恢复 > 0，则恢复引用标记
+			if (item.getClosedQuantity().compareTo(Decimals.VALUE_ZERO) > 0) {
+				item.setReferenced(emYesNo.YES);
+			}
 		}
 	}
 

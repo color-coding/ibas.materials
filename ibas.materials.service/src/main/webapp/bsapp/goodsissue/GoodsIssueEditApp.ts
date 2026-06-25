@@ -602,6 +602,8 @@ namespace materials {
                         itemCode: caller.itemCode,
                         itemDescription: caller.itemDescription,
                         itemVersion: caller.itemVersion,
+                        uom: caller.uom,
+                        uomRate: 1,
                         serialManagement: caller.serialManagement,
                         materialSerials: caller.materialSerials,
                         batchManagement: caller.batchManagement,
