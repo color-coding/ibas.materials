@@ -310,6 +310,11 @@ public class MaterialsInventoryCost extends MaterialsCost {
 					}
 				}
 			}
+		} else if (this.isNegate()) {
+			// 非库存物料，反向金额为负数
+			if (this.getAmount() != null) {
+				this.setAmount(this.getAmount().negate());
+			}
 		} else {
 			// 非库存物料，物料成本是0
 			this.setAmount(Decimal.ZERO);
