@@ -1408,7 +1408,7 @@ public class InventoryCounting extends BusinessObject<InventoryCounting> impleme
 							continue;
 						}
 						if (Decimals.VALUE_ZERO.compareTo(line.getDifference()) > 0) {
-							// 盘亏
+							// 盘亏（库存减少，差额计入"冲销_减少"科目）
 							jeContent = new JournalEntrySmartContent(line);
 							jeContent.setCategory(Category.Credit);
 							jeContent.setLedger(Ledgers.LEDGER_INVENTORY_INVENTORY_ACCOUNT);
@@ -1418,7 +1418,7 @@ public class InventoryCounting extends BusinessObject<InventoryCounting> impleme
 							jeContents.add(jeContent);
 							jeContent = new JournalEntrySmartContent(line);
 							jeContent.setCategory(Category.Debit);
-							jeContent.setLedger(Ledgers.LEDGER_INVENTORY_INVENTORY_OFFSET_INCR_ACCOUNT);
+							jeContent.setLedger(Ledgers.LEDGER_INVENTORY_INVENTORY_OFFSET_DECR_ACCOUNT);
 							jeContent.setAmount(line.getLineTotal().abs());
 							jeContent.setCurrency(line.getCurrency());
 							jeContent.setRate(line.getRate());

@@ -15,7 +15,6 @@ import org.colorcoding.ibas.bobas.data.emDirection;
 import org.colorcoding.ibas.bobas.data.emYesNo;
 import org.colorcoding.ibas.bobas.i18n.I18N;
 import org.colorcoding.ibas.bobas.logic.BusinessLogicException;
-import org.colorcoding.ibas.businesspartner.logic.journalentry.JournalEntrySmartContent;
 import org.colorcoding.ibas.materials.MyConfiguration;
 import org.colorcoding.ibas.materials.bo.material.IMaterial;
 import org.colorcoding.ibas.materials.bo.material.Material;
@@ -40,34 +39,27 @@ import org.colorcoding.ibas.materials.data.emValuationMethod;
 import org.colorcoding.ibas.materials.repository.BORepositoryMaterials;
 
 /**
- * 物料库存成本计算（非库存物料不重新计算）
+ * 物料库存成本计算。
+ *
+ * <p>
+ * 本类实现"库存物料"成本策略（移动平均 / 批次平均 / 序列平均）。 非库存、服务、虚拟件由父类 {@link MaterialsCost}
+ * 统一模板处理。
+ * </p>
  */
 public class MaterialsInventoryCost extends MaterialsCost {
 
-	/**
-	 * 构造函数
-	 * 
-	 * @param sourceData 源数据
-	 * @param quantity   数量
-	 */
 	public MaterialsInventoryCost(Object sourceData, BigDecimal quantity) {
-		super(sourceData);
-		this.setQuantity(quantity);
-		this.setNegate(false);
+		this(sourceData, quantity, false);
 	}
 
-	/**
-	 * 
-	 * @param sourceData 源数据
-	 * @param quantity   数量
-	 * @param negate     负数（默认：false）
-	 */
 	public MaterialsInventoryCost(Object sourceData, BigDecimal quantity, Boolean negate) {
-		this(sourceData, quantity);
-		this.setNegate(negate);
+		super(sourceData);
+		this.quantity = quantity;
+		this.negate = Boolean.TRUE.equals(negate);
 	}
 
 	private boolean negate = false;
+	private BigDecimal quantity;
 
 	public final boolean isNegate() {
 		return negate;
@@ -76,8 +68,6 @@ public class MaterialsInventoryCost extends MaterialsCost {
 	public final void setNegate(boolean negate) {
 		this.negate = negate;
 	}
-
-	private BigDecimal quantity;
 
 	public final BigDecimal getQuantity() {
 		if (this.quantity == null) {
@@ -90,13 +80,77 @@ public class MaterialsInventoryCost extends MaterialsCost {
 		this.quantity = quantity;
 	}
 
+	@Override
+	protected final boolean shouldNegate() {
+		return this.isNegate();
+	}
+
+	// ============================================================
+	// 库存策略：唯一入口
+	// ============================================================
+
+	/**
+	 * 库存物料成本算法：新建单据用物料/批次/序列均价；已存在单据沿原始单据回查交易记录均价，回查不到再回退至均价。
+	 */
+	@Override
+	protected boolean caculateInventoryCost(String itemCode, String warehouse) throws Exception {
+		if (!(this.getSourceData() instanceof IBusinessObject)) {
+			return false;
+		}
+		IBusinessObject bo = (IBusinessObject) this.getSourceData();
+		BigDecimal avaPrice = bo.isNew() ? this.getAvgPrice(itemCode, warehouse)
+				: this.getJournalsAvgPrice(itemCode, warehouse);
+		if (avaPrice == null) {
+			avaPrice = this.getAvgPrice(itemCode, warehouse);
+		}
+		BigDecimal amount = (avaPrice != null) ? Decimals.multiply(this.getQuantity(), avaPrice) : Decimals.VALUE_ZERO;
+		if (this.getAmount() != null && this.getAmount().scale() > 0) {
+			amount = amount.setScale(this.getAmount().scale(), Decimals.ROUNDING_MODE_DEFAULT);
+		}
+		this.setAmount(amount);
+		return true;
+	}
+
+	// ============================================================
+	// 非库存：按行税前金额（按数量比例分摊）
+	// ============================================================
+
+	@Override
+	protected void caculateNonInventoryCost(String itemCode) throws Exception {
+		BigDecimal base = this.getLineBaseAmount();
+		if (base == null) {
+			this.setAmount(Decimals.VALUE_ZERO);
+			return;
+		}
+		BigDecimal lineQty = this.readLineQuantity();
+		if (lineQty != null && lineQty.compareTo(Decimals.VALUE_ZERO) > 0
+				&& this.getQuantity().compareTo(lineQty) != 0) {
+			BigDecimal unit = Decimals.divide(base, lineQty);
+			this.setAmount(Decimals.multiply(this.getQuantity(), unit));
+		} else {
+			this.setAmount(base);
+		}
+	}
+
+	private BigDecimal readLineQuantity() {
+		Object v = this.getSourceDataPropertyValue("InventoryQuantity");
+		if (v instanceof BigDecimal)
+			return (BigDecimal) v;
+		v = this.getSourceDataPropertyValue("Quantity");
+		return v instanceof BigDecimal ? (BigDecimal) v : null;
+	}
+
+	// ============================================================
+	// 平均价（按物料/仓库/批次/序列）
+	// ============================================================
+
 	protected BigDecimal getAvgPrice(String itemCode, String warehouse) {
 		Criteria criteria = new Criteria();
 		ICondition condition = criteria.getConditions().create();
 		condition.setAlias(Material.PROPERTY_CODE.getName());
 		condition.setValue(itemCode);
 		try (BORepositoryMaterials boRepository = new BORepositoryMaterials()) {
-			boRepository.setTransaction(this.getService().getTransaction());
+			boRepository.setTransaction(this.getTransaction());
 			IMaterial material = boRepository.fetchMaterial(criteria).getResultObjects().firstOrDefault();
 			if (material == null) {
 				throw new BusinessLogicException(I18N.prop("msg_mm_material_is_not_exist", itemCode));
@@ -109,7 +163,6 @@ public class MaterialsInventoryCost extends MaterialsCost {
 				condition = criteria.getConditions().create();
 				condition.setAlias(MaterialBatch.PROPERTY_WAREHOUSE.getName());
 				condition.setValue(warehouse);
-				// 计算总数量，去平均价格
 				BigDecimal quantities = Decimals.VALUE_ZERO;
 				BigDecimal totals = Decimals.VALUE_ZERO;
 				if (material.getBatchManagement() == emYesNo.YES
@@ -149,7 +202,6 @@ public class MaterialsInventoryCost extends MaterialsCost {
 				}
 				quantities = quantities.setScale(this.getQuantity().scale(), Decimals.ROUNDING_MODE_DEFAULT);
 				if (Decimals.isZero(quantities)) {
-					// 避免0除
 					return Decimals.VALUE_ZERO;
 				}
 				return Decimals.divide(totals, quantities);
@@ -187,7 +239,7 @@ public class MaterialsInventoryCost extends MaterialsCost {
 		condition.setAlias(Material.PROPERTY_CODE.getName());
 		condition.setValue(itemCode);
 		try (BORepositoryMaterials boRepository = new BORepositoryMaterials()) {
-			boRepository.setTransaction(this.getService().getTransaction());
+			boRepository.setTransaction(this.getTransaction());
 			IMaterial material = boRepository.fetchMaterial(criteria).getResultObjects().firstOrDefault();
 			if (material == null) {
 				throw new BusinessLogicException(I18N.prop("msg_mm_material_is_not_exist", itemCode));
@@ -234,48 +286,37 @@ public class MaterialsInventoryCost extends MaterialsCost {
 			BigDecimal quantities = Decimals.VALUE_ZERO;
 			BigDecimal totals = Decimals.VALUE_ZERO;
 			if (material.getValuationMethod() == emValuationMethod.MOVING_AVERAGE) {
-				// 移动平均物料
 				for (IMaterialInventoryJournal journal : boRepository.fetchMaterialInventoryJournal(criteria)
 						.getResultObjects()) {
-					if (!journal.getItemCode().equals(itemCode)) {
+					if (!journal.getItemCode().equals(itemCode))
 						continue;
-					}
-					if (!journal.getWarehouse().equals(warehouse)) {
+					if (!journal.getWarehouse().equals(warehouse))
 						continue;
-					}
-					quantities = quantities.add(journal.getInventoryQuantity());
-					totals = totals
-							.add(Decimals.multiply(journal.getInventoryQuantity(), journal.getCalculatedPrice()));
+					quantities = Decimals.add(quantities, journal.getQuantity());
+					totals = Decimals.add(totals, journal.getTransactionValue());
 					noJournals = false;
 				}
 			} else if (material.getValuationMethod() == emValuationMethod.BATCH_MOVING_AVERAGE) {
-				// 批次平均物料
 				if (material.getBatchManagement() == emYesNo.YES) {
 					for (IMaterialBatchJournal journal : boRepository.fetchMaterialBatchJournal(criteria)
 							.getResultObjects()) {
-						if (!journal.getItemCode().equals(itemCode)) {
+						if (!journal.getItemCode().equals(itemCode))
 							continue;
-						}
-						if (!journal.getWarehouse().equals(warehouse)) {
+						if (!journal.getWarehouse().equals(warehouse))
 							continue;
-						}
-						quantities = quantities.add(journal.getInventoryQuantity());
-						totals = totals
-								.add(Decimals.multiply(journal.getInventoryQuantity(), journal.getCalculatedPrice()));
+						quantities = Decimals.add(quantities, journal.getQuantity());
+						totals = Decimals.add(totals, journal.getTransactionValue());
 						noJournals = false;
 					}
 				} else if (material.getSerialManagement() == emYesNo.YES) {
 					for (IMaterialSerialJournal journal : boRepository.fetchMaterialSerialJournal(criteria)
 							.getResultObjects()) {
-						if (!journal.getItemCode().equals(itemCode)) {
+						if (!journal.getItemCode().equals(itemCode))
 							continue;
-						}
-						if (!journal.getWarehouse().equals(warehouse)) {
+						if (!journal.getWarehouse().equals(warehouse))
 							continue;
-						}
-						quantities = quantities.add(journal.getInventoryQuantity());
-						totals = totals
-								.add(Decimals.multiply(journal.getInventoryQuantity(), journal.getCalculatedPrice()));
+						quantities = Decimals.add(quantities, journal.getQuantity());
+						totals = Decimals.add(totals, journal.getTransactionValue());
 						noJournals = false;
 					}
 				} else {
@@ -286,84 +327,12 @@ public class MaterialsInventoryCost extends MaterialsCost {
 			}
 			quantities = quantities.setScale(this.getQuantity().scale(), Decimals.ROUNDING_MODE_DEFAULT);
 			if (noJournals && Decimals.isZero(quantities) && Decimals.isZero(totals)) {
-				// 都是0，则无记录
 				return null;
 			}
 			if (Decimals.isZero(quantities)) {
-				// 避免0除
 				return Decimals.VALUE_ZERO;
 			}
 			return Decimals.divide(totals, quantities);
 		}
-	}
-
-	@Override
-	public final void caculate() throws Exception {
-		String material = String.valueOf(super.getSourceDataPropertyValue(Ledgers.CONDITION_PROPERTY_MATERIAL));
-		if (JournalEntrySmartContent.VALUE_NULL.equalsIgnoreCase(material)) {
-			throw new BusinessLogicException(I18N.prop("msg_mm_not_specified_material"));
-		}
-		if (this.isInventoryMaterial(material)) {
-			// 库存物料时，重新计算成本
-			if (!this.caculate(material,
-					String.valueOf(super.getSourceDataPropertyValue(Ledgers.CONDITION_PROPERTY_WAREHOUSE)))) {
-				// 计算不成功，报错
-				throw new Exception(I18N.prop("msg_bobas_not_support_the_compute"));
-			}
-			if (this.getAmount() != null) {
-				if (this.isNegate()) {
-					if (this.getAmount().compareTo(Decimals.VALUE_ZERO) > 0) {
-						this.setAmount(this.getAmount().negate());
-					} else {
-						this.setAmount(this.getAmount().abs());
-					}
-				}
-			}
-		} else {
-			// 非库存物料，物料成本是0
-			this.setAmount(Decimals.VALUE_ZERO);
-			this.setRate(Decimals.VALUE_ONE);
-			this.setCurrency(org.colorcoding.ibas.accounting.MyConfiguration
-					.getConfigValue(org.colorcoding.ibas.accounting.MyConfiguration.CONFIG_ITEM_LOCAL_CURRENCY));
-		}
-	}
-
-	/**
-	 * 计算物料成本
-	 * 
-	 * @param itemCode
-	 * @param warehouse
-	 * @return true，计算完成；false，计算不成功
-	 */
-	protected boolean caculate(String itemCode, String warehouse) {
-		BigDecimal avaPrice = null;
-		if (this.getSourceData() instanceof IBusinessObject) {
-			IBusinessObject bo = (IBusinessObject) this.getSourceData();
-			if (bo.isNew()) {
-				// 新建的取物料上的
-				avaPrice = this.getAvgPrice(itemCode, warehouse);
-			} else {
-				// 从交易记录上取
-				avaPrice = this.getJournalsAvgPrice(itemCode, warehouse);
-				if (avaPrice == null) {
-					// 库存记录没有
-					avaPrice = this.getAvgPrice(itemCode, warehouse);
-				}
-			}
-			if (avaPrice != null) {
-				BigDecimal amount = Decimals.multiply(this.getQuantity(), avaPrice);
-				if (this.getAmount() != null && this.getAmount().scale() > 0) {
-					amount = amount.setScale(this.getAmount().scale(), Decimals.ROUNDING_MODE_DEFAULT);
-				}
-				this.setAmount(amount);
-			} else {
-				this.setAmount(Decimals.VALUE_ZERO);
-			}
-			// 设置未本币（物料成本均为本币）
-			this.setCurrency(org.colorcoding.ibas.accounting.MyConfiguration
-					.getConfigValue(org.colorcoding.ibas.accounting.MyConfiguration.CONFIG_ITEM_LOCAL_CURRENCY));
-			this.setRate(Decimals.VALUE_ONE);
-		}
-		return true;
 	}
 }

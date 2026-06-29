@@ -72,6 +72,9 @@ public class MaterialBatchJournalService
 					if (!MyConfiguration.getConfigValue(MyConfiguration.CONFIG_ITEM_ENABLE_MATERIAL_COSTS, false)) {
 						this.setEnableMaterialCosts(false);
 					}
+				} else {
+					// 非批次移动平均，批次不计算成本（成本由仓库级管理）
+					this.setEnableMaterialCosts(false);
 				}
 			}
 		}
@@ -178,8 +181,8 @@ public class MaterialBatchJournalService
 						materialBatchJournal = operationResult.getResultObjects().firstOrDefault();
 						materialBatchJournal = BOUtilities.clone(materialBatchJournal);
 						materialBatchJournal.setDataSource(DATASOURCE_SIGN_OFFSETTING_JOURNAL);
-						materialBatchJournal.setQuantity(materialBatchJournal.getQuantity().negate());
-						materialBatchJournal.setTransactionValue(materialBatchJournal.getTransactionValue().negate());
+						materialBatchJournal.setQuantity(Decimals.negate(materialBatchJournal.getQuantity()));
+						materialBatchJournal.setTransactionValue(Decimals.negate(materialBatchJournal.getTransactionValue()));
 					}
 				}
 			} else {
@@ -212,7 +215,12 @@ public class MaterialBatchJournalService
 						|| !materialBatchJournal.getWarehouse().equals(contract.getWarehouse())
 						|| !materialBatchJournal.getBatchCode().equals(contract.getBatchCode())
 						|| materialBatchJournal.getQuantity().abs().compareTo(contract.getQuantity()) != 0
-						|| materialBatchJournal.getPrice().compareTo(contract.getPrice().abs()) != 0) {
+						|| (contract.getPrice() != null && materialBatchJournal.getPrice() != null
+								&& materialBatchJournal.getPrice().compareTo(contract.getPrice().abs()) != 0)
+						|| (contract.getCurrency() != null
+								&& !contract.getCurrency().equals(materialBatchJournal.getCurrency()))
+						|| (contract.getRate() != null && materialBatchJournal.getRate() != null
+								&& materialBatchJournal.getRate().compareTo(contract.getRate()) != 0)) {
 					// 修改入库物料、仓库、价格，影响成本计算，不允许
 					throw new BusinessLogicException(
 							I18N.prop(
@@ -401,7 +409,7 @@ public class MaterialBatchJournalService
 			materialBatchJournal.setDocumentDate(contract.getDocumentDate());
 			materialBatchJournal.setDeliveryDate(contract.getDeliveryDate());
 			materialBatchJournal.setQuantity(contract.getQuantity());
-			materialBatchJournal.setPrice(contract.getPrice().abs());
+			materialBatchJournal.setPrice(contract.getPrice() != null ? contract.getPrice().abs() : Decimals.VALUE_ZERO);
 			materialBatchJournal.setCurrency(contract.getCurrency());
 			materialBatchJournal.setRate(contract.getRate());
 			materialBatchJournal.setOriginalDocumentType(contract.getBaseDocumentType());

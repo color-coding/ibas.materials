@@ -42,7 +42,7 @@ public class JournalEntrySmartContent
 				}
 				if (!criteria.getConditions().isEmpty()) {
 					try (BORepositoryMaterials boRepository = new BORepositoryMaterials()) {
-						boRepository.setTransaction(this.getService().getTransaction());
+						boRepository.setTransaction(this.getTransaction());
 						IOperationResult<IMaterial> operationResult = boRepository.fetchMaterial(criteria);
 						if (operationResult.getError() != null) {
 							throw new BusinessLogicException(operationResult.getError());
@@ -88,7 +88,7 @@ public class JournalEntrySmartContent
 				}
 				if (!criteria.getConditions().isEmpty()) {
 					try (BORepositoryMaterials boRepository = new BORepositoryMaterials()) {
-						boRepository.setTransaction(this.getService().getTransaction());
+						boRepository.setTransaction(this.getTransaction());
 						IOperationResult<IMaterial> operationResult = boRepository.fetchMaterial(criteria);
 						if (operationResult.getError() != null) {
 							throw new BusinessLogicException(operationResult.getError());

@@ -73,6 +73,9 @@ public class MaterialSerialJournalService
 					if (!MyConfiguration.getConfigValue(MyConfiguration.CONFIG_ITEM_ENABLE_MATERIAL_COSTS, false)) {
 						this.setEnableMaterialCosts(false);
 					}
+				} else {
+					// 非批次移动平均，序列不计算成本（成本由仓库级管理）
+					this.setEnableMaterialCosts(false);
 				}
 			}
 		}
@@ -179,8 +182,8 @@ public class MaterialSerialJournalService
 						materialSerialJournal = operationResult.getResultObjects().firstOrDefault();
 						materialSerialJournal = BOUtilities.clone(materialSerialJournal);
 						materialSerialJournal.setDataSource(DATASOURCE_SIGN_OFFSETTING_JOURNAL);
-						materialSerialJournal.setQuantity(materialSerialJournal.getQuantity().negate());
-						materialSerialJournal.setTransactionValue(materialSerialJournal.getTransactionValue().negate());
+						materialSerialJournal.setQuantity(Decimals.negate(materialSerialJournal.getQuantity()));
+						materialSerialJournal.setTransactionValue(Decimals.negate(materialSerialJournal.getTransactionValue()));
 					}
 				}
 			} else {
@@ -212,8 +215,12 @@ public class MaterialSerialJournalService
 				if (!materialSerialJournal.getItemCode().equals(contract.getItemCode())
 						|| !materialSerialJournal.getWarehouse().equals(contract.getWarehouse())
 						|| !materialSerialJournal.getSerialCode().equals(contract.getSerialCode())
-						|| (materialSerialJournal.getPrice().compareTo(contract.getPrice()) != 0
-								&& contract.getPrice().compareTo(Decimals.VALUE_ZERO) > 0)) {
+						|| (contract.getPrice() != null && materialSerialJournal.getPrice() != null
+								&& materialSerialJournal.getPrice().compareTo(contract.getPrice().abs()) != 0)
+						|| (contract.getCurrency() != null
+								&& !contract.getCurrency().equals(materialSerialJournal.getCurrency()))
+						|| (contract.getRate() != null && materialSerialJournal.getRate() != null
+								&& materialSerialJournal.getRate().compareTo(contract.getRate()) != 0)) {
 					// 修改入库物料、仓库、价格，影响成本计算，不允许
 					throw new BusinessLogicException(
 							I18N.prop(
@@ -403,7 +410,7 @@ public class MaterialSerialJournalService
 			materialSerialJournal.setDocumentDate(contract.getDocumentDate());
 			materialSerialJournal.setDeliveryDate(contract.getDeliveryDate());
 			materialSerialJournal.setQuantity(Decimals.VALUE_ONE);
-			materialSerialJournal.setPrice(contract.getPrice().abs());
+			materialSerialJournal.setPrice(contract.getPrice() != null ? contract.getPrice().abs() : Decimals.VALUE_ZERO);
 			materialSerialJournal.setCurrency(contract.getCurrency());
 			materialSerialJournal.setRate(contract.getRate());
 			materialSerialJournal.setOriginalDocumentType(contract.getBaseDocumentType());

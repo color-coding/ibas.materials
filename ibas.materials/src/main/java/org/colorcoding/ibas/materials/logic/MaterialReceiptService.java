@@ -176,8 +176,8 @@ public class MaterialReceiptService
 						materialJournal = operationResult.getResultObjects().firstOrDefault();
 						materialJournal = BOUtilities.clone(materialJournal);
 						materialJournal.setDataSource(DATASOURCE_SIGN_OFFSETTING_JOURNAL);
-						materialJournal.setQuantity(materialJournal.getQuantity().negate());
-						materialJournal.setTransactionValue(materialJournal.getTransactionValue().negate());
+						materialJournal.setQuantity(Decimals.negate(materialJournal.getQuantity()));
+						materialJournal.setTransactionValue(Decimals.negate(materialJournal.getTransactionValue()));
 					}
 				}
 			} else {
@@ -221,7 +221,12 @@ public class MaterialReceiptService
 				if (!materialJournal.getItemCode().equals(contract.getItemCode())
 						|| !materialJournal.getWarehouse().equals(contract.getWarehouse())
 						|| materialJournal.getQuantity().abs().compareTo(contract.getQuantity()) != 0
-						|| materialJournal.getPrice().compareTo(contract.getPrice().abs()) != 0) {
+						|| (contract.getPrice() != null && materialJournal.getPrice() != null
+								&& materialJournal.getPrice().compareTo(contract.getPrice().abs()) != 0)
+						|| (contract.getCurrency() != null
+								&& !contract.getCurrency().equals(materialJournal.getCurrency()))
+						|| (contract.getRate() != null && materialJournal.getRate() != null
+								&& materialJournal.getRate().compareTo(contract.getRate()) != 0)) {
 					// 修改入库物料、仓库、价格，影响成本计算，不允许
 					throw new BusinessLogicException(I18N.prop(
 							"msg_mm_document_completed_material_cost_calculation_not_support_operation",
@@ -283,6 +288,10 @@ public class MaterialReceiptService
 						inventoryQuantity = materialInventory.getOnHand();
 						inventoryValue = materialInventory.getInventoryValue();
 						calculatedPrice = materialInventory.getAvgPrice();
+					} else if (contract.isOffsetting()) {
+						// 取消时未找到库存记录，可能数据不一致
+						Logger.log(MessageLevel.WARN, "material inventory not found during offsetting: item[%s], warehouse[%s]",
+								contract.getItemCode(), contract.getWarehouse());
 					}
 				} else {
 					// 物料管理
@@ -409,7 +418,7 @@ public class MaterialReceiptService
 			materialJournal.setDocumentDate(contract.getDocumentDate());
 			materialJournal.setDeliveryDate(contract.getDeliveryDate());
 			materialJournal.setQuantity(contract.getQuantity());
-			materialJournal.setPrice(contract.getPrice().abs());
+			materialJournal.setPrice(contract.getPrice() != null ? contract.getPrice().abs() : Decimals.VALUE_ZERO);
 			materialJournal.setCurrency(contract.getCurrency());
 			materialJournal.setRate(contract.getRate());
 			materialJournal.setOriginalDocumentType(contract.getBaseDocumentType());
