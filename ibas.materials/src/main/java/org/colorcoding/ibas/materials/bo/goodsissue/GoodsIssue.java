@@ -953,32 +953,32 @@ public class GoodsIssue extends BusinessObject<GoodsIssue>
 	}
 
 	/**
-	* 属性名称-已打印
-	*/
+	 * 属性名称-已打印
+	 */
 	private static final String PROPERTY_PRINTED_NAME = "Printed";
 
 	/**
-	* 已打印 属性
-	*/
+	 * 已打印 属性
+	 */
 	@DbField(name = "Printed", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<emYesNo> PROPERTY_PRINTED = registerProperty(PROPERTY_PRINTED_NAME, emYesNo.class,
 			MY_CLASS);
 
 	/**
-	* 获取-已打印
-	* 
-	* @return 值
-	*/
+	 * 获取-已打印
+	 * 
+	 * @return 值
+	 */
 	@XmlElement(name = PROPERTY_PRINTED_NAME)
 	public final emYesNo getPrinted() {
 		return this.getProperty(PROPERTY_PRINTED);
 	}
 
 	/**
-	* 设置-已打印
-	* 
-	* @param value 值
-	*/
+	 * 设置-已打印
+	 * 
+	 * @param value 值
+	 */
 	public final void setPrinted(emYesNo value) {
 		this.setProperty(PROPERTY_PRINTED, value);
 	}
