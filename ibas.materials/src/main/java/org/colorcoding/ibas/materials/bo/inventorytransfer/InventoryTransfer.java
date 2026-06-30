@@ -1443,15 +1443,15 @@ public class InventoryTransfer extends BusinessObject<InventoryTransfer>
 							if (line.getLineStatus() == emDocumentStatus.PLANNED) {
 								continue;
 							}
-							// 库存科目
-							jeContent = new _MaterialsInventoryCost(line, line.getQuantity());
+							// 库存科目（目的仓：增加）
+							jeContent = new MaterialsInventoryCost(line, line.getQuantity());
 							jeContent.setCategory(Category.Debit);
 							jeContent.setLedger(Ledgers.LEDGER_INVENTORY_INVENTORY_ACCOUNT);
 							jeContent.setAmount(line.getLineTotal());
 							jeContent.setCurrency(line.getCurrency());
 							jeContent.setRate(line.getRate());
 							jeContents.add(jeContent);
-							// 库存科目
+							// 库存科目（源仓：减少）
 							jeContent = new _MaterialsInventoryCost(line, line.getQuantity());
 							jeContent.setCategory(Category.Credit);
 							jeContent.setLedger(Ledgers.LEDGER_INVENTORY_INVENTORY_ACCOUNT);
@@ -1475,9 +1475,9 @@ class _MaterialsInventoryCost extends MaterialsInventoryCost {
 	}
 
 	@Override
-	protected boolean caculate(String itemCode, String warehouse) {
+	protected boolean caculateInventoryCost(String itemCode, String warehouse) throws Exception {
 		warehouse = String.valueOf(super.getSourceDataPropertyValue(Ledgers.CONDITION_PROPERTY_FROM_WAREHOUSE));
-		return super.caculate(itemCode, warehouse);
+		return super.caculateInventoryCost(itemCode, warehouse);
 	}
 
 }

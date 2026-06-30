@@ -1416,7 +1416,7 @@ public class InventoryCounting extends BusinessObject<InventoryCounting> impleme
 							jeContents.add(jeContent);
 							jeContent = new JournalEntrySmartContent(line);
 							jeContent.setCategory(Category.Debit);
-							jeContent.setLedger(Ledgers.LEDGER_INVENTORY_INVENTORY_OFFSET_INCR_ACCOUNT);
+							jeContent.setLedger(Ledgers.LEDGER_INVENTORY_INVENTORY_OFFSET_DECR_ACCOUNT);
 							jeContent.setAmount(line.getLineTotal().abs());
 							jeContent.setCurrency(line.getCurrency());
 							jeContent.setRate(line.getRate());
