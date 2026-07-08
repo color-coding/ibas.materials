@@ -9,7 +9,7 @@ import org.colorcoding.ibas.materials.MyConfiguration;
  * 拣配状态
  */
 @XmlType(namespace = MyConfiguration.NAMESPACE_BO)
-public enum emPickStatus {
+public enum emPickingStatus {
 	/**
 	 * 已审批
 	 */

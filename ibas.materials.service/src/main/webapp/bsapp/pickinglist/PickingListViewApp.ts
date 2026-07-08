@@ -8,19 +8,19 @@
 namespace materials {
     export namespace app {
         /** 查看应用-拣配清单 */
-        export class PickListsViewApp extends ibas.BOViewService<IPickListsViewView, bo.PickLists> {
+        export class PickingListViewApp extends ibas.BOViewService<IPickingListViewView, bo.PickingList> {
             /** 应用标识 */
             static APPLICATION_ID: string = "9b54c2d5-bfee-414a-a0ec-ad41977ea76d";
             /** 应用名称 */
-            static APPLICATION_NAME: string = "materials_app_picklists_view";
+            static APPLICATION_NAME: string = "materials_app_pickinglist_view";
             /** 业务对象编码 */
-            static BUSINESS_OBJECT_CODE: string = bo.PickLists.BUSINESS_OBJECT_CODE;
+            static BUSINESS_OBJECT_CODE: string = bo.PickingList.BUSINESS_OBJECT_CODE;
             /** 构造函数 */
             constructor() {
                 super();
-                this.id = PickListsViewApp.APPLICATION_ID;
-                this.name = PickListsViewApp.APPLICATION_NAME;
-                this.boCode = PickListsViewApp.BUSINESS_OBJECT_CODE;
+                this.id = PickingListViewApp.APPLICATION_ID;
+                this.name = PickingListViewApp.APPLICATION_NAME;
+                this.boCode = PickingListViewApp.BUSINESS_OBJECT_CODE;
                 this.description = ibas.i18n.prop(this.name);
             }
             /** 注册视图 */
@@ -35,24 +35,24 @@ namespace materials {
                 super.viewShowed();
                 if (ibas.objects.isNull(this.viewData)) {
                     // 创建编辑对象实例
-                    this.viewData = new bo.PickLists();
+                    this.viewData = new bo.PickingList();
                     this.proceeding(ibas.emMessageType.WARNING, ibas.i18n.prop("shell_data_created_new"));
                 }
-                this.view.showPickLists(this.viewData);
-                this.view.showPickListsLines(this.viewData.pickListsLines.filterDeleted());
+                this.view.showPickingList(this.viewData);
+                this.view.showPickingListLines(this.viewData.pickingListLines.filterDeleted());
             }
             /** 编辑数据，参数：目标数据 */
             protected editData(): void {
-                let app: PickListsEditApp = new PickListsEditApp();
+                let app: PickingListEditApp = new PickingListEditApp();
                 app.navigation = this.navigation;
                 app.viewShower = this.viewShower;
                 app.run(this.viewData);
             }
             run(): void;
-            run(data: bo.PickLists): void;
+            run(data: bo.PickingList): void;
             run(): void {
-                if (arguments[0] instanceof bo.PickLists) {
-                    let data: bo.PickLists = arguments[0];
+                if (arguments[0] instanceof bo.PickingList) {
+                    let data: bo.PickingList = arguments[0];
                     if (data.isNew) {
                         this.viewData = data;
                         this.show();
@@ -62,9 +62,9 @@ namespace materials {
                             // 有效的查询对象查询
                             let that: this = this;
                             let boRepository: bo.BORepositoryMaterials = new bo.BORepositoryMaterials();
-                            boRepository.fetchPickLists({
+                            boRepository.fetchPickingList({
                                 criteria: criteria,
-                                onCompleted(opRslt: ibas.IOperationResult<bo.PickLists>): void {
+                                onCompleted(opRslt: ibas.IOperationResult<bo.PickingList>): void {
                                     try {
                                         if (opRslt.resultCode !== 0) {
                                             throw new Error(opRslt.message);
@@ -104,13 +104,13 @@ namespace materials {
                     criteria = new ibas.Criteria();
                     criteria.result = 1;
                     condition = criteria.conditions.create();
-                    condition.alias = bo.PickLists.PROPERTY_OBJECTKEY_NAME;
+                    condition.alias = bo.PickingList.PROPERTY_OBJECTKEY_NAME;
                     condition.value = value;
                 }
                 let boRepository: bo.BORepositoryMaterials = new bo.BORepositoryMaterials();
-                boRepository.fetchPickLists({
+                boRepository.fetchPickingList({
                     criteria: criteria,
-                    onCompleted(opRslt: ibas.IOperationResult<bo.PickLists>): void {
+                    onCompleted(opRslt: ibas.IOperationResult<bo.PickingList>): void {
                         try {
                             that.busy(false);
                             if (opRslt.resultCode !== 0) {
@@ -132,26 +132,26 @@ namespace materials {
             }
         }
         /** 视图-拣配清单 */
-        export interface IPickListsViewView extends ibas.IBOViewView {
+        export interface IPickingListViewView extends ibas.IBOViewView {
             /** 显示数据 */
-            showPickLists(data: bo.PickLists): void;
+            showPickingList(data: bo.PickingList): void;
             /** 显示数据-拣配清单-行 */
-            showPickListsLines(datas: bo.PickListsLine[]): void;
+            showPickingListLines(datas: bo.PickingListLine[]): void;
 
         }
         /** 拣配清单连接服务映射 */
-        export class PickListsLinkServiceMapping extends ibas.BOLinkServiceMapping {
+        export class PickingListLinkServiceMapping extends ibas.BOLinkServiceMapping {
             /** 构造函数 */
             constructor() {
                 super();
-                this.id = PickListsViewApp.APPLICATION_ID;
-                this.name = PickListsViewApp.APPLICATION_NAME;
-                this.boCode = PickListsViewApp.BUSINESS_OBJECT_CODE;
+                this.id = PickingListViewApp.APPLICATION_ID;
+                this.name = PickingListViewApp.APPLICATION_NAME;
+                this.boCode = PickingListViewApp.BUSINESS_OBJECT_CODE;
                 this.description = ibas.i18n.prop(this.name);
             }
             /** 创建服务实例 */
             create(): ibas.IBOLinkService {
-                return new PickListsViewApp();
+                return new PickingListViewApp();
             }
         }
     }

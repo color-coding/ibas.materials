@@ -1,4 +1,4 @@
-package org.colorcoding.ibas.materials.bo.picklists;
+package org.colorcoding.ibas.materials.bo.pickinglist;
 
 import java.math.BigDecimal;
 
@@ -21,15 +21,15 @@ import org.colorcoding.ibas.bobas.rule.IBusinessRule;
 import org.colorcoding.ibas.bobas.rule.common.BusinessRuleMinValue;
 import org.colorcoding.ibas.bobas.rule.common.BusinessRuleRequired;
 import org.colorcoding.ibas.materials.MyConfiguration;
-import org.colorcoding.ibas.materials.data.emPickStatus;
+import org.colorcoding.ibas.materials.data.emPickingStatus;
 import org.colorcoding.ibas.materials.rules.BusinessRuleCalculateInventoryQuantity;
 
 /**
  * 拣配清单-行
  */
 @XmlAccessorType(XmlAccessType.NONE)
-@XmlType(name = PickListsLine.BUSINESS_OBJECT_NAME, namespace = MyConfiguration.NAMESPACE_BO)
-public class PickListsLine extends BusinessObject<PickListsLine> implements IPickListsLine, IBOUserFields {
+@XmlType(name = PickingListLine.BUSINESS_OBJECT_NAME, namespace = MyConfiguration.NAMESPACE_BO)
+public class PickingListLine extends BusinessObject<PickingListLine> implements IPickingListLine, IBOUserFields {
 
 	/**
 	 * 序列化版本标记
@@ -39,7 +39,7 @@ public class PickListsLine extends BusinessObject<PickListsLine> implements IPic
 	/**
 	 * 当前类型
 	 */
-	private static final Class<?> MY_CLASS = PickListsLine.class;
+	private static final Class<?> MY_CLASS = PickingListLine.class;
 
 	/**
 	 * 数据库表
@@ -49,12 +49,12 @@ public class PickListsLine extends BusinessObject<PickListsLine> implements IPic
 	/**
 	 * 业务对象编码
 	 */
-	public static final String BUSINESS_OBJECT_CODE = "${Company}_MM_PICKLISTS";
+	public static final String BUSINESS_OBJECT_CODE = "${Company}_MM_PICKINGLIST";
 
 	/**
 	 * 业务对象名称
 	 */
-	public static final String BUSINESS_OBJECT_NAME = "PickListsLine";
+	public static final String BUSINESS_OBJECT_NAME = "PickingListLine";
 
 	/**
 	 * 属性名称-对象编号
@@ -927,23 +927,23 @@ public class PickListsLine extends BusinessObject<PickListsLine> implements IPic
 	/**
 	 * 属性名称-拣配状态
 	 */
-	private static final String PROPERTY_PICKSTATUS_NAME = "PickStatus";
+	private static final String PROPERTY_PICKINGSTATUS_NAME = "PickingStatus";
 
 	/**
 	 * 拣配状态 属性
 	 */
 	@DbField(name = "PickStatus", type = DataType.ALPHANUMERIC, table = DB_TABLE_NAME)
-	public static final IPropertyInfo<emPickStatus> PROPERTY_PICKSTATUS = registerProperty(PROPERTY_PICKSTATUS_NAME,
-			emPickStatus.class, MY_CLASS);
+	public static final IPropertyInfo<emPickingStatus> PROPERTY_PICKINGSTATUS = registerProperty(PROPERTY_PICKINGSTATUS_NAME,
+			emPickingStatus.class, MY_CLASS);
 
 	/**
 	 * 获取-拣配状态
 	 *
 	 * @return 值
 	 */
-	@XmlElement(name = PROPERTY_PICKSTATUS_NAME)
-	public final emPickStatus getPickStatus() {
-		return this.getProperty(PROPERTY_PICKSTATUS);
+	@XmlElement(name = PROPERTY_PICKINGSTATUS_NAME)
+	public final emPickingStatus getPickingStatus() {
+		return this.getProperty(PROPERTY_PICKINGSTATUS);
 	}
 
 	/**
@@ -951,20 +951,20 @@ public class PickListsLine extends BusinessObject<PickListsLine> implements IPic
 	 *
 	 * @param value 值
 	 */
-	public final void setPickStatus(emPickStatus value) {
-		this.setProperty(PROPERTY_PICKSTATUS, value);
+	public final void setPickingStatus(emPickingStatus value) {
+		this.setProperty(PROPERTY_PICKINGSTATUS, value);
 	}
 
 	/**
 	 * 属性名称-拣配数量
 	 */
-	private static final String PROPERTY_PICKQUANTITY_NAME = "PickQuantity";
+	private static final String PROPERTY_PICKINGQUANTITY_NAME = "PickingQuantity";
 
 	/**
 	 * 拣配数量 属性
 	 */
 	@DbField(name = "PickQty", type = DataType.DECIMAL, editType = EditType.QUANTITY, table = DB_TABLE_NAME)
-	public static final IPropertyInfo<BigDecimal> PROPERTY_PICKQUANTITY = registerProperty(PROPERTY_PICKQUANTITY_NAME,
+	public static final IPropertyInfo<BigDecimal> PROPERTY_PICKINGQUANTITY = registerProperty(PROPERTY_PICKINGQUANTITY_NAME,
 			BigDecimal.class, MY_CLASS);
 
 	/**
@@ -972,9 +972,9 @@ public class PickListsLine extends BusinessObject<PickListsLine> implements IPic
 	 *
 	 * @return 值
 	 */
-	@XmlElement(name = PROPERTY_PICKQUANTITY_NAME)
-	public final BigDecimal getPickQuantity() {
-		return this.getProperty(PROPERTY_PICKQUANTITY);
+	@XmlElement(name = PROPERTY_PICKINGQUANTITY_NAME)
+	public final BigDecimal getPickingQuantity() {
+		return this.getProperty(PROPERTY_PICKINGQUANTITY);
 	}
 
 	/**
@@ -982,8 +982,8 @@ public class PickListsLine extends BusinessObject<PickListsLine> implements IPic
 	 *
 	 * @param value 值
 	 */
-	public final void setPickQuantity(BigDecimal value) {
-		this.setProperty(PROPERTY_PICKQUANTITY, value);
+	public final void setPickingQuantity(BigDecimal value) {
+		this.setProperty(PROPERTY_PICKINGQUANTITY, value);
 	}
 
 	/**
@@ -1051,24 +1051,24 @@ public class PickListsLine extends BusinessObject<PickListsLine> implements IPic
 	/**
 	 * 属性名称-拣配清单-序号
 	 */
-	private static final String PROPERTY_PICKLISTSNUMBERS_NAME = "PickListsNumbers";
+	private static final String PROPERTY_PICKINGLISTNUMBERS_NAME = "PickingListNumbers";
 
 	/**
 	 * 拣配清单-序号的集合属性
 	 * 
 	 */
-	public static final IPropertyInfo<IPickListsNumbers> PROPERTY_PICKLISTSNUMBERS = registerProperty(
-			PROPERTY_PICKLISTSNUMBERS_NAME, IPickListsNumbers.class, MY_CLASS);
+	public static final IPropertyInfo<IPickingListNumbers> PROPERTY_PICKINGLISTNUMBERS = registerProperty(
+			PROPERTY_PICKINGLISTNUMBERS_NAME, IPickingListNumbers.class, MY_CLASS);
 
 	/**
 	 * 获取-拣配清单-序号集合
 	 * 
 	 * @return 值
 	 */
-	@XmlElementWrapper(name = PROPERTY_PICKLISTSNUMBERS_NAME)
-	@XmlElement(name = PickListsNumber.BUSINESS_OBJECT_NAME, type = PickListsNumber.class)
-	public final IPickListsNumbers getPickListsNumbers() {
-		return this.getProperty(PROPERTY_PICKLISTSNUMBERS);
+	@XmlElementWrapper(name = PROPERTY_PICKINGLISTNUMBERS_NAME)
+	@XmlElement(name = PickingListNumber.BUSINESS_OBJECT_NAME, type = PickingListNumber.class)
+	public final IPickingListNumbers getPickingListNumbers() {
+		return this.getProperty(PROPERTY_PICKINGLISTNUMBERS);
 	}
 
 	/**
@@ -1076,8 +1076,8 @@ public class PickListsLine extends BusinessObject<PickListsLine> implements IPic
 	 * 
 	 * @param value 值
 	 */
-	public final void setPickListsNumbers(IPickListsNumbers value) {
-		this.setProperty(PROPERTY_PICKLISTSNUMBERS, value);
+	public final void setPickingListNumbers(IPickingListNumbers value) {
+		this.setProperty(PROPERTY_PICKINGLISTNUMBERS, value);
 	}
 
 	/**
@@ -1087,7 +1087,7 @@ public class PickListsLine extends BusinessObject<PickListsLine> implements IPic
 	protected void initialize() {
 		super.initialize();// 基类初始化，不可去除
 		this.setObjectCode(MyConfiguration.applyVariables(BUSINESS_OBJECT_CODE));
-		this.setPickListsNumbers(new PickListsNumbers(this));
+		this.setPickingListNumbers(new PickingListNumbers(this));
 
 	}
 

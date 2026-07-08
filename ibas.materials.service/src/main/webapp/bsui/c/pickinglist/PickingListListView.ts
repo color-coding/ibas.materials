@@ -9,10 +9,10 @@ namespace materials {
     export namespace ui {
         export namespace c {
             /** 列表视图-拣配清单 */
-            export class PickListsListView extends ibas.BOListView implements app.IPickListsListView {
+            export class PickingListListView extends ibas.BOListView implements app.IPickingListListView {
                 /** 返回查询的对象 */
                 get queryTarget(): any {
-                    return bo.PickLists;
+                    return bo.PickingList;
                 }
                 /** 编辑数据，参数：目标数据 */
                 editDataEvent: Function;
@@ -31,7 +31,7 @@ namespace materials {
                         rows: "{/rows}",
                         columns: [
                             new sap.extension.table.DataColumn("", {
-                                label: ibas.i18n.prop("bo_picklists_objectkey"),
+                                label: ibas.i18n.prop("bo_pickinglist_objectkey"),
                                 template: new sap.extension.m.DataLink("", {
                                     objectCode: {
                                         path: "objectCode",
@@ -43,26 +43,26 @@ namespace materials {
                                 }),
                             }),
                             new sap.extension.table.DataColumn("", {
-                                label: ibas.i18n.prop("bo_picklists_pickdate"),
+                                label: ibas.i18n.prop("bo_pickinglist_pickingdate"),
                                 template: new sap.extension.m.Text("", {
                                 }).bindProperty("bindingValue", {
-                                    path: "pickDate",
+                                    path: "pickingDate",
                                     type: new sap.extension.data.Date(),
                                 }),
                             }),
                             new sap.extension.table.DataColumn("", {
-                                label: ibas.i18n.prop("bo_picklists_pickstatus"),
+                                label: ibas.i18n.prop("bo_pickinglist_pickingstatus"),
                                 template: new sap.extension.m.Text("", {
                                 }).bindProperty("bindingValue", {
-                                    path: "pickStatus",
+                                    path: "pickingStatus",
                                     type: new sap.extension.data.Enum({
-                                        enumType: bo.emPickStatus,
+                                        enumType: bo.emPickingStatus,
                                         describe: true,
                                     }),
                                 }),
                             }),
                             new sap.extension.table.DataColumn("", {
-                                label: ibas.i18n.prop("bo_picklists_picker"),
+                                label: ibas.i18n.prop("bo_pickinglist_picker"),
                                 template: new sap.extension.m.Text("", {
                                 }).bindProperty("bindingValue", {
                                     path: "picker",
@@ -70,7 +70,7 @@ namespace materials {
                                 }),
                             }),
                             new sap.extension.table.DataColumn("", {
-                                label: ibas.i18n.prop("bo_picklists_dataowner"),
+                                label: ibas.i18n.prop("bo_pickinglist_dataowner"),
                                 template: new sap.extension.m.UserText("", {
                                 }).bindProperty("bindingValue", {
                                     path: "dataOwner",
@@ -78,7 +78,7 @@ namespace materials {
                                 }),
                             }),
                             new sap.extension.table.DataColumn("", {
-                                label: ibas.i18n.prop("bo_picklists_remarks"),
+                                label: ibas.i18n.prop("bo_pickinglist_remarks"),
                                 template: new sap.extension.m.Text("", {
                                 }).bindProperty("bindingValue", {
                                     path: "remarks",
@@ -208,7 +208,7 @@ namespace materials {
                 }
                 private table: sap.extension.table.Table;
                 /** 显示数据 */
-                showData(datas: bo.PickLists[]): void {
+                showData(datas: bo.PickingList[]): void {
                     let model: sap.ui.model.Model = this.table.getModel();
                     if (model instanceof sap.extension.model.JSONModel) {
                         // 已绑定过数据

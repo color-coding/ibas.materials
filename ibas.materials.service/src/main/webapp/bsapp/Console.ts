@@ -21,7 +21,7 @@
 /// <reference path="./unit/index.ts" />
 /// <reference path="./materialscrap/index.ts" />
 /// <reference path="./materialversion/index.ts" />
-/// <reference path="./picklists/index.ts" />
+/// <reference path="./pickinglist/index.ts" />
 /// <reference path="./inventorytransferrequest/index.ts" />
 /// <reference path="./materialcatalog/index.ts" />
 /// <reference path="./others/index.ts" />
@@ -142,7 +142,7 @@ namespace materials {
                 this.register(new InventoryTransferRequestFunc());
                 this.register(new InventoryTransferFunc());
                 this.register(new InventoryCountingFunc());
-                this.register(new PickListsFunc());
+                this.register(new PickingListFunc());
                 this.register(new MaterialNumberChangeFunc());
                 this.register(new MaterialInventoryTransferFunc());
                 // 注册服务应用
@@ -163,9 +163,9 @@ namespace materials {
                 this.register(new GoodsReceiptLinkServiceMapping());
                 this.register(new MaterialInventoryReservationServiceMapping());
                 this.register(new MaterialOrderedReservationServiceMapping());
-                this.register(new PickListsChooseServiceMapping());
-                this.register(new PickListsLinkServiceMapping());
-                this.register(new PickListsEditServiceMapping());
+                this.register(new PickingListChooseServiceMapping());
+                this.register(new PickingListLinkServiceMapping());
+                this.register(new PickingListEditServiceMapping());
                 this.register(new InventoryTransferRequestChooseServiceMapping());
                 this.register(new InventoryTransferRequestLinkServiceMapping());
                 this.register(new InventoryTransferEditServiceMapping());

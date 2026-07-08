@@ -23,7 +23,7 @@
 /// <reference path="./materialscrap/index.ts" />
 /// <reference path="./materialversion/index.ts" />
 /// <reference path="./unit/index.ts" />
-/// <reference path="./picklists/index.ts" />
+/// <reference path="./pickinglist/index.ts" />
 /// <reference path="./inventorytransferrequest/index.ts" />
 /// <reference path="./materialcatalog/index.ts" />
 namespace materials {
@@ -261,23 +261,23 @@ namespace materials {
                     case app.MaterialOrderedReservationService.APPLICATION_ID:
                         view = new c.MaterialOrderedReservationView();
                         break;
-                    case app.PickListsListApp.APPLICATION_ID:
-                        view = new c.PickListsListView();
+                    case app.PickingListListApp.APPLICATION_ID:
+                        view = new c.PickingListListView();
                         break;
-                    case app.PickListsChooseApp.APPLICATION_ID:
-                        view = new c.PickListsChooseView();
+                    case app.PickingListChooseApp.APPLICATION_ID:
+                        view = new c.PickingListChooseView();
                         break;
-                    case app.PickListsViewApp.APPLICATION_ID:
-                        view = new c.PickListsViewView();
+                    case app.PickingListViewApp.APPLICATION_ID:
+                        view = new c.PickingListViewView();
                         break;
-                    case app.PickListsEditApp.APPLICATION_ID:
-                        view = new c.PickListsEditView();
+                    case app.PickingListEditApp.APPLICATION_ID:
+                        view = new c.PickingListEditView();
                         break;
-                    case app.PickListsApp.APPLICATION_ID:
-                        view = new c.PickListsView();
+                    case app.PickingListApp.APPLICATION_ID:
+                        view = new c.PickingListView();
                         break;
-                    case app.PickListsSettingApp.APPLICATION_ID:
-                        view = new c.PickListsSettingView();
+                    case app.PickingListSettingApp.APPLICATION_ID:
+                        view = new c.PickingListSettingView();
                         break;
                     case app.MaterialNumberChangeApp.APPLICATION_ID:
                         view = new c.MaterialNumberChangeView();

@@ -10,7 +10,7 @@ namespace materials {
         const PROPERTY_DATA: symbol = Symbol("data");
         const PROPERTY_ITEMS: symbol = Symbol("items");
         const PROPERTY_PARENT: symbol = Symbol("parent");
-        export enum emPickViewStatus {
+        export enum emPickingViewStatus {
             /** 处理中 */
             PROCESSING,
             /** 已审批 */
@@ -18,47 +18,47 @@ namespace materials {
             /** 已拣配 */
             PICKED,
         }
-        export enum emPickViewDimension {
+        export enum emPickingViewDimension {
             /** 明细 */
             DETAILS,
             /** 汇总 */
             TOTAL
         }
-        export class PickListsWorking extends ibas.BusinessObject<PickListsWorking> {
+        export class PickingListWorking extends ibas.BusinessObject<PickingListWorking> {
             constructor() {
                 super();
             }
             /** 映射的属性名称-状态 */
             static PROPERTY_STATUS_NAME: string = "Status";
             /** 获取-状态 */
-            get status(): emPickViewStatus {
-                return this.getProperty<emPickViewStatus>(PickListsWorking.PROPERTY_STATUS_NAME);
+            get status(): emPickingViewStatus {
+                return this.getProperty<emPickingViewStatus>(PickingListWorking.PROPERTY_STATUS_NAME);
             }
             /** 设置-状态 */
-            set status(value: emPickViewStatus) {
-                this.setProperty(PickListsWorking.PROPERTY_STATUS_NAME, value);
+            set status(value: emPickingViewStatus) {
+                this.setProperty(PickingListWorking.PROPERTY_STATUS_NAME, value);
             }
             /** 映射的属性名称-显示维度 */
             static PROPERTY_VIEWDIMENSION_NAME: string = "ViewDimension";
             /** 获取-显示维度 */
-            get viewDimension(): emPickViewDimension {
-                return this.getProperty<emPickViewDimension>(PickListsWorking.PROPERTY_VIEWDIMENSION_NAME);
+            get viewDimension(): emPickingViewDimension {
+                return this.getProperty<emPickingViewDimension>(PickingListWorking.PROPERTY_VIEWDIMENSION_NAME);
             }
             /** 设置-显示维度 */
-            set viewDimension(value: emPickViewDimension) {
-                this.setProperty(PickListsWorking.PROPERTY_VIEWDIMENSION_NAME, value);
+            set viewDimension(value: emPickingViewDimension) {
+                this.setProperty(PickingListWorking.PROPERTY_VIEWDIMENSION_NAME, value);
             }
             /** 映射的属性名称-未选择的仓库 */
             static PROPERTY_UNSELECTEDWAREHOUSES_NAME: string = "UnSelectedWarehouses";
             /** 获取-未选择的仓库 */
             get unSelectedWarehouses(): string {
-                return this.getProperty<string>(PickListsWorking.PROPERTY_UNSELECTEDWAREHOUSES_NAME);
+                return this.getProperty<string>(PickingListWorking.PROPERTY_UNSELECTEDWAREHOUSES_NAME);
             }
             /** 设置-未选择的仓库 */
             set unSelectedWarehouses(value: string) {
-                this.setProperty(PickListsWorking.PROPERTY_UNSELECTEDWAREHOUSES_NAME, value);
+                this.setProperty(PickingListWorking.PROPERTY_UNSELECTEDWAREHOUSES_NAME, value);
             }
-            get items(): ibas.IList<PickListsWorkingItem> {
+            get items(): ibas.IList<PickingListWorkingItem> {
                 return this[PROPERTY_ITEMS];
             }
             criteria(): ibas.ICriteria {
@@ -68,22 +68,22 @@ namespace materials {
                 return undefined;
             }
             protected init(): void {
-                this.status = emPickViewStatus.PROCESSING;
-                this.viewDimension = emPickViewDimension.DETAILS;
+                this.status = emPickingViewStatus.PROCESSING;
+                this.viewDimension = emPickingViewDimension.DETAILS;
                 this.unSelectedWarehouses = "";
-                this[PROPERTY_ITEMS] = new ibas.ArrayList<PickListsWorkingItem>();
+                this[PROPERTY_ITEMS] = new ibas.ArrayList<PickingListWorkingItem>();
                 for (let serviceAgent of ibas.servicesManager.getServices({
                     proxy: new MaterialPackingTargetServiceProxy({
                         onPicked: (targets) => {
                         }
                     }),
                 })) {
-                    this.items.add(new PickListsWorkingItem(serviceAgent, this));
+                    this.items.add(new PickingListWorkingItem(serviceAgent, this));
                 }
             }
         }
-        export class PickListsWorkingItem extends ibas.BusinessObject<PickListsWorkingItem> {
-            constructor(serviceAgent: ibas.IServiceAgent, parent: PickListsWorking) {
+        export class PickingListWorkingItem extends ibas.BusinessObject<PickingListWorkingItem> {
+            constructor(serviceAgent: ibas.IServiceAgent, parent: PickingListWorking) {
                 super();
                 this[PROPERTY_DATA] = serviceAgent;
                 this[PROPERTY_PARENT] = parent;
@@ -106,16 +106,16 @@ namespace materials {
             static PROPERTY_ENABLE_NAME: string = "Enable";
             /** 获取-是否启用 */
             get enable(): ibas.emYesNo {
-                return this.getProperty<ibas.emYesNo>(PickListsWorkingItem.PROPERTY_ENABLE_NAME);
+                return this.getProperty<ibas.emYesNo>(PickingListWorkingItem.PROPERTY_ENABLE_NAME);
             }
             /** 设置-是否启用 */
             set enable(value: ibas.emYesNo) {
-                this.setProperty(PickListsWorkingItem.PROPERTY_ENABLE_NAME, value);
+                this.setProperty(PickingListWorkingItem.PROPERTY_ENABLE_NAME, value);
             }
             get serviceAgent(): ibas.IServiceAgent {
                 return this[PROPERTY_DATA];
             }
-            get parent(): PickListsWorking {
+            get parent(): PickingListWorking {
                 return this[PROPERTY_PARENT];
             }
             criteria(): ibas.ICriteria {
@@ -127,9 +127,9 @@ namespace materials {
             protected init(): void {
                 this.enable = ibas.emYesNo.YES;
             }
-            async fetch(criteria?: ibas.ICriteria): Promise<IPickListsTarget[]> {
+            async fetch(criteria?: ibas.ICriteria): Promise<IPickingListTarget[]> {
                 let that: this = this;
-                let promise: Promise<IPickListsTarget[]> = new Promise<IPickListsTarget[]>(resolve => {
+                let promise: Promise<IPickingListTarget[]> = new Promise<IPickingListTarget[]>(resolve => {
                     let hasRunned: boolean = false;
                     for (let srvAgent of ibas.servicesManager.getServices({
                         proxy: new MaterialPackingTargetServiceProxy({
@@ -153,25 +153,25 @@ namespace materials {
             }
         }
         /** 应用-拣配清单 */
-        export class PickListsApp extends ibas.Application<IPickListsView> {
+        export class PickingListApp extends ibas.Application<IPickingListView> {
             /** 应用标识 */
             static APPLICATION_ID: string = "cd750bf4-a1b8-4df3-b567-a69d3b636df3";
             /** 应用名称 */
-            static APPLICATION_NAME: string = "materials_app_picklists";
+            static APPLICATION_NAME: string = "materials_app_pickinglist";
             /** 构造函数 */
             constructor() {
                 super();
-                this.id = PickListsApp.APPLICATION_ID;
-                this.name = PickListsApp.APPLICATION_NAME;
+                this.id = PickingListApp.APPLICATION_ID;
+                this.name = PickingListApp.APPLICATION_NAME;
                 this.description = ibas.i18n.prop(this.name);
             }
-            protected workingData: PickListsWorking;
-            protected pickListsDatas: ibas.ArrayList<bo.PickLists>;
-            run(data?: PickListsWorking): void {
-                if (data instanceof PickListsWorking) {
+            protected workingData: PickingListWorking;
+            protected pickingListDatas: ibas.ArrayList<bo.PickingList>;
+            run(data?: PickingListWorking): void {
+                if (data instanceof PickingListWorking) {
                     this.workingData = data;
                 }
-                this.pickListsDatas = new ibas.ArrayList();
+                this.pickingListDatas = new ibas.ArrayList();
                 super.run.apply(this, arguments);
             }
             /** 注册视图 */
@@ -180,7 +180,7 @@ namespace materials {
                 // 其他事件
                 this.view.saveDatasEvent = this.saveDatas;
                 this.view.fetchProcessingDataEvent = this.fetchProcessingData;
-                this.view.releasePickListsEvent = this.releasePickLists;
+                this.view.releasePickingListEvent = this.releasePickingList;
                 this.view.processingTurnToDeliveryEvent = this.processingTurnToDelivery;
                 this.view.releasedTurnToDeliveryEvent = this.releasedTurnToDelivery;
                 this.view.pickedTurnToDeliveryEvent = this.pickedTurnToDelivery;
@@ -189,7 +189,7 @@ namespace materials {
             protected viewShowed(): void {
                 // 视图加载完成
                 if (ibas.objects.isNull(this.workingData)) {
-                    this.workingData = new PickListsWorking();
+                    this.workingData = new PickingListWorking();
                 }
                 this.view.showWorkingData(this.workingData);
                 this.view.showPickers(ibas.servicesManager.getServices({
@@ -198,22 +198,22 @@ namespace materials {
                         }
                     }),
                 }));
-                this.fetchPickLists();
+                this.fetchPickingList();
             }
             /** 查询数据 */
-            protected fetchPickLists(criteria?: ibas.ICriteria): void {
+            protected fetchPickingList(criteria?: ibas.ICriteria): void {
                 if (ibas.objects.isNull(criteria)) {
                     criteria = new ibas.Criteria();
                     let condition: ibas.ICondition = criteria.conditions.create();
-                    condition.alias = bo.PickLists.PROPERTY_PICKSTATUS_NAME;
+                    condition.alias = bo.PickingList.PROPERTY_PICKINGSTATUS_NAME;
                     condition.operation = ibas.emConditionOperation.NOT_EQUAL;
-                    condition.value = bo.emPickStatus.CLOSED.toString();
+                    condition.value = bo.emPickingStatus.CLOSED.toString();
                 }
                 let that: this = this;
                 let boRepository: bo.BORepositoryMaterials = new bo.BORepositoryMaterials();
-                boRepository.fetchPickLists({
+                boRepository.fetchPickingList({
                     criteria: criteria,
-                    onCompleted(opRslt: ibas.IOperationResult<bo.PickLists>): void {
+                    onCompleted(opRslt: ibas.IOperationResult<bo.PickingList>): void {
                         try {
                             if (opRslt.resultCode !== 0) {
                                 throw new Error(opRslt.message);
@@ -221,8 +221,8 @@ namespace materials {
                             if (opRslt.resultObjects.length === 0) {
                                 that.proceeding(ibas.emMessageType.INFORMATION, ibas.i18n.prop("shell_data_fetched_none"));
                             }
-                            that.pickListsDatas = opRslt.resultObjects;
-                            that.view.showPickListsData(that.pickListsDatas);
+                            that.pickingListDatas = opRslt.resultObjects;
+                            that.view.showPickingListData(that.pickingListDatas);
                         } catch (error) {
                             that.messages(error);
                         }
@@ -232,7 +232,7 @@ namespace materials {
             }
             /** 查询处理中数据事件 */
             protected async fetchProcessingData(): Promise<void> {
-                let datas: ibas.IList<IPickListsTarget> = new ibas.ArrayList();
+                let datas: ibas.IList<IPickingListTarget> = new ibas.ArrayList();
                 this.busy(true);
                 let unSelectedWarehouses: Map<string, string> = new Map();
                 if (!ibas.strings.isEmpty(this.workingData.unSelectedWarehouses)) {
@@ -275,17 +275,17 @@ namespace materials {
                 this.view.showProcessingData(datas);
             }
             /** 下达拣配清单事件 */
-            protected async releasePickLists(pickLists: bo.PickLists, targets: IPickListsTarget[], callback: (error?: any) => void): Promise<void> {
+            protected async releasePickingList(pickingList: bo.PickingList, targets: IPickingListTarget[], callback: (error?: any) => void): Promise<void> {
                 try {
                     for (let target of targets) {
-                        let line: bo.PickListsLine = pickLists.pickListsLines.create();
+                        let line: bo.PickingListLine = pickingList.pickingListLines.create();
                         line.baseBusinessObject(target);
                         line.quantity = target.releasedQuantity;
                     }
-                    pickLists = await this.saveData(pickLists);
-                    if (!ibas.objects.isNull(pickLists)) {
-                        this.pickListsDatas.add(pickLists);
-                        this.view.showPickListsData(this.pickListsDatas);
+                    pickingList = await this.saveData(pickingList);
+                    if (!ibas.objects.isNull(pickingList)) {
+                        this.pickingListDatas.add(pickingList);
+                        this.view.showPickingListData(this.pickingListDatas);
                     }
                     callback();
                     this.proceeding(ibas.emMessageType.SUCCESS, ibas.i18n.prop("shell_data_save") + ibas.i18n.prop("shell_successful"));
@@ -295,24 +295,24 @@ namespace materials {
                 }
             }
             /** 转为交货事件 */
-            protected async processingTurnToDelivery(serviceAgent: ibas.IServiceAgent, datas: ibas.IList<app.IPickListsTarget>, callback: (closedTargets: Array<IPickListsTarget>) => void): Promise<void> {
+            protected async processingTurnToDelivery(serviceAgent: ibas.IServiceAgent, datas: ibas.IList<app.IPickingListTarget>, callback: (closedTargets: Array<IPickingListTarget>) => void): Promise<void> {
                 if (!!datas.firstOrDefault(c => !(ibas.numbers.valueOf(c.releasedQuantity) > 0))) {
-                    this.messages(ibas.emMessageType.WARNING, ibas.i18n.prop("materials_msg_release_picklists_need_quantity"));
+                    this.messages(ibas.emMessageType.WARNING, ibas.i18n.prop("materials_msg_release_pickinglist_need_quantity"));
                     return;
                 }
-                let items: ibas.IList<bo.PickListsLine> = new ibas.ArrayList();
+                let items: ibas.IList<bo.PickingListLine> = new ibas.ArrayList();
                 for (let data of datas) {
-                    let item: bo.PickListsLine = new bo.PickListsLine();
+                    let item: bo.PickingListLine = new bo.PickingListLine();
                     item.baseBusinessObject(data);
                     item.quantity = data.releasedQuantity;
-                    item.pickQuantity = data.releasedQuantity;
+                    item.pickingQuantity = data.releasedQuantity;
                     items.add(item);
                 }
-                let closedLines: Array<bo.IPickListsLine> = await this.turnToDelivery(serviceAgent, items, false);
-                let closedTargets: ibas.ArrayList<IPickListsTarget> = new ibas.ArrayList();
+                let closedLines: Array<bo.IPickingListLine> = await this.turnToDelivery(serviceAgent, items, false);
+                let closedTargets: ibas.ArrayList<IPickingListTarget> = new ibas.ArrayList();
                 if (closedLines instanceof Array) {
                     for (let closedLine of closedLines) {
-                        let target: IPickListsTarget[] = datas.filter(
+                        let target: IPickingListTarget[] = datas.filter(
                             c => ibas.strings.equals(closedLine.baseDocumentType, c.baseDocumentType)
                                 && closedLine.baseDocumentEntry === c.baseDocumentEntry
                                 && ibas.numbers.valueOf(closedLine.baseDocumentLineId) === ibas.numbers.valueOf(c.baseDocumentLineId)
@@ -325,41 +325,41 @@ namespace materials {
                 callback(closedTargets);
             }
             /** 转为交货事件 */
-            protected async releasedTurnToDelivery(serviceAgent: ibas.IServiceAgent, selecteds: ibas.IList<bo.PickListsLine | bo.PickLists>): Promise<void> {
-                let datas: ibas.IList<bo.PickListsLine> = new ibas.ArrayList();
+            protected async releasedTurnToDelivery(serviceAgent: ibas.IServiceAgent, selecteds: ibas.IList<bo.PickingListLine | bo.PickingList>): Promise<void> {
+                let datas: ibas.IList<bo.PickingListLine> = new ibas.ArrayList();
                 for (let selected of selecteds) {
-                    if (selected instanceof bo.PickLists) {
-                        datas.add(selected.pickListsLines.filter(c => c.pickStatus === bo.emPickStatus.RELEASED));
+                    if (selected instanceof bo.PickingList) {
+                        datas.add(selected.pickingListLines.filter(c => c.pickingStatus === bo.emPickingStatus.RELEASED));
                     } else {
                         datas.add(selected);
                     }
                 }
                 if (!!datas.firstOrDefault(c => !(ibas.numbers.valueOf(c.inventoryQuantity) > 0))) {
-                    this.messages(ibas.emMessageType.WARNING, ibas.i18n.prop("materials_msg_release_picklists_need_quantity"));
+                    this.messages(ibas.emMessageType.WARNING, ibas.i18n.prop("materials_msg_release_pickinglist_need_quantity"));
                     return;
                 }
                 for (let data of datas) {
-                    data.pickQuantity = data.inventoryQuantity;
+                    data.pickingQuantity = data.inventoryQuantity;
                 }
                 await this.turnToDelivery(serviceAgent, datas);
             }
             /** 转为交货事件 */
-            protected async pickedTurnToDelivery(serviceAgent: ibas.IServiceAgent, selecteds: ibas.IList<bo.PickListsLine | bo.PickLists>): Promise<void> {
-                let datas: ibas.IList<bo.PickListsLine> = new ibas.ArrayList();
+            protected async pickedTurnToDelivery(serviceAgent: ibas.IServiceAgent, selecteds: ibas.IList<bo.PickingListLine | bo.PickingList>): Promise<void> {
+                let datas: ibas.IList<bo.PickingListLine> = new ibas.ArrayList();
                 for (let selected of selecteds) {
-                    if (selected instanceof bo.PickLists) {
-                        datas.add(selected.pickListsLines.filter(c => c.pickStatus === bo.emPickStatus.RELEASED));
+                    if (selected instanceof bo.PickingList) {
+                        datas.add(selected.pickingListLines.filter(c => c.pickingStatus === bo.emPickingStatus.RELEASED));
                     } else {
                         datas.add(selected);
                     }
                 }
-                if (!!datas.firstOrDefault(c => !(ibas.numbers.valueOf(c.pickQuantity) > 0))) {
-                    this.messages(ibas.emMessageType.WARNING, ibas.i18n.prop("materials_msg_release_picklists_need_quantity"));
+                if (!!datas.firstOrDefault(c => !(ibas.numbers.valueOf(c.pickingQuantity) > 0))) {
+                    this.messages(ibas.emMessageType.WARNING, ibas.i18n.prop("materials_msg_release_pickinglist_need_quantity"));
                     return;
                 }
                 await this.turnToDelivery(serviceAgent, datas);
             }
-            protected async turnToDelivery(serviceAgent: ibas.IServiceAgent, datas: ibas.IList<bo.PickListsLine>, autoSave: boolean = true): Promise<Array<bo.IPickListsLine>> {
+            protected async turnToDelivery(serviceAgent: ibas.IServiceAgent, datas: ibas.IList<bo.PickingListLine>, autoSave: boolean = true): Promise<Array<bo.IPickingListLine>> {
                 let deliveryDescription: string = serviceAgent.description;
                 if (deliveryDescription?.indexOf(",") > -1) {
                     let descs: string[] = deliveryDescription.split(",");
@@ -371,7 +371,7 @@ namespace materials {
                     ));
                     return [];
                 }
-                let promise: Promise<Array<bo.IPickListsLine>> = new Promise<Array<bo.IPickListsLine>>(resolve => {
+                let promise: Promise<Array<bo.IPickingListLine>> = new Promise<Array<bo.IPickingListLine>>(resolve => {
                     let hasRunned: boolean = false;
                     for (let srvAgent of ibas.servicesManager.getServices({
                         proxy: new MaterialPackingTargetServiceProxy({
@@ -380,13 +380,13 @@ namespace materials {
                                     this.proceeding(ibas.emMessageType.WARNING, ibas.i18n.prop("materials_action_is_blocked", closedLines.message));
                                 } else {
                                     if (autoSave) {
-                                        let beSaveds: ibas.ArrayList<bo.PickLists> = new ibas.ArrayList();
+                                        let beSaveds: ibas.ArrayList<bo.PickingList> = new ibas.ArrayList();
                                         for (let closedLine of closedLines) {
-                                            let beSaved: bo.PickLists = beSaveds.firstOrDefault(c => c.objectKey === closedLine.objectKey);
+                                            let beSaved: bo.PickingList = beSaveds.firstOrDefault(c => c.objectKey === closedLine.objectKey);
                                             if (!beSaved) {
                                                 continue;
                                             }
-                                            beSaved = this.pickListsDatas.firstOrDefault(c => c.objectKey === closedLine.objectKey);
+                                            beSaved = this.pickingListDatas.firstOrDefault(c => c.objectKey === closedLine.objectKey);
                                             if (!beSaved) {
                                                 continue;
                                             }
@@ -394,15 +394,15 @@ namespace materials {
                                         }
                                         for (let beSaved of beSaveds) {
                                             try {
-                                                let savedData: bo.PickLists = await this.saveData(beSaved);
-                                                if (!!savedData && this.pickListsDatas.indexOf(beSaved) > -1) {
-                                                    this.pickListsDatas[this.pickListsDatas.indexOf(beSaved)] = savedData;
+                                                let savedData: bo.PickingList = await this.saveData(beSaved);
+                                                if (!!savedData && this.pickingListDatas.indexOf(beSaved) > -1) {
+                                                    this.pickingListDatas[this.pickingListDatas.indexOf(beSaved)] = savedData;
                                                 }
                                             } catch (error) {
                                                 this.proceeding(ibas.emMessageType.WARNING, error.message);
                                             }
                                         }
-                                        this.view.showPickListsData(this.pickListsDatas);
+                                        this.view.showPickingListData(this.pickingListDatas);
                                         resolve([]);
                                     } else {
                                         resolve(closedLines);
@@ -426,11 +426,11 @@ namespace materials {
             protected async saveDatas(): Promise<void> {
                 try {
                     this.busy(true);
-                    for (let pickListsData of this.pickListsDatas) {
-                        if (!pickListsData.isDirty) {
+                    for (let pickingListData of this.pickingListDatas) {
+                        if (!pickingListData.isDirty) {
                             continue;
                         }
-                        await this.saveData(pickListsData);
+                        await this.saveData(pickingListData);
                     }
                     this.messages(ibas.emMessageType.SUCCESS, ibas.i18n.prop("shell_data_save") + ibas.i18n.prop("shell_successful"));
                 } catch (error) {
@@ -439,13 +439,13 @@ namespace materials {
                 this.busy(false);
             }
             /** 保存数据 */
-            protected async saveData(pickLists: bo.PickLists): Promise<bo.PickLists> {
+            protected async saveData(pickingList: bo.PickingList): Promise<bo.PickingList> {
                 let that: this = this;
-                let promise: Promise<bo.PickLists> = new Promise<bo.PickLists>((resolve, reject) => {
+                let promise: Promise<bo.PickingList> = new Promise<bo.PickingList>((resolve, reject) => {
                     let boRepository: bo.BORepositoryMaterials = new bo.BORepositoryMaterials();
-                    boRepository.savePickLists({
-                        beSaved: pickLists,
-                        onCompleted(opRslt: ibas.IOperationResult<bo.PickLists>): void {
+                    boRepository.savePickingList({
+                        beSaved: pickingList,
+                        onCompleted(opRslt: ibas.IOperationResult<bo.PickingList>): void {
                             try {
                                 if (opRslt.resultCode !== 0) {
                                     throw new Error(opRslt.message);
@@ -501,21 +501,21 @@ namespace materials {
             }
         }
         /** 应用-拣配清单 */
-        export interface IPickListsView extends ibas.IView {
+        export interface IPickingListView extends ibas.IView {
             /** 保存数据事件 */
             saveDatasEvent: Function;
             /** 显示数据 */
-            showWorkingData(data: PickListsWorking): void;
+            showWorkingData(data: PickingListWorking): void;
             /** 显示拣配者 */
             showPickers(datas: ibas.IServiceAgent[]): void;
             /** 查询处理中数据事件 */
             fetchProcessingDataEvent: Function;
             /** 显示处理中数据 */
-            showProcessingData(datas: IPickListsTarget[]): void;
+            showProcessingData(datas: IPickingListTarget[]): void;
             /** 显示拣配清单 */
-            showPickListsData(data: bo.PickLists[]): void;
+            showPickingListData(data: bo.PickingList[]): void;
             /** 下达拣配清单事件 */
-            releasePickListsEvent: Function;
+            releasePickingListEvent: Function;
             /** 转为交货事件 */
             processingTurnToDeliveryEvent: Function;
             /** 转为交货事件 */
@@ -524,16 +524,16 @@ namespace materials {
             pickedTurnToDeliveryEvent: Function;
         }
         /** 应用-拣配清单 设置 */
-        export class PickListsSettingApp extends ibas.Application<IPickListsSettingView> {
+        export class PickingListSettingApp extends ibas.Application<IPickingListSettingView> {
             /** 应用标识 */
             static APPLICATION_ID: string = "e868bf1a-7e4d-4656-9446-1f46c453a0f2";
             /** 应用名称 */
-            static APPLICATION_NAME: string = "materials_app_picklists_setting";
+            static APPLICATION_NAME: string = "materials_app_pickinglist_setting";
             /** 构造函数 */
             constructor() {
                 super();
-                this.id = PickListsSettingApp.APPLICATION_ID;
-                this.name = PickListsSettingApp.APPLICATION_NAME;
+                this.id = PickingListSettingApp.APPLICATION_ID;
+                this.name = PickingListSettingApp.APPLICATION_NAME;
                 this.description = ibas.i18n.prop(this.name);
             }
             /** 注册视图 */
@@ -542,13 +542,13 @@ namespace materials {
                 // 其他事件
                 this.view.confirmEvent = this.confirm;
             }
-            protected workingData: PickListsWorking;
+            protected workingData: PickingListWorking;
             protected warehouses: ibas.IList<materials.bo.Warehouse>;
             /** 视图显示后 */
             protected viewShowed(): void {
                 // 视图加载完成
                 if (ibas.objects.isNull(this.workingData)) {
-                    this.workingData = new PickListsWorking();
+                    this.workingData = new PickingListWorking();
                 }
                 this.view.showWorkingData(this.workingData);
                 this.fetchWarehouse();
@@ -559,7 +559,7 @@ namespace materials {
                     ibas.objects.isNull(datas.find(w => ibas.strings.equals(c.code, w.code)))
                 ).join(",");
                 this.workingData.unSelectedWarehouses = ibas.strings.valueOf(unSelectedWarehouses);
-                let app: PickListsApp = new PickListsApp();
+                let app: PickingListApp = new PickingListApp();
                 app.navigation = this.navigation;
                 app.viewShower = this.viewShower;
                 app.run(this.workingData);
@@ -592,11 +592,11 @@ namespace materials {
             }
         }
         /** 应用-拣配清单 设置 */
-        export interface IPickListsSettingView extends ibas.IView {
+        export interface IPickingListSettingView extends ibas.IView {
             /** 确认事件 */
             confirmEvent: Function;
             /** 显示数据 */
-            showWorkingData(data: PickListsWorking): void;
+            showWorkingData(data: PickingListWorking): void;
             /** 显示仓库 */
             showWarehouse(datas: materials.bo.Warehouse[]): void;
         }

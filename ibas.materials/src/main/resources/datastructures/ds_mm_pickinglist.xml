@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE Domain>
 <Domain Name="Materials" ShortName="MM">
-  <Model Name="PickLists" Description="拣配清单" ModelType="Simple" Mapped="${Company}_MM_OPKL">
+  <Model Name="PickingList" Description="拣配清单" ModelType="Simple" Mapped="${Company}_MM_OPKL">
     <Property Name="ObjectKey" Description="对象编号" DataType="Numeric" DataSubType="Default" EditSize="8" Mapped="ObjectKey" PrimaryKey="Yes"/>
     <Property Name="ObjectCode" Description="对象类型" DataType="Alphanumeric" DataSubType="Default" EditSize="30" Mapped="ObjectCode"/>
     <Property Name="LogInst" Description="实例号" DataType="Numeric" DataSubType="Default" EditSize="8" Mapped="LogInst"/>
@@ -21,10 +21,10 @@
     <Property Name="Reference2" Description="参考2" DataType="Alphanumeric" DataSubType="Default" EditSize="200" Mapped="Ref2"/>
     <Property Name="Remarks" Description="备注" DataType="Memo" DataSubType="Default" EditSize="8" Mapped="Remarks"/>
     <Property Name="Picker" Description="拣配员" DataType="Alphanumeric" DataSubType="Default" EditSize="20" Mapped="Picker"/>
-    <Property Name="PickDate" Description="拣配日期" DataType="Date" DataSubType="Default" EditSize="8" Mapped="PickDate"/>
-    <Property Name="PickStatus" Description="拣配状态" DataType="Alphanumeric" DataSubType="Default" EditSize="1" DeclaredType="emPickStatus" Mapped="PickStatus"/>
+    <Property Name="PickingDate" Description="拣配日期" DataType="Date" DataSubType="Default" EditSize="8" Mapped="PickDate"/>
+    <Property Name="PickingStatus" Description="拣配状态" DataType="Alphanumeric" DataSubType="Default" EditSize="1" DeclaredType="emPickingStatus" Mapped="PickStatus"/>
   </Model>
-  <Model Name="PickListsLine" Description="拣配清单-行" ModelType="SimpleLine" Mapped="${Company}_MM_PKL1">
+  <Model Name="PickingListLine" Description="拣配清单-行" ModelType="SimpleLine" Mapped="${Company}_MM_PKL1">
     <Property Name="ObjectKey" Description="对象编号" DataType="Numeric" DataSubType="Default" EditSize="8" Mapped="ObjectKey" PrimaryKey="Yes"/>
     <Property Name="LineId" Description="对象行号" DataType="Numeric" DataSubType="Default" EditSize="8" Mapped="LineId" PrimaryKey="Yes"/>
     <Property Name="ObjectCode" Description="对象类型" DataType="Alphanumeric" DataSubType="Default" EditSize="30" Mapped="ObjectCode"/>
@@ -53,12 +53,12 @@
     <Property Name="InventoryUOM" Description="库存单位" DataType="Alphanumeric" DataSubType="Default" EditSize="8" Mapped="InvUOM"/>
     <Property Name="UOMRate" Description="单位换算率" DataType="Decimal" DataSubType="Rate" EditSize="8" Mapped="UOMRate"/>
     <Property Name="InventoryQuantity" Description="库存数量" DataType="Decimal" DataSubType="Quantity" EditSize="8" Mapped="InvQty"/>
-    <Property Name="PickStatus" Description="拣配状态" DataType="Alphanumeric" DataSubType="Default" EditSize="1" DeclaredType="emPickStatus" Mapped="PickStatus"/>
-    <Property Name="PickQuantity" Description="拣配数量" DataType="Decimal" DataSubType="Quantity" EditSize="8" Mapped="PickQty"/>
+    <Property Name="PickingStatus" Description="拣配状态" DataType="Alphanumeric" DataSubType="Default" EditSize="1" DeclaredType="emPickingStatus" Mapped="PickStatus"/>
+    <Property Name="PickingQuantity" Description="拣配数量" DataType="Decimal" DataSubType="Quantity" EditSize="8" Mapped="PickQty"/>
     <Property Name="ClosedQuantity" Description="已清数量" DataType="Decimal" DataSubType="Quantity" EditSize="8" Mapped="ClosedQty"/>
     <Property Name="Warehouse" Description="仓库" DataType="Alphanumeric" DataSubType="Default" EditSize="8" Mapped="WhsCode"/>
   </Model>
-  <Model Name="PickListsNumber" Description="拣配清单-序号" ModelType="SimpleLine" Mapped="${Company}_MM_PKL2">
+  <Model Name="PickingListNumber" Description="拣配清单-序号" ModelType="SimpleLine" Mapped="${Company}_MM_PKL2">
     <Property Name="ObjectKey" Description="对象编号" DataType="Numeric" DataSubType="Default" EditSize="8" Mapped="ObjectKey" PrimaryKey="Yes"/>
     <Property Name="LineId" Description="对象行号" DataType="Numeric" DataSubType="Default" EditSize="8" Mapped="LineId" PrimaryKey="Yes"/>
     <Property Name="ObjectCode" Description="对象类型" DataType="Alphanumeric" DataSubType="Default" EditSize="30" Mapped="ObjectCode"/>
@@ -77,11 +77,11 @@
     <Property Name="Warehouse" Description="仓库编码" DataType="Alphanumeric" DataSubType="Default" EditSize="8" Mapped="WhsCode"/>
     <Property Name="BatchCode" Description="批次编码" DataType="Alphanumeric" DataSubType="Default" EditSize="36" Mapped="BatchCode"/>
     <Property Name="SerialCode" Description="序列编码" DataType="Alphanumeric" DataSubType="Default" EditSize="36" Mapped="SerialCode"/>
-    <Property Name="PickQuantity" Description="拣配数量" DataType="Decimal" DataSubType="Quantity" EditSize="8" Mapped="PickQty"/>
+    <Property Name="PickingQuantity" Description="拣配数量" DataType="Decimal" DataSubType="Quantity" EditSize="8" Mapped="PickQty"/>
   </Model>
-  <BusinessObject MappedModel="PickLists" ShortName="${Company}_MM_PICKLISTS">
-    <RelatedBO Relation="OneToMany" MappedModel="PickListsLine">
-      <RelatedBO Relation="OneToMany" MappedModel="PickListsNumber"/>
+  <BusinessObject MappedModel="PickingList" ShortName="${Company}_MM_PICKINGLIST">
+    <RelatedBO Relation="OneToMany" MappedModel="PickingListLine">
+      <RelatedBO Relation="OneToMany" MappedModel="PickingListNumber"/>
     </RelatedBO>
   </BusinessObject>
 </Domain>

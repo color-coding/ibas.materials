@@ -1,16 +1,16 @@
-package org.colorcoding.ibas.materials.bo.picklists;
+package org.colorcoding.ibas.materials.bo.pickinglist;
 
 import java.math.BigDecimal;
 
 import org.colorcoding.ibas.bobas.bo.IBOSimpleLine;
 import org.colorcoding.ibas.bobas.data.DateTime;
 import org.colorcoding.ibas.bobas.data.emYesNo;
-import org.colorcoding.ibas.materials.data.emPickStatus;
+import org.colorcoding.ibas.materials.data.emPickingStatus;
 
 /**
  * 拣配清单-行 接口
  */
-public interface IPickListsLine extends IBOSimpleLine {
+public interface IPickingListLine extends IBOSimpleLine {
 
 	/**
 	 * 获取-对象编号
@@ -409,28 +409,28 @@ public interface IPickListsLine extends IBOSimpleLine {
 	 *
 	 * @return 值
 	 */
-	emPickStatus getPickStatus();
+	emPickingStatus getPickingStatus();
 
 	/**
 	 * 设置-拣配状态
 	 *
 	 * @param value 值
 	 */
-	void setPickStatus(emPickStatus value);
+	void setPickingStatus(emPickingStatus value);
 
 	/**
 	 * 获取-拣配数量
 	 *
 	 * @return 值
 	 */
-	BigDecimal getPickQuantity();
+	BigDecimal getPickingQuantity();
 
 	/**
 	 * 设置-拣配数量
 	 *
 	 * @param value 值
 	 */
-	void setPickQuantity(BigDecimal value);
+	void setPickingQuantity(BigDecimal value);
 
 	/**
 	 * 获取-已清数量
@@ -465,13 +465,13 @@ public interface IPickListsLine extends IBOSimpleLine {
 	 * 
 	 * @return 值
 	 */
-	IPickListsNumbers getPickListsNumbers();
+	IPickingListNumbers getPickingListNumbers();
 
 	/**
 	 * 设置-拣配清单-序号集合
 	 * 
 	 * @param value 值
 	 */
-	void setPickListsNumbers(IPickListsNumbers value);
+	void setPickingListNumbers(IPickingListNumbers value);
 
 }

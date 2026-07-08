@@ -300,15 +300,15 @@ namespace materials {
                     if (property === bo.MaterialEstimateJournal.PROPERTY_ESTIMATE_NAME) {
                         return ibas.enums.toString(bo.emEstimateType, value);
                     }
-                } else if (boName === bo.PickLists.name) {
-                    if (property === bo.PickLists.PROPERTY_PICKSTATUS_NAME) {
-                        return ibas.enums.toString(bo.emPickStatus, value);
+                } else if (boName === bo.PickingList.name) {
+                    if (property === bo.PickingList.PROPERTY_PICKINGSTATUS_NAME) {
+                        return ibas.enums.toString(bo.emPickingStatus, value);
                     }
-                } else if (boName === bo.PickListsLine.name) {
-                    if (property === bo.PickListsLine.PROPERTY_PICKSTATUS_NAME) {
-                        return ibas.enums.toString(bo.emPickStatus, value);
-                    } else if (property === bo.PickListsLine.PROPERTY_SERIALMANAGEMENT_NAME
-                        || property === bo.PickListsLine.PROPERTY_BATCHMANAGEMENT_NAME) {
+                } else if (boName === bo.PickingListLine.name) {
+                    if (property === bo.PickingListLine.PROPERTY_PICKINGSTATUS_NAME) {
+                        return ibas.enums.toString(bo.emPickingStatus, value);
+                    } else if (property === bo.PickingListLine.PROPERTY_SERIALMANAGEMENT_NAME
+                        || property === bo.PickingListLine.PROPERTY_BATCHMANAGEMENT_NAME) {
                         return ibas.enums.toString(ibas.emYesNo, value);
                     }
                 } else if (boName === bo.MaterialSpecialPrice.name) {
@@ -496,15 +496,15 @@ namespace materials {
                     if (property === bo.MaterialEstimateJournal.PROPERTY_ESTIMATE_NAME) {
                         return ibas.enums.valueOf(bo.emEstimateType, value);
                     }
-                } else if (boName === bo.PickLists.name) {
-                    if (property === bo.PickLists.PROPERTY_PICKSTATUS_NAME) {
-                        return ibas.enums.valueOf(bo.emPickStatus, value);
+                } else if (boName === bo.PickingList.name) {
+                    if (property === bo.PickingList.PROPERTY_PICKINGSTATUS_NAME) {
+                        return ibas.enums.valueOf(bo.emPickingStatus, value);
                     }
-                } else if (boName === bo.PickListsLine.name) {
-                    if (property === bo.PickListsLine.PROPERTY_PICKSTATUS_NAME) {
-                        return ibas.enums.valueOf(bo.emPickStatus, value);
-                    } else if (property === bo.PickListsLine.PROPERTY_SERIALMANAGEMENT_NAME
-                        || property === bo.PickListsLine.PROPERTY_BATCHMANAGEMENT_NAME) {
+                } else if (boName === bo.PickingListLine.name) {
+                    if (property === bo.PickingListLine.PROPERTY_PICKINGSTATUS_NAME) {
+                        return ibas.enums.valueOf(bo.emPickingStatus, value);
+                    } else if (property === bo.PickingListLine.PROPERTY_SERIALMANAGEMENT_NAME
+                        || property === bo.PickingListLine.PROPERTY_BATCHMANAGEMENT_NAME) {
                         return ibas.enums.valueOf(ibas.emYesNo, value);
                     }
                 } else if (boName === bo.MaterialSpecialPrice.name) {

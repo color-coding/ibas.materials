@@ -8,19 +8,19 @@
 namespace materials {
     export namespace app {
         /** 列表应用-拣配清单 */
-        export class PickListsListApp extends ibas.BOListApplication<IPickListsListView, bo.PickLists> {
+        export class PickingListListApp extends ibas.BOListApplication<IPickingListListView, bo.PickingList> {
             /** 应用标识 */
             static APPLICATION_ID: string = "acda7fd5-b048-4ed0-80af-f3bbbd0e79d4";
             /** 应用名称 */
-            static APPLICATION_NAME: string = "materials_app_picklists_list";
+            static APPLICATION_NAME: string = "materials_app_pickinglist_list";
             /** 业务对象编码 */
-            static BUSINESS_OBJECT_CODE: string = bo.PickLists.BUSINESS_OBJECT_CODE;
+            static BUSINESS_OBJECT_CODE: string = bo.PickingList.BUSINESS_OBJECT_CODE;
             /** 构造函数 */
             constructor() {
                 super();
-                this.id = PickListsListApp.APPLICATION_ID;
-                this.name = PickListsListApp.APPLICATION_NAME;
-                this.boCode = PickListsListApp.BUSINESS_OBJECT_CODE;
+                this.id = PickingListListApp.APPLICATION_ID;
+                this.name = PickingListListApp.APPLICATION_NAME;
+                this.boCode = PickingListListApp.BUSINESS_OBJECT_CODE;
                 this.description = ibas.i18n.prop(this.name);
             }
             /** 注册视图 */
@@ -48,9 +48,9 @@ namespace materials {
                 }
                 let that: this = this;
                 let boRepository: bo.BORepositoryMaterials = new bo.BORepositoryMaterials();
-                boRepository.fetchPickLists({
+                boRepository.fetchPickingList({
                     criteria: criteria,
-                    onCompleted(opRslt: ibas.IOperationResult<bo.PickLists>): void {
+                    onCompleted(opRslt: ibas.IOperationResult<bo.PickingList>): void {
                         try {
                             that.busy(false);
                             if (opRslt.resultCode !== 0) {
@@ -73,13 +73,13 @@ namespace materials {
             }
             /** 新建数据 */
             protected newData(): void {
-                let app: PickListsEditApp = new PickListsEditApp();
+                let app: PickingListEditApp = new PickingListEditApp();
                 app.navigation = this.navigation;
                 app.viewShower = this.viewShower;
                 app.run();
             }
             /** 查看数据，参数：目标数据 */
-            protected viewData(data: bo.PickLists): void {
+            protected viewData(data: bo.PickingList): void {
                 // 检查目标数据
                 if (ibas.objects.isNull(data)) {
                     this.messages(ibas.emMessageType.WARNING, ibas.i18n.prop("shell_please_chooose_data",
@@ -87,14 +87,14 @@ namespace materials {
                     ));
                     return;
                 }
-                let app: PickListsViewApp = new PickListsViewApp();
+                let app: PickingListViewApp = new PickingListViewApp();
                 app.navigation = this.navigation;
                 app.viewShower = this.viewShower;
                 app.run(data);
 
             }
             /** 编辑数据，参数：目标数据 */
-            protected editData(data: bo.PickLists): void {
+            protected editData(data: bo.PickingList): void {
                 // 检查目标数据
                 if (ibas.objects.isNull(data)) {
                     this.messages(ibas.emMessageType.WARNING, ibas.i18n.prop("shell_please_chooose_data",
@@ -102,14 +102,14 @@ namespace materials {
                     ));
                     return;
                 }
-                let app: PickListsEditApp = new PickListsEditApp();
+                let app: PickingListEditApp = new PickingListEditApp();
                 app.navigation = this.navigation;
                 app.viewShower = this.viewShower;
                 app.run(data);
             }
             /** 删除数据，参数：目标数据集合 */
-            protected deleteData(data: bo.PickLists | bo.PickLists[]): void {
-                let beDeleteds: ibas.IList<bo.PickLists> = ibas.arrays.create(data);
+            protected deleteData(data: bo.PickingList | bo.PickingList[]): void {
+                let beDeleteds: ibas.IList<bo.PickingList> = ibas.arrays.create(data);
                 // 没有选择删除的对象
                 if (beDeleteds.length === 0) {
                     this.messages(ibas.emMessageType.WARNING, ibas.i18n.prop("shell_please_chooose_data",
@@ -134,9 +134,9 @@ namespace materials {
                         let boRepository: bo.BORepositoryMaterials = new bo.BORepositoryMaterials();
                         ibas.queues.execute(beDeleteds, (data, next) => {
                             // 处理数据
-                            boRepository.savePickLists({
+                            boRepository.savePickingList({
                                 beSaved: data,
-                                onCompleted(opRslt: ibas.IOperationResult<bo.PickLists>): void {
+                                onCompleted(opRslt: ibas.IOperationResult<bo.PickingList>): void {
                                     if (opRslt.resultCode !== 0) {
                                         next(new Error(ibas.i18n.prop("shell_data_delete_error", data, opRslt.message)));
                                     } else {
@@ -161,20 +161,20 @@ namespace materials {
             }
             /** 拣配 */
             pick(): void {
-                let app: PickListsSettingApp = new PickListsSettingApp();
+                let app: PickingListSettingApp = new PickingListSettingApp();
                 app.navigation = this.navigation;
                 app.viewShower = this.viewShower;
                 app.run();
             }
         }
         /** 视图-拣配清单 */
-        export interface IPickListsListView extends ibas.IBOListView {
+        export interface IPickingListListView extends ibas.IBOListView {
             /** 编辑数据事件，参数：编辑对象 */
             editDataEvent: Function;
             /** 删除数据事件，参数：删除对象集合 */
             deleteDataEvent: Function;
             /** 显示数据 */
-            showData(datas: bo.PickLists[]): void;
+            showData(datas: bo.PickingList[]): void;
             /** 拣配事件 */
             pickEvent: Function;
         }

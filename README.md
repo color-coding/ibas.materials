@@ -115,7 +115,7 @@ mvn test -f ibas.materials/pom.xml
 | `MaterialBatch` / `MaterialBatchItem` / `MaterialBatchJournal` | 物料批次 |
 | `MaterialSerial` | 物料序列号 |
 | `MaterialScrap` | 物料废料 |
-| `PickLists` | 拣货单 |
+| `PickingList` | 拣货单 |
 | `MaterialNumberAssociation` | 物料编号关联 |
 | `BusinessPartnerMaterialCatalog` | 业务伙伴物料目录 |
 | `Specification` / `MaterialSpecification` | 物料规格 |

@@ -8,7 +8,7 @@
 namespace materials {
     export namespace bo {
         /** 拣配清单 */
-        export interface IPickLists extends ibas.IBOSimple {
+        export interface IPickingList extends ibas.IBOSimple {
             /** 对象编号 */
             objectKey: number;
             /** 对象类型 */
@@ -48,23 +48,23 @@ namespace materials {
             /** 拣配员 */
             picker: string;
             /** 拣配日期 */
-            pickDate: Date;
+            pickingDate: Date;
             /** 拣配状态 */
-            pickStatus: emPickStatus;
+            pickingStatus: emPickingStatus;
 
             /** 拣配清单-行集合 */
-            pickListsLines: IPickListsLines;
+            pickingListLines: IPickingListLines;
 
         }
 
         /** 拣配清单-行 集合 */
-        export interface IPickListsLines extends ibas.IBusinessObjects<IPickListsLine> {
+        export interface IPickingListLines extends ibas.IBusinessObjects<IPickingListLine> {
             /** 创建并添加子项 */
-            create(): IPickListsLine;
+            create(): IPickingListLine;
         }
 
         /** 拣配清单-行 */
-        export interface IPickListsLine extends ibas.IBOSimpleLine {
+        export interface IPickingListLine extends ibas.IBOSimpleLine {
             /** 对象编号 */
             objectKey: number;
             /** 对象行号 */
@@ -122,26 +122,26 @@ namespace materials {
             /** 库存数量 */
             inventoryQuantity: number;
             /** 拣配状态 */
-            pickStatus: emPickStatus;
+            pickingStatus: emPickingStatus;
             /** 拣配数量 */
-            pickQuantity: number;
+            pickingQuantity: number;
             /** 已清数量 */
             closedQuantity: number;
             /** 仓库 */
             warehouse: string;
             /** 拣配清单-序号集合 */
-            pickListsNumbers: IPickListsNumbers;
+            pickingListNumbers: IPickingListNumbers;
 
         }
 
         /** 拣配清单-序号 集合 */
-        export interface IPickListsNumbers extends ibas.IBusinessObjects<IPickListsNumber> {
+        export interface IPickingListNumbers extends ibas.IBusinessObjects<IPickingListNumber> {
             /** 创建并添加子项 */
-            create(): IPickListsNumber;
+            create(): IPickingListNumber;
         }
 
         /** 拣配清单-序号 */
-        export interface IPickListsNumber extends ibas.IBOSimpleLine {
+        export interface IPickingListNumber extends ibas.IBOSimpleLine {
             /** 对象编号 */
             objectKey: number;
             /** 对象行号 */
@@ -179,7 +179,7 @@ namespace materials {
             /** 序列编码 */
             serialCode: string;
             /** 拣配数量 */
-            pickQuantity: number;
+            pickingQuantity: number;
 
         }
 

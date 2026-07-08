@@ -275,12 +275,12 @@ namespace materials {
              * 查询 拣配清单
              * @param fetcher 查询者
              */
-            fetchPickLists(fetcher: ibas.IFetchCaller<bo.IPickLists>): void;
+            fetchPickingList(fetcher: ibas.IFetchCaller<bo.IPickingList>): void;
             /**
              * 保存 拣配清单
              * @param saver 保存者
              */
-            savePickLists(saver: ibas.ISaveCaller<bo.IPickLists>): void;
+            savePickingList(saver: ibas.ISaveCaller<bo.IPickingList>): void;
             /**
              * 查询 库存转储请求
              * @param fetcher 查询者

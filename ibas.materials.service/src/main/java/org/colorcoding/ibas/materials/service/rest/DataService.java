@@ -42,7 +42,7 @@ import org.colorcoding.ibas.materials.bo.materialserial.MaterialSerialItem;
 import org.colorcoding.ibas.materials.bo.materialserial.MaterialSerialJournal;
 import org.colorcoding.ibas.materials.bo.materialsextendedsetting.MaterialsExtendedSetting;
 import org.colorcoding.ibas.materials.bo.materialspecification.MaterialSpecification;
-import org.colorcoding.ibas.materials.bo.picklists.PickLists;
+import org.colorcoding.ibas.materials.bo.pickinglist.PickingList;
 import org.colorcoding.ibas.materials.bo.specification.Specification;
 import org.colorcoding.ibas.materials.bo.specification.SpecificationTree;
 import org.colorcoding.ibas.materials.bo.unit.Unit;
@@ -880,10 +880,10 @@ public class DataService extends BORepositoryMaterials {
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
-	@Path("fetchPickLists")
-	public OperationResult<PickLists> fetchPickLists(Criteria criteria,
+	@Path("fetchPickingList")
+	public OperationResult<PickingList> fetchPickingList(Criteria criteria,
 			@HeaderParam("authorization") String authorization, @QueryParam("token") String token) {
-		return super.fetchPickLists(criteria, MyConfiguration.optToken(authorization, token));
+		return super.fetchPickingList(criteria, MyConfiguration.optToken(authorization, token));
 	}
 
 	/**
@@ -896,10 +896,10 @@ public class DataService extends BORepositoryMaterials {
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
-	@Path("savePickLists")
-	public OperationResult<PickLists> savePickLists(PickLists bo, @HeaderParam("authorization") String authorization,
+	@Path("savePickingList")
+	public OperationResult<PickingList> savePickingList(PickingList bo, @HeaderParam("authorization") String authorization,
 			@QueryParam("token") String token) {
-		return super.savePickLists(bo, MyConfiguration.optToken(authorization, token));
+		return super.savePickingList(bo, MyConfiguration.optToken(authorization, token));
 	}
 
 	// --------------------------------------------------------------------------------------------//

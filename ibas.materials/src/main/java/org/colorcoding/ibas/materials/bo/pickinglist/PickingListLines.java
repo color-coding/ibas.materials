@@ -1,4 +1,4 @@
-package org.colorcoding.ibas.materials.bo.picklists;
+package org.colorcoding.ibas.materials.bo.pickinglist;
 
 import java.beans.PropertyChangeEvent;
 
@@ -12,14 +12,14 @@ import org.colorcoding.ibas.materials.MyConfiguration;
 /**
  * 拣配清单-行 集合
  */
-@XmlType(name = PickListsLines.BUSINESS_OBJECT_NAME, namespace = MyConfiguration.NAMESPACE_BO)
-@XmlSeeAlso({ PickListsLine.class })
-public class PickListsLines extends BusinessObjects<IPickListsLine, IPickLists> implements IPickListsLines {
+@XmlType(name = PickingListLines.BUSINESS_OBJECT_NAME, namespace = MyConfiguration.NAMESPACE_BO)
+@XmlSeeAlso({ PickingListLine.class })
+public class PickingListLines extends BusinessObjects<IPickingListLine, IPickingList> implements IPickingListLines {
 
 	/**
 	 * 业务对象名称
 	 */
-	public static final String BUSINESS_OBJECT_NAME = "PickListsLines";
+	public static final String BUSINESS_OBJECT_NAME = "PickingListLines";
 
 	/**
 	 * 序列化版本标记
@@ -29,7 +29,7 @@ public class PickListsLines extends BusinessObjects<IPickListsLine, IPickLists> 
 	/**
 	 * 构造方法
 	 */
-	public PickListsLines() {
+	public PickingListLines() {
 		super();
 	}
 
@@ -38,7 +38,7 @@ public class PickListsLines extends BusinessObjects<IPickListsLine, IPickLists> 
 	 * 
 	 * @param parent 父项对象
 	 */
-	public PickListsLines(IPickLists parent) {
+	public PickingListLines(IPickingList parent) {
 		super(parent);
 	}
 
@@ -46,7 +46,7 @@ public class PickListsLines extends BusinessObjects<IPickListsLine, IPickLists> 
 	 * 元素类型
 	 */
 	public Class<?> getElementType() {
-		return PickListsLine.class;
+		return PickingListLine.class;
 	}
 
 	/**
@@ -54,8 +54,8 @@ public class PickListsLines extends BusinessObjects<IPickListsLine, IPickLists> 
 	 * 
 	 * @return 拣配清单-行
 	 */
-	public IPickListsLine create() {
-		IPickListsLine item = new PickListsLine();
+	public IPickingListLine create() {
+		IPickingListLine item = new PickingListLine();
 		if (this.add(item)) {
 			return item;
 		}
@@ -63,7 +63,7 @@ public class PickListsLines extends BusinessObjects<IPickListsLine, IPickLists> 
 	}
 
 	@Override
-	protected void afterAddItem(IPickListsLine item) {
+	protected void afterAddItem(IPickingListLine item) {
 		super.afterAddItem(item);
 	}
 

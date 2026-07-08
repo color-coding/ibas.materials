@@ -1,4 +1,4 @@
-package org.colorcoding.ibas.materials.bo.picklists;
+package org.colorcoding.ibas.materials.bo.pickinglist;
 
 import java.beans.PropertyChangeEvent;
 
@@ -14,14 +14,14 @@ import org.colorcoding.ibas.materials.MyConfiguration;
 /**
  * 拣配清单-序号 集合
  */
-@XmlType(name = PickListsNumbers.BUSINESS_OBJECT_NAME, namespace = MyConfiguration.NAMESPACE_BO)
-@XmlSeeAlso({ PickListsNumber.class })
-public class PickListsNumbers extends BusinessObjects<IPickListsNumber, IPickListsLine> implements IPickListsNumbers {
+@XmlType(name = PickingListNumbers.BUSINESS_OBJECT_NAME, namespace = MyConfiguration.NAMESPACE_BO)
+@XmlSeeAlso({ PickingListNumber.class })
+public class PickingListNumbers extends BusinessObjects<IPickingListNumber, IPickingListLine> implements IPickingListNumbers {
 
 	/**
 	 * 业务对象名称
 	 */
-	public static final String BUSINESS_OBJECT_NAME = "PickListsNumbers";
+	public static final String BUSINESS_OBJECT_NAME = "PickingListNumbers";
 
 	/**
 	 * 序列化版本标记
@@ -31,7 +31,7 @@ public class PickListsNumbers extends BusinessObjects<IPickListsNumber, IPickLis
 	/**
 	 * 构造方法
 	 */
-	public PickListsNumbers() {
+	public PickingListNumbers() {
 		super();
 	}
 
@@ -40,7 +40,7 @@ public class PickListsNumbers extends BusinessObjects<IPickListsNumber, IPickLis
 	 * 
 	 * @param parent 父项对象
 	 */
-	public PickListsNumbers(IPickListsLine parent) {
+	public PickingListNumbers(IPickingListLine parent) {
 		super(parent);
 	}
 
@@ -48,7 +48,7 @@ public class PickListsNumbers extends BusinessObjects<IPickListsNumber, IPickLis
 	 * 元素类型
 	 */
 	public Class<?> getElementType() {
-		return PickListsNumber.class;
+		return PickingListNumber.class;
 	}
 
 	/**
@@ -56,8 +56,8 @@ public class PickListsNumbers extends BusinessObjects<IPickListsNumber, IPickLis
 	 * 
 	 * @return 拣配清单-序号
 	 */
-	public IPickListsNumber create() {
-		IPickListsNumber item = new PickListsNumber();
+	public IPickingListNumber create() {
+		IPickingListNumber item = new PickingListNumber();
 		if (this.add(item)) {
 			return item;
 		}
@@ -65,7 +65,7 @@ public class PickListsNumbers extends BusinessObjects<IPickListsNumber, IPickLis
 	}
 
 	@Override
-	protected void afterAddItem(IPickListsNumber item) {
+	protected void afterAddItem(IPickingListNumber item) {
 		super.afterAddItem(item);
 		item.setItemId(this.getParent().getLineId());
 	}
@@ -74,10 +74,10 @@ public class PickListsNumbers extends BusinessObjects<IPickListsNumber, IPickLis
 	public ICriteria getElementCriteria() {
 		ICriteria criteria = new Criteria();
 		ICondition condition = criteria.getConditions().create();
-		condition.setAlias(PickListsLine.PROPERTY_OBJECTKEY.getName());
+		condition.setAlias(PickingListLine.PROPERTY_OBJECTKEY.getName());
 		condition.setValue(this.getParent().getObjectKey());
 		condition = criteria.getConditions().create();
-		condition.setAlias(PickListsNumber.PROPERTY_ITEMID.getName());
+		condition.setAlias(PickingListNumber.PROPERTY_ITEMID.getName());
 		condition.setValue(this.getParent().getLineId());
 		return criteria;
 	}
@@ -85,12 +85,12 @@ public class PickListsNumbers extends BusinessObjects<IPickListsNumber, IPickLis
 	@Override
 	protected void onParentPropertyChanged(PropertyChangeEvent evt) {
 		super.onParentPropertyChanged(evt);
-		if (evt.getPropertyName().equals(PickListsLine.PROPERTY_LINEID.getName())) {
-			for (IPickListsNumber item : this) {
+		if (evt.getPropertyName().equals(PickingListLine.PROPERTY_LINEID.getName())) {
+			for (IPickingListNumber item : this) {
 				item.setItemId(this.getParent().getLineId());
 			}
-		} else if (evt.getPropertyName().equals(PickListsLine.PROPERTY_OBJECTKEY.getName())) {
-			for (IPickListsNumber item : this) {
+		} else if (evt.getPropertyName().equals(PickingListLine.PROPERTY_OBJECTKEY.getName())) {
+			for (IPickingListNumber item : this) {
 				item.setObjectKey(this.getParent().getObjectKey());
 			}
 		}

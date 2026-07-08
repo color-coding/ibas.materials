@@ -103,8 +103,8 @@ import org.colorcoding.ibas.materials.bo.materialsextendedsetting.IMaterialsExte
 import org.colorcoding.ibas.materials.bo.materialsextendedsetting.MaterialsExtendedSetting;
 import org.colorcoding.ibas.materials.bo.materialspecification.IMaterialSpecification;
 import org.colorcoding.ibas.materials.bo.materialspecification.MaterialSpecification;
-import org.colorcoding.ibas.materials.bo.picklists.IPickLists;
-import org.colorcoding.ibas.materials.bo.picklists.PickLists;
+import org.colorcoding.ibas.materials.bo.pickinglist.IPickingList;
+import org.colorcoding.ibas.materials.bo.pickinglist.PickingList;
 import org.colorcoding.ibas.materials.bo.specification.ISpecification;
 import org.colorcoding.ibas.materials.bo.specification.Specification;
 import org.colorcoding.ibas.materials.bo.specification.SpecificationTree;
@@ -2305,8 +2305,8 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 	 * @param token    口令
 	 * @return 操作结果
 	 */
-	public OperationResult<PickLists> fetchPickLists(ICriteria criteria, String token) {
-		return super.fetch(PickLists.class, criteria, token);
+	public OperationResult<PickingList> fetchPickingList(ICriteria criteria, String token) {
+		return super.fetch(PickingList.class, criteria, token);
 	}
 
 	/**
@@ -2315,8 +2315,8 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 	 * @param criteria 查询
 	 * @return 操作结果
 	 */
-	public IOperationResult<IPickLists> fetchPickLists(ICriteria criteria) {
-		return new OperationResult<IPickLists>(this.fetchPickLists(criteria, this.getUserToken()));
+	public IOperationResult<IPickingList> fetchPickingList(ICriteria criteria) {
+		return new OperationResult<IPickingList>(this.fetchPickingList(criteria, this.getUserToken()));
 	}
 
 	/**
@@ -2326,7 +2326,7 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 	 * @param token 口令
 	 * @return 操作结果
 	 */
-	public OperationResult<PickLists> savePickLists(PickLists bo, String token) {
+	public OperationResult<PickingList> savePickingList(PickingList bo, String token) {
 		return super.save(bo, token);
 	}
 
@@ -2336,8 +2336,8 @@ public class BORepositoryMaterials extends BORepositoryServiceApplication
 	 * @param bo 对象实例
 	 * @return 操作结果
 	 */
-	public IOperationResult<IPickLists> savePickLists(IPickLists bo) {
-		return new OperationResult<IPickLists>(this.savePickLists((PickLists) bo, this.getUserToken()));
+	public IOperationResult<IPickingList> savePickingList(IPickingList bo) {
+		return new OperationResult<IPickingList>(this.savePickingList((PickingList) bo, this.getUserToken()));
 	}
 
 	// --------------------------------------------------------------------------------------------//

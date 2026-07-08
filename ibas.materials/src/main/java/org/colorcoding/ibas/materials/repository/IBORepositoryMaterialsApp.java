@@ -34,7 +34,7 @@ import org.colorcoding.ibas.materials.bo.materialserial.IMaterialSerialItem;
 import org.colorcoding.ibas.materials.bo.materialserial.IMaterialSerialJournal;
 import org.colorcoding.ibas.materials.bo.materialsextendedsetting.IMaterialsExtendedSetting;
 import org.colorcoding.ibas.materials.bo.materialspecification.IMaterialSpecification;
-import org.colorcoding.ibas.materials.bo.picklists.IPickLists;
+import org.colorcoding.ibas.materials.bo.pickinglist.IPickingList;
 import org.colorcoding.ibas.materials.bo.specification.ISpecification;
 import org.colorcoding.ibas.materials.bo.specification.SpecificationTree;
 import org.colorcoding.ibas.materials.bo.unit.IUnit;
@@ -490,7 +490,7 @@ public interface IBORepositoryMaterialsApp extends IBORepositoryApplication {
 	 * @param criteria 查询
 	 * @return 操作结果
 	 */
-	IOperationResult<IPickLists> fetchPickLists(ICriteria criteria);
+	IOperationResult<IPickingList> fetchPickingList(ICriteria criteria);
 
 	/**
 	 * 保存-拣配清单
@@ -498,7 +498,7 @@ public interface IBORepositoryMaterialsApp extends IBORepositoryApplication {
 	 * @param bo 对象实例
 	 * @return 操作结果
 	 */
-	IOperationResult<IPickLists> savePickLists(IPickLists bo);
+	IOperationResult<IPickingList> savePickingList(IPickingList bo);
 
 	// --------------------------------------------------------------------------------------------//
 

@@ -8,19 +8,19 @@
 namespace materials {
     export namespace app {
         /** 选择应用-拣配清单 */
-        export class PickListsChooseApp extends ibas.BOChooseService<IPickListsChooseView, bo.PickLists> {
+        export class PickingListChooseApp extends ibas.BOChooseService<IPickingListChooseView, bo.PickingList> {
             /** 应用标识 */
             static APPLICATION_ID: string = "521cde91-9940-4dd6-ac19-887e87b34f71";
             /** 应用名称 */
-            static APPLICATION_NAME: string = "materials_app_picklists_choose";
+            static APPLICATION_NAME: string = "materials_app_pickinglist_choose";
             /** 业务对象编码 */
-            static BUSINESS_OBJECT_CODE: string = bo.PickLists.BUSINESS_OBJECT_CODE;
+            static BUSINESS_OBJECT_CODE: string = bo.PickingList.BUSINESS_OBJECT_CODE;
             /** 构造函数 */
             constructor() {
                 super();
-                this.id = PickListsChooseApp.APPLICATION_ID;
-                this.name = PickListsChooseApp.APPLICATION_NAME;
-                this.boCode = PickListsChooseApp.BUSINESS_OBJECT_CODE;
+                this.id = PickingListChooseApp.APPLICATION_ID;
+                this.name = PickingListChooseApp.APPLICATION_NAME;
+                this.boCode = PickingListChooseApp.BUSINESS_OBJECT_CODE;
                 this.description = ibas.i18n.prop(this.name);
             }
             /** 注册视图 */
@@ -38,9 +38,9 @@ namespace materials {
                 this.busy(true);
                 let that: this = this;
                 let boRepository: bo.BORepositoryMaterials = new bo.BORepositoryMaterials();
-                boRepository.fetchPickLists({
+                boRepository.fetchPickingList({
                     criteria: criteria,
-                    onCompleted(opRslt: ibas.IOperationResult<bo.PickLists>): void {
+                    onCompleted(opRslt: ibas.IOperationResult<bo.PickingList>): void {
                         try {
                             that.busy(false);
                             if (opRslt.resultCode !== 0) {
@@ -72,30 +72,30 @@ namespace materials {
                 // 关闭自身
                 this.destroy();
                 // 调用编辑应用
-                let app: PickListsEditApp = new PickListsEditApp();
+                let app: PickingListEditApp = new PickingListEditApp();
                 app.navigation = this.navigation;
                 app.viewShower = this.viewShower;
                 app.run();
             }
         }
         /** 视图-拣配清单 */
-        export interface IPickListsChooseView extends ibas.IBOChooseView {
+        export interface IPickingListChooseView extends ibas.IBOChooseView {
             /** 显示数据 */
-            showData(datas: bo.PickLists[]): void;
+            showData(datas: bo.PickingList[]): void;
         }
         /** 拣配清单选择服务映射 */
-        export class PickListsChooseServiceMapping extends ibas.BOChooseServiceMapping {
+        export class PickingListChooseServiceMapping extends ibas.BOChooseServiceMapping {
             /** 构造函数 */
             constructor() {
                 super();
-                this.id = PickListsChooseApp.APPLICATION_ID;
-                this.name = PickListsChooseApp.APPLICATION_NAME;
-                this.boCode = PickListsChooseApp.BUSINESS_OBJECT_CODE;
+                this.id = PickingListChooseApp.APPLICATION_ID;
+                this.name = PickingListChooseApp.APPLICATION_NAME;
+                this.boCode = PickingListChooseApp.BUSINESS_OBJECT_CODE;
                 this.description = ibas.i18n.prop(this.name);
             }
             /** 创建服务实例 */
-            create(): ibas.IBOChooseService<bo.PickLists> {
-                return new PickListsChooseApp();
+            create(): ibas.IBOChooseService<bo.PickingList> {
+                return new PickingListChooseApp();
             }
         }
     }

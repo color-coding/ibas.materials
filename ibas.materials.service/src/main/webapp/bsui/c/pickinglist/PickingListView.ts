@@ -9,11 +9,11 @@ namespace materials {
     export namespace ui {
         export namespace c {
             /** 视图-拣配清单 */
-            export class PickListsView extends ibas.View implements app.IPickListsView {
+            export class PickingListView extends ibas.View implements app.IPickingListView {
                 /** 查询处理中数据事件 */
                 fetchProcessingDataEvent: Function;
                 /** 下达拣配清单事件 */
-                releasePickListsEvent: Function;
+                releasePickingListEvent: Function;
                 /** 转为交货事件 */
                 processingTurnToDeliveryEvent: Function;
                 /** 转为交货事件 */
@@ -22,6 +22,7 @@ namespace materials {
                 pickedTurnToDeliveryEvent: Function;
                 /** 保存数据事件 */
                 saveDatasEvent: Function;
+
                 draw(): any {
                     let that: this = this;
                     this.iconTabBar = new sap.m.IconTabBar("", {
@@ -30,18 +31,21 @@ namespace materials {
                         expandable: false,
                         items: [
                             new sap.m.IconTabFilter("", {
-                                key: ibas.enums.toString(app.emPickViewStatus, app.emPickViewStatus.PROCESSING),
-                                text: ibas.enums.describe(app.emPickViewStatus, app.emPickViewStatus.PROCESSING),
+                                icon: "sap-icon://add-activity",
+                                design: sap.m.IconTabFilterDesign.Horizontal,
+                                iconColor: sap.ui.core.IconColor.Default,
+                                key: ibas.enums.toString(app.emPickingViewStatus, app.emPickingViewStatus.PROCESSING),
+                                text: ibas.enums.describe(app.emPickingViewStatus, app.emPickingViewStatus.PROCESSING),
                                 content: [
                                     this.processingTable = new sap.extension.table.DataTable("", {
                                         enableSelectAll: true,
-                                        visibleRowCount: sap.extension.table.visibleRowCount(15) - 2,
+                                        visibleRowCount: sap.extension.table.visibleRowCount(15) - 4,
                                         visibleRowCountMode: sap.ui.table.VisibleRowCountMode.Interactive,
                                         toolbar: new sap.m.Toolbar("", {
                                             content: [
                                                 new sap.m.Label("", {
                                                     width: "auto",
-                                                    text: ibas.i18n.prop("bo_picklistsline_basedocument")
+                                                    text: ibas.i18n.prop("bo_pickinglistline_basedocument")
                                                 }),
                                                 new sap.m.SearchField("", {
                                                     width: "10rem",
@@ -61,11 +65,11 @@ namespace materials {
                                                 }),
                                                 new sap.m.ToolbarSeparator("", {}),
                                                 new sap.m.Button("", {
-                                                    text: ibas.i18n.prop(["em_documentstatus_released", "bo_picklists"]),
+                                                    text: ibas.i18n.prop(["em_documentstatus_released", "bo_pickinglist"]),
                                                     type: sap.m.ButtonType.Transparent,
                                                     icon: "sap-icon://checklist-item-2",
                                                     press(): void {
-                                                        that.releasePickLists(that.processingTable.getSelecteds());
+                                                        that.releasePickingList(that.processingTable.getSelecteds());
                                                     }
                                                 }),
                                             ]
@@ -84,11 +88,11 @@ namespace materials {
                                                 width: "3rem"
                                             }),
                                             new sap.extension.table.DataColumn("", {
-                                                label: ibas.i18n.prop("bo_picklistsline_basedocument"),
+                                                label: ibas.i18n.prop("bo_pickinglistline_basedocument"),
                                                 template: new sap.extension.m.Link("", {
                                                     press(this: sap.m.Link): void {
                                                         let data: any = this.getBindingContext().getObject();
-                                                        if (data instanceof bo.PickListsLine && data.baseDocumentEntry > 0) {
+                                                        if (data instanceof bo.PickingListLine && data.baseDocumentEntry > 0) {
                                                             ibas.servicesManager.runLinkService({
                                                                 boCode: data.baseDocumentType,
                                                                 linkValue: data.baseDocumentEntry.toString()
@@ -138,7 +142,7 @@ namespace materials {
                                                 }),
                                             }),
                                             new sap.extension.table.DataColumn("", {
-                                                label: ibas.i18n.prop("bo_picklistsline_itemcode"),
+                                                label: ibas.i18n.prop("bo_pickinglistline_itemcode"),
                                                 template: new sap.extension.m.DataLink("", {
                                                     objectCode: bo.Material.BUSINESS_OBJECT_CODE
                                                 }).bindProperty("bindingValue", {
@@ -151,7 +155,7 @@ namespace materials {
                                                 filterProperty: "itemCode"
                                             }),
                                             new sap.extension.table.DataColumn("", {
-                                                label: ibas.i18n.prop("bo_picklistsline_itemdescription"),
+                                                label: ibas.i18n.prop("bo_pickinglistline_itemdescription"),
                                                 template: new sap.extension.m.Text("", {
                                                 }).bindProperty("bindingValue", {
                                                     path: "itemDescription",
@@ -163,7 +167,7 @@ namespace materials {
                                                 filterProperty: "itemDescription"
                                             }),
                                             new sap.extension.table.DataColumn("", {
-                                                label: ibas.i18n.prop("bo_picklistsline_unclosedquantity"),
+                                                label: ibas.i18n.prop("bo_pickinglistline_unclosedquantity"),
                                                 template: new sap.extension.m.Text("", {
                                                 }).bindProperty("bindingValue", {
                                                     path: "unclosedQuantity",
@@ -171,7 +175,7 @@ namespace materials {
                                                 }),
                                             }),
                                             new sap.extension.table.DataColumn("", {
-                                                label: ibas.i18n.prop("bo_picklistsline_quantity"),
+                                                label: ibas.i18n.prop("bo_pickinglistline_quantity"),
                                                 template: new sap.extension.m.Input("", {
                                                 }).bindProperty("bindingValue", {
                                                     path: "releasedQuantity",
@@ -179,7 +183,7 @@ namespace materials {
                                                 }),
                                             }),
                                             new sap.extension.table.DataColumn("", {
-                                                label: ibas.i18n.prop("bo_picklistsline_uom"),
+                                                label: ibas.i18n.prop("bo_pickinglistline_uom"),
                                                 template: new sap.extension.m.Text("", {
                                                 }).bindProperty("bindingValue", {
                                                     path: "uom",
@@ -189,7 +193,7 @@ namespace materials {
                                                 }),
                                             }),
                                             new sap.extension.table.DataColumn("", {
-                                                label: ibas.i18n.prop("bo_picklistsline_inventoryuom"),
+                                                label: ibas.i18n.prop("bo_pickinglistline_inventoryuom"),
                                                 template: new sap.extension.m.Text("", {
                                                 }).bindProperty("bindingValue", {
                                                     path: "inventoryUOM",
@@ -199,7 +203,7 @@ namespace materials {
                                                 }),
                                             }),
                                             new sap.extension.table.DataColumn("", {
-                                                label: ibas.i18n.prop("bo_picklistsline_uomrate"),
+                                                label: ibas.i18n.prop("bo_pickinglistline_uomrate"),
                                                 template: new sap.extension.m.Text("", {
                                                 }).bindProperty("bindingValue", {
                                                     path: "uomRate",
@@ -207,7 +211,7 @@ namespace materials {
                                                 }),
                                             }),
                                             new sap.extension.table.DataColumn("", {
-                                                label: ibas.i18n.prop("bo_picklistsline_warehouse"),
+                                                label: ibas.i18n.prop("bo_pickinglistline_warehouse"),
                                                 template: new sap.extension.m.DataLink("", {
                                                     objectCode: bo.Warehouse.BUSINESS_OBJECT_CODE
                                                 }).bindProperty("bindingValue", {
@@ -223,13 +227,17 @@ namespace materials {
                                     })
                                 ]
                             }),
+                            new sap.m.IconTabSeparator("", { icon: "sap-icon://open-command-field" }),
                             new sap.m.IconTabFilter("", {
-                                key: ibas.enums.toString(app.emPickViewStatus, app.emPickViewStatus.RELEASED),
-                                text: ibas.enums.describe(app.emPickViewStatus, app.emPickViewStatus.RELEASED),
+                                icon: "sap-icon://activity-2",
+                                design: sap.m.IconTabFilterDesign.Horizontal,
+                                iconColor: sap.ui.core.IconColor.Critical,
+                                key: ibas.enums.toString(app.emPickingViewStatus, app.emPickingViewStatus.RELEASED),
+                                text: ibas.enums.describe(app.emPickingViewStatus, app.emPickingViewStatus.RELEASED),
                                 content: [
                                     this.releasedTable = new sap.extension.table.DataTable("", {
                                         enableSelectAll: true,
-                                        visibleRowCount: sap.extension.table.visibleRowCount(15) - 2,
+                                        visibleRowCount: sap.extension.table.visibleRowCount(15) - 4,
                                         visibleRowCountMode: sap.ui.table.VisibleRowCountMode.Interactive,
                                         toolbar: new sap.m.Toolbar("", {
                                             content: [
@@ -238,11 +246,11 @@ namespace materials {
                                                     text: ibas.i18n.prop("shell_data_view")
                                                 }),
                                                 this.releasedSelect = new sap.extension.m.EnumSelect("", {
-                                                    enumType: app.emPickViewDimension,
+                                                    enumType: app.emPickingViewDimension,
                                                 }).bindProperty("bindingValue", {
                                                     path: "/viewDimension",
                                                     type: new sap.extension.data.Enum({
-                                                        enumType: app.emPickViewDimension
+                                                        enumType: app.emPickingViewDimension
                                                     }),
                                                 }),
                                             ]
@@ -253,13 +261,17 @@ namespace materials {
                                     })
                                 ]
                             }),
+                            new sap.m.IconTabSeparator("", { icon: "sap-icon://open-command-field" }),
                             new sap.m.IconTabFilter("", {
-                                key: ibas.enums.toString(app.emPickViewStatus, app.emPickViewStatus.PICKED),
-                                text: ibas.enums.describe(app.emPickViewStatus, app.emPickViewStatus.PICKED),
+                                icon: "sap-icon://activity-items",
+                                design: sap.m.IconTabFilterDesign.Horizontal,
+                                iconColor: sap.ui.core.IconColor.Positive,
+                                key: ibas.enums.toString(app.emPickingViewStatus, app.emPickingViewStatus.PICKED),
+                                text: ibas.enums.describe(app.emPickingViewStatus, app.emPickingViewStatus.PICKED),
                                 content: [
                                     this.pickedTable = new sap.extension.table.DataTable("", {
                                         enableSelectAll: true,
-                                        visibleRowCount: sap.extension.table.visibleRowCount(15) - 2,
+                                        visibleRowCount: sap.extension.table.visibleRowCount(15) - 4,
                                         visibleRowCountMode: sap.ui.table.VisibleRowCountMode.Interactive,
                                         toolbar: new sap.m.Toolbar("", {
                                             content: [
@@ -268,11 +280,11 @@ namespace materials {
                                                     text: ibas.i18n.prop("shell_data_view")
                                                 }),
                                                 this.pickedSelect = new sap.extension.m.EnumSelect("", {
-                                                    enumType: app.emPickViewDimension,
+                                                    enumType: app.emPickingViewDimension,
                                                 }).bindProperty("bindingValue", {
                                                     path: "/viewDimension",
                                                     type: new sap.extension.data.Enum({
-                                                        enumType: app.emPickViewDimension
+                                                        enumType: app.emPickingViewDimension
                                                     }),
                                                 }),
                                             ]
@@ -286,7 +298,7 @@ namespace materials {
                         ],
                         select(oEvent: sap.ui.base.Event): void {
                             let item: sap.m.IconTabFilter = oEvent.getParameter("item");
-                            if (!!item && item.getKey() === ibas.enums.toString(app.emPickViewStatus, app.emPickViewStatus.PROCESSING)) {
+                            if (!!item && item.getKey() === ibas.enums.toString(app.emPickingViewStatus, app.emPickingViewStatus.PROCESSING)) {
                                 if (ibas.objects.isNull(that.processingDatas)) {
                                     that.fireViewEvents(that.fetchProcessingDataEvent);
                                 }
@@ -343,7 +355,7 @@ namespace materials {
                                                 press: function (this: sap.m.MenuItem): void {
                                                     let key: string = that.iconTabBar.getSelectedKey();
                                                     switch (key) {
-                                                        case ibas.enums.toString(app.emPickViewStatus, app.emPickViewStatus.PROCESSING):
+                                                        case ibas.enums.toString(app.emPickingViewStatus, app.emPickingViewStatus.PROCESSING):
                                                             let selecteds: ibas.IList<any> = that.processingTable.getSelecteds();
                                                             let serviceAgent: ibas.IServiceAgent = this.getBindingContext().getObject();
                                                             that.fireViewEvents(that.processingTurnToDeliveryEvent, serviceAgent, selecteds, (closedTargets) => {
@@ -352,10 +364,10 @@ namespace materials {
                                                                 }
                                                             });
                                                             break;
-                                                        case ibas.enums.toString(app.emPickViewStatus, app.emPickViewStatus.RELEASED):
+                                                        case ibas.enums.toString(app.emPickingViewStatus, app.emPickingViewStatus.RELEASED):
                                                             that.fireViewEvents(that.releasedTurnToDeliveryEvent, serviceAgent, that.releasedTable.getSelecteds());
                                                             break;
-                                                        case ibas.enums.toString(app.emPickViewStatus, app.emPickViewStatus.PICKED):
+                                                        case ibas.enums.toString(app.emPickingViewStatus, app.emPickingViewStatus.PICKED):
                                                             that.fireViewEvents(that.pickedTurnToDeliveryEvent, serviceAgent, that.pickedTable.getSelecteds());
                                                             break;
                                                         default:
@@ -387,15 +399,15 @@ namespace materials {
                 protected pickedTable: sap.extension.table.DataTable;
                 private pickedSelect: sap.extension.m.EnumSelect;
 
-                private workingData: app.PickListsWorking;
-                private processingDatas: ibas.IList<app.IPickListsTarget>;
-                private pickListsDatas: bo.PickLists[];
+                private workingData: app.PickingListWorking;
+                private processingDatas: ibas.IList<app.IPickingListTarget>;
+                private pickingListDatas: bo.PickingList[];
                 private releasedDatas: ibas.IList<any>;
                 private pickedDatas: ibas.IList<any>;
                 private releasedLineDatas: ibas.IList<any>;
                 private pickedLineDatas: ibas.IList<any>;
                 /** 显示数据 */
-                showWorkingData(data: app.PickListsWorking): void {
+                showWorkingData(data: app.PickingListWorking): void {
                     let that: this = this;
                     this.workingData = data;
                     let model: sap.extension.model.JSONModel = new sap.extension.model.JSONModel(data);
@@ -404,39 +416,39 @@ namespace materials {
                     data.registerListener({
                         id: "viewDimensionChange",
                         propertyChanged(property: string): void {
-                            if (ibas.strings.equalsIgnoreCase(property, app.PickListsWorking.PROPERTY_VIEWDIMENSION_NAME)) {
+                            if (ibas.strings.equalsIgnoreCase(property, app.PickingListWorking.PROPERTY_VIEWDIMENSION_NAME)) {
                                 that.onViewDimensionChange();
                             }
                         },
                     });
                     this.onViewDimensionChange();
-                    this.iconTabBar.setSelectedKey(ibas.enums.toString(app.emPickViewStatus, data.status));
-                    if (data.status === app.emPickViewStatus.PROCESSING) {
+                    this.iconTabBar.setSelectedKey(ibas.enums.toString(app.emPickingViewStatus, data.status));
+                    if (data.status === app.emPickingViewStatus.PROCESSING) {
                         this.fireViewEvents(this.fetchProcessingDataEvent);
                     }
                 }
                 /** 显示拣配清单 */
-                showPickListsData(datas: bo.PickLists[]): void {
-                    this.pickListsDatas = datas;
+                showPickingListData(datas: bo.PickingList[]): void {
+                    this.pickingListDatas = datas;
                     this.releasedDatas = new ibas.ArrayList();
                     this.pickedDatas = new ibas.ArrayList();
                     this.releasedLineDatas = new ibas.ArrayList();
                     this.pickedLineDatas = new ibas.ArrayList();
-                    this.releasedDatas.add(this.pickListsDatas.filter(c => c.pickStatus === bo.emPickStatus.RELEASED || c.pickStatus === bo.emPickStatus.PARTIALLYPICKED));
-                    this.pickedDatas.add(this.pickListsDatas.filter(c => c.pickStatus !== bo.emPickStatus.RELEASED));
-                    for (let pickListsData of this.pickListsDatas) {
-                        for (let line of pickListsData.pickListsLines) {
-                            if (line.pickStatus === bo.emPickStatus.RELEASED) {
+                    this.releasedDatas.add(this.pickingListDatas.filter(c => c.pickingStatus === bo.emPickingStatus.RELEASED || c.pickingStatus === bo.emPickingStatus.PARTIALLY_PICKED));
+                    this.pickedDatas.add(this.pickingListDatas.filter(c => c.pickingStatus !== bo.emPickingStatus.RELEASED));
+                    for (let pickingListData of this.pickingListDatas) {
+                        for (let line of pickingListData.pickingListLines) {
+                            if (line.pickingStatus === bo.emPickingStatus.RELEASED) {
                                 this.releasedLineDatas.add(line);
                             }
-                            if (line.pickStatus === bo.emPickStatus.PARTIALLYPICKED || line.pickStatus === bo.emPickStatus.PICKED) {
+                            if (line.pickingStatus === bo.emPickingStatus.PARTIALLY_PICKED || line.pickingStatus === bo.emPickingStatus.PICKED) {
                                 this.pickedLineDatas.add(line);
                             }
                         }
                     }
                     this.onViewDimensionChange(false);
                 }
-                showProcessingData(datas: app.IPickListsTarget[], beDeleteds?: app.IPickListsTarget[]): void {
+                showProcessingData(datas: app.IPickingListTarget[], beDeleteds?: app.IPickingListTarget[]): void {
                     if (!(datas instanceof ibas.ArrayList)) {
                         this.processingDatas = new ibas.ArrayList();
                         this.processingDatas.add(datas);
@@ -457,7 +469,7 @@ namespace materials {
                     this.processingTable.setFirstVisibleRow(firstVisibleRow);
                 }
                 /** 下达拣配 */
-                releasePickLists(datas: ibas.IList<app.IPickListsTarget>): void {
+                releasePickingList(datas: ibas.IList<app.IPickingListTarget>): void {
                     let that: this = this;
                     if (datas.length === 0) {
                         (<any>this.application).messages(ibas.emMessageType.WARNING, ibas.i18n.prop("shell_please_chooose_data",
@@ -466,14 +478,14 @@ namespace materials {
                         return;
                     }
                     if (!!datas.firstOrDefault(c => !(ibas.numbers.valueOf(c.releasedQuantity) > 0))) {
-                        (<any>this.application).messages(ibas.emMessageType.WARNING, ibas.i18n.prop("materials_msg_release_picklists_need_quantity"));
+                        (<any>this.application).messages(ibas.emMessageType.WARNING, ibas.i18n.prop("materials_msg_release_pickinglist_need_quantity"));
                         return;
                     }
                     let formTop: sap.ui.layout.form.SimpleForm;
-                    let pickLists: bo.PickLists = new bo.PickLists();
+                    let pickingList: bo.PickingList = new bo.PickingList();
                     let dialog: sap.m.Dialog = new sap.m.Dialog("", {
                         contentWidth: "30rem",
-                        title: ibas.i18n.prop(["em_documentstatus_released", "bo_picklists"]),
+                        title: ibas.i18n.prop(["em_documentstatus_released", "bo_pickinglist"]),
                         type: sap.m.DialogType.Standard,
                         stretch: ibas.config.get(ibas.CONFIG_ITEM_PLANTFORM) === ibas.emPlantform.PHONE ? true : false,
                         horizontalScrolling: true,
@@ -483,14 +495,14 @@ namespace materials {
                                 editable: true,
                                 content: [
                                     new sap.m.Toolbar("", { visible: false }),
-                                    new sap.m.Label("", { text: ibas.i18n.prop("bo_picklists_pickdate") }),
+                                    new sap.m.Label("", { text: ibas.i18n.prop("bo_pickinglist_pickingdate") }),
                                     new sap.extension.m.DatePicker("", {
                                         required: true
                                     }).bindProperty("bindingValue", {
-                                        path: "/pickDate",
+                                        path: "/pickingDate",
                                         type: new sap.extension.data.Date(),
                                     }),
-                                    new sap.m.Label("", { text: ibas.i18n.prop("bo_picklists_dataowner") }),
+                                    new sap.m.Label("", { text: ibas.i18n.prop("bo_pickinglist_dataowner") }),
                                     new sap.extension.m.DataOwnerInput("", {
                                         showValueHelp: true,
                                         organization: {
@@ -503,7 +515,7 @@ namespace materials {
                                         path: "/dataOwner",
                                         type: new sap.extension.data.Numeric()
                                     }),
-                                    new sap.m.Label("", { text: ibas.i18n.prop("bo_picklists_picker") }),
+                                    new sap.m.Label("", { text: ibas.i18n.prop("bo_pickinglist_picker") }),
                                     new sap.extension.m.Input("", {
                                     }).bindProperty("bindingValue", {
                                         path: "/picker",
@@ -511,7 +523,7 @@ namespace materials {
                                             maxLength: 8
                                         }),
                                     }),
-                                    new sap.m.Label("", { text: ibas.i18n.prop("bo_picklists_remarks") }),
+                                    new sap.m.Label("", { text: ibas.i18n.prop("bo_pickinglist_remarks") }),
                                     new sap.extension.m.TextArea("", {
                                         rows: 3,
                                     }).bindProperty("bindingValue", {
@@ -527,7 +539,7 @@ namespace materials {
                                 type: sap.m.ButtonType.Transparent,
                                 press: function (): void {
                                     dialog.setBusy(true);
-                                    that.fireViewEvents(that.releasePickListsEvent, pickLists, datas, (error) => {
+                                    that.fireViewEvents(that.releasePickingListEvent, pickingList, datas, (error) => {
                                         if (!!error) {
                                             dialog.setBusy(false);
                                         } else {
@@ -546,7 +558,7 @@ namespace materials {
                             }),
                         ]
                     });
-                    formTop.setModel(new sap.extension.model.JSONModel(pickLists));
+                    formTop.setModel(new sap.extension.model.JSONModel(pickingList));
                     dialog.open();
                 }
                 /** 显示拣配者 */
@@ -557,7 +569,7 @@ namespace materials {
                     if (!!refreshColumns) {
                         this.releasedTable.removeAllColumns();
                         this.pickedTable.removeAllColumns();
-                        if (this.workingData.viewDimension === app.emPickViewDimension.TOTAL) {
+                        if (this.workingData.viewDimension === app.emPickingViewDimension.TOTAL) {
                             for (let column of this.pickTotalColumns()) {
                                 this.releasedTable.addColumn(column);
                             }
@@ -573,8 +585,8 @@ namespace materials {
                             }
                         }
                     }
-                    if (this.pickListsDatas instanceof Array) {
-                        if (this.workingData.viewDimension === app.emPickViewDimension.TOTAL) {
+                    if (this.pickingListDatas instanceof Array) {
+                        if (this.workingData.viewDimension === app.emPickingViewDimension.TOTAL) {
                             this.releasedTable.setModel(new sap.extension.model.JSONModel({ rows: this.releasedDatas }));
                             this.pickedTable.setModel(new sap.extension.model.JSONModel({ rows: this.pickedDatas }));
                         } else {
@@ -586,7 +598,7 @@ namespace materials {
                 pickTotalColumns(): sap.extension.table.DataColumn[] {
                     return [
                         new sap.extension.table.DataColumn("", {
-                            label: ibas.i18n.prop("bo_picklists_objectkey"),
+                            label: ibas.i18n.prop("bo_pickinglist_objectkey"),
                             template: new sap.extension.m.DataLink("", {
                                 objectCode: {
                                     path: "objectCode",
@@ -598,15 +610,15 @@ namespace materials {
                             }),
                         }),
                         new sap.extension.table.DataColumn("", {
-                            label: ibas.i18n.prop("bo_picklists_pickdate"),
+                            label: ibas.i18n.prop("bo_pickinglist_pickingdate"),
                             template: new sap.extension.m.DatePicker("", {
                             }).bindProperty("bindingValue", {
-                                path: "pickDate",
+                                path: "pickingDate",
                                 type: new sap.extension.data.Date(),
                             }),
                         }),
                         new sap.extension.table.DataColumn("", {
-                            label: ibas.i18n.prop("bo_picklists_picker"),
+                            label: ibas.i18n.prop("bo_pickinglist_picker"),
                             template: new sap.extension.m.Input("", {
                             }).bindProperty("bindingValue", {
                                 path: "picker",
@@ -614,7 +626,7 @@ namespace materials {
                             }),
                         }),
                         new sap.extension.table.DataColumn("", {
-                            label: ibas.i18n.prop("bo_picklists_dataowner"),
+                            label: ibas.i18n.prop("bo_pickinglist_dataowner"),
                             template: new sap.extension.m.UserInput("", {
                             }).bindProperty("bindingValue", {
                                 path: "dataOwner",
@@ -622,7 +634,7 @@ namespace materials {
                             }),
                         }),
                         new sap.extension.table.DataColumn("", {
-                            label: ibas.i18n.prop("bo_picklists_remarks"),
+                            label: ibas.i18n.prop("bo_pickinglist_remarks"),
                             template: new sap.extension.m.Input("", {
                             }).bindProperty("bindingValue", {
                                 path: "remarks",
@@ -635,7 +647,7 @@ namespace materials {
                 pickDetailsColumns(showPickedColumn: boolean): sap.extension.table.DataColumn[] {
                     return [
                         new sap.extension.table.DataColumn("", {
-                            label: ibas.i18n.prop("bo_picklists_objectkey"),
+                            label: ibas.i18n.prop("bo_pickinglist_objectkey"),
                             template: new sap.extension.m.DataLink("", {
                                 objectCode: {
                                     path: "objectCode",
@@ -647,7 +659,7 @@ namespace materials {
                             }),
                         }),
                         new sap.extension.table.DataColumn("", {
-                            label: ibas.i18n.prop("bo_picklistsline_lineid"),
+                            label: ibas.i18n.prop("bo_pickinglistline_lineid"),
                             template: new sap.extension.m.Text("", {
                             }).bindProperty("bindingValue", {
                                 path: "lineId",
@@ -655,11 +667,11 @@ namespace materials {
                             }),
                         }),
                         new sap.extension.table.DataColumn("", {
-                            label: ibas.i18n.prop("bo_picklistsline_basedocument"),
+                            label: ibas.i18n.prop("bo_pickinglistline_basedocument"),
                             template: new sap.extension.m.Link("", {
                                 press(this: sap.m.Link): void {
                                     let data: any = this.getBindingContext().getObject();
-                                    if (data instanceof bo.PickListsLine && data.baseDocumentEntry > 0) {
+                                    if (data instanceof bo.PickingListLine && data.baseDocumentEntry > 0) {
                                         ibas.servicesManager.runLinkService({
                                             boCode: data.baseDocumentType,
                                             linkValue: data.baseDocumentEntry.toString()
@@ -693,7 +705,7 @@ namespace materials {
                             }),
                         }),
                         new sap.extension.table.DataColumn("", {
-                            label: ibas.i18n.prop("bo_picklistsline_deliverydate"),
+                            label: ibas.i18n.prop("bo_pickinglistline_deliverydate"),
                             template: new sap.extension.m.Text("", {
                             }).bindProperty("bindingValue", {
                                 path: "deliveryDate",
@@ -701,7 +713,7 @@ namespace materials {
                             }),
                         }),
                         new sap.extension.table.DataColumn("", {
-                            label: ibas.i18n.prop("bo_picklistsline_itemcode"),
+                            label: ibas.i18n.prop("bo_pickinglistline_itemcode"),
                             template: new sap.extension.m.DataLink("", {
                                 objectCode: bo.Material.BUSINESS_OBJECT_CODE
                             }).bindProperty("bindingValue", {
@@ -712,7 +724,7 @@ namespace materials {
                             }),
                         }),
                         new sap.extension.table.DataColumn("", {
-                            label: ibas.i18n.prop("bo_picklistsline_itemdescription"),
+                            label: ibas.i18n.prop("bo_pickinglistline_itemdescription"),
                             template: new sap.extension.m.Text("", {
                             }).bindProperty("bindingValue", {
                                 path: "itemDescription",
@@ -722,7 +734,7 @@ namespace materials {
                             }),
                         }),
                         // new sap.extension.table.DataColumn("", {
-                        //     label: ibas.i18n.prop("bo_picklistsline_uom"),
+                        //     label: ibas.i18n.prop("bo_pickinglistline_uom"),
                         //     template: new sap.extension.m.Text("", {
                         //     }).bindProperty("bindingValue", {
                         //         path: "uom",
@@ -732,7 +744,7 @@ namespace materials {
                         //     }),
                         // }),
                         // new sap.extension.table.DataColumn("", {
-                        //     label: ibas.i18n.prop("bo_picklistsline_inventoryuom"),
+                        //     label: ibas.i18n.prop("bo_pickinglistline_inventoryuom"),
                         //     template: new sap.extension.m.Text("", {
                         //     }).bindProperty("bindingValue", {
                         //         path: "inventoryUOM",
@@ -742,7 +754,7 @@ namespace materials {
                         //     }),
                         // }),
                         // new sap.extension.table.DataColumn("", {
-                        //     label: ibas.i18n.prop("bo_picklistsline_uomrate"),
+                        //     label: ibas.i18n.prop("bo_pickinglistline_uomrate"),
                         //     template: new sap.extension.m.Text("", {
                         //     }).bindProperty("bindingValue", {
                         //         path: "uomRate",
@@ -750,7 +762,7 @@ namespace materials {
                         //     }),
                         // }),
                         new sap.extension.table.DataColumn("", {
-                            label: ibas.i18n.prop("bo_picklistsline_warehouse"),
+                            label: ibas.i18n.prop("bo_pickinglistline_warehouse"),
                             template: new sap.extension.m.DataLink("", {
                                 objectCode: bo.Warehouse.BUSINESS_OBJECT_CODE
                             }).bindProperty("bindingValue", {
@@ -762,7 +774,7 @@ namespace materials {
                         }),
                         new sap.extension.table.DataColumn("", {
                             visible: !showPickedColumn,
-                            label: ibas.i18n.prop("bo_picklistsline_inventoryquantity"),
+                            label: ibas.i18n.prop("bo_pickinglistline_inventoryquantity"),
                             template: new sap.extension.m.Input("", {
                             }).bindProperty("bindingValue", {
                                 path: "quantity",
@@ -771,7 +783,7 @@ namespace materials {
                         }),
                         new sap.extension.table.DataColumn("", {
                             visible: showPickedColumn,
-                            label: ibas.i18n.prop("bo_picklistsline_inventoryquantity"),
+                            label: ibas.i18n.prop("bo_pickinglistline_inventoryquantity"),
                             template: new sap.extension.m.Text("", {
                             }).bindProperty("bindingValue", {
                                 path: "inventoryQuantity",
@@ -780,10 +792,10 @@ namespace materials {
                         }),
                         new sap.extension.table.DataColumn("", {
                             visible: showPickedColumn,
-                            label: ibas.i18n.prop("bo_picklistsline_pickquantity"),
+                            label: ibas.i18n.prop("bo_pickinglistline_pickingquantity"),
                             template: new sap.extension.m.Text("", {
                             }).bindProperty("bindingValue", {
-                                path: "pickQuantity",
+                                path: "pickingQuantity",
                                 type: new sap.extension.data.Quantity(),
                             }),
                         }),
@@ -791,7 +803,7 @@ namespace materials {
                 }
             }
             /** 视图-拣配清单设置 */
-            export class PickListsSettingView extends ibas.DialogView implements app.IPickListsSettingView {
+            export class PickingListSettingView extends ibas.DialogView implements app.IPickingListSettingView {
                 confirmEvent: Function;
                 draw(): any {
                     let that: this = this;
@@ -806,14 +818,14 @@ namespace materials {
                                 })
                             }),
                             new sap.extension.m.EnumSelect("", {
-                                enumType: app.emPickViewStatus,
+                                enumType: app.emPickingViewStatus,
                                 layoutData: new sap.ui.layout.ResponsiveFlowLayoutData("", {
                                     weight: 7
                                 })
                             }).bindProperty("bindingValue", {
                                 path: "/status",
                                 type: new sap.extension.data.Enum({
-                                    enumType: app.emPickViewStatus
+                                    enumType: app.emPickingViewStatus
                                 }),
                             }),
                             new sap.m.Label("", {
@@ -909,7 +921,7 @@ namespace materials {
                     this.fireViewEvents(this.confirmEvent, this.tableWarehouse.getSelecteds<bo.Warehouse>());
                 }
                 /** 显示数据 */
-                showWorkingData(data: app.PickListsWorking): void {
+                showWorkingData(data: app.PickingListWorking): void {
                     this.formTop.setModel(new sap.extension.model.JSONModel(data));
                     this.formTop.bindObject("/");
                     let hBox: sap.m.HBox;

@@ -431,15 +431,15 @@ namespace materials {
              * 查询 拣配清单
              * @param fetcher 查询者
              */
-            fetchPickLists(fetcher: ibas.IFetchCaller<bo.PickLists>): void {
-                super.fetch(bo.PickLists.name, fetcher);
+            fetchPickingList(fetcher: ibas.IFetchCaller<bo.PickingList>): void {
+                super.fetch(bo.PickingList.name, fetcher);
             }
             /**
              * 保存 拣配清单
              * @param saver 保存者
              */
-            savePickLists(saver: ibas.ISaveCaller<bo.PickLists>): void {
-                super.save(bo.PickLists.name, saver);
+            savePickingList(saver: ibas.ISaveCaller<bo.PickingList>): void {
+                super.save(bo.PickingList.name, saver);
             }
             /**
              * 改变物料批次/序列号

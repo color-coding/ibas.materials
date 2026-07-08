@@ -9,55 +9,55 @@ namespace materials {
     export namespace ui {
         export namespace c {
             /** 查看视图-拣配清单 */
-            export class PickListsViewView extends ibas.BOViewView implements app.IPickListsViewView {
+            export class PickingListViewView extends ibas.BOViewView implements app.IPickingListViewView {
 
                 /** 绘制视图 */
                 draw(): any {
                     let that: this = this;
-                    this.tablePickListsLine = new sap.extension.m.DataTable("", {
+                    this.tablePickingListLine = new sap.extension.m.DataTable("", {
                         autoPopinMode: true,
                         dataInfo: {
-                            code: bo.PickLists.BUSINESS_OBJECT_CODE,
-                            name: bo.PickListsLine.name
+                            code: bo.PickingList.BUSINESS_OBJECT_CODE,
+                            name: bo.PickingListLine.name
                         },
                         columns: [
                             new sap.extension.m.Column("", {
-                                header: ibas.i18n.prop("bo_picklistsline_lineid"),
+                                header: ibas.i18n.prop("bo_pickinglistline_lineid"),
                                 width: "5rem",
                             }),
                             new sap.extension.m.Column("", {
-                                header: ibas.i18n.prop("bo_picklistsline_basedocument"),
+                                header: ibas.i18n.prop("bo_pickinglistline_basedocument"),
                                 width: "10rem",
                             }),
                             new sap.extension.m.Column("", {
-                                header: ibas.i18n.prop("bo_picklistsline_pickstatus"),
+                                header: ibas.i18n.prop("bo_pickinglistline_pickingstatus"),
                                 width: "6rem",
                             }),
                             new sap.extension.m.Column("", {
-                                header: ibas.i18n.prop("bo_picklistsline_itemcode"),
+                                header: ibas.i18n.prop("bo_pickinglistline_itemcode"),
                             }),
                             new sap.extension.m.Column("", {
-                                header: ibas.i18n.prop("bo_picklistsline_itemdescription"),
+                                header: ibas.i18n.prop("bo_pickinglistline_itemdescription"),
                                 width: "16rem",
                             }),
                             new sap.extension.m.Column("", {
-                                header: ibas.i18n.prop("bo_picklistsline_warehouse"),
+                                header: ibas.i18n.prop("bo_pickinglistline_warehouse"),
                                 width: "10rem",
                             }),
                             new sap.extension.m.Column("", {
-                                header: ibas.i18n.prop("bo_picklistsline_inventoryquantity"),
+                                header: ibas.i18n.prop("bo_pickinglistline_inventoryquantity"),
                                 width: "8rem",
                             }),
                             new sap.extension.m.Column("", {
-                                header: ibas.i18n.prop("bo_picklistsline_pickquantity"),
+                                header: ibas.i18n.prop("bo_pickinglistline_pickingquantity"),
                                 width: "8rem",
                             }),
                             new sap.extension.m.Column("", {
-                                header: ibas.i18n.prop("bo_picklistsline_closedquantity"),
+                                header: ibas.i18n.prop("bo_pickinglistline_closedquantity"),
                                 width: "8rem",
                             }),
                             new sap.extension.m.Column("", {
-                                header: ibas.i18n.prop("bo_picklistsline_remarks"),
+                                header: ibas.i18n.prop("bo_pickinglistline_remarks"),
                             }),
                         ],
                         items: {
@@ -99,7 +99,7 @@ namespace materials {
                                         },
                                         press(this: sap.m.ObjectAttribute): void {
                                             let data: any = this.getBindingContext().getObject();
-                                            if (data instanceof bo.PickListsLine && data.baseDocumentEntry > 0) {
+                                            if (data instanceof bo.PickingListLine && data.baseDocumentEntry > 0) {
                                                 ibas.servicesManager.runLinkService({
                                                     boCode: data.baseDocumentType,
                                                     linkValue: data.baseDocumentEntry.toString()
@@ -109,9 +109,9 @@ namespace materials {
                                     }),
                                     new sap.extension.m.ObjectEnumStatus("", {
                                         text: {
-                                            path: "pickStatus",
+                                            path: "pickingStatus",
                                             type: new sap.extension.data.Enum({
-                                                enumType: bo.emPickStatus,
+                                                enumType: bo.emPickingStatus,
                                                 describe: true,
                                             }),
                                         }
@@ -124,7 +124,7 @@ namespace materials {
                                         },
                                         press(this: sap.m.ObjectAttribute): void {
                                             let data: any = this.getBindingContext().getObject();
-                                            if (data instanceof bo.PickListsLine && data.baseDocumentEntry > 0) {
+                                            if (data instanceof bo.PickingListLine && data.baseDocumentEntry > 0) {
                                                 ibas.servicesManager.runLinkService({
                                                     boCode: materials.bo.BO_CODE_MATERIAL,
                                                     linkValue: data.itemCode
@@ -183,7 +183,7 @@ namespace materials {
                                     }),
                                     new sap.extension.m.ObjectAttribute("", {
                                         bindingValue: {
-                                            path: "pickQuantity",
+                                            path: "pickingQuantity",
                                             type: new sap.extension.data.Quantity(),
                                         }
                                     }),
@@ -205,7 +205,7 @@ namespace materials {
                     });
                     return this.page = new sap.extension.uxap.DataObjectPageLayout("", {
                         dataInfo: {
-                            code: bo.PickLists.BUSINESS_OBJECT_CODE,
+                            code: bo.PickingList.BUSINESS_OBJECT_CODE,
                         },
                         headerTitle: new sap.uxap.ObjectPageHeader("", {
                             objectTitle: {
@@ -282,13 +282,13 @@ namespace materials {
                             }),
                             actions: [
                                 new sap.extension.m.ObjectEnumStatus("", {
-                                    enumType: bo.emPickStatus,
-                                    title: ibas.i18n.prop("bo_picklists_pickstatus"),
+                                    enumType: bo.emPickingStatus,
+                                    title: ibas.i18n.prop("bo_pickinglist_pickingstatus"),
                                     negative: true,
                                     enumValue: {
-                                        path: "pickStatus",
+                                        path: "pickingStatus",
                                         type: new sap.extension.data.Enum({
-                                            enumType: bo.emPickStatus
+                                            enumType: bo.emPickingStatus
                                         }),
                                     },
                                 }),
@@ -296,14 +296,14 @@ namespace materials {
                         }),
                         headerContent: [
                             new sap.extension.m.ObjectAttribute("", {
-                                title: ibas.i18n.prop("bo_picklists_pickdate"),
+                                title: ibas.i18n.prop("bo_pickinglist_pickingdate"),
                                 bindingValue: {
-                                    path: "pickDate",
+                                    path: "pickingDate",
                                     type: new sap.extension.data.Date(),
                                 }
                             }),
                             new sap.extension.m.ObjectAttribute("", {
-                                title: ibas.i18n.prop("bo_picklists_picker"),
+                                title: ibas.i18n.prop("bo_pickinglist_picker"),
                                 bindingValue: {
                                     path: "picker",
                                     type: new sap.extension.data.Alphanumeric(),
@@ -312,11 +312,11 @@ namespace materials {
                         ],
                         sections: [
                             new sap.uxap.ObjectPageSection("", {
-                                title: ibas.i18n.prop("bo_picklistsline"),
+                                title: ibas.i18n.prop("bo_pickinglistline"),
                                 subSections: [
                                     new sap.uxap.ObjectPageSubSection("", {
                                         blocks: [
-                                            this.tablePickListsLine
+                                            this.tablePickingListLine
                                         ],
                                     })
                                 ]
@@ -329,21 +329,21 @@ namespace materials {
                                             new sap.ui.layout.VerticalLayout("", {
                                                 content: [
                                                     new sap.extension.m.ObjectAttribute("", {
-                                                        title: ibas.i18n.prop("bo_picklists_remarks"),
+                                                        title: ibas.i18n.prop("bo_pickinglist_remarks"),
                                                         bindingValue: {
                                                             path: "remarks",
                                                             type: new sap.extension.data.Alphanumeric(),
                                                         }
                                                     }),
                                                     new sap.extension.m.ObjectAttribute("", {
-                                                        title: ibas.i18n.prop("bo_picklists_reference1"),
+                                                        title: ibas.i18n.prop("bo_pickinglist_reference1"),
                                                         bindingValue: {
                                                             path: "reference1",
                                                             type: new sap.extension.data.Alphanumeric(),
                                                         }
                                                     }),
                                                     new sap.extension.m.ObjectAttribute("", {
-                                                        title: ibas.i18n.prop("bo_picklists_reference2"),
+                                                        title: ibas.i18n.prop("bo_pickinglist_reference2"),
                                                         bindingValue: {
                                                             path: "reference2",
                                                             type: new sap.extension.data.Alphanumeric(),
@@ -354,14 +354,14 @@ namespace materials {
                                             new sap.ui.layout.VerticalLayout("", {
                                                 content: [
                                                     new sap.extension.m.UserObjectAttribute("", {
-                                                        title: ibas.i18n.prop("bo_picklists_dataowner"),
+                                                        title: ibas.i18n.prop("bo_pickinglist_dataowner"),
                                                         bindingValue: {
                                                             path: "dataOwner",
                                                             type: new sap.extension.data.Alphanumeric(),
                                                         }
                                                     }),
                                                     new sap.extension.m.OrganizationObjectAttribute("", {
-                                                        title: ibas.i18n.prop("bo_picklists_organization"),
+                                                        title: ibas.i18n.prop("bo_pickinglist_organization"),
                                                         bindingValue: {
                                                             path: "organization",
                                                             type: new sap.extension.data.Alphanumeric(),
@@ -378,15 +378,15 @@ namespace materials {
                 }
 
                 private page: sap.extension.uxap.ObjectPageLayout;
-                private tablePickListsLine: sap.extension.m.Table;
+                private tablePickingListLine: sap.extension.m.Table;
 
                 /** 显示数据 */
-                showPickLists(data: bo.PickLists): void {
+                showPickingList(data: bo.PickingList): void {
                     this.page.setModel(new sap.extension.model.JSONModel(data));
                 }
                 /** 显示数据-拣配清单-行 */
-                showPickListsLines(datas: bo.PickListsLine[]): void {
-                    this.tablePickListsLine.setModel(new sap.extension.model.JSONModel({ rows: datas }));
+                showPickingListLines(datas: bo.PickingListLine[]): void {
+                    this.tablePickingListLine.setModel(new sap.extension.model.JSONModel({ rows: datas }));
                 }
             }
         }

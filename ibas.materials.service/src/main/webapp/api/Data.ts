@@ -116,7 +116,7 @@ namespace materials {
         /** 业务对象编码-仓库预估日记账 */
         export const BO_CODE_MATERIALESTIMATEJOURNAL: string = "${Company}_MM_ESTIMATEJOURNAL";
         /** 业务对象编码-拣配清单 */
-        export const BO_CODE_PICKLISTS: string = "${Company}_MM_PICKLISTS";
+        export const BO_CODE_PICKINGLIST: string = "${Company}_MM_PICKINGLIST";
         /** 业务对象编码-库存转储请求 */
         export const BO_CODE_INVENTORYTRANSFERREQUEST: string = "${Company}_MM_TRANSFERREQUEST";
         /** 业务对象编码-物料扩展库存 */
@@ -241,7 +241,7 @@ namespace materials {
         /**
          * 拣配状态
          */
-        export enum emPickStatus {
+        export enum emPickingStatus {
             /**
              * 已审批
              */
@@ -253,11 +253,11 @@ namespace materials {
             /**
              * 已部分拣配
              */
-            PARTIALLYPICKED,
+            PARTIALLY_PICKED,
             /**
              * 已部分交货
              */
-            PARTIALLYDELIVERED,
+            PARTIALLY_DELIVERED,
             /**
              * 已结算
              */
@@ -499,7 +499,7 @@ namespace materials {
 
         }
         /** 拣配目标 */
-        export interface IPickListsTarget {
+        export interface IPickingListTarget {
             /** 基于类型 */
             baseDocumentType: string;
             /** 基于标识 */
@@ -547,11 +547,11 @@ namespace materials {
             /** 查询条件 */
             criteria?: ibas.ICriteria | ibas.ICondition[];
             /** 选中拣配内容后 */
-            onPicked?(targets: IPickListsTarget[]): void;
+            onPicked?(targets: IPickingListTarget[]): void;
             /** 交货内容 */
-            toDelivery?: bo.IPickListsLine[];
+            toDelivery?: bo.IPickingListLine[];
             /** 交货后 */
-            onDelivered?(targets: bo.IPickListsLine[] | Error): void;
+            onDelivered?(targets: bo.IPickingListLine[] | Error): void;
         }
         /** 物料拣配目标单据服务代理 */
         export class MaterialPackingTargetServiceProxy extends ibas.ServiceProxy<IMaterialPackingTarget> {

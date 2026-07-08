@@ -8,19 +8,19 @@
 namespace materials {
     export namespace app {
         /** 编辑应用-拣配清单 */
-        export class PickListsEditApp extends ibas.BOEditService<IPickListsEditView, bo.PickLists> {
+        export class PickingListEditApp extends ibas.BOEditService<IPickingListEditView, bo.PickingList> {
             /** 应用标识 */
             static APPLICATION_ID: string = "70edacfc-d278-4921-98c6-86648c8c937d";
             /** 应用名称 */
-            static APPLICATION_NAME: string = "materials_app_picklists_edit";
+            static APPLICATION_NAME: string = "materials_app_pickinglist_edit";
             /** 业务对象编码 */
-            static BUSINESS_OBJECT_CODE: string = bo.PickLists.BUSINESS_OBJECT_CODE;
+            static BUSINESS_OBJECT_CODE: string = bo.PickingList.BUSINESS_OBJECT_CODE;
             /** 构造函数 */
             constructor() {
                 super();
-                this.id = PickListsEditApp.APPLICATION_ID;
-                this.name = PickListsEditApp.APPLICATION_NAME;
-                this.boCode = PickListsEditApp.BUSINESS_OBJECT_CODE;
+                this.id = PickingListEditApp.APPLICATION_ID;
+                this.name = PickingListEditApp.APPLICATION_NAME;
+                this.boCode = PickingListEditApp.BUSINESS_OBJECT_CODE;
                 this.description = ibas.i18n.prop(this.name);
             }
             /** 注册视图 */
@@ -29,10 +29,10 @@ namespace materials {
                 // 其他事件
                 this.view.deleteDataEvent = this.deleteData;
                 this.view.createDataEvent = this.createData;
-                this.view.addPickListsLineEvent = this.addPickListsLine;
-                this.view.removePickListsLineEvent = this.removePickListsLine;
-                this.view.choosePickListsLineMaterialBatchEvent = this.choosePickListsLineMaterialBatch;
-                this.view.choosePickListsLineMaterialSerialEvent = this.choosePickListsLineMaterialSerial;
+                this.view.addPickingListLineEvent = this.addPickingListLine;
+                this.view.removePickingListLineEvent = this.removePickingListLine;
+                this.view.choosePickingListLineMaterialBatchEvent = this.choosePickingListLineMaterialBatch;
+                this.view.choosePickingListLineMaterialSerialEvent = this.choosePickingListLineMaterialSerial;
                 this.view.turnToDeliveryEvent = this.turnToDelivery;
                 this.view.useInventoryReservationToPickEvent = this.useInventoryReservationToPick;
             }
@@ -42,24 +42,24 @@ namespace materials {
                 super.viewShowed();
                 if (ibas.objects.isNull(this.editData)) {
                     // 创建编辑对象实例
-                    this.editData = new bo.PickLists();
+                    this.editData = new bo.PickingList();
                     this.proceeding(ibas.emMessageType.WARNING, ibas.i18n.prop("shell_data_created_new"));
                 }
-                this.view.showPickLists(this.editData);
-                this.view.showPickListsLines(this.editData.pickListsLines.filterDeleted());
+                this.view.showPickingList(this.editData);
+                this.view.showPickingListLines(this.editData.pickingListLines.filterDeleted());
                 this.view.showPickers(ibas.servicesManager.getServices({
                     proxy: new MaterialPackingTargetServiceProxy({
                         onPicked: async (targets) => {
-                            let item: bo.PickListsLine;
+                            let item: bo.PickingListLine;
                             let materials: ibas.IList<materials.bo.Material> = await this.fetchMaterialsAsync(targets.map(c => c.itemCode));
                             for (let target of targets) {
-                                item = this.editData.pickListsLines.firstOrDefault(
+                                item = this.editData.pickingListLines.firstOrDefault(
                                     c => c.baseDocumentType === target.baseDocumentType
                                         && c.baseDocumentEntry === target.baseDocumentEntry
                                         && c.baseDocumentLineId === target.baseDocumentLineId
                                 );
                                 if (ibas.objects.isNull(item)) {
-                                    item = this.editData.pickListsLines.create();
+                                    item = this.editData.pickingListLines.create();
                                     item.baseDocumentType = target.baseDocumentType;
                                     item.baseDocumentEntry = target.baseDocumentEntry;
                                     item.baseDocumentLineId = target.baseDocumentLineId;
@@ -75,16 +75,16 @@ namespace materials {
                                     item.quantity = target.unclosedQuantity;
                                 }
                             }
-                            this.view.showPickListsLines(this.editData.pickListsLines.filterDeleted());
+                            this.view.showPickingListLines(this.editData.pickingListLines.filterDeleted());
                         }
                     }),
                 }));
             }
             run(): void;
-            run(data: bo.PickLists): void;
+            run(data: bo.PickingList): void;
             run(): void {
-                if (arguments[0] instanceof bo.PickLists) {
-                    let data: bo.PickLists = arguments[0];
+                if (arguments[0] instanceof bo.PickingList) {
+                    let data: bo.PickingList = arguments[0];
                     if (data.isNew) {
                         this.editData = data;
                         this.show();
@@ -94,9 +94,9 @@ namespace materials {
                             // 有效的查询对象查询
                             let that: this = this;
                             let boRepository: bo.BORepositoryMaterials = new bo.BORepositoryMaterials();
-                            boRepository.fetchPickLists({
+                            boRepository.fetchPickingList({
                                 criteria: criteria,
-                                onCompleted(opRslt: ibas.IOperationResult<bo.PickLists>): void {
+                                onCompleted(opRslt: ibas.IOperationResult<bo.PickingList>): void {
                                     try {
                                         if (opRslt.resultCode !== 0) {
                                             throw new Error(opRslt.message);
@@ -131,9 +131,9 @@ namespace materials {
                 this.busy(true);
                 let that: this = this;
                 let boRepository: bo.BORepositoryMaterials = new bo.BORepositoryMaterials();
-                boRepository.savePickLists({
+                boRepository.savePickingList({
                     beSaved: this.editData,
-                    onCompleted(opRslt: ibas.IOperationResult<bo.PickLists>): void {
+                    onCompleted(opRslt: ibas.IOperationResult<bo.PickingList>): void {
                         try {
                             that.busy(false);
                             if (opRslt.resultCode !== 0) {
@@ -196,7 +196,7 @@ namespace materials {
                         that.viewShowed();
                     } else {
                         // 新建对象
-                        that.editData = new bo.PickLists();
+                        that.editData = new bo.PickingList();
                         that.proceeding(ibas.emMessageType.WARNING, ibas.i18n.prop("shell_data_created_new"));
                         that.viewShowed();
                     }
@@ -217,17 +217,17 @@ namespace materials {
                     createData();
                 }
             }  /** 添加拣配清单-行事件 */
-            protected addPickListsLine(agent: ibas.IServiceAgent): void {
+            protected addPickingListLine(agent: ibas.IServiceAgent): void {
                 if (!ibas.objects.isNull(agent)) {
                     agent.run();
                 } else {
-                    this.editData.pickListsLines.create();
+                    this.editData.pickingListLines.create();
                     // 仅显示没有标记删除的
-                    this.view.showPickListsLines(this.editData.pickListsLines.filterDeleted());
+                    this.view.showPickingListLines(this.editData.pickingListLines.filterDeleted());
                 }
             }
             /** 删除拣配清单-行事件 */
-            protected removePickListsLine(items: bo.PickListsLine[] | bo.PickListsNumber[]): void {
+            protected removePickingListLine(items: bo.PickingListLine[] | bo.PickingListNumber[]): void {
                 // 非数组，转为数组
                 if (!(items instanceof Array)) {
                     items = [items];
@@ -237,21 +237,21 @@ namespace materials {
                 }
                 // 移除项目
                 for (let item of items) {
-                    if (item instanceof bo.PickListsLine) {
-                        if (this.editData.pickListsLines.indexOf(item) >= 0) {
+                    if (item instanceof bo.PickingListLine) {
+                        if (this.editData.pickingListLines.indexOf(item) >= 0) {
                             if (item.isNew) {
                                 // 新建的移除集合
-                                this.editData.pickListsLines.remove(item);
+                                this.editData.pickingListLines.remove(item);
                             } else {
                                 // 非新建标记删除
                                 item.delete();
                             }
                         }
-                    } else if (item instanceof bo.PickListsNumber) {
+                    } else if (item instanceof bo.PickingListNumber) {
                         if (item.isNew) {
-                            for (let pItem of this.editData.pickListsLines) {
-                                if (pItem.pickListsNumbers.contain(item)) {
-                                    pItem.pickListsNumbers.remove(item);
+                            for (let pItem of this.editData.pickingListLines) {
+                                if (pItem.pickingListNumbers.contain(item)) {
+                                    pItem.pickingListNumbers.remove(item);
                                     break;
                                 }
                             }
@@ -261,20 +261,20 @@ namespace materials {
                     }
                 }
                 // 仅显示没有标记删除的
-                this.view.showPickListsLines(this.editData.pickListsLines.filterDeleted());
+                this.view.showPickingListLines(this.editData.pickingListLines.filterDeleted());
             }
             /** 选择拣配清单行批次事件 */
-            private choosePickListsLineMaterialBatch(): void {
+            private choosePickingListLineMaterialBatch(): void {
                 let contracts: ibas.ArrayList<IMaterialBatchContract> = new ibas.ArrayList<IMaterialBatchContract>();
-                for (let item of this.editData.pickListsLines) {
+                for (let item of this.editData.pickingListLines) {
                     contracts.add({
                         batchManagement: item.batchManagement,
                         itemCode: item.itemCode,
                         itemDescription: item.itemDescription,
                         warehouse: item.warehouse,
-                        quantity: item.pickQuantity,
+                        quantity: item.pickingQuantity,
                         uom: item.inventoryUOM,
-                        materialBatches: item.pickListsNumbers,
+                        materialBatches: item.pickingListNumbers,
                     });
                 }
                 ibas.servicesManager.runApplicationService<IMaterialBatchContract[]>({
@@ -282,17 +282,17 @@ namespace materials {
                 });
             }
             /** 选择拣配清单序列事件 */
-            private choosePickListsLineMaterialSerial(): void {
+            private choosePickingListLineMaterialSerial(): void {
                 let contracts: ibas.ArrayList<IMaterialSerialContract> = new ibas.ArrayList<IMaterialSerialContract>();
-                for (let item of this.editData.pickListsLines) {
+                for (let item of this.editData.pickingListLines) {
                     contracts.add({
                         serialManagement: item.serialManagement,
                         itemCode: item.itemCode,
                         itemDescription: item.itemDescription,
                         warehouse: item.warehouse,
-                        quantity: item.pickQuantity,
+                        quantity: item.pickingQuantity,
                         uom: item.inventoryUOM,
-                        materialSerials: item.pickListsNumbers
+                        materialSerials: item.pickingListNumbers
                     });
                 }
                 ibas.servicesManager.runApplicationService<IMaterialSerialContract[]>({
@@ -300,24 +300,24 @@ namespace materials {
                 });
             }
             /** 转为交货 */
-            protected turnToDelivery(agent: ibas.IServiceAgent, selectItems?: bo.PickListsLine[]): void {
+            protected turnToDelivery(agent: ibas.IServiceAgent, selectItems?: bo.PickingListLine[]): void {
                 if (ibas.objects.isNull(this.editData) || this.editData.isDirty === true) {
                     this.messages(ibas.emMessageType.WARNING, ibas.i18n.prop("shell_data_saved_first"));
                     return;
                 }
-                let pickListsLines: ibas.ArrayList<bo.PickListsLine> = new ibas.ArrayList<bo.PickListsLine>();
+                let pickingListLines: ibas.ArrayList<bo.PickingListLine> = new ibas.ArrayList<bo.PickingListLine>();
                 if (!(selectItems.length > 0)) {
-                    selectItems = this.editData.pickListsLines;
+                    selectItems = this.editData.pickingListLines;
                 }
                 for (let item of selectItems) {
-                    if ((item.pickStatus === bo.emPickStatus.PICKED
-                        || item.pickStatus === bo.emPickStatus.PARTIALLYPICKED) && item.pickQuantity > 0) {
-                        pickListsLines.add(item);
+                    if ((item.pickingStatus === bo.emPickingStatus.PICKED
+                        || item.pickingStatus === bo.emPickingStatus.PARTIALLY_PICKED) && item.pickingQuantity > 0) {
+                        pickingListLines.add(item);
                     }
                 }
                 for (let srvAgent of ibas.servicesManager.getServices({
                     proxy: new MaterialPackingTargetServiceProxy({
-                        toDelivery: pickListsLines,
+                        toDelivery: pickingListLines,
                         onDelivered: (targets) => {
                             if (targets instanceof Error) {
                                 this.proceeding(ibas.emMessageType.WARNING, ibas.i18n.prop("materials_action_is_blocked", targets.message));
@@ -336,7 +336,7 @@ namespace materials {
             protected async useInventoryReservationToPick(): Promise<void> {
                 try {
                     this.busy(true);
-                    await this.editData.pickListsLines.useInventoryReservationToPick();
+                    await this.editData.pickingListLines.useInventoryReservationToPick();
                     this.busy(false);
                 } catch (error) {
                     this.busy(false);
@@ -384,9 +384,9 @@ namespace materials {
             }
         }
         /** 视图-拣配清单 */
-        export interface IPickListsEditView extends ibas.IBOEditView {
+        export interface IPickingListEditView extends ibas.IBOEditView {
             /** 显示数据 */
-            showPickLists(data: bo.PickLists): void;
+            showPickingList(data: bo.PickingList): void;
             /** 显示拣配者 */
             showPickers(datas: ibas.IServiceAgent[]): void;
             /** 删除数据事件 */
@@ -394,33 +394,33 @@ namespace materials {
             /** 新建数据事件，参数1：是否克隆 */
             createDataEvent: Function;
             /** 添加拣配清单-行事件 */
-            addPickListsLineEvent: Function;
+            addPickingListLineEvent: Function;
             /** 删除拣配清单-行事件 */
-            removePickListsLineEvent: Function;
+            removePickingListLineEvent: Function;
             /** 选择拣配清单行物料批次事件 */
-            choosePickListsLineMaterialBatchEvent: Function;
+            choosePickingListLineMaterialBatchEvent: Function;
             /** 选择拣配清单行物料序列事件 */
-            choosePickListsLineMaterialSerialEvent: Function;
+            choosePickingListLineMaterialSerialEvent: Function;
             /** 转为交货事件 */
             turnToDeliveryEvent: Function;
             /** 显示数据-拣配清单-行 */
-            showPickListsLines(datas: bo.PickListsLine[]): void;
+            showPickingListLines(datas: bo.PickingListLine[]): void;
             /** 使用预留拣配事件 */
             useInventoryReservationToPickEvent: Function;
         }
         /** 拣配清单编辑服务映射 */
-        export class PickListsEditServiceMapping extends ibas.BOEditServiceMapping {
+        export class PickingListEditServiceMapping extends ibas.BOEditServiceMapping {
             /** 构造函数 */
             constructor() {
                 super();
-                this.id = PickListsEditApp.APPLICATION_ID;
-                this.name = PickListsEditApp.APPLICATION_NAME;
-                this.boCode = PickListsEditApp.BUSINESS_OBJECT_CODE;
+                this.id = PickingListEditApp.APPLICATION_ID;
+                this.name = PickingListEditApp.APPLICATION_NAME;
+                this.boCode = PickingListEditApp.BUSINESS_OBJECT_CODE;
                 this.description = ibas.i18n.prop(this.name);
             }
             /** 创建服务实例 */
-            create(): ibas.IService<ibas.IBOEditServiceCaller<bo.PickLists>> {
-                return new PickListsEditApp();
+            create(): ibas.IService<ibas.IBOEditServiceCaller<bo.PickingList>> {
+                return new PickingListEditApp();
             }
         }
     }

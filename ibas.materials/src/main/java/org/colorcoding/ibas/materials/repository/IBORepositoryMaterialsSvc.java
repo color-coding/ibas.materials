@@ -34,7 +34,7 @@ import org.colorcoding.ibas.materials.bo.materialserial.MaterialSerialItem;
 import org.colorcoding.ibas.materials.bo.materialserial.MaterialSerialJournal;
 import org.colorcoding.ibas.materials.bo.materialsextendedsetting.MaterialsExtendedSetting;
 import org.colorcoding.ibas.materials.bo.materialspecification.MaterialSpecification;
-import org.colorcoding.ibas.materials.bo.picklists.PickLists;
+import org.colorcoding.ibas.materials.bo.pickinglist.PickingList;
 import org.colorcoding.ibas.materials.bo.specification.Specification;
 import org.colorcoding.ibas.materials.bo.specification.SpecificationTree;
 import org.colorcoding.ibas.materials.bo.unit.Unit;
@@ -543,7 +543,7 @@ public interface IBORepositoryMaterialsSvc extends IBORepositorySmartService {
 	 * @param token    口令
 	 * @return 操作结果
 	 */
-	OperationResult<PickLists> fetchPickLists(ICriteria criteria, String token);
+	OperationResult<PickingList> fetchPickingList(ICriteria criteria, String token);
 
 	/**
 	 * 保存-拣配清单
@@ -552,7 +552,7 @@ public interface IBORepositoryMaterialsSvc extends IBORepositorySmartService {
 	 * @param token 口令
 	 * @return 操作结果
 	 */
-	OperationResult<PickLists> savePickLists(PickLists bo, String token);
+	OperationResult<PickingList> savePickingList(PickingList bo, String token);
 
 	// --------------------------------------------------------------------------------------------//
 

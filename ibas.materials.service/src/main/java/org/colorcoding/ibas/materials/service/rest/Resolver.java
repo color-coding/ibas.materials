@@ -37,7 +37,7 @@ import org.colorcoding.ibas.materials.bo.materialserial.MaterialSerialItem;
 import org.colorcoding.ibas.materials.bo.materialserial.MaterialSerialJournal;
 import org.colorcoding.ibas.materials.bo.materialsextendedsetting.MaterialsExtendedSetting;
 import org.colorcoding.ibas.materials.bo.materialspecification.MaterialSpecification;
-import org.colorcoding.ibas.materials.bo.picklists.PickLists;
+import org.colorcoding.ibas.materials.bo.pickinglist.PickingList;
 import org.colorcoding.ibas.materials.bo.specification.Specification;
 import org.colorcoding.ibas.materials.bo.unit.Unit;
 import org.colorcoding.ibas.materials.bo.unit.UnitRate;
@@ -64,7 +64,7 @@ public class Resolver implements ContextResolver<JAXBContext> {
 						MaterialSerialJournal.class, Warehouse.class, MaterialQuantity.class, MaterialPrice.class,
 						MaterialSpecification.class, Specification.class, Unit.class, UnitRate.class,
 						MaterialVersion.class, MaterialScrap.class, MaterialInventoryReservation.class,
-						MaterialSubstitute.class, MaterialOrderedReservation.class, PickLists.class,
+						MaterialSubstitute.class, MaterialOrderedReservation.class, PickingList.class,
 						InventoryTransferRequest.class, MaterialNumberChange.class, MaterialInventoryTransfer.class,
 						MaterialSpecialPrice.class, MaterialNumberAssociation.class, SchedulingGroup.class,
 						BusinessPartnerMaterialCatalog.class, MaterialsExtendedSetting.class, MaterialSerialItem.class,
