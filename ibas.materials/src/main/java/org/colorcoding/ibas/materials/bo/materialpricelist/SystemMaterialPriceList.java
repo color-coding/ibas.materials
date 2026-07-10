@@ -24,4 +24,16 @@ public class SystemMaterialPriceList extends MaterialPriceList implements IBOCus
 			super.setObjectKey(value);
 		}
 	}
+
+	/**
+	 * 初始化数据
+	 */
+	@Override
+	protected void initialize() {
+		// 基类初始化
+		super.initialize();
+		// 子项不初始化，避免查询
+		this.setMaterialPriceItems(null);
+	}
+
 }
