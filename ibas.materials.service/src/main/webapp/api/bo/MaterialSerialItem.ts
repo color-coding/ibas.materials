@@ -315,6 +315,12 @@ namespace materials {
             protected init(): void {
                 this.objectCode = ibas.config.applyVariables(MaterialSerialItem.BUSINESS_OBJECT_CODE);
             }
+
+            /** 重置 */
+            reset(): void {
+                super.reset();
+                this.closed = ibas.emYesNo.NO;
+            }
         }
 
 

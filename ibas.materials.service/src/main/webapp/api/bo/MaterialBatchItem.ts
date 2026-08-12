@@ -329,6 +329,12 @@ namespace materials {
             protected init(): void {
                 this.objectCode = ibas.config.applyVariables(MaterialBatchItem.BUSINESS_OBJECT_CODE);
             }
+
+            /** 重置 */
+            reset(): void {
+                super.reset();
+                this.closedQuantity = 0;
+            }
         }
 
         /** 物料批次记录集合 */

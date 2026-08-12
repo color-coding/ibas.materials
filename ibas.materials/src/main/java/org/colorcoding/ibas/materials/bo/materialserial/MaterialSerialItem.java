@@ -20,8 +20,8 @@ import org.colorcoding.ibas.bobas.data.DateTime;
 import org.colorcoding.ibas.bobas.data.emDirection;
 import org.colorcoding.ibas.bobas.data.emDocumentStatus;
 import org.colorcoding.ibas.bobas.data.emYesNo;
-import org.colorcoding.ibas.bobas.db.DbField;
 import org.colorcoding.ibas.bobas.db.DataType;
+import org.colorcoding.ibas.bobas.db.DbField;
 import org.colorcoding.ibas.bobas.db.EditType;
 import org.colorcoding.ibas.bobas.logic.IBusinessLogicContract;
 import org.colorcoding.ibas.bobas.logic.IBusinessLogicsHost;
@@ -642,6 +642,12 @@ public class MaterialSerialItem extends BusinessObject<MaterialSerialItem>
 				new BusinessRuleRequired(PROPERTY_DOCUMENTENTRY), // 要求有值
 				new BusinessRuleRequired(PROPERTY_DOCUMENTLINEID), // 要求有值
 		};
+	}
+
+	@Override
+	protected void reset() {
+		super.reset();
+		this.setClosed(emYesNo.NO);
 	}
 
 	IMaterialSerialItemParent parent;

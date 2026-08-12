@@ -21,8 +21,8 @@ import org.colorcoding.ibas.bobas.data.DateTime;
 import org.colorcoding.ibas.bobas.data.emDirection;
 import org.colorcoding.ibas.bobas.data.emDocumentStatus;
 import org.colorcoding.ibas.bobas.data.emYesNo;
-import org.colorcoding.ibas.bobas.db.DbField;
 import org.colorcoding.ibas.bobas.db.DataType;
+import org.colorcoding.ibas.bobas.db.DbField;
 import org.colorcoding.ibas.bobas.db.EditType;
 import org.colorcoding.ibas.bobas.logic.IBusinessLogicContract;
 import org.colorcoding.ibas.bobas.logic.IBusinessLogicsHost;
@@ -729,6 +729,12 @@ public class MaterialBatchItem extends BusinessObject<MaterialBatchItem>
 				new BusinessRuleRequired(PROPERTY_DOCUMENTLINEID), // 要求有值
 				new BusinessRuleMinValue<BigDecimal>(Decimals.VALUE_ZERO, PROPERTY_QUANTITY), // 不能低于0
 		};
+	}
+
+	@Override
+	protected void reset() {
+		super.reset();
+		this.setClosedQuantity(Decimals.VALUE_ZERO);
 	}
 
 	IMaterialBatchItemParent parent;

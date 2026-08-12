@@ -81,7 +81,7 @@ public class MaterialsInventoryCost extends MaterialsCost {
 	}
 
 	@Override
-	protected final boolean shouldNegate() {
+	protected boolean shouldNegate() {
 		return this.isNegate();
 	}
 
