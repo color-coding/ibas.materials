@@ -16,27 +16,31 @@ import org.colorcoding.ibas.materials.repository.BORepositoryMaterials;
 /**
  * 预留数量（OnReserved）多行场景 测试。
  *
- * <p>基于 LOGIC-MATRIX §1.1/1.4 推导：</p>
+ * <p>
+ * 基于 LOGIC-MATRIX §1.1/1.4 推导：
+ * </p>
  * <ul>
- * <li>MaterialInventoryReservation 保存时同时触发 4 个契约：
- *   IMaterialReservedContract → Material.OnReserved
- *   IMaterialWarehouseReservedContract → MaterialInventory.OnReserved
- *   IMaterialBatchReservedContract (如有 batchCode)
- *   IMaterialSerialReservedContract (如有 serialCode)</li>
- * <li>contract.getQuantity() = reservation.quantity - reservation.closedQuantity</li>
- * <li>MaterialReservedService.impact 中用 impactReserved 实例字段去重累加：
- *   onReserved = onReserved - impactReserved + qty；impactReserved += qty</li>
+ * <li>MaterialInventoryReservation 保存时同时触发 4 个契约： IMaterialReservedContract →
+ * Material.OnReserved IMaterialWarehouseReservedContract →
+ * MaterialInventory.OnReserved IMaterialBatchReservedContract (如有 batchCode)
+ * IMaterialSerialReservedContract (如有 serialCode)</li>
+ * <li>contract.getQuantity() = reservation.quantity -
+ * reservation.closedQuantity</li>
+ * <li>MaterialReservedService.impact 中用 impactReserved 实例字段去重累加： onReserved =
+ * onReserved - impactReserved + qty；impactReserved += qty</li>
  * <li>MaterialWarehouseReservedService 同理，且批次/序列物料跳过库存超限校验</li>
  * </ul>
  *
- * <p>覆盖：</p>
+ * <p>
+ * 覆盖：
+ * </p>
  * <ul>
  * <li>MM-R01：单行预留 → OnReserved = qty</li>
  * <li>MM-R02：同物料同仓库两行预留 → OnReserved = qty1 + qty2（验证 impactReserved 去重）</li>
  * <li>MM-R03：取消其中一行 → OnReserved 仅减去被取消行</li>
  * <li>MM-R04：删除其中一行 → OnReserved 仅减去被删行</li>
- * <li>MM-R05：一行 status=CLOSED → 该行 qty 变为 0（contract.quantity = qty - closedQty，
- *   CLOSED 时 impact 中 qty=0），OnReserved 减去该行</li>
+ * <li>MM-R05：一行 status=CLOSED → 该行 qty 变为 0（contract.quantity = qty -
+ * closedQty， CLOSED 时 impact 中 qty=0），OnReserved 减去该行</li>
  * <li>MM-R06：物料级与仓库级 OnReserved 一致性</li>
  * </ul>
  */
@@ -58,8 +62,7 @@ public class TestReservedQuantityMultiLine extends AbstractQuantityLogicTestCase
 	/** 入库以保证 OnHand 足够预留（非批次/序列物料检查 OnReserved <= OnHand） */
 	private void seedInventory(BORepositoryMaterials repo, IMaterial mt, IWarehouse wh, BigDecimal qty)
 			throws Exception {
-		org.colorcoding.ibas.materials.bo.goodsreceipt.GoodsReceipt gr =
-				new org.colorcoding.ibas.materials.bo.goodsreceipt.GoodsReceipt();
+		org.colorcoding.ibas.materials.bo.goodsreceipt.GoodsReceipt gr = new org.colorcoding.ibas.materials.bo.goodsreceipt.GoodsReceipt();
 		org.colorcoding.ibas.materials.bo.goodsreceipt.IGoodsReceiptLine line = gr.getGoodsReceiptLines().create();
 		line.setItemCode(mt.getCode());
 		line.setQuantity(qty);
@@ -77,7 +80,7 @@ public class TestReservedQuantityMultiLine extends AbstractQuantityLogicTestCase
 
 	private BigDecimal onReservedOfWarehouse(BORepositoryMaterials repo, String itemCode, String warehouseCode)
 			throws Exception {
-		QuantitySnapshot s = snapshotOfWarehouse(repo, itemCode, warehouseCode);
+		snapshotOfWarehouse(repo, itemCode, warehouseCode);
 		// OnReserved 不在 QuantitySnapshot 中，单独查
 		org.colorcoding.ibas.bobas.common.ICriteria criteria = new org.colorcoding.ibas.bobas.common.Criteria();
 		org.colorcoding.ibas.bobas.common.ICondition c = criteria.getConditions().create();
@@ -92,8 +95,8 @@ public class TestReservedQuantityMultiLine extends AbstractQuantityLogicTestCase
 
 	// ==================================================================
 	// MM-R01：单行预留 → OnReserved = qty
-	//   推导依据：MaterialReservedService.impact:
-	//   onReserved = onReserved - 0 + qty = qty
+	// 推导依据：MaterialReservedService.impact:
+	// onReserved = onReserved - 0 + qty = qty
 	// ==================================================================
 
 	public void testMM_R01_SingleReservation() throws Exception {
@@ -114,13 +117,13 @@ public class TestReservedQuantityMultiLine extends AbstractQuantityLogicTestCase
 
 	// ==================================================================
 	// MM-R02：两行同物料同仓库预留 (6 + 4) → OnReserved = 10
-	//   推导依据：impactReserved 去重机制
-	//   行1: onReserved = 0 - 0 + 6 = 6, impactReserved = 6
-	//   行2: onReserved = 6 - 6 + 4 = 4 → 错！应该是在数据库已提交的 6 基础上
-	//   实际：行2 的 fetchBeAffected 重新读 Material（OnReserved=6），
-	//   onReserved = 6 - 6 + 4 = 4 → 但 impactReserved 已包含行1的6
-	//   wait... 这里两次 save 是两个独立事务，impactReserved 会重置
-	//   所以实际：第一次 save 后 OnReserved=6，第二次 save 后 OnReserved=6+4=10
+	// 推导依据：impactReserved 去重机制
+	// 行1: onReserved = 0 - 0 + 6 = 6, impactReserved = 6
+	// 行2: onReserved = 6 - 6 + 4 = 4 → 错！应该是在数据库已提交的 6 基础上
+	// 实际：行2 的 fetchBeAffected 重新读 Material（OnReserved=6），
+	// onReserved = 6 - 6 + 4 = 4 → 但 impactReserved 已包含行1的6
+	// wait... 这里两次 save 是两个独立事务，impactReserved 会重置
+	// 所以实际：第一次 save 后 OnReserved=6，第二次 save 后 OnReserved=6+4=10
 	// ==================================================================
 
 	public void testMM_R02_TwoReservationsSameMaterial_OnReservedMerged() throws Exception {
@@ -145,7 +148,7 @@ public class TestReservedQuantityMultiLine extends AbstractQuantityLogicTestCase
 
 	// ==================================================================
 	// MM-R03：两行预留 (6 + 4)，取消第一行 → OnReserved = 4
-	//   推导依据：取消 r1 触发 revoke，onReserved -= 6
+	// 推导依据：取消 r1 触发 revoke，onReserved -= 6
 	// ==================================================================
 
 	public void testMM_R03_CancelOneReservation() throws Exception {
@@ -173,7 +176,7 @@ public class TestReservedQuantityMultiLine extends AbstractQuantityLogicTestCase
 
 	// ==================================================================
 	// MM-R04：两行预留 (6 + 4)，删除第一行 → OnReserved = 4
-	//   （与 R03 场景相同，独立验证 delete 路径）
+	// （与 R03 场景相同，独立验证 delete 路径）
 	// ==================================================================
 
 	public void testMM_R04_DeleteOneReservation() throws Exception {
@@ -199,12 +202,12 @@ public class TestReservedQuantityMultiLine extends AbstractQuantityLogicTestCase
 
 	// ==================================================================
 	// MM-R05：一行 status=CLOSED → OnReserved 减去该行
-	//   推导依据：contract.getQuantity() = reservation.quantity - closedQuantity
-	//   且 impact 中 status=CLOSED 时 qty 按 0 计算
-	//   checkDataStatus 中 CLOSED && impactReserved==0 时跳过
-	//   但第二次保存（revoke 旧值 + impact 新值）：
-	//   revoke 旧值 qty=6，impact 新值 status=CLOSED → qty=0
-	//   净效应：OnReserved -= 6
+	// 推导依据：contract.getQuantity() = reservation.quantity - closedQuantity
+	// 且 impact 中 status=CLOSED 时 qty 按 0 计算
+	// checkDataStatus 中 CLOSED && impactReserved==0 时跳过
+	// 但第二次保存（revoke 旧值 + impact 新值）：
+	// revoke 旧值 qty=6，impact 新值 status=CLOSED → qty=0
+	// 净效应：OnReserved -= 6
 	// ==================================================================
 
 	public void testMM_R05_CloseOneReservation() throws Exception {

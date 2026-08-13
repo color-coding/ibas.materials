@@ -2,7 +2,7 @@ package org.colorcoding.ibas.materials.logic;
 
 import java.util.Iterator;
 
-import javax.xml.bind.annotation.XmlElement;
+import jakarta.xml.bind.annotation.XmlElement;
 
 import org.colorcoding.ibas.bobas.bo.BOFactory;
 import org.colorcoding.ibas.bobas.bo.BusinessObject;

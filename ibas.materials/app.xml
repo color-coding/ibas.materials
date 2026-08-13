@@ -7,7 +7,7 @@
         <!-- 配置项目-是否开启调试模式 -->
         <add key="DebugMode" value="true" />
         <!-- 配置项目-数据库类型 -->
-        <add key="MasterDbType" value="MSSQL" />
+        <add key="MasterDbType" value="MYSQL" />
         <!-- 配置项目-数据库地址 -->
         <add key="MasterDbServer" value="ibas-db-mssql" />
         <!-- 配置项目-数据库名称 -->

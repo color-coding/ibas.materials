@@ -2,7 +2,7 @@ package org.colorcoding.ibas.materials.bo.material;
 
 import java.math.BigDecimal;
 
-import javax.xml.bind.annotation.XmlElement;
+import jakarta.xml.bind.annotation.XmlElement;
 
 import org.colorcoding.ibas.bobas.bo.BusinessObject;
 import org.colorcoding.ibas.bobas.core.IPropertyInfo;

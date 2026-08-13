@@ -2,9 +2,9 @@ package org.colorcoding.ibas.materials.bo.inventorytransfer;
 
 import java.math.BigDecimal;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlType;
+import jakarta.xml.bind.annotation.XmlAccessType;
+import jakarta.xml.bind.annotation.XmlAccessorType;
+import jakarta.xml.bind.annotation.XmlType;
 
 import org.colorcoding.ibas.bobas.bo.IBODocument;
 import org.colorcoding.ibas.bobas.bo.IBODocumentLine;
@@ -25,6 +25,10 @@ import org.colorcoding.ibas.materials.logic.IMaterialBatchJournalContract;
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlType(name = MaterialBatchItem.BUSINESS_OBJECT_NAME, namespace = MyConfiguration.NAMESPACE_BO)
 class MaterialBatchItem extends org.colorcoding.ibas.materials.bo.materialbatch.MaterialBatchItem {
+
+	public MaterialBatchItem() {
+		super();
+	}
 
 	private static final long serialVersionUID = -4691089113449070798L;
 

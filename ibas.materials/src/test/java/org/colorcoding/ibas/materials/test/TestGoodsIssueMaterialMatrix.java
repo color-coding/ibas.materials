@@ -21,8 +21,12 @@ import org.colorcoding.ibas.materials.repository.BORepositoryMaterials;
 /**
  * 库存发货单 物料类型矩阵 测试。
  *
- * <p>覆盖：MM-A09 / A10</p>
- * <p>核心 logic：MaterialInventoryService (OUT)</p>
+ * <p>
+ * 覆盖：MM-A09 / A10
+ * </p>
+ * <p>
+ * 核心 logic：MaterialInventoryService (OUT)
+ * </p>
  */
 public class TestGoodsIssueMaterialMatrix extends AbstractQuantityLogicTestCase {
 
@@ -73,7 +77,7 @@ public class TestGoodsIssueMaterialMatrix extends AbstractQuantityLogicTestCase 
 			// 序列号发货：复用入库时生成的序列号
 			int n = qty.intValue();
 			for (int i = 0; i < n; i++) {
-				IMaterialSerialItem s = line.getMaterialSerials().create();
+				line.getMaterialSerials().create();
 				// 这里依赖 seed 时生成的序列号，简化为重用最新前缀
 			}
 		}
@@ -84,8 +88,13 @@ public class TestGoodsIssueMaterialMatrix extends AbstractQuantityLogicTestCase 
 	// MM-A09: 发货 -> OnHand-Q
 	// ==================================================================
 
-	public void testMM_A09_Issue_Inventory() throws Exception { runIssue(MaterialKind.INVENTORY, "A09I"); }
-	public void testMM_A09_Issue_Batch()     throws Exception { runIssue(MaterialKind.BATCH,     "A09B"); }
+	public void testMM_A09_Issue_Inventory() throws Exception {
+		runIssue(MaterialKind.INVENTORY, "A09I");
+	}
+
+	public void testMM_A09_Issue_Batch() throws Exception {
+		runIssue(MaterialKind.BATCH, "A09B");
+	}
 
 	private void runIssue(MaterialKind kind, String tag) throws Exception {
 		try (BORepositoryMaterials repo = createMaterialsRepository()) {
