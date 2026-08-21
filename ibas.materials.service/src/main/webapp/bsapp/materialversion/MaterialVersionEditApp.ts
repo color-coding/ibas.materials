@@ -8,7 +8,7 @@
 namespace materials {
     export namespace app {
         /** 编辑应用-物料版本 */
-        export class MaterialVersionEditApp extends ibas.BOEditApplication<IMaterialVersionEditView, bo.MaterialVersion> {
+        export class MaterialVersionEditApp extends ibas.BOEditService<IMaterialVersionEditView, bo.MaterialVersion> {
             /** 应用标识 */
             static APPLICATION_ID: string = "ff3998b1-d15c-4ead-8b89-81f0ff364e6a";
             /** 应用名称 */
@@ -213,6 +213,21 @@ namespace materials {
             createDataEvent: Function;
             /** 选择物料事件 */
             chooseMaterialEvent: Function;
+        }
+        /** MaterialVersion编辑服务映射 */
+        export class MaterialVersionEditServiceMapping extends ibas.BOEditServiceMapping {
+            /** 构造函数 */
+            constructor() {
+                super();
+                this.id = MaterialVersionEditApp.APPLICATION_ID;
+                this.name = MaterialVersionEditApp.APPLICATION_NAME;
+                this.boCode = MaterialVersionEditApp.BUSINESS_OBJECT_CODE;
+                this.description = ibas.i18n.prop(this.name);
+            }
+            /** 创建服务实例 */
+            create(): ibas.IService<ibas.IBOEditServiceCaller<bo.MaterialVersion>> {
+                return new MaterialVersionEditApp();
+            }
         }
     }
 }

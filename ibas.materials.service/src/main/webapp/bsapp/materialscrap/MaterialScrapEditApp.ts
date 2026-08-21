@@ -8,7 +8,7 @@
 namespace materials {
     export namespace app {
         /** 编辑应用-物料废品率 */
-        export class MaterialScrapEditApp extends ibas.BOEditApplication<IMaterialScrapEditView, bo.MaterialScrap> {
+        export class MaterialScrapEditApp extends ibas.BOEditService<IMaterialScrapEditView, bo.MaterialScrap> {
             /** 应用标识 */
             static APPLICATION_ID: string = "6939fa1c-d0b5-4c06-ae6f-d2d3b2ba4fc1";
             /** 应用名称 */
@@ -216,6 +216,21 @@ namespace materials {
             removeMaterialScrapSectionEvent: Function;
             /** 显示数据-物料废品率 - 阶梯 */
             showMaterialScrapSections(datas: bo.MaterialScrapSection[]): void;
+        }
+        /** MaterialScrap编辑服务映射 */
+        export class MaterialScrapEditServiceMapping extends ibas.BOEditServiceMapping {
+            /** 构造函数 */
+            constructor() {
+                super();
+                this.id = MaterialScrapEditApp.APPLICATION_ID;
+                this.name = MaterialScrapEditApp.APPLICATION_NAME;
+                this.boCode = MaterialScrapEditApp.BUSINESS_OBJECT_CODE;
+                this.description = ibas.i18n.prop(this.name);
+            }
+            /** 创建服务实例 */
+            create(): ibas.IService<ibas.IBOEditServiceCaller<bo.MaterialScrap>> {
+                return new MaterialScrapEditApp();
+            }
         }
     }
 }

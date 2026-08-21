@@ -153,6 +153,8 @@ declare namespace reportanalysis {
             associatedReport: number;
             /** 查询语句 */
             sqlString: string;
+            /** 报表语义 */
+            semantics: string;
             /** 服务器名称 */
             server: string;
             /** 用户名 */
@@ -585,6 +587,12 @@ declare namespace reportanalysis {
             get sqlString(): string;
             /** 设置-查询语句 */
             set sqlString(value: string);
+            /** 映射的属性名称-报表语义 */
+            static PROPERTY_SEMANTICS_NAME: string;
+            /** 获取-报表语义 */
+            get semantics(): string;
+            /** 设置-报表语义 */
+            set semantics(value: string);
             /** 映射的属性名称-服务器名称 */
             static PROPERTY_SERVER_NAME: string;
             /** 获取-服务器名称 */
@@ -1066,6 +1074,8 @@ declare namespace reportanalysis {
             category: emReportType;
             /** 组 */
             group: string;
+            /** 报表语义 */
+            semantics: string;
             /** 结果形式 */
             resultMethod: string;
             /** 报表参数 */
@@ -1283,6 +1293,8 @@ declare namespace reportanalysis {
                 Category: string;
                 /** 组 */
                 Group: string;
+                /** 报表语义 */
+                Semantics: string;
                 /** 结果形式 */
                 ResultMethod: string;
                 /** 报表参数 */
@@ -1592,7 +1604,7 @@ declare namespace reportanalysis {
             run(data: bo.Report): void;
             private triggerData?;
             /** 查询数据 */
-            protected fetchData(criteria: ibas.ICriteria | string): void;
+            protected fetchData(criteria: ibas.ICriteria | string | number): void;
         }
         /** 报表连接服务映射 */
         export class ReportLinkServiceMapping extends ibas.BOLinkServiceMapping {
@@ -1956,7 +1968,7 @@ declare namespace reportanalysis {
 declare namespace reportanalysis {
     namespace app {
         /** 应用-报表簿 */
-        class ReportBookEditApp extends ibas.BOEditApplication<IReportBookEditView, bo.ReportBook> {
+        class ReportBookEditApp extends ibas.BOEditService<IReportBookEditView, bo.ReportBook> {
             /** 应用标识 */
             static APPLICATION_ID: string;
             /** 应用名称 */
@@ -2005,6 +2017,13 @@ declare namespace reportanalysis {
             chooseReportBookItemReportEvent: Function;
             /** 选择用户、角色事件 */
             chooseUserRoleEvent: Function;
+        }
+        /** ReportBook编辑服务映射 */
+        class ReportBookEditServiceMapping extends ibas.BOEditServiceMapping {
+            /** 构造函数 */
+            constructor();
+            /** 创建服务实例 */
+            create(): ibas.IService<ibas.IBOEditServiceCaller<bo.ReportBook>>;
         }
     }
 }
