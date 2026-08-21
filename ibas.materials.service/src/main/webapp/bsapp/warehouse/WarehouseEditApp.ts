@@ -8,7 +8,7 @@
 namespace materials {
     export namespace app {
         /** 编辑应用-仓库 */
-        export class WarehouseEditApp extends ibas.BOEditApplication<IWarehouseEditView, bo.Warehouse> {
+        export class WarehouseEditApp extends ibas.BOEditService<IWarehouseEditView, bo.Warehouse> {
             /** 应用标识 */
             static APPLICATION_ID: string = "7137a6e1-432f-47d0-a70e-c5f71eb150bd";
             /** 应用名称 */
@@ -205,5 +205,20 @@ namespace materials {
             id: "9e9f0344-89d4-470b-a3ab-c11692cd4aaf",
             name: "materials_document_warehouse",
         };
+        /** Warehouse编辑服务映射 */
+        export class WarehouseEditServiceMapping extends ibas.BOEditServiceMapping {
+            /** 构造函数 */
+            constructor() {
+                super();
+                this.id = WarehouseEditApp.APPLICATION_ID;
+                this.name = WarehouseEditApp.APPLICATION_NAME;
+                this.boCode = WarehouseEditApp.BUSINESS_OBJECT_CODE;
+                this.description = ibas.i18n.prop(this.name);
+            }
+            /** 创建服务实例 */
+            create(): ibas.IService<ibas.IBOEditServiceCaller<bo.Warehouse>> {
+                return new WarehouseEditApp();
+            }
+        }
     }
 }

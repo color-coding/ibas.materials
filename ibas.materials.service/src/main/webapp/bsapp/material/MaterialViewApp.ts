@@ -96,17 +96,17 @@ namespace materials {
                 super.run.apply(this, arguments);
             }
             /** 查询数据 */
-            protected fetchData(criteria: ibas.ICriteria | string): void {
+            protected fetchData(criteria: ibas.ICriteria | string | number): void {
                 this.busy(true);
                 let that: this = this;
-                if (typeof criteria === "string") {
-                    let value: string = criteria;
+                if (typeof criteria === "string" || typeof criteria === "number") {
+                    let value: string | number = criteria;
                     criteria = new ibas.Criteria();
                     criteria.result = 1;
                     // 添加查询条件
                     let condition: ibas.ICondition = criteria.conditions.create();
-                    condition.alias = bo.Material.PROPERTY_CODE_NAME;
-                    condition.value = value;
+                    condition.alias = typeof value === "number" ? bo.Material.PROPERTY_DOCENTRY_NAME : bo.Material.PROPERTY_CODE_NAME;
+                    condition.value = String(value);
                 }
                 let boRepository: bo.BORepositoryMaterials = new bo.BORepositoryMaterials();
                 boRepository.fetchMaterial({
