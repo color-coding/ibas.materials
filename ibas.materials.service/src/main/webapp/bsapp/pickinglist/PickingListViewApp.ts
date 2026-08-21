@@ -95,17 +95,17 @@ namespace materials {
                 }
             }
             /** 查询数据 */
-            protected fetchData(criteria: ibas.ICriteria | string): void {
+            protected fetchData(criteria: ibas.ICriteria | string | number): void {
                 this.busy(true);
                 let that: this = this;
-                if (typeof criteria === "string") {
+                if (typeof criteria === "string" || typeof criteria === "number") {
                     let condition: ibas.ICondition;
-                    let value: string = criteria;
+                    let value: string | number = criteria;
                     criteria = new ibas.Criteria();
                     criteria.result = 1;
                     condition = criteria.conditions.create();
                     condition.alias = bo.PickingList.PROPERTY_OBJECTKEY_NAME;
-                    condition.value = value;
+                    condition.value = String(value);
                 }
                 let boRepository: bo.BORepositoryMaterials = new bo.BORepositoryMaterials();
                 boRepository.fetchPickingList({

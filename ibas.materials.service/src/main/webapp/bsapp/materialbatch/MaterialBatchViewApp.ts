@@ -94,7 +94,7 @@ namespace materials {
                 }
             }
             /** 查询数据 */
-            protected fetchData(criteria: ibas.ICriteria | string): void {
+            protected fetchData(criteria: ibas.ICriteria | string | number): void {
                 this.busy(true);
                 let that: this = this;
                 if (typeof criteria === "number") {

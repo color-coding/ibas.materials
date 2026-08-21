@@ -46,18 +46,29 @@ namespace materials {
             /** 运行 */
             run(): void {
                 if (ibas.objects.instanceOf(arguments[0], bo.MaterialPriceList)) {
-                    this.viewData = arguments[0];
+                    let data: bo.MaterialPriceList = arguments[0];
+                    if (data.isNew) {
+                        this.viewData = data;
+                        this.show();
+                        return;
+                    }
+                    let criteria: ibas.ICriteria = data.criteria();
+                    if (!ibas.objects.isNull(criteria) && criteria.conditions.length > 0) {
+                        this.fetchData(criteria);
+                        return;
+                    }
+                    this.viewData = data;
                     this.show();
                 } else {
                     super.run.apply(this, arguments);
                 }
             }
             /** 查询数据 */
-            protected fetchData(criteria: ibas.ICriteria | string): void {
+            protected fetchData(criteria: ibas.ICriteria | string | number): void {
                 this.busy(true);
                 let that: this = this;
-                if (typeof criteria === "string") {
-                    let value: string = criteria;
+                if (typeof criteria === "string" || typeof criteria === "number") {
+                    let value: string | number = criteria;
                     criteria = new ibas.Criteria();
                     criteria.result = 1;
                     // 添加查询条件

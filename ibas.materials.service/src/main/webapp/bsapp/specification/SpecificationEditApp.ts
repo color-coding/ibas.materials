@@ -8,7 +8,7 @@
 namespace materials {
     export namespace app {
         /** 编辑应用-规格模板 */
-        export class SpecificationEditApp extends ibas.BOEditApplication<ISpecificationEditView, bo.Specification> {
+        export class SpecificationEditApp extends ibas.BOEditService<ISpecificationEditView, bo.Specification> {
 
             /** 应用标识 */
             static APPLICATION_ID: string = "7a593bf1-2c0b-47b4-aff6-5500429740c4";
@@ -384,6 +384,21 @@ namespace materials {
             removeSpecificationItemValueEvent: Function;
             /** 显示数据 */
             showSpecificationItemValues(datas: bo.SpecificationItemValue[]): void;
+        }
+        /** Specification编辑服务映射 */
+        export class SpecificationEditServiceMapping extends ibas.BOEditServiceMapping {
+            /** 构造函数 */
+            constructor() {
+                super();
+                this.id = SpecificationEditApp.APPLICATION_ID;
+                this.name = SpecificationEditApp.APPLICATION_NAME;
+                this.boCode = SpecificationEditApp.BUSINESS_OBJECT_CODE;
+                this.description = ibas.i18n.prop(this.name);
+            }
+            /** 创建服务实例 */
+            create(): ibas.IService<ibas.IBOEditServiceCaller<bo.Specification>> {
+                return new SpecificationEditApp();
+            }
         }
     }
 }
