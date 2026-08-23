@@ -8,7 +8,7 @@
 namespace materials {
     export namespace app {
         /** 编辑应用-库存盘点 */
-        export class InventoryCountingEditApp extends ibas.BOEditApplication<IInventoryCountingEditView, bo.InventoryCounting> {
+        export class InventoryCountingEditApp extends ibas.BOEditService<IInventoryCountingEditView, bo.InventoryCounting> {
             /** 应用标识 */
             static APPLICATION_ID: string = "8dbd058e-735d-4edf-a718-9a27f8bab9a6";
             /** 应用名称 */
@@ -554,6 +554,21 @@ namespace materials {
             defaultWarehouse: string;
             /** 刷新库存 */
             refreshMaterialInventoryEvent: Function;
+        }
+        /** InventoryCounting编辑服务映射 */
+        export class InventoryCountingEditServiceMapping extends ibas.BOEditServiceMapping {
+            /** 构造函数 */
+            constructor() {
+                super();
+                this.id = InventoryCountingEditApp.APPLICATION_ID;
+                this.name = InventoryCountingEditApp.APPLICATION_NAME;
+                this.boCode = InventoryCountingEditApp.BUSINESS_OBJECT_CODE;
+                this.description = ibas.i18n.prop(this.name);
+            }
+            /** 创建服务实例 */
+            create(): ibas.IService<ibas.IBOEditServiceCaller<bo.InventoryCounting>> {
+                return new InventoryCountingEditApp();
+            }
         }
     }
 }

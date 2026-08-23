@@ -56,6 +56,17 @@ namespace materials {
                 // this.register(new MaterialGroupFunc());
                 // this.register(new UnitFunc());
                 // 注册服务应用
+                this.register(new UnitEditServiceMapping());
+                this.register(new MaterialVersionEditServiceMapping());
+                this.register(new InventoryTransferRequestEditServiceMapping());
+                this.register(new SchedulingGroupEditServiceMapping());
+                this.register(new MaterialGroupEditServiceMapping());
+                this.register(new SpecificationEditServiceMapping());
+                this.register(new MaterialSpecificationEditServiceMapping());
+                this.register(new MaterialScrapEditServiceMapping());
+                this.register(new InventoryCountingEditServiceMapping());
+                this.register(new WarehouseEditServiceMapping());
+                this.register(new MaterialEditServiceMapping());
                 this.register(new MaterialChooseServiceMapping());
                 this.register(new MaterialLinkServiceMapping());
                 this.register(new MaterialGroupChooseServiceMapping());

@@ -8,7 +8,7 @@
 namespace materials {
     export namespace app {
         /** 编辑应用-计量单位 */
-        export class UnitEditApp extends ibas.BOEditApplication<IUnitEditView, bo.Unit> {
+        export class UnitEditApp extends ibas.BOEditService<IUnitEditView, bo.Unit> {
             /** 应用标识 */
             static APPLICATION_ID: string = "b5357a1a-2214-4b84-a160-ab7a65bab76e";
             /** 应用名称 */
@@ -176,6 +176,21 @@ namespace materials {
             deleteDataEvent: Function;
             /** 新建数据事件，参数1：是否克隆 */
             createDataEvent: Function;
+        }
+        /** Unit编辑服务映射 */
+        export class UnitEditServiceMapping extends ibas.BOEditServiceMapping {
+            /** 构造函数 */
+            constructor() {
+                super();
+                this.id = UnitEditApp.APPLICATION_ID;
+                this.name = UnitEditApp.APPLICATION_NAME;
+                this.boCode = UnitEditApp.BUSINESS_OBJECT_CODE;
+                this.description = ibas.i18n.prop(this.name);
+            }
+            /** 创建服务实例 */
+            create(): ibas.IService<ibas.IBOEditServiceCaller<bo.Unit>> {
+                return new UnitEditApp();
+            }
         }
     }
 }

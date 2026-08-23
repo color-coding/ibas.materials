@@ -8,7 +8,7 @@
 namespace materials {
     export namespace app {
         /** 编辑应用-计划组 */
-        export class SchedulingGroupEditApp extends ibas.BOEditApplication<ISchedulingGroupEditView, bo.SchedulingGroup> {
+        export class SchedulingGroupEditApp extends ibas.BOEditService<ISchedulingGroupEditView, bo.SchedulingGroup> {
             /** 应用标识 */
             static APPLICATION_ID: string = "2352a69d-2ad4-41d1-9b6e-b34ac87a6364";
             /** 应用名称 */
@@ -177,6 +177,21 @@ namespace materials {
             deleteDataEvent: Function;
             /** 新建数据事件，参数1：是否克隆 */
             createDataEvent: Function;
+        }
+        /** SchedulingGroup编辑服务映射 */
+        export class SchedulingGroupEditServiceMapping extends ibas.BOEditServiceMapping {
+            /** 构造函数 */
+            constructor() {
+                super();
+                this.id = SchedulingGroupEditApp.APPLICATION_ID;
+                this.name = SchedulingGroupEditApp.APPLICATION_NAME;
+                this.boCode = SchedulingGroupEditApp.BUSINESS_OBJECT_CODE;
+                this.description = ibas.i18n.prop(this.name);
+            }
+            /** 创建服务实例 */
+            create(): ibas.IService<ibas.IBOEditServiceCaller<bo.SchedulingGroup>> {
+                return new SchedulingGroupEditApp();
+            }
         }
     }
 }
