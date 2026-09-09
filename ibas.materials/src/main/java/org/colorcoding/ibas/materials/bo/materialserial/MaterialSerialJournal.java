@@ -8,6 +8,7 @@ import jakarta.xml.bind.annotation.XmlElement;
 import jakarta.xml.bind.annotation.XmlRootElement;
 import jakarta.xml.bind.annotation.XmlType;
 
+import org.colorcoding.ibas.bobas.bo.BOIdentifierBuilder;
 import org.colorcoding.ibas.bobas.bo.BusinessObject;
 import org.colorcoding.ibas.bobas.bo.BusinessObjectUnit;
 import org.colorcoding.ibas.bobas.common.Decimals;
@@ -1229,11 +1230,8 @@ public class MaterialSerialJournal extends BusinessObject<MaterialSerialJournal>
 				// 修改入库物料、仓库、价格，影响成本计算，不允许
 				throw new BusinessLogicException(
 						I18N.prop("msg_mm_document_completed_material_cost_calculation_not_support_operation",
-								String.format("{[%s].[DocEntry = %s]%s}", this.getBaseDocumentType(),
-										this.getBaseDocumentEntry(),
-										this.getBaseDocumentLineId() > 0
-												? String.format("&&[LineId = %s]", this.getBaseDocumentLineId())
-												: "")));
+								BOIdentifierBuilder.document(this.getBaseDocumentType(), this.getBaseDocumentEntry(),
+										this.getBaseDocumentLineId()).build()));
 			}
 		}
 	}
