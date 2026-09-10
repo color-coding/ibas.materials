@@ -2,6 +2,7 @@ package org.colorcoding.ibas.document;
 
 import java.util.Iterator;
 
+import org.colorcoding.ibas.bobas.bo.BOIdentifierBuilder;
 import org.colorcoding.ibas.bobas.bo.IBODocument;
 import org.colorcoding.ibas.bobas.bo.IBOTagCanceled;
 import org.colorcoding.ibas.bobas.bo.IBusinessObject;
@@ -29,16 +30,14 @@ public interface IDocumentCloseQuantityOperator extends IDocumentOperatingTarget
 				// 父项或子项即将被删除
 				if (Decimals.VALUE_ZERO.compareTo(item.getClosedQuantity()) < 0) {
 					throw new BusinessRuleException(I18N.prop("msg_mm_document_closed_quantity_not_allowed_deleted",
-							String.format("{[%s].[DocEntry = %s]%s}", this.getObjectCode(), this.getDocEntry(),
-									item.getLineId() > 0 ? String.format("&&[LineId = %s]", item.getLineId()) : "")));
+							BOIdentifierBuilder.document(this.getObjectCode(), this.getDocEntry(), item.getLineId()).build()));
 				}
 			} else if ((this instanceof IBOTagCanceled && ((IBOTagCanceled) this).getCanceled() == emYesNo.YES)
 					|| (item instanceof IBOTagCanceled && ((IBOTagCanceled) item).getCanceled() == emYesNo.YES)) {
 				// 父项或子项即将被取消
 				if (Decimals.VALUE_ZERO.compareTo(item.getClosedQuantity()) < 0) {
 					throw new BusinessRuleException(I18N.prop("msg_mm_document_closed_quantity_not_allowed_canceled",
-							String.format("{[%s].[DocEntry = %s]%s}", this.getObjectCode(), this.getDocEntry(),
-									item.getLineId() > 0 ? String.format("&&[LineId = %s]", item.getLineId()) : "")));
+							BOIdentifierBuilder.document(this.getObjectCode(), this.getDocEntry(), item.getLineId()).build()));
 				}
 			}
 		}

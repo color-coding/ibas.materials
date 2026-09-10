@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 
 import org.colorcoding.ibas.bobas.approval.IApprovalData;
 import org.colorcoding.ibas.bobas.bo.BOUtilities;
+import org.colorcoding.ibas.bobas.bo.BOIdentifierBuilder;
 import org.colorcoding.ibas.bobas.common.ConditionOperation;
 import org.colorcoding.ibas.bobas.common.ConditionRelationship;
 import org.colorcoding.ibas.bobas.common.Criteria;
@@ -230,11 +231,8 @@ public class MaterialReceiptService
 					// 修改入库物料、仓库、价格，影响成本计算，不允许
 					throw new BusinessLogicException(I18N.prop(
 							"msg_mm_document_completed_material_cost_calculation_not_support_operation",
-							String.format("{[%s].[DocEntry = %s]%s}", materialJournal.getBaseDocumentType(),
-									materialJournal.getBaseDocumentEntry(),
-									materialJournal.getBaseDocumentLineId() > 0
-											? String.format("&&[LineId = %s]", materialJournal.getBaseDocumentLineId())
-											: "")));
+							BOIdentifierBuilder.document(materialJournal.getBaseDocumentType(),
+									materialJournal.getBaseDocumentEntry(), materialJournal.getBaseDocumentLineId()).build()));
 				}
 			}
 			// 仅新建时（首次）计算成本
@@ -247,14 +245,10 @@ public class MaterialReceiptService
 							// 未设置有效汇率
 							throw new BusinessLogicException(
 									I18N.prop(
-											"msg_mm_document_no_valid_exchange_rate_specified", String
-													.format("{[%s].[DocEntry = %s]%s}",
-															materialJournal.getBaseDocumentType(),
-															materialJournal.getBaseDocumentEntry(),
-															materialJournal.getBaseDocumentLineId() > 0
-																	? String.format("&&[LineId = %s]",
-																			materialJournal.getBaseDocumentLineId())
-																	: "")));
+											"msg_mm_document_no_valid_exchange_rate_specified",
+										BOIdentifierBuilder.document(materialJournal.getBaseDocumentType(),
+													materialJournal.getBaseDocumentEntry(), materialJournal.getBaseDocumentLineId())
+															.build()));
 						}
 					} else {
 						// 本币
@@ -263,14 +257,10 @@ public class MaterialReceiptService
 							// 汇率不是1
 							throw new BusinessLogicException(
 									I18N.prop(
-											"msg_mm_document_no_valid_exchange_rate_specified", String
-													.format("{[%s].[DocEntry = %s]%s}",
-															materialJournal.getBaseDocumentType(),
-															materialJournal.getBaseDocumentEntry(),
-															materialJournal.getBaseDocumentLineId() > 0
-																	? String.format("&&[LineId = %s]",
-																			materialJournal.getBaseDocumentLineId())
-																	: "")));
+											"msg_mm_document_no_valid_exchange_rate_specified",
+										BOIdentifierBuilder.document(materialJournal.getBaseDocumentType(),
+													materialJournal.getBaseDocumentEntry(), materialJournal.getBaseDocumentLineId())
+															.build()));
 						}
 					}
 				}
@@ -341,11 +331,8 @@ public class MaterialReceiptService
 						}
 						if (operationResult.getResultObjects().isEmpty()) {
 							throw new BusinessLogicException(I18N.prop("msg_mm_document_not_found_receipt_journal",
-									String.format("{[%s].[DocEntry = %s]%s}", contract.getBaseDocumentType(),
-											contract.getBaseDocumentEntry(),
-											contract.getBaseDocumentLineId() > 0
-													? String.format("&&[LineId = %s]", contract.getBaseDocumentLineId())
-													: "")));
+									BOIdentifierBuilder.document(contract.getBaseDocumentType(), contract.getBaseDocumentEntry(),
+											contract.getBaseDocumentLineId()).build()));
 						}
 						for (IMaterialInventoryJournal item : operationResult.getResultObjects()) {
 							calculatedPrice = item.getCalculatedPrice();

@@ -3,6 +3,7 @@ package org.colorcoding.ibas.materials.logic;
 import java.math.BigDecimal;
 import java.util.Iterator;
 
+import org.colorcoding.ibas.bobas.bo.BOIdentifierBuilder;
 import org.colorcoding.ibas.bobas.common.Decimals;
 import org.colorcoding.ibas.bobas.common.Strings;
 import org.colorcoding.ibas.bobas.data.emDocumentStatus;
@@ -87,9 +88,8 @@ public class DocumentQuantityClosingService extends DocumentQuantityService<IDoc
 			if (closedQuantity.compareTo(item.getQuantity()) > 0) {
 				if (documents.indexOf(item.getObjectCode() + ";") >= 0) {
 					throw new BusinessLogicException(I18N.prop("msg_mm_document_closed_quantity_exceeds_quantity",
-							String.format("{[%s].[DocEntry = %s]%s}", this.getBeAffected().getObjectCode(),
-									this.getBeAffected().getDocEntry(),
-									item.getLineId() > 0 ? String.format("&&[LineId = %s]", item.getLineId()) : "")));
+							BOIdentifierBuilder.document(this.getBeAffected().getObjectCode(),
+									this.getBeAffected().getDocEntry(), item.getLineId()).build()));
 				}
 			}
 			item.setClosedQuantity(closedQuantity);

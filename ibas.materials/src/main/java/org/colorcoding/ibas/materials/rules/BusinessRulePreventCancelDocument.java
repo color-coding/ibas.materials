@@ -13,7 +13,6 @@ import org.colorcoding.ibas.bobas.rule.BusinessRuleCommon;
 public class BusinessRulePreventCancelDocument extends BusinessRuleCommon {
 
 	protected BusinessRulePreventCancelDocument() {
-		this.setName(I18N.prop("msg_mm_business_rule_prevent_cancel_document"));
 	}
 
 	/**

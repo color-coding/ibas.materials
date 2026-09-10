@@ -4,13 +4,11 @@ import java.math.BigDecimal;
 
 import org.colorcoding.ibas.bobas.core.IPropertyInfo;
 import org.colorcoding.ibas.bobas.common.Decimals;
-import org.colorcoding.ibas.bobas.i18n.I18N;
 import org.colorcoding.ibas.bobas.rule.BusinessRuleCommon;
 
 public class BusinessRuleCalculateInventoryQuantity extends BusinessRuleCommon {
 
 	protected BusinessRuleCalculateInventoryQuantity() {
-		this.setName(I18N.prop("msg_mm_business_rule_calculate_inventory_quantity"));
 	}
 
 	/**
