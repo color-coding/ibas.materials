@@ -3,6 +3,7 @@ package org.colorcoding.ibas.materials.logic;
 import java.math.BigDecimal;
 
 import org.colorcoding.ibas.bobas.approval.IApprovalData;
+import org.colorcoding.ibas.bobas.bo.BOIdentifierBuilder;
 import org.colorcoding.ibas.bobas.bo.BOUtilities;
 import org.colorcoding.ibas.bobas.common.ConditionOperation;
 import org.colorcoding.ibas.bobas.common.ConditionRelationship;
@@ -224,14 +225,10 @@ public class MaterialBatchJournalService
 					// 修改入库物料、仓库、价格，影响成本计算，不允许
 					throw new BusinessLogicException(
 							I18N.prop(
-									"msg_mm_document_completed_material_cost_calculation_not_support_operation", String
-											.format("{[%s].[DocEntry = %s]%s}",
-													materialBatchJournal.getBaseDocumentType(),
-													materialBatchJournal.getBaseDocumentEntry(),
-													materialBatchJournal.getBaseDocumentLineId() > 0
-															? String.format("&&[LineId = %s]",
-																	materialBatchJournal.getBaseDocumentLineId())
-															: "")));
+									"msg_mm_document_completed_material_cost_calculation_not_support_operation",
+									BOIdentifierBuilder.document(materialBatchJournal.getBaseDocumentType(),
+											materialBatchJournal.getBaseDocumentEntry(),
+											materialBatchJournal.getBaseDocumentLineId()).build()));
 				}
 			}
 			// 仅新建时（首次）计算成本
@@ -244,13 +241,9 @@ public class MaterialBatchJournalService
 							// 未设置有效汇率
 							throw new BusinessLogicException(
 									I18N.prop("msg_mm_document_no_valid_exchange_rate_specified",
-											String.format("{[%s].[DocEntry = %s]%s}",
-													materialBatchJournal.getBaseDocumentType(),
-													materialBatchJournal.getBaseDocumentEntry(),
-													materialBatchJournal.getBaseDocumentLineId() > 0
-															? String.format("&&[LineId = %s]",
-																	materialBatchJournal.getBaseDocumentLineId())
-															: "")));
+									BOIdentifierBuilder.document(materialBatchJournal.getBaseDocumentType(),
+											materialBatchJournal.getBaseDocumentEntry(),
+											materialBatchJournal.getBaseDocumentLineId()).build()));
 						}
 					} else {
 						// 本币
@@ -259,13 +252,9 @@ public class MaterialBatchJournalService
 							// 汇率不是1
 							throw new BusinessLogicException(
 									I18N.prop("msg_mm_document_no_valid_exchange_rate_specified",
-											String.format("{[%s].[DocEntry = %s]%s}",
-													materialBatchJournal.getBaseDocumentType(),
-													materialBatchJournal.getBaseDocumentEntry(),
-													materialBatchJournal.getBaseDocumentLineId() > 0
-															? String.format("&&[LineId = %s]",
-																	materialBatchJournal.getBaseDocumentLineId())
-															: "")));
+										BOIdentifierBuilder.document(materialBatchJournal.getBaseDocumentType(),
+												materialBatchJournal.getBaseDocumentEntry(),
+												materialBatchJournal.getBaseDocumentLineId()).build()));
 						}
 					}
 				}
@@ -327,11 +316,8 @@ public class MaterialBatchJournalService
 						}
 						if (operationResult.getResultObjects().isEmpty()) {
 							throw new BusinessLogicException(I18N.prop("msg_mm_document_not_found_receipt_journal",
-									String.format("{[%s].[DocEntry = %s]%s}", contract.getBaseDocumentType(),
-											contract.getBaseDocumentEntry(),
-											contract.getBaseDocumentLineId() > 0
-													? String.format("&&[LineId = %s]", contract.getBaseDocumentLineId())
-													: "")));
+									BOIdentifierBuilder.document(contract.getBaseDocumentType(), contract.getBaseDocumentEntry(),
+											contract.getBaseDocumentLineId()).build()));
 						}
 						for (IMaterialBatchJournal item : operationResult.getResultObjects()) {
 							calculatedPrice = item.getCalculatedPrice();

@@ -3,6 +3,7 @@ package org.colorcoding.ibas.materials.logic;
 import java.math.BigDecimal;
 import java.util.Iterator;
 
+import org.colorcoding.ibas.bobas.bo.BOIdentifierBuilder;
 import org.colorcoding.ibas.bobas.bo.BusinessObject;
 import org.colorcoding.ibas.bobas.bo.IBODocument;
 import org.colorcoding.ibas.bobas.common.ConditionOperation;
@@ -135,9 +136,8 @@ public class DocumentAmountClosingService
 			if (closedAmount.compareTo(item.getAmount()) > 0) {
 				if (documents.indexOf(item.getObjectCode() + ";") >= 0) {
 					throw new BusinessLogicException(I18N.prop("msg_mm_document_closed_amount_exceeds_amount",
-							String.format("{[%s].[DocEntry = %s]%s}", this.getBeAffected().getObjectCode(),
-									this.getBeAffected().getDocEntry(),
-									item.getLineId() > 0 ? String.format("&&[LineId = %s]", item.getLineId()) : "")));
+							BOIdentifierBuilder.document(this.getBeAffected().getObjectCode(),
+									this.getBeAffected().getDocEntry(), item.getLineId()).build()));
 				}
 			}
 			item.setClosedAmount(closedAmount);
