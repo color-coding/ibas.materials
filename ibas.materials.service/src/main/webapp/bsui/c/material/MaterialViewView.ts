@@ -12,6 +12,8 @@ namespace materials {
             export class MaterialViewView extends ibas.BOViewView implements app.IMaterialViewView {
                 /** 更多信息 */
                 overviewEvent: Function;
+                /** 关闭扩展视图 */
+                closeExtendedViewEvent: Function;
                 /** 绘制视图 */
                 draw(): any {
                     let that: this = this;
@@ -639,6 +641,17 @@ namespace materials {
                 }
 
                 private page: sap.extension.uxap.ObjectPageLayout;
+
+                /** 显示扩展视图 */
+                showExtendedView(view: ibas.View): void {
+                    let section: sap.uxap.ObjectPageSection = new sap.uxap.ObjectPageSection("", {
+                        title: view.title,
+                        subSections: [new sap.uxap.ObjectPageSubSection("", {
+                            blocks: [view.draw()],
+                        })],
+                    });
+                    (<any>this.page).addSection(section);
+                }
 
                 /** 显示数据 */
                 showMaterial(data: bo.Material): void {

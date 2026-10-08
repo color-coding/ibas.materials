@@ -29,11 +29,13 @@ namespace materials {
                 // 其他事件
                 this.view.editDataEvent = this.editData;
                 this.view.overviewEvent = this.overview;
+                this.view.closeExtendedViewEvent = this.closeExtendedView;
             }
             /** 视图显示后 */
             protected viewShowed(): void {
                 // 视图加载完成
                 super.viewShowed();
+                this.showMaterialsExtendedViews();
                 if (ibas.objects.isNull(this.viewData)) {
                     // 创建编辑对象实例
                     this.viewData = new bo.Material();
@@ -59,6 +61,13 @@ namespace materials {
                     if (data.isNew) {
                         that.viewData = data;
                         that.show();
+                        if (that.extendedContracts instanceof Array) {
+                            for (let contract of that.extendedContracts) {
+                                if (contract.dataChangeEvent instanceof Function) {
+                                    contract.dataChangeEvent({ reson: "FETCH", data: data });
+                                }
+                            }
+                        }
                         return;
                     }
                     // 尝试重新查询编辑对象
@@ -77,6 +86,13 @@ namespace materials {
                                     // 查询到了有效数据
                                     that.viewData = data;
                                     that.show();
+                                    if (that.extendedContracts instanceof Array) {
+                                        for (let contract of that.extendedContracts) {
+                                            if (contract.dataChangeEvent instanceof Function) {
+                                                contract.dataChangeEvent({ reson: "FETCH", data: data });
+                                            }
+                                        }
+                                    }
                                 } else {
                                     // 数据重新检索无效
                                     that.messages({
@@ -135,6 +151,103 @@ namespace materials {
                 app.viewShower = this.viewShower;
                 app.run(this.viewData.criteria());
             }
+            private extendedContracts: ibas.IList<IMaterialViewExtendedContract>;
+            private extendedSettings: ibas.IList<bo.MaterialsExtendedSetting>;
+            /** 加载物料扩展视图 */
+            protected showMaterialsExtendedViews(): void {
+                if (!(this.extendedSettings instanceof Array)) {
+                    if (this.viewData?.isNew === false) {
+                        let criteria: ibas.ICriteria = new ibas.Criteria();
+                        let condition: ibas.ICondition = criteria.conditions.create();
+                        condition.alias = bo.MaterialsExtendedSetting.PROPERTY_TARGETCODE_NAME;
+                        condition.value = this.viewData.objectCode;
+                        condition = criteria.conditions.create();
+                        condition.alias = bo.MaterialsExtendedSetting.PROPERTY_TARGETKEYS_NAME;
+                        condition.value = this.viewData.code;
+                        let boRepository: bo.BORepositoryMaterials = new bo.BORepositoryMaterials();
+                        boRepository.fetchMaterialsExtendedSetting({
+                            criteria: criteria,
+                            onCompleted: (opRslt) => {
+                                try {
+                                    if (opRslt.resultCode !== 0) {
+                                        throw new Error(opRslt.message);
+                                    }
+                                    this.extendedSettings = opRslt.resultObjects;
+                                    this.showMaterialsExtendedViews();
+                                } catch (error) {
+                                    this.messages(error);
+                                }
+                            }
+                        });
+                        return;
+                    }
+                    this.extendedSettings = new ibas.ArrayList<any>();
+                }
+                if (!(this.extendedContracts instanceof Array)) {
+                    this.extendedContracts = new ibas.ArrayList<any>();
+                    let serviceAgents: ibas.IServiceAgent[] = ibas.servicesManager.getServices({
+                        proxy: new MaterialViewExtendedServiceProxy({
+                            id: undefined,
+                            dataChangeEvent(event: { reson: "CREATE" | "CLONE" | "FETCH" | "DELETE", data: bo.IMaterial }): void { },
+                        })
+                    });
+                    if (serviceAgents?.length > 0) {
+                        for (let agent of serviceAgents) {
+                            let serviceMapping: ibas.IServiceMapping = ibas.servicesManager.getServiceMapping(agent.id);
+                            if (ibas.objects.isNull(serviceMapping)) {
+                                continue;
+                            }
+                            let service: ibas.IService<ibas.IServiceContract> = serviceMapping.create();
+                            if (ibas.objects.isNull(service)) {
+                                continue;
+                            }
+                            if (service instanceof ibas.Application) {
+                                let that: this = this;
+                                service.navigation = serviceMapping.navigation;
+                                service.viewShower = {
+                                    show(view: ibas.IView): void {
+                                        if (view instanceof ibas.View) {
+                                            that.view.showExtendedView(view);
+                                            view.isDisplayed = true;
+                                        }
+                                    },
+                                    destroy(view: ibas.IView): void { that.viewShower.destroy(view); },
+                                    busy(view: ibas.IView, busy: boolean, msg: string): void { that.viewShower.busy(view, busy, msg); },
+                                    proceeding(view: ibas.IView, type: ibas.emMessageType, msg: string): void { that.viewShower.proceeding(view, type, msg); },
+                                    messages(caller: ibas.IMessgesCaller): void { that.viewShower.messages(caller); },
+                                };
+                            }
+                            let contract: IMaterialViewExtendedContract = {
+                                id: serviceMapping.id,
+                                setting: this.extendedSettings.firstOrDefault(c => c.element === agent.category),
+                                dataChangeEvent(event: { reson: "CREATE" | "CLONE" | "FETCH" | "DELETE", data: bo.IMaterial }): void { },
+                            };
+                            this.extendedContracts.add(contract);
+                            service.run({ proxy: new MaterialViewExtendedServiceProxy(contract) });
+                            if (contract.dataChangeEvent instanceof Function && !ibas.objects.isNull(this.viewData)) {
+                                contract.dataChangeEvent({ reson: "FETCH", data: this.viewData });
+                            }
+                            if (contract.setting?.enabled === ibas.emYesNo.YES && contract.showViewEvent instanceof Function) {
+                                contract.showViewEvent();
+                            }
+                        }
+                    }
+                }
+            }
+            private closeExtendedView(id: string, closed: boolean): void {
+                if (this.extendedContracts instanceof Array) {
+                    for (let contract of this.extendedContracts) {
+                        if (contract?.setting?.element !== id) {
+                            continue;
+                        }
+                        if (closed && contract.closeViewEvent instanceof Function) {
+                            contract.closeViewEvent();
+                        } else if (!closed && contract.showViewEvent instanceof Function) {
+                            contract.showViewEvent();
+                        }
+                    }
+                }
+            }
         }
         /** 视图-物料 */
         export interface IMaterialViewView extends ibas.IBOViewView {
@@ -142,6 +255,10 @@ namespace materials {
             showMaterial(data: bo.Material): void;
             /** 更多信息 */
             overviewEvent: Function;
+            /** 显示扩展视图 */
+            showExtendedView(view: ibas.View): void;
+            /** 关闭扩展视图 */
+            closeExtendedViewEvent: Function;
         }
         /** 物料连接服务映射 */
         export class MaterialLinkServiceMapping extends ibas.BOLinkServiceMapping {
