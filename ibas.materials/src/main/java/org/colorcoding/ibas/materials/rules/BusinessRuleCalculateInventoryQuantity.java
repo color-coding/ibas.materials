@@ -14,7 +14,7 @@ public class BusinessRuleCalculateInventoryQuantity extends BusinessRuleCommon {
 	/**
 	 * 构造方法
 	 * 
-	 * @param inventoryQuantity 属性-库存数量
+	 * @param inventoryQuantity 属性-库存单位数量
 	 * @param quantity          属性-数量
 	 * @param uomRate           属性-换算率
 	 */

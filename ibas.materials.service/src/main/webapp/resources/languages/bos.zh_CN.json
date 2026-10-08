@@ -1431,7 +1431,7 @@
         "bo_pickinglistline_createusersign": "创建用户",
         "bo_pickinglistline_datasource": "数据源",
         "bo_pickinglistline_deliverydate": "交货/到期日期",
-        "bo_pickinglistline_inventoryquantity": "申请数量",
+        "bo_pickinglistline_inventoryquantity": "库存单位数量",
         "bo_pickinglistline_inventoryuom": "库存单位",
         "bo_pickinglistline_itemcode": "物料编码",
         "bo_pickinglistline_itemdescription": "物料/服务描述",

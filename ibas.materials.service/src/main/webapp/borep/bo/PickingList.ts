@@ -246,7 +246,6 @@ namespace materials {
                 this.setProperty(PickingList.PROPERTY_PICKINGSTATUS_NAME, value);
             }
 
-
             /** 映射的属性名称-拣配清单-行集合 */
             static PROPERTY_PICKINGLISTLINES_NAME: string = "PickingListLines";
             /** 获取-拣配清单-行集合 */
@@ -294,27 +293,27 @@ namespace materials {
             }
             protected updatePickStatus(): void {
                 let filterDeleted: PickingListLine[] = this.filterDeleted();
-                let line: PickingListLine = filterDeleted.find(c => c.pickingStatus !== emPickingStatus.RELEASED);
+                let line: PickingListLine = filterDeleted.find((c) => c.pickingStatus !== emPickingStatus.RELEASED);
                 if (ibas.objects.isNull(line)) {
                     this.parent.pickingStatus = emPickingStatus.RELEASED;
                     return;
                 }
-                line = filterDeleted.find(c => c.pickingStatus !== emPickingStatus.PICKED);
+                line = filterDeleted.find((c) => c.pickingStatus !== emPickingStatus.PICKED);
                 if (ibas.objects.isNull(line)) {
                     this.parent.pickingStatus = emPickingStatus.PICKED;
                     return;
                 }
-                line = filterDeleted.find(c => c.pickingStatus !== emPickingStatus.CLOSED && c.pickingStatus !== emPickingStatus.PARTIALLY_DELIVERED);
+                line = filterDeleted.find((c) => c.pickingStatus !== emPickingStatus.CLOSED && c.pickingStatus !== emPickingStatus.PARTIALLY_DELIVERED);
                 if (ibas.objects.isNull(line)) {
                     this.parent.pickingStatus = emPickingStatus.CLOSED;
                     return;
                 }
-                line = filterDeleted.find(c => c.pickingStatus === emPickingStatus.PARTIALLY_DELIVERED || c.pickingStatus === emPickingStatus.CLOSED);
+                line = filterDeleted.find((c) => c.pickingStatus === emPickingStatus.PARTIALLY_DELIVERED || c.pickingStatus === emPickingStatus.CLOSED);
                 if (!ibas.objects.isNull(line)) {
                     this.parent.pickingStatus = emPickingStatus.PARTIALLY_DELIVERED;
                     return;
                 }
-                line = filterDeleted.find(c => c.pickingStatus === emPickingStatus.PARTIALLY_PICKED || c.pickingStatus === emPickingStatus.PICKED);
+                line = filterDeleted.find((c) => c.pickingStatus === emPickingStatus.PARTIALLY_PICKED || c.pickingStatus === emPickingStatus.PICKED);
                 if (!ibas.objects.isNull(line)) {
                     this.parent.pickingStatus = emPickingStatus.PARTIALLY_PICKED;
                     return;
@@ -323,7 +322,7 @@ namespace materials {
             async useInventoryReservationToPick(): Promise<void> {
                 try {
                     this.resetAll();
-                    let items: Array<materials.bo.IPickingListLine> = this.filterDeleted().filter(c => {
+                    let items: Array<materials.bo.IPickingListLine> = this.filterDeleted().filter((c) => {
                         // 已交货或部分交货的行不重置
                         return c.pickingStatus !== bo.emPickingStatus.PARTIALLY_DELIVERED && c.pickingStatus !== bo.emPickingStatus.CLOSED;
                     });
@@ -342,9 +341,8 @@ namespace materials {
                                 serialItem.warehouse = inventoryReservation.warehouse;
                                 serialItem.pickingQuantity = 1;
                             } else if (!ibas.strings.isEmpty(inventoryReservation.batchCode)) {
-                                let batchItem: bo.IPickingListNumber = item.pickingListNumbers.find(c => {
-                                    return ibas.strings.equals(c.batchCode, inventoryReservation.batchCode)
-                                        && ibas.strings.equals(c.warehouse, inventoryReservation.warehouse);
+                                let batchItem: bo.IPickingListNumber = item.pickingListNumbers.find((c) => {
+                                    return ibas.strings.equals(c.batchCode, inventoryReservation.batchCode) && ibas.strings.equals(c.warehouse, inventoryReservation.warehouse);
                                 });
                                 if (ibas.objects.isNull(batchItem)) {
                                     batchItem = item.pickingListNumbers.create();
@@ -362,7 +360,7 @@ namespace materials {
                 }
             }
             protected resetAll(): void {
-                let items: Array<materials.bo.IPickingListLine> = this.filterDeleted().filter(c => {
+                let items: Array<materials.bo.IPickingListLine> = this.filterDeleted().filter((c) => {
                     // 已交货或部分交货的行不重置
                     return c.pickingStatus !== bo.emPickingStatus.PARTIALLY_DELIVERED && c.pickingStatus !== bo.emPickingStatus.CLOSED;
                 });
@@ -404,22 +402,24 @@ namespace materials {
                 condition.alias = materials.bo.MaterialInventoryReservation.PROPERTY_QUANTITY_NAME;
                 condition.operation = ibas.emConditionOperation.GREATER_THAN;
                 condition.comparedAlias = materials.bo.MaterialInventoryReservation.PROPERTY_CLOSEDQUANTITY_NAME;
-                let promise: Promise<ibas.IList<materials.bo.MaterialInventoryReservation>> = new Promise<ibas.IList<materials.bo.MaterialInventoryReservation>>(async (resolve) => {
-                    let boRepository: materials.bo.BORepositoryMaterials = new materials.bo.BORepositoryMaterials();
-                    boRepository.fetchMaterialInventoryReservation({
-                        criteria: criteria,
-                        onCompleted(opRslt: ibas.IOperationResult<materials.bo.MaterialInventoryReservation>): void {
-                            try {
-                                if (opRslt.resultCode !== 0) {
-                                    throw new Error(opRslt.message);
+                let promise: Promise<ibas.IList<materials.bo.MaterialInventoryReservation>> = new Promise<ibas.IList<materials.bo.MaterialInventoryReservation>>(
+                    async (resolve) => {
+                        let boRepository: materials.bo.BORepositoryMaterials = new materials.bo.BORepositoryMaterials();
+                        boRepository.fetchMaterialInventoryReservation({
+                            criteria: criteria,
+                            onCompleted(opRslt: ibas.IOperationResult<materials.bo.MaterialInventoryReservation>): void {
+                                try {
+                                    if (opRslt.resultCode !== 0) {
+                                        throw new Error(opRslt.message);
+                                    }
+                                    resolve(opRslt.resultObjects);
+                                } catch (error) {
+                                    resolve(new ibas.ArrayList());
                                 }
-                                resolve(opRslt.resultObjects);
-                            } catch (error) {
-                                resolve(new ibas.ArrayList());
                             }
-                        }
-                    });
-                });
+                        });
+                    }
+                );
                 return promise;
             }
         }
@@ -727,13 +727,13 @@ namespace materials {
                 this.setProperty(PickingListLine.PROPERTY_UOMRATE_NAME, value);
             }
 
-            /** 映射的属性名称-库存数量 */
+            /** 映射的属性名称-库存单位数量 */
             static PROPERTY_INVENTORYQUANTITY_NAME: string = "InventoryQuantity";
-            /** 获取-库存数量 */
+            /** 获取-库存单位数量 */
             get inventoryQuantity(): number {
                 return this.getProperty<number>(PickingListLine.PROPERTY_INVENTORYQUANTITY_NAME);
             }
-            /** 设置-库存数量 */
+            /** 设置-库存单位数量 */
             set inventoryQuantity(value: number) {
                 this.setProperty(PickingListLine.PROPERTY_INVENTORYQUANTITY_NAME, value);
             }
@@ -802,16 +802,21 @@ namespace materials {
             }
             protected registerRules(): ibas.IBusinessRule[] {
                 return [
-                    // 计算库存数量 = 换算率 * 数量
-                    new ibas.BusinessRuleMultiplicativeDeductionEx(PickingListLine.PROPERTY_QUANTITY_NAME,
-                        PickingListLine.PROPERTY_UOMRATE_NAME, PickingListLine.PROPERTY_INVENTORYQUANTITY_NAME)
+                    // 计算库存单位数量 = 换算率 * 数量
+                    new ibas.BusinessRuleMultiplicativeDeductionEx(
+                        PickingListLine.PROPERTY_QUANTITY_NAME,
+                        PickingListLine.PROPERTY_UOMRATE_NAME,
+                        PickingListLine.PROPERTY_INVENTORYQUANTITY_NAME
+                    )
                 ];
             }
             protected onPropertyChanged(name: string): void {
                 super.onPropertyChanged(name);
-                if (ibas.strings.equalsIgnoreCase(PickingListLine.PROPERTY_PICKINGQUANTITY_NAME, name)
-                    || ibas.strings.equalsIgnoreCase(PickingListLine.PROPERTY_CLOSEDQUANTITY_NAME, name)
-                    || ibas.strings.equalsIgnoreCase(PickingListLine.PROPERTY_INVENTORYQUANTITY_NAME, name)) {
+                if (
+                    ibas.strings.equalsIgnoreCase(PickingListLine.PROPERTY_PICKINGQUANTITY_NAME, name) ||
+                    ibas.strings.equalsIgnoreCase(PickingListLine.PROPERTY_CLOSEDQUANTITY_NAME, name) ||
+                    ibas.strings.equalsIgnoreCase(PickingListLine.PROPERTY_INVENTORYQUANTITY_NAME, name)
+                ) {
                     let pickingQuantity: number = ibas.numbers.valueOf(this.pickingQuantity);
                     let closedQuantity: number = ibas.numbers.valueOf(this.closedQuantity);
                     let inventoryQuantity: number = ibas.numbers.valueOf(this.inventoryQuantity);
@@ -875,7 +880,7 @@ namespace materials {
                     this.inventoryUOM = data.inventoryUOM;
                     /** 单位换算率 */
                     this.uomRate = data.uomRate;
-                    /** 库存数量 */
+                    /** 库存单位数量 */
                     this.inventoryQuantity = data.inventoryQuantity;
                     /** 备注 */
                     this.remarks = data.remarks;
@@ -884,8 +889,7 @@ namespace materials {
         }
 
         /** 拣配清单-序号 集合 */
-        export class PickingListNumbers extends ibas.BusinessObjects<PickingListNumber, PickingListLine>
-            implements IPickingListNumbers, IMaterialBatchItems, IMaterialSerialItems {
+        export class PickingListNumbers extends ibas.BusinessObjects<PickingListNumber, PickingListLine> implements IPickingListNumbers, IMaterialBatchItems, IMaterialSerialItems {
             /** 创建并添加子项 */
             create(): PickingListNumber {
                 let item: PickingListNumber = new PickingListNumber();
@@ -907,8 +911,7 @@ namespace materials {
             }
         }
         /** 拣配清单-序号 */
-        export class PickingListNumber extends ibas.BOSimpleLine<PickingListNumber>
-            implements IPickingListNumber, IMaterialBatchItem, IMaterialSerialItem {
+        export class PickingListNumber extends ibas.BOSimpleLine<PickingListNumber> implements IPickingListNumber, IMaterialBatchItem, IMaterialSerialItem {
             /** 构造函数 */
             constructor() {
                 super();
@@ -1174,6 +1177,5 @@ namespace materials {
         const PROPERTY_DOCUMENT_TYPE: symbol = Symbol("documentType");
         const PROPERTY_DOCUMENT_ENTRY: symbol = Symbol("documentEntry");
         const PROPERTY_DOCUMENT_LINEID: symbol = Symbol("documentLineId");
-
     }
 }

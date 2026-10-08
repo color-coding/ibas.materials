@@ -1439,6 +1439,9 @@ public class GoodsIssue extends BusinessObject<GoodsIssue>
 						MaterialsInventoryCost jeContent;
 						List<JournalEntryContent> jeContents = new ArrayList<>();
 						for (IGoodsIssueLine line : GoodsIssue.this.getGoodsIssueLines()) {
+							if (line.isDeleted()) {
+								continue;
+							}
 							if (line.getCanceled() == emYesNo.YES) {
 								continue;
 							}

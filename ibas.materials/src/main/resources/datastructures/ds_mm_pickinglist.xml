@@ -52,7 +52,7 @@
     <Property Name="UOM" Description="单位" DataType="Alphanumeric" DataSubType="Default" EditSize="8" Mapped="UOM"/>
     <Property Name="InventoryUOM" Description="库存单位" DataType="Alphanumeric" DataSubType="Default" EditSize="8" Mapped="InvUOM"/>
     <Property Name="UOMRate" Description="单位换算率" DataType="Decimal" DataSubType="Rate" EditSize="8" Mapped="UOMRate"/>
-    <Property Name="InventoryQuantity" Description="库存数量" DataType="Decimal" DataSubType="Quantity" EditSize="8" Mapped="InvQty"/>
+    <Property Name="InventoryQuantity" Description="库存单位数量" DataType="Decimal" DataSubType="Quantity" EditSize="8" Mapped="InvQty"/>
     <Property Name="PickingStatus" Description="拣配状态" DataType="Alphanumeric" DataSubType="Default" EditSize="1" DeclaredType="emPickingStatus" Mapped="PickStatus"/>
     <Property Name="PickingQuantity" Description="拣配数量" DataType="Decimal" DataSubType="Quantity" EditSize="8" Mapped="PickQty"/>
     <Property Name="ClosedQuantity" Description="已清数量" DataType="Decimal" DataSubType="Quantity" EditSize="8" Mapped="ClosedQty"/>
