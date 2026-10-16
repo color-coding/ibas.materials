@@ -1404,6 +1404,9 @@ public class InventoryCounting extends BusinessObject<InventoryCounting> impleme
 					JournalEntryContent jeContent;
 					List<JournalEntryContent> jeContents = new ArrayList<>();
 					for (IInventoryCountingLine line : InventoryCounting.this.getInventoryCountingLines()) {
+						if (line.isDeleted()) {
+							continue;
+						}
 						if (line.getLineStatus() != emDocumentStatus.CLOSED) {
 							continue;
 						}
