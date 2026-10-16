@@ -1439,6 +1439,9 @@ public class GoodsReceipt extends BusinessObject<GoodsReceipt>
 						JournalEntryContent jeContent;
 						List<JournalEntryContent> jeContents = new ArrayList<>();
 						for (IGoodsReceiptLine line : GoodsReceipt.this.getGoodsReceiptLines()) {
+							if (line.isDeleted()) {
+								continue;
+							}
 							if (line.getCanceled() == emYesNo.YES) {
 								continue;
 							}
@@ -1470,6 +1473,9 @@ public class GoodsReceipt extends BusinessObject<GoodsReceipt>
 						JournalEntryContent jeContent;
 						List<JournalEntryContent> jeContents = new ArrayList<>();
 						for (IGoodsReceiptLine line : GoodsReceipt.this.getGoodsReceiptLines()) {
+							if (line.isDeleted()) {
+								continue;
+							}
 							if (line.getCanceled() == emYesNo.NO) {
 								continue;
 							}

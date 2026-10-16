@@ -1437,6 +1437,9 @@ public class InventoryTransfer extends BusinessObject<InventoryTransfer>
 						JournalEntryContent jeContent;
 						List<JournalEntryContent> jeContents = new ArrayList<>();
 						for (IInventoryTransferLine line : InventoryTransfer.this.getInventoryTransferLines()) {
+							if (line.isDeleted()) {
+								continue;
+							}
 							if (line.getCanceled() == emYesNo.YES) {
 								continue;
 							}
