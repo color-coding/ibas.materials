@@ -894,19 +894,19 @@ public class PickingListLine extends BusinessObject<PickingListLine> implements 
 	}
 
 	/**
-	 * 属性名称-库存数量
+	 * 属性名称-库存单位数量
 	 */
 	private static final String PROPERTY_INVENTORYQUANTITY_NAME = "InventoryQuantity";
 
 	/**
-	 * 库存数量 属性
+	 * 库存单位数量 属性
 	 */
 	@DbField(name = "InvQty", type = DataType.DECIMAL, editType = EditType.QUANTITY, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<BigDecimal> PROPERTY_INVENTORYQUANTITY = registerProperty(
 			PROPERTY_INVENTORYQUANTITY_NAME, BigDecimal.class, MY_CLASS);
 
 	/**
-	 * 获取-库存数量
+	 * 获取-库存单位数量
 	 *
 	 * @return 值
 	 */
@@ -916,7 +916,7 @@ public class PickingListLine extends BusinessObject<PickingListLine> implements 
 	}
 
 	/**
-	 * 设置-库存数量
+	 * 设置-库存单位数量
 	 *
 	 * @param value 值
 	 */
@@ -1102,7 +1102,7 @@ public class PickingListLine extends BusinessObject<PickingListLine> implements 
 				new BusinessRuleMinValue<BigDecimal>(Decimals.VALUE_ZERO, PROPERTY_CLOSEDQUANTITY), // 不能低于0
 				new BusinessRuleMinValue<BigDecimal>(Decimals.VALUE_ZERO, PROPERTY_QUANTITY), // 不能低于0
 				new BusinessRuleMinValue<BigDecimal>(Decimals.VALUE_ZERO, PROPERTY_UOMRATE), // 不能低于0
-				// 库存数量 = 数量 * 单位换算率
+				// 库存单位数量 = 数量 * 单位换算率
 				new BusinessRuleCalculateInventoryQuantity(PROPERTY_INVENTORYQUANTITY, PROPERTY_QUANTITY,
 						PROPERTY_UOMRATE),
 				new BusinessRuleMinValue<BigDecimal>(Decimals.VALUE_ZERO, PROPERTY_INVENTORYQUANTITY), // 不能低于0

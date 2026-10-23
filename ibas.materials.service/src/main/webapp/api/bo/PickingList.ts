@@ -54,7 +54,6 @@ namespace materials {
 
             /** 拣配清单-行集合 */
             pickingListLines: IPickingListLines;
-
         }
 
         /** 拣配清单-行 集合 */
@@ -119,7 +118,7 @@ namespace materials {
             inventoryUOM: string;
             /** 单位换算率 */
             uomRate: number;
-            /** 库存数量 */
+            /** 库存单位数量 */
             inventoryQuantity: number;
             /** 拣配状态 */
             pickingStatus: emPickingStatus;
@@ -131,7 +130,6 @@ namespace materials {
             warehouse: string;
             /** 拣配清单-序号集合 */
             pickingListNumbers: IPickingListNumbers;
-
         }
 
         /** 拣配清单-序号 集合 */
@@ -180,9 +178,6 @@ namespace materials {
             serialCode: string;
             /** 拣配数量 */
             pickingQuantity: number;
-
         }
-
-
     }
 }
