@@ -2,6 +2,7 @@ package org.colorcoding.ibas.materials.test;
 
 import java.math.BigDecimal;
 
+import org.colorcoding.ibas.bobas.bo.BOIdentifierBuilder;
 import org.colorcoding.ibas.bobas.bo.BOFactory;
 import org.colorcoding.ibas.bobas.bo.BOUtilities;
 import org.colorcoding.ibas.bobas.common.Criteria;
@@ -13,7 +14,7 @@ import org.colorcoding.ibas.bobas.common.IOperationResult;
 import org.colorcoding.ibas.bobas.common.Strings;
 import org.colorcoding.ibas.bobas.configuration.Configuration;
 import org.colorcoding.ibas.bobas.data.emYesNo;
-import org.colorcoding.ibas.bobas.organization.OrganizationFactory;
+import org.colorcoding.ibas.bobas.i18n.I18N;
 import org.colorcoding.ibas.materials.MyConfiguration;
 import org.colorcoding.ibas.materials.bo.goodsissue.GoodsIssue;
 import org.colorcoding.ibas.materials.bo.goodsissue.IGoodsIssue;
@@ -31,8 +32,6 @@ import org.colorcoding.ibas.materials.bo.warehouse.IWarehouse;
 import org.colorcoding.ibas.materials.bo.warehouse.Warehouse;
 import org.colorcoding.ibas.materials.data.emValuationMethod;
 import org.colorcoding.ibas.materials.repository.BORepositoryMaterials;
-
-import junit.framework.TestCase;
 
 /**
  * 物料成本计算 系统性测试。
@@ -53,7 +52,7 @@ import junit.framework.TestCase;
  * <li>MM-C12：已计算成本后修改货币 - 抛异常</li>
  * </ul>
  */
-public class TestMaterialCostCalculation extends TestCase {
+public class TestMaterialCostCalculation extends AbstractBusinessTestCase {
 
 	static {
 		MyConfiguration.create().addConfigValue(MyConfiguration.CONFIG_ITEM_ENABLE_MATERIAL_COSTS, "true");
@@ -90,18 +89,6 @@ public class TestMaterialCostCalculation extends TestCase {
 		return BOUtilities.valueOf(repo.saveMaterial(m)).firstOrDefault();
 	}
 
-	private BORepositoryMaterials createRepo() throws Exception {
-		BORepositoryMaterials repo = new BORepositoryMaterials();
-		repo.setUserToken(OrganizationFactory.SYSTEM_USER);
-		return repo;
-	}
-
-	private void assertEqualsBD(String msg, BigDecimal expected, BigDecimal actual) {
-		BigDecimal e = expected == null ? Decimals.VALUE_ZERO : expected;
-		BigDecimal a = actual == null ? Decimals.VALUE_ZERO : actual;
-		assertEquals(msg + " expected=" + e + ", actual=" + a, 0, e.compareTo(a));
-	}
-
 	private IMaterialInventory fetchInventory(BORepositoryMaterials repo, String itemCode, String warehouse)
 			throws Exception {
 		ICriteria criteria = new Criteria();
@@ -134,7 +121,7 @@ public class TestMaterialCostCalculation extends TestCase {
 	// ==================================================================
 
 	public void testMM_C01_MovingAverage_MultiLine() throws Exception {
-		try (BORepositoryMaterials repo = createRepo()) {
+		try (BORepositoryMaterials repo = createMaterialsRepository()) {
 			IWarehouse wh = prepareWarehouse(repo, "WHS-C01");
 			IMaterial mt = prepareMaterial(repo, "C01", emValuationMethod.MOVING_AVERAGE, emYesNo.NO, emYesNo.NO);
 
@@ -158,7 +145,7 @@ public class TestMaterialCostCalculation extends TestCase {
 	// ==================================================================
 
 	public void testMM_C02_ReceiptCancel_Rollback() throws Exception {
-		try (BORepositoryMaterials repo = createRepo()) {
+		try (BORepositoryMaterials repo = createMaterialsRepository()) {
 			IWarehouse wh = prepareWarehouse(repo, "WHS-C02");
 			IMaterial mt = prepareMaterial(repo, "C02", emValuationMethod.MOVING_AVERAGE, emYesNo.NO, emYesNo.NO);
 
@@ -185,7 +172,7 @@ public class TestMaterialCostCalculation extends TestCase {
 	// ==================================================================
 
 	public void testMM_C03_Issue_AvgPriceUnchanged() throws Exception {
-		try (BORepositoryMaterials repo = createRepo()) {
+		try (BORepositoryMaterials repo = createMaterialsRepository()) {
 			IWarehouse wh = prepareWarehouse(repo, "WHS-C03");
 			IMaterial mt = prepareMaterial(repo, "C03", emValuationMethod.MOVING_AVERAGE, emYesNo.NO, emYesNo.NO);
 
@@ -217,7 +204,7 @@ public class TestMaterialCostCalculation extends TestCase {
 	// ==================================================================
 
 	public void testMM_C04_IssueCancel_Restore() throws Exception {
-		try (BORepositoryMaterials repo = createRepo()) {
+		try (BORepositoryMaterials repo = createMaterialsRepository()) {
 			IWarehouse wh = prepareWarehouse(repo, "WHS-C04");
 			IMaterial mt = prepareMaterial(repo, "C04", emValuationMethod.MOVING_AVERAGE, emYesNo.NO, emYesNo.NO);
 
@@ -255,7 +242,7 @@ public class TestMaterialCostCalculation extends TestCase {
 	// ==================================================================
 
 	public void testMM_C05_MultiCurrency_PriceTimesRate() throws Exception {
-		try (BORepositoryMaterials repo = createRepo()) {
+		try (BORepositoryMaterials repo = createMaterialsRepository()) {
 			IWarehouse wh = prepareWarehouse(repo, "WHS-C05");
 			IMaterial mt = prepareMaterial(repo, "C05", emValuationMethod.MOVING_AVERAGE, emYesNo.NO, emYesNo.NO);
 
@@ -279,7 +266,7 @@ public class TestMaterialCostCalculation extends TestCase {
 	// ==================================================================
 
 	public void testMM_C06_BatchReceiptCancel() throws Exception {
-		try (BORepositoryMaterials repo = createRepo()) {
+		try (BORepositoryMaterials repo = createMaterialsRepository()) {
 			IWarehouse wh = prepareWarehouse(repo, "WHS-C06");
 			IMaterial mt = prepareMaterial(repo, "C06", emValuationMethod.BATCH_MOVING_AVERAGE, emYesNo.YES,
 					emYesNo.NO);
@@ -310,7 +297,7 @@ public class TestMaterialCostCalculation extends TestCase {
 	// ==================================================================
 
 	public void testMM_C07_SerialReceipt_AvgPrice() throws Exception {
-		try (BORepositoryMaterials repo = createRepo()) {
+		try (BORepositoryMaterials repo = createMaterialsRepository()) {
 			IWarehouse wh = prepareWarehouse(repo, "WHS-C07");
 			IMaterial mt = prepareMaterial(repo, "C07", emValuationMethod.BATCH_MOVING_AVERAGE, emYesNo.NO,
 					emYesNo.YES);
@@ -339,7 +326,7 @@ public class TestMaterialCostCalculation extends TestCase {
 	// ==================================================================
 
 	public void testMM_C08_ModifyPrice_ThrowsException() throws Exception {
-		try (BORepositoryMaterials repo = createRepo()) {
+		try (BORepositoryMaterials repo = createMaterialsRepository()) {
 			IWarehouse wh = prepareWarehouse(repo, "WHS-C08");
 			IMaterial mt = prepareMaterial(repo, "C08", emValuationMethod.MOVING_AVERAGE, emYesNo.NO, emYesNo.NO);
 
@@ -352,12 +339,12 @@ public class TestMaterialCostCalculation extends TestCase {
 			assertNotNull("Save result should not be null.", result);
 			assertTrue("Should have error when modifying price of costed document.",
 					result.getError() != null || result.getResultCode() != 0);
-			if (result.getError() != null) {
-				String msg = result.getError().getMessage() != null ? result.getError().getMessage() : "";
-				assertTrue("Expected cost-related error, got: " + msg,
-						msg.contains("成本") || msg.contains("cost") || msg.contains("not_support")
-								|| msg.contains("不支持") || msg.contains("completed"));
-			}
+			assertNotNull("Cost protection must return an error.", result.getError());
+			assertEquals("Expected cost protection error.",
+					I18N.prop("msg_mm_document_completed_material_cost_calculation_not_support_operation",
+							BOIdentifierBuilder.document(gr.getObjectCode(), gr.getDocEntry(),
+									gr.getGoodsReceiptLines().firstOrDefault().getLineId()).build()),
+					result.getError().getMessage());
 		}
 	}
 
@@ -373,7 +360,7 @@ public class TestMaterialCostCalculation extends TestCase {
 		IGoodsReceipt gr1;
 		IMaterial mt;
 		IWarehouse wh;
-		try (BORepositoryMaterials repo = createRepo()) {
+		try (BORepositoryMaterials repo = createMaterialsRepository()) {
 			wh = prepareWarehouse(repo, "WHS-C09");
 			mt = prepareMaterial(repo, "C09", emValuationMethod.MOVING_AVERAGE, emYesNo.NO, emYesNo.NO);
 			gr1 = new GoodsReceipt();
@@ -381,7 +368,7 @@ public class TestMaterialCostCalculation extends TestCase {
 			BOUtilities.valueOf(repo.saveGoodsReceipt(gr1)).firstOrDefault();
 		}
 		// 出库（独立事务）
-		try (BORepositoryMaterials repo = createRepo()) {
+		try (BORepositoryMaterials repo = createMaterialsRepository()) {
 			IGoodsIssue gi = new GoodsIssue();
 			IGoodsIssueLine il = gi.getGoodsIssueLines().create();
 			il.setItemCode(mt.getCode());
@@ -397,7 +384,7 @@ public class TestMaterialCostCalculation extends TestCase {
 			assertEqualsBD("AvgPrice after issue.", Decimals.valueOf(100), invMid.getAvgPrice());
 		}
 		// 第二次收货（独立事务）
-		try (BORepositoryMaterials repo = createRepo()) {
+		try (BORepositoryMaterials repo = createMaterialsRepository()) {
 			IGoodsReceipt gr2 = new GoodsReceipt();
 			addReceiptLine(gr2, mt, wh, Decimals.valueOf(10), Decimals.valueOf(40));
 			BOUtilities.valueOf(repo.saveGoodsReceipt(gr2)).firstOrDefault();
@@ -420,7 +407,7 @@ public class TestMaterialCostCalculation extends TestCase {
 		// 收货
 		IMaterial mt;
 		IWarehouse wh;
-		try (BORepositoryMaterials repo = createRepo()) {
+		try (BORepositoryMaterials repo = createMaterialsRepository()) {
 			wh = prepareWarehouse(repo, "WHS-C10");
 			mt = prepareMaterial(repo, "C10", emValuationMethod.MOVING_AVERAGE, emYesNo.NO, emYesNo.NO);
 			IGoodsReceipt gr = new GoodsReceipt();
@@ -428,7 +415,7 @@ public class TestMaterialCostCalculation extends TestCase {
 			BOUtilities.valueOf(repo.saveGoodsReceipt(gr)).firstOrDefault();
 		}
 		// 出库 + 取消（同一事务）
-		try (BORepositoryMaterials repo = createRepo()) {
+		try (BORepositoryMaterials repo = createMaterialsRepository()) {
 			IMaterialInventory invBefore = fetchInventory(repo, mt.getCode(), wh.getCode());
 			BigDecimal valueBefore = invBefore.getInventoryValue();
 
@@ -462,7 +449,7 @@ public class TestMaterialCostCalculation extends TestCase {
 	// ==================================================================
 
 	public void testMM_C11_ReceiptCancel_ValueConsistency() throws Exception {
-		try (BORepositoryMaterials repo = createRepo()) {
+		try (BORepositoryMaterials repo = createMaterialsRepository()) {
 			IWarehouse wh = prepareWarehouse(repo, "WHS-C11");
 			IMaterial mt = prepareMaterial(repo, "C11", emValuationMethod.MOVING_AVERAGE, emYesNo.NO, emYesNo.NO);
 
@@ -488,7 +475,7 @@ public class TestMaterialCostCalculation extends TestCase {
 	// ==================================================================
 
 	public void testMM_C12_ModifyCurrency_ThrowsException() throws Exception {
-		try (BORepositoryMaterials repo = createRepo()) {
+		try (BORepositoryMaterials repo = createMaterialsRepository()) {
 			IWarehouse wh = prepareWarehouse(repo, "WHS-C12");
 			IMaterial mt = prepareMaterial(repo, "C12", emValuationMethod.MOVING_AVERAGE, emYesNo.NO, emYesNo.NO);
 
@@ -503,12 +490,12 @@ public class TestMaterialCostCalculation extends TestCase {
 			assertNotNull("Save result should not be null.", result);
 			assertTrue("Should have error when modifying currency of costed document.",
 					result.getError() != null || result.getResultCode() != 0);
-			if (result.getError() != null) {
-				String msg = result.getError().getMessage() != null ? result.getError().getMessage() : "";
-				assertTrue("Expected cost-related error, got: " + msg,
-						msg.contains("成本") || msg.contains("cost") || msg.contains("not_support")
-								|| msg.contains("不支持") || msg.contains("completed"));
-			}
+			assertNotNull("Cost protection must return an error.", result.getError());
+			assertEquals("Expected cost protection error.",
+					I18N.prop("msg_mm_document_completed_material_cost_calculation_not_support_operation",
+							BOIdentifierBuilder.document(gr.getObjectCode(), gr.getDocEntry(),
+									gr.getGoodsReceiptLines().firstOrDefault().getLineId()).build()),
+					result.getError().getMessage());
 		}
 	}
 }

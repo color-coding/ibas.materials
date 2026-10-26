@@ -2017,11 +2017,19 @@ public class InventoryTransferLine extends BusinessObject<InventoryTransferLine>
 
 			@Override
 			public String getCurrency() {
+				if (InventoryTransferLine.this.issuePrice != null) {
+					// 出库计算成本已是本位币，入库不再按单据币种换算。
+					return org.colorcoding.ibas.accounting.MyConfiguration
+							.getConfigValue(org.colorcoding.ibas.accounting.MyConfiguration.CONFIG_ITEM_LOCAL_CURRENCY);
+				}
 				return InventoryTransferLine.this.getCurrency();
 			}
 
 			@Override
 			public BigDecimal getRate() {
+				if (InventoryTransferLine.this.issuePrice != null) {
+					return Decimals.VALUE_ONE;
+				}
 				return InventoryTransferLine.this.getRate();
 			}
 

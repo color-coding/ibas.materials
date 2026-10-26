@@ -11,7 +11,6 @@ import org.colorcoding.ibas.bobas.common.ICriteria;
 import org.colorcoding.ibas.bobas.common.Strings;
 import org.colorcoding.ibas.bobas.configuration.Configuration;
 import org.colorcoding.ibas.bobas.data.emYesNo;
-import org.colorcoding.ibas.bobas.organization.OrganizationFactory;
 import org.colorcoding.ibas.materials.MyConfiguration;
 import org.colorcoding.ibas.materials.bo.material.IMaterial;
 import org.colorcoding.ibas.materials.bo.material.Material;
@@ -21,8 +20,6 @@ import org.colorcoding.ibas.materials.bo.warehouse.IWarehouse;
 import org.colorcoding.ibas.materials.bo.warehouse.Warehouse;
 import org.colorcoding.ibas.materials.data.emItemType;
 import org.colorcoding.ibas.materials.repository.BORepositoryMaterials;
-
-import junit.framework.TestCase;
 
 /**
  * 数量逻辑测试基类。
@@ -36,11 +33,33 @@ import junit.framework.TestCase;
  * <li>物料级与仓库级两层一致性断言</li>
  * </ul>
  */
-public abstract class AbstractQuantityLogicTestCase extends TestCase {
+public abstract class AbstractQuantityLogicTestCase extends AbstractBusinessTestCase {
 
 	static {
 		// 使用中文提示，测试中文字匹配
 		Configuration.addConfigValue(MyConfiguration.CONFIG_ITEM_LANGUAGE_CODE, "zh_CN");
+	}
+
+	private String originalEnableMaterialCosts;
+	private String originalMaterialCostsByWarehouse;
+
+	@Override
+	protected void setUp() throws Exception {
+		super.setUp();
+		originalEnableMaterialCosts = MyConfiguration.getConfigValue(MyConfiguration.CONFIG_ITEM_ENABLE_MATERIAL_COSTS);
+		originalMaterialCostsByWarehouse = MyConfiguration
+				.getConfigValue(MyConfiguration.CONFIG_ITEM_MANAGE_MATERIAL_COSTS_BY_WAREHOUSE);
+		MyConfiguration.create().addConfigValue(MyConfiguration.CONFIG_ITEM_ENABLE_MATERIAL_COSTS, "true");
+		MyConfiguration.create().addConfigValue(MyConfiguration.CONFIG_ITEM_MANAGE_MATERIAL_COSTS_BY_WAREHOUSE, "true");
+	}
+
+	@Override
+	protected void tearDown() throws Exception {
+		MyConfiguration.create().addConfigValue(MyConfiguration.CONFIG_ITEM_ENABLE_MATERIAL_COSTS,
+				originalEnableMaterialCosts == null ? Strings.VALUE_EMPTY : originalEnableMaterialCosts);
+		MyConfiguration.create().addConfigValue(MyConfiguration.CONFIG_ITEM_MANAGE_MATERIAL_COSTS_BY_WAREHOUSE,
+				originalMaterialCostsByWarehouse == null ? Strings.VALUE_EMPTY : originalMaterialCostsByWarehouse);
+		super.tearDown();
 	}
 
 	/** 物料类型枚举 - 测试矩阵驱动 */
@@ -62,9 +81,12 @@ public abstract class AbstractQuantityLogicTestCase extends TestCase {
 		public final BigDecimal onOrdered;
 
 		public QuantitySnapshot(BigDecimal onHand, BigDecimal onCommited, BigDecimal onOrdered) {
-			this.onHand = onHand == null ? Decimals.VALUE_ZERO : onHand;
-			this.onCommited = onCommited == null ? Decimals.VALUE_ZERO : onCommited;
-			this.onOrdered = onOrdered == null ? Decimals.VALUE_ZERO : onOrdered;
+			assertNotNull("onHand must not be null.", onHand);
+			this.onHand = onHand;
+			assertNotNull("onCommited must not be null.", onCommited);
+			this.onCommited = onCommited;
+			assertNotNull("onOrdered must not be null.", onOrdered);
+			this.onOrdered = onOrdered;
 		}
 
 		@Override
@@ -140,22 +162,20 @@ public abstract class AbstractQuantityLogicTestCase extends TestCase {
 	// =================== 三量查询 ===================
 
 	/** 重新读取物料获取最新的三量 */
-	protected IMaterial reloadMaterial(BORepositoryMaterials boRepository, IMaterial material) throws Exception {
+	protected IMaterial reload(BORepositoryMaterials boRepository, IMaterial material) throws Exception {
 		return BOUtilities.valueOf(boRepository.fetchMaterial(material.getCriteria())).firstOrDefault();
 	}
 
 	/** 物料级三量快照 */
-	protected QuantitySnapshot snapshotOfMaterial(BORepositoryMaterials boRepository, IMaterial material)
+	protected QuantitySnapshot snapshotMaterial(BORepositoryMaterials boRepository, IMaterial material)
 			throws Exception {
-		IMaterial m = reloadMaterial(boRepository, material);
-		if (m == null) {
-			return new QuantitySnapshot(Decimals.VALUE_ZERO, Decimals.VALUE_ZERO, Decimals.VALUE_ZERO);
-		}
+		IMaterial m = reload(boRepository, material);
+		assertNotNull("Material must exist before checking quantities.", m);
 		return new QuantitySnapshot(m.getOnHand(), m.getOnCommited(), m.getOnOrdered());
 	}
 
 	/** 仓库级三量快照 */
-	protected QuantitySnapshot snapshotOfWarehouse(BORepositoryMaterials boRepository, String itemCode,
+	protected QuantitySnapshot snapshotWarehouse(BORepositoryMaterials boRepository, String itemCode,
 			String warehouseCode) throws Exception {
 		ICriteria criteria = new Criteria();
 		ICondition condition = criteria.getConditions().create();
@@ -178,8 +198,8 @@ public abstract class AbstractQuantityLogicTestCase extends TestCase {
 	 */
 	protected void assertQuantities(BORepositoryMaterials boRepository, IMaterial material, String warehouseCode,
 			BigDecimal expOnHand, BigDecimal expOnCommited, BigDecimal expOnOrdered) throws Exception {
-		QuantitySnapshot m = snapshotOfMaterial(boRepository, material);
-		QuantitySnapshot w = snapshotOfWarehouse(boRepository, material.getCode(), warehouseCode);
+		QuantitySnapshot m = snapshotMaterial(boRepository, material);
+		QuantitySnapshot w = snapshotWarehouse(boRepository, material.getCode(), warehouseCode);
 
 		assertEqualsBD("[Material] OnHand mismatch.", expOnHand, m.onHand);
 		assertEqualsBD("[Material] OnCommited mismatch.", expOnCommited, m.onCommited);
@@ -195,24 +215,16 @@ public abstract class AbstractQuantityLogicTestCase extends TestCase {
 	 */
 	protected void assertServiceMaterialQuantities(BORepositoryMaterials boRepository, IMaterial material,
 			String warehouseCode) throws Exception {
-		QuantitySnapshot m = snapshotOfMaterial(boRepository, material);
+		QuantitySnapshot m = snapshotMaterial(boRepository, material);
 		assertEqualsBD("[Service-Material] OnHand should be 0.", Decimals.VALUE_ZERO, m.onHand);
 		assertEqualsBD("[Service-Material] OnCommited should be 0.", Decimals.VALUE_ZERO, m.onCommited);
 		assertEqualsBD("[Service-Material] OnOrdered should be 0.", Decimals.VALUE_ZERO, m.onOrdered);
-	}
-
-	/** BigDecimal 比较（忽略尾随 0） */
-	protected void assertEqualsBD(String msg, BigDecimal expected, BigDecimal actual) {
-		BigDecimal e = expected == null ? Decimals.VALUE_ZERO : expected;
-		BigDecimal a = actual == null ? Decimals.VALUE_ZERO : actual;
-		assertEquals(msg + " expected=" + e + ", actual=" + a, 0, e.compareTo(a));
+		QuantitySnapshot w = snapshotWarehouse(boRepository, material.getCode(), warehouseCode);
+		assertEqualsBD("[Service-Warehouse] OnHand should be 0.", Decimals.VALUE_ZERO, w.onHand);
+		assertEqualsBD("[Service-Warehouse] OnCommited should be 0.", Decimals.VALUE_ZERO, w.onCommited);
+		assertEqualsBD("[Service-Warehouse] OnOrdered should be 0.", Decimals.VALUE_ZERO, w.onOrdered);
 	}
 
 	// =================== 仓库构建 ===================
 
-	protected BORepositoryMaterials createMaterialsRepository() throws Exception {
-		BORepositoryMaterials boRepository = new BORepositoryMaterials();
-		boRepository.setUserToken(OrganizationFactory.SYSTEM_USER);
-		return boRepository;
-	}
 }

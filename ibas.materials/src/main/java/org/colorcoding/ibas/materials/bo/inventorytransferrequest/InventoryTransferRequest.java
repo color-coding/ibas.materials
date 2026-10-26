@@ -2,13 +2,6 @@ package org.colorcoding.ibas.materials.bo.inventorytransferrequest;
 
 import java.math.BigDecimal;
 
-import jakarta.xml.bind.annotation.XmlAccessType;
-import jakarta.xml.bind.annotation.XmlAccessorType;
-import jakarta.xml.bind.annotation.XmlElement;
-import jakarta.xml.bind.annotation.XmlElementWrapper;
-import jakarta.xml.bind.annotation.XmlRootElement;
-import jakarta.xml.bind.annotation.XmlType;
-
 import org.colorcoding.ibas.accounting.data.IProjectData;
 import org.colorcoding.ibas.accounting.logic.IBranchCheckContract;
 import org.colorcoding.ibas.bobas.approval.IApprovalData;
@@ -25,8 +18,8 @@ import org.colorcoding.ibas.bobas.data.emApprovalStatus;
 import org.colorcoding.ibas.bobas.data.emBOStatus;
 import org.colorcoding.ibas.bobas.data.emDocumentStatus;
 import org.colorcoding.ibas.bobas.data.emYesNo;
-import org.colorcoding.ibas.bobas.db.DbField;
 import org.colorcoding.ibas.bobas.db.DataType;
+import org.colorcoding.ibas.bobas.db.DbField;
 import org.colorcoding.ibas.bobas.db.EditType;
 import org.colorcoding.ibas.bobas.logic.IBusinessLogicContract;
 import org.colorcoding.ibas.bobas.logic.IBusinessLogicsHost;
@@ -39,6 +32,13 @@ import org.colorcoding.ibas.bobas.rule.common.BusinessRuleRequiredElements;
 import org.colorcoding.ibas.bobas.rule.common.BusinessRuleSumElements;
 import org.colorcoding.ibas.document.IDocumentPrintedOperator;
 import org.colorcoding.ibas.materials.MyConfiguration;
+
+import jakarta.xml.bind.annotation.XmlAccessType;
+import jakarta.xml.bind.annotation.XmlAccessorType;
+import jakarta.xml.bind.annotation.XmlElement;
+import jakarta.xml.bind.annotation.XmlElementWrapper;
+import jakarta.xml.bind.annotation.XmlRootElement;
+import jakarta.xml.bind.annotation.XmlType;
 
 /**
  * 获取-库存转储请求
@@ -946,32 +946,32 @@ public class InventoryTransferRequest extends BusinessObject<InventoryTransferRe
 	}
 
 	/**
-	* 属性名称-已打印
-	*/
+	 * 属性名称-已打印
+	 */
 	private static final String PROPERTY_PRINTED_NAME = "Printed";
 
 	/**
-	* 已打印 属性
-	*/
+	 * 已打印 属性
+	 */
 	@DbField(name = "Printed", type = DataType.ALPHANUMERIC, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<emYesNo> PROPERTY_PRINTED = registerProperty(PROPERTY_PRINTED_NAME, emYesNo.class,
 			MY_CLASS);
 
 	/**
-	* 获取-已打印
-	* 
-	* @return 值
-	*/
+	 * 获取-已打印
+	 * 
+	 * @return 值
+	 */
 	@XmlElement(name = PROPERTY_PRINTED_NAME)
 	public final emYesNo getPrinted() {
 		return this.getProperty(PROPERTY_PRINTED);
 	}
 
 	/**
-	* 设置-已打印
-	* 
-	* @param value 值
-	*/
+	 * 设置-已打印
+	 * 
+	 * @param value 值
+	 */
 	public final void setPrinted(emYesNo value) {
 		this.setProperty(PROPERTY_PRINTED, value);
 	}
@@ -1322,6 +1322,9 @@ public class InventoryTransferRequest extends BusinessObject<InventoryTransferRe
 		this.setDocumentDate(DateTimes.today());
 		this.setDeliveryDate(DateTimes.today());
 		this.setDocumentStatus(emDocumentStatus.RELEASED);
+		this.setDocumentCurrency(org.colorcoding.ibas.accounting.MyConfiguration
+				.getConfigValue(org.colorcoding.ibas.accounting.MyConfiguration.CONFIG_ITEM_LOCAL_CURRENCY));
+		this.setDocumentRate(Decimals.VALUE_ONE);
 
 	}
 

@@ -2,10 +2,14 @@ package org.colorcoding.ibas.materials.test;
 
 import java.math.BigDecimal;
 
+import org.colorcoding.ibas.bobas.bo.BOIdentifierBuilder;
 import org.colorcoding.ibas.bobas.bo.BOUtilities;
 import org.colorcoding.ibas.bobas.common.DateTimes;
 import org.colorcoding.ibas.bobas.common.Decimals;
+import org.colorcoding.ibas.bobas.common.IOperationResult;
 import org.colorcoding.ibas.bobas.data.emYesNo;
+import org.colorcoding.ibas.bobas.i18n.I18N;
+import org.colorcoding.ibas.bobas.logic.BusinessLogicException;
 import org.colorcoding.ibas.materials.bo.goodsreceipt.GoodsReceipt;
 import org.colorcoding.ibas.materials.bo.goodsreceipt.IGoodsReceipt;
 import org.colorcoding.ibas.materials.bo.goodsreceipt.IGoodsReceiptLine;
@@ -59,9 +63,15 @@ public class TestGoodsReceiptMaterialMatrix extends AbstractQuantityLogicTestCas
 	// MM-A01：新建保存 - 各物料类型 - OnHand+Q
 	// ==================================================================
 
-	public void testMM_A01_Create_Inventory() throws Exception { runCreateExpectOnHand(MaterialKind.INVENTORY, "A01I"); }
-	public void testMM_A01_Create_Batch()     throws Exception { runCreateExpectOnHand(MaterialKind.BATCH,     "A01B"); }
-	public void testMM_A01_Create_Serial()    throws Exception { runCreateExpectOnHand(MaterialKind.SERIAL,    "A01N"); }
+	public void testMM_A01_Create_Inventory() throws Exception {
+		runCreateExpectOnHand(MaterialKind.INVENTORY, "A01I");
+	}
+	public void testMM_A01_Create_Batch() throws Exception {
+		runCreateExpectOnHand(MaterialKind.BATCH,     "A01B");
+	}
+	public void testMM_A01_Create_Serial() throws Exception {
+		runCreateExpectOnHand(MaterialKind.SERIAL,    "A01N");
+	}
 
 	private void runCreateExpectOnHand(MaterialKind kind, String tag) throws Exception {
 		try (BORepositoryMaterials repo = createMaterialsRepository()) {
@@ -80,9 +90,15 @@ public class TestGoodsReceiptMaterialMatrix extends AbstractQuantityLogicTestCas
 	// MM-A02：头取消 - 各物料类型 - OnHand 回滚
 	// ==================================================================
 
-	public void testMM_A02_HeaderCancel_Inventory() throws Exception { runHeaderCancel(MaterialKind.INVENTORY, "A02I"); }
-	public void testMM_A02_HeaderCancel_Batch()     throws Exception { runHeaderCancel(MaterialKind.BATCH,     "A02B"); }
-	public void testMM_A02_HeaderCancel_Serial()    throws Exception { runHeaderCancel(MaterialKind.SERIAL,    "A02N"); }
+	public void testMM_A02_HeaderCancel_Inventory() throws Exception {
+		runHeaderCancel(MaterialKind.INVENTORY, "A02I");
+	}
+	public void testMM_A02_HeaderCancel_Batch() throws Exception {
+		runHeaderCancel(MaterialKind.BATCH,     "A02B");
+	}
+	public void testMM_A02_HeaderCancel_Serial() throws Exception {
+		runHeaderCancel(MaterialKind.SERIAL,    "A02N");
+	}
 
 	private void runHeaderCancel(MaterialKind kind, String tag) throws Exception {
 		try (BORepositoryMaterials repo = createMaterialsRepository()) {
@@ -101,12 +117,20 @@ public class TestGoodsReceiptMaterialMatrix extends AbstractQuantityLogicTestCas
 	}
 
 	// ==================================================================
-	// MM-A03：头删除 - 各物料类型 - OnHand 回滚
+	// MM-A03：已计成本的头删除被拒绝，各物料类型的库存保持不变
 	// ==================================================================
 
-	public void testMM_A03_HeaderDelete_Inventory() throws Exception { runHeaderDelete(MaterialKind.INVENTORY, "A03I"); }
-	public void testMM_A03_HeaderDelete_Batch()     throws Exception { runHeaderDelete(MaterialKind.BATCH,     "A03B"); }
-	public void testMM_A03_HeaderDelete_Serial()    throws Exception { runHeaderDelete(MaterialKind.SERIAL,    "A03N"); }
+	public void testMM_A03_HeaderDelete_Inventory() throws Exception {
+		runHeaderDelete(MaterialKind.INVENTORY, "A03I");
+	}
+
+	public void testMM_A03_HeaderDelete_Batch() throws Exception {
+		runHeaderDelete(MaterialKind.BATCH, "A03B");
+	}
+
+	public void testMM_A03_HeaderDelete_Serial() throws Exception {
+		runHeaderDelete(MaterialKind.SERIAL, "A03N");
+	}
 
 	private void runHeaderDelete(MaterialKind kind, String tag) throws Exception {
 		try (BORepositoryMaterials repo = createMaterialsRepository()) {
@@ -117,9 +141,17 @@ public class TestGoodsReceiptMaterialMatrix extends AbstractQuantityLogicTestCas
 			gr = BOUtilities.valueOf(repo.saveGoodsReceipt(gr)).firstOrDefault();
 
 			gr.delete();
-			gr = BOUtilities.valueOf(repo.saveGoodsReceipt(gr)).firstOrDefault();
+			IOperationResult<IGoodsReceipt> result = repo.saveGoodsReceipt(gr);
+			assertTrue("Costed receipt deletion must be rejected.", result.getError() instanceof BusinessLogicException);
+			assertEquals("Expected cost protection error.",
+					I18N.prop("msg_mm_document_completed_material_cost_calculation_not_support_operation",
+							BOIdentifierBuilder.document(gr.getObjectCode(), gr.getDocEntry(),
+									gr.getGoodsReceiptLines().firstOrDefault().getLineId()).build()),
+					result.getError().getMessage());
 
-			assertQuantities(repo, mt, wh.getCode(), Decimals.VALUE_ZERO, Decimals.VALUE_ZERO, Decimals.VALUE_ZERO);
+			IGoodsReceipt saved = BOUtilities.valueOf(repo.fetchGoodsReceipt(gr.getCriteria())).firstOrDefault();
+			assertNotNull("Rejected deletion must preserve the receipt.", saved);
+			assertQuantities(repo, mt, wh.getCode(), QUANTITY, Decimals.VALUE_ZERO, Decimals.VALUE_ZERO);
 		}
 	}
 

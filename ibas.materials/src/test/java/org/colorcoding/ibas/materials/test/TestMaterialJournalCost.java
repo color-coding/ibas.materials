@@ -1,7 +1,5 @@
 package org.colorcoding.ibas.materials.test;
 
-import java.math.BigDecimal;
-
 import org.colorcoding.ibas.bobas.bo.BOFactory;
 import org.colorcoding.ibas.bobas.bo.BOUtilities;
 import org.colorcoding.ibas.bobas.common.Criteria;
@@ -14,7 +12,6 @@ import org.colorcoding.ibas.bobas.common.Strings;
 import org.colorcoding.ibas.bobas.configuration.Configuration;
 import org.colorcoding.ibas.bobas.data.emDirection;
 import org.colorcoding.ibas.bobas.data.emYesNo;
-import org.colorcoding.ibas.bobas.organization.OrganizationFactory;
 import org.colorcoding.ibas.materials.MyConfiguration;
 import org.colorcoding.ibas.materials.bo.goodsreceipt.GoodsReceipt;
 import org.colorcoding.ibas.materials.bo.goodsreceipt.IGoodsReceipt;
@@ -30,8 +27,6 @@ import org.colorcoding.ibas.materials.bo.warehouse.Warehouse;
 import org.colorcoding.ibas.materials.data.emValuationMethod;
 import org.colorcoding.ibas.materials.repository.BORepositoryMaterials;
 
-import junit.framework.TestCase;
-
 /**
  * 物料日记账成本 记录级测试。
  *
@@ -43,7 +38,7 @@ import junit.framework.TestCase;
  * <li>MM-J04：多币种 - 日账 calculatedPrice = price × rate</li>
  * </ul>
  */
-public class TestMaterialJournalCost extends TestCase {
+public class TestMaterialJournalCost extends AbstractBusinessTestCase {
 
 	static {
 		MyConfiguration.create().addConfigValue(MyConfiguration.CONFIG_ITEM_ENABLE_MATERIAL_COSTS, "true");
@@ -80,18 +75,6 @@ public class TestMaterialJournalCost extends TestCase {
 		return BOUtilities.valueOf(repo.saveMaterial(m)).firstOrDefault();
 	}
 
-	private BORepositoryMaterials createRepo() throws Exception {
-		BORepositoryMaterials repo = new BORepositoryMaterials();
-		repo.setUserToken(OrganizationFactory.SYSTEM_USER);
-		return repo;
-	}
-
-	private void assertEqualsBD(String msg, BigDecimal expected, BigDecimal actual) {
-		BigDecimal e = expected == null ? Decimals.VALUE_ZERO : expected;
-		BigDecimal a = actual == null ? Decimals.VALUE_ZERO : actual;
-		assertEquals(msg + " expected=" + e + ", actual=" + a, 0, e.compareTo(a));
-	}
-
 	private IMaterialInventoryJournal fetchJournal(BORepositoryMaterials repo, String docType, int docEntry,
 			int lineId) throws Exception {
 		ICriteria criteria = new Criteria();
@@ -122,7 +105,7 @@ public class TestMaterialJournalCost extends TestCase {
 	// ==================================================================
 
 	public void testMM_J01_JournalCostFields() throws Exception {
-		try (BORepositoryMaterials repo = createRepo()) {
+		try (BORepositoryMaterials repo = createMaterialsRepository()) {
 			IWarehouse wh = prepareWarehouse(repo, "WHS-J01");
 			IMaterial mt = prepareMaterial(repo, "J01", emValuationMethod.MOVING_AVERAGE);
 
@@ -161,7 +144,7 @@ public class TestMaterialJournalCost extends TestCase {
 	// ==================================================================
 
 	public void testMM_J02_MultiLine_SnapshotAccumulation() throws Exception {
-		try (BORepositoryMaterials repo = createRepo()) {
+		try (BORepositoryMaterials repo = createMaterialsRepository()) {
 			IWarehouse wh = prepareWarehouse(repo, "WHS-J02");
 			IMaterial mt = prepareMaterial(repo, "J02", emValuationMethod.MOVING_AVERAGE);
 
@@ -223,7 +206,7 @@ public class TestMaterialJournalCost extends TestCase {
 	// ==================================================================
 
 	public void testMM_J03_ReceiptCancel_OffsettingJournal() throws Exception {
-		try (BORepositoryMaterials repo = createRepo()) {
+		try (BORepositoryMaterials repo = createMaterialsRepository()) {
 			IWarehouse wh = prepareWarehouse(repo, "WHS-J03");
 			IMaterial mt = prepareMaterial(repo, "J03", emValuationMethod.MOVING_AVERAGE);
 
@@ -286,7 +269,7 @@ public class TestMaterialJournalCost extends TestCase {
 	// ==================================================================
 
 	public void testMM_J04_MultiCurrency_JournalFields() throws Exception {
-		try (BORepositoryMaterials repo = createRepo()) {
+		try (BORepositoryMaterials repo = createMaterialsRepository()) {
 			IWarehouse wh = prepareWarehouse(repo, "WHS-J04");
 			IMaterial mt = prepareMaterial(repo, "J04", emValuationMethod.MOVING_AVERAGE);
 

@@ -1,7 +1,12 @@
 package org.colorcoding.ibas.materials.test;
 
 import org.colorcoding.ibas.bobas.bo.BOUtilities;
+import org.colorcoding.ibas.bobas.common.Criteria;
 import org.colorcoding.ibas.bobas.common.Decimals;
+import org.colorcoding.ibas.bobas.common.ICriteria;
+import org.colorcoding.ibas.bobas.common.IOperationResult;
+import org.colorcoding.ibas.bobas.i18n.I18N;
+import org.colorcoding.ibas.bobas.logic.BusinessLogicException;
 import org.colorcoding.ibas.materials.bo.goodsissue.GoodsIssue;
 import org.colorcoding.ibas.materials.bo.goodsissue.IGoodsIssue;
 import org.colorcoding.ibas.materials.bo.goodsissue.IGoodsIssueLine;
@@ -61,14 +66,12 @@ public class TestQuantityValidation extends AbstractQuantityLogicTestCase {
 			IMaterialSerialItem s2 = l2.getMaterialSerials().create();
 			s2.setSerialCode(serialCode);
 
-			try {
-				BOUtilities.valueOf(repo.saveGoodsReceipt(gr2)).firstOrDefault();
-				fail("Should throw for already in-stock serial.");
-			} catch (Exception ex) {
-				assertTrue("Expected in-stock error, got: " + ex.getMessage(),
-						ex.getMessage().contains("已存在") || ex.getMessage().contains("已在库")
-								|| ex.getMessage().contains("in_stock") || ex.getMessage().contains("序列号"));
-			}
+			IOperationResult<IGoodsReceipt> result = repo.saveGoodsReceipt(gr2);
+			assertTrue("Duplicate in-stock serial must be rejected.", result.getError() instanceof BusinessLogicException);
+			assertEquals(I18N.prop("msg_mm_material_serial_in_stock", wh.getCode(), mt.getCode(), serialCode),
+					result.getError().getMessage());
+			assertQuantities(repo, mt, wh.getCode(), Decimals.VALUE_ONE, Decimals.VALUE_ZERO, Decimals.VALUE_ZERO);
+
 		}
 	}
 
@@ -82,11 +85,11 @@ public class TestQuantityValidation extends AbstractQuantityLogicTestCase {
 			IMaterial mt = prepareMaterial(repo, MaterialKind.BATCH, "A31B");
 			String batchCode = "B-A31-" + mt.getCode();
 
-			// 入库 5 个
+			// 总库存 20，目标批次仅 5：确保失败来自批次不足，而非物料总量不足。
 			IGoodsReceipt gr = new GoodsReceipt();
 			IGoodsReceiptLine line = gr.getGoodsReceiptLines().create();
 			line.setItemCode(mt.getCode());
-			line.setQuantity(Decimals.valueOf(5));
+			line.setQuantity(Decimals.valueOf(20));
 			line.setPrice(Decimals.valueOf(20));
 			line.setWarehouse(wh.getCode());
 			line.setBatchManagement(mt.getBatchManagement());
@@ -94,6 +97,9 @@ public class TestQuantityValidation extends AbstractQuantityLogicTestCase {
 			IMaterialBatchItem b = line.getMaterialBatches().create();
 			b.setBatchCode(batchCode);
 			b.setQuantity(Decimals.valueOf(5));
+			IMaterialBatchItem otherBatch = line.getMaterialBatches().create();
+			otherBatch.setBatchCode(batchCode + "-OTHER");
+			otherBatch.setQuantity(Decimals.valueOf(15));
 			BOUtilities.valueOf(repo.saveGoodsReceipt(gr)).firstOrDefault();
 
 			// 尝试出库 10 个（>5）→ 应抛异常
@@ -109,14 +115,19 @@ public class TestQuantityValidation extends AbstractQuantityLogicTestCase {
 			ib.setBatchCode(batchCode);
 			ib.setQuantity(Decimals.valueOf(10));
 
-			try {
-				BOUtilities.valueOf(repo.saveGoodsIssue(gi)).firstOrDefault();
-				fail("Should throw for insufficient batch quantity.");
-			} catch (Exception ex) {
-				assertTrue("Expected batch-not-enough error, got: " + ex.getMessage(),
-						ex.getMessage().contains("批次") || ex.getMessage().contains("数量不足")
-								|| ex.getMessage().contains("not_enough"));
-			}
+			IOperationResult<IGoodsIssue> result = repo.saveGoodsIssue(gi);
+			assertTrue("Insufficient batch quantity must be rejected.", result.getError() instanceof BusinessLogicException);
+			assertEquals(I18N.prop("msg_mm_material_batch_not_enough_in_stock", wh.getCode(), mt.getCode(), batchCode,
+					Decimals.valueOf(-5).setScale(Decimals.DECIMAL_PLACES_STORAGE)), result.getError().getMessage());
+			assertQuantities(repo, mt, wh.getCode(), Decimals.valueOf(20), Decimals.VALUE_ZERO, Decimals.VALUE_ZERO);
+			ICriteria criteria = new Criteria();
+			criteria.getConditions().create().setAlias("ItemCode");
+			criteria.getConditions().get(0).setValue(mt.getCode());
+			criteria.getConditions().create().setAlias("BatchCode");
+			criteria.getConditions().get(1).setValue(batchCode);
+			assertEqualsBD("Rejected issue must preserve batch quantity.", Decimals.valueOf(5),
+					BOUtilities.valueOf(repo.fetchMaterialBatch(criteria)).firstOrDefault().getQuantity());
+
 		}
 	}
 
@@ -151,13 +162,10 @@ public class TestQuantityValidation extends AbstractQuantityLogicTestCase {
 			il.setBatchManagement(mt.getBatchManagement());
 			il.setSerialManagement(mt.getSerialManagement());
 
-			try {
-				BOUtilities.valueOf(repo.saveGoodsIssue(gi)).firstOrDefault();
-				fail("Should throw for insufficient OnHand.");
-			} catch (Exception ex) {
-				assertTrue("Expected not-enough error, got: " + ex.getMessage(),
-						ex.getMessage().contains("数量不足") || ex.getMessage().contains("not_enough"));
-			}
+			IOperationResult<IGoodsIssue> result = repo.saveGoodsIssue(gi);
+			assertTrue("Insufficient stock must be rejected.", result.getError() instanceof BusinessLogicException);
+			assertEquals(I18N.prop("msg_mm_material_not_enough", mt.getCode(), Decimals.valueOf(-7).setScale(Decimals.DECIMAL_PLACES_STORAGE)),
+					result.getError().getMessage());
 
 			// OnHand 应未变（事务回滚）
 			assertQuantities(repo, mt, wh.getCode(), Decimals.valueOf(3), Decimals.VALUE_ZERO, Decimals.VALUE_ZERO);

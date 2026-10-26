@@ -10,6 +10,7 @@ import org.colorcoding.ibas.bobas.bo.IBODocument;
 import org.colorcoding.ibas.bobas.bo.IBODocumentLine;
 import org.colorcoding.ibas.bobas.bo.IBOTagCanceled;
 import org.colorcoding.ibas.bobas.bo.IBOTagDeleted;
+import org.colorcoding.ibas.bobas.common.Decimals;
 import org.colorcoding.ibas.bobas.data.DateTime;
 import org.colorcoding.ibas.bobas.data.emDirection;
 import org.colorcoding.ibas.bobas.data.emDocumentStatus;
@@ -344,11 +345,19 @@ class MaterialBatchItem extends org.colorcoding.ibas.materials.bo.materialbatch.
 
 					@Override
 					public String getCurrency() {
+						if (MaterialBatchItem.this.issuePrice != null) {
+							// 出库计算成本已是本位币，入库不再按单据币种换算。
+							return org.colorcoding.ibas.accounting.MyConfiguration
+									.getConfigValue(org.colorcoding.ibas.accounting.MyConfiguration.CONFIG_ITEM_LOCAL_CURRENCY);
+						}
 						return MaterialBatchItem.this.parent.getCurrency();
 					}
 
 					@Override
 					public BigDecimal getRate() {
+						if (MaterialBatchItem.this.issuePrice != null) {
+							return Decimals.VALUE_ONE;
+						}
 						return MaterialBatchItem.this.parent.getRate();
 					}
 				}

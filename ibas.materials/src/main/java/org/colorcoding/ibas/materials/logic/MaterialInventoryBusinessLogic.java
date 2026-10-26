@@ -1,8 +1,13 @@
 package org.colorcoding.ibas.materials.logic;
 
+import java.math.BigDecimal;
 import java.util.Arrays;
+import java.util.function.Predicate;
 
 import org.colorcoding.ibas.bobas.approval.IApprovalData;
+import org.colorcoding.ibas.bobas.bo.BOIdentifierBuilder;
+import org.colorcoding.ibas.bobas.bo.BOUtilities;
+import org.colorcoding.ibas.bobas.bo.BusinessObject;
 import org.colorcoding.ibas.bobas.bo.IBODocument;
 import org.colorcoding.ibas.bobas.bo.IBODocumentLine;
 import org.colorcoding.ibas.bobas.bo.IBOTagCanceled;
@@ -11,17 +16,24 @@ import org.colorcoding.ibas.bobas.bo.IBusinessObject;
 import org.colorcoding.ibas.bobas.common.ConditionOperation;
 import org.colorcoding.ibas.bobas.common.ConditionRelationship;
 import org.colorcoding.ibas.bobas.common.Criteria;
+import org.colorcoding.ibas.bobas.common.DateTimes;
+import org.colorcoding.ibas.bobas.common.Decimals;
 import org.colorcoding.ibas.bobas.common.ICondition;
 import org.colorcoding.ibas.bobas.common.ICriteria;
 import org.colorcoding.ibas.bobas.common.IOperationResult;
+import org.colorcoding.ibas.bobas.common.Strings;
 import org.colorcoding.ibas.bobas.core.ITrackable;
+import org.colorcoding.ibas.bobas.data.DateTime;
 import org.colorcoding.ibas.bobas.data.emApprovalStatus;
+import org.colorcoding.ibas.bobas.data.emDirection;
 import org.colorcoding.ibas.bobas.data.emDocumentStatus;
 import org.colorcoding.ibas.bobas.data.emYesNo;
 import org.colorcoding.ibas.bobas.i18n.I18N;
 import org.colorcoding.ibas.bobas.logic.BusinessLogicException;
 import org.colorcoding.ibas.bobas.logic.IBusinessLogicContract;
+import org.colorcoding.ibas.bobas.logic.IBusinessLogicsHost;
 import org.colorcoding.ibas.materials.MyConfiguration;
+import org.colorcoding.ibas.materials.bo.inventorytransfer.InventoryTransfer;
 import org.colorcoding.ibas.materials.bo.materialbatch.IMaterialBatch;
 import org.colorcoding.ibas.materials.bo.materialbatch.MaterialBatch;
 import org.colorcoding.ibas.materials.bo.materialinventory.IMaterialInventory;
@@ -59,6 +71,254 @@ public abstract class MaterialInventoryBusinessLogic<L extends IBusinessLogicCon
 
 	public final void setEnableMaterialCosts(boolean value) {
 		this.enableMaterialCosts = value;
+	}
+
+	/**
+	 * 负价格表示从基础单据取得成本，零价格和正价格使用普通成本模式。
+	 */
+	protected final boolean isBaseDocumentCost(BigDecimal price) {
+		return price != null && price.signum() < 0;
+	}
+
+	/**
+	 * 流水价格按存储精度比较，兼容单位换算产生的运行时小数。
+	 * 成本来源模式仍须单独按原始价格符号检查。
+	 */
+	protected final boolean areCostPricesEqual(BigDecimal first, BigDecimal second) {
+		return Decimals.round(first, Decimals.DECIMAL_PLACES_STORAGE)
+				.compareTo(Decimals.round(second, Decimals.DECIMAL_PLACES_STORAGE)) == 0;
+	}
+
+	/**
+	 * 按流水存储精度冻结数量，负数量仍无效，不能因舍入为零而通过。
+	 */
+	protected final boolean areCostQuantitiesEqual(BigDecimal first, BigDecimal second) {
+		return second.signum() >= 0 && Decimals.round(first, Decimals.DECIMAL_PLACES_STORAGE)
+				.compareTo(Decimals.round(second, Decimals.DECIMAL_PLACES_STORAGE)) == 0;
+	}
+
+	private IBusinessObject findCurrentCostHost(IBusinessObject current, IBusinessObject original) {
+		if (BOUtilities.isSame(current, original, false)) {
+			return current;
+		}
+		IBusinessObject[] result = { null };
+		if (current instanceof BusinessObject<?>) {
+			BOUtilities.traverse((BusinessObject<?>) current, child -> {
+				if (result[0] == null) {
+					result[0] = this.findCurrentCostHost(child, original);
+				}
+			});
+		}
+		return result[0];
+	}
+
+	/**
+	 * 非库存业务跳过前检查历史流水，避免正反向逻辑都被跳过而绕过成本保护。
+	 * 仅查询已有流水，不调用会创建流水的 fetchBeAffected(contract)。
+	 */
+	protected final <J extends IBusinessObject> void checkCostMaterialSkip(Class<J> journalType,
+			String documentType, Integer documentEntry, Integer documentLineId, emDirection direction,
+			Integer documentIndex) {
+		if (!this.isEnableMaterialCosts()) {
+			return;
+		}
+		IBusinessObject journal = this.getBeAffected();
+		if (journal == null || journal.isNew() || !journal.isSavable()) {
+			if (Strings.isNullOrEmpty(documentType) || documentEntry == null || documentEntry <= 0) {
+				return;
+			}
+			ICriteria criteria = new Criteria();
+			ICondition condition = criteria.getConditions().create();
+			condition.setAlias("BaseDocumentType");
+			condition.setValue(documentType);
+			condition = criteria.getConditions().create();
+			condition.setAlias("BaseDocumentEntry");
+			condition.setValue(documentEntry);
+			condition = criteria.getConditions().create();
+			condition.setAlias("BaseDocumentLineId");
+			condition.setValue(documentLineId);
+			condition = criteria.getConditions().create();
+			condition.setAlias("Direction");
+			condition.setValue(direction);
+			if (documentIndex != null) {
+				condition = criteria.getConditions().create();
+				condition.setAlias("BaseDocumentIndex");
+				condition.setValue(documentIndex);
+			}
+			journal = this.fetchBeAffected(journalType, criteria);
+			if (journal == null || journal.isNew() || !journal.isSavable()) {
+				try {
+					J[] journals = this.getTransaction().fetch(journalType, criteria);
+					if (journals != null) {
+						for (J existing : journals) {
+							if (!existing.isNew() && existing.isSavable()) {
+								journal = existing;
+								break;
+							}
+						}
+					}
+				} catch (Exception e) {
+					throw new BusinessLogicException(e.getMessage(), e);
+				}
+			}
+		}
+		if (journal != null && !journal.isNew() && journal.isSavable()) {
+			throw new BusinessLogicException(I18N.prop("msg_mm_costed_document_inventory_operation_cannot_change",
+					BOIdentifierBuilder.document(documentType, documentEntry, documentLineId).build()));
+		}
+	}
+
+	/**
+	 * 从旧契约一侧检查新单据仍包含同一库存业务，防止切换来源后新成本契约不再生成。
+	 */
+	protected final <C extends IBusinessLogicContract> void checkCostContractPresence(IBusinessObject journal,
+			Class<C> contractType, Predicate<C> identity, String documentType, Integer documentEntry,
+			Integer documentLineId) {
+		if (!this.isEnableMaterialCosts() || journal.isNew() || this.getHost() == null) {
+			return;
+		}
+		IBusinessObject current = this.findCurrentCostHost((IBusinessObject) this.getTrigger(), this.getHost());
+		IBusinessLogicContract[] contracts = current instanceof IBusinessLogicsHost
+				? ((IBusinessLogicsHost) current).getContracts() : null;
+		if (contracts != null) {
+			for (IBusinessLogicContract candidate : contracts) {
+				if (contractType.isInstance(candidate) && identity.test(contractType.cast(candidate))) {
+					return;
+				}
+			}
+		}
+		throw new BusinessLogicException(I18N.prop("msg_mm_costed_document_inventory_operation_cannot_change",
+				BOIdentifierBuilder.document(documentType, documentEntry, documentLineId).build()));
+	}
+
+	/**
+	 * 过账日期按数据库 DATE 精度冻结，不能将历史成本转移到其他日期或期间。
+	 */
+	protected final void checkCostPostingDate(DateTime original, DateTime current, String documentType,
+			Integer documentEntry, Integer documentLineId) {
+		original = original == null ? DateTimes.defaultValue() : original;
+		current = current == null ? DateTimes.defaultValue() : current;
+		if (!DateTimes.getDateOnly(original).equals(DateTimes.getDateOnly(current))) {
+			throw new BusinessLogicException(I18N.prop("msg_mm_costed_document_posting_date_cannot_change",
+					BOIdentifierBuilder.document(documentType, documentEntry, documentLineId).build()));
+		}
+	}
+
+	/**
+	 * 已生效的成本流水不能因删除单据或退回审批而直接移除，零成本也需要保护。
+	 */
+	protected final void checkCostJournalDeletion(IBusinessObject journal, String documentType,
+			Integer documentEntry, Integer documentLineId) {
+		if (!this.isEnableMaterialCosts() || journal.isNew()) {
+			return;
+		}
+		Object trigger = this.getTrigger();
+		boolean deleting = trigger instanceof ITrackable && ((ITrackable) trigger).isDeleted();
+		if (trigger instanceof IApprovalData) {
+			emApprovalStatus approvalStatus = ((IApprovalData) trigger).getApprovalStatus();
+			deleting = deleting || !(approvalStatus == emApprovalStatus.APPROVED
+					|| approvalStatus == emApprovalStatus.UNAFFECTED);
+		}
+		if (deleting) {
+			throw new BusinessLogicException(
+					I18N.prop("msg_mm_document_completed_material_cost_calculation_not_support_operation",
+							BOIdentifierBuilder.document(documentType, documentEntry, documentLineId).build()));
+		}
+	}
+
+	/**
+	 * 审批引擎可能在反向逻辑之后重新启动审批，正向成本逻辑必须再次检查最终状态。
+	 * 仅对可保存的成本流水调用，未入账的待审批单据仍使用不可保存的临时流水。
+	 */
+	protected final void checkCostApprovalStatus(String documentType, Integer documentEntry, Integer documentLineId) {
+		Object trigger = this.getTrigger();
+		if (trigger instanceof IApprovalData) {
+			emApprovalStatus status = ((IApprovalData) trigger).getApprovalStatus();
+			if (status != emApprovalStatus.APPROVED && status != emApprovalStatus.UNAFFECTED) {
+				throw new BusinessLogicException(I18N.prop("msg_mm_costed_document_not_support_reapproval",
+						BOIdentifierBuilder.document(documentType, documentEntry, documentLineId).build()));
+			}
+		}
+	}
+
+	/**
+	 * 未指定币种按本位币处理，与入库成本计算的口径保持一致。
+	 */
+	protected final boolean areCostCurrenciesEqual(String first, String second, String localCurrency) {
+		first = Strings.isNullOrEmpty(first) ? localCurrency : first;
+		second = Strings.isNullOrEmpty(second) ? localCurrency : second;
+		return Strings.equalsIgnoreCase(first, second);
+	}
+
+	/**
+	 * 按流水存储精度冻结汇率，保留零值及正负号的区别。
+	 * 本位币的默认汇率 0 与 1 均不改变成本。
+	 */
+	protected final boolean areCostRatesEqual(BigDecimal first, BigDecimal second, String currency, String localCurrency) {
+		if (this.areCostCurrenciesEqual(currency, localCurrency, localCurrency)) {
+			first = first.signum() == 0 ? BigDecimal.ONE : first;
+			second = second.signum() == 0 ? BigDecimal.ONE : second;
+		}
+		return first.signum() == second.signum() && Decimals.round(first, Decimals.DECIMAL_PLACES_STORAGE)
+				.compareTo(Decimals.round(second, Decimals.DECIMAL_PLACES_STORAGE)) == 0;
+	}
+
+	/**
+	 * 旧调拨入库可能以外币记录已经是本位币的出库成本。仅在原换算结果、历史成本与
+	 * 本次回传成本完全一致时兼容币种归一化，并由调用方保留历史币种及汇率。
+	 */
+	protected final boolean canPreserveTransferCostCurrency(String documentType, emDirection direction,
+			String currency, BigDecimal rate, BigDecimal price, BigDecimal calculatedPrice,
+			String currentCurrency, BigDecimal currentRate, BigDecimal currentPrice, String localCurrency) {
+		if (!MyConfiguration.applyVariables(InventoryTransfer.BUSINESS_OBJECT_CODE).equals(documentType)
+				|| direction != emDirection.IN || this.areCostCurrenciesEqual(currency, localCurrency, localCurrency)
+				|| !this.areCostCurrenciesEqual(currentCurrency, localCurrency, localCurrency)
+				|| currentRate == null || !this.areCostRatesEqual(currentRate, BigDecimal.ONE, localCurrency, localCurrency)
+				|| rate == null || rate.signum() <= 0 || price == null || price.signum() < 0
+				|| calculatedPrice == null || currentPrice == null) {
+			return false;
+		}
+		return this.areCostPricesEqual(price, currentPrice) && this.areCostPricesEqual(calculatedPrice, currentPrice)
+				&& this.areCostPricesEqual(Decimals.multiply(price, rate), calculatedPrice);
+	}
+
+	/**
+	 * 查询历史冲销流水，禁止已经冲销的成本单据重新生效。
+	 */
+	protected final <J extends IBusinessObject> J fetchCostOffsettingJournal(Class<J> journalType,
+			String documentType, Integer documentEntry, Integer documentLineId, emDirection direction,
+			Integer documentIndex) {
+		ICriteria criteria = new Criteria();
+		ICondition condition = criteria.getConditions().create();
+		condition.setAlias("BaseDocumentType");
+		condition.setValue(documentType);
+		condition = criteria.getConditions().create();
+		condition.setAlias("BaseDocumentEntry");
+		condition.setValue(documentEntry);
+		condition = criteria.getConditions().create();
+		condition.setAlias("BaseDocumentLineId");
+		condition.setValue(documentLineId);
+		condition = criteria.getConditions().create();
+		condition.setAlias("Direction");
+		condition.setValue(direction);
+		if (documentIndex != null) {
+			condition = criteria.getConditions().create();
+			condition.setAlias("BaseDocumentIndex");
+			condition.setValue(documentIndex);
+		}
+		condition = criteria.getConditions().create();
+		condition.setAlias("DataSource");
+		condition.setValue(DATASOURCE_SIGN_OFFSETTING_JOURNAL);
+		J journal = this.fetchBeAffected(journalType, criteria);
+		if (journal == null) {
+			try {
+				J[] journals = this.getTransaction().fetch(journalType, criteria);
+				journal = journals == null || journals.length == 0 ? null : journals[0];
+			} catch (Exception e) {
+				throw new BusinessLogicException(e.getMessage(), e);
+			}
+		}
+		return journal;
 	}
 
 	protected IWarehouse checkWarehouse(String whsCode) {
