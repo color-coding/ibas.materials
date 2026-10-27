@@ -208,7 +208,7 @@ public class MaterialBatchJournalService
 						|| !materialBatchJournal.getWarehouse().equals(contract.getWarehouse())
 						|| !materialBatchJournal.getBatchCode().equals(contract.getBatchCode())
 						|| materialBatchJournal.getQuantity().abs().compareTo(contract.getQuantity()) != 0
-						|| materialBatchJournal.getPrice().compareTo(contract.getPrice().abs()) != 0) {
+						|| !this.areCostPricesEqual(materialBatchJournal.getPrice(), contract.getPrice().abs())) {
 					// 修改入库物料、仓库、价格，影响成本计算，不允许
 					throw new BusinessLogicException(
 							I18N.prop(

@@ -213,7 +213,7 @@ public class MaterialIssueService
 				if (!materialJournal.getItemCode().equals(contract.getItemCode())
 						|| !materialJournal.getWarehouse().equals(contract.getWarehouse())
 						|| materialJournal.getQuantity().abs().compareTo(contract.getQuantity()) != 0
-						|| materialJournal.getPrice().compareTo(contract.getPrice()) != 0) {
+						|| !this.areCostPricesEqual(materialJournal.getPrice(), contract.getPrice())) {
 					// 修改入库物料、仓库、价格，影响成本计算，不允许
 					throw new BusinessLogicException(I18N.prop(
 							"msg_mm_document_completed_material_cost_calculation_not_support_operation",

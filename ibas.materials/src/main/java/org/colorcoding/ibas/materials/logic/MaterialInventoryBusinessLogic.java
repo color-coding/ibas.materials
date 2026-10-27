@@ -1,5 +1,6 @@
 package org.colorcoding.ibas.materials.logic;
 
+import java.math.BigDecimal;
 import java.util.Arrays;
 
 import org.colorcoding.ibas.bobas.approval.IApprovalData;
@@ -15,6 +16,7 @@ import org.colorcoding.ibas.bobas.common.ICondition;
 import org.colorcoding.ibas.bobas.common.ICriteria;
 import org.colorcoding.ibas.bobas.common.IOperationResult;
 import org.colorcoding.ibas.bobas.core.ITrackStatus;
+import org.colorcoding.ibas.bobas.data.Decimal;
 import org.colorcoding.ibas.bobas.data.emApprovalStatus;
 import org.colorcoding.ibas.bobas.data.emDocumentStatus;
 import org.colorcoding.ibas.bobas.data.emYesNo;
@@ -59,6 +61,17 @@ public abstract class MaterialInventoryBusinessLogic<L extends IBusinessLogicCon
 
 	public final void setEnableMaterialCosts(boolean value) {
 		this.enableMaterialCosts = value;
+	}
+
+	/**
+	 * 成本价格按流水存储精度比较，兼容单位换算产生的小数。
+	 */
+	protected final boolean areCostPricesEqual(BigDecimal first, BigDecimal second) {
+		if ((first.signum() < 0) != (second.signum() < 0)) {
+			return false;
+		}
+		return Decimal.round(first, Decimal.DECIMAL_PLACES_STORAGE)
+				.compareTo(Decimal.round(second, Decimal.DECIMAL_PLACES_STORAGE)) == 0;
 	}
 
 	protected IWarehouse checkWarehouse(String whsCode) {

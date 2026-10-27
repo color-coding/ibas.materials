@@ -210,7 +210,7 @@ public class MaterialSerialJournalService
 				if (!materialSerialJournal.getItemCode().equals(contract.getItemCode())
 						|| !materialSerialJournal.getWarehouse().equals(contract.getWarehouse())
 						|| !materialSerialJournal.getSerialCode().equals(contract.getSerialCode())
-						|| (materialSerialJournal.getPrice().compareTo(contract.getPrice()) != 0
+						|| (!this.areCostPricesEqual(materialSerialJournal.getPrice(), contract.getPrice())
 								&& contract.getPrice().compareTo(Decimal.ZERO) > 0)) {
 					// 修改入库物料、仓库、价格，影响成本计算，不允许
 					throw new BusinessLogicException(
