@@ -2,10 +2,14 @@ package org.colorcoding.ibas.materials.test;
 
 import java.math.BigDecimal;
 
+import org.colorcoding.ibas.bobas.bo.BOIdentifierBuilder;
 import org.colorcoding.ibas.bobas.bo.BOUtilities;
 import org.colorcoding.ibas.bobas.common.DateTimes;
 import org.colorcoding.ibas.bobas.common.Decimals;
+import org.colorcoding.ibas.bobas.common.IOperationResult;
 import org.colorcoding.ibas.bobas.data.emYesNo;
+import org.colorcoding.ibas.bobas.i18n.I18N;
+import org.colorcoding.ibas.bobas.logic.BusinessLogicException;
 import org.colorcoding.ibas.materials.bo.goodsissue.GoodsIssue;
 import org.colorcoding.ibas.materials.bo.goodsissue.IGoodsIssue;
 import org.colorcoding.ibas.materials.bo.goodsissue.IGoodsIssueLine;
@@ -21,8 +25,12 @@ import org.colorcoding.ibas.materials.repository.BORepositoryMaterials;
 /**
  * 库存发货单 物料类型矩阵 测试。
  *
- * <p>覆盖：MM-A09 / A10</p>
- * <p>核心 logic：MaterialInventoryService (OUT)</p>
+ * <p>
+ * 覆盖：MM-A09 / A10
+ * </p>
+ * <p>
+ * 核心 logic：MaterialInventoryService (OUT)
+ * </p>
  */
 public class TestGoodsIssueMaterialMatrix extends AbstractQuantityLogicTestCase {
 
@@ -73,7 +81,7 @@ public class TestGoodsIssueMaterialMatrix extends AbstractQuantityLogicTestCase 
 			// 序列号发货：复用入库时生成的序列号
 			int n = qty.intValue();
 			for (int i = 0; i < n; i++) {
-				IMaterialSerialItem s = line.getMaterialSerials().create();
+				line.getMaterialSerials().create();
 				// 这里依赖 seed 时生成的序列号，简化为重用最新前缀
 			}
 		}
@@ -84,8 +92,13 @@ public class TestGoodsIssueMaterialMatrix extends AbstractQuantityLogicTestCase 
 	// MM-A09: 发货 -> OnHand-Q
 	// ==================================================================
 
-	public void testMM_A09_Issue_Inventory() throws Exception { runIssue(MaterialKind.INVENTORY, "A09I"); }
-	public void testMM_A09_Issue_Batch()     throws Exception { runIssue(MaterialKind.BATCH,     "A09B"); }
+	public void testMM_A09_Issue_Inventory() throws Exception {
+		runIssue(MaterialKind.INVENTORY, "A09I");
+	}
+
+	public void testMM_A09_Issue_Batch() throws Exception {
+		runIssue(MaterialKind.BATCH, "A09B");
+	}
 
 	private void runIssue(MaterialKind kind, String tag) throws Exception {
 		try (BORepositoryMaterials repo = createMaterialsRepository()) {
@@ -123,7 +136,7 @@ public class TestGoodsIssueMaterialMatrix extends AbstractQuantityLogicTestCase 
 	}
 
 	// ==================================================================
-	// MM-A10b: 发货 删除 -> OnHand 回补
+	// MM-A10b: 已计成本的发货删除被拒绝，库存保持不变
 	// ==================================================================
 
 	public void testMM_A10b_IssueDelete_Inventory() throws Exception {
@@ -136,8 +149,16 @@ public class TestGoodsIssueMaterialMatrix extends AbstractQuantityLogicTestCase 
 			gi = BOUtilities.valueOf(repo.saveGoodsIssue(gi)).firstOrDefault();
 
 			gi.delete();
-			gi = BOUtilities.valueOf(repo.saveGoodsIssue(gi)).firstOrDefault();
-			assertQuantities(repo, mt, wh.getCode(), QTY, Decimals.VALUE_ZERO, Decimals.VALUE_ZERO);
+			IOperationResult<IGoodsIssue> result = repo.saveGoodsIssue(gi);
+			assertTrue("Costed issue deletion must be rejected.", result.getError() instanceof BusinessLogicException);
+			assertEquals("Expected cost protection error.",
+					I18N.prop("msg_mm_document_completed_material_cost_calculation_not_support_operation",
+							BOIdentifierBuilder.document(gi.getObjectCode(), gi.getDocEntry(),
+									gi.getGoodsIssueLines().firstOrDefault().getLineId()).build()),
+					result.getError().getMessage());
+			IGoodsIssue saved = BOUtilities.valueOf(repo.fetchGoodsIssue(gi.getCriteria())).firstOrDefault();
+			assertNotNull("Rejected deletion must preserve the issue.", saved);
+			assertQuantities(repo, mt, wh.getCode(), Decimals.VALUE_ZERO, Decimals.VALUE_ZERO, Decimals.VALUE_ZERO);
 		}
 	}
 }

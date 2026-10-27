@@ -80,5 +80,10 @@ public class InventoryCountingLines extends BusinessObjects<IInventoryCountingLi
 	@Override
 	protected void onParentPropertyChanged(PropertyChangeEvent evt) {
 		super.onParentPropertyChanged(evt);
+		if (InventoryCounting.PROPERTY_DOCUMENTCURRENCY.getName().equals(evt.getPropertyName())) {
+			this.forEach(c -> c.setCurrency(this.getParent().getDocumentCurrency()));
+		} else if (InventoryCounting.PROPERTY_DOCUMENTRATE.getName().equals(evt.getPropertyName())) {
+			this.forEach(c -> c.setRate(this.getParent().getDocumentRate()));
+		}
 	}
 }

@@ -16,27 +16,31 @@ import org.colorcoding.ibas.materials.repository.BORepositoryMaterials;
 /**
  * 预留数量（OnReserved）多行场景 测试。
  *
- * <p>基于 LOGIC-MATRIX §1.1/1.4 推导：</p>
+ * <p>
+ * 基于 LOGIC-MATRIX §1.1/1.4 推导：
+ * </p>
  * <ul>
- * <li>MaterialInventoryReservation 保存时同时触发 4 个契约：
- *   IMaterialReservedContract → Material.OnReserved
- *   IMaterialWarehouseReservedContract → MaterialInventory.OnReserved
- *   IMaterialBatchReservedContract (如有 batchCode)
- *   IMaterialSerialReservedContract (如有 serialCode)</li>
- * <li>contract.getQuantity() = reservation.quantity - reservation.closedQuantity</li>
- * <li>MaterialReservedService.impact 中用 impactReserved 实例字段去重累加：
- *   onReserved = onReserved - impactReserved + qty；impactReserved += qty</li>
+ * <li>MaterialInventoryReservation 保存时同时触发 4 个契约： IMaterialReservedContract →
+ * Material.OnReserved IMaterialWarehouseReservedContract →
+ * MaterialInventory.OnReserved IMaterialBatchReservedContract (如有 batchCode)
+ * IMaterialSerialReservedContract (如有 serialCode)</li>
+ * <li>contract.getQuantity() = reservation.quantity -
+ * reservation.closedQuantity</li>
+ * <li>MaterialReservedService.impact 中用 impactReserved 实例字段去重累加： onReserved =
+ * onReserved - impactReserved + qty；impactReserved += qty</li>
  * <li>MaterialWarehouseReservedService 同理，且批次/序列物料跳过库存超限校验</li>
  * </ul>
  *
- * <p>覆盖：</p>
+ * <p>
+ * 覆盖：
+ * </p>
  * <ul>
  * <li>MM-R01：单行预留 → OnReserved = qty</li>
  * <li>MM-R02：同物料同仓库两行预留 → OnReserved = qty1 + qty2（验证 impactReserved 去重）</li>
- * <li>MM-R03：取消其中一行 → OnReserved 仅减去被取消行</li>
+ * <li>原 MM-R03 没有独立取消操作，已合并到 MM-R04，编号停用</li>
  * <li>MM-R04：删除其中一行 → OnReserved 仅减去被删行</li>
- * <li>MM-R05：一行 status=CLOSED → 该行 qty 变为 0（contract.quantity = qty - closedQty，
- *   CLOSED 时 impact 中 qty=0），OnReserved 减去该行</li>
+ * <li>MM-R05：一行 status=CLOSED → 该行 qty 变为 0（contract.quantity = qty -
+ * closedQty， CLOSED 时 impact 中 qty=0），OnReserved 减去该行</li>
  * <li>MM-R06：物料级与仓库级 OnReserved 一致性</li>
  * </ul>
  */
@@ -58,8 +62,7 @@ public class TestReservedQuantityMultiLine extends AbstractQuantityLogicTestCase
 	/** 入库以保证 OnHand 足够预留（非批次/序列物料检查 OnReserved <= OnHand） */
 	private void seedInventory(BORepositoryMaterials repo, IMaterial mt, IWarehouse wh, BigDecimal qty)
 			throws Exception {
-		org.colorcoding.ibas.materials.bo.goodsreceipt.GoodsReceipt gr =
-				new org.colorcoding.ibas.materials.bo.goodsreceipt.GoodsReceipt();
+		org.colorcoding.ibas.materials.bo.goodsreceipt.GoodsReceipt gr = new org.colorcoding.ibas.materials.bo.goodsreceipt.GoodsReceipt();
 		org.colorcoding.ibas.materials.bo.goodsreceipt.IGoodsReceiptLine line = gr.getGoodsReceiptLines().create();
 		line.setItemCode(mt.getCode());
 		line.setQuantity(qty);
@@ -71,13 +74,14 @@ public class TestReservedQuantityMultiLine extends AbstractQuantityLogicTestCase
 	}
 
 	private BigDecimal onReservedOfMaterial(BORepositoryMaterials repo, IMaterial mt) throws Exception {
-		IMaterial m = reloadMaterial(repo, mt);
-		return m == null ? Decimals.VALUE_ZERO : m.getOnReserved();
+		IMaterial m = reload(repo, mt);
+		assertNotNull("Material must exist before checking reservations.", m);
+		return m.getOnReserved();
 	}
 
 	private BigDecimal onReservedOfWarehouse(BORepositoryMaterials repo, String itemCode, String warehouseCode)
 			throws Exception {
-		QuantitySnapshot s = snapshotOfWarehouse(repo, itemCode, warehouseCode);
+		snapshotWarehouse(repo, itemCode, warehouseCode);
 		// OnReserved 不在 QuantitySnapshot 中，单独查
 		org.colorcoding.ibas.bobas.common.ICriteria criteria = new org.colorcoding.ibas.bobas.common.Criteria();
 		org.colorcoding.ibas.bobas.common.ICondition c = criteria.getConditions().create();
@@ -92,8 +96,8 @@ public class TestReservedQuantityMultiLine extends AbstractQuantityLogicTestCase
 
 	// ==================================================================
 	// MM-R01：单行预留 → OnReserved = qty
-	//   推导依据：MaterialReservedService.impact:
-	//   onReserved = onReserved - 0 + qty = qty
+	// 推导依据：MaterialReservedService.impact:
+	// onReserved = onReserved - 0 + qty = qty
 	// ==================================================================
 
 	public void testMM_R01_SingleReservation() throws Exception {
@@ -114,13 +118,13 @@ public class TestReservedQuantityMultiLine extends AbstractQuantityLogicTestCase
 
 	// ==================================================================
 	// MM-R02：两行同物料同仓库预留 (6 + 4) → OnReserved = 10
-	//   推导依据：impactReserved 去重机制
-	//   行1: onReserved = 0 - 0 + 6 = 6, impactReserved = 6
-	//   行2: onReserved = 6 - 6 + 4 = 4 → 错！应该是在数据库已提交的 6 基础上
-	//   实际：行2 的 fetchBeAffected 重新读 Material（OnReserved=6），
-	//   onReserved = 6 - 6 + 4 = 4 → 但 impactReserved 已包含行1的6
-	//   wait... 这里两次 save 是两个独立事务，impactReserved 会重置
-	//   所以实际：第一次 save 后 OnReserved=6，第二次 save 后 OnReserved=6+4=10
+	// 推导依据：impactReserved 去重机制
+	// 行1: onReserved = 0 - 0 + 6 = 6, impactReserved = 6
+	// 行2: onReserved = 6 - 6 + 4 = 4 → 错！应该是在数据库已提交的 6 基础上
+	// 实际：行2 的 fetchBeAffected 重新读 Material（OnReserved=6），
+	// onReserved = 6 - 6 + 4 = 4 → 但 impactReserved 已包含行1的6
+	// 两次保存属于独立事务，分别增加有效预留量。
+	// 所以实际：第一次 save 后 OnReserved=6，第二次 save 后 OnReserved=6+4=10
 	// ==================================================================
 
 	public void testMM_R02_TwoReservationsSameMaterial_OnReservedMerged() throws Exception {
@@ -144,38 +148,11 @@ public class TestReservedQuantityMultiLine extends AbstractQuantityLogicTestCase
 	}
 
 	// ==================================================================
-	// MM-R03：两行预留 (6 + 4)，取消第一行 → OnReserved = 4
-	//   推导依据：取消 r1 触发 revoke，onReserved -= 6
-	// ==================================================================
-
-	public void testMM_R03_CancelOneReservation() throws Exception {
-		try (BORepositoryMaterials repo = createMaterialsRepository()) {
-			IWarehouse wh = prepareWarehouse(repo);
-			IMaterial mt = prepareMaterial(repo, MaterialKind.INVENTORY, "R03I");
-			seedInventory(repo, mt, wh, Decimals.valueOf(20));
-
-			IMaterialInventoryReservation r1 = buildReservation(mt, wh, Decimals.valueOf(6));
-			r1 = BOUtilities.valueOf(repo.saveMaterialInventoryReservation(r1)).firstOrDefault();
-
-			IMaterialInventoryReservation r2 = buildReservation(mt, wh, Decimals.valueOf(4));
-			r2 = BOUtilities.valueOf(repo.saveMaterialInventoryReservation(r2)).firstOrDefault();
-			assertEqualsBD("After both, OnReserved = 10.", Decimals.valueOf(10), onReservedOfMaterial(repo, mt));
-
-			// 删除 r1（Reservation 无 canceled 属性，用 delete 替代）
-			r1.delete();
-			r1 = BOUtilities.valueOf(repo.saveMaterialInventoryReservation(r1)).firstOrDefault();
-
-			assertEqualsBD("After delete r1, OnReserved = 4.", Decimals.valueOf(4), onReservedOfMaterial(repo, mt));
-			assertEqualsBD("Warehouse.OnReserved = 4.", Decimals.valueOf(4),
-					onReservedOfWarehouse(repo, mt.getCode(), wh.getCode()));
-		}
-	}
-
-	// ==================================================================
 	// MM-R04：两行预留 (6 + 4)，删除第一行 → OnReserved = 4
-	//   （与 R03 场景相同，独立验证 delete 路径）
+	// 合并原 R03 的重复删除场景；预留对象没有取消属性，R03 编号停用。
 	// ==================================================================
 
+	/** MM-R04：库存 20、两笔有效预留 6+4；删除第一笔；物料与仓库剩余预留均为 4，删除记录不再存在。 */
 	public void testMM_R04_DeleteOneReservation() throws Exception {
 		try (BORepositoryMaterials repo = createMaterialsRepository()) {
 			IWarehouse wh = prepareWarehouse(repo);
@@ -191,23 +168,28 @@ public class TestReservedQuantityMultiLine extends AbstractQuantityLogicTestCase
 
 			// 删除 r1
 			r1.delete();
-			r1 = BOUtilities.valueOf(repo.saveMaterialInventoryReservation(r1)).firstOrDefault();
+			BOUtilities.valueOf(repo.saveMaterialInventoryReservation(r1));
 
 			assertEqualsBD("After delete r1, OnReserved = 4.", Decimals.valueOf(4), onReservedOfMaterial(repo, mt));
+			assertEqualsBD("Warehouse reservation must also release only r1.", Decimals.valueOf(4),
+					onReservedOfWarehouse(repo, mt.getCode(), wh.getCode()));
+			assertTrue("Deleted reservation must not remain in storage.",
+					BOUtilities.valueOf(repo.fetchMaterialInventoryReservation(r1.getCriteria())).isEmpty());
 		}
 	}
 
 	// ==================================================================
-	// MM-R05：一行 status=CLOSED → OnReserved 减去该行
-	//   推导依据：contract.getQuantity() = reservation.quantity - closedQuantity
-	//   且 impact 中 status=CLOSED 时 qty 按 0 计算
-	//   checkDataStatus 中 CLOSED && impactReserved==0 时跳过
-	//   但第二次保存（revoke 旧值 + impact 新值）：
-	//   revoke 旧值 qty=6，impact 新值 status=CLOSED → qty=0
-	//   净效应：OnReserved -= 6
+	// MM-R05：两行预留 6+4；关闭第一行后剩 4，重开并重复保存后恢复 10，物料与仓库一致。
+	// 推导依据：contract.getQuantity() = reservation.quantity - closedQuantity
+	// 且 impact 中 status=CLOSED 时 qty 按 0 计算
+	// checkDataStatus 中 CLOSED && impactReserved==0 时跳过
+	// 但第二次保存（revoke 旧值 + impact 新值）：
+	// revoke 旧值 qty=6，impact 新值 status=CLOSED → qty=0
+	// 净效应：OnReserved -= 6
 	// ==================================================================
 
-	public void testMM_R05_CloseOneReservation() throws Exception {
+	/** MM-R05：预留 6+4；关闭、重开并重复保存第一笔；有效量在 10→4→10 间往返，状态及两层数量均落库。 */
+	public void testMM_R05_CloseAndReopenOneReservation() throws Exception {
 		try (BORepositoryMaterials repo = createMaterialsRepository()) {
 			IWarehouse wh = prepareWarehouse(repo);
 			IMaterial mt = prepareMaterial(repo, MaterialKind.INVENTORY, "R05I");
@@ -227,6 +209,17 @@ public class TestReservedQuantityMultiLine extends AbstractQuantityLogicTestCase
 
 			assertEqualsBD("After close r1, OnReserved = 4.", Decimals.valueOf(4), onReservedOfMaterial(repo, mt));
 			assertEqualsBD("Warehouse.OnReserved = 4.", Decimals.valueOf(4),
+					onReservedOfWarehouse(repo, mt.getCode(), wh.getCode()));
+			r1 = BOUtilities.valueOf(repo.fetchMaterialInventoryReservation(r1.getCriteria())).firstOrDefault();
+			assertEquals("Closed reservation state must persist.", emBOStatus.CLOSED, r1.getStatus());
+			r1.setStatus(emBOStatus.OPEN);
+			r1 = BOUtilities.valueOf(repo.saveMaterialInventoryReservation(r1)).firstOrDefault();
+			BOUtilities.valueOf(repo.saveMaterialInventoryReservation(r1));
+			assertEquals("Explicitly reopened reservation must persist as OPEN.", emBOStatus.OPEN,
+					BOUtilities.valueOf(repo.fetchMaterialInventoryReservation(r1.getCriteria())).firstOrDefault().getStatus());
+			assertEqualsBD("Reopening once restores reservation quantity without accumulation.", Decimals.valueOf(10),
+					onReservedOfMaterial(repo, mt));
+			assertEqualsBD("Warehouse must restore the same reserved quantity.", Decimals.valueOf(10),
 					onReservedOfWarehouse(repo, mt.getCode(), wh.getCode()));
 		}
 	}

@@ -101,12 +101,12 @@ public class DocumentQuantityClosingService extends DocumentQuantityService<IDoc
 					for (IMaterialBatchItem batchItem : batchItems) {
 						for (IMaterialBatchItem targetItem : targetItems) {
 							if (Strings.equals(batchItem.getBatchCode(), targetItem.getBatchCode())) {
-								closedQuantity = targetItem.getClosedQuantity();
-								if (closedQuantity == null) {
-									closedQuantity = Decimals.VALUE_ZERO;
+								BigDecimal batchClosedQuantity = targetItem.getClosedQuantity();
+								if (batchClosedQuantity == null) {
+									batchClosedQuantity = Decimals.VALUE_ZERO;
 								}
-								closedQuantity = closedQuantity.add(batchItem.getQuantity());
-								targetItem.setClosedQuantity(closedQuantity);
+								batchClosedQuantity = batchClosedQuantity.add(batchItem.getQuantity());
+								targetItem.setClosedQuantity(batchClosedQuantity);
 								break;
 							}
 						}
@@ -169,12 +169,12 @@ public class DocumentQuantityClosingService extends DocumentQuantityService<IDoc
 					for (IMaterialBatchItem batchItem : batchItems) {
 						for (IMaterialBatchItem targetItem : targetItems) {
 							if (Strings.equals(batchItem.getBatchCode(), targetItem.getBatchCode())) {
-								closedQuantity = targetItem.getClosedQuantity();
-								if (closedQuantity == null) {
-									closedQuantity = Decimals.VALUE_ZERO;
+								BigDecimal batchClosedQuantity = targetItem.getClosedQuantity();
+								if (batchClosedQuantity == null) {
+									batchClosedQuantity = Decimals.VALUE_ZERO;
 								}
-								closedQuantity = closedQuantity.subtract(batchItem.getQuantity());
-								targetItem.setClosedQuantity(closedQuantity);
+								batchClosedQuantity = batchClosedQuantity.subtract(batchItem.getQuantity());
+								targetItem.setClosedQuantity(batchClosedQuantity);
 								break;
 							}
 						}

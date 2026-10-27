@@ -2,6 +2,10 @@ package org.colorcoding.ibas.materials.test;
 
 import java.math.BigDecimal;
 
+import org.colorcoding.ibas.accounting.bo.journalentry.IJournalEntry;
+import org.colorcoding.ibas.accounting.bo.journalentry.JournalEntry;
+import org.colorcoding.ibas.accounting.repository.BORepositoryAccounting;
+import org.colorcoding.ibas.bobas.bo.BOIdentifierBuilder;
 import org.colorcoding.ibas.bobas.bo.BOFactory;
 import org.colorcoding.ibas.bobas.bo.BOUtilities;
 import org.colorcoding.ibas.bobas.common.Criteria;
@@ -9,10 +13,13 @@ import org.colorcoding.ibas.bobas.common.DateTimes;
 import org.colorcoding.ibas.bobas.common.Decimals;
 import org.colorcoding.ibas.bobas.common.ICondition;
 import org.colorcoding.ibas.bobas.common.ICriteria;
+import org.colorcoding.ibas.bobas.common.IOperationResult;
 import org.colorcoding.ibas.bobas.common.Strings;
 import org.colorcoding.ibas.bobas.configuration.Configuration;
 import org.colorcoding.ibas.bobas.data.emDocumentStatus;
 import org.colorcoding.ibas.bobas.data.emYesNo;
+import org.colorcoding.ibas.bobas.i18n.I18N;
+import org.colorcoding.ibas.bobas.logic.BusinessLogicException;
 import org.colorcoding.ibas.bobas.organization.OrganizationFactory;
 import org.colorcoding.ibas.materials.MyConfiguration;
 import org.colorcoding.ibas.materials.bo.goodsreceipt.GoodsReceipt;
@@ -32,22 +39,20 @@ import org.colorcoding.ibas.materials.bo.warehouse.Warehouse;
 import org.colorcoding.ibas.materials.data.emValuationMethod;
 import org.colorcoding.ibas.materials.repository.BORepositoryMaterials;
 
-import junit.framework.TestCase;
-
 /**
  * 库存收货单：成本/估值 + documentStatus 状态切换 测试。
  *
- * <p>本类与 {@link AbstractQuantityLogicTestCase} 系列<strong>互斥</strong>：
- * 数量逻辑系列禁用了 {@code CONFIG_ITEM_ENABLE_MATERIAL_COST_PRICE_RECORDING}，
- * 这里则需要开启成本（{@code CONFIG_ITEM_ENABLE_MATERIAL_COSTS}）以验证 avgPrice。</p>
+ * <p>
+ * 开启物料成本以验证平均价，同时检查已有会计分录的单据状态保护。
+ * </p>
  *
  * <p>覆盖原 {@code TestMaterialsCost} 的核心点：</p>
  * <ul>
  * <li>MM-A21：BATCH_MOVING_AVERAGE 估值 - 多行同物料 - 物料/仓库/批次三层 avgPrice 一致</li>
- * <li>MM-A22：头级 {@code setDocumentStatus(PLANNED)} - 库存与批次同步回滚</li>
+ * <li>MM-A22：已有分录时拒绝改回计划状态，无分录时允许并回退库存</li>
  * </ul>
  */
-public class TestGoodsReceiptCostAndStatus extends TestCase {
+public class TestGoodsReceiptCostAndStatus extends AbstractBusinessTestCase {
 
 	static {
 		// 开启成本核算（仓库与批次个别管理）
@@ -82,23 +87,11 @@ public class TestGoodsReceiptCostAndStatus extends TestCase {
 	/** 批次管理 + BATCH_MOVING_AVERAGE 估值的物料 */
 	private IMaterial prepareBatchMovingAvgMaterial(BORepositoryMaterials repo, String tag) throws Exception {
 		IMaterial m = new Material();
-		m.setCode(Strings.format("BMA-%s-%s", tag, DateTimes.now().toString("yyyyMMddHHmmss")));
+		m.setCode(Strings.format("BMA-%s-%s", tag, DateTimes.now().toString("yyyyMMddHHmmssSSS")));
 		m.setName(Strings.format("BatchMovingAvg-%s", tag));
 		m.setBatchManagement(emYesNo.YES);
 		m.setValuationMethod(emValuationMethod.BATCH_MOVING_AVERAGE);
 		return BOUtilities.valueOf(repo.saveMaterial(m)).firstOrDefault();
-	}
-
-	private BORepositoryMaterials createRepo() throws Exception {
-		BORepositoryMaterials repo = new BORepositoryMaterials();
-		repo.setUserToken(OrganizationFactory.SYSTEM_USER);
-		return repo;
-	}
-
-	private void assertEqualsBD(String msg, BigDecimal expected, BigDecimal actual) {
-		BigDecimal e = expected == null ? Decimals.VALUE_ZERO : expected;
-		BigDecimal a = actual == null ? Decimals.VALUE_ZERO : actual;
-		assertEquals(msg + " expected=" + e + ", actual=" + a, 0, e.compareTo(a));
 	}
 
 	// ==================================================================
@@ -115,10 +108,10 @@ public class TestGoodsReceiptCostAndStatus extends TestCase {
 		assertTrue("CONFIG materialCostsByWarehouse must be true.",
 				MyConfiguration.getConfigValue(MyConfiguration.CONFIG_ITEM_MANAGE_MATERIAL_COSTS_BY_WAREHOUSE, false));
 
-		try (BORepositoryMaterials repo = createRepo()) {
+		try (BORepositoryMaterials repo = createMaterialsRepository()) {
 			IWarehouse wh = prepareWarehouse(repo);
 			IMaterial mt = prepareBatchMovingAvgMaterial(repo, "A21");
-			String batchCode = "BCH-" + DateTimes.now().toString("yyyyMMddHHmmss");
+			String batchCode = "BCH-" + DateTimes.now().toString("yyyyMMddHHmmssSSS");
 
 			IGoodsReceipt gr = new GoodsReceipt();
 			gr.setReference1("MM-A21 batch moving average");
@@ -159,9 +152,11 @@ public class TestGoodsReceiptCostAndStatus extends TestCase {
 			// (2) 仓库级 OnHand 与 avgPrice
 			ICriteria criteria = new Criteria();
 			ICondition c = criteria.getConditions().create();
-			c.setAlias(MaterialInventory.PROPERTY_ITEMCODE); c.setValue(mt.getCode());
+			c.setAlias(MaterialInventory.PROPERTY_ITEMCODE);
+			c.setValue(mt.getCode());
 			c = criteria.getConditions().create();
-			c.setAlias(MaterialInventory.PROPERTY_WAREHOUSE); c.setValue(wh.getCode());
+			c.setAlias(MaterialInventory.PROPERTY_WAREHOUSE);
+			c.setValue(wh.getCode());
 			IMaterialInventory inv = BOUtilities.valueOf(repo.fetchMaterialInventory(criteria)).firstOrDefault();
 			assertNotNull("Warehouse inventory exists.", inv);
 			assertEqualsBD("Warehouse.OnHand should = Material.OnHand.", m.getOnHand(), inv.getOnHand());
@@ -170,11 +165,14 @@ public class TestGoodsReceiptCostAndStatus extends TestCase {
 			// (3) 批次级 quantity 与 avgPrice
 			criteria = new Criteria();
 			c = criteria.getConditions().create();
-			c.setAlias(MaterialBatch.PROPERTY_ITEMCODE); c.setValue(mt.getCode());
+			c.setAlias(MaterialBatch.PROPERTY_ITEMCODE);
+			c.setValue(mt.getCode());
 			c = criteria.getConditions().create();
-			c.setAlias(MaterialBatch.PROPERTY_WAREHOUSE); c.setValue(wh.getCode());
+			c.setAlias(MaterialBatch.PROPERTY_WAREHOUSE);
+			c.setValue(wh.getCode());
 			c = criteria.getConditions().create();
-			c.setAlias(MaterialBatch.PROPERTY_BATCHCODE); c.setValue(batchCode);
+			c.setAlias(MaterialBatch.PROPERTY_BATCHCODE);
+			c.setValue(batchCode);
 			IMaterialBatch batch = BOUtilities.valueOf(repo.fetchMaterialBatch(criteria)).firstOrDefault();
 			assertNotNull("Batch exists.", batch);
 			assertEqualsBD("Batch.quantity should = Material.OnHand.", m.getOnHand(), batch.getQuantity());
@@ -183,16 +181,14 @@ public class TestGoodsReceiptCostAndStatus extends TestCase {
 	}
 
 	// ==================================================================
-	// MM-A22：头级 documentStatus = PLANNED -> 库存与批次同步回滚
-	//   说明：documentStatus 是与 status / lineStatus / canceled 平行的另一维度，
-	//        切到 PLANNED 等价于"未生效"，对应反向回滚整张单据
+	// MM-A22：按实际分录判断状态保护；无分录时切到 PLANNED 并回退库存
 	// ==================================================================
 
-	public void testMM_A22_HeaderDocumentStatusPlanned_Rollback() throws Exception {
-		try (BORepositoryMaterials repo = createRepo()) {
+	public void testMM_A22_HeaderDocumentStatusPlanned() throws Exception {
+		try (BORepositoryMaterials repo = createMaterialsRepository()) {
 			IWarehouse wh = prepareWarehouse(repo);
 			IMaterial mt = prepareBatchMovingAvgMaterial(repo, "A22");
-			String batchCode = "BCH-" + DateTimes.now().toString("yyyyMMddHHmmss");
+			String batchCode = "BCH-" + DateTimes.now().toString("yyyyMMddHHmmssSSS");
 
 			IGoodsReceipt gr = new GoodsReceipt();
 			IGoodsReceiptLine l1 = gr.getGoodsReceiptLines().create();
@@ -210,26 +206,68 @@ public class TestGoodsReceiptCostAndStatus extends TestCase {
 			IMaterial m = BOUtilities.valueOf(repo.fetchMaterial(mt.getCriteria())).firstOrDefault();
 			assertEqualsBD("Material.OnHand after save.", Decimals.valueOf(10), m.getOnHand());
 
-			// 切换头级 documentStatus 为 PLANNED -> 回滚
+			IJournalEntry journal = fetchReceiptJournal(gr);
+			boolean hasJournal = journal != null;
 			gr.setDocumentStatus(emDocumentStatus.PLANNED);
-			gr = BOUtilities.valueOf(repo.saveGoodsReceipt(gr)).firstOrDefault();
-
-			// 物料级 OnHand 回滚
+			IOperationResult<IGoodsReceipt> result = repo.saveGoodsReceipt(gr);
+			if (hasJournal) {
+				assertTrue("Posted receipt status change must be rejected.", result.getError() instanceof BusinessLogicException);
+				assertEquals("Expected journal status protection error.",
+						I18N.prop("msg_ac_document_has_journalentry_not_allowed_change_status",
+								BOIdentifierBuilder.document(journal.getBaseDocumentType(), journal.getBaseDocumentEntry(),
+										journal.getBaseDocumentLineId()).build()), result.getError().getMessage());
+			} else {
+				BOUtilities.valueOf(result);
+			}
+			IGoodsReceipt saved = BOUtilities.valueOf(repo.fetchGoodsReceipt(gr.getCriteria())).firstOrDefault();
+			assertNotNull("Receipt must still exist.", saved);
+			assertEquals("Receipt status must match journal protection.",
+					hasJournal ? emDocumentStatus.RELEASED : emDocumentStatus.PLANNED, saved.getDocumentStatus());
+			BigDecimal expectedQuantity = hasJournal ? Decimals.valueOf(10) : Decimals.VALUE_ZERO;
 			m = BOUtilities.valueOf(repo.fetchMaterial(mt.getCriteria())).firstOrDefault();
-			assertEqualsBD("Material.OnHand should rollback.", Decimals.VALUE_ZERO, m.getOnHand());
+			assertEqualsBD("Material.OnHand after status change.", expectedQuantity, m.getOnHand());
 
-			// 批次级 quantity 回滚
+			ICriteria inventoryCriteria = new Criteria();
+			ICondition inventoryCondition = inventoryCriteria.getConditions().create();
+			inventoryCondition.setAlias(MaterialInventory.PROPERTY_ITEMCODE);
+			inventoryCondition.setValue(mt.getCode());
+			inventoryCondition = inventoryCriteria.getConditions().create();
+			inventoryCondition.setAlias(MaterialInventory.PROPERTY_WAREHOUSE);
+			inventoryCondition.setValue(wh.getCode());
+			IMaterialInventory inventory = BOUtilities.valueOf(repo.fetchMaterialInventory(inventoryCriteria)).firstOrDefault();
+			assertNotNull("Warehouse inventory must exist.", inventory);
+			assertEqualsBD("Warehouse.OnHand after status change.", expectedQuantity, inventory.getOnHand());
+			assertEqualsBD("Warehouse value after status change.",
+					hasJournal ? Decimals.valueOf(1000) : Decimals.VALUE_ZERO, inventory.getInventoryValue());
+
 			ICriteria criteria = new Criteria();
 			ICondition c = criteria.getConditions().create();
-			c.setAlias(MaterialBatch.PROPERTY_ITEMCODE); c.setValue(mt.getCode());
+			c.setAlias(MaterialBatch.PROPERTY_ITEMCODE);
+			c.setValue(mt.getCode());
 			c = criteria.getConditions().create();
-			c.setAlias(MaterialBatch.PROPERTY_WAREHOUSE); c.setValue(wh.getCode());
+			c.setAlias(MaterialBatch.PROPERTY_WAREHOUSE);
+			c.setValue(wh.getCode());
 			c = criteria.getConditions().create();
-			c.setAlias(MaterialBatch.PROPERTY_BATCHCODE); c.setValue(batchCode);
+			c.setAlias(MaterialBatch.PROPERTY_BATCHCODE);
+			c.setValue(batchCode);
 			IMaterialBatch batch = BOUtilities.valueOf(repo.fetchMaterialBatch(criteria)).firstOrDefault();
-			if (batch != null) {
-				assertEqualsBD("Batch.quantity should rollback.", Decimals.VALUE_ZERO, batch.getQuantity());
-			}
+			assertNotNull("Batch must still exist.", batch);
+			assertEqualsBD("Batch.quantity after status change.", expectedQuantity, batch.getQuantity());
+			assertEquals("Status change must preserve journal presence.", hasJournal, fetchReceiptJournal(saved) != null);
+		}
+	}
+
+	private IJournalEntry fetchReceiptJournal(IGoodsReceipt receipt) throws Exception {
+		ICriteria criteria = new Criteria();
+		ICondition condition = criteria.getConditions().create();
+		condition.setAlias(JournalEntry.PROPERTY_BASEDOCUMENTTYPE);
+		condition.setValue(receipt.getObjectCode());
+		condition = criteria.getConditions().create();
+		condition.setAlias(JournalEntry.PROPERTY_BASEDOCUMENTENTRY);
+		condition.setValue(receipt.getDocEntry());
+		try (BORepositoryAccounting repo = new BORepositoryAccounting()) {
+			repo.setUserToken(OrganizationFactory.SYSTEM_USER);
+			return BOUtilities.valueOf(repo.fetchJournalEntry(criteria)).firstOrDefault();
 		}
 	}
 }

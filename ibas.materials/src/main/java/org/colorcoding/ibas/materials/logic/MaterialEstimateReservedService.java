@@ -13,10 +13,10 @@ import org.colorcoding.ibas.bobas.common.Strings;
 import org.colorcoding.ibas.bobas.data.emBOStatus;
 import org.colorcoding.ibas.bobas.data.emYesNo;
 import org.colorcoding.ibas.bobas.i18n.I18N;
-import org.colorcoding.ibas.bobas.message.Logger;
-import org.colorcoding.ibas.bobas.message.MessageLevel;
 import org.colorcoding.ibas.bobas.logic.BusinessLogicException;
 import org.colorcoding.ibas.bobas.logic.LogicContract;
+import org.colorcoding.ibas.bobas.message.Logger;
+import org.colorcoding.ibas.bobas.message.MessageLevel;
 import org.colorcoding.ibas.materials.bo.material.IMaterial;
 import org.colorcoding.ibas.materials.bo.materialinventory.IMaterialEstimateJournal;
 import org.colorcoding.ibas.materials.bo.materialinventory.MaterialEstimateJournal;
@@ -106,12 +106,22 @@ public class MaterialEstimateReservedService extends MaterialEstimateService<IMa
 			materialJournal.setBaseDocumentEntry(contract.getDocumentEntry());
 			materialJournal.setBaseDocumentLineId(contract.getDocumentLineId());
 		}
+		if (materialJournal.isDeleted()) {
+			// 父链已撤销来源流水，无需再次更新预留量或保存已删除的副本。
+			MaterialEstimateJournal skipped = new MaterialEstimateJournal();
+			skipped.unsavable();
+			skipped.markOld();
+			return skipped;
+		}
 		return materialJournal;
 	}
 
 	@Override
 	protected void impact(IMaterialEstimateReservedContract contract) {
 		IMaterialEstimateJournal materialJournal = this.getBeAffected();
+		if (!materialJournal.isSavable()) {
+			return;
+		}
 		if (Strings.isNullOrEmpty(materialJournal.getItemCode())) {
 			materialJournal.setItemCode(contract.getItemCode());
 		}
@@ -143,6 +153,9 @@ public class MaterialEstimateReservedService extends MaterialEstimateService<IMa
 	@Override
 	protected void revoke(IMaterialEstimateReservedContract contract) {
 		IMaterialEstimateJournal materialJournal = this.getBeAffected();
+		if (!materialJournal.isSavable()) {
+			return;
+		}
 		BigDecimal reserved = materialJournal.getReservedQuantity();
 		if (contract.getStatus() != emBOStatus.CLOSED) {
 			// 关闭的，不更新数量

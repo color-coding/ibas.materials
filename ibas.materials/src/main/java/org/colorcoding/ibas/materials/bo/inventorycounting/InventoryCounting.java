@@ -30,8 +30,8 @@ import org.colorcoding.ibas.bobas.data.emApprovalStatus;
 import org.colorcoding.ibas.bobas.data.emBOStatus;
 import org.colorcoding.ibas.bobas.data.emDocumentStatus;
 import org.colorcoding.ibas.bobas.data.emYesNo;
-import org.colorcoding.ibas.bobas.db.DbField;
 import org.colorcoding.ibas.bobas.db.DataType;
+import org.colorcoding.ibas.bobas.db.DbField;
 import org.colorcoding.ibas.bobas.db.EditType;
 import org.colorcoding.ibas.bobas.logic.IBusinessLogicContract;
 import org.colorcoding.ibas.bobas.logic.IBusinessLogicsHost;
@@ -1296,6 +1296,9 @@ public class InventoryCounting extends BusinessObject<InventoryCounting> impleme
 		this.setDocumentDate(DateTimes.today());
 		this.setDeliveryDate(DateTimes.today());
 		this.setDocumentStatus(emDocumentStatus.RELEASED);
+		this.setDocumentCurrency(org.colorcoding.ibas.accounting.MyConfiguration
+				.getConfigValue(org.colorcoding.ibas.accounting.MyConfiguration.CONFIG_ITEM_LOCAL_CURRENCY));
+		this.setDocumentRate(Decimals.VALUE_ONE);
 
 	}
 

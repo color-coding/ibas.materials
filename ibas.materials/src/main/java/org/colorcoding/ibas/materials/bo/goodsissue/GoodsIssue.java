@@ -1331,6 +1331,9 @@ public class GoodsIssue extends BusinessObject<GoodsIssue>
 		this.setDocumentDate(DateTimes.today());
 		this.setDeliveryDate(DateTimes.today());
 		this.setDocumentStatus(emDocumentStatus.RELEASED);
+		this.setDocumentCurrency(org.colorcoding.ibas.accounting.MyConfiguration
+				.getConfigValue(org.colorcoding.ibas.accounting.MyConfiguration.CONFIG_ITEM_LOCAL_CURRENCY));
+		this.setDocumentRate(Decimals.VALUE_ONE);
 
 	}
 

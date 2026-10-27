@@ -1,6 +1,7 @@
 package org.colorcoding.ibas.materials.logic;
 
 import java.math.BigDecimal;
+import java.util.Objects;
 
 import org.colorcoding.ibas.bobas.approval.IApprovalData;
 import org.colorcoding.ibas.bobas.bo.BOIdentifierBuilder;
@@ -40,6 +41,11 @@ public class MaterialSerialJournalService
 		if (data instanceof IMaterialSerialJournalContract) {
 			IMaterialSerialJournalContract contract = (IMaterialSerialJournalContract) data;
 			IMaterial material = this.checkMaterial(contract.getItemCode());
+			if (material.getItemType() == emItemType.SERVICES || material.getPhantomItem() == emYesNo.YES
+					|| material.getInventoryItem() == emYesNo.NO) {
+				this.checkCostMaterialSkip(MaterialSerialJournal.class, contract.getDocumentType(), contract.getDocumentEntry(),
+						contract.getDocumentLineId(), contract.getDirection(), contract.getDocumentIndex());
+			}
 			if (material.getItemType() == emItemType.SERVICES) {
 				// 服务物料，不执行此逻辑
 				Logger.log(MessageLevel.DEBUG, MSG_LOGICS_SKIP_LOGIC_EXECUTION, this.getClass().getName(), "ItemType",
@@ -149,6 +155,13 @@ public class MaterialSerialJournalService
 			}
 		}
 		if (materialSerialJournal == null) {
+			if (!this.isEnableMaterialCosts() && contract.isOffsetting()) {
+				// 非成本流水已在首次取消时删除，重复保存无需生成空流水。
+				MaterialSerialJournal skipped = new MaterialSerialJournal();
+				skipped.unsavable();
+				skipped.markOld();
+				return skipped;
+			}
 			if (this.isEnableMaterialCosts() && contract.isOffsetting()) {
 				// 取消的，查正向
 				condition.setBracketOpen(1);
@@ -163,29 +176,32 @@ public class MaterialSerialJournalService
 				condition.setOperation(ConditionOperation.EQUAL);
 				condition.setValue(Strings.VALUE_EMPTY);
 				condition.setRelationship(ConditionRelationship.OR);
-				try (BORepositoryMaterials boRepository = new BORepositoryMaterials()) {
-					boRepository.setTransaction(this.getTransaction());
-					IOperationResult<IMaterialSerialJournal> operationResult = boRepository
-							.fetchMaterialSerialJournal(criteria);
-					if (operationResult.getError() != null) {
-						throw new BusinessLogicException(operationResult.getError());
-					}
-					if (operationResult.getResultObjects().isEmpty()) {
-						materialSerialJournal = new MaterialSerialJournal();
-						((MaterialSerialJournal) materialSerialJournal).unsavable();
-						materialSerialJournal.setDirection(contract.getDirection());
-						materialSerialJournal.setBaseDocumentType(contract.getDocumentType());
-						materialSerialJournal.setBaseDocumentEntry(contract.getDocumentEntry());
-						materialSerialJournal.setBaseDocumentLineId(contract.getDocumentLineId());
-						materialSerialJournal.setBaseDocumentIndex(contract.getDocumentIndex());
-						materialSerialJournal.setDataSource(DATASOURCE_SIGN_OFFSETTING_JOURNAL);
-					} else {
+				materialSerialJournal = this.fetchBeAffected(IMaterialSerialJournal.class, criteria);
+				if (materialSerialJournal == null) {
+					try (BORepositoryMaterials boRepository = new BORepositoryMaterials()) {
+						boRepository.setTransaction(this.getTransaction());
+						IOperationResult<IMaterialSerialJournal> operationResult = boRepository
+								.fetchMaterialSerialJournal(criteria);
+						if (operationResult.getError() != null) {
+							throw new BusinessLogicException(operationResult.getError());
+						}
 						materialSerialJournal = operationResult.getResultObjects().firstOrDefault();
-						materialSerialJournal = BOUtilities.clone(materialSerialJournal);
-						materialSerialJournal.setDataSource(DATASOURCE_SIGN_OFFSETTING_JOURNAL);
-						materialSerialJournal.setQuantity(Decimals.negate(materialSerialJournal.getQuantity()));
-						materialSerialJournal.setTransactionValue(Decimals.negate(materialSerialJournal.getTransactionValue()));
 					}
+				}
+				if (materialSerialJournal == null) {
+					materialSerialJournal = new MaterialSerialJournal();
+					((MaterialSerialJournal) materialSerialJournal).unsavable();
+					materialSerialJournal.setDirection(contract.getDirection());
+					materialSerialJournal.setBaseDocumentType(contract.getDocumentType());
+					materialSerialJournal.setBaseDocumentEntry(contract.getDocumentEntry());
+					materialSerialJournal.setBaseDocumentLineId(contract.getDocumentLineId());
+					materialSerialJournal.setBaseDocumentIndex(contract.getDocumentIndex());
+					materialSerialJournal.setDataSource(DATASOURCE_SIGN_OFFSETTING_JOURNAL);
+				} else {
+					materialSerialJournal = BOUtilities.clone(materialSerialJournal);
+					materialSerialJournal.setDataSource(DATASOURCE_SIGN_OFFSETTING_JOURNAL);
+					materialSerialJournal.setQuantity(Decimals.negate(materialSerialJournal.getQuantity()));
+					materialSerialJournal.setTransactionValue(Decimals.negate(materialSerialJournal.getTransactionValue()));
 				}
 			} else {
 				materialSerialJournal = new MaterialSerialJournal();
@@ -195,6 +211,17 @@ public class MaterialSerialJournalService
 				materialSerialJournal.setBaseDocumentLineId(contract.getDocumentLineId());
 				materialSerialJournal.setBaseDocumentIndex(contract.getDocumentIndex());
 				materialSerialJournal.setDataSource(DATASOURCE_SIGN_REGULAR_JOURNAL);
+			}
+		}
+		if (this.isEnableMaterialCosts() && !contract.isOffsetting() && !materialSerialJournal.isNew()) {
+			// 已有冲销记录的成本单据不能重新生效，避免回删历史冲销或重复使用旧成本。
+			IMaterialSerialJournal offsettingJournal = this.fetchCostOffsettingJournal(MaterialSerialJournal.class,
+					contract.getDocumentType(), contract.getDocumentEntry(), contract.getDocumentLineId(),
+					contract.getDirection(), contract.getDocumentIndex());
+			if (offsettingJournal != null) {
+				throw new BusinessLogicException(I18N.prop("msg_mm_costed_document_not_support_reactivation",
+						BOIdentifierBuilder.document(contract.getDocumentType(), contract.getDocumentEntry(),
+								contract.getDocumentLineId()).build()));
 			}
 		}
 		return materialSerialJournal;
@@ -207,22 +234,39 @@ public class MaterialSerialJournalService
 		if (!materialSerialJournal.isSavable()) {
 			return;
 		}
+		boolean preserveCostCurrency = false;
 		// 开启物料成本计算
 		if (this.isEnableMaterialCosts()) {
+			this.checkCostApprovalStatus(contract.getDocumentType(), contract.getDocumentEntry(), contract.getDocumentLineId());
 			String localCurrency = org.colorcoding.ibas.accounting.MyConfiguration
 					.getConfigValue(org.colorcoding.ibas.accounting.MyConfiguration.CONFIG_ITEM_LOCAL_CURRENCY);
 			if (!materialSerialJournal.isNew() || (contract.isOffsetting() && materialSerialJournal.isNew())) {
 				// 更新的或取消的
+				preserveCostCurrency = this.canPreserveTransferCostCurrency(contract.getDocumentType(), contract.getDirection(),
+						materialSerialJournal.getCurrency(), materialSerialJournal.getRate(), materialSerialJournal.getPrice(),
+						materialSerialJournal.getCalculatedPrice(), contract.getCurrency(), contract.getRate(), contract.getPrice(), localCurrency);
+				this.checkCostPostingDate(materialSerialJournal.getPostingDate(), contract.getPostingDate(),
+						contract.getDocumentType(), contract.getDocumentEntry(), contract.getDocumentLineId());
+				// 普通出库按库存成本计价，交易价格、币种和汇率不影响成本。
+				boolean checkTransactionPrice = contract.getDirection() != emDirection.OUT
+						|| this.isBaseDocumentCost(contract.getPrice());
 				if (!materialSerialJournal.getItemCode().equals(contract.getItemCode())
+						|| this.isBaseDocumentCost(materialSerialJournal.getPrice()) != this.isBaseDocumentCost(contract.getPrice())
 						|| !materialSerialJournal.getWarehouse().equals(contract.getWarehouse())
+						|| !Objects.equals(materialSerialJournal.getOriginalDocumentType(),
+								contract.getBaseDocumentType() == null ? Strings.VALUE_EMPTY : contract.getBaseDocumentType())
+						|| !Objects.equals(materialSerialJournal.getOriginalDocumentEntry(),
+								contract.getBaseDocumentEntry() == null ? 0 : contract.getBaseDocumentEntry())
+						|| !Objects.equals(materialSerialJournal.getOriginalDocumentLineId(),
+								contract.getBaseDocumentLineId() == null ? 0 : contract.getBaseDocumentLineId())
 						|| !materialSerialJournal.getSerialCode().equals(contract.getSerialCode())
-						|| (contract.getPrice() != null && materialSerialJournal.getPrice() != null
-								&& materialSerialJournal.getPrice().compareTo(contract.getPrice().abs()) != 0)
-						|| (contract.getCurrency() != null
-								&& !contract.getCurrency().equals(materialSerialJournal.getCurrency()))
-						|| (contract.getRate() != null && materialSerialJournal.getRate() != null
-								&& materialSerialJournal.getRate().compareTo(contract.getRate()) != 0)) {
-					// 修改入库物料、仓库、价格，影响成本计算，不允许
+						|| (checkTransactionPrice && contract.getPrice() != null && materialSerialJournal.getPrice() != null
+								&& !this.areCostPricesEqual(materialSerialJournal.getPrice(), contract.getPrice()))
+						|| (checkTransactionPrice && !preserveCostCurrency && contract.getCurrency() != null
+								&& !this.areCostCurrenciesEqual(materialSerialJournal.getCurrency(), contract.getCurrency(), localCurrency))
+						|| (checkTransactionPrice && !preserveCostCurrency && contract.getRate() != null && materialSerialJournal.getRate() != null
+								&& !this.areCostRatesEqual(materialSerialJournal.getRate(), contract.getRate(), materialSerialJournal.getCurrency(), localCurrency))) {
+					// 修改物料、仓库、成本来源或价格，影响成本计算，不允许
 					throw new BusinessLogicException(
 							I18N.prop(
 									"msg_mm_document_completed_material_cost_calculation_not_support_operation",
@@ -373,9 +417,9 @@ public class MaterialSerialJournalService
 				if (contract.isOffsetting()) {
 					materialSerialJournal.setTransactionValue(materialSerialJournal.getTransactionValue().negate());
 				}
-				// 触发成本价计算完成
-				contract.onCalculatedCostPrice(materialSerialJournal.getCalculatedPrice());
 			}
+			// 新建和已有流水均回传成本；已有流水沿用历史计算结果。
+			contract.onCalculatedCostPrice(materialSerialJournal.getCalculatedPrice());
 		} else {
 			// 不计算物料成本
 			materialSerialJournal.setCalculatedPrice(Decimals.VALUE_ZERO);
@@ -396,9 +440,12 @@ public class MaterialSerialJournalService
 			materialSerialJournal.setDocumentDate(contract.getDocumentDate());
 			materialSerialJournal.setDeliveryDate(contract.getDeliveryDate());
 			materialSerialJournal.setQuantity(Decimals.VALUE_ONE);
-			materialSerialJournal.setPrice(contract.getPrice() != null ? contract.getPrice().abs() : Decimals.VALUE_ZERO);
-			materialSerialJournal.setCurrency(contract.getCurrency());
-			materialSerialJournal.setRate(contract.getRate());
+			// 保留负号，标识使用基础单据成本。
+			materialSerialJournal.setPrice(contract.getPrice() != null ? contract.getPrice() : Decimals.VALUE_ZERO);
+			if (!preserveCostCurrency) {
+				materialSerialJournal.setCurrency(contract.getCurrency());
+				materialSerialJournal.setRate(contract.getRate());
+			}
 			materialSerialJournal.setOriginalDocumentType(contract.getBaseDocumentType());
 			materialSerialJournal.setOriginalDocumentEntry(contract.getBaseDocumentEntry());
 			materialSerialJournal.setOriginalDocumentLineId(contract.getBaseDocumentLineId());
@@ -416,7 +463,27 @@ public class MaterialSerialJournalService
 		if (!materialSerialJournal.isSavable()) {
 			return;
 		}
-		if (!this.isEnableMaterialCosts() || contract.isOffsetting()) {
+		this.checkCostContractPresence(materialSerialJournal, IMaterialSerialJournalContract.class,
+				candidate -> Objects.equals(candidate.getDocumentType(), contract.getDocumentType())
+						&& Objects.equals(candidate.getDocumentEntry(), contract.getDocumentEntry())
+						&& Objects.equals(candidate.getDocumentLineId(), contract.getDocumentLineId())
+						&& candidate.getDirection() == contract.getDirection()
+						&& Objects.equals(candidate.getDocumentIndex(), contract.getDocumentIndex()),
+				contract.getDocumentType(), contract.getDocumentEntry(), contract.getDocumentLineId());
+		this.checkCostJournalDeletion(materialSerialJournal, contract.getDocumentType(),
+				contract.getDocumentEntry(), contract.getDocumentLineId());
+		if (this.isEnableMaterialCosts()) {
+			// 兼容旧流水：从旧单据契约恢复价格符号，价格绝对值保持不变。
+			BigDecimal price = materialSerialJournal.getPrice();
+			if (price != null) {
+				materialSerialJournal.setPrice(this.isBaseDocumentCost(contract.getPrice()) ? price.abs().negate() : price.abs());
+			}
+		}
+		if (this.isEnableMaterialCosts() && contract.isOffsetting()) {
+			// 成本冲销也是历史记录，重复保存或恢复操作均不能直接删除。
+			return;
+		}
+		if (!this.isEnableMaterialCosts()) {
 			// 未开启成本的，删除
 			materialSerialJournal.delete();
 		} else if (this.getTrigger() instanceof ITrackable && ((ITrackable) this.getTrigger()).isDeleted()) {
